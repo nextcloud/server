@@ -229,11 +229,6 @@
     "Runs an arbitrary prompt through the language model." : "Rulează un prompt arbitrar prin modelul lingvistic.",
     "Generate headline" : "Generează titlu",
     "Summarizes text by reducing its length without losing key information." : "Rezumă textul prin reducerea lungimii acestuia, fără a pierde informațiile cheie.",
-    "Extracts topics from a text and outputs them separated by commas." : "Extrage subiecte din text și le furnizează separate prin virgulă.",
-    "Organisation" : "Organizație",
-    "Cannot write into \"apps\" directory." : "Nu se poate scrie în directorul \"apps\".",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Aceasta se poate remedia permițând serverului web să acceseze directorul aplicațiilor sau dezactivând App Store în fișierul de configurație.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> este setată la <code>%s</code> în locul valorii așteptate <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Pentru a remedia problema setați <code>mbstring.func_overload</code> la <code>0</code> în php.ini."
+    "Extracts topics from a text and outputs them separated by commas." : "Extrage subiecte din text și le furnizează separate prin virgulă."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

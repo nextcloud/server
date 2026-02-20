@@ -313,8 +313,6 @@ OC.L10N.register(
     "Strong password" : "Palavra-passe forte",
     "Group list is empty" : "Lista de grupo vazia",
     "Unable to retrieve the group list" : "Não foi possível recolher a lista de grupo",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta app não tem a versão mínima do Nextcloud atribuída. Isto será um erro no futuro.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta app não tem a versão máxima do Nextcloud atribuída. Isto será um erro no futuro.",
     "Loading accounts …" : "A carregar contas ...",
     "Loading account …" : "A carregar a conta ...",
     "Adding your device …" : "A adicionar o seu dispositivo ...",
@@ -324,8 +322,6 @@ OC.L10N.register(
     "Credentials" : "Credenciais",
     "SMTP Password" : "Palavra-passe SMTP",
     "Save" : "Guardar",
-    "Test and verify email settings" : "Testar e verificar as definições de e-mail",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Por favor, verifique novamente os <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">guias de instalação ↗</a> e procure erros ou avisos no <a href=\"%2$s\">registo</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Verificar a segurança do seu Nextcloud através da nossa <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ferramenta de análise de segurança</a>. "
+    "Test and verify email settings" : "Testar e verificar as definições de e-mail"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

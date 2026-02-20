@@ -300,19 +300,11 @@
     "Strong password" : "Ger-tremen kreñv",
     "Group list is empty" : "Listenn strollat goulo",
     "Unable to retrieve the group list" : "Dibosupl eo adtapout al listenn strollad",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "N'en deus ket ar meziant ur stumm izelañ evit Nextcloud. Ur fazi a vo en dazont.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ar meziant n'en deus ket ur stumm huela eus Nextcloud merked. Ur fazi vo en dazont.",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Ma peus kollet o ardivink pe kuitaet ar strollad, posupl e vefe lemet a pell roadennoù Nextcloud eus tout o ardivinkoù liamet gant {userid}. Ne gerzh nemet ma eo kenstaget an ardivinkoù gant internet.",
     "Adding your device …" : "Ouehpennit ho ardivink ...",
     "Sending…" : "O kas...",
     "Email sent" : "Postel kaset",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "N'eo ket ar meziant keverlec'h gant stumm Nextcloud. Ma kendalc'hit e o posupl deoc'h staliañ ar meziant. Taolit evez, ne labouro ket ar meziant evel ma zlefe.",
     "Credentials" : "Kretaatoù",
     "SMTP Password" : "Ger-tremen SMTP",
-    "Save" : "Enrollañ",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Pouezus eo evit ar surentez hag ar mont en dro ho azgoulenn e vefe pep tra stummet mat. Evit sikour ac'hanoc'h e vez graet gwiradennoù otomatek. Sellit ouz an diellvadur liammet evit muioc'h a ditouroù.",
-    "Checking for system and security issues." : "O gwiriañ ne vefe kuden ebet gant ar sistem hag ar surentez.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Sellit ouzh <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">sturier ar staliañ ↗</a>, ha gwiriit ne vefe fazi pe diwal ebet er <a href=\"%2$s\">gazetenn</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Gwiriit surentez ho Nextcoud war <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">hon skan surentez ↗</a>."
+    "Save" : "Enrollañ"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"
 }

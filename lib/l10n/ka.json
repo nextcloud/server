@@ -235,11 +235,6 @@
     "Runs an arbitrary prompt through the language model." : "Runs an arbitrary prompt through the language model.",
     "Generate headline" : "Generate headline",
     "Summarizes text by reducing its length without losing key information." : "Summarizes text by reducing its length without losing key information.",
-    "Extracts topics from a text and outputs them separated by commas." : "Extracts topics from a text and outputs them separated by commas.",
-    "Organisation" : "Organisation",
-    "Cannot write into \"apps\" directory." : "Cannot write into \"apps\" directory.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini."
+    "Extracts topics from a text and outputs them separated by commas." : "Extracts topics from a text and outputs them separated by commas."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

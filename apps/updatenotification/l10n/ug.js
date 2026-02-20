@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "تاللانغان يېڭىلاش قانىلى مۇلازىمېتىرنىڭ يېڭىلىنىشىنى قوللىمايدۇ.",
     "Changelog for app {app}" : "{app} نىڭ ئۆزگەرتىش خاتىرسى",
     "What's new in {app} version {version}" : "{app} نەشرى {version} يېڭىلىق نېمە",
-    "{version} is available. Get more information on how to update." : "{version} بار. قانداق يېڭىلاش توغرىسىدا تېخىمۇ كۆپ ئۇچۇرلارغا ئېرىشىڭ.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong> بارلىق </strong> ئەپلىرىنىڭ بۇ Nextcloud نەشرىگە ماس كېلىدىغان نۇسخىسى بار.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1%n1 ئەپلەرنىڭ بۇ Nextcloud نەشىرىگە ماس كېلىدىغان نەشىرلىرى يوق.","<strong>%n</strong> ئەپلەرنىڭ بۇ Nextcloud نەشىرىگە ماس كېلىدىغان نەشىرلىرى يوق."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "كارخانا ئىشلىتىش ئۈچۈن. ھەمىشە ئەڭ يېڭى ياماق سەۋىيىسى بىلەن تەمىنلەيدۇ ، ئەمما كېيىنكى ئاساسلىق تارقىتىلىشقا دەرھال يېڭىلانمايدۇ. Nextcloud GmbH چوڭ كۆلەملىك ۋە ۋەزىپىلەرنى ئورۇنداش ئۈچۈن قوشۇمچە قاتتىقلاشتۇرۇش ۋە سىناق ئېلىپ بارغاندىن كېيىن ، بۇ يېڭىلاش يۈز بېرىدۇ. بۇ قانال پەقەت خېرىدارلارغىلا تەمىنلەنگەن بولۇپ ، Nextcloud كارخانا بولىقى بىلەن تەمىنلەيدۇ."
+    "{version} is available. Get more information on how to update." : "{version} بار. قانداق يېڭىلاش توغرىسىدا تېخىمۇ كۆپ ئۇچۇرلارغا ئېرىشىڭ."
 },
 "nplurals=2; plural=(n != 1);");

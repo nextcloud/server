@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Nema izbrisanih datoteka",
     "Files and folders you have deleted will show up here" : "Ovdje će se prikazivati datoteke i mape koje ste izbrisali.",
     "All files have been permanently deleted" : "Sve su datoteke trajno izbrisane.",
-    "Failed to empty deleted files" : "Pražnjenje izbrisanih datoteka nije uspjelo.",
-    "Deletion cancelled" : "Brisanje prekinuto"
+    "Failed to empty deleted files" : "Pražnjenje izbrisanih datoteka nije uspjelo."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

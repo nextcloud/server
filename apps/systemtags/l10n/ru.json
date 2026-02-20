@@ -110,10 +110,6 @@
     "Failed to delete tag for file" : "Не удалось удалить метку у файла",
     "Collaborative tags …" : "Совместные метки ...",
     "Loading …" : "Загрузка…",
-    "File tags modification canceled" : "Изменение меток отменено",
-    "Select or create tags to apply to all selected files" : "Выберите или создайте метки для применения ко всем выбранным файлам",
-    "Select tags to apply to all selected files" : "Выберите метки для применения ко всем выбранным файлам",
-    "Apply changes" : "Применить изменения",
     "Loading collaborative tags …" : "Загрузка совместных меток ..."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

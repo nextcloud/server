@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "هیچ فایل حذف شده وجود ندارد",
     "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",
     "All files have been permanently deleted" : "همه فایل‌ ها به طور دائم حذف شده‌ اند",
-    "Failed to empty deleted files" : "خالی کردن فایل‌ های حذف شده ناموفق بود",
-    "Deletion cancelled" : "Deletion cancelled"
+    "Failed to empty deleted files" : "خالی کردن فایل‌ های حذف شده ناموفق بود"
 },
 "nplurals=2; plural=(n > 1);");

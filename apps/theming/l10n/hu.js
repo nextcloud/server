@@ -116,8 +116,6 @@ OC.L10N.register(
     "Background and login image" : "Háttér és bejelentkezőkép",
     "Advanced options" : "Speciális beállítások",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az ImageMagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Az akadálymentesítés fontos számunka. A webes szabványokat követjük, és ellenőrizzük, hogy minden használható egér nélkül, illetve akadálymentesítési technológiákkal, például képernyőolvasókkal. Arra törekszünk, hogy a {guidelines}Webes tartalomra vonatkozó akadálymentesítési irányelvek{linkend} 2.1-es változatának AA szinten, a magas kontrasztú témával pedig AAA szinten megfeleljünk.",
-    ". Unable to apply the setting." : "A beállítás nem alkalmazható.",
     "No background has been selected" : "Nincs kiválasztott háttér",
     "Select a custom color" : "Válasszon egyéni színt",
     "Upload" : "Feltöltés"

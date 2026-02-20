@@ -474,12 +474,6 @@
     "Generate headline" : "見出しの生成",
     "Summarizes text by reducing its length without losing key information." : "重要な情報を失わずにテキストの長さを要約して短縮する。",
     "Extracts topics from a text and outputs them separated by commas." : "テキストからトピックを抽出し、カンマ区切りで出力します。",
-    "Organisation" : "組織",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X では、サポートされていません。このOSでは、%sは正常に動作しないかもしれません。ご自身の責任においてご利用ください。",
-    "Login is too long" : "ログインが長すぎます",
-    "Cannot write into \"apps\" directory." : "\"apps\" ディレクトリに書き込みができません",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "これは通常、Webサーバーにappsディレクトリへの書き込み権限を許可するか、構成ファイルでAppStoreを無効にすることで解決できます。",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code>の値は <code>0</code>であるべきですが、<code>%s</code> に設定されています。",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "この問題を修正するには、php.ini ファイルの <code>mbstring.func_overload</code> を <code>0</code> に設定してください。"
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X では、サポートされていません。このOSでは、%sは正常に動作しないかもしれません。ご自身の責任においてご利用ください。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

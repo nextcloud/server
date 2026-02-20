@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Postavi podsjetnik za ovaj vikend",
     "Next week" : "Sljedeći tjedan",
     "Set reminder for next week" : "Postavi podsjetnik za sljedeći tjedan",
-    "This files_reminder can work properly." : "Aplikacija files_reminder može ispravno raditi.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Aplikacija files_reminder zahtijeva aplikaciju Obavijesti kako bi ispravno radila. Trebali biste ili omogućiti obavijesti ili onemogućiti aplikaciju files_reminder.",
-    "Set reminder for \"{fileName}\"" : "Postavi podsjetnik za \"{fileName}\"",
-    "Set reminder at custom date & time" : "Postavi podsjetnik za prilagođeni datum i vrijeme",
-    "Set custom reminder" : "Postavi prilagođeni podsjetnik"
+    "Set reminder for \"{fileName}\"" : "Postavi podsjetnik za \"{fileName}\""
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

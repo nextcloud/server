@@ -214,8 +214,6 @@
     "So-so password" : "Contraseña aceptable",
     "Good password" : "Buena contraseña",
     "Strong password" : "Contraseña fuerte",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro.",
     "Sending…" : "Enviando...",
     "Email sent" : "Correo electrónico enviado",
     "SSL" : "SSL",

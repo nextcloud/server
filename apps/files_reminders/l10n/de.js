@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Erinnerung für dieses Wochenende erstellen",
     "Next week" : "Nächste Woche",
     "Set reminder for next week" : "Erinnerung für nächste Woche erstellen",
-    "This files_reminder can work properly." : "Die App \"files_reminders\" kann ordnungsgemäß funktionieren..",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Die App \"files_reminders\" benötigt die Benachrichtigungs-App, um ordnungsgemäß zu funktionieren. Es sollte entweder die Benachrichtigungen aktivieren oder \"files_reminders\" deaktivieren.",
-    "Set reminder for \"{fileName}\"" : "Erinnerung für \"{fileName}\" setzen",
-    "Set reminder at custom date & time" : "Erinnerung für benutzerdefinierten Zeitpunkt und Tag erstellen",
-    "Set custom reminder" : "Benutzerdefinierte Erinnerung erstellen"
+    "Set reminder for \"{fileName}\"" : "Erinnerung für \"{fileName}\" setzen"
 },
 "nplurals=2; plural=(n != 1);");

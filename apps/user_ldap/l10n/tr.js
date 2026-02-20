@@ -200,7 +200,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Kipi değiştirmek otomatik LDAP sorgularını açar. LDAP sisteminizin boyutlarına göre bu işlem uzun sürebilir. Kipi yine de değiştirmek istiyor musunuz?",
     "Confirm" : "Onayla",
     "Failed to delete the server configuration" : "Sunucu yapılandırması silinemedi",
-    "Invalid configuration. Please have a look at the logs for further details." : "Yapılandırma geçersiz. Lütfen ayrıntılı bilgi almak için günlük dosyasına bakın.",
     "No action specified" : "Hehrangi bir işlem belirtilmemiş",
     "No configuration specified" : "Henüz bir yapılandırma belirtilmemiş",
     "No data specified" : "Henüz bir veri belirtilmemiş",

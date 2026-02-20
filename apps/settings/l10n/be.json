@@ -419,8 +419,6 @@
     "Good password" : "Файны пароль",
     "Strong password" : "Моцны пароль",
     "Group list is empty" : "Спіс груп пусты",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Гэтай праграме не прызначана мінімальная версія Nextcloud. У будучыні гэта будзе памылкай.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Гэтай праграме не прызначана максімальная версія Nextcloud. У будучыні гэта будзе памылкай.",
     "Loading accounts …" : "Загрузка ўліковых запісаў …",
     "Set account as admin for …" : "Задаць уліковы запіс у якасці адміністратара для …",
     "_{userCount} account …_::_{userCount} accounts …_" : ["{userCount} уліковы запіс …","{userCount} уліковыя запісы …","{userCount} уліковых запісаў …","{userCount} уліковых запісаў …"],

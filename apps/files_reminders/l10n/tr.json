@@ -29,10 +29,6 @@
     "Set reminder for this weekend" : "Bu hafta sonu için anımsatıcı ayarla",
     "Next week" : "Sonraki hafta",
     "Set reminder for next week" : "Gelecek hafta için anımsatıcı ayarla",
-    "This files_reminder can work properly." : "Bu files_reminder düzgün çalışabilir.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "files_reminders uygulamasının düzgün çalışması için Bildirimler uygulaması gereklidir. Bildirimler uygulamasını kullanıma alın ya da files_reminder uygulamasını kullanımdan kaldırın.",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\" için anımsatıcı ayarla",
-    "Set reminder at custom date & time" : "Özel bir tarih ve saat için anımsatıcı ayarla",
-    "Set custom reminder" : "Özel anımsatıcı ayarla"
+    "Set reminder for \"{fileName}\"" : "\"{fileName}\" için anımsatıcı ayarla"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

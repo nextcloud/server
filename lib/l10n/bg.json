@@ -233,11 +233,6 @@
     "Summary" : "Резюме",
     "Translate" : "Превод",
     "Target language" : "Целеви език",
-    "Result" : "Резултат",
-    "Organisation" : "Организация",
-    "Cannot write into \"apps\" directory." : "Не може да се пише в \"apps\" директория.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Това обикновено може да бъде оправено като се даде достъп на уеб сървъра да записва в app директорията или като изключи приложението магазин за приложения в config файла.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> е настроен на <code>%s</code> вместо очакваната стойност <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "За оправяне на този проблем, задайте <code>mbstring.func_overload</code> на <code>0</code> във вашият php.ini."
+    "Result" : "Резултат"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

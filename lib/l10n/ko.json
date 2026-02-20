@@ -275,12 +275,6 @@
     "Runs an arbitrary prompt through the language model." : "언어모델을 통한 임의의 프롬프트 실행",
     "Generate headline" : "헤드라인 생성",
     "Summarizes text by reducing its length without losing key information." : "중요 정보로 내용을 축약하십시오.",
-    "Extracts topics from a text and outputs them separated by commas." : "내용에서 주요 주제를 추출하고 쉼표로 이를 구분하십시오.",
-    "Organisation" : "조직",
-    "Login is too long" : "로그인이 너무 김",
-    "Cannot write into \"apps\" directory." : "\"apps\" 디렉터리에 기록할 수 없습니다",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "apps 디렉토리에 웹 서버의 쓰기 권한을 부여하거나 설정 파일에서 앱 스토어를 비활성화하면 해결됩니다.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "현재 <code>mbstring.func_overload</code>가 <code>%s</code>(으)로 설정되어 있으나, 올바른 값은 <code>0</code>입니다.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "이 문제를 해결하려면 php.ini 에서 <code>mbstring.func_overload</code>를 <code>0</code>으로 설정하십시오."
+    "Extracts topics from a text and outputs them separated by commas." : "내용에서 주요 주제를 추출하고 쉼표로 이를 구분하십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

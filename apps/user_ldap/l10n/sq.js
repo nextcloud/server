@@ -111,7 +111,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Këmbimi i mënyrë do të lejojë kërkesa LDAP automatike. Në varësi të madhësisë për LDAP-in tuaj, kjo mund të hajë ca kohë. Doni prapë të këmbehet mënyra?",
     "Confirm" : "Konfirmo",
     "Failed to delete the server configuration" : "Dështoi në fshirjen e formësimit të serverit",
-    "Invalid configuration. Please have a look at the logs for further details." : "Konfigurime të pavlefshme. Ju lutem shikoni hyrjet për detaje të mëtejshme.",
     "No action specified" : "S’është treguar veprim",
     "No configuration specified" : "S’u dha formësim",
     "No data specified" : "S’u treguan të dhëna",

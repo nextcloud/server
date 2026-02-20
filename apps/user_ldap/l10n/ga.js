@@ -200,7 +200,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Cumasóidh sé fiosruithe uathoibríocha LDAP má aistrítear an modh. Ag brath ar do mhéid LDAP féadfaidh siad tamall a ghlacadh. An bhfuil tú fós ag iarraidh an mód a athrú?",
     "Confirm" : "Deimhnigh",
     "Failed to delete the server configuration" : "Theip ar chumraíocht an fhreastalaí a scriosadh",
-    "Invalid configuration. Please have a look at the logs for further details." : "Cumraíocht neamhbhailí. Féach ar na logaí le haghaidh tuilleadh sonraí le do thoil.",
     "No action specified" : "Níor sonraíodh aon ghníomh",
     "No configuration specified" : "Níor sonraíodh cumraíocht ar bith",
     "No data specified" : "Níor sonraíodh aon sonraí",

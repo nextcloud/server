@@ -37,9 +37,6 @@ OC.L10N.register(
     "Remote share" : "Remote share",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
     "Remote share password" : "Remote share password",
-    "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
-    "Copy to clipboard" : "Copy to clipboard",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com",
     "X (formerly Twitter)" : "X (formerly Twitter)"
 },
 "nplurals=2; plural=(n!=1);");

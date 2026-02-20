@@ -434,11 +434,6 @@
     "Runs an arbitrary prompt through the language model." : "Executa una sol·licitud arbitrària mitjançant el model de llengua.",
     "Generate headline" : "Genera un titular",
     "Summarizes text by reducing its length without losing key information." : "Resumeix el text reduint-ne la longitud sense perdre la informació clau.",
-    "Extracts topics from a text and outputs them separated by commas." : "Extreu els temes d'un text i els retorna separats per comes.",
-    "Organisation" : "Organització",
-    "Cannot write into \"apps\" directory." : "No es pot escriure en la carpeta «apps».",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Això normalment pot solucionar donant al servidor web accés d'escriptura a la carpeta d'aplicacions o inhabilitant la botiga d'aplicacions en el fitxer de configuració.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> té el valor <code>%s</code> en comptes del valor esperat <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Per a resoldre aquest problema, establiu <code>mbstring.func_overload</code> en <code>0</code> en el fitxer php.ini."
+    "Extracts topics from a text and outputs them separated by commas." : "Extreu els temes d'un text i els retorna separats per comes."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -140,13 +140,8 @@ OC.L10N.register(
     "Unauthorized" : "Μη εξουσιοδοτημένο",
     "Network error" : "Σφάλμα δικτύου",
     "Grant access" : "Παροχή πρόσβασης",
-    "Error configuring OAuth1" : "Σφάλμα ρύθμισης του OAuth1",
-    "Please provide a valid app key and secret." : "Παρακαλούμε δώστε έγκυρο κλειδί εφαρμογής και μυστικό.",
     "Error configuring OAuth2" : "Σφάλμα ρύθμισης του OAuth2",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Κλειδί εφαρμογής",
-    "App secret" : "Μυστικό εφαρμογής",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID πελάτη",
     "Client secret" : "Μυστικό πελάτη",
@@ -161,7 +156,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Άγνωστο backend: {backendName}",
     "Admin defined" : "Ορισμένο από διαχειριστή",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Ο αυτόματος έλεγχος κατάστασης είναι απενεργοποιημένος λόγω του μεγάλου αριθμού διαμορφωμένων αποθηκευτικών χώρων, πατήστε για έλεγχο κατάστασης",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Είστε σίγουροι ότι θέλετε να αποσυνδέσετε αυτήν την εξωτερική αποθήκευση; Αυτό θα καταστήσει την αποθήκευση μη διαθέσιμη στο Nextcloud και θα οδηγήσει στη διαγραφή αυτών των αρχείων και φακέλων σε οποιοδήποτε συγχρονισμένο πελάτη που είναι επί του παρόντος συνδεδεμένος, αλλά δεν θα διαγράψει κανένα αρχείο ή φάκελο στην ίδια την εξωτερική αποθήκευση.",
+    "Are you sure you want to disconnect this external storage?" : "Είστε σίγουροι ότι θέλετε να αποσυνδέσετε αυτήν την εξωτερική αποθήκευση;",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Αυτό θα κάνει την αποθήκευση μη διαθέσιμη στο {instanceName} και θα οδηγήσει στη διαγραφή αυτών των αρχείων και φακέλων σε οποιονδήποτε πελάτη συγχρονισμού είναι αυτήν τη στιγμή συνδεδεμένος, αλλά δεν θα διαγράψει κανένα αρχείο ή φάκελο από την ίδια την εξωτερική αποθήκευση.",
     "Delete storage?" : "Διαγραφή αποθηκευτικού χώρου;",
     "Click to recheck the configuration" : "Κλίκ για επανέλεγχο ρυθμίσεων",
     "Saving …" : "Γίνεται αποθήκευση …",
@@ -173,8 +169,6 @@ OC.L10N.register(
     "Configuration" : "Ρυθμίσεις",
     "Available for" : "Διαθέσιμο για",
     "All people" : "Όλοι οι χρήστες",
-    "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
-    "Are you sure you want to disconnect this external storage?" : "Είστε σίγουροι ότι θέλετε να αποσυνδέσετε αυτήν την εξωτερική αποθήκευση;",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Αυτό θα κάνει την αποθήκευση μη διαθέσιμη στο {instanceName} και θα οδηγήσει στη διαγραφή αυτών των αρχείων και φακέλων σε οποιονδήποτε πελάτη συγχρονισμού είναι αυτήν τη στιγμή συνδεδεμένος, αλλά δεν θα διαγράψει κανένα αρχείο ή φάκελο από την ίδια την εξωτερική αποθήκευση."
+    "Advanced settings" : "Ρυθμίσεις για προχωρημένους"
 },
 "nplurals=2; plural=(n != 1);");

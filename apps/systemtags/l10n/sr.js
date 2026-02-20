@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Није успело брисање ознака за фајл",
     "Collaborative tags …" : "Ознаке сарадње...",
     "Loading …" : "Учитавање…",
-    "File tags modification canceled" : "Отказана је измена ознака фајла",
-    "Select or create tags to apply to all selected files" : "Избор или креирање ознака које ће се применити на све изабране фајлове",
-    "Select tags to apply to all selected files" : "Изаберите ознаке које ће се применити на све изабране фајлове",
-    "Apply changes" : "Примени измене",
     "Loading collaborative tags …" : "Учитавају се ознаке сарадње…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -244,11 +244,6 @@
     "Runs an arbitrary prompt through the language model." : "Tetszőleges promptot futtat a nyelvi modellen.",
     "Generate headline" : "Címsor előállítása",
     "Summarizes text by reducing its length without losing key information." : "Összesíti a szöveget a hosszúság csökkentésével anélkül, hogy a kulcsinformációk elvesznének.",
-    "Extracts topics from a text and outputs them separated by commas." : "Kinyeri a témákat a szövegből, és vesszőkkel elválasztva megjeleníti.",
-    "Organisation" : "Szervezet",
-    "Cannot write into \"apps\" directory." : "Az „apps” könyvtár nem írható.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Ez általában úgy javítható, hogy írási jogosultságot ad a webkiszolgáló számára az apps könyvtáron, vagy letiltja az alkalmazástárt a konfigurációs fájlban.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "Az <code>mbstring.func_overload</code> a várt <code>0</code> érték helyett erre van állítva: <code>%s</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "A probléma javításához állítsa <code>0</code>-ra az <code>mbstring.func_overload</code> értékét a php.ini-ben."
+    "Extracts topics from a text and outputs them separated by commas." : "Kinyeri a témákat a szövegből, és vesszőkkel elválasztva megjeleníti."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

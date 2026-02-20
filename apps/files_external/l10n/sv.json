@@ -164,13 +164,8 @@
     "Unauthorized" : "Obehörig",
     "Network error" : "Nätverksfel",
     "Grant access" : "Bevilja åtkomst",
-    "Error configuring OAuth1" : "Misslyckades konfigurera OAuth1",
-    "Please provide a valid app key and secret." : "Ange en giltig applikationsnyckel och hemlig fras.",
     "Error configuring OAuth2" : "Misslyckades konfigurera OAuth2",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Appnyckel",
-    "App secret" : "Apphemlighet",
     "OAuth2" : "OAuth2",
     "Client ID" : "Klient ID",
     "Client secret" : "Klienthemlighet",
@@ -185,7 +180,8 @@
     "Unknown backend: {backendName}" : "Okänd backend: {backendName}",
     "Admin defined" : "Admin definerad",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatisk statuskontroll är inaktiverad på grund av det stora antalet konfigurerade lagringar, klicka för att kontrollera status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Är du säker på att du vill koppla bort den här externa lagringen? Det kommer att göra lagringen otillgänglig i Nextcloud och kommer att leda till en radering av dessa filer och mappar på alla synkroniseringsklienter som för närvarande är anslutna men kommer inte att radera några filer och mappar på den externa lagringen i sig.",
+    "Are you sure you want to disconnect this external storage?" : "Är du säker på att du vill koppla från denna externa lagring?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Detta gör lagringen otillgänglig i {instanceName} och leder till att filer och mappar tas bort på alla synkroniseringsklienter som för närvarande är anslutna, men det raderar inte några filer eller mappar på den externa lagringen.",
     "Delete storage?" : "Ta bort lagring?",
     "Click to recheck the configuration" : "Klicka för att kontrollera inställningarna igen",
     "Saving …" : "Sparar ...",
@@ -197,8 +193,6 @@
     "Configuration" : "Konfiguration",
     "Available for" : "Tillgänglig för",
     "All people" : "Alla användare",
-    "Advanced settings" : "Avancerade inställningar",
-    "Are you sure you want to disconnect this external storage?" : "Är du säker på att du vill koppla från denna externa lagring?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Detta gör lagringen otillgänglig i {instanceName} och leder till att filer och mappar tas bort på alla synkroniseringsklienter som för närvarande är anslutna, men det raderar inte några filer eller mappar på den externa lagringen."
+    "Advanced settings" : "Avancerade inställningar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

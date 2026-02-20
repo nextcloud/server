@@ -110,10 +110,6 @@
     "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
     "Collaborative tags …" : "İş birlikli etiketler…",
     "Loading …" : "Yükleniyor…",
-    "File tags modification canceled" : "Dosya etiket değişikliği iptal edildi",
-    "Select or create tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin ya da oluşturun",
-    "Select tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin",
-    "Apply changes" : "Değişiklikleri uygula",
     "Loading collaborative tags …" : "İş birlikli etiketler yükleniyor…"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

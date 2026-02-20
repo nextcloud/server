@@ -474,12 +474,6 @@
     "Generate headline" : "Başlık oluşturulsun",
     "Summarizes text by reducing its length without losing key information." : "Temel içeriği kaybetmeden uzunluğunu kısaltarak yazıyı özetler.",
     "Extracts topics from a text and outputs them separated by commas." : "Bir yazıdaki konuları ayıklar ve bunları virgül ile ayırarak sıralar.",
-    "Organisation" : "Kuruluş",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X desteklenmiyor ve %s bu platformda düzgün çalışmayacak. Kullanmaktan doğacak riskler size aittir!",
-    "Login is too long" : "Kullanıcı adı çok uzun",
-    "Cannot write into \"apps\" directory." : "\"apps\" klasörüne yazılamadı.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Bu sorun genellikle, site sunucusuna apps klasörüne yazma izni verilerek ya da yapılandırma dosyasından uygulama mağazası kullanımdan kaldırılarak çözülebilir.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code>, beklenen <code>0</code> değeri yerine <code>%s</code> olarak ayarlanmış.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Bu sorunu çözmek için php.ini dosyasındaki <code>mbstring.func_overload</code> seçeneğini <code>0</code> olarak ayarlayın."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X desteklenmiyor ve %s bu platformda düzgün çalışmayacak. Kullanmaktan doğacak riskler size aittir!"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

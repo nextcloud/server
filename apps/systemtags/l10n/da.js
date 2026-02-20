@@ -109,10 +109,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Kunne ikke slette tag for fil",
     "Collaborative tags …" : "Samarbejds tags ...",
     "Loading …" : "Indlæser …",
-    "File tags modification canceled" : "Ændring af fil tags annulleret",
-    "Select or create tags to apply to all selected files" : "Vælg eller opret tags der skal gælde for alle markerede filer",
-    "Select tags to apply to all selected files" : "Vælg tags der skal gælde for alle markerede filer",
-    "Apply changes" : "Anvend ændringer",
     "Loading collaborative tags …" : "Indlæser samarbejds tags ..."
 },
 "nplurals=2; plural=(n != 1);");

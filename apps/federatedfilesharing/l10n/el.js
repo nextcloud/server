@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Θέλετε να προσθέσουμε τον απομακρυσμένο κοινόχρηστο φάκελο {name} από {owner}@{remote}?",
     "Remote share password" : "Συνθηματικό απομακρυσμένου κοινόχρηστου φακέλου",
     "Incoming share could not be processed" : "Η εισερχόμενη κοινή χρήση δεν μπορούσε να επεξεργαστεί",
-    "Cloud ID copied to the clipboard" : "Το αναγνωριστικό νέφους αντιγράφηκε στο πρόχειρο",
-    "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Μπορείτε να διαμοιράζεστε με οποιονδήποτε χρησιμοποιεί Nextcloud ή άλλο συμβατό διακομιστή και υπηρεσιών Open Cloud Mesh (OCM)! Απλά προσθέστε το Federated Cloud ID στο πλαίσιο διαλόγου διαμοιρασμού. Θα μοιάζει με person@cloud.example.com",
     "X (formerly Twitter)" : "X (πρώην Twitter)",
     "formerly Twitter" : "πρώην Twitter"
 },

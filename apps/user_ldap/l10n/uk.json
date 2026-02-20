@@ -189,7 +189,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Перемикання режиму активує автоматичні запити LDAP. Залежно від розміру LDAP, це може зайняти деякий час. Ви все ще хочете змінити режим?",
     "Confirm" : "Підтвердити",
     "Failed to delete the server configuration" : "Не вдалося вилучити конфігурацію сервера",
-    "Invalid configuration. Please have a look at the logs for further details." : "Неправильна конфігурація. Перевірте журнал для докладної інформації.",
     "No action specified" : "Ніяких дій не вказано",
     "No configuration specified" : "Немає конфігурації",
     "No data specified" : "Немає даних",
