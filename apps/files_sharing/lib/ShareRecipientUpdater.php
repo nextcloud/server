@@ -68,7 +68,7 @@ class ShareRecipientUpdater {
 	/**
 	 * Validate a single received share for a user
 	 */
-	public function updateForShare(IUser $user, IShare $share): void {
+	public function updateForAddedShare(IUser $user, IShare $share): void {
 		$cachedMounts = $this->userMountCache->getMountsForUser($user);
 		$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts);
 		$mountsByPath = array_combine($mountPoints, $cachedMounts);

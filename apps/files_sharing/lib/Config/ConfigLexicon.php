@@ -24,8 +24,7 @@ class ConfigLexicon implements ILexicon {
 	public const SHOW_FEDERATED_AS_INTERNAL = 'show_federated_shares_as_internal';
 	public const SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL = 'show_federated_shares_to_trusted_servers_as_internal';
 	public const EXCLUDE_RESHARE_FROM_EDIT = 'shareapi_exclude_reshare_from_edit';
-	public const UPDATE_SINGLE_CUTOFF = 'update_single_cutoff';
-	public const UPDATE_ALL_CUTOFF = 'update_all_cutoff';
+	public const UPDATE_CUTOFF_TIME = 'update_cutoff_time';
 	public const USER_NEEDS_SHARE_REFRESH = 'user_needs_share_refresh';
 
 	public function getStrictness(): Strictness {
@@ -38,8 +37,7 @@ class ConfigLexicon implements ILexicon {
 			new Entry(self::SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL, ValueType::BOOL, false, 'shows federated shares to trusted servers as internal shares', true),
 			new Entry(self::EXCLUDE_RESHARE_FROM_EDIT, ValueType::BOOL, false, 'Exclude reshare permission from "Allow editing" bundled permissions'),
 
-			new Entry(self::UPDATE_SINGLE_CUTOFF, ValueType::INT, 10, 'For how many users do we update the share data immediately for single-share updates'),
-			new Entry(self::UPDATE_ALL_CUTOFF, ValueType::INT, 3, 'For how many users do we update the share data immediately for all-share updates'),
+			new Entry(self::UPDATE_CUTOFF_TIME, ValueType::FLOAT, 3.0, 'For how how long do we update the share data immediately before switching to only marking the user'),
 		];
 	}
 

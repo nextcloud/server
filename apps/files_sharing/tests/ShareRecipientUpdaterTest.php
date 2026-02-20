@@ -68,7 +68,7 @@ class ShareRecipientUpdaterTest extends \Test\TestCase {
 			->method('addMount')
 			->with($user1, '/user1/files/new-target/', $cacheEntry, MountProvider::class);
 
-		$this->updater->updateForShare($user1, $share);
+		$this->updater->updateForAddedShare($user1, $share);
 	}
 
 	/**

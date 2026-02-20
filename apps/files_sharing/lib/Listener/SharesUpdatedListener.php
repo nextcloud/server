@@ -23,6 +23,7 @@ use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
+use Psr\Clock\ClockInterface;
 
 /**
  * Listen to various events that can change what shares a user has access to
@@ -31,26 +32,24 @@ use OCP\Share\IManager;
  */
 class SharesUpdatedListener implements IEventListener {
 	/**
-	 * for how many users do we update the share date immediately,
-	 * before just marking the other users when we know the relevant share
+	 * for how long do we update the share date immediately,
+	 * before just marking the other users
 	 */
-	private int $cutOffMarkAllSingleShare;
-	/**
-	 * for how many users do we update the share date immediately,
-	 * before just marking the other users when the relevant shares are unknown
-	 */
-	private int $cutOffMarkAllShares ;
+	private float $cutOffMarkTime;
 
-	private int $updatedCount = 0;
+	/**
+	 * The total amount of time we've spent so far processing updates
+	 */
+	private float $updatedTime = 0.0;
 
 	public function __construct(
 		private readonly IManager $shareManager,
 		private readonly ShareRecipientUpdater $shareUpdater,
 		private readonly IUserConfig $userConfig,
+		private readonly ClockInterface $clock,
 		IAppConfig $appConfig,
 	) {
-		$this->cutOffMarkAllSingleShare = $appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UPDATE_SINGLE_CUTOFF, 10);
-		$this->cutOffMarkAllShares = $appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UPDATE_ALL_CUTOFF, 3);
+		$this->cutOffMarkTime = $appConfig->getValueFloat(Application::APP_ID, ConfigLexicon::UPDATE_CUTOFF_TIME, 3.0);
 	}
 
 	public function handle(Event $event): void {
@@ -67,14 +66,11 @@ class SharesUpdatedListener implements IEventListener {
 			$shareTarget = $share->getTarget();
 			foreach ($this->shareManager->getUsersForShare($share) as $user) {
 				if ($share->getSharedBy() !== $user->getUID()) {
-					$this->updatedCount++;
-					if ($this->cutOffMarkAllSingleShare === -1 || $this->updatedCount <= $this->cutOffMarkAllSingleShare) {
-						$this->shareUpdater->updateForShare($user, $share);
-						// Share target validation might have changed the target, restore it for the next user
-						$share->setTarget($shareTarget);
-					} else {
-						$this->markUserForRefresh($user);
-					}
+					$this->markOrRun($user, function () use ($user, $share) {
+						$this->shareUpdater->updateForAddedShare($user, $share);
+					});
+					// Share target validation might have changed the target, restore it for the next user
+					$share->setTarget($shareTarget);
 				}
 			}
 		}
@@ -85,24 +81,28 @@ class SharesUpdatedListener implements IEventListener {
 		}
 	}
 
-	private function updateOrMarkUser(IUser $user, bool $verifyMountPoints, array $ignoreShares = []): void {
-		$this->updatedCount++;
-		if ($this->cutOffMarkAllShares === -1 || $this->updatedCount <= $this->cutOffMarkAllShares) {
-			$this->shareUpdater->updateForUser($user, $verifyMountPoints, $ignoreShares);
+	private function markOrRun(IUser $user, callable $callback): void {
+		$start = floatval($this->clock->now()->format('U.u'));
+		if ($this->cutOffMarkTime === -1.0 || $this->updatedTime < $this->cutOffMarkTime) {
+			$callback();
 		} else {
 			$this->markUserForRefresh($user);
 		}
+		$end = floatval($this->clock->now()->format('U.u'));
+		$this->updatedTime += $end - $start;
+	}
+
+	private function updateOrMarkUser(IUser $user, bool $verifyMountPoints, array $ignoreShares = []): void {
+		$this->markOrRun($user, function () use ($user, $verifyMountPoints, $ignoreShares) {
+			$this->shareUpdater->updateForUser($user, $verifyMountPoints, $ignoreShares);
+		});
 	}
 
 	private function markUserForRefresh(IUser $user): void {
 		$this->userConfig->setValueBool($user->getUID(), Application::APP_ID, ConfigLexicon::USER_NEEDS_SHARE_REFRESH, true);
 	}
 
-	public function setCutOffMarkAllSingleShare(int $cutOffMarkAllSingleShare): void {
-		$this->cutOffMarkAllSingleShare = $cutOffMarkAllSingleShare;
-	}
-
-	public function setCutOffMarkAllShares(int $cutOffMarkAllShares): void {
-		$this->cutOffMarkAllShares = $cutOffMarkAllShares;
+	public function setCutOffMarkTime(float|int $cutOffMarkTime): void {
+		$this->cutOffMarkTime = (float)$cutOffMarkTime;
 	}
 }

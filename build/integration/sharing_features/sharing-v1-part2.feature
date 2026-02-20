@@ -49,8 +49,7 @@ Feature: sharing
 
 Scenario: getting all shares of a file with a received share after revoking the resharing rights with delayed share check
 	Given user "user0" exists
-	And parameter "update_single_cutoff" of app "files_sharing" is set to "0"
-	And parameter "update_all_cutoff" of app "files_sharing" is set to "0"
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
 	And user "user1" exists
 	And user "user2" exists
 	And file "textfile0.txt" of user "user1" is shared with user "user0"
