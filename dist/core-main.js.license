@@ -6,10 +6,13 @@ SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-License-Identifier: (MIT AND BSD-3-Clause)
+SPDX-FileCopyrightText: webfansplz
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: ripemd160 developers
 SPDX-FileCopyrightText: readable-stream developers
+SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: clipboard developers
@@ -105,25 +108,37 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 9.3.3
+	- version: 9.5.0
 	- license: AGPL-3.0-or-later
+- @vue/devtools-shared
+	- version: 8.0.6
+	- license: MIT
 - @vueuse/core
-	- version: 14.1.0
+	- version: 14.2.1
 	- license: MIT
 - @vueuse/shared
-	- version: 14.1.0
+	- version: 14.2.1
 	- license: MIT
 - focus-trap
-	- version: 7.6.6
+	- version: 8.0.0
+	- license: MIT
+- perfect-debounce
+	- version: 2.1.0
+	- license: MIT
+- @vue/devtools-api
+	- version: 8.0.6
+	- license: MIT
+- @vue/devtools-kit
+	- version: 8.0.6
 	- license: MIT
 - vue-router
-	- version: 4.6.4
+	- version: 5.0.3
 	- license: MIT
 - vue
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @nextcloud/dialogs
-	- version: 7.2.0
+	- version: 7.3.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.2
@@ -183,16 +198,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.6.4
 	- license: MIT
 - @vue/reactivity
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @vue/shared
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @vueuse/components
 	- version: 11.3.0
@@ -220,6 +235,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - base64-js
 	- version: 1.5.1
+	- license: MIT
+- birpc
+	- version: 2.9.0
 	- license: MIT
 - bn.js
 	- version: 5.2.2
@@ -382,6 +400,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - hmac-drbg
 	- version: 1.0.1
+	- license: MIT
+- hookable
+	- version: 5.5.3
 	- license: MIT
 - ieee754
 	- version: 1.2.1
