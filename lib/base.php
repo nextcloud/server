@@ -1190,7 +1190,9 @@ class OC {
 		// Redirect to the default app or login only as an entry point
 		if ($requestPath === '') {
 			// Someone is logged in
-			if (Server::get(IUserSession::class)->isLoggedIn()) {
+			$userSession = Server::get(IUserSession::class);
+			if ($userSession->isLoggedIn()) {
+				header('X-User-Id: ' . $userSession->getUser()?->getUID());
 				header('Location: ' . Server::get(IURLGenerator::class)->linkToDefaultPageUrl());
 			} else {
 				// Not handled and not logged in
