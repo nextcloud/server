@@ -101,8 +101,7 @@ abstract class TestCase extends \Test\TestCase {
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
 		Server::get(IGroupManager::class)->addBackend($groupBackend);
 
-		Server::get(SharesUpdatedListener::class)->setCutOffMarkAllShares(-1);
-		Server::get(SharesUpdatedListener::class)->setCutOffMarkAllSingleShare(-1);
+		Server::get(SharesUpdatedListener::class)->setCutOffMarkTime(-1);
 	}
 
 	protected function setUp(): void {
