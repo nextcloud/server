@@ -225,7 +225,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.1.0
 	- license: MIT
 - marked
-	- version: 17.0.1
+	- version: 17.0.2
 	- license: MIT
 - md5
 	- version: 2.3.0
