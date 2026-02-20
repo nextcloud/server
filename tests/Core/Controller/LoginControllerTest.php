@@ -217,6 +217,7 @@ class LoginControllerTest extends TestCase {
 
 		$expected = new RedirectResponse('/login');
 		$expected->addHeader('Clear-Site-Data', '"cache", "storage"');
+		$expected->addHeader('X-User-Id', 'JohnDoe');
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
