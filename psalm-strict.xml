@@ -25,6 +25,7 @@
 		<file name="apps/settings/lib/Service/AuthorizedGroupService.php"/>
 		<file name="lib/private/Files/Storage/Storage.php"/>
 		<file name="lib/private/Files/Storage/Wrapper/Wrapper.php"/>
+		<file name="lib/public/Files/Storage/IStorageFactory.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>

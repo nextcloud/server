@@ -7,8 +7,11 @@
  */
 namespace OCP\Files\Mount;
 
+use OCP\Files\Storage\IStorage;
+
 /**
  * A storage mounted to folder on the filesystem
+ *
  * @since 8.0.0
  */
 interface IMountPoint {
@@ -64,7 +67,7 @@ interface IMountPoint {
 	/**
 	 * Apply a storage wrapper to the mounted storage
 	 *
-	 * @param callable $wrapper
+	 * @param callable(string, IStorage, IMountPoint):IStorage $wrapper
 	 * @since 8.0.0
 	 */
 	public function wrapStorage($wrapper);

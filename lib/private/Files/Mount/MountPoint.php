@@ -14,6 +14,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class MountPoint implements IMountPoint {
@@ -212,13 +213,11 @@ class MountPoint implements IMountPoint {
 		return $path;
 	}
 
-	/**
-	 * @param callable $wrapper
-	 */
-	public function wrapStorage($wrapper) {
+	#[Override]
+	public function wrapStorage($wrapper): void {
 		$storage = $this->getStorage();
 		// storage can be null if it couldn't be initialized
-		if ($storage != null) {
+		if ($storage !== null) {
 			$this->storage = $wrapper($this->mountPoint, $storage, $this);
 		}
 	}
