@@ -79,6 +79,10 @@ class Propagator implements IPropagator {
 			}
 		}
 
+		if ($parents === []) {
+			return;
+		}
+
 		if ($this->inBatch) {
 			foreach ($parents as $parent) {
 				$this->addToBatch($parent, $time, $sizeDifference);
