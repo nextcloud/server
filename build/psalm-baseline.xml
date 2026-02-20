@@ -1518,6 +1518,7 @@
       <code><![CDATA[emitAccessShareHook]]></code>
       <code><![CDATA[emitAccessShareHook]]></code>
       <code><![CDATA[emitAccessShareHook]]></code>
+      <code><![CDATA[emitAccessShareHook]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/External/Manager.php">
