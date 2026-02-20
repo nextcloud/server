@@ -69,9 +69,14 @@ class Propagator implements IPropagator {
 		$storageId = $this->storage->getStorageCache()->getNumericId();
 
 		$parents = $this->getParents($internalPath);
-		if ($this->storage->instanceOfStorage(LocalRootStorage::class) && str_starts_with($internalPath, '__groupfolders')) {
-			// Remove '' and '__groupfolders'
-			$parents = array_slice($parents, 2);
+		if ($this->storage->instanceOfStorage(LocalRootStorage::class)) {
+			if (str_starts_with($internalPath, '__groupfolders/versions') || str_starts_with($internalPath, '__groupfolders/trash')) {
+				// Remove '', '__groupfolders' and '__groupfolders/versions' or '__groupfolders/trash'
+				$parents = array_slice($parents, 3);
+			} elseif (str_starts_with($internalPath, '__groupfolders')) {
+				// Remove '' and '__groupfolders'
+				$parents = array_slice($parents, 2);
+			}
 		}
 
 		if ($this->inBatch) {
