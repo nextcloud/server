@@ -132,7 +132,7 @@ class Factory implements ICacheFactory {
 			// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
 			$instanceid = $config->getValue('instanceid');
 			$installedApps = implode(',', array_keys($versions)) . implode(',', array_values($versions));
-			$this->globalPrefix = $customprefix . ($customprefix != '' ? '/' : '') . hash('xxh128', $instanceid . $installedApps);
+			$this->globalPrefix = $customprefix . hash('xxh128', $instanceid . $installedApps);
 		}
 		return $this->globalPrefix;
 	}
@@ -150,7 +150,7 @@ class Factory implements ICacheFactory {
 		$customprefix = $config->getValue('memcache_customprefix', '');	
 		// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
 		$instanceid = $config->getValue('instanceid');
-		$this->globalPrefix = $customprefix . ($customprefix != '' ? '/' : '') . hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
+		$this->globalPrefix = $customprefix . hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
 		$closure($this);
 		$this->globalPrefix = $backupPrefix;
 	}
