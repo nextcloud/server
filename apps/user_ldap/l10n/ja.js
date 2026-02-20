@@ -200,7 +200,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "モード切替により自動LDAP問合せが有効になります。LDAPのデータ量により時間がかかる可能性があります。モードを切り替えますか？",
     "Confirm" : "承認",
     "Failed to delete the server configuration" : "サーバー設定を削除できませんでした",
-    "Invalid configuration. Please have a look at the logs for further details." : "設定が無効です。詳細はログを確認してください。",
     "No action specified" : "アクションが指定されていません",
     "No configuration specified" : "構成が指定されていません",
     "No data specified" : "データが指定されていません",

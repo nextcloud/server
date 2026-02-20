@@ -110,10 +110,6 @@
     "Failed to delete tag for file" : "檔案的標籤刪除失敗",
     "Collaborative tags …" : "協作標籤…",
     "Loading …" : "正在載入…",
-    "File tags modification canceled" : "已取消檔案標籤修改",
-    "Select or create tags to apply to all selected files" : "選取或建立標籤以套用至所有選定的檔案",
-    "Select tags to apply to all selected files" : "選取要套用到所有選取檔案的標籤",
-    "Apply changes" : "套用變更",
     "Loading collaborative tags …" : "正在載入協作標籤…"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

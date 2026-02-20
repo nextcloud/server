@@ -20,7 +20,6 @@ OC.L10N.register(
     "You" : "أنت",
     "List of files that have been deleted." : "قائمة بجميع الملفات المحذوفة",
     "No deleted files" : "لا توجد ملفات محذوفة",
-    "Files and folders you have deleted will show up here" : "الملفات و المجلدات التي قمت بحذفها ستظهر هنا",
-    "Deletion cancelled" : "تمّ إلغاء الحذف"
+    "Files and folders you have deleted will show up here" : "الملفات و المجلدات التي قمت بحذفها ستظهر هنا"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

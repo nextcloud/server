@@ -116,8 +116,6 @@ OC.L10N.register(
     "Background and login image" : "Позадина и слика на страната за најавување",
     "Advanced options" : "Напредни опции",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај ImageMagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзалниот пристап е многу важен за нас. Ние ги следиме веб-стандардите и ги имплементираме за да го направиме користењето попристапно, како користење без маус, и помошни апликации за читање на екранот. Наша цел е да бидеме во согласност со {guidelines} Упатства за пристапност до веб-содржина{linkend}2.1 на ниво АА, со висока контрастна тема дури и на ниво на ААА.",
-    ". Unable to apply the setting." : "Не може да се примени поставката.",
     "No background has been selected" : "Нема избрано позадина",
     "Select a custom color" : "Избери боја",
     "Upload" : "Прикачи"

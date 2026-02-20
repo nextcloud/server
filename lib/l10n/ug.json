@@ -472,12 +472,6 @@
     "Generate headline" : "ماۋزۇ ھاسىل قىلىڭ",
     "Summarizes text by reducing its length without losing key information." : "ئاچقۇچلۇق ئۇچۇرلارنى يوقىتىپ قويماي ئۇزۇنلۇقىنى قىسقارتىش ئارقىلىق تېكىستنى خۇلاسىلەيدۇ.",
     "Extracts topics from a text and outputs them separated by commas." : "تېكىستتىن تېمىنى چىقىرىپ ، پەش ئارقىلىق ئايرىلىدۇ.",
-    "Organisation" : "تەشكىلات",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X قوللىمايدۇ، %s بۇ سۇپادا نورمال ئىشلىمەيدۇ. ئۇنى ئۆزىڭىز ئىشلىتىڭ!",
-    "Login is too long" : "كىرىش بەك ئۇزۇن",
-    "Cannot write into \"apps\" directory." : "«ئەپلەر» مۇندەرىجىسىگە يازغىلى بولمايدۇ.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "بۇنى ئادەتتە تور مۇلازىمېتىرىغا پروگرامما مۇندەرىجىسىگە زىيارەت قىلىش ھوقۇقى ياكى سەپلىمە ھۆججەتتىكى App دۇكىنىنى چەكلەش ئارقىلىق ئوڭشىغىلى بولىدۇ.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code> mbstring.func_overload </code> مۆلچەردىكى قىممەت <code> %s </code> نىڭ ئورنىغا <code>0 </code> قىلىپ تەڭشەلدى.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "بۇ مەسىلىنى ھەل قىلىش ئۈچۈن php.ini دىكى <code> mbstring.func_overload </code> نى <code> 0 </code> قىلىپ تەڭشەڭ."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X قوللىمايدۇ، %s بۇ سۇپادا نورمال ئىشلىمەيدۇ. ئۇنى ئۆزىڭىز ئىشلىتىڭ!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

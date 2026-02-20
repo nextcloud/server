@@ -123,7 +123,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Omschakelen van de modus schakelt hat bevragen van LDAP in. Afhankelijk van je LDAP omvang kan dat even duren. Wil je nog steeds omschakelen?",
     "Confirm" : "Bevestigen",
     "Failed to delete the server configuration" : "Verwijderen serverconfiguratie mislukt",
-    "Invalid configuration. Please have a look at the logs for further details." : "Ongeldige configuratie. Bekijk de logbestanden voor meer details.",
     "No action specified" : "Geen actie opgegeven",
     "No configuration specified" : "Geen configuratie opgegeven",
     "No data specified" : "Geen gegevens verstrekt",

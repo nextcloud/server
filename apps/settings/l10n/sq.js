@@ -217,8 +217,6 @@ OC.L10N.register(
     "So-so password" : "Fjalëkalim çka",
     "Good password" : "Fjalëkalim i mirë",
     "Strong password" : "Fjalëkalim i fortë",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një minimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një maksimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
     "Adding your device …" : "Shtoni pajisjen tuaj ...",
     "Sending…" : "dërgim",
     "Email sent" : "Email-i u dërgua",

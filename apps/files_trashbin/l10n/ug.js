@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "ئۆچۈرۈلگەن ھۆججەت يوق",
     "Files and folders you have deleted will show up here" : "سىز ئۆچۈرگەن ھۆججەت ۋە ھۆججەت قىسقۇچلار بۇ يەردە كۆرۈنىدۇ",
     "All files have been permanently deleted" : "بارلىق ھۆججەتلەر مەڭگۈلۈك ئۆچۈرۈلدى",
-    "Failed to empty deleted files" : "ئۆچۈرۈلگەن ھۆججەتلەرنى قۇرۇقداش مەغلۇپ بولدى",
-    "Deletion cancelled" : "ئۆچۈرۈش ئەمەلدىن قالدۇرۇلدى"
+    "Failed to empty deleted files" : "ئۆچۈرۈلگەن ھۆججەتلەرنى قۇرۇقداش مەغلۇپ بولدى"
 },
 "nplurals=2; plural=(n != 1);");

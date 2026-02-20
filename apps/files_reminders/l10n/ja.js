@@ -30,10 +30,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "今週末のリマインダーを設定する",
     "Next week" : "来週",
     "Set reminder for next week" : "来週のリマインダーを設定する",
-    "This files_reminder can work properly." : "このfiles_reminderは正しく機能します。",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "files_reminderアプリが正しく動作するには、通知アプリが必要です。通知を有効にするか、files_reminderを無効にしてください。",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\"のリマインダーを設定",
-    "Set reminder at custom date & time" : "カスタムした日付と時刻にリマインダーを設定",
-    "Set custom reminder" : "カスタムリマインダーを設定する"
+    "Set reminder for \"{fileName}\"" : "\"{fileName}\"のリマインダーを設定"
 },
 "nplurals=1; plural=0;");

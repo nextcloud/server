@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Lisa meeldetuletus selleks nädalavahetuseks",
     "Next week" : "Järgmine nädal",
     "Set reminder for next week" : "Lisa meeldetuletus järgmiseks nädalaks",
-    "This files_reminder can work properly." : "See Failide meeldetuletaja võib toimida korrektselt.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Failide meeldetuletusrakendus vajab korrektseks toimimiseks teavituste rakenduse olemasolu. Palun lisa vajalik abirakendus või eemalda see rakendus kasutuselt.",
-    "Set reminder for \"{fileName}\"" : "Lisa meeldetuletus: „{fileName}“",
-    "Set reminder at custom date & time" : "Säti meeldetuletus valitud kuupäevaks ja ajaks",
-    "Set custom reminder" : "Lisa enda valitud meeldetuletus"
+    "Set reminder for \"{fileName}\"" : "Lisa meeldetuletus: „{fileName}“"
 },
 "nplurals=2; plural=(n != 1);");

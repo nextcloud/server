@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Nincs törölt fájl",
     "Files and folders you have deleted will show up here" : "A törölt fájlok és mappák itt jelennek meg",
     "All files have been permanently deleted" : "Az összes fájl véglegesen törölve",
-    "Failed to empty deleted files" : "A törölt fájlok ürítése sikertelen",
-    "Deletion cancelled" : "Törlés megszakítva"
+    "Failed to empty deleted files" : "A törölt fájlok ürítése sikertelen"
 },
 "nplurals=2; plural=(n != 1);");

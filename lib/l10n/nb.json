@@ -366,11 +366,6 @@
     "Runs an arbitrary prompt through the language model." : "Kjører en vilkårlig ledetekst gjennom språkmodellen.",
     "Generate headline" : "Generer overskrift",
     "Summarizes text by reducing its length without losing key information." : "Oppsummerer tekst ved å redusere lengden uten å miste nøkkelinformasjon.",
-    "Extracts topics from a text and outputs them separated by commas." : "Trekker ut emner fra en tekst og sender dem ut atskilt med komma.",
-    "Organisation" : "Organisasion",
-    "Cannot write into \"apps\" directory." : "Kan ikke skrive i \"apps\"-katalogen.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Dette kan vanligvis løses ved å gi webserveren skrivetilgang til apps-katalogen eller deaktivere App Store i konfigurasjonsfilen.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> er satt til <code>%s</code> istedenfor den forventede verdien <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "For å fikse dette problemet sett <code>mbstring.func_overload</code> til <code>0</code> i php.ini."
+    "Extracts topics from a text and outputs them separated by commas." : "Trekker ut emner fra en tekst og sender dem ut atskilt med komma."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

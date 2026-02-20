@@ -446,12 +446,6 @@
     "Generate headline" : "تولید عنوان",
     "Summarizes text by reducing its length without losing key information." : "متن را با کاهش طول آن و بدون از دست دادن اطلاعات کلیدی، خلاصه‌سازی می‌کند.",
     "Extracts topics from a text and outputs them separated by commas." : "موضوعات را از یک متن استخراج کرده و با کاما جدا شده خروجی می‌دهد.",
-    "Organisation" : "سازمان",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X پشتیبانی نمی‌شود و %s روی این پلتفرم به درستی کار نخواهد کرد. با مسئولیت خودتان از آن استفاده کنید!",
-    "Login is too long" : "نام کاربری بیش از حد طولانی است",
-    "Cannot write into \"apps\" directory." : "نمی‌توان در دایرکتوری «apps» نوشت.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "این مشکل معمولاً با دادن دسترسی نوشتن به وب‌سرور در دایرکتوری برنامه‌ها یا غیرفعال کردن فروشگاه برنامه در فایل پیکربندی قابل رفع است.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> به جای مقدار مورد انتظار <code>0</code> روی <code>%s</code> تنظیم شده است.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "برای رفع این مشکل، <code>mbstring.func_overload</code> را در php.ini خود روی <code>0</code> تنظیم کنید."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X پشتیبانی نمی‌شود و %s روی این پلتفرم به درستی کار نخواهد کرد. با مسئولیت خودتان از آن استفاده کنید!"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

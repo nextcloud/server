@@ -111,10 +111,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "حذف برچسب برای فایل ناموفق بود",
     "Collaborative tags …" : "Collaborative tags …",
     "Loading …" : "در حال بارگذاری...",
-    "File tags modification canceled" : "تغییر برچسب‌های فایل لغو شد",
-    "Select or create tags to apply to all selected files" : "انتخاب یا ایجاد برچسب‌هایی برای اعمال به همه فایل‌های انتخاب شده",
-    "Select tags to apply to all selected files" : "برچسب‌هایی را انتخاب کنید که روی همه فایل‌های انتخاب‌شده اعمال شوند",
-    "Apply changes" : "اعمال تغییرات",
     "Loading collaborative tags …" : "Loading collaborative tags …"
 },
 "nplurals=2; plural=(n > 1);");

@@ -141,13 +141,8 @@ OC.L10N.register(
     "Unauthorized" : "Jogosulatlan",
     "Network error" : "Hálózati hiba",
     "Grant access" : "Hozzáférés megadása",
-    "Error configuring OAuth1" : "OAuth1 beállítási hiba",
-    "Please provide a valid app key and secret." : "Adjon meg egy érvényes alkalmazáskulcsot és titkot.",
     "Error configuring OAuth2" : "OAuth2 beállítási hiba",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Alkalmazáskulcs",
-    "App secret" : "Alkalmazás titka",
     "OAuth2" : "OAuth2",
     "Client ID" : "Kliensazonosító",
     "Client secret" : "Kliens titka",
@@ -162,7 +157,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Ismeretlen háttérszolgáltatás: {backendName}",
     "Admin defined" : "Rendszergazda által definiálva",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Az automatikus állapotellenőrzés a beállított tárolók nagy száma miatt ki van kapcsolva, kattintson az állapot ellenőrzéséhez",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Biztos, hogy bontja a kapcsolatot ezzel a külső tárolóval? A tároló nem lesz elérhető a Nextcloudban, és a szinkronizálási kliensek is törölni fogják azokat a fájlokat, amelyek jelenleg kapcsolatban vannak, viszont magáról a külső tárolóról nem fogja törölni a fájlokat és mappákat.",
+    "Are you sure you want to disconnect this external storage?" : "Biztos, hogy bontja a kapcsolatot ezzel a külső tárolóval?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "A tároló nem lesz elérhető a(z) {instanceName} számára, és a szinkronizálási kliensek is törölni fogják azokat a fájlokat, amelyek jelenleg kapcsolatban vannak, viszont magáról a külső tárolóról nem fogja törölni a fájlokat és mappákat.",
     "Delete storage?" : "Tároló törlése?",
     "Click to recheck the configuration" : "Kattintson ide a konfiguráció újraellenőrzéséhez",
     "Saving …" : "Mentés…",
@@ -174,8 +170,6 @@ OC.L10N.register(
     "Configuration" : "Beállítások",
     "Available for" : "Számukra érhető el:",
     "All people" : "Mindenki",
-    "Advanced settings" : "Speciális beállítások",
-    "Are you sure you want to disconnect this external storage?" : "Biztos, hogy bontja a kapcsolatot ezzel a külső tárolóval?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "A tároló nem lesz elérhető a(z) {instanceName} számára, és a szinkronizálási kliensek is törölni fogják azokat a fájlokat, amelyek jelenleg kapcsolatban vannak, viszont magáról a külső tárolóról nem fogja törölni a fájlokat és mappákat."
+    "Advanced settings" : "Speciális beállítások"
 },
 "nplurals=2; plural=(n != 1);");

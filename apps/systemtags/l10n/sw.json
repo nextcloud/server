@@ -107,10 +107,6 @@
     "Failed to delete tag for file" : "Imeshindwa kufuta lebo ya faili",
     "Collaborative tags …" : "Lebo za ushirikiano …",
     "Loading …" : "Inapakia",
-    "File tags modification canceled" : "Urekebishaji wa lebo za faili umeghairiwa",
-    "Select or create tags to apply to all selected files" : "Chagua au uunde lebo ili kutumia kwa faili zote zilizochaguliwa",
-    "Select tags to apply to all selected files" : "Chagua lebo za kutumia kwa faili zote zilizochaguliwa",
-    "Apply changes" : "Tekeleza mabadiliko",
     "Loading collaborative tags …" : "Inapakia lebo za kushirikiana..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

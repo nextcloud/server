@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Set reminder for this weekend",
     "Next week" : "Next week",
     "Set reminder for next week" : "Set reminder for next week",
-    "This files_reminder can work properly." : "This files_reminder can work properly.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder.",
-    "Set reminder for \"{fileName}\"" : "Set reminder for \"{fileName}\"",
-    "Set reminder at custom date & time" : "Set reminder at custom date & time",
-    "Set custom reminder" : "Set custom reminder"
+    "Set reminder for \"{fileName}\"" : "Set reminder for \"{fileName}\""
 },
 "nplurals=2; plural=(n != 1);");

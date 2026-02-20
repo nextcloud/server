@@ -198,7 +198,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "切換模式將會啟用自動 LDAP 查詢。取決於您的 LDAP 大小，可能需要一些時間。您仍然想要切換模式嗎？",
     "Confirm" : "確認",
     "Failed to delete the server configuration" : "無法刪除伺服器組態設定",
-    "Invalid configuration. Please have a look at the logs for further details." : "無效的組態設定。請檢查紀錄檔以取得更多詳細資訊。",
     "No action specified" : "未指定動作",
     "No configuration specified" : "未指定組態設定",
     "No data specified" : "未指定資料",

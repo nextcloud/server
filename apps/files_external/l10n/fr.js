@@ -142,13 +142,8 @@ OC.L10N.register(
     "Unauthorized" : "Non autorisé",
     "Network error" : "Erreur réseau",
     "Grant access" : "Autoriser l’accès",
-    "Error configuring OAuth1" : "Erreur lors de la configuration de OAuth1",
-    "Please provide a valid app key and secret." : "Veuillez fournir une clé d'application et un mot de passe valides.",
     "Error configuring OAuth2" : "Erreur lors de la configuration de OAuth2",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Clé d'application",
-    "App secret" : "Secret de l'application",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID Client",
     "Client secret" : "Secret client",
@@ -163,7 +158,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Service inconnu: {backendName}",
     "Admin defined" : "Défini par l'administrateur",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La vérification automatique du statut est désactivée en raison du grand nombre de stockages configurés. Cliquez pour vérifier l'état.",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Êtes-vous certain de vouloir déconnecter ce stockage externe ? Cela rendra ce stockage indisponible dans Nextcloud et entraînera la suppression de ces fichiers et dossiers sur tous les clients actuellement connectés, mais ne supprimera aucun fichier ni dossier du stockage externe lui-même.",
+    "Are you sure you want to disconnect this external storage?" : "Êtes-vous sûr de vouloir déconnecter ce stockage externe ?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Cela rendra ce stockage indisponible dans {instanceName} et entraînera la suppression de ces fichiers et dossiers sur tous les clients actuellement connectés, mais ne supprimera aucun fichier ni dossier du stockage externe lui-même.",
     "Delete storage?" : "Supprimer le stockage ?",
     "Click to recheck the configuration" : "Cliquer pour revérifier la configuration",
     "Saving …" : "Enregistrement ...",
@@ -175,8 +171,6 @@ OC.L10N.register(
     "Configuration" : "Configuration",
     "Available for" : "Disponible pour",
     "All people" : "Tout le monde",
-    "Advanced settings" : "Paramètres avancés",
-    "Are you sure you want to disconnect this external storage?" : "Êtes-vous sûr de vouloir déconnecter ce stockage externe ?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Cela rendra ce stockage indisponible dans {instanceName} et entraînera la suppression de ces fichiers et dossiers sur tous les clients actuellement connectés, mais ne supprimera aucun fichier ni dossier du stockage externe lui-même."
+    "Advanced settings" : "Paramètres avancés"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

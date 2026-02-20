@@ -23,7 +23,6 @@ OC.L10N.register(
     "No deleted files" : "Engar eyddar skrár",
     "Files and folders you have deleted will show up here" : "Skrár og möppur sem þú hefur eytt birtast hér",
     "All files have been permanently deleted" : "Öllum skrám var eytt endanlega",
-    "Failed to empty deleted files" : "Mistókst að tæma eyddar skrár",
-    "Deletion cancelled" : "Hætt við eyðingu"
+    "Failed to empty deleted files" : "Mistókst að tæma eyddar skrár"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

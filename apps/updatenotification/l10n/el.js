@@ -58,9 +58,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Το επιλεγμένο κανάλι ενημέρωσης δεν υποστηρίζει ενημερώσεις του διακομιστή.",
     "Changelog for app {app}" : "Changelog για την εφαρμογή {app}",
     "What's new in {app} version {version}" : "Τι νέο υπάρχει στην έκδοση {version} του {app}",
-    "{version} is available. Get more information on how to update." : "Η έκδοση {version} είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες για το πως να κάνετε την ενημέρωση.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Όλες</strong> οι εφαρμογές έχουν διαθέσιμη μια συμβατή έκδοση για αυτήν την έκδοση Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> εφαρμογή δεν έχει διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud.","<strong>%n</strong> εφαρμογές δεν έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Για επαγγελματική χρήση. Παρέχει πάντα την τελευταία ενημέρωση, αλλά δεν θα ενημερωθεί αμέσως στην επόμενη μεγάλη έκδοση. Η ενημέρωση αυτή συμβαίνει μόλις η Nextcloud GmbH πραγματοποιήσει επιπλέον ελέγχους και δοκιμές για εφαρμογές μεγάλης κλίμακας και κρίσιμης σημασίας για την αποστολή. Αυτό το κανάλι είναι διαθέσιμο μόνο στους πελάτες και παρέχει το πακέτο Nextcloud για Επαγγελματίες."
+    "{version} is available. Get more information on how to update." : "Η έκδοση {version} είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες για το πως να κάνετε την ενημέρωση."
 },
 "nplurals=2; plural=(n != 1);");

@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Nepodarilo sa odstrániť štítok pre súbor",
     "Collaborative tags …" : "Štítky pre spoluprácu ...",
     "Loading …" : "Načítavam …",
-    "File tags modification canceled" : "Zmena štítkov súboru bola zrušená",
-    "Select or create tags to apply to all selected files" : "Vybrať alebo vytvoriť štítok a aplikovať na všetky vybrané súbory",
-    "Select tags to apply to all selected files" : "Vyberte štítky, ktoré sa majú použiť na všetky vybrané súbory",
-    "Apply changes" : "Aplikovať zmeny",
     "Loading collaborative tags …" : "Načítavanie štítkov pre spoluprácu ..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -82,7 +82,6 @@ OC.L10N.register(
     "Upload new background and login image" : "Lähetä uusi taustakuva ja kirjautumissivun kuva",
     "Background and login image" : "Tausta- ja kirjautumiskuva",
     "Advanced options" : "Lisävalinnat",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Saavutettavuus on erittäin tärkeää meille. Seuraamme verkkostandardeja ja varmistamme, että kaikki on käytettävissä ilman hiirtä sekä avustavien ohjelmistojen kuten ruudunlukijoiden avulla. Pyrimme olemaan yhteensopivia {guidelines}Web Content Accessibility Guidelines{linkend} -ohjeistuksen version 2.1 AA-tason kanssa, suuren kontrastin teemalla pyrimme jopa AAA-tasoon.",
     "No background has been selected" : "Taustaa ei ole valittu",
     "Select a custom color" : "Valitse mukautettu väri",
     "Upload" : "Lähetä"

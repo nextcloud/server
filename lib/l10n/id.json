@@ -472,12 +472,6 @@
     "Generate headline" : "Buat judul",
     "Summarizes text by reducing its length without losing key information." : "Meringkas teks dengan mengurangi panjangnya tanpa kehilangan informasi kunci.",
     "Extracts topics from a text and outputs them separated by commas." : "Mengekstrak topik dari teks dan mengeluarkannya dipisahkan dengan koma.",
-    "Organisation" : "Organisasi",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X tidak didukung dan %s tidak akan bekerja dengan baik pada platform ini. Gunakan dengan risiko Anda sendiri!",
-    "Login is too long" : "Login terlalu panjang",
-    "Cannot write into \"apps\" directory." : "Tidak dapat menulis ke direktori \"apps\".",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Hal ini biasanya dapat diperbaiki dengan memberikan akses tulis kepada server web ke direktori apps atau menonaktifkan App Store di file konfigurasi.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> diatur ke <code>%s</code> alih-alih nilai yang diharapkan <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Untuk memperbaiki masalah ini, atur <code>mbstring.func_overload</code> menjadi <code>0</code> di php.ini Anda."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X tidak didukung dan %s tidak akan bekerja dengan baik pada platform ini. Gunakan dengan risiko Anda sendiri!"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

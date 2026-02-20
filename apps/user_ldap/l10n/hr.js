@@ -200,7 +200,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Promjena načina rada omogućit će automatske LDAP upite. Ovisno o veličini LDAP-a, upiti mogu potrajati neko duže vrijeme. Želite li još uvijek prebaciti način rada?",
     "Confirm" : "Potvrdi",
     "Failed to delete the server configuration" : "Došlo je do pogreške pri brisanju konfiguracije poslužitelja",
-    "Invalid configuration. Please have a look at the logs for further details." : "Nevažeća konfiguracija. Pogledajte zapise za više informacija.",
     "No action specified" : "Nije navedena nijedna radnja",
     "No configuration specified" : "Nije navedena konfiguracija",
     "No data specified" : "Nema podataka",

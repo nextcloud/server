@@ -65,9 +65,6 @@
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
     "Remote share password" : "Remote share password",
     "Incoming share could not be processed" : "Incoming share could not be processed",
-    "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
-    "Copy to clipboard" : "ສຳເນົາໃສ່ຄລິບບອດ",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com",
     "X (formerly Twitter)" : "X (formerly Twitter)",
     "formerly Twitter" : "formerly Twitter"
 },"pluralForm" :"nplurals=1; plural=0;"

@@ -53,9 +53,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir l'element compartit remot {name} de {owner}@{remote}?",
     "Remote share password" : "Contrasenya de l'element compartit remot",
     "Incoming share could not be processed" : "No s'ha pogut processar la compartició entrant",
-    "Cloud ID copied to the clipboard" : "S'ha copiat l'ID del núvol al porta-retalls",
-    "Copy to clipboard" : "Copia-ho al porta-retalls",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Podeu compartir contingut amb qualsevol persona que utilitzi un servidor del Nextcloud o altres servidors i serveis compatibles amb Open Cloud Mesh (OCM)! Només cal que n'indiqueu l'ID de núvol federat al quadre de diàleg d'ús compatit. És semblant a persona@nuvol.exemple.com",
     "X (formerly Twitter)" : "X (abans Twitter)",
     "formerly Twitter" : "abans Twitter"
 },

@@ -218,7 +218,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ponte en contautu direutamente cola organización.",
     "Are you accepting the invitation?" : "¿Aceptes la invitación?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "La to asistencia anovóse correutamente.",
-    "Time zone:" : "Fusu horariu:"
+    "Your attendance was updated successfully." : "La to asistencia anovóse correutamente."
 },
 "nplurals=2; plural=(n != 1);");

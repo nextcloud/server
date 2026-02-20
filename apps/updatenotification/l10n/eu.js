@@ -58,9 +58,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Hautatutako eguneraketa kanalak ez ditu zerbitzariaren eguneraketak onartzen.",
     "Changelog for app {app}" : "{app} aplikazioaren aldaketen egunkaria",
     "What's new in {app} version {version}" : "Zer da berri {app} {version} bertsioan",
-    "{version} is available. Get more information on how to update." : "{version} eskuragarri dago. Lortu informazio gehiago eguneraketa nola egiteari buruz.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong></strong>aplikazio guztiek Nextcloud bertsio honetarako bertsio bateragarria erabilgarri dute.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["Aplikazio <strong>%n</strong>ek ez du Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri.","<strong>%n</strong>palikaziok ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Enpresa erabilerarako. Ematen du beti azken adabaki maila, baina ez da berehala eguneratzen hurrengo bertsio nagusira. Eguneratze hori gertatzen da Nextcloud GmbH-k eskala handiko eta berebiziko garrantzia duten inplementazioetarako indartze eta probaketa osagarriak egin ondoren. Kanal hau bezeroentzako soilik dago erabilgarri eta Nextcloud Enterprise paketea ematen du."
+    "{version} is available. Get more information on how to update." : "{version} eskuragarri dago. Lortu informazio gehiago eguneraketa nola egiteari buruz."
 },
 "nplurals=2; plural=(n != 1);");

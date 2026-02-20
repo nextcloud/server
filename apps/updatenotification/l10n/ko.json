@@ -41,8 +41,6 @@
     "Only notifications for app updates are available." : "앱 업데이트에 대한 알림만 사용할 수 있습니다.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "선택한 업데이트 채널은 서버 알림을 사용하지 않습니다.",
     "The selected update channel does not support updates of the server." : "선택한 업데이트 채널은 서버 업데이트를 지원하지 않습니다.",
-    "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>모든</strong> 앱에 이 Nextcloud와 호환되는 버전이 있습니다.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>개의 앱에 이 Nextcloud와 호환되는 버전이 없습니다."]
+    "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

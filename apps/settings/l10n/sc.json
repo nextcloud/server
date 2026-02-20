@@ -363,19 +363,11 @@
     "Strong password" : "Crae bona a beru",
     "Group list is empty" : "S'elencu de is grupos est bòida",
     "Unable to retrieve the group list" : "Non faghet a recuperare s'elencu de is grupos",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Custa aplicatzione non cuntenet sa versione mìnima de Nextcloud assignada. At a èssere unu problema in su benidore.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Custa aplicatzione non cuntenet sa versione màssima de Nextcloud assignada. At a èssere unu problema in su benidore.",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "In casu de pèrdida de su dispositivu o de essida dae s'organizatzione, custu podet cantzellare dae remotu is datos de Nextcloud dae totu is dispositivos assotziados cun {userid}. Funtzionat isceti si is dispositivos sunt collegados a internet. ",
     "Adding your device …" : "Agiunta de su dispositivu tuo...",
     "Sending…" : "Imbiende...",
     "Email sent" : "Messàgiu de posta imbiadu",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Custa aplicatzione no est marcada comente cumpatìbile cun sa versione tua de Nextcloud. Si sighis, as a pòdere installare s'aplicatzione. Càstia ca podet èssere chi non funtzionet comente prevìdidu.",
     "Credentials" : "Credentziales",
     "SMTP Password" : "Crae SMTP",
-    "Save" : "Sarva",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Est importante pro sa seguresa e s'esecutzione de s'istàntzia tua chi totu siat cunfiguradu bene. Pro t'agiudare, semus faghende controllos automàticos. Càstia sa documentatzione in ligòngiu pro àteras informatziones.",
-    "Checking for system and security issues." : "Verìfica de is problemas de sistema e seguresa.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Càstia bene is <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">ghias de installatzione ↗</a>, e controlla is errores o is avisos in su <a href=\"%2$s\">registru</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Controlla sa seguresa de Nextcloud in <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">s'iscansione nostra de seguresa ↗</a>."
+    "Save" : "Sarva"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

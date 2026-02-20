@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Да ли желите да додате удаљено дељење {name} од {owner}@{remote}?",
     "Remote share password" : "Лозинка удаљеног дељења",
     "Incoming share could not be processed" : "Долазеће дељење не може да се обради",
-    "Cloud ID copied to the clipboard" : "Cloud ID је копиран у клипборд",
-    "Copy to clipboard" : "Копирај у оставу",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете делите ствари са било ким ко користи Некстклауд сервер или неки други Open Cloud Mesh (OCM) компатибилни сервер и сервисе! Само унесите ИД из њиховог Здруженог Облака у дијалог за дељење. Тај ИД изгледа нешто попут person@cloud.example.com",
     "X (formerly Twitter)" : "X (бивши Twitter)",
     "formerly Twitter" : "бивши Twitter"
 },

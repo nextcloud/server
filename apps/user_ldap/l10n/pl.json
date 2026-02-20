@@ -198,7 +198,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Zmiana trybu włączy automatyczne odpytywanie LDAP-a. W zależności od jego wielkości może to trochę potrwać. Nadal chcesz zmienić tryb?",
     "Confirm" : "Potwierdź",
     "Failed to delete the server configuration" : "Nie można usunąć konfiguracji serwera",
-    "Invalid configuration. Please have a look at the logs for further details." : "Nieprawidłowa konfiguracja. Sprawdź logi po więcej szczegółów.",
     "No action specified" : "Nie określono akcji",
     "No configuration specified" : "Nie określono konfiguracji",
     "No data specified" : "Nie określono danych",
