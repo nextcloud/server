@@ -135,6 +135,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/event-bus
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
+	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 4.0.0
 	- license: AGPL-3.0-or-later
@@ -154,7 +157,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.3.0
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
 	- version: 3.0.0
@@ -165,6 +168,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/files
 	- version: 3.12.2
 	- license: AGPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
+	- license: GPL-3.0-or-later
 - @nextcloud/upload
 	- version: 1.11.1
 	- license: AGPL-3.0-or-later
@@ -173,6 +179,12 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - @nextcloud/initial-state
 	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
 	- license: GPL-3.0-or-later
 - debounce
 	- version: 2.2.0
