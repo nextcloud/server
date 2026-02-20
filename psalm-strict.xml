@@ -25,6 +25,8 @@
 		<file name="apps/settings/lib/Service/AuthorizedGroupService.php"/>
 		<file name="lib/private/Files/Storage/Storage.php"/>
 		<file name="lib/private/Files/Storage/Wrapper/Wrapper.php"/>
+		<file name="lib/private/Files/Storage/StorageFactory.php"/>
+		<file name="lib/public/Files/Storage/IStorageFactory.php"/>
 		<file name="build/psalm/ITypedQueryBuilderTest.php"/>
 		<file name="lib/private/DB/QueryBuilder/TypedQueryBuilder.php"/>
 		<file name="lib/public/DB/QueryBuilder/ITypedQueryBuilder.php"/>
