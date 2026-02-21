@@ -43,7 +43,7 @@ class DbHandlerTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->connection->truncateTable($this->dbTable);
+		$this->connection->truncateTable($this->dbTable, false);
 		parent::tearDown();
 	}
 
