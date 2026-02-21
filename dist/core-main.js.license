@@ -567,7 +567,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.2
 	- license: MIT
 - underscore
-	- version: 1.13.7
+	- version: 1.13.8
 	- license: MIT
 - unist-builder
 	- version: 4.0.0

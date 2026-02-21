@@ -291,7 +291,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.2
 	- license: MIT
 - underscore
-	- version: 1.13.7
+	- version: 1.13.8
 	- license: MIT
 - util-deprecate
 	- version: 1.0.2

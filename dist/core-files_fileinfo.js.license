@@ -7,7 +7,7 @@ SPDX-FileCopyrightText: Jeremy Ashkenas <jeremy@documentcloud.org>
 
 This file is generated from multiple sources. Included packages:
 - underscore
-	- version: 1.13.7
+	- version: 1.13.8
 	- license: MIT
 - webpack
 	- version: 5.105.2
