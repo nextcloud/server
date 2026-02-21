@@ -71,6 +71,7 @@
     "Where: %s" : "Місце: %s",
     "%1$s via %2$s" : "%1$s через %2$s",
     "In the past on %1$s for the entire day" : "Раніше у %1$s протягом цілого дня",
+    "_In %n minute on %1$s for the entire day_::_In %n minutes on %1$s for the entire day_" : ["За %n хвилину %1$s протягом цілого дня","За %n хвилини %1$s протягом цілого дня","За %n хвилин %1$s протягом цілого дня","За %n хвилин %1$s протягом цілого дня"],
     "In the past on %1$s between %2$s - %3$s" : "У минулому на %1$ між %2$ - %3$",
     "Could not generate when statement" : "Не вдалося створити оператор \"коли\"",
     "Every Day for the entire day" : "Щодня впродовж усього дня",
