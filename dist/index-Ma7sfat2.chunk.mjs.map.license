@@ -11,7 +11,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 3.0.0
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @vitejs/plugin-vue
 	- version: 6.0.1
