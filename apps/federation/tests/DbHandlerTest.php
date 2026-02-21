@@ -43,9 +43,7 @@ class DbHandlerTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$query = $this->connection->getQueryBuilder()->delete($this->dbTable);
-		$query->executeStatement()
-		;
+		$this->connection->truncateTable($this->dbTable);
 		parent::tearDown();
 	}
 
