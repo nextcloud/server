@@ -99,7 +99,7 @@
     "snap.js": "^2.0.9",
     "strengthify": "github:nextcloud/strengthify#0.5.9",
     "throttle-debounce": "^5.0.2",
-    "underscore": "1.13.7",
+    "underscore": "1.13.8",
     "url-search-params-polyfill": "^8.2.5",
     "v-click-outside": "^3.2.0",
     "v-tooltip": "^2.1.3",
