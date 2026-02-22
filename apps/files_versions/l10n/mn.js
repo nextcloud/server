@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "files_versions",
+    {
+    "Versions" : "Хувилбарууд",
+    "Current version" : "Одоогийн хувилбар",
+    "Initial version" : "Анхны хувилбар",
+    "You" : "Та",
+    "Actions for version from {versionHumanExplicitDate}" : "{versionHumanExplicitDate}-н хувилбарын үйлдлүүд",
+    "Name this version" : "Энэ хувилбарыг нэрлэх",
+    "Edit version name" : "Хувилбарын нэрийг засах",
+    "Compare to current version" : "Одоогийн хувилбартай харьцуулах",
+    "Restore version" : "Хувилбарыг сэргээх",
+    "Download version" : "Хувилбарыг татах",
+    "Delete version" : "Хувилбарыг устгах",
+    "Cancel" : "Цуцлах",
+    "Remove version name" : "Хувилбарын нэрийг хасах",
+    "Save version name" : "Хувилбарын нэрийг хадгалах",
+    "Version name" : "Хувилбарын нэр",
+    "Initial version restored" : "Анхны хувилбар сэргээгдсэн",
+    "Version restored" : "Хувилбар сэргээгдлээ",
+    "Could not restore version" : "Хувилбарыг сэргээж чадсангүй",
+    "Could not set version label" : "Хувилбарын шошгыг тохируулж чадсангүй",
+    "Could not delete version" : "Хувилбарыг устгаж чадсангүй",
+    "File versions" : "Файлын хувилбарууд"
+},
+"nplurals=2; plural=(n != 1);");

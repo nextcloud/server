@@ -182,6 +182,8 @@
     "Configuration Active" : "Configuratie actief",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Niet aanbevolen, gebruik dit alleen om te testen! Als de verbinding alleen werkt met deze optie, importeer dan het SSL-certificaat van de LDAP-server naar je %s server.",
     "\"$home\" Placeholder Field" : "\"$home\" Plaatshouder veld",
+    "Pronouns Field" : "Veld voor persoonlijke voornaamwoorden",
+    "User profile Pronouns will be set from the specified attribute" : "Persoonlijke voornaamwoorden van het gebruikersprofiel worden gelezen van het gespecificeerde attribuut",
     "UUID Attribute for Users:" : "UUID-attribuut voor gebruikers:",
     "UUID Attribute for Groups:" : "UUID-attribuut voor groepen:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
