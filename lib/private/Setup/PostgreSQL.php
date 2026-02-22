@@ -67,15 +67,14 @@ class PostgreSQL extends AbstractDatabase {
 
 			if ($this->tryCreateDbUser) {
 				if ($canCreateRoles) {
-					// Go to the main database and grant create on the public schema
-					// The code below is implemented to make installing possible with PostgreSQL version 15:
-					// https://www.postgresql.org/docs/release/15.0/
-					// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
-					// Therefore we assume that the database is only used by one user/service which is Nextcloud
-					// Additional services should get installed in a separate database in order to stay secure
-					// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
-					$connectionMainDatabase->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
-					$connectionMainDatabase->close();
+				// Create user-named schema for PostgreSQL 15+ compatibility.
+				// PostgreSQL 15 removed default CREATE privileges on `public` schema.
+				// User-named schemas are automatically in `search_path` and owned by the user.
+				// This only affects new installations; existing installations continue using 'public' schema.
+				// See: https://www.postgresql.org/docs/current/ddl-schemas.html#DDL-SCHEMAS-PATH
+				// See: https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
+				$connectionMainDatabase->executeQuery('CREATE SCHEMA IF NOT EXISTS "' . addslashes($this->dbUser) . '" AUTHORIZATION "' . addslashes($this->dbUser) . '"');
+				$connectionMainDatabase->close();
 				}
 			}
 		} catch (\Exception $e) {
