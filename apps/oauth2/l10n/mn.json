@@ -1,0 +1,19 @@
+{ "translations": {
+    "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "Бусад вэб програмаас OAuth2-тэй нийцтэй баталгаажуулалтыг зөвшөөрдөг.",
+    "Secret key" : "Нууц түлхүүр",
+    "Delete" : "Устгах",
+    "An unknown error occurred." : "Үл мэдэгдэх алдаа гарлаа.",
+    "OAuth 2.0 clients" : "OAuth 2.0 клиентүүд",
+    "Name" : "Нэр",
+    "Redirection URI" : "Дахин чиглүүлэх URI",
+    "Client identifier" : "Клиентийн танигч",
+    "Delete client" : "Клиент устгах",
+    "Make sure you store the secret key, it cannot be recovered." : "Нууц түлхүүрийг хадгалсан эсэхийг шалгаарай, түүнийг сэргээх боломжгүй.",
+    "Add client" : "Клиент нэмэх",
+    "Add" : "Нэмэх",
+    "Client Identifier" : "Клиентийн танигч",
+    "Show client secret" : "Клиентийн нууцыг харуулах",
+    "Hide client secret" : "Клиентийн нууцыг нуух"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

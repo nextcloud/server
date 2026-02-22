@@ -112,6 +112,8 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "Pour accéder au stockage, vous devez fournir les informations d’authentification.",
     "Enter the storage login" : "Entrez l'identifiant du stockage",
     "Enter the storage password" : "Entrez le mot de passe du stockage",
+    "{module} is not installed." : "{module} n’est pas installé",
+    "Dependant backends" : "Backends dépendants",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les identifiants globaux peuvent être utilisés pour s'authentifier auprès de multiples stockages externes qui ont les mêmes identifiants.",
     "Saving …" : "Enregistrement  …",
     "Save" : "Enregistrer",

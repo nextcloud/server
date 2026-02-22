@@ -1,0 +1,12 @@
+{ "translations": {
+    "Profile picker" : "Selector de perfís",
+    "Profile smart picker and link preview" : "Selector intelixente de perfís e vista previa das ligazóns",
+    "This app adds the ability to search for user profiles via the smart picker and display link previews for them." : "Esta aplicación engade a posibilidade de buscar perfís de usuario a través do selector intelixente e amosar as vistas previas das ligazóns correspondentes.",
+    "Searching …" : "Buscando…",
+    "Not found" : "Non atopado",
+    "Search for a user profile" : "Buscar un perfil de usuario",
+    "Search for a user profile. Start typing" : "Buscar un perfil de usuario. Comezar a escribir",
+    "Insert selected user profile link" : "Inserir a ligazón do perfil do usuario seleccionado",
+    "Insert" : "Inserir"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

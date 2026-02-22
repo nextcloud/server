@@ -1,0 +1,24 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Хянах самбар",
+    "Dashboard app" : "Хянах самбар апп",
+    "Weather" : "Цаг агаар",
+    "Status" : "Ñ‚Ó©Ð»Ó©Ð²",
+    "Good morning" : "Өглөөний мэнд",
+    "Good morning, {name}" : "Өглөөний мэнд, {name}",
+    "Good afternoon" : "Өдрийн мэнд",
+    "Good afternoon, {name}" : "Өдрийн мэнд, {name}",
+    "Good evening" : "Оройн мэнд",
+    "Good evening, {name}" : "Оройн мэнд, {name}",
+    "Hello" : "Сайн уу",
+    "Hello, {name}" : "Сайн уу, {name}",
+    "Customize" : "Тохируулах",
+    "Edit widgets" : "Виджетүүд засах",
+    "Get more widgets from the App Store" : "App Store-оос илүү олон виджет авах",
+    "Weather service" : "Цаг агаарын үйлчилгээ",
+    "Weather data from Met.no" : "Met.no-оос цаг агаарын өгөгдөл",
+    "geocoding with Nominatim" : "Nominatim-ээр геокодчилол",
+    "elevation data from OpenTopoData" : "OpenTopoData-аас өндрийн өгөгдөл"
+},
+"nplurals=2; plural=(n != 1);");

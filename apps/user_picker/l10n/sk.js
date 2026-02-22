@@ -1,0 +1,14 @@
+OC.L10N.register(
+    "user_picker",
+    {
+    "Profile picker" : "Výber profilu",
+    "Profile smart picker and link preview" : "Profil inteligentného výberu a náhľad odkazu",
+    "This app adds the ability to search for user profiles via the smart picker and display link previews for them." : "Táto aplikácia pridáva možnosť vyhľadávať používateľské profily pomocou inteligentného výberu a zobraziť náhľady odkazov pre ne.",
+    "Searching …" : "Vyhľadáva sa …",
+    "Not found" : "Nenájdené",
+    "Search for a user profile" : "Hľadať profil používateľa",
+    "Search for a user profile. Start typing" : "Hľadajte profil používateľa. Začnite písať",
+    "Insert selected user profile link" : "Vložte odkaz na vybraný používateľský profil",
+    "Insert" : "Vložiť"
+},
+"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
