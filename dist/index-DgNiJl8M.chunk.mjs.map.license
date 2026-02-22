@@ -1,0 +1,11 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Eduardo San Martin Morote
+
+This file is generated from multiple sources. Included packages:
+- @vueuse/shared
+	- version: 14.2.0
+	- license: MIT
+- vue-router
+	- version: 5.0.2
+	- license: MIT
