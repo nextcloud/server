@@ -502,7 +502,7 @@ OC.L10N.register(
     "An error occurred." : "Er heeft zich een fout voorgedaan.",
     "Please reload the page." : "Herlaad deze pagina.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "De update was niet succesvol. Voor meer informatie <a href=\"{url}\">zie ons bericht op het forum</a> over dit probleem.",
-    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "De update is mislukt. Meld dit probleem aan de <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "De update is mislukt. Meld dit probleem aan de <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud-community</a>.",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["De update was succesvol. Redirecten naar {productName} over %nseconde.","De update was succesvol. Redirecten naar {productName} over %n seconden."],
     "Searching …" : "Zoeken ...",
     "Logging in …" : "Inloggen...",

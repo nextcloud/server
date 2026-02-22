@@ -1,0 +1,23 @@
+{ "translations": {
+    "restored" : "сэргээсэн",
+    "Deleted files" : "Устгасан файлууд",
+    "Restore" : "Сэргээх",
+    "Not enough free space to restore the file/folder" : "Файл/хавтас сэргээхэд хангалттай чөлөөт зай байхгүй байна",
+    "Empty deleted files" : "Устгасан файлуудыг хоослох",
+    "Confirm permanent deletion" : "Бүрмөсөн устгахыг баталгаажуулах",
+    "Cancel" : "Цуцлах",
+    "Original location" : "Анхны байршил",
+    "Deleted by" : "Устгасан",
+    "Deleted" : "Устгагдсан",
+    "few seconds ago" : "хэдэн секундын өмнө",
+    "A long time ago" : "Эрт дээр үед",
+    "Unknown" : "Үл танигдах зүйл",
+    "All files" : "Бүх файлууд",
+    "You" : "Та",
+    "List of files that have been deleted." : "Устгагдсан файлуудын жагсаалт.",
+    "No deleted files" : "Устгасан файл байхгүй",
+    "Files and folders you have deleted will show up here" : "Таны устгасан файл, хавтаснууд энд харагдана",
+    "All files have been permanently deleted" : "Бүх файлууд бүрмөсөн устгагдсан",
+    "Failed to empty deleted files" : "Устгасан файлуудыг хоослоход алдаа гарлаа"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
