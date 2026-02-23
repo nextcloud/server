@@ -126,7 +126,7 @@ OC.L10N.register(
     "External mount error" : "Ekstern mount fejl",
     "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Der er en fejl med dette eksterne lager. Ønsker du at gennemgå konfigurationen?",
     "Open settings" : "Indstillinger",
-    "Ignore" : "Ignorer",
+    "Ignore" : "Ignorér",
     "List of external storage." : "Liste med eksterne lagre.",
     "There is no external storage configured. You can configure them in your Personal settings." : "Intet eksternt lager er konfigureret, du kan konfigurerer et via dine personlige indstillinger.",
     "There is no external storage configured and you don't have the permission to configure them." : "Intet eksternt lager er konfigureret, og du har ikke tilladelse til at konfigurerer et.",

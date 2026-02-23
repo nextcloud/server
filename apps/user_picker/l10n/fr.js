@@ -1,11 +1,11 @@
 OC.L10N.register(
     "user_picker",
     {
-    "Profile picker" : "Sélectionneur de profil",
+    "Profile picker" : "Sélecteur de profil",
     "Searching …" : "Recherche…",
     "Not found" : "Non trouvé",
-    "Search for a user profile" : "Chercher un profil utilisateur",
-    "Search for a user profile. Start typing" : "Chercher un profil utilisateur. Commencez à écrire",
+    "Search for a user profile" : "Rechercher un profil utilisateur",
+    "Search for a user profile. Start typing" : "Rechercher un profil utilisateur. Saisissez quelque chose",
     "Insert selected user profile link" : "Insérer le lien du profil utilisateur sélectionné",
     "Insert" : "Insérer"
 },

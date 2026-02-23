@@ -236,6 +236,8 @@ OC.L10N.register(
     "Can edit" : "Δυνατότητα επεξεργασίας",
     "Custom permissions" : "Προσαρμοσμένα δικαιώματα",
     "Resharing is not allowed" : "Δεν επιτρέπεται ο επαναμοιρασμός",
+    "Name or email …" : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου …",
+    "Name, email, or Federated Cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud …",
     "Searching …" : "Γίνεται αναζήτηση ...",
     "No elements found." : "Δεν βρέθηκαν στοιχεία.",
     "Search everywhere" : "Αναζητήστε παντού",
