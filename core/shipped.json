@@ -48,7 +48,6 @@
     "twofactor_totp",
     "updatenotification",
     "user_ldap",
-    "user_picker",
     "user_status",
     "viewer",
     "weather_status",

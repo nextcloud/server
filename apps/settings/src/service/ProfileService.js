@@ -52,3 +52,27 @@ export async function saveProfileDefault(isEnabled) {
 
 	return res.data
 }
+
+/**
+ * Save profile picker default
+ *
+ * @param {boolean} isEnabled the default
+ * @return {object}
+ */
+export async function saveProfilePicker(isEnabled) {
+	// Convert to string for compatibility
+	isEnabled = isEnabled ? '1' : '0'
+
+	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+		appId: 'settings',
+		key: 'profile_picker_enabled',
+	})
+
+	await confirmPassword()
+
+	const res = await axios.post(url, {
+		value: isEnabled,
+	})
+
+	return res.data
+}

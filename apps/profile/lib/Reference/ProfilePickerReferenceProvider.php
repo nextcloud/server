@@ -15,6 +15,7 @@ use OCP\Collaboration\Reference\ADiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\Reference;
 
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -22,6 +23,7 @@ use OCP\Profile\IProfileManager;
 
 class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	public const RICH_OBJECT_TYPE = 'profile_widget';
+	private bool $enabled;
 
 	public function __construct(
 		private IL10N $l10n,
@@ -29,8 +31,16 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 		private IUserManager $userManager,
 		private IAccountManager $accountManager,
 		private IProfileManager $profileManager,
+		private IAppConfig $appConfig,
 		private ?string $userId,
 	) {
+		$profileEnabledGlobally = $this->profileManager->isProfileEnabled();
+		$profilePickerEnabled = filter_var(
+			$this->appConfig->getValueString('settings', 'profile_picker_enabled', '1'),
+			FILTER_VALIDATE_BOOLEAN,
+			FILTER_NULL_ON_FAILURE,
+		);
+		$this->enabled = $profileEnabledGlobally && $profilePickerEnabled;
 	}
 
 	/**
@@ -65,6 +75,9 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	 * @inheritDoc
 	 */
 	public function matchReference(string $referenceText): bool {
+		if (!$this->enabled) {
+			return false;
+		}
 		return $this->getObjectId($referenceText) !== null;
 	}
 
