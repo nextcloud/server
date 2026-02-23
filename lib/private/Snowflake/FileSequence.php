@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Snowflake;
 
+use OC_Util;
 use OCP\ITempManager;
 use Override;
 
@@ -27,7 +28,7 @@ class FileSequence implements ISequence {
 	public function __construct(
 		ITempManager $tempManager,
 	) {
-		$this->workDir = $tempManager->getTempBaseDir() . '/' . self::LOCK_FILE_DIRECTORY;
+		$this->workDir = $tempManager->getTempBaseDir() . '/' . self::LOCK_FILE_DIRECTORY . '_' . OC_Util::getInstanceId();
 		$this->ensureWorkdirExists();
 	}
 
