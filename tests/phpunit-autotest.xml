@@ -10,26 +10,34 @@
 		 timeoutForMediumTests="900"
 		 timeoutForLargeTests="900"
 		 cacheDirectory=".phpunit.cache"
-		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
-	<testsuite name="Nextcloud Server">
-		<directory>lib/</directory>
-		<directory>Core/</directory>
-		<directory>../apps/</directory>
-		<exclude>../apps/user_ldap/tests/Integration</exclude>
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd">
+	<!--
+		<testsuite>: defines which test files PHPUnit will run (test discovery)
+		Should point to actual test locations, if possible, for efficiency and clarity.
+	-->
+	<testsuite name="Nextcloud Server">									<!-- All paths are relative to the location of this xml file -->
+		<directory>lib/</directory>										<!-- /tests/lib/ -->
+		<directory>Core/</directory>									<!-- /tests/Core/ -->
+		<directory>../apps/*/tests</directory>							<!-- /apps/<app>/tests/ for all apps -->
+		<exclude>../apps/user_ldap/tests/Integration</exclude>			<!-- /apps/user_ldap/tests/Integration (excluded) -->
 	</testsuite>
+	<!--
+		<source>: controls what source code is measured for coverage
+		Should exclude tests, 3rd-party, composer, and vendor code.
+	-->
 	<source>
 		<include>
-			<directory>..</directory>
+			<directory>..</directory>									<!-- / (repo root) -->
 		</include>
 		<exclude>
-			<directory>../3rdparty</directory>
-			<directory>../apps/*/composer</directory>
-			<directory>../apps/*/tests</directory>
-			<directory>../apps/files_external/3rdparty</directory>
-			<directory>../build</directory>
-			<directory>../lib/composer</directory>
-			<directory>../tests</directory>
-			<directory>../vendor-bin</directory>
+			<directory>../3rdparty</directory>							<!-- /3rdparty/ -->
+			<directory>../apps/*/composer</directory>					<!-- /apps/*/composer -->
+			<directory>../apps/*/tests</directory>						<!-- /apps/*/tests (avoid double-counting apps' tests for coverage) -->
+			<directory>../apps/files_external/3rdparty</directory>		<!-- /apps/files_external/3rdparty -->
+			<directory>../build</directory>								<!-- /build/ -->
+			<directory>../lib/composer</directory>						<!-- /lib/composer -->
+			<directory>../tests</directory>								<!-- /tests/ (excludes tests outside explicit test suite) -->
+			<directory>../vendor-bin</directory>						<!-- /vendor-bin/ -->
 		</exclude>
 	</source>
 </phpunit>
