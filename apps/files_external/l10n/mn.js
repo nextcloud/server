@@ -120,6 +120,7 @@ OC.L10N.register(
     "Generate keys" : "Түлхүүр үүсгэх",
     "Confirm" : "Батлах",
     "Storage credentials" : "Санах ойн итгэмжлэл",
+    "To access the storage, you need to provide the authentication credentials." : "Хадгалалтад хандахын тулд та баталгаажуулалтын мэдээлэл оруулах хэрэгтэй.",
     "Enter the storage login" : "Санах ойн нэвтрэх нэрийг оруулах",
     "Enter the storage password" : "Санах ойн нууц үгийг оруулах",
     "You may also allow people to mount their own external storage services." : "Та мөн хэрэглэгчдэд өөрсдийн гадаад хадгалах үйлчилгээг холбохыг зөвшөөрч болно.",

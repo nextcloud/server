@@ -79,6 +79,7 @@ OC.L10N.register(
     "Theme selection is enforced" : "Загвар сонголт албадан хэрэгжүүлэгдсэн",
     "Could not set the app order" : "Апп-ийн дарааллыг тохируулах боломжгүй",
     "Could not reset the app order" : "Апп-ийн дарааллыг дахин тохируулах боломжгүй",
+    "The app order was changed, to see it in action you have to reload the page." : "Аппуудын дараалал өөрчлөгдлөө, үүнийг харахын тулд хуудсыг дахин ачааллах шаардлагатай.",
     "Reset default app order" : "Өгөгдмөл апп-ийн дарааллыг дахин тохируулах",
     "Select a background from your files" : "Файлуудаасаа дэвсгэр сонгох",
     "Select background" : "Дэвсгэр сонгох",

@@ -803,7 +803,7 @@ OC.L10N.register(
     "Send mode" : "Tilstand for afsendelse",
     "Encryption" : "Kryptering",
     "Sendmail mode" : "Sendemail-tilstand",
-    "Disable certificate verification (insecure)" : "Deaktiver certifikat verifikation (usikkert)",
+    "Disable certificate verification (insecure)" : "Deaktivér certifikat verifikation (usikkert)",
     "From address" : "Fra adresse",
     "Domain" : "Domæne",
     "Server address" : "Serveradresse",

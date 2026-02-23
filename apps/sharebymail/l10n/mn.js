@@ -14,6 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "{file}-д хандах нууц үг {email} руу илгээгдсэн",
     "Password to access {file} was sent to you" : "{file}-д хандах нууц үг танд илгээгдсэн",
     "Share by mail" : "Мэйлээр түгээх",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "%1$s хуваалцах амжилтгүй боллоо, учир нь энэ зүйл аль хэдийн %2$s бүртгэлтэй хуваалцагдсан байна",
     "Failed to send share by email. Got an invalid email address" : "Хуваалцалтыг имэйлээр илгээж чадсангүй. Буруу имэйл хаяг",
     "Failed to send share by email" : "Хуваалцалтыг имэйлээр илгээж чадсангүй",
     "%1$s shared %2$s with you" : "%1$s %2$s-г тантай хуваалцсан",

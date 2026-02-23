@@ -4,6 +4,7 @@
     "Couldn't establish a federated share." : "Холбогдсон хуваалцалт үүсгэж чадсангүй.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Холбогдсон хуваалцалт үүсгэж чадсангүй, нууц үг буруу байсан байж магадгүй.",
     "It is not allowed to send federated group shares from this server." : "Энэ серверээс холбогдсон бүлгийн хуваалцалт илгээхийг зөвшөөрөхгүй.",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "%1$s хуваалцах амжилтгүй боллоо, учир нь энэ зүйл аль хэдийн %2$s бүртгэлтэй хуваалцагдсан байна",
     "Not allowed to create a federated share to the same account" : "Ижил хаяг руу холбогдсон хуваалцалт үүсгэхийг зөвшөөрөхгүй",
     "Federated shares require read permissions" : "Холбогдсон хуваалцалт унших эрх шаарддаг",
     "File is already shared with %s" : "Файл %s-т аль хэдийн хуваалцагдсан",

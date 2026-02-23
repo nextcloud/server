@@ -33,6 +33,7 @@ OC.L10N.register(
     "Email confirmation" : "Имэйл баталгаажуулалт",
     "To enable the email address %s please click the button below." : "%s имэйл хаягийг идэвхжүүлэхийн тулд доорх товчийг дарна уу.",
     "Confirm" : "Батлах",
+    "Email was already removed from account and cannot be confirmed anymore." : "Имэйл аль хэдийн бүртгэлээс хасагдсан тул цаашид баталгаажуулах боломжгүй.",
     "Could not verify mail because the token is expired." : "Токен хугацаа нь дууссан тул имэйлийг баталгаажуулж чадсангүй.",
     "Could not verify mail because the token is invalid." : "Токен буруу тул имэйлийг баталгаажуулж чадсангүй.",
     "An unexpected error occurred. Please contact your admin." : "Гэнэтийн алдаа гарлаа. Админтайгаа холбогдоно уу.",
