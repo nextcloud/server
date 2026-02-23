@@ -2625,6 +2625,13 @@ $CONFIG = [
 	'data-fingerprint' => '',
 
 	/**
+	 * config.php file mode in octal notation.
+	 *
+	 * Defaults to ``0640`` (writable by user, readable by group).
+	 */
+	'configfilemode' => 0640,
+
+	/**
 	 * This entry serves as a warning if the sample configuration was copied.
 	 * DO NOT ADD THIS TO YOUR CONFIGURATION!
 	 *
