@@ -124,6 +124,7 @@ class RemoteController extends OCSController {
 		$shareData['permissions'] = $mountPointNode->getPermissions();
 		$shareData['type'] = $mountPointNode->getType();
 		$shareData['file_id'] = $mountPointNode->getId();
+		$shareData['item_size'] = $mountPointNode->getSize();
 
 		return $shareData;
 	}
