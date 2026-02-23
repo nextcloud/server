@@ -226,11 +226,6 @@
     "Summary" : "Povzetek",
     "Translate" : "Prevedi",
     "Target language" : "Ciljni jezik",
-    "Result" : "Rezultat",
-    "Organisation" : "Ustanova",
-    "Cannot write into \"apps\" directory." : "V mapo »apps« ni mogoče zapisovati!",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Napako je mogoče odpraviti z dodelitvijo dovoljenja spletnemu strežniku za pisanje v mapo programov, ali pa z onemogočanjem zbirke programov v nastavitveni datoteki.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "Vrednost <code>mbstring.func_overload</code> je nastavljena na <code>%s</code> in ne na pričakovano vrednost <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Za rešitev težave je treba v datoteki php.ini nastaviti možnost <code>mbstring.func_overload</code> na <code>0</code>."
+    "Result" : "Rezultat"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

@@ -1,4 +1,4 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
@@ -6,18 +6,18 @@
 import MessageReplyText from '@mdi/svg/svg/message-reply-text.svg?raw'
 import { getCSPNonce } from '@nextcloud/auth'
 import { registerSidebarTab } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import wrap from '@vue/web-component-wrapper'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 import { registerCommentsPlugins } from './comments-activity-tab.ts'
+import { isUsingActivityIntegration } from './utils/activity.ts'
 
 __webpack_nonce__ = getCSPNonce()
 
 const tagName = 'comments_files-sidebar-tab'
 
-if (loadState('comments', 'activityEnabled', false) && OCA?.Activity?.registerSidebarAction !== undefined) {
+if (isUsingActivityIntegration()) {
 	// Do not mount own tab but mount into activity
 	window.addEventListener('DOMContentLoaded', function() {
 		registerCommentsPlugins()

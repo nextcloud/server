@@ -107,13 +107,19 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.3.0
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.26.0
 	- license: MIT
 - @nextcloud/initial-state
 	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
 	- license: GPL-3.0-or-later
 - debounce
 	- version: 2.2.0
@@ -404,7 +410,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webpack
-	- version: 5.105.1
+	- version: 5.105.2
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

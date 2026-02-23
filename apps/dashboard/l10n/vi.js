@@ -19,7 +19,6 @@ OC.L10N.register(
     "Weather service" : "Dịch vụ thời tiết",
     "Weather data from Met.no" : "Dữ liệu thời tiết từ Met.no",
     "geocoding with Nominatim" : "mã hóa địa lý với Nominatim",
-    "elevation data from OpenTopoData" : "dữ liệu độ cao từ OpenTopoData",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Vì quyền riêng tư của bạn, dữ liệu thời tiết được yêu cầu bởi máy chủ Nextcloud thay mặt bạn để dịch vụ thời tiết không nhận được thông tin cá nhân."
+    "elevation data from OpenTopoData" : "dữ liệu độ cao từ OpenTopoData"
 },
 "nplurals=1; plural=0;");

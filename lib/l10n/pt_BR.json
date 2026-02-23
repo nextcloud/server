@@ -474,12 +474,6 @@
     "Generate headline" : "Gerar título",
     "Summarizes text by reducing its length without losing key information." : "Resume o texto reduzindo seu comprimento sem perder informações importantes.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrai temas de um texto e os exibe separados por vírgulas.",
-    "Organisation" : "Organização",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "O Mac OS X não é compatível e %s não funcionará corretamente nessa plataforma. Use-o por sua própria conta e risco!",
-    "Login is too long" : "Login é muito longo",
-    "Cannot write into \"apps\" directory." : "Não é possível gravar no diretório \"apps\".",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Geralmente, isso pode ser corrigido dando ao servidor web acesso de gravação ao diretório de aplicativos ou desabilitando a Loja de Aplicativos no arquivo de configuração.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> está configurado para <code>%s</code> em vez do valor esperado <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Para corrigir esse problema, defina <code>mbstring.func_overload</code> como <code>0</code> em seu php.ini."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "O Mac OS X não é compatível e %s não funcionará corretamente nessa plataforma. Use-o por sua própria conta e risco!"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

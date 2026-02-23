@@ -474,12 +474,6 @@
     "Generate headline" : "Vytvořit nadpis",
     "Summarizes text by reducing its length without losing key information." : "Vytvoří stručný souhrn textu tím, že zkrátí jeho délku aniž by byly ztraceny klíčové informace",
     "Extracts topics from a text and outputs them separated by commas." : "Vyzíská témata z textu a vypíše je oddělované čárkami.",
-    "Organisation" : "Organizace",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "macOS není podporován a %s nebude na této platformě správně fungovat. Používejte pouze na vlastní nebezpečí!",
-    "Login is too long" : "Přihlašovací jméno je příliš dlouhé",
-    "Cannot write into \"apps\" directory." : "Nedaří se zapisovat do adresáře „apps“.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Toto je obvykle možné napravit udělením přístupu ke čtení adresáře s aplikací pro webový server nebo vypnutím katalogu s aplikacemi v souboru s nastaveními.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> je nastaveno na <code>%s</code> namísto očekávané hodnoty <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Pro nápravu nastavte v souboru php.ini parametr <code>mbstring.func_overload</code> na <code>0</code>."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "macOS není podporován a %s nebude na této platformě správně fungovat. Používejte pouze na vlastní nebezpečí!"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

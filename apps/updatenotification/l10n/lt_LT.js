@@ -31,7 +31,6 @@ OC.L10N.register(
     "Notify members of the following groups about available updates:" : "Apie galimus atnaujinimus informuoti narius iš grupių:",
     "Only notifications for app updates are available." : "Yra prieinami tik pranešimai apie programėlių atnaujinimus.",
     "The selected update channel does not support updates of the server." : "Pasirinktas kanalas nepalaiko serverio atnaujinimų.",
-    "{version} is available. Get more information on how to update." : "Yra prieinama {version}. Gaukite daugiau informacijos apie tai, kaip atnaujinti.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> programėlė neturi su šia Nextcloud versija suderinamos versijos.","<strong>%n</strong> programėlės neturi su šia Nextcloud versija suderinamų versijų.","<strong>%n</strong> programėlių neturi su šia Nextcloud versija suderinamų versijų.","<strong>%n</strong> programėlė neturi su šia Nextcloud versija suderinamų versijų."]
+    "{version} is available. Get more information on how to update." : "Yra prieinama {version}. Gaukite daugiau informacijos apie tai, kaip atnaujinti."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

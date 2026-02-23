@@ -330,20 +330,12 @@ OC.L10N.register(
     "Strong password" : "סיסמא חזקה",
     "Group list is empty" : "רשימת הקבוצות ריקה",
     "Unable to retrieve the group list" : "לא ניתן לקבל את רשימת הקבוצות",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "ליישומון זה לא מוקצית גרסת Nextcloud מזערית. מצב כזה עשוי להוביל לשגיאה בעתיד.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "ליישומון זה לא מוקצית גרסת Nextcloud מרבית. מצב כזה עשוי להוביל לשגיאה בעתיד.",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "במקרה של אובדן מכשיר או עזיבה של הארגון, מנגנון זה יכול להשמיד את נתוני ה־Nextcloud מכל המכשירים שמשויכים אל {userid}. יעבוד רק אם כל המכשירים מחוברים לאינטרנט.",
     "Adding your device …" : "הוספת ההתקן שלך…",
     "Sending…" : "בשליחה…",
     "Email sent" : "הודעת הדואר האלקטרוני נשלחה",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "היישומון הזה לא מסומן כנתמך בגרסת ה־Nextcloud. עדיין יתאפשר לך להמשיך ולהתקין את היישומון. נא לשים לב שיכול להיות שהיישומון לא יעבוד כצפוי.",
     "SSL" : "SSL",
     "Credentials" : "פרטי גישה",
     "SMTP Password" : "סיסמת SMTP",
-    "Save" : "שמור",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "למטרות אבטחה וביצועים מיטביים עבור המערכת שלך חשוב שהכול יוגדר כראוי. כדי לסייע לך בכך אנו עורכים בדיקות אוטומטיות. נא לעיין בתיעוד המקושר לקבלת מידע נוסף.",
-    "Checking for system and security issues." : "נבדקות תקלות מערכת ואבטחה.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "נא לעיין היטב ב<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">מדריכי ההתקנה ↖️</a> ולחפש אם מופיעות שגיאות או אזהרות ב<a href=\"%2$s\">יומן</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "בדיקת האבטחה של ה־Nextcloud שלך באמצעות <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">סריקת האבטחה שלנו ↖️</a>."
+    "Save" : "שמור"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

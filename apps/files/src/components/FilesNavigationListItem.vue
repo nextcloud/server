@@ -21,16 +21,6 @@ const props = withDefaults(defineProps<{
 	level: 0,
 })
 
-/**
- * Load child views on mount if the view is expanded by default
- * but has no child views loaded yet.
- */
-onMounted(() => {
-	if (isExpanded.value && !hasChildViews.value) {
-		loadChildViews()
-	}
-})
-
 const maxLevel = 6 // Limit nesting to not exceed max call stack size
 const viewConfigStore = useViewConfigStore()
 const viewConfig = computed(() => viewConfigStore.viewConfigs[props.view.id])
@@ -85,6 +75,16 @@ const isLoading = ref(false)
 const childViewsLoaded = ref(false)
 
 /**
+ * Load child views on mount if the view is expanded by default
+ * but has no child views loaded yet.
+ */
+onMounted(() => {
+	if (isExpanded.value && !hasChildViews.value) {
+		loadChildViews()
+	}
+})
+
+/**
  * Handle expanding/collapsing the navigation item.
  *
  * @param expanded - The expanded state
@@ -128,6 +128,11 @@ const collator = Intl.Collator(
 	[getLanguage(), getCanonicalLocale()],
 	{ numeric: true, usage: 'sort' },
 )
+
+// TODO: Remove this with Vue 3 - the name is inferred by the filename!
+export default {
+	name: 'FilesNavigationListItem',
+}
 </script>
 
 <template>

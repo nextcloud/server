@@ -122,7 +122,6 @@ OC.L10N.register(
     "Mode switch" : "Režiimi lüliti",
     "Confirm" : "Kinnita",
     "Failed to delete the server configuration" : "Serveri seadistuse kustutamine ebaõnnestus",
-    "Invalid configuration. Please have a look at the logs for further details." : "Vigane seadistus. Rohkema info jaoks vaadake logisid.",
     "No action specified" : "Tegevusi pole määratletud",
     "No configuration specified" : "Seadistust pole määratletud",
     "No data specified" : "Andmeid pole määratletud",

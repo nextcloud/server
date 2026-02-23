@@ -24,8 +24,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Sett påminnelse for denne helgen",
     "Next week" : "Neste uke",
     "Set reminder for next week" : "Sett påminnelse for neste uke",
-    "Set reminder for \"{fileName}\"" : "Angi påminnelse for \"{fileName}\"",
-    "Set reminder at custom date & time" : "Still inn påminnelse til egendefinert dato og klokkeslett",
-    "Set custom reminder" : "Angi egendefinert påminnelse"
+    "Set reminder for \"{fileName}\"" : "Angi påminnelse for \"{fileName}\""
 },
 "nplurals=2; plural=(n != 1);");

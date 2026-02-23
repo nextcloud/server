@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Wybrany kanał aktualizacji nie obsługuje danego serwera.",
     "Changelog for app {app}" : "Dziennik zmian aplikacji {app}",
     "What's new in {app} version {version}" : "Co nowego w aplikacji {app} wersja {version}",
-    "{version} is available. Get more information on how to update." : "Wersja {version} jest dostępna. Uzyskaj więcej informacji na temat aktualizacji.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Wszystkie</strong> aplikacje mają kompatybilną wersję dla tej wersji Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikacja nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacje nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacji nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacji nie ma kompatybilnej wersji z tą wersją Nextcloud."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Do użytku firmowego. Zapewnia zawsze najnowszy poziom poprawek, które zostaną wprowadzone dopiero po przetestowaniu przez Nextcloud GmbH. Aktualizacja usunie błędy krytyczne i wprowadzi dodatkowe ulepszenia. Ten kanał jest dostępny tylko dla klientów, którzy posiadają pakiet dla firm."
+    "{version} is available. Get more information on how to update." : "Wersja {version} jest dostępna. Uzyskaj więcej informacji na temat aktualizacji."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

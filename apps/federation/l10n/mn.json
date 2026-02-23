@@ -1,0 +1,26 @@
+{ "translations": {
+    "Added to the list of trusted servers" : "найдвартай серверийн жагсаалтанд нэмэх",
+    "No server found with ID: %s" : "%s ID-тай сервер олдсонгүй",
+    "Could not remove server" : "Серверийг хасаж чадсангүй",
+    "Server is already in the list of trusted servers." : "сервер нь аль хэдийн найдвартай серверийн жагсаалтанд  байна",
+    "No server to federate with found" : "Ямар ч холбооны сервер олдсонгүй ",
+    "Could not add server" : " сервер нэмж чадаагүй ",
+    "Trusted servers" : "найдвартай сервер",
+    "Federation" : "холбоо",
+    "Could not add trusted server. Please try again later." : "Найдвартай сервер нэмэх боломжгүй байна. Дараа дахин оролдоно уу.",
+    "Add trusted server" : "Найдвартай сервер нэмэх",
+    "Server url" : "Серверийн URL",
+    "Add" : "нэмэх",
+    "Server ok" : "Сервер ажиллаж байна",
+    "User list was exchanged at least once successfully with the remote server." : "Хэрэглэгчдийн жагсаалтыг алсын сервертэй хамгийн багадаа нэг удаа амжилттай солилцсон.",
+    "Server pending" : "Сервер хүлээгдэж байна",
+    "Waiting for shared secret or initial user list exchange." : "Нийтлэг нууц эсвэл анхны хэрэглэгчдийн жагсаалт солилцохыг хүлээж байна.",
+    "Server access revoked" : "Серверийн хандалт цуцлагдсан",
+    "Server failure" : "Серверийн алдаа",
+    "Failed to delete trusted server. Please try again later." : "Найдвартай сервер устгах боломжгүй байна. Дараа дахин оролдоно уу.",
+    "Delete" : "Устгах",
+    "External documentation for Federated Cloud Sharing" : "Холбогдсон үүлэн хуваалцалтын гадаад баримт бичиг",
+    "+ Add trusted server" : "+ найдвартай сервер нэмэх",
+    "Trusted server" : "найдвартай сервер"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

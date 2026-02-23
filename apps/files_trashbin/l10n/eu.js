@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Ez dago ezabatutako fitxategirik",
     "Files and folders you have deleted will show up here" : "Ezabatu dituzun fitxategi eta karpetak hemen agertuko dira",
     "All files have been permanently deleted" : "Fitxategi guztiak ezabatu dira betirako",
-    "Failed to empty deleted files" : "Huts egin du ezabatutako fitxategiak hustean",
-    "Deletion cancelled" : "Ezabatzea bertan behera utzi da"
+    "Failed to empty deleted files" : "Huts egin du ezabatutako fitxategiak hustean"
 },
 "nplurals=2; plural=(n != 1);");

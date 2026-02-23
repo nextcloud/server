@@ -438,11 +438,6 @@
     "Generate headline" : "توليد العنوان",
     "Summarizes text by reducing its length without losing key information." : "يُلَخِّص النص بتقليل طوله دون فقدان المعنى.",
     "Extracts topics from a text and outputs them separated by commas." : "يستخلص المواضيع من النص و إخراجها مفصولة بفواصل.",
-    "Organisation" : "مؤسسة",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "\"Mac OS X\" غير مدعوم؛ و %s سوف لن يعمل بالشكل الصحيح على هذه المنصة. استعمله على مسؤوليتك!",
-    "Cannot write into \"apps\" directory." : "لا يمكن الكتابة في الدليل \"apps\".",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "يمكن إصلاح ذلك عادةً عن طريق منح خادم الويب حق الكتابة في دليل التطبيقات في الملف او تعطيل متجر تطبيقات ابل في ملف \"config\".",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> تمّ تعيينه إلى <code>%s</code> بدلاً عن القيمة المتوقعة <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "لإصلاح هذا الخطأ، قم بتعيين<code>mbstring.func_overload</code> إلى <code>0</code> في php.ini."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "\"Mac OS X\" غير مدعوم؛ و %s سوف لن يعمل بالشكل الصحيح على هذه المنصة. استعمله على مسؤوليتك!"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

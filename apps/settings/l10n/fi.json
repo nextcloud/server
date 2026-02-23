@@ -540,25 +540,16 @@
     "Unable to retrieve the group list" : "Ryhmälistaa ei voitu noutaa",
     "Exclude some groups from sharing" : "Estä joitain ryhmiä jakamasta",
     "Limit sharing to some groups" : "Rajoita jakaminen tiettyihin ryhmiin",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Tämä sovellus ei ole määritellyt minimi Nextcloud-versiota. Tämä tulee olemaan ongelma tulevaisuudessa.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Tämä sovellus ei ole määritellyt maksimi Nextcloud-versiota. Tämä tulee olemaan ongelma tulevaisuudessa.",
     "Loading accounts …" : "Ladataan tilejä…",
     "_{userCount} account …_::_{userCount} accounts …_" : ["{userCount} tili…","{userCount} tiliä…"],
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Laitteen kadotessa tai organisaatiosta poistuessa voidaan käyttäjälle {userid} Nextcloudiin yhdistetyistä laitteista pyyhkiä  tiedot. Toimii vain laitteiden ollessa yhteydessä Internetiin.",
     "Loading account …" : "Ladataan tiliä…",
     "Adding your device …" : "Lisätään laitettasi…",
-    "Developer documentation ↗" : "Kehittäjien dokumentaatio ↗",
     "Sending…" : "Lähetetään…",
     "Email sent" : "Sähköposti lähetetty",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Sovellusta ei ole merkattu yhteensopivaksi Nextcloud-versiosi kanssa. Voit kuitenkin jatkaa ja asentaa sovelluksen. Huomioi, että sovellus ei välttämättä toimi odotetusti.",
     "SSL" : "SSL",
     "Credentials" : "Tilitiedot",
     "SMTP Password" : "SMTP-salasana",
     "Save" : "Tallenna",
-    "Test and verify email settings" : "Testaa ja vahvista sähköpostiasetukset",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Turvallisuuden ja suorituskyvyn vuoksi on tärkeää, että palvelimen asetukset ovat määritetty oikein. Apuna on joitain automaattisia tarkistuksia. Lue lisätietoja linkitetystä dokumentaatiosta.",
-    "Checking for system and security issues." : "Tarkistetaan mahdollisia järjestelmä- ja tietoturvaongelmia.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Lue tarkkaan <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">asennusohjeet ↗</a>, ja tarkista virheet sekä varoitukset <a href=\"%2$s\">lokista</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Tarkista Nextcloudisi turvallisuus käyttäen <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">tietoturvakartoitustamme ↗</a>."
+    "Test and verify email settings" : "Testaa ja vahvista sähköpostiasetukset"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

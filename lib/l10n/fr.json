@@ -158,6 +158,7 @@
     "Oracle connection could not be established" : "La connexion Oracle ne peut être établie",
     "Oracle Login and/or password not valid" : "Identifiant et/ou mot de passe Oracle invalide",
     "PostgreSQL Login and/or password not valid" : "Identifiant et/ou mot de passe PostgreSQL invalide",
+    "macOS is not supported and %s will not work properly on this platform." : "macOS n'est pas pris en charge et %s ne fonctionnera pas correctement sur cette plateforme.",
     "For the best results, please consider using a GNU/Linux server instead." : "Pour obtenir les meilleurs résultats, vous devriez utiliser un serveur GNU/Linux.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Il semble que cette instance %s fonctionne sur un environnement PHP 32 bits et open_basedir a été configuré dans php.ini. Cela engendre des problèmes avec les fichiers de taille supérieure à 4 Go et est donc fortement déconseillé.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Veuillez retirer la configuration open_basedir de votre php.ini ou utiliser une version PHP 64-bit.",
@@ -222,6 +223,8 @@
     "Could not find category \"%s\"" : "Impossible de trouver la catégorie « %s »",
     "Input text" : "Texte d'entrée",
     "The input text" : "Le texte d'entrée",
+    "Cannot generate more than 12 images" : "Impossible de générer plus de 12 images",
+    "Cannot generate less than 1 image" : "Impossible de générer moins d'une image",
     "Sunday" : "Dimanche",
     "Monday" : "Lundi",
     "Tuesday" : "Mardi",
@@ -377,6 +380,11 @@
     "Generated emoji" : "Émoji généré",
     "The generated emoji based on the input text" : "Émoji généré en fonction du texte saisi",
     "Optical character recognition" : "Reconnaissance optique de caractères",
+    "Extract text from files like images or PDFs" : "Extraire du texte à partir de fichiers tels que des images ou des PDF",
+    "Input files" : "Fichiers d'entrée",
+    "The files to extract text from" : "Les fichiers dont le texte doit être extrait",
+    "Output texts" : "Textes de sortie",
+    "The texts that were extracted from the files" : "Les textes qui ont été extraits des fichiers",
     "Generate image" : "Générer une image",
     "Generate an image from a text prompt" : "Générer une image à partir d'un texte",
     "Prompt" : "Prompt",
@@ -466,12 +474,6 @@
     "Generate headline" : "Générer un titre",
     "Summarizes text by reducing its length without losing key information." : "Résume un texte en réduisant sa longueur sans perdre d’informations essentielles.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrait les thèmes d'un texte et les restitue séparés par des virgules.",
-    "Organisation" : "Organisme",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X n'est pas pris en charge et %s ne fonctionnera pas correctement sur cette plateforme. Vous l'utilisez à vos risques et périls ! ",
-    "Login is too long" : "La connexion est trop longue",
-    "Cannot write into \"apps\" directory." : "Impossible d'écrire dans le répertoire « apps ».",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire des applications ou en désactivant le magasin d'applications dans le fichier de configuration.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> est défini à <code>%s</code> alors que la valeur <code>0</code> est attendue.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Pour corriger ce problème définissez <code>mbstring.func_overload</code> à <code>0</code> dans votre php.ini."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X n'est pas pris en charge et %s ne fonctionnera pas correctement sur cette plateforme. Vous l'utilisez à vos risques et périls ! "
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

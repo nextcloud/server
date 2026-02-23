@@ -202,7 +202,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Por favor, contacta directamente al organizador.",
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Tentativo",
-    "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente.",
-    "Time zone:" : "Zona horaria:"
+    "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

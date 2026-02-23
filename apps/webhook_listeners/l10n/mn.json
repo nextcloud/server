@@ -1,0 +1,7 @@
+{ "translations": {
+    "Ephemeral webhook authentication" : "Түр зуурын webhook баталгаажуулалт",
+    "Webhooks" : "Webhooks",
+    "Nextcloud Webhook Support" : "Nextcloud Webhook дэмжлэг",
+    "Nextcloud webhook support" : "Nextcloud webhook дэмжлэг"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

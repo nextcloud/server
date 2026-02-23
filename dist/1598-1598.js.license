@@ -4,9 +4,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: webfansplz
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: readable-stream developers
+SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
@@ -29,7 +32,6 @@ SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
-SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
@@ -64,31 +66,46 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 9.3.3
+	- version: 9.5.0
 	- license: AGPL-3.0-or-later
+- @vue/devtools-shared
+	- version: 8.0.6
+	- license: MIT
 - @vueuse/core
-	- version: 14.1.0
+	- version: 14.2.1
 	- license: MIT
 - @vueuse/shared
-	- version: 14.1.0
+	- version: 14.2.1
 	- license: MIT
 - focus-trap
-	- version: 7.6.6
+	- version: 8.0.0
+	- license: MIT
+- perfect-debounce
+	- version: 2.1.0
+	- license: MIT
+- @vue/devtools-api
+	- version: 8.0.6
+	- license: MIT
+- @vue/devtools-kit
+	- version: 8.0.6
 	- license: MIT
 - vue-router
-	- version: 4.6.4
+	- version: 5.0.3
 	- license: MIT
 - vue
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @nextcloud/dialogs
-	- version: 7.2.0
+	- version: 7.3.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.3
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 4.0.0
@@ -109,7 +126,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.3.0
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -120,20 +137,17 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 8.36.0
 	- license: AGPL-3.0-or-later
-- @vue/devtools-api
-	- version: 6.6.4
-	- license: MIT
 - @vue/reactivity
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @vue/shared
-	- version: 3.5.26
+	- version: 3.5.28
 	- license: MIT
 - @vueuse/components
 	- version: 11.3.0
@@ -149,6 +163,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - base64-js
 	- version: 1.5.1
+	- license: MIT
+- birpc
+	- version: 2.9.0
 	- license: MIT
 - charenc
 	- version: 0.0.2
@@ -173,6 +190,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - focus-trap
 	- version: 7.8.0
+	- license: MIT
+- hookable
+	- version: 5.5.3
 	- license: MIT
 - ieee754
 	- version: 1.2.1

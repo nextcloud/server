@@ -22,8 +22,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "알림을 주말로 설정",
     "Next week" : "다음주",
     "Set reminder for next week" : "알림을 다음주로 설정",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\"에 대한 알림 지정",
-    "Set reminder at custom date & time" : "알림 날짜와 시간을 직접 지정",
-    "Set custom reminder" : "사용자 지정 알림 설정"
+    "Set reminder for \"{fileName}\"" : "\"{fileName}\"에 대한 알림 지정"
 },
 "nplurals=1; plural=0;");

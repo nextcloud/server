@@ -137,7 +137,7 @@
     "Headline" : "Hoofdlijn",
     "Organization" : "Organisatie",
     "Role" : "Rol",
-    "Pronouns" : "Zelfstandig naamwoorden",
+    "Pronouns" : "Persoonlijke voornaamwoorden",
     "Unknown account" : "Onbekend account",
     "Additional settings" : "Aanvullende instellingen",
     "Enter the database Login and name for %s" : "Voer de database gebruikersnaam en naam in voor %s",
@@ -409,11 +409,6 @@
     "Summary" : "Samenvatting",
     "Translate" : "Vertaal",
     "Result" : "Resultaat",
-    "Organisation" : "Organisatie",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OSX wordt niet ondersteund en %s zal niet goed werken op dit platform. Gebruik het op eigen risico!",
-    "Cannot write into \"apps\" directory." : "Kan niet schrijven naar de \"apps\" directory",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Dit kan hersteld worden door de webserver schrijfrechten te geven op de appsdirectory of door de App Store te deactiveren in het configuratie bestand.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> is ingesteld op <code>%s</code> in plaats van de verwachte waarde <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Om dit op te lossen stel je <code>mbstring.func_overload</code> in op <code>0</code> in je php.ini."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OSX wordt niet ondersteund en %s zal niet goed werken op dit platform. Gebruik het op eigen risico!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

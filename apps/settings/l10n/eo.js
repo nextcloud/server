@@ -292,19 +292,11 @@ OC.L10N.register(
     "Strong password" : "Forta pasvorto",
     "Group list is empty" : "Gruplisto malpenas",
     "Unable to retrieve the group list" : "Ne eblis ricevi grupliston",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Tiu aplikaĵo ne postulas minimuman Nextcloud-version. Tio estos eraro en la estonteco.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Tiu aplikaĵo ne postulas maksimuman Nextcloud-version. Tio estos eraro en la estonteco.",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Okaze de perdo de aparato aŭ eliro de la organizaĵo, tio povas defore forviŝi la datumojn de Nextcloud el ĉiuj aparatoj ligitaj per {userid}. Nur funkcias, se la aparatoj estas konektitaj  al interreto.",
     "Sending…" : "Sendado...",
     "Email sent" : "La retpoŝtaĵo sendiĝis",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Tiu aplikaĵo ne kongruas kun via Nextcloud-versio. Se vi daŭrigas, vi tamen povos instali ĝin, sed eble tiu aplikaĵo ne funkcios bone.",
     "SSL" : "SSL",
     "Credentials" : "Aŭtentigiloj",
     "SMTP Password" : "SMTP-pasvorto",
-    "Save" : "Konservi",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Gravas por sekureco kaj rapideco de via servilo, ke ĉio estu agordita bone. Por helpi vin pri tio, ni faras kelkajn aŭtomatajn testojn. Bv. vidi la dokumentaron por pli da informoj.",
-    "Checking for system and security issues." : "Kontrolado de problemoj pri sistemo kaj sekurigo.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Bv. zorgeme kontroli la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">manlibroj pri instalaĵo ↗</a>, kaj kontroli avertojn kaj erarojn en la <a href=\"%2$s\">protokolo</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Kontrolu sekurecon de via servilo Nextcloud pere de <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nia sekureca ekzameno ↗</a>."
+    "Save" : "Konservi"
 },
 "nplurals=2; plural=(n != 1);");

@@ -97,11 +97,14 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 				output: {
 					entryFileNames: '[name].mjs',
 					chunkFileNames: '[name]-[hash].chunk.mjs',
-					assetFileNames({ originalFileNames }) {
+					assetFileNames(ctx) {
+						const { originalFileNames } = ctx
 						const [name] = originalFileNames
 						if (name) {
-							const [, appId] = name.match(/apps\/([^/]+)\//)!
-							return `${appId}-[name]-[hash][extname]`
+							const [, appId] = name.match(/apps\/([^/]+)\//) ?? []
+							if (appId) {
+								return `${appId}-[name]-[hash][extname]`
+							}
 						}
 						return '[name]-[hash][extname]'
 					},

@@ -59,14 +59,14 @@ OC.L10N.register(
     "Reset" : "Скінуць",
     "Loading …" : "Загрузка …",
     "Only admins can create new tags" : "Толькі адміністратары могуць ствараць новыя тэгі",
-    "Failed to apply tags changes" : "Не ўдалося ўжыць змены ў тэгах",
+    "Failed to apply tags changes" : "Не ўдалося прымяніць змяненні ў тэгах",
     "Manage tags" : "Кіраванне тэгамі",
     "Search or create tag" : "Знайсці або стварыць тэг",
     "Change tag color" : "Змяніць колер тэга",
     "Create new tag" : "Стварыць новы тэг",
     "Choose tags for the selected files" : "Выберыце тэг для выбраных файлаў",
     "Cancel" : "Скасаваць",
-    "Apply" : "Ужыць",
+    "Apply" : "Прымяніць",
     "Failed to load selected tags" : "Не ўдалося загрузіць выбраныя тэгі",
     "Failed to load tags" : "Не ўдалося загрузіць тэгі",
     "Failed to select tag" : "Не ўдалося выбраць тэг",
@@ -81,7 +81,6 @@ OC.L10N.register(
     "Failed to load tag" : "Не ўдалося загрузіць тэг",
     "Missing \"Content-Location\" header" : "Адсутнічае загаловак \"Content-Location\"",
     "A tag with the same name already exists" : "Тэг з такой назвай ужо існуе.",
-    "Loading …" : "Загрузка …",
-    "Apply changes" : "Ужыць змены"
+    "Loading …" : "Загрузка …"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

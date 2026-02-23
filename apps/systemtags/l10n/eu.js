@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du",
     "Collaborative tags …" : "Elkarlaneko etiketak ...",
     "Loading …" : "Kargatzen ...",
-    "File tags modification canceled" : "Fitxategien etiketen aldaketa baztertuta",
-    "Select or create tags to apply to all selected files" : "Hautatu edo sortu hautatutako fitxategi guztientzako etiketak",
-    "Select tags to apply to all selected files" : "Hautatu zeintzuk etiketak esleitu hautatutako fitxategiei",
-    "Apply changes" : "Aplikatu aldaketak",
     "Loading collaborative tags …" : "Elkarlaneko etiketak kargatzen ..."
 },
 "nplurals=2; plural=(n != 1);");

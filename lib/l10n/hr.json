@@ -474,12 +474,6 @@
     "Generate headline" : "Generiraj naslov",
     "Summarizes text by reducing its length without losing key information." : "Sažima tekst smanjujući njegovu duljinu bez gubitka ključnih informacija.",
     "Extracts topics from a text and outputs them separated by commas." : "Izdvaja teme iz teksta i ispisuje ih odvojene zarezima.",
-    "Organisation" : "Organizacija",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X nije podržan i %s na ovoj platformi neće raditi kako treba. Koristite na vlastiti rizik!",
-    "Login is too long" : "Korisničko ime je predugačko",
-    "Cannot write into \"apps\" directory." : "Nije moguće pisati u direktorij „apps”",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Ovo se obično može popraviti tako da se web-poslužitelju dopusti pristup za pisanje u aplikacijski direktorij ili onemogućivanjem trgovine aplikacijama App Store u konfiguracijskoj datoteci.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> postavljen je na <code>%s</code> umjesto očekivane vrijednosti <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Kako biste riješili ovaj problem, postavite <code>mbstring.func_overload</code> na <code>0</code> u svojoj php.ini datoteci."
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X nije podržan i %s na ovoj platformi neće raditi kako treba. Koristite na vlastiti rizik!"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

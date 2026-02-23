@@ -55,7 +55,7 @@ OC.L10N.register(
     "There was an error setting the location." : "Під час встановлення місця розташування сталася помилка.",
     "There was an error saving the mode." : "Під час збереження режиму сталася помилка.",
     "There was an error using personal address." : "Під час використання особистої адреси сталася помилка.",
-    "Unknown weather code" : "Невідомий код погоди",
+    "Unknown weather code" : "Невідомий код місцевості погоди",
     "Detect location" : "Визначити місце розташування",
     "Set custom address" : "Встановити власну адресу",
     "Favorites" : "Із зірочкою"

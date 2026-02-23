@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vill du lägga till extern delning {name} från {owner}@{remote}?",
     "Remote share password" : "Lösenord för extern delning",
     "Incoming share could not be processed" : "Inkommande delning kunde inte behandlas",
-    "Cloud ID copied to the clipboard" : "Moln-ID kopierades till urklippet",
-    "Copy to clipboard" : "Kopiera till urklipp",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dela med alla som använder en Nextcloud-server eller andra Open Cloud Mesh (OCM) -kompatibla servrar och tjänster! Anger bara sitt federerade moln-ID i delningsrutan. Det ser ut som person@cloud.example.com",
     "X (formerly Twitter)" : "X (tidigare Twitter)",
     "formerly Twitter" : "tidigare Twitter"
 },

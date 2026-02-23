@@ -1539,6 +1539,7 @@
       <code><![CDATA[emitAccessShareHook]]></code>
       <code><![CDATA[emitAccessShareHook]]></code>
       <code><![CDATA[emitAccessShareHook]]></code>
+      <code><![CDATA[emitAccessShareHook]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/External/Manager.php">
@@ -3653,12 +3654,6 @@
     <RedundantCondition>
       <code><![CDATA[$this->cache instanceof Cache]]></code>
     </RedundantCondition>
-  </file>
-  <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[array]]></code>
-      <code><![CDATA[array]]></code>
-    </LessSpecificImplementedReturnType>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>

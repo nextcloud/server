@@ -93,7 +93,6 @@ OC.L10N.register(
     "Background and login image" : "Ozadje in prijavna slika",
     "Advanced options" : "Napredne možnosti",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Z namestitvijo razširitve ImageMagick PHP s podporo za zapis SVG je mogoče samodejno ustvariti ikone zaznamka na podlagi določenega logotipa in barve.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Enostaven dostop do možnosti je za nas zelo pomemben. Sledimo spletnim standardom in preverjamo, da je vmesnik uporaben tudi brez uporabe miške in brez podporne programske opreme, kot so zaslonski bralniki in podobno. Zagotavljamo skladnost s smernicami {guidelines}Dostopnosti spletne vsebine{linkend} 2.1 na ravni AA, pri visoko kontrastni temi pa tudi na ravni AAA.",
     "No background has been selected" : "Ni izbranega ozadja",
     "Select a custom color" : "Izbor barve po meri",
     "Upload" : "Pošlji"

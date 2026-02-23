@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "بۇ ھەپتە ئاخىرىدا ئەسكەرتىش بەلگىلەڭ",
     "Next week" : "كېلەر ھەپتە",
     "Set reminder for next week" : "كېلەر ھەپتە ئەسكەرتىش بەلگىلەڭ",
-    "This files_reminder can work properly." : "بۇ files_reminder توغرا ئىشلەيدۇ",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "files_reminder ئەپنىڭ نورمال ئىشلىشى ئۈچۈن ئۇقتۇرۇش ئەپ بولۇشى كېرەك. سىز ئۇقتۇرۇشلارنى قوزغىتىشىڭىز ياكى files_reminder نى چەكلىشىڭىز كېرەك.",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\" ئۈچۈن ئەسكەرتىش بەلگىلەڭ",
-    "Set reminder at custom date & time" : "ئىختىيارى چېسلا ۋە ۋاقىتتا ئەسكەرتىش بەلگىلەڭ",
-    "Set custom reminder" : "ئىختىيارى ئەسكەرتىش بەلگىلەڭ"
+    "Set reminder for \"{fileName}\"" : "\"{fileName}\" ئۈچۈن ئەسكەرتىش بەلگىلەڭ"
 },
 "nplurals=2; plural=(n != 1);");

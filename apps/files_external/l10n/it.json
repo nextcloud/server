@@ -147,13 +147,8 @@
     "Unauthorized" : "Non autorizzato",
     "Network error" : "Errore di rete",
     "Grant access" : "Concedi l'accesso",
-    "Error configuring OAuth1" : "Errore di configurazione OAuth1",
-    "Please provide a valid app key and secret." : "Fornisci chiave e segreto dell'applicazione validi.",
     "Error configuring OAuth2" : "Errore di configurazione OAuth2",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Chiave applicazione",
-    "App secret" : "Segreto applicazione",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID client",
     "Client secret" : "Segreto del client",
@@ -168,7 +163,8 @@
     "Unknown backend: {backendName}" : "Backend sconosciuto: {backendName}",
     "Admin defined" : "Definito dall'amministratore",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Il controllo automatico dello stato è disabilitato a causa del numero elevato di archivi configurati, fai clic per controllare lo stato",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Sei sicuro di voler disconnettere questo spazio di archiviazione esterno? Ciò renderà lo spazio di archiviazione non disponibile in Nextcloud e comporterà l'eliminazione di questi file e cartelle su qualsiasi client di sincronizzazione attualmente connesso, ma non eliminerà alcun file e cartella sullo spazio di archiviazione esterno stesso.",
+    "Are you sure you want to disconnect this external storage?" : "Sei sicuro di voler scollegare questa memoria esterna?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ciò renderà lo spazio di archiviazione non disponibile su {instanceName} e porterà alla cancellazione di questi file e cartelle su qualsiasi client di sincronizzazione attualmente connesso, ma non cancellerà alcun file o cartella presenti sullo spazio di archiviazione esterno stesso.",
     "Delete storage?" : "Vuoi eliminare l'archiviazione?",
     "Click to recheck the configuration" : "Clic per controllare di nuovo la configurazione",
     "Saving …" : "Salvataggio…",
@@ -180,8 +176,6 @@
     "Configuration" : "Configurazione",
     "Available for" : "Disponibile per",
     "All people" : "Tutte le persone",
-    "Advanced settings" : "Impostazioni avanzate",
-    "Are you sure you want to disconnect this external storage?" : "Sei sicuro di voler scollegare questa memoria esterna?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ciò renderà lo spazio di archiviazione non disponibile su {instanceName} e porterà alla cancellazione di questi file e cartelle su qualsiasi client di sincronizzazione attualmente connesso, ma non cancellerà alcun file o cartella presenti sullo spazio di archiviazione esterno stesso."
+    "Advanced settings" : "Impostazioni avanzate"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Означени канал за ажурирање не подржава обавештења о новим верзијама.",
     "Changelog for app {app}" : "Дневник измена апликације {app}",
     "What's new in {app} version {version}" : "Шта има ново у {app} верзије {version}",
-    "{version} is available. Get more information on how to update." : "Верзија {version} је доступна. Сазнајте како да ажурирате.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Све</strong> апликације имају верзију која је компатибилна са  верзијом ове Nextcloud инстанце.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> апликација нема верзију која је компатибилна са верзијом ове Nextcloud инстанце.","<strong>%n</strong> апликација немају верзију која је компатибилна са верзијом ове Nextcloud инстанце.","<strong>%n</strong> апликација нема верзију која је компатибилна са верзијом ове Nextcloud инстанце."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За предузећа. Пружа најновији ниво закрпа, али неће одмах да ажурира аутоматски на следећу главну верзију. То ажурирање ће се десити када Nextcloud GmbH обави додатне провере и тестирања на великим и критичним системима. Овај канал је доступан само муштеријама и пружа  Nextcloud Enterprise пакет."
+    "{version} is available. Get more information on how to update." : "Верзија {version} је доступна. Сазнајте како да ажурирате."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

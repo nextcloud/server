@@ -125,8 +125,6 @@
     "Background and login image" : "Image d'arrière-plan et de connexion",
     "Advanced options" : "Options avancées",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installez l'extension PHP ImageMagick qui prend en charge les images SVG pour générer automatiquement des favicons à partir du logo téléversé et de la couleur indiquée.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accès universel est très important pour nous. Nous suivons les standards du web et nous vérifions que tout est utilisable même sans souris et sans logiciel d'assistance comme les lecteurs d'écran. Nous visons à respecter les {guidelines}Règles pour l'accessibilité des contenus Web{linkend} 2.1 de niveau AA et même de niveau AAA avec le thème à fort contraste.",
-    ". Unable to apply the setting." : ". Impossible d'appliquer le réglage.",
     "No background has been selected" : "Aucun arrière-plan n'a été sélectionné",
     "Select a custom color" : "Sélectionnez une couleur personnalisée",
     "Upload" : "Téléverser"

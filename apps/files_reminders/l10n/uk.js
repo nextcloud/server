@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Встановити нагадування на ці вихідні",
     "Next week" : "Наступний тиждень",
     "Set reminder for next week" : "Встановити нагадування на наступний тиждень",
-    "This files_reminder can work properly." : "Цей files_reminder може працювати належним чином.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Для нормальної роботи програми files_reminder необхідна програма сповіщень. Вам слід або увімкнути сповіщення, або вимкнути files_reminder.",
-    "Set reminder for \"{fileName}\"" : "Встановити нагадування для \"{fileName}\"",
-    "Set reminder at custom date & time" : "Встановити нагадування на власну дату та час",
-    "Set custom reminder" : "Встановити власне нагадування"
+    "Set reminder for \"{fileName}\"" : "Встановити нагадування для \"{fileName}\""
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

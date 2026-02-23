@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Files\Cache;
 
 use OC\DB\Exceptions\DbalException;
+use OC\Files\Storage\LocalRootStorage;
 use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -51,6 +52,15 @@ class Propagator implements IPropagator {
 		$storageId = $this->storage->getCache()->getNumericStorageId();
 
 		$parents = $this->getParents($internalPath);
+		if ($this->storage->instanceOfStorage(LocalRootStorage::class)) {
+			if (str_starts_with($internalPath, '__groupfolders/versions') || str_starts_with($internalPath, '__groupfolders/trash')) {
+				// Remove '', '__groupfolders' and '__groupfolders/versions' or '__groupfolders/trash'
+				$parents = array_slice($parents, 3);
+			} elseif (str_starts_with($internalPath, '__groupfolders')) {
+				// Remove '' and '__groupfolders'
+				$parents = array_slice($parents, 2);
+			}
+		}
 
 		if ($this->inBatch) {
 			foreach ($parents as $parent) {

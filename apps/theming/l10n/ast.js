@@ -102,7 +102,6 @@ OC.L10N.register(
     "Background and login image" : "Imaxe pal fondu y la páxina d'aniciar la sesión",
     "Advanced options" : "Opciones avanzaes",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la estensión de PHP ImageMagick con compatibilidá pa imáxenes SVG y xenerar favicons basaos nel logotipu xubíu y nos colores",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accesu universal ye mui importante pa nós. Siguimos los estándares web y comprobamos que too se pueda usar tamién ensin el mur y con programes d'asistencia, como los llectores de pantalla. Queremos cumplir les {guidelines}Pautes d'accesibilidá del conteníu web{linkend} 2.1 nel nivel AA y col estilu de contraste altu nel nivel AAA.",
     "No background has been selected" : "Nun se seleicionó nengún fondu",
     "Select a custom color" : "Seleicionar un color personalizáu",
     "Upload" : "Xunir"
