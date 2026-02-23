@@ -47,7 +47,6 @@
 		<directory name="apps/twofactor_backupcodes"/>
 		<directory name="apps/updatenotification"/>
 		<directory name="apps/user_ldap"/>
-		<directory name="apps/user_picker"/>
 		<directory name="apps/user_status"/>
 		<directory name="apps/weather_status"/>
 		<directory name="apps/webhook_listeners"/>

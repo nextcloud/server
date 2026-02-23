@@ -170,12 +170,6 @@ source_file = translationfiles/templates/user_ldap.pot
 source_lang = en
 type        = PO
 
-[o:nextcloud:p:nextcloud:r:user_picker]
-file_filter = translationfiles/<lang>/user_picker.po
-source_file = translationfiles/templates/user_picker.pot
-source_lang = en
-type        = PO
-
 [o:nextcloud:p:nextcloud:r:user_status]
 file_filter = translationfiles/<lang>/user_status.po
 source_file = translationfiles/templates/user_status.pot

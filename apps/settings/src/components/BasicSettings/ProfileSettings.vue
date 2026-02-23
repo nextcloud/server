@@ -11,9 +11,9 @@
 			{{ t('settings', 'Profile') }}
 		</h2>
 
-		<p class="settings-hint">
+		<NcNoteCard type="info">
 			{{ t('settings', 'Enable or disable profile by default for new accounts.') }}
-		</p>
+		</NcNoteCard>
 
 		<NcCheckboxRadioSwitch
 			v-model="initialProfileEnabledByDefault"
@@ -21,6 +21,17 @@
 			@update:modelValue="onProfileDefaultChange">
 			{{ t('settings', 'Enable') }}
 		</NcCheckboxRadioSwitch>
+
+		<NcCheckboxRadioSwitch
+			v-model="initialProfilePickerEnabled"
+			type="switch"
+			@update:modelValue="onProfilePickerChange">
+			{{ t('settings', 'Enable the profile picker') }}
+		</NcCheckboxRadioSwitch>
+
+		<NcNoteCard type="info">
+			{{ t('settings', 'Enable or disable the profile picker in the Smart Picker and the profile link previews.') }}
+		</NcNoteCard>
 	</div>
 </template>
 
@@ -28,22 +39,26 @@
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import logger from '../../logger.ts'
-import { saveProfileDefault } from '../../service/ProfileService.js'
+import { saveProfileDefault, saveProfilePicker } from '../../service/ProfileService.js'
 import { validateBoolean } from '../../utils/validate.js'
 
 const profileEnabledByDefault = loadState('settings', 'profileEnabledByDefault', true)
+const profilePickerEnabled = loadState('settings', 'profilePickerEnabled', true)
 
 export default {
 	name: 'ProfileSettings',
 
 	components: {
 		NcCheckboxRadioSwitch,
+		NcNoteCard,
 	},
 
 	data() {
 		return {
 			initialProfileEnabledByDefault: profileEnabledByDefault,
+			initialProfilePickerEnabled: profilePickerEnabled,
 		}
 	},
 
@@ -59,6 +74,7 @@ export default {
 				const responseData = await saveProfileDefault(isEnabled)
 				this.handleResponse({
 					isEnabled,
+					key: 'initialProfileEnabledByDefault',
 					status: responseData.ocs?.meta?.status,
 				})
 			} catch (e) {
@@ -69,9 +85,31 @@ export default {
 			}
 		},
 
-		handleResponse({ isEnabled, status, errorMessage, error }) {
+		async onProfilePickerChange(isEnabled) {
+			if (validateBoolean(isEnabled)) {
+				await this.updateProfilePicker(isEnabled)
+			}
+		},
+
+		async updateProfilePicker(isEnabled) {
+			try {
+				const responseData = await saveProfilePicker(isEnabled)
+				this.handleResponse({
+					isEnabled,
+					key: 'initialProfilePickerEnabled',
+					status: responseData.ocs?.meta?.status,
+				})
+			} catch (e) {
+				this.handleResponse({
+					errorMessage: t('settings', 'Unable to update profile picker setting'),
+					error: e,
+				})
+			}
+		},
+
+		handleResponse({ isEnabled, key, status, errorMessage, error }) {
 			if (status === 'ok') {
-				this.initialProfileEnabledByDefault = isEnabled
+				this[key] = isEnabled
 			} else {
 				showError(errorMessage)
 				logger.error(errorMessage, error)
@@ -80,3 +118,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped lang="scss">
+#profile-settings {
+	max-width: 600px;
+}
+</style>
