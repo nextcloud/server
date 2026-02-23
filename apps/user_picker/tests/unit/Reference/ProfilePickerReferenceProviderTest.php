@@ -17,6 +17,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Profile\IProfileManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ProfilePickerReferenceProviderTest extends \Test\TestCase {
@@ -273,9 +274,8 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 
 	/**
 	 * Resolved reference should contain the expected reference fields according to account property scope
-	 *
-	 * @dataProvider resolveReferenceDataProvider
 	 */
+	#[DataProvider('resolveReferenceDataProvider')]
 	public function testResolveReference($expected, $reference, $userId) {
 		if (isset($userId)) {
 			$expectedReference = $this->setupUserAccountReferenceExpectation($userId);
@@ -291,15 +291,15 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider referenceDataProvider
 	 */
+	#[DataProvider('referenceDataProvider')]
 	public function testMatchReference($expected, $reference) {
 		$this->assertEquals($expected, $this->referenceProvider->matchReference($reference));
 	}
 
 	/**
-	 * @dataProvider cacheKeyDataProvider
 	 */
+	#[DataProvider('cacheKeyDataProvider')]
 	public function testGetCacheKey($expected, $reference) {
 		$this->assertEquals($expected, $this->referenceProvider->getCacheKey($reference));
 	}
@@ -319,16 +319,15 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 	/**
 	 * Test getObjectId method.
 	 * It should return the userid extracted from the link (http(s)://domain.com/(index.php)/u/{userid}).
-	 *
-	 * @dataProvider objectIdDataProvider
 	 */
+	#[DataProvider('objectIdDataProvider')]
 	public function testGetObjectId($expected, $reference) {
 		$this->assertEquals($expected, $this->referenceProvider->getObjectId($reference));
 	}
 
 	/**
-	 * @dataProvider locationDataProvider
 	 */
+	#[DataProvider('locationDataProvider')]
 	public function testGetOpenStreetLocationUrl($expected, $location) {
 		$this->assertEquals($expected, $this->referenceProvider->getOpenStreetLocationUrl($location));
 	}
