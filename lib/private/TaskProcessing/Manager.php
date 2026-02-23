@@ -36,7 +36,6 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IServerContainer;
-use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Lock\LockedException;
 use OCP\SpeechToText\ISpeechToTextProvider;
@@ -281,20 +280,14 @@ class Manager implements IManager {
 	private function _getTextToImageProviders(): array {
 		$oldProviders = $this->textToImageManager->getProviders();
 		$newProviders = [];
-		$userManager = \OCP\Server::get(IUserManager::class);
 		foreach ($oldProviders as $oldProvider) {
-			$newProvider = new class($oldProvider, $this->appData, $this->l10nFactory, $userManager) implements IProvider, ISynchronousProvider {
+			$newProvider = new class($oldProvider, $this->appData) implements IProvider, ISynchronousProvider {
 				private \OCP\TextToImage\IProvider $provider;
 				private IAppData $appData;
-				private IFactory $l10nFactory;
 
-				private IUserManager $userManager;
-
-				public function __construct(\OCP\TextToImage\IProvider $provider, IAppData $appData, IFactory $l10nFactory, IUserManager $userManager) {
+				public function __construct(\OCP\TextToImage\IProvider $provider, IAppData $appData) {
 					$this->provider = $provider;
 					$this->appData = $appData;
-					$this->l10nFactory = $l10nFactory;
-					$this->userManager = $userManager;
 				}
 
 				public function getId(): string {
