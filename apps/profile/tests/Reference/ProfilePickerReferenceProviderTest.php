@@ -14,6 +14,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\Reference;
+use OCP\IAppConfig;
 use OCP\IL10N;
 
 use OCP\IURLGenerator;
@@ -31,6 +32,7 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 	private IUserManager|MockObject $userManager;
 	private IAccountManager|MockObject $accountManager;
 	private IProfileManager|MockObject $profileManager;
+	private IAppConfig|MockObject $appConfig;
 	private ProfilePickerReferenceProvider $referenceProvider;
 
 	private array $testUsersData = [
@@ -141,15 +143,7 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->profileManager = $this->createMock(IProfileManager::class);
-
-		$this->referenceProvider = new ProfilePickerReferenceProvider(
-			$this->l10n,
-			$this->urlGenerator,
-			$this->userManager,
-			$this->accountManager,
-			$this->profileManager,
-			$this->userId
-		);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->urlGenerator->expects($this->any())
 			->method('getBaseUrl')
@@ -158,6 +152,10 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 		$this->profileManager->expects($this->any())
 			->method('isProfileEnabled')
 			->willReturn(true);
+
+		$this->appConfig->expects($this->any())
+			->method('getValueString')
+			->willReturn('1');
 
 		$this->profileManager->expects($this->any())
 			->method('isProfileFieldVisible')
@@ -173,6 +171,16 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 		$this->adminUser->expects($this->any())
 			->method('getDisplayName')
 			->willReturn('admin');
+
+		$this->referenceProvider = new ProfilePickerReferenceProvider(
+			$this->l10n,
+			$this->urlGenerator,
+			$this->userManager,
+			$this->accountManager,
+			$this->profileManager,
+			$this->appConfig,
+			$this->userId
+		);
 	}
 
 	private function getTestAccountPropertyValue(string $testUserId, string $property): mixed {
