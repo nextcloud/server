@@ -459,7 +459,6 @@ if (isset($argv[1])) {
 		'../apps/twofactor_backupcodes',
 		'../apps/updatenotification',
 		'../apps/user_ldap',
-		'../apps/user_picker',
 		'../apps/user_status',
 		'../apps/weather_status',
 		'../apps/workflowengine',

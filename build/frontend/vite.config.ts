@@ -46,6 +46,7 @@ const modules = {
 	},
 	profile: {
 		main: resolve(import.meta.dirname, 'apps/profile/src', 'main.ts'),
+		reference: resolve(import.meta.dirname, 'apps/profile/src', 'reference.js'),
 	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
@@ -65,9 +66,6 @@ const modules = {
 	user_ldap: {
 		renewPassword: resolve(import.meta.dirname, 'apps/user_ldap/src', 'renewPassword.ts'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/user_ldap/src', 'settings-admin.ts'),
-	},
-	user_picker: {
-		reference: resolve(import.meta.dirname, 'apps/user_picker/src', 'reference.js'),
 	},
 	user_status: {
 		menu: resolve(import.meta.dirname, 'apps/user_status/src', 'menu.js'),

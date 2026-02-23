@@ -640,7 +640,6 @@ Feature: provisioning
       | twofactor_backupcodes |
       | updatenotification |
       | user_ldap |
-      | user_picker |
       | user_status |
       | viewer |
       | workflowengine |

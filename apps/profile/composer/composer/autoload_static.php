@@ -22,7 +22,10 @@ class ComposerStaticInitProfile
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'OCA\\Profile\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Profile\\Controller\\ProfilePageController' => __DIR__ . '/..' . '/../lib/Controller/ProfilePageController.php',
+        'OCA\\Profile\\Listener\\ProfilePickerReferenceListener' => __DIR__ . '/..' . '/../lib/Listener/ProfilePickerReferenceListener.php',
+        'OCA\\Profile\\Reference\\ProfilePickerReferenceProvider' => __DIR__ . '/..' . '/../lib/Reference/ProfilePickerReferenceProvider.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
