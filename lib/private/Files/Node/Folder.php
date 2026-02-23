@@ -333,7 +333,7 @@ class Folder extends Node implements IFolder {
 	 * in.
 	 *
 	 * @param int $id
-	 * @return array
+	 * @return list<Node>
 	 */
 	protected function getByIdInRootMount(int $id): array {
 		if (!method_exists($this->root, 'createNode')) {
