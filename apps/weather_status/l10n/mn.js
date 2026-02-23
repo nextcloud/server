@@ -15,6 +15,7 @@ OC.L10N.register(
     "{temperature} {unit} snow and thunder" : "{temperature} {unit} цас ба аянга",
     "{temperature} {unit} snow showers and thunder later today" : "{temperature} {unit} өнөөдөр цас ба аянга",
     "{temperature} {unit} snow showers and thunder" : "{temperature} {unit} цасан бороо ба аянга",
+    "{temperature} {unit} snow showers, thunder and polar twilight later today" : "{temperature} {unit} цас шуурах, аянга дуутай, өнөөдөр хожим туйлын бүрэнхий",
     "{temperature} {unit} snow showers, thunder and polar twilight" : "{temperature} {unit} цасан бороо, аянга ба туйлын бүрэнхий",
     "{temperature} {unit} snow showers later today" : "{temperature} {unit} өнөөдөр цасан бороо",
     "{temperature} {unit} snow showers" : "{temperature} {unit} цасан бороо",

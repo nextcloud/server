@@ -9,6 +9,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Нөөц кодын хоёр хүчин зүйл",
     "A two-factor auth backup codes provider" : "Хоёр хүчин зүйлийн баталгаажуулалтын нөөц код нийлүүлэгч",
     "An error occurred while generating your backup codes" : "Таны нөөц кодыг үүсгэх явцад алдаа гарлаа",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Нөөц кодууд үүсгэгдсэн. {total} кодоос {used} ашиглагдсан.",
     "List of backup codes" : "Нөөц кодуудын жагсаалт",
     "Regenerate backup codes" : "Нөөц кодыг дахин сэргээх",
     "Print backup codes" : "Нөөц кодыг хэвлэх",

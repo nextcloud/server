@@ -222,6 +222,8 @@
     "Could not find category \"%s\"" : "Αδυναμία εύρεσης κατηγορίας \"%s\"",
     "Input text" : "Κείμενο εισόδου",
     "The input text" : "Το κείμενο εισόδου",
+    "Cannot generate more than 12 images" : "Δεν είναι δυνατή η δημιουργία πάνω από 12 εικόνων",
+    "Cannot generate less than 1 image" : "Δεν είναι δυνατή η δημιουργία λιγότερης από 1 εικόνας",
     "Sunday" : "Κυριακή",
     "Monday" : "Δευτέρα",
     "Tuesday" : "Τρίτη",

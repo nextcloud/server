@@ -14,6 +14,7 @@ OC.L10N.register(
     "Server url" : "Серверийн URL",
     "Add" : "нэмэх",
     "Server ok" : "Сервер ажиллаж байна",
+    "User list was exchanged at least once successfully with the remote server." : "Хэрэглэгчдийн жагсаалтыг алсын сервертэй хамгийн багадаа нэг удаа амжилттай солилцсон.",
     "Server pending" : "Сервер хүлээгдэж байна",
     "Waiting for shared secret or initial user list exchange." : "Нийтлэг нууц эсвэл анхны хэрэглэгчдийн жагсаалт солилцохыг хүлээж байна.",
     "Server access revoked" : "Серверийн хандалт цуцлагдсан",

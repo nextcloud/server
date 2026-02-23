@@ -7,6 +7,7 @@ OC.L10N.register(
     "Delete" : "Устгах",
     "An unknown error occurred." : "Үл мэдэгдэх алдаа гарлаа.",
     "OAuth 2.0 clients" : "OAuth 2.0 клиентүүд",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 нь гадны үйлчилгээнүүдэд {instanceName}-д хандах хүсэлт илгээх боломжийг олгоно.",
     "Name" : "Нэр",
     "Redirection URI" : "Дахин чиглүүлэх URI",
     "Client identifier" : "Клиентийн танигч",
