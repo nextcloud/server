@@ -118,6 +118,7 @@
     "Name is required." : "Нэр шаардлагатай.",
     "Quality" : "Чанар",
     "Saved image size (width x height)" : "Хадгалсан зургийн хэмжээ (өргөн x өндөр)",
+    "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Сонгосон тайрах хэсэг нь хэрэглэгдсэн хэмжээ өөрчлөлтөөс бага байгаа тул чанар буурах магадлалтайг анхаарна уу.",
     "Actual size (100%)" : "Жинхэнэ хэмжээ (100%)",
     "Fit size" : "Тохирох хэмжээ",
     "Select image to add …" : "Нэмэх зураг сонгох …",
