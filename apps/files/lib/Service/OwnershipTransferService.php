@@ -17,6 +17,7 @@ use OC\User\NoUserException;
 use OCA\Encryption\Util;
 use OCA\Files\Exception\TransferOwnershipException;
 use OCA\Files_External\Config\ConfigAdapter;
+use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IUserMountCache;
@@ -156,6 +157,28 @@ class OwnershipTransferService {
 			$includeExternalStorage,
 		);
 		$sizeDifference = $sourceSize - $view->getFileInfo($finalTarget)->getSize();
+
+		// Files in Team folders are not transferred, so their size needs to be subtracted to avoid warnings about size differences
+		$mounts = Server::get(IMountManager::class)->getAll();
+		foreach ($mounts as $mount) {
+			if (!$mount instanceof GroupMountPoint || !str_starts_with($mount->getMountPoint(), '/' . $sourcePath . '/')) {
+				continue;
+			}
+
+			$storage = $mount->getStorage();
+			if ($storage === null) {
+				$output->writeln('Failed to get storage for mount: ' . $mount->getMountPoint());
+				continue;
+			}
+
+			$rootCacheEntry = $storage->getCache()->get('');
+			if ($rootCacheEntry === false) {
+				$output->writeln('Failed to get root cache entry for storage: ' . $mount->getMountPoint());
+				continue;
+			}
+
+			$sizeDifference -= $rootCacheEntry->getSize();
+		}
 
 		// transfer the incoming shares
 		$sourceShares = $this->collectIncomingShares(
