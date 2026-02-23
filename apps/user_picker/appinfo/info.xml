@@ -3,7 +3,8 @@
  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>user_picker</id>
 	<name>Profile picker</name>
 	<summary>Profile smart picker and link preview</summary>
@@ -13,6 +14,7 @@
 	<author mail="julien-nc@posteo.net" homepage="https://github.com/julien-nc">Julien Veyssier</author>
 	<namespace>UserPicker</namespace>
 	<category>integration</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
 		<nextcloud min-version="34" max-version="34"/>
 	</dependencies>
