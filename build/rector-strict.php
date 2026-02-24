@@ -19,6 +19,7 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/apps/settings/lib/Service/AuthorizedGroupService.php',
 		$nextcloudDir . '/lib/private/Files/Storage/Storage.php',
 		$nextcloudDir . '/lib/private/Files/Storage/Wrapper/Wrapper.php',
+		$nextcloudDir . '/lib/private/Files/Storage/StorageFactory.php',
 	])
 	->withPreparedSets(
 		deadCode: true,

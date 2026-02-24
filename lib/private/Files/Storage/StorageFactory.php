@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,14 +14,14 @@ use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class StorageFactory implements IStorageFactory {
-	/**
-	 * @var array[] [$name=>['priority'=>$priority, 'wrapper'=>$callable] $storageWrappers
-	 */
-	private $storageWrappers = [];
+	/** @var array<non-empty-string, array{priority: int, wrapper: callable(string, IStorage, IMountPoint):IStorage}> */
+	private array $storageWrappers = [];
 
+	#[Override]
 	public function addStorageWrapper(string $wrapperName, callable $callback, int $priority = 50, array $existingMounts = []): bool {
 		if (isset($this->storageWrappers[$wrapperName])) {
 			return false;
@@ -44,31 +46,27 @@ class StorageFactory implements IStorageFactory {
 		unset($this->storageWrappers[$wrapperName]);
 	}
 
-	/**
-	 * Create an instance of a storage and apply the registered storage wrappers
-	 */
+	#[Override]
 	public function getInstance(IMountPoint $mountPoint, string $class, array $arguments): IStorage {
 		if (!is_a($class, IConstructableStorage::class, true)) {
 			Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
 		}
+
 		return $this->wrap($mountPoint, new $class($arguments));
 	}
 
 	public function wrap(IMountPoint $mountPoint, IStorage $storage): IStorage {
-		$wrappers = array_values($this->storageWrappers);
-		usort($wrappers, function ($a, $b) {
-			return $b['priority'] - $a['priority'];
-		});
-		/** @var callable[] $wrappers */
-		$wrappers = array_map(function ($wrapper) {
-			return $wrapper['wrapper'];
-		}, $wrappers);
+		$wrappers = $this->storageWrappers;
+		usort($wrappers, static fn (array $a, array $b): int => $b['priority'] - $a['priority']);
+
+		$wrappers = array_map(static fn (array $wrapper): callable => $wrapper['wrapper'], $wrappers);
 		foreach ($wrappers as $wrapper) {
 			$storage = $wrapper($mountPoint->getMountPoint(), $storage, $mountPoint);
-			if (!($storage instanceof IStorage)) {
+			if (!$storage instanceof IStorage) {
 				throw new \Exception('Invalid result from storage wrapper');
 			}
 		}
+
 		return $storage;
 	}
 }

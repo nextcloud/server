@@ -67,7 +67,7 @@ class PreviewMigrationService {
 			/** @var SimpleFile $previewFile */
 			$preview = Preview::fromPath($path, $this->mimeTypeDetector);
 			if ($preview === false) {
-				$this->logger->error('Unable to import old preview at path.');
+				$this->logger->error('Unable to import old preview at path: ' . $path);
 				continue;
 			}
 			$preview->generateId();
