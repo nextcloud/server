@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Хянах самбар",
     "Dashboard app" : "Хянах самбар апп",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Өдрөө мэдлэгтэйгээр эхлүүл\n\nNextcloud Dashboard нь таны өдрийн эхлэх цэг бөгөөд ирэх уулзалтууд, яаралтай имэйлүүд, чат мессежүүд, ирсэн тикетүүд, сүүлийн tweet-үүд болон бусад олон зүйлийн тоймыг өгдөг! Хэрэглэгчид өөрт таалагдах widget-үүдийг нэмж, арын дэвсгэрийг өөрчлөх боломжтой.",
     "Weather" : "Цаг агаар",
     "Status" : "Ñ‚Ó©Ð»Ó©Ð²",
     "Good morning" : "Өглөөний мэнд",
@@ -17,6 +18,7 @@ OC.L10N.register(
     "Edit widgets" : "Виджетүүд засах",
     "Get more widgets from the App Store" : "App Store-оос илүү олон виджет авах",
     "Weather service" : "Цаг агаарын үйлчилгээ",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Таны нууцлалын үүднээс цаг агаарын мэдээллийг таны {productName} сервер таны өмнөөс хүсэлт гаргадаг тул цаг агаарын үйлчилгээнд хувийн мэдээлэл дамждаггүй.",
     "Weather data from Met.no" : "Met.no-оос цаг агаарын өгөгдөл",
     "geocoding with Nominatim" : "Nominatim-ээр геокодчилол",
     "elevation data from OpenTopoData" : "OpenTopoData-аас өндрийн өгөгдөл"

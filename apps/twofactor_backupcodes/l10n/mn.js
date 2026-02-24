@@ -4,12 +4,14 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Та өөрийн аккаунтад хоёр хүчин зүйлийн нөөц код үүсгэсэн",
     "Second-factor backup codes" : "нөөц кодын хоёр дахь хүчин зүйл",
     "Generate backup codes" : "нөөц кодыг үүсгэх",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Та хоёр хүчин зүйлийн баталгаажуулалтыг идэвхжүүлсэн боловч нөөц кодуудыг үүсгээгүй байна. Хоёр дахь хүчин зүйлээ алдсан тохиолдолд аккаунтад хандах эрхийг сэргээхэд эдгээр нь шаардлагатай.",
     "Backup code" : "Нөөц код",
     "Use backup code" : "Нөөц кодыг ашиглах",
     "Two factor backup codes" : "Нөөц кодын хоёр хүчин зүйл",
     "A two-factor auth backup codes provider" : "Хоёр хүчин зүйлийн баталгаажуулалтын нөөц код нийлүүлэгч",
     "An error occurred while generating your backup codes" : "Таны нөөц кодыг үүсгэх явцад алдаа гарлаа",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Нөөц кодууд үүсгэгдсэн. {total} кодоос {used} ашиглагдсан.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Эдгээр нь таны нөөц кодууд юм. Дараа нь кодыг дахин уншиж чадахгүй тул тэдгээрийг хадгалах ба/эсвэл хэвлэнэ үү.",
     "List of backup codes" : "Нөөц кодуудын жагсаалт",
     "Regenerate backup codes" : "Нөөц кодыг дахин сэргээх",
     "Print backup codes" : "Нөөц кодыг хэвлэх",
@@ -17,6 +19,7 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "хэрвээ нөөц кодыг дахин сэргээх бол, та хуучин кодыг автоматаар хүчингүй болгоно",
     "{name} backup codes" : "{name} нөөц кодууд",
     "Unable to open a new tab for printing" : "Хэвлэхийн тулд шинэ таб нээж чадсангүй",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Хоёр хүчин зүйлийн баталгаажуулалт тохируулах үед хадгалсан нөөц кодуудын аль нэгийг ашиглана уу.",
     "Submit" : "мэдэгдэх"
 },
 "nplurals=2; plural=(n != 1);");

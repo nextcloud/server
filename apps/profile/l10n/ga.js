@@ -1,9 +1,16 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile picker" : "Roghnóir próifíle",
     "Profile" : "Próifíl",
     "This application provides the profile" : "Soláthraíonn an feidhmchlár seo an phróifíl",
     "Provides a customisable user profile interface." : "Soláthraíonn sé comhéadan próifíl úsáideora customizable.",
+    "Searching …" : "Ag cuardach …",
+    "Not found" : "Ní bhfuarthas",
+    "Search for a user profile" : "Cuardaigh próifíl úsáideora",
+    "Search for a user profile. Start typing" : "Cuardaigh próifíl úsáideora. Tosaigh ag clóscríobh.",
+    "Insert selected user profile link" : "Cuir nasc próifíl úsáideora roghnaithe isteach",
+    "Insert" : "cuir isteach",
     "You have not added any info yet" : "Níl aon fhaisnéis curtha agat fós",
     "{user} has not added any info yet" : "Níor chuir {user} aon fhaisnéis leis fós",
     "Error opening the user status modal, try hard refreshing the page" : "Earráid agus an modh stádas úsáideora á oscailt, déan iarracht an leathanach a athnuachan go dian",

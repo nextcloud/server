@@ -2,6 +2,7 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Hồ sơ",
+    "Not found" : "Không tìm thấy",
     "You have not added any info yet" : "Bạn chưa thêm bất kỳ thông tin nào",
     "{user} has not added any info yet" : "{user} chưa thêm bất kỳ thông tin nào",
     "Error opening the user status modal, try hard refreshing the page" : "Lỗi khi mở phương thức trạng thái người dùng, hãy thử làm mới trang",

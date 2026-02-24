@@ -2,6 +2,8 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Perfil",
+    "Not found" : "Nun s'atopó",
+    "Insert" : "Inxertar",
     "You have not added any info yet" : "Nun amestesti nenguna información",
     "{user} has not added any info yet" : "{user} nun amestó nenguna información",
     "Error opening the user status modal, try hard refreshing the page" : "Hebo un error al abrir el diálogu modal del estáu d'usuariu, prueba a anovar la páxina",

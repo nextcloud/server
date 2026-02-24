@@ -1,9 +1,16 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile picker" : "Επιλογέας προφίλ",
     "Profile" : "Προφίλ",
     "This application provides the profile" : "Αυτή η εφαρμογή παρέχει το προφίλ",
     "Provides a customisable user profile interface." : "Παρέχει μια προσαρμόσιμη διεπαφή προφίλ χρήστη.",
+    "Searching …" : "Γίνεται αναζήτηση ...",
+    "Not found" : "Δεν βρέθηκε",
+    "Search for a user profile" : "Αναζήτηση για προφίλ χρήστη",
+    "Search for a user profile. Start typing" : "Αναζήτηση για προφίλ χρήστη. Ξεκινήστε την πληκτρολόγηση",
+    "Insert selected user profile link" : "Εισαγωγή συνδέσμου επιλεγμένου προφίλ χρήστη",
+    "Insert" : "Εισαγωγή",
     "You have not added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
     "{user} has not added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες",
     "Error opening the user status modal, try hard refreshing the page" : "Σφάλμα κατά το άνοιγμα της κατάστασης χρήστη, δοκιμάστε να ανανεώσετε τη σελίδα",

@@ -1,9 +1,16 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile picker" : "Profiilivalija",
     "Profile" : "Profiil",
     "This application provides the profile" : "See rakendus tagab profiili olemasolu",
     "Provides a customisable user profile interface." : "Tagab kasutajaliidese kasutaja kohendatava profiili jaoks.",
+    "Searching …" : "Otsin...",
+    "Not found" : "Ei leidu",
+    "Search for a user profile" : "Otsi kasutajaprofiili",
+    "Search for a user profile. Start typing" : "Otsi kasutajaprofiili. Kirjuta midagi",
+    "Insert selected user profile link" : "Lisa valitud kasutajaprofiili link",
+    "Insert" : "Lisa",
     "You have not added any info yet" : "Sa pole veel mingit infot lisanud",
     "{user} has not added any info yet" : "{user} pole veel mingit infot lisanud",
     "Error opening the user status modal, try hard refreshing the page" : "Kasutaja oleku modaalse vaate avamine ei õnnestunud, proovi lehte värskendada",
