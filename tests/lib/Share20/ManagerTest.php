@@ -1199,7 +1199,7 @@ class ManagerTest extends \Test\TestCase {
 		}
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P3D'));
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
@@ -1232,7 +1232,7 @@ class ManagerTest extends \Test\TestCase {
 		}
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P1D'));
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
@@ -1279,7 +1279,7 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1319,7 +1319,7 @@ class ManagerTest extends \Test\TestCase {
 		$date->setTime(1, 2, 3);
 
 		$expected = clone $date;
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1359,7 +1359,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setShareType($shareType);
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P3D'));
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
@@ -1397,7 +1397,7 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1434,7 +1434,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testValidateExpirationDateInternalHookModification($shareType): void {
 		$nextWeek = new \DateTime('now', $this->timezone);
 		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(0, 0, 0);
+		$nextWeek->setTime(23, 59, 59);
 
 		$save = clone $nextWeek;
 
@@ -1461,7 +1461,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$nextWeek = new \DateTime();
 		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(0, 0, 0);
+		$nextWeek->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1562,7 +1562,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P3D'));
 
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
@@ -1587,7 +1587,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P1D'));
 
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
@@ -1626,7 +1626,7 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($future);
@@ -1659,7 +1659,7 @@ class ManagerTest extends \Test\TestCase {
 		$date->setTime(1, 2, 3);
 
 		$expected = clone $date;
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1696,7 +1696,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$expected = new \DateTime('now', $this->timezone);
 		$expected->add(new \DateInterval('P3D'));
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$this->config->method('getAppValue')
@@ -1728,7 +1728,7 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1764,7 +1764,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$expected = clone $future;
 		$expected->setTimezone($this->timezone);
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1798,7 +1798,7 @@ class ManagerTest extends \Test\TestCase {
 		$nextWeek->add(new \DateInterval('P7D'));
 
 		$save = clone $nextWeek;
-		$save->setTime(0, 0);
+		$save->setTime(23, 59, 59);
 		$save->sub(new \DateInterval('P2D'));
 		$save->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
@@ -1822,7 +1822,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$nextWeek = new \DateTime();
 		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(0, 0, 0);
+		$nextWeek->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($nextWeek);
@@ -2486,7 +2486,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testCreateShareUser(): void {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->createManagerMock()
-			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks'])
+			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -2521,6 +2521,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
+		$manager->expects($this->once())
+			->method('validateExpirationDateInternal')
+			->with($share)
+			->willReturnArgument(0);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -2540,7 +2544,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testCreateShareGroup(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['canShare', 'generalCreateChecks', 'groupCreateChecks', 'pathCreateChecks'])
+			->onlyMethods(['canShare', 'generalCreateChecks', 'groupCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -2575,6 +2579,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
+		$manager->expects($this->once())
+			->method('validateExpirationDateInternal')
+			->with($share)
+			->willReturnArgument(0);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -2806,6 +2814,7 @@ class ManagerTest extends \Test\TestCase {
 				'generalCreateChecks',
 				'userCreateChecks',
 				'pathCreateChecks',
+				'validateExpirationDateInternal',
 			])
 			->getMock();
 
@@ -2841,6 +2850,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
+		$manager->expects($this->once())
+			->method('validateExpirationDateInternal')
+			->with($share)
+			->willReturnArgument(0);
 
 		$share->expects($this->once())
 			->method('setShareOwner')
@@ -2865,7 +2878,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testCreateShareOfIncomingFederatedShare(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks'])
+			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -2919,6 +2932,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
+		$manager->expects($this->once())
+			->method('validateExpirationDateInternal')
+			->with($share)
+			->willReturnArgument(0);
 
 		$this->defaultProvider
 			->expects($this->once())
