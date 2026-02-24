@@ -80,6 +80,10 @@
                                                 "type": "integer",
                                                 "format": "int64"
                                             },
+                                            "default_days": {
+                                                "type": "integer",
+                                                "format": "int64"
+                                            },
                                             "enforced": {
                                                 "type": "boolean"
                                             }

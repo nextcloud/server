@@ -24,6 +24,7 @@ type FileSharingCapabilities = {
 		expire_date: {
 			enabled: boolean
 			days: number
+			default_days: number
 			enforced: boolean
 		}
 		multiple_links: boolean
@@ -135,6 +136,16 @@ export default class Config {
 			if (days !== null) {
 				return new Date(new Date().setDate(new Date().getDate() + days))
 			}
+		}
+		return null
+	}
+
+	/**
+	 * Get the maximum link share expiration date
+	 */
+	get maxExpirationDate(): Date | null {
+		if (this.isDefaultExpireDateEnabled && this.defaultExpireDate !== null) {
+			return new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate))
 		}
 		return null
 	}
