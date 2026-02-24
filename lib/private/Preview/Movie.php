@@ -338,6 +338,8 @@ class Movie extends ProviderV2 {
 		$returnCode = -1;
 		$output = '';
 		if (is_resource($proc)) {
+			stream_set_blocking($pipes[1], false);
+			stream_set_blocking($pipes[2], false);
 			$stderr = trim(stream_get_contents($pipes[2]));
 			$stdout = trim(stream_get_contents($pipes[1]));
 			$returnCode = proc_close($proc);
