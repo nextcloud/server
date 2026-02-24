@@ -134,24 +134,6 @@ interface IDBConnection {
 	public function lastInsertId(string $table): int;
 
 	/**
-	 * Insert a row if the matching row does not exists. To accomplish proper race condition avoidance
-	 * it is needed that there is also a unique constraint on the values. Then this method will
-	 * catch the exception and return 0.
-	 *
-	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
-	 * @param array $input data that should be inserted into the table  (column name => value)
-	 * @param array|null $compare List of values that should be checked for "if not exists"
-	 *                            If this is null or an empty array, all keys of $input will be compared
-	 *                            Please note: text fields (clob) must not be used in the compare array
-	 * @return int number of inserted rows
-	 * @throws Exception used to be the removed dbal exception, since 21.0.0 it's \OCP\DB\Exception
-	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0
-	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (\OCP\DB\Exception $e) { if ($e->getReason() === \OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION) {} }" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
-	 */
-	public function insertIfNotExist(string $table, array $input, ?array $compare = null);
-
-
-	/**
 	 *
 	 * Insert a row if the row does not exist. Eventual conflicts during insert will be ignored.
 	 *

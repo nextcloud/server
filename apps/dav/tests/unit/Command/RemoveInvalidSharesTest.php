@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\unit\Command;
 use OCA\DAV\Command\RemoveInvalidShares;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\RemoteUserPrincipalBackend;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Server;
@@ -39,18 +40,25 @@ class RemoveInvalidSharesTest extends TestCase {
 		$this->principalBackend = $this->createMock(Principal::class);
 		$this->remoteUserPrincipalBackend = $this->createMock(RemoteUserPrincipalBackend::class);
 
-		$this->db->insertIfNotExist('*PREFIX*dav_shares', [
-			'principaluri' => 'principal:unknown',
-			'type' => 'calendar',
-			'access' => 2,
-			'resourceid' => 666,
-		]);
-		$this->db->insertIfNotExist('*PREFIX*dav_shares', [
-			'principaluri' => 'principals/remote-users/foobar',
-			'type' => 'calendar',
-			'access' => 2,
-			'resourceid' => 666,
-		]);
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('dav_shares');
+
+		foreach (['principal:unknown', 'principals/remote-users/foobar'] as $principaluri) {
+			$qb->values([
+				'principaluri' => $qb->createNamedParameter($principaluri),
+				'type' => $qb->createNamedParameter('calendar'),
+				'access' => $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT),
+				'resourceid' => $qb->createNamedParameter(666, IQueryBuilder::PARAM_INT),
+			]);
+
+			try {
+				$qb->executeStatement();
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+			}
+		}
 
 		$this->command = new RemoveInvalidShares(
 			$this->db,

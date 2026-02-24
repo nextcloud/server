@@ -416,23 +416,29 @@ abstract class AbstractMapping {
 			return false;
 		}
 
-		$row = [
-			'ldap_dn_hash' => $this->getDNHash($fdn),
-			'ldap_dn' => $fdn,
-			'owncloud_name' => $name,
-			'directory_uuid' => $uuid
-		];
+		$qb = $this->dbc->getQueryBuilder();
+		$qb
+			->insert($this->getTableName())
+			->values([
+				'ldap_dn_hash' => $qb->createNamedParameter($this->getDNHash($fdn)),
+				'ldap_dn' => $qb->createNamedParameter($fdn),
+				'owncloud_name' => $qb->createNamedParameter($name),
+				'directory_uuid' => $qb->createNamedParameter($uuid),
+			]);
 
 		try {
-			$result = $this->dbc->insertIfNotExist($this->getTableName(), $row);
-			if ((bool)$result === true) {
-				$this->cache[$fdn] = $name;
-				$this->localNameToDnCache?->set($name, $fdn, self::LOCAL_CACHE_TTL);
+			$qb->executeStatement();
+
+			$this->cache[$fdn] = $name;
+			$this->localNameToDnCache?->set($name, $fdn, self::LOCAL_CACHE_TTL);
+
+			return true;
+		} catch (\OCP\DB\Exception $e) {
+			if ($e->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return false;
 			}
-			// insertIfNotExist returns values as int
-			return (bool)$result;
-		} catch (\Exception $e) {
-			return false;
+
+			throw $e;
 		}
 	}
 

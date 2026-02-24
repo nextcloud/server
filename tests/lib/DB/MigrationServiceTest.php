@@ -20,6 +20,7 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
 use OCP\App\AppPathNotFoundException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -102,6 +103,17 @@ class MigrationServiceTest extends \Test\TestCase {
 		$this->db->expects($this->once())
 			->method('migrateToSchema');
 
+		$qb = $this->createMock(IQueryBuilder::class);
+		$qb
+			->expects($this->once())
+			->method('insert')
+			->willReturn($qb);
+
+		$this->db
+			->expects($this->once())
+			->method('getQueryBuilder')
+			->willReturn($qb);
+
 		$wrappedSchema = $this->createMock(Schema::class);
 		$wrappedSchema->expects($this->atLeast(2))
 			->method('getTables')
@@ -145,6 +157,17 @@ class MigrationServiceTest extends \Test\TestCase {
 
 		$this->db->expects($this->never())
 			->method('migrateToSchema');
+
+		$qb = $this->createMock(IQueryBuilder::class);
+		$qb
+			->expects($this->once())
+			->method('insert')
+			->willReturn($qb);
+
+		$this->db
+			->expects($this->once())
+			->method('getQueryBuilder')
+			->willReturn($qb);
 
 		$step = $this->createMock(IMigrationStep::class);
 		$step->expects($this->once())

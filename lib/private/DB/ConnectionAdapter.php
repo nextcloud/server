@@ -76,14 +76,6 @@ class ConnectionAdapter implements IDBConnection {
 		}
 	}
 
-	public function insertIfNotExist(string $table, array $input, ?array $compare = null) {
-		try {
-			return $this->inner->insertIfNotExist($table, $input, $compare);
-		} catch (Exception $e) {
-			throw DbalException::wrap($e);
-		}
-	}
-
 	public function insertIgnoreConflict(string $table, array $values): int {
 		try {
 			return $this->inner->insertIgnoreConflict($table, $values);
