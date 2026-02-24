@@ -19,6 +19,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Ο περιηγητής σας δεν υποστηρίζει βίντεο.",
     "This file no longer exists" : "Αυτό το αρχείο δεν υπάρχει πλέον",
     "There is no plugin available to display this file type" : "Δεν υπάρχει διαθέσιμο πρόσθετο για την προβολή αυτού του τύπου αρχείου",
+    "Failed to save file before download" : "Αποτυχία αποθήκευσης του αρχείου πριν από τη λήψη",
     "Edit" : "Επεξεργασία",
     "Exit full screen" : "Έξοδος από πλήρη οθόνη",
     "Full screen" : "Πλήρης οθόνη",
