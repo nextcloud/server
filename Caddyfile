@@ -1,9 +1,10 @@
 localhost {
 	php_server {
-
+        worker index.php
 	}
 
 	log {
+		level ERROR
 		output stderr
 	}
 
