@@ -545,14 +545,18 @@ class QueryBuilder implements IQueryBuilder {
 		foreach ($columns as $column) {
 			if (is_array($column)) {
 				$this->addOutputColumns($column);
-			} elseif (is_string($column) && !str_contains($column, '*')) {
-				if (str_contains(strtolower($column), ' as ')) {
-					[, $column] = preg_split('/ as /i', $column);
+			} elseif (is_string($column)) {
+				if (str_contains($column, '*')) {
+					$this->logger->debug('Do not select all columns using "*", as the table can be extended later and will include unnecessary columns in the query result.');
+				} else {
+					if (str_contains(strtolower($column), ' as ')) {
+						[, $column] = preg_split('/ as /i', $column);
+					}
+					if (str_contains($column, '.')) {
+						[, $column] = explode('.', $column);
+					}
+					$this->selectedColumns[] = $column;
 				}
-				if (str_contains($column, '.')) {
-					[, $column] = explode('.', $column);
-				}
-				$this->selectedColumns[] = $column;
 			}
 		}
 	}
