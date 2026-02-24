@@ -17,6 +17,8 @@ require_once __DIR__ . '/lib/versioncheck.php';
 try {
 	require_once __DIR__ . '/lib/base.php';
 
+	OC::init();
+
 	if (isset($argv[1]) && ($argv[1] === '-h' || $argv[1] === '--help')) {
 		echo 'Description:
   Run the background job routine

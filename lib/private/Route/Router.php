@@ -277,6 +277,7 @@ class Router implements IRouter {
 			$this->loadRoutes();
 		}
 
+
 		$this->eventLogger->start('route:url:match', 'Symfony url matcher call');
 		$matcher = new UrlMatcher($this->root, $this->context);
 		try {

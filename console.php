@@ -30,6 +30,7 @@ function exceptionHandler($exception) {
 }
 try {
 	require_once __DIR__ . '/lib/base.php';
+	OC::init();
 
 	// set to run indefinitely if needed
 	if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
