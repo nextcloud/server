@@ -482,9 +482,10 @@ class File extends Node implements IFile {
 
 			// comparing current file size with the one in DB
 			// if different, fix DB and refresh cache.
-			if ($this->getSize() !== $this->fileView->filesize($this->getPath())) {
+			$fsSize = $this->fileView->filesize($this->getPath());
+			if ($this->getSize() !== $fsSize) {
 				$logger = Server::get(LoggerInterface::class);
-				$logger->warning('fixing cached size of file id=' . $this->getId());
+				$logger->warning('fixing cached size of file id=' . $this->getId() . ', cached size was ' . $this->getSize() . ', but the filesystem reported a size of ' . $fsSize);
 
 				$this->getFileInfo()->getStorage()->getUpdater()->update($this->getFileInfo()->getInternalPath());
 				$this->refreshInfo();
