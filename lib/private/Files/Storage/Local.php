@@ -215,7 +215,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function filetype(string $path): string|false {
-		$filetype = filetype($this->getSourcePath($path));
+		$filetype = @filetype($this->getSourcePath($path));
 		if ($filetype == 'link') {
 			$filetype = filetype(realpath($this->getSourcePath($path)));
 		}
@@ -223,7 +223,11 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function filesize(string $path): int|float|false {
-		if (!$this->is_file($path)) {
+		$type = $this->filetype($path);
+		if ($type === false) {
+			return false;
+		}
+		if ($type !== 'file') {
 			return 0;
 		}
 		$fullPath = $this->getSourcePath($path);
