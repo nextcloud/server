@@ -2,6 +2,9 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "نمایه",
+    "Searching …" : "درحال جستجو",
+    "Not found" : "پیدا نشد.",
+    "Insert" : "Insert",
     "You have not added any info yet" : "You have not added any info yet",
     "{user} has not added any info yet" : "{user} has not added any info yet",
     "Error opening the user status modal, try hard refreshing the page" : "Error opening the user status modal, try hard refreshing the page",

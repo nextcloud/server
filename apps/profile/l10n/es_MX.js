@@ -2,6 +2,8 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Perfil",
+    "Not found" : "No encontrado",
+    "Insert" : "Insertar",
     "You have not added any info yet" : "Aún no has añadido información",
     "{user} has not added any info yet" : "{user} aún no añade información",
     "Error opening the user status modal, try hard refreshing the page" : "Error al abrir la ventana de estado del usuario, intente actualizar la página",

@@ -1,9 +1,16 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile picker" : "Sélecteur de profil",
     "Profile" : "Profil",
     "This application provides the profile" : "Cette application fournit le profil",
     "Provides a customisable user profile interface." : "Fournit une interface de profil utilisateur personnalisable.",
+    "Searching …" : "Recherche…",
+    "Not found" : "Non trouvé",
+    "Search for a user profile" : "Rechercher un profil utilisateur",
+    "Search for a user profile. Start typing" : "Rechercher un profil utilisateur. Saisissez quelque chose",
+    "Insert selected user profile link" : "Insérer le lien du profil utilisateur sélectionné",
+    "Insert" : "Insérer",
     "You have not added any info yet" : "Vous n’avez pas ajouté d’informations pour le moment",
     "{user} has not added any info yet" : "{user} n’a pas ajouté d’informations pour le moment",
     "Error opening the user status modal, try hard refreshing the page" : "Erreur lors de l'ouverture de la fenêtre du statut de l'utilisateur, essayez d'actualiser la page",

@@ -1,5 +1,6 @@
 { "translations": {
     "Cloud Federation API" : "Cloud Federation API",
-    "Enable clouds to communicate with each other and exchange data" : "Үүлнүүдийг хоорондоо холбогдож өгөгдөл солилцох боломжтой болгох"
+    "Enable clouds to communicate with each other and exchange data" : "Үүлнүүдийг хоорондоо холбогдож өгөгдөл солилцох боломжтой болгох",
+    "The Cloud Federation API enables various Nextcloud instances to communicate with each other and to exchange data." : "Cloud Federation API нь янз бүрийн Nextcloud инстанцуудад хоорондоо харилцах болон өгөгдөл солилцох боломжийг олгодог."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

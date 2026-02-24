@@ -83,6 +83,7 @@ OC.L10N.register(
     "Cancel" : "болиулах",
     "Delete" : "Устгах",
     "Available flows" : "Боломжит урсгалууд",
+    "For details on how to write your own flow, check out the development documentation." : "Өөрийн урсгалыг хэрхэн бичих талаар дэлгэрэнгүй мэдээлэл авахыг хөгжүүлэлтийн баримт бичгийг үзнэ үү.",
     "No flows installed" : "Урсгал суулгаагүй байна",
     "Ask your administrator to install new flows." : "Админаас шинэ урсгал суулгахыг хүснэ үү.",
     "More flows" : "Нэмэлт урсгалууд",

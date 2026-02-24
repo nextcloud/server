@@ -7,6 +7,7 @@ OC.L10N.register(
     "View folder" : "Хавтас харах",
     "Files reminder" : "Файлын сануулга",
     "The \"files_reminders\" app can work properly." : "\"files_reminders\" апп зөв ажиллаж чадна.",
+    "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "\"files_reminders\" програм зөв ажиллахын тулд мэдэгдлийн програм шаардлагатай. Та мэдэгдлийг идэвхжүүлэх эсвэл files_reminder-ийг идэвхгүй болгох хэрэгтэй.",
     "Set file reminders" : "Файлын сануулга тохируулах",
     "Please choose a valid date & time" : "Зөв огноо ба цаг сонгоно уу",
     "Reminder set for \"{fileName}\"" : "\"{fileName}\"-д сануулга тохируулагдсан",

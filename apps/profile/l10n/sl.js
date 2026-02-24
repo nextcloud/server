@@ -2,6 +2,9 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Profil",
+    "Searching …" : "Poteka iskanje ...",
+    "Not found" : "Predmeta ni mogoče najti",
+    "Insert" : "Vstavi",
     "You have not added any info yet" : "Ni še vpisanih podrobnosti",
     "{user} has not added any info yet" : "Oseba {user} še ni dodala nobenih podrobnosti.",
     "Error opening the user status modal, try hard refreshing the page" : "Prišlo je do napake pri odpiranju modalnega okna stanja uporabnika. Napako je mogoče razrešiti z osvežitvijo strani.",
