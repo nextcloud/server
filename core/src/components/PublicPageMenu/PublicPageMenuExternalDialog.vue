@@ -56,7 +56,7 @@ watch(remoteUrl, () => {
 	let validity = ''
 	if (!remoteUrl.value.includes('@')) {
 		validity = t('core', 'The remote URL must include the user.')
-	} else if (!remoteUrl.value.match(/@(.+\..{2,}|localhost)(:\d\d+)?$/)) {
+	} else if (!remoteUrl.value.match(/@(.+\..{2,}|(?:http:\/\/)?localhost)(:\d\d+)?$/)) {
 		validity = t('core', 'Invalid remote URL.')
 	}
 	input.value!.$el.querySelector('input')!.setCustomValidity(validity)
