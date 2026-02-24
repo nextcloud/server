@@ -17,6 +17,7 @@ use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\ITypedQueryBuilder;
 use OCP\IDBConnection;
 
 /**
@@ -30,6 +31,10 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function getQueryBuilder(): IQueryBuilder {
 		return $this->inner->getQueryBuilder();
+	}
+
+	public function getTypedQueryBuilder(): ITypedQueryBuilder {
+		return $this->inner->getTypedQueryBuilder();
 	}
 
 	public function prepare($sql, $limit = null, $offset = null): IPreparedStatement {

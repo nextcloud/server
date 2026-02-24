@@ -25,6 +25,9 @@
 		<file name="apps/settings/lib/Service/AuthorizedGroupService.php"/>
 		<file name="lib/private/Files/Storage/Storage.php"/>
 		<file name="lib/private/Files/Storage/Wrapper/Wrapper.php"/>
+		<file name="build/psalm/ITypedQueryBuilderTest.php"/>
+		<file name="lib/private/DB/QueryBuilder/TypedQueryBuilder.php"/>
+		<file name="lib/public/DB/QueryBuilder/ITypedQueryBuilder.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
@@ -58,5 +61,10 @@
 				<directory name="."/>
 			</errorLevel>
 		</InternalProperty>
+		<UnusedVariable>
+			<errorLevel type="suppress">
+				<file name="build/psalm/ITypedQueryBuilderTest.php"/>
+			</errorLevel>
+		</UnusedVariable>
 	</issueHandlers>
 </psalm>

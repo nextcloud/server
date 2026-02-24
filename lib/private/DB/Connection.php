@@ -34,6 +34,7 @@ use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\ITypedQueryBuilder;
 use OCP\DB\QueryBuilder\Sharded\IShardMapper;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -247,6 +248,14 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * Returns a QueryBuilder for the connection.
 	 */
 	public function getQueryBuilder(): IQueryBuilder {
+		return $this->getInnerQueryBuilder();
+	}
+
+	public function getTypedQueryBuilder(): ITypedQueryBuilder {
+		return $this->getInnerQueryBuilder();
+	}
+
+	private function getInnerQueryBuilder(): IQueryBuilder&ITypedQueryBuilder {
 		$this->queriesBuilt++;
 
 		$builder = new QueryBuilder(

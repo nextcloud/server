@@ -16,7 +16,7 @@ use OCP\IDBConnection;
 /**
  * Base class for creating classes that extend the builtin query builder
  */
-abstract class ExtendedQueryBuilder implements IQueryBuilder {
+abstract class ExtendedQueryBuilder extends TypedQueryBuilder {
 	public function __construct(
 		protected IQueryBuilder $builder,
 	) {
@@ -100,7 +100,7 @@ abstract class ExtendedQueryBuilder implements IQueryBuilder {
 		return $this;
 	}
 
-	public function selectAlias($select, $alias) {
+	public function selectAlias($select, $alias): self {
 		$this->builder->selectAlias($select, $alias);
 		return $this;
 	}
