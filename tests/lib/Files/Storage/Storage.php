@@ -311,6 +311,8 @@ abstract class Storage extends \Test\TestCase {
 
 		$this->instance->unlink('/lorem.txt');
 		$this->assertTrue($this->instance->hasUpdated('/', $mtimeStart - 5));
+
+		$this->assertFalse($this->instance->filesize('/non-existing-file.txt'));
 	}
 
 	/**
