@@ -96,6 +96,8 @@ function resolveService($service) {
 try {
 	require_once __DIR__ . '/lib/base.php';
 
+	OC::init();
+
 	// All resources served via the DAV endpoint should have the strictest possible
 	// policy. Exempted from this is the SabreDAV browser plugin which overwrites
 	// this policy with a softer one if debug mode is enabled.
