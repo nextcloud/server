@@ -13,7 +13,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 
 class HomePropagator extends Propagator {
-	public function __construct(IStorage $storage, IDBConnection $connection) {
-		parent::__construct($storage, $connection, ignore: ['files_encryption']);
+	public function __construct(IStorage $storage) {
+		parent::__construct($storage, ignore: ['files_encryption']);
 	}
 }

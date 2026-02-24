@@ -8,6 +8,7 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\BatchPropagator;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem as Filesystem;
@@ -102,6 +103,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 		$fooCachedData = $this->cache->get('foo.txt');
 		Filesystem::file_put_contents('foo.txt', 'asd');
+		Server::get(BatchPropagator::class)->commit();
 		$cachedData = $this->cache->get('foo.txt');
 		$this->assertEquals(3, $cachedData['size']);
 		$this->assertIsString($fooCachedData['etag']);
@@ -116,6 +118,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 		$this->assertFalse($this->cache->inCache('bar.txt'));
 		Filesystem::file_put_contents('bar.txt', 'asd');
+		Server::get(BatchPropagator::class)->commit();
 		$this->assertTrue($this->cache->inCache('bar.txt'));
 		$cachedData = $this->cache->get('bar.txt');
 		$this->assertEquals(3, $cachedData['size']);
@@ -137,11 +140,11 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$folderCachedData = $view->getFileInfo('folder');
 		$substorageCachedData = $cache2->get('');
 		Filesystem::file_put_contents('folder/substorage/foo.txt', 'asd');
+		Server::get(BatchPropagator::class)->commit();
 		$this->assertTrue($cache2->inCache('foo.txt'));
 		$cachedData = $cache2->get('foo.txt');
 		$oldEtag = $substorageCachedData['etag'];
 		$this->assertEquals(3, $cachedData['size']);
-		$mtime = $cachedData['mtime'];
 
 		$cachedData = $cache2->get('');
 		$this->assertIsString($substorageCachedData['etag']);
@@ -163,6 +166,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 		$this->assertTrue($this->cache->inCache('foo.txt'));
 		Filesystem::unlink('foo.txt');
+		Server::get(BatchPropagator::class)->commit();
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize, $cachedData['size']);
@@ -181,6 +185,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$rootCachedData = $cachedData;
 		$oldEtag = $rootCachedData['etag'];
 		Filesystem::rmdir('bar_folder');
+		Server::get(BatchPropagator::class)->commit();
 		$this->assertFalse($this->cache->inCache('bar_folder'));
 		$cachedData = $this->cache->get('');
 		$this->assertIsString($rootCachedData['etag']);
@@ -200,6 +205,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$substorageCachedData = $cache2->get('');
 		$oldEtag = $folderCachedData['etag'];
 		Filesystem::unlink('folder/substorage/foo.txt');
+		Server::get(BatchPropagator::class)->commit();
 		$this->assertFalse($cache2->inCache('foo.txt'));
 
 		$cachedData = $cache2->get('');
@@ -225,11 +231,11 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$fooCachedData = $this->cache->get('foo.txt');
 		$this->assertFalse($this->cache->inCache('bar.txt'));
 		Filesystem::rename('foo.txt', 'bar.txt');
+		Server::get(BatchPropagator::class)->commit();
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$this->assertTrue($this->cache->inCache('bar.txt'));
 		$cachedData = $this->cache->get('bar.txt');
 		$this->assertEquals($fooCachedData['fileid'], $cachedData['fileid']);
-		$mtime = $cachedData['mtime'];
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $cachedData['size']);
 		$this->assertIsString($rootCachedData['etag']);
@@ -257,11 +263,11 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$substorageCachedData = $cache2->get('');
 		$fooCachedData = $cache2->get('foo.txt');
 		Filesystem::rename('folder/substorage/foo.txt', 'folder/substorage/bar.txt');
+		Server::get(BatchPropagator::class)->commit();
 		$this->assertFalse($cache2->inCache('foo.txt'));
 		$this->assertTrue($cache2->inCache('bar.txt'));
 		$cachedData = $cache2->get('bar.txt');
 		$this->assertEquals($fooCachedData['fileid'], $cachedData['fileid']);
-		$mtime = $cachedData['mtime'];
 
 		$cachedData = $cache2->get('');
 		$this->assertIsString($substorageCachedData['etag']);
@@ -282,6 +288,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$rootCachedData = $this->cache->get('');
 		$fooCachedData = $this->cache->get('foo.txt');
 		Filesystem::touch('foo.txt');
+		Server::get(BatchPropagator::class)->commit();
 		$cachedData = $this->cache->get('foo.txt');
 		$this->assertIsString($fooCachedData['etag']);
 		$this->assertIsString($cachedData['etag']);
@@ -299,6 +306,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$folderCachedData = $this->cache->get('folder');
 		$this->cache->put('', ['mtime' => $time - 100]);
 		Filesystem::touch('folder/bar.txt', $time);
+		Server::get(BatchPropagator::class)->commit();
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertIsString($barCachedData['etag']);
 		$this->assertIsString($cachedData['etag']);

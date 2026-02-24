@@ -8,6 +8,7 @@
 
 namespace Test\Files;
 
+use OC\Files\Cache\BatchPropagator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
@@ -884,6 +885,8 @@ class ViewTest extends \Test\TestCase {
 		$oldEtag = $oldFolderInfo->getEtag();
 
 		$view->getFileInfo('/test/sub/storage/test.txt');
+		Server::get(BatchPropagator::class)->commit();
+
 		$newFolderInfo = $view->getFileInfo('/test');
 
 		$this->assertNotEquals($newFolderInfo->getEtag(), $oldEtag);
@@ -2689,6 +2692,7 @@ class ViewTest extends \Test\TestCase {
 		$rootInfo = $view->getFileInfo('');
 		$this->assertEquals(3, $rootInfo->getSize());
 		$view->unlink('foo.txt');
+		Server::get(BatchPropagator::class)->commit();
 		$newInfo = $view->getFileInfo('');
 
 		$this->assertFalse($cache->inCache('foo.txt'));
@@ -2714,6 +2718,7 @@ class ViewTest extends \Test\TestCase {
 		$rootInfo = $view->getFileInfo('');
 		$this->assertEquals(3, $rootInfo->getSize());
 		$view->rmdir('foo');
+		Server::get(BatchPropagator::class)->commit();
 		$newInfo = $view->getFileInfo('');
 
 		$this->assertFalse($cache->inCache('foo'));

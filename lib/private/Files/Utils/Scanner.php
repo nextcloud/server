@@ -147,7 +147,6 @@ class Scanner extends PublicEmitter {
 				});
 
 				$propagator = $storage->getPropagator();
-				$propagator->beginBatch();
 				$scanner->backgroundScan();
 				$propagator->commitBatch();
 			} catch (\Exception $e) {
@@ -243,7 +242,6 @@ class Scanner extends PublicEmitter {
 			}
 			try {
 				$propagator = $storage->getPropagator();
-				$propagator->beginBatch();
 				try {
 					$scanner->scan($relativePath, $recursive, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
 				} catch (LockedException $e) {
@@ -275,16 +273,10 @@ class Scanner extends PublicEmitter {
 
 	private function postProcessEntry(IStorage $storage, $internalPath) {
 		$this->triggerPropagator($storage, $internalPath);
-		if ($this->useTransaction) {
-			$this->entriesToCommit++;
-			if ($this->entriesToCommit >= self::MAX_ENTRIES_TO_COMMIT) {
-				$propagator = $storage->getPropagator();
-				$this->entriesToCommit = 0;
-				$this->db->commit();
-				$propagator->commitBatch();
-				$this->db->beginTransaction();
-				$propagator->beginBatch();
-			}
+		$this->entriesToCommit++;
+		if ($this->entriesToCommit >= self::MAX_ENTRIES_TO_COMMIT) {
+			$this->entriesToCommit = 0;
+			$storage->getPropagator()->commitBatch();
 		}
 	}
 }

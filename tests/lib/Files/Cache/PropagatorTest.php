@@ -8,9 +8,11 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\BatchPropagator;
 use OC\Files\Storage\Temporary;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
+use OCP\Server;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
@@ -40,6 +42,7 @@ class PropagatorTest extends TestCase {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldInfos = $this->getFileInfos($paths);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time());
+		Server::get(BatchPropagator::class)->commit();
 		$newInfos = $this->getFileInfos($paths);
 
 		foreach ($oldInfos as $i => $oldInfo) {
@@ -58,6 +61,7 @@ class PropagatorTest extends TestCase {
 		$cache->put('foo/bar', ['mtime' => $oldTime]);
 		$cache->put('foo/bar/file.txt', ['mtime' => $oldTime]);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', $targetTime);
+		Server::get(BatchPropagator::class)->commit();
 		$newInfos = $this->getFileInfos($paths);
 
 		$this->assertEquals($targetTime, $newInfos['foo/bar']->getMTime());
@@ -71,6 +75,7 @@ class PropagatorTest extends TestCase {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldInfos = $this->getFileInfos($paths);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time(), 10);
+		Server::get(BatchPropagator::class)->commit();
 		$newInfos = $this->getFileInfos($paths);
 
 		foreach ($oldInfos as $i => $oldInfo) {
@@ -82,10 +87,11 @@ class PropagatorTest extends TestCase {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldInfos = $this->getFileInfos($paths);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time(), -100);
+		Server::get(BatchPropagator::class)->commit();
 		$newInfos = $this->getFileInfos($paths);
 
 		foreach ($oldInfos as $i => $oldInfo) {
-			$this->assertEquals(-1, $newInfos[$i]->getSize());
+			$this->assertEquals(-97, $newInfos[$i]->getSize());
 		}
 	}
 

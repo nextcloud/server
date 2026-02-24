@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OCP\Files\Cache;
 
+use OC\Files\Cache\BatchPropagator;
 use OCP\AppFramework\Attribute\Consumable;
 
 /**
@@ -28,6 +29,7 @@ interface IPropagator {
 	 * before the batch is committed.
 	 *
 	 * @since 9.1.0
+	 * @depecated 34.0.0 Propagated changes are committed in batches automatically, so it is no longer necessary to begin a batch manually.
 	 */
 	public function beginBatch(): void;
 
@@ -35,6 +37,7 @@ interface IPropagator {
 	 * Commit the active propagation batch.
 	 *
 	 * @since 9.1.0
+	 * @depecated 34.0.0 Call {@see BatchPropagator::commit()} instead.
 	 */
 	public function commitBatch(): void;
 

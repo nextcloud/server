@@ -8,6 +8,7 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\BatchPropagator;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
@@ -17,6 +18,7 @@ use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCP\Files\Storage\IStorage;
+use OCP\Server;
 
 /**
  * Class UpdaterTest
@@ -99,31 +101,37 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals(0, $parentCached['size']);
 
 		$this->storage->file_put_contents('foo.txt', 'bar');
+		Server::get(BatchPropagator::class)->commit();
 
 		$parentCached = $this->cache->get('');
 		$this->assertEquals(0, $parentCached['size']);
 
 		$this->updater->update('foo.txt');
+		Server::get(BatchPropagator::class)->commit();
 
 		$parentCached = $this->cache->get('');
 		$this->assertEquals(3, $parentCached['size']);
 
 		$this->storage->file_put_contents('foo.txt', 'qwerty');
+		Server::get(BatchPropagator::class)->commit();
 
 		$parentCached = $this->cache->get('');
 		$this->assertEquals(3, $parentCached['size']);
 
 		$this->updater->update('foo.txt');
+		Server::get(BatchPropagator::class)->commit();
 
 		$parentCached = $this->cache->get('');
 		$this->assertEquals(6, $parentCached['size']);
 
 		$this->storage->unlink('foo.txt');
+		Server::get(BatchPropagator::class)->commit();
 
 		$parentCached = $this->cache->get('');
 		$this->assertEquals(6, $parentCached['size']);
 
 		$this->updater->remove('foo.txt');
+		Server::get(BatchPropagator::class)->commit();
 
 		$parentCached = $this->cache->get('');
 		$this->assertEquals(0, $parentCached['size']);
@@ -181,7 +189,6 @@ class UpdaterTest extends \Test\TestCase {
 		$this->updater->update('sub/foo.txt');
 		$this->updater->update('sub2');
 
-		$cachedSourceParent = $this->cache->get('sub');
 		$cachedSource = $this->cache->get('sub/foo.txt');
 
 		$this->storage->rename('sub/foo.txt', 'sub2/bar.txt');
@@ -198,6 +205,8 @@ class UpdaterTest extends \Test\TestCase {
 		$this->storage->touch('sub2/bar.txt', $testmtime);
 
 		$this->updater->renameFromStorage($this->storage, 'sub/foo.txt', 'sub2/bar.txt');
+
+		Server::get(BatchPropagator::class)->commit();
 
 		$cachedTargetParent = $this->cache->get('sub2');
 		$cachedTarget = $this->cache->get('sub2/bar.txt');

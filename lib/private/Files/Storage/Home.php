@@ -58,7 +58,7 @@ class Home extends Local implements IHomeStorage {
 			$storage = $this;
 		}
 		if (!isset($this->propagator)) {
-			$this->propagator = new HomePropagator($storage, Server::get(IDBConnection::class));
+			$this->propagator = new HomePropagator($storage);
 		}
 		return $this->propagator;
 	}

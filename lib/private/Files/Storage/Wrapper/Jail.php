@@ -255,7 +255,7 @@ class Jail extends Wrapper {
 		if (!$storage) {
 			$storage = $this;
 		}
-		$this->propagator = new JailPropagator($storage, Server::get(IDBConnection::class));
+		$this->propagator = new JailPropagator($storage);
 		return $this->propagator;
 	}
 
