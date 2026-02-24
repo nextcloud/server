@@ -109,6 +109,7 @@ OC.L10N.register(
     "Reset primary color" : "重設基本顏色",
     "Reset to default" : "重設為預設值",
     "Non image file selected" : "未選取圖片檔案",
+    "Failed to upload image" : "上傳影像失敗",
     "Preview of the selected image" : "選定圖片的預覽",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "我們非常重視無障礙存取。我們遵循網頁標準，並透過檢查來確保所有內容皆可在沒有滑鼠，或是在輔助軟體，例如螢幕閱讀器的情況下使用。我們目標是能達到《{linkstart}網頁內容無障礙指引{linkend}》2.1 版的 AA 等級，加上高對比度主題後，甚至還能達到 AAA 等級。",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "如果您發現任何一個問題，請不要猶豫並請在{issuetracker}我們的問題追蹤系統{linkend}中回報。而如果您想參與專案，歡迎加入{designteam}我們的設計團隊{linkend}！",

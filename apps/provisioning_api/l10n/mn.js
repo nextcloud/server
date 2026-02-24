@@ -1,6 +1,7 @@
 OC.L10N.register(
     "provisioning_api",
     {
+    "Logged in account must be an administrator or have authorization to edit this setting." : "Нэвтэрсэн бүртгэл нь администратор байх эсвэл энэ тохиргоог засварлах зөвшөөрөлтэй байх ёстой.",
     "Could not create non-existing user ID" : "Байхгүй хэрэглэгчийн ID үүсгэж чадсангүй",
     "User already exists" : "Хэрэглэгч аль хэдийн байна",
     "Group %1$s does not exist" : "%1$s бүлэг байхгүй байна",
@@ -38,6 +39,8 @@ OC.L10N.register(
     "Could not verify mail because the token is invalid." : "Токен буруу тул имэйлийг баталгаажуулж чадсангүй.",
     "An unexpected error occurred. Please contact your admin." : "Гэнэтийн алдаа гарлаа. Админтайгаа холбогдоно уу.",
     "Email confirmation successful" : "Имэйл баталгаажуулалт амжилттай",
-    "Provisioning API" : "Provisioning API"
+    "Provisioning API" : "Provisioning API",
+    "This application enables a set of APIs that external systems can use to manage accounts, groups and apps." : "Энэ програм нь гадаад системүүд бүртгэл, бүлэг болон аппуудыг удирдахад ашиглаж болох API-уудын багцыг идэвхжүүлнэ.",
+    "This application enables a set of APIs that external systems can use to create, edit, delete and query account\n\t\tattributes, query, set and remove groups, set quota and query total storage used in Nextcloud. Group admin accounts\n\t\tcan also query Nextcloud and perform the same functions as an admin for groups they manage. The API also enables\n\t\tan admin to query for active Nextcloud applications, application info, and to enable or disable an app remotely.\n\t\tOnce the app is enabled, HTTP requests can be used via a Basic Auth header to perform any of the functions\n\t\tlisted above. More information is available in the Provisioning API documentation, including example calls\n\t\tand server responses." : "Энэ програм нь гадаад системүүд бүртгэлийн шинж чанарыг үүсгэх, засах, устгах болон хайх, бүлгийг хайх, тохируулах болон арилгах, Nextcloud-д ашигласан нийт хадгалалтын хэмжээний квотыг тохируулах болон хайхад ашиглаж болох API-уудын багцыг идэвхжүүлнэ. Бүлгийн администратор бүртгэлүүд мөн Nextcloud-г хайх болон удирдаж буй бүлгүүдэд администратортой ижил үүргийг гүйцэтгэх боломжтой. API нь мөн администраторт идэвх Nextcloud програмуудыг хайх, програмын мэдээллийг авах болон аппыг алсаас идэвхжүүлэх эсвэл идэвхгүй болгох боломж олгоно. Аппыг идэвхжүүлсний дараа Basic Auth толгой хэсгийн тусламжтай HTTP хүсэлтүүдийг ашиглан дээрх функцуудын аль нэгийг гүйцэтгэж болно. Дэлгэрэнгүй мэдээллийг жишээ дуудлагууд болон серверийн хариултуудын хамт Provisioning API-н баримт бичгээс авах боломжтой."
 },
 "nplurals=2; plural=(n != 1);");

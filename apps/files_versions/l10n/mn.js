@@ -2,6 +2,8 @@ OC.L10N.register(
     "files_versions",
     {
     "Versions" : "Хувилбарууд",
+    "This application automatically maintains older versions of files that are changed." : "Энэ програм нь өөрчлөгдсөн файлуудын хуучин хувилбаруудыг автоматаар хадгалж байдаг.",
+    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the account does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the account's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "Энэ програм нь өөрчлөгдсөн файлуудын хуучин хувилбаруудыг автоматаар хадгалж байдаг. Идэвхжүүлсэн тохиолдолд хэрэглэгч бүрийн санд нуугдмал хувилбарын хавтас үүсгэгдэж файлын хуучин хувилбаруудыг хадгалахад ашиглагдана. Хэрэглэгч вэб интерфейсээр дамжуулан хэдийд ч хуучин хувилбарт буцаж болох бөгөөд солигдсон файл нь хувилбар болж хадгалагдана. Програм нь хувилбарын улмаас бүртгэлийн квот дуусахаас сэргийлж хувилбарын хавтасыг автоматаар удирдана.\n\t\tХувилбарын хугацаа дуусахаас гадна хувилбарын програм бүртгэлийн одоогийн боломжит үнэгүй зайн 50%-иас илүүг хэзээ ч ашиглахгүй байхыг баталгаажуулдаг. Хадгалагдсан хувилбарууд энэ хязгааргаас хэтэрвэл програм хязгаарт хүрэх хүртэл хамгийн хуучин хувилбаруудыг эхлээд устгана. Дэлгэрэнгүй мэдээллийг Хувилбаруудын баримт бичгээс үзнэ үү.",
     "Current version" : "Одоогийн хувилбар",
     "Initial version" : "Анхны хувилбар",
     "You" : "Та",
@@ -16,6 +18,7 @@ OC.L10N.register(
     "Remove version name" : "Хувилбарын нэрийг хасах",
     "Save version name" : "Хувилбарын нэрийг хадгалах",
     "Version name" : "Хувилбарын нэр",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Нэрлэсэн хувилбарууд хадгалагдах бөгөөд таны хадгалах квот дүүрсэн үед автомат цэвэрлэгээнд хамруулагдахгүй.",
     "Initial version restored" : "Анхны хувилбар сэргээгдсэн",
     "Version restored" : "Хувилбар сэргээгдлээ",
     "Could not restore version" : "Хувилбарыг сэргээж чадсангүй",

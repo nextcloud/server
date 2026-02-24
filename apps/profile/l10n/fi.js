@@ -1,7 +1,14 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile picker" : "Profiilivalitsin",
     "Profile" : "Profiili",
+    "Searching …" : "Haetaan …",
+    "Not found" : "Ei löytynyt",
+    "Search for a user profile" : "Etsi käyttäjäprofiilia",
+    "Search for a user profile. Start typing" : "Etsi käyttäjäprofiilia. Aloita kirjoittaminen",
+    "Insert selected user profile link" : "Syötä valitun käyttäjäprofiilin linkki",
+    "Insert" : "Lisää",
     "You have not added any info yet" : "Et ole lisännyt tietoja vielä",
     "{user} has not added any info yet" : "{user} ei ole lisännyt tietoja vielä",
     "Edit Profile" : "Muokkaa profiilia",
