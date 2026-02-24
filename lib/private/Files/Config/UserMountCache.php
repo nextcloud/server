@@ -72,6 +72,8 @@ class UserMountCache implements IUserMountCache {
 			}
 		}
 
+		$this->connection->beginTransaction();
+
 		$cachedMounts = $this->getMountsForUser($user);
 		if (is_array($mountProviderClasses)) {
 			$cachedMounts = array_filter($cachedMounts, function (ICachedMountInfo $mountInfo) use ($mountProviderClasses, $newMounts) {
@@ -102,7 +104,6 @@ class UserMountCache implements IUserMountCache {
 		$changedMounts = $this->findChangedMounts($newMounts, $cachedMounts);
 
 		if ($addedMounts || $removedMounts || $changedMounts) {
-			$this->connection->beginTransaction();
 			$userUID = $user->getUID();
 			try {
 				foreach ($addedMounts as $mount) {
@@ -139,7 +140,11 @@ class UserMountCache implements IUserMountCache {
 			foreach ($changedMounts as $mountPair) {
 				$this->eventDispatcher->dispatchTyped(new UserMountUpdatedEvent($mountPair[0], $mountPair[1]));
 			}
+		} else {
+			// No changes were made, but we still need to get rid of the transaction
+			$this->connection->rollBack();
 		}
+
 		$this->eventLogger->end('fs:setup:user:register');
 	}
 
