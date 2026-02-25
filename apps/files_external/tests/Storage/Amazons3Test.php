@@ -55,7 +55,7 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 		// Create 1100 files inside the directory
 		for ($i = 0; $i < $numFiles; $i++) {
 			$filePath = $dir . '/file' . $i . '.txt';
-			$this->assertTrue(
+			$this->assertNotFalse(
 				$this->instance->file_put_contents($filePath, 'test content'),
 				"Failed to create file: $filePath"
 			);
