@@ -55,11 +55,11 @@ class SharesUpdatedListener implements IEventListener {
 	public function handle(Event $event): void {
 		if ($event instanceof UserShareAccessUpdatedEvent) {
 			foreach ($event->getUsers() as $user) {
-				$this->updateOrMarkUser($user, true);
+				$this->updateOrMarkUser($user);
 			}
 		}
 		if ($event instanceof UserAddedEvent || $event instanceof UserRemovedEvent) {
-			$this->updateOrMarkUser($event->getUser(), true);
+			$this->updateOrMarkUser($event->getUser());
 		}
 		if ($event instanceof ShareCreatedEvent || $event instanceof ShareTransferredEvent) {
 			$share = $event->getShare();
@@ -75,8 +75,11 @@ class SharesUpdatedListener implements IEventListener {
 			}
 		}
 		if ($event instanceof BeforeShareDeletedEvent) {
-			foreach ($this->shareManager->getUsersForShare($event->getShare()) as $user) {
-				$this->updateOrMarkUser($user, false, [$event->getShare()]);
+			$share = $event->getShare();
+			foreach ($this->shareManager->getUsersForShare($share) as $user) {
+				$this->markOrRun($user, function () use ($user, $share) {
+					$this->shareUpdater->updateForDeletedShare($user, $share);
+				});
 			}
 		}
 	}
@@ -92,9 +95,9 @@ class SharesUpdatedListener implements IEventListener {
 		$this->updatedTime += $end - $start;
 	}
 
-	private function updateOrMarkUser(IUser $user, bool $verifyMountPoints, array $ignoreShares = []): void {
-		$this->markOrRun($user, function () use ($user, $verifyMountPoints, $ignoreShares) {
-			$this->shareUpdater->updateForUser($user, $verifyMountPoints, $ignoreShares);
+	private function updateOrMarkUser(IUser $user): void {
+		$this->markOrRun($user, function () use ($user) {
+			$this->shareUpdater->updateForUser($user);
 		});
 	}
 
