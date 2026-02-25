@@ -400,6 +400,7 @@ export default {
 	label,
 	button {
 		color: var(--color-main-text);
+		line-height: var(--default-line-height, 1.5) !important;
 		> span {
 			font-size: var(--default-font-size) !important;
 		}
@@ -410,8 +411,8 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 44px;
-		min-height: 44px;
+		min-width: var(--default-clickable-area);
+		min-height: var(--default-clickable-area);
 		padding: 6px 12px;
 	}
 }
@@ -432,7 +433,7 @@ export default {
 
 // Global buttons
 .SfxButton-root {
-	min-height: 44px !important;
+	min-height: var(--default-clickable-area) !important;
 	margin: 0 !important;
 	border: transparent !important;
 	&[color='error'] {
@@ -456,7 +457,7 @@ export default {
 
 // Menu items
 .SfxMenuItem-root {
-	height: 44px;
+	height: var(--default-clickable-area);
 	padding-left: 8px !important;
 	// Center the menu entry icon and fix width
 	> div {
@@ -568,8 +569,8 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 44px;
-		height: 44px;
+		min-width: var(--default-clickable-area);
+		height: var(--default-clickable-area);
 		padding: 6px 16px;
 		border-radius: var(--border-radius-pill);
 	}
