@@ -17,6 +17,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Base controller for interactive public shares
@@ -37,7 +38,7 @@ abstract class AuthPublicShareController extends PublicShareController {
 	 * @since 14.0.0
 	 */
 	public function __construct(string $appName,
-		IRequest $request,
+		IRequest|ServerRequestInterface $request,
 		ISession $session,
 		IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request, $session);

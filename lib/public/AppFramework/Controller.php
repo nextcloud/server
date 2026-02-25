@@ -12,6 +12,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Base class to inherit your controllers from
@@ -19,36 +20,21 @@ use OCP\IRequest;
  */
 abstract class Controller {
 	/**
-	 * app name
-	 * @var string
-	 * @since 7.0.0
-	 */
-	protected $appName;
-
-	/**
-	 * current request
-	 * @var \OCP\IRequest
-	 * @since 6.0.0
-	 */
-	protected $request;
-
-	/**
 	 * @var array<string, Closure>
 	 * @since 7.0.0
 	 */
 	private $responders;
 
 	/**
-	 * constructor of the controller
+	 * Constructor of the controller
 	 * @param string $appName the name of the app
-	 * @param IRequest $request an instance of the request
+	 * @param IRequest|ServerRequestInterface $request an instance of the request
 	 * @since 6.0.0 - parameter $appName was added in 7.0.0 - parameter $app was removed in 7.0.0
 	 */
-	public function __construct($appName,
-		IRequest $request) {
-		$this->appName = $appName;
-		$this->request = $request;
-
+	public function __construct(
+		protected $appName,
+		protected $request,
+	) {
 		// default responders
 		$this->responders = [
 			'json' => function ($data) {

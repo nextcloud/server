@@ -28,7 +28,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Template\ITemplateManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -53,7 +52,6 @@ class ViewControllerTest extends TestCase {
 	private IEventDispatcher $eventDispatcher;
 	private IEventLogger&MockObject $eventLogger;
 	private IInitialState&MockObject $initialState;
-	private IL10N&MockObject $l10n;
 	private IRequest&MockObject $request;
 	private IRootFolder&MockObject $rootFolder;
 	private ITemplateManager&MockObject $templateManager;
@@ -74,7 +72,6 @@ class ViewControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->initialState = $this->createMock(IInitialState::class);
-		$this->l10n = $this->createMock(IL10N::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
@@ -130,7 +127,6 @@ class ViewControllerTest extends TestCase {
 				'files',
 				$this->request,
 				$this->urlGenerator,
-				$this->l10n,
 				$this->config,
 				$this->eventDispatcher,
 				$this->userSession,

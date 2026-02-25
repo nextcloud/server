@@ -10,6 +10,7 @@ namespace OCP\AppFramework;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Base class to inherit your controllers from that are used for RESTful APIs
@@ -42,7 +43,7 @@ abstract class OCSController extends ApiController {
 	/**
 	 * constructor of the controller
 	 * @param string $appName the name of the app
-	 * @param IRequest $request an instance of the request
+	 * @param ServerRequestInterface|IRequest $request an instance of the request
 	 * @param string $corsMethods comma separated string of HTTP verbs which
 	 *                            should be allowed for websites or webapps when calling your API, defaults to
 	 *                            'PUT, POST, GET, DELETE, PATCH'
@@ -54,7 +55,7 @@ abstract class OCSController extends ApiController {
 	 * @since 8.1.0
 	 */
 	public function __construct($appName,
-		IRequest $request,
+		ServerRequestInterface|IRequest $request,
 		$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
 		$corsAllowedHeaders = 'Authorization, Content-Type, Accept, OCS-APIRequest',
 		$corsMaxAge = 1728000) {

@@ -38,12 +38,12 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
-use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -55,7 +55,7 @@ use Throwable;
 class ApiController extends Controller {
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		private IUserSession $userSession,
 		private TagService $tagService,
 		private IPreview $previewManager,
