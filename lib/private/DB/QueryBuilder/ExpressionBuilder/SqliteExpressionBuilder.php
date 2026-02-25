@@ -11,44 +11,35 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use Override;
 
 class SqliteExpressionBuilder extends ExpressionBuilder {
-	/**
-	 * @inheritdoc
-	 */
-	public function like($x, $y, $type = null): string {
+	#[Override]
+	public function like(ILiteral|IParameter|IQueryFunction|string $x, mixed $y, int|string|null $type = null): string {
 		return parent::like($x, $y, $type) . " ESCAPE '\\'";
 	}
 
-	public function iLike($x, $y, $type = null): string {
+	#[Override]
+	public function iLike(string|IParameter|ILiteral|IQueryFunction $x, mixed $y, int|string|null $type = null): string {
 		return $this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y), $type);
 	}
 
-	/**
-	 * @param mixed $column
-	 * @param mixed|null $type
-	 * @return array|IQueryFunction|string
-	 */
-	protected function prepareColumn($column, $type) {
-		if ($type !== null
-			&& !is_array($column)
-			&& !($column instanceof IParameter)
+	#[Override]
+	protected function prepareColumn(IQueryFunction|ILiteral|IParameter|string|array $column, int|string|null $type): string|array {
+		if (!($column instanceof IParameter)
+			&& !($column instanceof IQueryFunction)
 			&& !($column instanceof ILiteral)
+			&& !is_array($column)
+			&& is_string($type)
 			&& (str_starts_with($type, 'date') || str_starts_with($type, 'time'))) {
-			return $this->castColumn($column, $type);
+			return (string)$this->castColumn($column, $type);
 		}
 
 		return parent::prepareColumn($column, $type);
 	}
 
-	/**
-	 * Returns a IQueryFunction that casts the column to the given type
-	 *
-	 * @param string $column
-	 * @param mixed $type One of IQueryBuilder::PARAM_*
-	 * @return IQueryFunction
-	 */
-	public function castColumn($column, $type): IQueryFunction {
+	#[Override]
+	public function castColumn(string|IQueryFunction|ILiteral|IParameter $column, string|int $type): IQueryFunction {
 		switch ($type) {
 			case IQueryBuilder::PARAM_DATE_MUTABLE:
 			case IQueryBuilder::PARAM_DATE_IMMUTABLE:

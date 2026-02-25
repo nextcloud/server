@@ -12,14 +12,11 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use Override;
 
 class OCIExpressionBuilder extends ExpressionBuilder {
-	/**
-	 * @param mixed $column
-	 * @param mixed|null $type
-	 * @return array|IQueryFunction|string
-	 */
-	protected function prepareColumn($column, $type) {
+	#[Override]
+	protected function prepareColumn(IQueryFunction|ILiteral|IParameter|string|array $column, int|string|null $type): array|string {
 		if ($type === IQueryBuilder::PARAM_STR && !is_array($column) && !($column instanceof IParameter) && !($column instanceof ILiteral)) {
 			$column = $this->castColumn($column, $type);
 		}
@@ -27,10 +24,8 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 		return parent::prepareColumn($column, $type);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function eq($x, $y, $type = null): string {
+	#[Override]
+	public function eq(IQueryFunction|ILiteral|IParameter|string $x, IQueryFunction|ILiteral|IParameter|string $y, int|string|null $type = null): string {
 		if ($type === IQueryBuilder::PARAM_JSON) {
 			$x = $this->prepareColumn($x, $type);
 			$y = $this->prepareColumn($y, $type);
@@ -40,10 +35,8 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 		return parent::eq($x, $y, $type);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function neq($x, $y, $type = null): string {
+	#[Override]
+	public function neq(string|ILiteral|IQueryFunction|IParameter $x, string|ILiteral|IQueryFunction|IParameter $y, int|string|null $type = null): string {
 		if ($type === IQueryBuilder::PARAM_JSON) {
 			$x = $this->prepareColumn($x, $type);
 			$y = $this->prepareColumn($y, $type);
@@ -53,57 +46,34 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 		return parent::neq($x, $y, $type);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function in($x, $y, $type = null): string {
+	#[Override]
+	public function in(ILiteral|IParameter|IQueryFunction|string $x, ILiteral|IParameter|IQueryFunction|string|array $y, int|string|null $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
 
 		return $this->expressionBuilder->in($x, $y);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function notIn($x, $y, $type = null): string {
+	#[Override]
+	public function notIn(ILiteral|IParameter|IQueryFunction|string $x, ILiteral|IParameter|IQueryFunction|string|array $y, int|string|null $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
 
 		return $this->expressionBuilder->notIn($x, $y);
 	}
 
-	/**
-	 * Creates a $x = '' statement, because Oracle needs a different check
-	 *
-	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be inspected by the comparison.
-	 * @return string
-	 * @since 13.0.0
-	 */
-	public function emptyString($x): string {
+	#[Override]
+	public function emptyString(string|ILiteral|IParameter|IQueryFunction $x): string {
 		return $this->isNull($x);
 	}
 
-	/**
-	 * Creates a `$x <> ''` statement, because Oracle needs a different check
-	 *
-	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be inspected by the comparison.
-	 * @return string
-	 * @since 13.0.0
-	 */
-	public function nonEmptyString($x): string {
+	#[Override]
+	public function nonEmptyString(string|ILiteral|IParameter|IQueryFunction $x): string {
 		return $this->isNotNull($x);
 	}
 
-	/**
-	 * Returns a IQueryFunction that casts the column to the given type
-	 *
-	 * @param string|IQueryFunction $column
-	 * @param mixed $type One of IQueryBuilder::PARAM_*
-	 * @psalm-param IQueryBuilder::PARAM_* $type
-	 * @return IQueryFunction
-	 */
-	public function castColumn($column, $type): IQueryFunction {
+	#[Override]
+	public function castColumn(string|IQueryFunction|ILiteral|IParameter $column, int|string|null $type): IQueryFunction {
 		if ($type === IQueryBuilder::PARAM_STR) {
 			$column = $this->helper->quoteColumnName($column);
 			return new QueryFunction('to_char(' . $column . ')');
@@ -116,17 +86,21 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 		return parent::castColumn($column, $type);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function like($x, $y, $type = null): string {
+	#[Override]
+	public function like(
+		ILiteral|IParameter|IQueryFunction|string $x,
+		ILiteral|IParameter|IQueryFunction|string $y,
+		int|string|null $type = null,
+	): string {
 		return parent::like($x, $y, $type) . " ESCAPE '\\'";
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function iLike($x, $y, $type = null): string {
+	#[Override]
+	public function iLike(
+		ILiteral|IParameter|IQueryFunction|string $x,
+		ILiteral|IParameter|IQueryFunction|string $y,
+		int|string|null $type = null,
+	): string {
 		return $this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
 	}
 }

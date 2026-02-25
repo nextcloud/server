@@ -27,7 +27,9 @@ abstract class TypedQueryBuilder implements ITypedQueryBuilder {
 			$this->validateColumn($column);
 		}
 
-		return $this->select(...$columns);
+		/** @psalm-suppress InternalMethod */
+		$this->select(...$columns);
+		return $this;
 	}
 
 	public function selectColumnsDistinct(string ...$columns): static {
@@ -35,6 +37,8 @@ abstract class TypedQueryBuilder implements ITypedQueryBuilder {
 			$this->validateColumn($column);
 		}
 
-		return $this->selectDistinct($columns);
+		/** @psalm-suppress InternalMethod */
+		$this->selectDistinct($columns);
+		return $this;
 	}
 }

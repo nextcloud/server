@@ -12,8 +12,13 @@ use OC\DB\QueryBuilder\CompositeExpression;
 use OC\DB\QueryBuilder\ExtendedQueryBuilder;
 use OC\DB\QueryBuilder\Parameter;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\ICompositeExpression;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
+use Override;
 
 /**
  * A special query builder that automatically distributes queries over multiple database shards.
@@ -83,11 +88,13 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		}
 	}
 
-	public function where(...$predicates) {
+	#[Override]
+	public function where(...$predicates): self {
 		return $this->andWhere(...$predicates);
 	}
 
-	public function andWhere(...$where) {
+	#[Override]
+	public function andWhere(...$where): self {
 		if ($where) {
 			foreach ($where as $predicate) {
 				$this->tryLoadShardKey($predicate);
@@ -158,14 +165,18 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		return [];
 	}
 
-	public function set($key, $value) {
+	#[Override]
+	public function set($key, $value): self {
 		if ($this->shardDefinition && $key === $this->shardDefinition->shardKey) {
+			// TODO dead code?
 			$updateShardKey = $value;
 		}
-		return parent::set($key, $value);
+		parent::set($key, $value);
+		return $this;
 	}
 
-	public function setValue($column, $value) {
+	#[Override]
+	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string $value): self {
 		if ($this->shardDefinition) {
 			if ($this->shardDefinition->isKey($column)) {
 				$this->primaryKeys[] = $value;
@@ -174,10 +185,12 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 				$this->shardKeys[] = $value;
 			}
 		}
-		return parent::setValue($column, $value);
+		parent::setValue($column, $value);
+		return $this;
 	}
 
-	public function values(array $values) {
+	#[Override]
+	public function values(array $values): self {
 		foreach ($values as $column => $value) {
 			$this->setValue($column, $value);
 		}
@@ -193,33 +206,35 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		}
 	}
 
-	public function from($from, $alias = null) {
-		if (is_string($from) && $from) {
+	#[Override]
+	public function from(string|IQueryFunction $from, ?string $alias = null): self {
+		if (is_string($from)) {
 			$this->actOnTable($from);
 		}
-		return parent::from($from, $alias);
+		parent::from($from, $alias);
+		return $this;
 	}
 
-	public function update($update = null, $alias = null) {
-		if (is_string($update) && $update) {
-			$this->actOnTable($update);
-		}
-		return parent::update($update, $alias);
+	#[Override]
+	public function update(string $update, ?string $alias = null): self {
+		$this->actOnTable($update);
+		parent::update($update, $alias);
+		return $this;
 	}
 
-	public function insert($insert = null) {
-		if (is_string($insert) && $insert) {
-			$this->insertTable = $insert;
-			$this->actOnTable($insert);
-		}
-		return parent::insert($insert);
+	#[Override]
+	public function insert(string $insert): self {
+		$this->insertTable = $insert;
+		$this->actOnTable($insert);
+		parent::insert($insert);
+		return $this;
 	}
 
-	public function delete($delete = null, $alias = null) {
-		if (is_string($delete) && $delete) {
-			$this->actOnTable($delete);
-		}
-		return parent::delete($delete, $alias);
+	#[Override]
+	public function delete(string $delete, ?string $alias = null): self {
+		$this->actOnTable($delete);
+		parent::delete($delete, $alias);
+		return $this;
 	}
 
 	private function checkJoin(string $table): void {
@@ -235,67 +250,83 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		}
 	}
 
-	public function innerJoin($fromAlias, $join, $alias, $condition = null) {
+	#[Override]
+	public function innerJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self {
 		if (is_string($join)) {
 			$this->checkJoin($join);
 		}
-		return parent::innerJoin($fromAlias, $join, $alias, $condition);
+		parent::innerJoin($fromAlias, $join, $alias, $condition);
+		return $this;
 	}
 
-	public function leftJoin($fromAlias, $join, $alias, $condition = null) {
+	#[Override]
+	public function leftJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self {
 		if (is_string($join)) {
 			$this->checkJoin($join);
 		}
-		return parent::leftJoin($fromAlias, $join, $alias, $condition);
+		parent::leftJoin($fromAlias, $join, $alias, $condition);
+		return $this;
 	}
 
-	public function rightJoin($fromAlias, $join, $alias, $condition = null) {
+	#[Override]
+	public function rightJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self {
 		if ($this->shardDefinition) {
 			throw new InvalidShardedQueryException("Sharded query on {$this->shardDefinition->table} isn't allowed to right join");
 		}
-		return parent::rightJoin($fromAlias, $join, $alias, $condition);
+		parent::rightJoin($fromAlias, $join, $alias, $condition);
+		return $this;
 	}
 
-	public function join($fromAlias, $join, $alias, $condition = null) {
-		return $this->innerJoin($fromAlias, $join, $alias, $condition);
+	#[Override]
+	public function join(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self {
+		$this->innerJoin($fromAlias, $join, $alias, $condition);
+		return $this;
 	}
 
-	public function setMaxResults($maxResults) {
-		if ($maxResults > 0) {
-			$this->limit = (int)$maxResults;
+	#[Override]
+	public function setMaxResults(?int $maxResults): self {
+		if ($maxResults !== null && $maxResults > 0) {
+			$this->limit = $maxResults;
 		}
-		return parent::setMaxResults($maxResults);
+		parent::setMaxResults($maxResults);
+		return $this;
 	}
 
-	public function setFirstResult($firstResult) {
+	#[Override]
+	public function setFirstResult(int $firstResult): self {
 		if ($firstResult > 0) {
-			$this->offset = (int)$firstResult;
+			$this->offset = $firstResult;
 		}
 		if ($this->shardDefinition && count($this->shardDefinition->shards) > 1) {
 			// we have to emulate offset
 			return $this;
 		} else {
-			return parent::setFirstResult($firstResult);
+			parent::setFirstResult($firstResult);
+			return $this;
 		}
 	}
 
-	public function addOrderBy($sort, $order = null) {
+	#[Override]
+	public function addOrderBy($sort, $order = null): self {
 		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
 			$order = null;
 		}
 
 		$this->registerOrder((string)$sort, (string)($order ?? 'ASC'));
-		return parent::addOrderBy($sort, $order);
+		parent::addOrderBy($sort, $order);
+		return $this;
 	}
 
-	public function orderBy($sort, $order = null) {
+	#[Override]
+	public function orderBy($sort, $order = null): self {
 		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
 			$order = null;
 		}
 
 		$this->sortList = [];
 		$this->registerOrder((string)$sort, (string)($order ?? 'ASC'));
-		return parent::orderBy($sort, $order);
+		parent::orderBy($sort, $order);
+		return $this;
 	}
 
 	private function registerOrder(string $column, string $order): void {
@@ -308,6 +339,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		];
 	}
 
+	#[Override]
 	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self {
 		if ($overwrite) {
 			$this->primaryKeys = [];
@@ -322,6 +354,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		return $this;
 	}
 
+	#[Override]
 	public function runAcrossAllShards(): self {
 		$this->allShards = true;
 		return $this;
@@ -364,6 +397,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		}
 	}
 
+	#[Override]
 	public function executeQuery(?IDBConnection $connection = null): IResult {
 		$this->validate();
 		if ($this->shardDefinition) {
@@ -373,6 +407,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		return parent::executeQuery($connection);
 	}
 
+	#[Override]
 	public function executeStatement(?IDBConnection $connection = null): int {
 		$this->validate();
 		if ($this->shardDefinition) {
@@ -403,6 +438,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		return parent::executeStatement($connection);
 	}
 
+	#[Override]
 	public function getLastInsertId(): int {
 		if ($this->lastInsertId) {
 			return $this->lastInsertId;
@@ -414,6 +450,4 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 			return parent::getLastInsertId();
 		}
 	}
-
-
 }

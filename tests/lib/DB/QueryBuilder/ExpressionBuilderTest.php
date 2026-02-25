@@ -13,7 +13,6 @@ namespace Test\DB\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\Connection;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
-use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -24,12 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/**
- * Class ExpressionBuilderTest
- *
- * @package Test\DB\QueryBuilder
- */
-#[Group('DB')]
+#[Group(name: 'DB')]
 class ExpressionBuilderTest extends TestCase {
 	protected ExpressionBuilder $expressionBuilder;
 	protected DoctrineExpressionBuilder $doctrineExpressionBuilder;
@@ -66,8 +60,8 @@ class ExpressionBuilderTest extends TestCase {
 		return $testSets;
 	}
 
-	#[DataProvider('dataComparison')]
-	public function testComparison(string $comparison, string $input1, bool $isInput1Literal, string $input2, bool $isInput2Literal): void {
+	#[DataProvider(methodName: 'dataComparison')]
+	public function testComparison(string $comparison, mixed $input1, bool $isInput1Literal, mixed $input2, bool $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
@@ -86,7 +80,7 @@ class ExpressionBuilderTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataComparisons')]
+	#[DataProvider(methodName: 'dataComparisons')]
 	public function testEquals(string $input1, bool $isInput1Literal, string $input2, bool $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
@@ -97,7 +91,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	#[DataProvider('dataComparisons')]
+	#[DataProvider(methodName: 'dataComparisons')]
 	public function testNotEquals(string $input1, bool $isInput1Literal, string $input2, bool $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
@@ -108,7 +102,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	#[DataProvider('dataComparisons')]
+	#[DataProvider(methodName: 'dataComparisons')]
 	public function testLowerThan(string $input1, bool $isInput1Literal, string $input2, bool $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
@@ -119,7 +113,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	#[DataProvider('dataComparisons')]
+	#[DataProvider(methodName: 'dataComparisons')]
 	public function testLowerThanEquals(string $input1, bool $isInput1Literal, string $input2, bool $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
@@ -130,7 +124,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	#[DataProvider('dataComparisons')]
+	#[DataProvider(methodName: 'dataComparisons')]
 	public function testGreaterThan(string $input1, bool $isInput1Literal, string $input2, bool $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
@@ -141,7 +135,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	#[DataProvider('dataComparisons')]
+	#[DataProvider(methodName: 'dataComparisons')]
 	public function testGreaterThanEquals(string $input1, bool $isInput1Literal, string $input2, bool $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
@@ -173,7 +167,7 @@ class ExpressionBuilderTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataLike')]
+	#[DataProvider(methodName: 'dataLike')]
 	public function testLike(string $input, bool $isLiteral): void {
 		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
@@ -183,7 +177,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	#[DataProvider('dataLike')]
+	#[DataProvider(methodName: 'dataLike')]
 	public function testNotLike(string $input, bool $isLiteral): void {
 		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
@@ -202,7 +196,7 @@ class ExpressionBuilderTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataIn')]
+	#[DataProvider(methodName: 'dataIn')]
 	public function testIn(string|array $input, bool $isLiteral): void {
 		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
@@ -212,7 +206,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	#[DataProvider('dataIn')]
+	#[DataProvider(methodName: 'dataIn')]
 	public function testNotIn(string|array $input, bool $isLiteral): void {
 		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
@@ -222,7 +216,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	protected function helpWithLiteral(string|array $input, bool $isLiteral) {
+	protected function helpWithLiteral(string|array $input, bool $isLiteral): array {
 		if ($isLiteral) {
 			if (is_array($input)) {
 				$doctrineInput = array_map(function ($ident) {
@@ -261,12 +255,14 @@ class ExpressionBuilderTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataLiteral')]
+	#[DataProvider(methodName: 'dataLiteral')]
 	public function testLiteral(string|int $input, string|int|null $type): void {
-		/** @var Literal $actual */
-		$actual = $this->expressionBuilder->literal($input, $type);
+		if ($type === null) {
+			$actual = $this->expressionBuilder->literal($input);
+		} else {
+			$actual = $this->expressionBuilder->literal($input, $type);
+		}
 
-		$this->assertInstanceOf('\OC\DB\QueryBuilder\Literal', $actual);
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->literal($input, $type),
 			$actual->__toString()
@@ -300,8 +296,11 @@ class ExpressionBuilderTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataClobComparisons')]
-	public function testClobComparisons(string $function, string|array $value, int $type, bool $compareKeyToValue, int $expected): void {
+	/**
+	 * @param IQueryBuilder::PARAM_* $type
+	 */
+	#[DataProvider(methodName: 'dataClobComparisons')]
+	public function testClobComparisons(string $function, string|array $value, mixed $type, bool $compareKeyToValue, int $expected): void {
 		$appId = $this->getUniqueID('testing');
 		$this->createConfig($appId, 1, 4);
 		$this->createConfig($appId, 2, 5);
@@ -335,8 +334,7 @@ class ExpressionBuilderTest extends TestCase {
 			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
 			->executeStatement();
 	}
-
-	protected function createConfig(string $appId, int $key, int|string $value) {
+	protected function createConfig(string $appId, int $key, string|int $value): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('appconfig')
 			->values([

@@ -11,18 +11,13 @@ use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
-/**
- * Class FunctionBuilderTest
- *
- *
- * @package Test\DB\QueryBuilder
- */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group(name: 'DB')]
 class FunctionBuilderTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|IDBConnection */
-	protected $connection;
+	protected IDBConnection $connection;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -30,8 +25,8 @@ class FunctionBuilderTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestConcatString')]
-	public function testConcatString($closure): void {
+	#[DataProvider(methodName: 'providerTestConcatString')]
+	public function testConcatString(callable $closure): void {
 		$query = $this->connection->getQueryBuilder();
 		[$real, $arguments, $return] = $closure($query);
 		if ($real) {
@@ -53,35 +48,35 @@ class FunctionBuilderTest extends TestCase {
 	public static function providerTestConcatString(): array {
 		return [
 			'1 column: string param unicode'
-				=> [function ($q) {
+				=> [function (IQueryBuilder $q) {
 					return [false, [$q->createNamedParameter('👍')], '👍'];
 				}],
 			'2 columns: string param and string param'
-				=> [function ($q) {
+				=> [function (IQueryBuilder $q) {
 					return [false, [$q->createNamedParameter('foo'), $q->createNamedParameter('bar')], 'foobar'];
 				}],
 			'2 columns: string param and int literal'
-				=> [function ($q) {
+				=> [function (IQueryBuilder $q) {
 					return [false, [$q->createNamedParameter('foo'), $q->expr()->literal(1)], 'foo1'];
 				}],
 			'2 columns: string param and string literal'
-				=> [function ($q) {
+				=> [function (IQueryBuilder $q) {
 					return [false, [$q->createNamedParameter('foo'), $q->expr()->literal('bar')], 'foobar'];
 				}],
 			'2 columns: string real and int literal'
-				=> [function ($q) {
+				=> [function (IQueryBuilder $q) {
 					return [true, ['configkey', $q->expr()->literal(2)], '12'];
 				}],
 			'4 columns: string literal'
-				=> [function ($q) {
+				=> [function (IQueryBuilder $q) {
 					return [false, [$q->expr()->literal('foo'), $q->expr()->literal('bar'), $q->expr()->literal('foo'), $q->expr()->literal('bar')], 'foobarfoobar'];
 				}],
 			'4 columns: int literal'
-				=> [function ($q) {
+				=> [function (IQueryBuilder $q) {
 					return [false, [$q->expr()->literal(1), $q->expr()->literal(2), $q->expr()->literal(3), $q->expr()->literal(4)], '1234'];
 				}],
 			'5 columns: string param with special chars used in the function'
-				=> [function ($q) {
+				=> [function (IQueryBuilder $q) {
 					return [false, [$q->createNamedParameter('b'), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
 				}],
 		];
@@ -333,7 +328,7 @@ class FunctionBuilderTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('octetLengthProvider')]
+	#[DataProvider(methodName: 'octetLengthProvider')]
 	public function testOctetLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -356,7 +351,7 @@ class FunctionBuilderTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('charLengthProvider')]
+	#[DataProvider(methodName: 'charLengthProvider')]
 	public function testCharLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -371,7 +366,10 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals($bytes, $column);
 	}
 
-	private function setUpMinMax($value) {
+	/**
+	 * @psalm-param 10|11|20 $value
+	 */
+	private function setUpMinMax(int $value) {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->insert('appconfig')

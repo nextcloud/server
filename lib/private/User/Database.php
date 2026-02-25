@@ -285,7 +285,7 @@ class Database extends ABackend implements
 			->orderBy($query->func()->lower('displayname'), 'ASC')
 			->addOrderBy('uid_lower', 'ASC')
 			->setMaxResults($limit)
-			->setFirstResult($offset);
+			->setFirstResult($offset ?? 0);
 
 		$result = $query->executeQuery();
 		$displayNames = [];

@@ -15,6 +15,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -415,9 +416,12 @@ EOF;
 			->willReturn($queryBuilder);
 		$queryBuilder->method('expr')
 			->willReturn($expr);
+		$parameter = $this->createMock(IParameter::class);
+		$parameter->method('__toString')
+			->willReturn('namedParameterToken');
 		$queryBuilder->method('createNamedParameter')
 			->willReturnMap([
-				[$token, \PDO::PARAM_STR, null, 'namedParameterToken']
+				[$token, \PDO::PARAM_STR, null, $parameter]
 			]);
 
 		$stmt->expects($this->once())

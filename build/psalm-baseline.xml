@@ -3371,45 +3371,6 @@
       <code><![CDATA[0]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/ExpressionBuilder.php">
-    <ImplicitToStringCast>
-      <code><![CDATA[$this->functionBuilder->lower($x)]]></code>
-    </ImplicitToStringCast>
-    <InvalidArgument>
-      <code><![CDATA[$y]]></code>
-      <code><![CDATA[$y]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/MySqlExpressionBuilder.php">
-    <InternalMethod>
-      <code><![CDATA[getParams]]></code>
-    </InternalMethod>
-    <InvalidArrayOffset>
-      <code><![CDATA[$params['collation']]]></code>
-    </InvalidArrayOffset>
-  </file>
-  <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$alias]]></code>
-    </NullableReturnStatement>
-  </file>
-  <file src="lib/private/DB/QueryBuilder/QuoteHelper.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$string]]></code>
-    </NullableReturnStatement>
-  </file>
-  <file src="lib/private/DB/QueryBuilder/TypedQueryBuilder.php">
-    <InternalMethod>
-      <code><![CDATA[select]]></code>
-      <code><![CDATA[selectDistinct]]></code>
-    </InternalMethod>
-  </file>
   <file src="lib/private/DateTimeFormatter.php">
     <FalsableReturnStatement>
       <code><![CDATA[$l->l($type, $timestamp, [
@@ -4008,14 +3969,5 @@
       <code><![CDATA[exec]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
-  </file>
-  <file src="tests/lib/TestCase.php">
-    <DeprecatedMethod>
-      <code><![CDATA[$container]]></code>
-    </DeprecatedMethod>
-    <InternalMethod>
-      <code><![CDATA[lockFile]]></code>
-      <code><![CDATA[unlockFile]]></code>
-    </InternalMethod>
   </file>
 </files>
