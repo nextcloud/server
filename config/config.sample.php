@@ -46,16 +46,29 @@ $CONFIG = [
 	'instanceid' => '',
 
 	/**
-	 * This is a unique identifier for your server.
-	 * It is useful when your Nextcloud instance is using different PHP servers.
-	 * Once it's set it shouldn't be changed.
+	 * This parameter is used to differentiate between different PHP server instances
+	 * that share the same ``config.php``. Its core use is in the "Snowflake" ID generation
+	 * system, which ensures that unique IDs created in distributed environments cannot collide.
 	 *
-	 * Value must be an integer, comprised between 0 and 1023.
+	 * The ``serverid`` is an integer (0–1023) that must be unique for each PHP server.
 	 *
-	 * When config.php is shared between different servers, this value should be overriden with "NC_serverid=<int>" on each server.
-	 * Note that it must be overriden for CLI and for your webserver.
+	 * This parameter is especially important if you deploy Nextcloud across multiple servers 
+	 * using a shared ``config.php`` file.
 	 *
-	 * Example for CLI: NC_serverid=42 occ config:list system
+	 * Once it is set, it should not be changed, to avoid data inconsistencies.
+	 *
+	 * In shared configurations, override ``serverid`` by setting the environment variable
+	 * ``NC_serverid=<int>`` for each server (applies to both web servers and CLI commands).
+	 *
+	 * Example for CLI::
+	 *
+	 *   NC_serverid=42 occ config:list system
+	 *
+	 * For simple, standalone deployments, the default fallback (based on the hostname)
+	 * is generally safe as long as your server's hostname does not change and you do not
+	 * clone or migrate the installation. However, if you plan to clone, migrate,
+	 * or scale your installation at any time, it is recommended to explicitly set ``serverid``
+	 * to a unique, fixed integer between 0 and 1023.
 	 */
 	'serverid' => -1,
 
