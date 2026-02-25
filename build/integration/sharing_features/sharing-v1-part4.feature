@@ -315,3 +315,35 @@ Scenario: Can copy file between shares if share permissions
     And the OCS status code should be "100"
     When User "user1" copies file "/share/test.txt" to "/re-share/movetest.txt"
     Then the HTTP status code should be "201"
+
+Scenario: Group deletes removes mount without marking
+	Given As an "admin"
+	And user "user0" exists
+	And user "user1" exists
+	And group "group0" exists
+	And user "user0" belongs to group "group0"
+	And file "textfile0.txt" of user "user1" is shared with group "group0"
+	And As an "user0"
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	And group "group0" does not exist
+	Then Share mounts for "user0" are empty
+
+Scenario: Group deletes removes mount with marking
+	Given As an "admin"
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
+	And user "user0" exists
+	And user "user1" exists
+	And group "group0" exists
+	And user "user0" belongs to group "group0"
+	And file "textfile0.txt" of user "user1" is shared with group "group0"
+	And As an "user0"
+	Then Share mounts for "user0" are empty
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	And group "group0" does not exist
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" are empty
