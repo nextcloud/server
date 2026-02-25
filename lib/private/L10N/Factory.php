@@ -146,7 +146,7 @@ class Factory implements IFactory {
 		if ($lang === null) {
 			return null;
 		}
-		$lang = preg_replace('/[^a-zA-Z0-9.;,=-]/', '', $lang);
+		$lang = preg_replace('/[^a-zA-Z0-9.;,=_-]/', '', $lang);
 		return str_replace('..', '', $lang);
 	}
 
