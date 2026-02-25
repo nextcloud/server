@@ -36,6 +36,7 @@ use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
 use OCP\Util;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -728,16 +729,10 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 	}
 
-	/**
-	 * Gets the list of user ids sorted by lastLogin, from most recent to least recent
-	 *
-	 * @param int|null $limit how many users to fetch (default: 25, max: 100)
-	 * @param int $offset from which offset to fetch
-	 * @param string $search search users based on search params
-	 * @return list<string> list of user IDs
-	 */
+	#[Override]
 	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
 		// We can't load all users who already logged in
+		/** @var int<1, 100> */
 		$limit = min(100, $limit ?: 25);
 
 		$connection = Server::get(IDBConnection::class);

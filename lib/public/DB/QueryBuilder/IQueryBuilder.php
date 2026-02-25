@@ -264,8 +264,8 @@ interface IQueryBuilder {
 	 *         ));
 	 * </code>
 	 *
-	 * @param array $params The query parameters to set.
-	 * @param array $types The query parameters types to set.
+	 * @param array<string|int, mixed> $params The query parameters to set.
+	 * @param array<string|int, self::PARAM_*> $types The query parameters types to set.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @since 8.2.0
@@ -293,7 +293,7 @@ interface IQueryBuilder {
 	/**
 	 * Gets all defined query parameter types for the query being constructed indexed by parameter index or name.
 	 *
-	 * @return list<self::PARAM_*> The currently defined query parameter types indexed by parameter index or name.
+	 * @return  array<string|int, self::PARAM_*> The currently defined query parameter types indexed by parameter index or name.
 	 * @since 8.2.0
 	 */
 	public function getParameterTypes(): array;
@@ -311,7 +311,7 @@ interface IQueryBuilder {
 	/**
 	 * Sets the position of the first result to retrieve (the "offset").
 	 *
-	 * @param int $firstResult The first result to return.
+	 * @param non-negative-int $firstResult The first result to return.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -322,7 +322,7 @@ interface IQueryBuilder {
 	 * Gets the position of the first result the query object was set to retrieve (the "offset").
 	 * Returns 0 if {@link setFirstResult} was not applied to this QueryBuilder.
 	 *
-	 * @return int The position of the first result.
+	 * @return non-negative-int The position of the first result.
 	 * @since 8.2.0
 	 */
 	public function getFirstResult(): int;
@@ -330,7 +330,7 @@ interface IQueryBuilder {
 	/**
 	 * Sets the maximum number of results to retrieve (the "limit").
 	 *
-	 * @param int|null $maxResults The maximum number of results to retrieve.
+	 * @param positive-int|null $maxResults The maximum number of results to retrieve.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @since 8.2.0
@@ -341,7 +341,7 @@ interface IQueryBuilder {
 	 * Gets the maximum number of results the query object was set to retrieve (the "limit").
 	 * Returns NULL if {@link setMaxResults} was not applied to this query builder.
 	 *
-	 * @return int|null The maximum number of results.
+	 * @return positive-int|null The maximum number of results.
 	 * @since 8.2.0
 	 */
 	public function getMaxResults(): ?int;
@@ -357,14 +357,14 @@ interface IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'p', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed ...$selects The selection expressions.
+	 * @param string|list<string>|IQueryFunction|ILiteral ...$selects The selection expressions.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $selects
 	 */
-	public function select(...$selects): self;
+	public function select(mixed...$selects): self;
 
 	/**
 	 * Specifies an item that is to be returned with a different name in the query result.
@@ -416,14 +416,14 @@ interface IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed ...$select The selection expression.
+	 * @param string|IParameter|IQueryFunction|ILiteral|list<string> ...$select The selection expression.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $select
 	 */
-	public function addSelect(...$select): self;
+	public function addSelect(mixed ...$select): self;
 
 	/**
 	 * Turns the query being built into a bulk delete query that ranges over
@@ -659,14 +659,14 @@ interface IQueryBuilder {
 	 *         ->where($or);
 	 * </code>
 	 *
-	 * @param mixed $predicates The restriction predicates.
+	 * @param string|IParameter|IQueryFunction|ILiteral|ICompositeExpression $predicates The restriction predicates.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $predicates
 	 */
-	public function where(...$predicates): self;
+	public function where(mixed ...$predicates): self;
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical
@@ -680,7 +680,7 @@ interface IQueryBuilder {
 	 *         ->andWhere('u.is_active = 1');
 	 * </code>
 	 *
-	 * @param mixed ...$where The query restrictions.
+	 * @param string|IParameter|IQueryFunction|ILiteral|ICompositeExpression ...$where The query restrictions.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @see where()
@@ -688,7 +688,7 @@ interface IQueryBuilder {
 	 *
 	 * @psalm-taint-sink sql $where
 	 */
-	public function andWhere(...$where): self;
+	public function andWhere(mixed ...$where): self;
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical
@@ -702,7 +702,7 @@ interface IQueryBuilder {
 	 *         ->orWhere('u.id = 2');
 	 * </code>
 	 *
-	 * @param mixed ...$where The WHERE statement.
+	 * @param string|IParameter|IQueryFunction|ILiteral|ICompositeExpression ...$where The WHERE statement.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @see where()
@@ -710,7 +710,7 @@ interface IQueryBuilder {
 	 *
 	 * @psalm-taint-sink sql $where
 	 */
-	public function orWhere(...$where): self;
+	public function orWhere(mixed ...$where): self;
 
 	/**
 	 * Specifies a grouping over the results of the query.
@@ -723,14 +723,14 @@ interface IQueryBuilder {
 	 *         ->groupBy('u.id');
 	 * </code>
 	 *
-	 * @param mixed ...$groupBys The grouping expression.
+	 * @param string|IParameter|IQueryFunction|ILiteral|list<string> ...$groupBys The grouping expression.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $groupBys
 	 */
-	public function groupBy(...$groupBys): self;
+	public function groupBy(mixed ...$groupBys): self;
 
 	/**
 	 * Adds a grouping expression to the query.
@@ -743,14 +743,14 @@ interface IQueryBuilder {
 	 *         ->addGroupBy('u.createdAt')
 	 * </code>
 	 *
-	 * @param mixed ...$groupBy The grouping expression.
+	 * @param string|IParameter|IQueryFunction|ILiteral|list<string> ...$groupBy The grouping expression.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $groupby
 	 */
-	public function addGroupBy(...$groupBy): self;
+	public function addGroupBy(mixed ...$groupBy): self;
 
 	/**
 	 * Sets a value for a column in an insert query.
@@ -805,14 +805,14 @@ interface IQueryBuilder {
 	 * Specifies a restriction over the groups of the query.
 	 * Replaces any previous having restrictions, if any.
 	 *
-	 * @param mixed ...$having The restriction over the groups.
+	 * @param string|IParameter|IQueryFunction|ILiteral ...$having The restriction over the groups.
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $having
 	 */
-	public function having(...$having): self;
+	public function having(mixed ...$having): self;
 
 	/**
 	 * Adds a restriction over the groups of the query, forming a logical

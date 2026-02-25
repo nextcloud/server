@@ -290,7 +290,9 @@ class QueryBuilder extends TypedQueryBuilder {
 
 	#[Override]
 	public function getFirstResult(): int {
-		return $this->queryBuilder->getFirstResult();
+		$firstResult = $this->queryBuilder->getFirstResult();
+		assert($firstResult >= 0);
+		return $firstResult;
 	}
 
 	#[Override]
@@ -306,7 +308,9 @@ class QueryBuilder extends TypedQueryBuilder {
 
 	#[Override]
 	public function getMaxResults(): ?int {
-		return $this->queryBuilder->getMaxResults();
+		$maxResult = $this->queryBuilder->getMaxResults();
+		assert($maxResult === null || $maxResult > 0);
+		return $maxResult;
 	}
 
 	#[Override]
