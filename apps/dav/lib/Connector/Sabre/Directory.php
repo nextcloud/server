@@ -14,6 +14,7 @@ use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\DAV\DAV\ICacheableDirectory;
 use OCA\DAV\Storage\PublicShareWrapper;
 use OCP\App\IAppManager;
 use OCP\Constants;
@@ -46,7 +47,8 @@ class Directory extends Node implements
 	\Sabre\DAV\IQuota,
 	\Sabre\DAV\IMoveTarget,
 	\Sabre\DAV\ICopyTarget,
-	INodeByPath {
+	INodeByPath,
+	ICacheableDirectory {
 	/**
 	 * Cached directory content
 	 * @var FileInfo[]
@@ -562,5 +564,9 @@ class Directory extends Node implements
 		}
 
 		return $node;
+	}
+
+	public function getCacheableDirectories(): array {
+		return [$this->getNode()];
 	}
 }

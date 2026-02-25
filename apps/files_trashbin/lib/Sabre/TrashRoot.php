@@ -8,18 +8,19 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\DAV\DAV\ICacheableDirectory;
 use OCA\Files_Trashbin\Service\ConfigService;
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
-class TrashRoot implements ICollection {
-
+class TrashRoot implements ICollection, ICacheableDirectory {
 	public function __construct(
 		private IUser $user,
 		private ITrashManager $trashManager,
@@ -89,5 +90,12 @@ class TrashRoot implements ICollection {
 
 	public function getLastModified(): int {
 		return 0;
+	}
+
+	/**
+	 * @return Folder[]
+	 */
+	public function getCacheableDirectories(): array {
+		return $this->trashManager->getCacheableRootsForUser($this->user);
 	}
 }

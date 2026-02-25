@@ -279,6 +279,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Controller\\UpcomingEventsController' => __DIR__ . '/..' . '/../lib/Controller/UpcomingEventsController.php',
         'OCA\\DAV\\DAV\\CustomPropertiesBackend' => __DIR__ . '/..' . '/../lib/DAV/CustomPropertiesBackend.php',
         'OCA\\DAV\\DAV\\GroupPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/GroupPrincipalBackend.php',
+        'OCA\\DAV\\DAV\\ICacheableDirectory' => __DIR__ . '/..' . '/../lib/DAV/ICacheableDirectory.php',
         'OCA\\DAV\\DAV\\PublicAuth' => __DIR__ . '/..' . '/../lib/DAV/PublicAuth.php',
         'OCA\\DAV\\DAV\\RemoteUserPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/RemoteUserPrincipalBackend.php',
         'OCA\\DAV\\DAV\\Sharing\\Backend' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Backend.php',
