@@ -250,6 +250,12 @@ class Cache implements ICache {
 	 * @throws \RuntimeException
 	 */
 	public function put($file, array $data) {
+		// do not carry over creation_time to file versions, as each new version would otherwise
+		// create a filecache_extended entry with the same creation_time as the original file
+		if (str_starts_with($file, 'files_versions/')) {
+			unset($data['creation_time']);
+		}
+
 		if (($id = $this->getId($file)) > -1) {
 			$this->update($id, $data);
 			return $id;
