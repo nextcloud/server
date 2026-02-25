@@ -387,7 +387,7 @@ OC.L10N.register(
     "Files that are not shared will show up here." : "Тут показуватимуться файли, які не є у спільному доступі.",
     "Recent" : "Останні",
     "List of recently modified files and folders." : "Список нещодавно змінених файлів та каталогів.",
-    "No recently modified files" : "Відсутні файли із нещодавними змінами",
+    "No recently modified files" : "Відсутні файли, які було нещодавно змінено",
     "Files and folders you recently modified will show up here." : "Тут показуватимуться файли та каталоги, які було нещодавно змінено.",
     "Search" : "Пошук",
     "Search results within your files." : "Шукати результати серед ваших файлів.",
