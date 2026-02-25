@@ -1,11 +1,15 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile picker" : "Profil seçici",
     "Profile" : "Profil",
     "This application provides the profile" : "Bu uygulama profili sağlar",
     "Provides a customisable user profile interface." : "Özelleştirilebilir bir kullanıcı profili arayüzü sağlar.",
     "Searching …" : "Aranıyor…",
     "Not found" : "Bulunamadı",
+    "Search for a user profile" : "Kullanıcı profili ara",
+    "Search for a user profile. Start typing" : "Aranacak kullanıcı profilini yazmaya başlayın",
+    "Insert selected user profile link" : "Seçilmiş kullanıcı profili bağlantısını ekle",
     "Insert" : "Ekle",
     "You have not added any info yet" : "Henüz herhangi bir bilgi eklememişsiniz",
     "{user} has not added any info yet" : "{user} henüz herhangi bir bilgi eklememiş",
