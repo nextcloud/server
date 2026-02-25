@@ -112,7 +112,13 @@ class RefreshWebcalService {
 
 				$sObject = $vObject->serialize();
 				$uid = $vBase->UID->getValue();
-				$etag = md5($sObject);
+				// Strip DTSTAMP lines for etag computation only.
+				// Many providers (Google Calendar, Outlook, itslearning) set DTSTAMP
+				// to the current time on every feed request per RFC 5545, causing
+				// every event to appear modified on every refresh.
+				// DTSTAMP is kept in the stored data as it is a required property.
+				$sObjectForEtag = preg_replace('/^DTSTAMP[;:].*\r?\n([ \t].*\r?\n)*/m', '', $sObject);
+				$etag = md5($sObjectForEtag);
 
 				// No existing object with this UID, create it
 				if (!isset($existingObjects[$uid])) {

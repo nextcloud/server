@@ -460,9 +460,142 @@ class RefreshWebcalServiceTest extends TestCase {
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
+	public function testDtstampChangeDoesNotTriggerUpdate(): void {
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->logger,
+			$this->connection,
+			$this->timeFactory,
+			$this->importService
+		);
+
+		$this->caldavBackend->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/testuser')
+			->willReturn([
+				[
+					'id' => '42',
+					'uri' => 'sub123',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://foo.bar/bla2',
+					'lastmodified' => 0,
+				],
+			]);
+
+		// Feed body has a new DTSTAMP (as happens on every fetch from Google/Outlook)
+		$body = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Test//Test//EN\r\nBEGIN:VEVENT\r\nUID:dtstamp-test\r\nDTSTAMP:20260209T120000Z\r\nDTSTART:20260301T100000Z\r\nSUMMARY:Test Event\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+		$stream = $this->createStreamFromString($body);
+
+		$this->connection->expects(self::once())
+			->method('queryWebcalFeed')
+			->willReturn(['data' => $stream, 'format' => 'ical']);
+
+		// The stored etag was computed from the DTSTAMP-stripped serialization
+		$existingEtag = md5(preg_replace('/^DTSTAMP[;:].*\r?\n([ \t].*\r?\n)*/m', '', $body));
+
+		$this->caldavBackend->expects(self::once())
+			->method('getLimitedCalendarObjects')
+			->willReturn([
+				'dtstamp-test' => [
+					'id' => 1,
+					'uid' => 'dtstamp-test',
+					'etag' => $existingEtag,
+					'uri' => 'dtstamp-test.ics',
+				],
+			]);
+
+		$vCalendar = VObject\Reader::read($body);
+		$generator = function () use ($vCalendar) {
+			yield $vCalendar;
+		};
+
+		$this->importService->expects(self::once())
+			->method('importText')
+			->willReturn($generator());
+
+		// DTSTAMP-only change must NOT trigger an update
+		$this->caldavBackend->expects(self::never())
+			->method('updateCalendarObject');
+
+		$this->caldavBackend->expects(self::never())
+			->method('createCalendarObject');
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
+	}
+
+	public function testFoldedDtstampChangeDoesNotTriggerUpdate(): void {
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->logger,
+			$this->connection,
+			$this->timeFactory,
+			$this->importService
+		);
+
+		$this->caldavBackend->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/testuser')
+			->willReturn([
+				[
+					'id' => '42',
+					'uri' => 'sub123',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://foo.bar/bla2',
+					'lastmodified' => 0,
+				],
+			]);
+
+		// DTSTAMP with TZID parameter exceeds 75 bytes, triggering RFC 5545 content line folding
+		$body = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Test//Test//EN\r\nBEGIN:VEVENT\r\nUID:folded-dtstamp-test\r\nDTSTAMP;X-VOBJ-ORIGINAL-TZID=America/Argentina/Buenos_Aires:20260209T120000Z\r\nDTSTART:20260301T100000Z\r\nSUMMARY:Test Event\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+		$stream = $this->createStreamFromString($body);
+
+		$this->connection->expects(self::once())
+			->method('queryWebcalFeed')
+			->willReturn(['data' => $stream, 'format' => 'ical']);
+
+		// Compute etag from the serialized output (which will be folded) minus DTSTAMP
+		$vCalForEtag = VObject\Reader::read($body);
+		$serialized = $vCalForEtag->serialize();
+		$existingEtag = md5(preg_replace('/^DTSTAMP[;:].*\r?\n([ \t].*\r?\n)*/m', '', $serialized));
+
+		$this->caldavBackend->expects(self::once())
+			->method('getLimitedCalendarObjects')
+			->willReturn([
+				'folded-dtstamp-test' => [
+					'id' => 1,
+					'uid' => 'folded-dtstamp-test',
+					'etag' => $existingEtag,
+					'uri' => 'folded-dtstamp-test.ics',
+				],
+			]);
+
+		$vCalendar = VObject\Reader::read($body);
+		$generator = function () use ($vCalendar) {
+			yield $vCalendar;
+		};
+
+		$this->importService->expects(self::once())
+			->method('importText')
+			->willReturn($generator());
+
+		// Folded DTSTAMP change must NOT trigger an update
+		$this->caldavBackend->expects(self::never())
+			->method('updateCalendarObject');
+
+		$this->caldavBackend->expects(self::never())
+			->method('createCalendarObject');
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
+	}
+
 	public static function identicalDataProvider(): array {
 		$icalBody = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:12345\r\nDTSTAMP:20160218T133704Z\r\nDTSTART;VALUE=DATE:19000101\r\nDTEND;VALUE=DATE:19000102\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:12345's Birthday (1900)\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
-		$etag = md5($icalBody);
+		// Etag is computed from DTSTAMP-stripped serialization
+		$etag = md5(preg_replace('/^DTSTAMP[;:].*\r?\n([ \t].*\r?\n)*/m', '', $icalBody));
 
 		return [
 			[
