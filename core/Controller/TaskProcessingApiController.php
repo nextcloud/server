@@ -425,6 +425,35 @@ class TaskProcessingApiController extends OCSController {
 	}
 
 	/**
+	 * Returns queue statistics for task processing
+	 *
+	 * Returns the count of scheduled and running tasks, optionally filtered
+	 * by task type(s). Designed for external scalers (e.g. KEDA) to poll
+	 * for task queue depth. Admin-only endpoint authenticated via app_password.
+	 *
+	 * @param list<string> $taskTypeIds List of task type IDs to filter by
+	 * @return DataResponse<Http::STATUS_OK, array{scheduled: int, running: int}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 *
+	 * 200: Queue stats returned
+	 */
+	#[NoCSRFRequired]
+	#[ApiRoute(verb: 'GET', url: '/queue_stats', root: '/taskprocessing')]
+	public function queueStats(array $taskTypeIds = []): DataResponse {
+		# TODO: bruteforce protection?
+		try {
+			$scheduled = $this->taskProcessingManager->countTasks(Task::STATUS_SCHEDULED, $taskTypeIds);
+			$running = $this->taskProcessingManager->countTasks(Task::STATUS_RUNNING, $taskTypeIds);
+
+			return new DataResponse([
+				'scheduled' => $scheduled,
+				'running' => $running,
+			]);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
 	 * Returns the contents of a file referenced in a task
 	 *
 	 * @param int $taskId The id of the task

@@ -266,6 +266,26 @@ class TaskMapper extends QBMapper {
 	}
 
 	/**
+	 * @param list<string> $taskTypeIds
+	 * @param int $status
+	 * @return int
+	 * @throws Exception
+	 */
+	public function countByStatus(array $taskTypeIds, int $status): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select($qb->func()->count('id'))
+			->from($this->tableName)
+			->where($qb->expr()->eq('status', $qb->createNamedParameter($status, IQueryBuilder::PARAM_INT)));
+		if (!empty($taskTypeIds)) {
+			$qb->andWhere($qb->expr()->in('type', $qb->createNamedParameter($taskTypeIds, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+		$result = $qb->executeQuery();
+		$count = (int)$result->fetchOne();
+		$result->closeCursor();
+		return $count;
+	}
+
+	/**
 	 * @throws Exception
 	 */
 	public function hasRunningTasksForTaskType(string $getTaskTypeId): bool {
