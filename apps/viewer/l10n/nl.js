@@ -26,6 +26,7 @@ OC.L10N.register(
     "Apply" : "Pas toe",
     "Warning" : "Waarschuwing",
     "Confirm" : "Bevestigen",
+    "Discard changes" : "Negeer wijzigingen",
     "Undo" : "Ongedaan maken",
     "Redo" : "Opnieuw doen",
     "Show original image" : "Toon originele afbeelding",
