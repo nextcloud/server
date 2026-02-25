@@ -46,6 +46,10 @@ class Search implements ISearch {
 			foreach ($this->pluginList[$type] as $plugin) {
 				/** @var ISearchPlugin $searchPlugin */
 				$searchPlugin = $this->container->resolve($plugin);
+				if ($searchPlugin instanceof UserPlugin && $lookup) {
+					// we are in GlobalScale, we ignore local accounts and prefer the result from lookup
+					continue;
+				}
 				$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 			}
 		}
