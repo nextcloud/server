@@ -80,6 +80,7 @@ export default Vue.extend({
 		LinkIcon,
 		NetworkIcon,
 		TagIcon,
+		RecentlyCreatedIcon,
 	},
 
 	props: {
@@ -116,6 +117,29 @@ export default Vue.extend({
 		},
 		isFavorite(): boolean {
 			return this.source.attributes.favorite === 1
+		},
+
+		isRecentlyCreated(): boolean {
+			if (this.source.attributes.upload_time) {
+				return false
+			}
+
+			const creationDate = this.source.attributes.creationdate
+				? new Date(this.source.attributes.creationdate)
+				: null
+
+			if (!creationDate) {
+				return false
+			}
+
+			const oneDayAgo = new Date()
+			oneDayAgo.setDate(oneDayAgo.getDate() - 1)
+
+			return creationDate > oneDayAgo
+		},
+
+		isRecentView(): boolean {
+			return this.$route?.params?.view === 'recent'
 		},
 
 		userConfig(): UserConfig {
