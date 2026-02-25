@@ -185,4 +185,22 @@ class ShareRecipientUpdaterTest extends \Test\TestCase {
 
 		$this->updater->updateForUser($user1);
 	}
+
+	public function testDeletedShare() {
+		$share = $this->createMock(IShare::class);
+		$share->method('getTarget')
+			->willReturn('/target');
+		$share->method('getNodeId')
+			->willReturn(111);
+		$user1 = $this->createUser('user1', '');
+
+		$this->shareTargetValidator->expects($this->never())
+			->method('verifyMountPoint');
+
+		$this->userMountCache->expects($this->exactly(1))
+			->method('removeMount')
+			->with('/user1/files/target/');
+
+		$this->updater->updateForDeletedShare($user1, $share);
+	}
 }
