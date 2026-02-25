@@ -28,7 +28,7 @@ class ShareRecipientUpdater {
 	/**
 	 * Validate all received shares for a user
 	 */
-	public function updateForUser(IUser $user, bool $verifyMountPoints = true, array $ignoreShares = []): void {
+	public function updateForUser(IUser $user): void {
 		// prevent recursion
 		if (isset($this->inUpdate[$user->getUID()])) {
 			return;
@@ -40,20 +40,18 @@ class ShareRecipientUpdater {
 		$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts);
 		$mountsByPath = array_combine($mountPoints, $cachedMounts);
 
-		$shares = $this->shareMountProvider->getSuperSharesForUser($user, $ignoreShares);
+		$shares = $this->shareMountProvider->getSuperSharesForUser($user);
 
 		// the share mounts have changed if either the number of shares doesn't matched the number of share mounts
 		// or there is a share for which we don't have a mount yet.
 		$mountsChanged = count($shares) !== count($shareMounts);
-		foreach ($shares as &$share) {
+		foreach ($shares as $share) {
 			[$parentShare, $groupedShares] = $share;
 			$mountPoint = '/' . $user->getUID() . '/files/' . trim($parentShare->getTarget(), '/') . '/';
 			$mountKey = $parentShare->getNodeId() . '::' . $mountPoint;
 			if (!isset($cachedMounts[$mountKey])) {
 				$mountsChanged = true;
-				if ($verifyMountPoints) {
-					$this->shareTargetValidator->verifyMountPoint($user, $parentShare, $mountsByPath, $groupedShares);
-				}
+				$this->shareTargetValidator->verifyMountPoint($user, $parentShare, $mountsByPath, $groupedShares);
 			}
 		}
 
@@ -77,5 +75,14 @@ class ShareRecipientUpdater {
 		$mountPoint = '/' . $user->getUID() . '/files/' . trim($target, '/') . '/';
 
 		$this->userMountCache->addMount($user, $mountPoint, $share->getNode()->getData(), MountProvider::class);
+	}
+
+	/**
+	 * Process a single deleted share for a user
+	 */
+	public function updateForDeletedShare(IUser $user, IShare $share): void {
+		$mountPoint = '/' . $user->getUID() . '/files/' . trim($share->getTarget(), '/') . '/';
+
+		$this->userMountCache->removeMount($mountPoint);
 	}
 }
