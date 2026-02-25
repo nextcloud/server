@@ -37,7 +37,9 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @template NewS of string
 	 * @param NewS ...$columns The columns to select. They are not allowed to contain table names or aliases, or asterisks. Use {@see self::selectAlias()} for that.
 	 * @psalm-this-out self<S|NewS>
+	 * @return $this
 	 * @since 34.0.0
+	 * @note Psalm has a bug that prevents inferring the correct type in chained calls: https://github.com/vimeo/psalm/issues/8803. Convert the chained calls to standalone calls or switch to PHPStan, which suffered the same bug in the past, but fixed it in 2.1.5: https://github.com/phpstan/phpstan/issues/8439
 	 */
 	public function selectColumns(string ...$columns): self;
 
@@ -52,7 +54,9 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @template NewS of string
 	 * @param NewS ...$columns The columns to select distinct. They are not allowed to contain table names or aliases, or asterisks. Use {@see self::selectAlias()} for that.
 	 * @psalm-this-out self<S|NewS>
+	 * @return $this
 	 * @since 34.0.0
+	 * @note Psalm has a bug that prevents inferring the correct type in chained calls: https://github.com/vimeo/psalm/issues/8803. Convert the chained calls to standalone calls or switch to PHPStan, which suffered the same bug in the past, but fixed it in 2.1.5: https://github.com/phpstan/phpstan/issues/8439
 	 */
 	public function selectColumnsDistinct(string ...$columns): self;
 
@@ -69,7 +73,8 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @template NewS of string
 	 * @param NewS $alias
 	 * @psalm-this-out self<S|NewS>
-	 * @psalm-suppress LessSpecificImplementedReturnType
+	 * @return $this
+	 * @note Psalm has a bug that prevents inferring the correct type in chained calls: https://github.com/vimeo/psalm/issues/8803. Convert the chained calls to standalone calls or switch to PHPStan, which suffered the same bug in the past, but fixed it in 2.1.5: https://github.com/phpstan/phpstan/issues/8439
 	 */
 	#[Override]
 	public function selectAlias($select, $alias): self;
