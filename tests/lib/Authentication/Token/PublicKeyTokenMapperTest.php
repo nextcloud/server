@@ -40,7 +40,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->mapper = new PublicKeyTokenMapper($this->dbConnection);
 	}
 
-	private function resetDatabase() {
+	private function resetDatabase(): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('authtoken')->executeStatement();
 		$qb->insert('authtoken')->values([

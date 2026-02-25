@@ -15,7 +15,9 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  */
 class PartitionQuery {
 	public const JOIN_MODE_INNER = 'inner';
+
 	public const JOIN_MODE_LEFT = 'left';
+
 	// left-join where the left side IS NULL
 	public const JOIN_MODE_LEFT_NULL = 'left_null';
 
@@ -28,27 +30,29 @@ class PartitionQuery {
 		public string $joinMode,
 	) {
 		if ($joinMode !== self::JOIN_MODE_LEFT && $joinMode !== self::JOIN_MODE_INNER) {
-			throw new InvalidPartitionedQueryException("$joinMode joins aren't allowed in partitioned queries");
+			throw new InvalidPartitionedQueryException($joinMode . " joins aren't allowed in partitioned queries");
 		}
 	}
 
+	/**
+	 * @param mixed[][] $rows
+	 */
 	public function mergeWith(array $rows): array {
-		if (empty($rows)) {
+		if ($rows === []) {
 			return [];
 		}
+
 		// strip table/alias from column names
 		$joinFromColumn = preg_replace('/\w+\./', '', $this->joinFromColumn);
 		$joinToColumn = preg_replace('/\w+\./', '', $this->joinToColumn);
 
-		$joinFromValues = array_map(function (array $row) use ($joinFromColumn) {
-			return $row[$joinFromColumn];
-		}, $rows);
-		$joinFromValues = array_filter($joinFromValues, function ($value) {
-			return $value !== null;
-		});
+		$joinFromValues = array_map(fn (array $row) => $row[$joinFromColumn], $rows);
+		$joinFromValues = array_filter($joinFromValues, fn ($value): bool => $value !== null);
+
 		$this->query->andWhere($this->query->expr()->in($this->joinToColumn, $this->query->createNamedParameter($joinFromValues, IQueryBuilder::PARAM_STR_ARRAY, ':' . uniqid())));
 
-		$s = $this->query->getSQL();
+		$this->query->getSQL();
+
 		$partitionedRows = $this->query->executeQuery()->fetchAll();
 
 		$columns = $this->query->getOutputColumns();
@@ -58,6 +62,7 @@ class PartitionQuery {
 		foreach ($partitionedRows as $partitionedRow) {
 			$partitionedRowsByKey[$partitionedRow[$joinToColumn]][] = $partitionedRow;
 		}
+
 		$result = [];
 		foreach ($rows as $row) {
 			if (isset($partitionedRowsByKey[$row[$joinFromColumn]])) {
@@ -70,6 +75,7 @@ class PartitionQuery {
 				$result[] = array_merge($nullResult, $row);
 			}
 		}
+
 		return $result;
 	}
 }

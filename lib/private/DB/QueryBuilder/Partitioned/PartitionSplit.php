@@ -50,25 +50,24 @@ class PartitionSplit {
 
 	/**
 	 * Check if a query predicate mentions a table or alias from this partition
-	 *
-	 * @param string $predicate
-	 * @return bool
 	 */
 	public function checkPredicateForTable(string $predicate): bool {
 		foreach ($this->getTablesAndAliases() as $name) {
-			if (str_contains($predicate, "`$name`.`")) {
+			if (str_contains($predicate, sprintf('`%s`.`', $name))) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
 	public function isColumnInPartition(string $column): bool {
 		foreach ($this->getTablesAndAliases() as $name) {
-			if (str_starts_with($column, "$name.")) {
+			if (str_starts_with($column, $name . '.')) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

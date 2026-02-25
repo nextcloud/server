@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,6 +22,7 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 		foreach ($args as $item) {
 			$list[] = $this->queryBuilder->expr()->castColumn($item, IQueryBuilder::PARAM_STR);
 		}
+
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 

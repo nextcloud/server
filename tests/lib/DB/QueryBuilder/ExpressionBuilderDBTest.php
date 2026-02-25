@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,6 +23,7 @@ use Test\TestCase;
 #[Group(name: 'DB')]
 class ExpressionBuilderDBTest extends TestCase {
 	protected IDBConnection $connection;
+
 	protected bool $schemaSetup = false;
 
 	#[\Override]
@@ -156,6 +159,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		} else {
 			$query->where($query->expr()->eq('attributes', $query->createNamedParameter('[["permissions","before"]]'), IQueryBuilder::PARAM_JSON));
 		}
+
 		$query->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
@@ -167,7 +171,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		$entries = $result->fetchAll();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
-		self::assertEquals([['permissions','after']], json_decode($entries[0]['attributes'], true));
+		self::assertEquals([['permissions','after']], json_decode((string)$entries[0]['attributes'], true));
 	}
 
 	public function testDateTimeEquals(): void {
@@ -232,8 +236,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		$query->insert('appconfig')
 			->values([
 				'appid' => $query->createNamedParameter($appId),
-				'configkey' => $query->createNamedParameter((string)$key),
-				'configvalue' => $query->createNamedParameter((string)$value),
+				'configkey' => $query->createNamedParameter($key),
+				'configvalue' => $query->createNamedParameter($value),
 			])
 			->executeStatement();
 	}
@@ -248,7 +252,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		try {
 			$schema->getTable($prefix . 'testing');
 			$this->connection->getQueryBuilder()->delete('testing')->executeStatement();
-		} catch (SchemaException $e) {
+		} catch (SchemaException) {
 			$this->schemaSetup = true;
 			$table = $schema->createTable($prefix . 'testing');
 			$table->addColumn('id', Types::BIGINT, [

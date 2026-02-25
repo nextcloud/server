@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -95,7 +97,7 @@ class QuoteHelperTest extends \Test\TestCase {
 			return (string)$string;
 		}
 
-		if (substr_count($string, '.')) {
+		if (substr_count($string, '.') !== 0) {
 			[$alias, $columnName] = explode('.', $string);
 			return '`' . $alias . '`.`' . $columnName . '`';
 		}

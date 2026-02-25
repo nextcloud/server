@@ -165,7 +165,6 @@ class SharingMapper {
 			->andWhere($query->expr()->eq(
 				'type',
 				$query->createNamedParameter($resourceType, IQueryBuilder::PARAM_STR)),
-				IQueryBuilder::PARAM_STR,
 			)
 			->executeQuery();
 

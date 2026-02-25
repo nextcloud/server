@@ -33,9 +33,11 @@ use function str_starts_with;
 #[Group(name: 'DB')]
 class QueryBuilderTest extends \Test\TestCase {
 	private SystemConfig&MockObject $config;
+
 	private LoggerInterface&MockObject $logger;
 
 	private QueryBuilder $queryBuilder;
+
 	private IDBConnection $connection;
 
 	#[\Override]
@@ -53,7 +55,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 */
 	protected function createTestingRows(string $appId = 'testFirstResult'): void {
 		$qB = $this->connection->getQueryBuilder();
-		for ($i = 1; $i < 10; $i++) {
+		for ($i = 1; $i < 10; ++$i) {
 			$qB->insert('*PREFIX*appconfig')
 				->values([
 					'appid' => $qB->expr()->literal($appId),
@@ -78,6 +80,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		while ($row = $query->fetch()) {
 			$rows[] = $row['configvalue'];
 		}
+
 		$query->closeCursor();
 
 		return $rows;
@@ -119,7 +122,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$rows = $this->getTestingRows($this->queryBuilder);
 
-		$this->assertCount(sizeof($expectedSet), $rows);
+		$this->assertCount(count($expectedSet), $rows);
 		$this->assertEquals($expectedSet, $rows);
 
 		$this->deleteTestingRows();
@@ -151,7 +154,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$rows = $this->getTestingRows($this->queryBuilder);
 
-		$this->assertCount(sizeof($expectedSet), $rows);
+		$this->assertCount(count($expectedSet), $rows);
 		$this->assertEquals($expectedSet, $rows);
 
 		$this->deleteTestingRows();
@@ -212,7 +215,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			unset($row[$key]);
 		}
 
-		if ($expectedLiteral) {
+		if ($expectedLiteral !== '' && $expectedLiteral !== '0') {
 			$this->assertEquals([$expectedLiteral], array_values($row));
 		} else {
 			$this->assertEmpty($row);
@@ -363,10 +366,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->queryBuilder->select('appid');
 
-		call_user_func_array(
-			[$this->queryBuilder, 'addSelect'],
-			$selectArguments
-		);
+		$this->queryBuilder->addSelect(...$selectArguments);
 
 		$this->queryBuilder->from('*PREFIX*appconfig')
 			->where($this->queryBuilder->expr()->eq(
@@ -386,7 +386,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			unset($row[$key]);
 		}
 
-		if ($expectedLiteral) {
+		if ($expectedLiteral !== '' && $expectedLiteral !== '0') {
 			$this->assertEquals([$expectedLiteral], array_values($row));
 		} else {
 			$this->assertEmpty($row);
@@ -480,13 +480,14 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	#[DataProvider(methodName: 'dataFrom')]
 	public function testFrom(string $table1Name, ?string $table1Alias, ?string $table2Name, ?string $table2Alias, array $expectedQueryPart, string $expectedQuery): void {
-		$config = $this->createMock(SystemConfig::class);
-		$logger = $this->createMock(LoggerInterface::class);
+		$config = $this->createStub(SystemConfig::class);
+		$logger = $this->createStub(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(Server::get(IDBConnection::class), $config, $logger);
 
 		if ($table1Name === 'function') {
 			$table1Name = $queryBuilder->createFunction('(' . $queryBuilder->select('*')->from('test')->getSQL() . ')');
 		}
+
 		$this->queryBuilder->from($table1Name, $table1Alias);
 		if ($table2Name !== null) {
 			$this->queryBuilder->from($table2Name, $table2Alias);
@@ -507,7 +508,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		return [
 			[
 				'd1', 'data2', '', null,
-				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '', 'joinCondition' => null]]],
+				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` '
 			],
 			[
@@ -569,7 +570,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		return [
 			[
 				'd1', 'data2', '', null,
-				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '', 'joinCondition' => null]]],
+				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` '
 			],
 			[
@@ -610,7 +611,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		return [
 			[
 				'd1', 'data2', '', null,
-				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '', 'joinCondition' => null]]],
+				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` '
 			],
 			[
@@ -685,10 +686,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	#[DataProvider(methodName: 'dataWhere')]
 	public function testWhere(array $whereArguments, CompositeExpression $expectedQueryPart, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
-		call_user_func_array(
-			[$this->queryBuilder, 'where'],
-			$whereArguments
-		);
+		$this->queryBuilder->where(...$whereArguments);
 
 		$this->assertEquals(
 			$expectedQueryPart,
@@ -704,10 +702,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	#[DataProvider(methodName: 'dataWhere')]
 	public function testAndWhere(array $whereArguments, CompositeExpression $expectedQueryPart, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
-		call_user_func_array(
-			[$this->queryBuilder, 'andWhere'],
-			$whereArguments
-		);
+		$this->queryBuilder->andWhere(...$whereArguments);
 
 		$this->assertEquals(
 			$expectedQueryPart,
@@ -730,10 +725,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	#[DataProvider(methodName: 'dataOrWhere')]
 	public function testOrWhere(array $whereArguments, CompositeExpression $expectedQueryPart, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
-		call_user_func_array(
-			[$this->queryBuilder, 'orWhere'],
-			$whereArguments
-		);
+		$this->queryBuilder->orWhere(...$whereArguments);
 
 		$this->assertEquals(
 			$expectedQueryPart,
@@ -756,10 +748,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	#[DataProvider(methodName: 'dataGroupBy')]
 	public function testGroupBy(array $groupByArguments, array $expectedQueryPart, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
-		call_user_func_array(
-			[$this->queryBuilder, 'groupBy'],
-			$groupByArguments
-		);
+		$this->queryBuilder->groupBy(...$groupByArguments);
 
 		$this->assertEquals(
 			$expectedQueryPart,
@@ -783,10 +772,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	public function testAddGroupBy(array $groupByArguments, array $expectedQueryPart, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		$this->queryBuilder->groupBy('column1');
-		call_user_func_array(
-			[$this->queryBuilder, 'addGroupBy'],
-			$groupByArguments
-		);
+		$this->queryBuilder->addGroupBy(...$groupByArguments);
 
 		$this->assertEquals(
 			$expectedQueryPart,
@@ -858,10 +844,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	#[DataProvider(methodName: 'dataHaving')]
 	public function testHaving(array $havingArguments, CompositeExpression $expectedQueryPart, string $expectedQuery): void {
-		call_user_func_array(
-			[$this->queryBuilder, 'having'],
-			$havingArguments
-		);
+		$this->queryBuilder->having(...$havingArguments);
 
 		$this->assertEquals(
 			$expectedQueryPart,
@@ -894,10 +877,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	#[DataProvider(methodName: 'dataAndHaving')]
 	public function testAndHaving(array $havingArguments, CompositeExpression $expectedQueryPart, string $expectedQuery): void {
 		$this->queryBuilder->having('condition1');
-		call_user_func_array(
-			[$this->queryBuilder, 'andHaving'],
-			$havingArguments
-		);
+		$this->queryBuilder->andHaving(...$havingArguments);
 
 		$this->assertEquals(
 			$expectedQueryPart,
@@ -930,10 +910,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	#[DataProvider(methodName: 'dataOrHaving')]
 	public function testOrHaving(array $havingArguments, CompositeExpression $expectedQueryPart, string $expectedQuery): void {
 		$this->queryBuilder->having('condition1');
-		call_user_func_array(
-			[$this->queryBuilder, 'orHaving'],
-			$havingArguments
-		);
+		$this->queryBuilder->orHaving(...$havingArguments);
 
 		$this->assertEquals(
 			$expectedQueryPart,
@@ -954,9 +931,6 @@ class QueryBuilderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @param string|'ASC'|'DESC'|null $order
-	 */
 	#[DataProvider(methodName: 'dataOrderBy')]
 	public function testOrderBy(string $sort, ?string $order, array $expectedQueryPart, string $expectedQuery): void {
 		$this->queryBuilder->orderBy($sort, $order);
@@ -986,10 +960,6 @@ class QueryBuilderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @param string|'ASC'|'DESC'|null $order2
-	 * @param string|'ASC'|'DESC'|null $order1
-	 */
 	#[DataProvider(methodName: 'dataAddOrderBy')]
 	public function testAddOrderBy(string $sort2, ?string $order2, ?string $order1, array $expectedQueryPart, string $expectedQuery): void {
 		$this->queryBuilder->orderBy('column1', $order1);
@@ -1151,10 +1121,10 @@ class QueryBuilderTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('debug')
 			->with(
-				'DB QueryBuilder: \'{query}\' with parameters: {params}',
+				"DB QueryBuilder: '{query}' with parameters: {params}",
 				[
 					'query' => 'UPDATE FOO SET bar = 1 WHERE BAR = ?',
-					'params' => 'foo => \'bar\', key => \'value\'',
+					'params' => "foo => 'bar', key => 'value'",
 					'app' => 'core',
 				]
 			);
@@ -1189,10 +1159,10 @@ class QueryBuilderTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('debug')
 			->with(
-				'DB QueryBuilder: \'{query}\' with parameters: {params}',
+				"DB QueryBuilder: '{query}' with parameters: {params}",
 				[
 					'query' => 'UPDATE FOO SET bar = false WHERE BAR = ?',
-					'params' => '0 => \'Bar\'',
+					'params' => "0 => 'Bar'",
 					'app' => 'core',
 				]
 			);
@@ -1227,7 +1197,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('debug')
 			->with(
-				'DB QueryBuilder: \'{query}\'',
+				"DB QueryBuilder: '{query}'",
 				[
 					'query' => 'UPDATE FOO SET bar = false WHERE BAR = ?',
 					'app' => 'core',
@@ -1265,7 +1235,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->logger
 			->expects($this->once())
 			->method('error')
-			->willReturnCallback(function ($message, $parameters): void {
+			->willReturnCallback(function ($message, array $parameters): void {
 				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
 				$this->assertSame(
 					'More than 1000 expressions in a list are not allowed on Oracle.',
@@ -1304,7 +1274,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->logger
 			->expects($this->once())
 			->method('error')
-			->willReturnCallback(function ($message, $parameters): void {
+			->willReturnCallback(function ($message, array $parameters): void {
 				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
 				$this->assertSame(
 					'The number of parameters must not exceed 65535. Restriction by PostgreSQL.',

@@ -227,7 +227,7 @@ abstract class ExtendedQueryBuilder extends TypedQueryBuilder {
 	}
 
 	#[Override]
-	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string $value): self {
+	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string|int|float $value): self {
 		$this->builder->setValue($column, $value);
 		return $this;
 	}

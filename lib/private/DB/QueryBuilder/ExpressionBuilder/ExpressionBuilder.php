@@ -28,7 +28,9 @@ use Psr\Log\LoggerInterface;
 
 class ExpressionBuilder implements IExpressionBuilder {
 	protected DoctrineExpressionBuilder $expressionBuilder;
+
 	protected QuoteHelper $helper;
+
 	protected IFunctionBuilder $functionBuilder;
 
 	public function __construct(
@@ -43,17 +45,19 @@ class ExpressionBuilder implements IExpressionBuilder {
 
 	#[Override]
 	public function andX(ICompositeExpression|string ...$x): ICompositeExpression {
-		if (empty($x)) {
+		if ($x === []) {
 			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
 		}
+
 		return new CompositeExpression(CompositeExpression::TYPE_AND, $x);
 	}
 
 	#[Override]
 	public function orX(ICompositeExpression|string ...$x): ICompositeExpression {
-		if (empty($x)) {
+		if ($x === []) {
 			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
 		}
+
 		return new CompositeExpression(CompositeExpression::TYPE_OR, $x);
 	}
 

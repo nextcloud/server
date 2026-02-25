@@ -23,6 +23,7 @@ use Test\TestCase;
 #[Group(name: 'DB')]
 class SharedQueryBuilderTest extends TestCase {
 	private IDBConnection $connection;
+
 	private AutoIncrementHandler $autoIncrementHandler;
 
 	#[\Override]
@@ -32,6 +33,7 @@ class SharedQueryBuilderTest extends TestCase {
 		if (PHP_INT_SIZE < 8) {
 			$this->markTestSkipped('Test requires 64bit');
 		}
+
 		$this->connection = Server::get(IDBConnection::class);
 		$this->autoIncrementHandler = Server::get(AutoIncrementHandler::class);
 	}

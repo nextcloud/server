@@ -17,15 +17,14 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  */
 class ShardQueryRunner {
 	public function __construct(
-		private ShardConnectionManager $shardConnectionManager,
-		private ShardDefinition $shardDefinition,
+		private readonly ShardConnectionManager $shardConnectionManager,
+		private readonly ShardDefinition $shardDefinition,
 	) {
 	}
 
 	/**
 	 * Get the shards for a specific query or null if the shards aren't known in advance
 	 *
-	 * @param bool $allShards
 	 * @param int[] $shardKeys
 	 * @return null|int[]
 	 */
@@ -33,16 +32,17 @@ class ShardQueryRunner {
 		if ($allShards) {
 			return $this->shardDefinition->getAllShards();
 		}
+
 		$allConfiguredShards = $this->shardDefinition->getAllShards();
 		if (count($allConfiguredShards) === 1) {
 			return $allConfiguredShards;
 		}
-		if (empty($shardKeys)) {
+
+		if ($shardKeys === []) {
 			return null;
 		}
-		$shards = array_map(function ($shardKey) {
-			return $this->shardDefinition->getShardForKey((int)$shardKey);
-		}, $shardKeys);
+
+		$shards = array_map(fn ($shardKey): int => $this->shardDefinition->getShardForKey((int)$shardKey), $shardKeys);
 		return array_values(array_unique($shards));
 	}
 
@@ -58,25 +58,22 @@ class ShardQueryRunner {
 			if ($primaryKey < $this->shardDefinition->fromFileId && !in_array(ShardDefinition::MIGRATION_SHARD, $shards)) {
 				$shards[] = ShardDefinition::MIGRATION_SHARD;
 			}
+
 			$encodedShard = $primaryKey & ShardDefinition::PRIMARY_KEY_SHARD_MASK;
-			if ($encodedShard < count($this->shardDefinition->shards) && !in_array($encodedShard, $shards)) {
+			if ($encodedShard < count($this->shardDefinition->shards) && !in_array($encodedShard, $shards, true)) {
 				$shards[] = $encodedShard;
 			}
 		}
+
 		return $shards;
 	}
 
 	/**
 	 * Execute a SELECT statement across the configured shards
 	 *
-	 * @param IQueryBuilder $query
-	 * @param bool $allShards
 	 * @param int[] $shardKeys
 	 * @param int[] $primaryKeys
 	 * @param array{column: string, order: string}[] $sortList
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return IResult
 	 */
 	public function executeQuery(
 		IQueryBuilder $query,
@@ -93,6 +90,7 @@ class ShardQueryRunner {
 			// trivial case
 			return $query->executeQuery($this->shardConnectionManager->getConnection($this->shardDefinition, $shards[0]));
 		}
+
 		// we have to emulate limit and offset, so we select offset+limit from all shards to ensure we have enough rows
 		// and then filter them down after we merged the results
 		if ($limit !== null && $offset !== null) {
@@ -130,7 +128,7 @@ class ShardQueryRunner {
 		}
 
 		if ($sortList) {
-			usort($results, function ($a, $b) use ($sortList) {
+			usort($results, function (array $a, array $b) use ($sortList) {
 				foreach ($sortList as $sort) {
 					$valueA = $a[$sort['column']] ?? null;
 					$valueB = $b[$sort['column']] ?? null;
@@ -138,9 +136,11 @@ class ShardQueryRunner {
 					if ($cmp === 0) {
 						continue;
 					}
+
 					if ($sort['order'] === 'DESC') {
-						$cmp = -$cmp;
+						return -$cmp;
 					}
+
 					return $cmp;
 				}
 			});
@@ -160,11 +160,8 @@ class ShardQueryRunner {
 	/**
 	 * Execute an UPDATE or DELETE statement
 	 *
-	 * @param IQueryBuilder $query
-	 * @param bool $allShards
 	 * @param int[] $shardKeys
 	 * @param int[] $primaryKeys
-	 * @return int
 	 * @throws \OCP\DB\Exception
 	 */
 	public function executeStatement(IQueryBuilder $query, bool $allShards, array $shardKeys, array $primaryKeys): int {
@@ -176,7 +173,9 @@ class ShardQueryRunner {
 		$maxCount = count($primaryKeys);
 		if ($shards && count($shards) === 1) {
 			return $query->executeStatement($this->shardConnectionManager->getConnection($this->shardDefinition, $shards[0]));
-		} elseif ($shards) {
+		}
+
+		if ($shards) {
 			$maxCount = PHP_INT_MAX;
 		} else {
 			// sort the likely shards before the rest, similar logic to `self::executeQuery`
@@ -195,6 +194,7 @@ class ShardQueryRunner {
 				break;
 			}
 		}
+
 		return $count;
 	}
 }

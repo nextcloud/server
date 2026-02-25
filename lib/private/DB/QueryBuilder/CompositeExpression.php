@@ -15,6 +15,7 @@ use Override;
 
 class CompositeExpression implements ICompositeExpression, \Countable {
 	public const TYPE_AND = 'AND';
+
 	public const TYPE_OR = 'OR';
 
 	/**
@@ -22,7 +23,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 * @param array<ICompositeExpression|string> $parts
 	 */
 	public function __construct(
-		private string $type,
+		private readonly string $type,
 		private array $parts = [],
 	) {
 	}
@@ -53,8 +54,6 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 
 	/**
 	 * Retrieves the amount of expressions on composite expression.
-	 *
-	 * @return integer
 	 */
 	#[\Override]
 	public function count(): int {
@@ -63,8 +62,6 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 
 	/**
 	 * Returns the type of this composite expression (AND/OR).
-	 *
-	 * @return string
 	 */
 	#[\Override]
 	public function getType(): string {
@@ -73,13 +70,12 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 
 	/**
 	 * Retrieves the string representation of this composite expression.
-	 *
-	 * @return string
 	 */
 	public function __toString(): string {
 		if ($this->count() === 1) {
 			return (string)$this->parts[0];
 		}
+
 		return '(' . implode(') ' . $this->type . ' (', $this->parts) . ')';
 	}
 

@@ -14,6 +14,7 @@ use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilde
 use OC\DB\Connection;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
+use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Server;
@@ -26,9 +27,13 @@ use Test\TestCase;
 #[Group(name: 'DB')]
 class ExpressionBuilderTest extends TestCase {
 	protected ExpressionBuilder $expressionBuilder;
+
 	protected DoctrineExpressionBuilder $doctrineExpressionBuilder;
+
 	protected IDBConnection $connection;
+
 	protected \Doctrine\DBAL\Connection $internalConnection;
+
 	protected LoggerInterface&MockObject $logger;
 
 	#[\Override]
@@ -58,6 +63,7 @@ class ExpressionBuilderTest extends TestCase {
 				$testSets[] = array_merge([$operator], $values);
 			}
 		}
+
 		return $testSets;
 	}
 
@@ -220,26 +226,18 @@ class ExpressionBuilderTest extends TestCase {
 	protected function helpWithLiteral(string|array $input, bool $isLiteral): array {
 		if ($isLiteral) {
 			if (is_array($input)) {
-				$doctrineInput = array_map(function ($ident) {
-					return $this->doctrineExpressionBuilder->literal($ident);
-				}, $input);
-				$ocInput = array_map(function ($ident) {
-					return $this->expressionBuilder->literal($ident);
-				}, $input);
+				$doctrineInput = array_map(fn ($ident) => $this->doctrineExpressionBuilder->literal($ident), $input);
+				$ocInput = array_map(fn ($ident): ILiteral => $this->expressionBuilder->literal($ident), $input);
 			} else {
 				$doctrineInput = $this->doctrineExpressionBuilder->literal($input);
 				$ocInput = $this->expressionBuilder->literal($input);
 			}
+		} elseif (is_array($input)) {
+			$doctrineInput = array_map(fn (string $input): string => '`' . $input . '`', $input);
+			$ocInput = $input;
 		} else {
-			if (is_array($input)) {
-				$doctrineInput = array_map(function ($input) {
-					return '`' . $input . '`';
-				}, $input);
-				$ocInput = $input;
-			} else {
-				$doctrineInput = '`' . $input . '`';
-				$ocInput = $input;
-			}
+			$doctrineInput = '`' . $input . '`';
+			$ocInput = $input;
 		}
 
 		return [$doctrineInput, $ocInput];
@@ -258,11 +256,7 @@ class ExpressionBuilderTest extends TestCase {
 
 	#[DataProvider(methodName: 'dataLiteral')]
 	public function testLiteral(string|int $input, string|int|null $type): void {
-		if ($type === null) {
-			$actual = $this->expressionBuilder->literal($input);
-		} else {
-			$actual = $this->expressionBuilder->literal($input, $type);
-		}
+		$actual = $type === null ? $this->expressionBuilder->literal($input) : $this->expressionBuilder->literal($input, $type);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->literal($input, $type),
@@ -335,6 +329,7 @@ class ExpressionBuilderTest extends TestCase {
 			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
 			->executeStatement();
 	}
+
 	protected function createConfig(string $appId, int $key, string|int $value): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('appconfig')

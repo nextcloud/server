@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -37,6 +39,7 @@ class FunctionBuilder implements IFunctionBuilder {
 		foreach ($args as $item) {
 			$list[] = $this->helper->quoteColumnName($item);
 		}
+
 		return new QueryFunction(sprintf('CONCAT(%s)', implode(', ', $list)));
 	}
 
@@ -52,11 +55,11 @@ class FunctionBuilder implements IFunctionBuilder {
 		string|ILiteral|IParameter|IQueryFunction $start,
 		null|ILiteral|IParameter|IQueryFunction $length = null,
 	): IQueryFunction {
-		if ($length) {
+		if ($length !== null) {
 			return new QueryFunction('SUBSTR(' . $this->helper->quoteColumnName($input) . ', ' . $this->helper->quoteColumnName($start) . ', ' . $this->helper->quoteColumnName($length) . ')');
-		} else {
-			return new QueryFunction('SUBSTR(' . $this->helper->quoteColumnName($input) . ', ' . $this->helper->quoteColumnName($start) . ')');
 		}
+
+		return new QueryFunction('SUBSTR(' . $this->helper->quoteColumnName($input) . ', ' . $this->helper->quoteColumnName($start) . ')');
 	}
 
 	#[Override]
@@ -87,21 +90,21 @@ class FunctionBuilder implements IFunctionBuilder {
 
 	#[Override]
 	public function count(string|ILiteral|IParameter|IQueryFunction $count = '', string $alias = ''): IQueryFunction {
-		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$alias = $alias !== '' && $alias !== '0' ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $count === '' ? '*' : $this->helper->quoteColumnName($count);
 		return new QueryFunction('COUNT(' . $quotedName . ')' . $alias);
 	}
 
 	#[Override]
 	public function octetLength(string|ILiteral|IParameter|IQueryFunction $field, string $alias = ''): IQueryFunction {
-		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$alias = $alias !== '' && $alias !== '0' ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('OCTET_LENGTH(' . $quotedName . ')' . $alias);
 	}
 
 	#[Override]
 	public function charLength(string|ILiteral|IParameter|IQueryFunction $field, string $alias = ''): IQueryFunction {
-		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$alias = $alias !== '' && $alias !== '0' ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('CHAR_LENGTH(' . $quotedName . ')' . $alias);
 	}

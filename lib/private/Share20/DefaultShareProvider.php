@@ -987,7 +987,7 @@ class DefaultShareProvider implements
 				}
 
 				if ($limit !== -1) {
-					$qb->setMaxResults($limit - count($shares));
+					$qb->setMaxResults(max($limit - count($shares), 1));
 				}
 
 				// Filter by node if provided

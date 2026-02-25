@@ -42,15 +42,21 @@ use Override;
 class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	/** @var array<string, PartitionQuery> $splitQueries */
 	private array $splitQueries = [];
+
 	/** @var list<PartitionSplit> */
 	private array $partitions = [];
 
 	/** @var array{'select': string|IQueryFunction|IParameter|ILiteral, 'alias': ?string}[] */
 	private array $selects = [];
+
 	private ?PartitionSplit $mainPartition = null;
+
 	private bool $hasPositionalParameter = false;
-	private QuoteHelper $quoteHelper;
+
+	private readonly QuoteHelper $quoteHelper;
+
 	private ?int $limit = null;
+
 	private ?int $offset = null;
 
 	public function __construct(
@@ -84,6 +90,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
+
 		$this->selects = [];
 		$this->addSelect(...$selects);
 		return $this;
@@ -91,7 +98,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 
 	#[Override]
 	public function addSelect(...$select): self {
-		$select = array_map(static fn ($select) => ['select' => $select, 'alias' => null], $select);
+		$select = array_map(static fn ($select): array => ['select' => $select, 'alias' => null], $select);
 		$this->selects = array_merge($this->selects, $select);
 		return $this;
 	}
@@ -115,6 +122,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		} else {
 			$partition = null;
 		}
+
 		foreach ($this->selects as $select) {
 			$select = $select['select'];
 			if (!is_string($select)) {
@@ -127,6 +135,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 			} else {
 				$selectPartition = null;
 			}
+
 			if (
 				($select === $checkColumn || $select === '*')
 				&& $selectPartition === $partition
@@ -134,6 +143,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 				return;
 			}
 		}
+
 		if ($alias) {
 			$this->selectAlias($column, $alias);
 		} else {
@@ -146,26 +156,30 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	 *
 	 * This is done at the end instead of when the `select` call is made, because the `select` calls are generally done
 	 * before we know what tables are involved in the query
-	 *
-	 * @return void
 	 */
 	private function applySelects(): void {
 		foreach ($this->selects as $select) {
 			foreach ($this->partitions as $partition) {
-				if (is_string($select['select']) && (
-					$select['select'] === '*'
-					|| $partition->isColumnInPartition($select['select']))
-				) {
-					if (isset($this->splitQueries[$partition->name])) {
-						if ($select['alias']) {
-							$this->splitQueries[$partition->name]->query->selectAlias($select['select'], $select['alias']);
-						} else {
-							$this->splitQueries[$partition->name]->query->addSelect($select['select']);
-						}
-						if ($select['select'] !== '*') {
-							continue 2;
-						}
-					}
+				if (!is_string($select['select'])) {
+					continue;
+				}
+
+				if ($select['select'] !== '*' && !$partition->isColumnInPartition($select['select'])) {
+					continue;
+				}
+
+				if (!isset($this->splitQueries[$partition->name])) {
+					continue;
+				}
+
+				if ($select['alias']) {
+					$this->splitQueries[$partition->name]->query->selectAlias($select['select'], $select['alias']);
+				} else {
+					$this->splitQueries[$partition->name]->query->addSelect($select['select']);
+				}
+
+				if ($select['select'] !== '*') {
+					continue 2;
 				}
 			}
 
@@ -175,6 +189,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 				parent::addSelect($select['select']);
 			}
 		}
+
 		$this->selects = [];
 	}
 
@@ -188,17 +203,19 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 				return $partition;
 			}
 		}
+
 		return null;
 	}
 
 	#[Override]
-	public function from($from, $alias = null): self {
+	public function from(string|IQueryFunction $from, ?string $alias = null): self {
 		if (is_string($from) && $partition = $this->getPartition($from)) {
 			$this->mainPartition = $partition;
 			if ($alias) {
 				$this->mainPartition->addAlias($from, $alias);
 			}
 		}
+
 		parent::from($from, $alias);
 		return $this;
 	}
@@ -223,13 +240,11 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 			$fromPartition = $this->getPartition($fromAlias);
 		}
 
-		if ($partition && $partition !== $this->mainPartition) {
+		if ($partition instanceof PartitionSplit && $partition !== $this->mainPartition) {
 			/** @var string $join */
 			// join from the main db to a partition
-
-			$joinCondition = JoinCondition::parse((string)$condition, $join, $alias, $fromAlias);
+			$joinCondition = JoinCondition::parse($condition, $join, $alias, $fromAlias);
 			$partition->addAlias($join, $alias);
-
 			if (!isset($this->splitQueries[$partition->name])) {
 				$this->splitQueries[$partition->name] = new PartitionQuery(
 					$this->newQuery(),
@@ -247,20 +262,17 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 					throw new InvalidPartitionedQueryException("Can't join across partition boundaries more than once");
 				}
 			}
+
 			$this->splitQueries[$partition->name]->query->andWhere(...$joinCondition->toConditions);
 			parent::andWhere(...$joinCondition->fromConditions);
 			return $this;
-		} elseif ($fromPartition && $fromPartition !== $partition) {
+		}
+
+		if ($fromPartition instanceof PartitionSplit && $fromPartition !== $partition) {
 			/** @var string $join */
 			// join from partition, to the main db
-
-			$joinCondition = JoinCondition::parse((string)$condition, $join, $alias, $fromAlias);
-			if (str_starts_with($fromPartition->name, 'from_')) {
-				$partitionName = $fromPartition->name;
-			} else {
-				$partitionName = 'from_' . $fromPartition->name;
-			}
-
+			$joinCondition = JoinCondition::parse($condition, $join, $alias, $fromAlias);
+			$partitionName = str_starts_with($fromPartition->name, 'from_') ? $fromPartition->name : 'from_' . $fromPartition->name;
 			if (!isset($this->splitQueries[$partitionName])) {
 				$newPartition = new PartitionSplit($partitionName, [$join]);
 				$newPartition->addAlias($join, $alias);
@@ -283,29 +295,31 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 				$query = $this->splitQueries[$partitionName]->query;
 				$query->innerJoin($fromAlias, $join, $alias, $condition);
 			}
+
 			return $this;
-		} else {
-			// join within the main db or a partition
-			if ($joinMode === PartitionQuery::JOIN_MODE_INNER) {
-				parent::innerJoin($fromAlias, $join, $alias, $condition);
-				return $this;
-			} elseif ($joinMode === PartitionQuery::JOIN_MODE_LEFT) {
-				parent::leftJoin($fromAlias, $join, $alias, $condition);
-				return $this;
-			} elseif ($joinMode === PartitionQuery::JOIN_MODE_RIGHT) {
-				parent::rightJoin($fromAlias, $join, $alias, $condition);
-				return $this;
-			} else {
-				throw new \InvalidArgumentException("Invalid join mode: $joinMode");
-			}
 		}
+
+		if ($joinMode === PartitionQuery::JOIN_MODE_INNER) {
+			// join within the main db or a partition
+			parent::innerJoin($fromAlias, $join, $alias, $condition);
+			return $this;
+		}
+
+		if ($joinMode === PartitionQuery::JOIN_MODE_LEFT) {
+			parent::leftJoin($fromAlias, $join, $alias, $condition);
+			return $this;
+		}
+
+		if ($joinMode === PartitionQuery::JOIN_MODE_RIGHT) {
+			parent::rightJoin($fromAlias, $join, $alias, $condition);
+			return $this;
+		}
+
+		throw new \InvalidArgumentException('Invalid join mode: ' . $joinMode);
 	}
 
 	/**
 	 * Flatten a list of predicates by merging the parts of any "AND" expression into the list of predicates
-	 *
-	 * @param array $predicates
-	 * @return array
 	 */
 	private function flattenPredicates(array $predicates): array {
 		$result = [];
@@ -316,13 +330,13 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 				$result[] = $predicate;
 			}
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Split an array of predicates (WHERE query parts) by the partition they reference
 	 *
-	 * @param array $predicates
 	 * @return array<string, array>
 	 */
 	private function splitPredicatesByParts(array $predicates): array {
@@ -333,12 +347,13 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 			$partition = $this->getPartitionForPredicate((string)$predicate);
 			if ($this->mainPartition === $partition) {
 				$partitionPredicates[''][] = $predicate;
-			} elseif ($partition) {
+			} elseif ($partition instanceof PartitionSplit) {
 				$partitionPredicates[$partition->name][] = $predicate;
 			} else {
 				$partitionPredicates[''][] = $predicate;
 			}
 		}
+
 		return $partitionPredicates;
 	}
 
@@ -349,7 +364,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 
 	#[Override]
 	public function andWhere(...$where): self {
-		if ($where) {
+		if ($where !== []) {
 			foreach ($this->splitPredicatesByParts($where) as $alias => $predicates) {
 				if (isset($this->splitQueries[$alias])) {
 					// when there is a condition on a table being left-joined it starts to behave as if it's an inner join
@@ -360,7 +375,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 
 						$column = $this->quoteHelper->quoteColumnName($this->splitQueries[$alias]->joinToColumn);
 						foreach ($predicates as $predicate) {
-							if ((string)$predicate === "$column IS NULL") {
+							if ((string)$predicate === $column . ' IS NULL') {
 								$this->splitQueries[$alias]->joinMode = PartitionQuery::JOIN_MODE_LEFT_NULL;
 							} else {
 								$this->splitQueries[$alias]->query->andWhere($predicate);
@@ -374,6 +389,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 				}
 			}
 		}
+
 		return $this;
 	}
 
@@ -383,10 +399,12 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 			if (str_contains($predicate, '?')) {
 				$this->hasPositionalParameter = true;
 			}
+
 			if ($partition->checkPredicateForTable($predicate)) {
 				return $partition;
 			}
 		}
+
 		return null;
 	}
 
@@ -413,6 +431,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		if ($maxResults !== null && $maxResults > 0) {
 			$this->limit = $maxResults;
 		}
+
 		parent::setMaxResults($maxResults);
 		return $this;
 	}
@@ -422,6 +441,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		if ($firstResult > 0) {
 			$this->offset = $firstResult;
 		}
+
 		parent::setFirstResult($firstResult);
 		return $this;
 	}
@@ -432,37 +452,39 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		if ($this->splitQueries && $this->hasPositionalParameter) {
 			throw new InvalidPartitionedQueryException("Partitioned queries aren't allowed to to positional arguments");
 		}
+
 		foreach ($this->splitQueries as $split) {
 			$split->query->setParameters($this->getParameters(), $this->getParameterTypes());
 		}
-		if (count($this->splitQueries) > 0) {
-			$hasNonLeftJoins = array_reduce($this->splitQueries, function (bool $hasNonLeftJoins, PartitionQuery $query) {
-				return $hasNonLeftJoins || $query->joinMode !== PartitionQuery::JOIN_MODE_LEFT;
-			}, false);
+
+		if ($this->splitQueries !== []) {
+			$hasNonLeftJoins = array_reduce($this->splitQueries, fn (bool $hasNonLeftJoins, PartitionQuery $query): bool => $hasNonLeftJoins || $query->joinMode !== PartitionQuery::JOIN_MODE_LEFT, false);
 			if ($hasNonLeftJoins) {
 				if (is_int($this->limit)) {
 					throw new InvalidPartitionedQueryException('Limit is not allowed in partitioned queries');
 				}
+
 				if (is_int($this->offset)) {
 					throw new InvalidPartitionedQueryException('Offset is not allowed in partitioned queries');
 				}
 			}
 		}
 
-		$s = $this->getSQL();
+		$this->getSQL();
 		$result = parent::executeQuery($connection);
-		if (count($this->splitQueries) > 0) {
+		if ($this->splitQueries !== []) {
 			return new PartitionedResult($this->splitQueries, $result);
-		} else {
-			return $result;
 		}
+
+		return $result;
 	}
 
 	#[\Override]
 	public function executeStatement(?IDBConnection $connection = null): int {
-		if (count($this->splitQueries)) {
+		if ($this->splitQueries !== []) {
 			throw new InvalidPartitionedQueryException("Partitioning write queries isn't supported");
 		}
+
 		return parent::executeStatement($connection);
 	}
 
@@ -481,7 +503,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		if (str_contains($column, '.')) {
 			[$alias, $column] = explode('.', $column);
 			$partition = $this->getPartition($alias);
-			if ($partition) {
+			if ($partition instanceof PartitionSplit) {
 				$this->splitQueries[$partition->name]->query->hintShardKey($column, $value, $overwrite);
 			} else {
 				parent::hintShardKey($column, $value, $overwrite);
@@ -489,6 +511,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		} else {
 			parent::hintShardKey($column, $value, $overwrite);
 		}
+
 		return $this;
 	}
 }

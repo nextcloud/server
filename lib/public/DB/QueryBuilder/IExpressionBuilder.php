@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -23,22 +25,27 @@ interface IExpressionBuilder {
 	 * @since 9.0.0
 	 */
 	public const EQ = ExpressionBuilder::EQ;
+
 	/**
 	 * @since 9.0.0
 	 */
 	public const NEQ = ExpressionBuilder::NEQ;
+
 	/**
 	 * @since 9.0.0
 	 */
 	public const LT = ExpressionBuilder::LT;
+
 	/**
 	 * @since 9.0.0
 	 */
 	public const LTE = ExpressionBuilder::LTE;
+
 	/**
 	 * @since 9.0.0
 	 */
 	public const GT = ExpressionBuilder::GT;
+
 	/**
 	 * @since 9.0.0
 	 */
@@ -91,7 +98,6 @@ interface IExpressionBuilder {
 	 * @param IQueryBuilder::PARAM_*|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                                          required when comparing text fields for oci compatibility
 	 *
-	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
@@ -138,7 +144,6 @@ interface IExpressionBuilder {
 	 * @param IQueryBuilder::PARAM_*|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                                          required when comparing text fields for oci compatibility
 	 *
-	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
@@ -161,7 +166,6 @@ interface IExpressionBuilder {
 	 * @param IQueryBuilder::PARAM_*|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                                          required when comparing text fields for oci compatibility
 	 *
-	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
@@ -249,9 +253,7 @@ interface IExpressionBuilder {
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be restricted by IS NULL.
 	 *
-	 * @return string
 	 * @since 8.2.0
-	 *
 	 * @psalm-taint-sink sql $x
 	 */
 	public function isNull(string|ILiteral|IParameter|IQueryFunction $x): string;
@@ -295,7 +297,6 @@ interface IExpressionBuilder {
 	 * @param IQueryBuilder::PARAM_*|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                                          required when comparing text fields for oci compatibility
 	 *
-	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
@@ -316,7 +317,6 @@ interface IExpressionBuilder {
 	 * @param IQueryBuilder::PARAM_*|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                                          required when comparing text fields for oci compatibility
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
@@ -357,7 +357,6 @@ interface IExpressionBuilder {
 	 * @param IQueryBuilder::PARAM_*|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                                          required when comparing text fields for oci compatibility
 	 *
-	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
@@ -395,7 +394,6 @@ interface IExpressionBuilder {
 	 *
 	 * @param string|ILiteral $x The field or value to check
 	 * @param int $y Bitmap that must be set
-	 * @return IQueryFunction
 	 * @since 12.0.0
 	 *
 	 * @psalm-taint-sink sql $x

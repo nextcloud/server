@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -35,11 +37,18 @@ use RuntimeException;
 
 class QueryBuilder extends TypedQueryBuilder {
 	private \Doctrine\DBAL\Query\QueryBuilder $queryBuilder;
-	private QuoteHelper $helper;
+
+	private readonly QuoteHelper $helper;
 
 	private bool $automaticTablePrefix = true;
+
 	private bool $nonEmptyWhere = false;
+
 	protected ?string $lastInsertedTable = null;
+
+	/**
+	 * @var string[]
+	 */
 	private array $selectedColumns = [];
 
 	/**
@@ -103,20 +112,21 @@ class QueryBuilder extends TypedQueryBuilder {
 				$params = [];
 				foreach ($this->getParameters() as $placeholder => $value) {
 					if ($value instanceof \DateTimeInterface) {
-						$params[] = $placeholder . ' => DateTime:\'' . $value->format('c') . '\'';
+						$params[] = $placeholder . " => DateTime:'" . $value->format('c') . "'";
 					} elseif (is_array($value)) {
-						$params[] = $placeholder . ' => (\'' . implode('\', \'', $value) . '\')';
+						$params[] = $placeholder . " => ('" . implode("', '", $value) . "')";
 					} else {
-						$params[] = $placeholder . ' => \'' . $value . '\'';
+						$params[] = $placeholder . " => '" . $value . "'";
 					}
 				}
-				if (empty($params)) {
-					$this->logger->debug('DB QueryBuilder: \'{query}\'', [
+
+				if ($params === []) {
+					$this->logger->debug("DB QueryBuilder: '{query}'", [
 						'query' => $this->getSQL(),
 						'app' => 'core',
 					]);
 				} else {
-					$this->logger->debug('DB QueryBuilder: \'{query}\' with parameters: {params}', [
+					$this->logger->debug("DB QueryBuilder: '{query}' with parameters: {params}", [
 						'query' => $this->getSQL(),
 						'params' => implode(', ', $params),
 						'app' => 'core',
@@ -154,7 +164,7 @@ class QueryBuilder extends TypedQueryBuilder {
 			}
 		}
 
-		if (!empty($tooLongOutputColumns)) {
+		if ($tooLongOutputColumns !== []) {
 			$exception = new QueryException('More than 30 characters for an output column name are not allowed on Oracle.');
 			$this->logger->error($exception->getMessage(), [
 				'query' => $this->getSQL(),
@@ -200,7 +210,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		}
 
 		$this->prepareForExecute();
-		if (!$connection) {
+		if (!$connection instanceof IDBConnection) {
 			$connection = $this->connection;
 		}
 
@@ -218,7 +228,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		}
 
 		$this->prepareForExecute();
-		if (!$connection) {
+		if (!$connection instanceof IDBConnection) {
 			$connection = $this->connection;
 		}
 
@@ -262,11 +272,13 @@ class QueryBuilder extends TypedQueryBuilder {
 	public function getParameterTypes(): array {
 		/** @var list<self::PARAM_*|\Doctrine\DBAL\Types\Type> $types */
 		$types = $this->queryBuilder->getParameterTypes();
-		return array_map(function ($type): string|int {
+		return array_map(function ($type) {
 			if ($type instanceof \Doctrine\DBAL\Types\Type) {
-				/** @var self::PARAM_* $type */
-				$type = \Doctrine\DBAL\Types\Type::lookupName($type);
+				/** @var self::PARAM_* $ncType */
+				$ncType = \Doctrine\DBAL\Types\Type::lookupName($type);
+				return $ncType;
 			}
+
 			return $type;
 		}, $types);
 	}
@@ -276,9 +288,11 @@ class QueryBuilder extends TypedQueryBuilder {
 		/** @var self::PARAM_*|\Doctrine\DBAL\Types\Type $type */
 		$type = $this->queryBuilder->getParameterType($key);
 		if ($type instanceof \Doctrine\DBAL\Types\Type) {
-			/** @var self::PARAM_* $type */
-			$type = \Doctrine\DBAL\Types\Type::lookupName($type);
+			/** @var self::PARAM_* $ncType */
+			$ncType = \Doctrine\DBAL\Types\Type::lookupName($type);
+			return $ncType;
 		}
+
 		return $type;
 	}
 
@@ -291,23 +305,23 @@ class QueryBuilder extends TypedQueryBuilder {
 
 	#[Override]
 	public function getFirstResult(): int {
-		return $this->queryBuilder->getFirstResult();
+		$firstResult = $this->queryBuilder->getFirstResult();
+		assert($firstResult >= 0);
+		return $firstResult;
 	}
 
 	#[Override]
 	public function setMaxResults(?int $maxResults): self {
-		if ($maxResults === null) {
-			$this->queryBuilder->setMaxResults($maxResults);
-		} else {
-			$this->queryBuilder->setMaxResults($maxResults);
-		}
+		$this->queryBuilder->setMaxResults($maxResults);
 
 		return $this;
 	}
 
 	#[Override]
 	public function getMaxResults(): ?int {
-		return $this->queryBuilder->getMaxResults();
+		$maxResult = $this->queryBuilder->getMaxResults();
+		assert($maxResult === null || $maxResult > 0);
+		return $maxResult;
 	}
 
 	#[Override]
@@ -315,6 +329,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
+
 		$this->addOutputColumns($selects);
 
 		$this->queryBuilder->select(
@@ -339,6 +354,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		if (!is_array($select)) {
 			$select = [$select];
 		}
+
 		$this->addOutputColumns($select);
 
 		$quotedSelect = $this->helper->quoteColumnNames($select);
@@ -355,6 +371,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		if (count($select) === 1 && is_array($select[0])) {
 			$select = $select[0];
 		}
+
 		$this->addOutputColumns($select);
 
 		$this->queryBuilder->addSelect(
@@ -364,6 +381,9 @@ class QueryBuilder extends TypedQueryBuilder {
 		return $this;
 	}
 
+	/**
+	 * @param array<int|string, list<string>|ILiteral|IQueryFunction|string>|string[]|array<int|string, list<string>|ILiteral|IParameter|IQueryFunction|string> $columns
+	 */
 	private function addOutputColumns(array $columns): void {
 		foreach ($columns as $column) {
 			if (is_array($column)) {
@@ -372,9 +392,11 @@ class QueryBuilder extends TypedQueryBuilder {
 				if (str_contains(strtolower($column), ' as ')) {
 					[, $column] = preg_split('/ as /i', $column);
 				}
+
 				if (str_contains($column, '.')) {
 					[, $column] = explode('.', $column);
 				}
+
 				$this->selectedColumns[] = $column;
 			}
 		}
@@ -511,16 +533,13 @@ class QueryBuilder extends TypedQueryBuilder {
 	public function where(...$predicates): self {
 		if ($this->nonEmptyWhere && $this->systemConfig->getValue('debug', false)) {
 			// Only logging a warning, not throwing for now.
-			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
+			$e = new QueryException("Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart('where') first.");
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
 
 		$this->nonEmptyWhere = true;
 
-		call_user_func_array(
-			[$this->queryBuilder, 'where'],
-			$predicates
-		);
+		$this->queryBuilder->where(...$predicates);
 
 		return $this;
 	}
@@ -528,10 +547,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	#[Override]
 	public function andWhere(...$where): self {
 		$this->nonEmptyWhere = true;
-		call_user_func_array(
-			[$this->queryBuilder, 'andWhere'],
-			$where
-		);
+		$this->queryBuilder->andWhere(...$where);
 
 		return $this;
 	}
@@ -539,10 +555,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	#[Override]
 	public function orWhere(...$where): self {
 		$this->nonEmptyWhere = true;
-		call_user_func_array(
-			[$this->queryBuilder, 'orWhere'],
-			$where
-		);
+		$this->queryBuilder->orWhere(...$where);
 
 		return $this;
 	}
@@ -553,26 +566,20 @@ class QueryBuilder extends TypedQueryBuilder {
 			$groupBys = $groupBys[0];
 		}
 
-		call_user_func_array(
-			[$this->queryBuilder, 'groupBy'],
-			$this->helper->quoteColumnNames($groupBys)
-		);
+		$this->queryBuilder->groupBy(...$this->helper->quoteColumnNames($groupBys));
 
 		return $this;
 	}
 
 	#[Override]
 	public function addGroupBy(...$groupBy): self {
-		call_user_func_array(
-			[$this->queryBuilder, 'addGroupBy'],
-			$this->helper->quoteColumnNames($groupBy)
-		);
+		$this->queryBuilder->addGroupBy(...$this->helper->quoteColumnNames($groupBy));
 
 		return $this;
 	}
 
 	#[Override]
-	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string $value): self {
+	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string|int|float $value): self {
 		$this->queryBuilder->setValue(
 			$this->helper->quoteColumnName($column),
 			(string)$value
@@ -595,30 +602,21 @@ class QueryBuilder extends TypedQueryBuilder {
 
 	#[Override]
 	public function having(...$having): self {
-		call_user_func_array(
-			[$this->queryBuilder, 'having'],
-			$having
-		);
+		$this->queryBuilder->having(...$having);
 
 		return $this;
 	}
 
 	#[Override]
 	public function andHaving(...$having): self {
-		call_user_func_array(
-			[$this->queryBuilder, 'andHaving'],
-			$having
-		);
+		$this->queryBuilder->andHaving(...$having);
 
 		return $this;
 	}
 
 	#[Override]
 	public function orHaving(...$having): self {
-		call_user_func_array(
-			[$this->queryBuilder, 'orHaving'],
-			$having
-		);
+		$this->queryBuilder->orHaving(...$having);
 
 		return $this;
 	}

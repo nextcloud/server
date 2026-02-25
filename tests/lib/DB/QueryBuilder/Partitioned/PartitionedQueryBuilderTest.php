@@ -22,7 +22,9 @@ use Test\TestCase;
 #[Group(name: 'DB')]
 class PartitionedQueryBuilderTest extends TestCase {
 	private IDBConnection $connection;
+
 	private ShardConnectionManager $shardConnectionManager;
+
 	private AutoIncrementHandler $autoIncrementHandler;
 
 	#[\Override]
@@ -32,6 +34,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		if (PHP_INT_SIZE < 8) {
 			$this->markTestSkipped('Test requires 64bit');
 		}
+
 		$this->connection = Server::get(IDBConnection::class);
 		$this->shardConnectionManager = Server::get(ShardConnectionManager::class);
 		$this->autoIncrementHandler = Server::get(AutoIncrementHandler::class);
@@ -46,6 +49,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		if (PHP_INT_SIZE >= 8) {
 			$this->cleanupDb();
 		}
+
 		parent::tearDown();
 	}
 
@@ -53,9 +57,9 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$builder = $this->connection->getQueryBuilder();
 		if ($builder instanceof PartitionedQueryBuilder) {
 			return $builder;
-		} else {
-			return new PartitionedQueryBuilder($builder, [], $this->shardConnectionManager, $this->autoIncrementHandler);
 		}
+
+		return new PartitionedQueryBuilder($builder, [], $this->shardConnectionManager, $this->autoIncrementHandler);
 	}
 
 	private function setupFileCache(): void {

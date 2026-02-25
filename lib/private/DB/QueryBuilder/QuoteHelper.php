@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -36,11 +38,11 @@ class QuoteHelper {
 		}
 
 		$string = str_replace(' AS ', ' as ', $string);
-		if (substr_count($string, ' as ')) {
+		if (substr_count($string, ' as ') !== 0) {
 			return implode(' as ', array_map($this->quoteColumnName(...), explode(' as ', $string, 2)));
 		}
 
-		if (substr_count($string, '.')) {
+		if (substr_count($string, '.') !== 0) {
 			[$alias, $columnName] = explode('.', $string, 2);
 
 			if ($columnName === '*') {

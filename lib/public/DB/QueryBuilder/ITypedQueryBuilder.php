@@ -74,7 +74,6 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 
 	/**
 	 * @inheritDoc
-	 * @param string|IParameter|IQueryFunction|ILiteral $select
 	 * @template NewS of string
 	 * @param NewS $alias
 	 * @psalm-this-out self<S|NewS>
@@ -199,7 +198,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function where(...$predicates): self;
+	public function where(mixed ...$predicates): self;
 
 	/**
 	 * @inheritDoc
@@ -207,7 +206,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function andWhere(...$where): self;
+	public function andWhere(mixed ...$where): self;
 
 	/**
 	 * @inheritDoc
@@ -215,7 +214,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function orWhere(...$where): self;
+	public function orWhere(mixed ...$where): self;
 
 	/**
 	 * @inheritDoc
@@ -223,7 +222,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function groupBy(...$groupBys): self;
+	public function groupBy(mixed ...$groupBys): self;
 
 	/**
 	 * @inheritDoc
@@ -231,16 +230,15 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function addGroupBy(...$groupBy): self;
+	public function addGroupBy(mixed ...$groupBy): self;
 
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string $value): self;
+	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string|int|float $value): self;
 
 	/**
 	 * @inheritDoc
@@ -253,11 +251,10 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function having(...$having): self;
+	public function having(mixed ...$having): self;
 
 	/**
 	 * @inheritDoc
@@ -266,30 +263,19 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function andHaving(...$having): self;
+	public function andHaving(mixed ...$having): self;
 
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function orHaving(...$having);
+	public function orHaving(mixed ...$having): self;
 
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function orHaving(...$having): self;
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
@@ -298,7 +284,6 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
@@ -307,7 +292,6 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]

@@ -13,6 +13,7 @@ use OC\AppConfig;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\DB\Exceptions\DbalException;
+use OC\DB\QueryBuilder\Parameter;
 use OC\Memcache\Factory as CacheFactory;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
@@ -87,7 +88,7 @@ class AppConfigMigrationFallbackTest extends TestCase {
 		$qb->method('expr')->willReturn($expression);
 		$qb->method('insert')->willReturn($qb);
 		$qb->method('setValue')->willReturn($qb);
-		$qb->method('createNamedParameter')->willReturn('?');
+		$qb->method('createNamedParameter')->willReturn(new Parameter('?'));
 		return $qb;
 	}
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,10 +16,12 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 use Override;
 
 class OCIFunctionBuilder extends FunctionBuilder {
+	#[Override]
 	public function md5(string|ILiteral|IParameter|IQueryFunction $input): IQueryFunction {
 		if (version_compare($this->connection->getServerVersion(), '20', '>=')) {
 			return new QueryFunction('LOWER(STANDARD_HASH(' . $this->helper->quoteColumnName($input) . ", 'MD5'))");
 		}
+
 		return new QueryFunction('LOWER(DBMS_OBFUSCATION_TOOLKIT.md5 (input => UTL_RAW.cast_to_raw(' . $this->helper->quoteColumnName($input) . ')))');
 	}
 
@@ -69,6 +73,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		foreach ($args as $item) {
 			$list[] = $this->helper->quoteColumnName($item);
 		}
+
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
@@ -85,14 +90,14 @@ class OCIFunctionBuilder extends FunctionBuilder {
 
 	#[Override]
 	public function octetLength(string|ILiteral|IParameter|IQueryFunction $field, string $alias = ''): IQueryFunction {
-		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$alias = $alias !== '' && $alias !== '0' ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('COALESCE(LENGTHB(' . $quotedName . '), 0)' . $alias);
 	}
 
 	#[Override]
 	public function charLength(string|ILiteral|IParameter|IQueryFunction $field, string $alias = ''): IQueryFunction {
-		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
+		$alias = $alias !== '' && $alias !== '0' ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('COALESCE(LENGTH(' . $quotedName . '), 0)' . $alias);
 	}

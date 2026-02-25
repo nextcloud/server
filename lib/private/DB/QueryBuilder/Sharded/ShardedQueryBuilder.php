@@ -70,7 +70,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		return array_values(array_unique($values));
 	}
 
-	private function getKeyValue($value): array {
+	private function getKeyValue(mixed $value): array {
 		if ($value instanceof Parameter) {
 			$value = (string)$value;
 		}
@@ -89,12 +89,12 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	}
 
 	#[Override]
-	public function where(...$predicates): self {
+	public function where(mixed ...$predicates): self {
 		return $this->andWhere(...$predicates);
 	}
 
 	#[Override]
-	public function andWhere(...$where): self {
+	public function andWhere(mixed ...$where): self {
 		if ($where) {
 			foreach ($where as $predicate) {
 				$this->tryLoadShardKey($predicate);
@@ -176,7 +176,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	}
 
 	#[Override]
-	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string $value): self {
+	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string|int|float $value): self {
 		if ($this->shardDefinition) {
 			if ($this->shardDefinition->isKey($column)) {
 				$this->primaryKeys[] = $value;

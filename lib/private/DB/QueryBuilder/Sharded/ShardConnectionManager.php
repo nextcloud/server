@@ -22,8 +22,8 @@ class ShardConnectionManager {
 	private array $connections = [];
 
 	public function __construct(
-		private SystemConfig $config,
-		private ConnectionFactory $factory,
+		private readonly SystemConfig $config,
+		private readonly ConnectionFactory $factory,
 	) {
 	}
 
@@ -39,12 +39,15 @@ class ShardConnectionManager {
 		} elseif (isset($shardDefinition->shards[$shard])) {
 			$this->connections[$connectionKey] = $this->createConnection($shardDefinition->shards[$shard]);
 		} else {
-			throw new \InvalidArgumentException("invalid shard key $shard only " . count($shardDefinition->shards) . ' configured');
+			throw new \InvalidArgumentException(sprintf('invalid shard key %s only ', $shard) . count($shardDefinition->shards) . ' configured');
 		}
 
 		return $this->connections[$connectionKey];
 	}
 
+	/**
+	 * @param array<string, mixed> $shardConfig
+	 */
 	private function createConnection(array $shardConfig): IDBConnection {
 		$shardConfig['sharding'] = [];
 		$type = $this->config->getValue('dbtype', 'sqlite');

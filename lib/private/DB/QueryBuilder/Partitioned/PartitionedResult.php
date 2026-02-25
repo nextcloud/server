@@ -20,11 +20,10 @@ class PartitionedResult extends ArrayResult {
 
 	/**
 	 * @param PartitionQuery[] $splitOfParts
-	 * @param IResult $result
 	 */
 	public function __construct(
-		private array $splitOfParts,
-		private IResult $result,
+		private readonly array $splitOfParts,
+		private readonly IResult $result,
 	) {
 		parent::__construct([]);
 	}
@@ -59,6 +58,7 @@ class PartitionedResult extends ArrayResult {
 			foreach ($this->splitOfParts as $part) {
 				$this->rows = $part->mergeWith($this->rows);
 			}
+
 			$this->count = count($this->rows);
 		}
 	}

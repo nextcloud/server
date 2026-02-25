@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,7 +23,6 @@ interface IFunctionBuilder {
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $input The input to be hashed
 	 *
-	 * @return IQueryFunction
 	 * @since 12.0.0
 	 * @deprecated 35.0.0 - MD5 is not considered secure anymore, thus most databases have or will drop support for this function
 	 */
@@ -33,7 +34,6 @@ interface IFunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $x Expressions or literal strings
 	 * @param string|ILiteral|IParameter|IQueryFunction ...$exprs Expressions or literal strings
 	 *
-	 * @return IQueryFunction
 	 * @since 12.0.0
 	 */
 	public function concat(string|ILiteral|IParameter|IQueryFunction $x, string|ILiteral|IParameter|IQueryFunction ...$expr): IQueryFunction;
@@ -49,7 +49,6 @@ interface IFunctionBuilder {
 	 *
 	 * @param string|IQueryFunction $expr The expression to group
 	 * @param string|null $separator The separator
-	 * @return IQueryFunction
 	 * @since 24.0.0
 	 */
 	public function groupConcat(string|IQueryFunction $expr, ?string $separator = ','): IQueryFunction;
@@ -88,7 +87,6 @@ interface IFunctionBuilder {
 	/**
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The first input field or number
 	 * @param string|ILiteral|IParameter|IQueryFunction $y The second input field or number
-	 * @return IQueryFunction
 	 * @since 14.0.0
 	 */
 	public function add(
@@ -99,7 +97,6 @@ interface IFunctionBuilder {
 	/**
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The first input field or number
 	 * @param string|ILiteral|IParameter|IQueryFunction $y The second input field or number
-	 * @return IQueryFunction
 	 * @since 14.0.0
 	 */
 	public function subtract(
@@ -111,7 +108,6 @@ interface IFunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $count The input to be counted
 	 * @param string $alias Alias for the counter
 	 *
-	 * @return IQueryFunction
 	 * @since 14.0.0
 	 */
 	public function count(string|ILiteral|IParameter|IQueryFunction $count = '', string $alias = ''): IQueryFunction;
@@ -120,7 +116,6 @@ interface IFunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $field The input to be measured
 	 * @param string $alias Alias for the length
 	 *
-	 * @return IQueryFunction
 	 * @since 24.0.0
 	 */
 	public function octetLength(string|ILiteral|IParameter|IQueryFunction $field, string $alias = ''): IQueryFunction;
