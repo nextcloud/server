@@ -15,6 +15,8 @@ use OCA\Files_Sharing\ShareRecipientUpdater;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAppConfig;
@@ -28,7 +30,8 @@ use Psr\Clock\ClockInterface;
 /**
  * Listen to various events that can change what shares a user has access to
  *
- * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent>
+ * @psalm-type GroupEvents = UserAddedEvent|UserRemovedEvent|GroupDeletedEvent|BeforeGroupDeletedEvent
+ * @template-implements IEventListener<GroupEvents|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent>
  */
 class SharesUpdatedListener implements IEventListener {
 	/**
@@ -55,6 +58,16 @@ class SharesUpdatedListener implements IEventListener {
 	public function handle(Event $event): void {
 		if ($event instanceof UserShareAccessUpdatedEvent) {
 			foreach ($event->getUsers() as $user) {
+				$this->updateOrMarkUser($user);
+			}
+		}
+		if ($event instanceof BeforeGroupDeletedEvent) {
+			// ensure the group users are loaded before the group is deleted
+			$event->getGroup()->getUsers();
+		}
+		if ($event instanceof GroupDeletedEvent) {
+			// so we can iterate them after the group is deleted
+			foreach ($event->getGroup()->getUsers() as $user) {
 				$this->updateOrMarkUser($user);
 			}
 		}
