@@ -27,6 +27,8 @@ class Capabilities implements ICapability {
 			'dav' => [
 				'chunking' => '1.0',
 				'public_shares_chunking' => true,
+				'search_supports_creation_time' => true,
+				'search_supports_upload_time' => true,
 			]
 		];
 		if ($this->config->getSystemValueBool('bulkupload.enabled', true)) {
