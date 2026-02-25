@@ -347,3 +347,70 @@ Scenario: Group deletes removes mount with marking
 		| /user0/files/textfile0 (2).txt/ |
 	When Connecting to dav endpoint
 	Then Share mounts for "user0" are empty
+
+Scenario: User share mount without marking
+	Given As an "admin"
+	And user "user0" exists
+	And user "user1" exists
+	And file "textfile0.txt" of user "user1" is shared with user "user0"
+	And As an "user0"
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Deleting last share
+	Then Share mounts for "user0" are empty
+
+Scenario: User share mount with marking
+	Given As an "admin"
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
+	And user "user0" exists
+	And user "user1" exists
+	And file "textfile0.txt" of user "user1" is shared with user "user0"
+	And As an "user0"
+	Then Share mounts for "user0" are empty
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Deleting last share
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" are empty
+
+Scenario: User added/removed to group share without marking
+	Given As an "admin"
+	And user "user0" exists
+	And user "user1" exists
+	And group "group0" exists
+	And file "textfile0.txt" of user "user1" is shared with group "group0"
+	And As an "user0"
+	Then Share mounts for "user0" are empty
+	When user "user0" belongs to group "group0"
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When As an "admin"
+	Then sending "DELETE" to "/cloud/users/user0/groups" with
+		| groupid | group0 |
+	Then As an "user0"
+	And Share mounts for "user0" are empty
+
+Scenario: User added/removed to group share with marking
+	Given As an "admin"
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
+	And user "user0" exists
+	And user "user1" exists
+	And group "group0" exists
+	And file "textfile0.txt" of user "user1" is shared with group "group0"
+	And As an "user0"
+	When user "user0" belongs to group "group0"
+	Then Share mounts for "user0" are empty
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When As an "admin"
+	Then sending "DELETE" to "/cloud/users/user0/groups" with
+		| groupid | group0 |
+	Then As an "user0"
+	And Share mounts for "user0" match
+		| /user0/files/textfile0 (2).txt/ |
+	When Connecting to dav endpoint
+	Then Share mounts for "user0" are empty
