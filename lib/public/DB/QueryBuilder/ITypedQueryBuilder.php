@@ -73,4 +73,239 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 */
 	#[Override]
 	public function selectAlias($select, $alias): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function setParameter($key, $value, $type = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 */
+	#[Override]
+	public function setParameters(array $params, array $types = []);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function setFirstResult($firstResult);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function setMaxResults($maxResults);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function delete($delete = null, $alias = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function update($update = null, $alias = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function insert($insert = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function from($from, $alias = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function join($fromAlias, $join, $alias, $condition = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function innerJoin($fromAlias, $join, $alias, $condition = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function leftJoin($fromAlias, $join, $alias, $condition = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function rightJoin($fromAlias, $join, $alias, $condition = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function set($key, $value);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function where(...$predicates);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function andWhere(...$where);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function orWhere(...$where);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function groupBy(...$groupBys);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function addGroupBy(...$groupBy);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function setValue($column, $value);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 */
+	#[Override]
+	public function values(array $values);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function having(...$having);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function andHaving(...$having);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function orHaving(...$having);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function orderBy($sort, $order = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function addOrderBy($sort, $order = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function resetQueryParts($queryPartNames = null);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @psalm-suppress MissingParamType
+	 */
+	#[Override]
+	public function resetQueryPart($queryPartName);
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 */
+	#[Override]
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 */
+	#[Override]
+	public function runAcrossAllShards(): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 */
+	#[Override]
+	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self;
 }

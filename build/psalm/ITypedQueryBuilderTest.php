@@ -21,6 +21,38 @@ $qb->selectColumnsDistinct('f');
 $qb->selectAlias('g', 'h');
 $qb->selectAlias($qb->func()->lower('i'), 'j');
 
+$qb
+	->setParameter('k', 'l')
+	->setParameters([])
+	->setFirstResult(0)
+	->setMaxResults(0)
+	->delete()
+	->update()
+	->insert()
+	->from('m')
+	->join('n', 'o', 'p')
+	->innerJoin('q', 'r', 's')
+	->leftJoin('t', 'u', 'v')
+	->rightJoin('w', 'x', 'y')
+	->set('z', '1')
+	->where()
+	->andWhere()
+	->orWhere()
+	->groupBy()
+	->addGroupBy()
+	->setValue('2', '3')
+	->values([])
+	->having()
+	->andHaving()
+	->orHaving()
+	->orderBy('4')
+	->addOrderBy('5')
+	->resetQueryParts()
+	->resetQueryPart('6')
+	->hintShardKey('7', '8')
+	->runAcrossAllShards()
+	->forUpdate();
+
 /** @psalm-check-type-exact $result = \OCP\DB\IResult<'a'|'b'|'c'|'d'|'e'|'f'|'h'|'j'> */
 $result = $qb->executeQuery();
 
