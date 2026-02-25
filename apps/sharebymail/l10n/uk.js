@@ -41,6 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Не вдається оновити конфігурацію спільного доступу за допомогою пошти",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Дозволяє користувачам надавати персоналізоване посилання на файл або каталог шляхом додавання адреси ел. пошти.",
     "Send password by mail" : "Надіслати пароль поштою",
-    "Reply to initiator" : "Відповідь ініціатору"
+    "Reply to initiator" : "Відповісти ініціатору"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

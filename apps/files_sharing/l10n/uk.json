@@ -280,7 +280,7 @@
     "Advanced settings" : "Розширені",
     "Share label" : "Мітка спільного ресурсу",
     "Share link token" : "Токен спільного ресурсу",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Встановити публічне посилання на спільний ресурс у просту для запам'ятовування назву або створити новий токен. Не рекомендується використовувати токени, які можна легко вгадати для спільних ресурсів, які містять чутливі дані.",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Встановіть токен для публічного посилання на спільний ресурс з простою для запам'ятовування назвою або створіть новий токен. Не рекомендується використовувати токени, які можна легко вгадати, для спільних ресурсів, що містять чутливі дані.",
     "Generating…" : "Створення...",
     "Generate new token" : "Створити новий токен",
     "Set password" : "Встановити пароль",

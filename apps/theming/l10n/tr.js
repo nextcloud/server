@@ -109,6 +109,7 @@ OC.L10N.register(
     "Reset primary color" : "Birincil rengi sıfırla",
     "Reset to default" : "Varsayılanlara dön",
     "Non image file selected" : "Seçilen dosya bir görsel değil",
+    "Failed to upload image" : "Görsel yüklenemedi",
     "Preview of the selected image" : "Seçilmiş görselin ön izlemesi",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Uygulamalarımızı herkesin kullanabilmesini çok önemsiyoruz. internet sitesi standartlarını izleyerek, işlemlerin fare olmadan da yapılabilmesini ve ekran okuyucular gibi yardımcı yazılımların kullanılabilmesini sağlıyoruz. AAA düzeyinde yüksek renk karşıtlığı teması ile AA düzeyinde {linkstart}İnternet Sitesi İçeriği Erişilebilirlik Kuralları{linkend} 2.1 ile uyumlu olmayı amaçladık.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Bir sorunla karşılaşırsanız, bunları {issuetracker}sorun izleyicimiz{linkend} üzerinden bildirmekten çekinmeyin. Katkıda bulunmak istiyorsanız {designteam}tasarım ekibimize{linkend} katılın!",
