@@ -466,6 +466,7 @@ class ManagerTest extends \Test\TestCase {
 			->getMock();
 
 		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(42);
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
@@ -494,6 +495,13 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->exactly(1))->method('updateShare')->with($reShare)->willReturn($reShare);
 
+		$this->userManager->method('userExists')->willReturn(true);
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
+		$userFolder->method('getFirstNodeById')
+			->with(42)
+			->willReturn($file);
+
 		$qb = $this->createMock(IQueryBuilder::class);
 		$result = $this->createMock(IResult::class);
 		$qb->method('select')
@@ -510,7 +518,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($qb);
 		$result->method('fetch')
 			->willReturnOnConsecutiveCalls(
-				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER],
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
 				false,
 			);
 
@@ -551,14 +559,18 @@ class ManagerTest extends \Test\TestCase {
 		$reShareInOtherFolder->method('getNode')->willReturn($otherFolder);
 
 		$this->defaultProvider->method('getSharesBy')
-			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($reShare, $reShareInSubFolder, $reShareInOtherFolder) {
+			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($folder, $subFolder, $reShare, $reShareInSubFolder, $reShareInOtherFolder) {
 				if ($shareType === IShare::TYPE_USER) {
-					return match($userId) {
-						'userB' => [$reShare,$reShareInSubFolder,$reShareInOtherFolder],
-					};
-				} else {
-					return [];
+					if ($userId === 'userB') {
+						if ($node === $folder) {
+							return [$reShare];
+						}
+						if ($node === $subFolder) {
+							return [$reShareInSubFolder];
+						}
+					}
 				}
+				$this->fail();
 			});
 		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
 
@@ -572,6 +584,18 @@ class ManagerTest extends \Test\TestCase {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, $share);
 				return $expected;
+			});
+
+		$this->userManager->method('userExists')->willReturn(true);
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
+		$userFolder->method('getFirstNodeById')
+			->willReturnCallback(function ($id) use ($subFolder, $otherFolder, $folder) {
+				return match ($id) {
+					41 => $subFolder,
+					42 => $otherFolder,
+					43 => $folder,
+				};
 			});
 
 		$qb = $this->createMock(IQueryBuilder::class);
@@ -590,7 +614,9 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($qb);
 		$result->method('fetch')
 			->willReturnOnConsecutiveCalls(
-				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER],
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 41],
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 43],
 				false,
 			);
 
@@ -622,6 +648,13 @@ class ManagerTest extends \Test\TestCase {
 		/* No share is promoted because generalCreateChecks does not throw */
 		$manager->expects($this->never())->method('updateShare');
 
+		$this->userManager->method('userExists')->willReturn(true);
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
+		$userFolder->method('getFirstNodeById')
+			->with(42)
+			->willReturn($folder);
+
 		$qb = $this->createMock(IQueryBuilder::class);
 		$result = $this->createMock(IResult::class);
 		$qb->method('select')
@@ -638,7 +671,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($qb);
 		$result->method('fetch')
 			->willReturnOnConsecutiveCalls(
-				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER],
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
 				false,
 			);
 
@@ -697,6 +730,13 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->method('getSharedWith')->willReturn([]);
 
+		$this->userManager->method('userExists')->willReturn(true);
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
+		$userFolder->method('getFirstNodeById')
+			->with(42)
+			->willReturn($folder);
+
 		$calls = [
 			$reShare1,
 			$reShare2,
@@ -725,8 +765,8 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($qb);
 		$result->method('fetch')
 			->willReturnOnConsecutiveCalls(
-				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER],
-				['uid_initiator' => 'userC', 'share_type' => IShare::TYPE_USER],
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
+				['uid_initiator' => 'userC', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
 				false,
 			);
 

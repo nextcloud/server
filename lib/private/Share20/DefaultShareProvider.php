@@ -1072,8 +1072,7 @@ class DefaultShareProvider implements
 	/**
 	 * Create a share object from a database row
 	 *
-	 * @param mixed[] $data
-	 * @return \OCP\Share\IShare
+	 * @param array<string, mixed> $data
 	 * @throws InvalidShare
 	 */
 	private function createShare($data): IShare {
