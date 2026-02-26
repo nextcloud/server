@@ -22,6 +22,7 @@ use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
+use ReflectionClass;
 use function get_class;
 use function json_encode;
 use function min;
@@ -318,7 +319,12 @@ class JobList implements IJobList {
 			} catch (ContainerExceptionInterface $e) {
 				if (class_exists($row['class'])) {
 					$class = $row['class'];
-					$job = new $class();
+					$reflectedClass = new ReflectionClass($row['class']);
+					$constructor = $reflectedClass->getConstructor();
+					if ($constructor === null || $constructor->getNumberOfParameters() === 0) {
+						$job = new $class();
+					}
+					$this->logger->warning('failed to create instance of background job: ' . $row['class'] . ' (with fallback)', ['app' => 'cron', 'exception' => $e]);
 				} else {
 					$this->logger->warning('failed to create instance of background job: ' . $row['class'], ['app' => 'cron', 'exception' => $e]);
 					// Remove job from disabled app or old version of an app
