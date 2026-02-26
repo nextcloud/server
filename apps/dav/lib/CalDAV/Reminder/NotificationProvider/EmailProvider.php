@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use DateTime;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -84,12 +85,15 @@ class EmailProvider extends AbstractProvider {
 		$sortedByLanguage = $this->sortEMailAddressesByLanguage($emailAddresses, $fallbackLanguage);
 		$organizer = $this->getOrganizerEMailAndNameFromEvent($vevent);
 
+		$fromEMail = Util::getDefaultEmailAddress('reminders-noreply');
+		$defaults = new Defaults();
+		$fromName = $defaults->getName();
+
 		foreach ($sortedByLanguage as $lang => $emailAddresses) {
 			if (!$this->hasL10NForLang($lang)) {
 				$lang = $fallbackLanguage;
 			}
 			$l10n = $this->getL10NForLang($lang);
-			$fromEMail = Util::getDefaultEmailAddress('reminders-noreply');
 
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
 			$template->addHeader();
@@ -104,7 +108,7 @@ class EmailProvider extends AbstractProvider {
 				}
 
 				$message = $this->mailer->createMessage();
-				$message->setFrom([$fromEMail]);
+				$message->setFrom([$fromEMail => $fromName]);
 				if ($organizer) {
 					$message->setReplyTo($organizer);
 				}
@@ -130,7 +134,7 @@ class EmailProvider extends AbstractProvider {
 	 * @param VEvent $vevent
 	 */
 	private function addSubjectAndHeading(IEMailTemplate $template, IL10N $l10n, VEvent $vevent):void {
-		$template->setSubject('Notification: ' . $this->getTitleFromVEvent($vevent, $l10n));
+		$template->setSubject($l10n->t('Notification: %s', [$this->getTitleFromVEvent($vevent, $l10n)]));
 		$template->addHeading($this->getTitleFromVEvent($vevent, $l10n));
 	}
 
