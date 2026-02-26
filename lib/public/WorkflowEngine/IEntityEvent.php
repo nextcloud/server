@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCP\WorkflowEngine;
 
+use OCP\EventDispatcher\Event;
+
 /**
  * Interface IEntityEvent
  *
@@ -27,10 +29,11 @@ interface IEntityEvent {
 	public function getDisplayName(): string;
 
 	/**
-	 * returns the event name that is emitted by the EventDispatcher, e.g.:
+	 * Returns the event name that is emitted by the EventDispatcher, e.g.:
 	 *
 	 * Example: "OCA\MyApp\Factory\Cats::postCreated"
 	 *
+	 * @return class-string<Event>
 	 * @since 18.0.0
 	 */
 	public function getEventName(): string;
