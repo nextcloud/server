@@ -48,10 +48,6 @@ class CalendarMigratorTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	protected function tearDown(): void {
-		parent::tearDown();
-	}
-
 	private function createTestUser(): IUser {
 		$userId = UUIDUtil::getUUID();
 		return $this->userManager->createUser($userId, 'topsecretpassword');
