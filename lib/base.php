@@ -766,9 +766,10 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled($systemConfig);
 
-		self::addSecurityHeaders();
-
-		self::performSameSiteCookieProtection($config);
+		if (!self::$CLI) {
+			self::addSecurityHeaders();
+			self::performSameSiteCookieProtection($config);
+		}
 
 		if (!defined('OC_CONSOLE')) {
 			$eventLogger->start('check_server', 'Run a few configuration checks');
