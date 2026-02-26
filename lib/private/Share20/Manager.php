@@ -1044,7 +1044,7 @@ class Manager implements IManager {
 
 		// Figure out which users has some shares with which providers
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('uid_initiator', 'share_type')
+		$qb->select('uid_initiator', 'share_type', 'uid_owner', 'file_source')
 			->from('share')
 			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
 			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)))
@@ -1066,47 +1066,52 @@ class Manager implements IManager {
 		$qb->orderBy('id');
 
 		$cursor = $qb->executeQuery();
+		/** @var array<string, list<array{IShare::TYPE_*, Node}>> $rawShare */
 		$rawShares = [];
 		while ($data = $cursor->fetch()) {
 			if (!isset($rawShares[$data['uid_initiator']])) {
 				$rawShares[$data['uid_initiator']] = [];
 			}
 			if (!in_array($data['share_type'], $rawShares[$data['uid_initiator']], true)) {
-				$rawShares[$data['uid_initiator']][] = $data['share_type'];
+				if ($node instanceof Folder) {
+					if ($data['file_source'] === null || $data['uid_owner'] === null) {
+						/* Ignore share of non-existing node */
+						continue;
+					}
+
+					// for federated shares the owner can be a remote user, in this
+					// case we use the initiator
+					if ($this->userManager->userExists($data['uid_owner'])) {
+						$userFolder = $this->rootFolder->getUserFolder($data['uid_owner']);
+					} else {
+						$userFolder = $this->rootFolder->getUserFolder($data['uid_initiator']);
+					}
+					$sharedNode = $userFolder->getFirstNodeById((int)$data['file_source']);
+					if (!$sharedNode) {
+						continue;
+					}
+					if ($node->getRelativePath($sharedNode->getPath()) !== null) {
+						$rawShares[$data['uid_initiator']][] = [(int)$data['share_type'], $sharedNode];
+					}
+				} elseif ($node instanceof File) {
+					$rawShares[$data['uid_initiator']][] = [(int)$data['share_type'], $node];
+				}
 			}
 		}
 		$cursor->closeCursor();
 
-		foreach ($rawShares as $userId => $shareTypes) {
-			foreach ($shareTypes as $shareType) {
+		foreach ($rawShares as $userId => $shareInfos) {
+			foreach ($shareInfos as $shareInfo) {
+				[$shareType, $sharedNode] = $shareInfo;
 				try {
 					$provider = $this->factory->getProviderForType($shareType);
 				} catch (ProviderException) {
 					continue;
 				}
 
-
-				if ($node instanceof Folder) {
-					/* We need to get all shares by this user to get subshares */
-					$shares = $provider->getSharesBy($userId, $shareType, null, false, -1, 0);
-
-					foreach ($shares as $share) {
-						try {
-							$path = $share->getNode()->getPath();
-						} catch (NotFoundException) {
-							/* Ignore share of non-existing node */
-							continue;
-						}
-						if ($node->getRelativePath($path) !== null) {
-							/* If relative path is not null it means the shared node is the same or in a subfolder */
-							$reshareRecords[] = $share;
-						}
-					}
-				} else {
-					$shares = $provider->getSharesBy($userId, $shareType, $node, false, -1, 0);
-					foreach ($shares as $child) {
-						$reshareRecords[] = $child;
-					}
+				$shares = $provider->getSharesBy($userId, $shareType, $sharedNode, false, -1, 0);
+				foreach ($shares as $child) {
+					$reshareRecords[] = $child;
 				}
 			}
 		}
