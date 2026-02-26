@@ -178,7 +178,7 @@ class BackendService {
 	 * @return Backend[]
 	 */
 	public function getAvailableBackends() {
-		return array_filter($this->getBackends(), fn (Backend $backend) => !$backend->checkRequiredDependencies());
+		return array_filter($this->getBackends(), fn (Backend $backend) => empty($backend->checkRequiredDependencies()));
 	}
 
 	/**
