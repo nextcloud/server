@@ -20,7 +20,6 @@ use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
 use OC\ServerNotAvailableException;
-use OC\Share\Share;
 use OC\Share20\ShareDisableChecker;
 use OC_Hook;
 use OCA\Files_External\Config\ExternalMountPoint;
@@ -167,7 +166,7 @@ class SetupManager implements ISetupManager {
 			return $storage;
 		});
 
-		$reSharingEnabled = Share::isResharingAllowed();
+		$reSharingEnabled = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
 		$user = $this->userSession->getUser();
 		$sharingEnabledForUser = $user ? !$this->shareDisableChecker->sharingDisabledForUser($user->getUID()) : true;
 		Filesystem::addStorageWrapper(
