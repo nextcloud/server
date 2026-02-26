@@ -8,7 +8,6 @@
 namespace OCA\Files_Sharing\AppInfo;
 
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
-use OC\Share\Share;
 use OC\User\DisplayNameCache;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
@@ -34,8 +33,6 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
-use OCA\Files_Sharing\ShareBackend\File;
-use OCA\Files_Sharing\ShareBackend\Folder;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -130,9 +127,6 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([$this, 'registerEventsScripts']);
 
 		Helper::registerHooks();
-
-		Share::registerBackend('file', File::class);
-		Share::registerBackend('folder', Folder::class, 'file');
 	}
 
 

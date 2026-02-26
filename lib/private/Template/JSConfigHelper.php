@@ -12,7 +12,6 @@ use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FilenameValidator;
-use OC\Share\Share;
 use OCA\Provisioning_API\Controller\AUserDataOCSController;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -247,7 +246,7 @@ class JSConfigHelper {
 					'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
 					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
 					'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
-					'resharingAllowed' => Share::isResharingAllowed(),
+					'resharingAllowed' => $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
 					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
 					'allowGroupSharing' => $shareManager->allowGroupSharing(),
