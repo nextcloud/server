@@ -14,6 +14,7 @@ use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -105,7 +106,7 @@ class SharingTest extends TestCase {
 			->willReturnCallback(function (string $key) use (&$initialStateCalls) {
 				$initialStateCalls[$key] = func_get_args();
 			});
-		
+
 		$expectedInitialStateCalls = [
 			'sharingAppEnabled' => false,
 			'sharingDocumentation' => '',

@@ -19,9 +19,11 @@ use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
+#[Group(name: 'DB')]
 class LegacyHooksTest extends TestCase {
 	private LegacyHooks $hooks;
 	private IEventDispatcher $eventDispatcher;
