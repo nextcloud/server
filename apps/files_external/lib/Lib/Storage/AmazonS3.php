@@ -270,8 +270,8 @@ class AmazonS3 extends Common {
 					$connection->deleteObjects([
 						'Bucket' => $this->bucket,
 						'Delete' => [
+							'Quiet' => true,
 							'Objects' => array_map(fn (array $object) => [
-								'ETag' => $object['ETag'],
 								'Key' => $object['Key'],
 							], $objects['Contents'])
 						]
