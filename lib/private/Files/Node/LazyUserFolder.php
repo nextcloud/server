@@ -8,17 +8,19 @@ declare(strict_types=1);
  */
 namespace OC\Files\Node;
 
+use OC\Files\View;
 use OCP\Constants;
-use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountManager;
-use OCP\Files\NotFoundException;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
-use Psr\Log\LoggerInterface;
+use OCP\Server;
 
-class LazyUserFolder extends LazyFolder {
+class LazyUserFolder extends LazyFolder implements IUserFolder {
 	private string $path;
 
 	public function __construct(
@@ -43,23 +45,19 @@ class LazyUserFolder extends LazyFolder {
 
 		parent::__construct(
 			$rootFolder,
-			function () use ($user): Folder {
-				try {
-					$node = $this->getRootFolder()->get($this->path);
-					if ($node instanceof File) {
-						$e = new \RuntimeException();
-						\OCP\Server::get(LoggerInterface::class)->error('User root storage is not a folder: ' . $this->path, [
-							'exception' => $e,
-						]);
-						throw $e;
-					}
-					return $node;
-				} catch (NotFoundException $e) {
-					if (!$this->getRootFolder()->nodeExists('/' . $user->getUID())) {
-						$this->getRootFolder()->newFolder('/' . $user->getUID());
-					}
-					return $this->getRootFolder()->newFolder($this->path);
-				}
+			function () use ($user): UserFolder {
+				$root = $this->getRootFolder();
+				$parent = $root->getOrCreateFolder('/' . $user->getUID(), maxRetries: 1);
+				$realFolder = $root->getOrCreateFolder('/' . $user->getUID() . '/files', maxRetries: 1);
+				return new UserFolder(
+					$root,
+					new View(),
+					$realFolder->getPath(),
+					$parent,
+					Server::get(IConfig::class),
+					$user,
+					Server::get(ICacheFactory::class),
+				);
 			},
 			$data,
 		);
@@ -74,5 +72,9 @@ class LazyUserFolder extends LazyFolder {
 			throw new \Exception('No mountpoint for user folder');
 		}
 		return $mountPoint;
+	}
+
+	public function getUserQuota(bool $useCache = true): array {
+		return $this->__call(__FUNCTION__, func_get_args());
 	}
 }

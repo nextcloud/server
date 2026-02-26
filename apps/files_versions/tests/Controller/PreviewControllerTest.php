@@ -15,6 +15,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IPreview;
@@ -92,7 +93,7 @@ class PreviewControllerTest extends TestCase {
 	}
 
 	public function testValidPreview(): void {
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 
 		$this->rootFolder->method('getUserFolder')
@@ -130,7 +131,7 @@ class PreviewControllerTest extends TestCase {
 	}
 
 	public function testVersionNotFound(): void {
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 
 		$this->rootFolder->method('getUserFolder')
