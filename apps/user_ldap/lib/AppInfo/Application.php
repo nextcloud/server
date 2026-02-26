@@ -53,11 +53,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
-		$context->registerService(ILDAPWrapper::class, function (ContainerInterface $c) {
-			return new LDAP(
-				$c->get(IConfig::class)->getSystemValueString('ldap_log_file')
-			);
-		});
+		$context->registerServiceAlias(ILDAPWrapper::class, LDAP::class);
 
 		$context->registerNotifierService(Notifier::class);
 
