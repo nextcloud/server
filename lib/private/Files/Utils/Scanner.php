@@ -27,9 +27,11 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -79,8 +81,10 @@ class Scanner extends PublicEmitter {
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
+		/** @var IConfig $config */
+		$config = Server::get(IConfig::class);
 		// when DB locking is used, no DB transactions will be used
-		$this->useTransaction = !(\OC::$server->get(ILockingProvider::class) instanceof DBLockingProvider);
+		$this->useTransaction = !(Server::get(ILockingProvider::class) instanceof DBLockingProvider) && !$config->getSystemValueBool('filescanner_no_transactions', false);
 	}
 
 	/**
