@@ -67,7 +67,7 @@ class LDAPProviderTest extends \Test\TestCase {
 		return $groupBackend;
 	}
 
-	private function getLDAPProvider(IUserLDAP $userBackend, IGroupLDAP $groupBackend) {
+	private function getLDAPProvider(IUserLDAP $userBackend, IGroupLDAP $groupBackend): LDAPProvider {
 		return new LDAPProvider(
 			$this->getUserManagerMock($userBackend),
 			$this->getGroupManagerMock($groupBackend),
