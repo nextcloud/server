@@ -23,6 +23,7 @@ class ConfigLexicon implements IConfigLexicon {
 	public const UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST = 'unified_search_max_results_per_request';
 	public const USER_LANGUAGE = 'lang';
 	public const LASTCRON_TIMESTAMP = 'lastcron';
+	public const USER_LOCALE = 'locale';
 
 	public function getStrictness(): ConfigLexiconStrictness {
 		return ConfigLexiconStrictness::IGNORE;
@@ -39,6 +40,7 @@ class ConfigLexicon implements IConfigLexicon {
 	public function getUserConfigs(): array {
 		return [
 			new ConfigLexiconEntry(self::USER_LANGUAGE, ValueType::STRING, null, 'language'),
+			new ConfigLexiconEntry(self::USER_LOCALE, ValueType::STRING, null, 'locale'),
 		];
 	}
 }
