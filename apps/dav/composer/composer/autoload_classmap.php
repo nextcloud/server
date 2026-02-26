@@ -77,6 +77,7 @@ return array(
     'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarFactory' => $baseDir . '/../lib/CalDAV/Federation/FederatedCalendarFactory.php',
     'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarImpl' => $baseDir . '/../lib/CalDAV/Federation/FederatedCalendarImpl.php',
     'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarMapper' => $baseDir . '/../lib/CalDAV/Federation/FederatedCalendarMapper.php',
+    'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarObject' => $baseDir . '/../lib/CalDAV/Federation/FederatedCalendarObject.php',
     'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarSyncService' => $baseDir . '/../lib/CalDAV/Federation/FederatedCalendarSyncService.php',
     'OCA\\DAV\\CalDAV\\Federation\\FederationSharingService' => $baseDir . '/../lib/CalDAV/Federation/FederationSharingService.php',
     'OCA\\DAV\\CalDAV\\Federation\\Protocol\\CalendarFederationProtocolV1' => $baseDir . '/../lib/CalDAV/Federation/Protocol/CalendarFederationProtocolV1.php',

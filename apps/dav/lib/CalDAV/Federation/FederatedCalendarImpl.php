@@ -51,8 +51,7 @@ class FederatedCalendarImpl implements ICalendar, ICalendarIsShared, ICalendarIs
 	}
 
 	public function getPermissions(): int {
-		// TODO: implement read-write sharing
-		return Constants::PERMISSION_READ;
+		return $this->calendarInfo['{http://owncloud.org/ns}permissions'] ?? Constants::PERMISSION_READ;
 	}
 
 	public function isDeleted(): bool {
@@ -64,7 +63,8 @@ class FederatedCalendarImpl implements ICalendar, ICalendarIsShared, ICalendarIs
 	}
 
 	public function isWritable(): bool {
-		return false;
+		$permissions = $this->getPermissions();
+		return ($permissions & Constants::PERMISSION_UPDATE) !== 0;
 	}
 
 	public function isEnabled(): bool {
