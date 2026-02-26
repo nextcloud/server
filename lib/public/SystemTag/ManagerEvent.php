@@ -14,6 +14,7 @@ use OCP\EventDispatcher\Event;
  * Class ManagerEvent
  *
  * @since 9.0.0
+ * @deprecated 34.0.0
  */
 class ManagerEvent extends Event {
 	/**
