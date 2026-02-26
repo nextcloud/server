@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 namespace OC\SystemTag;
 
+use OC\SystemTag\Events\SingleTagAssignedEvent;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -174,6 +175,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$tagsAssigned,
 		));
 		$this->dispatcher->dispatchTyped(new TagAssignedEvent($objectType, [$objId], $tagsAssigned));
+		$this->dispatcher->dispatchTyped(new SingleTagAssignedEvent($objectType, $objId, $tagsAssigned));
 	}
 
 	#[Override]
@@ -344,6 +346,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				(string)$objectId,
 				[(int)$tagId]
 			));
+			$this->dispatcher->dispatchTyped(new SingleTagAssignedEvent($objectType, $objectId, [(int)$tagId]));
 		}
 		if (!empty($addedObjectIds)) {
 			$this->dispatcher->dispatchTyped(new TagAssignedEvent($objectType, array_map(fn ($objectId) => (string)$objectId, $addedObjectIds), [(int)$tagId]));

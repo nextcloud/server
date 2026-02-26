@@ -19,12 +19,14 @@ use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\BeforeNodeTouchedEvent;
+use OCP\Files\Events\Node\BeforeNodeUpdatedEvent;
 use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
+use OCP\Files\Events\Node\NodeUpdatedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
@@ -49,6 +51,9 @@ class HookConnector {
 
 		Util::connectHook('OC_Filesystem', 'create', $this, 'create');
 		Util::connectHook('OC_Filesystem', 'post_create', $this, 'postCreate');
+
+		Util::connectHook('OC_Filesystem', 'update', $this, 'update');
+		Util::connectHook('OC_Filesystem', 'post_update', $this, 'postUpdate');
 
 		Util::connectHook('OC_Filesystem', 'delete', $this, 'delete');
 		Util::connectHook('OC_Filesystem', 'post_delete', $this, 'postDelete');
@@ -99,6 +104,16 @@ class HookConnector {
 
 		$event = new NodeCreatedEvent($node);
 		$this->dispatcher->dispatchTyped($event);
+	}
+
+	public function update(array $arguments): void {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->dispatcher->dispatchTyped(new BeforeNodeUpdatedEvent($node));
+	}
+
+	public function postUpdate(array $arguments): void {
+		$node = $this->getNodeForPath($arguments['path']);
+		$this->dispatcher->dispatchTyped(new NodeUpdatedEvent($node));
 	}
 
 	public function delete($arguments) {
