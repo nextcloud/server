@@ -28,6 +28,8 @@
 		<file name="build/psalm/ITypedQueryBuilderTest.php"/>
 		<file name="lib/private/DB/QueryBuilder/TypedQueryBuilder.php"/>
 		<file name="lib/public/DB/QueryBuilder/ITypedQueryBuilder.php"/>
+		<file name="lib/private/Share20/ShareHelper.php"/>
+		<file name="lib/public/Share/IShareHelper.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
