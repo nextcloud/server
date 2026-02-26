@@ -3,12 +3,12 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcIconSvgWrapper class="recently-created-marker-icon" :name="t('files', 'Recently created')" :svg="PlusSvg" />
+	<NcIconSvgWrapper class="recently-created-marker-icon" :name="t('files', 'Recently created')" :path="mdiPlus" />
 </template>
 
 <script lang="ts">
-import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
-import { translate as t } from '@nextcloud/l10n'
+import { mdiPlus } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
@@ -18,7 +18,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
  *
  * If the background has a hover state you might want to also apply it to the stroke like this:
  * ```scss
- * .parent:hover :deep(.favorite-marker-icon svg path) {
+ * .parent:hover :deep(.recently-created-marker-icon svg path) {
  *      stroke: var(--color-background-hover);
  * }
  * ```
@@ -29,17 +29,10 @@ export default defineComponent({
 		NcIconSvgWrapper,
 	},
 
-	data() {
+	setup() {
 		return {
-			PlusSvg,
+			mdiPlus,
 		}
-	},
-
-	async mounted() {
-		await this.$nextTick()
-		// MDI default viewBox is "0 0 24 24" but we add a stroke of 10px so we must adjust it
-		const el = this.$el.querySelector('svg')
-		el?.setAttribute?.('viewBox', '-4 -4 30 30')
 	},
 
 	methods: {
