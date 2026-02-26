@@ -268,20 +268,9 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
-		if (!isset($logCondition['matches'])) {
-			$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
-			if (is_numeric($configLogLevel)) {
-				$this->nestingLevel--;
-				return min((int)$configLogLevel, ILogger::FATAL);
-			}
+		$logConditionMatches = $logCondition['matches'] ?? [];
 
-			// Invalid configuration, warn the user and fall back to default level of WARN
-			error_log('Nextcloud configuration: "loglevel" is not a valid integer');
-			$this->nestingLevel--;
-			return ILogger::WARN;
-		}
-
-		foreach ($logCondition['matches'] as $option) {
+		foreach ($logConditionMatches as $option) {
 			if (
 				(!isset($option['shared_secret']) || $this->checkLogSecret($option['shared_secret']))
 				&& (!isset($option['users']) || in_array($userId, $option['users'], true))
@@ -299,6 +288,14 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
+		$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
+		if (is_numeric($configLogLevel)) {
+			$this->nestingLevel--;
+			return min((int)$configLogLevel, ILogger::FATAL);
+		}
+
+		// Invalid configuration, warn the user and fall back to default level of WARN
+		error_log('Nextcloud configuration: "loglevel" is not a valid integer');
 		$this->nestingLevel--;
 		return ILogger::WARN;
 	}
