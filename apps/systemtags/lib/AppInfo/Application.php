@@ -10,7 +10,7 @@ namespace OCA\SystemTags\AppInfo;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
-use OCA\SystemTags\Activity\Listener;
+use OCA\SystemTags\Activity\TagListener;
 use OCA\SystemTags\Capabilities;
 use OCA\SystemTags\Listeners\BeforeSabrePubliclyLoadedListener;
 use OCA\SystemTags\Listeners\BeforeTemplateRenderedListener;
@@ -21,9 +21,11 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\BeforeSabrePubliclyLoadedEvent;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\SystemTag\ManagerEvent;
-use OCP\SystemTag\MapperEvent;
+use OCP\SystemTag\Events\TagCreatedEvent;
+use OCP\SystemTag\Events\TagDeletedEvent;
+use OCP\SystemTag\Events\TagUpdatedEvent;
+use OCP\SystemTag\TagAssignedEvent;
+use OCP\SystemTag\TagUnassignedEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'systemtags';
@@ -38,26 +40,15 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScriptsListener::class);
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerEventListener(BeforeSabrePubliclyLoadedEvent::class, BeforeSabrePubliclyLoadedListener::class);
+
+		$context->registerEventListener(TagCreatedEvent::class, TagListener::class);
+		$context->registerEventListener(TagDeletedEvent::class, TagListener::class);
+		$context->registerEventListener(TagUpdatedEvent::class, TagListener::class);
+
+		$context->registerEventListener(TagAssignedEvent::class, TagListener::class);
+		$context->registerEventListener(TagUnassignedEvent::class, TagListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (IEventDispatcher $dispatcher) use ($context): void {
-			$managerListener = function (ManagerEvent $event) use ($context): void {
-				/** @var Listener $listener */
-				$listener = $context->getServerContainer()->query(Listener::class);
-				$listener->event($event);
-			};
-			$dispatcher->addListener(ManagerEvent::EVENT_CREATE, $managerListener);
-			$dispatcher->addListener(ManagerEvent::EVENT_DELETE, $managerListener);
-			$dispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
-
-			$mapperListener = function (MapperEvent $event) use ($context): void {
-				/** @var Listener $listener */
-				$listener = $context->getServerContainer()->query(Listener::class);
-				$listener->mapperEvent($event);
-			};
-			$dispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);
-			$dispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
-		});
 	}
 }

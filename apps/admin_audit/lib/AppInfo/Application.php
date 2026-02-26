@@ -13,7 +13,6 @@ use OCA\AdminAudit\Actions\Auth;
 use OCA\AdminAudit\Actions\Console;
 use OCA\AdminAudit\Actions\Files;
 use OCA\AdminAudit\Actions\Sharing;
-use OCA\AdminAudit\Actions\TagManagement;
 use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\Versions;
 use OCA\AdminAudit\AuditLogger;
@@ -27,6 +26,7 @@ use OCA\AdminAudit\Listener\FileEventListener;
 use OCA\AdminAudit\Listener\GroupManagementEventListener;
 use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCA\AdminAudit\Listener\SharingEventListener;
+use OCA\AdminAudit\Listener\TagEventListener;
 use OCA\AdminAudit\Listener\UserManagementEventListener;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\App\Events\AppDisableEvent;
@@ -60,7 +60,7 @@ use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Share;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
-use OCP\SystemTag\ManagerEvent;
+use OCP\SystemTag\Events\TagCreatedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -130,6 +130,9 @@ class Application extends App implements IBootstrap {
 		// Cache events
 		$context->registerEventListener(CacheEntryInsertedEvent::class, CacheEventListener::class);
 		$context->registerEventListener(CacheEntryRemovedEvent::class, CacheEventListener::class);
+
+		// System tag event
+		$context->registerEventListener(TagCreatedEvent::class, TagEventListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -153,7 +156,6 @@ class Application extends App implements IBootstrap {
 		$this->fileHooks($logger, $eventDispatcher);
 		$this->trashbinHooks($logger);
 		$this->versionsHooks($logger);
-		$this->tagHooks($logger, $eventDispatcher);
 	}
 
 	private function sharingLegacyHooks(IAuditLogger $logger): void {
@@ -163,14 +165,6 @@ class Application extends App implements IBootstrap {
 		Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword');
 		Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate');
 		Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed');
-	}
-
-	private function tagHooks(IAuditLogger $logger,
-		IEventDispatcher $eventDispatcher): void {
-		$eventDispatcher->addListener(ManagerEvent::EVENT_CREATE, function (ManagerEvent $event) use ($logger): void {
-			$tagActions = new TagManagement($logger);
-			$tagActions->createTag($event->getTag());
-		});
 	}
 
 	private function fileHooks(IAuditLogger $logger, IEventDispatcher $eventDispatcher): void {

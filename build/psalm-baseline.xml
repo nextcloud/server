@@ -7,9 +7,6 @@
       <code><![CDATA[Share::class]]></code>
       <code><![CDATA[Share::class]]></code>
     </DeprecatedClass>
-    <DeprecatedConstant>
-      <code><![CDATA[ManagerEvent::EVENT_CREATE]]></code>
-    </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore')]]></code>
       <code><![CDATA[Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete')]]></code>
@@ -2307,46 +2304,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/systemtags/lib/Activity/Listener.php">
-    <DeprecatedConstant>
-      <code><![CDATA[ManagerEvent::EVENT_CREATE]]></code>
-      <code><![CDATA[ManagerEvent::EVENT_CREATE]]></code>
-      <code><![CDATA[ManagerEvent::EVENT_DELETE]]></code>
-      <code><![CDATA[ManagerEvent::EVENT_UPDATE]]></code>
-      <code><![CDATA[ManagerEvent::EVENT_UPDATE]]></code>
-      <code><![CDATA[MapperEvent::EVENT_ASSIGN]]></code>
-      <code><![CDATA[MapperEvent::EVENT_ASSIGN]]></code>
-      <code><![CDATA[MapperEvent::EVENT_ASSIGN]]></code>
-      <code><![CDATA[MapperEvent::EVENT_UNASSIGN]]></code>
-      <code><![CDATA[MapperEvent::EVENT_UNASSIGN]]></code>
-    </DeprecatedConstant>
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-    </DeprecatedMethod>
-    <InvalidArgument>
-      <code><![CDATA[$event->getObjectId()]]></code>
-      <code><![CDATA[$event->getObjectId()]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="apps/systemtags/lib/AppInfo/Application.php">
-    <DeprecatedConstant>
-      <code><![CDATA[ManagerEvent::EVENT_CREATE]]></code>
-      <code><![CDATA[ManagerEvent::EVENT_DELETE]]></code>
-      <code><![CDATA[ManagerEvent::EVENT_UPDATE]]></code>
-      <code><![CDATA[MapperEvent::EVENT_ASSIGN]]></code>
-      <code><![CDATA[MapperEvent::EVENT_UNASSIGN]]></code>
-    </DeprecatedConstant>
-    <DeprecatedMethod>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/systemtags/lib/Controller/LastUsedController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/testing/lib/AlternativeHomeUserBackend.php">
