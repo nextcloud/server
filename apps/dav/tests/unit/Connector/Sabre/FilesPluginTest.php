@@ -641,6 +641,7 @@ class FilesPluginTest extends TestCase {
 		$calls = [
 			['Content-Disposition', $contentDispositionHeader],
 			['X-Accel-Buffering', 'no'],
+			['Cache-Control', 'private, no-cache, must-revalidate'],
 		];
 		$response
 			->expects($this->exactly(count($calls)))
