@@ -133,7 +133,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, ldap, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, ldap, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite, apcu
           coverage: none
           ini-file: development
         env:
@@ -154,6 +154,7 @@ jobs:
           ./occ maintenance:install --verbose ${{ contains(matrix.test-suite,'ldap') && '--data-dir=/dev/shm/nc_int' || '' }} --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           ./occ config:system:set hashing_default_password --value=true --type=boolean
           ./occ app:enable security_softening
+          ./occ config:system:set memcache.local --value='\OC\Memcache\APCu'
 
       - name: Configure caching
         if: ${{ contains(matrix.test-suite,'ldap') }}
