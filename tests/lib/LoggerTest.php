@@ -159,6 +159,34 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->assertEquals($expectedLogs, $this->getLogs());
 	}
 
+	public function testMatchesConditionIncreaseLoglevel(): void {
+		$this->config->expects($this->any())
+			->method('getValue')
+			->willReturnMap([
+				['loglevel', ILogger::WARN, ILogger::INFO],
+				['log.condition', [], ['matches' => [
+					[
+						'message' => 'catched',
+						'loglevel' => 3,
+					]
+				]]],
+			]);
+		$logger = $this->logger;
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('test-userid');
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->method('getUser')
+			->willReturn($user);
+		$this->overwriteService(IUserSession::class, $userSession);
+
+		$logger->info('catched message');
+		$logger->info('info level message');
+
+		$this->assertEquals(['1 info level message'], $this->getLogs());
+	}
+
 	public function testLoggingWithDataArray(): void {
 		$this->mockDefaultLogLevel();
 		/** @var IWriter&MockObject */
