@@ -12,94 +12,154 @@ use OC\DatabaseSetupException;
 use OC\DB\Connection;
 use OC\DB\QueryBuilder\Literal;
 use OCP\Security\ISecureRandom;
-use OCP\Server;
 
 class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
 	/**
-	 * @throws DatabaseSetupException
+	 * Sets up PostgreSQL database and user for Nextcloud installation.
+	 *
+	 * This method handles two scenarios:
+	 * 1. Automatic setup: Creates user, database, and schema when connecting as superuser
+	 * 2. Manual setup: Uses pre-configured credentials when automatic setup fails
+	 *
+	 * @throws DatabaseSetupException If database connection or setup fails
 	 */
 	public function setupDatabase(): void {
-		try {
-			$connection = $this->connect([
-				'dbname' => 'postgres'
-			]);
-			if ($this->tryCreateDbUser) {
-				//check for roles creation rights in postgresql
-				$builder = $connection->getQueryBuilder();
-				$builder->automaticTablePrefix(false);
-				$query = $builder
-					->select('rolname')
-					->from('pg_roles')
-					->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
-					->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
-
-				try {
-					$result = $query->executeQuery();
-					$canCreateRoles = $result->rowCount() > 0;
-				} catch (DatabaseException $e) {
-					$canCreateRoles = false;
-				}
-
-				if ($canCreateRoles) {
-					$connectionMainDatabase = $this->connect();
-					//use the admin login data for the new database user
-
-					//add prefix to the postgresql user name to prevent collisions
-					$this->dbUser = 'oc_admin';
-					//create a new password so we don't need to store the admin config in the config file
-					$this->dbPassword = Server::get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
-
-					$this->createDBUser($connection);
-				}
-			}
-
-			$this->config->setValues([
-				'dbuser' => $this->dbUser,
-				'dbpassword' => $this->dbPassword,
-			]);
-
-			//create the database
-			$this->createDatabase($connection);
-			// the connection to dbname=postgres is not needed anymore
-			$connection->close();
-
-			if ($this->tryCreateDbUser) {
-				if ($canCreateRoles) {
-					// Go to the main database and grant create on the public schema
-					// The code below is implemented to make installing possible with PostgreSQL version 15:
-					// https://www.postgresql.org/docs/release/15.0/
-					// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
-					// Therefore we assume that the database is only used by one user/service which is Nextcloud
-					// Additional services should get installed in a separate database in order to stay secure
-					// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
-					$connectionMainDatabase->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
-					$connectionMainDatabase->close();
-				}
-			}
-		} catch (\Exception $e) {
-			$this->logger->warning('Error trying to connect as "postgres", assuming database is setup and tables need to be created', [
-				'exception' => $e,
-			]);
+		if ($this->tryCreateDbUser) {
+			// Automatic setup: create user, database, and schema
+			$this->performAutomaticSetup();
+		} else {
+			// Manual setup: just save the provided credentials
 			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
 			]);
 		}
 
-		// connect to the database (dbname=$this->dbname) and check if it needs to be filled
-		$this->dbUser = $this->config->getValue('dbuser');
-		$this->dbPassword = $this->config->getValue('dbpassword');
-		$connection = $this->connect();
+		// Always verify the final configuration works
+		$this->verifyDatabaseConnection();
+	}
+
+	/**
+	 * Performs automatic database setup when connecting as a superuser.
+	 * Creates a Nextcloud-specific user, database, and adjusts schema.
+	 */
+	private function performAutomaticSetup(): void {
+		$canCreateRoles = false;
+		$connection = null;
+
+		// Save original admin credentials before createDBUser() overwrites them
+		$adminUser = $this->dbUser;
+		$adminPassword = $this->dbPassword;
+
 		try {
-			$connection->connect();
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), [
-				'exception' => $e,
+			// Connect to 'postgres' maintenance database for administrative tasks
+			$connection = $this->connect(['dbname' => 'postgres']);
+
+			$canCreateRoles = $this->checkCanCreateRoles($connection);
+
+			if ($canCreateRoles) {
+				// Create Nextcloud-specific database user with random credentials
+				// This updates $this->dbUser and $this->dbPassword
+				$this->createDBUser($connection);
+			}
+
+			// Store credentials in config (generated if canCreateRoles, otherwise original admin credentials)
+			$this->config->setValues([
+				'dbuser' => $this->dbUser,
+				'dbpassword' => $this->dbPassword,
 			]);
-			throw new DatabaseSetupException($this->trans->t('PostgreSQL Login and/or password not valid'),
-				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
+
+			// ALWAYS attempt to create database (works with or without CREATEROLE)
+			$this->createDatabase($connection);
+
+			// Create user-owned schema only if we created a new user
+			if ($canCreateRoles) {
+				// Switch to Nextcloud database, still using admin credentials
+				$connection->close();
+				$connection = $this->connect([
+					'user' => $adminUser,
+					'password' => $adminPassword,
+				]);
+
+				// Adjust GRANTs on public SCHEMA to Nextcloud expectations
+				$this->grantCreateOnPublicSchema($connection);
+			}
+
+		} catch (\Exception $e) { // @todo: catch more specific DatabaseException | DatabaseSetupException | \PDOException $e instead?
+			// Automatic setup failed - log and continue with verification (upstream.. which will give up if necessary)
+			$this->logger->warning('Automatic database setup failed, will attempt to verify manual configuration', [
+				'exception' => $e,
+				'app' => 'pgsql.setup',
+			]);
+
+			// Ensure credentials are saved even if automatic setup failed
+			$this->config->setValues([
+				'dbuser' => $this->dbUser,
+				'dbpassword' => $this->dbPassword,
+			]);
+		} finally {
+			// Clean up connection
+			$connection?->close();
+		}
+	}
+
+	// @todo: replace with user-schema approach and drop public requirement entirely on new installations
+	private function grantCreateOnPublicSchema(Connection $connection): void {
+		try {
+			// Go to the main database and grant create on the public schema
+			// The code below is implemented to make installing possible with PostgreSQL version 15:
+			// https://www.postgresql.org/docs/release/15.0/
+			// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
+			// Therefore we assume that the database is only used by one user/service which is Nextcloud
+			// Additional services should get installed in a separate database in order to stay secure
+			// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
+			$connection->executeQuery(
+				'GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"'
+			);
+
+			$this->logger->info('Granted CREATE on SCHEMA public for PostgreSQL 15+ compatibility', [
+				'dbuser' => $this->dbUser,
+				'app' => 'pgsql.setup',
+			]);
+		} catch (DatabaseException $e) {
+			$this->logger->error('Failed to grant CREATE on public SCHEMA', [
+				'dbuser' => $this->dbUser,
+				'exception' => $e,
+				'app' => 'pgsql.setup',
+			]);
+			throw new DatabaseSetupException(
+				$this->trans->t('Could not adjust database schema'),
+				$this->trans->t('Check logs for details.'),
+				0,
+				$e
+			);
+		}
+	}
+
+	/**
+	 * Checks if the current user has CREATEROLE privilege.
+	 */
+	private function checkCanCreateRoles(Connection $connection): bool {
+		try {
+			$builder = $connection->getQueryBuilder();
+			$builder->automaticTablePrefix(false);
+
+			$query = $builder
+				->select('rolname')
+				->from('pg_roles')
+				->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
+				->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
+
+			$result = $query->executeQuery();
+			return $result->rowCount() > 0;
+		} catch (DatabaseException $e) {
+			$this->logger->debug('Could not check role creation privileges', [
+				'exception' => $e,
+				'app' => 'pgsql.setup',
+			]);
+			return false;
 		}
 	}
 
@@ -112,6 +172,7 @@ class PostgreSQL extends AbstractDatabase {
 			} catch (DatabaseException $e) {
 				$this->logger->error('Error while trying to create database', [
 					'exception' => $e,
+					'app' => 'pgsql.setup',
 				]);
 			}
 		} else {
@@ -121,17 +182,18 @@ class PostgreSQL extends AbstractDatabase {
 			} catch (DatabaseException $e) {
 				$this->logger->error('Error while trying to restrict database permissions', [
 					'exception' => $e,
+					'app' => 'pgsql.setup',
 				]);
 			}
 		}
 	}
 
-	private function userExists(Connection $connection): bool {
+	private function userExists(Connection $connection, string $roleName): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
 		$query = $builder->select('*')
 			->from('pg_roles')
-			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
+			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($roleName)));
 		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
@@ -147,25 +209,74 @@ class PostgreSQL extends AbstractDatabase {
 	}
 
 	private function createDBUser(Connection $connection): void {
-		$dbUser = $this->dbUser;
+		// Generate Nextcloud-specific credentials so we don't need to store / use the db admin credentials
+		$baseUser = 'oc_admin';
+		$newUser = $baseUser;
+		$newPassword = $this->random->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
+
+		// Find/generate an available username
 		try {
 			$i = 1;
-			while ($this->userExists($connection)) {
+			while ($this->userExists($connection, $newUser)) {
 				$i++;
-				$this->dbUser = $dbUser . $i;
+				$newUser = $baseUser . $i;
 			}
 
-			// create the user
-			$query = $connection->prepare('CREATE USER "' . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
+			if ($newUser !== $baseUser) {
+				$this->logger->info('Using alternate username for database user', [
+					'original' => $baseUser,
+					'actual' => $newUser,
+					'app' => 'pgsql.setup',
+				]);
+			}
+
+			// Create the new user
+			$query = $connection->prepare('CREATE USER "' . addslashes($newUser) . "\" CREATEDB PASSWORD '" . addslashes($newPassword) . "'");
 			$query->executeStatement();
+
+			// Grant database access if database already exists
 			if ($this->databaseExists($connection)) {
-				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO "' . addslashes($this->dbUser) . '"');
+				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO "' . addslashes($newUser) . '"');
 				$query->executeStatement();
 			}
+
+			$this->dbUser = $newUser;
+			$this->dbPassword = $newPassword;
 		} catch (DatabaseException $e) {
 			$this->logger->error('Error while trying to create database user', [
 				'exception' => $e,
+				'app' => 'pgsql.setup',
 			]);
+		}
+	}
+
+	/**
+	 * Verifies connection to the Nextcloud database with configured credentials.
+	 *
+	 * @throws DatabaseSetupException If connection fails
+	 */
+	private function verifyDatabaseConnection(): void {
+		// Reload credentials from config (may have been updated + to verify config)
+		$this->dbUser = $this->config->getValue('dbuser');
+		$this->dbPassword = $this->config->getValue('dbpassword');
+
+		try {
+			$connection = $this->connect(); // Create new connection object with final config
+			$connection->connect(); // Actually connect to verify credentials work
+		} catch (\Exception $e) {
+			$this->logger->error('Database connection verification failed', [
+				'user' => $this->dbUser,
+				'database' => $this->dbName,
+				'exception' => $e,
+				'app' => 'pgsql.setup',
+			]);
+
+			throw new DatabaseSetupException(
+				$this->trans->t('PostgreSQL login and/or password not valid'),
+				$this->trans->t('You need to enter details of an existing account.'),
+				0,
+				$e
+			);
 		}
 	}
 }
