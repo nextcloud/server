@@ -431,6 +431,7 @@ return array(
     'OCP\\Files\\Events\\BeforeFileScannedEvent' => $baseDir . '/lib/public/Files/Events/BeforeFileScannedEvent.php',
     'OCP\\Files\\Events\\BeforeFileSystemSetupEvent' => $baseDir . '/lib/public/Files/Events/BeforeFileSystemSetupEvent.php',
     'OCP\\Files\\Events\\BeforeFolderScannedEvent' => $baseDir . '/lib/public/Files/Events/BeforeFolderScannedEvent.php',
+    'OCP\\Files\\Events\\BeforeRemotePropfindEvent' => $baseDir . '/lib/public/Files/Events/BeforeRemotePropfindEvent.php',
     'OCP\\Files\\Events\\BeforeZipCreatedEvent' => $baseDir . '/lib/public/Files/Events/BeforeZipCreatedEvent.php',
     'OCP\\Files\\Events\\FileCacheUpdated' => $baseDir . '/lib/public/Files/Events/FileCacheUpdated.php',
     'OCP\\Files\\Events\\FileScannedEvent' => $baseDir . '/lib/public/Files/Events/FileScannedEvent.php',
