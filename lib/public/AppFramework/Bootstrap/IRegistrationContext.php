@@ -447,4 +447,21 @@ interface IRegistrationContext {
 	 * @since 31.0.0
 	 */
 	public function registerConfigLexicon(string $configLexiconClass): void;
+
+	/**
+	 * allow FullTextSearch to register its service
+	 * @since 33.0.0
+	 */
+	public function registerFullTextSearchService(string $service): void;
+
+	/**
+	 * Register an implementation of \NCU\FullTextSearch\IContentProvider that
+	 * will handle the getaway with full text search to extract app's content
+	 *
+	 * @param string $contentProviderClass
+	 *
+	 * @psalm-param class-string<\NCU\FullTextSearch\IContentProvider> $contentProviderClass
+	 * @since 33.0.0
+	 */
+	public function registerFullTextSearchContentProvider(string $contentProviderClass): void;
 }

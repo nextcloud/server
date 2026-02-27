@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use NCU\FullTextSearch\IService as IFullTextSearchService;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -145,6 +146,11 @@ class RegistrationContext {
 
 	/** @var array<array-key, string> */
 	private array $configLexiconClasses = [];
+
+	/** @var null|ServiceRegistration<IFullTextSearchService> */
+	private ?ServiceRegistration $fullTextSearchService = null;
+	/** @var array<array-key, string> */
+	private array $fullTextSearchContentProviders = [];
 
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
@@ -440,6 +446,20 @@ class RegistrationContext {
 					$configLexiconClass
 				);
 			}
+
+			public function registerFullTextSearchService(string $service): void {
+				$this->context->registerFullTextSearchService(
+					$this->appId,
+					$service
+				);
+			}
+
+			public function registerFullTextSearchContentProvider(string $contentProviderClass): void {
+				$this->context->registerFullTextSearchContentProvider(
+					$this->appId,
+					$contentProviderClass
+				);
+			}
 		};
 	}
 
@@ -652,6 +672,24 @@ class RegistrationContext {
 	 */
 	public function registerConfigLexicon(string $appId, string $configLexiconClass): void {
 		$this->configLexiconClasses[$appId] = $configLexiconClass;
+	}
+
+	public function registerFullTextSearchService(string $appId, string $service) {
+		if ($appId !== 'fulltextsearch') {
+			throw new RuntimeException('Only the FullTextSearch app is allowed to register a fts service');
+		}
+		if ($this->fullTextSearchService !== null) {
+			throw new RuntimeException('There can only be one FullTextSearch service');
+		}
+
+		$this->fullTextSearchService = new ServiceRegistration($appId, $service);
+	}
+
+	/**
+	 * @psalm-param class-string<ILexicon> $contentProviderClass
+	 */
+	public function registerFullTextSearchContentProvider(string $appId, string $contentProviderClass): void {
+		$this->fullTextSearchContentProviders[$appId] = $contentProviderClass;
 	}
 
 	/**
@@ -1027,5 +1065,19 @@ class RegistrationContext {
 		}
 
 		return Server::get($this->configLexiconClasses[$appId]);
+	}
+
+	/**
+	 * @return ServiceRegistration<IFullTextSearchService>|null
+	 */
+	public function getFullTextSearchService(): ?ServiceRegistration {
+		return $this->fullTextSearchService;
+	}
+
+	/**
+	 * @return ServiceRegistration<\NCU\FullTextSearch\IContentProvider>[]
+	 */
+	public function getFullTextSearchContentProviders(): array {
+		return $this->fullTextSearchContentProviders;
 	}
 }
