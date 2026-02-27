@@ -731,10 +731,21 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// If the token password is no longer valid mark it as such
-		if ($this->manager->checkPassword($dbToken->getLoginName(), $pwd) === false) {
+		$tokenLoginName = $dbToken->getLoginName();
+		if ($this->manager->checkPassword($tokenLoginName, $pwd) === false) {
+			// If the decrypted password is empty or not a valid local password,
+			// but the user exists and is enabled, we DO NOT permanently invalidate the token.
+			if (empty($pwd) || $this->manager->get($tokenLoginName) !== null) {
+				$this->logger->warning('Password check failed for user {user}, but user is active. Token preserved.', [
+					'app' => 'core',
+					'user' => $tokenLoginName,
+				]);
+				return false;
+			}
+
+			// Legitimate password change or invalid user
+			// Invalidate the token
 			$this->tokenProvider->markPasswordInvalid($dbToken, $token);
-			// User is logged out
 			return false;
 		}
 
