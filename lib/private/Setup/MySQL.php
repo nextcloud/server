@@ -16,7 +16,10 @@ use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 
 class MySQL extends AbstractDatabase {
-	public string $dbprettyname = 'MySQL/MariaDB';
+
+	protected function getDisplayName(): string {
+		return 'MySQL/MariaDB';
+	}
 
 	public function setupDatabase(): void {
 		//check if the database user has admin right
