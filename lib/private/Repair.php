@@ -66,12 +66,10 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\AppData\IAppDataFactory;
-use OCP\IAppConfig;
-use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -212,18 +210,19 @@ class Repair implements IOutput {
 	 * @return IRepairStep[]
 	 */
 	public static function getExpensiveRepairSteps() {
-		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
-			new RemoveBrokenProperties(\OCP\Server::get(IDBConnection::class)),
-			new RepairMimeTypes(
-				\OCP\Server::get(IConfig::class),
-				\OCP\Server::get(IAppConfig::class),
-				\OCP\Server::get(IDBConnection::class)
-			),
-			\OCP\Server::get(DeleteSchedulingObjects::class),
-			\OC::$server->get(RemoveObjectProperties::class),
-			\OCP\Server::get(CleanupShareTarget::class),
+		$expensiveSteps = [
+			Server::get(OldGroupMembershipShares::class),
+			Server::get(RemoveBrokenProperties::class),
+			Server::get(RepairMimeTypes::class),
+			Server::get(DeleteSchedulingObjects::class),
+			Server::get(RemoveObjectProperties::class),
 		];
+
+		if (class_exists(CleanupShareTarget::class)) {
+			$expensiveSteps[] = Server::get(CleanupShareTarget::class);
+		}
+
+		return $expensiveSteps;
 	}
 
 	/**
