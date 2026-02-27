@@ -39,6 +39,8 @@ use OCP\Share\IShare;
 use OCP\Share\IShareProviderWithNotification;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use OCP\IAppConfig;
+use OCP\Mail\Provider\IManager as IMailManager;
 
 /**
  * Class ShareByMail
@@ -57,6 +59,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 	public function __construct(
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IDBConnection $dbConnection,
 		private ISecureRandom $secureRandom,
 		private IUserManager $userManager,
@@ -72,6 +75,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		private IEventDispatcher $eventDispatcher,
 		private IShareManager $shareManager,
 		private IEmailValidator $emailValidator,
+		private IMailManager $mailManager,
 	) {
 	}
 
@@ -325,6 +329,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+		$initiatorEmail = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
 		$message = $this->mailer->createMessage();
 
 		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientNotification', [
@@ -383,7 +388,17 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				]
 			);
 		}
-		$message->setFrom([Util::getDefaultEmailAddress($instanceName) => $senderName]);
+		$fromAddress = Util::getDefaultEmailAddress(user_part: $instanceName);
+		$mailProvidersEnabled = $this->appConfig->getValueBool('core', 'mail_providers_enabled');
+		if ($mailProvidersEnabled && $this->mailManager->has()) {
+			if ($initiatorEmail !== null) {
+				$service = $this->mailManager->findServiceByAddress($initiator, $initiatorEmail);
+				if ($service !== null) {
+					$fromAddress = $service->getPrimaryAddress()->getAddress();
+				}
+			}
+		}
+		$message->setFrom([$fromAddress => $senderName]);
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
