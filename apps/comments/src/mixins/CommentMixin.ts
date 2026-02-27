@@ -5,11 +5,11 @@
 
 import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
 import { mapStores } from 'pinia'
-import logger from '../logger.js'
-import DeleteComment from '../services/DeleteComment.js'
-import EditComment from '../services/EditComment.js'
-import NewComment from '../services/NewComment.js'
-import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
+import logger from '../logger.ts'
+import DeleteComment from '../services/DeleteComment.ts'
+import EditComment from '../services/EditComment.ts'
+import NewComment from '../services/NewComment.ts'
+import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.ts'
 
 export default {
 	props: {

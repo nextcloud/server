@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import logger from './logger.js'
-import CommentsInstance from './services/CommentsInstance.js'
+import logger from './logger.ts'
+import CommentsInstance from './services/CommentsInstance.ts'
 
 // Init Comments
 if (window.OCA && !window.OCA.Comments) {

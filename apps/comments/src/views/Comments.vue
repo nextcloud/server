@@ -33,11 +33,11 @@
 				<Comment
 					v-for="comment in comments"
 					:key="comment.props.id"
+					v-model="comment.props.message"
 					tag="li"
 					v-bind="comment.props"
 					:auto-complete="autoComplete"
 					:resource-type="resourceType"
-					:message.sync="comment.props.message"
 					:resource-id="currentResourceId"
 					:user-data="genMentionsData(comment.props.mentions)"
 					class="comments__list"
@@ -79,11 +79,11 @@ import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline
 import IconMessageReplyTextOutline from 'vue-material-design-icons/MessageReplyTextOutline.vue'
 import IconRefresh from 'vue-material-design-icons/Refresh.vue'
 import Comment from '../components/Comment.vue'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 import CommentView from '../mixins/CommentView.ts'
 import { DEFAULT_LIMIT, getComments } from '../services/GetComments.ts'
 import { markCommentsAsRead } from '../services/ReadComments.ts'
-import cancelableRequest from '../utils/cancelableRequest.js'
+import cancelableRequest from '../utils/cancelableRequest.ts'
 
 export default {
 	/* eslint vue/multi-word-component-names: "warn" */

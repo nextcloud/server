@@ -5,7 +5,7 @@
 
 import { getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth'
 import { createClient } from 'webdav'
-import { getRootPath } from '../utils/davUtils.js'
+import { getRootPath } from '../utils/davUtils.ts'
 
 // init webdav client
 const client = createClient(getRootPath())
