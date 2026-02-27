@@ -116,6 +116,7 @@ abstract class Storage extends \Test\TestCase {
 			['file with space.txt'],
 			['spéciäl fäile'],
 			['test single\'quote.txt'],
+			['0'],
 		];
 	}
 
@@ -127,6 +128,7 @@ abstract class Storage extends \Test\TestCase {
 			['folder with space'],
 			['spéciäl földer'],
 			['test single\'quote'],
+			['0'],
 		];
 	}
 
