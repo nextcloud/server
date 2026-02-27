@@ -123,17 +123,18 @@ class TemplateLayout {
 				}
 
 				$user = Server::get(IUserSession::class)->getUser();
+				$userId = $user?->getUID();
 
-				if ($user === null) {
+				if (empty($userId)) {
 					$page->assign('user_uid', false);
 					$page->assign('user_displayname', false);
 					$page->assign('userAvatarSet', false);
 					$page->assign('userStatus', false);
 				} else {
-					$page->assign('user_uid', $user->getUID());
+					$page->assign('user_uid', $userId);
 					$page->assign('user_displayname', $user->getDisplayName());
 					$page->assign('userAvatarSet', true);
-					$page->assign('userAvatarVersion', $this->config->getUserValue($user->getUID(), 'avatar', 'version', 0));
+					$page->assign('userAvatarVersion', $this->config->getUserValue($userId, 'avatar', 'version', 0));
 				}
 				break;
 			case TemplateResponse::RENDER_AS_ERROR:
@@ -147,14 +148,16 @@ class TemplateLayout {
 				Util::addStyle('guest');
 				$page->assign('bodyid', 'body-login');
 
-				$userDisplayName = false;
 				$user = Server::get(IUserSession::class)->getUser();
-				if ($user) {
-					$userDisplayName = $user->getDisplayName();
-				}
+				$userId = $user?->getUID();
 
-				$page->assign('user_displayname', $userDisplayName);
-				$page->assign('user_uid', \OC_User::getUser());
+				if (empty($userId)) {
+					$page->assign('user_displayname', false);
+					$page->assign('user_uid', false);
+				} else {
+					$page->assign('user_displayname', $user->getDisplayName());
+					$page->assign('user_uid', $userId);
+				}
 				break;
 			case TemplateResponse::RENDER_AS_PUBLIC:
 				$page = $this->templateManager->getTemplate('core', 'layout.public');
