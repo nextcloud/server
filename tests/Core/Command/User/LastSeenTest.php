@@ -92,4 +92,98 @@ class LastSeenTest extends TestCase {
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
+
+	public function testAllUsersWithoutExcludeDisabled(): void {
+		$enabledUser = $this->getMockBuilder(IUser::class)->getMock();
+		$enabledUser->expects($this->once())
+			->method('getLastLogin')
+			->willReturn(time());
+		$enabledUser->expects($this->once())
+			->method('getUID')
+			->willReturn('enabled_user');
+		$enabledUser->expects($this->never())
+			->method('isEnabled');
+
+		$disabledUser = $this->getMockBuilder(IUser::class)->getMock();
+		$disabledUser->expects($this->once())
+			->method('getLastLogin')
+			->willReturn(time());
+		$disabledUser->expects($this->once())
+			->method('getUID')
+			->willReturn('disabled_user');
+		$disabledUser->expects($this->never())
+			->method('isEnabled');
+
+		$this->consoleInput->expects($this->once())
+			->method('getArgument')
+			->with('uid')
+			->willReturn(null);
+
+		$this->consoleInput->expects($this->exactly(2))
+			->method('getOption')
+			->willReturnMap([
+				['all', true],
+				['exclude-disabled', false],
+			]);
+
+		$this->userManager->expects($this->once())
+			->method('callForAllUsers')
+			->willReturnCallback(function ($callback) use ($enabledUser, $disabledUser) {
+				$callback($enabledUser);
+				$callback($disabledUser);
+			});
+
+		$this->consoleOutput->expects($this->exactly(2))
+			->method('writeln')
+			->with($this->stringContains("'s last login:"));
+
+		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+	}
+
+	public function testAllUsersWithExcludeDisabled(): void {
+		$enabledUser = $this->getMockBuilder(IUser::class)->getMock();
+		$enabledUser->expects($this->once())
+			->method('getLastLogin')
+			->willReturn(time());
+		$enabledUser->expects($this->once())
+			->method('getUID')
+			->willReturn('enabled_user');
+		$enabledUser->expects($this->once())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$disabledUser = $this->getMockBuilder(IUser::class)->getMock();
+		$disabledUser->expects($this->never())
+			->method('getLastLogin');
+		$disabledUser->expects($this->never())
+			->method('getUID');
+		$disabledUser->expects($this->once())
+			->method('isEnabled')
+			->willReturn(false);
+
+		$this->consoleInput->expects($this->once())
+			->method('getArgument')
+			->with('uid')
+			->willReturn(null);
+
+		$this->consoleInput->expects($this->exactly(2))
+			->method('getOption')
+			->willReturnMap([
+				['all', true],
+				['exclude-disabled', true],
+			]);
+
+		$this->userManager->expects($this->once())
+			->method('callForAllUsers')
+			->willReturnCallback(function ($callback) use ($enabledUser, $disabledUser) {
+				$callback($enabledUser);
+				$callback($disabledUser);
+			});
+
+		$this->consoleOutput->expects($this->once())
+			->method('writeln')
+			->with($this->stringContains("enabled_user's last login:"));
+
+		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+	}
 }
