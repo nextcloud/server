@@ -645,6 +645,7 @@ class ThemingControllerTest extends TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('logo.svg');
 		$file->method('getMTime')->willReturn(42);
+		$file->method('getMimeType')->willReturn('text/svg');
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
@@ -661,7 +662,7 @@ class ThemingControllerTest extends TestCase {
 		$csp = new ContentSecurityPolicy();
 		$csp->allowInlineStyle();
 		$expected->setContentSecurityPolicy($csp);
-		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
+		@$this->assertEquals($expected, $this->themingController->getImage('logo', true));
 	}
 
 
@@ -677,6 +678,7 @@ class ThemingControllerTest extends TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('background.png');
 		$file->method('getMTime')->willReturn(42);
+		$file->method('getMimeType')->willReturn('image/png');
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
