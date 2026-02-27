@@ -146,22 +146,14 @@ export default defineComponent({
 		},
 
 		isRecentlyCreated(): boolean {
-			if (this.source.attributes.upload_time) {
-				return false
-			}
-
-			const creationDate = this.source.attributes.creationdate
-				? new Date(this.source.attributes.creationdate)
-				: null
-
-			if (!creationDate) {
+			if (!this.source.crtime) {
 				return false
 			}
 
 			const oneDayAgo = new Date()
 			oneDayAgo.setDate(oneDayAgo.getDate() - 1)
 
-			return creationDate > oneDayAgo
+			return this.source.crtime > oneDayAgo
 		},
 
 		isRecentView(): boolean {
