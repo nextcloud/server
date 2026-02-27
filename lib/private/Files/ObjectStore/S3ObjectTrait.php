@@ -150,7 +150,7 @@ trait S3ObjectTrait {
 			$uploader = new MultipartUploader($this->getConnection(), $stream, [
 				'bucket' => $this->bucket,
 				'concurrency' => $concurrency,
-				'key' => $urn,
+				'key' => (string) $urn,
 				'part_size' => $this->uploadPartSize,
 				'state' => $state,
 				'params' => [
