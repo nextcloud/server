@@ -272,9 +272,9 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			/** @var string|AbstractAsset $asset */
 			$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
 			if ($asset instanceof AbstractAsset) {
-				return preg_match($filterExpression, $asset->getName()) !== false;
+				return preg_match($filterExpression, $asset->getName()) === 1;
 			}
-			return preg_match($filterExpression, $asset) !== false;
+			return preg_match($filterExpression, $asset) === 1;
 		});
 		return $db->createSchemaManager()->listTableNames();
 	}
