@@ -479,7 +479,9 @@ class AppConfig implements IAppConfig {
 	): string {
 		$this->assertParams($app, $key, valueType: $type);
 		$origKey = $key;
-		$matched = $this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $default);
+		/**	@var ?Entry $lexiconEntry */
+		$lexiconEntry = null;
+		$matched = $this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $default, $lexiconEntry);
 		if ($default === null) {
 			// there is no logical reason for it to be null
 			throw new \Exception('default cannot be null');
@@ -502,8 +504,12 @@ class AppConfig implements IAppConfig {
 			&& $knownType > 0
 			&& !$this->isTyped(self::VALUE_MIXED, $knownType)
 			&& !$this->isTyped($type, $knownType)) {
-			$this->logger->warning('conflict with value type from database', ['app' => $app, 'key' => $key, 'type' => $type, 'knownType' => $knownType]);
-			throw new AppConfigTypeConflictException('conflict with value type from database');
+			if ($lexiconEntry?->hasOption(Entry::ENFORCE_VALUE_TYPE)) {
+				$this->updateType($app, $key, $lexiconEntry->getValueType()->toAppConfigFlag());
+			} else {
+				$this->logger->warning('conflict with value type from database', ['app' => $app, 'key' => $key, 'type' => $type, 'knownType' => $knownType]);
+				throw new AppConfigTypeConflictException('conflict with value type from database');
+			}
 		}
 
 		/**
