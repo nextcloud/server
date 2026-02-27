@@ -23,6 +23,7 @@ use OCP\Accounts\IAccountPropertyCollection;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
@@ -65,6 +66,7 @@ class UsersControllerTest extends TestCase {
 	private IRootFolder $rootFolder;
 	private IPhoneNumberUtil $phoneNumberUtil;
 	private IAppManager $appManager;
+	private IUserConfig $userConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -87,6 +89,7 @@ class UsersControllerTest extends TestCase {
 		$this->phoneNumberUtil = new PhoneNumberUtil();
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnCallback(fn (string $txt, array $replacement = []) => sprintf($txt, ...$replacement));
@@ -113,6 +116,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->userConfig,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -502,6 +506,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->userConfig,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -2283,8 +2288,8 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UserToEdit');
 		$targetUser = $this->createMock(IUser::class);
-		$this->config->expects($this->once())
-			->method('setUserValue')
+		$this->userConfig->expects($this->once())
+			->method('setValueString')
 			->with('UserToEdit', 'core', 'lang', 'de');
 		$this->userSession
 			->expects($this->once())
@@ -2338,8 +2343,8 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UserToEdit');
 		$targetUser = $this->createMock(IUser::class);
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -2379,8 +2384,8 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('admin');
 		$targetUser = $this->createMock(IUser::class);
-		$this->config->expects($this->once())
-			->method('setUserValue')
+		$this->userConfig->expects($this->once())
+			->method('setValueString')
 			->with('UserToEdit', 'core', 'lang', 'de');
 		$this->userSession
 			->expects($this->once())
@@ -3842,6 +3847,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->userConfig,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -3936,6 +3942,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->userConfig,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
