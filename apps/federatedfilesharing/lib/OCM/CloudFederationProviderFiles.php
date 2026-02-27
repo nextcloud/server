@@ -8,6 +8,7 @@ namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
+use OC\OCM\OCMSignatoryManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Federation\TrustedServers;
@@ -33,12 +34,16 @@ use OCP\Files\IFilenameValidator;
 use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
+use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\ISignatureManager;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -70,6 +75,11 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		private readonly IProviderFactory $shareProviderFactory,
 		private readonly ISetupManager $setupManager,
 		private readonly ExternalShareMapper $externalShareMapper,
+		private readonly IOCMDiscoveryService $discoveryService,
+		private readonly IClientService $clientService,
+		private readonly ISignatureManager $signatureManager,
+		private readonly OCMSignatoryManager $signatoryManager,
+		private readonly IAppConfig $appConfig,
 	) {
 	}
 
@@ -105,6 +115,31 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		$sharedByFederatedId = $share->getSharedBy();
 		$ownerFederatedId = $share->getOwner();
 		$shareType = $this->mapShareTypeToNextcloud($share->getShareType());
+
+		// Check for must-exchange-token requirement
+		$requirements = $protocol['webdav']['requirements'] ?? $protocol['options']['requirements'] ?? [];
+		$mustExchangeToken = in_array('must-exchange-token', $requirements);
+		$accessToken = '';
+
+		if ($mustExchangeToken) {
+			// Exchange the sharedSecret for an access token (required)
+			$accessToken = $this->exchangeToken($remote, $token);
+			if ($accessToken === null) {
+				throw new ProviderCouldNotAddShareException('Failed to exchange token as required by must-exchange-token', '', Http::STATUS_BAD_REQUEST);
+			}
+		} else {
+			// Check if remote has exchange-token capability and try to exchange (optional)
+			try {
+				$ocmProvider = $this->discoveryService->discover(rtrim($remote, '/'));
+				$capabilities = $ocmProvider->getCapabilities();
+				if (in_array('exchange-token', $capabilities)) {
+					$accessToken = $this->exchangeToken($remote, $token) ?? '';
+					$this->logger->debug('Exchanged token for remote with exchange-token capability', ['remote' => $remote, 'success' => !empty($accessToken)]);
+				}
+			} catch (\Exception $e) {
+				$this->logger->debug('Could not discover remote capabilities for token exchange', ['remote' => $remote, 'exception' => $e]);
+			}
+		}
 
 		// if no explicit information about the person who created the share was sent
 		// we assume that the share comes from the owner
@@ -146,8 +181,8 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			$externalShare->generateId();
 			$externalShare->setRemote($remote);
 			$externalShare->setRemoteId($remoteId);
-			$externalShare->setShareToken($token);
-			$externalShare->setPassword('');
+			$externalShare->setShareToken($token);  // refresh token (sharedSecret)
+			$externalShare->setPassword($accessToken);  // access token (empty if no token exchange)
 			$externalShare->setName($name);
 			$externalShare->setOwner($owner);
 			$externalShare->setShareType($shareType);
@@ -682,6 +717,75 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			return $share->getSharedWith();
 		} else {
 			return $share->getShareOwner();
+		}
+	}
+
+	/**
+	 * Exchange a sharedSecret (refresh token) for an access token via the remote server's token endpoint
+	 *
+	 * @param string $remote The remote server URL
+	 * @param string $sharedSecret The shared secret to exchange
+	 * @return string|null The access token, or null on failure
+	 */
+	private function exchangeToken(string $remote, #[SensitiveParameter] string $sharedSecret): ?string {
+		try {
+			$ocmProvider = $this->discoveryService->discover(rtrim($remote, '/'));
+			$tokenEndpoint = $ocmProvider->getTokenEndPoint();
+
+			if ($tokenEndpoint === '') {
+				$this->logger->warning('Remote server does not expose tokenEndPoint', ['remote' => $remote]);
+				return null;
+			}
+
+			$client = $this->clientService->newClient();
+			$clientId = parse_url($this->urlGenerator->getAbsoluteURL('/'), PHP_URL_HOST);
+
+			$payload = [
+				'grant_type' => 'authorization_code',
+				'client_id' => $clientId,
+				'code' => $sharedSecret,
+			];
+
+			$options = [
+				'body' => http_build_query($payload),
+				'headers' => [
+					'Content-Type' => 'application/x-www-form-urlencoded',
+				],
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			];
+
+			try {
+				$options = $this->signatureManager->signOutgoingRequestIClientPayload(
+					$this->signatoryManager,
+					$options,
+					'post',
+					$tokenEndpoint
+				);
+				$this->logger->debug('Token request signed successfully', ['remote' => $remote]);
+			} catch (\Exception $e) {
+				$this->logger->error('Failed to sign token request', [
+					'remote' => $remote,
+					'exception' => $e,
+					'endpoint' => $tokenEndpoint,
+				]);
+				return null;
+			}
+
+			$response = $client->post($tokenEndpoint, $options);
+
+			$data = json_decode($response->getBody(), true);
+
+			if (isset($data['access_token'])) {
+				$this->logger->debug('Successfully exchanged token for access token', ['remote' => $remote]);
+				return $data['access_token'];
+			}
+
+			$this->logger->warning('Token exchange response missing access_token', ['remote' => $remote, 'response' => $data]);
+			return null;
+		} catch (\Exception $e) {
+			$this->logger->warning('Failed to exchange token', ['remote' => $remote, 'exception' => $e]);
+			return null;
 		}
 	}
 }

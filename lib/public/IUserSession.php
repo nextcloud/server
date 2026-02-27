@@ -92,4 +92,13 @@ interface IUserSession {
 	 * @since 18.0.0
 	 */
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void;
+
+	/**
+	 * Try to login with the given token
+	 *
+	 * @param string $token
+	 * @return bool true if successful
+	 * @since 32.0.0
+	 */
+	public function doTryTokenLogin(string $token): bool;
 }

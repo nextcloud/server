@@ -48,6 +48,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	private bool $updateChecked = false;
 	private ExternalShareManager $manager;
 	private IConfig $config;
+	private bool $tokenRefreshed = false;
 
 	/**
 	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
@@ -66,10 +67,22 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$ocmProvider = $discoveryService->discover($this->cloudId->getRemote());
 			$webDavEndpoint = $ocmProvider->extractProtocolEntry('file', 'webdav');
 			$remote = $ocmProvider->getEndPoint();
+			$authType = \Sabre\DAV\Client::AUTH_BASIC;
+			$capabilities = $ocmProvider->getCapabilities();
+			if (in_array('exchange-token', $capabilities)) {
+				$authType = \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER;
+			}
 		} catch (OCMProviderException|OCMArgumentException $e) {
 			$this->logger->notice('exception while retrieving webdav endpoint', ['exception' => $e]);
 			$webDavEndpoint = '/public.php/webdav';
 			$remote = $this->cloudId->getRemote();
+			$authType = \Sabre\DAV\Client::AUTH_BASIC;
+		}
+
+		// If we have a stored access token (password), use Bearer auth regardless of discovery
+		// This handles the case where the share was created with must-exchange-token
+		if (!empty($options['password'])) {
+			$authType = \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER;
 		}
 
 		$host = parse_url($remote, PHP_URL_HOST);
@@ -92,10 +105,44 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				'host' => $host,
 				'root' => $webDavEndpoint,
 				'user' => $options['token'],
-				'authType' => \Sabre\DAV\Client::AUTH_BASIC,
-				'password' => (string)$options['password']
+				'authType' => $authType,
+				'password' => (string)$options['password'],
+				'discoveryService' => $discoveryService,
 			]
 		);
+	}
+
+	/**
+	 * Refresh the bearer token. Extends parent to also persist to database.
+	 *
+	 * @return bool True if token was refreshed successfully
+	 */
+	protected function refreshBearerToken(): bool {
+		if ($this->tokenRefreshed) {
+			// only try to refresh once per request
+			return false;
+		}
+		$this->tokenRefreshed = true;
+
+		try {
+			$newAccessToken = $this->exchangeRefreshToken();
+			$this->password = $newAccessToken;
+
+			$this->manager->updateAccessToken($this->token, $newAccessToken);
+
+			$this->ready = false;
+			$this->client = null;
+			$this->init();
+
+			$this->logger->debug('Successfully refreshed access token', ['app' => 'files_sharing']);
+			return true;
+		} catch (\Exception $e) {
+			$this->logger->warning('Failed to refresh access token', [
+				'app' => 'files_sharing',
+				'exception' => $e,
+			]);
+			return false;
+		}
 	}
 
 	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher {

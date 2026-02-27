@@ -130,4 +130,11 @@ interface IToken extends JsonSerializable {
 	 * @since 28.0.0
 	 */
 	public function setExpires(?int $expires): void;
+
+	/**
+	 * Get the type of the token
+	 * @return int One of IToken::TEMPORARY_TOKEN, IToken::PERMANENT_TOKEN, or IToken::WIPE_TOKEN
+	 * @since 32.0.0
+	 */
+	public function getType(): int;
 }

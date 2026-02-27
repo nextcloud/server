@@ -54,4 +54,8 @@ class DummyUserSession implements IUserSession {
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
 		//no OP
 	}
+
+	public function doTryTokenLogin(string $token): bool {
+		return false;
+	}
 }

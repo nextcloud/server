@@ -262,6 +262,7 @@ return array(
     'OCA\\DAV\\Controller\\ExampleContentController' => $baseDir . '/../lib/Controller/ExampleContentController.php',
     'OCA\\DAV\\Controller\\InvitationResponseController' => $baseDir . '/../lib/Controller/InvitationResponseController.php',
     'OCA\\DAV\\Controller\\OutOfOfficeController' => $baseDir . '/../lib/Controller/OutOfOfficeController.php',
+    'OCA\\DAV\\Controller\\TokenController' => $baseDir . '/../lib/Controller/TokenController.php',
     'OCA\\DAV\\Controller\\UpcomingEventsController' => $baseDir . '/../lib/Controller/UpcomingEventsController.php',
     'OCA\\DAV\\DAV\\CustomPropertiesBackend' => $baseDir . '/../lib/DAV/CustomPropertiesBackend.php',
     'OCA\\DAV\\DAV\\GroupPrincipalBackend' => $baseDir . '/../lib/DAV/GroupPrincipalBackend.php',

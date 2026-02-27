@@ -9,11 +9,13 @@ declare(strict_types=1);
 namespace OCA\FederatedFileSharing\Tests;
 
 use LogicException;
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCP\Authentication\Token\IToken;
 use OCP\Constants;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -27,6 +29,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -87,6 +90,23 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 
+		// Mock ISecureRandom to return predictable tokens (must be 32+ chars)
+		$secureRandom = $this->createMock(ISecureRandom::class);
+		$tokenCounter = 0;
+		$secureRandom->method('generate')
+			->willReturnCallback(function () use (&$tokenCounter) {
+				$tokenCounter++;
+				return 'token' . $tokenCounter . 'token' . $tokenCounter . 'token' . $tokenCounter . 'token' . $tokenCounter . 'token' . $tokenCounter . 'ab';
+			});
+		$this->overwriteService(ISecureRandom::class, $secureRandom);
+
+		// Mock PublicKeyTokenProvider to avoid database token creation
+		$tokenProvider = $this->createMock(PublicKeyTokenProvider::class);
+		$mockToken = $this->createMock(IToken::class);
+		$tokenProvider->method('generateToken')
+			->willReturn($mockToken);
+		$this->overwriteService(PublicKeyTokenProvider::class, $tokenProvider);
+
 		$this->provider = new FederatedShareProvider(
 			$this->connection,
 			$this->addressHandler,
@@ -145,7 +165,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->equalTo('token1token1token1token1token1ab'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
@@ -183,7 +203,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			'file_source' => 42,
 			'permissions' => 19,
 			'accepted' => 0,
-			'token' => 'token',
+			'token' => 'token1token1token1token1token1ab',
 			'expiration' => $expectedDataDate,
 		];
 		foreach (array_keys($expected) as $key) {
@@ -198,7 +218,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('file', $share->getNodeType());
 		$this->assertEquals(42, $share->getNodeId());
 		$this->assertEquals(19, $share->getPermissions());
-		$this->assertEquals('token', $share->getToken());
+		$this->assertEquals('token1token1token1token1token1ab', $share->getToken());
 		$this->assertEquals($expirationDate, $share->getExpirationDate());
 	}
 
@@ -227,7 +247,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->matchesRegularExpression('/^[A-Za-z0-9]{32}$/'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
@@ -280,7 +300,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->matchesRegularExpression('/^[A-Za-z0-9]{32}$/'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
@@ -369,7 +389,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->equalTo('token1token1token1token1token1ab'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
@@ -440,7 +460,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->equalTo('token1token1token1token1token1ab'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
@@ -873,9 +893,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$folder1 = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
 		$file1 = $folder1->newFile('bar1');
 
-		$this->tokenHandler->expects($this->exactly(2))
-			->method('generateToken')
-			->willReturnOnConsecutiveCalls('token1', 'token2');
+		// Token generation now uses ISecureRandom instead of tokenHandler
+		$this->tokenHandler->expects($this->never())
+			->method('generateToken');
 		$this->notifications->expects($this->atLeastOnce())
 			->method('sendRemoteShare')
 			->willReturn(true);
@@ -914,11 +934,11 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$result = $this->provider->getAccessList([$file1], true);
 		$this->assertEquals(['remote' => [
 			'user@server.com' => [
-				'token' => 'token1',
+				'token' => 'token1token1token1token1token1ab',
 				'node_id' => $file1->getId(),
 			],
 			'foobar@localhost' => [
-				'token' => 'token2',
+				'token' => 'token2token2token2token2token2ab',
 				'node_id' => $file1->getId(),
 			],
 		]], $result);

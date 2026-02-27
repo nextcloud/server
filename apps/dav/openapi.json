@@ -1153,5 +1153,10 @@
             }
         }
     },
-    "tags": []
+    "tags": [
+        {
+            "name": "token",
+            "description": "Controller for the /token endpoint Exchanges long-lived refresh tokens for short-lived access tokens"
+        }
+    ]
 }

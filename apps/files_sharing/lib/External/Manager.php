@@ -563,4 +563,23 @@ class Manager {
 			return [];
 		}
 	}
+
+	/**
+	 * Update the access token for a share.
+	 *
+	 * @param string $shareToken The share token (refresh token) to identify the share
+	 * @param string $accessToken The new access token to store
+	 */
+	public function updateAccessToken(string $shareToken, string $accessToken): void {
+		try {
+			$share = $this->externalShareMapper->getShareByToken($shareToken);
+			$share->setPassword($accessToken);
+			$this->externalShareMapper->update($share);
+			$this->logger->debug('Updated access token for share', ['shareToken' => substr($shareToken, 0, 8) . '...']);
+		} catch (DoesNotExistException $e) {
+			$this->logger->warning('Could not find share to update access token', ['shareToken' => substr($shareToken, 0, 8) . '...']);
+		} catch (Exception $e) {
+			$this->logger->error('Failed to update access token', ['exception' => $e]);
+		}
+	}
 }
