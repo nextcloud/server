@@ -150,13 +150,6 @@ class ZipFolderPlugin extends ServerPlugin {
 			throw new Forbidden($errorMessage);
 		}
 
-		$content = empty($files) ? $folder->getDirectoryListing() : [];
-		foreach ($files as $path) {
-			$child = $node->getChild($path);
-			assert($child instanceof Node);
-			$content[] = $child->getNode();
-		}
-
 		$archiveName = $folder->getName();
 		if (count(explode('/', trim($folder->getPath(), '/'), 3)) === 2) {
 			// this is a download of the root folder
@@ -169,13 +162,17 @@ class ZipFolderPlugin extends ServerPlugin {
 			$rootPath = dirname($folder->getPath());
 		}
 
-		$streamer = new Streamer($tarRequest, -1, count($content), $this->timezoneFactory);
+
+		$streamer = new Streamer($tarRequest, -1, -1, $this->timezoneFactory);
 		$streamer->sendHeaders($archiveName);
 		// For full folder downloads we also add the folder itself to the archive
 		if (empty($files)) {
 			$streamer->addEmptyDir($archiveName);
 		}
+
+		$content = empty($files) ? $folder->getDirectoryListing() : array_map(fn (string $path) => $folder->get($path), $files);
 		foreach ($content as $node) {
+			assert($node instanceof NcNode);
 			$this->streamNode($streamer, $node, $rootPath);
 		}
 		$streamer->finalize();
