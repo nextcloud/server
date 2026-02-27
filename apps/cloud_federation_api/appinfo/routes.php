@@ -20,12 +20,6 @@ return [
 			'verb' => 'POST',
 			'root' => '/ocm',
 		],
-		[
-			'name' => 'RequestHandler#inviteAccepted',
-			'url' => '/invite-accepted',
-			'verb' => 'POST',
-			'root' => '/ocm',
-		],
 
 		// needs to be kept at the bottom of the list
 		[
