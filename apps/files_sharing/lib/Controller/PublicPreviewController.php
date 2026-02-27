@@ -133,7 +133,7 @@ class PublicPreviewController extends PublicShareController {
 			return $response;
 		} catch (NotFoundException $e) {
 			// If we have no preview enabled, we can redirect to the mime icon if any
-			if ($mimeFallback) {
+			if ($file instanceof \OCP\Files\File && $mimeFallback) {
 				if ($url = $this->mimeIconProvider->getMimeIconUrl($file->getMimeType())) {
 					return new RedirectResponse($url);
 				}
