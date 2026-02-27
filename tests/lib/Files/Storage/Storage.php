@@ -117,6 +117,9 @@ abstract class Storage extends \Test\TestCase {
 			['spéciäl fäile'],
 			['test single\'quote.txt'],
 			['0'],
+			['#'],
+			['%'],
+			['%20'],
 		];
 	}
 
@@ -129,6 +132,9 @@ abstract class Storage extends \Test\TestCase {
 			['spéciäl földer'],
 			['test single\'quote'],
 			['0'],
+			['#'],
+			['%'],
+			['%20']
 		];
 	}
 
