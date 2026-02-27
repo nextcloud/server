@@ -9,6 +9,13 @@ cd $DIR/
 
 git submodule update --init
 
+# Ensure Apache modules and vhost for Nextcloud
+sudo a2enmod headers rewrite env >/dev/null 2>&1 || true
+if ! grep -q "<Directory /var/www/html>" /etc/apache2/sites-available/000-default.conf; then
+    sudo bash -lc 'printf "\n<Directory /var/www/html>\n    AllowOverride All\n    Require all granted\n</Directory>\n" >> /etc/apache2/sites-available/000-default.conf'
+fi
+sudo apache2ctl configtest || true
+
 # Codespace config
 cp .devcontainer/codespace.config.php config/codespace.config.php
 
