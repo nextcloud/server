@@ -156,7 +156,6 @@ class GroupsController extends AUserDataOCSController {
 		$group = $this->groupManager->get($groupId);
 		if ($group !== null) {
 			$isSubadminOfGroup = $this->groupManager->getSubAdmin()->isSubAdminOfGroup($user, $group);
-			$isMember = $this->groupManager->isInGroup($user->getUID(), $group->getGID());
 		} else {
 			throw new OCSNotFoundException('The requested group could not be found');
 		}
@@ -164,6 +163,12 @@ class GroupsController extends AUserDataOCSController {
 		// Check subadmin has access to this group
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($user->getUID());
+		$isMember = false;
+
+		if (!$isAdmin && !$isDelegatedAdmin && !$isSubadminOfGroup) {
+			$isMember = $this->groupManager->isInGroup($user->getUID(), $group->getGID());
+		}
+
 		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup || $isMember) {
 			$users = $this->groupManager->get($groupId)->getUsers();
 			$users = array_map(function ($user) {
