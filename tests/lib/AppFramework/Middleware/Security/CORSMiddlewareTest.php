@@ -338,4 +338,37 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware = new CORSMiddleware($request, new MiddlewareUtils($this->reflector, $this->logger), $this->session, $this->throttler);
 		$middleware->afterException($this->controller, __FUNCTION__, new \Exception('A regular exception'));
 	}
+
+	public static function dataCORSShouldAllowBearerAuth(): array {
+		return [
+			['testCORSShouldNeverAllowCookieAuth'],
+			['testCORSShouldNeverAllowCookieAuthAttribute'],
+			['testCORSAttributeShouldNeverAllowCookieAuth'],
+			['testCORSAttributeShouldNeverAllowCookieAuthAttribute'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCORSShouldAllowBearerAuth')]
+	public function testCORSShouldAllowBearerAuth(string $method): void {
+		$request = new Request(
+			[
+				'server' => [
+					'HTTP_AUTHORIZATION' => 'Bearer test-token-123'
+				]
+			],
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
+		);
+		$this->reflector->reflect($this->controller, $method);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->logger);
+		$this->session->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->session->expects($this->never())
+			->method('logout');
+		$this->session->expects($this->never())
+			->method('logClientIn');
+
+		$middleware->beforeController($this->controller, $method);
+	}
 }
