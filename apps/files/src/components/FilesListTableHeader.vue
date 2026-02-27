@@ -6,7 +6,10 @@
 	<tr class="files-list__row-head">
 		<th class="files-list__column files-list__row-checkbox"
 			@keyup.esc.exact="resetSelection">
-			<NcCheckboxRadioSwitch v-bind="selectAllBind" data-cy-files-list-selection-checkbox @update:checked="onToggleAll" />
+			<NcCheckboxRadioSwitch v-bind="selectAllBind"
+				:id="FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID"
+				data-cy-files-list-selection-checkbox
+				@update:checked="onToggleAll" />
 		</th>
 
 		<!-- Columns display -->
@@ -71,12 +74,15 @@ import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
+import { FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID } from './FilesListTableHeaderActions.vue'
 import { useFilesStore } from '../store/files.ts'
 import { useNavigation } from '../composables/useNavigation'
 import { useSelectionStore } from '../store/selection.ts'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
+
+export const FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID = 'files-list-header-select-all-checkbox'
 
 export default defineComponent({
 	name: 'FilesListTableHeader',
@@ -123,6 +129,7 @@ export default defineComponent({
 			selectionStore,
 
 			currentView,
+			FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID,
 		}
 	},
 
@@ -182,6 +189,11 @@ export default defineComponent({
 		})
 	},
 
+	mounted() {
+		const selectAllCheckbox = document.getElementById(FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID)
+		selectAllCheckbox?.addEventListener('keydown', this.onSelectAllCheckboxFocusOut)
+	},
+
 	methods: {
 		ariaSortForMode(mode: string): 'ascending'|'descending'|null {
 			if (this.sortingMode === mode) {
@@ -216,6 +228,18 @@ export default defineComponent({
 				return
 			}
 			this.selectionStore.reset()
+		},
+
+		onSelectAllCheckboxFocusOut(event: KeyboardEvent) {
+			// If the user tabbed further and we have a batch action to tab to
+			const firstBatchActionButton = document.getElementById(FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID)
+			if (event.code === 'Tab' && !event.shiftKey && !event.metaKey && firstBatchActionButton) {
+				event.preventDefault()
+				event.stopPropagation()
+
+				firstBatchActionButton.focus()
+				logger.debug('Focusing first batch action button')
+			}
 		},
 
 		t,
