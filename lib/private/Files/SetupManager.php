@@ -429,8 +429,24 @@ class SetupManager implements ISetupManager {
 		foreach ($rootMounts as $rootMountProvider) {
 			$this->mountManager->addMount($rootMountProvider);
 		}
-
+		$this->setupAppData();
 		$this->eventLogger->end('fs:setup:root');
+	}
+
+	private function setupAppData(): void {
+		if ($appdatadirectory = $this->config->getSystemValue('appdatadirectory', null)) {
+			$instanceId = $this->config->getSystemValue('instanceid', null);
+			if ($instanceId === null) {
+				throw new \RuntimeException('no instance id!');
+			}
+			$folderName = 'appdata_' . $instanceId;
+			$arguments = [
+				'datadir' => $appdatadirectory,
+			];
+			$storage = new \OC\Files\Storage\Local($arguments);
+			$mount = new \OC\Files\Mount\MountPoint($storage, $folderName, $arguments);
+			$this->mountManager->addMount($mount);
+		}
 	}
 
 	/**

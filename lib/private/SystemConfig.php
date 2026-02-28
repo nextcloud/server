@@ -20,6 +20,7 @@ class SystemConfig {
 	protected const DEFAULT_SENSITIVE_VALUES = [
 		'instanceid' => true,
 		'datadirectory' => true,
+		'appdatadirectory' => true,
 		'dbname' => true,
 		'dbhost' => true,
 		'dbpassword' => true,
