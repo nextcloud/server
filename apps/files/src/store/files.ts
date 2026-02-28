@@ -103,8 +103,8 @@ export function useFilesStore(...args) {
 			updateNodes(nodes: Node[]) {
 				// Update the store all at once
 				const files = nodes.reduce((acc, node) => {
-					if (!node.fileid) {
-						logger.error('Trying to update/set a node without fileid', { node })
+					if (!node.id) {
+						logger.error('Trying to update/set a node without id', { node })
 						return acc
 					}
 
