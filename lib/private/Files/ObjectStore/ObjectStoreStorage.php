@@ -800,7 +800,6 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				$this->getCache()->update($stat['fileid'], $stat);
 			}
 		} catch (S3MultipartUploadException|S3Exception $e) {
-			$this->objectStore->abortMultipartUpload($urn, $writeToken);
 			$this->logger->error(
 				'Could not complete multipart upload ' . $urn . ' with uploadId ' . $writeToken,
 				[
@@ -808,6 +807,17 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 					'exception' => $e,
 				]
 			);
+			try {
+				$this->objectStore->abortMultipartUpload($urn, $writeToken);
+			} catch (S3Exception $e) {
+				$this->logger->error(
+					'Failed to abort multi-part upload for ' . $urn . ' with uploadId ' . $writeToken,
+					[
+						'app' => 'objectstore',
+						'exception' => $e,
+					]
+				);
+			}
 			throw new GenericFileException('Could not write chunked file');
 		}
 		return $size;
