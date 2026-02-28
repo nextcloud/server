@@ -90,24 +90,27 @@ class AmazonS3 extends Common {
 		$this->filesCache = new CappedMemoryCache();
 	}
 
-	private function invalidateCache(string $key): void {
-		unset($this->objectCache[$key]);
-		$keys = array_keys($this->objectCache->getData());
-		$keyLength = strlen($key);
+	private function invalidateCache(string $prefix): void {
+		// OBJECTS: exact + prefix matched keys
+		$this->invalidateByPrefix($this->objectCache, $prefix);
+		// DIRECTORIES: exact + prefix matched keys
+		$this->invalidateByPrefix($this->directoryCache, $prefix);
+		// FILES: exact match keys only (not hierarchically)
+		unset($this->filesCache[$prefix]);
+
+		// Concerns:
+		//		- lack of prefix / keying convention normalization
+		//		- add guard if empty ('')
+	}
+
+	private function invalidateByPrefix($cache, string $prefix): void {
+		$keys = array_keys($cache->getData);
+		// drops any exact or prefix matched keys found
 		foreach ($keys as $existingKey) {
-			if (substr($existingKey, 0, $keyLength) === $key) {
-				unset($this->objectCache[$existingKey]);
+			if (str_starts_with($existingKey, $prefix)) {
+				unset($cache[$existingKey]);
 			}
 		}
-		unset($this->filesCache[$key]);
-		$keys = array_keys($this->directoryCache->getData());
-		$keyLength = strlen($key);
-		foreach ($keys as $existingKey) {
-			if (substr($existingKey, 0, $keyLength) === $key) {
-				unset($this->directoryCache[$existingKey]);
-			}
-		}
-		unset($this->directoryCache[$key]);
 	}
 
 	private function headObject(string $key): array|false {
