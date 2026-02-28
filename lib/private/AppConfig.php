@@ -796,10 +796,18 @@ class AppConfig implements IAppConfig {
 		int $type,
 	): bool {
 		$this->assertParams($app, $key);
-		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type)) {
+		/** @var ?Entry $lexiconEntry */
+		$lexiconEntry = null;
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, lexiconEntry: $lexiconEntry)) {
 			return false; // returns false as database is not updated
 		}
 		$this->loadConfig(null, $lazy ?? true);
+
+		// lexicon entry might have requested a check on the value
+		$confirmationClosure = $lexiconEntry?->onSetConfirmation();
+		if ($confirmationClosure !== null && !$confirmationClosure($value)) {
+			return false;
+		}
 
 		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $type);
 		$inserted = $refreshCache = false;
