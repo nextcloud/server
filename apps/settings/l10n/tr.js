@@ -815,7 +815,7 @@ OC.L10N.register(
     "By member count" : "Üye sayısına göre",
     "By name" : "Ada göre",
     "Send email" : "E-posta gönder",
-    "Send welcome email to new accounts" : "Yeni hesaplara hoş geldiniz e-postası gönderilsin",
+    "Send welcome email to new accounts" : "Yeni hesaplara karşılama e-postası gönderilsin",
     "Defaults" : "Varsayılanlar",
     "Default quota" : "Varsayılan kota",
     "Select default quota" : "Varsayılan kota değerini seçin",

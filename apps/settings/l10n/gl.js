@@ -399,7 +399,7 @@ OC.L10N.register(
     "Enforce expiration date for remote shares" : "Aplicar a data de caducidade dos recursos compartidos remotos",
     "Default expiration time of remote shares in days" : "Tempo de caducidade predeterminado dos recursos compartidos remotos en días",
     "Expire remote shares after x days" : "As comparticións remotas caducan após x días",
-    "Set default expiration date for shares via link or mail" : "Definir a data de caducidade predeterminada para as comparticións con outros servidores",
+    "Set default expiration date for shares via link or mail" : "Definir a data de caducidade predeterminada para compartir mediante ligazón ou correo electrónico",
     "Enforce expiration date for link or mail shares" : "Aplicar a data de caducidade para as de ligazóns ou correos para compartir",
     "Default expiration time of shares in days" : "Tempo de caducidade predeterminado dos recursos compartidos en días",
     "Privacy settings for sharing" : "Axustes da privacidade para compartir",
