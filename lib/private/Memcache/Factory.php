@@ -115,6 +115,7 @@ class Factory implements ICacheFactory {
 	protected function getGlobalPrefix(): string {
 		if ($this->globalPrefix === null) {
 			$config = Server::get(SystemConfig::class);
+			$customprefix = $config->getValue('memcache_customprefix', '');
 			$maintenanceMode = $config->getValue('maintenance', false);
 			$versions = [];
 			if ($config->getValue('installed', false) && !$maintenanceMode) {
@@ -131,7 +132,7 @@ class Factory implements ICacheFactory {
 			// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
 			$instanceid = $config->getValue('instanceid');
 			$installedApps = implode(',', array_keys($versions)) . implode(',', array_values($versions));
-			$this->globalPrefix = hash('xxh128', $instanceid . $installedApps);
+			$this->globalPrefix = $customprefix . hash('xxh128', $instanceid . $installedApps);
 		}
 		return $this->globalPrefix;
 	}
@@ -145,9 +146,11 @@ class Factory implements ICacheFactory {
 	public function withServerVersionPrefix(\Closure $closure): void {
 		$backupPrefix = $this->globalPrefix;
 
+		$config = Server::get(SystemConfig::class);
+		$customprefix = $config->getValue('memcache_customprefix', '');	
 		// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
-		$instanceid = Server::get(SystemConfig::class)->getValue('instanceid');
-		$this->globalPrefix = hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
+		$instanceid = $config->getValue('instanceid');
+		$this->globalPrefix = $customprefix . hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
 		$closure($this);
 		$this->globalPrefix = $backupPrefix;
 	}

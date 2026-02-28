@@ -1759,6 +1759,16 @@ $CONFIG = [
 	'memcache.distributed' => '\\OC\\Memcache\\Memcached',
 
 	/**
+	 * Cache Key Prefix for Redis or Memcached
+	 *
+	 * * Used for avoiding collisions in the cache system
+	 * * May be used for ACL restrictions in Redis
+	 *
+	 * Defaults to ``''`` (empty string), which means only an auto-generated, semi-unique ID is being used
+	 */
+	'memcache_customprefix' => 'mycustomprefix',
+
+	/**
 	 * Connection details for Redis to use for memory caching in a single server configuration.
 	 *
 	 * For enhanced security, it is recommended to configure Redis
