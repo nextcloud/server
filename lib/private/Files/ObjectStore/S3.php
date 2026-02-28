@@ -34,7 +34,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		$upload = $this->getConnection()->createMultipartUpload([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
-		] + $this->getSSECParameters());
+		] + $this->getServerSideEncryptionParameters());
 		$uploadId = $upload->get('UploadId');
 		if ($uploadId === null) {
 			throw new Exception('No upload id returned');
@@ -50,7 +50,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 			'ContentLength' => $size,
 			'PartNumber' => $partId,
 			'UploadId' => $uploadId,
-		] + $this->getSSECParameters());
+		] + $this->getServerSideEncryptionParameters());
 	}
 
 	public function getMultipartUploads(string $urn, string $uploadId): array {
@@ -65,7 +65,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 				'UploadId' => $uploadId,
 				'MaxParts' => 1000,
 				'PartNumberMarker' => $partNumberMarker,
-			] + $this->getSSECParameters());
+			] + $this->getServerSideEncryptionParameters());
 			$parts = array_merge($parts, $result->get('Parts') ?? []);
 			$isTruncated = $result->get('IsTruncated');
 			$partNumberMarker = $result->get('NextPartNumberMarker');
@@ -80,11 +80,11 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 			'Key' => $urn,
 			'UploadId' => $uploadId,
 			'MultipartUpload' => ['Parts' => $result],
-		] + $this->getSSECParameters());
+		] + $this->getServerSideEncryptionParameters());
 		$stat = $this->getConnection()->headObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
-		] + $this->getSSECParameters());
+		] + $this->getServerSideEncryptionParameters());
 		return (int)$stat->get('ContentLength');
 	}
 
@@ -113,7 +113,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		$object = $this->getConnection()->headObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn
-		] + $this->getSSECParameters())->toArray();
+		] + $this->getServerSideEncryptionParameters())->toArray();
 		return [
 			'mtime' => $object['LastModified'],
 			'etag' => trim($object['ETag'], '"'),
@@ -125,7 +125,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		$results = $this->getConnection()->getPaginator('ListObjectsV2', [
 			'Bucket' => $this->bucket,
 			'Prefix' => $prefix,
-		] + $this->getSSECParameters());
+		] + $this->getServerSideEncryptionParameters());
 
 		foreach ($results as $result) {
 			if (is_array($result['Contents'])) {
