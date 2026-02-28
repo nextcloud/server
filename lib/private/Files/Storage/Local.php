@@ -332,46 +332,68 @@ class Local extends Common {
 	}
 
 	public function rename(string $source, string $target): bool {
-		$srcParent = dirname($source);
-		$dstParent = dirname($target);
-
-		if (!$this->isUpdatable($srcParent)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, source directory is not writable : ' . $srcParent, ['app' => 'core']);
-			return false;
-		}
-
-		if (!$this->isUpdatable($dstParent)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, destination directory is not writable : ' . $dstParent, ['app' => 'core']);
-			return false;
-		}
-
 		if (!$this->file_exists($source)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, file does not exists : ' . $source, ['app' => 'core']);
+			$this->logRenameError('file does not exist', $source);
 			return false;
 		}
 
-		if ($this->file_exists($target)) {
-			if ($this->is_dir($target)) {
-				$this->rmdir($target);
-			} elseif ($this->is_file($target)) {
-				$this->unlink($target);
-			}
+		$srcParent = dirname($source);
+		if (!$this->isUpdatable($srcParent)) {
+			$this->logRenameError('source directory is not writable', $srcParent);
+			return false;
+		}
+
+		$dstParent = dirname($target);
+		if (!$this->isUpdatable($dstParent)) {
+			$this->logRenameError('destination directory is not writable', $dstParent);
+			return false;
 		}
 
 		if ($this->is_dir($source)) {
-			$this->checkTreeForForbiddenItems($this->getSourcePath($source));
+			$this->checkTreeForForbiddenItems($this->getSourcePath($source)); // may throw
 		}
 
-		if (@rename($this->getSourcePath($source), $this->getSourcePath($target))) {
-			if ($this->caseInsensitive) {
-				if (mb_strtolower($target) === mb_strtolower($source) && !$this->file_exists($target)) {
-					return false;
-				}
+		if ($this->file_exists($target)) {
+			if (!$this->remove($target)) {
+				$this->logRenameError('pre-existing target is not removable', $target);
+				return false;
+			}
+		}
+
+		$renameSuccess = @rename($this->getSourcePath($source), $this->getSourcePath($target));
+		$isCaseOnly = $this->caseInsensitive && mb_strtolower($target) === mb_strtolower($source);
+
+		if ($renameSuccess) {
+			if ($isCaseOnly && !$this->file_exists($target)) {
+				$this->logRenameError('case-only rename succeeded but target does not exist', $target);
+				return false;
 			}
 			return true;
 		}
 
-		return $this->copy($source, $target) && $this->unlink($source);
+		if ($isCaseOnly) {
+			$this->logRenameError('OS-level rename syscall failed (fallback unavailable for case-only)', "$source -> $target");
+			// Avoid unsafe fallback on case-insensitive filesystems to avoid data loss
+			return false;
+		}
+
+		$this->logRenameError('OS-level rename syscall failed (attempting fallback copy+unlink)', "$source -> $target", 'debug'); // debug since not necessarily an error
+		$copySuccess = $this->copy($source, $target);
+		$unlinkSuccess = $copySuccess ? $this->unlink($source) : false;
+
+		if (!$copySuccess) {
+			$this->logRenameError('fallback copy() failed', "$source -> $target");
+		}
+		if ($copySuccess && !$unlinkSuccess) {
+			$this->logRenameError('fallback copy() succeeded but unlink() failed', $source);
+		}
+		return $copySuccess && $unlinkSuccess;
+	}
+
+	private function logRenameError(string $reason, string $path, string $level = 'error'): void {
+		Server::get(LoggerInterface::class)->$level(
+			"unable to rename, {$reason}: {$path}", ['app' => 'core']
+		);
 	}
 
 	public function copy(string $source, string $target): bool {
