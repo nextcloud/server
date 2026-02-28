@@ -108,9 +108,11 @@ class AmazonS3 extends Common {
 
 	private function invalidateByPrefix($cache, string $prefix): void {
 		$keys = array_keys($cache->getData);
-		// drops any exact or prefix matched keys found
+		$descendantPrefix = rtrim($prefix, '/') . '/';
+
 		foreach ($keys as $existingKey) {
-			if (str_starts_with($existingKey, $prefix)) {
+			// drop any exact + prefix matched keys
+			if ($existingKey === $prefix || str_starts_with($existingKey, $descendantPrefix)) {
 				unset($cache[$existingKey]);
 			}
 		}
