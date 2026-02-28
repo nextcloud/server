@@ -24,6 +24,7 @@ class MapperTest extends \Test\TestCase {
 	public static function dataGetBucket(): array {
 		return [
 			['user', 64, 0, '17'],
+			['user', 64, 64, '64'],
 			['USER', 64, 0, '0'],
 			['bc0e8b52-a66c-1035-90c6-d9663bda9e3f', 64, 0, '56'],
 			['user', 8, 0, '1'],
@@ -41,8 +42,7 @@ class MapperTest extends \Test\TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetBucket')]
 	public function testGetBucket($username, $numBuckets, $bucketShift, $expectedBucket): void {
 		$mapper = new Mapper($this->user, ['arguments' => ['min_bucket' => $bucketShift]]);
-		$this->user->expects($this->once())
-			->method('getUID')
+		$this->user->method('getUID')
 			->willReturn($username);
 
 		$result = $mapper->getBucket($numBuckets);
