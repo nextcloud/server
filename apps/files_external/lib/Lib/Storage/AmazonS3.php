@@ -98,20 +98,16 @@ class AmazonS3 extends Common {
 		$this->invalidateByPrefix($this->objectCache, $prefix);
 		$this->invalidateByPrefix($this->directoryCache, $prefix);
 
-		// FILES: exact match keys only (not hierarchically)
+		// FILES: exact match keys only (not hierarchical)
 		unset($this->filesCache[$prefix]);
-
-		// Concerns:
-		//		- lack of prefix / keying convention normalization
-		//		- add guard if empty ('')
 	}
 
-	private function invalidateByPrefix($cache, string $prefix): void {
-		$keys = array_keys($cache->getData);
+	private function invalidateByPrefix(CappedMemoryCache $cache, string $prefix): void {
+		$keys = array_keys($cache->getData());
 		$descendantPrefix = rtrim($prefix, '/') . '/';
 
 		foreach ($keys as $existingKey) {
-			// drop any exact + prefix matched keys
+			// exact + normalized prefix matched keys
 			if ($existingKey === $prefix || str_starts_with($existingKey, $descendantPrefix)) {
 				unset($cache[$existingKey]);
 			}
