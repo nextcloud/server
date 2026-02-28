@@ -53,9 +53,7 @@ class AmazonS3 extends Common {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
 		$this->id = 'amazon::external::' . md5($this->params['hostname'] . ':' . $this->params['bucket'] . ':' . $this->params['key']);
-		$this->objectCache = new CappedMemoryCache();
-		$this->directoryCache = new CappedMemoryCache();
-		$this->filesCache = new CappedMemoryCache();
+		$this->initCaches();
 		$this->mimeDetector = Server::get(IMimeTypeDetector::class);
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = Server::get(ICacheFactory::class);
@@ -84,10 +82,16 @@ class AmazonS3 extends Common {
 		return $path;
 	}
 
-	private function clearCache(): void {
-		$this->objectCache = new CappedMemoryCache();
-		$this->directoryCache = new CappedMemoryCache();
-		$this->filesCache = new CappedMemoryCache();
+	private function initCaches(): void {
+		$this->objectCache = new CappedMemoryCache(2048);
+		$this->directoryCache = new CappedMemoryCache(8192);
+		$this->filesCache = new CappedMemoryCache(4096);
+	}
+
+	private function clearCaches(): void {
+		$this->objectCache->clear();
+		$this->directoryCache->clear();
+		$this->filesCache->clear();
 	}
 
 	private function invalidateCache(string $key): void {
@@ -246,7 +250,7 @@ class AmazonS3 extends Common {
 	}
 
 	protected function clearBucket(): bool {
-		$this->clearCache();
+		$this->clearCaches();
 		return $this->batchDelete();
 	}
 
