@@ -214,5 +214,10 @@ class App {
 				$io->setOutput($output);
 			}
 		}
+
+		if ($response->getFlushEarly()) {
+			ob_flush();
+			flush();
+		}
 	}
 }

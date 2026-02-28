@@ -66,6 +66,7 @@ class Response {
 
 	/** @var bool */
 	private $throttled = false;
+	private bool $flushEarly = true;
 	/** @var array */
 	private $throttleMetadata = [];
 
@@ -411,5 +412,26 @@ class Response {
 	 */
 	public function isThrottled() {
 		return $this->throttled;
+	}
+
+	/**
+	 * Request the response should be flushed to the connected client immediately
+	 *
+	 * @since 34.0.0
+	 */
+	public function setFlushEarly(bool $flushEarly): void {
+		$this->flushEarly = $flushEarly;
+	}
+
+	/**
+	 * Whether the response should be flushed to the connected client immediately
+	 *
+	 * If not, the response will wait for async actions, e.g. HTTP requests from
+	 * IClientService, to be finished before returning.
+	 *
+	 * @since 34.0.0
+	 */
+	public function getFlushEarly(): bool {
+		return $this->flushEarly;
 	}
 }
