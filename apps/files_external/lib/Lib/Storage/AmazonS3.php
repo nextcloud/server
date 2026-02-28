@@ -91,10 +91,13 @@ class AmazonS3 extends Common {
 	}
 
 	private function invalidateCache(string $prefix): void {
-		// OBJECTS: exact + prefix matched keys
+		if ($prefix === '') {
+			return; // or throw InvalidArgumentException?
+		}
+
 		$this->invalidateByPrefix($this->objectCache, $prefix);
-		// DIRECTORIES: exact + prefix matched keys
 		$this->invalidateByPrefix($this->directoryCache, $prefix);
+
 		// FILES: exact match keys only (not hierarchically)
 		unset($this->filesCache[$prefix]);
 
