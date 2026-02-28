@@ -36,6 +36,7 @@ use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Server;
 use OCP\Share\IShare;
@@ -279,7 +280,8 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	}
 
 	public function isSharable(string $path): bool {
-		if (Util::isSharingDisabledForUser() || !Share::isResharingAllowed()) {
+		$appConfig = \OCP\Server::get(IAppConfig::class);
+		if (Util::isSharingDisabledForUser() || !$appConfig->getValueBool('core', 'shareapi_allow_resharing', true)) {
 			return false;
 		}
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);

@@ -330,7 +330,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	}
 
 	public function isSharable(string $path): bool {
-		if (Util::isSharingDisabledForUser() || !Share::isResharingAllowed()) {
+		if (Util::isSharingDisabledForUser() || $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') !== 'yes') {
 			return false;
 		}
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);

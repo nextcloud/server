@@ -1538,6 +1538,7 @@
     </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[Util::isSharingDisabledForUser()]]></code>
+      <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/Helper.php">
@@ -1618,24 +1619,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
-  </file>
-  <file src="apps/files_sharing/lib/ShareBackend/File.php">
-    <InternalClass>
-      <code><![CDATA[new View('/' . $shareWith . '/files')]]></code>
-    </InternalClass>
-    <InternalMethod>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[mkdir]]></code>
-      <code><![CDATA[new View('/' . $shareWith . '/files')]]></code>
-    </InternalMethod>
-    <InvalidArgument>
-      <code><![CDATA[$itemSource]]></code>
-      <code><![CDATA[$itemSource]]></code>
-    </InvalidArgument>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$shareWith]]></code>
-    </MoreSpecificImplementedParamType>
   </file>
   <file src="apps/files_sharing/lib/SharedMount.php">
     <InvalidReturnType>

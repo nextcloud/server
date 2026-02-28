@@ -19,7 +19,6 @@ use OCP\IDBConnection;
 use OCP\ITags;
 use OCP\IUserSession;
 use OCP\Server;
-use OCP\Share_Backend;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -31,21 +30,10 @@ class Tags implements ITags {
 	private array $tags = [];
 
 	/**
-	 * Are we including tags for shared items?
-	 */
-	private bool $includeShared = false;
-
-	/**
 	 * The current user, plus any owners of the items shared with the current
 	 * user, if $this->includeShared === true.
 	 */
 	private array $owners = [];
-
-	/**
-	 * The sharing backend for objects of $this->type. Required if
-	 * $this->includeShared === true to determine ownership of items.
-	 */
-	private ?Share_Backend $backend = null;
 
 	public const TAG_TABLE = 'vcategory';
 	public const RELATION_TABLE = 'vcategory_to_object';
