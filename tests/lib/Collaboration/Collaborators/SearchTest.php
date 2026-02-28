@@ -12,22 +12,24 @@ use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\IAppConfig;
 use OCP\IContainer;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SearchTest extends TestCase {
-	/** @var IContainer|\PHPUnit\Framework\MockObject\MockObject */
-	protected $container;
-	/** @var ISearch */
-	protected $search;
+	protected IContainer&MockObject $container;
+	protected IAppConfig&MockObject $appConfig;
+	protected ISearch $search;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->container = $this->createMock(IContainer::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
-		$this->search = new Search($this->container);
+		$this->search = new Search($this->container, $this->appConfig);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchSharees')]

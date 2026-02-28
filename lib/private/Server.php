@@ -1139,7 +1139,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
 
 		$this->registerService(\OCP\Collaboration\Collaborators\ISearch::class, function (Server $c): \OCP\Collaboration\Collaborators\ISearch {
-			$instance = new \OC\Collaboration\Collaborators\Search($c);
+			$instance = new \OC\Collaboration\Collaborators\Search($c, $c->get(IAppConfig::class));
 
 			// register default plugins
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserPlugin::class]);
