@@ -133,11 +133,18 @@ class AmazonS3 extends Common {
 			$this->objectCache[$key] = $result;
 			return $result;
 		} catch (S3Exception $e) {
-			if ($e->getStatusCode() >= 500) {
-				throw $e;
+			$status = (int)$e->getStatusCode();
+			$awsCode = (string)$e->getAwsErrorCode();
+
+			$isNotFound = $status === 404 || $awsCode === 'NoSuchKey' || $awsCode === 'NotFound';
+
+			if ($isNotFound) {
+				$this->objectCache[$key] = false;
+				return false;
 			}
-			$this->objectCache[$key] = false;
-			return false;
+
+			// Fallback: i.e. surface an unexpected 4xx/5xx
+			throw $e;
 		}
 	}
 
