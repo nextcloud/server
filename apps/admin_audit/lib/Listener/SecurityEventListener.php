@@ -12,11 +12,13 @@ namespace OCA\AdminAudit\Listener;
 use OCA\AdminAudit\Actions\Action;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
 /**
- * @template-implements IEventListener<TwoFactorProviderChallengePassed|TwoFactorProviderChallengeFailed>
+ * @template-implements IEventListener<TwoFactorProviderChallengePassed|TwoFactorProviderChallengeFailed|TwoFactorProviderForUserRegistered|TwoFactorProviderForUserUnregistered>
  */
 class SecurityEventListener extends Action implements IEventListener {
 	public function handle(Event $event): void {
@@ -24,6 +26,10 @@ class SecurityEventListener extends Action implements IEventListener {
 			$this->twoFactorProviderChallengePassed($event);
 		} elseif ($event instanceof TwoFactorProviderChallengeFailed) {
 			$this->twoFactorProviderChallengeFailed($event);
+		} elseif ($event instanceof TwoFactorProviderForUserRegistered) {
+			$this->twoFactorProviderForUserRegistered($event);
+		} elseif ($event instanceof TwoFactorProviderForUserUnregistered) {
+			$this->twoFactorProviderForUserUnregistered($event);
 		}
 	}
 
@@ -55,6 +61,38 @@ class SecurityEventListener extends Action implements IEventListener {
 				'displayName',
 				'uid',
 				'provider',
+			]
+		);
+	}
+
+	private function twoFactorProviderForUserRegistered(TwoFactorProviderForUserRegistered $event): void {
+		$this->log(
+			'Two factor provider %s enabled for user %s (%s)',
+			[
+				'provider' => $event->getProvider()->getDisplayName(),
+				'uid' => $event->getUser()->getUID(),
+				'displayName' => $event->getUser()->getDisplayName()
+			],
+			[
+				'provider',
+				'uid',
+				'displayName',
+			]
+		);
+	}
+
+	private function twoFactorProviderForUserUnregistered(TwoFactorProviderForUserUnregistered $event): void {
+		$this->log(
+			'Two factor provider %s disabled for user %s (%s)',
+			[
+				'provider' => $event->getProvider()->getDisplayName(),
+				'uid' => $event->getUser()->getUID(),
+				'displayName' => $event->getUser()->getDisplayName()
+			],
+			[
+				'provider',
+				'uid',
+				'displayName',
 			]
 		);
 	}
