@@ -110,26 +110,35 @@ class AmazonS3 extends Common {
 		unset($this->directoryCache[$key]);
 	}
 
+	/**
+	 * @return array{Key:string, LastModified?:string, ContentLength?:int, ETag?:string, Size?:int}|false
+	 * @throws S3Exception For server errors and unexpected client errors.
+	 */
 	private function headObject(string $key): array|false {
-		if (!isset($this->objectCache[$key])) {
-			try {
-				$this->objectCache[$key] = $this->getConnection()->headObject([
-					'Bucket' => $this->bucket,
-					'Key' => $key
-				] + $this->getSSECParameters())->toArray();
-			} catch (S3Exception $e) {
-				if ($e->getStatusCode() >= 500) {
-					throw $e;
-				}
-				$this->objectCache[$key] = false;
-			}
+		if (isset($this->objectCache[$key])) {
+			return $this->objectCache[$key];
 		}
 
-		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]['Key'])) {
-			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
-			$this->objectCache[$key]['Key'] = $key;
+		try {
+			$result = $this->getConnection()->headObject([
+				'Bucket' => $this->bucket,
+				'Key' => $key
+			] + $this->getSSECParameters())->toArray();
+
+			// Defensive shape normalization
+			if (!isset($result['Key'])) {
+				$result['Key'] = $key;
+			}
+
+			$this->objectCache[$key] = $result;
+			return $result;
+		} catch (S3Exception $e) {
+			if ($e->getStatusCode() >= 500) {
+				throw $e;
+			}
+			$this->objectCache[$key] = false;
+			return false;
 		}
-		return $this->objectCache[$key];
 	}
 
 	/**
