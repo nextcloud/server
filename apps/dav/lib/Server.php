@@ -59,6 +59,7 @@ use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
+use OCA\DAV\Exception\ServerMaintenanceMode;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\FileSearchBackend;
 use OCA\DAV\Files\LazySearchBackend;
@@ -424,12 +425,18 @@ class Server {
 		/** @var IEventLogger $eventLogger */
 		$eventLogger = \OCP\Server::get(IEventLogger::class);
 		$eventLogger->start('dav_server_exec', '');
-		$this->server->start();
-		$eventLogger->end('dav_server_exec');
-		if ($this->profiler->isEnabled()) {
-			$eventLogger->end('runtime');
-			$profile = $this->profiler->collect(\OCP\Server::get(IRequest::class), new Response());
-			$this->profiler->saveProfile($profile);
+		try {
+			$this->server->start();
+		} catch (ServerMaintenanceMode $e) {
+			// Sabre already sent a 503; avoid the global "Uncaught exception" log.
+			// do not rethrow
+		} finally {
+			$eventLogger->end('dav_server_exec');
+			if ($this->profiler->isEnabled()) {
+				$eventLogger->end('runtime');
+				$profile = $this->profiler->collect(\OCP\Server::get(IRequest::class), new Response());
+				$this->profiler->saveProfile($profile);
+			}
 		}
 	}
 
