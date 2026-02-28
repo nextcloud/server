@@ -181,7 +181,7 @@ OC.L10N.register(
     "Choose a default folder for accepted shares" : "Escolla un cartafol predeterminado para as comparticións aceptadas",
     "Invalid path selected" : "Seleccionou unha ruta incorrecta.",
     "Unknown error" : "Produciuse un erro descoñecido",
-    "Set default folder for accepted shares" : "Definir o cartafol predeterminado para as s aceptadas",
+    "Set default folder for accepted shares" : "Definir o cartafol predeterminado para as comparticións aceptadas",
     "Reset" : "Restabelecer",
     "Reset folder to system default" : "Restabelecer o cartafol ao predeterminado do sistema",
     "Share expiration: {date}" : "Caducidade da compartición: {date}",
