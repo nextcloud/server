@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -31,10 +31,6 @@ class AmazonS3 extends Common {
 	use S3ObjectTrait;
 
 	private LoggerInterface $logger;
-
-	public function needsPartFile(): bool {
-		return false;
-	}
 
 	/** @var CappedMemoryCache<array|false> */
 	private CappedMemoryCache $objectCache;
@@ -77,6 +73,10 @@ class AmazonS3 extends Common {
 		return $path === '.';
 	}
 
+	public function needsPartFile(): bool {
+		return false;
+	}
+
 	private function cleanKey(string $path): string {
 		if ($this->isRoot($path)) {
 			return '/';
@@ -90,24 +90,28 @@ class AmazonS3 extends Common {
 		$this->filesCache = new CappedMemoryCache();
 	}
 
-	private function invalidateCache(string $key): void {
-		unset($this->objectCache[$key]);
-		$keys = array_keys($this->objectCache->getData());
-		$keyLength = strlen($key);
+	private function invalidateCache(string $prefix): void {
+		if ($prefix === '') {
+			return; // or throw InvalidArgumentException?
+		}
+
+		$this->invalidateByPrefix($this->objectCache, $prefix);
+		$this->invalidateByPrefix($this->directoryCache, $prefix);
+
+		// FILES: exact match keys only (not hierarchical)
+		unset($this->filesCache[$prefix]);
+	}
+
+	private function invalidateByPrefix(CappedMemoryCache $cache, string $prefix): void {
+		$keys = array_keys($cache->getData());
+		$descendantPrefix = rtrim($prefix, '/') . '/';
+
 		foreach ($keys as $existingKey) {
-			if (substr($existingKey, 0, $keyLength) === $key) {
-				unset($this->objectCache[$existingKey]);
+			// exact + normalized prefix matched keys
+			if ($existingKey === $prefix || str_starts_with($existingKey, $descendantPrefix)) {
+				unset($cache[$existingKey]);
 			}
 		}
-		unset($this->filesCache[$key]);
-		$keys = array_keys($this->directoryCache->getData());
-		$keyLength = strlen($key);
-		foreach ($keys as $existingKey) {
-			if (substr($existingKey, 0, $keyLength) === $key) {
-				unset($this->directoryCache[$existingKey]);
-			}
-		}
-		unset($this->directoryCache[$key]);
 	}
 
 	private function headObject(string $key): array|false {
