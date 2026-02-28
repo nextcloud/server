@@ -40,7 +40,12 @@ final class ServerIdConfig implements ISetupCheck {
 
 		if ($serverid === PHP_INT_MIN) {
 			return SetupResult::info(
-				$this->l10n->t('Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration.'),
+				$this->l10n->t(
+					'The ``serverid`` parameter is not configured. '
+        			. 'By default, Nextcloud uses a fallback based on the server hostname. '
+        			. 'The fallback suggests a standalone setup, which is generally safe if your configuration will remain on a single server and never be cloned, migrated, or scaled out. '
+        			. 'However, if you are running Nextcloud on multiple servers, sharing ``config.php``, or you plan to expand your setup in the future, you should explicitly set a unique integer ``serverid`` (0–1023) for each server. '
+				),
 				$linkToDoc,
 			);
 		}
