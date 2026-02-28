@@ -149,12 +149,13 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 
 			/** @var IRootFolder $rootFolder */
 			$rootFolder = Server::get(IRootFolder::class);
-			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
+			$owner = $this->superShare->getShareOwner();
+			$this->ownerUserFolder = $rootFolder->getUserFolder($owner);
 			$sourceId = $this->superShare->getNodeId();
 			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
 
 			if (count($ownerNodes) === 0) {
-				$this->storage = new FailedStorage(['exception' => new NotFoundException("File by id $sourceId not found")]);
+				$this->storage = new FailedStorage(['exception' => new NotFoundException("File by id $sourceId not found for user $owner")]);
 				$this->cache = new FailedCache();
 				$this->rootPath = '';
 			} else {
