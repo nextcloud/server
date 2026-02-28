@@ -152,8 +152,8 @@ class AddMissingIndicesListener implements IEventListener {
 
 		$event->addMissingIndex(
 			'jobs',
-			'job_lastcheck_reserved',
-			['last_checked', 'reserved_at']
+			'job_lastcheck_timesens',
+			['last_checked', 'reserved_at', 'time_sensitive'],
 		);
 
 		$event->addMissingIndex(
