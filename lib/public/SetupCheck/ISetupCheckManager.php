@@ -18,4 +18,15 @@ interface ISetupCheckManager {
 	 * @return array<string,array<string,SetupResult>> Result of each check, first level key is category, second level key is title
 	 */
 	public function runAll(): array;
+	/**
+	 * @since 31.0.0
+	 * @return array<string,array<string,SetupResult>> Result of each check, first level key is category, second level key is title
+	 */
+	public function runClass(string $limitClass): array;
+	/**
+	 * @since 31.0.0
+	 * @return array<string,array<string,SetupResult>> Result of each check, first level key is category, second level key is title
+	 */
+	public function runCategory(string $limitCategory): array;
+
 }
