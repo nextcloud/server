@@ -12,6 +12,7 @@ use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -485,5 +486,9 @@ class Node implements INode {
 	 */
 	public function getMetadata(): array {
 		return $this->fileInfo->getMetadata();
+	}
+
+	public function getData(): ICacheEntry {
+		return $this->fileInfo->getData();
 	}
 }

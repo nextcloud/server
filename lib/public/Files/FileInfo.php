@@ -8,6 +8,7 @@
 namespace OCP\Files;
 
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 
 /**
@@ -298,4 +299,12 @@ interface FileInfo {
 	 * @since 28.0.0
 	 */
 	public function getMetadata(): array;
+
+	/**
+	 * Get the filecache data for the file
+	 *
+	 * @return ICacheEntry
+	 * @since 34.0.0
+	 */
+	public function getData(): ICacheEntry;
 }

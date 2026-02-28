@@ -536,6 +536,12 @@ class UserMountCache implements IUserMountCache {
 		$query->delete('mounts')
 			->where($query->expr()->eq('mount_point', $query->createNamedParameter($mountPoint)));
 		$query->executeStatement();
+
+		$parts = explode('/', $mountPoint);
+		if (count($parts) > 3) {
+			[, $userId] = $parts;
+			unset($this->mountsForUsers[$userId]);
+		}
 	}
 
 	public function addMount(IUser $user, string $mountPoint, ICacheEntry $rootCacheEntry, string $mountProvider, ?int $mountId = null): void {
@@ -553,6 +559,7 @@ class UserMountCache implements IUserMountCache {
 
 		try {
 			$query->executeStatement();
+			unset($this->mountsForUsers[$user->getUID()]);
 		} catch (DbalException $e) {
 			if ($e->getReason() !== DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 				throw $e;

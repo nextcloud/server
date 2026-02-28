@@ -47,6 +47,49 @@ Feature: sharing
       | share_with             | user2 |
       | share_with_displayname | user2 |
 
+Scenario: getting all shares of a file with a received share after revoking the resharing rights with delayed share check
+	Given user "user0" exists
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
+	And user "user1" exists
+	And user "user2" exists
+	And file "textfile0.txt" of user "user1" is shared with user "user0"
+	And user "user0" accepts last share
+	And Updating last share with
+		| permissions | 1 |
+	And file "textfile0.txt" of user "user1" is shared with user "user2"
+	When As an "user0"
+	And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=/textfile0 (2).txt"
+	Then the list of returned shares has 1 shares
+	And share 0 is returned with
+		| share_type             | 0 |
+		| uid_owner              | user1 |
+		| displayname_owner      | user1 |
+		| path                   | /textfile0 (2).txt |
+		| item_type              | file |
+		| mimetype               | text/plain |
+		| storage_id             | shared::/textfile0 (2).txt |
+		| file_target            | /textfile0.txt |
+		| share_with             | user2 |
+		| share_with_displayname | user2 |
+	# After user2 does an FS setup the share is renamed
+	When As an "user2"
+	And Downloading file "/textfile0 (2).txt" with range "bytes=10-18"
+	Then Downloaded content should be "test text"
+	When As an "user0"
+	And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=/textfile0 (2).txt"
+	Then the list of returned shares has 1 shares
+	And share 0 is returned with
+		| share_type             | 0 |
+		| uid_owner              | user1 |
+		| displayname_owner      | user1 |
+		| path                   | /textfile0 (2).txt |
+		| item_type              | file |
+		| mimetype               | text/plain |
+		| storage_id             | shared::/textfile0 (2).txt |
+		| file_target            | /textfile0 (2).txt |
+		| share_with             | user2 |
+		| share_with_displayname | user2 |
+
   Scenario: getting all shares of a file with a received share also reshared after revoking the resharing rights
     Given user "user0" exists
     And user "user1" exists

@@ -27,6 +27,7 @@ use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
 use OCA\Files_Sharing\Listener\SharesUpdatedListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
+use OCA\Files_Sharing\Listener\UserHomeSetupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
@@ -48,6 +49,8 @@ use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\UserHomeSetupEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
@@ -120,7 +123,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareTransferredEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(UserAddedEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(UserRemovedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(UserShareAccessUpdatedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(UserHomeSetupEvent::class, UserHomeSetupListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
