@@ -11,6 +11,7 @@ use OC\Streamer;
 use OCP\AppFramework\Http;
 use OCP\IDateTimeZone;
 use OCP\IRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Public library to send several files in one zip archive.
@@ -25,14 +26,14 @@ class ZipResponse extends Response implements ICallbackResponse {
 	private array $resources = [];
 	/** @var string Filename that the zip file should have */
 	private string $name;
-	private IRequest $request;
+	private ServerRequestInterface|IRequest $request;
 
 	/**
 	 * @param S $status
 	 * @param H $headers
 	 * @since 15.0.0
 	 */
-	public function __construct(IRequest $request, string $name = 'output', int $status = Http::STATUS_OK, array $headers = []) {
+	public function __construct(ServerRequestInterface|IRequest $request, string $name = 'output', int $status = Http::STATUS_OK, array $headers = []) {
 		parent::__construct($status, $headers);
 
 		$this->name = $name;

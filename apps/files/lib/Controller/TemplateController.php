@@ -18,7 +18,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\Template;
 use OCP\Files\Template\TemplateFileCreator;
-use OCP\IRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @psalm-import-type FilesTemplateFile from ResponseDefinitions
@@ -30,7 +30,7 @@ use OCP\IRequest;
 class TemplateController extends OCSController {
 	public function __construct(
 		$appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		protected ITemplateManager $templateManager,
 	) {
 		parent::__construct($appName, $request);

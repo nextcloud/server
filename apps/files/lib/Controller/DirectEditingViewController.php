@@ -17,14 +17,14 @@ use OCP\AppFramework\Http\Response;
 use OCP\DirectEditing\IManager;
 use OCP\DirectEditing\RegisterDirectEditorEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IRequest;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class DirectEditingViewController extends Controller {
 	public function __construct(
-		$appName,
-		IRequest $request,
+		string $appName,
+		ServerRequestInterface $request,
 		private IEventDispatcher $eventDispatcher,
 		private IManager $directEditingManager,
 		private LoggerInterface $logger,

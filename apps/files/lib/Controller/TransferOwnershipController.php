@@ -20,15 +20,15 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
-use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Notification\IManager as NotificationManager;
+use Psr\Http\Message\ServerRequestInterface;
 
 class TransferOwnershipController extends OCSController {
 
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		private string $userId,
 		private NotificationManager $notificationManager,
 		private ITimeFactory $timeFactory,

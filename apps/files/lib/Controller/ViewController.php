@@ -34,11 +34,10 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
-use OCP\IL10N;
-use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Util;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @package OCA\Files\Controller
@@ -48,9 +47,8 @@ class ViewController extends Controller {
 
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		private IURLGenerator $urlGenerator,
-		private IL10N $l10n,
 		private IConfig $config,
 		private IEventDispatcher $eventDispatcher,
 		private IUserSession $userSession,

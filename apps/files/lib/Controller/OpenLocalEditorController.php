@@ -20,8 +20,8 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
-use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 class OpenLocalEditorController extends OCSController {
@@ -31,7 +31,7 @@ class OpenLocalEditorController extends OCSController {
 
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		protected ITimeFactory $timeFactory,
 		protected OpenLocalEditorMapper $mapper,
 		protected ISecureRandom $secureRandom,

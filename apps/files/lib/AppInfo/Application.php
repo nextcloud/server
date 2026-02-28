@@ -48,13 +48,12 @@ use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
-use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
@@ -69,18 +68,24 @@ class Application extends App implements IBootstrap {
 		 * Controllers
 		 */
 		$context->registerService('APIController', function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
+			$user = $c->get(IUserSession::class)->getUser();
+			if (!$user) {
+				$folder = null;
+			} else {
+				$userId = $user->getUID();
+				$root = $c->get(IRootFolder::class);
+				$folder = $root->getUserFolder($userId);
+			}
 
 			return new ApiController(
-				$c->get('AppName'),
-				$c->get(IRequest::class),
+				$c->get('appName'),
+				$c->get(ServerRequestInterface::class),
 				$c->get(IUserSession::class),
 				$c->get(TagService::class),
 				$c->get(IPreview::class),
 				$c->get(IShareManager::class),
 				$c->get(IConfig::class),
-				$server->getUserFolder(),
+				$folder,
 				$c->get(UserConfig::class),
 				$c->get(ViewConfig::class),
 				$c->get(IL10N::class),
@@ -93,14 +98,20 @@ class Application extends App implements IBootstrap {
 		 * Services
 		 */
 		$context->registerService(TagService::class, function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
+			$user = $c->get(IUserSession::class)->getUser();
+			if (!$user) {
+				$folder = null;
+			} else {
+				$userId = $user->getUID();
+				$root = $c->get(IRootFolder::class);
+				$folder = $root->getUserFolder($userId);
+			}
 
 			return new TagService(
 				$c->get(IUserSession::class),
 				$c->get(IActivityManager::class),
 				$c->get(ITagManager::class)->load(self::APP_ID),
-				$server->getUserFolder(),
+				$folder,
 			);
 		});
 

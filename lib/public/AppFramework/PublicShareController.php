@@ -9,6 +9,7 @@ namespace OCP\AppFramework;
 
 use OCP\IRequest;
 use OCP\ISession;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Base controller for public shares
@@ -36,7 +37,7 @@ abstract class PublicShareController extends Controller {
 	 */
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		IRequest|ServerRequestInterface $request,
 		protected ISession $session,
 	) {
 		parent::__construct($appName, $request);

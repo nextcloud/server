@@ -8,6 +8,8 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
@@ -280,6 +282,7 @@ use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\User\IAvailabilityCoordinator;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -880,6 +883,19 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IMimeTypeDetector::class)
 			);
 		});
+		$this->registerService(ServerRequestInterface::class, function (): ServerRequestInterface {
+			$psr17Factory = new Psr17Factory();
+			$creator = new ServerRequestCreator(
+				$psr17Factory, // ServerRequestFactory
+				$psr17Factory, // UriFactory
+				$psr17Factory, // UploadedFileFactory
+				$psr17Factory  // StreamFactory
+			);
+			$requestId = $this->get(IRequestId::class);
+			return $creator->fromGlobals()
+				->withAttribute('request-id', $requestId->getId());
+		});
+
 		$this->registerService(Request::class, function (ContainerInterface $c) {
 			if (isset($this['urlParams'])) {
 				$urlParams = $this['urlParams'];

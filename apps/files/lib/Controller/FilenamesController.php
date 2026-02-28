@@ -15,21 +15,17 @@ use OCP\AppFramework\Http\Attribute\Route;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
-use OCP\AppFramework\Services\IAppConfig;
 use OCP\BackgroundJob\IJobList;
 use OCP\IL10N;
-use OCP\IRequest;
-use OCP\IUserManager;
+use Psr\Http\Message\ServerRequestInterface;
 
 class FilenamesController extends OCSController {
 
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		private IL10N $l10n,
 		private IJobList $jobList,
-		private IAppConfig $appConfig,
-		private IUserManager $userManager,
 		private SettingsService $settingsService,
 	) {
 		parent::__construct($appName, $request);

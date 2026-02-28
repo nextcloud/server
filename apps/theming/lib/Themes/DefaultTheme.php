@@ -13,11 +13,12 @@ use OCA\Theming\ITheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
+use OCP\AppFramework\RequestHelper;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use Psr\Http\Message\ServerRequestInterface;
 
 class DefaultTheme implements ITheme {
 	use CommonThemeTrait;
@@ -34,7 +35,7 @@ class DefaultTheme implements ITheme {
 		public IConfig $config,
 		public IL10N $l,
 		public IAppManager $appManager,
-		private ?IRequest $request,
+		private ?ServerRequestInterface $request,
 	) {
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
@@ -97,9 +98,9 @@ class DefaultTheme implements ITheme {
 
 		$user = $this->userSession->getUser();
 		// Chromium based browsers currently (2024) have huge performance issues with blur filters
-		$isChromium = $this->request !== null && $this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_MS_EDGE]);
+		$isChromium = $this->request !== null && RequestHelper::isUserAgent($this->request, [Request::USER_AGENT_CHROME, Request::USER_AGENT_MS_EDGE]);
 		// Ignore MacOS because they always have hardware accelartion
-		$isChromium = $isChromium && !$this->request->isUserAgent(['/Macintosh/']);
+		$isChromium = $isChromium && !RequestHelper::isUserAgent($this->request, ['/Macintosh/']);
 		// Allow to force the blur filter
 		$forceEnableBlur = $user === null ? false : $this->config->getUserValue(
 			$user->getUID(),

@@ -26,8 +26,8 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
-use OCP\IRequest;
 use OCP\ISession;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -37,7 +37,7 @@ use Psr\Log\LoggerInterface;
 class WebhooksController extends OCSController {
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		private LoggerInterface $logger,
 		private WebhookListenerMapper $mapper,
 		private ?string $userId,
@@ -143,7 +143,8 @@ class WebhooksController extends OCSController {
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
-			$appId = $this->request->getHeader('ex-app-id');
+			$appIds = $this->request->getHeader('ex-app-id');
+			$appId = $appIds !== [] ? $appIds[0] : null;
 		}
 		try {
 			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);
@@ -219,7 +220,8 @@ class WebhooksController extends OCSController {
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
-			$appId = $this->request->getHeader('ex-app-id');
+			$appIds = $this->request->getHeader('ex-app-id');
+			$appId = $appIds !== [] ? $appIds[0] : null;
 		}
 		try {
 			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);

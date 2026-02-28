@@ -26,13 +26,13 @@ use OCP\Files\File;
 use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\IL10N;
-use OCP\IRequest;
+use Psr\Http\Message\ServerRequestInterface;
 use function OCP\Log\logger;
 
 class ConversionApiController extends OCSController {
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		private IConversionManager $fileConversionManager,
 		private IRootFolder $rootFolder,
 		private IL10N $l10n,

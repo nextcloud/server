@@ -10,7 +10,7 @@ namespace OCP\AppFramework\Http;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\IRequest;
+use OCP\IRequestId;
 use OCP\IUserSession;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -226,13 +226,9 @@ class Response {
 	 * @since 6.0.0
 	 */
 	public function getHeaders() {
-		/** @var IRequest $request */
-		/**
-		 * @psalm-suppress UndefinedClass
-		 */
-		$request = Server::get(IRequest::class);
+		$requestId = Server::get(IRequestId::class);
 		$mergeWith = [
-			'X-Request-Id' => $request->getId(),
+			'X-Request-Id' => $requestId->getId(),
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 			'Content-Security-Policy' => $this->getContentSecurityPolicy()->buildPolicy(),
 			'Feature-Policy' => $this->getFeaturePolicy()->buildPolicy(),

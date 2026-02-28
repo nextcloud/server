@@ -15,14 +15,14 @@ use OCP\AppFramework\OCSController;
 use OCP\DirectEditing\IManager;
 use OCP\DirectEditing\RegisterDirectEditorEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IRequest;
 use OCP\IURLGenerator;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 class DirectEditingController extends OCSController {
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		string $corsMethods,
 		string $corsAllowedHeaders,
 		int $corsMaxAge,

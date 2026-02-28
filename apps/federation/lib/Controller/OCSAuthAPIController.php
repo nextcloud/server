@@ -19,9 +19,9 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\IRequest;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -35,7 +35,7 @@ use Psr\Log\LoggerInterface;
 class OCSAuthAPIController extends OCSController {
 	public function __construct(
 		string $appName,
-		IRequest $request,
+		ServerRequestInterface $request,
 		private ISecureRandom $secureRandom,
 		private IJobList $jobList,
 		private TrustedServers $trustedServers,

@@ -12,6 +12,7 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Base class to inherit your controllers from that are used for RESTful APIs
@@ -25,7 +26,7 @@ abstract class ApiController extends Controller {
 	/**
 	 * constructor of the controller
 	 * @param string $appName the name of the app
-	 * @param IRequest $request an instance of the request
+	 * @param IRequest|ServerRequestInterface $request an instance of the request
 	 * @param string $corsMethods comma separated string of HTTP verbs which
 	 *                            should be allowed for websites or webapps when calling your API, defaults to
 	 *                            'PUT, POST, GET, DELETE, PATCH'
@@ -37,7 +38,7 @@ abstract class ApiController extends Controller {
 	 * @since 7.0.0
 	 */
 	public function __construct($appName,
-		IRequest $request,
+		IRequest|ServerRequestInterface $request,
 		$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
 		$corsAllowedHeaders = 'Authorization, Content-Type, Accept',
 		$corsMaxAge = 1728000) {
