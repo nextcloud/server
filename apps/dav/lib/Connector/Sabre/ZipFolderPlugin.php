@@ -62,8 +62,30 @@ class ZipFolderPlugin extends ServerPlugin {
 	}
 
 	/**
+	 * @return iterable<NcNode>
+	 */
+	protected function createIterator(array $rootNodes): iterable {
+		foreach ($rootNodes as $rootNode) {
+			yield from $this->iterateNodes($rootNode);
+		}
+	}
+
+	/**
+	 * Recursively iterate over all nodes in a folder.
+	 * @return iterable<NcNode>
+	 */
+	protected function iterateNodes(NcNode $node): iterable {
+		yield $node;
+
+		if ($node instanceof NcFolder) {
+			foreach ($node->getDirectoryListing() as $childNode) {
+				yield from $this->iterateNodes($childNode);
+			}
+		}
+	}
+
+	/**
 	 * Adding a node to the archive streamer.
-	 * This will recursively add new nodes to the stream if the node is a directory.
 	 */
 	protected function streamNode(Streamer $streamer, NcNode $node, string $rootPath): void {
 		// Remove the root path from the filename to make it relative to the requested folder
@@ -79,10 +101,6 @@ class ZipFolderPlugin extends ServerPlugin {
 			$streamer->addFileFromStream($resource, $filename, $node->getSize(), $mtime);
 		} elseif ($node instanceof NcFolder) {
 			$streamer->addEmptyDir($filename, $mtime);
-			$content = $node->getDirectoryListing();
-			foreach ($content as $subNode) {
-				$this->streamNode($streamer, $subNode, $rootPath);
-			}
 		}
 	}
 
@@ -137,7 +155,14 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		$folder = $node->getNode();
-		$event = new BeforeZipCreatedEvent($folder, $files);
+		$rootNodes = empty($files) ? $folder->getDirectoryListing() : [];
+		foreach ($files as $path) {
+			$child = $node->getChild($path);
+			assert($child instanceof Node);
+			$rootNodes[] = $child->getNode();
+		}
+
+		$event = new BeforeZipCreatedEvent($folder, $files, $this->createIterator($rootNodes));
 		$this->eventDispatcher->dispatchTyped($event);
 		if ((!$event->isSuccessful()) || $event->getErrorMessage() !== null) {
 			$errorMessage = $event->getErrorMessage();
@@ -148,13 +173,6 @@ class ZipFolderPlugin extends ServerPlugin {
 			}
 			// Downloading was denied by an app
 			throw new Forbidden($errorMessage);
-		}
-
-		$content = empty($files) ? $folder->getDirectoryListing() : [];
-		foreach ($files as $path) {
-			$child = $node->getChild($path);
-			assert($child instanceof Node);
-			$content[] = $child->getNode();
 		}
 
 		$archiveName = $folder->getName();
@@ -169,13 +187,13 @@ class ZipFolderPlugin extends ServerPlugin {
 			$rootPath = dirname($folder->getPath());
 		}
 
-		$streamer = new Streamer($tarRequest, -1, count($content), $this->timezoneFactory);
+		$streamer = new Streamer($tarRequest, -1, count($rootNodes), $this->timezoneFactory);
 		$streamer->sendHeaders($archiveName);
 		// For full folder downloads we also add the folder itself to the archive
 		if (empty($files)) {
 			$streamer->addEmptyDir($archiveName);
 		}
-		foreach ($content as $node) {
+		foreach ($event->getNodes() as $node) {
 			$this->streamNode($streamer, $node, $rootPath);
 		}
 		$streamer->finalize();
