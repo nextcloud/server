@@ -57,10 +57,12 @@ class Share extends Constants {
 				];
 				return true;
 			}
-			Server::get(LoggerInterface::class)->warning(
-				'Sharing backend ' . $class . ' not registered, ' . self::$backendTypes[$itemType]['class']
-				. ' is already registered for ' . $itemType,
-				['app' => 'files_sharing']);
+			if (self::$backendTypes[$itemType]['class'] !== $class) {
+				Server::get(LoggerInterface::class)->warning(
+					'Sharing backend ' . $class . ' not registered, ' . self::$backendTypes[$itemType]['class']
+					. ' is already registered for ' . $itemType,
+					['app' => 'files_sharing']);
+			}
 		}
 		return false;
 	}

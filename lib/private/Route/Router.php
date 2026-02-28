@@ -250,6 +250,7 @@ class Router implements IRouter {
 	 * @return array
 	 */
 	public function findMatchingRoute(string $url): array {
+		$url = str_replace('index.php', '', $url);
 		$this->eventLogger->start('route:match', 'Match route');
 		if (str_starts_with($url, '/apps/')) {
 			// empty string / 'apps' / $app / rest of the route
@@ -276,6 +277,7 @@ class Router implements IRouter {
 		} else {
 			$this->loadRoutes();
 		}
+
 
 		$this->eventLogger->start('route:url:match', 'Symfony url matcher call');
 		$matcher = new UrlMatcher($this->root, $this->context);

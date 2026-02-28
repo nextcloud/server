@@ -1,0 +1,49 @@
+localhost {
+	php_server {
+        worker index.php
+	}
+
+	log {
+		level ERROR
+		output stderr
+	}
+
+    encode gzip
+
+    redir /.well-known/carddav /remote.php/dav 301
+    redir /.well-known/caldav /remote.php/dav 301
+
+    # Rule: Maps most RFC 8615 compliant well-known URIs to our main frontend controller (/index.php) by default
+    @wellKnown {
+        path "/.well-known/"
+        not {
+            path /.well-known/acme-challenge
+            path /.well-known/pki-validation
+        }
+    }
+    rewrite @wellKnown /index.php
+
+    rewrite /ocm-provider/ /index.php
+
+    @forbidden {
+        path /.htaccess
+        path /data/*
+        path /config/*
+        path /db_structure
+        path /.xml
+        path /README
+        path /3rdparty/*
+        path /lib/*
+        path /templates/*
+        path /occ
+        path /build
+        path /tests
+        path /console.php
+        path /autotest
+        path /issue
+        path /indi
+        path /db_
+        path /console
+    }
+    respond @forbidden 404
+}

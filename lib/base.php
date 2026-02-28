@@ -83,17 +83,6 @@ class OC {
 	 *                           the app path list is empty or contains an invalid path
 	 */
 	public static function initPaths(): void {
-		if (defined('PHPUNIT_CONFIG_DIR')) {
-			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
-		} elseif (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir(OC::$SERVERROOT . '/tests/config/')) {
-			self::$configDir = OC::$SERVERROOT . '/tests/config/';
-		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
-			self::$configDir = rtrim($dir, '/') . '/';
-		} else {
-			self::$configDir = OC::$SERVERROOT . '/config/';
-		}
-		self::$config = new \OC\Config(self::$configDir);
-
 		OC::$SUBURI = str_replace('\\', '/', substr(realpath($_SERVER['SCRIPT_FILENAME'] ?? ''), strlen(OC::$SERVERROOT)));
 		/**
 		 * FIXME: The following lines are required because we can't yet instantiate
@@ -145,7 +134,7 @@ class OC {
 			// Resolve /nextcloud to /nextcloud/ to ensure to always have a trailing
 			// slash which is required by URL generation.
 			if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === \OC::$WEBROOT
-					&& substr($_SERVER['REQUEST_URI'], -1) !== '/') {
+				&& substr($_SERVER['REQUEST_URI'], -1) !== '/') {
 				header('Location: ' . \OC::$WEBROOT . '/');
 				exit();
 			}
@@ -164,6 +153,7 @@ class OC {
 		} elseif (file_exists(OC::$SERVERROOT . '/apps')) {
 			OC::$APPSROOTS[] = ['path' => OC::$SERVERROOT . '/apps', 'url' => '/apps', 'writable' => true];
 		}
+
 
 		if (empty(OC::$APPSROOTS)) {
 			throw new \RuntimeException('apps directory not found! Please put the Nextcloud apps folder in the Nextcloud folder'
@@ -643,12 +633,7 @@ class OC {
 		}
 	}
 
-	public static function init(): void {
-		// First handle PHP configuration and copy auth headers to the expected
-		// $_SERVER variable before doing anything Server object related
-		self::setRequiredIniValues();
-		self::handleAuthHeaders();
-
+	public static function boot(): void {
 		// prevent any XML processing from loading external entities
 		libxml_set_external_entity_loader(static function () {
 			return null;
@@ -671,15 +656,32 @@ class OC {
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
 		self::$composerAutoloader->setApcuPrefix(null);
 
+		// setup 3rdparty autoloader
+		$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
+		if (!file_exists($vendorAutoLoad)) {
+			throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
+		}
+		require_once $vendorAutoLoad;
+
+		$loaderEnd = microtime(true);
+
+		// load configs
+		if (defined('PHPUNIT_CONFIG_DIR')) {
+			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
+		} elseif (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir(OC::$SERVERROOT . '/tests/config/')) {
+			self::$configDir = OC::$SERVERROOT . '/tests/config/';
+		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
+			self::$configDir = rtrim($dir, '/') . '/';
+		} else {
+			self::$configDir = OC::$SERVERROOT . '/config/';
+		}
+		self::$config = new \OC\Config(self::$configDir);
+
+		// Enable lazy loading if activated
+		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
 
 		try {
 			self::initPaths();
-			// setup 3rdparty autoloader
-			$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
-			if (!file_exists($vendorAutoLoad)) {
-				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
-			}
-			require_once $vendorAutoLoad;
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
 				http_response_code(503);
@@ -689,14 +691,23 @@ class OC {
 			print($e->getMessage());
 			exit();
 		}
-		$loaderEnd = microtime(true);
 
-		// Enable lazy loading if activated
-		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
+		//$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
+		//$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
+		//$eventLogger->start('init', 'Initialize');
+	}
 
-		// setup the basic server
+	public static function init(): void {
+		// First handle PHP configuration and copy auth headers to the expected
+		// $_SERVER variable before doing anything Server object related
+		self::setRequiredIniValues();
+		self::handleAuthHeaders();
+
+		// set up the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
+
+		$loaderStart = microtime(true);
 
 		try {
 			$profiler = new BuiltInProfiler(
@@ -713,8 +724,7 @@ class OC {
 		}
 
 		$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
-		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
-		$eventLogger->start('boot', 'Initialize');
+		$eventLogger->start('init', 'Initialize');
 
 		// Override php.ini and log everything if we're troubleshooting
 		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
@@ -1286,4 +1296,4 @@ class OC {
 	}
 }
 
-OC::init();
+OC::boot();
