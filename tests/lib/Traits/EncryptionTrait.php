@@ -109,18 +109,20 @@ trait EncryptionTrait {
 		$this->encryptionApp = new Application([], $isReady);
 
 		$this->config = Server::get(IConfig::class);
-		$this->encryptionWasEnabled = $this->config->getAppValue('core', 'encryption_enabled', 'no');
-		$this->originalEncryptionModule = $this->config->getAppValue('core', 'default_encryption_module');
-		$this->config->setAppValue('core', 'default_encryption_module', Encryption::ID);
-		$this->config->setAppValue('core', 'encryption_enabled', 'yes');
+		$appConfig = Server::get(\OCP\IAppConfig::class);
+		$this->encryptionWasEnabled = $appConfig->getValueString('core', 'encryption_enabled', 'no');
+		$this->originalEncryptionModule = $appConfig->getValueString('core', 'default_encryption_module', '');
+		$appConfig->setValueString('core', 'default_encryption_module', Encryption::ID);
+		$appConfig->setValueString('core', 'encryption_enabled', 'yes');
 		$this->assertTrue(Server::get(\OCP\Encryption\IManager::class)->isEnabled());
 	}
 
 	protected function tearDownEncryptionTrait() {
 		if ($this->config) {
-			$this->config->setAppValue('core', 'encryption_enabled', $this->encryptionWasEnabled);
-			$this->config->setAppValue('core', 'default_encryption_module', $this->originalEncryptionModule);
-			$this->config->deleteAppValue('encryption', 'useMasterKey');
+			$appConfig = Server::get(\OCP\IAppConfig::class);
+			$appConfig->setValueString('core', 'encryption_enabled', $this->encryptionWasEnabled);
+			$appConfig->setValueString('core', 'default_encryption_module', $this->originalEncryptionModule);
+			$appConfig->deleteKey('encryption', 'useMasterKey');
 		}
 	}
 }

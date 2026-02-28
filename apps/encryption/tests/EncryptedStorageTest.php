@@ -66,4 +66,9 @@ class EncryptedStorageTest extends TestCase {
 		$this->assertEquals('bar', $unencryptedStorage->file_get_contents('foo.txt'));
 		$this->assertFalse($unencryptedCache->get('foo.txt')->isEncrypted());
 	}
+
+	protected function tearDown(): void {
+		$this->tearDownEncryptionTrait();
+		parent::tearDown();
+	}
 }

@@ -56,6 +56,11 @@ class EncryptionWrapperTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		// Mock encryption being enabled for tests that expect wrapping
+		$this->manager->expects($this->any())
+			->method('isEnabled')
+			->willReturn($expectedWrapped);
+
 		$returnedStorage = $this->instance->wrapStorage('mountPoint', $storage, $mount);
 
 		$this->assertEquals(

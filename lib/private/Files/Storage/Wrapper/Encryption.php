@@ -389,6 +389,7 @@ class Encryption extends Wrapper {
 		if ($unencryptedSize < 0
 			|| ($size > 0 && $unencryptedSize === $size)
 			|| $unencryptedSize > $size
+			|| ($unencryptedSize === 0 && $size > 0)
 		) {
 			// check if we already calculate the unencrypted size for the
 			// given path to avoid recursions
