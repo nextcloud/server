@@ -743,7 +743,7 @@ export default defineComponent({
 			& > span {
 				justify-content: flex-start;
 
-				&:not(.files-list__row-icon-favorite) svg {
+				&:not(.files-list__row-icon-favorite):not(.files-list__row-icon-recently-created) svg {
 					width: var(--icon-preview-size);
 					height: var(--icon-preview-size);
 				}
@@ -791,7 +791,8 @@ export default defineComponent({
 				}
 			}
 
-			&-favorite {
+			&-favorite,
+			&-recently-created {
 				position: absolute;
 				top: 0px;
 				inset-inline-end: -10px;
@@ -993,8 +994,9 @@ export default defineComponent({
 		}
 	}
 
-	// Star icon in the top right
-	.files-list__row-icon-favorite {
+	// Icon in the top right
+	.files-list__row-icon-favorite,
+	.files-list__row-icon-recently-created {
 		position: absolute;
 		top: 0;
 		inset-inline-end: 0;
