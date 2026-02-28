@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -31,10 +31,6 @@ class AmazonS3 extends Common {
 	use S3ObjectTrait;
 
 	private LoggerInterface $logger;
-
-	public function needsPartFile(): bool {
-		return false;
-	}
 
 	/** @var CappedMemoryCache<array|false> */
 	private CappedMemoryCache $objectCache;
@@ -75,6 +71,10 @@ class AmazonS3 extends Common {
 
 	private function isRoot(string $path): bool {
 		return $path === '.';
+	}
+
+	public function needsPartFile(): bool {
+		return false;
 	}
 
 	private function cleanKey(string $path): string {
