@@ -9,8 +9,15 @@ declare(strict_types=1);
 namespace OCA\WorkflowEngine\Entity;
 
 use OC\Files\Config\UserMountCache;
+use OC\SystemTag\Events\SingleTagAssignedEvent;
 use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\GenericEvent;
+use OCP\Files\Events\Node\AbstractNodeEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Events\Node\NodeTouchedEvent;
+use OCP\Files\Events\Node\NodeUpdatedEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
@@ -22,7 +29,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
-use OCP\SystemTag\MapperEvent;
 use OCP\WorkflowEngine\EntityContext\IContextPortation;
 use OCP\WorkflowEngine\EntityContext\IDisplayText;
 use OCP\WorkflowEngine\EntityContext\IIcon;
@@ -30,50 +36,57 @@ use OCP\WorkflowEngine\EntityContext\IUrl;
 use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
+use Override;
 
 class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
-	private const EVENT_NAMESPACE = '\OCP\Files::';
+	/** @var ?class-string<Event> $eventName */
 	protected ?string $eventName = null;
 	protected ?Event $event = null;
 	private ?Node $node = null;
 	private ?IUser $actingUser = null;
 
 	public function __construct(
-		protected IL10N $l10n,
-		protected IURLGenerator $urlGenerator,
-		protected IRootFolder $root,
-		private IUserSession $userSession,
-		private ISystemTagManager $tagManager,
-		private IUserManager $userManager,
-		private UserMountCache $userMountCache,
-		private IMountManager $mountManager,
+		protected readonly IL10N $l10n,
+		protected readonly IURLGenerator $urlGenerator,
+		protected readonly IRootFolder $root,
+		private readonly IUserSession $userSession,
+		private readonly ISystemTagManager $tagManager,
+		private readonly IUserManager $userManager,
+		private readonly UserMountCache $userMountCache,
+		private readonly IMountManager $mountManager,
 	) {
 	}
 
+	#[Override]
 	public function getName(): string {
 		return $this->l10n->t('File');
 	}
 
+	#[Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('core', 'categories/files.svg');
 	}
 
+	#[Override]
 	public function getEvents(): array {
 		return [
-			new GenericEntityEvent($this->l10n->t('File created'), self::EVENT_NAMESPACE . 'postCreate'),
-			new GenericEntityEvent($this->l10n->t('File updated'), self::EVENT_NAMESPACE . 'postWrite'),
-			new GenericEntityEvent($this->l10n->t('File renamed'), self::EVENT_NAMESPACE . 'postRename'),
-			new GenericEntityEvent($this->l10n->t('File deleted'), self::EVENT_NAMESPACE . 'postDelete'),
-			new GenericEntityEvent($this->l10n->t('File accessed'), self::EVENT_NAMESPACE . 'postTouch'),
-			new GenericEntityEvent($this->l10n->t('File copied'), self::EVENT_NAMESPACE . 'postCopy'),
-			new GenericEntityEvent($this->l10n->t('Tag assigned'), MapperEvent::EVENT_ASSIGN),
+			new GenericEntityEvent($this->l10n->t('File created'), NodeCreatedEvent::class),
+			new GenericEntityEvent($this->l10n->t('File updated'), NodeUpdatedEvent::class),
+			new GenericEntityEvent($this->l10n->t('File renamed'), NodeRenamedEvent::class),
+			new GenericEntityEvent($this->l10n->t('File deleted'), NodeDeletedEvent::class),
+			new GenericEntityEvent($this->l10n->t('File accessed'), NodeTouchedEvent::class),
+			new GenericEntityEvent($this->l10n->t('File copied'), NodeCopiedEvent::class),
+			new GenericEntityEvent($this->l10n->t('Tag assigned'), SingleTagAssignedEvent::class),
 		];
 	}
 
+	#[Override]
 	public function prepareRuleMatcher(IRuleMatcher $ruleMatcher, string $eventName, Event $event): void {
-		if (!$event instanceof GenericEvent && !$event instanceof MapperEvent) {
+		$isSupported = array_any($this->getEvents(), static fn (GenericEntityEvent $genericEvent): bool => is_a($event, $genericEvent->getEventName()));
+		if (!$isSupported) {
 			return;
 		}
+
 		$this->eventName = $eventName;
 		$this->event = $event;
 		$this->actingUser = $this->actingUser ?? $this->userSession->getUser();
@@ -81,11 +94,12 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 			$node = $this->getNode();
 			$ruleMatcher->setEntitySubject($this, $node);
 			$ruleMatcher->setFileInfo($node->getStorage(), $node->getInternalPath());
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			// pass
 		}
 	}
 
+	#[Override]
 	public function isLegitimatedForUserId(string $userId): bool {
 		try {
 			$node = $this->getNode();
@@ -93,7 +107,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 				return true;
 			}
 
-			if ($this->eventName === self::EVENT_NAMESPACE . 'postDelete') {
+			if ($this->eventName === NodeDeletedEvent::class) {
 				// At postDelete, the file no longer exists. Check for parent folder instead.
 				$fileId = $node->getParentId();
 			} else {
@@ -120,35 +134,27 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		if ($this->node) {
 			return $this->node;
 		}
-		if (!$this->event instanceof GenericEvent && !$this->event instanceof MapperEvent) {
+
+		if ($this->event instanceof AbstractNodeEvent) {
+			return $this->event->getNode();
+		}
+
+		if (!$this->event instanceof SingleTagAssignedEvent || $this->event->getObjectType() !== 'files') {
 			throw new NotFoundException();
 		}
-		switch ($this->eventName) {
-			case self::EVENT_NAMESPACE . 'postCreate':
-			case self::EVENT_NAMESPACE . 'postWrite':
-			case self::EVENT_NAMESPACE . 'postDelete':
-			case self::EVENT_NAMESPACE . 'postTouch':
-				return $this->event->getSubject();
-			case self::EVENT_NAMESPACE . 'postRename':
-			case self::EVENT_NAMESPACE . 'postCopy':
-				return $this->event->getSubject()[1];
-			case MapperEvent::EVENT_ASSIGN:
-				if (!$this->event instanceof MapperEvent || $this->event->getObjectType() !== 'files') {
-					throw new NotFoundException();
-				}
-				$this->node = $this->root->getFirstNodeById((int)$this->event->getObjectId());
-				if ($this->node !== null) {
-					return $this->node;
-				}
-				break;
+
+		$this->node = $this->root->getFirstNodeById((int)$this->event->getObjectId());
+		if ($this->node === null) {
+			throw new NotFoundException();
 		}
-		throw new NotFoundException();
+
+		return $this->node;
 	}
 
 	public function getDisplayText(int $verbosity = 0): string {
 		try {
 			$node = $this->getNode();
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return '';
 		}
 
@@ -158,21 +164,21 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		];
 
 		switch ($this->eventName) {
-			case self::EVENT_NAMESPACE . 'postCreate':
+			case NodeCreatedEvent::class:
 				return $this->l10n->t('%s created %s', $options);
-			case self::EVENT_NAMESPACE . 'postWrite':
+			case NodeUpdatedEvent::class:
 				return $this->l10n->t('%s modified %s', $options);
-			case self::EVENT_NAMESPACE . 'postDelete':
+			case NodeDeletedEvent::class:
 				return $this->l10n->t('%s deleted %s', $options);
-			case self::EVENT_NAMESPACE . 'postTouch':
+			case NodeTouchedEvent::class:
 				return $this->l10n->t('%s accessed %s', $options);
-			case self::EVENT_NAMESPACE . 'postRename':
+			case NodeRenamedEvent::class:
 				return $this->l10n->t('%s renamed %s', $options);
-			case self::EVENT_NAMESPACE . 'postCopy':
+			case NodeCopiedEvent::class:
 				return $this->l10n->t('%s copied %s', $options);
-			case MapperEvent::EVENT_ASSIGN:
+			case SingleTagAssignedEvent::class:
 				$tagNames = [];
-				if ($this->event instanceof MapperEvent) {
+				if ($this->event instanceof SingleTagAssignedEvent) {
 					$tagIDs = $this->event->getTags();
 					$tagObjects = $this->tagManager->getTagsByIds($tagIDs);
 					foreach ($tagObjects as $systemTag) {
@@ -201,9 +207,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	#[Override]
 	public function exportContextIDs(): array {
 		$nodeOwner = $this->getNode()->getOwner();
 		$actingUserId = null;
@@ -215,14 +219,12 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		return [
 			'eventName' => $this->eventName,
 			'nodeId' => $this->getNode()->getId(),
-			'nodeOwnerId' => $nodeOwner ? $nodeOwner->getUID() : null,
+			'nodeOwnerId' => $nodeOwner?->getUID(),
 			'actingUserId' => $actingUserId,
 		];
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	#[Override]
 	public function importContextIDs(array $contextIDs): void {
 		$this->eventName = $contextIDs['eventName'];
 		if ($contextIDs['nodeOwnerId'] !== null) {
@@ -237,9 +239,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	#[Override]
 	public function getIconUrl(): string {
 		return $this->getIcon();
 	}

@@ -2739,17 +2739,6 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/workflowengine/lib/Entity/File.php">
-    <DeprecatedConstant>
-      <code><![CDATA[MapperEvent::EVENT_ASSIGN]]></code>
-      <code><![CDATA[MapperEvent::EVENT_ASSIGN]]></code>
-      <code><![CDATA[MapperEvent::EVENT_ASSIGN]]></code>
-    </DeprecatedConstant>
-    <DeprecatedMethod>
-      <code><![CDATA[getSubject]]></code>
-      <code><![CDATA[getSubject]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/workflowengine/lib/Settings/ASettings.php">
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
