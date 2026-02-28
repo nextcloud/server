@@ -2451,6 +2451,23 @@
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/theming/lib/IconBuilder.php">
+    <UndefinedClass>
+      <code><![CDATA[ImagickDraw]]></code>
+      <code><![CDATA[ImagickPixel]]></code>
+      <code><![CDATA[ImagickPixel]]></code>
+      <code><![CDATA[ImagickPixel]]></code>
+      <code><![CDATA[ImagickPixel]]></code>
+      <code><![CDATA[\ImagickException]]></code>
+      <code><![CDATA[\ImagickException]]></code>
+      <code><![CDATA[\ImagickException]]></code>
+    </UndefinedClass>
+    <UndefinedConstant>
+      <code><![CDATA[Imagick::COMPOSITE_ATOP]]></code>
+      <code><![CDATA[Imagick::FILTER_LANCZOS]]></code>
+      <code><![CDATA[Imagick::VIRTUALPIXELMETHOD_TRANSPARENT]]></code>
+    </UndefinedConstant>
+  </file>
   <file src="apps/theming/lib/ImageManager.php">
     <DeprecatedMethod>
       <code><![CDATA[deleteAppValue]]></code>
@@ -2465,6 +2482,12 @@
       <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
+    <UndefinedClass>
+      <code><![CDATA[$e]]></code>
+      <code><![CDATA[$e]]></code>
+      <code><![CDATA[\ImagickException]]></code>
+      <code><![CDATA[\ImagickException]]></code>
+    </UndefinedClass>
   </file>
   <file src="apps/theming/lib/Jobs/RestoreBackgroundImageColor.php">
     <DeprecatedMethod>
@@ -3784,6 +3807,21 @@
       <code><![CDATA[mixed]]></code>
     </LessSpecificImplementedReturnType>
   </file>
+  <file src="lib/private/Preview/Bitmap.php">
+    <UndefinedConstant>
+      <code><![CDATA[imagick::FILTER_LANCZOS]]></code>
+    </UndefinedConstant>
+  </file>
+  <file src="lib/private/Preview/HEIC.php">
+    <UndefinedConstant>
+      <code><![CDATA[\Imagick::FILTER_CATROM]]></code>
+    </UndefinedConstant>
+  </file>
+  <file src="lib/private/Preview/SVG.php">
+    <UndefinedClass>
+      <code><![CDATA[\ImagickPixel]]></code>
+    </UndefinedClass>
+  </file>
   <file src="lib/private/Profile/Actions/FediverseAction.php">
     <NoValue>
       <code><![CDATA[$instance]]></code>
@@ -3997,6 +4035,9 @@
     </DeprecatedMethod>
   </file>
   <file src="tests/lib/TestCase.php">
+    <DeprecatedMethod>
+      <code><![CDATA[$container]]></code>
+    </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[lockFile]]></code>
       <code><![CDATA[unlockFile]]></code>
