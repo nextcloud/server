@@ -23,6 +23,7 @@ use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\PaginationParameters;
 use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -135,13 +136,9 @@ class DeletedShareAPIController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function index(): DataResponse {
-		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);
-		$teamShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_CIRCLE, null, -1, 0);
-		$roomShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_ROOM, null, -1, 0);
-		$deckShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_DECK, null, -1, 0);
+		$shares = $this->shareManager->getAllDeletedSharedWith($this->userId, [IShare::TYPE_GROUP, IShare::TYPE_CIRCLE, IShare::TYPE_ROOM, IShare::TYPE_DECK], null, new PaginationParameters(limit: null));
 
-		$shares = array_merge($groupShares, $teamShares, $roomShares, $deckShares);
-		$shares = array_values(array_map(fn (IShare $share): array => $this->formatShare($share), $shares));
+		$shares = array_map(fn (IShare $share): array => $this->formatShare($share), $shares);
 
 		return new DataResponse($shares);
 	}

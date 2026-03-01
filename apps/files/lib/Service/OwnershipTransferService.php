@@ -31,6 +31,7 @@ use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\PaginationParameters;
 use OCP\Server;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager as IShareManager;
@@ -410,16 +411,19 @@ class OwnershipTransferService {
 		$progress = new ProgressBar($output);
 		$normalizedPath = Filesystem::normalizePath($path);
 
-		$offset = 0;
+		$maxShareId = null;
 		while (true) {
-			$sharePage = $this->shareManager->getSharedWith($sourceUid, IShare::TYPE_USER, null, 50, $offset);
+			/** @var list<IShare> $sharePage */
+			$sharePage = $this->shareManager->getAllSharedWith($sourceUid, [IShare::TYPE_USER], null, new PaginationParameters(limit: 50, maxId: $maxShareId));
 			$progress->advance(count($sharePage));
 			if (empty($sharePage)) {
 				break;
 			}
 
+			$maxShareId = end($sharePage)->getId();
+
 			if ($path !== null && $path !== "$sourceUid/files") {
-				$sharePage = array_filter($sharePage, static function (IShare $share) use ($sourceUid, $normalizedPath) {
+				$sharePage = array_filter($sharePage, static function (IShare $share) use ($sourceUid, $normalizedPath): bool {
 					try {
 						return str_starts_with(Filesystem::normalizePath($sourceUid . '/files' . $share->getTarget() . '/', false), $normalizedPath . '/');
 					} catch (Exception) {
@@ -431,8 +435,6 @@ class OwnershipTransferService {
 			foreach ($sharePage as $share) {
 				$shares[$share->getNodeId()] = $share;
 			}
-
-			$offset += 50;
 		}
 
 

@@ -87,12 +87,11 @@ class SharesPluginTest extends \Test\TestCase {
 			});
 
 		$this->shareManager->expects($this->any())
-			->method('getSharedWith')
+			->method('getAllSharedWith')
 			->with(
 				$this->equalTo('user1'),
 				$this->anything(),
 				$this->equalTo($node),
-				$this->equalTo(-1)
 			)
 			->willReturn([]);
 
@@ -183,12 +182,11 @@ class SharesPluginTest extends \Test\TestCase {
 			});
 
 		$this->shareManager->expects($this->any())
-			->method('getSharedWith')
+			->method('getAllSharedWith')
 			->with(
 				$this->equalTo('user1'),
 				$this->anything(),
 				$this->equalTo($node),
-				$this->equalTo(-1)
 			)
 			->willReturn([]);
 

@@ -9,6 +9,7 @@
 namespace Test\Share;
 
 use OC\Share20\Manager;
+use OCP\PaginationParameters;
 use OCP\Server;
 use OCP\Share\IShare;
 use OCP\Share_Backend;
@@ -39,10 +40,7 @@ class Backend implements Share_Backend {
 
 
 		$shareManager = Server::get(Manager::class);
-		$shares = array_merge(
-			$shareManager->getSharedWith($shareWith, IShare::TYPE_USER),
-			$shareManager->getSharedWith($shareWith, IShare::TYPE_GROUP),
-		);
+		$shares = $shareManager->getAllSharedWith($shareWith, [IShare::TYPE_USER, IShare::TYPE_GROUP], null, new PaginationParameters(limit: null));
 
 		$knownTargets = [];
 		foreach ($shares as $share) {

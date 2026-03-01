@@ -15,6 +15,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\IUserSession;
+use OCP\PaginationParameters;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Sabre\DAV\Exception\NotFound;
@@ -79,10 +80,9 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * @param Node $node
-	 * @return IShare[]
+	 * @return list<IShare>
 	 */
-	private function getShare(Node $node): array {
+	private function getShare(Node $node, PaginationParameters $paginationParameters): array {
 		$result = [];
 		$requestedShareTypes = [
 			IShare::TYPE_USER,
@@ -95,26 +95,23 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			IShare::TYPE_DECK,
 		];
 
-		foreach ($requestedShareTypes as $requestedShareType) {
-			$result[] = $this->shareManager->getSharesBy(
-				$this->userId,
-				$requestedShareType,
-				$node,
-				false,
-				-1
-			);
+		$result[] = $this->shareManager->getAllSharesBy(
+			$this->userId,
+			$node,
+			$paginationParameters,
+			false,
+		);
 
-			// Also check for shares where the user is the recipient
-			try {
-				$result[] = $this->shareManager->getSharedWith(
-					$this->userId,
-					$requestedShareType,
-					$node,
-					-1
-				);
-			} catch (BackendError $e) {
-				// ignore
-			}
+		// Also check for shares where the user is the recipient
+		try {
+			$result[] = $this->shareManager->getAllSharedWith(
+				$this->userId,
+				$requestedShareTypes,
+				$node,
+				$paginationParameters,
+			);
+		} catch (BackendError $e) {
+			// ignore
 		}
 
 		return array_merge(...$result);
@@ -155,7 +152,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 				return [];
 			}
 
-			$shares = $this->getShare($node);
+			$shares = $this->getShare($node, new PaginationParameters(limit: null));
 			$this->cachedShares[$sabreNode->getId()] = $shares;
 			return $shares;
 		}
@@ -235,9 +232,9 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			return true;
 		}
 
-		$targetShares = $this->getShare($targetNode->getNode());
+		$targetShares = $this->getShare($targetNode->getNode(), new PaginationParameters(limit: null));
 		if (empty($targetShares)) {
-			// Target is not a share so no re-sharing inprogress
+			// Target is not a share so no re-sharing in-progress
 			return true;
 		}
 
@@ -253,7 +250,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 				}
 			}
 
-			// if the share recipient is allow to delete from the share, they are allowed to move the file out of the share
+			// if the share recipient is allowed to delete from the share, they are allowed to move the file out of the share
 			// the user moving the file out of the share to their home storage would give them share permissions and allow moving into the share
 			//
 			// since the 2-step move is allowed, we also allow both steps at once

@@ -12,6 +12,7 @@ use OCP\Files\Folder;
 use OCP\Files\Node;
 
 use OCP\IUser;
+use OCP\PaginationParameters;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\ShareTokenException;
@@ -115,10 +116,22 @@ interface IManager {
 	 * @param int $limit The maximum number of returned results, -1 for all results
 	 * @param int $offset
 	 * @param bool $onlyValid Only returns valid shares, invalid shares will be deleted automatically and are not returned
-	 * @return IShare[]
+	 * @return list<IShare>
 	 * @since 9.0.0
 	 */
 	public function getSharesBy(string $userId, int $shareType, ?Node $path = null, bool $reshares = false, int $limit = 50, int $offset = 0, bool $onlyValid = true): array;
+
+	/**
+	 * Get all shares shared by (initiated) by the provided user.
+	 *
+	 * @param string $userId
+	 * @param Node|null $path
+	 * @param bool $reshares
+	 * @param bool $onlyValid Only returns valid shares, invalid shares will be deleted automatically and are not returned
+	 * @return list<IShare>
+	 * @since 34.0.0
+	 */
+	public function getAllSharesBy(string $userId, ?Node $node, PaginationParameters $paginationParameters, bool $reshares = false, bool $onlyValid = true): array;
 
 	/**
 	 * Get shares shared with $user.
@@ -131,8 +144,18 @@ interface IManager {
 	 * @param int $offset
 	 * @return IShare[]
 	 * @since 9.0.0
+	 * @deprecated 34.0.0 Use getAllSharedWith instead, it's more efficient
 	 */
 	public function getSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array;
+
+	/**
+	 * @param string $userId
+	 * @param list<IShare::TYPE_*> $shareTypes
+	 * @param Node|null $node
+	 * @return list<IShare>
+	 * @since 34.0.0
+	 */
+	public function getAllSharedWith(string $userId, array $shareTypes, ?Node $node, PaginationParameters $paginationParameters, bool $ignoreWithSelf = false): array;
 
 	/**
 	 * Get shares shared with a $user filtering by $path.
@@ -152,10 +175,22 @@ interface IManager {
 	 *
 	 * @param IShare::TYPE_* $shareType
 	 * @param int $limit The maximum number of shares returned, -1 for all
-	 * @return IShare[]
+	 * @return list<IShare>
 	 * @since 14.0.0
+	 * @deprecated 34.0.0 Use getAllDeletedSharedWith instead
 	 */
 	public function getDeletedSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array;
+
+	/**
+	 * Get all the deleted shares shared with $user.
+	 *
+	 * Additionally filter by $node if provided
+	 *
+	 * @param list<IShare::TYPE_*> $shareTypes
+	 * @return list<IShare>
+	 * @since 34.0.0
+	 */
+	public function getAllDeletedSharedWith(string $userId, array $shareTypes, ?Node $node = null, PaginationParameters $paginationParameters): array;
 
 	/**
 	 * Retrieve a share by the share id.

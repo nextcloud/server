@@ -13,6 +13,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
+use OCP\PaginationParameters;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
@@ -60,12 +61,17 @@ class Listener {
 		/** @var IUser $user */
 		$user = $event->getArgument('user');
 
-		$offset = 0;
+		$sinceShareId = null;
+		$paginationParameters = new PaginationParameters(
+			limit: 50,
+			maxId: null,
+		);
 		while (true) {
-			$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, 50, $offset);
+			$shares = $this->shareManager->getAllSharedWith($user->getUID(), [IShare::TYPE_GROUP], null, $paginationParameters);
 			if (empty($shares)) {
 				break;
 			}
+			$paginationParameters->maxId = end($shares)->getId();
 
 			foreach ($shares as $share) {
 				if ($share->getSharedWith() !== $group->getGID()) {
@@ -82,7 +88,6 @@ class Listener {
 					->setUser($user->getUID());
 				$this->notificationManager->notify($notification);
 			}
-			$offset += 50;
 		}
 	}
 

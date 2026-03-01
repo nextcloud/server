@@ -21,6 +21,7 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\PaginationParameters;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -52,15 +53,10 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 	 */
 	public function getSuperSharesForUser(IUser $user, array $excludeShares = []): array {
 		$userId = $user->getUID();
-		$shares = $this->mergeIterables(
-			$this->shareManager->getSharedWith($userId, IShare::TYPE_USER, null, -1),
-			$this->shareManager->getSharedWith($userId, IShare::TYPE_GROUP, null, -1),
-			$this->shareManager->getSharedWith($userId, IShare::TYPE_CIRCLE, null, -1),
-			$this->shareManager->getSharedWith($userId, IShare::TYPE_ROOM, null, -1),
-			$this->shareManager->getSharedWith($userId, IShare::TYPE_DECK, null, -1),
-		);
+		$shareTypes = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_CIRCLE, IShare::TYPE_ROOM, IShare::TYPE_DECK];
 
 		$excludeShareIds = array_map(fn (IShare $share) => $share->getFullId(), $excludeShares);
+		$shares = $this->shareManager->getAllSharedWith($userId, $shareTypes, null, new PaginationParameters(limit: null), ignoreWithSelf: true);
 		$shares = $this->filterShares($shares, $userId, $excludeShareIds);
 		return $this->buildSuperShares($shares, $user);
 	}

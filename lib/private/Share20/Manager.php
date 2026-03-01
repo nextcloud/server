@@ -19,6 +19,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Constants;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -32,12 +33,14 @@ use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\PaginationParameters;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -53,6 +56,7 @@ use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\ShareTokenException;
+use OCP\Share\ICreateShareProvider;
 use OCP\Share\IManager;
 use OCP\Share\IPartialShareProvider;
 use OCP\Share\IProviderFactory;
@@ -90,6 +94,7 @@ class Manager implements IManager {
 		private ShareDisableChecker $shareDisableChecker,
 		private IDateTimeZone $dateTimeZone,
 		private IAppConfig $appConfig,
+		private IDBConnection $connection,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
 		// The constructor of LegacyHooks registers the listeners of share events
@@ -1039,13 +1044,49 @@ class Manager implements IManager {
 			IShare::TYPE_EMAIL,
 		];
 
-		foreach ($userIds as $userId) {
+		// Figure out which users has some shares with which providers
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('uid_initiator', 'share_type')
+			->from('share')
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->in('uid_initiator', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)),
+					// Special case for old shares created via the web UI
+					$qb->expr()->andX(
+						$qb->expr()->in('uid_owner', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)),
+						$qb->expr()->isNull('uid_initiator')
+					)
+				)
+			);
+
+		if (!$node instanceof Folder) {
+			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)));
+		}
+
+		$qb->orderBy('id');
+
+		$cursor = $qb->executeQuery();
+		$rawShares = [];
+		while ($data = $cursor->fetch()) {
+			if (!isset($rawShares[$data['uid_initiator']])) {
+				$rawShares[$data['uid_initiator']] = [];
+			}
+			if (!in_array($data['share_type'], $rawShares[$data['uid_initiator']], true)) {
+				$rawShares[$data['uid_initiator']][] = $data['share_type'];
+			}
+		}
+		$cursor->closeCursor();
+
+		foreach ($rawShares as $userId => $shareTypes) {
 			foreach ($shareTypes as $shareType) {
 				try {
 					$provider = $this->factory->getProviderForType($shareType);
-				} catch (ProviderException $e) {
+				} catch (ProviderException) {
 					continue;
 				}
+
 
 				if ($node instanceof Folder) {
 					/* We need to get all shares by this user to get subshares */
@@ -1190,10 +1231,94 @@ class Manager implements IManager {
 	}
 
 	#[Override]
+	public function getAllSharesBy(string $userId, ?Node $node = null, PaginationParameters $paginationParameters, bool $reshares = false, bool $onlyValid = true): array {
+		if ($node !== null && !$node instanceof File && !$node instanceof Folder) {
+			throw new \InvalidArgumentException($this->l->t('Invalid path'));
+		}
+
+		// Get all shares from the providers supporting createShare
+		$providers = $this->factory->getAllProviders();
+		$createShareProviders = array_filter($providers, fn (IShareProvider $provider) => $provider instanceof ICreateShareProvider);
+		$shareTypes = array_unique(array_merge(...array_map(fn (ICreateShareProvider $provider): array => $provider->getTokenShareTypes(), $createShareProviders)));
+
+		if ($node?->getMountPoint() instanceof IShareOwnerlessMount) {
+			return $this->getSharesByPath($node, $shareTypes, $paginationParameters);
+		}
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share')
+			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)));
+
+		/**
+		 * Reshares for this user are shares where they are the owner.
+		 */
+		if ($reshares === false) {
+			//Special case for old shares created via the web UI
+			$or1 = $qb->expr()->andX(
+				$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
+				$qb->expr()->isNull('uid_initiator')
+			);
+
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)),
+					$or1
+				)
+			);
+		} elseif ($node === null) {
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
+					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId))
+				)
+			);
+		}
+
+		if ($node !== null) {
+			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+		}
+
+		$paginationParameters->fillQuery($qb, 'id');
+
+		$cursor = $qb->executeQuery();
+		while ($data = $cursor->fetchAssociative()) {
+			$provider = $this->factory->getProviderForType((int)$data['share_type']);
+			if ($provider instanceof ICreateShareProvider) {
+				throw new \LogicException('Share type ' . $data['share_type'] . " doesn't have a corresponding ICreateShareProvider.");
+			}
+			$share = $provider->createShare($data);
+			try {
+				$this->checkShare($share, $added);
+			} catch (ShareNotFound $e) {
+				// Ignore since this basically means the share is deleted
+				continue;
+			}
+		}
+		$cursor->closeCursor();
+
+		// Get all the other shares from the providers not supporting createShare
+		$shares = [];
+		foreach ([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_EMAIL, IShare::TYPE_CIRCLE, IShare::TYPE_ROOM, IShare::TYPE_DECK] as $shareType) {
+			if (!in_array($shareType, $shareTypes)) {
+				$shares = array_merge($shares, $this->getSharesBy($userId, $shareType, $node, $reshares, -1, 0));
+			}
+		}
+
+		// FEDERATION
+		if ($this->outgoingServer2ServerSharesAllowed() && !in_array(IShare::TYPE_REMOTE, $shareTypes)) {
+			$shares = array_merge($shares, $this->getSharesBy($userId, IShare::TYPE_REMOTE, $node, $reshares, -1, 0));
+		}
+		if ($this->outgoingServer2ServerGroupSharesAllowed() && !in_array(IShare::TYPE_REMOTE_GROUP, $shareTypes)) {
+			$shares = array_merge($shares, $this->getSharesBy($userId, IShare::TYPE_REMOTE_GROUP, $node, $reshares, -1, 0));
+		}
+
+		return $shares;
+	}
+
+	#[Override]
 	public function getSharesBy(string $userId, int $shareType, ?Node $path = null, bool $reshares = false, int $limit = 50, int $offset = 0, bool $onlyValid = true): array {
-		if ($path !== null
-			&& !($path instanceof File)
-			&& !($path instanceof Folder)) {
+		if ($path !== null && !($path instanceof File) && !($path instanceof Folder)) {
 			throw new \InvalidArgumentException($this->l->t('Invalid path'));
 		}
 
@@ -1266,8 +1391,70 @@ class Manager implements IManager {
 			}
 		}
 
-		$shares = $shares2;
+		return $shares2;
+	}
 
+	#[Override]
+	public function getAllSharedWith(string $userId, array $shareTypes, ?Node $node, PaginationParameters $paginationParameters, bool $ignoreWithSelf = false): array {
+		$shareTypes = [];
+		$noCreateShareProvider = [];
+		foreach ($this->factory->getAllProviders() as $provider) {
+			if ($provider instanceof ICreateShareProvider) {
+				$shareTypes = array_merge($provider->getShareTypes(), $shareTypes);
+			} else {
+				$noCreateShareProvider[] = $provider;
+			}
+		}
+		$shareTypes = array_unique($shareTypes);
+
+		// Get shares directly with this user
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share');
+
+		$qb->where($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)));
+		$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)));
+
+		if ($node !== null) {
+			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+		}
+
+		if ($ignoreWithSelf) {
+			$qb->andWhere($qb->expr()->neq('uid_owner', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+			$qb->andWhere($qb->expr()->neq('uid_initiator', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+		}
+
+		$paginationParameters->fillQuery($qb, 'id');
+
+		$result = $qb->executeQuery();
+		$shares = [];
+		foreach ($result->fetchAssociative() as $data) {
+			try {
+				$provider = $this->factory->getProviderForType($data['share_type']);
+			} catch (ProviderException $e) {
+				continue;
+			}
+			if (!$provider instanceof ICreateShareProvider) {
+				throw new \LogicException($this->l->t('Invalid provider'));
+			}
+			$shares[] = $provider->createShare($data);
+		}
+
+		// Legacy for providers what don't support ICreateShareProvider
+		foreach ($noCreateShareProvider as $shareType) {
+			// TODO fix pagination
+			$unverifiedShares = $provider->getSharedWith($userId, $shareType, $node, 0, 0);
+
+			// remove all shares which are already expired
+			foreach ($unverifiedShares as $key => $share) {
+				try {
+					$this->checkShare($share);
+				} catch (ShareNotFound $e) {
+					unset($shares[$key]);
+				}
+				$shares[] = $share;
+			}
+		}
 		return $shares;
 	}
 
@@ -1293,9 +1480,7 @@ class Manager implements IManager {
 		return $shares;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	#[Override]
 	public function getSharedWithByPath(string $userId, int $shareType, string $path, bool $forChildren, int $limit = 50, int $offset = 0): iterable {
 		try {
 			$provider = $this->factory->getProviderForType($shareType);
@@ -1335,6 +1520,7 @@ class Manager implements IManager {
 
 	#[Override]
 	public function getDeletedSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array {
+		// TODO: Remove, it is no longer used.
 		$shares = $this->getSharedWith($userId, $shareType, $node, $limit, $offset);
 
 		// Only get shares deleted shares and where the owner still exists
@@ -1343,17 +1529,47 @@ class Manager implements IManager {
 	}
 
 	#[Override]
-	public function getShareById($id, $recipient = null, bool $onlyValid = true): IShare {
-		if ($id === null) {
-			throw new ShareNotFound();
-		}
+	public function getAllDeletedSharedWith(string $userId, array $shareTypes, ?Node $node = null, PaginationParameters $paginationParameters): array {
+		$shares = $this->getAllSharedWith($userId, $shareTypes, $node, $paginationParameters);
 
+		// Only get shares deleted shares and where the owner still exists
+		return array_filter($shares, fn (IShare $share): bool => $share->getPermissions() === 0
+			&& $this->userManager->userExists($share->getShareOwner()));
+	}
+
+	#[Override]
+	public function getShareById(string $id, ?string $recipient = null, bool $onlyValid = true): IShare {
 		[$providerId, $id] = $this->splitFullId($id);
 
 		try {
 			$provider = $this->factory->getProvider($providerId);
 		} catch (ProviderException $e) {
 			throw new ShareNotFound();
+		}
+
+		if ($provider instanceof ICreateShareProvider) {
+			$qb = $this->connection->getQueryBuilder();
+
+			$qb->select('*')
+				->from('share')
+				->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
+				->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($provider->getShareTypes(), IQueryBuilder::PARAM_INT_ARRAY)));
+
+			$cursor = $qb->executeQuery();
+			$data = $cursor->fetchAssociative();
+			$cursor->closeCursor();
+
+			if ($data === false) {
+				throw new ShareNotFound('Can not find share with ID: ' . $id);
+			}
+
+			$share = $provider->createShare($data);
+
+			if ($onlyValid) {
+				$this->checkShare($share);
+			}
+
+			return $share;
 		}
 
 		$share = $provider->getShareById($id, $recipient);
@@ -1365,24 +1581,87 @@ class Manager implements IManager {
 		return $share;
 	}
 
+	/**
+	 * @param list<IShare::TYPE_*> $shareTypes
+	 * @return list<IShare>
+	 */
+	private function getSharesByPath(Node $path, array $shareTypes, PaginationParameters $paginationParameters): array {
+		$qb = $this->connection->getQueryBuilder();
+
+		$qb = $qb->select('*')
+			->from('share')
+			->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($path->getId())))
+			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)));
+		$paginationParameters->fillQuery($qb, 'id');
+		$cursor = $qb->executeQuery();
+
+		$shares = [];
+		while ($data = $cursor->fetchAssociative()) {
+			$provider = $this->factory->getProvider((int)$data['share_type']);
+			if ($provider instanceof ICreateShareProvider) {
+				$shares[] = $provider->createShare($data);
+			} else {
+				$shares[] = $provider->getShareById((int)$data['id']);
+			}
+		}
+		$cursor->closeCursor();
+		return $shares;
+	}
+
+	/**
+	 * @return array{?IShare, list<IShare::TYPE_*>}
+	 */
+	private function getShareByTokenOptimized(string $token): array {
+		$providers = $this->factory->getAllProviders();
+		// Get all shares from the providers supporting createShare
+		$createShareProviders = array_filter($providers, fn (IShareProvider $provider) => $provider instanceof ICreateShareProvider);
+		$shareTypes = array_unique(array_merge(...array_map(fn (ICreateShareProvider $provider): array => $provider->getTokenShareTypes(), $createShareProviders)));
+		if (!$this->appConfig->getValueBool('core', 'shareapi_allow_links', true)) {
+			$shareTypes = array_filter($shareTypes, fn (int $shareType): bool => $shareType !== IShare::TYPE_LINK);
+		}
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes)))
+			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->executeQuery();
+
+		$data = $result->fetch();
+		if ($data === false) {
+			return [null, $shareTypes];
+		}
+		$provider = $this->factory->getProviderForType((int)$data['share_type']);
+		if (!$provider instanceof ICreateShareProvider) {
+			throw new \LogicException('Share type ' . $data['share_type'] . " doesn't have a corresponding ICreateShareProvider.");
+		}
+		$data['id'] = (string)$data['id'];
+		$share = $provider->createShare($data);
+		return [$share, $shareTypes];
+	}
+
 	#[Override]
 	public function getShareByToken(string $token): IShare {
 		// tokens cannot be valid local usernames
 		if ($this->userManager->userExists($token)) {
 			throw new ShareNotFound();
 		}
-		$share = null;
-		try {
-			if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
-				$provider = $this->factory->getProviderForType(IShare::TYPE_LINK);
-				$share = $provider->getShareByToken($token);
-			}
-		} catch (ProviderException|ShareNotFound) {
+
+		[$share, $testedShareTypes] = $this->getShareByTokenOptimized($token);
+		if ($share !== null) {
+			return $share;
 		}
 
+		if (!in_array(IShare::TYPE_LINK, $testedShareTypes) && $this->appConfig->getValueBool('core', 'shareapi_allow_links', true)) {
+			try {
+				$provider = $this->factory->getProviderForType(IShare::TYPE_LINK);
+				$share = $provider->getShareByToken($token);
+			} catch (ProviderException|ShareNotFound) {
+			}
+		}
 
 		// If it is not a link share try to fetch a federated share by token
-		if ($share === null) {
+		if ($share === null && !in_array(IShare::TYPE_REMOTE, $testedShareTypes)) {
 			try {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_REMOTE);
 				$share = $provider->getShareByToken($token);
@@ -1391,7 +1670,7 @@ class Manager implements IManager {
 		}
 
 		// If it is not a link share try to fetch a mail share by token
-		if ($share === null && $this->shareProviderExists(IShare::TYPE_EMAIL)) {
+		if ($share === null && !in_array(IShare::TYPE_REMOTE, $testedShareTypes) && $this->shareProviderExists(IShare::TYPE_EMAIL)) {
 			try {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_EMAIL);
 				$share = $provider->getShareByToken($token);
@@ -1399,7 +1678,7 @@ class Manager implements IManager {
 			}
 		}
 
-		if ($share === null && $this->shareProviderExists(IShare::TYPE_CIRCLE)) {
+		if ($share === null && !in_array(IShare::TYPE_REMOTE, $testedShareTypes) && $this->shareProviderExists(IShare::TYPE_CIRCLE)) {
 			try {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_CIRCLE);
 				$share = $provider->getShareByToken($token);
@@ -1407,7 +1686,7 @@ class Manager implements IManager {
 			}
 		}
 
-		if ($share === null && $this->shareProviderExists(IShare::TYPE_ROOM)) {
+		if ($share === null && !in_array(IShare::TYPE_REMOTE, $testedShareTypes) && $this->shareProviderExists(IShare::TYPE_ROOM)) {
 			try {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_ROOM);
 				$share = $provider->getShareByToken($token);
@@ -1638,21 +1917,21 @@ class Manager implements IManager {
 
 	#[Override]
 	public function shareApiEnabled(): bool {
-		return $this->config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_enabled', true);
 	}
 
 	#[Override]
 	public function shareApiAllowLinks(?IUser $user = null): bool {
-		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if (!$this->appConfig->getValueBool('core', 'shareapi_allow_links', true)) {
 			return false;
 		}
 
 		$user = $user ?? $this->userSession->getUser();
 		if ($user) {
-			$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
+			$excludedGroups = $this->appConfig->getValueArray('core', 'shareapi_allow_links_exclude_groups');
 			if ($excludedGroups) {
 				$userGroups = $this->groupManager->getUserGroupIds($user);
-				return !(bool)array_intersect($excludedGroups, $userGroups);
+				return !array_intersect($excludedGroups, $userGroups);
 			}
 		}
 
@@ -1671,13 +1950,12 @@ class Manager implements IManager {
 
 	#[Override]
 	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true): bool {
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
-		if ($excludedGroups !== '' && $checkGroupMembership) {
-			$excludedGroups = json_decode($excludedGroups);
+		$excludedGroups = $this->appConfig->getValueArray('core', 'shareapi_enforce_links_password_excluded_groups');
+		if ($excludedGroups !== [] && $checkGroupMembership) {
 			$user = $this->userSession->getUser();
 			if ($user) {
 				$userGroups = $this->groupManager->getUserGroupIds($user);
-				if ((bool)array_intersect($excludedGroups, $userGroups)) {
+				if (array_intersect($excludedGroups, $userGroups)) {
 					return false;
 				}
 			}
@@ -1698,49 +1976,49 @@ class Manager implements IManager {
 
 	#[Override]
 	public function shareApiLinkDefaultExpireDays(): int {
-		return (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+		return $this->appConfig->getValueInt('core', 'shareapi_expire_after_n_days', 7);
 	}
 
 	#[Override]
 	public function shareApiInternalDefaultExpireDate(): bool {
-		return $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_default_internal_expire_date');
 	}
 
 	#[Override]
 	public function shareApiRemoteDefaultExpireDate(): bool {
-		return $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_default_remote_expire_date');
 	}
 
 	#[Override]
 	public function shareApiInternalDefaultExpireDateEnforced(): bool {
 		return $this->shareApiInternalDefaultExpireDate()
-			&& $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
+			&& $this->appConfig->getValueBool('core', 'shareapi_enforce_internal_expire_date');
 	}
 
 	#[Override]
 	public function shareApiRemoteDefaultExpireDateEnforced(): bool {
 		return $this->shareApiRemoteDefaultExpireDate()
-			&& $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+			&& $this->appConfig->getValueBool('core', 'shareapi_enforce_remote_expire_date');
 	}
 
 	#[Override]
 	public function shareApiInternalDefaultExpireDays(): int {
-		return (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
+		return $this->appConfig->getValueInt('core', 'shareapi_internal_expire_after_n_days', 7);
 	}
 
 	#[Override]
 	public function shareApiRemoteDefaultExpireDays(): int {
-		return (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
+		return $this->appConfig->getValueInt('core', 'shareapi_remote_expire_after_n_days', 7);
 	}
 
 	#[Override]
 	public function shareApiLinkAllowPublicUpload(): bool {
-		return $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_allow_public_upload', true);
 	}
 
 	#[Override]
 	public function shareWithGroupMembersOnly(): bool {
-		return $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_only_share_with_group_members');
 	}
 
 	#[Override]
@@ -1754,29 +2032,29 @@ class Manager implements IManager {
 
 	#[Override]
 	public function allowGroupSharing(): bool {
-		return $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_allow_group_sharing', true);
 	}
 
 	#[Override]
 	public function allowEnumeration(): bool {
-		return $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_allow_share_dialog_user_enumeration', true);
 	}
 
 	#[Override]
 	public function limitEnumerationToGroups(): bool {
 		return $this->allowEnumeration()
-			&& $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+			&& $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_group');
 	}
 
 	#[Override]
 	public function limitEnumerationToPhone(): bool {
 		return $this->allowEnumeration()
-			&& $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+			&& $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_phone');
 	}
 
 	#[Override]
 	public function allowEnumerationFullMatch(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_full_match', true);
 	}
 
 	#[Override]
@@ -1879,7 +2157,32 @@ class Manager implements IManager {
 	public function getAllShares(): iterable {
 		$providers = $this->factory->getAllProviders();
 
-		foreach ($providers as $provider) {
+		// Get all shares from the providers supporting createShare
+		$createShareProviders = array_filter($providers, fn (IShareProvider $provider) => $provider instanceof ICreateShareProvider);
+		$shareTypes = array_unique(array_merge(...array_map(fn (ICreateShareProvider $provider): array => $provider->getShareTypes(), $createShareProviders)));
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)))
+			->executeQuery();
+		/** @var array<IShare::TYPE*, IShareProvider> $providers */
+		$providers = [];
+		foreach ($result->iterateAssociative() as $row) {
+			if (!isset($providers[$row['share_type']])) {
+				$providers[$row['share_type']] = $this->factory->getProviderForType($row['share_type']);
+			}
+
+			$provider = $providers[$row['share_type']];
+			if (!$provider instanceof ICreateShareProvider) {
+				throw new \LogicException('Share type ' . $row['share_type'] . " doesn't have a corresponding ICreateShareProvider.");
+			}
+
+			yield $provider->createShare($row);
+		}
+
+		// Get all shares from the other providers
+		$noCreateShareProviders = array_filter($providers, fn (IShareProvider $provider) => !$provider instanceof ICreateShareProvider);
+		foreach ($noCreateShareProviders as $provider) {
 			yield from $provider->getAllShares();
 		}
 	}

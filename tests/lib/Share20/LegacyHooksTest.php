@@ -9,7 +9,6 @@ namespace Test\Share20;
 
 use OC\EventDispatcher\EventDispatcher;
 use OC\Share20\LegacyHooks;
-use OC\Share20\Manager;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
@@ -24,6 +23,7 @@ use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Util;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -40,15 +40,11 @@ class Dummy {
 	}
 }
 
+#[Group(name: 'DB')]
 class LegacyHooksTest extends TestCase {
-	/** @var LegacyHooks */
-	private $hooks;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var Manager */
-	private $manager;
+	private LegacyHooks $hooks;
+	private IEventDispatcher $eventDispatcher;
+	private IShareManager $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
