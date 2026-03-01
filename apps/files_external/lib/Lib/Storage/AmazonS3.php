@@ -164,8 +164,7 @@ class AmazonS3 extends Common {
 
 			$hasPrefixedObjects = !empty($result['Contents']);
 			if ($hasPrefixedObjects) {
-				$this->directoryCache[$path] = true;
-				return true;
+				return $this->cacheDirectoryExists($path, true);
 			}
 
 			// Check for an object with the exact key ("$path/").
@@ -175,35 +174,32 @@ class AmazonS3 extends Common {
 			// turning off by default (gating it).
 			$directoryMarker = $this->headObject($path);
 			if ($directoryMarker) {
-				$this->directoryCache[$path] = true;
-				return true;
+				return $this->cacheDirectoryExists($path, true);
 			}
 
-			$this->directoryCache[$path] = false;
-			return false;
+			// Not found
+			return $this->cacheDirectoryExists($path, false);
 		} catch (S3Exception $e) {
 			if ($e->getStatusCode() >= 400 && $e->getStatusCode() < 500) {
 				// Treat client-side 4xx as non-existing for cache purposes.
+				// @todo: this may be incorrect; still rethrows 4xx after caching false, but doesn't return false.
 				$this->directoryCache[$path] = false;
 			}
 			throw $e;
 		}
 
 		// CONCERNS/Checklist:
-		//	- Based on ancient version of flysystem
-		//	- helpers to reduce logic duplication and improve clarity
-		//	- general readability (naming, structure, etc.)
-		//  - shared code with other functions
-		//	- similar logic with other functions
-		//	- general robustness
+		//	- handling of different error scenarios from listObjectsV2()
 		// 	- handling of non-404s from headObject()
 		//	- necessity / default use of headObject() fallback (performance hit; unnecessary with AWS and probably most others...)
-		//	- Exception handling policy still rethrows 4xx after caching false, but doesn't return false
-		//	- handling of different error scenarios from listObjectsV2()
 		//	- caching interaction (short-lived -- user facing tasks)
 		//	- caching interaction (long-lived -- e.g. scans/non-user tasks)
-		//	- general performance
-		//  - common root checks and path & prefix normalization throughout class
+		//  - common root checks and path & prefix normalization (throughout class)
+	}
+
+	private function cacheDirectoryExists(string $path, bool $exists): bool {
+		$this->directoryCache[$path] = $exists;
+		return $exists;
 	}
 
 	protected function remove(string $path): bool {
