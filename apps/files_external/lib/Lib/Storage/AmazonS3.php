@@ -324,10 +324,6 @@ class AmazonS3 extends Common {
 	public function is_dir(string $path): bool {
 		$path = $this->normalizePath($path);
 
-		if (isset($this->filesCache[$path])) {
-			return false;
-		}
-
 		try {
 			return $this->doesDirectoryExist($path);
 		} catch (S3Exception $e) {
@@ -350,7 +346,7 @@ class AmazonS3 extends Common {
 			if (isset($this->directoryCache[$path]) && $this->directoryCache[$path]) {
 				return 'dir';
 			}
-			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
+			if ($this->headObject($path)) {
 				return 'file';
 			}
 			if ($this->doesDirectoryExist($path)) {
