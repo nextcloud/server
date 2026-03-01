@@ -138,9 +138,8 @@ class AmazonS3 extends Common {
 	 * There are no folders in S3. A folder-like structure is represented either
 	 * by object keys sharing a prefix, or by an explicit directory marker object.
 	 *
-	 * Implementation inspired by flysystem-aws-s3-v3:
-	 * https://github.com/thephpleague/flysystem-aws-s3-v3/blob/8241e9cc5b28f981e0d24cdaf9867f14c7498ae4/src/AwsS3Adapter.php#L670-L694
-	 *
+	 * Implementation inspired by https://github.com/thephpleague/flysystem-aws-s3-v3/
+	 * 
 	 * @throws S3Exception
 	 */
 	private function doesDirectoryExist(string $path): bool {
@@ -163,7 +162,7 @@ class AmazonS3 extends Common {
 				'MaxKeys' => 1,
 			]);
 
-			$hasPrefixedObjects = isset($result['Contents']);
+			$hasPrefixedObjects = !empty($result['Contents']);
 			if ($hasPrefixedObjects) {
 				$this->directoryCache[$path] = true;
 				return true;
