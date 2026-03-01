@@ -63,7 +63,6 @@ SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
-SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Hiroki Osame
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
@@ -284,7 +283,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.13.4
+	- version: 1.13.6
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -341,7 +340,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.4
 	- license: MIT
 - date-format-parse
 	- version: 0.2.7
@@ -385,8 +384,11 @@ This file is generated from multiple sources. Included packages:
 - extend
 	- version: 3.0.2
 	- license: MIT
+- fast-xml-builder
+	- version: 1.0.0
+	- license: MIT
 - fast-xml-parser
-	- version: 5.3.4
+	- version: 5.4.1
 	- license: MIT
 - filter-obj
 	- version: 5.1.0
@@ -577,9 +579,6 @@ This file is generated from multiple sources. Included packages:
 - micromark
 	- version: 4.0.2
 	- license: MIT
-- minimatch
-	- version: 9.0.5
-	- license: ISC
 - moment
 	- version: 2.30.1
 	- license: MIT
@@ -629,7 +628,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.1
+	- version: 6.14.2
 	- license: BSD-3-Clause
 - query-string
 	- version: 9.3.1

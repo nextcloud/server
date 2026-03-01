@@ -56,13 +56,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.13.4
+	- version: 1.13.6
 	- license: MIT
 - base64-js
 	- version: 1.5.1
 	- license: MIT
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.4
 	- license: MIT
 - dompurify
 	- version: 3.3.1

@@ -79,7 +79,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.9.0
 	- license: MIT
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.4
 	- license: MIT
 - date-fns
 	- version: 4.1.0
