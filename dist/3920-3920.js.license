@@ -38,7 +38,6 @@ SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
-SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: Guillaume Chau
@@ -164,7 +163,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.13.4
+	- version: 1.13.6
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -206,7 +205,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.4
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
@@ -232,8 +231,11 @@ This file is generated from multiple sources. Included packages:
 - events
 	- version: 3.3.0
 	- license: MIT
+- fast-xml-builder
+	- version: 1.0.0
+	- license: MIT
 - fast-xml-parser
-	- version: 5.3.4
+	- version: 5.4.1
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -310,9 +312,6 @@ This file is generated from multiple sources. Included packages:
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
-- minimatch
-	- version: 9.0.5
-	- license: ISC
 - nested-property
 	- version: 4.0.0
 	- license: MIT
@@ -338,7 +337,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.1
+	- version: 6.14.2
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
