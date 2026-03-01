@@ -38,7 +38,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 * @since 28.0.0
 	 */
 	public function __construct(
-		private string $type = ''
+		private string $type = '',
 	) {
 	}
 

@@ -45,7 +45,7 @@ class Node implements INode {
 		protected $path,
 		protected ?FileInfo $fileInfo = null,
 		protected ?INode $parent = null,
-		private bool $infoHasSubMountsIncluded = true
+		private bool $infoHasSubMountsIncluded = true,
 	) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');

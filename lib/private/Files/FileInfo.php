@@ -42,7 +42,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	private int|float $rawSize = 0;
 
 	/**
-	 * @param string|boolean $path
+	 * @param string $path
 	 * @param Storage\Storage $storage
 	 * @param string $internalPath
 	 * @param array|ICacheEntry $data
@@ -55,7 +55,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		private $internalPath,
 		private array|ICacheEntry $data,
 		$mount,
-		private ?IUser $owner = null
+		private ?IUser $owner = null,
 	) {
 		$this->mount = $mount;
 		if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] !== 0) {

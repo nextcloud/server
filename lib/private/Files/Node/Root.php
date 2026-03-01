@@ -135,33 +135,10 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param string $mountPoint
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
-	}
-
-	/**
-	 * @param string $storageId
-	 * @return MountPoint[]
-	 */
-	public function getMountByStorageId($storageId) {
-		return $this->mountManager->findByStorageId($storageId);
-	}
-
-	/**
-	 * @param int $numericId
-	 * @return MountPoint[]
-	 */
-	public function getMountByNumericStorageId($numericId) {
-		return $this->mountManager->findByNumericId($numericId);
-	}
-
-	/**
-	 * @param MountPoint $mount
-	 */
-	public function unMount($mount) {
-		$this->mountManager->remove($mount);
 	}
 
 	public function get($path) {
@@ -403,8 +380,7 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @param int $id
-	 * @return Node[]
+	 * @return INode[]
 	 */
 	public function getByIdInPath(int $id, string $path): array {
 		$mountCache = $this->getUserMountCache();
@@ -512,9 +488,7 @@ class Root extends Folder implements IRootFolder {
 		$folders = array_filter($nodes, function (Node $node) use ($path) {
 			return PathHelper::getRelativePath($path, $node->getPath()) !== null;
 		});
-		usort($folders, function ($a, $b) {
-			return $b->getPath() <=> $a->getPath();
-		});
+		usort($folders, static fn (Node $a, Node $b): int => $b->getPath() <=> $a->getPath());
 		return $folders;
 	}
 

@@ -37,7 +37,7 @@ class LazyFolder implements Folder {
 	public function __construct(
 		IRootFolder $rootFolder,
 		private \Closure $folderClosure,
-		protected array $data = []
+		protected array $data = [],
 	) {
 		$this->rootFolder = $rootFolder;
 	}
