@@ -135,54 +135,76 @@ class AmazonS3 extends Common {
 	/**
 	 * Return true if directory exists
 	 *
-	 * There are no folders in s3. A folder like structure could be archived
-	 * by prefixing files with the folder name.
+	 * There are no folders in S3. A folder-like structure is represented either
+	 * by object keys sharing a prefix, or by an explicit directory marker object.
 	 *
-	 * Implementation from flysystem-aws-s3-v3:
+	 * Implementation inspired by flysystem-aws-s3-v3:
 	 * https://github.com/thephpleague/flysystem-aws-s3-v3/blob/8241e9cc5b28f981e0d24cdaf9867f14c7498ae4/src/AwsS3Adapter.php#L670-L694
 	 *
-	 * @throws \Exception
+	 * @throws S3Exception
 	 */
 	private function doesDirectoryExist(string $path): bool {
-		if ($path === '.' || $path === '') {
+		if ($path === '.' || $path === '') { // THE root path always exists
 			return true;
 		}
-		$path = rtrim($path, '/') . '/';
 
-		if (isset($this->directoryCache[$path])) {
+		$path = rtrim($path, '/') . '/'; // normalize to S3 directory prefix representation
+
+		if (isset($this->directoryCache[$path])) { // cache hit
 			return $this->directoryCache[$path];
 		}
+
 		try {
-			// Maybe this isn't an actual key, but a prefix.
-			// Do a prefix listing of objects to determine.
+			// Check for any objects with the prefix ("$path/*").
+			// Returns both  "non-empty" directories and "empty" directory markers in most cases.
 			$result = $this->getConnection()->listObjectsV2([
 				'Bucket' => $this->bucket,
 				'Prefix' => $path,
 				'MaxKeys' => 1,
 			]);
 
-			if (isset($result['Contents'])) {
+			$hasPrefixedObjects = isset($result['Contents']);
+			if ($hasPrefixedObjects) {
 				$this->directoryCache[$path] = true;
 				return true;
 			}
 
-			// empty directories have their own object
-			$object = $this->headObject($path);
-
-			if ($object) {
+			// Check for an object with the exact key ("$path/").
+			// Fallback for edge cases where the "empty" directory marker wasn't returned above for some reason.
+			// In practice this fallback (probably) rarely needed, but we call it anyway (impacting performance).
+			// @todo: determine what scenarios this fallback is really needed and consider removing or at least 
+			// turning off by default (gating it).
+			$directoryMarker = $this->headObject($path);
+			if ($directoryMarker) {
 				$this->directoryCache[$path] = true;
 				return true;
 			}
+
+			$this->directoryCache[$path] = false;
+			return false;
 		} catch (S3Exception $e) {
 			if ($e->getStatusCode() >= 400 && $e->getStatusCode() < 500) {
+				// Treat client-side 4xx as non-existing for cache purposes.
 				$this->directoryCache[$path] = false;
 			}
 			throw $e;
 		}
 
-
-		$this->directoryCache[$path] = false;
-		return false;
+		// CONCERNS/Checklist:
+		//	- Based on ancient version of flysystem
+		//	- helpers to reduce logic duplication and improve clarity
+		//	- general readability (naming, structure, etc.)
+		//  - shared code with other functions
+		//	- similar logic with other functions
+		//	- general robustness
+		// 	- handling of non-404s from headObject()
+		//	- necessity / default use of headObject() fallback (performance hit; unnecessary with AWS and probably most others...)
+		//	- Exception handling policy still rethrows 4xx after caching false, but doesn't return false
+		//	- handling of different error scenarios from listObjectsV2()
+		//	- caching interaction (short-lived -- user facing tasks)
+		//	- caching interaction (long-lived -- e.g. scans/non-user tasks)
+		//	- general performance
+		//  - common root checks and path & prefix normalization throughout class
 	}
 
 	protected function remove(string $path): bool {
