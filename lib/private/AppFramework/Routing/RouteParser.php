@@ -18,6 +18,7 @@ class RouteParser {
 	private const rootUrlApps = [
 		'cloud_federation_api',
 		'core',
+		'files_sharing_raw',
 		'files_sharing',
 		'files',
 		'globalsiteselector',
