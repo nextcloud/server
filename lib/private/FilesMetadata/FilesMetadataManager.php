@@ -203,13 +203,13 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	public function deleteMetadata(int $fileId): void {
 		try {
 			$this->metadataRequestService->dropMetadata($fileId);
-		} catch (Exception $e) {
+		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileId' => $fileId]);
 		}
 
 		try {
 			$this->indexRequestService->dropIndex($fileId);
-		} catch (Exception $e) {
+		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileId' => $fileId]);
 		}
 	}
@@ -217,13 +217,13 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	public function deleteMetadataForFiles(int $storage, array $fileIds): void {
 		try {
 			$this->metadataRequestService->dropMetadataForFiles($storage, $fileIds);
-		} catch (Exception $e) {
+		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileIds' => $fileIds]);
 		}
 
 		try {
 			$this->indexRequestService->dropIndexForFiles($fileIds);
-		} catch (Exception $e) {
+		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileIds' => $fileIds]);
 		}
 	}

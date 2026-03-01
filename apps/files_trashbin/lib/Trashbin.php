@@ -16,6 +16,7 @@ use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
 use OC\User\NoUserException;
 use OC_User;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Trashbin\Command\Expire;
 use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCA\Files_Trashbin\Events\NodeRestoredEvent;
@@ -1194,7 +1195,7 @@ class Trashbin implements IEventListener {
 				return $user;
 			}
 
-			$federatedShareProvider = Server::get(\OCA\FederatedFileSharing\FederatedShareProvider::class);
+			$federatedShareProvider = Server::get(FederatedShareProvider::class);
 			$share = $federatedShareProvider->getShareByToken($token);
 
 			return $share->getSharedWith();

@@ -13,6 +13,7 @@ use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use Override;
 
@@ -25,21 +26,20 @@ use Override;
  * @package OC\Files\Node
  */
 class LazyFolder implements Folder {
-	/** @var \Closure(): Folder */
-	private \Closure $folderClosure;
 	protected ?Folder $folder = null;
 	protected IRootFolder $rootFolder;
-	protected array $data;
 
 	/**
 	 * @param IRootFolder $rootFolder
 	 * @param \Closure(): Folder $folderClosure
 	 * @param array $data
 	 */
-	public function __construct(IRootFolder $rootFolder, \Closure $folderClosure, array $data = []) {
+	public function __construct(
+		IRootFolder $rootFolder,
+		private \Closure $folderClosure,
+		protected array $data = []
+	) {
 		$this->rootFolder = $rootFolder;
-		$this->folderClosure = $folderClosure;
-		$this->data = $data;
 	}
 
 	protected function getRootFolder(): IRootFolder {
@@ -470,7 +470,7 @@ class LazyFolder implements Folder {
 		return $this->getRootFolder()->getByIdInPath((int)$id, $this->getPath());
 	}
 
-	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+	public function getFirstNodeById(int $id): ?Node {
 		return $this->getRootFolder()->getFirstNodeByIdInPath($id, $this->getPath());
 	}
 

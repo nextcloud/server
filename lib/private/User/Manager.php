@@ -664,7 +664,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @internal Only for mocks it in unit tests.
 	 */
 	public function getUserConfig(): IUserConfig {
-		return \OCP\Server::get(IUserConfig::class);
+		return Server::get(IUserConfig::class);
 	}
 
 	/**

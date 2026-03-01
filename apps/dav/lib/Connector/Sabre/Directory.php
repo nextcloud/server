@@ -532,7 +532,7 @@ class Directory extends Node implements
 		}
 
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
+			$node = new Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
 			// In case reading a directory was allowed but it turns out the node was a not a directory, reject it now.
 			if (!$this->info->isReadable()) {

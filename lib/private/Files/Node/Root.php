@@ -11,6 +11,7 @@ namespace OC\Files\Node;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\Storage;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
@@ -18,6 +19,7 @@ use OC\User\NoUserException;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\ConfigLexicon;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\ICachedMountFileInfo;
@@ -76,7 +78,7 @@ class Root extends Folder implements IRootFolder {
 		parent::__construct($this, $view, '');
 		$this->emitter = new PublicEmitter();
 		$this->userFolderCache = new CappedMemoryCache();
-		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
+		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function (): void {
 			$this->userFolderCache = new CappedMemoryCache();
 		});
 		$this->pathByIdCache = $cacheFactory->createLocal('path-by-id');
@@ -118,7 +120,7 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param Storage $storage
 	 * @param string $mountPoint
 	 * @param array $arguments
 	 */
@@ -133,7 +135,7 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint[]
+	 * @return MountPoint[]
 	 */
 	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
@@ -141,7 +143,7 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param string $storageId
-	 * @return \OC\Files\Mount\MountPoint[]
+	 * @return MountPoint[]
 	 */
 	public function getMountByStorageId($storageId) {
 		return $this->mountManager->findByStorageId($storageId);
@@ -156,7 +158,7 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @param \OC\Files\Mount\MountPoint $mount
+	 * @param MountPoint $mount
 	 */
 	public function unMount($mount) {
 		$this->mountManager->remove($mount);
@@ -210,7 +212,7 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @return \OC\Files\Storage\Storage
+	 * @return Storage
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getStorage() {
@@ -271,7 +273,7 @@ class Root extends Folder implements IRootFolder {
 	 * @return int
 	 */
 	public function getPermissions() {
-		return \OCP\Constants::PERMISSION_CREATE;
+		return Constants::PERMISSION_CREATE;
 	}
 
 	/**

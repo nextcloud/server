@@ -24,6 +24,8 @@ use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IServerContainer;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use Psr\Log\NullLogger;
 use Test\TestCase;
@@ -64,10 +66,10 @@ class TemplateManagerTest extends TestCase {
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
-		$userSession = $this->createMock(\OCP\IUserSession::class);
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession->method('getUser')
 			->willReturn($user);
-		$userManager = $this->createMock(\OCP\IUserManager::class);
+		$userManager = $this->createMock(IUserManager::class);
 		$previewManager = $this->createMock(IPreview::class);
 
 		$this->templateManager = new TemplateManager(

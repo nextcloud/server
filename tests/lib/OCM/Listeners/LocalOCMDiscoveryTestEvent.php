@@ -10,6 +10,7 @@ namespace Test\OCM\Listeners;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\OCM\Events\LocalOCMDiscoveryEvent;
 
 /** @template-implements IEventListener<\OCP\OCM\Events\LocalOCMDiscoveryEvent> */
 class LocalOCMDiscoveryTestEvent implements IEventListener {
@@ -18,7 +19,7 @@ class LocalOCMDiscoveryTestEvent implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof \OCP\OCM\Events\LocalOCMDiscoveryEvent)) {
+		if (!($event instanceof LocalOCMDiscoveryEvent)) {
 			return;
 		}
 
