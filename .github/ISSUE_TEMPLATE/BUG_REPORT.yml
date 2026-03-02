@@ -73,7 +73,7 @@ body:
       options:
         - "32"
         - "33"
-        - "master"
+        - "34 (master)"
     validations:
       required: true
   - type: dropdown
