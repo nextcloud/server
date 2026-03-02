@@ -397,9 +397,11 @@ class AmazonS3 extends Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				// Don't try to fetch empty files
+				// Skip downloading known empty files
 				$stat = $this->stat($path);
 				if (is_array($stat) && isset($stat['size']) && $stat['size'] === 0) {
+					// S3 read stream handling for zero-byte objects can be inconsistent across backends;
+					// return an in-memory empty stream to match fopen() expectations for empty files.
 					return fopen('php://memory', $mode);
 				}
 
@@ -414,9 +416,9 @@ class AmazonS3 extends Common {
 				}
 			case 'w':
 			case 'wb':
+				// Write to a local temp file first; the CallbackWrapper uploads to S3 on stream close.
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile();
-
-				$handle = fopen($tmpFile, 'w');
+				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
@@ -428,25 +430,34 @@ class AmazonS3 extends Common {
 			case 'a+':
 			case 'x':
 			case 'x+':
+				// NOTE: getTemporaryFile() creates the file; opening that path with 'x'/'x+' will fail
+				// (exclusive-create requires non-existing file). Consider mapping local temp open mode.
 			case 'c':
 			case 'c+':
-				if (strrpos($path, '.') !== false) {
-					$ext = substr($path, strrpos($path, '.'));
-				} else {
-					$ext = '';
-				}
-				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
+				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile();
+				// Materialize existing remote content into a temp file so native PHP stream semantics
+				// (seek/append/update) work locally.
 				if ($this->file_exists($path)) {
+					// $source is a stream resource from S3; writing into tmp file prepares local editable copy.
 					$source = $this->readObject($path);
 					file_put_contents($tmpFile, $source);
 				}
-
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
 		}
 		return false;
+		// NOTES (WIP):
+		//	- unnecessary differences versus ObjectStoreStorage::fopen()
+		//		- filesize/empty file check logic
+		//		- extension usage for getTemporaryFile() in `w*` modes (seems unnecessary in all cases, but if doing should be consistent)
+		//		- writeBack() implementation differences: tmpfile cleanup, writeStream/writeObject
+		//	- mixed modes lack try/catch, unlike read modes
+		//	- duplicate code/logic
+		//	- file_put_contents usage versus stream_copy_to_stream (probably not a big deal here but clearer)
+		//	- return values not checked (fopen, etc.)
+		//	- x / x+ modes: since temp file already exists, `fopen($tmpFile, 'x')` likely fails
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
