@@ -414,17 +414,17 @@ class AmazonS3 extends Common {
 				}
 			case 'w':
 			case 'wb':
+			case 'w+':
+			case 'wb+':
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile();
 
-				$handle = fopen($tmpFile, 'w');
+				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
 			case 'a':
 			case 'ab':
 			case 'r+':
-			case 'w+':
-			case 'wb+':
 			case 'a+':
 			case 'x':
 			case 'x+':
