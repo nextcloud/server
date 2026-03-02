@@ -321,50 +321,8 @@ class AmazonS3 extends Common {
 		return $stat;
 	}
 
-	/**
-	 * Return content length for object
-	 *
-	 * When the information is already present (e.g. opendir has been called before)
-	 * this value is return. Otherwise a headObject is emitted.
-	 */
-	private function getContentLength(string $path): int {
-		if (isset($this->filesCache[$path])) {
-			return (int)$this->filesCache[$path]['ContentLength'];
-		}
-
-		$result = $this->headObject($path);
-		if (isset($result['ContentLength'])) {
-			return (int)$result['ContentLength'];
-		}
-
-		return 0;
-	}
-
-	/**
-	 * Return last modified for object
-	 *
-	 * When the information is already present (e.g. opendir has been called before)
-	 * this value is return. Otherwise a headObject is emitted.
-	 */
-	private function getLastModified(string $path): string {
-		if (isset($this->filesCache[$path])) {
-			return $this->filesCache[$path]['LastModified'];
-		}
-
-		$result = $this->headObject($path);
-		if (isset($result['LastModified'])) {
-			return $result['LastModified'];
-		}
-
-		return 'now';
-	}
-
 	public function is_dir(string $path): bool {
 		$path = $this->normalizePath($path);
-
-		if (isset($this->filesCache[$path])) {
-			return false;
-		}
 
 		try {
 			return $this->doesDirectoryExist($path);
@@ -388,7 +346,7 @@ class AmazonS3 extends Common {
 			if (isset($this->directoryCache[$path]) && $this->directoryCache[$path]) {
 				return 'dir';
 			}
-			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
+			if ($this->headObject($path)) {
 				return 'file';
 			}
 			if ($this->doesDirectoryExist($path)) {
