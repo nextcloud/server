@@ -616,9 +616,8 @@ class Manager implements IManager {
 	public function formatOperation(array $operation): array {
 		$checkIds = json_decode($operation['checks'], true);
 
-		/** @var list<WorkflowEngineCheck> $checks */
 		$checks = $this->getChecks($checkIds);
-		$operation['checks'] = $checks;
+		$operation['checks'] = array_values($checks);
 
 		/** @var list<class-string<IEntityEvent>> $events */
 		$events = json_decode($operation['events'], true) ?? [];
