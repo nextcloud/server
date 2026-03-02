@@ -416,6 +416,8 @@ class AmazonS3 extends Common {
 				}
 			case 'w':
 			case 'wb':
+			case 'w+':
+			case 'wb+':
 				// Write to a local temp file first; the CallbackWrapper uploads to S3 on stream close.
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile();
 				$handle = fopen($tmpFile, $mode);
@@ -425,8 +427,6 @@ class AmazonS3 extends Common {
 			case 'a':
 			case 'ab':
 			case 'r+':
-			case 'w+':
-			case 'wb+':
 			case 'a+':
 			case 'x':
 			case 'x+':
