@@ -55,7 +55,11 @@ class TagListener implements IEventListener {
 		}
 	}
 
-	public function handleManagerEvent(AbstractTagEvent $event): void {
+	private function handleManagerEvent(AbstractTagEvent $event): void {
+		if (!$this->appManager->isEnabledForAnyone('activity')) {
+			return;
+		}
+
 		$actor = $this->session->getUser();
 		if ($actor instanceof IUser) {
 			$actor = $actor->getUID();
@@ -127,7 +131,7 @@ class TagListener implements IEventListener {
 		foreach ($event->getObjectIds() as $objectId) {
 			$mounts = $cache->getMountsForFileId((int)$objectId);
 			if (empty($mounts)) {
-				return;
+				continue;
 			}
 
 			$users = [];

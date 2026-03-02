@@ -14,11 +14,9 @@ use OCA\AdminAudit\Actions\Action;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\SystemTag\Events\TagCreatedEvent;
-use OCP\SystemTag\Events\TagDeletedEvent;
-use OCP\SystemTag\Events\TagUpdatedEvent;
 
 /**
- * @template-implements IEventListener<TagCreatedEvent|TagUpdatedEvent|TagDeletedEvent>
+ * @template-implements IEventListener<TagCreatedEvent>
  */
 class TagEventListener extends Action implements IEventListener {
 	public function handle(Event $event): void {
