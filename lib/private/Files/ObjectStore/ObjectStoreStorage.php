@@ -801,7 +801,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			}
 		} catch (S3MultipartUploadException|S3Exception $e) {
 			$this->logger->error(
-				'Could not complete multipart upload ' . $urn . ' with uploadId ' . $writeToken,
+				'Unable to complete multipart upload for "' . $urn . '" (uploadId: "' . $writeToken . '")',
 				[
 					'app' => 'objectstore',
 					'exception' => $e,
@@ -811,7 +811,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				$this->objectStore->abortMultipartUpload($urn, $writeToken);
 			} catch (S3Exception $e) {
 				$this->logger->error(
-					'Failed to abort multi-part upload for ' . $urn . ' with uploadId ' . $writeToken,
+					'Unable to abort multipart upload for "' . $urn . '" (uploadId: "' . $writeToken . '") after completion error',
 					[
 						'app' => 'objectstore',
 						'exception' => $e,
