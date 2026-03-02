@@ -297,11 +297,9 @@ class IconBuilderTest extends TestCase {
 			$x = $tmp->getImageWidth();
 			$y = $tmp->getImageHeight();
 			$tmp->destroy();
-			// set resolution for proper scaling
-			$resX = (int)(72 * $size / $x);
-			$resY = (int)(72 * $size / $y);
+			$res = (int)(72 * $size / max($x, $y));
 			$appIconFile->setBackgroundColor(new \ImagickPixel('transparent'));
-			$appIconFile->setResolution($resX, $resY);
+			$appIconFile->setResolution($res, $res);
 			$appIconFile->readImageBlob($svgContent);
 		} else {
 			$appIconFile->readImage($filePath);
