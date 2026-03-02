@@ -130,7 +130,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 		$path = str_replace('//', '/', $path);
 
 		// dirname('/folder') returns '.' but internally (in the cache) we store the root as ''
-		if (!$path || $path === '.') {
+		if ($path === '.') {
 			$path = '';
 		}
 
