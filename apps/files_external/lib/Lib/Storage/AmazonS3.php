@@ -450,6 +450,17 @@ class AmazonS3 extends Common {
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
+		if ($this->file_exists($path)) {
+			// If the object already exists, return false so the higher filesystem layer
+			// (View::touch()) can emulate touch by updating the cached mtime.
+			// This avoids an extra remote request against S3 and improves performance.
+			//
+			// Note: this does not change the object's native LastModified timestamp in S3.
+			// External consumers that only observe S3 metadata (not Nextcloud's cache) will
+			// not see the updated mtime.
+			return false;
+		}
+
 		if (is_null($mtime)) {
 			$mtime = time();
 		}
@@ -458,10 +469,6 @@ class AmazonS3 extends Common {
 		];
 
 		try {
-			if ($this->file_exists($path)) {
-				return false;
-			}
-
 			$mimeType = $this->mimeDetector->detectPath($path);
 			$this->getConnection()->putObject([
 				'Bucket' => $this->bucket,
