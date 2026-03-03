@@ -461,21 +461,22 @@ class AmazonS3 extends Common {
 			return false;
 		}
 
-		if (is_null($mtime)) {
+		if ($mtime === null) {
 			$mtime = time();
 		}
-		$metadata = [
-			'lastmodified' => gmdate(\DateTime::RFC1123, $mtime)
-		];
 
 		try {
 			$mimeType = $this->mimeDetector->detectPath($path);
+			$lastModified = gmdate(\DateTime::RFC1123, $mtime);
+
 			$this->getConnection()->putObject([
 				'Bucket' => $this->bucket,
 				'Key' => $this->cleanKey($path),
-				'Metadata' => $metadata,
 				'Body' => '',
 				'ContentType' => $mimeType,
+				'Metadata' => [
+					'lastmodified' => $lastModified,
+				],
 				'MetadataDirective' => 'REPLACE',
 			] + $this->getSSECParameters());
 			$this->testTimeout();
@@ -489,6 +490,12 @@ class AmazonS3 extends Common {
 
 		$this->invalidateCache($path);
 		return true;
+		// NOTES/WIP:
+		//	- Not sure we actually refer to the Metadata field's `lastmodified` value ever (we seem to use the S3 LastModified)
+		// 	- When $mtime = null, perhaps just rely on S3's automatic LastModified field?
+		//	- mtime handling possibly inconsistent with other remote storages (i.e. SMB) - TBD
+		//	- why isn't $this->normalizePath utilized? also cleanKey usage
+		//	- Is the MetadataDirective value correct?
 	}
 
 	public function copy(string $source, string $target, ?bool $isFile = null): bool {
