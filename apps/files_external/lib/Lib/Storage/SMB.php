@@ -59,15 +59,7 @@ class SMB extends Common implements INotifyStorage {
 			throw new \Exception('Invalid configuration, no host provided');
 		}
 
-		// Resolve SMB authentication: prefer prebuilt auth, otherwise build from user/password.
-		if (isset($parameters['auth'])) {
-			$auth = $parameters['auth'];
-		} elseif (isset($parameters['user']) && isset($parameters['password']) && isset($parameters['share'])) {
-			[$workgroup, $user] = $this->splitUser($parameters['user']);
-			$auth = new BasicAuth($user, $workgroup, $parameters['password']);
-		} else {
-			throw new \Exception('Invalid configuration, no credentials provided');
-		}
+		$auth = $this->resolveAuth($parameters);
 
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 
@@ -97,9 +89,31 @@ class SMB extends Common implements INotifyStorage {
 		$this->checkAcl = isset($parameters['check_acl']) && $parameters['check_acl'];
 
 		$this->initCaches();
+
+		// Call parent last: SMB-specific dependencies/state must be initialized first.
 		parent::__construct($parameters);
 	}
 
+	/**
+	 * Resolve SMB authentication from config.
+	 *
+	 * Prefer prebuilt auth, otherwise build from user/password.
+	 *
+	 * @throws \Exception when credentials are missing/invalid
+	 */
+	private function resolveAuth(array $parameters) {
+		if (isset($parameters['auth'])) {
+			return $parameters['auth'];
+		}
+
+		if (isset($parameters['user']) && isset($parameters['password']) && isset($parameters['share'])) {
+			[$workgroup, $username] = $this->splitUser($parameters['user']);
+			return new BasicAuth($username, $workgroup, $parameters['password']);
+		}
+
+		throw new \Exception('Invalid configuration, no credentials provided');
+	}
+	
 	private function initCaches(): void {
 		$this->statCache = new CappedMemoryCache();
 	}
