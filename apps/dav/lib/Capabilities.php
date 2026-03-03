@@ -18,13 +18,15 @@ class Capabilities implements ICapability {
 	}
 
 	/**
-	 * @return array{dav: array{chunking: string, public_shares_chunking: bool, bulkupload?: string, absence-supported?: bool, absence-replacement?: bool}}
+	 * @return array{dav: array{chunking: string, public_shares_chunking: bool, search_supports_creation_time: bool, search_supports_upload_time: bool, bulkupload?: string, absence-supported?: bool, absence-replacement?: bool}}
 	 */
 	public function getCapabilities() {
 		$capabilities = [
 			'dav' => [
 				'chunking' => '1.0',
 				'public_shares_chunking' => true,
+				'search_supports_creation_time' => true,
+				'search_supports_upload_time' => true,
 			]
 		];
 		if ($this->config->getSystemValueBool('bulkupload.enabled', true)) {
