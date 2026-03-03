@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -13,6 +13,15 @@ use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 
+/**
+ * Nextcloud's S3-backed primary object storage implementation.
+ *
+ * This class provides the concrete AWS S3 integration for Nextcloud's generic
+ * object store interfaces.
+ *
+ * Note: This is not the S3-backed External Storage backend (though some
+ * lower-level S3 components are shared).
+ */
 class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaData {
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
@@ -22,10 +31,6 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		$this->parseParams($parameters);
 	}
 
-	/**
-	 * @return string the container or bucket name where objects are stored
-	 * @since 7.0.0
-	 */
 	public function getStorageId() {
 		return $this->id;
 	}
