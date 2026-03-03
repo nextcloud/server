@@ -99,7 +99,6 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	}
 
 	$share = $authBackend->getShare();
-	$owner = $share->getShareOwner();
 	$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
 
@@ -135,7 +134,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 	$rootFolder = Server::get(IRootFolder::class);
-	$userFolder = $rootFolder->getUserFolder($owner);
+	$userFolder = $rootFolder->getUserFolder($share->getSharedBy());
 	$node = $userFolder->getFirstNodeById($fileId);
 	if (!$node) {
 		throw new NotFound();
