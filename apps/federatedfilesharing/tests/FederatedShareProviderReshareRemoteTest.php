@@ -249,18 +249,18 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb6->method('executeQuery')->willReturn($result6);
 
 
-		$queryBuilderMatcher = $this->exactly(8);
+		$queryBuilderMatcher = $this->exactly(7);
 		$this->connection
 			->expects($queryBuilderMatcher)
 			->method('getQueryBuilder')
 			->willReturnCallback(function () use ($queryBuilderMatcher, $qb1, $qb2, $qb3, $qb4, $qb5, $qb6) {
 				return match ($queryBuilderMatcher->numberOfInvocations()) {
 					1, 2 => $qb1,
-					3, 5 => $qb2,
+					3 => $qb2,
 					4 => $qb3,
-					6 => $qb4,
-					7 => $qb5,
-					8 => $qb6,
+					5 => $qb4,
+					6 => $qb5,
+					7 => $qb6,
 					default => throw new LogicException('Unexpected number of invocations for getQueryBuilder')
 				};
 			});
