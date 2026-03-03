@@ -302,6 +302,10 @@ class AmazonS3 extends Common {
 			}			
 			return IteratorDirectory::wrap($names);
 		} catch (S3Exception $e) {
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 	}
