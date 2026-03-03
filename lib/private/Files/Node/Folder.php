@@ -175,6 +175,7 @@ class Folder extends Node implements IFolder {
 				throw new NotPermittedException('Could not create path "' . $fullPath . '"');
 			}
 			$node = new File($this->root, $this->view, $fullPath, null, $this);
+			$this->view->putFileInfo($fullPath, ['creation_time' => time()]);
 			$this->sendHooks(['postWrite', 'postCreate'], [$node]);
 			return $node;
 		}

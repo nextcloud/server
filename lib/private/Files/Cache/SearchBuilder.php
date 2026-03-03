@@ -64,6 +64,7 @@ class SearchBuilder {
 		'share_with' => 'string',
 		'share_type' => 'integer',
 		'owner' => 'string',
+		'creation_time' => 'integer',
 		'upload_time' => 'integer',
 	];
 
@@ -258,6 +259,7 @@ class SearchBuilder {
 			'share_with' => ['eq'],
 			'share_type' => ['eq'],
 			'owner' => ['eq'],
+			'creation_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'upload_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 		];
 
