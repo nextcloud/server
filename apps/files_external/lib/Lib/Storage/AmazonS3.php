@@ -450,6 +450,8 @@ class AmazonS3 extends Common {
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
+		$path = $this->normalizePath($path);
+
 		if ($this->file_exists($path)) {
 			// If the object already exists, return false so the higher filesystem layer
 			// (View::touch()) can emulate touch by updating the cached mtime.
@@ -468,10 +470,11 @@ class AmazonS3 extends Common {
 		try {
 			$mimeType = $this->mimeDetector->detectPath($path);
 			$lastModified = gmdate(\DateTime::RFC1123, $mtime);
+			$key = $this->cleanKey($path);
 
 			$this->getConnection()->putObject([
 				'Bucket' => $this->bucket,
-				'Key' => $this->cleanKey($path),
+				'Key' => $key,
 				'Body' => '',
 				'ContentType' => $mimeType,
 				'Metadata' => [
@@ -494,7 +497,7 @@ class AmazonS3 extends Common {
 		// 	- When $mtime = null, perhaps just rely on S3's automatic LastModified field?
 		//	- mtime handling possibly inconsistent with other remote storages (i.e. SMB) - TBD
 		//	- why isn't $this->normalizePath utilized? also cleanKey usage
-		//	- Is the MetadataDirective value correct?
+		//	- mtime range validation guard?
 	}
 
 	public function copy(string $source, string $target, ?bool $isFile = null): bool {
