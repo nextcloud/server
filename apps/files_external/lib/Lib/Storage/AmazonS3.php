@@ -468,10 +468,15 @@ class AmazonS3 extends Common {
 		}
 
 		try {
+			$key = $this->cleanKey($path);
 			$mimeType = $this->mimeDetector->detectPath($path);
 			$lastModified = gmdate(\DateTime::RFC1123, $mtime);
-			$key = $this->cleanKey($path);
 
+			// When creating a missing object via touch() and the caller provided a non-null $mtime,
+			// upper layers (View::touch()) will not emulate mtime (because we return true here).
+			// As a result, the cached mtime will reflect S3's LastModified (write time), not the
+			// requested $mtime. The custom 'lastmodified' metadata is currently not read by this
+			// storage when building stat()/filecache entries.
 			$this->getConnection()->putObject([
 				'Bucket' => $this->bucket,
 				'Key' => $key,
@@ -492,12 +497,6 @@ class AmazonS3 extends Common {
 
 		$this->invalidateCache($path);
 		return true;
-		// NOTES/WIP:
-		//	- Not sure we actually refer to the Metadata field's `lastmodified` value ever (we seem to use the S3 LastModified)
-		// 	- When $mtime = null, perhaps just rely on S3's automatic LastModified field?
-		//	- mtime handling possibly inconsistent with other remote storages (i.e. SMB) - TBD
-		//	- why isn't $this->normalizePath utilized? also cleanKey usage
-		//	- mtime range validation guard?
 	}
 
 	public function copy(string $source, string $target, ?bool $isFile = null): bool {
