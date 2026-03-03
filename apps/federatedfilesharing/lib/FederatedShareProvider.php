@@ -329,12 +329,27 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATETIME_MUTABLE))
 			->executeStatement();
 
-		// send the updated permission to the owner/initiator, if they are not the same
-		if ($share->getShareOwner() !== $share->getSharedBy()) {
+		/*
+		 * If the share owner and share initiator are on the same instance,
+		 * then we're done here as the share was just updated above.
+		 *
+		 * However, if the share owner/sharee is on a remote instance (and thus we're dealing with a federated share),
+		 * then we are supposed to let the share owner/ sharee on the remote instance know.
+		 */
+		if ($this->shouldNotifyRemote($share)) {
 			$this->sendPermissionUpdate($share);
 		}
 
 		return $share;
+	}
+
+	/**
+	 * Notify owner/sharee if they are not the same and ANY of them is a remote user.
+	 */
+	protected function shouldNotifyRemote(IShare $share): bool {
+		$ownerOrSharerIsRemoteUser = !$this->userManager->userExists($share->getShareOwner())
+			|| !$this->userManager->userExists($share->getSharedBy());
+		return $ownerOrSharerIsRemoteUser && $share->getShareOwner() !== $share->getSharedBy();
 	}
 
 	/**
@@ -466,13 +481,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @throws HintException
 	 */
 	protected function revokeShare($share, $isOwner) {
-		if ($this->userManager->userExists($share->getShareOwner()) && $this->userManager->userExists($share->getSharedBy())) {
-			// If both the owner and the initiator of the share are local users we don't have to notify anybody else
-			return;
-		}
-
 		// also send a unShare request to the initiator, if this is a different user than the owner
-		if ($share->getShareOwner() !== $share->getSharedBy()) {
+		if ($this->shouldNotifyRemote($share)) {
 			if ($isOwner) {
 				[, $remote] = $this->addressHandler->splitUserRemote($share->getSharedBy());
 			} else {
