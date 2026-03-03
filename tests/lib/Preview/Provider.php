@@ -13,18 +13,19 @@ use OC\Files\Node\File;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Preview\ProviderV2;
 use OC\Preview\TXT;
 use OCP\Files\IRootFolder;
 use OCP\IImage;
 use OCP\IUserManager;
+use OCP\Preview\IProviderV2;
 use OCP\Server;
 
 abstract class Provider extends \Test\TestCase {
 	protected string $imgPath;
 	protected int $width;
 	protected int $height;
-	/** @var \OC\Preview\Provider|mixed $provider */
-	protected $provider;
+	protected IProviderV2 $provider;
 	protected int $maxWidth = 1024;
 	protected int $maxHeight = 1024;
 	protected bool $scalingUp = false;
@@ -119,17 +120,11 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Retrieves a max size thumbnail can be created
 	 *
-	 * @param \OC\Preview\Provider $provider
-	 *
 	 * @return bool|IImage
 	 */
-	private function getPreview($provider) {
+	private function getPreview(ProviderV2 $provider) {
 		$file = new File(Server::get(IRootFolder::class), $this->rootView, $this->imgPath);
 		$preview = $provider->getThumbnail($file, $this->maxWidth, $this->maxHeight, $this->scalingUp);
-
-		if (get_class($this) === BitmapTest::class && $preview === null) {
-			$this->markTestSkipped('An error occured while operating with Imagick.');
-		}
 
 		$this->assertNotEquals(false, $preview);
 		$this->assertEquals(true, $preview->valid());
