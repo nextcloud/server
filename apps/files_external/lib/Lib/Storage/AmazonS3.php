@@ -477,7 +477,6 @@ class AmazonS3 extends Common {
 				'Metadata' => [
 					'lastmodified' => $lastModified,
 				],
-				'MetadataDirective' => 'REPLACE',
 			] + $this->getSSECParameters());
 			$this->testTimeout();
 		} catch (S3Exception $e) {
