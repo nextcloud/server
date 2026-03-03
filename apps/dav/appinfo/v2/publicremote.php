@@ -108,7 +108,6 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	}
 
 	$share = $authBackend->getShare();
-	$owner = $share->getShareOwner();
 	$isReadable = $share->getPermissions() & \OCP\Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
 
@@ -130,10 +129,10 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 	OC_Util::tearDownFS();
-	OC_Util::setupFS($owner);
-	$ownerView = new View('/'. $owner . '/files');
-	$path = $ownerView->getPath($fileId);
-	$fileInfo = $ownerView->getFileInfo($path);
+	OC_Util::setupFS($share->getSharedBy());
+	$initiatorView = new View('/'. $share->getSharedBy() . '/files');
+	$path = $initiatorView->getPath($fileId);
+	$fileInfo = $initiatorView->getFileInfo($path);
 
 	if ($fileInfo === false) {
 		throw new NotFound();
@@ -146,7 +145,7 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 		$filesDropPlugin->enable();
 	}
 
-	$view = new View($ownerView->getAbsolutePath($path));
+	$view = new View($initiatorView->getAbsolutePath($path));
 	$filesDropPlugin->setView($view);
 
 	return $view;
