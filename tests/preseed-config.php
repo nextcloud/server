@@ -117,3 +117,9 @@ if (getenv('SHARDING') == '1') {
 		]
 	];
 }
+
+if (getenv('MARIADB_SHARDING') == '1') {
+	$CONFIG['mariadbsharing'] = [
+		'filecache' => true,
+	];
+}

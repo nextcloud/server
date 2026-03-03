@@ -8,13 +8,15 @@ namespace OC\Core\Migrations;
 
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version13000Date20170718121200 extends SimpleMigrationStep {
 	public function __construct(
-		private IDBConnection $connection,
+		private readonly IDBConnection $connection,
+		private readonly IConfig $config,
 	) {
 	}
 
@@ -229,7 +231,12 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => false,
 				'length' => 255,
 			]);
-			$table->setPrimaryKey(['fileid']);
+			$maridbSharding = $this->config->getSystemValue('mariadbsharing');
+			if ($maridbSharding && isset($maridbSharding['filecache']) && $maridbSharding['filecache'] === true && $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MARIADB) {
+				$table->setPrimaryKey(['fileid', 'storage']);
+			} else {
+				$table->setPrimaryKey(['fileid']);
+			}
 			$table->addUniqueIndex(['storage', 'path_hash'], 'fs_storage_path_hash');
 			$table->addIndex(['parent', 'name'], 'fs_parent_name_hash');
 			$table->addIndex(['storage', 'mimetype'], 'fs_storage_mimetype');
@@ -1026,6 +1033,12 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				->setParameter('propertyvalue', (string)$row['propertyvalue'])
 				->setParameter('userid', ($match[2] ?? ''));
 			$insert->executeStatement();
+		}
+
+		$maridbSharding = $this->config->getSystemValue('mariadbsharing');
+		if ($maridbSharding && isset($maridbSharding['filecache']) && $maridbSharding['filecache'] === true
+			&& $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MARIADB) {
+			$this->connection->prepare('ALTER TABLE *PREFIX*filecache PARTITION BY HASH(storage) PARTITIONS 8')->execute();
 		}
 	}
 }
