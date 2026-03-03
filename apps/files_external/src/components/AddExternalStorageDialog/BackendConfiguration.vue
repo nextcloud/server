@@ -25,7 +25,7 @@ watch(() => props.configuration, () => {
 				: ''
 		}
 	}
-})
+}, { immediate: true })
 </script>
 
 <template>
