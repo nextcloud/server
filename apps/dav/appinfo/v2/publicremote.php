@@ -85,7 +85,6 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	}
 
 	$share = $authBackend->getShare();
-	$owner = $share->getShareOwner();
 	$isReadable = $share->getPermissions() & \OCP\Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
 
@@ -113,7 +112,7 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 	$rootFolder = \OCP\Server::get(\OCP\Files\IRootFolder::class);
-	$userFolder = $rootFolder->getUserFolder($owner);
+	$userFolder = $rootFolder->getUserFolder($share->getSharedBy());
 	$node = $userFolder->getFirstNodeById($fileId);
 	if (!$node) {
 		throw new NotFound();
