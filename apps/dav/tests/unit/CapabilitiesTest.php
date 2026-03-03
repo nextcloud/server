@@ -28,6 +28,8 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'search_supports_creation_time' => true,
+				'search_supports_upload_time' => true,
 			],
 		];
 		$this->assertSame($expected, $capabilities->getCapabilities());
@@ -47,6 +49,8 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'search_supports_creation_time' => true,
+				'search_supports_upload_time' => true,
 				'bulkupload' => '1.0',
 			],
 		];
@@ -67,6 +71,8 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'search_supports_creation_time' => true,
+				'search_supports_upload_time' => true,
 				'absence-supported' => true,
 				'absence-replacement' => true,
 			],
