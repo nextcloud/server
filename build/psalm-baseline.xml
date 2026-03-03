@@ -839,9 +839,6 @@
     </InvalidOperand>
   </file>
   <file src="apps/dav/lib/Search/EventsSearchProvider.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[$this->l10n->l('date', $startDateTime, ['width' => 'medium'])]]></code>
-    </FalsableReturnStatement>
     <InvalidOperand>
       <code><![CDATA[$query->getCursor()]]></code>
     </InvalidOperand>
@@ -851,12 +848,6 @@
 		'ORGANIZER' => ['CN'],
 	]]]></code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->l10n->l('date', $startDateTime, ['width' => 'medium'])]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidReturnType>
     <UndefinedMethod>
       <code><![CDATA[getDateTime]]></code>
       <code><![CDATA[getDateTime]]></code>
