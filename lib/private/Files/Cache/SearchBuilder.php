@@ -64,6 +64,7 @@ class SearchBuilder {
 		'share_with' => 'string',
 		'share_type' => 'integer',
 		'owner' => 'string',
+		'upload_time' => 'integer',
 	];
 
 	/** @var array<string, int|string> */
@@ -257,6 +258,7 @@ class SearchBuilder {
 			'share_with' => ['eq'],
 			'share_type' => ['eq'],
 			'owner' => ['eq'],
+			'upload_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 		];
 
 		if (!isset(self::$fieldTypes[$operator->getField()])) {
