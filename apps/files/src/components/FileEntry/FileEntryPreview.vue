@@ -39,6 +39,11 @@
 			<FavoriteIcon v-once />
 		</span>
 
+		<!-- Recently created icon -->
+		<span v-else-if="isRecentView && isRecentlyCreated" class="files-list__row-icon-recently-created">
+			<RecentlyCreatedIcon v-once />
+		</span>
+
 		<OverlayIcon :is="fileOverlay"
 			v-if="fileOverlay"
 			class="files-list__row-icon-overlay files-list__row-icon-overlay--file" />
@@ -70,6 +75,7 @@ import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
 import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
+import RecentlyCreatedIcon from './RecentlyCreatedIcon.vue'
 
 import { isLivePhoto } from '../../services/LivePhotos'
 import { useUserConfigStore } from '../../store/userconfig.ts'
