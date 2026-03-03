@@ -69,20 +69,7 @@ class SMB extends Common implements INotifyStorage {
 			throw new \Exception('Invalid configuration, no credentials provided');
 		}
 
-		// Use injected logger when provided; otherwise fall back to the server logger.
-		// @todo: I suspect $parameters['logger'] is legacy since I don't see it supported elsewhere...
-		if (isset($parameters['logger'])) {
-			if (!$parameters['logger'] instanceof LoggerInterface) {
-				throw new \Exception(
-					'Invalid logger. Got '
-					. get_class($parameters['logger'])
-					. ' Expected ' . LoggerInterface::class
-				);
-			}
-			$this->logger = $parameters['logger'];
-		} else {
-			$this->logger = \OCP\Server::get(LoggerInterface::class);
-		}
+		$this->logger = \OCP\Server::get(LoggerInterface::class);
 
 		// Build SMB client options from configuration.
 		$options = new Options();
