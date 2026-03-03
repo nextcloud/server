@@ -1504,13 +1504,21 @@
                         "type": "object",
                         "required": [
                             "chunking",
-                            "public_shares_chunking"
+                            "public_shares_chunking",
+                            "search_supports_creation_time",
+                            "search_supports_upload_time"
                         ],
                         "properties": {
                             "chunking": {
                                 "type": "string"
                             },
                             "public_shares_chunking": {
+                                "type": "boolean"
+                            },
+                            "search_supports_creation_time": {
+                                "type": "boolean"
+                            },
+                            "search_supports_upload_time": {
                                 "type": "boolean"
                             },
                             "bulkupload": {
