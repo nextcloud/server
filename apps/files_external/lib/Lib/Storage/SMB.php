@@ -58,13 +58,32 @@ class SMB extends Common implements INotifyStorage {
 		if (!isset($parameters['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
 		}
-
+		// SMB auth
 		$auth = $this->resolveAuth($parameters);
-
+		// SMB client options
+		$options = $this->buildSmbOptions($parameters);
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		// Create server + share handles used by all subsequent filesystem operations.
+		$systemBridge = \OCP\Server::get(SystemBridge::class);
+		$serverFactory = new ServerFactory($options, $systemBridge);
+		$this->server = $serverFactory->createServer($parameters['host'], $auth);
+		$this->share = $this->server->getShare(trim($parameters['share'], '/'));
+		// Normalize root to canonical internal form: leading slash, trailing slash.
+		$this->root = $parameters['root'] ?? '/';
+		$this->root = '/' . ltrim($this->root, '/');
+		$this->root = rtrim($this->root, '/') . '/';
+		// Normalize root to canonical internal form: leading slash, trailing slash.
+		$this->showHidden = isset($parameters['show_hidden']) && $parameters['show_hidden'];
+		$this->caseSensitive = (bool)($parameters['case_sensitive'] ?? true);
+		$this->checkAcl = isset($parameters['check_acl']) && $parameters['check_acl'];
+		$this->initCaches();
+		// Call parent last: SMB-specific dependencies/state must be initialized first.
+		parent::__construct($parameters);
+	}
 
-		// Build SMB client options from configuration.
+	private function buildSmbOptions(array $parameters): Options {
 		$options = new Options();
+
 		if (isset($parameters['timeout'])) {
 			$timeout = (int)$parameters['timeout'];
 			if ($timeout > 0) {
@@ -72,26 +91,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 		}
 
-		// Create server + share handles used by all subsequent filesystem operations.
-		$systemBridge = \OCP\Server::get(SystemBridge::class);
-		$serverFactory = new ServerFactory($options, $systemBridge);
-		$this->server = $serverFactory->createServer($parameters['host'], $auth);
-		$this->share = $this->server->getShare(trim($parameters['share'], '/'));
-
-		// Normalize root to canonical internal form: leading slash, trailing slash.
-		$this->root = $parameters['root'] ?? '/';
-		$this->root = '/' . ltrim($this->root, '/');
-		$this->root = rtrim($this->root, '/') . '/';
-
-		// Normalize root to canonical internal form: leading slash, trailing slash.
-		$this->showHidden = isset($parameters['show_hidden']) && $parameters['show_hidden'];
-		$this->caseSensitive = (bool)($parameters['case_sensitive'] ?? true);
-		$this->checkAcl = isset($parameters['check_acl']) && $parameters['check_acl'];
-
-		$this->initCaches();
-
-		// Call parent last: SMB-specific dependencies/state must be initialized first.
-		parent::__construct($parameters);
+		return $options;
 	}
 
 	/**
