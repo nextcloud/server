@@ -95,8 +95,8 @@ class SMB extends Common implements INotifyStorage {
 		}
 
 		// Create server + share handles used by all subsequent filesystem operations.
-		$system = \OCP\Server::get(SystemBridge::class);
-		$serverFactory = new ServerFactory($options, $system);
+		$systemBridge = \OCP\Server::get(SystemBridge::class);
+		$serverFactory = new ServerFactory($options, $systemBridge);
 		$this->server = $serverFactory->createServer($parameters['host'], $auth);
 		$this->share = $this->server->getShare(trim($parameters['share'], '/'));
 
@@ -112,6 +112,7 @@ class SMB extends Common implements INotifyStorage {
 
 		// Per-instance metadata cache for stat() results.
 		$this->statCache = new CappedMemoryCache();
+
 		parent::__construct($parameters);
 	}
 
