@@ -35,15 +35,10 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\INode;
 
 abstract class Node implements INode {
-	/**
-	 * The path to the current node
-	 */
+
+	// The path to the current node
 	protected string $path;
-
-	protected FileInfo $info;
-
 	protected IManager $shareManager;
-
 	protected \OCP\Files\Node $node;
 
 	/**
@@ -52,7 +47,7 @@ abstract class Node implements INode {
 	 */
 	public function __construct(
 		protected View $fileView,
-		FileInfo $info,
+		protected FileInfo $info,
 		?IManager $shareManager = null,
 	) {
 		$relativePath = $this->fileView->getRelativePath($info->getPath());
@@ -61,7 +56,6 @@ abstract class Node implements INode {
 		}
 
 		$this->path = $relativePath;
-		$this->info = $info;
 		$this->shareManager = $shareManager instanceof IManager ? $shareManager : Server::get(IManager::class);
 
 		if ($info instanceof Folder || $info instanceof File) {
@@ -157,9 +151,10 @@ abstract class Node implements INode {
 	}
 
 	/**
-	 *  sets the last modification time of the file (mtime) to the value given
-	 *  in the second parameter or to now if the second param is empty.
-	 *  Even if the modification time is set to a custom value the access time is set to now.
+	 * Sets the file's modification time (mtime) to the given Unix timestamp.
+	 *
+	 * @param string $mtime Valid Unix timestamp (seconds since epoch, must be > 1 day).
+	 * @throws \InvalidArgumentException If $mtime is not a valid timestamp.
 	 */
 	public function touch(string $mtime): void {
 		$mtime = $this->sanitizeMtime($mtime);
