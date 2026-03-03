@@ -294,10 +294,12 @@ class AmazonS3 extends Common {
 
 	public function opendir(string $path) {
 		try {
-			$content = $this->getDirectoryContent($path);
-			$names = array_map(function (array $item) {
-				return $item['name'];
-			}, iterator_to_array($content));
+			$names = [];
+			foreach ($this->getDirectoryContent($path) as $item) {
+				if (isset($item['name'])) {
+					$names[] = $item['name'];
+				}
+			}			
 			return IteratorDirectory::wrap($names);
 		} catch (S3Exception $e) {
 			return false;
