@@ -1,9 +1,13 @@
 { "translations": {
+    "Profile picker" : "Profile picker",
     "Profile" : "Profile",
     "This application provides the profile" : "This application provides the profile",
     "Provides a customisable user profile interface." : "Provides a customisable user profile interface.",
     "Searching …" : "Searching …",
     "Not found" : "Not found",
+    "Search for a user profile" : "Search for a user profile",
+    "Search for a user profile. Start typing" : "Search for a user profile. Start typing",
+    "Insert selected user profile link" : "Insert selected user profile link",
     "Insert" : "Insert",
     "You have not added any info yet" : "You have not added any info yet",
     "{user} has not added any info yet" : "{user} has not added any info yet",
