@@ -43,7 +43,6 @@ use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 
 class SMB extends Common implements INotifyStorage {
-
 	protected \Icewind\SMB\IServer $server;
 	protected \Icewind\SMB\IShare $share;
 	protected string $root;
@@ -110,10 +109,16 @@ class SMB extends Common implements INotifyStorage {
 		$this->caseSensitive = (bool)($parameters['case_sensitive'] ?? true);
 		$this->checkAcl = isset($parameters['check_acl']) && $parameters['check_acl'];
 
-		// Per-instance metadata cache for stat() results.
-		$this->statCache = new CappedMemoryCache();
-
+		$this->initCaches();
 		parent::__construct($parameters);
+	}
+
+	private function initCaches(): void {
+		$this->statCache = new CappedMemoryCache();
+	}
+
+	private function clearCaches(): void {
+		$this->statCache->clear();
 	}
 
 	private function splitUser(string $user): array {
@@ -497,7 +502,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 
 		try {
-			$this->statCache = new CappedMemoryCache();
+			$this->clearCaches();
 			$content = $this->share->dir($this->buildPath($path));
 			foreach ($content as $file) {
 				if ($file->isDirectory()) {
