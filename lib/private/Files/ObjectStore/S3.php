@@ -36,15 +36,19 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 	}
 
 	public function initiateMultipartUpload(string $urn): string {
-		$upload = $this->getConnection()->createMultipartUpload([
+		$request = [
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
-		] + $this->getSSECParameters());
+		] + $this->getSSECParameters();
+
+		$result = $this->getConnection()->createMultipartUpload($request);		
 		$uploadId = $upload->get('UploadId');
-		if ($uploadId === null) {
-			throw new Exception('No upload id returned');
+
+		if (!is_string($uploadId) || $uploadId === '') {
+			throw new Exception("Failed to initiate multipart upload for key '{$urn}': missing UploadId");
 		}
-		return (string)$uploadId;
+
+		return $uploadId;
 	}
 
 	public function uploadMultipartPart(string $urn, string $uploadId, int $partId, $stream, $size): Result {
