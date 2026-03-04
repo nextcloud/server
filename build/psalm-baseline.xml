@@ -2575,8 +2575,6 @@
 			'loginName2UserName'
 		)]]></code>
       <code><![CDATA[dispatch]]></code>
-      <code><![CDATA[registerService]]></code>
-      <code><![CDATA[registerService]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/lib/Configuration.php">
@@ -2616,20 +2614,6 @@
     <InvalidOperand>
       <code><![CDATA[$i]]></code>
     </InvalidOperand>
-  </file>
-  <file src="apps/user_ldap/lib/LDAPProvider.php">
-    <DeprecatedInterface>
-      <code><![CDATA[IServerContainer]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[getGroupManager]]></code>
-      <code><![CDATA[getUserManager]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/user_ldap/lib/LDAPProviderFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[private]]></code>
-    </DeprecatedInterface>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
     <DeprecatedMethod>

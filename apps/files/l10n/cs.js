@@ -411,10 +411,6 @@ OC.L10N.register(
     "Tags" : "Štítky",
     "Save as …" : "Uložit jako …",
     "Converting files …" : "Převádění souborů …",
-    "Converting file …" : "Převádění souboru …",
-    "Moving \"{source}\" to \"{destination}\" …" : "Přesouvání „{source}“ do „{destination}“ …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Kopírování „{source}“ do „{destination}“ …",
-    "(copy)" : "(zkopírovat)",
-    "(copy %n)" : "(zkopírovat %n)"
+    "Converting file …" : "Převádění souboru …"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

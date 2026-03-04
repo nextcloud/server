@@ -23,8 +23,6 @@ class Sync extends TimedJob {
 	public const MAX_INTERVAL = 12 * 60 * 60; // 12h
 	public const MIN_INTERVAL = 30 * 60; // 30min
 
-	protected LDAP $ldap;
-
 	public function __construct(
 		ITimeFactory $timeFactory,
 		private IConfig $config,
@@ -42,7 +40,6 @@ class Sync extends TimedJob {
 				self::MIN_INTERVAL
 			)
 		);
-		$this->ldap = new LDAP($this->config->getSystemValueString('ldap_log_file'));
 	}
 
 	/**
@@ -252,12 +249,5 @@ class Sync extends TimedJob {
 			$i = 0;
 		}
 		return $prefixes[$i];
-	}
-
-	/**
-	 * Only used in tests
-	 */
-	public function overwritePropertiesForTest(LDAP $ldapWrapper): void {
-		$this->ldap = $ldapWrapper;
 	}
 }

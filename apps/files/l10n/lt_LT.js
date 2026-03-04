@@ -228,10 +228,6 @@ OC.L10N.register(
     "You" : "Jūs",
     "Error while loading the file data" : "Klaida įkeliant failo duomenis",
     "Tags" : "Žymos",
-    "Save as …" : "Įrašyti kaip…",
-    "Moving \"{source}\" to \"{destination}\" …" : "Perkeliama „{source}“ į „{destination}“…",
-    "Copying \"{source}\" to \"{destination}\" …" : "Kopijuojama „{source}“ į „{destination}“…",
-    "(copy)" : "(kopija)",
-    "(copy %n)" : "(kopija %n)"
+    "Save as …" : "Įrašyti kaip…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

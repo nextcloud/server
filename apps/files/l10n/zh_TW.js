@@ -411,10 +411,6 @@ OC.L10N.register(
     "Tags" : "標籤",
     "Save as …" : "另存為……",
     "Converting files …" : "正在轉換檔案……",
-    "Converting file …" : "正在轉換檔案……",
-    "Moving \"{source}\" to \"{destination}\" …" : "正在移動「{source}」至「{destination}」……",
-    "Copying \"{source}\" to \"{destination}\" …" : "正在複製「{source}」至「{destination}」……",
-    "(copy)" : "（副本）",
-    "(copy %n)" : "（副本 %n）"
+    "Converting file …" : "正在轉換檔案……"
 },
 "nplurals=1; plural=0;");

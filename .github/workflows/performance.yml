@@ -63,7 +63,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Run before measurements
-        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
+        uses: nextcloud/profiler@6a74c915048285b35b8e1cd96c0835a635945044
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
@@ -85,7 +85,7 @@ jobs:
 
       - name: Run after measurements
         id: compare
-        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
+        uses: nextcloud/profiler@6a74c915048285b35b8e1cd96c0835a635945044
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
@@ -99,7 +99,7 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           name: profiles
           path: |

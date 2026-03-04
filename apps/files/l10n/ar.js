@@ -328,10 +328,6 @@ OC.L10N.register(
     "Tags" : "الوسوم",
     "Save as …" : "حفظ باسم ...",
     "Converting files …" : "تحويل الملفات ...",
-    "Converting file …" : "تحويل الملف ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "نقل \"{source}\" إلى \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "نسخ \"{source}\" إلى \"{destination}\" …",
-    "(copy)" : "(نسخ)",
-    "(copy %n)" : "(نسخ %n)"
+    "Converting file …" : "تحويل الملف ..."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

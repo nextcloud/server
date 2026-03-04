@@ -159,8 +159,11 @@ This file is generated from multiple sources. Included packages:
 - events
 	- version: 3.3.0
 	- license: MIT
+- fast-xml-builder
+	- version: 1.0.0
+	- license: MIT
 - fast-xml-parser
-	- version: 5.3.6
+	- version: 5.4.1
 	- license: MIT
 - for-each
 	- version: 0.3.5

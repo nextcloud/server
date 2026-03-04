@@ -1079,11 +1079,10 @@ class DefaultShareProvider implements
 	/**
 	 * Create a share object from a database row
 	 *
-	 * @param mixed[] $data
-	 * @return IShare
+	 * @param array<string, mixed> $data
 	 * @throws InvalidShare
 	 */
-	private function createShare($data) {
+	private function createShare($data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId($data['id'])
 			->setShareType((int)$data['share_type'])
