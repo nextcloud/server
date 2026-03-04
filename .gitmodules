@@ -24,7 +24,7 @@
 	url = git@github.com:nextcloud/notify_push.git
 [submodule "apps-external/activity"]
 	path = apps-external/activity
-	url = git@github.com:nextcloud/activity.git
+	url = git@github.com:IONOS-Productivity/nc-activity.git
 [submodule "apps-external/tasks"]
 	path = apps-external/tasks
 	url = git@github.com:nextcloud/tasks.git
@@ -81,7 +81,7 @@
 	url = git@github.com:IONOS-Productivity/nc-notifications.git
 [submodule "apps-external/user_oidc"]
 	path = apps-external/user_oidc
-	url = git@github.com:nextcloud/user_oidc.git
+	url = git@github.com:IONOS-Productivity/nc-user_oidc.git
 [submodule "apps-external/end_to_end_encryption"]
 	path = apps-external/end_to_end_encryption
 	url = git@github.com:nextcloud/end_to_end_encryption.git
@@ -91,3 +91,9 @@
 [submodule "apps-external/ncw_tools"]
 	path = apps-external/ncw_tools
 	url = git@github.com:IONOS-Productivity/ncw-tools.git
+[submodule "apps-external/files_pdfviewer"]
+	path = apps-external/files_pdfviewer
+	url = git@github.com:nextcloud/files_pdfviewer.git
+[submodule "apps-external/bruteforcesettings"]
+	path = apps-external/bruteforcesettings
+	url = git@github.com:IONOS-Productivity/nc-bruteforcesettings.git

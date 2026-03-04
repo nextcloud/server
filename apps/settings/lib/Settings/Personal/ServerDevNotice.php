@@ -15,6 +15,7 @@ use OCP\IUserSession;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
+use OCP\IConfig;
 
 class ServerDevNotice implements ISettings {
 
@@ -25,6 +26,7 @@ class ServerDevNotice implements ISettings {
 		private IUserSession $userSession,
 		private IInitialState $initialState,
 		private IURLGenerator $urlGenerator,
+		private IConfig $config,
 	) {
 	}
 
@@ -59,6 +61,10 @@ class ServerDevNotice implements ISettings {
 	 */
 	public function getSection(): ?string {
 		if ($this->registry->delegateHasValidSubscription()) {
+			return null;
+		}
+
+		if ($this->config->getSystemValueBool('settings.hide-dev-notice')) {
 			return null;
 		}
 
