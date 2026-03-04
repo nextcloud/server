@@ -17,6 +17,7 @@ use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
@@ -37,6 +38,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		private readonly IDBConnection $connection,
 		callable $managerProvider,
 		private readonly ICloudIdManager $cloudIdManager,
+		private IConfig $config,
 	) {
 		$this->managerProvider = $managerProvider;
 	}
@@ -50,6 +52,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		$data['cloudId'] = $this->cloudIdManager->getCloudId($data['owner'], $data['remote']);
 		$data['certificateManager'] = Server::get(ICertificateManager::class);
 		$data['HttpClientService'] = Server::get(IClientService::class);
+		$data['verify'] = !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates');
 
 		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
 	}
