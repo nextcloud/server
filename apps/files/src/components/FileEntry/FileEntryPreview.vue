@@ -32,6 +32,11 @@
 			<FavoriteIcon v-once />
 		</span>
 
+		<!-- Recently created icon -->
+		<span v-else-if="isRecentView && isRecentlyCreated" class="files-list__row-icon-recently-created">
+			<RecentlyCreatedIcon v-once />
+		</span>
+
 		<OverlayIcon :is="fileOverlay"
 			v-if="fileOverlay"
 			class="files-list__row-icon-overlay files-list__row-icon-overlay--file" />
@@ -61,6 +66,7 @@ import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
 import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
+import RecentlyCreatedIcon from './RecentlyCreatedIcon.vue'
 
 import { isLivePhoto } from '../../services/LivePhotos'
 import { useUserConfigStore } from '../../store/userconfig.ts'
@@ -80,6 +86,7 @@ export default Vue.extend({
 		LinkIcon,
 		NetworkIcon,
 		TagIcon,
+		RecentlyCreatedIcon,
 	},
 
 	props: {
@@ -116,6 +123,21 @@ export default Vue.extend({
 		},
 		isFavorite(): boolean {
 			return this.source.attributes.favorite === 1
+		},
+
+		isRecentlyCreated(): boolean {
+			if (!this.source.crtime) {
+				return false
+			}
+
+			const oneDayAgo = new Date()
+			oneDayAgo.setDate(oneDayAgo.getDate() - 1)
+
+			return this.source.crtime > oneDayAgo
+		},
+
+		isRecentView(): boolean {
+			return this.$route?.params?.view === 'recent'
 		},
 
 		userConfig(): UserConfig {

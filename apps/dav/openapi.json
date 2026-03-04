@@ -29,11 +29,19 @@
                     "dav": {
                         "type": "object",
                         "required": [
-                            "chunking"
+                            "chunking",
+                            "search_supports_creation_time",
+                            "search_supports_upload_time"
                         ],
                         "properties": {
                             "chunking": {
                                 "type": "string"
+                            },
+                            "search_supports_creation_time": {
+                                "type": "boolean"
+                            },
+                            "search_supports_upload_time": {
+                                "type": "boolean"
                             },
                             "bulkupload": {
                                 "type": "string"
