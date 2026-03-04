@@ -2441,10 +2441,14 @@ $CONFIG = [
 	'quota_include_external_storage' => false,
 
 	/**
-	 * When an external storage is unavailable (e.g., due to failed authentication),
-	 * it is flagged as such for a specified duration. For authentication failures,
-	 * this delay can be customized to reduce the likelihood of account lockouts in
-	 * systems like Active Directory.
+	 * Delay (in seconds) before retrying an external storage after an
+	 * authentication-related failure (StorageAuthException).
+	 *
+	 * On auth failures, the storage is marked unavailable for this duration
+	 * to avoid repeated login attempts (for example, reducing risk of AD lockouts).
+	 *
+	 * The effective delay is clamped to a minimum of ``600`` seconds, so lower
+	 * values have no effect.
 	 *
 	 * Defaults to ``1800`` seconds (30 minutes)
 	 */
