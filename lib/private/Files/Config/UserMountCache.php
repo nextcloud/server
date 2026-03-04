@@ -194,15 +194,15 @@ class UserMountCache implements IUserMountCache {
 
 	private function updateCachedMount(ICachedMountInfo $mount) {
 		$builder = $this->connection->getQueryBuilder();
+		$hash = hash('xxh128', $mount->getMountPoint());
 
 		$query = $builder->update('mounts')
 			->set('storage_id', $builder->createNamedParameter($mount->getStorageId()))
-			->set('mount_point', $builder->createNamedParameter($mount->getMountPoint()))
-			->set('mount_point_hash', $builder->createNamedParameter(hash('xxh128', $mount->getMountPoint())))
 			->set('mount_id', $builder->createNamedParameter($mount->getMountId(), IQueryBuilder::PARAM_INT))
 			->set('mount_provider_class', $builder->createNamedParameter($mount->getMountProvider()))
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
-			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)));
+			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($builder->expr()->eq('mount_point_hash', $builder->createNamedParameter($hash)));
 
 		$query->executeStatement();
 	}
