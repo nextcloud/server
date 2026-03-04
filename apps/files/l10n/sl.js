@@ -322,10 +322,6 @@ OC.L10N.register(
     "Tags" : "Oznake",
     "Save as …" : "Shrani kot ...",
     "Converting files …" : "Poteka pretvarjanje datotek ...",
-    "Converting file …" : "Poteka pretvarjanje datoteke ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "Premik \"{source}\" v \"{destination}\"...",
-    "Copying \"{source}\" to \"{destination}\" …" : "Kopiranje \"{source}\" v \"{destination}\"...",
-    "(copy)" : "(kopija)",
-    "(copy %n)" : "(kopija %n)"
+    "Converting file …" : "Poteka pretvarjanje datoteke ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

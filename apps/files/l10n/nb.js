@@ -380,10 +380,6 @@ OC.L10N.register(
     "Tags" : "Merkelapper",
     "Save as …" : "Lagre som ...",
     "Converting files …" : "Konverter filer ...",
-    "Converting file …" : "Konverterer filer ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "Flytter \"{source}\" til \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Flytter \"{source}\" til \"{destination}\" …",
-    "(copy)" : "(kopier)",
-    "(copy %n)" : "(kopier %n)"
+    "Converting file …" : "Konverterer filer ..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Arka yüz ScienceMesh paylaşımlarına izin vermediğinden %s paylaşılamadı",
     "Name or email …" : "Ad ya da e-posta adresi …",
     "Name, email, or Federated Cloud ID …" : "Ad, e-posta ya da birleşik bulut kimliği…",
-    "Searching …" : "Aranıyor …",
-    "Error deleting the share: {errorMessage}" : "Paylaşım silinirken sorun çıktı: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Paylaşım güncellenirken sorun çıktı: {errorMessage}"
+    "Searching …" : "Aranıyor …"
 },
 "nplurals=2; plural=(n > 1);");

@@ -377,7 +377,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "No s'ha pogut compartir %s perquè el rerefons no permet elements compartits de ScienceMesh",
     "Name or email …" : "Nom o adreça electrònica…",
     "Name, email, or Federated Cloud ID …" : "Nom, adreça electrònica o ID de núvol federat…",
-    "Searching …" : "S'està cercant…",
-    "Error updating the share: {errorMessage}" : "S'ha produït un error en actualitzar l'element compartit: {errorMessage}"
+    "Searching …" : "S'està cercant…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -287,10 +287,6 @@ OC.L10N.register(
     "You" : "Usted",
     "Shared multiple times with different people" : "Compartido múltiples veces con diferentes personas",
     "Error while loading the file data" : "Error al cargar los datos del archivo",
-    "Tags" : "Etiquetas",
-    "Moving \"{source}\" to \"{destination}\" …" : "Moviendo \"{source}\" a \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Copiando \"{source}\" a \"{destination}\" …",
-    "(copy)" : "(copiar)",
-    "(copy %n)" : "(copiar %n)"
+    "Tags" : "Etiquetas"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

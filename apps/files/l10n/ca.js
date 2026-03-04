@@ -326,10 +326,6 @@ OC.L10N.register(
     "Tags" : "Etiquetes",
     "Save as …" : "Anomena i desa …",
     "Converting files …" : "Convertint fitxers …",
-    "Converting file …" : "S'està convertint el fitxer …",
-    "Moving \"{source}\" to \"{destination}\" …" : "S'està movent \"{source}\" a \"{destination}”…",
-    "Copying \"{source}\" to \"{destination}\" …" : "S'està copiant \"{source}\" a \"{destination}” …",
-    "(copy)" : "(còpia)",
-    "(copy %n)" : "(còpia %n)"
+    "Converting file …" : "S'està convertint el fitxer …"
 },
 "nplurals=2; plural=(n != 1);");

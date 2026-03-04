@@ -411,10 +411,6 @@ OC.L10N.register(
     "Tags" : "Štítky",
     "Save as …" : "Uložiť ako ...",
     "Converting files …" : "Konverzia súborov ...",
-    "Converting file …" : "Konverzia súborov ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "Presúvanie \"{source}\" do \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Kopírovanie \"{source}\" do \"{destination}\" …",
-    "(copy)" : "(kopírovať)",
-    "(copy %n)" : "(kopírovať %n)"
+    "Converting file …" : "Konverzia súborov ..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

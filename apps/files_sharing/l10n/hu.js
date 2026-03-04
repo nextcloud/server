@@ -289,7 +289,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "A(z) %s megosztása sikertelen, mert a háttérprogram nem támogatja a ScienceMesh megosztásokat",
     "Name or email …" : "Név vagy e-mail-cím…",
     "Name, email, or Federated Cloud ID …" : "Név, e-mail-cím vagy föderált felhőazonosító…",
-    "Searching …" : "Keresés…",
-    "Error updating the share: {errorMessage}" : "Hiba történt a megosztás frissítése során: {errorMessage}"
+    "Searching …" : "Keresés…"
 },
 "nplurals=2; plural=(n != 1);");

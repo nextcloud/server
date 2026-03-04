@@ -409,10 +409,6 @@ OC.L10N.register(
     "Tags" : "Ετικέτες",
     "Save as …" : "Αποθήκευση ως …",
     "Converting files …" : "Μετατροπή αρχείων …",
-    "Converting file …" : "Μετατροπή αρχείου …",
-    "Moving \"{source}\" to \"{destination}\" …" : "Μετακίνηση του \"{source}\" στο \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Αντιγραφή του \"{source}\" στο \"{destination}\" …",
-    "(copy)" : "(αντιγραφή)",
-    "(copy %n)" : "(αντιγραφή %n)"
+    "Converting file …" : "Μετατροπή αρχείου …"
 },
 "nplurals=2; plural=(n != 1);");

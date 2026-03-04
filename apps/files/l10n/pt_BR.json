@@ -409,10 +409,6 @@
     "Tags" : "Etiquetas",
     "Save as …" : "Salvar como …",
     "Converting files …" : "Convertendo arquivos …",
-    "Converting file …" : "Convertendo arquivo …",
-    "Moving \"{source}\" to \"{destination}\" …" : "Movendo \"{source}\" para \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Copiando \"{source}\" para \"{destination}\" …",
-    "(copy)" : "(cópia)",
-    "(copy %n)" : "(cópia %n)"
+    "Converting file …" : "Convertendo arquivo …"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

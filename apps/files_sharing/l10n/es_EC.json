@@ -225,7 +225,6 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Error al compartir %s porque el servidor no admite comparticiones de ScienceMesh",
     "Name or email …" : "Nombre o correo electrónico...",
     "Name, email, or Federated Cloud ID …" : "Nombre, correo electrónico o ID de la nube federada...",
-    "Searching …" : "Buscando...",
-    "Error updating the share: {errorMessage}" : "Error al actualizar la compartición: {errorMessage}"
+    "Searching …" : "Buscando..."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

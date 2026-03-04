@@ -397,10 +397,6 @@ OC.L10N.register(
     "Tags" : "برچسب‌ها",
     "Save as …" : "ذخیره به عنوان …",
     "Converting files …" : "تبدیل فایل‌ها…",
-    "Converting file …" : "تبدیل فایل …",
-    "Moving \"{source}\" to \"{destination}\" …" : "انتقال «{source}» به «{destination}» ...",
-    "Copying \"{source}\" to \"{destination}\" …" : "کپی کردن \"{source}\" به \"{destination}\" ...",
-    "(copy)" : "(کپی)",
-    "(copy %n)" : "(کپی %n)"
+    "Converting file …" : "تبدیل فایل …"
 },
 "nplurals=2; plural=(n > 1);");

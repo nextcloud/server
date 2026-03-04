@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "共享 %s 失败，因为后端不支持 ScienceMesh 共享。",
     "Name or email …" : "名称或电子邮件…",
     "Name, email, or Federated Cloud ID …" : "名称、电子邮件或联合云 ID…",
-    "Searching …" : "正在搜索…",
-    "Error deleting the share: {errorMessage}" : "删除共享时出错：{errorMessage}",
-    "Error updating the share: {errorMessage}" : "更新共享时出错：{errorMessage}"
+    "Searching …" : "正在搜索…"
 },
 "nplurals=1; plural=0;");

@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Ο διαμοιρασμός %s απέτυχε επειδή το σύστημα υποστήριξης δεν υποστηρίζει μετοχές ScienceMesh",
     "Name or email …" : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου",
     "Name, email, or Federated Cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…",
-    "Searching …" : "Αναζήτηση ...",
-    "Error deleting the share: {errorMessage}" : "Σφάλμα διαγραφής του διαμοιρασμού: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Σφάλμα κατά την ενημέρωση του διαμοιρασμού: {errorMessage}"
+    "Searching …" : "Αναζήτηση ..."
 },
 "nplurals=2; plural=(n != 1);");
