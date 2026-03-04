@@ -2483,13 +2483,6 @@ $CONFIG = [
 	'part_file_in_storage' => true,
 
 	/**
-	 * Specify the location of the ``mount.json`` file.
-	 *
-	 * Defaults to ``data/mount.json`` in the Nextcloud directory.
-	 */
-	'mount_file' => '/var/www/nextcloud/data/mount.json',
-
-	/**
 	 * Prevent Nextcloud from updating the cache due to filesystem changes for all
 	 * storage.
 	 *
