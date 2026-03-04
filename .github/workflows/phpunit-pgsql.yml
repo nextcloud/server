@@ -81,7 +81,7 @@ jobs:
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       postgres:
-        image: ghcr.io/nextcloud/continuous-integration-postgres-${{ matrix.postgres-versions }}:latest # zizmor: ignore[unpinned-images]
+        image: google/alloydbomni:latest # zizmor: ignore[unpinned-images]
         ports:
           - 4444:5432/tcp
         env:
