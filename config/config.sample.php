@@ -2490,10 +2490,31 @@ $CONFIG = [
 	'mount_file' => '/var/www/nextcloud/data/mount.json',
 
 	/**
-	 * Prevent Nextcloud from updating the cache due to filesystem changes for all
-	 * storage.
+	 * Read-only mode for scan/detection reconciliation writes to filecache.
 	 *
-	 * Defaults to ``false``
+	 * When true, Nextcloud does not store filecache metadata changes that are
+	 * identified through scanner/change-detection reconciliation paths (global: 
+	 * all storages).
+	 *
+	 * Scope note:
+	 *
+	 * - Nextcloud-originated operations (UI/WebDAV/clients) are generally
+	 *   handled through normal application write paths and thus will still
+	 *   update filecache even when this is set to true.
+	 * - Reconciliation/refresh paths are prevented from writing back discovered
+	 *   metadata deltas while this is enabled.
+	 *
+	 * Practical effect:
+	 *
+	 * - Changes made directly on storage outside Nextcloud are generally not
+	 *   reflected while enabled.
+	 * - Some metadata-dependent behavior can appear stale until this parameter
+	 *   is disabled (permitting reconciliation writes again).
+	 *
+	 * Warning: This is an expert/global setting for specialized environments and
+	 * is intentionally not default-safe for general deployments.
+	 *
+	 * Defaults to ``false``.
 	 */
 	'filesystem_cache_readonly' => false,
 
