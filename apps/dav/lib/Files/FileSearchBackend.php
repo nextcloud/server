@@ -85,6 +85,7 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition('{DAV:}displayname', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getlastmodified', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
+			new SearchPropertyDefinition('{DAV:}creationdate', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition('{http://nextcloud.org/ns}upload_time', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(TagsPlugin::FAVORITE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_BOOLEAN),
@@ -298,6 +299,8 @@ class FileSearchBackend implements ISearchBackend {
 				return $node->getName();
 			case '{DAV:}getlastmodified':
 				return $node->getLastModified();
+			case '{DAV:}creationdate':
+				return $node->getNode()->getCreationTime();
 			case '{http://nextcloud.org/ns}upload_time':
 				return $node->getNode()->getUploadTime();
 			case FilesPlugin::SIZE_PROPERTYNAME:
@@ -454,6 +457,8 @@ class FileSearchBackend implements ISearchBackend {
 				return 'mimetype';
 			case '{DAV:}getlastmodified':
 				return 'mtime';
+			case '{DAV:}creationdate':
+				return 'creation_time';
 			case '{http://nextcloud.org/ns}upload_time':
 				return 'upload_time';
 			case FilesPlugin::SIZE_PROPERTYNAME:
