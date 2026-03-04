@@ -28,6 +28,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 
@@ -50,14 +51,20 @@ class MountProvider implements IMountProvider {
 	private $cloudIdManager;
 
 	/**
+	 * @var IConfig
+	 */
+	private $config;
+
+	/**
 	 * @param \OCP\IDBConnection $connection
 	 * @param callable $managerProvider due to setup order we need a callable that return the manager instead of the manager itself
 	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct(IDBConnection $connection, callable $managerProvider, ICloudIdManager $cloudIdManager) {
+	public function __construct(IDBConnection $connection, callable $managerProvider, ICloudIdManager $cloudIdManager, IConfig $config) {
 		$this->connection = $connection;
 		$this->managerProvider = $managerProvider;
 		$this->cloudIdManager = $cloudIdManager;
+		$this->config = $config;
 	}
 
 	public function getMount(IUser $user, $data, IStorageFactory $storageFactory) {
@@ -69,6 +76,7 @@ class MountProvider implements IMountProvider {
 		$data['cloudId'] = $this->cloudIdManager->getCloudId($data['owner'], $data['remote']);
 		$data['certificateManager'] = \OC::$server->getCertificateManager();
 		$data['HttpClientService'] = \OC::$server->getHTTPClientService();
+		$data['verify'] = !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates');
 		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
 	}
 

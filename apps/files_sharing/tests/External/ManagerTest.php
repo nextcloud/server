@@ -46,6 +46,7 @@ use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -102,6 +103,7 @@ class ManagerTest extends TestCase {
 	private $testMountProvider;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
+	private IConfig $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,6 +115,7 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -136,7 +139,7 @@ class ManagerTest extends TestCase {
 			$this->userManager,
 			$this->createMock(ICacheFactory::class),
 			$this->createMock(IEventDispatcher::class)
-		));
+		), $this->config);
 
 		$group1 = $this->createMock(IGroup::class);
 		$group1->expects($this->any())->method('getGID')->willReturn('group1');
@@ -188,6 +191,7 @@ class ManagerTest extends TestCase {
 					$userSession,
 					$this->eventDispatcher,
 					$this->logger,
+					$this->config,
 				]
 			)->setMethods(['tryOCMEndPoint'])->getMock();
 	}
