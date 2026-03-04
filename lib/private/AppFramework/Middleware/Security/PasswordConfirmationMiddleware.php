@@ -56,10 +56,8 @@ class PasswordConfirmationMiddleware extends Middleware {
 		$backendClassName = '';
 		if ($user !== null) {
 			$backend = $user->getBackend();
-			if ($backend instanceof IPasswordConfirmationBackend) {
-				if (!$backend->canConfirmPassword($user->getUID())) {
-					return;
-				}
+			if ($backend instanceof IPasswordConfirmationBackend && !$backend->canConfirmPassword($user->getUID())) {
+				return;
 			}
 
 			$backendClassName = $user->getBackendClassName();
@@ -74,7 +72,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 
 		$scope = $token->getScopeAsArray();
-		if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
+		if (($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] ?? false) === true) {
 			// Users logging in from SSO backends cannot confirm their password by design
 			return;
 		}
