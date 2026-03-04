@@ -411,10 +411,6 @@ OC.L10N.register(
     "Tags" : "Etiquetas",
     "Save as …" : "Gardar como…",
     "Converting files …" : "Convertendo ficheiros…",
-    "Converting file …" : "Convertendo o ficheiro…",
-    "Moving \"{source}\" to \"{destination}\" …" : "Movendo «{source}» a «{destination}»…",
-    "Copying \"{source}\" to \"{destination}\" …" : "Copiando «{source}» en «{destination}»…",
-    "(copy)" : "(copiar)",
-    "(copy %n)" : "(copiar %n)"
+    "Converting file …" : "Convertendo o ficheiro…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -124,12 +124,12 @@
     "Appearance" : "Вигляд",
     "Show hidden files" : "Показувати приховані файли",
     "Show file type column" : "Показувати стовпець з типом файлу",
-    "Show file extensions" : "Show file extensions",
+    "Show file extensions" : "Показувати розширення файлів",
     "Crop image previews" : "Попередній перегляд перед кадруванням",
     "General" : "Загальне",
     "Sort favorites first" : "Спочатку показувати із зірочкою",
     "Sort folders before files" : "Показувати каталоги перед файлами",
-    "Enable folder tree view" : "Увімкнути подання у вигляді дерева каталогів",
+    "Enable folder tree view" : "Увімкнути показ дерева каталогів",
     "Default view" : "Типовий вигляд",
     "All files" : "Усі файли",
     "Personal files" : "Мої документи",
@@ -409,10 +409,6 @@
     "Tags" : "Мітки",
     "Save as …" : "Зберегти як ...",
     "Converting files …" : "Конвертування файлів ...",
-    "Converting file …" : "Конвертування файлу ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "Переміщення \"{source}\" до \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Копіювання \"{source}\" до \"{destination}\" …",
-    "(copy)" : "(копія)",
-    "(copy %n)" : "(копія %n)"
+    "Converting file …" : "Конвертування файлу ..."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

@@ -249,7 +249,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Souporaba %s je spodletela, ker sistem ne podpira souporabe ScienceMesh",
     "Name or email …" : "Ime ali elektronski naslov ...",
     "Name, email, or Federated Cloud ID …" : "Ime, elektronski naslov, ali ID zveznega oblaka ...",
-    "Searching …" : "Poteka iskanje ...",
-    "Error updating the share: {errorMessage}" : "Napaka pri posodabljanju mesta souporabe: {errorMessage}"
+    "Searching …" : "Poteka iskanje ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Condivisione di %s non riuscita poiché il motore non supporta condivisioni di ScienceMesh",
     "Name or email …" : "Nome o email...",
     "Name, email, or Federated Cloud ID …" : "Nome, email o ID di cloud federata...",
-    "Searching …" : "Ricerca in corso...",
-    "Error deleting the share: {errorMessage}" : "Errore durante l'eliminazione della condivisione: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Errore durante l'aggiornamento della condivisione: {errorMessage}"
+    "Searching …" : "Ricerca in corso..."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

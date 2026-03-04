@@ -245,8 +245,6 @@ OC.L10N.register(
     "You" : "Tu",
     "Shared multiple times with different people" : "Compartióse múltiples vegaes con otres persones",
     "Error while loading the file data" : "Hebo un error mentanto de cargaben los datos de los ficheros",
-    "Tags" : "Etiquetes",
-    "(copy)" : "(copia)",
-    "(copy %n)" : "(copia %n)"
+    "Tags" : "Etiquetes"
 },
 "nplurals=2; plural=(n != 1);");

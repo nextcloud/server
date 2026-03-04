@@ -405,10 +405,6 @@ OC.L10N.register(
     "Tags" : "Etiketak",
     "Save as …" : "Gorde honela...",
     "Converting files …" : "Fitxategiak bihurtzen...",
-    "Converting file …" : "Fitxategia bihurtzen...",
-    "Moving \"{source}\" to \"{destination}\" …" : "«{source}» «{destination}»(e)ra mugitzen",
-    "Copying \"{source}\" to \"{destination}\" …" : "«{source}» «{destination}»(e)ra mugitzen",
-    "(copy)" : "(kopiatu)",
-    "(copy %n)" : "(kopiatu %n)"
+    "Converting file …" : "Fitxategia bihurtzen..."
 },
 "nplurals=2; plural=(n != 1);");

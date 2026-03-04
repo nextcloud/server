@@ -403,8 +403,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Compartir %s ha fallado porque el backend no soporta recursos compartidos de ScienceMesh",
     "Name or email …" : "Nombre o correo electrónico …",
     "Name, email, or Federated Cloud ID …" : "Nombre, correo electrónico o ID de nube federada...",
-    "Searching …" : "Buscando ...",
-    "Error deleting the share: {errorMessage}" : "Error al eliminar el recurso compartido: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Error al actualizar el recurso compartido: {errorMessage}"
+    "Searching …" : "Buscando ..."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

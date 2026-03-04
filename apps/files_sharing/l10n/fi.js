@@ -320,7 +320,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
     "Name or email …" : "Nimi tai sähköposti...",
     "Name, email, or Federated Cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
-    "Searching …" : "Haetaan…",
-    "Error updating the share: {errorMessage}" : "Virhe päivittäessä jakoa: {errorMessage}"
+    "Searching …" : "Haetaan…"
 },
 "nplurals=2; plural=(n != 1);");

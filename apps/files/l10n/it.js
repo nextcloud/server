@@ -405,10 +405,6 @@ OC.L10N.register(
     "Tags" : "Etichette",
     "Save as …" : "Salva come …",
     "Converting files …" : "Conversione dei file …",
-    "Converting file …" : "Conversione del file …",
-    "Moving \"{source}\" to \"{destination}\" …" : "Sposta \"{source}\" in \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Copia \"{source}\" in \"{destination}\" …",
-    "(copy)" : "(copia)",
-    "(copy %n)" : "(copia %n)"
+    "Converting file …" : "Conversione del file …"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

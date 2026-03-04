@@ -253,7 +253,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "Name or email …" : "Vardas ar el. paštas…",
     "Name, email, or Federated Cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…",
-    "Searching …" : "Ieškoma…",
-    "Error updating the share: {errorMessage}" : "Klaida atnaujinant viešinį: {errorMessage}"
+    "Searching …" : "Ieškoma…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

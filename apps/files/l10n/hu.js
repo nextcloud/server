@@ -400,10 +400,6 @@ OC.L10N.register(
     "Tags" : "Címkék",
     "Save as …" : "Mentés másként…",
     "Converting files …" : "Fájlok átalakítása…",
-    "Converting file …" : "Fájl átalakítása…",
-    "Moving \"{source}\" to \"{destination}\" …" : "„{source}” áthelyezése ide: „{destination}” …",
-    "Copying \"{source}\" to \"{destination}\" …" : "„{source}” másolása ide: „{destination}” …",
-    "(copy)" : "(másolat)",
-    "(copy %n)" : "(%n. másolat)"
+    "Converting file …" : "Fájl átalakítása…"
 },
 "nplurals=2; plural=(n != 1);");

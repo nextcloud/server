@@ -400,10 +400,6 @@ OC.L10N.register(
     "Tags" : "بەلگەلەر",
     "Save as …" : "سۈپىتىدە ساقلا ...",
     "Converting files …" : "ھۆججەتنى ئايلاندۇرۋاتىدۇ ...",
-    "Converting file …" : "ھۆججەتنى ئايلاندۇرۋاتىدۇ ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\" نى \"{destination}\" غا يۆتكەش…",
-    "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\" نى \"{destination}\" غا كۆچۈرۈش…",
-    "(copy)" : "(كۆپەيتىلگەن نۇسخىسى)",
-    "(copy %n)" : "(%nنى كۆچۈر)"
+    "Converting file …" : "ھۆججەتنى ئايلاندۇرۋاتىدۇ ..."
 },
 "nplurals=2; plural=(n != 1);");

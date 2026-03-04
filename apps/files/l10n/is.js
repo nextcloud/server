@@ -391,10 +391,6 @@ OC.L10N.register(
     "Tags" : "Merki",
     "Save as …" : "Vista sem …",
     "Converting files …" : "Umbreyti skrám …",
-    "Converting file …" : "Umbreyti skrá…",
-    "Moving \"{source}\" to \"{destination}\" …" : "Færi \"{source}\" í \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Afrita \"{source}\" í \"{destination}\" …",
-    "(copy)" : "(afrita)",
-    "(copy %n)" : "(afrita %n)"
+    "Converting file …" : "Umbreyti skrá…"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -401,10 +401,6 @@ OC.L10N.register(
     "Tags" : "Tag",
     "Save as …" : "Simpan sebagai …",
     "Converting files …" : "Mengonversi file …",
-    "Converting file …" : "Mengonversi file …",
-    "Moving \"{source}\" to \"{destination}\" …" : "Memindahkan \"{source}\" ke \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Menyalin \"{source}\" ke \"{destination}\" …",
-    "(copy)" : "(salinan)",
-    "(copy %n)" : "(salinan %n)"
+    "Converting file …" : "Mengonversi file …"
 },
 "nplurals=1; plural=0;");

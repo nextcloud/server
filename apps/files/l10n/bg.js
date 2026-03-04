@@ -397,10 +397,6 @@ OC.L10N.register(
     "Tags" : "Етикети",
     "Save as …" : "Запази като...",
     "Converting files …" : "Конвертиране на файлове...",
-    "Converting file …" : "Файлът се преобразува...",
-    "Moving \"{source}\" to \"{destination}\" …" : "Преместване на \"{source}\" към \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Копиране на \"{source}\" в \"{destination}\" …",
-    "(copy)" : "(копие)",
-    "(copy %n)" : "(копирай %n)"
+    "Converting file …" : "Файлът се преобразува..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -395,10 +395,6 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Save as …" : "Gem som ...",
     "Converting files …" : "Konverterer filer ...",
-    "Converting file …" : "Konverterer fil ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "Flytter \"{source}\" til \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Kopierer \"{source}\" til \"{destination}\" …",
-    "(copy)" : "(kopier)",
-    "(copy %n)" : "(kopier %n)"
+    "Converting file …" : "Konverterer fil ..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Neuspješno dijeljenje %s jer pozadinski servis ne podržava ScienceMesh dijeljenje ",
     "Name or email …" : "Ime ili adresa e-pošte…",
     "Name, email, or Federated Cloud ID …" : "Naziv, adresa e-pošte ili ID udruženog oblaka…",
-    "Searching …" : "Traženje…",
-    "Error deleting the share: {errorMessage}" : "Pogreška pri brisanju dijeljenja: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Pogreška pri ažuriranju dijeljenja: {errorMessage}"
+    "Searching …" : "Traženje…"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

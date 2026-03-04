@@ -411,10 +411,6 @@ OC.L10N.register(
     "Tags" : "タグ",
     "Save as …" : "保存…",
     "Converting files …" : "ファイルの変換…",
-    "Converting file …" : "ファイルの変換…",
-    "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\" を \"{destination}\"に移動",
-    "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\" を \"{destination}\"にコピー",
-    "(copy)" : "(copy)",
-    "(copy %n)" : "(copy %n)"
+    "Converting file …" : "ファイルの変換…"
 },
 "nplurals=1; plural=0;");

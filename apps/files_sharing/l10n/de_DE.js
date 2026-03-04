@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Freigabe von %s fehlgeschlagen, da das Backend keine ScienceMesh-Freigaben unterstützt",
     "Name or email …" : "Name oder E-Mail-Adresse …",
     "Name, email, or Federated Cloud ID …" : "Name, E-Mail-Adresse oder Federated-Cloud-ID …",
-    "Searching …" : "Suche …",
-    "Error deleting the share: {errorMessage}" : "Fehler beim Löschen der Freigabe: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Fehler beim Aktualisieren der Freigabe: {errorMessage}"
+    "Searching …" : "Suche …"
 },
 "nplurals=2; plural=(n != 1);");

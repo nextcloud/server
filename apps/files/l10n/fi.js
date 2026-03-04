@@ -361,9 +361,6 @@ OC.L10N.register(
     "Tags" : "Tunnisteet",
     "Save as …" : "Tallenna nimellä",
     "Converting files …" : "Muunnetaan tiedostoja…",
-    "Converting file …" : "Muunnetaan tiedostoa…",
-    "Moving \"{source}\" to \"{destination}\" …" : "Siirretään \"{source}\" kohteeseen \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Kopioidaan \"{source}\" kohteeseen \"{destination}\" …",
-    "(copy)" : "(kopioi)"
+    "Converting file …" : "Muunnetaan tiedostoa…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -406,10 +406,6 @@ OC.L10N.register(
     "Tags" : "标签",
     "Save as …" : "另存为…",
     "Converting files …" : "正在转换文件…",
-    "Converting file …" : "正在转换文件…",
-    "Moving \"{source}\" to \"{destination}\" …" : "正在将“{source}”移动到“{destination}”…",
-    "Copying \"{source}\" to \"{destination}\" …" : "正在将“{source}”复制到“{destination}”",
-    "(copy)" : "（复制）",
-    "(copy %n)" : "(复制 %n)"
+    "Converting file …" : "正在转换文件…"
 },
 "nplurals=1; plural=0;");
