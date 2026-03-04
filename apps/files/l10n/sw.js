@@ -399,10 +399,6 @@ OC.L10N.register(
     "Tags" : "Maoni",
     "Save as …" : "Hifadhi kama",
     "Converting files …" : "Inageuza mafaili",
-    "Converting file …" : "Inageuza faili",
-    "Moving \"{source}\" to \"{destination}\" …" : "Sogeza \"{source}\" mpaka \"{destination}\"",
-    "Copying \"{source}\" to \"{destination}\" …" : "Inanakili \"{source}\" hadi \"{destination}\" ...",
-    "(copy)" : "(nakili)",
-    "(copy %n)" : "(nakili %n)"
+    "Converting file …" : "Inageuza faili"
 },
 "nplurals=2; plural=(n != 1);");

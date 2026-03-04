@@ -411,10 +411,6 @@ OC.L10N.register(
     "Tags" : "Sildid",
     "Save as …" : "Salvesta kui…",
     "Converting files …" : "Teisendan faile…",
-    "Converting file …" : "Teisendan faili…",
-    "Moving \"{source}\" to \"{destination}\" …" : "Teisaldan „{source}“ → „{destination}“…",
-    "Copying \"{source}\" to \"{destination}\" …" : "Kopeerin „{source}“ → „{destination}“…",
-    "(copy)" : "(koopia)",
-    "(copy %n)" : "(%n koopia)"
+    "Converting file …" : "Teisendan faili…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Спільне використання %s не вдалося, оскільки бекенд не підтримує спільне використання ScienceMesh",
     "Name or email …" : "Ім'я або електронна адреса …",
     "Name, email, or Federated Cloud ID …" : "Ім’я, адреса електронної пошти або ідентифікатор хмари…",
-    "Searching …" : "Пошук...",
-    "Error deleting the share: {errorMessage}" : "Помилка під час вилучення спільного ресурсу: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Помилка під час оновлення спільного ресурсу: {errorMessage}"
+    "Searching …" : "Пошук..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

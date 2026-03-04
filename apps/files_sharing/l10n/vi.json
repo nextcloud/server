@@ -235,7 +235,6 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Chia sẻ %s không thành công vì phần sau không hỗ trợ chia sẻ ScienceMesh",
     "Name or email …" : "Tên hoặc email…",
     "Name, email, or Federated Cloud ID …" : "Tên, email hoặc ID đám mây liên kết…",
-    "Searching …" : "Đang tìm kiếm ...",
-    "Error updating the share: {errorMessage}" : "Lỗi cập nhật phần chia sẻ: {errorMessage}"
+    "Searching …" : "Đang tìm kiếm ..."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

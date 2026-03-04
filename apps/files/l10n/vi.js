@@ -270,10 +270,6 @@ OC.L10N.register(
     "You" : "Bạn",
     "Shared multiple times with different people" : "Được chia sẻ nhiều lần với những người khác nhau",
     "Error while loading the file data" : "Lỗi xảy ra trong khi tải dữ liệu tệp",
-    "Tags" : "Nhãn",
-    "Moving \"{source}\" to \"{destination}\" …" : "Di chuyển \"{source}\" đến \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Sao chéo \"{source}\" đến \"{destination}\" …",
-    "(copy)" : "(sao chép)",
-    "(copy %n)" : "(sao chép %n)"
+    "Tags" : "Nhãn"
 },
 "nplurals=1; plural=0;");

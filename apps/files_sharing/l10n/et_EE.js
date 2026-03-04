@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "„%s“ jagamine ei õnnestunud, sest taustateenus ei toeta ScienceMeshi meedia jagamist",
     "Name or email …" : "Nimi või e-posti aadress…",
     "Name, email, or Federated Cloud ID …" : "Nimi, e-posti aadress või liitpilve kasutajatunnus…",
-    "Searching …" : "Otsin...",
-    "Error deleting the share: {errorMessage}" : "Viga jagamise kustutamisel: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Viga jaosmeedia uuendamisel: {errorMessage}"
+    "Searching …" : "Otsin..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -393,10 +393,6 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Save as …" : "Opslaan als...",
     "Converting files …" : "Bestanden converteren ...",
-    "Converting file …" : "Bestand converteren ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "Verplaatsen \"{source}\" naar \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Kopiëren \"{source}\" naar \"{destination}\" …",
-    "(copy)" : "(kopieer)",
-    "(copy %n)" : "(kopieer %n)"
+    "Converting file …" : "Bestand converteren ..."
 },
 "nplurals=2; plural=(n != 1);");

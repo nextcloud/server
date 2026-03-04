@@ -411,10 +411,6 @@ OC.L10N.register(
     "Tags" : "Тэгүүд",
     "Save as …" : "Хадгалах …",
     "Converting files …" : "Файлуудыг хөрвүүлж байна …",
-    "Converting file …" : "Файл хөрвүүлж байна …",
-    "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\"-г \"{destination}\" руу зөөж байна …",
-    "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\"-г \"{destination}\" руу хуулж байна …",
-    "(copy)" : "(хуулбар)",
-    "(copy %n)" : "(хуулбар %n)"
+    "Converting file …" : "Файл хөрвүүлж байна …"
 },
 "nplurals=2; plural=(n != 1);");

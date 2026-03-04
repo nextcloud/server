@@ -335,10 +335,6 @@ OC.L10N.register(
     "Error while loading the file data" : "파일 데이터를 불러오는 중 오류 발생",
     "Tags" : "태그",
     "Save as …" : "... 으로 저장하기",
-    "Converting files …" : "파일 변환하기 ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\"을(를) \"{destination}\"(으)로 이동...",
-    "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\"을(를) \"{destination}\"(으)로 복사...",
-    "(copy)" : "(복사)",
-    "(copy %n)" : "(%n 복사)"
+    "Converting files …" : "파일 변환하기 ..."
 },
 "nplurals=1; plural=0;");

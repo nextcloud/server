@@ -402,10 +402,6 @@ OC.L10N.register(
     "Tags" : "Taggar",
     "Save as …" : "Spara som …",
     "Converting files …" : "Konverterar filer ...",
-    "Converting file …" : "Konverterar fil ...",
-    "Moving \"{source}\" to \"{destination}\" …" : "Flyttar \"{source}\" till \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Kopierar \"{source}\" till \"{destination}\" …",
-    "(copy)" : "(kopia)",
-    "(copy %n)" : "(kopia %n)"
+    "Converting file …" : "Konverterar fil ..."
 },
 "nplurals=2; plural=(n != 1);");

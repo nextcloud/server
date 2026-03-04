@@ -337,7 +337,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Deling av %s feilet fordi backend-en ikke støtter ScienceMesh-delinger",
     "Name or email …" : "Navn eller epost ...",
     "Name, email, or Federated Cloud ID …" : "Navn, epost eller sammenknyttet sky-ID ...",
-    "Searching …" : "Søker ...",
-    "Error updating the share: {errorMessage}" : "Feil ved oppdatering av delingen: {errorMessage}"
+    "Searching …" : "Søker ..."
 },
 "nplurals=2; plural=(n != 1);");

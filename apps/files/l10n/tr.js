@@ -411,10 +411,6 @@ OC.L10N.register(
     "Tags" : "Etiketler",
     "Save as …" : "Farklı kaydet…",
     "Converting files …" : "Dosyalar dönüştürülüyor…",
-    "Converting file …" : "Dosya dönüştürülüyor…",
-    "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\", \"{destination}\" hedefine taşınıyor…",
-    "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\", \"{destination}\" hedefine kopyalanıyor…",
-    "(copy)" : "(kopya)",
-    "(copy %n)" : "(%n kopyası)"
+    "Converting file …" : "Dosya dönüştürülüyor…"
 },
 "nplurals=2; plural=(n > 1);");

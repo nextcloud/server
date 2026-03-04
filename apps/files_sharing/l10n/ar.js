@@ -375,7 +375,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : " المشاركة %s فشلت بسبب أن الخادم لا يدعم مشاركات ScienceMesh",
     "Name or email …" : "الاسم أو الإيميل …",
     "Name, email, or Federated Cloud ID …" : "الاسم أو البريد أو المعرف السحابي الموحد",
-    "Searching …" : "البحث جارٍ …",
-    "Error updating the share: {errorMessage}" : "خطأ في تعديل المشاركة: {errorMessage}"
+    "Searching …" : "البحث جارٍ …"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -411,10 +411,6 @@ OC.L10N.register(
     "Tags" : "Clibeanna",
     "Save as …" : "Sábháil mar…",
     "Converting files …" : "Comhaid á thiontú…",
-    "Converting file …" : "Comhad á thiontú…",
-    "Moving \"{source}\" to \"{destination}\" …" : "Ag bogadh \"{source}\" go \"{destination}\" ...",
-    "Copying \"{source}\" to \"{destination}\" …" : "“{source}” á chóipeáil go “{destination}”…",
-    "(copy)" : "(cóip)",
-    "(copy %n)" : "(cóip %n)"
+    "Converting file …" : "Comhad á thiontú…"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

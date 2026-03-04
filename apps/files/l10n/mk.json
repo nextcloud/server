@@ -403,10 +403,6 @@
     "Tags" : "Ознаки",
     "Save as …" : "Зачувај како ...",
     "Converting files …" : "Конвертирање датотеки …",
-    "Converting file …" : "Се конвертира датотека …",
-    "Moving \"{source}\" to \"{destination}\" …" : "Се преместува \"{source}\" во \"{destination}\" …",
-    "Copying \"{source}\" to \"{destination}\" …" : "Се копира \"{source}\" во \"{destination}\" …",
-    "(copy)" : "(копирај)",
-    "(copy %n)" : "(копирај %n)"
+    "Converting file …" : "Се конвертира датотека …"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }
