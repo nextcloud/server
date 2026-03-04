@@ -2461,25 +2461,40 @@ $CONFIG = [
 	'files_external_allow_create_new_local' => true,
 
 	/**
-	 * Controls how Nextcloud checks for out-of-band filesystem changes.
+	 * Controls whether Nextcloud performs any request-time checks for out-of-band
+	 * filesystem changes.
 	 *
 	 * This is a global default for filesystem change detection and affects
-	 * freshness (detecting changes made outside of Nextcloud) versus performance.
+	 * freshness (detecting changes made outside Nextcloud) versus performance.
 	 *
-	 * - ``0`` -> Do not check during requests (fastest, but changes on the underlying
-	 *		storage may remain stale/invisible until a scan or refresh).
-	 * - ``1`` -> Check once per path per request (higher overhead, better detection of
-	 *      out-of-band changes).
+	 * - ``0`` -> Do not check during requests (fastest). Out-of-band changes on
+	 *      underlying storage are not detected via routine request-time checks and
+	 *      may remain stale/invisible until explicit reconciliation paths run
+	 *      (for example, admin/maintenance scan-style refresh paths).
+	 * - ``1`` -> Check once per path per request (higher overhead, better
+	 *      request-time detection of out-of-band changes).
 	 *
 	 * Operational guidance:
 	 *
-	 * - Use ``0`` in controlled environments when all file writes go through Nextcloud.
-	 * - Use ``1`` when there is a chance of direct file manipulation that bypasses Nextcloud.
+	 * - Use ``0`` in controlled environments when all writes are expected to go
+	 *      through Nextcloud.
+	 * - Use ``1`` when direct storage-side manipulation may occur outside Nextcloud.
 	 *
-	 * External Storage mounts provide a per-mount option with the same name
-	 * (``filesystem_check_changes``).
+	 * Relationship to ``filesystem_cache_readonly``:
+	 *
+	 * - ``filesystem_check_changes`` controls *detection frequency/policy*.
+	 * - ``filesystem_cache_readonly`` controls whether scan/detection reconciliation
+	 *      results are written to filecache.
+	 *
+	 * Note: External Storage mounts provide a per-mount option with the same name
+	 * (``filesystem_check_changes``):
+	 *
 	 * - If set on a mount, that value overrides this global value for that mount.
-	 * - If not set on a mount, this global value is used as fallback/default.
+	 * - If unset on a mount, this global value is used as fallback/default.
+	 * 
+	 * Note: If direct storage-side manipulation may occur outside Nextcloud on an 
+	 * External Storage mount, it's generally more performant to enable it on the
+	 * relevant mount rather than enabling it globally here.
 	 *
 	 * Defaults to ``0``.
 	 */
