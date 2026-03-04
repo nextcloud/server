@@ -2461,14 +2461,27 @@ $CONFIG = [
 	'files_external_allow_create_new_local' => true,
 
 	/**
-	 * Specify how often the local filesystem (Nextcloud data/ directory and NFS
-	 * mounts in data/) is checked for changes made outside Nextcloud. This does not
-	 * apply to external storage.
+	 * Controls how Nextcloud checks for out-of-band filesystem changes.
 	 *
-	 * - ``0`` -> Never check the filesystem for outside changes, improving performance when no external changes are expected.
-	 * - ``1`` -> Check each file or folder at most once per request, recommended for general use if outside changes are possible.
+	 * This is a global default for filesystem change detection and affects
+	 * freshness (detecting changes made outside of Nextcloud) versus performance.
 	 *
-	 * Defaults to ``0``
+	 * - ``0`` -> Do not check during requests (fastest, but changes on the underlying
+	 *		storage may remain stale/invisible until a scan or refresh).
+	 * - ``1`` -> Check once per path per request (higher overhead, better detection of
+	 *      out-of-band changes).
+	 *
+	 * Operational guidance:
+	 *
+	 * - Use ``0`` in controlled environments when all file writes go through Nextcloud.
+	 * - Use ``1`` when there is a chance of direct file manipulation that bypasses Nextcloud.
+	 *
+	 * External Storage mounts provide a per-mount option with the same name
+	 * (``filesystem_check_changes``).
+	 * - If set on a mount, that value overrides this global value for that mount.
+	 * - If not set on a mount, this global value is used as fallback/default.
+	 *
+	 * Defaults to ``0``.
 	 */
 	'filesystem_check_changes' => 0,
 
