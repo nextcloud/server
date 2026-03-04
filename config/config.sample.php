@@ -2493,7 +2493,7 @@ $CONFIG = [
 	 * Read-only mode for scan/detection reconciliation writes to filecache.
 	 *
 	 * When true, Nextcloud does not store filecache metadata changes that are
-	 * identified through scanner/change-detection reconciliation paths (global: 
+	 * identified through scanner/change-detection reconciliation paths (global:
 	 * all storages).
 	 *
 	 * Scope note:
