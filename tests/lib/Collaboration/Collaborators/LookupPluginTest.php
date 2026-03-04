@@ -16,6 +16,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -27,6 +28,8 @@ use Test\TestCase;
 class LookupPluginTest extends TestCase {
 	/** @var IConfig|MockObject */
 	protected $config;
+	/** @var IAppConfig|MockObject */
+	protected $appConfig;
 	/** @var IClientService|MockObject */
 	protected $clientService;
 	/** @var IUserSession|MockObject */
@@ -44,6 +47,7 @@ class LookupPluginTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$cloudId = $this->createMock(ICloudId::class);
@@ -67,6 +71,7 @@ class LookupPluginTest extends TestCase {
 
 		$this->plugin = new LookupPlugin(
 			$this->config,
+			$this->appConfig,
 			$this->clientService,
 			$this->userSession,
 			$this->cloudIdManager,
