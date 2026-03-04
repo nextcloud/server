@@ -186,7 +186,7 @@ class UserMountCacheTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with($this->callback(function (UserMountAddedEvent|UserMountRemovedEvent $event) use (&$operation) {
-				return match(++$operation) {
+				return match (++$operation) {
 					1 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/asd/',
 					2 => $event instanceof UserMountRemovedEvent && $event->mountPoint->getMountPoint() === '/asd/',
 					default => false,
@@ -217,7 +217,7 @@ class UserMountCacheTest extends TestCase {
 			->expects($this->exactly(3))
 			->method('dispatchTyped')
 			->with($this->callback(function (UserMountAddedEvent|UserMountRemovedEvent $event) use (&$operation) {
-				return match(++$operation) {
+				return match (++$operation) {
 					1 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/bar/',
 					2 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/foo/',
 					3 => $event instanceof UserMountRemovedEvent && $event->mountPoint->getMountPoint() === '/bar/',
@@ -253,7 +253,7 @@ class UserMountCacheTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with($this->callback(function (UserMountAddedEvent|UserMountUpdatedEvent $event) use (&$operation) {
-				return match(++$operation) {
+				return match (++$operation) {
 					1 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/foo/',
 					2 => $event instanceof UserMountUpdatedEvent && $event->oldMountPoint->getMountId() === null && $event->newMountPoint->getMountId() === 1,
 					default => false,
@@ -597,5 +597,27 @@ class UserMountCacheTest extends TestCase {
 		$cachedMounts = $this->cache->getMountsForUser($user1);
 		$this->assertCount(1, $cachedMounts);
 		$this->assertEquals('dummy', $cachedMounts[$this->keyForMount($mount1)]->getMountProvider());
+	}
+
+	public function testChangedSameRootId(): void {
+		$user = $this->userManager->get('u1');
+
+		[$storage] = $this->getStorage(10);
+		$mount1 = new MountPoint($storage, '/asd/');
+		$mount2 = new MountPoint($storage, '/asd2/');
+
+		$this->cache->registerMounts($user, [$mount1, $mount2]);
+
+		$mount2 = new MountPoint($storage, '/asd2/', null, null, null, 1);
+		$this->cache->registerMounts($user, [$mount1, $mount2]);
+
+		$cached = $this->cache->getMountsForUser($user);
+		usort($cached, fn (ICachedMountInfo $a, ICachedMountInfo $b) => $a->getMountPoint() <=> $b->getMountPoint());
+
+		$mountPoints = array_map(fn (ICachedMountInfo $mountInfo) => $mountInfo->getMountPoint(), $cached);
+		$this->assertEquals(['/asd/', '/asd2/'], $mountPoints);
+
+		$mountIds = array_map(fn (ICachedMountInfo $mountInfo) => $mountInfo->getMountId(), $cached);
+		$this->assertEquals([null, 1], $mountIds);
 	}
 }
