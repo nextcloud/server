@@ -107,7 +107,7 @@ $CONFIG = [
 	/**
 	 * The Nextcloud data directory stores user data, app-managed data, and other
 	 * instance-scoped data.
-	 * 
+	 *
 	 * In standard local-storage deployments, user and team files are stored here.
 	 *
 	 * When using object store primary storage, file payloads are stored in object
