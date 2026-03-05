@@ -2473,12 +2473,24 @@ $CONFIG = [
 	'filesystem_check_changes' => 0,
 
 	/**
-	 * Store part files created during upload in the same storage as the upload
-	 * target. Setting this to false stores part files in the root of the user's
-	 * folder, which may be necessary for external storage with limited rename
-	 * capabilities.
+	 * Control where temporary ".part" files are written during direct (non-chunked)
+	 * uploads.
 	 *
-	 * Defaults to ``true``
+	 * While an upload is in progress, Nextcloud writes data to a temporary ".part"
+	 * file and renames it to the final filename when the upload completes.
+	 *
+	 * - true: create the temporary ".part" file in the destination storage/path.
+	 *   This typically avoids cross-storage moves and can improve reliability and
+	 *   performance on backends where rename within the same storage is cheap/atomic.
+	 * - false: create the temporary ".part" file in the user's root folder first.
+	 *   This may help with some external storages that have limited rename/move
+	 *   behavior, but can add extra copy/move overhead.
+	 *
+	 * Note: This setting applies to direct (non-chunked) uploads only. Chunked/
+	 * resumable uploads use a separate uploads staging mechanism and are not
+	 * controlled by this option.
+	 *
+	 * Defaults to ``true``.
 	 */
 	'part_file_in_storage' => true,
 
