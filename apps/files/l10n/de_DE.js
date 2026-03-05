@@ -95,6 +95,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "Ein anderer Eintrag mit diesem Namen existiert bereits.",
     "Invalid filename." : "Ungültiger Dateiname.",
     "Rename file" : "Datei umbenennen",
+    "Recently created" : "Zuletzt erstellt",
     "Folder" : "Ordner",
     "Unknown file type" : "Unbekannter Dateityp",
     "{ext} image" : "{ext}-Bild",
