@@ -1,26 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\RichObjectStrings;
 
@@ -31,34 +14,27 @@ use OCP\RichObjectStrings\IValidator;
 /**
  * Class Validator
  *
+ * @psalm-import-type RichObjectParameter from IValidator
  * @package OCP\RichObjectStrings
  * @since 11.0.0
  */
 class Validator implements IValidator {
-	/** @var Definitions */
-	protected $definitions;
+	protected array $requiredParameters = [];
 
-	/** @var array[] */
-	protected $requiredParameters = [];
-
-	/**
-	 * Constructor
-	 *
-	 * @param Definitions $definitions
-	 */
-	public function __construct(Definitions $definitions) {
-		$this->definitions = $definitions;
+	public function __construct(
+		protected Definitions $definitions,
+	) {
 	}
 
 	/**
 	 * @param string $subject
-	 * @param array[] $parameters
+	 * @param array<non-empty-string, RichObjectParameter> $parameters
 	 * @throws InvalidObjectExeption
 	 * @since 11.0.0
 	 */
-	public function validate($subject, array $parameters) {
+	public function validate(string $subject, array $parameters): void {
 		$matches = [];
-		$result = preg_match_all('/\{([a-z0-9]+)\}/i', $subject, $matches);
+		$result = preg_match_all('/\{(' . self::PLACEHOLDER_REGEX . ')\}/', $subject, $matches);
 
 		if ($result === false) {
 			throw new InvalidObjectExeption();
@@ -72,12 +48,15 @@ class Validator implements IValidator {
 			}
 		}
 
-		foreach ($parameters as $parameter) {
+		foreach ($parameters as $placeholder => $parameter) {
+			if (!\is_string($placeholder) || !preg_match('/^(' . self::PLACEHOLDER_REGEX . ')$/i', $placeholder)) {
+				throw new InvalidObjectExeption('Parameter key is invalid');
+			}
 			if (!\is_array($parameter)) {
 				throw new InvalidObjectExeption('Parameter is malformed');
 			}
 
-			$this->validateParameter($parameter);
+			$this->validateParameter($placeholder, $parameter);
 		}
 	}
 
@@ -85,7 +64,7 @@ class Validator implements IValidator {
 	 * @param array $parameter
 	 * @throws InvalidObjectExeption
 	 */
-	protected function validateParameter(array $parameter) {
+	protected function validateParameter(string $placeholder, array $parameter): void {
 		if (!isset($parameter['type'])) {
 			throw new InvalidObjectExeption('Object type is undefined');
 		}
@@ -95,7 +74,16 @@ class Validator implements IValidator {
 
 		$missingKeys = array_diff($requiredParameters, array_keys($parameter));
 		if (!empty($missingKeys)) {
-			throw new InvalidObjectExeption('Object is invalid, missing keys:'.json_encode($missingKeys));
+			throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, missing keys:' . json_encode($missingKeys));
+		}
+
+		foreach ($parameter as $key => $value) {
+			if (!is_string($key)) {
+				throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, key ' . $key . ' is not a string');
+			}
+			if (!is_string($value)) {
+				throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, value ' . $value . ' for key ' . $key . ' is not a string');
+			}
 		}
 	}
 
@@ -104,7 +92,7 @@ class Validator implements IValidator {
 	 * @param array $definition
 	 * @return string[]
 	 */
-	protected function getRequiredParameters($type, array $definition) {
+	protected function getRequiredParameters(string $type, array $definition): array {
 		if (isset($this->requiredParameters[$type])) {
 			return $this->requiredParameters[$type];
 		}

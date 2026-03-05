@@ -1,28 +1,10 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
- * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: fruux GmbH (https://fruux.com/)
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\DAV\Sharing\Xml;
 
@@ -43,21 +25,6 @@ use Sabre\Xml\XmlSerializable;
  * @license http://sabre.io/license/ Modified BSD License
  */
 class Invite implements XmlSerializable {
-
-	/**
-	 * The list of users a calendar has been shared to.
-	 *
-	 * @var array
-	 */
-	protected $users;
-
-	/**
-	 * The organizer contains information about the person who shared the
-	 * object.
-	 *
-	 * @var array|null
-	 */
-	protected $organizer;
 
 	/**
 	 * Creates the property.
@@ -85,9 +52,17 @@ class Invite implements XmlSerializable {
 	 *
 	 * @param array $users
 	 */
-	public function __construct(array $users, ?array $organizer = null) {
-		$this->users = $users;
-		$this->organizer = $organizer;
+	public function __construct(
+		/**
+		 * The list of users a calendar has been shared to.
+		 */
+		protected array $users,
+		/**
+		 * The organizer contains information about the person who shared the
+		 * object.
+		 */
+		protected ?array $organizer = null,
+	) {
 	}
 
 	/**

@@ -1,27 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 MasterOfDeath <rinat.gumirov@mail.ru>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author MasterOfDeath <rinat.gumirov@mail.ru>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\ShareByMail\Tests;
 
@@ -29,24 +11,17 @@ use OCA\ShareByMail\Capabilities;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\App\IAppManager;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CapabilitiesTest extends TestCase {
-	/** @var Capabilities */
-	private $capabilities;
-
-	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $manager;
-
-	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $settingsManager;
-
-	/** @var IAppManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
+	private IManager&MockObject $manager;
+	private SettingsManager&MockObject $settingsManager;
+	private IAppManager&MockObject $appManager;
+	private Capabilities $capabilities;
 
 	protected function setUp(): void {
 		parent::setUp();
-
 
 		$this->manager = $this::createMock(IManager::class);
 		$this->settingsManager = $this::createMock(SettingsManager::class);
@@ -54,7 +29,7 @@ class CapabilitiesTest extends TestCase {
 		$this->capabilities = new Capabilities($this->manager, $this->settingsManager, $this->appManager);
 	}
 
-	public function testGetCapabilities() {
+	public function testGetCapabilities(): void {
 		$this->manager->method('shareApiAllowLinks')
 			->willReturn(true);
 		$this->manager->method('shareApiLinkEnforcePassword')
@@ -67,24 +42,23 @@ class CapabilitiesTest extends TestCase {
 			->willReturn(true);
 
 		$capabilities = [
-			'files_sharing' =>
-				[
-					'sharebymail' =>
-						[
+			'files_sharing'
+				=> [
+					'sharebymail' => [
+						'enabled' => true,
+						'send_password_by_mail' => true,
+						'upload_files_drop' => [
 							'enabled' => true,
-							'send_password_by_mail' => true,
-							'upload_files_drop' => [
-								'enabled' => true,
-							],
-							'password' => [
-								'enabled' => true,
-								'enforced' => false,
-							],
-							'expire_date' => [
-								'enabled' => true,
-								'enforced' => false,
-							],
-						]
+						],
+						'password' => [
+							'enabled' => true,
+							'enforced' => false,
+						],
+						'expire_date' => [
+							'enabled' => true,
+							'enforced' => false,
+						],
+					]
 				]
 		];
 

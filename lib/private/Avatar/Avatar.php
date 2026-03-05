@@ -3,51 +3,25 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sergey Shliakhov <husband.sergey@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Avatar;
 
 use Imagick;
+use OC\User\User;
 use OCP\Color;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
+use OCP\IConfig;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 
 /**
  * This class gets and sets users avatars.
  */
 abstract class Avatar implements IAvatar {
-	protected LoggerInterface $logger;
-
 	/**
 	 * https://github.com/sebdesign/cap-height -- for 500px height
 	 * Automated check: https://codepen.io/skjnldsv/pen/PydLBK/
@@ -62,8 +36,10 @@ abstract class Avatar implements IAvatar {
 			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#{fgFill}">{letter}</text>
 		</svg>';
 
-	public function __construct(LoggerInterface $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -95,7 +71,7 @@ abstract class Avatar implements IAvatar {
 			return false;
 		}
 
-		$avatar = new \OCP\Image();
+		$avatar = new Image();
 		$avatar->loadFromData($file->getContent());
 		return $avatar;
 	}
@@ -111,37 +87,58 @@ abstract class Avatar implements IAvatar {
 	 * @return string
 	 *
 	 */
-	protected function getAvatarVector(int $size, bool $darkTheme): string {
-		$userDisplayName = $this->getDisplayName();
+	protected function getAvatarVector(string $userDisplayName, int $size, bool $darkTheme): string {
 		$fgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgRGB = $fgRGB->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
-		$fill = sprintf("%02x%02x%02x", $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
-		$fgFill = sprintf("%02x%02x%02x", $fgRGB->red(), $fgRGB->green(), $fgRGB->blue());
+		$fill = sprintf('%02x%02x%02x', $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
+		$fgFill = sprintf('%02x%02x%02x', $fgRGB->red(), $fgRGB->green(), $fgRGB->blue());
 		$text = $this->getAvatarText();
 		$toReplace = ['{size}', '{fill}', '{fgFill}', '{letter}'];
 		return str_replace($toReplace, [$size, $fill, $fgFill, $text], $this->svgTemplate);
 	}
 
 	/**
+	 * Select the rendering font based on the user's display name and language
+	 */
+	private function getFont(string $userDisplayName): string {
+		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
+			switch ($this->getAvatarLanguage()) {
+				case 'zh_TW':
+					return __DIR__ . '/../../../core/fonts/NotoSansTC-Regular.ttf';
+				case 'zh_HK':
+					return __DIR__ . '/../../../core/fonts/NotoSansHK-Regular.ttf';
+				case 'ja':
+					return __DIR__ . '/../../../core/fonts/NotoSansJP-Regular.ttf';
+				case 'ko':
+					return __DIR__ . '/../../../core/fonts/NotoSansKR-Regular.ttf';
+				default:
+					return __DIR__ . '/../../../core/fonts/NotoSansSC-Regular.ttf';
+			}
+		}
+		return __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+	}
+
+	/**
 	 * Generate png avatar from svg with Imagick
 	 */
-	protected function generateAvatarFromSvg(int $size, bool $darkTheme): ?string {
+	protected function generateAvatarFromSvg(string $userDisplayName, int $size, bool $darkTheme): ?string {
 		if (!extension_loaded('imagick')) {
 			return null;
 		}
 		$formats = Imagick::queryFormats();
 		// Avatar generation breaks if RSVG format is enabled. Fall back to gd in that case
-		if (in_array("RSVG", $formats, true)) {
+		if (in_array('RSVG', $formats, true)) {
 			return null;
 		}
+		$text = $this->getAvatarText();
 		try {
-			$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
-			$svg = $this->getAvatarVector($size, $darkTheme);
+			$font = $this->getFont($text);
+			$svg = $this->getAvatarVector($userDisplayName, $size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
 			$avatar->setImageFormat('png');
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromData((string)$avatar);
 			return $image->data();
 		} catch (\Exception $e) {
@@ -178,7 +175,7 @@ abstract class Avatar implements IAvatar {
 		}
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+		$font = $this->getFont($text);
 
 		$fontSize = $size * 0.4;
 		[$x, $y] = $this->imageTTFCenter(
@@ -210,7 +207,7 @@ abstract class Avatar implements IAvatar {
 		string $text,
 		string $font,
 		int $size,
-		int $angle = 0
+		int $angle = 0,
 	): array {
 		// Image width & height
 		$xi = imagesx($image);
@@ -284,5 +281,13 @@ abstract class Avatar implements IAvatar {
 		$finalPalette = array_merge($palette1, $palette2, $palette3);
 
 		return $finalPalette[$this->hashToInt($hash, $steps * 3)];
+	}
+
+	/**
+	 * Get the language to be used for avatar generation.
+	 * This is used to determine the font to use for the avatar text (e.g. CJK characters).
+	 */
+	protected function getAvatarLanguage(): string {
+		return $this->config->getSystemValueString('default_language', 'en');
 	}
 }

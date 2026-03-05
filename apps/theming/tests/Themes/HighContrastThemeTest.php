@@ -1,24 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests\Themes;
 
@@ -35,26 +20,20 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class HighContrastThemeTest extends AccessibleThemeTestCase {
-	/** @var ThemingDefaults|MockObject */
-	private $themingDefaults;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var ImageManager|MockObject */
-	private $imageManager;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IL10N|MockObject */
-	private $l10n;
-	/** @var IAppManager|MockObject */
-	private $appManager;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private IUserSession&MockObject $userSession;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ImageManager&MockObject $imageManager;
+	private IConfig&MockObject $config;
+	private IL10N&MockObject $l10n;
+	private IAppManager&MockObject $appManager;
 
 	// !! important: Enable WCAG AAA tests
-	protected bool $WCAGaaa = true;
+	protected static bool $WCAGaaa = true;
 
 	protected function setUp(): void {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
@@ -66,6 +45,7 @@ class HighContrastThemeTest extends AccessibleThemeTestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->util = new Util(
+			$this->createMock(ServerVersion::class),
 			$this->config,
 			$this->appManager,
 			$this->createMock(IAppData::class),
@@ -80,6 +60,14 @@ class HighContrastThemeTest extends AccessibleThemeTestCase {
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
+			->willReturn('#0082c9');
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getColorBackground')
+			->willReturn('#0082c9');
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorBackground')
 			->willReturn('#0082c9');
 
 		$this->themingDefaults
@@ -110,33 +98,34 @@ class HighContrastThemeTest extends AccessibleThemeTestCase {
 			$this->config,
 			$this->l10n,
 			$this->appManager,
+			null,
 		);
 
 		parent::setUp();
 	}
 
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertEquals('light-highcontrast', $this->theme->getId());
 	}
 
-	public function testGetType() {
+	public function testGetType(): void {
 		$this->assertEquals(ITheme::TYPE_THEME, $this->theme->getType());
 	}
 
-	public function testGetTitle() {
+	public function testGetTitle(): void {
 		$this->assertEquals('High contrast mode', $this->theme->getTitle());
 	}
 
-	public function testGetEnableLabel() {
+	public function testGetEnableLabel(): void {
 		$this->assertEquals('Enable high contrast mode', $this->theme->getEnableLabel());
 	}
 
-	public function testGetDescription() {
+	public function testGetDescription(): void {
 		$this->assertEquals('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.', $this->theme->getDescription());
 	}
 
-	public function testGetMediaQuery() {
+	public function testGetMediaQuery(): void {
 		$this->assertEquals('(prefers-contrast: more)', $this->theme->getMediaQuery());
 	}
 }

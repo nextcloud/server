@@ -1,31 +1,15 @@
 <?php
 
 /**
- * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Controller;
 
 use OC\Contacts\ContactsMenu\Manager;
 use OC\Core\Controller\ContactsMenuController;
+use OC\Teams\TeamManager;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IRequest;
 use OCP\IUser;
@@ -34,11 +18,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContactsMenuControllerTest extends TestCase {
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var Manager|MockObject */
-	private $contactsManager;
+	private IUserSession&MockObject $userSession;
+	private Manager&MockObject $contactsManager;
+	private TeamManager&MockObject $teamManager;
 
 	private ContactsMenuController $controller;
 
@@ -48,11 +30,17 @@ class ContactsMenuControllerTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->contactsManager = $this->createMock(Manager::class);
+		$this->teamManager = $this->createMock(TeamManager::class);
 
-		$this->controller = new ContactsMenuController($request, $this->userSession, $this->contactsManager);
+		$this->controller = new ContactsMenuController(
+			$request,
+			$this->userSession,
+			$this->contactsManager,
+			$this->teamManager,
+		);
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$user = $this->createMock(IUser::class);
 		$entries = [
 			$this->createMock(IEntry::class),
@@ -71,7 +59,41 @@ class ContactsMenuControllerTest extends TestCase {
 		$this->assertEquals($entries, $response);
 	}
 
-	public function testFindOne() {
+	public function testIndex_withTeam(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('current-user');
+
+		$entries = [
+			$this->createMock(IEntry::class),
+			$this->createMock(IEntry::class),
+		];
+		$entries[0]->method('getProperty')
+			->with('UID')
+			->willReturn('member1');
+		$entries[0]->method('getProperty')
+			->with('UID')
+			->willReturn('member2');
+
+		$this->userSession->expects($this->atLeastOnce())
+			->method('getUser')
+			->willReturn($user);
+		$this->contactsManager->expects($this->once())
+			->method('getEntries')
+			->with($this->equalTo($user), $this->equalTo(null))
+			->willReturn(['contacts' => $entries]);
+
+		$this->teamManager->expects($this->once())
+			->method('getMembersOfTeam')
+			->with('team-id', 'current-user')
+			->willReturn(['member1', 'member3']);
+
+		$response = $this->controller->index(teamId: 'team-id');
+
+		$this->assertEquals([$entries[0]], $response['contacts']);
+	}
+
+	public function testFindOne(): void {
 		$user = $this->createMock(IUser::class);
 		$entry = $this->createMock(IEntry::class);
 		$this->userSession->expects($this->once())
@@ -87,7 +109,7 @@ class ContactsMenuControllerTest extends TestCase {
 		$this->assertEquals($entry, $response);
 	}
 
-	public function testFindOne404() {
+	public function testFindOne404(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->once())
 			->method('getUser')

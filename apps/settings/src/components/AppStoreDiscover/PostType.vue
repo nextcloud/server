@@ -1,33 +1,18 @@
 <!--
-  - @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @author Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<article :id="domId"
+	<article
+		:id="domId"
 		ref="container"
 		class="app-discover-post"
 		:class="{
 			'app-discover-post--reverse': media && media.alignment === 'start',
-			'app-discover-post--small': isSmallWidth
+			'app-discover-post--small': isSmallWidth,
 		}">
-		<component :is="link ? 'AppLink' : 'div'"
+		<component
+			:is="link ? 'AppLink' : 'div'"
 			v-if="headline || text"
 			:href="link"
 			class="app-discover-post__text">
@@ -36,7 +21,8 @@
 			</component>
 			<p>{{ translatedText }}</p>
 		</component>
-		<component :is="mediaLink ? 'AppLink' : 'div'"
+		<component
+			:is="mediaLink ? 'AppLink' : 'div'"
 			v-if="mediaSources"
 			:href="mediaLink"
 			class="app-discover-post__media"
@@ -45,24 +31,28 @@
 				'app-discover-post__media--start': media?.alignment === 'start',
 				'app-discover-post__media--end': media?.alignment === 'end',
 			}">
-			<component :is="isImage ? 'picture' : 'video'"
+			<component
+				:is="isImage ? 'picture' : 'video'"
 				ref="mediaElement"
 				class="app-discover-post__media-element"
 				:muted="!isImage"
 				:playsinline="!isImage"
 				:preload="!isImage && 'auto'"
 				@ended="hasPlaybackEnded = true">
-				<source v-for="source of mediaSources"
+				<source
+					v-for="source of mediaSources"
 					:key="source.src"
 					:src="isImage ? undefined : generatePrivacyUrl(source.src)"
 					:srcset="isImage ? generatePrivacyUrl(source.src) : undefined"
 					:type="source.mime">
-				<img v-if="isImage"
+				<img
+					v-if="isImage"
 					:src="generatePrivacyUrl(mediaSources[0].src)"
 					:alt="mediaAlt">
 			</component>
 			<div class="app-discover-post__play-icon-wrapper">
-				<NcIconSvgWrapper v-if="!isImage && showPlayVideo"
+				<NcIconSvgWrapper
+					v-if="!isImage && showPlayVideo"
 					class="app-discover-post__play-icon"
 					:path="mdiPlayCircleOutline"
 					:size="92" />
@@ -72,18 +62,17 @@
 </template>
 
 <script lang="ts">
-import type { IAppDiscoverPost } from '../../constants/AppDiscoverTypes.ts'
 import type { PropType } from 'vue'
+import type { IAppDiscoverPost } from '../../constants/AppDiscoverTypes.ts'
 
 import { mdiPlayCircleOutline } from '@mdi/js'
 import { generateUrl } from '@nextcloud/router'
 import { useElementSize, useElementVisibility } from '@vueuse/core'
 import { computed, defineComponent, ref, watchEffect } from 'vue'
-import { commonAppDiscoverProps } from './common'
-import { useLocalizedValue } from '../../composables/useGetLocalizedValue'
-
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import AppLink from './AppLink.vue'
+import { useLocalizedValue } from '../../composables/useGetLocalizedValue.ts'
+import { commonAppDiscoverProps } from './common.ts'
 
 export default defineComponent({
 	components: {
@@ -152,11 +141,12 @@ export default defineComponent({
 
 		/**
 		 * Generate URL for cached media to prevent user can be tracked
+		 *
 		 * @param url The URL to resolve
 		 */
 		const generatePrivacyUrl = (url: string) => url.startsWith('/') ? url : generateUrl('/settings/api/apps/media?fileName={fileName}', { fileName: url })
 
-		const mediaElement = ref<HTMLVideoElement|HTMLPictureElement>()
+		const mediaElement = ref<HTMLVideoElement | HTMLPictureElement>()
 		const mediaIsVisible = useElementVisibility(mediaElement, { threshold: 0.3 })
 		watchEffect(() => {
 			// Only if media is video
@@ -269,15 +259,15 @@ export default defineComponent({
 	}
 
 	&__play-icon {
+		position: absolute;
+		top: -46px; // half of the icon height
+		inset-inline-end: -46px; // half of the icon width
+
 		&-wrapper {
 			position: relative;
 			top: -50%;
-			left: -50%;
+			inset-inline-start: -50%;
 		}
-
-		position: absolute;
-		top: -46px; // half of the icon height
-		right: -46px; // half of the icon width
 	}
 }
 

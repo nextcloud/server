@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 Feature: comments
   Scenario: Creating a comment on a file belonging to myself
     Given user "user0" exists

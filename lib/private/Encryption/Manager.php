@@ -1,30 +1,14 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Encryption;
 
+use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Keys\Storage;
 use OC\Files\Filesystem;
 use OC\Files\View;
@@ -110,7 +94,7 @@ class Manager implements IManager {
 	 */
 	public function registerEncryptionModule($id, $displayName, callable $callback) {
 		if (isset($this->encryptionModules[$id])) {
-			throw new Exceptions\ModuleAlreadyExistsException($id, $displayName);
+			throw new ModuleAlreadyExistsException($id, $displayName);
 		}
 
 		$this->encryptionModules[$id] = [
@@ -160,26 +144,26 @@ class Manager implements IManager {
 		}
 		$message = "Module with ID: $moduleId does not exist.";
 		$hint = $this->l->t('Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator.', [$moduleId]);
-		throw new Exceptions\ModuleDoesNotExistsException($message, $hint);
+		throw new ModuleDoesNotExistsException($message, $hint);
 	}
 
 	/**
 	 * get default encryption module
 	 *
-	 * @return \OCP\Encryption\IEncryptionModule
+	 * @return IEncryptionModule
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
 	protected function getDefaultEncryptionModule() {
 		$defaultModuleId = $this->getDefaultEncryptionModuleId();
 		if (empty($defaultModuleId)) {
 			$message = 'No default encryption module defined';
-			throw new Exceptions\ModuleDoesNotExistsException($message);
+			throw new ModuleDoesNotExistsException($message);
 		}
 		if (isset($this->encryptionModules[$defaultModuleId])) {
 			return call_user_func($this->encryptionModules[$defaultModuleId]['callback']);
 		}
 		$message = 'Default encryption module not loaded';
-		throw new Exceptions\ModuleDoesNotExistsException($message);
+		throw new ModuleDoesNotExistsException($message);
 	}
 
 	/**

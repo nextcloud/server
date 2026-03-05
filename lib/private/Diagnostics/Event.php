@@ -1,100 +1,45 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Diagnostics;
 
 use OCP\Diagnostics\IEvent;
 
 class Event implements IEvent {
-	/**
-	 * @var string
-	 */
-	protected $id;
+	protected ?float $end = null;
 
-	/**
-	 * @var float
-	 */
-	protected $start;
-
-	/**
-	 * @var float
-	 */
-	protected $end;
-
-	/**
-	 * @var string
-	 */
-	protected $description;
-
-	/**
-	 * @param string $id
-	 * @param string $description
-	 * @param float $start
-	 */
-	public function __construct($id, $description, $start) {
-		$this->id = $id;
-		$this->description = $description;
-		$this->start = $start;
+	public function __construct(
+		protected string $id,
+		protected string $description,
+		protected float $start,
+	) {
 	}
 
-	/**
-	 * @param float $time
-	 */
-	public function end($time) {
+	public function end(float $time): void {
 		$this->end = $time;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getStart() {
+	public function getStart(): float {
 		return $this->start;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getId() {
+	public function getId(): string {
 		return $this->id;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDescription() {
+	public function getDescription(): string {
 		return $this->description;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getEnd() {
-		return $this->end;
+	public function getEnd(): float {
+		return $this->end ?? -1;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getDuration() {
+	public function getDuration(): float {
 		if (!$this->end) {
 			$this->end = microtime(true);
 		}

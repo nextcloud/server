@@ -3,34 +3,16 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Security\Ip\BruteforceAllowList;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
+use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ARateLimit;
@@ -39,9 +21,12 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
+use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 /**
@@ -72,6 +57,10 @@ class RateLimitingMiddleware extends Middleware {
 		protected ControllerMethodReflector $reflector,
 		protected Limiter $limiter,
 		protected ISession $session,
+		protected IAppConfig $appConfig,
+		protected IConfig $serverConfig,
+		protected BruteforceAllowList $bruteForceAllowList,
+		protected LoggerInterface $logger,
 	) {
 	}
 
@@ -83,15 +72,26 @@ class RateLimitingMiddleware extends Middleware {
 		parent::beforeController($controller, $methodName);
 		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
 
-		if ($this->session->exists('app_api_system')) {
-			// Bypass rate limiting for app_api
+		if ($this->userSession instanceof Session && $this->userSession->getSession()->get('app_api') === true && $this->userSession->getUser() === null) {
+			// if userId is not specified and the request is authenticated by AppAPI, we skip the rate limit
 			return;
 		}
 
 		if ($this->userSession->isLoggedIn()) {
-			$rateLimit = $this->readLimitFromAnnotationOrAttribute($controller, $methodName, 'UserRateThrottle', UserRateLimit::class);
+			$rateLimit = $this->readLimitFromAnnotationOrAttribute(
+				$controller,
+				$methodName,
+				'UserRateThrottle',
+				UserRateLimit::class,
+				'user',
+			);
 
 			if ($rateLimit !== null) {
+				if ($this->appConfig->getValueBool('bruteforcesettings', 'apply_allowlist_to_ratelimit')
+					&& $this->bruteForceAllowList->isBypassListed($this->request->getRemoteAddress())) {
+					return;
+				}
+
 				$this->limiter->registerUserRequest(
 					$rateLimitIdentifier,
 					$rateLimit->getLimit(),
@@ -104,7 +104,13 @@ class RateLimitingMiddleware extends Middleware {
 			// If not user specific rate limit is found the Anon rate limit applies!
 		}
 
-		$rateLimit = $this->readLimitFromAnnotationOrAttribute($controller, $methodName, 'AnonRateThrottle', AnonRateLimit::class);
+		$rateLimit = $this->readLimitFromAnnotationOrAttribute(
+			$controller,
+			$methodName,
+			'AnonRateThrottle',
+			AnonRateLimit::class,
+			'anon',
+		);
 
 		if ($rateLimit !== null) {
 			$this->limiter->registerAnonRequest(
@@ -125,14 +131,42 @@ class RateLimitingMiddleware extends Middleware {
 	 * @param class-string<T> $attributeClass
 	 * @return ?ARateLimit
 	 */
-	protected function readLimitFromAnnotationOrAttribute(Controller $controller, string $methodName, string $annotationName, string $attributeClass): ?ARateLimit {
+	protected function readLimitFromAnnotationOrAttribute(Controller $controller, string $methodName, string $annotationName, string $attributeClass, string $overwriteKey): ?ARateLimit {
+		$rateLimitOverwrite = $this->serverConfig->getSystemValue('ratelimit_overwrite', []);
+		if (!empty($rateLimitOverwrite)) {
+			$controllerRef = new \ReflectionClass($controller);
+			$appName = $controllerRef->getProperty('appName')->getValue($controller);
+			$controllerName = substr($controller::class, strrpos($controller::class, '\\') + 1);
+			$controllerName = substr($controllerName, 0, 0 - strlen('Controller'));
+
+			$overwriteConfig = strtolower($appName . '.' . $controllerName . '.' . $methodName);
+			$rateLimitOverwriteForActionAndType = $rateLimitOverwrite[$overwriteConfig][$overwriteKey] ?? null;
+			if ($rateLimitOverwriteForActionAndType !== null) {
+				$isValid = isset($rateLimitOverwriteForActionAndType['limit'], $rateLimitOverwriteForActionAndType['period'])
+					&& $rateLimitOverwriteForActionAndType['limit'] > 0
+					&& $rateLimitOverwriteForActionAndType['period'] > 0;
+
+				if ($isValid) {
+					return new $attributeClass(
+						(int)$rateLimitOverwriteForActionAndType['limit'],
+						(int)$rateLimitOverwriteForActionAndType['period'],
+					);
+				}
+
+				$this->logger->warning('Rate limit overwrite on controller "{overwriteConfig}" for "{overwriteKey}" is invalid', [
+					'overwriteConfig' => $overwriteConfig,
+					'overwriteKey' => $overwriteKey,
+				]);
+			}
+		}
+
 		$annotationLimit = $this->reflector->getAnnotationParameter($annotationName, 'limit');
 		$annotationPeriod = $this->reflector->getAnnotationParameter($annotationName, 'period');
 
 		if ($annotationLimit !== '' && $annotationPeriod !== '') {
 			return new $attributeClass(
-				(int) $annotationLimit,
-				(int) $annotationPeriod,
+				(int)$annotationLimit,
+				(int)$annotationPeriod,
 			);
 		}
 

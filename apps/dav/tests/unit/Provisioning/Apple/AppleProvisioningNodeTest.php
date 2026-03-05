@@ -1,40 +1,21 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018 Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\Provisioning\Apple;
 
 use OCA\DAV\Provisioning\Apple\AppleProvisioningNode;
 use OCP\AppFramework\Utility\ITimeFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class AppleProvisioningNodeTest extends TestCase {
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-
-	/** @var AppleProvisioningNode */
-	private $node;
+	private ITimeFactory&MockObject $timeFactory;
+	private AppleProvisioningNode $node;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,7 +27,6 @@ class AppleProvisioningNodeTest extends TestCase {
 	public function testGetName(): void {
 		$this->assertEquals('apple-provisioning.mobileconfig', $this->node->getName());
 	}
-
 
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -74,7 +54,7 @@ class AppleProvisioningNodeTest extends TestCase {
 
 		$this->assertEquals([
 			'{DAV:}getcontentlength' => 42,
-			'{DAV:}getlastmodified' => 'Sat, 01 Jan 2000 00:00:00 +0000',
+			'{DAV:}getlastmodified' => 'Sat, 01 Jan 2000 00:00:00 GMT',
 		], $this->node->getProperties([]));
 	}
 

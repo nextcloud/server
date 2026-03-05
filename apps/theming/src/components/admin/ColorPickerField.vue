@@ -1,121 +1,113 @@
 <!--
-  - @copyright 2022 Christopher Ng <chrng8@gmail.com>
-  -
-  - @author Christopher Ng <chrng8@gmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { AdminThemingParameters } from '../../types.d.ts'
+
+import { mdiPaletteOutline, mdiUndo } from '@mdi/js'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { computed, ref, toRef, useId, watch } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import { useAdminThemingValue } from '../../composables/useAdminThemingValue.js'
+import { getTextColor } from '../../utils/color.ts'
+
+const props = defineProps<{
+	name: keyof AdminThemingParameters
+	label: string
+	defaultValue: string
+}>()
+
+const emit = defineEmits<{
+	updated: []
+}>()
+
+const id = useId()
+
+const modelValue = ref(loadState<AdminThemingParameters>('theming', 'adminThemingParameters')[props.name] as string)
+const previewColor = ref(modelValue.value)
+watch(modelValue, (v) => {
+	previewColor.value = v
+})
+
+const {
+	isSaving,
+	reset,
+} = useAdminThemingValue(() => props.name, modelValue, toRef(props, 'defaultValue'))
+watch(isSaving, (v) => !v && emit('updated'))
+
+const textColor = computed(() => getTextColor(previewColor.value))
+</script>
+
 <template>
-	<div class="field">
-		<label :for="id">{{ displayName }}</label>
-		<div class="field__row">
-			<NcColorPicker :value.sync="localValue"
-				:advanced-fields="true"
-				data-admin-theming-setting-primary-color-picker
-				@update:value="debounceSave">
-				<NcButton type="secondary"
-					:id="id">
+	<div :class="$style.colorPickerField">
+		<div :class="$style.colorPickerField__row">
+			<NcColorPicker
+				:id
+				v-model="previewColor"
+				advancedFields
+				@submit="modelValue = $event!">
+				<NcButton
+					:class="$style.colorPickerField__button"
+					size="large"
+					variant="primary"
+					:style="{
+						'--color-primary-element': previewColor,
+						'--color-primary-element-text': textColor,
+						'--color-primary-element-hover': 'color-mix(in srgb, var(--color-primary-element) 70%, var(--color-primary-element-text))',
+					}">
 					<template #icon>
-						<Palette :size="20" />
+						<NcLoadingIcon v-if="isSaving" :appearance="textColor === '#ffffff' ? 'light' : 'dark'" />
+						<NcIconSvgWrapper v-else :path="mdiPaletteOutline" />
 					</template>
-					{{ t('theming', 'Change color') }}
+					{{ label }}
 				</NcButton>
 			</NcColorPicker>
-			<div class="field__color-preview" data-admin-theming-setting-primary-color />
-			<NcButton v-if="value !== defaultValue"
-				type="tertiary"
+			<NcButton
+				v-if="modelValue !== defaultValue"
+				variant="tertiary"
 				:aria-label="t('theming', 'Reset to default')"
-				data-admin-theming-setting-primary-color-reset
-				@click="undo">
+				:title="t('theming', 'Reset to default')"
+				@click="reset">
 				<template #icon>
-					<Undo :size="20" />
+					<NcIconSvgWrapper :path="mdiUndo" />
 				</template>
 			</NcButton>
 		</div>
-
-		<NcNoteCard v-if="errorMessage"
-			type="error"
-			:show-alert="true">
-			<p>{{ errorMessage }}</p>
-		</NcNoteCard>
+		<p :class="$style.colorPickerField__description">
+			<slot name="description" />
+		</p>
 	</div>
 </template>
 
-<script>
-import { debounce } from 'debounce'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import Undo from 'vue-material-design-icons/UndoVariant.vue'
-import Palette from 'vue-material-design-icons/Palette.vue'
-
-import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
-
-export default {
-	name: 'ColorPickerField',
-
-	components: {
-		NcButton,
-		NcColorPicker,
-		NcNoteCard,
-		Undo,
-		Palette,
-	},
-
-	mixins: [
-		TextValueMixin,
-	],
-
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
-		value: {
-			type: String,
-			required: true,
-		},
-		defaultValue: {
-			type: String,
-			required: true,
-		},
-		displayName: {
-			type: String,
-			required: true,
-		},
-	},
-
-	methods: {
-		debounceSave: debounce(async function() {
-			await this.save()
-		}, 200),
-	},
+<style module>
+.colorPickerField {
+	display: flex;
+	flex-direction: column;
 }
-</script>
 
-<style lang="scss" scoped>
-@import './shared/field.scss';
+.colorPickerField__row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: calc(1.5 * var(--default-grid-baseline));
+}
 
-.field {
-	&__color-preview {
-		width: var(--default-clickable-area);
-		border-radius: var(--border-radius-large);
-		background-color: var(--color-primary-default);
-	}
+.colorPickerField__button {
+	min-width: clamp(200px, 25vw, 300px) !important;
+}
+
+.colorPickerField__description {
+	color: var(--color-text-maxcontrast);
+	margin-block: calc(0.5 * var(--default-grid-baseline)) var(--default-grid-baseline);
+}
+
+.colorPickerField__description:empty {
+	display: none;
 }
 </style>

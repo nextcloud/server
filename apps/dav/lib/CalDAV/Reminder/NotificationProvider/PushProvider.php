@@ -3,30 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Thomas Citharel
- * @copyright Copyright (c) 2019, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
@@ -52,21 +30,15 @@ class PushProvider extends AbstractProvider {
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'DISPLAY';
 
-	/** @var IManager */
-	private $manager;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	public function __construct(IConfig $config,
-		IManager $manager,
+	public function __construct(
+		IConfig $config,
+		private IManager $manager,
 		LoggerInterface $logger,
 		L10NFactory $l10nFactory,
 		IURLGenerator $urlGenerator,
-		ITimeFactory $timeFactory) {
+		private ITimeFactory $timeFactory,
+	) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
-		$this->manager = $manager;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -87,7 +59,7 @@ class PushProvider extends AbstractProvider {
 		}
 
 		$eventDetails = $this->extractEventDetails($vevent);
-		$eventUUID = (string) $vevent->UID;
+		$eventUUID = (string)$vevent->UID;
 		if (!$eventUUID) {
 			return;
 		};
@@ -122,13 +94,13 @@ class PushProvider extends AbstractProvider {
 
 		return [
 			'title' => isset($vevent->SUMMARY)
-				? ((string) $vevent->SUMMARY)
+				? ((string)$vevent->SUMMARY)
 				: null,
 			'description' => isset($vevent->DESCRIPTION)
-				? ((string) $vevent->DESCRIPTION)
+				? ((string)$vevent->DESCRIPTION)
 				: null,
 			'location' => isset($vevent->LOCATION)
-				? ((string) $vevent->LOCATION)
+				? ((string)$vevent->LOCATION)
 				: null,
 			'all_day' => $start instanceof Property\ICalendar\Date,
 			'start_atom' => $start->getDateTime()->format(\DateTimeInterface::ATOM),

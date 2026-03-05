@@ -3,53 +3,26 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\TwoFactorBackupCodes\Test\Unit\Activity;
 
-use InvalidArgumentException;
 use OCA\TwoFactorBackupCodes\Activity\Provider;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ProviderTest extends TestCase {
-
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $activityManager;
-
-	/** @var Provider */
-	private $provider;
+	private IFactory&MockObject $l10n;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IManager&MockObject $activityManager;
+	private Provider $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -61,27 +34,25 @@ class ProviderTest extends TestCase {
 		$this->provider = new Provider($this->l10n, $this->urlGenerator, $this->activityManager);
 	}
 
-	public function testParseUnrelated() {
+	public function testParseUnrelated(): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$event->expects($this->once())
 			->method('getApp')
 			->willReturn('comments');
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 
 		$this->provider->parse($lang, $event);
 	}
 
-	public function subjectData() {
+	public static function subjectData(): array {
 		return [
 			['codes_generated'],
 		];
 	}
 
-	/**
-	 * @dataProvider subjectData
-	 */
-	public function testParse($subject) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'subjectData')]
+	public function testParse(string $subject): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$l = $this->createMock(IL10N::class);
@@ -113,7 +84,7 @@ class ProviderTest extends TestCase {
 		$this->provider->parse($lang, $event);
 	}
 
-	public function testParseInvalidSubject() {
+	public function testParseInvalidSubject(): void {
 		$lang = 'ru';
 		$l = $this->createMock(IL10N::class);
 		$event = $this->createMock(IEvent::class);
@@ -129,7 +100,7 @@ class ProviderTest extends TestCase {
 			->method('getSubject')
 			->willReturn('unrelated');
 
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 		$this->provider->parse($lang, $event);
 	}
 }

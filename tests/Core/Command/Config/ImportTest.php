@@ -1,22 +1,9 @@
 <?php
+
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Config;
@@ -48,11 +35,11 @@ class ImportTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\IConfig $config */
+		/** @var IConfig $config */
 		$this->command = new Import($config);
 	}
 
-	public function validateAppsArrayData() {
+	public static function validateAppsArrayData(): array {
 		return [
 			[0],
 			[1],
@@ -63,16 +50,15 @@ class ImportTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider validateAppsArrayData
-	 *
 	 * @param mixed $configValue
 	 */
-	public function testValidateAppsArray($configValue) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('validateAppsArrayData')]
+	public function testValidateAppsArray($configValue): void {
 		$this->invokePrivate($this->command, 'validateAppsArray', [['app' => ['name' => $configValue]]]);
 		$this->assertTrue(true, 'Asserting that no exception is thrown');
 	}
 
-	public function validateAppsArrayThrowsData() {
+	public static function validateAppsArrayThrowsData(): array {
 		return [
 			[false],
 			[true],
@@ -82,11 +68,10 @@ class ImportTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider validateAppsArrayThrowsData
-	 *
 	 * @param mixed $configValue
 	 */
-	public function testValidateAppsArrayThrows($configValue) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('validateAppsArrayThrowsData')]
+	public function testValidateAppsArrayThrows($configValue): void {
 		try {
 			$this->invokePrivate($this->command, 'validateAppsArray', [['app' => ['name' => $configValue]]]);
 			$this->fail('Did not throw expected UnexpectedValueException');
@@ -95,7 +80,7 @@ class ImportTest extends TestCase {
 		}
 	}
 
-	public function checkTypeRecursivelyData() {
+	public static function checkTypeRecursivelyData(): array {
 		return [
 			[0],
 			[1],
@@ -112,16 +97,15 @@ class ImportTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider checkTypeRecursivelyData
-	 *
 	 * @param mixed $configValue
 	 */
-	public function testCheckTypeRecursively($configValue) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('checkTypeRecursivelyData')]
+	public function testCheckTypeRecursively($configValue): void {
 		$this->invokePrivate($this->command, 'checkTypeRecursively', [$configValue, 'name']);
 		$this->assertTrue(true, 'Asserting that no exception is thrown');
 	}
 
-	public function checkTypeRecursivelyThrowsData() {
+	public static function checkTypeRecursivelyThrowsData(): array {
 		return [
 			[new \Exception()],
 			[[new \Exception()]],
@@ -131,11 +115,10 @@ class ImportTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider checkTypeRecursivelyThrowsData
-	 *
 	 * @param mixed $configValue
 	 */
-	public function testCheckTypeRecursivelyThrows($configValue) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('checkTypeRecursivelyThrowsData')]
+	public function testCheckTypeRecursivelyThrows($configValue): void {
 		try {
 			$this->invokePrivate($this->command, 'checkTypeRecursively', [$configValue, 'name']);
 			$this->fail('Did not throw expected UnexpectedValueException');
@@ -144,7 +127,7 @@ class ImportTest extends TestCase {
 		}
 	}
 
-	public function validateArrayData() {
+	public static function validateArrayData(): array {
 		return [
 			[['system' => []]],
 			[['apps' => []]],
@@ -153,16 +136,15 @@ class ImportTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider validateArrayData
-	 *
 	 * @param array $configArray
 	 */
-	public function testValidateArray($configArray) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('validateArrayData')]
+	public function testValidateArray($configArray): void {
 		$this->invokePrivate($this->command, 'validateArray', [$configArray]);
 		$this->assertTrue(true, 'Asserting that no exception is thrown');
 	}
 
-	public function validateArrayThrowsData() {
+	public static function validateArrayThrowsData(): array {
 		return [
 			[[], 'At least one key of the following is expected:'],
 			[[0 => []], 'Found invalid entries in root'],
@@ -171,12 +153,12 @@ class ImportTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider validateArrayThrowsData
 	 *
 	 * @param mixed $configArray
 	 * @param string $expectedException
 	 */
-	public function testValidateArrayThrows($configArray, $expectedException) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('validateArrayThrowsData')]
+	public function testValidateArrayThrows($configArray, $expectedException): void {
 		try {
 			$this->invokePrivate($this->command, 'validateArray', [$configArray]);
 			$this->fail('Did not throw expected UnexpectedValueException');

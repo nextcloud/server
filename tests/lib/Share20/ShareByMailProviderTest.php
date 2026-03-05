@@ -3,24 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0-or-later
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Share20;
@@ -40,18 +24,22 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 /**
  * Class ShareByMailProviderTest
  *
  * @package Test\Share20
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareByMailProviderTest extends TestCase {
+	use EmailValidatorTrait;
+
 	/** @var IDBConnection */
 	protected $dbConn;
 
@@ -101,7 +89,7 @@ class ShareByMailProviderTest extends TestCase {
 	private $settingsManager;
 
 	protected function setUp(): void {
-		$this->dbConn = \OC::$server->getDatabaseConnection();
+		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->mailer = $this->createMock(IMailer::class);
@@ -118,7 +106,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 
 		// Empty share table
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->provider = new ShareByMailProvider(
 			$this->config,
@@ -136,13 +124,14 @@ class ShareByMailProviderTest extends TestCase {
 			$this->hasher,
 			$this->eventDispatcher,
 			$this->shareManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}
 
 	protected function tearDown(): void {
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->execute();
-		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
 	}
 
 	/**
@@ -195,17 +184,17 @@ class ShareByMailProviderTest extends TestCase {
 			$qb->setValue('token', $qb->expr()->literal($token));
 		}
 		if ($expiration) {
-			$qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATE));
+			$qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATETIME_MUTABLE));
 		}
 		if ($parent) {
 			$qb->setValue('parent', $qb->expr()->literal($parent));
 		}
 
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		return $qb->getLastInsertId();
 	}
 
-	public function testGetSharesByWithResharesAndNoNode() {
+	public function testGetSharesByWithResharesAndNoNode(): void {
 		$this->addShareToDB(
 			IShare::TYPE_EMAIL,
 			'external.one@domain.tld',
@@ -252,7 +241,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertEquals('external.one@domain.tld', $actual[0]->getSharedWith());
 	}
 
-	public function testGetSharesByWithResharesAndNode() {
+	public function testGetSharesByWithResharesAndNode(): void {
 		$this->addShareToDB(
 			IShare::TYPE_EMAIL,
 			'external.one@domain.tld',

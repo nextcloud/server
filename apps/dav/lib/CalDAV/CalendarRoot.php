@@ -1,59 +1,96 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
+use OCA\DAV\CalDAV\Federation\RemoteUserCalendarHome;
+use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
+use OCP\IConfig;
+use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAVACL\PrincipalBackend;
 
 class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
-	private LoggerInterface $logger;
+	private array $returnCachedSubscriptions = [];
 
 	public function __construct(
 		PrincipalBackend\BackendInterface $principalBackend,
 		Backend\BackendInterface $caldavBackend,
 		$principalPrefix,
-		LoggerInterface $logger
+		private LoggerInterface $logger,
+		private IL10N $l10n,
+		private IConfig $config,
+		private FederatedCalendarFactory $federatedCalendarFactory,
 	) {
 		parent::__construct($principalBackend, $caldavBackend, $principalPrefix);
-		$this->logger = $logger;
 	}
 
 	public function getChildForPrincipal(array $principal) {
-		return new CalendarHome($this->caldavBackend, $principal, $this->logger);
+		[$prefix] = \Sabre\Uri\split($principal['uri']);
+		if ($prefix === RemoteUserPrincipalBackend::PRINCIPAL_PREFIX) {
+			return new RemoteUserCalendarHome(
+				$this->caldavBackend,
+				$principal,
+				$this->l10n,
+				$this->config,
+				$this->logger,
+			);
+		}
+
+		return new CalendarHome(
+			$this->caldavBackend,
+			$principal,
+			$this->logger,
+			$this->federatedCalendarFactory,
+			array_key_exists($principal['uri'], $this->returnCachedSubscriptions)
+		);
 	}
 
 	public function getName() {
-		if ($this->principalPrefix === 'principals/calendar-resources' ||
-			$this->principalPrefix === 'principals/calendar-rooms') {
+		if ($this->principalPrefix === 'principals/calendar-resources'
+			|| $this->principalPrefix === 'principals/calendar-rooms') {
 			$parts = explode('/', $this->principalPrefix);
 
 			return $parts[1];
 		}
 
+		if ($this->principalPrefix === RemoteUserPrincipalBackend::PRINCIPAL_PREFIX) {
+			return 'remote-calendars';
+		}
+
 		return parent::getName();
+	}
+
+	public function enableReturnCachedSubscriptions(string $principalUri): void {
+		$this->returnCachedSubscriptions['principals/users/' . $principalUri] = true;
+	}
+
+	public function childExists($name) {
+		if (!($this->principalBackend instanceof Principal)) {
+			return parent::childExists($name);
+		}
+
+		// Fetch the most shallow version of the principal just to determine if it exists
+		$principalInfo = $this->principalBackend->getPrincipalPropertiesByPath(
+			$this->principalPrefix . '/' . $name,
+			[],
+		);
+		if ($principalInfo === null) {
+			return false;
+		}
+
+		try {
+			return $this->getChildForPrincipal($principalInfo) !== null;
+		} catch (NotFound $e) {
+			return false;
+		}
 	}
 }

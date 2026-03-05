@@ -1,31 +1,15 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IUserMountCache;
+use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -37,28 +21,16 @@ use OCP\IUserSession;
 class UserGlobalStoragesService extends GlobalStoragesService {
 	use UserTrait;
 
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/**
-	 * @param BackendService $backendService
-	 * @param DBConfigService $dbConfig
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param IUserMountCache $userMountCache
-	 * @param IEventDispatcher $eventDispatcher
-	 */
 	public function __construct(
 		BackendService $backendService,
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
-		IGroupManager $groupManager,
-		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher
+		protected IGroupManager $groupManager,
+		IEventDispatcher $eventDispatcher,
+		IAppConfig $appConfig,
 	) {
-		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher);
+		parent::__construct($backendService, $dbConfig, $eventDispatcher, $appConfig);
 		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -86,18 +58,18 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		return array_merge($userMounts, $groupMounts, $globalMounts);
 	}
 
-	public function addStorage(StorageConfig $newStorage) {
+	public function addStorage(StorageConfig $newStorage): never {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
-	public function updateStorage(StorageConfig $updatedStorage) {
+	public function updateStorage(StorageConfig $updatedStorage): never {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
 	/**
 	 * @param integer $id
 	 */
-	public function removeStorage($id) {
+	public function removeStorage($id): never {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
@@ -192,16 +164,33 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		}
 		$groupIds = $this->groupManager->getUserGroupIds($user);
 		$mounts = $this->dbConfig->getMountsForUser($user->getUID(), $groupIds);
-		$configs = array_map([$this, 'getStorageConfigFromDBMount'], $mounts);
-		$configs = array_filter($configs, function ($config) {
-			return $config instanceof StorageConfig;
-		});
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn ($config) => $config instanceof StorageConfig);
 
-		$keys = array_map(function (StorageConfig $config) {
-			return $config->getId();
-		}, $configs);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
 
 		$storages = array_combine($keys, $configs);
-		return array_filter($storages, [$this, 'validateStorage']);
+		return array_filter($storages, $this->validateStorage(...));
+	}
+
+
+	/**
+	 * @return StorageConfig[]
+	 */
+	public function getAllStoragesForUserWithPath(string $path, bool $forChildren): array {
+		$user = $this->getUser();
+
+		if (is_null($user)) {
+			return [];
+		}
+
+		$groupIds = $this->groupManager->getUserGroupIds($user);
+		$mounts = $this->dbConfig->getMountsForUserAndPath($user->getUID(), $groupIds, $path, $forChildren);
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn ($config) => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
 	}
 }

@@ -1,116 +1,93 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { ContentsWithRoot } from '@nextcloud/files'
-import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
+import type { ContentsWithRoot, File, Folder } from '@nextcloud/files'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { CancelablePromise } from 'cancelable-promise'
-import { File, Folder, davParsePermissions, davGetDefaultPropfind } from '@nextcloud/files'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
+import { getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
+import { join } from 'path'
+import logger from '../logger.ts'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
+import { useSearchStore } from '../store/search.ts'
+import { client } from './WebdavClient.ts'
+import { searchNodes } from './WebDavSearch.ts'
 
-import { getClient, rootPath } from './WebdavClient'
-import { hashCode } from '../utils/hashUtils'
-import logger from '../logger'
+/**
+ * Get contents implementation for the files view.
+ * This also allows to fetch local search results when the user is currently filtering.
+ *
+ * @param path - The path to query
+ * @param options - Options
+ * @param options.signal - Abort signal to cancel the request
+ */
+export async function getContents(path = '/', options?: { signal: AbortSignal }): Promise<ContentsWithRoot> {
+	const searchStore = useSearchStore(getPinia())
 
-const client = getClient()
-
-interface ResponseProps extends DAVResultResponseProps {
-	permissions: string,
-	fileid: number,
-	size: number,
-}
-
-export const resultToNode = function(node: FileStat): File | Folder {
-	const userId = getCurrentUser()?.uid
-	if (!userId) {
-		throw new Error('No user id found')
+	if (searchStore.query.length < 3) {
+		return await defaultGetContents(path, options)
 	}
 
-	const props = node.props as ResponseProps
-	const permissions = davParsePermissions(props?.permissions)
-	const owner = (props['owner-id'] || userId).toString()
-
-	const source = generateRemoteUrl('dav' + rootPath + node.filename)
-	const id = props?.fileid < 0
-		? hashCode(source)
-		: props?.fileid as number || 0
-
-	const nodeData = {
-		id,
-		source,
-		mtime: new Date(node.lastmod),
-		mime: node.mime || 'application/octet-stream',
-		size: props?.size as number || 0,
-		permissions,
-		owner,
-		root: rootPath,
-		attributes: {
-			...node,
-			...props,
-			hasPreview: props?.['has-preview'],
-			failed: props?.fileid < 0,
-		},
-	}
-
-	delete nodeData.attributes.props
-
-	return node.type === 'file'
-		? new File(nodeData)
-		: new Folder(nodeData)
+	return await getLocalSearch(path, searchStore.query, options?.signal)
 }
 
-export const getContents = (path = '/'): Promise<ContentsWithRoot> => {
-	const controller = new AbortController()
-	const propfindPayload = davGetDefaultPropfind()
+/**
+ * Generic `getContents` implementation for the users files.
+ *
+ * @param path - The path to get the contents
+ * @param options - Options
+ * @param options.signal - Abort signal to cancel the request
+ */
+export async function defaultGetContents(path: string, options?: { signal: AbortSignal }): Promise<ContentsWithRoot> {
+	path = join(getRootPath(), path)
+	const propfindPayload = getDefaultPropfind()
 
-	return new CancelablePromise(async (resolve, reject, onCancel) => {
-		onCancel(() => controller.abort())
-		try {
-			const contentsResponse = await client.getDirectoryContents(path, {
-				details: true,
-				data: propfindPayload,
-				includeSelf: true,
-				signal: controller.signal,
-			}) as ResponseDataDetailed<FileStat[]>
+	const contentsResponse = await client.getDirectoryContents(path, {
+		details: true,
+		data: propfindPayload,
+		includeSelf: true,
+		signal: options?.signal,
+	}) as ResponseDataDetailed<FileStat[]>
 
-			const root = contentsResponse.data[0]
-			const contents = contentsResponse.data.slice(1)
-			if (root.filename !== path) {
-				throw new Error('Root node does not match requested path')
+	const root = contentsResponse.data[0]!
+	const contents = contentsResponse.data.slice(1)
+	if (root?.filename !== path && `${root?.filename}/` !== path) {
+		logger.debug(`Exepected "${path}" but got filename "${root.filename}" instead.`)
+		throw new Error('Root node does not match requested path')
+	}
+
+	return {
+		folder: resultToNode(root) as Folder,
+		contents: contents.map((result) => {
+			try {
+				return resultToNode(result)
+			} catch (error) {
+				logger.error(`Invalid node detected '${result.basename}'`, { error })
+				return null
 			}
+		}).filter(Boolean) as File[],
+	}
+}
 
-			resolve({
-				folder: resultToNode(root) as Folder,
-				contents: contents.map(result => {
-					try {
-						return resultToNode(result)
-					} catch (error) {
-						logger.error(`Invalid node detected '${result.basename}'`, { error })
-						return null
-					}
-				}).filter(Boolean) as File[],
-			})
-		} catch (error) {
-			reject(error)
-		}
-	})
+/**
+ * Get the local search results for the current folder.
+ *
+ * @param path - The path
+ * @param query - The current search query
+ * @param signal - The aboort signal
+ */
+async function getLocalSearch(path: string, query: string, signal?: AbortSignal): Promise<ContentsWithRoot> {
+	const filesStore = useFilesStore(getPinia())
+	let folder = filesStore.getDirectoryByPath('files', path)
+	if (!folder) {
+		const rootPath = join(getRootPath(), path)
+		const stat = await client.stat(rootPath, { details: true }) as ResponseDataDetailed<FileStat>
+		folder = resultToNode(stat.data) as Folder
+	}
+	const contents = await searchNodes(query, { dir: path, signal })
+	return {
+		folder,
+		contents,
+	}
 }

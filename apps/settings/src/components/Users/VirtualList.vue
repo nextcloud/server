@@ -1,38 +1,24 @@
 <!--
-	- @copyright 2023 Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
 	<table class="user-list">
 		<slot name="before" />
 
-		<thead ref="thead"
+		<thead
+			ref="thead"
 			role="rowgroup"
 			class="user-list__header">
 			<slot name="header" />
 		</thead>
 
-		<tbody :style="tbodyStyle"
+		<tbody
+			:style="tbodyStyle"
 			class="user-list__body">
-			<component :is="dataComponent"
+			<component
+				:is="dataComponent"
 				v-for="(item, i) in renderedItems"
 				:key="item[dataKey]"
 				:user="item"
@@ -40,7 +26,8 @@
 				v-bind="extraProps" />
 		</tbody>
 
-		<tfoot ref="tfoot"
+		<tfoot
+			ref="tfoot"
 			v-element-visibility="handleFooterVisibility"
 			role="rowgroup"
 			class="user-list__footer">
@@ -50,10 +37,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import { vElementVisibility } from '@vueuse/components'
-import { debounce } from 'debounce'
-
+import debounce from 'debounce'
+import Vue from 'vue'
 import logger from '../../logger.ts'
 
 Vue.directive('elementVisibility', vElementVisibility)
@@ -69,18 +55,22 @@ export default Vue.extend({
 			type: [Object, Function],
 			required: true,
 		},
+
 		dataKey: {
 			type: String,
 			required: true,
 		},
+
 		dataSources: {
 			type: Array,
 			required: true,
 		},
+
 		itemHeight: {
 			type: Number,
 			required: true,
 		},
+
 		extraProps: {
 			type: Object,
 			default: () => ({}),
@@ -131,7 +121,7 @@ export default Vue.extend({
 			this.tableHeight = root?.clientHeight ?? 0
 			logger.debug('VirtualList resizeObserver updated')
 			this.onScroll()
-		}, 100, false))
+		}, 100))
 
 		this.resizeObserver.observe(root)
 		this.resizeObserver.observe(tfoot)
@@ -174,6 +164,7 @@ export default Vue.extend({
 	display: block;
 	overflow: auto;
 	height: 100%;
+	will-change: scroll-position;
 
 	&__header,
 	&__footer {
@@ -188,7 +179,7 @@ export default Vue.extend({
 	}
 
 	&__footer {
-		left: 0;
+		inset-inline-start: 0;
 	}
 
 	&__body {

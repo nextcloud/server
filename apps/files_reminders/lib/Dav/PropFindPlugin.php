@@ -3,35 +3,20 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2024 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\FilesReminders\Dav;
 
 use DateTimeInterface;
+use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Node;
 use OCA\FilesReminders\Service\ReminderService;
-use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\Files\Folder;
 use OCP\IUser;
 use OCP\IUserSession;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
@@ -48,7 +33,20 @@ class PropFindPlugin extends ServerPlugin {
 	}
 
 	public function initialize(Server $server): void {
+		$server->on('preloadCollection', $this->preloadCollection(...));
 		$server->on('propFind', [$this, 'propFind']);
+	}
+
+	private function preloadCollection(
+		PropFind $propFind,
+		ICollection $collection,
+	): void {
+		if ($collection instanceof Directory && $propFind->getStatus(
+			static::REMINDER_DUE_DATE_PROPERTY
+		) !== null) {
+			$folder = $collection->getNode();
+			$this->cacheFolder($folder);
+		}
 	}
 
 	public function propFind(PropFind $propFind, INode $node) {
@@ -69,14 +67,21 @@ class PropFindPlugin extends ServerPlugin {
 				}
 
 				$fileId = $node->getId();
-				try {
-					$reminder = $this->reminderService->getDueForUser($user, $fileId);
-				} catch (DoesNotExistException $e) {
+				$reminder = $this->reminderService->getDueForUser($user, $fileId, false);
+				if ($reminder === null) {
 					return '';
 				}
 
 				return $reminder->getDueDate()->format(DateTimeInterface::ATOM); // ISO 8601
 			},
 		);
+	}
+
+	private function cacheFolder(Folder $folder): void {
+		$user = $this->userSession->getUser();
+		if (!($user instanceof IUser)) {
+			return;
+		}
+		$this->reminderService->cacheFolder($user, $folder);
 	}
 }

@@ -1,24 +1,9 @@
 <?php
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Middleware;
@@ -51,12 +36,9 @@ class MiddlewareTest extends \Test\TestCase {
 
 		$this->middleware = new ChildMiddleware();
 
-		$this->api = $this->getMockBuilder(DIContainer::class)
-				->disableOriginalConstructor()
-				->getMock();
+		$this->api = $this->createMock(DIContainer::class);
 
 		$this->controller = $this->getMockBuilder(Controller::class)
-			->setMethods([])
 			->setConstructorArgs([
 				$this->api,
 				new Request(
@@ -66,7 +48,7 @@ class MiddlewareTest extends \Test\TestCase {
 				)
 			])->getMock();
 		$this->exception = new \Exception();
-		$this->response = $this->getMockBuilder(Response::class)->getMock();
+		$this->response = $this->createMock(Response::class);
 	}
 
 

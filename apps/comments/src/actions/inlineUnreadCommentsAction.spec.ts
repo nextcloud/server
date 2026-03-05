@@ -1,33 +1,19 @@
-/**
- * @copyright Copyright (c) 2023 Lucas Azevedo <lhs_azevedo@hotmail.com>
- *
- * @author Lucas Azevedo <lhs_azevedo@hotmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './inlineUnreadCommentsAction'
-import { expect } from '@jest/globals'
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import logger from '../logger'
+
+import type { IFolder, IView } from '@nextcloud/files'
+
+import { File, Permission } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+import logger from '../logger.js'
+import { action } from './inlineUnreadCommentsAction.ts'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 describe('Inline unread comments action display name tests', () => {
 	test('Default values', () => {
@@ -40,15 +26,40 @@ describe('Inline unread comments action display name tests', () => {
 			attributes: {
 				'comments-unread': 1,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('comments-unread')
-		expect(action.displayName([file], view)).toBe('')
-		expect(action.title!([file], view)).toBe('1 new comment')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
-		expect(action.enabled!([file], view)).toBe(true)
-		expect(action.inline!(file, view)).toBe(true)
+		expect(action.displayName({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('')
+		expect(action.title!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('1 new comment')
+		expect(action.iconSvgInline({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(true)
+		expect(action.inline!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(true)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-140)
 	})
@@ -63,10 +74,21 @@ describe('Inline unread comments action display name tests', () => {
 			attributes: {
 				'comments-unread': 2,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.displayName([file], view)).toBe('')
-		expect(action.title!([file], view)).toBe('2 new comments')
+		expect(action.displayName({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('')
+		expect(action.title!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('2 new comments')
 	})
 })
 
@@ -78,10 +100,16 @@ describe('Inline unread comments action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
-			attributes: { },
+			attributes: {},
+			root: '/files/admin',
 		})
 
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Action is disabled when file does not have unread comments', () => {
@@ -94,9 +122,15 @@ describe('Inline unread comments action enabled tests', () => {
 			attributes: {
 				'comments-unread': 0,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Action is enabled when file has a single unread comment', () => {
@@ -109,9 +143,15 @@ describe('Inline unread comments action enabled tests', () => {
 			attributes: {
 				'comments-unread': 1,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Action is enabled when file has a two unread comments', () => {
@@ -124,22 +164,27 @@ describe('Inline unread comments action enabled tests', () => {
 			attributes: {
 				'comments-unread': 2,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(true)
 	})
 })
 
 describe('Inline unread comments action execute tests', () => {
 	test('Action opens sidebar', async () => {
-		const openMock = jest.fn()
-		const setActiveTabMock = jest.fn()
+		const openMock = vi.fn()
 		window.OCA = {
 			Files: {
-				Sidebar: {
+				// @ts-expect-error Mocking for testing
+				_sidebar: () => ({
 					open: openMock,
-					setActiveTab: setActiveTabMock,
-				},
+				}),
 			},
 		}
 
@@ -152,27 +197,33 @@ describe('Inline unread comments action execute tests', () => {
 			attributes: {
 				'comments-unread': 1,
 			},
+			root: '/files/admin',
 		})
 
-		const result = await action.exec!(file, view, '/')
+		const result = await action.exec!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})
 
 		expect(result).toBe(null)
-		expect(setActiveTabMock).toBeCalledWith('comments')
-		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(openMock).toBeCalledWith(file, 'comments')
 	})
 
 	test('Action handles sidebar open failure', async () => {
-		const openMock = jest.fn(() => { throw new Error('Mock error') })
-		const setActiveTabMock = jest.fn()
+		const openMock = vi.fn(() => {
+			throw new Error('Mock error')
+		})
 		window.OCA = {
 			Files: {
-				Sidebar: {
+				// @ts-expect-error Mocking for testing
+				_sidebar: () => ({
 					open: openMock,
-					setActiveTab: setActiveTabMock,
-				},
+				}),
 			},
 		}
-		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
+		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 
 		const file = new File({
 			id: 1,
@@ -183,13 +234,18 @@ describe('Inline unread comments action execute tests', () => {
 			attributes: {
 				'comments-unread': 1,
 			},
+			root: '/files/admin',
 		})
 
-		const result = await action.exec!(file, view, '/')
+		const result = await action.exec!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})
 
 		expect(result).toBe(false)
-		expect(setActiveTabMock).toBeCalledWith('comments')
-		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(openMock).toBeCalledWith(file, 'comments')
 		expect(logger.error).toBeCalledTimes(1)
 	})
 })

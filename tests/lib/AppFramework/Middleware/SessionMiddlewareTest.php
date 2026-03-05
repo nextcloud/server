@@ -1,27 +1,21 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * ownCloud - App Framework
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Thomas Müller <deepdiver@owncloud.com>
- * @copyright Thomas Müller 2014
+ * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace Test\AppFramework\Middleware;
 
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 use OCP\ISession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\AppFramework\Middleware\Mock\UseSessionController;
 use Test\TestCase;
 
 class SessionMiddlewareTest extends TestCase {
@@ -35,18 +29,7 @@ class SessionMiddlewareTest extends TestCase {
 
 		$this->reflector = $this->createMock(ControllerMethodReflector::class);
 		$this->session = $this->createMock(ISession::class);
-		$this->controller = new class('app', $this->createMock(IRequest::class)) extends Controller {
-			/**
-			 * @UseSession
-			 */
-			public function withAnnotation() {
-			}
-			#[UseSession]
-			public function withAttribute() {
-			}
-			public function without() {
-			}
-		};
+		$this->controller = new UseSessionController('app', $this->createMock(IRequest::class));
 		$this->middleware = new SessionMiddleware(
 			$this->reflector,
 			$this->session,

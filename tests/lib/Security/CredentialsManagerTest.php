@@ -3,23 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @author Robin McCorkell <rmccorkell@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Security;
@@ -27,14 +13,10 @@ namespace Test\Security;
 use OCP\Security\ICredentialsManager;
 use OCP\Server;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CredentialsManagerTest extends \Test\TestCase {
-	/**
-	 * @dataProvider credentialsProvider
-	 */
-	public function testWithDB($userId, $identifier) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('credentialsProvider')]
+	public function testWithDB($userId, $identifier): void {
 		$credentialsManager = Server::get(ICredentialsManager::class);
 
 		$secrets = 'Open Sesame';
@@ -48,9 +30,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->assertSame(1, $removedRows);
 	}
 
-	/**
-	 * @dataProvider credentialsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('credentialsProvider')]
 	public function testUpdate($userId, $identifier): void {
 		$credentialsManager = Server::get(ICredentialsManager::class);
 
@@ -64,7 +44,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->assertSame($secretsRev, $received);
 	}
 
-	public function credentialsProvider(): array {
+	public static function credentialsProvider(): array {
 		return [
 			[
 				'alice',

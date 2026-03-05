@@ -2,32 +2,16 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Command\Config\App;
 
 use OC\AppConfig;
-use OCP\Exceptions\AppConfigIncorrectTypeException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,12 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class SetConfig extends Base {
-	public function __construct(
-		protected IAppConfig $appConfig,
-	) {
-		parent::__construct();
-	}
-
 	protected function configure() {
 		parent::configure();
 
@@ -81,6 +59,12 @@ class SetConfig extends Base {
 				null,
 				InputOption::VALUE_NEGATABLE,
 				'Set value as sensitive',
+			)
+			->addOption(
+				'internal',
+				null,
+				InputOption::VALUE_NONE,
+				'Confirm the edit of an internal value',
 			)
 			->addOption(
 				'update-only',
@@ -181,8 +165,13 @@ class SetConfig extends Base {
 				$sensitive = $sensitive ?? false;
 			}
 
-			$value = (string)$input->getOption('value');
+			if (!$input->getOption('internal') && ($this->appConfig->getKeyDetails($appName, $configName)['internal'] ?? false)) {
+				$output->writeln('<error>Config key is set as INTERNAL and modifying it might induce strange behavior or break user experience.</error>');
+				$output->writeln('please use option <comment>--internal</comment> to confirm your action');
+				return self::FAILURE;
+			}
 
+			$value = (string)$input->getOption('value');
 			switch ($type) {
 				case IAppConfig::VALUE_MIXED:
 					$updated = $this->appConfig->setValueMixed($appName, $configName, $value, $lazy, $sensitive);
@@ -193,34 +182,19 @@ class SetConfig extends Base {
 					break;
 
 				case IAppConfig::VALUE_INT:
-					if ($value !== ((string) ((int) $value))) {
-						throw new AppConfigIncorrectTypeException('Value is not an integer');
-					}
-					$updated = $this->appConfig->setValueInt($appName, $configName, (int)$value, $lazy, $sensitive);
+					$updated = $this->appConfig->setValueInt($appName, $configName, $this->configManager->convertToInt($value), $lazy, $sensitive);
 					break;
 
 				case IAppConfig::VALUE_FLOAT:
-					if ($value !== ((string) ((float) $value))) {
-						throw new AppConfigIncorrectTypeException('Value is not a float');
-					}
-					$updated = $this->appConfig->setValueFloat($appName, $configName, (float)$value, $lazy, $sensitive);
+					$updated = $this->appConfig->setValueFloat($appName, $configName, $this->configManager->convertToFloat($value), $lazy, $sensitive);
 					break;
 
 				case IAppConfig::VALUE_BOOL:
-					if (in_array(strtolower($value), ['true', '1', 'on', 'yes'])) {
-						$valueBool = true;
-					} elseif (in_array(strtolower($value), ['false', '0', 'off', 'no'])) {
-						$valueBool = false;
-					} else {
-						throw new AppConfigIncorrectTypeException('Value is not a boolean, please use \'true\' or \'false\'');
-					}
-					$updated = $this->appConfig->setValueBool($appName, $configName, $valueBool, $lazy);
+					$updated = $this->appConfig->setValueBool($appName, $configName, $this->configManager->convertToBool($value), $lazy);
 					break;
 
 				case IAppConfig::VALUE_ARRAY:
-					$valueArray = json_decode($value, true, flags: JSON_THROW_ON_ERROR);
-					$valueArray = (is_array($valueArray)) ? $valueArray : throw new AppConfigIncorrectTypeException('Value is not an array');
-					$updated = $this->appConfig->setValueArray($appName, $configName, $valueArray, $lazy, $sensitive);
+					$updated = $this->appConfig->setValueArray($appName, $configName, $this->configManager->convertToArray($value), $lazy, $sensitive);
 					break;
 			}
 		}
@@ -232,11 +206,16 @@ class SetConfig extends Base {
 					"<info>Config value '%s' for app '%s' is now set to '%s', stored as %s in %s</info>",
 					$configName,
 					$appName,
-					$current['value'],
+					$current['sensitive'] ? '<sensitive>' : $current['value'],
 					$current['typeString'],
 					$current['lazy'] ? 'lazy cache' : 'fast cache'
 				)
 			);
+			$keyDetails = $this->appConfig->getKeyDetails($appName, $configName);
+			if (($keyDetails['note'] ?? '') !== '') {
+				$output->writeln('<comment>Note:</comment> ' . $keyDetails['note']);
+			}
+
 		} else {
 			$output->writeln('<info>Config value were not updated</info>');
 		}
@@ -245,6 +224,7 @@ class SetConfig extends Base {
 	}
 
 	private function ask(InputInterface $input, OutputInterface $output, string $request): bool {
+		/** @var QuestionHelper $helper */
 		$helper = $this->getHelper('question');
 		if ($input->getOption('no-interaction')) {
 			return true;

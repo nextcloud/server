@@ -1,22 +1,29 @@
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<NcListItem class="result-items__item"
+	<NcListItem
+		class="result-item"
 		:name="title"
 		:bold="false"
 		:href="resourceUrl"
 		target="_self">
 		<template #icon>
-			<div aria-hidden="true"
-				class="result-items__item-icon"
+			<div
+				aria-hidden="true"
+				class="result-item__icon"
 				:class="{
-					'result-items__item-icon--rounded': rounded,
-					'result-items__item-icon--no-preview': !isValidIconOrPreviewUrl(thumbnailUrl),
-					'result-items__item-icon--with-thumbnail': isValidIconOrPreviewUrl(thumbnailUrl),
+					'result-item__icon--rounded': rounded,
+					'result-item__icon--no-preview': !isValidIconOrPreviewUrl(thumbnailUrl),
+					'result-item__icon--with-thumbnail': isValidIconOrPreviewUrl(thumbnailUrl),
 					[icon]: !isValidIconOrPreviewUrl(icon),
 				}"
 				:style="{
 					backgroundImage: isValidIconOrPreviewUrl(icon) ? `url(${icon})` : '',
 				}">
-				<img v-if="isValidIconOrPreviewUrl(thumbnailUrl) && !thumbnailHasError"
+				<img
+					v-if="isValidIconOrPreviewUrl(thumbnailUrl) && !thumbnailHasError"
 					:src="thumbnailUrl"
 					@error="thumbnailErrorHandler">
 			</div>
@@ -28,38 +35,45 @@
 </template>
 
 <script>
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
 
 export default {
 	name: 'SearchResult',
 	components: {
 		NcListItem,
 	},
+
 	props: {
 		thumbnailUrl: {
 			type: String,
 			default: null,
 		},
+
 		title: {
 			type: String,
 			required: true,
 		},
+
 		subline: {
 			type: String,
 			default: null,
 		},
+
 		resourceUrl: {
 			type: String,
 			default: null,
 		},
+
 		icon: {
 			type: String,
 			default: '',
 		},
+
 		rounded: {
 			type: Boolean,
 			default: false,
 		},
+
 		query: {
 			type: String,
 			default: '',
@@ -75,20 +89,24 @@ export default {
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			thumbnailHasError: false,
 		}
 	},
+
 	watch: {
 		thumbnailUrl() {
 			this.thumbnailHasError = false
 		},
 	},
+
 	methods: {
 		isValidIconOrPreviewUrl(url) {
 			return /^https?:\/\//.test(url) || url.startsWith('/')
 		},
+
 		thumbnailErrorHandler() {
 			this.thumbnailHasError = true
 		},
@@ -97,73 +115,59 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use "sass:math";
-$clickable-area: 44px;
-$margin: 10px;
+.result-item {
+	:deep(a) {
+		border: 2px solid transparent;
+		border-radius: var(--border-radius-large) !important;
 
-.result-items {
-    &__item {
+		&:active,
+		&:hover,
+		&:focus {
+			background-color: var(--color-background-hover);
+			border: 2px solid var(--color-border-maxcontrast);
+		}
 
-    ::v-deep a {
-            border-radius: 12px;
-            border: 2px solid transparent;
-            border-radius: var(--border-radius-large) !important;
+		* {
+			cursor: pointer;
+		}
+	}
 
-            &--focused {
-                background-color: var(--color-background-hover);
-            }
+	&__icon {
+		overflow: hidden;
+		width: var(--default-clickable-area);
+		height: var(--default-clickable-area);
+		border-radius: var(--border-radius);
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: 32px;
 
-            &:active,
-            &:hover,
-            &:focus {
-                background-color: var(--color-background-hover);
-                border: 2px solid var(--color-border-maxcontrast);
-            }
+		&--rounded {
+			border-radius: calc(var(--default-clickable-area) / 2);
+		}
 
-            * {
-                cursor: pointer;
-            }
+		&--no-preview {
+			background-size: 32px;
+		}
 
-        }
+		&--with-thumbnail {
+			background-size: cover;
+		}
 
-        &-icon {
-            overflow: hidden;
-            width: $clickable-area;
-            height: $clickable-area;
-            border-radius: var(--border-radius);
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: 32px;
+		&--with-thumbnail:not(#{&}--rounded) {
+			border: 1px solid var(--color-border);
+			// compensate for border
+			max-height: calc(var(--default-clickable-area) - 2px);
+			max-width: calc(var(--default-clickable-area) - 2px);
+		}
 
-            &--rounded {
-                border-radius: math.div($clickable-area, 2);
-            }
+		img {
+			// Make sure to keep ratio
+			width: 100%;
+			height: 100%;
 
-            &--no-preview {
-                background-size: 32px;
-            }
-
-            &--with-thumbnail {
-                background-size: cover;
-            }
-
-            &--with-thumbnail:not(&--rounded) {
-                // compensate for border
-                max-width: $clickable-area - 2px;
-                max-height: $clickable-area - 2px;
-                border: 1px solid var(--color-border);
-            }
-
-            img {
-                // Make sure to keep ratio
-                width: 100%;
-                height: 100%;
-
-                object-fit: cover;
-                object-position: center;
-            }
-        }
-
-    }
+			object-fit: cover;
+			object-position: center;
+		}
+	}
 }
 </style>

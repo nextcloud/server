@@ -1,26 +1,12 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Remote;
+
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * Provides some basic info about a remote Nextcloud instance
@@ -28,6 +14,7 @@ namespace OCP\Remote;
  * @since 13.0.0
  * @deprecated 23.0.0
  */
+#[Consumable(since: '13.0.0')]
 interface IInstance {
 	/**
 	 * @return string The url of the remote server without protocol
@@ -35,15 +22,15 @@ interface IInstance {
 	 * @since 13.0.0
 	 * @deprecated 23.0.0
 	 */
-	public function getUrl();
+	public function getUrl(): string;
 
 	/**
-	 * @return string The of of the remote server with protocol
+	 * @return string The of the remote server with protocol
 	 *
 	 * @since 13.0.0
 	 * @deprecated 23.0.0
 	 */
-	public function getFullUrl();
+	public function getFullUrl(): string;
 
 	/**
 	 * @return string The full version string in '13.1.2.3' format
@@ -51,15 +38,15 @@ interface IInstance {
 	 * @since 13.0.0
 	 * @deprecated 23.0.0
 	 */
-	public function getVersion();
+	public function getVersion(): string;
 
 	/**
-	 * @return string 'http' or 'https'
+	 * @return 'http'|'https'
 	 *
 	 * @since 13.0.0
 	 * @deprecated 23.0.0
 	 */
-	public function getProtocol();
+	public function getProtocol(): string;
 
 	/**
 	 * Check that the remote server is installed and not in maintenance mode
@@ -69,5 +56,5 @@ interface IInstance {
 	 *
 	 * @return bool
 	 */
-	public function isActive();
+	public function isActive(): bool;
 }

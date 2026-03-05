@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 Feature: LDAP
   Background:
     Given using api version "2"
@@ -149,6 +151,7 @@ Feature: LDAP
       | ldapAttributesForUserSearch   | employeeNumber                  |
       | useMemberOfToDetectMembership | 1 |
     And parameter "shareapi_only_share_with_group_members" of app "core" is set to "yes"
+    And invoking occ with "ldap:check-group cn=Orcharding,ou=OtherGroups,dc=nextcloud,dc=ci --update"
     And As an "alice"
     When getting sharees for
       # "5" is part of the employee number of some LDAP records
@@ -158,6 +161,5 @@ Feature: LDAP
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
-      | Elisa | 0 | elisa |
+      | Elisa | 0 | elisa | elisa@nextcloud.ci |
     And "exact groups" sharees returned is empty
-

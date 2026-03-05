@@ -1,32 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP\Files;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Lock\LockedException;
 
 /**
@@ -34,6 +18,7 @@ use OCP\Lock\LockedException;
  *
  * @since 6.0.0
  */
+#[Consumable(since: '6.0.0')]
 interface File extends Node {
 	/**
 	 * Get the content of the file as string
@@ -60,10 +45,9 @@ interface File extends Node {
 	/**
 	 * Get the mimetype of the file
 	 *
-	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getMimeType();
+	public function getMimeType(): string;
 
 	/**
 	 * Open the file as stream, resulting resource can be operated as stream like the result from php's own fopen

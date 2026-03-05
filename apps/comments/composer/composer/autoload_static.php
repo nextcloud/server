@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitComments
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Comments\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Comments\\' => 
+        'OCA\\Comments\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -30,16 +30,15 @@ class ComposerStaticInitComments
         'OCA\\Comments\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\Comments\\Collaboration\\CommentersSorter' => __DIR__ . '/..' . '/../lib/Collaboration/CommentersSorter.php',
         'OCA\\Comments\\Controller\\NotificationsController' => __DIR__ . '/..' . '/../lib/Controller/NotificationsController.php',
-        'OCA\\Comments\\EventHandler' => __DIR__ . '/..' . '/../lib/EventHandler.php',
         'OCA\\Comments\\Listener\\CommentsEntityEventListener' => __DIR__ . '/..' . '/../lib/Listener/CommentsEntityEventListener.php',
+        'OCA\\Comments\\Listener\\CommentsEventListener' => __DIR__ . '/..' . '/../lib/Listener/CommentsEventListener.php',
         'OCA\\Comments\\Listener\\LoadAdditionalScripts' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalScripts.php',
         'OCA\\Comments\\Listener\\LoadSidebarScripts' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarScripts.php',
         'OCA\\Comments\\MaxAutoCompleteResultsInitialState' => __DIR__ . '/..' . '/../lib/MaxAutoCompleteResultsInitialState.php',
         'OCA\\Comments\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
         'OCA\\Comments\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
+        'OCA\\Comments\\OpenMetrics\\CommentsCountMetric' => __DIR__ . '/..' . '/../lib/OpenMetrics/CommentsCountMetric.php',
         'OCA\\Comments\\Search\\CommentsSearchProvider' => __DIR__ . '/..' . '/../lib/Search/CommentsSearchProvider.php',
-        'OCA\\Comments\\Search\\LegacyProvider' => __DIR__ . '/..' . '/../lib/Search/LegacyProvider.php',
-        'OCA\\Comments\\Search\\Result' => __DIR__ . '/..' . '/../lib/Search/Result.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

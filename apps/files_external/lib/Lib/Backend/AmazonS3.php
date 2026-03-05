@@ -1,26 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Backend;
 
@@ -38,12 +23,14 @@ class AmazonS3 extends Backend {
 			->setIdentifier('amazons3')
 			->addIdentifierAlias('\OC\Files\Storage\AmazonS3') // legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\AmazonS3')
-			->setText($l->t('Amazon S3'))
+			->setText($l->t('S3 Storage'))
 			->addParameters([
 				new DefinitionParameter('bucket', $l->t('Bucket')),
 				(new DefinitionParameter('hostname', $l->t('Hostname')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('port', $l->t('Port')))
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+				(new DefinitionParameter('proxy', $l->t('Proxy')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('region', $l->t('Region')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
@@ -59,6 +46,12 @@ class AmazonS3 extends Backend {
 				(new DefinitionParameter('useMultipartCopy', $l->t('Enable multipart copy')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setDefaultValue(true),
+				(new DefinitionParameter('use_presigned_url', $l->t('Use presigned S3 url')))
+					->setType(DefinitionParameter::VALUE_BOOLEAN)
+					->setDefaultValue(false),
+				(new DefinitionParameter('sse_c_key', $l->t('SSE-C encryption key')))
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
 			->addAuthScheme(AccessKey::SCHEME_AMAZONS3_ACCESSKEY)
 			->addAuthScheme(AuthMechanism::SCHEME_NULL)

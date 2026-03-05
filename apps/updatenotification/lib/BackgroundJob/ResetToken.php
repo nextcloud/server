@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification\BackgroundJob;
 
@@ -31,6 +12,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 /**
  * Deletes the updater secret after if it is older than 48h
@@ -45,10 +27,11 @@ class ResetToken extends TimedJob {
 		ITimeFactory $time,
 		private IConfig $config,
 		private IAppConfig $appConfig,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-		// Run all 10 minutes
-		parent::setInterval(60 * 10);
+		// Run once an hour
+		parent::setInterval(60 * 60);
 	}
 
 	/**
@@ -56,13 +39,29 @@ class ResetToken extends TimedJob {
 	 */
 	protected function run($argument) {
 		if ($this->config->getSystemValueBool('config_is_read_only')) {
+			$this->logger->debug('Skipping `updater.secret` reset since config_is_read_only is set', ['app' => 'updatenotification']);
 			return;
 		}
 
-		$secretCreated = $this->appConfig->getValueInt('core', 'updater.secret.created', $this->time->getTime());
-		// Delete old tokens after 2 days
-		if ($secretCreated >= 172800) {
+		$secretCreated = $this->appConfig->getValueInt('core', 'updater.secret.created', 0);
+
+		if ($secretCreated === 0) {
+			if ($this->config->getSystemValueString('updater.secret') !== '') {
+				$this->logger->error('Cleared old `updater.secret` with unknown creation date', ['app' => 'updatenotification']);
+				$this->config->deleteSystemValue('updater.secret');
+			}
+			$this->logger->debug('Skipping `updater.secret` reset since there is none', ['app' => 'updatenotification']);
+			return;
+		}
+
+		// Delete old tokens after 2 days and also tokens without any created date
+		$secretCreatedDiff = $this->time->getTime() - $secretCreated;
+		if ($secretCreatedDiff >= 172800) {
 			$this->config->deleteSystemValue('updater.secret');
+			$this->appConfig->deleteKey('core', 'updater.secret.created');
+			$this->logger->warning('Cleared old `updater.secret` that was created ' . $secretCreatedDiff . ' seconds ago', ['app' => 'updatenotification']);
+		} else {
+			$this->logger->debug('Keeping existing `updater.secret` that was created ' . $secretCreatedDiff . ' seconds ago', ['app' => 'updatenotification']);
 		}
 	}
 }

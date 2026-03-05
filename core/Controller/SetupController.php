@@ -1,37 +1,19 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Damjan Georgievski <gdamjan@gmail.com>
- * @author ideaship <ideaship@users.noreply.github.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Controller;
 
+use OC\IntegrityCheck\Checker;
 use OC\Setup;
+use OCP\IInitialStateService;
+use OCP\IURLGenerator;
+use OCP\Server;
+use OCP\ServerVersion;
+use OCP\Template\ITemplateManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -41,8 +23,12 @@ class SetupController {
 	public function __construct(
 		protected Setup $setupHelper,
 		protected LoggerInterface $logger,
+		protected ITemplateManager $templateManager,
+		protected IInitialStateService $initialStateService,
+		protected IURLGenerator $urlGenerator,
+		protected ServerVersion $serverVersion,
 	) {
-		$this->autoConfigFile = \OC::$configDir.'autoconfig.php';
+		$this->autoConfigFile = \OC::$configDir . 'autoconfig.php';
 	}
 
 	public function run(array $post): void {
@@ -63,7 +49,7 @@ class SetupController {
 			return;
 		}
 
-		if (isset($post['install']) and $post['install'] == 'true') {
+		if (isset($post['install']) && $post['install'] == 'true') {
 			// We have to launch the installation process :
 			$e = $this->setupHelper->install($post);
 			$errors = ['errors' => $e];
@@ -81,10 +67,10 @@ class SetupController {
 	}
 
 	private function displaySetupForbidden(): void {
-		\OC_Template::printGuestPage('', 'installation_forbidden');
+		$this->templateManager->printGuestPage('', 'installation_forbidden');
 	}
 
-	public function display($post): void {
+	public function display(array $post): void {
 		$defaults = [
 			'adminlogin' => '',
 			'adminpass' => '',
@@ -94,6 +80,10 @@ class SetupController {
 			'dbtablespace' => '',
 			'dbhost' => 'localhost',
 			'dbtype' => '',
+			'hasAutoconfig' => false,
+			'serverRoot' => \OC::$SERVERROOT,
+			'version' => implode('.', $this->serverVersion->getVersion()),
+			'versionstring' => $this->serverVersion->getVersionString(),
 		];
 		$parameters = array_merge($defaults, $post);
 
@@ -102,30 +92,43 @@ class SetupController {
 		// include common nextcloud webpack bundle
 		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
+		Util::addScript('core', 'install');
 		Util::addTranslations('core');
 
-		\OC_Template::printGuestPage('', 'installation', $parameters);
+		$this->initialStateService->provideInitialState('core', 'config', $parameters);
+		$this->initialStateService->provideInitialState('core', 'data', false);
+		$this->initialStateService->provideInitialState('core', 'links', [
+			'adminInstall' => $this->urlGenerator->linkToDocs('admin-install'),
+			'adminSourceInstall' => $this->urlGenerator->linkToDocs('admin-source_install'),
+			'adminDBConfiguration' => $this->urlGenerator->linkToDocs('admin-db-configuration'),
+		]);
+
+		$this->templateManager->printGuestPage('', 'installation');
 	}
 
 	private function finishSetup(): void {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
-		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
+		Server::get(Checker::class)->runInstanceVerification();
 
 		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
-			\OC_Template::printGuestPage('', 'installation_incomplete');
+			$this->templateManager->printGuestPage('', 'installation_incomplete');
 		}
 
-		header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));
+		header('Location: ' . Server::get(IURLGenerator::class)->getAbsoluteURL('index.php/core/apps/recommended'));
 		exit();
 	}
 
+	/**
+	 * @psalm-taint-escape file we trust file path given in POST for setup
+	 */
 	public function loadAutoConfig(array $post): array {
 		if (file_exists($this->autoConfigFile)) {
 			$this->logger->info('Autoconfig file found, setting up Nextcloud…');
 			$AUTOCONFIG = [];
 			include $this->autoConfigFile;
+			$post['hasAutoconfig'] = count($AUTOCONFIG) > 0;
 			$post = array_merge($post, $AUTOCONFIG);
 		}
 
@@ -133,11 +136,9 @@ class SetupController {
 		$directoryIsSet = isset($post['directory']);
 		$adminAccountIsSet = isset($post['adminlogin']);
 
-		if ($dbIsSet and $directoryIsSet and $adminAccountIsSet) {
+		if ($dbIsSet && $directoryIsSet && $adminAccountIsSet) {
 			$post['install'] = 'true';
 		}
-		$post['dbIsSet'] = $dbIsSet;
-		$post['directoryIsSet'] = $directoryIsSet;
 
 		return $post;
 	}

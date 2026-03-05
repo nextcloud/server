@@ -1,47 +1,32 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Updater;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class VersionCheck {
 	public function __construct(
+		private ServerVersion $serverVersion,
 		private IClientService $clientService,
 		private IConfig $config,
 		private IAppConfig $appConfig,
 		private IUserManager $userManager,
 		private IRegistry $registry,
 		private LoggerInterface $logger,
+		private ITimeFactory $timeFactory,
 	) {
 	}
 
@@ -58,13 +43,13 @@ class VersionCheck {
 		}
 
 		// Look up the cache - it is invalidated all 30 minutes
-		if (($this->appConfig->getValueInt('core', 'lastupdatedat') + 1800) > time()) {
+		if (($this->appConfig->getValueInt('core', 'lastupdatedat') + 1800) > $this->timeFactory->getTime()) {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
 		$updaterUrl = $this->config->getSystemValueString('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
 
-		$this->appConfig->setValueInt('core', 'lastupdatedat', time());
+		$this->appConfig->setValueInt('core', 'lastupdatedat', $this->timeFactory->getTime());
 
 		if ($this->config->getAppValue('core', 'installedat', '') === '') {
 			$this->config->setAppValue('core', 'installedat', (string)microtime(true));
@@ -73,14 +58,14 @@ class VersionCheck {
 		$version = Util::getVersion();
 		$version['installed'] = $this->config->getAppValue('core', 'installedat');
 		$version['updated'] = $this->appConfig->getValueInt('core', 'lastupdatedat');
-		$version['updatechannel'] = \OC_Util::getChannel();
+		$version['updatechannel'] = $this->serverVersion->getChannel();
 		$version['edition'] = '';
-		$version['build'] = \OC_Util::getBuild();
+		$version['build'] = $this->serverVersion->getBuild();
 		$version['php_major'] = PHP_MAJOR_VERSION;
 		$version['php_minor'] = PHP_MINOR_VERSION;
 		$version['php_release'] = PHP_RELEASE_VERSION;
 		$version['category'] = $this->computeCategory();
-		$version['isSubscriber'] = (int) $this->registry->delegateHasValidSubscription();
+		$version['isSubscriber'] = (int)$this->registry->delegateHasValidSubscription();
 		$versionString = implode('x', $version);
 
 		//fetch xml data from updater
@@ -122,17 +107,20 @@ class VersionCheck {
 	}
 
 	/**
-	 * @codeCoverageIgnore
-	 * @param string $url
-	 * @return resource|string
 	 * @throws \Exception
 	 */
-	protected function getUrlContent($url) {
-		$client = $this->clientService->newClient();
-		$response = $client->get($url, [
+	protected function getUrlContent(string $url): string {
+		$response = $this->clientService->newClient()->get($url, [
 			'timeout' => 5,
 		]);
-		return $response->getBody();
+
+		$content = $response->getBody();
+
+		// IResponse.getBody responds with null|resource if returning a stream response was requested.
+		// As that's not the case here, we can just ignore the psalm warning by adding an assertion.
+		assert(is_string($content));
+
+		return $content;
 	}
 
 	private function computeCategory(): int {

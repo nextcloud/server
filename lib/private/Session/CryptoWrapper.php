@@ -1,28 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Phil Davis <phil.davis@inf.org>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Session;
 
 use OCP\IConfig;
@@ -30,6 +15,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 
 /**
  * Class CryptoWrapper provides some rough basic level of additional security by
@@ -48,37 +34,19 @@ use OCP\Security\ISecureRandom;
  * @package OC\Session
  */
 class CryptoWrapper {
+	/** @var string */
 	public const COOKIE_NAME = 'oc_sessionPassphrase';
 
-	/** @var IConfig */
-	protected $config;
-	/** @var ISession */
-	protected $session;
-	/** @var ICrypto */
-	protected $crypto;
-	/** @var ISecureRandom */
-	protected $random;
-	/** @var string */
-	protected $passphrase;
+	protected string $passphrase;
 
-	/**
-	 * @param IConfig $config
-	 * @param ICrypto $crypto
-	 * @param ISecureRandom $random
-	 * @param IRequest $request
-	 */
-	public function __construct(IConfig $config,
-		ICrypto $crypto,
+	public function __construct(
+		protected ICrypto $crypto,
 		ISecureRandom $random,
-		IRequest $request) {
-		$this->crypto = $crypto;
-		$this->config = $config;
-		$this->random = $random;
-
-		if (!is_null($request->getCookie(self::COOKIE_NAME))) {
-			$this->passphrase = $request->getCookie(self::COOKIE_NAME);
-		} else {
-			$this->passphrase = $this->random->generate(128);
+		IRequest $request,
+	) {
+		$passphrase = $request->getCookie(self::COOKIE_NAME);
+		if ($passphrase === null) {
+			$passphrase = $random->generate(128);
 			$secureCookie = $request->getServerProtocol() === 'https';
 			// FIXME: Required for CI
 			if (!defined('PHPUNIT_RUN')) {
@@ -89,11 +57,11 @@ class CryptoWrapper {
 
 				setcookie(
 					self::COOKIE_NAME,
-					$this->passphrase,
+					$passphrase,
 					[
 						'expires' => 0,
 						'path' => $webRoot,
-						'domain' => '',
+						'domain' => Server::get(IConfig::class)->getSystemValueString('cookie_domain'),
 						'secure' => $secureCookie,
 						'httponly' => true,
 						'samesite' => 'Lax',
@@ -101,13 +69,10 @@ class CryptoWrapper {
 				);
 			}
 		}
+		$this->passphrase = $passphrase;
 	}
 
-	/**
-	 * @param ISession $session
-	 * @return ISession
-	 */
-	public function wrapSession(ISession $session) {
+	public function wrapSession(ISession $session): ISession {
 		if (!($session instanceof CryptoSessionData)) {
 			return new CryptoSessionData($session, $this->crypto, $this->passphrase);
 		}

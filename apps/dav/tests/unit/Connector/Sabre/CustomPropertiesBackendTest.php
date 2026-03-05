@@ -1,104 +1,68 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
- * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
-/**
- * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
- */
-
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
+use OCA\DAV\DAV\CustomPropertiesBackend;
+use OCA\DAV\Db\PropertyMapper;
+use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Tree;
 
 /**
  * Class CustomPropertiesBackend
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CustomPropertiesBackendTest extends \Test\TestCase {
-
-	/**
-	 * @var \Sabre\DAV\Server
-	 */
-	private $server;
-
-	/**
-	 * @var \Sabre\DAV\Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var \OCA\DAV\DAV\CustomPropertiesBackend
-	 */
-	private $plugin;
-
-	/**
-	 * @var \OCP\IUser
-	 */
-	private $user;
+	private \Sabre\DAV\Server $server;
+	private \Sabre\DAV\Tree&MockObject $tree;
+	private IUser&MockObject $user;
+	private DefaultCalendarValidator&MockObject $defaultCalendarValidator;
+	private CustomPropertiesBackend $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
+
 		$this->server = new \Sabre\DAV\Server();
-		$this->tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->tree = $this->createMock(Tree::class);
 
-		$userId = $this->getUniqueID('testcustompropertiesuser');
+		$userId = self::getUniqueID('testcustompropertiesuser');
 
-		$this->user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->user = $this->createMock(IUser::class);
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn($userId);
 
-		$this->plugin = new \OCA\DAV\DAV\CustomPropertiesBackend(
+		$this->defaultCalendarValidator = $this->createMock(DefaultCalendarValidator::class);
+
+		$this->plugin = new CustomPropertiesBackend(
 			$this->server,
 			$this->tree,
-			\OC::$server->getDatabaseConnection(),
-			$this->user
+			Server::get(IDBConnection::class),
+			$this->user,
+			Server::get(PropertyMapper::class),
+			$this->defaultCalendarValidator,
 		);
 	}
 
 	protected function tearDown(): void {
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = Server::get(IDBConnection::class);
 		$deleteStatement = $connection->prepare(
-			'DELETE FROM `*PREFIX*properties`' .
-			' WHERE `userid` = ?'
+			'DELETE FROM `*PREFIX*properties`'
+			. ' WHERE `userid` = ?'
 		);
 		$deleteStatement->execute(
 			[
@@ -106,12 +70,12 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			]
 		);
 		$deleteStatement->closeCursor();
+
+		parent::tearDown();
 	}
 
-	private function createTestNode($class) {
-		$node = $this->getMockBuilder($class)
-			->disableOriginalConstructor()
-			->getMock();
+	private function createTestNode(string $class) {
+		$node = $this->createMock($class);
 		$node->expects($this->any())
 			->method('getId')
 			->willReturn(123);

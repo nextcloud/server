@@ -1,24 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests\Controller;
 
@@ -44,25 +29,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UserThemeControllerTest extends TestCase {
-	/** @var UserThemeController */
-	private $userThemeController;
-
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var ThemeService|MockObject */
-	private $themesService;
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var BackgroundService|MockObject */
-	private $backgroundService;
+	private IRequest&MockObject $request;
+	private IConfig&MockObject $config;
+	private IUserSession&MockObject $userSession;
+	private ThemesService&MockObject $themesService;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private BackgroundService&MockObject $backgroundService;
+	private UserThemeController $userThemeController;
 
 
 	/** @var ITheme[] */
-	private $themes;
+	private array $themes;
 
 	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
@@ -102,7 +79,7 @@ class UserThemeControllerTest extends TestCase {
 		parent::setUp();
 	}
 
-	public function dataTestThemes() {
+	public static function dataTestThemes(): array {
 		return [
 			['default'],
 			['light'],
@@ -115,13 +92,8 @@ class UserThemeControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestThemes
-	 *
-	 * @param string $themeId
-	 * @param string $exception
-	 */
-	public function testEnableTheme($themeId, ?string $exception = null) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestThemes')]
+	public function testEnableTheme(string $themeId, ?string $exception = null): void {
 		$this->themesService
 			->expects($this->any())
 			->method('getThemes')
@@ -135,13 +107,8 @@ class UserThemeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->userThemeController->enableTheme($themeId));
 	}
 
-	/**
-	 * @dataProvider dataTestThemes
-	 *
-	 * @param string $themeId
-	 * @param string $exception
-	 */
-	public function testDisableTheme($themeId, ?string $exception = null) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestThemes')]
+	public function testDisableTheme(string $themeId, ?string $exception = null): void {
 		$this->themesService
 			->expects($this->any())
 			->method('getThemes')

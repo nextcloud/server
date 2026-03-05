@@ -1,47 +1,58 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
+import PencilSvg from '@mdi/svg/svg/pencil-outline.svg?raw'
 import { emit } from '@nextcloud/event-bus'
-import { Permission, type Node, FileAction } from '@nextcloud/files'
+import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import PencilSvg from '@mdi/svg/svg/pencil.svg?raw'
+import { dirname } from 'path'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
 
-export const ACTION_DETAILS = 'details'
+export const ACTION_RENAME = 'rename'
 
-export const action = new FileAction({
-	id: 'rename',
+export const action: IFileAction = {
+	id: ACTION_RENAME,
 	displayName: () => t('files', 'Rename'),
 	iconSvgInline: () => PencilSvg,
 
-	enabled: (nodes: Node[]) => {
-		return nodes.length > 0 && nodes
-			.map(node => node.permissions)
-			.every(permission => (permission & Permission.UPDATE) !== 0)
+	enabled: ({ nodes, view }) => {
+		if (nodes.length === 0 || !nodes[0]) {
+			return false
+		}
+
+		// Disable for single file shares
+		if (view.id === 'public-file-share') {
+			return false
+		}
+
+		const node = nodes[0]
+		const filesStore = useFilesStore(getPinia())
+		const parentNode = node.dirname === '/'
+			? filesStore.getRoot(view.id)
+			: filesStore.getNode(dirname(node.source))
+		const parentPermissions = parentNode?.permissions || Permission.NONE
+
+		// Only enable if the node have the delete permission
+		// and if the parent folder allows creating files
+		return Boolean(node.permissions & Permission.DELETE)
+			&& Boolean(parentPermissions & Permission.CREATE)
 	},
 
-	async exec(node: Node) {
+	async exec({ nodes }) {
 		// Renaming is a built-in feature of the files app
-		emit('files:node:rename', node)
+		emit('files:node:rename', nodes[0])
 		return null
 	},
 
 	order: 10,
-})
+
+	hotkey: {
+		description: t('files', 'Rename'),
+		key: 'F2',
+	},
+}

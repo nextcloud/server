@@ -1,34 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author sualko <klaus@jsxc.org>
- * @author Carl Schwan <carl@carlschwan.eu>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Settings;
@@ -42,6 +16,7 @@ use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
+use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IIconSection;
 use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
@@ -49,53 +24,30 @@ use OCP\Settings\ISubAdminSettings;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-	/** @var LoggerInterface */
-	private $log;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $url;
-
-	/** @var IServerContainer */
-	private $container;
-
-	/** @var AuthorizedGroupMapper $mapper */
-	private $mapper;
-
-	/** @var IGroupManager $groupManager */
-	private $groupManager;
-
-	/** @var ISubAdmin $subAdmin */
-	private $subAdmin;
-
-	public function __construct(
-		LoggerInterface $log,
-		IFactory $l10nFactory,
-		IURLGenerator $url,
-		IServerContainer $container,
-		AuthorizedGroupMapper $mapper,
-		IGroupManager $groupManager,
-		ISubAdmin $subAdmin
-	) {
-		$this->log = $log;
-		$this->l10nFactory = $l10nFactory;
-		$this->url = $url;
-		$this->container = $container;
-		$this->mapper = $mapper;
-		$this->groupManager = $groupManager;
-		$this->subAdmin = $subAdmin;
-	}
+	private ?IL10N $l = null;
 
 	/** @var array<self::SETTINGS_*, list<class-string<IIconSection>>> */
-	protected $sectionClasses = [];
+	protected array $sectionClasses = [];
 
 	/** @var array<self::SETTINGS_*, array<string, IIconSection>> */
-	protected $sections = [];
+	protected array $sections = [];
+
+	/** @var array<class-string<ISettings>, self::SETTINGS_*> */
+	protected array $settingClasses = [];
+
+	/** @var array<self::SETTINGS_*, array<string, list<ISettings>>> */
+	protected array $settings = [];
+
+	public function __construct(
+		private LoggerInterface $log,
+		private IFactory $l10nFactory,
+		private IURLGenerator $url,
+		private IServerContainer $container,
+		private AuthorizedGroupMapper $mapper,
+		private IGroupManager $groupManager,
+		private ISubAdmin $subAdmin,
+	) {
+	}
 
 	/**
 	 * @inheritdoc
@@ -164,12 +116,6 @@ class Manager implements IManager {
 		], true);
 	}
 
-	/** @var array<class-string<ISettings>, self::SETTINGS_*> */
-	protected $settingClasses = [];
-
-	/** @var array<self::SETTINGS_*, array<string, list<ISettings>>> */
-	protected $settings = [];
-
 	/**
 	 * @inheritdoc
 	 */
@@ -190,40 +136,41 @@ class Manager implements IManager {
 		}
 		if (!isset($this->settings[$type][$section])) {
 			$this->settings[$type][$section] = [];
+
+			foreach ($this->settingClasses as $class => $settingsType) {
+				if ($type !== $settingsType) {
+					continue;
+				}
+
+				try {
+					/** @var ISettings $setting */
+					$setting = $this->container->get($class);
+				} catch (QueryException $e) {
+					$this->log->info($e->getMessage(), ['exception' => $e]);
+					continue;
+				}
+
+				if (!$setting instanceof ISettings) {
+					$e = new \InvalidArgumentException('Invalid settings setting registered (' . $class . ')');
+					$this->log->info($e->getMessage(), ['exception' => $e]);
+					continue;
+				}
+				$settingSection = $setting->getSection();
+				if ($settingSection === null) {
+					continue;
+				}
+
+				if (!isset($this->settings[$settingsType][$settingSection])) {
+					$this->settings[$settingsType][$settingSection] = [];
+				}
+				$this->settings[$settingsType][$settingSection][] = $setting;
+
+				unset($this->settingClasses[$class]);
+			}
 		}
 
-		foreach ($this->settingClasses as $class => $settingsType) {
-			if ($type !== $settingsType) {
-				continue;
-			}
-
-			try {
-				/** @var ISettings $setting */
-				$setting = $this->container->get($class);
-			} catch (QueryException $e) {
-				$this->log->info($e->getMessage(), ['exception' => $e]);
-				continue;
-			}
-
-			if (!$setting instanceof ISettings) {
-				$e = new \InvalidArgumentException('Invalid settings setting registered (' . $class . ')');
-				$this->log->info($e->getMessage(), ['exception' => $e]);
-				continue;
-			}
-
-			if ($filter !== null && !$filter($setting)) {
-				continue;
-			}
-			if ($setting->getSection() === null) {
-				continue;
-			}
-
-			if (!isset($this->settings[$settingsType][$setting->getSection()])) {
-				$this->settings[$settingsType][$setting->getSection()] = [];
-			}
-			$this->settings[$settingsType][$setting->getSection()][] = $setting;
-
-			unset($this->settingClasses[$class]);
+		if ($filter !== null) {
+			return array_values(array_filter($this->settings[$type][$section], $filter));
 		}
 
 		return $this->settings[$type][$section];
@@ -287,9 +234,7 @@ class Manager implements IManager {
 
 		$sections = [];
 
-		$legacyForms = \OC_App::getForms('personal');
-		if ((!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms))
-			|| count($this->getPersonalSettings('additional')) > 1) {
+		if (count($this->getPersonalSettings('additional')) > 1) {
 			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
 		}
 
@@ -307,20 +252,6 @@ class Manager implements IManager {
 		ksort($sections);
 
 		return $sections;
-	}
-
-	/**
-	 * @param string[] $forms
-	 *
-	 * @return bool
-	 */
-	private function hasLegacyPersonalSettingsToRender(array $forms): bool {
-		foreach ($forms as $form) {
-			if (trim($form) !== '') {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -389,6 +320,33 @@ class Manager implements IManager {
 				}
 			}
 		}
+		return $settings;
+	}
+
+	/**
+	 * @return array<string, array{section:IIconSection,settings:list<IDelegatedSettings>}>
+	 */
+	public function getAdminDelegatedSettings(): array {
+		$sections = $this->getAdminSections();
+		$settings = [];
+		foreach ($sections as $sectionPriority) {
+			foreach ($sectionPriority as $section) {
+				/** @var IDelegatedSettings[] */
+				$sectionSettings = array_merge(
+					$this->getSettings(self::SETTINGS_ADMIN, $section->getID(), fn (ISettings $settings): bool => $settings instanceof IDelegatedSettings),
+					$this->getSettings(self::SETTINGS_DELEGATION, $section->getID(), fn (ISettings $settings): bool => $settings instanceof IDelegatedSettings),
+				);
+				usort(
+					$sectionSettings,
+					fn (ISettings $s1, ISettings $s2) => $s1->getPriority() <=> $s2->getPriority()
+				);
+				$settings[$section->getID()] = [
+					'section' => $section,
+					'settings' => $sectionSettings,
+				];
+			}
+		}
+		uasort($settings, fn (array $a, array $b) => $a['section']->getPriority() <=> $b['section']->getPriority());
 		return $settings;
 	}
 }

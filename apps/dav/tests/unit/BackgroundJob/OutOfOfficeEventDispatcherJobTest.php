@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Tests\unit\BackgroundJob;
@@ -42,21 +25,11 @@ use Test\TestCase;
 
 class OutOfOfficeEventDispatcherJobTest extends TestCase {
 	private OutOfOfficeEventDispatcherJob $job;
-
-	/** @var MockObject|ITimeFactory */
-	private $timeFactory;
-
-	/** @var MockObject|AbsenceMapper */
-	private $absenceMapper;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var MockObject|IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var MockObject|IUserManager */
-	private $userManager;
+	private ITimeFactory&MockObject $timeFactory;
+	private AbsenceMapper&MockObject $absenceMapper;
+	private LoggerInterface&MockObject $logger;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IUserManager&MockObject $userManager;
 	private MockObject|TimezoneService $timezoneService;
 
 	protected function setUp(): void {
@@ -79,7 +52,7 @@ class OutOfOfficeEventDispatcherJobTest extends TestCase {
 		);
 	}
 
-	public function testDispatchStartEvent() {
+	public function testDispatchStartEvent(): void {
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$absence = new Absence();
@@ -111,7 +84,7 @@ class OutOfOfficeEventDispatcherJobTest extends TestCase {
 		]);
 	}
 
-	public function testDispatchStopEvent() {
+	public function testDispatchStopEvent(): void {
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$absence = new Absence();
@@ -143,7 +116,7 @@ class OutOfOfficeEventDispatcherJobTest extends TestCase {
 		]);
 	}
 
-	public function testDoesntDispatchUnknownEvent() {
+	public function testDoesntDispatchUnknownEvent(): void {
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$absence = new Absence();

@@ -1,27 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests;
 
@@ -32,6 +14,7 @@ use OCA\Theming\Settings\PersonalSection;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\AppFramework\App;
+use OCP\AppFramework\IAppContainer;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
 use OCP\Settings\IIconSection;
@@ -41,15 +24,13 @@ use Test\TestCase;
 /**
  * Class ServicesTest
  *
- * @group DB
  * @package OCA\Theming\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ServicesTest extends TestCase {
-	/** @var \OCA\Activity\AppInfo\Application */
-	protected $app;
+	protected App $app;
 
-	/** @var \OCP\AppFramework\IAppContainer */
-	protected $container;
+	protected IAppContainer $container;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -57,7 +38,7 @@ class ServicesTest extends TestCase {
 		$this->container = $this->app->getContainer();
 	}
 
-	public function queryData() {
+	public static function queryData(): array {
 		return [
 			[IL10N::class],
 
@@ -79,15 +60,11 @@ class ServicesTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider queryData
-	 * @param string $service
-	 * @param string $expected
-	 */
-	public function testContainerQuery($service, $expected = null) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'queryData')]
+	public function testContainerQuery(string $service, ?string $expected = null): void {
 		if ($expected === null) {
 			$expected = $service;
 		}
-		$this->assertTrue($this->container->query($service) instanceof $expected);
+		$this->assertInstanceOf($expected, $this->container->query($service));
 	}
 }

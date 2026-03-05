@@ -1,39 +1,17 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2020, Thomas Citharel <nextcloud@tcit.fr>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author eleith <online+github@eleith.com>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
-use GuzzleHttp\HandlerStack;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Import\ImportService;
+use OCA\DAV\CalDAV\WebcalCaching\Connection;
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
-use OCP\Http\Client\IClient;
-use OCP\Http\Client\IClientService;
-use OCP\Http\Client\IResponse;
-use OCP\Http\Client\LocalServerException;
-use OCP\IConfig;
+use OCP\AppFramework\Utility\ITimeFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
@@ -43,387 +21,473 @@ use Sabre\VObject\Recur\NoInstancesException;
 use Test\TestCase;
 
 class RefreshWebcalServiceTest extends TestCase {
-
-	/** @var CalDavBackend | MockObject */
-	private $caldavBackend;
-
-	/** @var IClientService | MockObject */
-	private $clientService;
-
-	/** @var IConfig | MockObject */
-	private $config;
-
-	/** @var LoggerInterface | MockObject */
-	private $logger;
+	private CalDavBackend&MockObject $caldavBackend;
+	private Connection&MockObject $connection;
+	private LoggerInterface&MockObject $logger;
+	private ImportService&MockObject $importService;
+	private ITimeFactory&MockObject $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->caldavBackend = $this->createMock(CalDavBackend::class);
-		$this->clientService = $this->createMock(IClientService::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->connection = $this->createMock(Connection::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->importService = $this->createMock(ImportService::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		// Default time factory behavior: current time is far in the future so refresh always happens
+		$this->timeFactory->method('getTime')->willReturn(PHP_INT_MAX);
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime());
 	}
 
 	/**
-	 * @param string $body
-	 * @param string $contentType
-	 * @param string $result
-	 *
-	 * @dataProvider runDataProvider
+	 * Helper to create a resource stream from string content
 	 */
-	public function testRun(string $body, string $contentType, string $result): void {
-		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->onlyMethods(['getRandomCalendarObjectUri'])
-			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
-			->getMock();
+	private function createStreamFromString(string $content) {
+		$stream = fopen('php://temp', 'r+');
+		fwrite($stream, $content);
+		rewind($stream);
+		return $stream;
+	}
 
-		$refreshWebcalService
-			->method('getRandomCalendarObjectUri')
-			->willReturn('uri-1.ics');
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runDataProvider')]
+	public function testRun(string $body, string $format, string $result): void {
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->logger,
+			$this->connection,
+			$this->timeFactory,
+			$this->importService
+		);
 
-		$this->caldavBackend->expects($this->once())
+		$this->caldavBackend->expects(self::once())
 			->method('getSubscriptionsForUser')
 			->with('principals/users/testuser')
 			->willReturn([
 				[
 					'id' => '99',
 					'uri' => 'sub456',
-					'{http://apple.com/ns/ical/}refreshrate' => 'P1D',
-					'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
-					'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
-					'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
-					'source' => 'webcal://foo.bar/bla'
+					RefreshWebcalService::REFRESH_RATE => 'P1D',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://foo.bar/bla',
+					'lastmodified' => 0,
 				],
 				[
 					'id' => '42',
 					'uri' => 'sub123',
-					'{http://apple.com/ns/ical/}refreshrate' => 'PT1H',
-					'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
-					'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
-					'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
-					'source' => 'webcal://foo.bar/bla2'
+					RefreshWebcalService::REFRESH_RATE => 'PT1H',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://foo.bar/bla2',
+					'lastmodified' => 0,
 				],
 			]);
 
-		$client = $this->createMock(IClient::class);
-		$response = $this->createMock(IResponse::class);
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->with()
-			->willReturn($client);
+		$stream = $this->createStreamFromString($body);
 
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->willReturn('no');
+		$this->connection->expects(self::once())
+			->method('queryWebcalFeed')
+			->willReturn(['data' => $stream, 'format' => $format]);
 
-		$client->expects($this->once())
-			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
-				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
-			}))
-			->willReturn($response);
+		$this->caldavBackend->expects(self::once())
+			->method('getLimitedCalendarObjects')
+			->willReturn([]);
 
-		$response->expects($this->once())
-			->method('getBody')
-			->with()
-			->willReturn($body);
-		$response->expects($this->once())
-			->method('getHeader')
-			->with('Content-Type')
-			->willReturn($contentType);
+		// Create a VCalendar object that will be yielded by the import service
+		$vCalendar = VObject\Reader::read($result);
 
-		$this->caldavBackend->expects($this->once())
-			->method('purgeAllCachedEventsForSubscription')
-			->with(42);
+		$generator = function () use ($vCalendar) {
+			yield $vCalendar;
+		};
 
-		$this->caldavBackend->expects($this->once())
+		$this->importService->expects(self::once())
+			->method('importText')
+			->willReturn($generator());
+
+		$this->caldavBackend->expects(self::once())
 			->method('createCalendarObject')
-			->with(42, 'uri-1.ics', $result, 1);
+			->with(
+				'42',
+				self::matchesRegularExpression('/^[a-f0-9-]+\.ics$/'),
+				$result,
+				CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION
+			);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @param string $body
-	 * @param string $contentType
-	 * @param string $result
-	 *
-	 * @dataProvider runDataProvider
-	 */
-	public function testRunCreateCalendarNoException(string $body, string $contentType, string $result): void {
-		$client = $this->createMock(IClient::class);
-		$response = $this->createMock(IResponse::class);
-		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
-			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
-			->getMock();
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'identicalDataProvider')]
+	public function testRunIdentical(string $uid, array $calendarObject, string $body, string $format, string $result): void {
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->logger,
+			$this->connection,
+			$this->timeFactory,
+			$this->importService
+		);
 
-		$refreshWebcalService
-			->method('getRandomCalendarObjectUri')
-			->willReturn('uri-1.ics');
+		$this->caldavBackend->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/testuser')
+			->willReturn([
+				[
+					'id' => '99',
+					'uri' => 'sub456',
+					RefreshWebcalService::REFRESH_RATE => 'P1D',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://foo.bar/bla',
+					'lastmodified' => 0,
+				],
+				[
+					'id' => '42',
+					'uri' => 'sub123',
+					RefreshWebcalService::REFRESH_RATE => 'PT1H',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://foo.bar/bla2',
+					'lastmodified' => 0,
+				],
+			]);
+
+		$stream = $this->createStreamFromString($body);
+
+		$this->connection->expects(self::once())
+			->method('queryWebcalFeed')
+			->willReturn(['data' => $stream, 'format' => $format]);
+
+		$this->caldavBackend->expects(self::once())
+			->method('getLimitedCalendarObjects')
+			->willReturn($calendarObject);
+
+		// Create a VCalendar object that will be yielded by the import service
+		$vCalendar = VObject\Reader::read($result);
+
+		$generator = function () use ($vCalendar) {
+			yield $vCalendar;
+		};
+
+		$this->importService->expects(self::once())
+			->method('importText')
+			->willReturn($generator());
+
+		$this->caldavBackend->expects(self::never())
+			->method('createCalendarObject');
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
+	}
+
+	public function testSubscriptionNotFound(): void {
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->logger,
+			$this->connection,
+			$this->timeFactory,
+			$this->importService
+		);
+
+		$this->caldavBackend->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/testuser')
+			->willReturn([]);
+
+		$this->connection->expects(self::never())
+			->method('queryWebcalFeed');
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
+	}
+
+	public function testConnectionReturnsNull(): void {
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->logger,
+			$this->connection,
+			$this->timeFactory,
+			$this->importService
+		);
+
+		$this->caldavBackend->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/testuser')
+			->willReturn([
+				[
+					'id' => '42',
+					'uri' => 'sub123',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://foo.bar/bla2',
+					'lastmodified' => 0,
+				],
+			]);
+
+		$this->connection->expects(self::once())
+			->method('queryWebcalFeed')
+			->willReturn(null);
+
+		$this->importService->expects(self::never())
+			->method('importText');
+
+		$this->caldavBackend->expects(self::never())
+			->method('createCalendarObject');
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
+	}
+
+	public function testDeletedObjectsArePurged(): void {
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->logger,
+			$this->connection,
+			$this->timeFactory,
+			$this->importService
+		);
+
+		$this->caldavBackend->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/testuser')
+			->willReturn([
+				[
+					'id' => '42',
+					'uri' => 'sub123',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://foo.bar/bla2',
+					'lastmodified' => 0,
+				],
+			]);
+
+		$body = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Test//Test//EN\r\nBEGIN:VEVENT\r\nUID:new-event\r\nDTSTAMP:20160218T133704Z\r\nDTSTART:20160218T133704Z\r\nSUMMARY:New Event\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+		$stream = $this->createStreamFromString($body);
+
+		$this->connection->expects(self::once())
+			->method('queryWebcalFeed')
+			->willReturn(['data' => $stream, 'format' => 'ical']);
+
+		// Existing objects include one that won't be in the feed
+		$this->caldavBackend->expects(self::once())
+			->method('getLimitedCalendarObjects')
+			->willReturn([
+				'old-deleted-event' => [
+					'id' => 99,
+					'uid' => 'old-deleted-event',
+					'etag' => 'old-etag',
+					'uri' => 'old-event.ics',
+				],
+			]);
+
+		$vCalendar = VObject\Reader::read($body);
+		$generator = function () use ($vCalendar) {
+			yield $vCalendar;
+		};
+
+		$this->importService->expects(self::once())
+			->method('importText')
+			->willReturn($generator());
+
+		$this->caldavBackend->expects(self::once())
+			->method('createCalendarObject');
+
+		$this->caldavBackend->expects(self::once())
+			->method('purgeCachedEventsForSubscription')
+			->with(42, [99], ['old-event.ics']);
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
+	}
+
+	public function testLongUidIsSkipped(): void {
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->logger,
+			$this->connection,
+			$this->timeFactory,
+			$this->importService
+		);
+
+		$this->caldavBackend->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/testuser')
+			->willReturn([
+				[
+					'id' => '42',
+					'uri' => 'sub123',
+					RefreshWebcalService::STRIP_TODOS => '1',
+					RefreshWebcalService::STRIP_ALARMS => '1',
+					RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+					'source' => 'webcal://foo.bar/bla2',
+					'lastmodified' => 0,
+				],
+			]);
+
+		// Create a UID that is longer than 512 characters
+		$longUid = str_repeat('a', 513);
+		$body = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Test//Test//EN\r\nBEGIN:VEVENT\r\nUID:$longUid\r\nDTSTAMP:20160218T133704Z\r\nDTSTART:20160218T133704Z\r\nSUMMARY:Event with long UID\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+		$stream = $this->createStreamFromString($body);
+
+		$this->connection->expects(self::once())
+			->method('queryWebcalFeed')
+			->willReturn(['data' => $stream, 'format' => 'ical']);
+
+		$this->caldavBackend->expects(self::once())
+			->method('getLimitedCalendarObjects')
+			->willReturn([]);
+
+		$vCalendar = VObject\Reader::read($body);
+		$generator = function () use ($vCalendar) {
+			yield $vCalendar;
+		};
+
+		$this->importService->expects(self::once())
+			->method('importText')
+			->willReturn($generator());
+
+		// Event with long UID should be skipped, so createCalendarObject should never be called
+		$this->caldavBackend->expects(self::never())
+			->method('createCalendarObject');
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runDataProvider')]
+	public function testRunCreateCalendarNoException(string $body, string $format, string $result): void {
+		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
+			->onlyMethods(['getSubscription'])
+			->setConstructorArgs([$this->caldavBackend, $this->logger, $this->connection, $this->timeFactory, $this->importService])
+			->getMock();
 
 		$refreshWebcalService
 			->method('getSubscription')
 			->willReturn([
 				'id' => '42',
 				'uri' => 'sub123',
-				'{http://apple.com/ns/ical/}refreshrate' => 'PT1H',
-				'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
-				'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
-				'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
-				'source' => 'webcal://foo.bar/bla2'
+				RefreshWebcalService::REFRESH_RATE => 'PT1H',
+				RefreshWebcalService::STRIP_TODOS => '1',
+				RefreshWebcalService::STRIP_ALARMS => '1',
+				RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+				'source' => 'webcal://foo.bar/bla2',
+				'lastmodified' => 0,
 			]);
 
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->with()
-			->willReturn($client);
+		$stream = $this->createStreamFromString($body);
 
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->willReturn('no');
+		$this->connection->expects(self::once())
+			->method('queryWebcalFeed')
+			->willReturn(['data' => $stream, 'format' => $format]);
 
-		$client->expects($this->once())
-			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
-				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
-			}))
-			->willReturn($response);
+		$this->caldavBackend->expects(self::once())
+			->method('getLimitedCalendarObjects')
+			->willReturn([]);
 
-		$response->expects($this->once())
-			->method('getBody')
-			->with()
-			->willReturn($body);
-		$response->expects($this->once())
-			->method('getHeader')
-			->with('Content-Type')
-			->willReturn($contentType);
+		// Create a VCalendar object that will be yielded by the import service
+		$vCalendar = VObject\Reader::read($result);
 
-		$this->caldavBackend->expects($this->once())
-			->method('purgeAllCachedEventsForSubscription')
-			->with(42);
+		$generator = function () use ($vCalendar) {
+			yield $vCalendar;
+		};
 
-		$this->caldavBackend->expects($this->once())
-			->method('createCalendarObject')
-			->with(42, 'uri-1.ics', $result, 1);
+		$this->importService->expects(self::once())
+			->method('importText')
+			->willReturn($generator());
 
 		$noInstanceException = new NoInstancesException("can't add calendar object");
-		$this->caldavBackend->expects($this->once())
-			->method("createCalendarObject")
+		$this->caldavBackend->expects(self::once())
+			->method('createCalendarObject')
 			->willThrowException($noInstanceException);
 
-		$this->logger->expects($this->once())
-			->method('error')
+		$this->logger->expects(self::once())
+			->method('warning')
 			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $noInstanceException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @param string $body
-	 * @param string $contentType
-	 * @param string $result
-	 *
-	 * @dataProvider runDataProvider
-	 */
-	public function testRunCreateCalendarBadRequest(string $body, string $contentType, string $result): void {
-		$client = $this->createMock(IClient::class);
-		$response = $this->createMock(IResponse::class);
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runDataProvider')]
+	public function testRunCreateCalendarBadRequest(string $body, string $format, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
-			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
+			->onlyMethods(['getSubscription'])
+			->setConstructorArgs([$this->caldavBackend, $this->logger, $this->connection, $this->timeFactory, $this->importService])
 			->getMock();
-
-		$refreshWebcalService
-			->method('getRandomCalendarObjectUri')
-			->willReturn('uri-1.ics');
 
 		$refreshWebcalService
 			->method('getSubscription')
 			->willReturn([
 				'id' => '42',
 				'uri' => 'sub123',
-				'{http://apple.com/ns/ical/}refreshrate' => 'PT1H',
-				'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
-				'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
-				'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
-				'source' => 'webcal://foo.bar/bla2'
+				RefreshWebcalService::REFRESH_RATE => 'PT1H',
+				RefreshWebcalService::STRIP_TODOS => '1',
+				RefreshWebcalService::STRIP_ALARMS => '1',
+				RefreshWebcalService::STRIP_ATTACHMENTS => '1',
+				'source' => 'webcal://foo.bar/bla2',
+				'lastmodified' => 0,
 			]);
 
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->with()
-			->willReturn($client);
+		$stream = $this->createStreamFromString($body);
 
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->willReturn('no');
+		$this->connection->expects(self::once())
+			->method('queryWebcalFeed')
+			->willReturn(['data' => $stream, 'format' => $format]);
 
-		$client->expects($this->once())
-			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
-				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
-			}))
-			->willReturn($response);
+		$this->caldavBackend->expects(self::once())
+			->method('getLimitedCalendarObjects')
+			->willReturn([]);
 
-		$response->expects($this->once())
-			->method('getBody')
-			->with()
-			->willReturn($body);
-		$response->expects($this->once())
-			->method('getHeader')
-			->with('Content-Type')
-			->willReturn($contentType);
+		// Create a VCalendar object that will be yielded by the import service
+		$vCalendar = VObject\Reader::read($result);
 
-		$this->caldavBackend->expects($this->once())
-			->method('purgeAllCachedEventsForSubscription')
-			->with(42);
+		$generator = function () use ($vCalendar) {
+			yield $vCalendar;
+		};
 
-		$this->caldavBackend->expects($this->once())
-			->method('createCalendarObject')
-			->with(42, 'uri-1.ics', $result, 1);
+		$this->importService->expects(self::once())
+			->method('importText')
+			->willReturn($generator());
 
 		$badRequestException = new BadRequest("can't add reach calendar url");
-		$this->caldavBackend->expects($this->once())
-			->method("createCalendarObject")
+		$this->caldavBackend->expects(self::once())
+			->method('createCalendarObject')
 			->willThrowException($badRequestException);
 
-		$this->logger->expects($this->once())
-			->method('error')
+		$this->logger->expects(self::once())
+			->method('warning')
 			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $badRequestException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @return array
-	 */
-	public function runDataProvider():array {
+	public static function identicalDataProvider(): array {
+		$icalBody = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:12345\r\nDTSTAMP:20160218T133704Z\r\nDTSTART;VALUE=DATE:19000101\r\nDTEND;VALUE=DATE:19000102\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:12345's Birthday (1900)\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+		$etag = md5($icalBody);
+
+		return [
+			[
+				'12345',
+				[
+					'12345' => [
+						'id' => 42,
+						'etag' => $etag,
+						'uri' => 'sub456.ics',
+					],
+				],
+				"BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:12345\r\nDTSTAMP:20160218T133704Z\r\nDTSTART;VALUE=DATE:19000101\r\nDTEND;VALUE=DATE:19000102\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:12345's Birthday (1900)\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n",
+				'ical',
+				$icalBody,
+			],
+		];
+	}
+
+	public static function runDataProvider(): array {
 		return [
 			[
 				"BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:12345\r\nDTSTAMP:20160218T133704Z\r\nDTSTART;VALUE=DATE:19000101\r\nDTEND;VALUE=DATE:19000102\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:12345's Birthday (1900)\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n",
-				'text/calendar;charset=utf8',
+				'ical',
 				"BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:12345\r\nDTSTAMP:20160218T133704Z\r\nDTSTART;VALUE=DATE:19000101\r\nDTEND;VALUE=DATE:19000102\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:12345's Birthday (1900)\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n",
 			],
-			[
-				'["vcalendar",[["prodid",{},"text","-//Example Corp.//Example Client//EN"],["version",{},"text","2.0"]],[["vtimezone",[["last-modified",{},"date-time","2004-01-10T03:28:45Z"],["tzid",{},"text","US/Eastern"]],[["daylight",[["dtstart",{},"date-time","2000-04-04T02:00:00"],["rrule",{},"recur",{"freq":"YEARLY","byday":"1SU","bymonth":4}],["tzname",{},"text","EDT"],["tzoffsetfrom",{},"utc-offset","-05:00"],["tzoffsetto",{},"utc-offset","-04:00"]],[]],["standard",[["dtstart",{},"date-time","2000-10-26T02:00:00"],["rrule",{},"recur",{"freq":"YEARLY","byday":"1SU","bymonth":10}],["tzname",{},"text","EST"],["tzoffsetfrom",{},"utc-offset","-04:00"],["tzoffsetto",{},"utc-offset","-05:00"]],[]]]],["vevent",[["dtstamp",{},"date-time","2006-02-06T00:11:21Z"],["dtstart",{"tzid":"US/Eastern"},"date-time","2006-01-02T14:00:00"],["duration",{},"duration","PT1H"],["recurrence-id",{"tzid":"US/Eastern"},"date-time","2006-01-04T12:00:00"],["summary",{},"text","Event #2"],["uid",{},"text","12345"]],[]]]]',
-				'application/calendar+json',
-				"BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VTIMEZONE\r\nLAST-MODIFIED:20040110T032845Z\r\nTZID:US/Eastern\r\nBEGIN:DAYLIGHT\r\nDTSTART:20000404T020000\r\nRRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4\r\nTZNAME:EDT\r\nTZOFFSETFROM:-0500\r\nTZOFFSETTO:-0400\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nDTSTART:20001026T020000\r\nRRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=10\r\nTZNAME:EST\r\nTZOFFSETFROM:-0400\r\nTZOFFSETTO:-0500\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTAMP:20060206T001121Z\r\nDTSTART;TZID=US/Eastern:20060102T140000\r\nDURATION:PT1H\r\nRECURRENCE-ID;TZID=US/Eastern:20060104T120000\r\nSUMMARY:Event #2\r\nUID:12345\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
-			],
-			[
-				'<?xml version="1.0" encoding="utf-8" ?><icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0"><vcalendar><properties><prodid><text>-//Example Inc.//Example Client//EN</text></prodid><version><text>2.0</text></version></properties><components><vevent><properties><dtstamp><date-time>2006-02-06T00:11:21Z</date-time></dtstamp><dtstart><parameters><tzid><text>US/Eastern</text></tzid></parameters><date-time>2006-01-04T14:00:00</date-time></dtstart><duration><duration>PT1H</duration></duration><recurrence-id><parameters><tzid><text>US/Eastern</text></tzid></parameters><date-time>2006-01-04T12:00:00</date-time></recurrence-id><summary><text>Event #2 bis</text></summary><uid><text>12345</text></uid></properties></vevent></components></vcalendar></icalendar>',
-				'application/calendar+xml',
-				"BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nDTSTAMP:20060206T001121Z\r\nDTSTART;TZID=US/Eastern:20060104T140000\r\nDURATION:PT1H\r\nRECURRENCE-ID;TZID=US/Eastern:20060104T120000\r\nSUMMARY:Event #2 bis\r\nUID:12345\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
-			]
 		];
-	}
-
-	/**
-	 * @dataProvider runLocalURLDataProvider
-	 */
-	public function testRunLocalURL(string $source): void {
-		$refreshWebcalService = new RefreshWebcalService(
-			$this->caldavBackend,
-			$this->clientService,
-			$this->config,
-			$this->logger
-		);
-
-		$this->caldavBackend->expects($this->once())
-			->method('getSubscriptionsForUser')
-			->with('principals/users/testuser')
-			->willReturn([
-				[
-					'id' => 42,
-					'uri' => 'sub123',
-					'refreshreate' => 'P1H',
-					'striptodos' => 1,
-					'stripalarms' => 1,
-					'stripattachments' => 1,
-					'source' => $source
-				],
-			]);
-
-		$client = $this->createMock(IClient::class);
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->with()
-			->willReturn($client);
-
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->willReturn('no');
-
-		$localServerException = new LocalServerException();
-
-		$client->expects($this->once())
-			->method('get')
-			->willThrowException($localServerException);
-
-		$this->logger->expects($this->once())
-			->method('warning')
-			->with("Subscription 42 was not refreshed because it violates local access rules", ['exception' => $localServerException]);
-
-		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
-	}
-
-	public function runLocalURLDataProvider():array {
-		return [
-			['localhost/foo.bar'],
-			['localHost/foo.bar'],
-			['random-host/foo.bar'],
-			['[::1]/bla.blub'],
-			['[::]/bla.blub'],
-			['192.168.0.1'],
-			['172.16.42.1'],
-			['[fdf8:f53b:82e4::53]/secret.ics'],
-			['[fe80::200:5aee:feaa:20a2]/secret.ics'],
-			['[0:0:0:0:0:0:10.0.0.1]/secret.ics'],
-			['[0:0:0:0:0:ffff:127.0.0.0]/secret.ics'],
-			['10.0.0.1'],
-			['another-host.local'],
-			['service.localhost'],
-		];
-	}
-
-	public function testInvalidUrl(): void {
-		$refreshWebcalService = new RefreshWebcalService($this->caldavBackend,
-			$this->clientService, $this->config, $this->logger);
-
-		$this->caldavBackend->expects($this->once())
-			->method('getSubscriptionsForUser')
-			->with('principals/users/testuser')
-			->willReturn([
-				[
-					'id' => 42,
-					'uri' => 'sub123',
-					'refreshreate' => 'P1H',
-					'striptodos' => 1,
-					'stripalarms' => 1,
-					'stripattachments' => 1,
-					'source' => '!@#$'
-				],
-			]);
-
-		$client = $this->createMock(IClient::class);
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->with()
-			->willReturn($client);
-
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->willReturn('no');
-
-		$client->expects($this->never())
-			->method('get');
-
-		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 }

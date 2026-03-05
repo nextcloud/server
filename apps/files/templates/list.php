@@ -1,3 +1,11 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+?>
 <div class="files-controls">
 		<div class="actions creatable hidden">
 			<div id="uploadprogresswrapper">
@@ -5,7 +13,7 @@
 		</div>
 		<div class="notCreatable notPublic hidden">
 			<div class="icon-alert-outline"></div>
-			<?php p($l->t('You do not have permission to upload or create files here'))?>
+			<?php p($l->t('You do not have permission to upload or create files here.'))?>
 		</div>
 	<?php /* Note: the template attributes are here only for the public page. These are normally loaded
 			 through ajax instead (updateStorageStatistics).

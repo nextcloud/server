@@ -1,28 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Christian <16852529+cviereck@users.noreply.github.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Files;
 
@@ -34,7 +14,9 @@ use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Folder;
@@ -64,6 +46,7 @@ class FileSearchBackend implements ISearchBackend {
 	public const OPERATOR_LIMIT = 100;
 
 	public function __construct(
+		private Server $server,
 		private CachingTree $tree,
 		private IUser $user,
 		private IRootFolder $rootFolder,
@@ -103,6 +86,8 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition('{DAV:}displayname', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getlastmodified', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
+			new SearchPropertyDefinition('{DAV:}creationdate', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
+			new SearchPropertyDefinition('{http://nextcloud.org/ns}upload_time', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(TagsPlugin::FAVORITE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_BOOLEAN),
 			new SearchPropertyDefinition(FilesPlugin::INTERNAL_FILEID_PROPERTYNAME, true, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
@@ -153,6 +138,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param string[] $requestProperties
 	 */
 	public function preloadPropertyFor(array $nodes, array $requestProperties): void {
+		$this->server->emit('preloadProperties', [$nodes, $requestProperties]);
 	}
 
 	private function getFolderForPath(?string $path = null): Folder {
@@ -227,9 +213,9 @@ class FileSearchBackend implements ISearchBackend {
 		/** @var SearchResult[] $nodes */
 		$nodes = array_map(function (Node $node) {
 			if ($node instanceof Folder) {
-				$davNode = new \OCA\DAV\Connector\Sabre\Directory($this->view, $node, $this->tree, $this->shareManager);
+				$davNode = new Directory($this->view, $node, $this->tree, $this->shareManager);
 			} else {
-				$davNode = new \OCA\DAV\Connector\Sabre\File($this->view, $node, $this->shareManager);
+				$davNode = new File($this->view, $node, $this->shareManager);
 			}
 			$path = $this->getHrefForNode($node);
 			$this->tree->cacheNode($davNode, $path);
@@ -314,6 +300,10 @@ class FileSearchBackend implements ISearchBackend {
 				return $node->getName();
 			case '{DAV:}getlastmodified':
 				return $node->getLastModified();
+			case '{DAV:}creationdate':
+				return $node->getNode()->getCreationTime();
+			case '{http://nextcloud.org/ns}upload_time':
+				return $node->getNode()->getUploadTime();
 			case FilesPlugin::SIZE_PROPERTYNAME:
 				return $node->getSize();
 			case FilesPlugin::INTERNAL_FILEID_PROPERTYNAME:
@@ -442,10 +432,16 @@ class FileSearchBackend implements ISearchBackend {
 					$field = $this->mapPropertyNameToColumn($property);
 				}
 
+				try {
+					$castedValue = $this->castValue($property, $value ?? '');
+				} catch (\Error $e) {
+					throw new \InvalidArgumentException('Invalid property value for ' . $property->name, previous: $e);
+				}
+
 				return new SearchComparison(
 					$trimmedType,
 					$field,
-					$this->castValue($property, $value ?? ''),
+					$castedValue,
 					$extra ?? ''
 				);
 
@@ -468,6 +464,10 @@ class FileSearchBackend implements ISearchBackend {
 				return 'mimetype';
 			case '{DAV:}getlastmodified':
 				return 'mtime';
+			case '{DAV:}creationdate':
+				return 'creation_time';
+			case '{http://nextcloud.org/ns}upload_time':
+				return 'upload_time';
 			case FilesPlugin::SIZE_PROPERTYNAME:
 				return 'size';
 			case TagsPlugin::FAVORITE_PROPERTYNAME:

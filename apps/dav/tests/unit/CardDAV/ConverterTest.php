@@ -3,30 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\CardDAV;
 
@@ -39,17 +18,14 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ConverterTest extends TestCase {
-
-	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $accountManager;
-	/** @var IUserManager|(IUserManager&MockObject)|MockObject */
-	private IUserManager|MockObject $userManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	private IAccountManager&MockObject $accountManager;
+	private IUserManager&MockObject $userManager;
+	private IURLGenerator&MockObject $urlGenerator;
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -57,10 +33,11 @@ class ConverterTest extends TestCase {
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
 	/**
-	 * @return IAccountProperty|MockObject
+	 * @return IAccountProperty&MockObject
 	 */
 	protected function getAccountPropertyMock(string $name, ?string $value, string $scope) {
 		$property = $this->createMock(IAccountProperty::class);
@@ -93,22 +70,21 @@ class ConverterTest extends TestCase {
 				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_TWITTER, '', IAccountManager::SCOPE_LOCAL);
 			});
 
-		$accountManager = $this->getMockBuilder(IAccountManager::class)
-			->disableOriginalConstructor()->getMock();
+		$accountManager = $this->createMock(IAccountManager::class);
 
-		$accountManager->expects($this->any())->method('getAccount')->willReturn($account);
+		$accountManager->expects($this->any())
+			->method('getAccount')
+			->willReturn($account);
 
 		return $accountManager;
 	}
 
-	/**
-	 * @dataProvider providesNewUsers
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesNewUsers')]
 	public function testCreation($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null): void {
 		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$vCard = $converter->createCardFromUser($user);
 		if ($expectedVCard !== null) {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
@@ -120,7 +96,7 @@ class ConverterTest extends TestCase {
 	}
 
 	public function testManagerProp(): void {
-		$user = $this->getUserMock("user", "user@domain.tld", "user@cloud.domain.tld");
+		$user = $this->getUserMock('user', 'user@domain.tld', 'user@cloud.domain.tld');
 		$user->method('getManagerUids')
 			->willReturn(['mgr']);
 		$this->userManager->expects(self::once())
@@ -129,7 +105,7 @@ class ConverterTest extends TestCase {
 			->willReturn('Manager');
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$vCard = $converter->createCardFromUser($user);
 
 		$this->compareData(
@@ -142,7 +118,7 @@ class ConverterTest extends TestCase {
 		);
 	}
 
-	protected function compareData($expected, $data) {
+	protected function compareData(array $expected, array $data): void {
 		foreach ($expected as $key => $value) {
 			$found = false;
 			foreach ($data[1] as $d) {
@@ -157,7 +133,7 @@ class ConverterTest extends TestCase {
 		}
 	}
 
-	public function providesNewUsers() {
+	public static function providesNewUsers(): array {
 		return [
 			[
 				null
@@ -184,8 +160,8 @@ class ConverterTest extends TestCase {
 					'fn' => 'Dr. Foo Bar',
 					'photo' => 'MTIzNDU2Nzg5',
 				],
-				"Dr. Foo Bar",
-				"foo@bar.net",
+				'Dr. Foo Bar',
+				'foo@bar.net',
 				'foo@cloud.net'
 			],
 			[
@@ -194,9 +170,9 @@ class ConverterTest extends TestCase {
 					'fn' => 'Dr. Foo Bar',
 					'photo' => 'MTIzNDU2Nzg5',
 				],
-				"Dr. Foo Bar",
+				'Dr. Foo Bar',
 				null,
-				"foo@cloud.net"
+				'foo@cloud.net'
 			],
 			[
 				[
@@ -211,19 +187,15 @@ class ConverterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesNames
-	 * @param $expected
-	 * @param $fullName
-	 */
-	public function testNameSplitter($expected, $fullName): void {
-		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator);
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesNames')]
+	public function testNameSplitter(string $expected, string $fullName): void {
+		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);
 		$this->assertEquals($expected, $r);
 	}
 
-	public function providesNames() {
+	public static function providesNames(): array {
 		return [
 			['Sauron;;;;', 'Sauron'],
 			['Baggins;Bilbo;;;', 'Bilbo Baggins'],
@@ -232,16 +204,13 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * @param $displayName
-	 * @param $eMailAddress
-	 * @param $cloudId
-	 * @return IUser | \PHPUnit\Framework\MockObject\MockObject
+	 * @return IUser&MockObject
 	 */
 	protected function getUserMock(string $displayName, ?string $eMailAddress, ?string $cloudId) {
-		$image0 = $this->getMockBuilder(IImage::class)->disableOriginalConstructor()->getMock();
+		$image0 = $this->createMock(IImage::class);
 		$image0->method('mimeType')->willReturn('image/jpeg');
 		$image0->method('data')->willReturn('123456789');
-		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('12345');
 		$user->method('getDisplayName')->willReturn($displayName);
 		$user->method('getEMailAddress')->willReturn($eMailAddress);

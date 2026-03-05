@@ -1,27 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright 2018
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\FullTextSearch\Model;
 
@@ -48,8 +30,6 @@ use OCP\FullTextSearch\Model\IIndexDocument;
  * @package OC\FullTextSearch\Model
  */
 class IndexDocument implements IIndexDocument, JsonSerializable {
-	protected string $id = '';
-
 	protected DocumentAccess $access;
 
 	protected ?IIndex $index = null;
@@ -95,9 +75,8 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 */
 	public function __construct(
 		protected string $providerId,
-		string $documentId,
+		protected string $id,
 	) {
-		$this->id = $documentId;
 	}
 
 
@@ -420,7 +399,7 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 			return $this;
 		}
 
-		$this->hash = hash("md5", $this->getContent());
+		$this->hash = hash('md5', $this->getContent());
 
 		return $this;
 	}
@@ -530,8 +509,8 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @since 16.0.0
 	 */
 	final public function addExcerpt(string $source, string $excerpt): IIndexDocument {
-		$this->excerpts[] =
-			[
+		$this->excerpts[]
+			= [
 				'source' => $source,
 				'excerpt' => $this->cleanExcerpt($excerpt)
 			];
@@ -574,9 +553,9 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @since 16.0.0
 	 */
 	private function cleanExcerpt(string $excerpt): string {
-		$excerpt = str_replace("\\n", ' ', $excerpt);
-		$excerpt = str_replace("\\r", ' ', $excerpt);
-		$excerpt = str_replace("\\t", ' ', $excerpt);
+		$excerpt = str_replace('\\n', ' ', $excerpt);
+		$excerpt = str_replace('\\r', ' ', $excerpt);
+		$excerpt = str_replace('\\t', ' ', $excerpt);
 		$excerpt = str_replace("\n", ' ', $excerpt);
 		$excerpt = str_replace("\r", ' ', $excerpt);
 		$excerpt = str_replace("\t", ' ', $excerpt);

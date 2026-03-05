@@ -1,32 +1,15 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2020, Daniel Calviño Sánchez (danxuliu@gmail.com)
- *
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 trait Avatar {
-	/** @var string **/
+	/** @var string * */
 	private $lastAvatar;
 
 	/** @AfterScenario **/
@@ -84,30 +67,11 @@ trait Avatar {
 	}
 
 	/**
-	 * @When logged in user gets temporary avatar
-	 */
-	public function loggedInUserGetsTemporaryAvatar() {
-		$this->loggedInUserGetsTemporaryAvatarWith('200');
-	}
-
-	/**
-	 * @When logged in user gets temporary avatar with :statusCode
-	 *
-	 * @param string $statusCode
-	 */
-	public function loggedInUserGetsTemporaryAvatarWith(string $statusCode) {
-		$this->sendingAToWithRequesttoken('GET', '/index.php/avatar/tmp');
-		$this->theHTTPStatusCodeShouldBe($statusCode);
-
-		$this->getLastAvatar();
-	}
-
-	/**
-	 * @When logged in user posts temporary avatar from file :source
+	 * @When logged in user posts avatar from file :source
 	 *
 	 * @param string $source
 	 */
-	public function loggedInUserPostsTemporaryAvatarFromFile(string $source) {
+	public function loggedInUserPostsAvatarFromFile(string $source) {
 		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 
 		$this->sendingAToWithRequesttoken('POST', '/index.php/avatar',
@@ -123,38 +87,13 @@ trait Avatar {
 	}
 
 	/**
-	 * @When logged in user posts temporary avatar from internal path :path
+	 * @When logged in user posts avatar from internal path :path
 	 *
 	 * @param string $path
 	 */
-	public function loggedInUserPostsTemporaryAvatarFromInternalPath(string $path) {
+	public function loggedInUserPostsAvatarFromInternalPath(string $path) {
 		$this->sendingAToWithRequesttoken('POST', '/index.php/avatar?path=' . $path);
 		$this->theHTTPStatusCodeShouldBe('200');
-	}
-
-	/**
-	 * @When logged in user crops temporary avatar
-	 *
-	 * @param TableNode $crop
-	 */
-	public function loggedInUserCropsTemporaryAvatar(TableNode $crop) {
-		$this->loggedInUserCropsTemporaryAvatarWith('200', $crop);
-	}
-
-	/**
-	 * @When logged in user crops temporary avatar with :statusCode
-	 *
-	 * @param string $statusCode
-	 * @param TableNode $crop
-	 */
-	public function loggedInUserCropsTemporaryAvatarWith(string $statusCode, TableNode $crop) {
-		$parameters = [];
-		foreach ($crop->getRowsHash() as $key => $value) {
-			$parameters[] = 'crop[' . $key . ']=' . $value;
-		}
-
-		$this->sendingAToWithRequesttoken('POST', '/index.php/avatar/cropped?' . implode('&', $parameters));
-		$this->theHTTPStatusCodeShouldBe($statusCode);
 	}
 
 	/**
@@ -257,10 +196,10 @@ trait Avatar {
 	}
 
 	private function isSameColor(array $firstColor, array $secondColor, int $allowedDelta = 1) {
-		if ($this->isSameColorComponent($firstColor['red'], $secondColor['red'], $allowedDelta) &&
-			$this->isSameColorComponent($firstColor['green'], $secondColor['green'], $allowedDelta) &&
-			$this->isSameColorComponent($firstColor['blue'], $secondColor['blue'], $allowedDelta) &&
-			$this->isSameColorComponent($firstColor['alpha'], $secondColor['alpha'], $allowedDelta)) {
+		if ($this->isSameColorComponent($firstColor['red'], $secondColor['red'], $allowedDelta)
+			&& $this->isSameColorComponent($firstColor['green'], $secondColor['green'], $allowedDelta)
+			&& $this->isSameColorComponent($firstColor['blue'], $secondColor['blue'], $allowedDelta)
+			&& $this->isSameColorComponent($firstColor['alpha'], $secondColor['alpha'], $allowedDelta)) {
 			return true;
 		}
 
@@ -268,8 +207,8 @@ trait Avatar {
 	}
 
 	private function isSameColorComponent(int $firstColorComponent, int $secondColorComponent, int $allowedDelta) {
-		if ($firstColorComponent >= ($secondColorComponent - $allowedDelta) &&
-			$firstColorComponent <= ($secondColorComponent + $allowedDelta)) {
+		if ($firstColorComponent >= ($secondColorComponent - $allowedDelta)
+			&& $firstColorComponent <= ($secondColorComponent + $allowedDelta)) {
 			return true;
 		}
 

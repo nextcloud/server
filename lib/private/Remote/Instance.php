@@ -1,24 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Remote;
 
@@ -26,81 +10,53 @@ use OC\Remote\Api\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\Remote\IInstance;
+use Override;
 
 /**
  * Provides some basic info about a remote Nextcloud instance
  */
 class Instance implements IInstance {
-	/** @var string */
-	private $url;
+	private string $url;
+	private ?array $status = null;
 
-	/** @var ICache */
-	private $cache;
-
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var array|null */
-	private $status;
-
-	/**
-	 * @param string $url
-	 * @param ICache $cache
-	 * @param IClientService $clientService
-	 */
-	public function __construct($url, ICache $cache, IClientService $clientService) {
+	public function __construct(
+		string $url,
+		private ICache $cache,
+		private IClientService $clientService,
+	) {
 		$url = str_replace('https://', '', $url);
 		$this->url = str_replace('http://', '', $url);
-		$this->cache = $cache;
-		$this->clientService = $clientService;
 	}
 
-	/**
-	 * @return string The url of the remote server without protocol
-	 */
-	public function getUrl() {
+	#[Override]
+	public function getUrl(): string {
 		return $this->url;
 	}
 
-	/**
-	 * @return string The of of the remote server with protocol
-	 */
-	public function getFullUrl() {
+	#[Override]
+	public function getFullUrl(): string {
 		return $this->getProtocol() . '://' . $this->getUrl();
 	}
 
-	/**
-	 * @return string The full version string in '13.1.2.3' format
-	 */
-	public function getVersion() {
+	#[Override]
+	public function getVersion(): string {
 		$status = $this->getStatus();
 		return $status['version'];
 	}
 
-	/**
-	 * @return string 'http' or 'https'
-	 */
-	public function getProtocol() {
+	#[Override]
+	public function getProtocol(): string {
 		$status = $this->getStatus();
 		return $status['protocol'];
 	}
 
-	/**
-	 * Check that the remote server is installed and not in maintenance mode
-	 *
-	 * @return bool
-	 */
-	public function isActive() {
+	#[Override]
+	public function isActive(): bool {
 		$status = $this->getStatus();
 		return $status['installed'] && !$status['maintenance'];
 	}
 
-	/**
-	 * @return array
-	 * @throws NotFoundException
-	 * @throws \Exception
-	 */
-	private function getStatus() {
+	private function getStatus(): array {
 		if ($this->status) {
 			return $this->status;
 		}
@@ -133,15 +89,17 @@ class Instance implements IInstance {
 		return $status;
 	}
 
-	/**
-	 * @param string $url
-	 * @return bool|string
-	 */
-	private function downloadStatus($url) {
+	private function downloadStatus(string $url): false|string {
 		try {
 			$request = $this->clientService->newClient()->get($url);
-			return $request->getBody();
-		} catch (\Exception $e) {
+			$content = $request->getBody();
+
+			// IResponse.getBody responds with null|resource if returning a stream response was requested.
+			// As that's not the case here, we can just ignore the psalm warning by adding an assertion.
+			assert(is_string($content));
+
+			return $content;
+		} catch (\Exception) {
 			return false;
 		}
 	}

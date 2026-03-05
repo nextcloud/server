@@ -1,44 +1,28 @@
 <!--
-	- @copyright 2022 Carl Schwan <carl@carlschwan.eu>
-	-
-	- @author Carl Schwan <carl@carlschwan.eu>
-	-
-	- @license GNU AGPL version 3 or any later version
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-	<NcSettingsSection :name="t('settings', 'Background jobs')"
+	<NcSettingsSection
+		:name="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 		:doc-url="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">
 			<NcNoteCard v-if="oldExecution" type="error">
-				{{ t('settings', 'Last job execution ran {time}. Something seems wrong.', {time: relativeTime}) }}
+				{{ t('settings', 'Last job execution ran {time}. Something seems wrong.', { time: relativeTime }) }}
 			</NcNoteCard>
 
 			<NcNoteCard v-else-if="longExecutionCron" type="warning">
-				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", {maxAgeRelativeTime}) }}
+				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", { maxAgeRelativeTime }) }}
 			</NcNoteCard>
 
 			<NcNoteCard v-else-if="longExecutionNotCron" type="warning">
-				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", {maxAgeRelativeTime}) }}
+				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", { maxAgeRelativeTime }) }}
 			</NcNoteCard>
 
 			<NcNoteCard v-else type="success">
-				{{ t('settings', 'Last job ran {relativeTime}.', {relativeTime}) }}
+				{{ t('settings', 'Last job ran {relativeTime}.', { relativeTime }) }}
 			</NcNoteCard>
 		</template>
 
@@ -46,48 +30,52 @@
 			{{ t('settings', 'Background job did not run yet!') }}
 		</NcNoteCard>
 
-		<NcCheckboxRadioSwitch type="radio"
-			:checked.sync="backgroundJobsMode"
+		<NcCheckboxRadioSwitch
+			v-model="backgroundJobsMode"
+			type="radio"
 			name="backgroundJobsMode"
 			value="ajax"
 			class="ajaxSwitch"
-			@update:checked="onBackgroundJobModeChanged">
+			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'AJAX') }}
 		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'Execute one task with each page loaded. Use case: Single account instance.') }}</em>
 
-		<NcCheckboxRadioSwitch type="radio"
-			:checked.sync="backgroundJobsMode"
+		<NcCheckboxRadioSwitch
+			v-model="backgroundJobsMode"
+			type="radio"
 			name="backgroundJobsMode"
 			value="webcron"
-			@update:checked="onBackgroundJobModeChanged">
+			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'Webcron') }}
 		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 accounts depending on the usage).') }}</em>
 
-		<NcCheckboxRadioSwitch type="radio"
+		<NcCheckboxRadioSwitch
+			v-model="backgroundJobsMode"
+			type="radio"
 			:disabled="!cliBasedCronPossible"
-			:checked.sync="backgroundJobsMode"
 			value="cron"
 			name="backgroundJobsMode"
-			@update:checked="onBackgroundJobModeChanged">
+			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'Cron (Recommended)') }}
 		</NcCheckboxRadioSwitch>
+		<!-- eslint-disable-next-line vue/no-v-html The translation is sanitized-->
 		<em v-html="cronLabel" />
 	</NcSettingsSection>
 </template>
 
 <script>
-import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import moment from '@nextcloud/moment'
 import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import moment from '@nextcloud/moment'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import '@nextcloud/password-confirmation/dist/style.css'
+import { generateOcsUrl } from '@nextcloud/router'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import logger from '../../logger.ts'
 
 const lastCron = loadState('settings', 'lastCron')
 const cronMaxAge = loadState('settings', 'cronMaxAge', '')
@@ -117,6 +105,7 @@ export default {
 			maxAgeRelativeTime: moment(cronMaxAge * 1000).fromNow(),
 		}
 	},
+
 	computed: {
 		cronLabel() {
 			let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes.')
@@ -126,20 +115,24 @@ export default {
 				desc += '<br>' + t('settings', 'The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details.', {
 					linkstart: '<a target="_blank" rel="noreferrer nofollow" class="external" href="https://www.php.net/manual/en/book.posix.php">',
 					linkend: '</a>',
-				}, undefined, { escape: false, sanitize: false })
+				}, undefined, { escape: false })
 			}
 			return desc
 		},
+
 		oldExecution() {
 			return Date.now() / 1000 - this.lastCron > 600
 		},
+
 		longExecutionNotCron() {
 			return Date.now() / 1000 - this.cronMaxAge > 12 * 3600 && this.backgroundJobsMode !== 'cron'
 		},
+
 		longExecutionCron() {
 			return Date.now() / 1000 - this.cronMaxAge > 24 * 3600 && this.backgroundJobsMode === 'cron'
 		},
 	},
+
 	methods: {
 		async onBackgroundJobModeChanged(backgroundJobsMode) {
 			const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
@@ -163,14 +156,16 @@ export default {
 				})
 			}
 		},
+
 		async handleResponse({ status, errorMessage, error }) {
 			if (status === 'ok') {
 				await this.deleteError()
 			} else {
 				showError(errorMessage)
-				console.error(errorMessage, error)
+				logger.error(errorMessage, error)
 			}
 		},
+
 		async deleteError() {
 			// clear cron errors on background job mode change
 			const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
@@ -183,7 +178,7 @@ export default {
 			try {
 				await axios.delete(url)
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 			}
 		},
 	},
@@ -199,6 +194,7 @@ export default {
 	background-color: var(--color-error);
 	width: initial;
 }
+
 .warning {
 	margin-top: 8px;
 	padding: 5px;
@@ -207,6 +203,7 @@ export default {
 	background-color: var(--color-warning);
 	width: initial;
 }
+
 .ajaxSwitch {
 	margin-top: 1rem;
 }

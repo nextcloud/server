@@ -3,30 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\Listeners;
 
 use Exception;
+use OC\Authentication\Events\ARemoteWipeEvent;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OCP\EventDispatcher\Event;
@@ -41,29 +24,18 @@ use Psr\Log\LoggerInterface;
 use function substr;
 
 /**
- * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
+ * @template-implements IEventListener<ARemoteWipeEvent>
  */
 class RemoteWipeEmailListener implements IEventListener {
-	/** @var IMailer */
-	private $mailer;
+	private IL10N $l10n;
 
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IMailer $mailer,
-		IUserManager $userManager,
+	public function __construct(
+		private IMailer $mailer,
+		private IUserManager $userManager,
 		IL10nFactory $l10nFactory,
-		LoggerInterface $logger) {
-		$this->mailer = $mailer;
-		$this->userManager = $userManager;
+		private LoggerInterface $logger,
+	) {
 		$this->l10n = $l10nFactory->get('core');
-		$this->logger = $logger;
 	}
 
 	/**

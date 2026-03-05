@@ -1,28 +1,11 @@
 <!--
-  - @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
-  -
-  - @author Julius Härtl <jus@bitgrid.net>
-  - @author Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<!-- Selected app details -->
-	<NcAppSidebar v-if="showSidebar"
+	<NcAppSidebar
+		v-if="showSidebar"
 		class="app-sidebar"
 		:class="{ 'app-sidebar--with-screenshot': hasScreenshot }"
 		:active.sync="activeTab"
@@ -35,7 +18,8 @@
 		@close="hideAppDetails">
 		<!-- Fallback icon incase no app icon is available -->
 		<template v-if="!hasScreenshot" #header>
-			<NcIconSvgWrapper class="app-sidebar__fallback-icon"
+			<NcIconSvgWrapper
+				class="app-sidebar__fallback-icon"
 				:svg="appIcon ?? ''"
 				:size="64" />
 		</template>
@@ -44,38 +28,54 @@
 			<!-- Featured/Supported badges -->
 			<div class="app-sidebar__badges">
 				<AppLevelBadge :level="app.level" />
+				<AppDaemonBadge v-if="app.app_api && app.daemon" :daemon="app.daemon" />
 				<AppScore v-if="hasRating" :score="rating" />
 			</div>
 		</template>
 
 		<!-- Tab content -->
 		<AppDescriptionTab :app="app" />
-		<AppDetailsTab :app="app" />
+		<AppDetailsTab :key="app.id" :app="app" />
 		<AppReleasesTab :app="app" />
+		<AppDeployDaemonTab :app="app" />
 	</NcAppSidebar>
 </template>
 
 <script setup lang="ts">
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router/composables'
-import { useAppsStore } from '../store/apps-store'
-
-import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import AppDaemonBadge from '../components/AppList/AppDaemonBadge.vue'
+import AppLevelBadge from '../components/AppList/AppLevelBadge.vue'
 import AppScore from '../components/AppList/AppScore.vue'
+import AppDeployDaemonTab from '../components/AppStoreSidebar/AppDeployDaemonTab.vue'
 import AppDescriptionTab from '../components/AppStoreSidebar/AppDescriptionTab.vue'
 import AppDetailsTab from '../components/AppStoreSidebar/AppDetailsTab.vue'
 import AppReleasesTab from '../components/AppStoreSidebar/AppReleasesTab.vue'
-import AppLevelBadge from '../components/AppList/AppLevelBadge.vue'
 import { useAppIcon } from '../composables/useAppIcon.ts'
+import { useAppApiStore } from '../store/app-api-store.ts'
+import { useAppsStore } from '../store/apps-store.ts'
+import { useStore } from '../store/index.js'
 
 const route = useRoute()
 const router = useRouter()
 const store = useAppsStore()
+const appApiStore = useAppApiStore()
+const legacyStore = useStore()
 
 const appId = computed(() => route.params.id ?? '')
-const app = computed(() => store.getAppById(appId.value)!)
+const app = computed(() => {
+	if (legacyStore.getters.isAppApiEnabled) {
+		const exApp = appApiStore.getAllApps
+			.find((app) => app.id === appId.value) ?? null
+		if (exApp) {
+			return exApp
+		}
+	}
+	return store.getAppById(appId.value)!
+})
 const hasRating = computed(() => app.value.appstoreData?.ratingNumOverall > 5)
 const rating = computed(() => app.value.appstoreData?.ratingNumRecent > 5
 	? app.value.appstoreData.ratingRecent
@@ -87,15 +87,25 @@ const { appIcon } = useAppIcon(app)
 /**
  * The second text line shown on the sidebar
  */
-const licenseText = computed(() => app.value ? t('settings', 'Version {version}, {license}-licensed', { version: app.value.version, license: app.value.licence.toString().toUpperCase() }) : '')
+const licenseText = computed(() => {
+	if (!app.value) {
+		return ''
+	}
+	if (app.value.license !== '') {
+		return t('settings', 'Version {version}, {license}-licensed', { version: app.value.version, license: app.value.licence.toString().toUpperCase() })
+	}
+	return t('settings', 'Version {version}', { version: app.value.version })
+})
 
 const activeTab = ref('details')
-watch([app], () => { activeTab.value = 'details' })
+watch([app], () => {
+	activeTab.value = 'details'
+})
 
 /**
  * Hide the details sidebar by pushing a new route
  */
-const hideAppDetails = () => {
+function hideAppDetails() {
 	router.push({
 		name: 'apps-category',
 		params: { category: route.params.category },
@@ -110,7 +120,7 @@ const hasScreenshot = computed(() => app.value?.screenshot && screenshotLoaded.v
 /**
  * Preload the app screenshot
  */
-const loadScreenshot = () => {
+function loadScreenshot() {
 	if (app.value?.releases && app.value?.screenshot) {
 		const image = new Image()
 		image.onload = () => {

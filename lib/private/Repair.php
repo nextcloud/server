@@ -1,51 +1,24 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
-use OC\DB\Connection;
-use OC\DB\ConnectionAdapter;
-use OC\Repair\AddAppConfigLazyMigration;
 use OC\Repair\AddBruteForceCleanupJob;
+use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
+use OC\Repair\AddMovePreviewJob;
 use OC\Repair\AddRemoveOldTasksBackgroundJob;
 use OC\Repair\CleanTags;
 use OC\Repair\CleanUpAbandonedApps;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
+use OC\Repair\ConfigKeyMigration;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -54,7 +27,6 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OC\Repair\MoveUpdaterStepFile;
-use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC13\AddLogRotateJob;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
 use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
@@ -65,44 +37,51 @@ use OC\Repair\NC20\EncryptionLegacyCipher;
 use OC\Repair\NC20\EncryptionMigration;
 use OC\Repair\NC20\ShippedDashboardEnable;
 use OC\Repair\NC21\AddCheckForUserCertificatesJob;
-use OC\Repair\NC21\ValidatePhoneNumber;
 use OC\Repair\NC22\LookupServerSendCheck;
 use OC\Repair\NC24\AddTokenCleanupJob;
 use OC\Repair\NC25\AddMissingSecretJob;
+use OC\Repair\NC29\SanitizeAccountProperties;
+use OC\Repair\NC30\RemoveLegacyDatadirFile;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\MigrateOauthTables;
+use OC\Repair\Owncloud\MigratePropertiesTable;
 use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
+use OC\Repair\RemoveBrokenProperties;
 use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
+use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
-use OC\Template\JSCombiner;
-use OCP\AppFramework\QueryException;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Collaboration\Resources\IManager;
+use OCA\DAV\Migration\DeleteSchedulingObjects;
+use OCA\DAV\Migration\RemoveObjectProperties;
+use OCA\Files_Sharing\Repair\CleanupShareTarget;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Repair implements IOutput {
-	/** @var IRepairStep[] */
+	/** @var list<IRepairStep> */
 	private array $repairSteps = [];
 
 	private string $currentStep;
 
 	public function __construct(
-		private IEventDispatcher $dispatcher,
-		private LoggerInterface $logger
+		private readonly IEventDispatcher $dispatcher,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
-	/** @param IRepairStep[] $repairSteps */
+	/** @param list<IRepairStep> $repairSteps */
 	public function setRepairSteps(array $repairSteps): void {
 		$this->repairSteps = $repairSteps;
 	}
@@ -110,7 +89,7 @@ class Repair implements IOutput {
 	/**
 	 * Run a series of repair steps for common problems
 	 */
-	public function run() {
+	public function run(): void {
 		if (count($this->repairSteps) === 0) {
 			$this->dispatcher->dispatchTyped(new RepairInfoEvent('No repair steps available'));
 
@@ -123,28 +102,30 @@ class Repair implements IOutput {
 			try {
 				$step->run($this);
 			} catch (\Exception $e) {
-				$this->logger->error("Exception while executing repair step " . $step->getName(), ['exception' => $e]);
+				$this->logger->error('Exception while executing repair step ' . $step->getName(), ['exception' => $e]);
 				$this->dispatcher->dispatchTyped(new RepairErrorEvent($e->getMessage()));
 			}
 		}
+
+		$this->repairSteps = [];
 	}
 
 	/**
 	 * Add repair step
 	 *
-	 * @param IRepairStep|string $repairStep repair step
+	 * @param IRepairStep|class-string<IRepairStep> $repairStep repair step
 	 * @throws \Exception
 	 */
-	public function addStep($repairStep) {
+	public function addStep(IRepairStep|string $repairStep): void {
 		if (is_string($repairStep)) {
 			try {
-				$s = \OC::$server->get($repairStep);
-			} catch (QueryException $e) {
+				$s = Server::get($repairStep);
+			} catch (ContainerExceptionInterface $e) {
 				if (class_exists($repairStep)) {
 					try {
 						// Last resort: hope there are no constructor arguments
 						$s = new $repairStep();
-					} catch (Throwable $inner) {
+					} catch (Throwable) {
 						// Well, it was worth a try
 						throw new \Exception("Repair step '$repairStep' can't be instantiated: " . $e->getMessage(), 0, $e);
 					}
@@ -167,50 +148,47 @@ class Repair implements IOutput {
 	 * Returns the default repair steps to be run on the
 	 * command line or after an upgrade.
 	 *
-	 * @return IRepairStep[]
+	 * @return list<IRepairStep>
 	 */
 	public static function getRepairSteps(): array {
 		return [
-			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->getDatabaseConnection(), false),
-			new RepairMimeTypes(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
-			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new MoveUpdaterStepFile(\OC::$server->getConfig()),
-			new MoveAvatars(
-				\OC::$server->getJobList(),
-				\OC::$server->getConfig()
-			),
-			new CleanPreviews(
-				\OC::$server->getJobList(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getConfig()
-			),
-			new MigrateOauthTables(\OC::$server->get(Connection::class)),
-			new FixMountStorages(\OC::$server->getDatabaseConnection()),
-			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new AddLogRotateJob(\OC::$server->getJobList()),
-			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OCP\Server::get(JSCombiner::class)),
-			\OCP\Server::get(ClearGeneratedAvatarCache::class),
-			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
-			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
-			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->get(LoggerInterface::class)),
-			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
-			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OCP\Server::get(ITimeFactory::class)),
-			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OCP\Server::get(IManager::class)),
-			\OCP\Server::get(ResetGeneratedAvatarFlag::class),
-			\OCP\Server::get(EncryptionLegacyCipher::class),
-			\OCP\Server::get(EncryptionMigration::class),
-			\OCP\Server::get(ShippedDashboardEnable::class),
-			\OCP\Server::get(AddBruteForceCleanupJob::class),
-			\OCP\Server::get(AddCheckForUserCertificatesJob::class),
-			\OCP\Server::get(RepairDavShares::class),
-			\OCP\Server::get(LookupServerSendCheck::class),
-			\OCP\Server::get(AddTokenCleanupJob::class),
-			\OCP\Server::get(CleanUpAbandonedApps::class),
-			\OCP\Server::get(AddMissingSecretJob::class),
-			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
-			\OCP\Server::get(AddMetadataGenerationJob::class),
-			\OCP\Server::get(AddAppConfigLazyMigration::class),
+			new Collation(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(IDBConnection::class), false),
+			Server::get(CleanTags::class),
+			Server::get(RepairInvalidShares::class),
+			Server::get(MoveUpdaterStepFile::class),
+			Server::get(MoveAvatars::class),
+			Server::get(CleanPreviews::class),
+			Server::get(MigratePropertiesTable::class),
+			Server::get(MigrateOauthTables::class),
+			Server::get(UpdateLanguageCodes::class),
+			Server::get(AddLogRotateJob::class),
+			Server::get(ClearFrontendCaches::class),
+			Server::get(ClearGeneratedAvatarCache::class),
+			Server::get(AddPreviewBackgroundCleanupJob::class),
+			Server::get(AddCleanupUpdaterBackupsJob::class),
+			Server::get(CleanupCardDAVPhotoCache::class),
+			Server::get(AddClenupLoginFlowV2BackgroundJob::class),
+			Server::get(RemoveLinkShares::class),
+			Server::get(ClearCollectionsAccessCache::class),
+			Server::get(ResetGeneratedAvatarFlag::class),
+			Server::get(EncryptionLegacyCipher::class),
+			Server::get(EncryptionMigration::class),
+			Server::get(ShippedDashboardEnable::class),
+			Server::get(AddBruteForceCleanupJob::class),
+			Server::get(AddCheckForUserCertificatesJob::class),
+			Server::get(RepairDavShares::class),
+			Server::get(LookupServerSendCheck::class),
+			Server::get(AddTokenCleanupJob::class),
+			Server::get(CleanUpAbandonedApps::class),
+			Server::get(AddMissingSecretJob::class),
+			Server::get(AddRemoveOldTasksBackgroundJob::class),
+			Server::get(AddMetadataGenerationJob::class),
+			Server::get(RepairLogoDimension::class),
+			Server::get(RemoveLegacyDatadirFile::class),
+			Server::get(AddCleanupDeletedUsersBackgroundJob::class),
+			Server::get(SanitizeAccountProperties::class),
+			Server::get(AddMovePreviewJob::class),
+			Server::get(ConfigKeyMigration::class),
 		];
 	}
 
@@ -218,32 +196,36 @@ class Repair implements IOutput {
 	 * Returns expensive repair steps to be run on the
 	 * command line with a special option.
 	 *
-	 * @return IRepairStep[]
+	 * @return list<IRepairStep>
 	 */
-	public static function getExpensiveRepairSteps() {
-		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
-			\OC::$server->get(ValidatePhoneNumber::class),
+	public static function getExpensiveRepairSteps(): array {
+		$expensiveSteps = [
+			Server::get(OldGroupMembershipShares::class),
+			Server::get(RemoveBrokenProperties::class),
+			Server::get(RepairMimeTypes::class),
+			Server::get(DeleteSchedulingObjects::class),
+			Server::get(RemoveObjectProperties::class),
 		];
+
+		if (class_exists(CleanupShareTarget::class)) {
+			$expensiveSteps[] = Server::get(CleanupShareTarget::class);
+		}
+
+		return $expensiveSteps;
 	}
 
 	/**
 	 * Returns the repair steps to be run before an
 	 * upgrade.
 	 *
-	 * @return IRepairStep[]
+	 * @return list<IRepairStep>
 	 */
-	public static function getBeforeUpgradeRepairSteps() {
-		/** @var ConnectionAdapter $connectionAdapter */
-		$connectionAdapter = \OC::$server->get(ConnectionAdapter::class);
-		$config = \OC::$server->getConfig();
-		$steps = [
-			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), $connectionAdapter, true),
-			new SaveAccountsTableData($connectionAdapter, $config),
-			new DropAccountTermsTable($connectionAdapter),
+	public static function getBeforeUpgradeRepairSteps(): array {
+		return [
+			new Collation(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(IDBConnection::class), true),
+			Server::get(SaveAccountsTableData::class),
+			Server::get(DropAccountTermsTable::class),
 		];
-
-		return $steps;
 	}
 
 	public function debug(string $message): void {
@@ -252,7 +234,7 @@ class Repair implements IOutput {
 	/**
 	 * @param string $message
 	 */
-	public function info($message) {
+	public function info($message): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairInfoEvent($message));
 	}
@@ -260,7 +242,7 @@ class Repair implements IOutput {
 	/**
 	 * @param string $message
 	 */
-	public function warning($message) {
+	public function warning($message): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairWarningEvent($message));
 	}
@@ -268,7 +250,7 @@ class Repair implements IOutput {
 	/**
 	 * @param int $max
 	 */
-	public function startProgress($max = 0) {
+	public function startProgress($max = 0): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairStartEvent($max, $this->currentStep));
 	}
@@ -277,15 +259,12 @@ class Repair implements IOutput {
 	 * @param int $step number of step to advance
 	 * @param string $description
 	 */
-	public function advance($step = 1, $description = '') {
+	public function advance($step = 1, $description = ''): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairAdvanceEvent($step, $description));
 	}
 
-	/**
-	 * @param int $max
-	 */
-	public function finishProgress() {
+	public function finishProgress(): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairFinishEvent());
 	}

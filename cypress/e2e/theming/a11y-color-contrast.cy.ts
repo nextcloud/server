@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 const themesToTest = ['light', 'dark', 'light-highcontrast', 'dark-highcontrast']
 
 const testCases = {
@@ -62,7 +66,7 @@ const testCases = {
 			'color-primary-element-light-hover',
 		],
 	},
-	'Servity information texts': {
+	'Severity information texts': {
 		foregroundColors: [
 			'color-error-text',
 			'color-warning-text',
@@ -72,6 +76,15 @@ const testCases = {
 		backgroundColors: [
 			'color-main-background',
 			'color-background-hover',
+		],
+	},
+	// only most important severity colors are supported on the blur
+	'Severity information on blur': {
+		foregroundColors: [
+			'color-error-text',
+			'color-success-text',
+		],
+		backgroundColors: [
 			'color-main-background-blur',
 		],
 	},
@@ -106,7 +119,7 @@ describe('Accessibility of Nextcloud theming colors', () => {
 			before(() => {
 				cy.createRandomUser().then(($user) => {
 					// set user theme
-					cy.runOccCommand(`user:setting -- '${$user.userId}' theming enabled-themes '["${theme}"]'`)
+					cy.runOccCommand(`user:setting -- '${$user.userId}' theming enabled-themes '[\\"${theme}\\"]'`)
 					cy.login($user)
 					cy.visit('/')
 					cy.injectAxe({ axeCorePath: 'node_modules/axe-core/axe.min.js' })
@@ -114,11 +127,11 @@ describe('Accessibility of Nextcloud theming colors', () => {
 			})
 
 			beforeEach(() => {
-				cy.document().then(doc => {
+				cy.document().then((doc) => {
 					// Unset background image and thus use background-color for testing blur background (images do not work with axe-core)
 					doc.body.style.backgroundImage = 'unset'
 
-					const root = doc.querySelector('main')
+					const root = doc.querySelector('#content')
 					if (root === null) {
 						throw new Error('No test root found')
 					}
@@ -131,12 +144,12 @@ describe('Accessibility of Nextcloud theming colors', () => {
 					for (const foreground of foregroundColors) {
 						for (const background of backgroundColors) {
 							it(`color contrast of ${foreground} on ${background}`, () => {
-								cy.document().then(doc => {
+								cy.document().then((doc) => {
 									const element = createTestCase(foreground, background)
-									const root = doc.querySelector('main')
-									// eslint-disable-next-line no-unused-expressions
+									const root = doc.querySelector('#content')
+
 									expect(root).not.to.be.undefined
-									// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 									root!.appendChild(element)
 
 									cy.checkA11y('[data-cy-testcase]', {

@@ -1,38 +1,20 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author szaimen <szaimen@e.mail.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IUserMountCache;
+use OCP\IAppConfig;
 use OCP\IUserSession;
 
 /**
@@ -44,22 +26,16 @@ class UserStoragesService extends StoragesService {
 
 	/**
 	 * Create a user storages service
-	 *
-	 * @param BackendService $backendService
-	 * @param DBConfigService $dbConfig
-	 * @param IUserSession $userSession user session
-	 * @param IUserMountCache $userMountCache
-	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct(
 		BackendService $backendService,
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
-		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		IAppConfig $appConfig,
 	) {
 		$this->userSession = $userSession;
-		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher);
+		parent::__construct($backendService, $dbConfig, $eventDispatcher, $appConfig);
 	}
 
 	protected function readDBConfig() {
@@ -80,7 +56,7 @@ class UserStoragesService extends StoragesService {
 		$this->triggerApplicableHooks(
 			$signal,
 			$storage->getMountPoint(),
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+			MountConfig::MOUNT_TYPE_USER,
 			[$user]
 		);
 	}
@@ -96,6 +72,8 @@ class UserStoragesService extends StoragesService {
 	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage) {
 		// if mount point changed, it's like a deletion + creation
 		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {
+			$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($oldStorage));
+			$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 			$this->triggerHooks($oldStorage, Filesystem::signal_delete_mount);
 			$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 		}
@@ -138,11 +116,11 @@ class UserStoragesService extends StoragesService {
 	 *
 	 * @return int BackendService::VISIBILITY_* constants
 	 */
-	public function getVisibilityType() {
+	public function getVisibilityType(): int {
 		return BackendService::VISIBILITY_PERSONAL;
 	}
 
-	protected function isApplicable(StorageConfig $config) {
+	protected function isApplicable(StorageConfig $config): bool {
 		return ($config->getApplicableUsers() === [$this->getUser()->getUID()]) && $config->getType() === StorageConfig::MOUNT_TYPE_PERSONAL;
 	}
 

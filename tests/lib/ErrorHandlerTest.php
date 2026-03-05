@@ -3,24 +3,9 @@
 declare(strict_types=1);
 
 /**
- * ownCloud
- *
- * @author Bjoern Schiessle
- * @copyright 2014 Bjoern Schiessle <schiessle@owncloud.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -31,10 +16,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class ErrorHandlerTest extends TestCase {
-	/** @var MockObject */
-	private LoggerInterface $logger;
-
+	private LoggerInterface&MockObject $logger;
 	private ErrorHandler $errorHandler;
+	private int $errorReporting;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,13 +27,20 @@ class ErrorHandlerTest extends TestCase {
 		$this->errorHandler = new ErrorHandler(
 			$this->logger
 		);
+
+		$this->errorReporting = error_reporting(E_ALL);
+	}
+
+	protected function tearDown(): void {
+		error_reporting($this->errorReporting);
+		parent::tearDown();
 	}
 
 	/**
 	 * provide username, password combinations for testRemovePassword
 	 * @return array
 	 */
-	public function passwordProvider() {
+	public static function passwordProvider(): array {
 		return [
 			['us:er', 'pass@word'],
 			['us:er', 'password'],
@@ -64,12 +55,12 @@ class ErrorHandlerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider passwordProvider
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function testRemovePasswordFromError($username, $password) {
-		$url = 'http://'.$username.':'.$password.'@owncloud.org';
+	#[\PHPUnit\Framework\Attributes\DataProvider('passwordProvider')]
+	public function testRemovePasswordFromError($username, $password): void {
+		$url = 'http://' . $username . ':' . $password . '@owncloud.org';
 		$expectedResult = 'http://xxx:xxx@owncloud.org';
 		$this->logger->expects(self::once())
 			->method('log')

@@ -3,29 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Search;
 
@@ -56,29 +35,13 @@ use OCP\Search\SearchResultEntry;
 use OCP\Share\IShare;
 
 class FilesSearchProvider implements IFilteringProvider {
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IMimeTypeDetector */
-	private $mimeTypeDetector;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
 	public function __construct(
-		IL10N $l10n,
-		IURLGenerator $urlGenerator,
-		IMimeTypeDetector $mimeTypeDetector,
-		IRootFolder $rootFolder,
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private IMimeTypeDetector $mimeTypeDetector,
+		private IRootFolder $rootFolder,
 		private IPreview $previewManager,
 	) {
-		$this->l10n = $l10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->mimeTypeDetector = $mimeTypeDetector;
-		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -193,7 +156,7 @@ class FilesSearchProvider implements IFilteringProvider {
 		return new SearchQuery(
 			new SearchBinaryOperator(SearchBinaryOperator::OPERATOR_AND, $comparisons),
 			$query->getLimit(),
-			(int) $query->getCursor(),
+			(int)$query->getCursor(),
 			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC
 				? [new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime')]
 				: [],

@@ -1,43 +1,22 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Tests\Settings;
 
 use OCA\User_LDAP\Settings\Section;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SectionTest extends TestCase {
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $url;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l;
-	/** @var Section */
-	private $section;
+	private IURLGenerator&MockObject $url;
+	private IL10N&MockObject $l;
+	private Section $section;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -50,11 +29,11 @@ class SectionTest extends TestCase {
 		);
 	}
 
-	public function testGetID() {
+	public function testGetID(): void {
 		$this->assertSame('ldap', $this->section->getID());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->l
 			->expects($this->once())
 			->method('t')
@@ -64,11 +43,11 @@ class SectionTest extends TestCase {
 		$this->assertSame('LDAP/AD integration', $this->section->getName());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(25, $this->section->getPriority());
 	}
 
-	public function testGetIcon() {
+	public function testGetIcon(): void {
 		$this->url->expects($this->once())
 			->method('imagePath')
 			->with('user_ldap', 'app-dark.svg')

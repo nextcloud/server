@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification\Tests\Controller;
 
@@ -38,18 +19,20 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class AdminControllerTest extends TestCase {
-	private IRequest|MockObject $request;
-	private IJobList|MockObject $jobList;
-	private ISecureRandom|MockObject $secureRandom;
-	private IConfig|MockObject $config;
-	private ITimeFactory|MockObject $timeFactory;
-	private IL10N|MockObject $l10n;
-	private IAppConfig|MockObject $appConfig;
+	protected IRequest&MockObject $request;
+	protected IJobList&MockObject $jobList;
+	protected ISecureRandom&MockObject $secureRandom;
+	protected IConfig&MockObject $config;
+	protected ITimeFactory&MockObject $timeFactory;
+	protected IL10N&MockObject $l10n;
+	protected IAppConfig&MockObject $appConfig;
+	protected LoggerInterface&MockObject $logger;
 
-	private AdminController $adminController;
+	protected AdminController $adminController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -61,6 +44,7 @@ class AdminControllerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->adminController = new AdminController(
 			'updatenotification',
@@ -70,11 +54,12 @@ class AdminControllerTest extends TestCase {
 			$this->config,
 			$this->appConfig,
 			$this->timeFactory,
-			$this->l10n
+			$this->l10n,
+			$this->logger,
 		);
 	}
 
-	public function testCreateCredentials() {
+	public function testCreateCredentials(): void {
 		$this->jobList
 			->expects($this->once())
 			->method('add')
@@ -99,5 +84,30 @@ class AdminControllerTest extends TestCase {
 
 		$expected = new DataResponse('MyGeneratedToken');
 		$this->assertEquals($expected, $this->adminController->createCredentials());
+	}
+
+	public function testCreateCredentialsAndWebUpdaterDisabled(): void {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('upgrade.disable-web')
+			->willReturn(true);
+		$this->jobList
+			->expects($this->never())
+			->method('add');
+		$this->secureRandom
+			->expects($this->never())
+			->method('generate');
+		$this->config
+			->expects($this->never())
+			->method('setSystemValue');
+		$this->timeFactory
+			->expects($this->never())
+			->method('getTime');
+		$this->appConfig
+			->expects($this->never())
+			->method('setValueInt');
+
+		$this->adminController->createCredentials();
 	}
 }

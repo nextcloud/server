@@ -1,26 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Check;
 
@@ -32,46 +14,32 @@ use OCP\WorkflowEngine\ICheck;
 
 class FileSize implements ICheck {
 
-	/** @var int */
-	protected $size;
+	protected int|float|null $size = null;
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IRequest */
-	protected $request;
-
-	/**
-	 * @param IL10N $l
-	 * @param IRequest $request
-	 */
-	public function __construct(IL10N $l, IRequest $request) {
-		$this->l = $l;
-		$this->request = $request;
+	public function __construct(
+		protected readonly IL10N $l,
+		protected readonly IRequest $request,
+	) {
 	}
 
 	/**
 	 * @param string $operator
 	 * @param string $value
-	 * @return bool
 	 */
-	public function executeCheck($operator, $value) {
+	public function executeCheck($operator, $value): bool {
 		$size = $this->getFileSizeFromHeader();
+		if ($size === false) {
+			return false;
+		}
 
 		$value = Util::computerFileSize($value);
-		if ($size !== false) {
-			switch ($operator) {
-				case 'less':
-					return $size < $value;
-				case '!less':
-					return $size >= $value;
-				case 'greater':
-					return $size > $value;
-				case '!greater':
-					return $size <= $value;
-			}
-		}
-		return false;
+		return match ($operator) {
+			'less' => $size < $value,
+			'!less' => $size >= $value,
+			'greater' => $size > $value,
+			'!greater' => $size <= $value,
+			default => false,
+		};
 	}
 
 	/**
@@ -79,7 +47,7 @@ class FileSize implements ICheck {
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
-	public function validateCheck($operator, $value) {
+	public function validateCheck($operator, $value): void {
 		if (!in_array($operator, ['less', '!less', 'greater', '!greater'])) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
@@ -90,25 +58,35 @@ class FileSize implements ICheck {
 	}
 
 	/**
-	 * @return string
+	 * Gets the file size from HTTP headers.
+	 *
+	 * Checks 'OC-Total-Length' first; if unavailable and the method is POST or PUT,
+	 * checks 'Content-Length'. Returns the size as int, float, or false if not found or invalid.
+	 *
+	 * @return int|float|false File size in bytes, or false if unavailable.
 	 */
-	protected function getFileSizeFromHeader() {
+	protected function getFileSizeFromHeader(): int|float|false {
+		// Already have it cached?
 		if ($this->size !== null) {
 			return $this->size;
 		}
 
 		$size = $this->request->getHeader('OC-Total-Length');
 		if ($size === '') {
-			if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
+			// Try fallback for upload methods
+			$method = $this->request->getMethod();
+			if (in_array($method, ['POST', 'PUT'], true)) {
 				$size = $this->request->getHeader('Content-Length');
 			}
 		}
 
-		if ($size === '') {
-			$size = false;
+		if ($size !== '' && is_numeric($size)) {
+			$this->size = Util::numericToNumber($size);
+		} else {
+			// No valid size header found
+			$this->size = false;
 		}
 
-		$this->size = $size;
 		return $this->size;
 	}
 

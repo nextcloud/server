@@ -1,44 +1,42 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
+use OCP\ITempManager;
+use OCP\Server;
 use Test\Traits\EncryptionTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class EncryptedSizePropagationTest extends SizePropagationTest {
 	use EncryptionTrait;
 
+	protected function setUp(): void {
+		parent::setUp();
+		$this->config->setAppValue('encryption', 'useMasterKey', '0');
+	}
+
 	protected function setupUser($name, $password = '') {
 		$this->createUser($name, $password);
-		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
-		$this->config->setAppValue('encryption', 'useMasterKey', '0');
+		$this->registerMountForUser($name);
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
+	}
+
+	private function registerMountForUser($user): void {
+		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
+		$this->registerMount($user, '\OC\Files\Storage\Local', '/' . $user, ['datadir' => $tmpFolder]);
+	}
+
+	protected function loginHelper($user, $create = false, $password = false) {
+		$this->registerMountForUser($user);
+		$this->setupForUser($user, $password);
+		parent::loginHelper($user, $create, $password);
 	}
 }

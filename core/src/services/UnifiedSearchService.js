@@ -1,28 +1,12 @@
 /**
- * @copyright 2023, Fon E. Noel NFEBE <fenn25.fn@gmail.com>
- *
- * @author Fon E. Noel NFEBE <fenn25.fn@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateOcsUrl, generateUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
+import logger from '../logger.js'
 
 /**
  * Create a cancel token
@@ -49,7 +33,7 @@ export async function getProviders() {
 			return data.ocs.data
 		}
 	} catch (error) {
-		console.error(error)
+		logger.error(error)
 	}
 	return []
 }
@@ -99,7 +83,7 @@ export function search({ type, query, cursor, since, until, limit, person, extra
  * Get the list of active contacts
  *
  * @param {object} filter filter contacts by string
- * @param filter.searchTerm
+ * @param {string} filter.searchTerm the query
  * @return {object} {request: Promise}
  */
 export async function getContacts({ searchTerm }) {
@@ -116,10 +100,10 @@ export async function getContacts({ searchTerm }) {
 			id: authenticatedUser.uid,
 			fullName: authenticatedUser.displayName,
 			emailAddresses: [],
-		  }
+		}
 		contacts.unshift(authenticatedUser)
 		return contacts
-	  }
+	}
 
 	return contacts
 }

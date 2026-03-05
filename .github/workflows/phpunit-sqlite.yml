@@ -2,8 +2,11 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
-name: PHPUnit sqlite
+name: PHPUnit SQLite
 
 on:
   pull_request:
@@ -20,6 +23,9 @@ concurrency:
 jobs:
   changes:
     runs-on: ubuntu-latest-low
+    permissions:
+      contents: read
+      pull-requests: read
 
     outputs:
       src: ${{ steps.changes.outputs.src }}
@@ -51,40 +57,46 @@ jobs:
     if: needs.changes.outputs.src != 'false'
 
     strategy:
+      fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.2', '8.3']
+        php-versions: ['8.3', '8.4', '8.5']
         include:
-          - php-versions: '8.1'
+          - php-versions: '8.2'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: SQLite (PHP ${{ matrix.php-versions }})
 
     services:
       cache:
-        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
         ports:
           - 6379:6379/tcp
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@7fdd3ece872ec7ec4c098ae5ab7637d5e0a96067 # v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
-        run: composer i
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ghostscript
+          composer i
 
       - name: Set up Nextcloud
         run: |
@@ -92,24 +104,32 @@ jobs:
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
-          php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
+          php -f tests/enable_all.php
 
       - name: Nextcloud debug information
         run: ./occ app:list && echo "======= System config =======" && ./occ config:list system
 
       - name: PHPUnit database tests
-        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
+        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }} tests/lib/Preview/PostscriptTest.php
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v4.1.1
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
           files: ./clover.db.xml
+          flags: phpunit-sqlite
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
           flags: phpunit-sqlite
 
       - name: Print logs
         if: always()
         run: |
+          gs --version
+          cat /etc/ImageMagick-6/policy.xml
           cat data/nextcloud.log
 
   summary:

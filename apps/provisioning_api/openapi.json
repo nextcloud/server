@@ -139,6 +139,8 @@
                     "headline",
                     "id",
                     "language",
+                    "firstLoginTimestamp",
+                    "lastLoginTimestamp",
                     "lastLogin",
                     "locale",
                     "manager",
@@ -146,10 +148,13 @@
                     "organisation",
                     "phone",
                     "profile_enabled",
+                    "pronouns",
                     "quota",
                     "role",
                     "subadmin",
+                    "timezone",
                     "twitter",
+                    "bluesky",
                     "website"
                 ],
                 "properties": {
@@ -162,17 +167,17 @@
                     "additional_mailScope": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "$ref": "#/components/schemas/UserDetailsScope"
                         }
                     },
                     "address": {
                         "type": "string"
                     },
                     "addressScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "avatarScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "backend": {
                         "type": "string"
@@ -196,7 +201,7 @@
                         "type": "string"
                     },
                     "biographyScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "display-name": {
                         "type": "string"
@@ -205,14 +210,14 @@
                         "type": "string"
                     },
                     "displaynameScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "email": {
                         "type": "string",
                         "nullable": true
                     },
                     "emailScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "enabled": {
                         "type": "boolean"
@@ -221,7 +226,7 @@
                         "type": "string"
                     },
                     "fediverseScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "groups": {
                         "type": "array",
@@ -233,13 +238,21 @@
                         "type": "string"
                     },
                     "headlineScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "id": {
                         "type": "string"
                     },
                     "language": {
                         "type": "string"
+                    },
+                    "firstLoginTimestamp": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "lastLoginTimestamp": {
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "lastLogin": {
                         "type": "integer",
@@ -259,19 +272,25 @@
                         "type": "string"
                     },
                     "organisationScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "phone": {
                         "type": "string"
                     },
                     "phoneScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "profile_enabled": {
                         "type": "string"
                     },
                     "profile_enabledScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "pronouns": {
                         "type": "string"
+                    },
+                    "pronounsScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "quota": {
                         "$ref": "#/components/schemas/UserDetailsQuota"
@@ -280,7 +299,7 @@
                         "type": "string"
                     },
                     "roleScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "storageLocation": {
                         "type": "string"
@@ -291,17 +310,26 @@
                             "type": "string"
                         }
                     },
+                    "timezone": {
+                        "type": "string"
+                    },
                     "twitter": {
                         "type": "string"
                     },
                     "twitterScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "bluesky": {
                         "type": "string"
+                    },
+                    "blueskyScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "website": {
                         "type": "string"
                     },
                     "websiteScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     }
                 }
             },
@@ -372,6 +400,15 @@
                         ]
                     }
                 }
+            },
+            "UserDetailsScope": {
+                "type": "string",
+                "enum": [
+                    "v2-private",
+                    "v2-local",
+                    "v2-federated",
+                    "v2-published"
+                ]
             }
         }
     },
@@ -408,7 +445,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -473,6 +511,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -509,7 +575,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -568,6 +635,34 @@
                                                         }
                                                     }
                                                 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -712,6 +807,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -733,6 +856,16 @@
                 ],
                 "parameters": [
                     {
+                        "name": "groupId",
+                        "in": "path",
+                        "description": "ID of the group",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^.+$"
+                        }
+                    },
+                    {
                         "name": "search",
                         "in": "query",
                         "description": "Text to search for",
@@ -748,7 +881,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -759,16 +893,6 @@
                             "type": "integer",
                             "format": "int64",
                             "default": 0
-                        }
-                    },
-                    {
-                        "name": "groupId",
-                        "in": "path",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "pattern": "^.+$"
                         }
                     },
                     {
@@ -832,6 +956,34 @@
                                                         }
                                                     }
                                                 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -921,6 +1073,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -957,7 +1137,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -1022,6 +1203,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -1040,94 +1249,73 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "userid"
+                                ],
+                                "properties": {
+                                    "userid": {
+                                        "type": "string",
+                                        "description": "ID of the user"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Password of the user"
+                                    },
+                                    "displayName": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Display name of the user"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Email of the user"
+                                    },
+                                    "groups": {
+                                        "type": "array",
+                                        "default": [],
+                                        "description": "Groups of the user",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "subadmin": {
+                                        "type": "array",
+                                        "default": [],
+                                        "description": "Groups where the user is subadmin",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "quota": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Quota of the user"
+                                    },
+                                    "language": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Language of the user"
+                                    },
+                                    "manager": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Manager of the user"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "userid",
-                        "in": "query",
-                        "description": "ID of the user",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "Password of the user",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "displayName",
-                        "in": "query",
-                        "description": "Display name of the user",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "email",
-                        "in": "query",
-                        "description": "Email of the user",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "groups[]",
-                        "in": "query",
-                        "description": "Groups of the user",
-                        "schema": {
-                            "type": "array",
-                            "default": [],
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "subadmin[]",
-                        "in": "query",
-                        "description": "Groups where the user is subadmin",
-                        "schema": {
-                            "type": "array",
-                            "default": [],
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "quota",
-                        "in": "query",
-                        "description": "Quota of the user",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "language",
-                        "in": "query",
-                        "description": "Language of the user",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "manager",
-                        "in": "query",
-                        "description": "Manager of the user",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -1205,6 +1393,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1241,7 +1457,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -1321,6 +1538,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1342,13 +1587,23 @@
                 ],
                 "parameters": [
                     {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
                         "name": "limit",
                         "in": "query",
                         "description": "Limit the amount of users returned",
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -1428,6 +1683,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1447,25 +1730,37 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "location",
+                                    "search"
+                                ],
+                                "properties": {
+                                    "location": {
+                                        "type": "string",
+                                        "description": "Location of the phone number (for country code)"
+                                    },
+                                    "search": {
+                                        "type": "object",
+                                        "description": "Phone numbers to search for",
+                                        "additionalProperties": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "location",
-                        "in": "query",
-                        "description": "Location of the phone number (for country code)",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "search",
-                        "in": "query",
-                        "description": "Phone numbers to search for",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -1513,6 +1808,34 @@
                     },
                     "400": {
                         "description": "Invalid location",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1608,6 +1931,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -1626,25 +1977,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "key",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "type": "string",
+                                        "description": "Key that will be updated"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "description": "New value for the key"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "key",
-                        "in": "query",
-                        "description": "Key that will be updated",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "value",
-                        "in": "query",
-                        "description": "New value for the key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "userId",
                         "in": "path",
@@ -1668,6 +2025,34 @@
                 "responses": {
                     "200": {
                         "description": "User value edited successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1760,6 +2145,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1815,6 +2228,34 @@
                                                 "data": {
                                                     "$ref": "#/components/schemas/UserDetails"
                                                 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1879,6 +2320,34 @@
                                                         "type": "string"
                                                     }
                                                 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1958,6 +2427,134 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/user/apps": {
+            "get": {
+                "operationId": "users-get-enabled-apps",
+                "summary": "Get a list of enabled apps for the current user",
+                "tags": [
+                    "users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Enabled apps returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "apps"
+                                                    ],
+                                                    "properties": {
+                                                        "apps": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1978,25 +2575,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "key",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "type": "string",
+                                        "description": "Key that will be updated"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "description": "New value for the key"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "key",
-                        "in": "query",
-                        "description": "Key that will be updated",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "value",
-                        "in": "query",
-                        "description": "New value for the key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "userId",
                         "in": "path",
@@ -2030,6 +2633,34 @@
                 "responses": {
                     "200": {
                         "description": "User values edited successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2124,6 +2755,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2193,6 +2852,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2237,6 +2924,34 @@
                 "responses": {
                     "200": {
                         "description": "User disabled successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2343,6 +3058,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -2361,16 +3104,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "groupid": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "ID of the group"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "userId",
                         "in": "path",
@@ -2419,6 +3170,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -2439,6 +3218,15 @@
                 ],
                 "parameters": [
                     {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "groupid",
                         "in": "query",
                         "description": "ID of the group",
@@ -2447,6 +3235,93 @@
                             "type": "string"
                         }
                     },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User removed from group successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}/groups/details": {
+            "get": {
+                "operationId": "users-get-users-groups-details",
+                "summary": "Get a list of groups with details",
+                "tags": [
+                    "users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
                     {
                         "name": "userId",
                         "in": "path",
@@ -2469,7 +3344,157 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "User removed from group successfully",
+                        "description": "Users groups returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "groups"
+                                                    ],
+                                                    "properties": {
+                                                        "groups": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/GroupDetails"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}/subadmins/details": {
+            "get": {
+                "operationId": "users-get-user-sub-admin-groups-details",
+                "summary": "Get a list of the groups the user is a subadmin of, with details",
+                "tags": [
+                    "users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Users subadmin groups returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "groups"
+                                                    ],
+                                                    "properties": {
+                                                        "groups": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/GroupDetails"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2564,6 +3589,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2584,16 +3637,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "value",
-                        "in": "query",
-                        "description": "New value for the key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "value"
+                                ],
+                                "properties": {
+                                    "value": {
+                                        "type": "string",
+                                        "description": "New value for the key"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "app",
                         "in": "path",
@@ -2697,6 +3760,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2716,16 +3807,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "configValue",
-                        "in": "query",
-                        "description": "New value",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "configValue"
+                                ],
+                                "properties": {
+                                    "configValue": {
+                                        "type": "string",
+                                        "description": "New value"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "appId",
                         "in": "path",
@@ -2786,6 +3887,34 @@
                     },
                     "400": {
                         "description": "Preference invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2914,6 +4043,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2933,16 +4090,29 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "configs",
-                        "in": "query",
-                        "description": "Key-value pairs of the preferences",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "configs"
+                                ],
+                                "properties": {
+                                    "configs": {
+                                        "type": "object",
+                                        "description": "Key-value pairs of the preferences",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "appId",
                         "in": "path",
@@ -3019,6 +4189,34 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -3038,6 +4236,15 @@
                 ],
                 "parameters": [
                     {
+                        "name": "appId",
+                        "in": "path",
+                        "description": "ID of the app",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "configKeys[]",
                         "in": "query",
                         "description": "Keys to delete",
@@ -3047,15 +4254,6 @@
                             "items": {
                                 "type": "string"
                             }
-                        }
-                    },
-                    {
-                        "name": "appId",
-                        "in": "path",
-                        "description": "ID of the app",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
                         }
                     },
                     {
@@ -3100,6 +4298,34 @@
                     },
                     "400": {
                         "description": "Preference invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
                         "content": {
                             "application/json": {
                                 "schema": {

@@ -1,22 +1,9 @@
 <?php
+
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\DB\QueryBuilder;
@@ -37,7 +24,7 @@ class QuoteHelperTest extends \Test\TestCase {
 		$this->helper = new QuoteHelper();
 	}
 
-	public function dataQuoteColumnName() {
+	public static function dataQuoteColumnName(): array {
 		return [
 			['column', '`column`'],
 			[new Literal('literal'), 'literal'],
@@ -51,18 +38,18 @@ class QuoteHelperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataQuoteColumnName
 	 * @param mixed $input
 	 * @param string $expected
 	 */
-	public function testQuoteColumnName($input, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataQuoteColumnName')]
+	public function testQuoteColumnName($input, $expected): void {
 		$this->assertSame(
 			$expected,
 			$this->helper->quoteColumnName($input)
 		);
 	}
 
-	public function dataQuoteColumnNames() {
+	public static function dataQuoteColumnNames(): array {
 		return [
 			// Single case
 			['d.column', '`d`.`column`'],
@@ -86,11 +73,11 @@ class QuoteHelperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataQuoteColumnNames
 	 * @param mixed $input
 	 * @param string $expected
 	 */
-	public function testQuoteColumnNames($input, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataQuoteColumnNames')]
+	public function testQuoteColumnNames($input, $expected): void {
 		$this->assertSame(
 			$expected,
 			$this->helper->quoteColumnNames($input)

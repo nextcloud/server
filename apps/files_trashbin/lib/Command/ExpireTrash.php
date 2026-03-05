@@ -1,66 +1,38 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud GmbH.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Trashbin\Command;
 
+use OC\Core\Command\Base;
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Expiration;
-use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExpireTrash extends Command {
+class ExpireTrash extends Base {
 
-	/**
-	 * @var Expiration
-	 */
-	private $expiration;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
-	 * @param IUserManager|null $userManager
-	 * @param Expiration|null $expiration
-	 */
-	public function __construct(?IUserManager $userManager = null,
-		?Expiration $expiration = null) {
+	public function __construct(
+		private readonly ?IUserManager $userManager,
+		private readonly ?Expiration $expiration,
+		private readonly SetupManager $setupManager,
+		private readonly IRootFolder $rootFolder,
+	) {
 		parent::__construct();
-
-		$this->userManager = $userManager;
-		$this->expiration = $expiration;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
+		parent::configure();
 		$this
 			->setName('trashbin:expire')
 			->setDescription('Expires the users trashbin')
@@ -72,61 +44,61 @@ class ExpireTrash extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$minAge = $this->expiration->getMinAgeAsTimestamp();
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
-		if (!$maxAge) {
-			$output->writeln("Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)");
+		if ($minAge === false && $maxAge === false) {
+			$output->writeln('Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)');
 			return 1;
 		}
 
-		$users = $input->getArgument('user_id');
-		if (!empty($users)) {
-			foreach ($users as $user) {
-				if ($this->userManager->userExists($user)) {
-					$output->writeln("Remove deleted files of   <info>$user</info>");
-					$userObject = $this->userManager->get($user);
-					$this->expireTrashForUser($userObject);
+		$userIds = $input->getArgument('user_id');
+		if (!empty($userIds)) {
+			foreach ($userIds as $userId) {
+				$user = $this->userManager->get($userId);
+				if ($user) {
+					$output->writeln("Remove deleted files of <info>$userId</info>");
+					$this->expireTrashForUser($user, $output);
+					$output->writeln("<error>Unknown user $userId</error>");
+					return 1;
 				} else {
-					$output->writeln("<error>Unknown user $user</error>");
+					$output->writeln("<error>Unknown user $userId</error>");
 					return 1;
 				}
 			}
 		} else {
 			$p = new ProgressBar($output);
 			$p->start();
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
+
+			$users = $this->userManager->getSeenUsers();
+			foreach ($users as $user) {
 				$p->advance();
-				$this->expireTrashForUser($user);
-			});
+				$this->expireTrashForUser($user, $output);
+			}
 			$p->finish();
 			$output->writeln('');
 		}
 		return 0;
 	}
 
-	public function expireTrashForUser(IUser $user) {
-		$uid = $user->getUID();
-		if (!$this->setupFS($uid)) {
-			return;
+	private function expireTrashForUser(IUser $user, OutputInterface $output): void {
+		try {
+			$trashRoot = $this->getTrashRoot($user);
+			Trashbin::expire($trashRoot, $user);
+		} catch (\Throwable $e) {
+			$output->writeln('<error>Error while expiring trashbin for user ' . $user->getUID() . '</error>');
+			throw $e;
+		} finally {
+			$this->setupManager->tearDown();
 		}
-		$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
-		Trashbin::deleteExpiredFiles($dirContent, $uid);
 	}
 
-	/**
-	 * Act on behalf on trash item owner
-	 * @param string $user
-	 * @return boolean
-	 */
-	protected function setupFS($user) {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($user);
+	private function getTrashRoot(IUser $user): Folder {
+		$this->setupManager->setupForUser($user);
 
-		// Check if this user has a trashbin directory
-		$view = new \OC\Files\View('/' . $user);
-		if (!$view->is_dir('/files_trashbin/files')) {
-			return false;
+		$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->get('files_trashbin');
+		if (!$folder instanceof Folder) {
+			throw new \LogicException("Didn't expect files_trashbin to be a file instead of a folder");
 		}
-
-		return true;
+		return $folder;
 	}
 }

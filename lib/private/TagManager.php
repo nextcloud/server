@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Reiter <ockham@raz.or.at>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -30,7 +11,9 @@ use OC\Tagging\TagMapper;
 use OCP\Db\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\ITagManager;
 use OCP\ITags;
@@ -42,16 +25,15 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<UserDeletedEvent>
  */
 class TagManager implements ITagManager, IEventListener {
-	private TagMapper $mapper;
-	private IUserSession $userSession;
-	private IDBConnection $connection;
-	private LoggerInterface $logger;
 
-	public function __construct(TagMapper $mapper, IUserSession $userSession, IDBConnection $connection, LoggerInterface $logger) {
-		$this->mapper = $mapper;
-		$this->userSession = $userSession;
-		$this->connection = $connection;
-		$this->logger = $logger;
+	public function __construct(
+		private TagMapper $mapper,
+		private IUserSession $userSession,
+		private IDBConnection $connection,
+		private LoggerInterface $logger,
+		private IEventDispatcher $dispatcher,
+		private IRootFolder $rootFolder,
+	) {
 	}
 
 	/**
@@ -62,8 +44,8 @@ class TagManager implements ITagManager, IEventListener {
 	 * @param array $defaultTags An array of default tags to be used if none are stored.
 	 * @param boolean $includeShared Whether to include tags for items shared with this user by others.
 	 * @param string $userId user for which to retrieve the tags, defaults to the currently
-	 * logged in user
-	 * @return \OCP\ITags
+	 *                       logged in user
+	 * @return ?ITags
 	 *
 	 * since 20.0.0 $includeShared isn't used anymore
 	 */
@@ -76,7 +58,8 @@ class TagManager implements ITagManager, IEventListener {
 			}
 			$userId = $this->userSession->getUser()->getUId();
 		}
-		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $defaultTags);
+		$userFolder = $this->rootFolder->getUserFolder($userId);
+		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $this->dispatcher, $this->userSession, $userFolder, $defaultTags);
 	}
 
 	/**
@@ -95,7 +78,7 @@ class TagManager implements ITagManager, IEventListener {
 			->andWhere($query->expr()->eq('c.type', $query->createNamedParameter($objectType)))
 			->andWhere($query->expr()->eq('c.category', $query->createNamedParameter(ITags::TAG_FAVORITE)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$users = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 

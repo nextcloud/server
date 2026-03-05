@@ -2,30 +2,14 @@
 
 declare(strict_types = 1);
 /**
- * @copyright Copyright (c) 2023 Benjamin Gaussorgues <benjamin.gaussorgues@nextcloud.com>
- *
- * @author Benjamin Gaussorgues <benjamin.gaussorgues@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Command\AdminDelegation;
 
 use OC\Core\Command\Base;
 use OCA\Settings\Service\AuthorizedGroupService;
+use OCA\Settings\Service\ConflictException;
 use OCP\IGroupManager;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IManager;
@@ -53,10 +37,10 @@ class Add extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
 		$settingClass = $input->getArgument('settingClass');
-		if (!in_array(IDelegatedSettings::class, (array) class_implements($settingClass), true)) {
+		if (!in_array(IDelegatedSettings::class, (array)class_implements($settingClass), true)) {
 			$io->error('The specified class isn’t a valid delegated setting.');
 			return 2;
 		}
@@ -67,9 +51,14 @@ class Add extends Base {
 			return 3;
 		}
 
-		$this->authorizedGroupService->create($groupId, $settingClass);
+		try {
+			$this->authorizedGroupService->create($groupId, $settingClass);
+		} catch (ConflictException) {
+			$io->warning('Administration of ' . $settingClass . ' is already delegated to ' . $groupId . '.');
+			return 4;
+		}
 
-		$io->success('Administration of '.$settingClass.' delegated to '.$groupId.'.');
+		$io->success('Administration of ' . $settingClass . ' delegated to ' . $groupId . '.');
 
 		return 0;
 	}

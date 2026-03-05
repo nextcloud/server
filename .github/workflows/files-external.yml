@@ -1,8 +1,13 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: PHPUnit files_external generic
 on:
   pull_request:
   schedule:
     - cron: "5 2 * * *"
+
+permissions:
+  contents: read
 
 concurrency:
   group: files-external-generic-${{ github.head_ref || github.run_id }}
@@ -24,11 +29,22 @@ jobs:
             src:
               - '.github/workflows/**'
               - '3rdparty/**'
-              - 'apps/files_external/**'
               - 'vendor/**'
               - 'vendor-bin/**'
               - 'composer.json'
               - 'composer.lock'
+              - 'apps/files/lib/**'
+              - 'apps/files/tests/**'
+              - 'apps/files_external/**'
+              - 'apps/files_sharing/lib/**'
+              - 'apps/files_sharing/tests/**'
+              - 'apps/files_trashbin/lib/**'
+              - 'apps/files_trashbin/tests/**'
+              - 'apps/files_versions/lib/**'
+              - 'apps/files_versions/tests/**'
+              - 'lib/private/Files/**'
+              - 'lib/public/Files/**'
+              - 'tests/lib/Files/**'
 
   files-external-generic:
     runs-on: ubuntu-latest
@@ -37,8 +53,9 @@ jobs:
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
 
     strategy:
+      fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.2', '8.3']
+        php-versions: ['8.3', '8.4']
         include:
           - php-versions: '8.2'
             coverage: ${{ github.event_name != 'pull_request' }}
@@ -47,12 +64,14 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -72,14 +91,21 @@ jobs:
           ./occ app:enable --force files_external
 
       - name: PHPUnit
-        run: composer run test:files_external \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+        run: composer run test:files_external -- \
+          --log-junit junit.xml \
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v4.1.1
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
           files: ./clover.xml
+          flags: phpunit-files-external-generic
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
           flags: phpunit-files-external-generic
 
   files-external-summary:

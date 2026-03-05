@@ -1,50 +1,30 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 use PHPUnit\Framework\Assert;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 trait CommandLine {
 	/** @var int return code of last command */
-	private $lastCode;
+	private int $lastCode = 0;
 	/** @var string stdout of last command */
-	private $lastStdOut;
+	private string $lastStdOut = '';
 	/** @var string stderr of last command */
-	private $lastStdErr;
-
-	/** @var string */
-	protected $ocPath = '../..';
+	private string $lastStdErr = '';
+	protected string $ocPath = '../..';
 
 	/**
 	 * Invokes an OCC command
 	 *
-	 * @param []string $args OCC command, the part behind "occ". For example: "files:transfer-ownership"
+	 * @param string[] $args OCC command, the part behind "occ". For example: "files:transfer-ownership"
 	 * @return int exit code
 	 */
-	public function runOcc($args = []) {
+	public function runOcc(array $args = [], string $inputString = ''): int {
 		$args = array_map(function ($arg) {
 			return escapeshellarg($arg);
 		}, $args);
@@ -57,6 +37,10 @@ trait CommandLine {
 			2 => ['pipe', 'w'],
 		];
 		$process = proc_open('php console.php ' . $args, $descriptor, $pipes, $this->ocPath);
+		if ($inputString !== '') {
+			fwrite($pipes[0], $inputString . "\n");
+			fclose($pipes[0]);
+		}
 		$this->lastStdOut = stream_get_contents($pipes[1]);
 		$this->lastStdErr = stream_get_contents($pipes[2]);
 		$this->lastCode = proc_close($process);
@@ -71,15 +55,23 @@ trait CommandLine {
 	/**
 	 * @Given /^invoking occ with "([^"]*)"$/
 	 */
-	public function invokingTheCommand($cmd) {
+	public function invokingTheCommand(string $cmd): void {
 		$args = explode(' ', $cmd);
 		$this->runOcc($args);
 	}
 
 	/**
+	 * @Given /^invoking occ with "([^"]*)" with input "([^"]+)"$/
+	 */
+	public function invokingTheCommandWith(string $cmd, string $inputString): void {
+		$args = explode(' ', $cmd);
+		$this->runOcc($args, $inputString);
+	}
+
+	/**
 	 * Find exception texts in stderr
 	 */
-	public function findExceptions() {
+	public function findExceptions(): array {
 		$exceptions = [];
 		$captureNext = false;
 		// the exception text usually appears after an "[Exception"] row
@@ -100,7 +92,7 @@ trait CommandLine {
 	/**
 	 * @Then /^the command was successful$/
 	 */
-	public function theCommandWasSuccessful() {
+	public function theCommandWasSuccessful(): void {
 		$exceptions = $this->findExceptions();
 		if ($this->lastCode !== 0) {
 			$msg = 'The command was not successful, exit code was ' . $this->lastCode . '.';
@@ -117,7 +109,7 @@ trait CommandLine {
 	/**
 	 * @Then /^the command failed with exit code ([0-9]+)$/
 	 */
-	public function theCommandFailedWithExitCode($exitCode) {
+	public function theCommandFailedWithExitCode($exitCode): void {
 		if ($this->lastCode !== (int)$exitCode) {
 			throw new \Exception('The command was expected to fail with exit code ' . $exitCode . ' but got ' . $this->lastCode);
 		}
@@ -126,7 +118,7 @@ trait CommandLine {
 	/**
 	 * @Then /^the command failed with exception text "([^"]*)"$/
 	 */
-	public function theCommandFailedWithException($exceptionText) {
+	public function theCommandFailedWithException(string $exceptionText): void {
 		$exceptions = $this->findExceptions();
 		if (empty($exceptions)) {
 			throw new \Exception('The command did not throw any exceptions');
@@ -140,14 +132,21 @@ trait CommandLine {
 	/**
 	 * @Then /^the command output contains the text "([^"]*)"$/
 	 */
-	public function theCommandOutputContainsTheText($text) {
-		Assert::assertStringContainsString($text, $this->lastStdOut, 'The command did not output the expected text on stdout');
+	public function theCommandOutputContainsTheText(string $text): void {
+		Assert::assertStringContainsString($text, $this->lastStdOut, 'The command did not output the expected text on stdout.');
+	}
+
+	/**
+	 * @Then /^the command output does not contain the text "([^"]*)"$/
+	 */
+	public function theCommandOutputDoesNotContainTheText(string $text): void {
+		Assert::assertStringNotContainsString($text, $this->lastStdOut, 'The command did output the not expected text on stdout.');
 	}
 
 	/**
 	 * @Then /^the command error output contains the text "([^"]*)"$/
 	 */
-	public function theCommandErrorOutputContainsTheText($text) {
-		Assert::assertStringContainsString($text, $this->lastStdErr, 'The command did not output the expected text on stderr');
+	public function theCommandErrorOutputContainsTheText(string $text): void {
+		Assert::assertStringContainsString($text, $this->lastStdErr, 'The command did not output the expected text on stderr.');
 	}
 }

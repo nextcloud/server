@@ -1,30 +1,13 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import camelCase from 'camelcase'
-
+import type { INode } from '@nextcloud/files'
 import type { DAVResultResponseProps } from 'webdav'
+import type { BaseTag, ServerTag, Tag, TagWithId } from './types.ts'
 
-import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
+import { emit } from '@nextcloud/event-bus'
 
 export const defaultBaseTag: BaseTag = {
 	userVisible: true,
@@ -32,18 +15,33 @@ export const defaultBaseTag: BaseTag = {
 	canAssign: true,
 }
 
-export const parseTags = (tags: { props: DAVResultResponseProps }[]): TagWithId[] => {
-	return tags.map(({ props }) => Object.fromEntries(
-		Object.entries(props)
-			.map(([key, value]) => [camelCase(key), camelCase(key) === 'displayName' ? String(value) : value]),
-	)) as TagWithId[]
+const propertyMappings = Object.freeze({
+	'display-name': 'displayName',
+	'user-visible': 'userVisible',
+	'user-assignable': 'userAssignable',
+	'can-assign': 'canAssign',
+})
+
+/**
+ * Parse tags from WebDAV response
+ *
+ * @param tags - Array of tags from WebDAV response
+ */
+export function parseTags(tags: { props: DAVResultResponseProps }[]): TagWithId[] {
+	return tags.map(({ props }) => Object.fromEntries(Object.entries(props)
+		.map(([key, value]) => {
+			key = propertyMappings[key] ?? key
+			value = key === 'displayName' ? String(value) : value
+			return [key, value]
+		})) as unknown as TagWithId)
 }
 
 /**
  * Parse id from `Content-Location` header
+ *
  * @param url URL to parse
  */
-export const parseIdFromLocation = (url: string): number => {
+export function parseIdFromLocation(url: string): number {
 	const queryPos = url.indexOf('?')
 	if (queryPos > 0) {
 		url = url.substring(0, queryPos)
@@ -61,13 +59,56 @@ export const parseIdFromLocation = (url: string): number => {
 	return Number(result)
 }
 
-export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
-	const tag: any = { ...initialTag }
-	if (tag.name && !tag.displayName) {
-		return tag
+/**
+ * Format a tag for WebDAV operations
+ *
+ * @param initialTag - Tag to format
+ */
+export function formatTag(initialTag: Tag | ServerTag): ServerTag {
+	if ('name' in initialTag && !('displayName' in initialTag)) {
+		return { ...initialTag }
 	}
+
+	const tag: Record<string, unknown> = { ...initialTag }
 	tag.name = tag.displayName
 	delete tag.displayName
 
-	return tag
+	return tag as unknown as ServerTag
+}
+
+/**
+ * Get system tags from a node
+ *
+ * @param node - The node to get tags from
+ */
+export function getNodeSystemTags(node: INode): string[] {
+	const attribute = node.attributes?.['system-tags']?.['system-tag']
+	if (attribute === undefined) {
+		return []
+	}
+
+	// if there is only one tag it is a single string or prop object
+	// if there are multiple then its an array - so we flatten it to be always an array of string or prop objects
+	return [attribute]
+		.flat()
+		.map((tag: string | { text: string }) => (
+			typeof tag === 'string'
+				// its a plain text prop (the tag name) without prop attributes
+				? tag
+				// its a prop object with attributes, the tag name is in the 'text' attribute
+				: tag.text
+		))
+}
+
+/**
+ * Set system tags on a node
+ *
+ * @param node - The node to set tags on
+ * @param tags - The tags to set
+ */
+export function setNodeSystemTags(node: INode, tags: string[]): void {
+	node.attributes['system-tags'] = {
+		'system-tag': tags,
+	}
+	emit('files:node:updated', node)
 }

@@ -1,24 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Cache;
 
@@ -28,13 +13,9 @@ use OCP\Files\Cache\ICacheEntry;
  * meta data for a file or folder
  */
 class CacheEntry implements ICacheEntry {
-	/**
-	 * @var array
-	 */
-	private $data;
-
-	public function __construct(array $data) {
-		$this->data = $data;
+	public function __construct(
+		private array $data,
+	) {
 	}
 
 	public function offsetSet($offset, $value): void {
@@ -80,8 +61,8 @@ class CacheEntry implements ICacheEntry {
 	}
 
 
-	public function getMimeType() {
-		return $this->data['mimetype'];
+	public function getMimeType(): string {
+		return $this->data['mimetype'] ?? 'application/octet-stream';
 	}
 
 
@@ -105,7 +86,7 @@ class CacheEntry implements ICacheEntry {
 		return $this->data['etag'];
 	}
 
-	public function getPermissions() {
+	public function getPermissions(): int {
 		return $this->data['permissions'];
 	}
 
@@ -123,6 +104,10 @@ class CacheEntry implements ICacheEntry {
 
 	public function getUploadTime(): ?int {
 		return $this->data['upload_time'] ?? null;
+	}
+
+	public function getParentId(): int {
+		return $this->data['parent'];
 	}
 
 	public function getData() {

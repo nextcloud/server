@@ -1,32 +1,15 @@
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import api from './api.js'
-import Vue from 'vue'
-import { generateUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import { showError, showInfo } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
+import Vue from 'vue'
+import logger from '../logger.ts'
+import api from './api.js'
 
 const state = {
 	apps: [],
@@ -35,13 +18,14 @@ const state = {
 	updateCount: loadState('settings', 'appstoreUpdateCount', 0),
 	loading: {},
 	gettingCategoriesPromise: null,
+	appApiEnabled: loadState('settings', 'appApiEnabled', false),
 }
 
 const mutations = {
 
 	APPS_API_FAILURE(state, error) {
 		showError(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
-		console.error(state, error)
+		logger.error('An error occurred during the request. Unable to proceed.', { state, error })
 	},
 
 	initCategories(state, { categories, updateCount }) {
@@ -75,54 +59,62 @@ const mutations = {
 			appId = [appId]
 		}
 		appId.forEach((_id) => {
-			const app = state.apps.find(app => app.id === _id)
+			const app = state.apps.find((app) => app.id === _id)
 			app.error = error
 		})
 	},
 
-	clearError(state, { appId, error }) {
-		const app = state.apps.find(app => app.id === appId)
+	clearError(state, { appId }) {
+		const app = state.apps.find((app) => app.id === appId)
 		app.error = null
 	},
 
 	enableApp(state, { appId, groups }) {
-		const app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find((app) => app.id === appId)
 		app.active = true
-		app.groups = groups
+		Vue.set(app, 'groups', [...groups])
+		if (app.id === 'app_api') {
+			state.appApiEnabled = true
+		}
 	},
 
 	setInstallState(state, { appId, canInstall }) {
-		const app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find((app) => app.id === appId)
 		if (app) {
 			app.canInstall = canInstall === true
 		}
 	},
 
 	disableApp(state, appId) {
-		const app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find((app) => app.id === appId)
 		app.active = false
 		app.groups = []
 		if (app.removable) {
 			app.canUnInstall = true
 		}
+		if (app.id === 'app_api') {
+			state.appApiEnabled = false
+		}
 	},
 
 	uninstallApp(state, appId) {
-		state.apps.find(app => app.id === appId).active = false
-		state.apps.find(app => app.id === appId).groups = []
-		state.apps.find(app => app.id === appId).needsDownload = true
-		state.apps.find(app => app.id === appId).installed = false
-		state.apps.find(app => app.id === appId).canUnInstall = false
-		state.apps.find(app => app.id === appId).canInstall = true
+		state.apps.find((app) => app.id === appId).active = false
+		state.apps.find((app) => app.id === appId).groups = []
+		state.apps.find((app) => app.id === appId).needsDownload = true
+		state.apps.find((app) => app.id === appId).installed = false
+		state.apps.find((app) => app.id === appId).canUnInstall = false
+		state.apps.find((app) => app.id === appId).canInstall = true
+		if (appId === 'app_api') {
+			state.appApiEnabled = false
+		}
 	},
 
 	updateApp(state, appId) {
-		const app = state.apps.find(app => app.id === appId)
+		const app = state.apps.find((app) => app.id === appId)
 		const version = app.update
 		app.update = null
 		app.version = version
 		state.updateCount--
-
 	},
 
 	resetApps(state) {
@@ -154,6 +146,9 @@ const mutations = {
 }
 
 const getters = {
+	isAppApiEnabled(state) {
+		return state.appApiEnabled
+	},
 	loading(state) {
 		return function(id) {
 			return state.loading[id]
@@ -185,25 +180,35 @@ const actions = {
 		} else {
 			apps = [appId]
 		}
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			context.commit('startLoading', apps)
 			context.commit('startLoading', 'install')
+
+			const previousState = {}
+			apps.forEach((_appId) => {
+				const app = context.state.apps.find((app) => app.id === _appId)
+				if (app) {
+					previousState[_appId] = {
+						active: app.active,
+						groups: [...(app.groups || [])],
+					}
+					context.commit('enableApp', { appId: _appId, groups })
+				}
+			})
+
 			return api.post(generateUrl('settings/apps/enable'), { appIds: apps, groups })
 				.then((response) => {
 					context.commit('stopLoading', apps)
 					context.commit('stopLoading', 'install')
-					apps.forEach(_appId => {
-						context.commit('enableApp', { appId: _appId, groups })
-					})
 
 					// check for server health
-					return api.get(generateUrl('apps/files'))
+					return axios.get(generateUrl('apps/files/'))
 						.then(() => {
 							if (response.data.update_required) {
 								showInfo(
 									t(
 										'settings',
-										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
+										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.',
 									),
 									{
 										onClick: () => window.location.reload(),
@@ -230,6 +235,19 @@ const actions = {
 				.catch((error) => {
 					context.commit('stopLoading', apps)
 					context.commit('stopLoading', 'install')
+
+					apps.forEach((_appId) => {
+						if (previousState[_appId]) {
+							context.commit('enableApp', {
+								appId: _appId,
+								groups: previousState[_appId].groups,
+							})
+							if (!previousState[_appId].active) {
+								context.commit('disableApp', _appId)
+							}
+						}
+					})
+
 					context.commit('setError', {
 						appId: apps,
 						error: error.response.data.data.message,
@@ -238,7 +256,7 @@ const actions = {
 				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},
-	forceEnableApp(context, { appId, groups }) {
+	forceEnableApp(context, { appId }) {
 		let apps
 		if (Array.isArray(appId)) {
 			apps = appId
@@ -249,7 +267,7 @@ const actions = {
 			context.commit('startLoading', apps)
 			context.commit('startLoading', 'install')
 			return api.post(generateUrl('settings/apps/force'), { appId })
-				.then((response) => {
+				.then(() => {
 					context.commit('setInstallState', { appId, canInstall: true })
 				})
 				.catch((error) => {
@@ -274,12 +292,12 @@ const actions = {
 		} else {
 			apps = [appId]
 		}
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			context.commit('startLoading', apps)
 			return api.post(generateUrl('settings/apps/disable'), { appIds: apps })
-				.then((response) => {
+				.then(() => {
 					context.commit('stopLoading', apps)
-					apps.forEach(_appId => {
+					apps.forEach((_appId) => {
 						context.commit('disableApp', _appId)
 					})
 					return true
@@ -291,10 +309,10 @@ const actions = {
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},
 	uninstallApp(context, { appId }) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			context.commit('startLoading', appId)
 			return api.get(generateUrl(`settings/apps/uninstall/${appId}`))
-				.then((response) => {
+				.then(() => {
 					context.commit('stopLoading', appId)
 					context.commit('uninstallApp', appId)
 					return true
@@ -307,11 +325,11 @@ const actions = {
 	},
 
 	updateApp(context, { appId }) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			context.commit('startLoading', appId)
 			context.commit('startLoading', 'install')
 			return api.get(generateUrl(`settings/apps/update/${appId}`))
-				.then((response) => {
+				.then(() => {
 					context.commit('stopLoading', 'install')
 					context.commit('stopLoading', appId)
 					context.commit('updateApp', appId)

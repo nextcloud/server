@@ -1,105 +1,66 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Connector\Sabre\TagList;
+use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\Upload\UploadFile;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITagManager;
 use OCP\ITags;
+use OCP\IUser;
+use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Tree;
 
-/**
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
- */
 class TagsPluginTest extends \Test\TestCase {
-	public const TAGS_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::TAGS_PROPERTYNAME;
-	public const FAVORITE_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::FAVORITE_PROPERTYNAME;
-	public const TAG_FAVORITE = \OCA\DAV\Connector\Sabre\TagsPlugin::TAG_FAVORITE;
+	public const TAGS_PROPERTYNAME = TagsPlugin::TAGS_PROPERTYNAME;
+	public const FAVORITE_PROPERTYNAME = TagsPlugin::FAVORITE_PROPERTYNAME;
+	public const TAG_FAVORITE = TagsPlugin::TAG_FAVORITE;
 
-	/**
-	 * @var \Sabre\DAV\Server
-	 */
-	private $server;
-
-	/**
-	 * @var Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var \OCP\ITagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var \OCP\ITags
-	 */
-	private $tagger;
-
-	/**
-	 * @var \OCA\DAV\Connector\Sabre\TagsPlugin
-	 */
-	private $plugin;
+	private \Sabre\DAV\Server $server;
+	private Tree&MockObject $tree;
+	private ITagManager&MockObject $tagManager;
+	private ITags&MockObject $tagger;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IUserSession&MockObject $userSession;
+	private TagsPlugin $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
+
 		$this->server = new \Sabre\DAV\Server();
-		$this->tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->tagger = $this->getMockBuilder(ITags::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->tagManager = $this->getMockBuilder(ITagManager::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->tree = $this->createMock(Tree::class);
+		$this->tagger = $this->createMock(ITags::class);
+		$this->tagManager = $this->createMock(ITagManager::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$user = $this->createMock(IUser::class);
+
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->withAnyParameters()
+			->willReturn($user);
 		$this->tagManager->expects($this->any())
 			->method('load')
 			->with('files')
 			->willReturn($this->tagger);
-		$this->plugin = new \OCA\DAV\Connector\Sabre\TagsPlugin($this->tree, $this->tagManager);
+		$this->plugin = new TagsPlugin($this->tree, $this->tagManager, $this->eventDispatcher, $this->userSession);
 		$this->plugin->initialize($this->server);
 	}
 
-	/**
-	 * @dataProvider tagsGetPropertiesDataProvider
-	 */
-	public function testGetProperties($tags, $requestedProperties, $expectedProperties): void {
-		$node = $this->getMockBuilder(Node::class)
-			->disableOriginalConstructor()
-			->getMock();
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tagsGetPropertiesDataProvider')]
+	public function testGetProperties(array $tags, array $requestedProperties, array $expectedProperties): void {
+		$node = $this->createMock(Node::class);
 		$node->expects($this->any())
 			->method('getId')
 			->willReturn(123);
@@ -132,19 +93,13 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertEquals($expectedProperties, $result);
 	}
 
-	/**
-	 * @dataProvider tagsGetPropertiesDataProvider
-	 */
-	public function testPreloadThenGetProperties($tags, $requestedProperties, $expectedProperties): void {
-		$node1 = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tagsGetPropertiesDataProvider')]
+	public function testPreloadThenGetProperties(array $tags, array $requestedProperties, array $expectedProperties): void {
+		$node1 = $this->createMock(File::class);
 		$node1->expects($this->any())
 			->method('getId')
 			->willReturn(111);
-		$node2 = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node2 = $this->createMock(File::class);
 		$node2->expects($this->any())
 			->method('getId')
 			->willReturn(222);
@@ -157,9 +112,7 @@ class TagsPluginTest extends \Test\TestCase {
 			$expectedCallCount = 1;
 		}
 
-		$node = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(Directory::class);
 		$node->expects($this->any())
 			->method('getId')
 			->willReturn(123);
@@ -194,6 +147,8 @@ class TagsPluginTest extends \Test\TestCase {
 			0
 		);
 
+		$this->server->emit('preloadCollection', [$propFindRoot, $node]);
+
 		$this->plugin->handleGetProperties(
 			$propFindRoot,
 			$node
@@ -214,7 +169,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertEquals($expectedProperties, $result);
 	}
 
-	public function tagsGetPropertiesDataProvider() {
+	public static function tagsGetPropertiesDataProvider(): array {
 		return [
 			// request both, receive both
 			[
@@ -222,7 +177,7 @@ class TagsPluginTest extends \Test\TestCase {
 				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
 				[
 					200 => [
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2']),
+						self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2']),
 						self::FAVORITE_PROPERTYNAME => true,
 					]
 				]
@@ -233,7 +188,7 @@ class TagsPluginTest extends \Test\TestCase {
 				[self::TAGS_PROPERTYNAME],
 				[
 					200 => [
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2']),
+						self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2']),
 					]
 				]
 			],
@@ -261,7 +216,7 @@ class TagsPluginTest extends \Test\TestCase {
 				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
 				[
 					200 => [
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList([]),
+						self::TAGS_PROPERTYNAME => new TagList([]),
 						self::FAVORITE_PROPERTYNAME => false,
 					]
 				]
@@ -270,9 +225,7 @@ class TagsPluginTest extends \Test\TestCase {
 	}
 
 	public function testGetPropertiesSkipChunks(): void {
-		$sabreNode = $this->getMockBuilder(UploadFile::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$sabreNode = $this->createMock(UploadFile::class);
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummyPath',
@@ -292,9 +245,7 @@ class TagsPluginTest extends \Test\TestCase {
 	public function testUpdateTags(): void {
 		// this test will replace the existing tags "tagremove" with "tag1" and "tag2"
 		// and keep "tagkeep"
-		$node = $this->getMockBuilder(Node::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(Node::class);
 		$node->expects($this->any())
 			->method('getId')
 			->willReturn(123);
@@ -310,12 +261,16 @@ class TagsPluginTest extends \Test\TestCase {
 			->willReturn([123 => ['tagkeep', 'tagremove', self::TAG_FAVORITE]]);
 
 		// then tag as tag1 and tag2
-		$this->tagger->expects($this->exactly(2))
+		$calls = [
+			[123, 'tag1', '/dummypath'],
+			[123, 'tag2', '/dummypath'],
+		];
+		$this->tagger->expects($this->exactly(count($calls)))
 			->method('tagAs')
-			->withConsecutive(
-				[123, 'tag1'],
-				[123, 'tag2'],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		// it will untag tag3
 		$this->tagger->expects($this->once())
@@ -324,7 +279,7 @@ class TagsPluginTest extends \Test\TestCase {
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
-			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2', 'tagkeep'])
+			self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2', 'tagkeep'])
 		]);
 
 		$this->plugin->handleUpdateProperties(
@@ -339,13 +294,11 @@ class TagsPluginTest extends \Test\TestCase {
 
 		$result = $propPatch->getResult();
 		$this->assertEquals(200, $result[self::TAGS_PROPERTYNAME]);
-		$this->assertFalse(isset($result[self::FAVORITE_PROPERTYNAME]));
+		$this->assertArrayNotHasKey(self::FAVORITE_PROPERTYNAME, $result);
 	}
 
 	public function testUpdateTagsFromScratch(): void {
-		$node = $this->getMockBuilder(Node::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(Node::class);
 		$node->expects($this->any())
 			->method('getId')
 			->willReturn(123);
@@ -361,16 +314,20 @@ class TagsPluginTest extends \Test\TestCase {
 			->willReturn([]);
 
 		// then tag as tag1 and tag2
-		$this->tagger->expects($this->exactly(2))
+		$calls = [
+			[123, 'tag1', '/dummypath'],
+			[123, 'tag2', '/dummypath'],
+		];
+		$this->tagger->expects($this->exactly(count($calls)))
 			->method('tagAs')
-			->withConsecutive(
-				[123, 'tag1'],
-				[123, 'tag2'],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
-			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2'])
+			self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2'])
 		]);
 
 		$this->plugin->handleUpdateProperties(
@@ -385,15 +342,13 @@ class TagsPluginTest extends \Test\TestCase {
 
 		$result = $propPatch->getResult();
 		$this->assertEquals(200, $result[self::TAGS_PROPERTYNAME]);
-		$this->assertFalse(false, isset($result[self::FAVORITE_PROPERTYNAME]));
+		$this->assertArrayNotHasKey(self::FAVORITE_PROPERTYNAME, $result);
 	}
 
 	public function testUpdateFav(): void {
 		// this test will replace the existing tags "tagremove" with "tag1" and "tag2"
 		// and keep "tagkeep"
-		$node = $this->getMockBuilder(Node::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(Node::class);
 		$node->expects($this->any())
 			->method('getId')
 			->willReturn(123);
@@ -424,8 +379,8 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertEmpty($propPatch->getRemainingMutations());
 
 		$result = $propPatch->getResult();
-		$this->assertFalse(false, isset($result[self::TAGS_PROPERTYNAME]));
-		$this->assertEquals(200, isset($result[self::FAVORITE_PROPERTYNAME]));
+		$this->assertArrayNotHasKey(self::TAGS_PROPERTYNAME, $result);
+		$this->assertEquals(200, $result[self::FAVORITE_PROPERTYNAME]);
 
 		// unfavorite now
 		// set favorite tag
@@ -449,7 +404,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertEmpty($propPatch->getRemainingMutations());
 
 		$result = $propPatch->getResult();
-		$this->assertFalse(false, isset($result[self::TAGS_PROPERTYNAME]));
-		$this->assertEquals(200, isset($result[self::FAVORITE_PROPERTYNAME]));
+		$this->assertArrayNotHasKey(self::TAGS_PROPERTYNAME, $result);
+		$this->assertEquals(200, $result[self::FAVORITE_PROPERTYNAME]);
 	}
 }

@@ -1,47 +1,29 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Repair;
 
+use OCP\Files;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class MoveUpdaterStepFile implements IRepairStep {
-	/** @var \OCP\IConfig */
-	protected $config;
-
-	/**
-	 * @param \OCP\IConfig $config
-	 */
-	public function __construct($config) {
-		$this->config = $config;
+	public function __construct(
+		protected IConfig $config,
+	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Move .step file of updater to backup location';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValueString('instanceid');
 
@@ -58,7 +40,7 @@ class MoveUpdaterStepFile implements IRepairStep {
 
 			// cleanup
 			if (file_exists($previousStepFile)) {
-				if (\OC_Helper::rmdirr($previousStepFile)) {
+				if (Files::rmdirr($previousStepFile)) {
 					$output->info('.step-previous-update removed');
 				} else {
 					$output->info('.step-previous-update can\'t be removed - abort move of .step file');

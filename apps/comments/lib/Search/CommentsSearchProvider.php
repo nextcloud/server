@@ -3,30 +3,18 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Comments\Search;
 
+use OCP\Comments\IComment;
+use OCP\Comments\ICommentsManager;
+use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -35,15 +23,14 @@ use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
-use function array_map;
-use function pathinfo;
 
 class CommentsSearchProvider implements IProvider {
 	public function __construct(
 		private IUserManager $userManager,
 		private IL10N $l10n,
 		private IURLGenerator $urlGenerator,
-		private LegacyProvider $legacyProvider,
+		private ICommentsManager $commentsManager,
+		private IRootFolder $rootFolder,
 	) {
 	}
 
@@ -64,27 +51,76 @@ class CommentsSearchProvider implements IProvider {
 	}
 
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+
+		if ($userFolder === null) {
+			return SearchResult::complete($this->l10n->t('Comments'), []);
+		}
+
+		$result = [];
+		$numComments = 50;
+		$offset = 0;
+
+		while (count($result) < $numComments) {
+			$comments = $this->commentsManager->search($query->getTerm(), 'files', '', 'comment', $offset, $numComments);
+
+			foreach ($comments as $comment) {
+				if ($comment->getActorType() !== 'users') {
+					continue;
+				}
+
+				$displayName = $this->commentsManager->resolveDisplayName('user', $comment->getActorId());
+
+				try {
+					$file = $this->getFileForComment($userFolder, $comment);
+
+					$isUser = $this->userManager->userExists($comment->getActorId());
+					$avatarUrl = $isUser
+						? $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $comment->getActorId(), 'size' => 42])
+						: $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $comment->getActorId(), 'size' => 42]);
+					$link = $this->urlGenerator->linkToRoute(
+						'files.View.showFile',
+						['fileid' => $file->getId()]
+					);
+
+					$result[] = new SearchResultEntry(
+						$avatarUrl,
+						$displayName,
+						$file->getPath(),
+						$link,
+						'',
+						true
+					);
+				} catch (NotFoundException|InvalidPathException $e) {
+					continue;
+				}
+			}
+
+			if (count($comments) < $numComments) {
+				// Didn't find more comments when we tried to get, so there are no more comments.
+				break;
+			}
+
+			$offset += $numComments;
+			$numComments = 50 - count($result);
+		}
+
+
 		return SearchResult::complete(
 			$this->l10n->t('Comments'),
-			array_map(function (Result $result) {
-				$path = $result->path;
-				$pathInfo = pathinfo($path);
-				$isUser = $this->userManager->userExists($result->authorId);
-				$avatarUrl = $isUser
-					? $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $result->authorId, 'size' => 42])
-					: $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $result->authorId, 'size' => 42]);
-				return new SearchResultEntry(
-					$avatarUrl,
-					$result->name,
-					$path,
-					$this->urlGenerator->linkToRouteAbsolute('files.view.index', [
-						'dir' => $pathInfo['dirname'],
-						'scrollto' => $pathInfo['basename'],
-					]),
-					'',
-					true
-				);
-			}, $this->legacyProvider->search($query->getTerm()))
+			$result,
 		);
+	}
+
+	/**
+	 * @throws NotFoundException
+	 */
+	protected function getFileForComment(Folder $userFolder, IComment $comment): Node {
+		$node = $userFolder->getFirstNodeById((int)$comment->getObjectId());
+		if ($node === null) {
+			throw new NotFoundException('File not found');
+		}
+
+		return $node;
 	}
 }

@@ -1,24 +1,8 @@
 <?php
 
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 declare(strict_types=1);
@@ -30,12 +14,11 @@ use OCP\IConfig;
 use OCP\ISession;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class SetUserTimezoneCommandTest extends ALoginCommandTest {
-	/** @var IConfig|MockObject */
-	private $config;
+class SetUserTimezoneCommandTest extends ALoginTestCommand {
 
-	/** @var ISession|MockObject */
-	private $session;
+	private IConfig&MockObject $config;
+
+	private ISession&MockObject $session;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,7 +32,7 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcessNoTimezoneSet() {
+	public function testProcessNoTimezoneSet(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->never())
 			->method('setUserValue');
@@ -61,11 +44,20 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getLoggedInLoginDataWithTimezone();
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->username,
+				'core',
+				'timezone',
+				''
+			)
+			->willReturn('');
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with(
@@ -74,6 +66,34 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 				'timezone',
 				$this->timezone
 			);
+		$this->session->expects($this->once())
+			->method('set')
+			->with(
+				'timezone',
+				$this->timeZoneOffset
+			);
+
+		$result = $this->cmd->process($data);
+
+		$this->assertTrue($result->isSuccess());
+	}
+
+	public function testProcessAlreadySet(): void {
+		$data = $this->getLoggedInLoginDataWithTimezone();
+		$this->user->expects($this->once())
+			->method('getUID')
+			->willReturn($this->username);
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->username,
+				'core',
+				'timezone',
+				'',
+			)
+			->willReturn('Europe/Berlin');
+		$this->config->expects($this->never())
+			->method('setUserValue');
 		$this->session->expects($this->once())
 			->method('set')
 			->with(

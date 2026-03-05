@@ -1,26 +1,8 @@
 <?php
+
 /**
- * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
@@ -29,36 +11,48 @@ use OC\Contacts\ContactsMenu\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Teams\ITeamManager;
 
 class ContactsMenuController extends Controller {
 	public function __construct(
 		IRequest $request,
 		private IUserSession $userSession,
 		private Manager $manager,
+		private ITeamManager $teamManager,
 	) {
 		parent::__construct('core', $request);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @return \JsonSerializable[]
 	 * @throws Exception
 	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/contactsmenu/contacts')]
-	public function index(?string $filter = null): array {
-		return $this->manager->getEntries($this->userSession->getUser(), $filter);
+	public function index(?string $filter = null, ?string $teamId = null): array {
+		$entries = $this->manager->getEntries($this->userSession->getUser(), $filter);
+		if ($teamId !== null) {
+			/** @var \OC\Teams\TeamManager */
+			$teamManager = $this->teamManager;
+			$memberIds = $teamManager->getMembersOfTeam($teamId, $this->userSession->getUser()->getUID());
+			$entries['contacts'] = array_filter(
+				$entries['contacts'],
+				fn (IEntry $entry) => in_array($entry->getProperty('UID'), $memberIds, true)
+			);
+		}
+		return $entries;
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @return JSONResponse|\JsonSerializable
 	 * @throws Exception
 	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/contactsmenu/findOne')]
 	public function findOne(int $shareType, string $shareWith) {
 		$contact = $this->manager->findOne($this->userSession->getUser(), $shareType, $shareWith);
@@ -67,5 +61,14 @@ class ContactsMenuController extends Controller {
 			return $contact;
 		}
 		return new JSONResponse([], Http::STATUS_NOT_FOUND);
+	}
+
+	/**
+	 * @return \JsonSerializable[]
+	 */
+	#[NoAdminRequired]
+	#[FrontpageRoute(verb: 'GET', url: '/contactsmenu/teams')]
+	public function getTeams(): array {
+		return $this->teamManager->getTeamsForUser($this->userSession->getUser()->getUID());
 	}
 }

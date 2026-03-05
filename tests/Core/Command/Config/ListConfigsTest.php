@@ -1,26 +1,14 @@
 <?php
+
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Config;
 
+use OC\Config\ConfigManager;
 use OC\Core\Command\Config\ListConfigs;
 use OC\SystemConfig;
 use OCP\IAppConfig;
@@ -34,6 +22,8 @@ class ListConfigsTest extends TestCase {
 	protected $appConfig;
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $systemConfig;
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	protected $configManager;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
@@ -52,15 +42,20 @@ class ListConfigsTest extends TestCase {
 		$appConfig = $this->appConfig = $this->getMockBuilder(IAppConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$configManager = $this->configManager = $this->getMockBuilder(ConfigManager::class)
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OC\SystemConfig $systemConfig */
 		/** @var \OCP\IAppConfig $appConfig */
-		$this->command = new ListConfigs($systemConfig, $appConfig);
+		/** @var ConfigManager $configManager */
+		$this->command = new ListConfigs($systemConfig, $appConfig, $configManager);
 	}
 
-	public function listData() {
+	public static function listData(): array {
 		return [
 			[
 				'all',
@@ -75,10 +70,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -155,10 +150,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -190,10 +185,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -218,10 +213,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -267,7 +262,6 @@ class ListConfigsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider listData
 	 *
 	 * @param string $app
 	 * @param array $systemConfigs
@@ -276,7 +270,8 @@ class ListConfigsTest extends TestCase {
 	 * @param bool $private
 	 * @param string $expected
 	 */
-	public function testList($app, $systemConfigs, $systemConfigMap, $appConfig, $private, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('listData')]
+	public function testList($app, $systemConfigs, $systemConfigMap, $appConfig, $private, $expected): void {
 		$this->systemConfig->expects($this->any())
 			->method('getKeys')
 			->willReturn($systemConfigs);

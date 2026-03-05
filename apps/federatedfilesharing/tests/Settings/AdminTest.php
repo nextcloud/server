@@ -1,27 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\FederatedFileSharing\Tests\Settings;
 
@@ -32,17 +14,14 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\GlobalScale\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var Admin */
-	private $admin;
-	/** @var \OCA\FederatedFileSharing\FederatedShareProvider */
-	private $federatedShareProvider;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $gsConfig;
-	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
-	private $initialState;
+	private FederatedShareProvider&MockObject $federatedShareProvider;
+	private IConfig $gsConfig;
+	private IInitialState&MockObject $initialState;
+	private Admin $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -63,7 +42,7 @@ class AdminTest extends TestCase {
 		);
 	}
 
-	public function sharingStateProvider() {
+	public static function sharingStateProvider(): array {
 		return [
 			[
 				true,
@@ -74,11 +53,8 @@ class AdminTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider sharingStateProvider
-	 * @param bool $state
-	 */
-	public function testGetForm($state) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'sharingStateProvider')]
+	public function testGetForm(bool $state): void {
 		$this->federatedShareProvider
 			->expects($this->once())
 			->method('isOutgoingServer2serverShareEnabled')
@@ -111,32 +87,41 @@ class AdminTest extends TestCase {
 			->expects($this->once())
 			->method('isIncomingServer2serverGroupShareEnabled')
 			->willReturn($state);
+		$this->federatedShareProvider
+			->expects($this->once())
+			->method('isFederatedTrustedShareAutoAccept')
+			->willReturn($state);
 		$this->gsConfig->expects($this->once())->method('onlyInternalFederation')
 			->willReturn($state);
 
-		$this->initialState->expects($this->exactly(9))
+		$calls = [
+			['internalOnly', $state],
+			['sharingFederatedDocUrl', 'doc-link'],
+			['outgoingServer2serverShareEnabled', $state],
+			['incomingServer2serverShareEnabled', $state],
+			['federatedGroupSharingSupported', $state],
+			['outgoingServer2serverGroupShareEnabled', $state],
+			['incomingServer2serverGroupShareEnabled', $state],
+			['lookupServerEnabled', $state],
+			['lookupServerUploadEnabled', $state],
+			['federatedTrustedShareAutoAccept', $state],
+		];
+		$this->initialState->expects($this->exactly(10))
 			->method('provideInitialState')
-			->withConsecutive(
-				['internalOnly', $state],
-				['sharingFederatedDocUrl', 'doc-link'],
-				['outgoingServer2serverShareEnabled', $state],
-				['incomingServer2serverShareEnabled', $state],
-				['federatedGroupSharingSupported', $state],
-				['outgoingServer2serverGroupShareEnabled', $state],
-				['incomingServer2serverGroupShareEnabled', $state],
-				['lookupServerEnabled', $state],
-				['lookupServerUploadEnabled', $state],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertSame($expected, func_get_args());
+			});
 
 		$expected = new TemplateResponse('federatedfilesharing', 'settings-admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('sharing', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(20, $this->admin->getPriority());
 	}
 }

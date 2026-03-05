@@ -1,27 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2023, Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OCP\Http\Client;
 
 use Exception;
@@ -51,7 +34,7 @@ interface IPromise {
 	 * a new promise resolving to the return value of the called handler.
 	 *
 	 * @param ?callable(IResponse): void $onFulfilled Invoked when the promise fulfills. Gets an \OCP\Http\Client\IResponse passed in as argument
-	 * @param ?callable(Exception): void $onRejected  Invoked when the promise is rejected. Gets an \Exception passed in as argument
+	 * @param ?callable(Exception): void $onRejected Invoked when the promise is rejected. Gets an \Exception passed in as argument
 	 *
 	 * @return IPromise
 	 * @since 28.0.0
@@ -93,7 +76,7 @@ interface IPromise {
 	 * @return mixed
 	 *
 	 * @throws LogicException if the promise has no wait function or if the
-	 *                         promise does not settle after waiting.
+	 *                        promise does not settle after waiting.
 	 * @since 28.0.0
 	 */
 	public function wait(bool $unwrap = true): mixed;

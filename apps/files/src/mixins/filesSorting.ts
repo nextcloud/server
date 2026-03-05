@@ -1,44 +1,31 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import Vue from 'vue'
 
 import { mapState } from 'pinia'
-import { useViewConfigStore } from '../store/viewConfig'
-import { Navigation, View } from '@nextcloud/files'
+import Vue from 'vue'
+import { useActiveStore } from '../store/active.ts'
+import { useViewConfigStore } from '../store/viewConfig.ts'
 
 export default Vue.extend({
+	setup() {
+		const activeStore = useActiveStore()
+
+		return {
+			activeStore,
+		}
+	},
+
 	computed: {
 		...mapState(useViewConfigStore, ['getConfig', 'setSortingBy', 'toggleSortingDirection']),
-
-		currentView(): View {
-			return (this.$navigation as Navigation).active as View
-		},
 
 		/**
 		 * Get the sorting mode for the current view
 		 */
 		sortingMode(): string {
-			return this.getConfig(this.currentView.id)?.sorting_mode as string
-				|| this.currentView?.defaultSortKey
+			return this.getConfig(this.activeStore.activeView?.id)?.sorting_mode as string
+				|| this.activeStore.activeView?.defaultSortKey
 				|| 'basename'
 		},
 
@@ -46,7 +33,7 @@ export default Vue.extend({
 		 * Get the sorting direction for the current view
 		 */
 		isAscSorting(): boolean {
-			const sortingDirection = this.getConfig(this.currentView.id)?.sorting_direction
+			const sortingDirection = this.getConfig(this.activeStore.activeView?.id)?.sorting_direction
 			return sortingDirection !== 'desc'
 		},
 	},
@@ -55,11 +42,11 @@ export default Vue.extend({
 		toggleSortBy(key: string) {
 			// If we're already sorting by this key, flip the direction
 			if (this.sortingMode === key) {
-				this.toggleSortingDirection(this.currentView.id)
+				this.toggleSortingDirection(this.activeStore.activeView?.id)
 				return
 			}
 			// else sort ASC by this new key
-			this.setSortingBy(key, this.currentView.id)
+			this.setSortingBy(key, this.activeStore.activeView?.id)
 		},
 	},
 })

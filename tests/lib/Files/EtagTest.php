@@ -1,25 +1,32 @@
 <?php
+
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files;
 
 use OC\Files\Filesystem;
+use OC\Files\Utils\Scanner;
+use OC\Share\Share;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\ITempManager;
+use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class EtagTest
  *
- * @group DB
  *
  * @package Test\Files
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class EtagTest extends \Test\TestCase {
 	private $datadir;
 
@@ -37,26 +44,26 @@ class EtagTest extends \Test\TestCase {
 		// init files sharing
 		new Application();
 
-		\OC\Share\Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');
-		\OC\Share\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
+		Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');
+		Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
 
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$this->datadir = $config->getSystemValueString('datadirectory');
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		$config->setSystemValue('datadirectory', $this->tmpDir);
 
 		$this->userBackend = new \Test\Util\User\Dummy();
-		\OC_User::useBackend($this->userBackend);
+		Server::get(IUserManager::class)->registerBackend($this->userBackend);
 	}
 
 	protected function tearDown(): void {
-		\OC::$server->getConfig()->setSystemValue('datadirectory', $this->datadir);
+		Server::get(IConfig::class)->setSystemValue('datadirectory', $this->datadir);
 
 		$this->logout();
 		parent::tearDown();
 	}
 
-	public function testNewUser() {
+	public function testNewUser(): void {
 		$user1 = $this->getUniqueID('user_');
 		$this->userBackend->createUser($user1, '');
 
@@ -70,7 +77,7 @@ class EtagTest extends \Test\TestCase {
 		$files = ['/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt'];
 		$originalEtags = $this->getEtags($files);
 
-		$scanner = new \OC\Files\Utils\Scanner($user1, \OC::$server->getDatabaseConnection(), \OC::$server->query(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
+		$scanner = new Scanner($user1, Server::get(IDBConnection::class), Server::get(IEventDispatcher::class), Server::get(LoggerInterface::class));
 		$scanner->backgroundScan('/');
 
 		$newEtags = $this->getEtags($files);

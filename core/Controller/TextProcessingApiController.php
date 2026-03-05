@@ -3,31 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
- *
- * @author Marcel Klehr <mklehr@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
-use OCA\Core\ResponseDefinitions;
+use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -35,6 +19,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
 use OCP\IL10N;
@@ -52,15 +37,15 @@ use Psr\Log\LoggerInterface;
 /**
  * @psalm-import-type CoreTextProcessingTask from ResponseDefinitions
  */
-class TextProcessingApiController extends \OCP\AppFramework\OCSController {
+class TextProcessingApiController extends OCSController {
 	public function __construct(
-		string                     $appName,
-		IRequest                   $request,
-		private IManager           $textProcessingManager,
-		private IL10N              $l,
-		private ?string            $userId,
+		string $appName,
+		IRequest $request,
+		private IManager $textProcessingManager,
+		private IL10N $l,
+		private ?string $userId,
 		private ContainerInterface $container,
-		private LoggerInterface    $logger,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -68,7 +53,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * This endpoint returns all available LanguageModel task types
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{types: array{id: string, name: string, description: string}[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{types: list<array{id: string, name: string, description: string}>}, array{}>
 	 *
 	 * 200: Task types returned
 	 */
@@ -112,11 +97,14 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 400: Scheduling task is not possible
 	 * 412: Scheduling task is not possible
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[UserRateLimit(limit: 20, period: 120)]
 	#[AnonRateLimit(limit: 5, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/textprocessing')]
 	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
+		if (strlen($input) > 64_000) {
+			return new DataResponse(['message' => $this->l->t('Input text is too long')], Http::STATUS_BAD_REQUEST);
+		}
 		try {
 			$task = new Task($type, $input, $appId, $this->userId, $identifier);
 		} catch (InvalidArgumentException) {
@@ -125,7 +113,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 		try {
 			try {
 				$this->textProcessingManager->runOrScheduleTask($task);
-			} catch(TaskFailureException) {
+			} catch (TaskFailureException) {
 				// noop, because the task object has the failure status set already, we just return the task json
 			}
 
@@ -152,7 +140,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}', root: '/textprocessing')]
 	public function getTask(int $id): DataResponse {
 		try {
@@ -207,19 +195,18 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $appId ID of the app
 	 * @param string|null $identifier An arbitrary identifier for the task
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTextProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: list<CoreTextProcessingTask>}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task list returned
+	 * 200: Task list returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/app/{appId}', root: '/textprocessing')]
 	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
 		try {
 			$tasks = $this->textProcessingManager->getUserTasksByApp($this->userId, $appId, $identifier);
-			/** @var CoreTextProcessingTask[] $json */
-			$json = array_map(static function (Task $task) {
+			$json = array_values(array_map(static function (Task $task) {
 				return $task->jsonSerialize();
-			}, $tasks);
+			}, $tasks));
 
 			return new DataResponse([
 				'tasks' => $json,

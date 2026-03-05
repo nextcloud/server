@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
@@ -36,10 +16,7 @@ use Sabre\DAV\ServerPlugin;
 
 class MaintenancePlugin extends ServerPlugin {
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var \OCP\IL10N */
+	/** @var IL10N */
 	private $l10n;
 
 	/**
@@ -52,8 +29,10 @@ class MaintenancePlugin extends ServerPlugin {
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, IL10N $l10n) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+		IL10N $l10n,
+	) {
 		$this->l10n = \OC::$server->getL10N('dav');
 	}
 

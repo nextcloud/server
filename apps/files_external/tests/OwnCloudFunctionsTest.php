@@ -1,39 +1,24 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests;
+
+use OCA\Files_External\Lib\Storage\OwnCloud;
 
 /**
  * Class OwnCloudFunctions
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class OwnCloudFunctionsTest extends \Test\TestCase {
-	public function configUrlProvider() {
+	public static function configUrlProvider(): array {
 		return [
 			[
 				[
@@ -102,13 +87,11 @@ class OwnCloudFunctionsTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider configUrlProvider
-	 */
-	public function testConfig($config, $expectedUri) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'configUrlProvider')]
+	public function testConfig(array $config, string $expectedUri): void {
 		$config['user'] = 'someuser';
 		$config['password'] = 'somepassword';
-		$instance = new \OCA\Files_External\Lib\Storage\OwnCloud($config);
+		$instance = new OwnCloud($config);
 		$this->assertEquals($expectedUri, $instance->createBaseUri());
 	}
 }

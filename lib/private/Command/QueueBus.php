@@ -1,72 +1,57 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Command;
 
+use OCA\Files_Trashbin\Command\Expire;
 use OCP\Command\IBus;
 use OCP\Command\ICommand;
+use Test\Command\FilesystemCommand;
+use Test\Command\SimpleCommand;
+use Test\Command\StateFullCommand;
 
 class QueueBus implements IBus {
 	/**
-	 * @var ICommand[]|callable[]
+	 * @var ICommand[]
 	 */
-	private $queue = [];
+	private array $queue = [];
 
 	/**
 	 * Schedule a command to be fired
-	 *
-	 * @param \OCP\Command\ICommand | callable $command
 	 */
-	public function push($command) {
+	public function push(ICommand $command): void {
 		$this->queue[] = $command;
 	}
 
 	/**
 	 * Require all commands using a trait to be run synchronous
-	 *
-	 * @param string $trait
 	 */
-	public function requireSync($trait) {
+	public function requireSync(string $trait): void {
 	}
 
-	/**
-	 * @param \OCP\Command\ICommand | callable $command
-	 */
-	private function runCommand($command) {
-		if ($command instanceof ICommand) {
-			// ensure the command can be serialized
-			$serialized = serialize($command);
-			if (strlen($serialized) > 4000) {
-				throw new \InvalidArgumentException('Trying to push a command which serialized form can not be stored in the database (>4000 character)');
-			}
-			$unserialized = unserialize($serialized);
-			$unserialized->handle();
-		} else {
-			$command();
+	private function runCommand(ICommand $command): void {
+		// ensure the command can be serialized
+		$serialized = serialize($command);
+		if (strlen($serialized) > 4000) {
+			throw new \InvalidArgumentException('Trying to push a command which serialized form can not be stored in the database (>4000 character)');
 		}
+		$unserialized = unserialize($serialized, ['allowed_classes' => [
+			SimpleCommand::class,
+			StateFullCommand::class,
+			FilesystemCommand::class,
+			Expire::class,
+			\OCA\Files_Versions\Command\Expire::class,
+		]]);
+		$unserialized->handle();
 	}
 
-	public function run() {
+	public function run(): void {
 		while ($command = array_shift($this->queue)) {
 			$this->runCommand($command);
 		}

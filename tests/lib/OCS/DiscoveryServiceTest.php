@@ -1,22 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\OCS;
@@ -28,13 +14,13 @@ use OCP\OCS\IDiscoveryService;
 use Test\TestCase;
 
 class DiscoveryServiceTest extends TestCase {
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | ICacheFactory */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | ICacheFactory */
 	private $cacheFactory;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IClientService */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IClientService */
 	private $clientService;
 
-	/** @var  IDiscoveryService */
+	/** @var IDiscoveryService */
 	private $discoveryService;
 
 	protected function setUp(): void {
@@ -50,17 +36,17 @@ class DiscoveryServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsSafeUrl
 	 *
 	 * @param string $url
 	 * @param bool $expected
 	 */
-	public function testIsSafeUrl($url, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsSafeUrl')]
+	public function testIsSafeUrl($url, $expected): void {
 		$result = $this->invokePrivate($this->discoveryService, 'isSafeUrl', [$url]);
 		$this->assertSame($expected, $result);
 	}
 
-	public function dataTestIsSafeUrl() {
+	public static function dataTestIsSafeUrl(): array {
 		return [
 			['api/ocs/v1.php/foo', true],
 			['/api/ocs/v1.php/foo', true],
@@ -73,18 +59,18 @@ class DiscoveryServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestGetEndpoints
 	 *
 	 * @param array $decodedServices
 	 * @param string $service
 	 * @param array $expected
 	 */
-	public function testGetEndpoints($decodedServices, $service, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetEndpoints')]
+	public function testGetEndpoints($decodedServices, $service, $expected): void {
 		$result = $this->invokePrivate($this->discoveryService, 'getEndpoints', [$decodedServices, $service]);
 		$this->assertSame($expected, $result);
 	}
 
-	public function dataTestGetEndpoints() {
+	public static function dataTestGetEndpoints(): array {
 		return [
 			[['services' => ['myService' => ['endpoints' => []]]], 'myService', []],
 			[['services' => ['myService' => ['endpoints' => ['foo' => '/bar']]]], 'myService', ['foo' => '/bar']],

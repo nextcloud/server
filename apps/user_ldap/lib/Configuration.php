@@ -1,45 +1,89 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Alexander Bergolth <leo@strike.wu.ac.at>
- * @author Alex Weirig <alex.weirig@technolink.lu>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lennart Rosam <hello@takuto.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Marc Hefter <marchefter@march42.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Xuanwo <xuanwo@yunify.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
+use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
- * @property int ldapPagingSize holds an integer
- * @property string ldapUserAvatarRule
+ * @property string $ldapHost
+ * @property string $ldapPort
+ * @property string $ldapBackupHost
+ * @property string $ldapBackupPort
+ * @property string $ldapBackgroundHost
+ * @property string $ldapBackgroundPort
+ * @property array|'' $ldapBase
+ * @property array|'' $ldapBaseUsers
+ * @property array|'' $ldapBaseGroups
+ * @property string $ldapAgentName
+ * @property string $ldapAgentPassword
+ * @property string $ldapTLS
+ * @property string $turnOffCertCheck
+ * @property string $ldapIgnoreNamingRules
+ * @property string $ldapUserDisplayName
+ * @property string $ldapUserDisplayName2
+ * @property string $ldapUserAvatarRule
+ * @property string $ldapGidNumber
+ * @property array|'' $ldapUserFilterObjectclass
+ * @property array|'' $ldapUserFilterGroups
+ * @property string $ldapUserFilter
+ * @property string $ldapUserFilterMode
+ * @property string $ldapGroupFilter
+ * @property string $ldapGroupFilterMode
+ * @property array|'' $ldapGroupFilterObjectclass
+ * @property array|'' $ldapGroupFilterGroups
+ * @property string $ldapGroupDisplayName
+ * @property string $ldapGroupMemberAssocAttr
+ * @property string $ldapLoginFilter
+ * @property string $ldapLoginFilterMode
+ * @property string $ldapLoginFilterEmail
+ * @property string $ldapLoginFilterUsername
+ * @property array|'' $ldapLoginFilterAttributes
+ * @property string $ldapQuotaAttribute
+ * @property string $ldapQuotaDefault
+ * @property string $ldapEmailAttribute
+ * @property string $ldapCacheTTL
+ * @property string $ldapUuidUserAttribute
+ * @property string $ldapUuidGroupAttribute
+ * @property string $ldapOverrideMainServer
+ * @property string $ldapConfigurationActive
+ * @property array|'' $ldapAttributesForUserSearch
+ * @property array|'' $ldapAttributesForGroupSearch
+ * @property string $ldapExperiencedAdmin
+ * @property string $homeFolderNamingRule
+ * @property string $hasMemberOfFilterSupport
+ * @property string $useMemberOfToDetectMembership
+ * @property string $ldapExpertUsernameAttr
+ * @property string $ldapExpertUUIDUserAttr
+ * @property string $ldapExpertUUIDGroupAttr
+ * @property string $markRemnantsAsDisabled
+ * @property string $lastJpegPhotoLookup
+ * @property string $ldapNestedGroups
+ * @property string $ldapPagingSize
+ * @property string $turnOnPasswordChange
+ * @property string $ldapDynamicGroupMemberURL
+ * @property string $ldapDefaultPPolicyDN
+ * @property string $ldapExtStorageHomeAttribute
+ * @property string $ldapMatchingRuleInChainState
+ * @property string $ldapConnectionTimeout
+ * @property string $ldapAttributePhone
+ * @property string $ldapAttributeWebsite
+ * @property string $ldapAttributeAddress
+ * @property string $ldapAttributeTwitter
+ * @property string $ldapAttributeFediverse
+ * @property string $ldapAttributeOrganisation
+ * @property string $ldapAttributeRole
+ * @property string $ldapAttributeHeadline
+ * @property string $ldapAttributeBiography
+ * @property string $ldapAdminGroup
+ * @property string $ldapAttributeBirthDate
+ * @property string $ldapAttributePronouns
  */
 class Configuration {
 	public const AVATAR_PREFIX_DEFAULT = 'default';
@@ -49,11 +93,6 @@ class Configuration {
 	public const LDAP_SERVER_FEATURE_UNKNOWN = 'unknown';
 	public const LDAP_SERVER_FEATURE_AVAILABLE = 'available';
 	public const LDAP_SERVER_FEATURE_UNAVAILABLE = 'unavailable';
-
-	/**
-	 * @var string
-	 */
-	protected $configPrefix;
 	/**
 	 * @var bool
 	 */
@@ -137,10 +176,15 @@ class Configuration {
 		'ldapAttributeHeadline' => null,
 		'ldapAttributeBiography' => null,
 		'ldapAdminGroup' => '',
+		'ldapAttributeBirthDate' => null,
+		'ldapAttributeAnniversaryDate' => null,
+		'ldapAttributePronouns' => null,
 	];
 
-	public function __construct(string $configPrefix, bool $autoRead = true) {
-		$this->configPrefix = $configPrefix;
+	public function __construct(
+		protected string $configPrefix,
+		bool $autoRead = true,
+	) {
 		if ($autoRead) {
 			$this->readConfiguration();
 		}
@@ -174,7 +218,7 @@ class Configuration {
 	 * from configuration. It does not save the configuration! To do so, you
 	 * must call saveConfiguration afterwards.
 	 * @param array $config array that holds the config parameters in an associated
-	 * array
+	 *                      array
 	 * @param array &$applied optional; array where the set fields will be given to
 	 */
 	public function setConfiguration(array $config, ?array &$applied = null): void {
@@ -196,7 +240,7 @@ class Configuration {
 				case 'homeFolderNamingRule':
 					$trimmedVal = trim($val);
 					if ($trimmedVal !== '' && !str_contains($val, 'attr:')) {
-						$val = 'attr:'.$trimmedVal;
+						$val = 'attr:' . $trimmedVal;
 					}
 					break;
 				case 'ldapBase':
@@ -252,6 +296,28 @@ class Configuration {
 						break;
 					case 'ldapUserDisplayName2':
 					case 'ldapGroupDisplayName':
+					case 'ldapGidNumber':
+					case 'ldapGroupMemberAssocAttr':
+					case 'ldapQuotaAttribute':
+					case 'ldapEmailAttribute':
+					case 'ldapUuidUserAttribute':
+					case 'ldapUuidGroupAttribute':
+					case 'ldapExpertUsernameAttr':
+					case 'ldapExpertUUIDUserAttr':
+					case 'ldapExpertUUIDGroupAttr':
+					case 'ldapExtStorageHomeAttribute':
+					case 'ldapAttributePhone':
+					case 'ldapAttributeWebsite':
+					case 'ldapAttributeAddress':
+					case 'ldapAttributeTwitter':
+					case 'ldapAttributeFediverse':
+					case 'ldapAttributeOrganisation':
+					case 'ldapAttributeRole':
+					case 'ldapAttributeHeadline':
+					case 'ldapAttributeBiography':
+					case 'ldapAttributeBirthDate':
+					case 'ldapAttributeAnniversaryDate':
+					case 'ldapAttributePronouns':
 						$readMethod = 'getLcValue';
 						break;
 					case 'ldapUserDisplayName':
@@ -374,7 +440,7 @@ class Configuration {
 
 	protected function getSystemValue(string $varName): string {
 		//FIXME: if another system value is added, softcode the default value
-		return \OC::$server->getConfig()->getSystemValue($varName, false);
+		return Server::get(IConfig::class)->getSystemValue($varName, false);
 	}
 
 	protected function getValue(string $varName): string {
@@ -382,8 +448,8 @@ class Configuration {
 		if (is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
-		return \OC::$server->getConfig()->getAppValue('user_ldap',
-			$this->configPrefix.$varName,
+		return Server::get(IConfig::class)->getAppValue('user_ldap',
+			$this->configPrefix . $varName,
 			$defaults[$varName]);
 	}
 
@@ -411,9 +477,9 @@ class Configuration {
 	}
 
 	protected function saveValue(string $varName, string $value): bool {
-		\OC::$server->getConfig()->setAppValue(
+		Server::get(IConfig::class)->setAppValue(
 			'user_ldap',
-			$this->configPrefix.$varName,
+			$this->configPrefix . $varName,
 			$value
 		);
 		return true;
@@ -421,7 +487,7 @@ class Configuration {
 
 	/**
 	 * @return array an associative array with the default values. Keys are correspond
-	 * to config-value entries in the database table
+	 *               to config-value entries in the database table
 	 */
 	public function getDefaults(): array {
 		return [
@@ -494,6 +560,9 @@ class Configuration {
 			'ldap_attr_headline' => '',
 			'ldap_attr_biography' => '',
 			'ldap_admin_group' => '',
+			'ldap_attr_birthdate' => '',
+			'ldap_attr_anniversarydate' => '',
+			'ldap_attr_pronouns' => '',
 		];
 	}
 
@@ -571,6 +640,9 @@ class Configuration {
 			'ldap_attr_headline' => 'ldapAttributeHeadline',
 			'ldap_attr_biography' => 'ldapAttributeBiography',
 			'ldap_admin_group' => 'ldapAdminGroup',
+			'ldap_attr_birthdate' => 'ldapAttributeBirthDate',
+			'ldap_attr_anniversarydate' => 'ldapAttributeAnniversaryDate',
+			'ldap_attr_pronouns' => 'ldapAttributePronouns',
 		];
 		return $array;
 	}
@@ -600,7 +672,7 @@ class Configuration {
 			return [strtolower($attribute)];
 		}
 		if ($value !== self::AVATAR_PREFIX_DEFAULT) {
-			\OCP\Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+			Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
 		}
 		return $defaultAttributes;
 	}

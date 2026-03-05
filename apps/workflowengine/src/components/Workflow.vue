@@ -1,27 +1,36 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div id="workflowengine">
-		<NcSettingsSection :name="t('workflowengine', 'Available flows')"
+		<NcSettingsSection
+			:name="t('workflowengine', 'Available flows')"
 			:doc-url="workflowDocUrl">
 			<p v-if="isAdminScope" class="settings-hint">
 				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own flow, check out the development documentation.') }}</a>
 			</p>
 
-			<NcEmptyContent v-if="!isUserAdmin && mainOperations.length === 0"
+			<NcEmptyContent
+				v-if="!isUserAdmin && mainOperations.length === 0"
 				:name="t('workflowengine', 'No flows installed')"
 				:description="!isUserAdmin ? t('workflowengine', 'Ask your administrator to install new flows.') : undefined">
 				<template #icon>
 					<NcIconSvgWrapper :svg="WorkflowOffSvg" :size="20" />
 				</template>
 			</NcEmptyContent>
-			<transition-group v-else
+			<transition-group
+				v-else
 				name="slide"
 				tag="div"
 				class="actions">
-				<Operation v-for="operation in mainOperations"
+				<Operation
+					v-for="operation in mainOperations"
 					:key="operation.id"
 					:operation="operation"
 					@click.native="createNewRule(operation)" />
-				<a v-if="showAppStoreHint"
+				<a
+					v-if="showAppStoreHint"
 					key="add"
 					:href="appstoreUrl"
 					class="actions__item colored more">
@@ -44,7 +53,8 @@
 			</div>
 		</NcSettingsSection>
 
-		<NcSettingsSection v-if="mainOperations.length > 0"
+		<NcSettingsSection
+			v-if="mainOperations.length > 0"
 			:name="isAdminScope ? t('workflowengine', 'Configured flows') : t('workflowengine', 'Your flows')">
 			<transition-group v-if="rules.length > 0" name="slide">
 				<Rule v-for="rule in rules" :key="rule.id" :rule="rule" />
@@ -59,17 +69,17 @@
 </template>
 
 <script>
-import Rule from './Rule.vue'
-import Operation from './Operation.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import { mapGetters, mapState } from 'vuex'
-import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import MenuUp from 'vue-material-design-icons/MenuUp.vue'
+import { generateUrl } from '@nextcloud/router'
+import { mapGetters, mapState } from 'vuex'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
+import MenuUp from 'vue-material-design-icons/MenuUp.vue'
+import Operation from './Operation.vue'
+import Rule from './Rule.vue'
 import WorkflowOffSvg from '../../img/workflow-off.svg?raw'
 
 const ACTION_LIMIT = 3
@@ -77,6 +87,7 @@ const ADMIN_SCOPE = 0
 // const PERSONAL_SCOPE = 1
 
 export default {
+	/* eslint vue/multi-word-component-names: "warn" */
 	name: 'Workflow',
 	components: {
 		MenuDown,
@@ -88,6 +99,7 @@ export default {
 		Operation,
 		Rule,
 	},
+
 	data() {
 		return {
 			showMoreOperations: false,
@@ -96,37 +108,46 @@ export default {
 			WorkflowOffSvg,
 		}
 	},
+
 	computed: {
 		...mapGetters({
 			rules: 'getRules',
 		}),
+
 		...mapState({
 			appstoreEnabled: 'appstoreEnabled',
 			scope: 'scope',
 			operations: 'operations',
 		}),
+
 		hasMoreOperations() {
 			return Object.keys(this.operations).length > ACTION_LIMIT
 		},
+
 		mainOperations() {
 			if (this.showMoreOperations) {
 				return Object.values(this.operations)
 			}
 			return Object.values(this.operations).slice(0, ACTION_LIMIT)
 		},
+
 		showAppStoreHint() {
 			return this.appstoreEnabled && OC.isUserAdmin()
 		},
+
 		isUserAdmin() {
 			return OC.isUserAdmin()
 		},
+
 		isAdminScope() {
 			return this.scope === ADMIN_SCOPE
 		},
 	},
+
 	mounted() {
 		this.$store.dispatch('fetchRules')
 	},
+
 	methods: {
 		createNewRule(operation) {
 			this.$store.dispatch('createNewRule', operation)
@@ -136,9 +157,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+	@use "./../styles/operation.scss";
+
 	#workflowengine {
 		border-bottom: 1px solid var(--color-border);
 	}
+
 	.section {
 		max-width: 100vw;
 
@@ -147,6 +171,7 @@ export default {
 			margin-bottom: 0;
 		}
 	}
+
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
@@ -156,6 +181,7 @@ export default {
 			flex-basis: 250px;
 		}
 	}
+
 	.actions__more {
 		margin-bottom: 10px;
 	}
@@ -193,8 +219,6 @@ export default {
 		padding-top: 0;
 		padding-bottom: 0;
 	}
-
-	@import "./../styles/operation";
 
 	.actions__item.more {
 		background-color: var(--color-background-dark);

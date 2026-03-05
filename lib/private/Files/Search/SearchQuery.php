@@ -1,24 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\Search;
 
@@ -28,76 +14,39 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 
 class SearchQuery implements ISearchQuery {
-	/** @var  ISearchOperator */
-	private $searchOperation;
-	/** @var  integer */
-	private $limit;
-	/** @var  integer */
-	private $offset;
-	/** @var  ISearchOrder[] */
-	private $order;
-	/** @var ?IUser */
-	private $user;
-	private $limitToHome;
-
 	/**
-	 * SearchQuery constructor.
-	 *
-	 * @param ISearchOperator $searchOperation
-	 * @param int $limit
-	 * @param int $offset
-	 * @param array $order
-	 * @param ?IUser $user
-	 * @param bool $limitToHome
+	 * @param ISearchOrder[] $order
 	 */
 	public function __construct(
-		ISearchOperator $searchOperation,
-		int $limit,
-		int $offset,
-		array $order,
-		?IUser $user = null,
-		bool $limitToHome = false
+		private ISearchOperator $searchOperation,
+		private int $limit,
+		private int $offset,
+		private array $order,
+		private ?IUser $user = null,
+		private bool $limitToHome = false,
 	) {
-		$this->searchOperation = $searchOperation;
-		$this->limit = $limit;
-		$this->offset = $offset;
-		$this->order = $order;
-		$this->user = $user;
-		$this->limitToHome = $limitToHome;
 	}
 
-	/**
-	 * @return ISearchOperator
-	 */
-	public function getSearchOperation() {
+	public function getSearchOperation(): ISearchOperator {
 		return $this->searchOperation;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getLimit() {
+	public function getLimit(): int {
 		return $this->limit;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getOffset() {
+	public function getOffset(): int {
 		return $this->offset;
 	}
 
 	/**
 	 * @return ISearchOrder[]
 	 */
-	public function getOrder() {
+	public function getOrder(): array {
 		return $this->order;
 	}
 
-	/**
-	 * @return ?IUser
-	 */
-	public function getUser() {
+	public function getUser(): ?IUser {
 		return $this->user;
 	}
 

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitUser_LDAP
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\User_LDAP\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\User_LDAP\\' => 
+        'OCA\\User_LDAP\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -38,22 +38,24 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Command\\ShowConfig' => __DIR__ . '/..' . '/../lib/Command/ShowConfig.php',
         'OCA\\User_LDAP\\Command\\ShowRemnants' => __DIR__ . '/..' . '/../lib/Command/ShowRemnants.php',
         'OCA\\User_LDAP\\Command\\TestConfig' => __DIR__ . '/..' . '/../lib/Command/TestConfig.php',
+        'OCA\\User_LDAP\\Command\\TestUserSettings' => __DIR__ . '/..' . '/../lib/Command/TestUserSettings.php',
         'OCA\\User_LDAP\\Command\\UpdateUUID' => __DIR__ . '/..' . '/../lib/Command/UpdateUUID.php',
         'OCA\\User_LDAP\\Configuration' => __DIR__ . '/..' . '/../lib/Configuration.php',
         'OCA\\User_LDAP\\Connection' => __DIR__ . '/..' . '/../lib/Connection.php',
         'OCA\\User_LDAP\\ConnectionFactory' => __DIR__ . '/..' . '/../lib/ConnectionFactory.php',
         'OCA\\User_LDAP\\Controller\\ConfigAPIController' => __DIR__ . '/..' . '/../lib/Controller/ConfigAPIController.php',
         'OCA\\User_LDAP\\Controller\\RenewPasswordController' => __DIR__ . '/..' . '/../lib/Controller/RenewPasswordController.php',
+        'OCA\\User_LDAP\\Controller\\WizardController' => __DIR__ . '/..' . '/../lib/Controller/WizardController.php',
         'OCA\\User_LDAP\\DataCollector\\LdapDataCollector' => __DIR__ . '/..' . '/../lib/DataCollector/LdapDataCollector.php',
         'OCA\\User_LDAP\\Db\\GroupMembership' => __DIR__ . '/..' . '/../lib/Db/GroupMembership.php',
         'OCA\\User_LDAP\\Db\\GroupMembershipMapper' => __DIR__ . '/..' . '/../lib/Db/GroupMembershipMapper.php',
         'OCA\\User_LDAP\\Events\\GroupBackendRegistered' => __DIR__ . '/..' . '/../lib/Events/GroupBackendRegistered.php',
         'OCA\\User_LDAP\\Events\\UserBackendRegistered' => __DIR__ . '/..' . '/../lib/Events/UserBackendRegistered.php',
         'OCA\\User_LDAP\\Exceptions\\AttributeNotSet' => __DIR__ . '/..' . '/../lib/Exceptions/AttributeNotSet.php',
+        'OCA\\User_LDAP\\Exceptions\\ConfigurationIssueException' => __DIR__ . '/..' . '/../lib/Exceptions/ConfigurationIssueException.php',
         'OCA\\User_LDAP\\Exceptions\\ConstraintViolationException' => __DIR__ . '/..' . '/../lib/Exceptions/ConstraintViolationException.php',
         'OCA\\User_LDAP\\Exceptions\\NoMoreResults' => __DIR__ . '/..' . '/../lib/Exceptions/NoMoreResults.php',
         'OCA\\User_LDAP\\Exceptions\\NotOnLDAP' => __DIR__ . '/..' . '/../lib/Exceptions/NotOnLDAP.php',
-        'OCA\\User_LDAP\\FilesystemHelper' => __DIR__ . '/..' . '/../lib/FilesystemHelper.php',
         'OCA\\User_LDAP\\GroupPluginManager' => __DIR__ . '/..' . '/../lib/GroupPluginManager.php',
         'OCA\\User_LDAP\\Group_LDAP' => __DIR__ . '/..' . '/../lib/Group_LDAP.php',
         'OCA\\User_LDAP\\Group_Proxy' => __DIR__ . '/..' . '/../lib/Group_Proxy.php',
@@ -95,6 +97,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\User_LDAP\\PagedResults\\TLinkId' => __DIR__ . '/..' . '/../lib/PagedResults/TLinkId.php',
         'OCA\\User_LDAP\\Proxy' => __DIR__ . '/..' . '/../lib/Proxy.php',
+        'OCA\\User_LDAP\\Service\\BirthdateParserService' => __DIR__ . '/..' . '/../lib/Service/BirthdateParserService.php',
         'OCA\\User_LDAP\\Service\\UpdateGroupsService' => __DIR__ . '/..' . '/../lib/Service/UpdateGroupsService.php',
         'OCA\\User_LDAP\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\User_LDAP\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',
@@ -108,6 +111,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\User_LDAP' => __DIR__ . '/..' . '/../lib/User_LDAP.php',
         'OCA\\User_LDAP\\User_Proxy' => __DIR__ . '/..' . '/../lib/User_Proxy.php',
         'OCA\\User_LDAP\\Wizard' => __DIR__ . '/..' . '/../lib/Wizard.php',
+        'OCA\\User_LDAP\\WizardFactory' => __DIR__ . '/..' . '/../lib/WizardFactory.php',
         'OCA\\User_LDAP\\WizardResult' => __DIR__ . '/..' . '/../lib/WizardResult.php',
     );
 

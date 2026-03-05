@@ -1,30 +1,13 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\BackgroundJob;
+
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * Interface IJobList
@@ -47,6 +30,7 @@ namespace OCP\BackgroundJob;
  *
  * @since 7.0.0
  */
+#[Consumable(since: '7.0.0')]
 interface IJobList {
 	/**
 	 * Add a job to the list
@@ -55,7 +39,7 @@ interface IJobList {
 	 * @param mixed $argument The argument to be passed to $job->run() when the job is executed
 	 * @since 7.0.0
 	 */
-	public function add($job, $argument = null): void;
+	public function add(IJob|string $job, mixed $argument = null): void;
 
 	/**
 	 * Add a job to the list but only run it after the given timestamp
@@ -68,7 +52,7 @@ interface IJobList {
 	 * @param mixed $argument The serializable argument to be passed to $job->run() when the job is executed
 	 * @since 28.0.0
 	 */
-	public function scheduleAfter(string $job, int $runAfter, $argument = null): void;
+	public function scheduleAfter(string $job, int $runAfter, mixed $argument = null): void;
 
 	/**
 	 * Remove a job from the list
@@ -77,7 +61,15 @@ interface IJobList {
 	 * @param mixed $argument
 	 * @since 7.0.0
 	 */
-	public function remove($job, $argument = null): void;
+	public function remove(IJob|string $job, mixed $argument = null): void;
+
+	/**
+	 * Remove a job from the list by id
+	 *
+	 * @since 30.0.0
+	 * @since 33.0.0 Parameter $id changed from int to string
+	 */
+	public function removeById(string $id): void;
 
 	/**
 	 * check if a job is in the list
@@ -86,7 +78,7 @@ interface IJobList {
 	 * @param mixed $argument
 	 * @since 7.0.0
 	 */
-	public function has($job, $argument): bool;
+	public function has(IJob|string $job, mixed $argument): bool;
 
 	/**
 	 * Get jobs matching the search
@@ -96,7 +88,7 @@ interface IJobList {
 	 * @since 25.0.0
 	 * @deprecated 26.0.0 Use getJobsIterator instead to avoid duplicated job objects
 	 */
-	public function getJobs($job, ?int $limit, int $offset): array;
+	public function getJobs(IJob|string|null $job, ?int $limit, int $offset): array;
 
 	/**
 	 * Get jobs matching the search
@@ -105,24 +97,29 @@ interface IJobList {
 	 * @return iterable<IJob>
 	 * @since 26.0.0
 	 */
-	public function getJobsIterator($job, ?int $limit, int $offset): iterable;
+	public function getJobsIterator(IJob|string|null $job, ?int $limit, int $offset): iterable;
 
 	/**
-	 * get the next job in the list
+	 * Get the next job in the list
 	 *
-	 * @since 7.0.0 - In 24.0.0 parameter $onlyTimeSensitive got added
+	 * @param bool $onlyTimeSensitive Whether we get only time sensitive jobs or not
+	 * @param class-string<IJob>[]|null $jobClasses List of job classes to restrict which next job we get
+	 * @return ?IJob the next job to run. Beware that this object may be a singleton and may be modified by the next call to buildJob.
+	 * @since 7.0.0 - In 24.0.0 parameter $onlyTimeSensitive got added; In 30.0.0 parameter $jobClasses got added
 	 */
-	public function getNext(bool $onlyTimeSensitive = false): ?IJob;
+	public function getNext(bool $onlyTimeSensitive = false, ?array $jobClasses = null): ?IJob;
 
 	/**
 	 * @since 7.0.0
+	 * @since 33.0.0 Parameter $id changed from int to string
 	 */
-	public function getById(int $id): ?IJob;
+	public function getById(string $id): ?IJob;
 
 	/**
 	 * @since 23.0.0
+	 * @since 33.0.0 Parameter $id changed from int to string
 	 */
-	public function getDetailsById(int $id): ?array;
+	public function getDetailsById(string $id): ?array;
 
 	/**
 	 * set the job that was last ran to the current time
@@ -163,9 +160,17 @@ interface IJobList {
 	 * Checks whether a job of the passed class was reserved to run
 	 * in the last 6h
 	 *
-	 * @param string|null $className
+	 * @param class-string<IJob>|null $className
 	 * @return bool
 	 * @since 27.0.0
 	 */
 	public function hasReservedJob(?string $className): bool;
+
+	/**
+	 * Returns a count of jobs per Job class
+	 *
+	 * @return list<array{class:class-string<IJob>, count:int}>
+	 * @since 30.0.0
+	 */
+	public function countByClass(): array;
 }

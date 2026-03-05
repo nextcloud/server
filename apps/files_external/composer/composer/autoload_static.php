@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFiles_External
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Files_External\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Files_External\\' => 
+        'OCA\\Files_External\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -29,6 +29,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Command\\Config' => __DIR__ . '/..' . '/../lib/Command/Config.php',
         'OCA\\Files_External\\Command\\Create' => __DIR__ . '/..' . '/../lib/Command/Create.php',
         'OCA\\Files_External\\Command\\Delete' => __DIR__ . '/..' . '/../lib/Command/Delete.php',
+        'OCA\\Files_External\\Command\\Dependencies' => __DIR__ . '/..' . '/../lib/Command/Dependencies.php',
         'OCA\\Files_External\\Command\\Export' => __DIR__ . '/..' . '/../lib/Command/Export.php',
         'OCA\\Files_External\\Command\\Import' => __DIR__ . '/..' . '/../lib/Command/Import.php',
         'OCA\\Files_External\\Command\\ListCommand' => __DIR__ . '/..' . '/../lib/Command/ListCommand.php',
@@ -37,6 +38,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Command\\Scan' => __DIR__ . '/..' . '/../lib/Command/Scan.php',
         'OCA\\Files_External\\Command\\StorageAuthBase' => __DIR__ . '/..' . '/../lib/Command/StorageAuthBase.php',
         'OCA\\Files_External\\Command\\Verify' => __DIR__ . '/..' . '/../lib/Command/Verify.php',
+        'OCA\\Files_External\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\Files_External\\Config\\ConfigAdapter' => __DIR__ . '/..' . '/../lib/Config/ConfigAdapter.php',
         'OCA\\Files_External\\Config\\ExternalMountPoint' => __DIR__ . '/..' . '/../lib/Config/ExternalMountPoint.php',
         'OCA\\Files_External\\Config\\IConfigHandler' => __DIR__ . '/..' . '/../lib/Config/IConfigHandler.php',
@@ -50,14 +52,16 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Controller\\StoragesController' => __DIR__ . '/..' . '/../lib/Controller/StoragesController.php',
         'OCA\\Files_External\\Controller\\UserGlobalStoragesController' => __DIR__ . '/..' . '/../lib/Controller/UserGlobalStoragesController.php',
         'OCA\\Files_External\\Controller\\UserStoragesController' => __DIR__ . '/..' . '/../lib/Controller/UserStoragesController.php',
+        'OCA\\Files_External\\Event\\StorageCreatedEvent' => __DIR__ . '/..' . '/../lib/Event/StorageCreatedEvent.php',
+        'OCA\\Files_External\\Event\\StorageDeletedEvent' => __DIR__ . '/..' . '/../lib/Event/StorageDeletedEvent.php',
+        'OCA\\Files_External\\Event\\StorageUpdatedEvent' => __DIR__ . '/..' . '/../lib/Event/StorageUpdatedEvent.php',
+        'OCA\\Files_External\\Lib\\ApplicableHelper' => __DIR__ . '/..' . '/../lib/Lib/ApplicableHelper.php',
         'OCA\\Files_External\\Lib\\Auth\\AmazonS3\\AccessKey' => __DIR__ . '/..' . '/../lib/Lib/Auth/AmazonS3/AccessKey.php',
         'OCA\\Files_External\\Lib\\Auth\\AuthMechanism' => __DIR__ . '/..' . '/../lib/Lib/Auth/AuthMechanism.php',
         'OCA\\Files_External\\Lib\\Auth\\Builtin' => __DIR__ . '/..' . '/../lib/Lib/Auth/Builtin.php',
         'OCA\\Files_External\\Lib\\Auth\\IUserProvided' => __DIR__ . '/..' . '/../lib/Lib/Auth/IUserProvided.php',
         'OCA\\Files_External\\Lib\\Auth\\InvalidAuth' => __DIR__ . '/..' . '/../lib/Lib/Auth/InvalidAuth.php',
         'OCA\\Files_External\\Lib\\Auth\\NullMechanism' => __DIR__ . '/..' . '/../lib/Lib/Auth/NullMechanism.php',
-        'OCA\\Files_External\\Lib\\Auth\\OAuth1\\OAuth1' => __DIR__ . '/..' . '/../lib/Lib/Auth/OAuth1/OAuth1.php',
-        'OCA\\Files_External\\Lib\\Auth\\OAuth2\\OAuth2' => __DIR__ . '/..' . '/../lib/Lib/Auth/OAuth2/OAuth2.php',
         'OCA\\Files_External\\Lib\\Auth\\OpenStack\\OpenStackV2' => __DIR__ . '/..' . '/../lib/Lib/Auth/OpenStack/OpenStackV2.php',
         'OCA\\Files_External\\Lib\\Auth\\OpenStack\\OpenStackV3' => __DIR__ . '/..' . '/../lib/Lib/Auth/OpenStack/OpenStackV3.php',
         'OCA\\Files_External\\Lib\\Auth\\OpenStack\\Rackspace' => __DIR__ . '/..' . '/../lib/Lib/Auth/OpenStack/Rackspace.php',
@@ -111,6 +115,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Lib\\Storage\\SMB' => __DIR__ . '/..' . '/../lib/Lib/Storage/SMB.php',
         'OCA\\Files_External\\Lib\\Storage\\StreamWrapper' => __DIR__ . '/..' . '/../lib/Lib/Storage/StreamWrapper.php',
         'OCA\\Files_External\\Lib\\Storage\\Swift' => __DIR__ . '/..' . '/../lib/Lib/Storage/Swift.php',
+        'OCA\\Files_External\\Lib\\Storage\\SystemBridge' => __DIR__ . '/..' . '/../lib/Lib/Storage/SystemBridge.php',
         'OCA\\Files_External\\Lib\\VisibilityTrait' => __DIR__ . '/..' . '/../lib/Lib/VisibilityTrait.php',
         'OCA\\Files_External\\Listener\\GroupDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/GroupDeletedListener.php',
         'OCA\\Files_External\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
@@ -120,6 +125,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Migration\\Version1011Date20200630192246' => __DIR__ . '/..' . '/../lib/Migration/Version1011Date20200630192246.php',
         'OCA\\Files_External\\Migration\\Version1015Date20211104103506' => __DIR__ . '/..' . '/../lib/Migration/Version1015Date20211104103506.php',
         'OCA\\Files_External\\Migration\\Version1016Date20220324154536' => __DIR__ . '/..' . '/../lib/Migration/Version1016Date20220324154536.php',
+        'OCA\\Files_External\\Migration\\Version1025Date20250228162604' => __DIR__ . '/..' . '/../lib/Migration/Version1025Date20250228162604.php',
         'OCA\\Files_External\\Migration\\Version22000Date20210216084416' => __DIR__ . '/..' . '/../lib/Migration/Version22000Date20210216084416.php',
         'OCA\\Files_External\\MountConfig' => __DIR__ . '/..' . '/../lib/MountConfig.php',
         'OCA\\Files_External\\NotFoundException' => __DIR__ . '/..' . '/../lib/NotFoundException.php',
@@ -129,11 +135,13 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Service\\GlobalStoragesService' => __DIR__ . '/..' . '/../lib/Service/GlobalStoragesService.php',
         'OCA\\Files_External\\Service\\ImportLegacyStoragesService' => __DIR__ . '/..' . '/../lib/Service/ImportLegacyStoragesService.php',
         'OCA\\Files_External\\Service\\LegacyStoragesService' => __DIR__ . '/..' . '/../lib/Service/LegacyStoragesService.php',
+        'OCA\\Files_External\\Service\\MountCacheService' => __DIR__ . '/..' . '/../lib/Service/MountCacheService.php',
         'OCA\\Files_External\\Service\\StoragesService' => __DIR__ . '/..' . '/../lib/Service/StoragesService.php',
         'OCA\\Files_External\\Service\\UserGlobalStoragesService' => __DIR__ . '/..' . '/../lib/Service/UserGlobalStoragesService.php',
         'OCA\\Files_External\\Service\\UserStoragesService' => __DIR__ . '/..' . '/../lib/Service/UserStoragesService.php',
         'OCA\\Files_External\\Service\\UserTrait' => __DIR__ . '/..' . '/../lib/Service/UserTrait.php',
         'OCA\\Files_External\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
+        'OCA\\Files_External\\Settings\\CommonSettingsTrait' => __DIR__ . '/..' . '/../lib/Settings/CommonSettingsTrait.php',
         'OCA\\Files_External\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
         'OCA\\Files_External\\Settings\\PersonalSection' => __DIR__ . '/..' . '/../lib/Settings/PersonalSection.php',
         'OCA\\Files_External\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',

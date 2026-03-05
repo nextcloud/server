@@ -1,29 +1,12 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Comments\Activity;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
@@ -35,8 +18,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-	protected ?IL10N $l = null;
-
 	public function __construct(
 		protected IFactory $languageFactory,
 		protected IURLGenerator $url,
@@ -51,17 +32,17 @@ class Provider implements IProvider {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'comments') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
-		$this->l = $this->languageFactory->get('comments', $language);
-
 		if ($event->getSubject() === 'add_comment_subject') {
+			$l = $this->languageFactory->get('comments', $language);
+
 			$this->parseMessage($event);
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.png')));
@@ -71,67 +52,67 @@ class Provider implements IProvider {
 
 			if ($this->activityManager->isFormattingFilteredObject()) {
 				try {
-					return $this->parseShortVersion($event);
-				} catch (\InvalidArgumentException $e) {
+					return $this->parseShortVersion($event, $l);
+				} catch (UnknownActivityException) {
 					// Ignore and simply use the long version...
 				}
 			}
 
-			return $this->parseLongVersion($event);
-		} else {
-			throw new \InvalidArgumentException();
+			return $this->parseLongVersion($event, $l);
 		}
+		throw new UnknownActivityException();
+
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
-	protected function parseShortVersion(IEvent $event): IEvent {
+	protected function parseShortVersion(IEvent $event, IL10N $l): IEvent {
 		$subjectParameters = $this->getSubjectParameters($event);
 
 		if ($event->getSubject() === 'add_comment_subject') {
 			if ($subjectParameters['actor'] === $this->activityManager->getCurrentUserId()) {
-				$event->setRichSubject($this->l->t('You commented'), []);
+				$event->setRichSubject($l->t('You commented'), []);
 			} else {
 				$author = $this->generateUserParameter($subjectParameters['actor']);
-				$event->setRichSubject($this->l->t('{author} commented'), [
+				$event->setRichSubject($l->t('{author} commented'), [
 					'author' => $author,
 				]);
 			}
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		return $event;
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
-	protected function parseLongVersion(IEvent $event): IEvent {
+	protected function parseLongVersion(IEvent $event, IL10N $l): IEvent {
 		$subjectParameters = $this->getSubjectParameters($event);
 
 		if ($event->getSubject() === 'add_comment_subject') {
 			if ($subjectParameters['actor'] === $this->activityManager->getCurrentUserId()) {
-				$event->setParsedSubject($this->l->t('You commented on %1$s', [
+				$event->setParsedSubject($l->t('You commented on %1$s', [
 					$subjectParameters['filePath'],
 				]))
-					->setRichSubject($this->l->t('You commented on {file}'), [
+					->setRichSubject($l->t('You commented on {file}'), [
 						'file' => $this->generateFileParameter($subjectParameters['fileId'], $subjectParameters['filePath']),
 					]);
 			} else {
 				$author = $this->generateUserParameter($subjectParameters['actor']);
-				$event->setParsedSubject($this->l->t('%1$s commented on %2$s', [
+				$event->setParsedSubject($l->t('%1$s commented on %2$s', [
 					$author['name'],
 					$subjectParameters['filePath'],
 				]))
-					->setRichSubject($this->l->t('{author} commented on {file}'), [
+					->setRichSubject($l->t('{author} commented on {file}'), [
 						'author' => $author,
 						'file' => $this->generateFileParameter($subjectParameters['fileId'], $subjectParameters['filePath']),
 					]);
 			}
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		return $event;
@@ -167,7 +148,7 @@ class Provider implements IProvider {
 		$commentId = $messageParameters['commentId'] ?? $messageParameters[0];
 
 		try {
-			$comment = $this->commentsManager->get((string) $commentId);
+			$comment = $this->commentsManager->get((string)$commentId);
 			$message = $comment->getMessage();
 
 			$mentionCount = 1;
@@ -192,10 +173,13 @@ class Provider implements IProvider {
 		}
 	}
 
+	/**
+	 * @return array<string, string>
+	 */
 	protected function generateFileParameter(int $id, string $path): array {
 		return [
 			'type' => 'file',
-			'id' => $id,
+			'id' => (string)$id,
 			'name' => basename($path),
 			'path' => $path,
 			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $id]),

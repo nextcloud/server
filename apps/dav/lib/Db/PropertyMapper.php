@@ -2,30 +2,15 @@
 
 declare(strict_types=1);
 
-/*
- * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Db;
 
 use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
@@ -54,4 +39,47 @@ class PropertyMapper extends QBMapper {
 		return $this->findEntities($selectQb);
 	}
 
+	/**
+	 * @param array<string, string[]> $calendars
+	 * @return Property[]
+	 * @throws \OCP\DB\Exception
+	 */
+	public function findPropertiesByPathsAndUsers(array $calendars): array {
+		if (empty($calendars)) {
+			return [];
+		}
+		$selectQb = $this->db->getQueryBuilder();
+		$selectQb->select('*')
+			->from(self::TABLE_NAME);
+
+		foreach ($calendars as $user => $paths) {
+			$selectQb->orWhere(
+				$selectQb->expr()->andX(
+					$selectQb->expr()->eq('userid', $selectQb->createNamedParameter($user)),
+					$selectQb->expr()->in('propertypath', $selectQb->createNamedParameter($paths, IQueryBuilder::PARAM_STR_ARRAY)),
+				)
+			);
+		}
+
+		return $this->findEntities($selectQb);
+	}
+
+	/**
+	 * @param string[] $calendars
+	 * @param string[] $allowedProperties
+	 * @return Property[]
+	 * @throws \OCP\DB\Exception
+	 */
+	public function findPropertiesByPaths(array $calendars, array $allowedProperties = []): array {
+		$selectQb = $this->db->getQueryBuilder();
+		$selectQb->select('*')
+			->from(self::TABLE_NAME)
+			->where($selectQb->expr()->in('propertypath', $selectQb->createNamedParameter($calendars, IQueryBuilder::PARAM_STR_ARRAY)));
+
+		if ($allowedProperties) {
+			$selectQb->andWhere($selectQb->expr()->in('propertyname', $selectQb->createNamedParameter($allowedProperties, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+
+		return $this->findEntities($selectQb);
+	}
 }

@@ -1,46 +1,35 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\LDAP;
+use OCP\IConfig;
+use OCP\Profiler\IProfiler;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class LDAPTest extends TestCase {
-	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
-	private $ldap;
+	private LDAP&MockObject $ldap;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->ldap = $this->getMockBuilder(LDAP::class)
-			->setMethods(['invokeLDAPMethod'])
+			->onlyMethods(['invokeLDAPMethod'])
+			->setConstructorArgs([
+				$this->createMock(IProfiler::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(LoggerInterface::class),
+			])
 			->getMock();
 	}
 
-	public function errorProvider() {
+	public static function errorProvider(): array {
 		return [
 			[
 				'ldap_search(): Partial search results returned: Sizelimit exceeded at /srv/http/nextcloud/master/apps/user_ldap/lib/LDAP.php#292',
@@ -52,14 +41,10 @@ class LDAPTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param string $errorMessage
-	 * @param bool $passThrough
-	 * @dataProvider errorProvider
-	 */
-	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'errorProvider')]
+	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough): void {
 		$wasErrorHandlerCalled = false;
-		$errorHandler = function ($number, $message, $file, $line) use (&$wasErrorHandlerCalled) {
+		$errorHandler = function ($number, $message, $file, $line) use (&$wasErrorHandlerCalled): void {
 			$wasErrorHandlerCalled = true;
 		};
 
@@ -69,7 +54,7 @@ class LDAPTest extends TestCase {
 			->expects($this->once())
 			->method('invokeLDAPMethod')
 			->with('search', $this->anything(), $this->anything(), $this->anything(), $this->anything(), $this->anything())
-			->willReturnCallback(function () use ($errorMessage) {
+			->willReturnCallback(function () use ($errorMessage): void {
 				trigger_error($errorMessage);
 			});
 
@@ -80,7 +65,7 @@ class LDAPTest extends TestCase {
 		restore_error_handler();
 	}
 
-	public function testModReplace() {
+	public function testModReplace(): void {
 		$link = $this->createMock(LDAP::class);
 		$userDN = 'CN=user';
 		$password = 'MyPassword';

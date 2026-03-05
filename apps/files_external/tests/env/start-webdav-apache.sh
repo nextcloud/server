@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-# ownCloud
+# SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 # This script start a docker container to test the files_external tests
 # against. It will also change the files_external config to use the docker
@@ -10,10 +12,6 @@
 # be set up using MySQL instead of SQLite.
 #
 # Set environment variable DEBUG to print config file
-#
-# @author Morris Jobke
-# @copyright 2014 Morris Jobke <hey@morrisjobke.de>
-# @copyright 2016 Vincent Petry <pvince81@owncloud.com>
 #
 
 if ! command -v docker >/dev/null 2>&1; then

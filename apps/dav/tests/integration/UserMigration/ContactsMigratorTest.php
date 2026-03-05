@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2022 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Tests\integration\UserMigration;
@@ -39,9 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 use function scandir;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ContactsMigratorTest extends TestCase {
 
 	private IUserManager $userManager;
@@ -61,7 +42,7 @@ class ContactsMigratorTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function dataAssets(): array {
+	public static function dataAssets(): array {
 		return array_map(
 			function (string $filename) {
 				$vCardSplitter = new VCardSplitter(
@@ -108,11 +89,11 @@ class ContactsMigratorTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataAssets
 	 *
 	 * @param array{displayName: string, description?: string} $importMetadata
 	 * @param VCard[] $importCards
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAssets')]
 	public function testImportExportAsset(string $userId, string $filename, string $initialAddressBookUri, array $importMetadata, array $importCards): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 
@@ -131,20 +112,30 @@ class ContactsMigratorTest extends TestCase {
 		$exportMetadata = array_filter(['displayName' => $displayName, 'description' => $description]);
 
 		$this->assertEquals($importMetadata, $exportMetadata);
-		$this->assertEquals(count($importCards), count($exportCards));
+		$this->assertSameSize($importCards, $exportCards);
 
-		for ($i = 0; $i < count($importCards); ++$i) {
-			$this->assertNotEqualsCanonicalizing(
-				$this->getPropertiesChangedOnImport($importCards[$i]),
-				$this->getPropertiesChangedOnImport($exportCards[$i]),
-			);
+		$importProperties = [];
+		$exportProperties = [];
+		for ($i = 0, $iMax = count($importCards); $i < $iMax; ++$i) {
+			$importProperties[] = $this->getPropertiesChangedOnImport($importCards[$i]);
+			$exportProperties[] = $this->getPropertiesChangedOnImport($exportCards[$i]);
 		}
 
-		for ($i = 0; $i < count($importCards); ++$i) {
-			$this->assertEqualsCanonicalizing(
-				$this->getProperties($importCards[$i]),
-				$this->getProperties($exportCards[$i]),
-			);
+		$this->assertNotEqualsCanonicalizing(
+			$importProperties,
+			$exportProperties,
+		);
+
+		$importProperties = [];
+		$exportProperties = [];
+		for ($i = 0, $iMax = count($importCards); $i < $iMax; ++$i) {
+			$importProperties[] = $this->getProperties($importCards[$i]);
+			$exportProperties[] = $this->getProperties($exportCards[$i]);
 		}
+
+		$this->assertEqualsCanonicalizing(
+			$importProperties,
+			$exportProperties,
+		);
 	}
 }

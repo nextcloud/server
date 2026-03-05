@@ -1,52 +1,44 @@
 <!--
-  - @copyright 2023 Marco Ambrosini <marcoambrosini@proton.me>
-  -
-  - @author Marco Ambrosini <marcoambrosini@proton.me>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-	<NcPopover :shown="opened"
+	<NcPopover
+		:shown="opened"
 		@show="opened = true"
 		@hide="opened = false">
 		<template #trigger>
 			<slot ref="popoverTrigger" name="trigger" />
 		</template>
 		<div class="searchable-list__wrapper">
-			<NcTextField :value.sync="searchTerm"
+			<NcTextField
+				v-model="searchTerm"
 				:label="labelText"
 				trailing-button-icon="close"
 				:show-trailing-button="searchTerm !== ''"
 				@update:value="searchTermChanged"
 				@trailing-button-click="clearSearch">
-				<Magnify :size="20" />
+				<IconMagnify :size="20" />
 			</NcTextField>
 			<ul v-if="filteredList.length > 0" class="searchable-list__list">
-				<li v-for="element in filteredList"
+				<li
+					v-for="element in filteredList"
 					:key="element.id"
 					:title="element.displayName"
 					role="button">
-					<NcButton alignment="start"
-						type="tertiary"
+					<NcButton
+						alignment="start"
+						variant="tertiary"
 						:wide="true"
 						@click="itemSelected(element)">
 						<template #icon>
-							<NcAvatar :user="element.user" :show-user-status="false" :hide-favorite="false" />
+							<NcAvatar v-if="element.isUser" :user="element.user" hide-user-status />
+							<NcAvatar
+								v-else
+								:is-no-user="true"
+								:display-name="element.displayName"
+								hide-user-status />
 						</template>
 						{{ element.displayName }}
 					</NcButton>
@@ -55,7 +47,7 @@
 			<div v-else class="searchable-list__empty-content">
 				<NcEmptyContent :name="emptyContentText">
 					<template #icon>
-						<AlertCircleOutline />
+						<IconAlertCircleOutline />
 					</template>
 				</NcEmptyContent>
 			</div>
@@ -64,22 +56,25 @@
 </template>
 
 <script>
-import { NcPopover, NcTextField, NcAvatar, NcEmptyContent, NcButton } from '@nextcloud/vue'
-
-import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
-import Magnify from 'vue-material-design-icons/Magnify.vue'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcPopover from '@nextcloud/vue/components/NcPopover'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 
 export default {
 	name: 'SearchableList',
 
 	components: {
+		IconMagnify,
+		IconAlertCircleOutline,
+		NcAvatar,
+		NcButton,
+		NcEmptyContent,
 		NcPopover,
 		NcTextField,
-		Magnify,
-		AlertCircleOutline,
-		NcAvatar,
-		NcEmptyContent,
-		NcButton,
 	},
 
 	props: {
@@ -113,7 +108,7 @@ export default {
 				if (!this.searchTerm.toLowerCase().length) {
 					return true
 				}
-				return ['displayName'].some(prop => element[prop].toLowerCase().includes(this.searchTerm.toLowerCase()))
+				return ['displayName'].some((prop) => element[prop].toLowerCase().includes(this.searchTerm.toLowerCase()))
 			})
 		},
 	},
@@ -122,11 +117,13 @@ export default {
 		clearSearch() {
 			this.searchTerm = ''
 		},
+
 		itemSelected(element) {
 			this.$emit('item-selected', element)
 			this.clearSearch()
 			this.opened = false
 		},
+
 		searchTermChanged(term) {
 			this.$emit('search-term-change', term)
 		},

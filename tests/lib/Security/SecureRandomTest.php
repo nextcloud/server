@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security;
@@ -14,7 +13,7 @@ namespace Test\Security;
 use OC\Security\SecureRandom;
 
 class SecureRandomTest extends \Test\TestCase {
-	public function stringGenerationProvider() {
+	public static function stringGenerationProvider(): array {
 		return [
 			[1, 1],
 			[128, 128],
@@ -25,7 +24,7 @@ class SecureRandomTest extends \Test\TestCase {
 		];
 	}
 
-	public static function charCombinations() {
+	public static function charCombinations(): array {
 		return [
 			['CHAR_LOWER', '[a-z]'],
 			['CHAR_UPPER', '[A-Z]'],
@@ -38,56 +37,46 @@ class SecureRandomTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->rng = new \OC\Security\SecureRandom();
+		$this->rng = new SecureRandom();
 	}
 
-	/**
-	 * @dataProvider stringGenerationProvider
-	 */
-	public function testGetLowStrengthGeneratorLength($length, $expectedLength) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('stringGenerationProvider')]
+	public function testGetLowStrengthGeneratorLength($length, $expectedLength): void {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
 	}
 
-	/**
-	 * @dataProvider stringGenerationProvider
-	 */
-	public function testMediumLowStrengthGeneratorLength($length, $expectedLength) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('stringGenerationProvider')]
+	public function testMediumLowStrengthGeneratorLength($length, $expectedLength): void {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
 	}
 
-	/**
-	 * @dataProvider stringGenerationProvider
-	 */
-	public function testUninitializedGenerate($length, $expectedLength) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('stringGenerationProvider')]
+	public function testUninitializedGenerate($length, $expectedLength): void {
 		$this->assertEquals($expectedLength, strlen($this->rng->generate($length)));
 	}
 
-	/**
-	 * @dataProvider charCombinations
-	 */
-	public function testScheme($charName, $chars) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('charCombinations')]
+	public function testScheme($charName, $chars): void {
 		$generator = $this->rng;
 		$scheme = constant('OCP\Security\ISecureRandom::' . $charName);
 		$randomString = $generator->generate(100, $scheme);
-		$matchesRegex = preg_match('/^'.$chars.'+$/', $randomString);
+		$matchesRegex = preg_match('/^' . $chars . '+$/', $randomString);
 		$this->assertSame(1, $matchesRegex);
 	}
 
-	public static function invalidLengths() {
+	public static function invalidLengths(): array {
 		return [
 			[0],
 			[-1],
 		];
 	}
 
-	/**
-	 * @dataProvider invalidLengths
-	 */
-	public function testInvalidLengths($length) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidLengths')]
+	public function testInvalidLengths($length): void {
 		$this->expectException(\LengthException::class);
 		$generator = $this->rng;
 		$generator->generate($length);

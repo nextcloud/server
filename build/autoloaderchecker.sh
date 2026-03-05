@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 COMPOSER_COMMAND="php composer.phar"
 
 if [ -e "composer.phar" ]
@@ -19,8 +22,8 @@ COMPOSER_MAJOR_VERSION=$(echo "$COMPOSER_VERSION" | cut -d"." -f1)
 COMPOSER_MINOR_VERSION=$(echo "$COMPOSER_VERSION" | cut -d"." -f2)
 COMPOSER_PATCH_VERSION=$(echo "$COMPOSER_VERSION" | cut -d"." -f3)
 
-if ! [ "$COMPOSER_MAJOR_VERSION" -gt 2 -o \( "$COMPOSER_MAJOR_VERSION" -eq 2 -a "$COMPOSER_MINOR_VERSION" -ge 6 \) -o \( "$COMPOSER_MAJOR_VERSION" -eq 2 -a "$COMPOSER_MINOR_VERSION" -eq 5 -a "$COMPOSER_PATCH_VERSION" -ge 5 \) ]; then
-	echo "composer version >= 2.5.5 required. Version found: $COMPOSER_VERSION" >&2
+if ! [ "$COMPOSER_MAJOR_VERSION" -gt 2 -o \( "$COMPOSER_MAJOR_VERSION" -eq 2 -a "$COMPOSER_MINOR_VERSION" -ge 10 \) -o \( "$COMPOSER_MAJOR_VERSION" -eq 2 -a "$COMPOSER_MINOR_VERSION" -eq 9 -a "$COMPOSER_PATCH_VERSION" -ge 2 \) ]; then
+	echo "composer version >= 2.9.2 required. Version found: $COMPOSER_VERSION" >&2
 	exit 1
 fi
 
@@ -30,6 +33,13 @@ REPODIR=`git rev-parse --show-toplevel`
 echo
 echo "Regenerating main autoloader"
 $COMPOSER_COMMAND dump-autoload -d $REPODIR
+
+FOUND_COMPOSER_BIN=$(grep --recursive --fixed-strings 'Bamarni\\Composer\\Bin' $REPODIR/lib/composer/composer/)
+if [ -n "$FOUND_COMPOSER_BIN" ]; then
+    echo "The main autoloader contains the composer bin plugin"
+    echo "Run composer again with --no-dev and commit the result"
+    exit 1
+fi
 
 for app in ${REPODIR}/apps/*; do
 	if git check-ignore ${app} -q ; then
@@ -42,6 +52,7 @@ for app in ${REPODIR}/apps/*; do
 		echo "Regenerating composer files for ${app}"
 		$COMPOSER_COMMAND i --no-dev -d ${app}/composer || exit 1
 		$COMPOSER_COMMAND dump-autoload -d ${app}/composer || exit 1
+		git checkout ${app}/composer/composer/installed.php
     fi
 done
 

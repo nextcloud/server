@@ -1,33 +1,19 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2017, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CalDAV\CachedSubscription;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\Federation\FederatedCalendar;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Outbox;
@@ -35,25 +21,18 @@ use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Schedule\Inbox;
+use Sabre\CalDAV\Subscriptions\Subscription;
+use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\MkCol;
 use Test\TestCase;
 
 class CalendarHomeTest extends TestCase {
-
-	/** @var CalDavBackend | MockObject */
-	private $backend;
-
-	/** @var array */
-	private $principalInfo = [];
-
-	/** @var PluginManager */
-	private $pluginManager;
-
-	/** @var CalendarHome */
-	private $calendarHome;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
+	private CalDavBackend&MockObject $backend;
+	private array $principalInfo = [];
+	private PluginManager&MockObject $pluginManager;
+	private LoggerInterface&MockObject $logger;
+	private FederatedCalendarFactory&MockObject $federatedCalendarFactory;
+	private CalendarHome $calendarHome;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -64,22 +43,24 @@ class CalendarHomeTest extends TestCase {
 		];
 		$this->pluginManager = $this->createMock(PluginManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->federatedCalendarFactory = $this->createMock(FederatedCalendarFactory::class);
 
 		$this->calendarHome = new CalendarHome(
 			$this->backend,
 			$this->principalInfo,
-			$this->logger
+			$this->logger,
+			$this->federatedCalendarFactory,
+			false
 		);
 
 		// Replace PluginManager with our mock
 		$reflection = new \ReflectionClass($this->calendarHome);
 		$reflectionProperty = $reflection->getProperty('pluginManager');
-		$reflectionProperty->setAccessible(true);
 		$reflectionProperty->setValue($this->calendarHome, $this->pluginManager);
 	}
 
 	public function testCreateCalendarValidName(): void {
-		/** @var MkCol | MockObject $mkCol */
+		/** @var MkCol&MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$mkCol->method('getResourceType')
@@ -99,7 +80,7 @@ class CalendarHomeTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 
-		/** @var MkCol | MockObject $mkCol */
+		/** @var MkCol&MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$this->calendarHome->createExtendedCollection('contact_birthdays', $mkCol);
@@ -109,7 +90,7 @@ class CalendarHomeTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 
-		/** @var MkCol | MockObject $mkCol */
+		/** @var MkCol&MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$this->calendarHome->createExtendedCollection('app-generated--example--foo-1', $mkCol);
@@ -119,6 +100,12 @@ class CalendarHomeTest extends TestCase {
 		$this->backend
 			->expects(self::once())
 			->method('getCalendarsForUser')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
+			->method('getFederatedCalendarsForUser')
 			->with('user-principal-123')
 			->willReturn([]);
 
@@ -174,6 +161,10 @@ class CalendarHomeTest extends TestCase {
 			->willReturn([]);
 
 		$this->backend
+			->expects(self::never())
+			->method('getFederatedCalendarsForUser');
+
+		$this->backend
 			->expects(self::once())
 			->method('getSubscriptionsForUser')
 			->with('user-principal-123')
@@ -201,6 +192,10 @@ class CalendarHomeTest extends TestCase {
 			->method('getCalendarsForUser')
 			->with('user-principal-123')
 			->willReturn([]);
+
+		$this->backend
+			->expects(self::never())
+			->method('getFederatedCalendarsForUser');
 
 		$this->backend
 			->expects(self::once())
@@ -248,5 +243,191 @@ class CalendarHomeTest extends TestCase {
 
 		$actual = $this->calendarHome->getChild('app-generated--calendar_plugin_2--calendar-uri-from-backend');
 		$this->assertEquals($externalCalendarMock, $actual);
+	}
+
+	public function testGetChildrenSubscriptions(): void {
+		$this->backend
+			->expects(self::once())
+			->method('getCalendarsForUser')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
+			->method('getFederatedCalendarsForUser')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('user-principal-123')
+			->willReturn([
+				[
+					'id' => 'subscription-1',
+					'uri' => 'subscription-1',
+					'principaluri' => 'user-principal-123',
+					'source' => 'https://localhost/subscription-1',
+					// A subscription array has actually more properties.
+				],
+				[
+					'id' => 'subscription-2',
+					'uri' => 'subscription-2',
+					'principaluri' => 'user-principal-123',
+					'source' => 'https://localhost/subscription-2',
+					// A subscription array has actually more properties.
+				]
+			]);
+
+		/*
+		 * @FIXME: PluginManager should be injected via constructor.
+		 */
+
+		$pluginManager = $this->createMock(PluginManager::class);
+		$pluginManager
+			->expects(self::once())
+			->method('getCalendarPlugins')
+			->with()
+			->willReturn([]);
+
+		$calendarHome = new CalendarHome(
+			$this->backend,
+			$this->principalInfo,
+			$this->logger,
+			$this->federatedCalendarFactory,
+			false
+		);
+
+		$reflection = new \ReflectionClass($calendarHome);
+		$reflectionProperty = $reflection->getProperty('pluginManager');
+		$reflectionProperty->setValue($calendarHome, $pluginManager);
+
+		$actual = $calendarHome->getChildren();
+
+		$this->assertCount(5, $actual);
+		$this->assertInstanceOf(Inbox::class, $actual[0]);
+		$this->assertInstanceOf(Outbox::class, $actual[1]);
+		$this->assertInstanceOf(TrashbinHome::class, $actual[2]);
+		$this->assertInstanceOf(Subscription::class, $actual[3]);
+		$this->assertInstanceOf(Subscription::class, $actual[4]);
+	}
+
+	public function testGetChildrenCachedSubscriptions(): void {
+		$this->backend
+			->expects(self::once())
+			->method('getCalendarsForUser')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
+			->method('getFederatedCalendarsForUser')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('user-principal-123')
+			->willReturn([
+				[
+					'id' => 'subscription-1',
+					'uri' => 'subscription-1',
+					'principaluris' => 'user-principal-123',
+					'source' => 'https://localhost/subscription-1',
+					// A subscription array has actually more properties.
+				],
+				[
+					'id' => 'subscription-2',
+					'uri' => 'subscription-2',
+					'principaluri' => 'user-principal-123',
+					'source' => 'https://localhost/subscription-2',
+					// A subscription array has actually more properties.
+				]
+			]);
+
+		/*
+		 * @FIXME: PluginManager should be injected via constructor.
+		 */
+
+		$pluginManager = $this->createMock(PluginManager::class);
+		$pluginManager
+			->expects(self::once())
+			->method('getCalendarPlugins')
+			->with()
+			->willReturn([]);
+
+		$calendarHome = new CalendarHome(
+			$this->backend,
+			$this->principalInfo,
+			$this->logger,
+			$this->federatedCalendarFactory,
+			true
+		);
+
+		$reflection = new \ReflectionClass($calendarHome);
+		$reflectionProperty = $reflection->getProperty('pluginManager');
+		$reflectionProperty->setValue($calendarHome, $pluginManager);
+
+		$actual = $calendarHome->getChildren();
+
+		$this->assertCount(5, $actual);
+		$this->assertInstanceOf(Inbox::class, $actual[0]);
+		$this->assertInstanceOf(Outbox::class, $actual[1]);
+		$this->assertInstanceOf(TrashbinHome::class, $actual[2]);
+		$this->assertInstanceOf(CachedSubscription::class, $actual[3]);
+		$this->assertInstanceOf(CachedSubscription::class, $actual[4]);
+	}
+
+	public function testGetChildrenFederatedCalendars(): void {
+		$this->backend
+			->expects(self::once())
+			->method('getCalendarsForUser')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
+			->method('getFederatedCalendarsForUser')
+			->with('user-principal-123')
+			->willReturn([
+				[
+					'id' => 10,
+					'uri' => 'fed-cal-1',
+					'principaluri' => 'user-principal-123',
+					'{DAV:}displayname' => 'Federated calendar 1',
+					'{http://sabredav.org/ns}sync-token' => 3,
+					'{http://calendarserver.org/ns/}getctag' => 'http://sabre.io/ns/sync/3',
+					'{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VEVENT']),
+					'{http://owncloud.org/ns}owner-principal' => 'principals/remote-users/c2hhcmVyQGhvc3QudGxkCg==',
+					'{http://owncloud.org/ns}read-only' => 1
+				],
+				[
+					'id' => 11,
+					'uri' => 'fed-cal-2',
+					'principaluri' => 'user-principal-123',
+					'{DAV:}displayname' => 'Federated calendar 2',
+					'{http://sabredav.org/ns}sync-token' => 5,
+					'{http://calendarserver.org/ns/}getctag' => 'http://sabre.io/ns/sync/5',
+					'{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VEVENT']),
+					'{http://owncloud.org/ns}owner-principal' => 'principals/remote-users/c2hhcmVyQGhvc3QudGxkCg==',
+					'{http://owncloud.org/ns}read-only' => 1
+				],
+			]);
+
+		$this->backend
+			->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$actual = $this->calendarHome->getChildren();
+
+		$this->assertCount(5, $actual);
+		$this->assertInstanceOf(Inbox::class, $actual[0]);
+		$this->assertInstanceOf(Outbox::class, $actual[1]);
+		$this->assertInstanceOf(TrashbinHome::class, $actual[2]);
+		$this->assertInstanceOf(FederatedCalendar::class, $actual[3]);
+		$this->assertInstanceOf(FederatedCalendar::class, $actual[4]);
 	}
 }

@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\User_LDAP\SetupChecks;
@@ -75,26 +58,26 @@ class LdapConnection implements ISetupCheck {
 		if (!empty($bindFailedConfigurations)) {
 			$output .= $this->l10n->n(
 				'Binding failed for this LDAP configuration: %s',
-				'Binding failed for these LDAP configurations: %s',
+				'Binding failed for %n LDAP configurations: %s',
 				count($bindFailedConfigurations),
 				[implode(',', $bindFailedConfigurations)]
-			)."\n";
+			) . "\n";
 		}
 		if (!empty($searchFailedConfigurations)) {
 			$output .= $this->l10n->n(
 				'Searching failed for this LDAP configuration: %s',
-				'Searching failed for these LDAP configurations: %s',
+				'Searching failed for %n LDAP configurations: %s',
 				count($searchFailedConfigurations),
 				[implode(',', $searchFailedConfigurations)]
-			)."\n";
+			) . "\n";
 		}
 		if (!empty($inactiveConfigurations)) {
 			$output .= $this->l10n->n(
 				'There is an inactive LDAP configuration: %s',
-				'There are inactive LDAP configurations: %s',
+				'There are %n inactive LDAP configurations: %s',
 				count($inactiveConfigurations),
 				[implode(',', $inactiveConfigurations)]
-			)."\n";
+			) . "\n";
 		}
 		if (!empty($bindFailedConfigurations) || !empty($searchFailedConfigurations)) {
 			return SetupResult::error($output);
@@ -103,7 +86,7 @@ class LdapConnection implements ISetupCheck {
 		}
 		return SetupResult::success($this->l10n->n(
 			'Binding and searching works on the configured LDAP connection (%s)',
-			'Binding and searching works on all of the configured LDAP connections (%s)',
+			'Binding and searching works on all of the %n configured LDAP connections (%s)',
 			count($availableConfigs),
 			[implode(',', $availableConfigs)]
 		));

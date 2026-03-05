@@ -1,53 +1,41 @@
 <!--
- - @copyright Copyright (c) 2022 Louis Chemineau <louis@chmn.me>
- -
- - @author Louis Chemineau <louis@chmn.me>
- -
- - @license AGPL-3.0-or-later
- -
- - This program is free software: you can redistribute it and/or modify
- - it under the terms of the GNU Affero General Public License as
- - published by the Free Software Foundation, either version 3 of the
- - License, or (at your option) any later version.
- -
- - This program is distributed in the hope that it will be useful,
- - but WITHOUT ANY WARRANTY; without even the implied warranty of
- - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- - GNU Affero General Public License for more details.
- -
- - You should have received a copy of the GNU Affero General Public License
- - along with this program. If not, see <http://www.gnu.org/licenses/>.
- -
- -->
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div v-if="!useWindow && containerElement === null" ref="container" class="vs-container">
-		<div ref="rowsContainer"
+		<div
+			ref="rowsContainer"
 			class="vs-rows-container"
 			:style="rowsContainerStyle">
-			<slot :visible-sections="visibleSections" />
+			<slot :visibleSections="visibleSections" />
 			<slot name="loader" />
 		</div>
 	</div>
-	<div v-else
+	<div
+		v-else
 		ref="rowsContainer"
 		class="vs-rows-container"
 		:style="rowsContainerStyle">
-		<slot :visible-sections="visibleSections" />
+		<slot :visibleSections="visibleSections" />
 		<slot name="loader" />
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue'
+import {
+	type PropType,
 
-import logger from '../utils/logger.js'
+	defineComponent,
+} from 'vue'
+import logger from '../utils/logger.ts'
 
-interface RowItem {
+export interface RowItem {
 	id: string // Unique id for the item.
 	key?: string // Unique key for the item.
 }
 
-interface Row {
+export interface Row {
 	key: string // Unique key for the row.
 	height: number // The height of the row.
 	sectionKey: string // Unique key for the row.
@@ -59,13 +47,13 @@ interface VisibleRow extends Row {
 }
 
 interface Section {
-	key: string, // Unique key for the section.
-	rows: Row[], // The height of the row.
-	height: number, // Height of the section, excluding the header.
+	key: string // Unique key for the section.
+	rows: Row[] // The height of the row.
+	height: number // Height of the section, excluding the header.
 }
 
 interface VisibleSection extends Section {
-	rows: VisibleRow[], // The height of the row.
+	rows: VisibleRow[] // The height of the row.
 }
 
 export default defineComponent({
@@ -91,26 +79,31 @@ export default defineComponent({
 			type: Number,
 			default: 75,
 		},
+
 		renderDistance: {
 			type: Number,
 			default: 0.5,
 		},
+
 		bottomBufferRatio: {
 			type: Number,
 			default: 2,
 		},
+
 		scrollToKey: {
 			type: String,
 			default: '',
 		},
 	},
 
+	emits: ['needContent'],
+
 	data() {
 		return {
 			scrollPosition: 0,
 			containerHeight: 0,
 			rowsContainerHeight: 0,
-			resizeObserver: null as ResizeObserver|null,
+			resizeObserver: null as ResizeObserver | null,
 		}
 	},
 
@@ -129,7 +122,7 @@ export default defineComponent({
 			// Compute whether a row should be included in the DOM (shouldRender)
 			// And how visible the row is.
 			const visibleSections = this.sections
-				.map(section => {
+				.map((section) => {
 					currentRowBottom += this.headerHeight
 
 					return {
@@ -160,7 +153,7 @@ export default defineComponent({
 						}, [] as VisibleRow[]),
 					}
 				})
-				.filter(section => section.rows.length > 0)
+				.filter((section) => section.rows.length > 0)
 
 			// To allow vue to recycle the DOM elements instead of adding and deleting new ones,
 			// we assign a random key to each items. When a item removed, we recycle its key for new items,
@@ -169,19 +162,19 @@ export default defineComponent({
 				.flatMap(({ rows }) => rows)
 				.flatMap(({ items }) => items)
 
-			const rowIdToKeyMap = this._rowIdToKeyMap as {[key: string]: string}
+			const rowIdToKeyMap = this._rowIdToKeyMap as { [key: string]: string }
 
-			visibleItems.forEach(item => (item.key = rowIdToKeyMap[item.id]))
+			visibleItems.forEach((item) => (item.key = rowIdToKeyMap[item.id]))
 
 			const usedTokens = visibleItems
 				.map(({ key }) => key)
-				.filter(key => key !== undefined)
+				.filter((key) => key !== undefined)
 
-			const unusedTokens = Object.values(rowIdToKeyMap).filter(key => !usedTokens.includes(key))
+			const unusedTokens = Object.values(rowIdToKeyMap).filter((key) => !usedTokens.includes(key))
 
 			visibleItems
 				.filter(({ key }) => key === undefined)
-				.forEach(item => (item.key = unusedTokens.pop() ?? Math.random().toString(36).substr(2)))
+				.forEach((item) => (item.key = unusedTokens.pop() ?? Math.random().toString(36).substr(2)))
 
 			// this._rowIdToKeyMap is created in the beforeCreate hook, so value changes are not tracked.
 			// Therefore, we wont trigger the computation of visibleSections again if we alter the value of this._rowIdToKeyMap.
@@ -198,7 +191,7 @@ export default defineComponent({
 			const loaderHeight = 0
 
 			return this.sections
-				.map(section => this.headerHeight + section.height)
+				.map((section) => this.headerHeight + section.height)
 				.reduce((totalHeight, sectionHeight) => totalHeight + sectionHeight, 0) + loaderHeight
 		},
 
@@ -232,7 +225,7 @@ export default defineComponent({
 		/**
 		 * padding-top is used to replace not included item in the container.
 		 */
-		rowsContainerStyle(): { height: string; paddingTop: string } {
+		rowsContainerStyle(): { height: string, paddingTop: string } {
 			return {
 				height: `${this.totalHeight}px`,
 				paddingTop: `${this.paddingTop}px`,
@@ -241,7 +234,7 @@ export default defineComponent({
 
 		/**
 		 * Whether the user is near the bottom.
-		 * If true, then the need-content event will be emitted.
+		 * If true, then the needContent event will be emitted.
 		 */
 		isNearBottom(): boolean {
 			const buffer = this.containerHeight * this.bottomBufferRatio
@@ -264,15 +257,15 @@ export default defineComponent({
 		isNearBottom(value) {
 			logger.debug('[VirtualScrolling] isNearBottom changed', { value })
 			if (value) {
-				this.$emit('need-content')
+				this.$emit('needContent')
 			}
 		},
 
 		visibleSections() {
-			// Re-emit need-content when rows is updated and isNearBottom is still true.
+			// Re-emit needContent when rows is updated and isNearBottom is still true.
 			// If the height of added rows is under `bottomBufferRatio`, `isNearBottom` will still be true so we need more content.
 			if (this.isNearBottom) {
-				this.$emit('need-content')
+				this.$emit('needContent')
 			}
 		},
 
@@ -298,7 +291,7 @@ export default defineComponent({
 	},
 
 	mounted() {
-		this.resizeObserver = new ResizeObserver(entries => {
+		this.resizeObserver = new ResizeObserver((entries) => {
 			for (const entry of entries) {
 				const cr = entry.contentRect
 				if (entry.target === this.container) {
@@ -314,14 +307,14 @@ export default defineComponent({
 			window.addEventListener('resize', this.updateContainerSize, { passive: true })
 			this.containerHeight = window.innerHeight
 		} else {
-			this.resizeObserver.observe(this.container as HTMLElement|Element)
+			this.resizeObserver.observe(this.container as HTMLElement | Element)
 		}
 
 		this.resizeObserver.observe(this.$refs.rowsContainer as Element)
 		this.container.addEventListener('scroll', this.updateScrollPosition, { passive: true })
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		if (this.useWindow) {
 			window.removeEventListener('resize', this.updateContainerSize)
 		}
@@ -337,7 +330,7 @@ export default defineComponent({
 				if (this.useWindow) {
 					this.scrollPosition = (this.container as Window).scrollY
 				} else {
-					this.scrollPosition = (this.container as HTMLElement|Element).scrollTop
+					this.scrollPosition = (this.container as HTMLElement | Element).scrollTop
 				}
 			})
 		},

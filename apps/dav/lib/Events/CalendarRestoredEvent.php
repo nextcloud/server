@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Events;
 
@@ -32,28 +15,18 @@ use OCP\EventDispatcher\Event;
  */
 class CalendarRestoredEvent extends Event {
 
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
-
-	/** @var array  */
-	private $shares;
-
 	/**
 	 * @param int $calendarId
 	 * @param array $calendarData
 	 * @param array $shares
 	 * @since 22.0.0
 	 */
-	public function __construct(int $calendarId,
-		array $calendarData,
-		array $shares) {
+	public function __construct(
+		private int $calendarId,
+		private array $calendarData,
+		private array $shares,
+	) {
 		parent::__construct();
-		$this->calendarId = $calendarId;
-		$this->calendarData = $calendarData;
-		$this->shares = $shares;
 	}
 
 	/**

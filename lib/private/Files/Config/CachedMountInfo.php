@@ -1,24 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Robin Appelman <robin@icewind.nl>
- * @author Semih Serhat Karakaya <karakayasemi@itu.edu.tr>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Config;
 
@@ -28,50 +13,23 @@ use OCP\Files\Node;
 use OCP\IUser;
 
 class CachedMountInfo implements ICachedMountInfo {
-	protected IUser $user;
-	protected int $storageId;
-	protected int $rootId;
-	protected string $mountPoint;
-	protected ?int $mountId;
-	protected string $rootInternalPath;
-	protected string $mountProvider;
 	protected string $key;
 
-	/**
-	 * CachedMountInfo constructor.
-	 *
-	 * @param IUser $user
-	 * @param int $storageId
-	 * @param int $rootId
-	 * @param string $mountPoint
-	 * @param int|null $mountId
-	 * @param string $rootInternalPath
-	 */
 	public function __construct(
-		IUser $user,
-		int $storageId,
-		int $rootId,
-		string $mountPoint,
-		string $mountProvider,
-		?int $mountId = null,
-		string $rootInternalPath = ''
+		protected IUser $user,
+		protected int $storageId,
+		protected int $rootId,
+		protected string $mountPoint,
+		protected string $mountProvider,
+		protected ?int $mountId = null,
+		protected string $rootInternalPath = '',
 	) {
-		$this->user = $user;
-		$this->storageId = $storageId;
-		$this->rootId = $rootId;
-		$this->mountPoint = $mountPoint;
-		$this->mountId = $mountId;
-		$this->rootInternalPath = $rootInternalPath;
-		if (strlen($mountProvider) > 128) {
-			throw new \Exception("Mount provider $mountProvider name exceeds the limit of 128 characters");
+		if (strlen($this->mountProvider) > 128) {
+			throw new \Exception("Mount provider $this->mountProvider name exceeds the limit of 128 characters");
 		}
-		$this->mountProvider = $mountProvider;
-		$this->key = $rootId . '::' . $mountPoint;
+		$this->key = $this->rootId . '::' . $this->mountPoint;
 	}
 
-	/**
-	 * @return IUser
-	 */
 	public function getUser(): IUser {
 		return $this->user;
 	}

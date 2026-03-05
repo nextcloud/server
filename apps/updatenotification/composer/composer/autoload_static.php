@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitUpdateNotification
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\UpdateNotification\\' => 23,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\UpdateNotification\\' => 
+        'OCA\\UpdateNotification\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -33,7 +33,6 @@ class ComposerStaticInitUpdateNotification
         'OCA\\UpdateNotification\\Listener\\AppUpdateEventListener' => __DIR__ . '/..' . '/../lib/Listener/AppUpdateEventListener.php',
         'OCA\\UpdateNotification\\Listener\\BeforeTemplateRenderedEventListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeTemplateRenderedEventListener.php',
         'OCA\\UpdateNotification\\Manager' => __DIR__ . '/..' . '/../lib/Manager.php',
-        'OCA\\UpdateNotification\\Migration\\Version011901Date20240305120000' => __DIR__ . '/..' . '/../lib/Migration/Version011901Date20240305120000.php',
         'OCA\\UpdateNotification\\Notification\\AppUpdateNotifier' => __DIR__ . '/..' . '/../lib/Notification/AppUpdateNotifier.php',
         'OCA\\UpdateNotification\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\UpdateNotification\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',

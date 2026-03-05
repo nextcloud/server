@@ -1,65 +1,62 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-// eslint-disable-next-line n/no-extraneous-import
-import type { AxiosError } from 'axios'
-import type { Node } from '@nextcloud/files'
 
-import { showWarning } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import type { AxiosError } from '@nextcloud/axios'
+import type { IFileAction } from '@nextcloud/files'
+import type { IStorage } from '../types.ts'
+
 import AlertSvg from '@mdi/svg/svg/alert-circle.svg?raw'
-import Vue from 'vue'
+import { showWarning } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { t } from '@nextcloud/l10n'
+import { getStatus } from '../services/externalStorage.ts'
+import { StorageStatus } from '../types.ts'
+import { isMissingAuthConfig } from '../utils/credentialsUtils.ts'
+import { isNodeExternalStorage } from '../utils/externalStorageUtils.ts'
 
 import '../css/fileEntryStatus.scss'
-import { getStatus, type StorageConfig } from '../services/externalStorage'
-import { isMissingAuthConfig, STORAGE_STATUS } from '../utils/credentialsUtils'
-import { isNodeExternalStorage } from '../utils/externalStorageUtils'
-import { FileAction } from '@nextcloud/files'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'check-external-storage',
 	displayName: () => '',
 	iconSvgInline: () => '',
 
-	enabled: (nodes: Node[]) => {
-		return nodes.every(node => isNodeExternalStorage(node) === true)
+	enabled: ({ nodes }) => {
+		return nodes.every((node) => isNodeExternalStorage(node) === true)
 	},
 	exec: async () => null,
 
 	/**
 	 * Use this function to check the storage availability
 	 * We then update the node attributes directly.
+	 *
+	 * @param context - The action context
+	 * @param context.nodes - The node to render inline
 	 */
-	async renderInline(node: Node) {
-		let config = null as any as StorageConfig
-		try {
-			const response = await getStatus(node.attributes.id, node.attributes.scope === 'system')
-			config = response.data
-			Vue.set(node.attributes, 'config', config)
+	async renderInline({ nodes }) {
+		if (nodes.length !== 1 || !nodes[0]) {
+			return null
+		}
 
-			if (config.status !== STORAGE_STATUS.SUCCESS) {
+		const node = nodes[0]
+		const span = document.createElement('span')
+		span.className = 'files-list__row-status'
+		span.innerHTML = t('files_external', 'Checking storage …')
+
+		let config: IStorage | undefined
+		try {
+			const { data } = await getStatus(node.id, node.attributes.scope === 'system')
+			config = data
+			node.attributes.config = config
+			emit('files:node:updated', node)
+
+			if (config.status !== StorageStatus.Success) {
 				throw new Error(config?.statusMessage || t('files_external', 'There was an error with this external storage.'))
 			}
 
-			return null
+			span.remove()
 		} catch (error) {
 			// If axios failed or if something else prevented
 			// us from getting the config
@@ -67,16 +64,15 @@ export const action = new FileAction({
 				showWarning(t('files_external', 'We were unable to check the external storage {basename}', {
 					basename: node.basename,
 				}))
-				return null
 			}
 
+			// Reset inline status
+			span.innerHTML = ''
+
 			// Checking if we really have an error
-			const isWarning = isMissingAuthConfig(config)
+			const isWarning = !config ? false : isMissingAuthConfig(config)
 			const overlay = document.createElement('span')
 			overlay.classList.add(`files-list__row-status--${isWarning ? 'warning' : 'error'}`)
-
-			const span = document.createElement('span')
-			span.className = 'files-list__row-status'
 
 			// Only show an icon for errors, warning like missing credentials
 			// have a dedicated inline action button
@@ -86,9 +82,10 @@ export const action = new FileAction({
 			}
 
 			span.prepend(overlay)
-			return span
 		}
+
+		return span
 	},
 
 	order: 10,
-})
+}

@@ -3,23 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, Michael Weimann (<mail@michael-weimann.eu>)
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -33,31 +18,20 @@ use PHPUnit\Framework\MockObject\MockObject;
 class MemoryInfoTest extends TestCase {
 	/**
 	 * The "memory_limit" value before tests.
-	 *
-	 * @var string
 	 */
-	private $iniSettingBeforeTest;
+	private string $iniSettingBeforeTest;
 
-	/**
-	 * @beforeClass
-	 */
+	#[\PHPUnit\Framework\Attributes\BeforeClass()]
 	public function backupMemoryInfoIniSetting() {
 		$this->iniSettingBeforeTest = ini_get('memory_limit');
 	}
 
-	/**
-	 * @afterClass
-	 */
+	#[\PHPUnit\Framework\Attributes\AfterClass()]
 	public function restoreMemoryInfoIniSetting() {
 		ini_set('memory_limit', $this->iniSettingBeforeTest);
 	}
 
-	/**
-	 * Provides test data.
-	 *
-	 * @return array
-	 */
-	public function getMemoryLimitTestData(): array {
+	public static function getMemoryLimitTestData(): array {
 		return [
 			'unlimited' => ['-1', -1,],
 			'524288000 bytes' => ['524288000', 524288000,],
@@ -72,20 +46,15 @@ class MemoryInfoTest extends TestCase {
 	 *
 	 * @param string $iniValue The "memory_limit" ini data.
 	 * @param int|float $expected The expected detected memory limit.
-	 * @dataProvider getMemoryLimitTestData
 	 */
-	public function testMemoryLimit(string $iniValue, int|float $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('getMemoryLimitTestData')]
+	public function testMemoryLimit(string $iniValue, int|float $expected): void {
 		ini_set('memory_limit', $iniValue);
 		$memoryInfo = new MemoryInfo();
 		self::assertEquals($expected, $memoryInfo->getMemoryLimit());
 	}
 
-	/**
-	 * Provides sufficient memory limit test data.
-	 *
-	 * @return array
-	 */
-	public function getSufficientMemoryTestData(): array {
+	public static function getSufficientMemoryTestData(): array {
 		return [
 			'unlimited' => [-1, true,],
 			'512M' => [512 * 1024 * 1024, true,],
@@ -99,13 +68,12 @@ class MemoryInfoTest extends TestCase {
 	 *
 	 * @param int $memoryLimit The memory limit
 	 * @param bool $expected If the memory limit is sufficient.
-	 * @dataProvider getSufficientMemoryTestData
-	 * @return void
 	 */
-	public function testIsMemoryLimitSufficient(int $memoryLimit, bool $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('getSufficientMemoryTestData')]
+	public function testIsMemoryLimitSufficient(int $memoryLimit, bool $expected): void {
 		/* @var MemoryInfo|MockObject $memoryInfo */
 		$memoryInfo = $this->getMockBuilder(MemoryInfo::class)
-			->setMethods(['getMemoryLimit',])
+			->onlyMethods(['getMemoryLimit',])
 			->getMock();
 
 		$memoryInfo

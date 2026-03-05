@@ -1,31 +1,13 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 
 /**
@@ -36,6 +18,7 @@ class SharingContext implements Context, SnippetAcceptingContext {
 	use Trashbin;
 	use AppConfiguration;
 	use CommandLine;
+	use Activity;
 
 	protected function resetAppConfigs() {
 		$this->deleteServerConfig('core', 'shareapi_default_permissions');
@@ -46,6 +29,9 @@ class SharingContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('core', 'shareapi_default_expire_date');
 		$this->deleteServerConfig('core', 'shareapi_expire_after_n_days');
 		$this->deleteServerConfig('core', 'link_defaultExpDays');
+		$this->deleteServerConfig('core', 'shareapi_allow_federation_on_public_shares');
+		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_share_enabled');
+		$this->deleteServerConfig('core', 'shareapi_allow_view_without_download');
 
 		$this->runOcc(['config:system:delete', 'share_folder']);
 	}

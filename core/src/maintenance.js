@@ -1,50 +1,35 @@
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import Axios from '@nextcloud/axios'
 import { getRootUrl } from '@nextcloud/router'
+import logger from './logger.js'
 
 const url = getRootUrl() + '/status.php'
 
-const check = () => {
-	console.info('checking the Nextcloud maintenance status')
+/**
+ *
+ */
+function check() {
+	logger.info('checking the Nextcloud maintenance status')
 	Axios.get(url)
-		.then(resp => resp.data)
-		.then(status => {
+		.then((resp) => resp.data)
+		.then((status) => {
 			if (status.maintenance === false) {
-				console.info('Nextcloud is not in maintenance mode anymore -> reloading')
+				logger.info('Nextcloud is not in maintenance mode anymore -> reloading')
 
 				window.location.reload()
 				return
 			}
 
-			console.info('Nextcloud is still in maintenance mode')
+			logger.info('Nextcloud is still in maintenance mode')
 
 			// Wait 20sec before the next request
 			setTimeout(check, 20 * 1000)
 		})
-		.catch(console.error.bind(this))
+		.catch(logger.error.bind(this))
 }
 
 // Off we go!

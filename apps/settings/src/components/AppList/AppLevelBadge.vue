@@ -1,26 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @author Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<span v-if="isSupported || isFeatured"
+	<span
+		v-if="isSupported || isFeatured"
 		class="app-level-badge"
 		:class="{ 'app-level-badge--supported': isSupported }"
 		:title="badgeTitle">
@@ -30,11 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-
-import { mdiCheck, mdiStarShooting } from '@mdi/js'
+import { mdiCheck, mdiStarShootingOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { computed } from 'vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 const props = defineProps<{
 	/**
@@ -45,7 +28,7 @@ const props = defineProps<{
 
 const isSupported = computed(() => props.level === 300)
 const isFeatured = computed(() => props.level === 200)
-const badgeIcon = computed(() => isSupported.value ? mdiStarShooting : mdiCheck)
+const badgeIcon = computed(() => isSupported.value ? mdiStarShootingOutline : mdiCheck)
 const badgeText = computed(() => isSupported.value ? t('settings', 'Supported') : t('settings', 'Featured'))
 const badgeTitle = computed(() => isSupported.value
 	? t('settings', 'This app is supported via your current Nextcloud subscription.')
@@ -66,8 +49,9 @@ const badgeTitle = computed(() => isSupported.value
 	width: fit-content;
 
 	&--supported {
-		border-color: var(--color-success);
-		color: var(--color-success);
+		background-color: var(--color-success);
+		border-color: var(--color-border-success);
+		color: var(--color-success-text);
 	}
 }
 </style>

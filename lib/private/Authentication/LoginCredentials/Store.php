@@ -3,29 +3,12 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\LoginCredentials;
 
+use Exception;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
@@ -33,27 +16,18 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\ISession;
+use OCP\Security\ICrypto;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Store implements IStore {
-	/** @var ISession */
-	private $session;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IProvider|null */
-	private $tokenProvider;
-
-	public function __construct(ISession $session,
-		LoggerInterface $logger,
-		?IProvider $tokenProvider = null) {
-		$this->session = $session;
-		$this->logger = $logger;
-		$this->tokenProvider = $tokenProvider;
-
+	public function __construct(
+		private ISession $session,
+		private LoggerInterface $logger,
+		private readonly ICrypto $crypto,
+		private ?IProvider $tokenProvider = null,
+	) {
 		Util::connectHook('OC_User', 'post_login', $this, 'authenticate');
 	}
 
@@ -63,6 +37,9 @@ class Store implements IStore {
 	 * @param array $params
 	 */
 	public function authenticate(array $params) {
+		if ($params['password'] !== null) {
+			$params['password'] = $this->crypto->encrypt((string)$params['password']);
+		}
 		$this->session->set('login_credentials', json_encode($params));
 	}
 
@@ -109,6 +86,13 @@ class Store implements IStore {
 		if ($trySession && $this->session->exists('login_credentials')) {
 			/** @var array $creds */
 			$creds = json_decode($this->session->get('login_credentials'), true);
+			if ($creds['password'] !== null) {
+				try {
+					$creds['password'] = $this->crypto->decrypt($creds['password']);
+				} catch (Exception $e) {
+					//decryption failed, continue with old password as it is
+				}
+			}
 			return new Credentials(
 				$creds['uid'],
 				$creds['loginName'] ?? $this->session->get('loginname') ?? $creds['uid'], // Pre 20 didn't have a loginName property, hence fall back to the session value and then to the UID

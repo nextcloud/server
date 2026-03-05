@@ -1,38 +1,19 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jesús Macias <jmacias@solidgear.es>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author szaimen <szaimen@e.mail.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Service;
 
+use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
+use OCA\Files\AppInfo\Application as FilesApplication;
+use OCA\Files\ConfigLexicon;
+use OCA\Files_External\AppInfo\Application;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -41,9 +22,11 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IAppConfig;
+use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -51,37 +34,17 @@ use Psr\Log\LoggerInterface;
  */
 abstract class StoragesService {
 
-	/** @var BackendService */
-	protected $backendService;
-
-	/**
-	 * @var DBConfigService
-	 */
-	protected $dbConfig;
-
-	/**
-	 * @var IUserMountCache
-	 */
-	protected $userMountCache;
-
-	protected IEventDispatcher $eventDispatcher;
-
 	/**
 	 * @param BackendService $backendService
-	 * @param DBConfigService $dbConfigService
-	 * @param IUserMountCache $userMountCache
+	 * @param DBConfigService $dbConfig
 	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct(
-		BackendService $backendService,
-		DBConfigService $dbConfigService,
-		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher
+		protected BackendService $backendService,
+		protected DBConfigService $dbConfig,
+		protected IEventDispatcher $eventDispatcher,
+		protected IAppConfig $appConfig,
 	) {
-		$this->backendService = $backendService;
-		$this->dbConfig = $dbConfigService;
-		$this->userMountCache = $userMountCache;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	protected function readDBConfig() {
@@ -119,13 +82,13 @@ abstract class StoragesService {
 			return $config;
 		} catch (\UnexpectedValueException $e) {
 			// don't die if a storage backend doesn't exist
-			\OC::$server->get(LoggerInterface::class)->error('Could not load storage.', [
+			Server::get(LoggerInterface::class)->error('Could not load storage.', [
 				'app' => 'files_external',
 				'exception' => $e,
 			]);
 			return null;
 		} catch (\InvalidArgumentException $e) {
-			\OC::$server->get(LoggerInterface::class)->error('Could not load storage.', [
+			Server::get(LoggerInterface::class)->error('Could not load storage.', [
 				'app' => 'files_external',
 				'exception' => $e,
 			]);
@@ -157,10 +120,9 @@ abstract class StoragesService {
 	 *
 	 * @param int $id storage id
 	 *
-	 * @return StorageConfig
 	 * @throws NotFoundException if the storage with the given id was not found
 	 */
-	public function getStorage($id) {
+	public function getStorage(int $id): StorageConfig {
 		$mount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($mount)) {
@@ -280,9 +242,13 @@ abstract class StoragesService {
 		// add new storage
 		$allStorages[$configId] = $newStorage;
 
+		$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 
 		$newStorage->setStatus(StorageNotAvailableException::STATUS_SUCCESS);
+
+		$this->updateOverwriteHomeFolders();
+
 		return $newStorage;
 	}
 
@@ -301,14 +267,14 @@ abstract class StoragesService {
 	 * @return StorageConfig
 	 */
 	public function createStorage(
-		$mountPoint,
-		$backendIdentifier,
-		$authMechanismIdentifier,
-		$backendOptions,
-		$mountOptions = null,
-		$applicableUsers = null,
-		$applicableGroups = null,
-		$priority = null
+		string $mountPoint,
+		string $backendIdentifier,
+		string $authMechanismIdentifier,
+		array $backendOptions,
+		?array $mountOptions = null,
+		?array $applicableUsers = null,
+		?array $applicableGroups = null,
+		?int $priority = null,
 	) {
 		$backend = $this->backendService->getBackend($backendIdentifier);
 		if (!$backend) {
@@ -350,7 +316,7 @@ abstract class StoragesService {
 	protected function triggerApplicableHooks($signal, $mountPoint, $mountType, $applicableArray): void {
 		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
 		foreach ($applicableArray as $applicable) {
-			\OCP\Util::emitHook(
+			Util::emitHook(
 				Filesystem::CLASSNAME,
 				$signal,
 				[
@@ -457,14 +423,7 @@ abstract class StoragesService {
 
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);
 
-		if (($wasGlobal && !$isGlobal) || count($removedGroups) > 0) { // to expensive to properly handle these on the fly
-			$this->userMountCache->remoteStorageMounts($this->getStorageId($updatedStorage));
-		} else {
-			$storageId = $this->getStorageId($updatedStorage);
-			foreach ($removedUsers as $userId) {
-				$this->userMountCache->removeUserStorageMount($storageId, $userId);
-			}
-		}
+		$this->updateOverwriteHomeFolders();
 
 		return $this->getStorage($id);
 	}
@@ -476,7 +435,7 @@ abstract class StoragesService {
 	 *
 	 * @throws NotFoundException if no storage was found with the given id
 	 */
-	public function removeStorage($id) {
+	public function removeStorage(int $id) {
 		$existingMount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($existingMount)) {
@@ -486,10 +445,13 @@ abstract class StoragesService {
 		$this->dbConfig->removeMount($id);
 
 		$deletedStorage = $this->getStorageConfigFromDBMount($existingMount);
+		$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($deletedStorage));
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
 
 		// delete oc_storages entries and oc_filecache
-		\OC\Files\Cache\Storage::cleanByMountId($id);
+		Storage::cleanByMountId($id);
+
+		$this->updateOverwriteHomeFolders();
 	}
 
 	/**
@@ -512,6 +474,22 @@ abstract class StoragesService {
 			return $storage->getStorageCache()->getNumericId();
 		} catch (\Exception $e) {
 			return -1;
+		}
+	}
+
+	public function updateOverwriteHomeFolders(): void {
+		$appIdsList = $this->appConfig->getValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS);
+
+		if ($this->dbConfig->hasHomeFolderOverwriteMount()) {
+			if (!in_array(Application::APP_ID, $appIdsList)) {
+				$appIdsList[] = Application::APP_ID;
+				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
+			}
+		} else {
+			if (in_array(Application::APP_ID, $appIdsList)) {
+				$appIdsList = array_values(array_filter($appIdsList, fn ($v) => $v !== Application::APP_ID));
+				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
+			}
 		}
 	}
 }

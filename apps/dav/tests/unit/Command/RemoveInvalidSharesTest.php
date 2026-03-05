@@ -1,30 +1,20 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018, ownCloud GmbH
- *
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2018 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-namespace OCA\DAV\Tests\Unit\Command;
+namespace OCA\DAV\Tests\unit\Command;
 
 use OCA\DAV\Command\RemoveInvalidShares;
 use OCA\DAV\Connector\Sabre\Principal;
-use OCP\Migration\IOutput;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -33,37 +23,121 @@ use Test\TestCase;
  * Class RemoveInvalidSharesTest
  *
  * @package OCA\DAV\Tests\Unit\Repair
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class RemoveInvalidSharesTest extends TestCase {
+	private RemoveInvalidShares $command;
+
+	private IDBConnection $db;
+	private Principal&MockObject $principalBackend;
+	private RemoteUserPrincipalBackend&MockObject $remoteUserPrincipalBackend;
+
 	protected function setUp(): void {
 		parent::setUp();
-		$db = \OC::$server->getDatabaseConnection();
 
-		$db->insertIfNotExist('*PREFIX*dav_shares', [
+		$this->db = Server::get(IDBConnection::class);
+		$this->principalBackend = $this->createMock(Principal::class);
+		$this->remoteUserPrincipalBackend = $this->createMock(RemoteUserPrincipalBackend::class);
+
+		$this->db->insertIfNotExist('*PREFIX*dav_shares', [
 			'principaluri' => 'principal:unknown',
 			'type' => 'calendar',
 			'access' => 2,
 			'resourceid' => 666,
 		]);
+		$this->db->insertIfNotExist('*PREFIX*dav_shares', [
+			'principaluri' => 'principals/remote-users/foobar',
+			'type' => 'calendar',
+			'access' => 2,
+			'resourceid' => 666,
+		]);
+
+		$this->command = new RemoveInvalidShares(
+			$this->db,
+			$this->principalBackend,
+			$this->remoteUserPrincipalBackend,
+		);
 	}
 
-	public function test(): void {
-		$db = \OC::$server->getDatabaseConnection();
-		/** @var Principal | \PHPUnit\Framework\MockObject\MockObject $principal */
-		$principal = $this->createMock(Principal::class);
-
-		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $output */
-		$output = $this->createMock(IOutput::class);
-
-		$repair = new RemoveInvalidShares($db, $principal);
-		$this->invokePrivate($repair, 'run', [$this->createMock(InputInterface::class), $this->createMock(OutputInterface::class)]);
-
-		$query = $db->getQueryBuilder();
-		$result = $query->select('*')->from('dav_shares')
-			->where($query->expr()->eq('principaluri', $query->createNamedParameter('principal:unknown')))->execute();
-		$data = $result->fetchAll();
+	private function selectShares(): array {
+		$query = $this->db->getQueryBuilder();
+		$query->select('*')
+			->from('dav_shares')
+			->where($query->expr()->in(
+				'principaluri',
+				$query->createNamedParameter(
+					['principal:unknown', 'principals/remote-users/foobar'],
+					IQueryBuilder::PARAM_STR_ARRAY,
+				),
+			));
+		$result = $query->executeQuery();
+		$data = $result->fetchAllAssociative();
 		$result->closeCursor();
-		$this->assertEquals(0, count($data));
+
+		return $data;
+	}
+
+	public function testWithoutPrincipals(): void {
+		$this->principalBackend->method('getPrincipalByPath')
+			->willReturnMap([
+				['principal:unknown', null],
+				['principals/remote-users/foobar', null],
+			]);
+		$this->remoteUserPrincipalBackend->method('getPrincipalByPath')
+			->willReturnMap([
+				['principal:unknown', null],
+				['principals/remote-users/foobar', null],
+			]);
+
+		$this->command->run(
+			$this->createMock(InputInterface::class),
+			$this->createMock(OutputInterface::class),
+		);
+
+		$data = $this->selectShares();
+		$this->assertCount(0, $data);
+	}
+
+	public function testWithLocalPrincipal(): void {
+		$this->principalBackend->method('getPrincipalByPath')
+			->willReturnMap([
+				['principal:unknown', ['uri' => 'principal:unknown']],
+				['principals/remote-users/foobar', null],
+			]);
+		$this->remoteUserPrincipalBackend->method('getPrincipalByPath')
+			->willReturnMap([
+				['principals/remote-users/foobar', null],
+			]);
+
+		$this->command->run(
+			$this->createMock(InputInterface::class),
+			$this->createMock(OutputInterface::class),
+		);
+
+		$data = $this->selectShares();
+		$this->assertCount(1, $data);
+		$this->assertEquals('principal:unknown', $data[0]['principaluri']);
+	}
+
+	public function testWithRemotePrincipal() {
+		$this->principalBackend->method('getPrincipalByPath')
+			->willReturnMap([
+				['principal:unknown', null],
+				['principals/remote-users/foobar', null],
+			]);
+		$this->remoteUserPrincipalBackend->method('getPrincipalByPath')
+			->willReturnMap([
+				['principal:unknown', null],
+				['principals/remote-users/foobar', ['uri' => 'principals/remote-users/foobar']],
+			]);
+
+		$this->command->run(
+			$this->createMock(InputInterface::class),
+			$this->createMock(OutputInterface::class),
+		);
+
+		$data = $this->selectShares();
+		$this->assertCount(1, $data);
+		$this->assertEquals('principals/remote-users/foobar', $data[0]['principaluri']);
 	}
 }

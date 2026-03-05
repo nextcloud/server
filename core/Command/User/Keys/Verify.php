@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024, Marcel Müller <marcel.mueller@nextcloud.com>
- *
- * @author Marcel Müller <marcel.mueller@nextcloud.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Core\Command\User\Keys;
@@ -32,6 +15,7 @@ use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Verify extends Command {
@@ -50,6 +34,12 @@ class Verify extends Command {
 				'user-id',
 				InputArgument::REQUIRED,
 				'User ID of the user to verify'
+			)
+			->addOption(
+				'update',
+				null,
+				InputOption::VALUE_NONE,
+				'Save the derived public key to match the private key'
 			)
 		;
 	}
@@ -89,12 +79,17 @@ class Verify extends Command {
 		$output->writeln($publicKeyDerived);
 
 		if ($publicKey != $publicKeyDerived) {
-			$output->writeln('<error>Stored public key does not match stored private key</error>');
-			return static::FAILURE;
+			if (!$input->getOption('update')) {
+				$output->writeln('<error>Stored public key does not match stored private key</error>');
+				return static::FAILURE;
+			}
+
+			$this->keyManager->setPublicKey($user, $publicKeyDerived);
+			$output->writeln('<info>Derived public key did not match, successfully updated</info>');
+			return static::SUCCESS;
 		}
 
 		$output->writeln('<info>Stored public key matches stored private key</info>');
-
 		return static::SUCCESS;
 	}
 }

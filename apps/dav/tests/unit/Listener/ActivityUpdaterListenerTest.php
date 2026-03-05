@@ -3,44 +3,25 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2022 Thomas Citharel <nextcloud@tcit.fr>
- *
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Unit\Listener;
+namespace OCA\DAV\Tests\unit\Listener;
 
 use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
 use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
-use OCA\DAV\Events\CalendarObjectDeletedEvent;
 use OCA\DAV\Listener\ActivityUpdaterListener;
+use OCP\Calendar\Events\CalendarObjectDeletedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActivityUpdaterListenerTest extends TestCase {
 
-	/** @var ActivityBackend|MockObject */
-	private $activityBackend;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
+	private ActivityBackend&MockObject $activityBackend;
+	private LoggerInterface&MockObject $logger;
 	private ActivityUpdaterListener $listener;
 
 	protected function setUp(): void {
@@ -55,9 +36,7 @@ class ActivityUpdaterListenerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataForTestHandleCalendarObjectDeletedEvent
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataForTestHandleCalendarObjectDeletedEvent')]
 	public function testHandleCalendarObjectDeletedEvent(int $calendarId, array $calendarData, array $shares, array $objectData, bool $createsActivity): void {
 		$event = new CalendarObjectDeletedEvent($calendarId, $calendarData, $shares, $objectData);
 		$this->logger->expects($this->once())->method('debug')->with(
@@ -72,16 +51,14 @@ class ActivityUpdaterListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function dataForTestHandleCalendarObjectDeletedEvent(): array {
+	public static function dataForTestHandleCalendarObjectDeletedEvent(): array {
 		return [
 			[1, [], [], [], true],
 			[1, [], [], ['{' . SharingPlugin::NS_NEXTCLOUD . '}deleted-at' => 120], false],
 		];
 	}
 
-	/**
-	 * @dataProvider dataForTestHandleCalendarDeletedEvent
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataForTestHandleCalendarDeletedEvent')]
 	public function testHandleCalendarDeletedEvent(int $calendarId, array $calendarData, array $shares, bool $createsActivity): void {
 		$event = new CalendarDeletedEvent($calendarId, $calendarData, $shares);
 		$this->logger->expects($this->once())->method('debug')->with(
@@ -94,7 +71,7 @@ class ActivityUpdaterListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function dataForTestHandleCalendarDeletedEvent(): array {
+	public static function dataForTestHandleCalendarDeletedEvent(): array {
 		return [
 			[1, [], [], true],
 			[1, ['{' . SharingPlugin::NS_NEXTCLOUD . '}deleted-at' => 120], [], false],

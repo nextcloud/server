@@ -1,49 +1,27 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework;
 
 use OCP\AppFramework\Http as BaseHttp;
 
 class Http extends BaseHttp {
-	private $server;
-	private $protocolVersion;
 	protected $headers;
 
 	/**
 	 * @param array $server $_SERVER
 	 * @param string $protocolVersion the http version to use defaults to HTTP/1.1
 	 */
-	public function __construct($server, $protocolVersion = 'HTTP/1.1') {
-		$this->server = $server;
-		$this->protocolVersion = $protocolVersion;
-
+	public function __construct(
+		private $server,
+		private $protocolVersion = 'HTTP/1.1',
+	) {
 		$this->headers = [
 			self::STATUS_CONTINUE => 'Continue',
 			self::STATUS_SWITCHING_PROTOCOLS => 'Switching Protocols',
@@ -124,7 +102,7 @@ class Http extends BaseHttp {
 			$status = self::STATUS_FOUND;
 		}
 
-		return $this->protocolVersion . ' ' . $status . ' ' .
-			$this->headers[$status];
+		return $this->protocolVersion . ' ' . $status . ' '
+			. $this->headers[$status];
 	}
 }

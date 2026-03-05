@@ -1,8 +1,13 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Object storage azure
 on:
   pull_request:
   schedule:
     - cron: "15 2 * * *"
+
+permissions:
+  contents: read
 
 concurrency:
   group: object-storage-azure-${{ github.head_ref || github.run_id }}
@@ -24,16 +29,22 @@ jobs:
             src:
               - '.github/workflows/**'
               - '3rdparty/**'
-              - '**/appinfo/**'
-              - '**/lib/**'
-              - '**/templates/**'
-              - '**/tests/**'
               - 'vendor/**'
               - 'vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
               - 'composer.json'
               - 'composer.lock'
-              - '**.php'
+              - 'apps/files/lib/**'
+              - 'apps/files/tests/**'
+              - 'apps/files_external/**'
+              - 'apps/files_sharing/lib/**'
+              - 'apps/files_sharing/tests/**'
+              - 'apps/files_trashbin/lib/**'
+              - 'apps/files_trashbin/tests/**'
+              - 'apps/files_versions/lib/**'
+              - 'apps/files_versions/tests/**'
+              - 'lib/private/Files/**'
+              - 'lib/public/Files/**'
+              - 'tests/lib/Files/**'
 
   azure-primary-tests:
     runs-on: ubuntu-latest
@@ -42,17 +53,18 @@ jobs:
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
 
     strategy:
+      fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.2', '8.3']
+        php-versions: ['8.2', '8.3']
         include:
-          - php-versions: '8.3'
-            coverage: true
+          - php-versions: '8.4'
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-azure
 
     services:
       azurite:
-        image: mcr.microsoft.com/azure-storage/azurite
+        image: mcr.microsoft.com/azure-storage/azurite@sha256:0a47e12e3693483cef5c71f35468b91d751611f172d2f97414e9c69113b106d9 # v3.34.0
         env:
           AZURITE_ACCOUNTS: nextcloud:bmV4dGNsb3Vk
         ports:
@@ -60,19 +72,21 @@ jobs:
         options: --health-cmd="nc 127.0.0.1 10000 -z" --health-interval=1s --health-retries=30
 
       cache:
-        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
         ports:
           - 6379:6379/tcp
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -92,20 +106,26 @@ jobs:
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
-          php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
+          php -f tests/enable_all.php
 
       - name: PHPUnit
         env:
           OBJECT_STORE: azure
           OBJECT_STORE_KEY: nextcloud
           OBJECT_STORE_SECRET: bmV4dGNsb3Vk
-        run: composer run test -- --group PRIMARY-azure ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+        run: composer run test -- --group PRIMARY-azure --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v4.1.1
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
           files: ./clover.xml
+          flags: phpunit-azure
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
           flags: phpunit-azure
 
       - name: Azurite logs

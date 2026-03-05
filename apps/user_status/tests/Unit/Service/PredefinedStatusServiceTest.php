@@ -3,40 +3,19 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\UserStatus\Tests\Service;
 
 use OCA\UserStatus\Service\PredefinedStatusService;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PredefinedStatusServiceTest extends TestCase {
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10n;
-
-	/** @var PredefinedStatusService */
-	protected $service;
+	protected IL10N&MockObject $l10n;
+	protected PredefinedStatusService $service;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -47,17 +26,11 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	public function testGetDefaultStatuses(): void {
-		$this->l10n->expects($this->exactly(7))
+		$this->l10n->expects($this->exactly(8))
 			->method('t')
-			->withConsecutive(
-				['In a meeting'],
-				['Commuting'],
-				['Working remotely'],
-				['Out sick'],
-				['Vacationing'],
-				['In a call'],
-			)
-			->willReturnArgument(0);
+			->willReturnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
 
 		$actual = $this->service->getDefaultStatuses();
 		$this->assertEquals([
@@ -77,6 +50,15 @@ class PredefinedStatusServiceTest extends TestCase {
 				'clearAt' => [
 					'type' => 'period',
 					'time' => 1800,
+				],
+			],
+			[
+				'id' => 'be-right-back',
+				'icon' => '⏳',
+				'message' => 'Be right back',
+				'clearAt' => [
+					'type' => 'period',
+					'time' => 900,
 				],
 			],
 			[
@@ -120,38 +102,26 @@ class PredefinedStatusServiceTest extends TestCase {
 		], $actual);
 	}
 
-	/**
-	 * @param string $id
-	 * @param string|null $expectedIcon
-	 *
-	 * @dataProvider getIconForIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getIconForIdDataProvider')]
 	public function testGetIconForId(string $id, ?string $expectedIcon): void {
 		$actual = $this->service->getIconForId($id);
 		$this->assertEquals($expectedIcon, $actual);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getIconForIdDataProvider(): array {
+	public static function getIconForIdDataProvider(): array {
 		return [
 			['meeting', '📅'],
 			['commuting', '🚌'],
 			['sick-leave', '🤒'],
 			['vacationing', '🌴'],
 			['remote-work', '🏡'],
+			['be-right-back', '⏳'],
 			['call', '💬'],
 			['unknown-id', null],
 		];
 	}
 
-	/**
-	 * @param string $id
-	 * @param string|null $expected
-	 *
-	 * @dataProvider getTranslatedStatusForIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getTranslatedStatusForIdDataProvider')]
 	public function testGetTranslatedStatusForId(string $id, ?string $expected): void {
 		$this->l10n->method('t')
 			->willReturnArgument(0);
@@ -160,59 +130,44 @@ class PredefinedStatusServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getTranslatedStatusForIdDataProvider(): array {
+	public static function getTranslatedStatusForIdDataProvider(): array {
 		return [
 			['meeting', 'In a meeting'],
 			['commuting', 'Commuting'],
 			['sick-leave', 'Out sick'],
 			['vacationing', 'Vacationing'],
 			['remote-work', 'Working remotely'],
+			['be-right-back', 'Be right back'],
 			['call', 'In a call'],
 			['unknown-id', null],
 		];
 	}
 
-	/**
-	 * @param string $id
-	 * @param bool $expected
-	 *
-	 * @dataProvider isValidIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'isValidIdDataProvider')]
 	public function testIsValidId(string $id, bool $expected): void {
 		$actual = $this->service->isValidId($id);
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function isValidIdDataProvider(): array {
+	public static function isValidIdDataProvider(): array {
 		return [
 			['meeting', true],
 			['commuting', true],
 			['sick-leave', true],
 			['vacationing', true],
 			['remote-work', true],
+			['be-right-back', true],
 			['call', true],
 			['unknown-id', false],
 		];
 	}
 
 	public function testGetDefaultStatusById(): void {
-		$this->l10n->expects($this->exactly(7))
+		$this->l10n->expects($this->exactly(8))
 			->method('t')
-			->withConsecutive(
-				['In a meeting'],
-				['Commuting'],
-				['Working remotely'],
-				['Out sick'],
-				['Vacationing'],
-				['In a call'],
-			)
-			->willReturnArgument(0);
+			->willReturnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
 
 		$this->assertEquals([
 			'id' => 'call',

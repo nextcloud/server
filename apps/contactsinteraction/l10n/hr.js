@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Recently contacted" : "Nedavno kontaktiran",
     "Contacts Interaction" : "Interakcija kontakata",
-    "Manages interaction between users and contacts" : "Upravlja interakcijom korisnika i kontakata",
-    "Collect data about user and contacts interactions and provide an address book for the data" : "Prikuplja podatke o interakcijama korisnika i kontakata i stvara adresar za podatke"
+    "Manages interaction between accounts and contacts" : "Upravlja interakcijom između računa i kontakata",
+    "Collect data about accounts and contacts interactions and provide an address book for the data" : "Prikuplja podatke o interakcijama između računa i kontakata te pruža adresar za te podatke"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -1,23 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Mount;
 
@@ -25,33 +13,19 @@ use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IUser;
+use Override;
 
 /**
  * Mount provider for custom cache storages
  */
 class CacheMountProvider implements IMountProvider {
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
-	 * ObjectStoreHomeMountProvider constructor.
-	 *
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private readonly IConfig $config,
+	) {
 	}
 
-	/**
-	 * Get the cache mount for a user
-	 *
-	 * @param IUser $user
-	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint[]
-	 */
-	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+	#[Override]
+	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		$cacheBaseDir = $this->config->getSystemValueString('cache_path', '');
 		if ($cacheBaseDir !== '') {
 			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user->getUID();

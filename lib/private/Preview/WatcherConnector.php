@@ -3,66 +3,46 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Preview;
 
 use OC\SystemConfig;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Server;
 
 class WatcherConnector {
-	/** @var IRootFolder */
-	private $root;
+	private ?Watcher $watcher = null;
 
-	/** @var SystemConfig */
-	private $config;
-
-	/**
-	 * WatcherConnector constructor.
-	 *
-	 * @param IRootFolder $root
-	 * @param SystemConfig $config
-	 */
-	public function __construct(IRootFolder $root,
-		SystemConfig $config) {
-		$this->root = $root;
-		$this->config = $config;
+	public function __construct(
+		private IRootFolder $root,
+		private SystemConfig $config,
+		private IEventDispatcher $dispatcher,
+	) {
 	}
 
-	/**
-	 * @return Watcher
-	 */
 	private function getWatcher(): Watcher {
-		return \OCP\Server::get(Watcher::class);
+		if ($this->watcher !== null) {
+			return $this->watcher;
+		}
+		$this->watcher = Server::get(Watcher::class);
+		return $this->watcher;
 	}
 
-	public function connectWatcher() {
+	public function connectWatcher(): void {
 		// Do not connect if we are not setup yet!
 		if ($this->config->getValue('instanceid', null) !== null) {
-			$this->root->listen('\OC\Files', 'postWrite', function (Node $node) {
+			$this->root->listen('\OC\Files', 'postWrite', function (Node $node): void {
 				$this->getWatcher()->postWrite($node);
 			});
 
-			\OC_Hook::connect('\OCP\Versions', 'rollback', $this->getWatcher(), 'versionRollback');
+			$this->dispatcher->addListener(VersionRestoredEvent::class, function (VersionRestoredEvent $event): void {
+				$this->getWatcher()->versionRollback(['node' => $event->getVersion()->getSourceFile()]);
+			});
 		}
 	}
 }

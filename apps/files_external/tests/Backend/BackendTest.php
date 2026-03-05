@@ -1,26 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests\Backend;
 
@@ -28,9 +12,9 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\StorageConfig;
 
 class BackendTest extends \Test\TestCase {
-	public function testJsonSerialization() {
+	public function testJsonSerialization(): void {
 		$backend = $this->getMockBuilder(Backend::class)
-			->setMethods(['jsonSerializeDefinition'])
+			->onlyMethods(['jsonSerializeDefinition'])
 			->getMock();
 		$backend->expects($this->once())
 			->method('jsonSerializeDefinition')
@@ -50,19 +34,17 @@ class BackendTest extends \Test\TestCase {
 		$this->assertContains('barauth', array_keys($json['authSchemes']));
 	}
 
-	public function validateStorageProvider() {
+	public static function validateStorageProvider(): array {
 		return [
 			[true, true],
 			[false, false],
 		];
 	}
 
-	/**
-	 * @dataProvider validateStorageProvider
-	 */
-	public function testValidateStorage($expectedSuccess, $definitionSuccess) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateStorageProvider')]
+	public function testValidateStorage(bool $expectedSuccess, bool $definitionSuccess): void {
 		$backend = $this->getMockBuilder(Backend::class)
-			->setMethods(['validateStorageDefinition'])
+			->onlyMethods(['validateStorageDefinition'])
 			->getMock();
 		$backend->expects($this->atMost(1))
 			->method('validateStorageDefinition')
@@ -75,7 +57,7 @@ class BackendTest extends \Test\TestCase {
 		$this->assertEquals($expectedSuccess, $backend->validateStorage($storageConfig));
 	}
 
-	public function testLegacyAuthMechanismCallback() {
+	public function testLegacyAuthMechanismCallback(): void {
 		$backend = new Backend();
 		$backend->setLegacyAuthMechanismCallback(function (array $params) {
 			if (isset($params['ping'])) {

@@ -3,23 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, Michael Weimann <mail@michael-weimann.eu>
- *
- * @author Michael Weimann <mail@michael-weimann.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\File\SimpleFS;
@@ -29,25 +14,21 @@ use OCP\Files\SimpleFS\InMemoryFile;
 use Test\TestCase;
 
 /**
- * This class provide test casesf or the InMemoryFile.
+ * This class provide test cases for the InMemoryFile.
  *
  * @package Test\File\SimpleFS
  */
 class InMemoryFileTest extends TestCase {
 	/**
 	 * Holds a pdf file with know attributes for tests.
-	 *
-	 * @var InMemoryFile
 	 */
-	private $testPdf;
+	private InMemoryFile $testPdf;
 
 	/**
 	 * Sets the test file from "./resources/test.pdf".
-	 *
-	 * @before
-	 * @return void
 	 */
-	public function setupTestPdf() {
+	#[\PHPUnit\Framework\Attributes\Before()]
+	public function setupTestPdf(): void {
 		$fileContents = file_get_contents(
 			__DIR__ . '/../../../data/test.pdf'
 		);
@@ -59,7 +40,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testPutContent() {
+	public function testPutContent(): void {
 		$this->testPdf->putContent('test');
 		self::assertEquals('test', $this->testPdf->getContent());
 	}
@@ -69,7 +50,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->testPdf->delete();
 		// assert true, otherwise phpunit complains about not doing any assert
 		self::assertTrue(true);
@@ -80,7 +61,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetName() {
+	public function testGetName(): void {
 		self::assertEquals('test.pdf', $this->testPdf->getName());
 	}
 
@@ -89,7 +70,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetSize() {
+	public function testGetSize(): void {
 		self::assertEquals(7083, $this->testPdf->getSize());
 	}
 
@@ -98,7 +79,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetContent() {
+	public function testGetContent(): void {
 		self::assertEquals(
 			file_get_contents(__DIR__ . '/../../../data/test.pdf'),
 			$this->testPdf->getContent()
@@ -110,7 +91,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetMTime() {
+	public function testGetMTime(): void {
 		self::assertTrue(is_int($this->testPdf->getMTime()));
 	}
 
@@ -119,19 +100,19 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetMimeType() {
+	public function testGetMimeType(): void {
 		self::assertEquals('application/pdf', $this->testPdf->getMimeType());
 	}
 
 
 	/**
-	 * Asserts that read() raises an NotPermittedException.
-	 *
-	 * @return void
+	 * Ensure that read() returns a stream with the same contents than the original file.
 	 */
-	public function testRead() {
-		self::expectException(NotPermittedException::class);
-		$this->testPdf->read();
+	public function testRead(): void {
+		self::assertEquals(
+			file_get_contents(__DIR__ . '/../../../data/test.pdf'),
+			stream_get_contents($this->testPdf->read()),
+		);
 	}
 
 	/**
@@ -139,7 +120,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testWrite() {
+	public function testWrite(): void {
 		self::expectException(NotPermittedException::class);
 		$this->testPdf->write();
 	}

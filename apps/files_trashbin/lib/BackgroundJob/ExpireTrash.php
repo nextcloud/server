@@ -1,67 +1,52 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Trashbin\BackgroundJob;
 
+use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Expiration;
-use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OCP\IConfig;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
+use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
+use Override;
+use Psr\Log\LoggerInterface;
 
 class ExpireTrash extends TimedJob {
-	private IConfig $config;
-	private Expiration $expiration;
-	private IUserManager $userManager;
+	public const TOGGLE_CONFIG_KEY_NAME = 'background_job_expire_trash';
+	public const OFFSET_CONFIG_KEY_NAME = 'background_job_expire_trash_offset';
+	private const THIRTY_MINUTES = 30 * 60;
+	private const USER_BATCH_SIZE = 10;
 
 	public function __construct(
-		IConfig $config,
-		IUserManager $userManager,
-		Expiration $expiration,
-		ITimeFactory $time
+		private readonly IAppConfig $appConfig,
+		private readonly IUserManager $userManager,
+		private readonly Expiration $expiration,
+		private readonly LoggerInterface $logger,
+		private readonly ISetupManager $setupManager,
+		private readonly ILockingProvider $lockingProvider,
+		private readonly IRootFolder $rootFolder,
+		ITimeFactory $time,
 	) {
 		parent::__construct($time);
-		// Run once per 30 minutes
-		$this->setInterval(60 * 30);
-
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->expiration = $expiration;
+		$this->setInterval(self::THIRTY_MINUTES);
 	}
 
-	/**
-	 * @param $argument
-	 * @throws \Exception
-	 */
-	protected function run($argument) {
-		$backgroundJob = $this->config->getAppValue('files_trashbin', 'background_job_expire_trash', 'yes');
-		if ($backgroundJob === 'no') {
+	#[Override]
+	protected function run($argument): void {
+		$backgroundJob = $this->appConfig->getValueBool(Application::APP_ID, self::TOGGLE_CONFIG_KEY_NAME, true);
+		if (!$backgroundJob) {
 			return;
 		}
 
@@ -70,31 +55,89 @@ class ExpireTrash extends TimedJob {
 			return;
 		}
 
-		$this->userManager->callForSeenUsers(function (IUser $user) {
-			$uid = $user->getUID();
-			if (!$this->setupFS($uid)) {
-				return;
+		$startTime = time();
+
+		// Process users in batches of 10, but don't run for more than 30 minutes
+		while (time() < $startTime + self::THIRTY_MINUTES) {
+			$offset = $this->getNextOffset();
+			$users = $this->userManager->getSeenUsers($offset, self::USER_BATCH_SIZE);
+			$count = 0;
+
+			foreach ($users as $user) {
+				$uid = $user->getUID();
+				$count++;
+
+				try {
+					$folder = $this->getTrashRoot($user);
+					Trashbin::expire($folder, $user);
+				} catch (\Throwable $e) {
+					$this->logger->error('Error while expiring trashbin for user ' . $uid, ['exception' => $e]);
+				} finally {
+					$this->setupManager->tearDown();
+				}
 			}
-			$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
-			Trashbin::deleteExpiredFiles($dirContent, $uid);
+
+			// If the last batch was not full it means that we reached the end of the user list.
+			if ($count < self::USER_BATCH_SIZE) {
+				$this->resetOffset();
+				break;
+			}
+		}
+	}
+
+	private function getTrashRoot(IUser $user): Folder {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
+
+		$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->get('files_trashbin');
+		if (!$folder instanceof Folder) {
+			throw new \LogicException("Didn't expect files_trashbin to be a file instead of a folder");
+		}
+		return $folder;
+	}
+
+	private function getNextOffset(): int {
+		return $this->runMutexOperation(function (): int {
+			$this->appConfig->clearCache();
+
+			$offset = $this->appConfig->getValueInt(Application::APP_ID, self::OFFSET_CONFIG_KEY_NAME, 0);
+			$this->appConfig->setValueInt(Application::APP_ID, self::OFFSET_CONFIG_KEY_NAME, $offset + self::USER_BATCH_SIZE);
+
+			return $offset;
 		});
 
-		\OC_Util::tearDownFS();
+	}
+
+	private function resetOffset(): void {
+		$this->runMutexOperation(function (): void {
+			$this->appConfig->setValueInt(Application::APP_ID, self::OFFSET_CONFIG_KEY_NAME, 0);
+		});
 	}
 
 	/**
-	 * Act on behalf on trash item owner
+	 * @template T
+	 * @param callable(): T $operation
+	 * @return T
 	 */
-	protected function setupFS(string $user): bool {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($user);
+	private function runMutexOperation(callable $operation): mixed {
+		$acquired = false;
 
-		// Check if this user has a trashbin directory
-		$view = new \OC\Files\View('/' . $user);
-		if (!$view->is_dir('/files_trashbin/files')) {
-			return false;
+		while ($acquired === false) {
+			try {
+				$this->lockingProvider->acquireLock(self::OFFSET_CONFIG_KEY_NAME, ILockingProvider::LOCK_EXCLUSIVE, 'Expire trashbin background job offset');
+				$acquired = true;
+			} catch (LockedException $e) {
+				// wait a bit and try again
+				usleep(100000);
+			}
 		}
 
-		return true;
+		try {
+			$result = $operation();
+		} finally {
+			$this->lockingProvider->releaseLock(self::OFFSET_CONFIG_KEY_NAME, ILockingProvider::LOCK_EXCLUSIVE);
+		}
+
+		return $result;
 	}
 }

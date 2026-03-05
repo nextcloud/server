@@ -1,39 +1,20 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Philippe Jung <phil.jung@free.fr>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\User;
+use OCP\AppFramework\Services\IAppConfig;
+use OCP\Config\IUserConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -41,60 +22,39 @@ use OCP\Image;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class Test_User_Manager
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests\User
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ManagerTest extends \Test\TestCase {
-	/** @var Access|\PHPUnit\Framework\MockObject\MockObject */
-	protected $access;
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var FilesystemHelper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $fileSystemHelper;
-
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-
-	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $avatarManager;
-
-	/** @var Image|\PHPUnit\Framework\MockObject\MockObject */
-	protected $image;
-
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $dbc;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $ncUserManager;
-
-	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
-
-	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $ldapWrapper;
-
-	/** @var Connection */
-	protected $connection;
-
-	/** @var Manager */
-	protected $manager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $shareManager;
+	protected Access&MockObject $access;
+	protected IConfig&MockObject $config;
+	protected IUserConfig&MockObject $userConfig;
+	protected IAppConfig&MockObject $appConfig;
+	protected LoggerInterface&MockObject $logger;
+	protected IAvatarManager&MockObject $avatarManager;
+	protected Image&MockObject $image;
+	protected IDBConnection&MockObject $dbc;
+	protected IUserManager&MockObject $ncUserManager;
+	protected INotificationManager&MockObject $notificationManager;
+	protected ILDAPWrapper&MockObject $ldapWrapper;
+	protected Connection $connection;
+	protected IManager&MockObject $shareManager;
+	protected Manager $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->access = $this->createMock(Access::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->fileSystemHelper = $this->createMock(FilesystemHelper::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->image = $this->createMock(Image::class);
@@ -112,7 +72,8 @@ class ManagerTest extends \Test\TestCase {
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->manager = new Manager(
 			$this->config,
-			$this->fileSystemHelper,
+			$this->userConfig,
+			$this->appConfig,
 			$this->logger,
 			$this->avatarManager,
 			$this->image,
@@ -124,7 +85,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->manager->setLdapAccess($this->access);
 	}
 
-	public function dnProvider() {
+	public static function dnProvider(): array {
 		return [
 			['cn=foo,dc=foobar,dc=bar'],
 			['uid=foo,o=foobar,c=bar'],
@@ -132,10 +93,8 @@ class ManagerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dnProvider
-	 */
-	public function testGetByDNExisting(string $inputDN) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dnProvider')]
+	public function testGetByDNExisting(string $inputDN): void {
 		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
 		$this->access->expects($this->once())
@@ -160,7 +119,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertInstanceOf(User::class, $user);
 	}
 
-	public function testGetByDNNotExisting() {
+	public function testGetByDNNotExisting(): void {
 		$inputDN = 'cn=gone,dc=foobar,dc=bar';
 
 		$this->access->expects($this->once())
@@ -182,7 +141,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertNull($user);
 	}
 
-	public function testGetByUidExisting() {
+	public function testGetByUidExisting(): void {
 		$dn = 'cn=foo,dc=foobar,dc=bar';
 		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
@@ -208,7 +167,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertInstanceOf(User::class, $user);
 	}
 
-	public function testGetByUidNotExisting() {
+	public function testGetByUidNotExisting(): void {
 		$uid = 'gone';
 
 		$this->access->expects($this->never())
@@ -224,17 +183,15 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertNull($user);
 	}
 
-	public function attributeRequestProvider() {
+	public static function attributeRequestProvider(): array {
 		return [
 			[false],
 			[true],
 		];
 	}
 
-	/**
-	 * @dataProvider attributeRequestProvider
-	 */
-	public function testGetAttributes($minimal) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attributeRequestProvider')]
+	public function testGetAttributes($minimal): void {
 		$this->connection->setConfiguration([
 			'ldapEmailAttribute' => 'MAIL',
 			'ldapUserAvatarRule' => 'default',
@@ -244,10 +201,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes($minimal);
 
-		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(in_array(strtolower($this->access->getConnection()->ldapEmailAttribute), $attributes));
-		$this->assertTrue(!in_array($this->access->getConnection()->ldapEmailAttribute, $attributes)); #cases check
-		$this->assertFalse(in_array('', $attributes));
+		$this->assertContains('dn', $attributes);
+		$this->assertContains(strtolower($this->access->getConnection()->ldapEmailAttribute), $attributes);
+		$this->assertNotContains($this->access->getConnection()->ldapEmailAttribute, $attributes); #cases check
+		$this->assertNotContains('', $attributes);
 		$this->assertSame(!$minimal, in_array('jpegphoto', $attributes));
 		$this->assertSame(!$minimal, in_array('thumbnailphoto', $attributes));
 		$valueCounts = array_count_values($attributes);

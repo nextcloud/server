@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import { getRowForFile } from './FilesUtils.ts'
 
 describe('files: Drag and Drop', { testIsolation: true }, () => {
@@ -127,6 +131,14 @@ describe('files: Drag and Drop', { testIsolation: true }, () => {
 		cy.get('[data-cy-files-drag-drop-area]').should('not.be.visible')
 		cy.get('[data-cy-upload-picker] progress').should('not.be.visible')
 		cy.get('@uploadFile.all').should('have.length', 2)
+
+		// see the warning
+		cy.get('.toast-warning').should('exist')
+
+		// close all toasts
+		cy.get('.toastify')
+			.findAllByRole('button', { name: 'Close' })
+			.click({ multiple: true })
 
 		getRowForFile('first.txt').should('be.visible')
 		getRowForFile('second.txt').should('be.visible')

@@ -1,28 +1,11 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import client from './DavClient.js'
-
 import type { Response } from 'webdav'
+
+import client from './DavClient.js'
 
 /**
  * Mark comments older than the date timestamp as read
@@ -31,11 +14,11 @@ import type { Response } from 'webdav'
  * @param resourceId the resource ID
  * @param date the date object
  */
-export const markCommentsAsRead = (
+export function markCommentsAsRead(
 	resourceType: string,
 	resourceId: number,
 	date: Date,
-): Promise<Response> => {
+): Promise<Response> {
 	const resourcePath = ['', resourceType, resourceId].join('/')
 	const readMarker = date.toUTCString()
 

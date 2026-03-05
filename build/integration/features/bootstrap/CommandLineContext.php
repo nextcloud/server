@@ -1,31 +1,13 @@
 <?php
-/**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Sujith H <sharidasan@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
- */
-require __DIR__ . '/../../vendor/autoload.php';
 
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+require __DIR__ . '/autoload.php';
+
+use Behat\Behat\Context\Exception\ContextNotFoundException;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use PHPUnit\Framework\Assert;
 
@@ -61,8 +43,12 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	/** @BeforeScenario */
 	public function gatherContexts(BeforeScenarioScope $scope) {
 		$environment = $scope->getEnvironment();
-		// this should really be "WebDavContext" ...
-		$this->featureContext = $environment->getContext('FeatureContext');
+		// this should really be "WebDavContext"
+		try {
+			$this->featureContext = $environment->getContext('FeatureContext');
+		} catch (ContextNotFoundException) {
+			$this->featureContext = $environment->getContext('DavFeatureContext');
+		}
 	}
 
 	private function findLastTransferFolderForUser($sourceUser, $targetUser) {
@@ -71,7 +57,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 		foreach ($results as $path => $data) {
 			$path = rawurldecode($path);
 			$parts = explode(' ', $path);
-			if (basename($parts[0]) !== 'transferred') {
+			if (basename($parts[0]) !== 'Transferred') {
 				continue;
 			}
 			if (isset($parts[2]) && $parts[2] === $sourceUser) {
@@ -116,19 +102,6 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	public function transferringOwnershipPath($path, $user1, $user2) {
 		$path = '--path=' . $path;
 		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2]) === 0) {
-			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
-		} else {
-			// failure
-			$this->lastTransferPath = null;
-		}
-	}
-
-	/**
-	 * @When /^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)" with received shares$/
-	 */
-	public function transferringOwnershipPathWithIncomingShares($path, $user1, $user2) {
-		$path = '--path=' . $path;
-		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2, '--transfer-incoming-shares=1']) === 0) {
 			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
 		} else {
 			// failure

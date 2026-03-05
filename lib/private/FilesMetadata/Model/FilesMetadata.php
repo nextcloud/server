@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright 2023 Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\FilesMetadata\Model;
@@ -44,9 +27,10 @@ class FilesMetadata implements IFilesMetadata {
 	private bool $updated = false;
 	private int $lastUpdate = 0;
 	private string $syncToken = '';
+	private ?int $storageId = null;
 
 	public function __construct(
-		private int $fileId = 0
+		private int $fileId = 0,
 	) {
 	}
 
@@ -57,6 +41,22 @@ class FilesMetadata implements IFilesMetadata {
 	 */
 	public function getFileId(): int {
 		return $this->fileId;
+	}
+
+	public function getStorageId(): ?int {
+		return $this->storageId;
+	}
+
+	/**
+	 * Set which storage the file this metadata belongs to.
+	 *
+	 * This helps with sharded filecache setups to know where to store the metadata
+	 *
+	 * @param int $storageId
+	 * @return void
+	 */
+	public function setStorageId(int $storageId): void {
+		$this->storageId = $storageId;
 	}
 
 	/**

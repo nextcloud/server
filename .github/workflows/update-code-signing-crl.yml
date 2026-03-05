@@ -1,9 +1,14 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Update code signing revocation list
 
 on:
   workflow_dispatch:
   schedule:
     - cron: "5 2 * * *"
+
+permissions:
+  contents: read
 
 jobs:
   update-code-signing-crl:
@@ -12,13 +17,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable28",  "stable27", "stable26", "stable25", "stable24", "stable23", "stable22"]
+        branches: ['master', 'stable33', 'stable32', 'stable31', 'stable30', 'stable29',  'stable28',  'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
 
     name: update-code-signing-crl-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           ref: ${{ matrix.branches }}
           submodules: true
 
@@ -29,15 +35,15 @@ jobs:
         run: openssl crl -verify -in resources/codesigning/root.crl -CAfile resources/codesigning/root.crt -noout
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e
+        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: "fix(security): Update code signing revocation list"
+          commit-message: 'fix(security): Update code signing revocation list'
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
-          branch: automated/noid/${{ matrix.branches }}-update-code-signing-crl
-          title: "[${{ matrix.branches }}] fix(security): Update code signing revocation list"
+          branch: 'automated/noid/${{ matrix.branches }}-update-code-signing-crl'
+          title: '[${{ matrix.branches }}] fix(security): Update code signing revocation list'
           body: |
             Auto-generated update of code signing revocation list from [Appstore](https://github.com/nextcloud/appstore/commits/master/nextcloudappstore/certificate/nextcloud.crl)
           labels: |

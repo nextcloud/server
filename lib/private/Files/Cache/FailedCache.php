@@ -1,23 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Cache;
 
@@ -33,24 +21,16 @@ use OCP\Files\Search\ISearchQuery;
  * Storage placeholder to represent a missing precondition, storage unavailable
  */
 class FailedCache implements ICache {
-	/** @var bool whether to show the failed storage in the ui */
-	private $visible;
-
-	/**
-	 * FailedCache constructor.
-	 *
-	 * @param bool $visible
-	 */
-	public function __construct($visible = true) {
-		$this->visible = $visible;
+	public function __construct(
+		private readonly bool $visible = true,
+	) {
 	}
 
-
-	public function getNumericStorageId() {
+	public function getNumericStorageId(): int {
 		return -1;
 	}
 
-	public function get($file) {
+	public function get($file): false|ICacheEntry {
 		if ($file === '') {
 			return new CacheEntry([
 				'fileid' => -1,
@@ -65,11 +45,11 @@ class FailedCache implements ICache {
 		}
 	}
 
-	public function getFolderContents($folder) {
+	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
-	public function getFolderContentsById($fileId) {
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
@@ -82,15 +62,15 @@ class FailedCache implements ICache {
 	public function update($id, array $data) {
 	}
 
-	public function getId($file) {
+	public function getId($file): int {
 		return -1;
 	}
 
-	public function getParentId($file) {
+	public function getParentId($file): int {
 		return -1;
 	}
 
-	public function inCache($file) {
+	public function inCache($file): bool {
 		return false;
 	}
 
@@ -139,7 +119,7 @@ class FailedCache implements ICache {
 	}
 
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
-		throw new \Exception("Invalid cache");
+		throw new \Exception('Invalid cache');
 	}
 
 	public function getQueryFilterForStorage(): ISearchOperator {

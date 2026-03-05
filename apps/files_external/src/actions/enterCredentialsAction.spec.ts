@@ -1,39 +1,25 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './enterCredentialsAction'
-import { expect } from '@jest/globals'
-import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
-import type { StorageConfig } from '../services/externalStorage'
-import { STORAGE_STATUS } from '../utils/credentialsUtils'
+
+import type { IView } from '@nextcloud/files'
+import type { IStorage } from '../types.ts'
+
+import { DefaultType, File, Folder, Permission } from '@nextcloud/files'
+import { describe, expect, test } from 'vitest'
+import { StorageStatus } from '../types.ts'
+import { action } from './enterCredentialsAction.ts'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const externalStorageView = {
 	id: 'extstoragemounts',
 	name: 'External storage',
-} as View
+} as IView
 
 describe('Enter credentials action conditions tests', () => {
 	test('Default values', () => {
@@ -45,18 +31,32 @@ describe('Enter credentials action conditions tests', () => {
 			permissions: Permission.ALL,
 			attributes: {
 				config: {
-					status: STORAGE_STATUS.SUCCESS,
-				} as StorageConfig,
+					status: StorageStatus.Success,
+				} as IStorage,
 			},
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('credentials-external-storage')
-		expect(action.displayName([storage], externalStorageView)).toBe('Enter missing credentials')
-		expect(action.iconSvgInline([storage], externalStorageView)).toBe('<svg>SvgMock</svg>')
+		expect(action.displayName({
+			view: externalStorageView,
+			nodes: [storage],
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Enter missing credentials')
+		expect(action.iconSvgInline({
+			view: externalStorageView,
+			nodes: [storage],
+			folder: {} as Folder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBe(DefaultType.DEFAULT)
 		expect(action.order).toBe(-1000)
-		expect(action.inline!(storage, externalStorageView)).toBe(true)
+		expect(action.inline!({
+			view: externalStorageView,
+			nodes: [storage],
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 })
 
@@ -71,8 +71,8 @@ describe('Enter credentials action enabled tests', () => {
 			scope: 'system',
 			backend: 'SFTP',
 			config: {
-				status: STORAGE_STATUS.SUCCESS,
-			} as StorageConfig,
+				status: StorageStatus.Success,
+			} as IStorage,
 		},
 	})
 
@@ -86,9 +86,9 @@ describe('Enter credentials action enabled tests', () => {
 			scope: 'system',
 			backend: 'SFTP',
 			config: {
-				status: STORAGE_STATUS.INCOMPLETE_CONF,
+				status: StorageStatus.IncompleteConf,
 				userProvided: true,
-			} as StorageConfig,
+			} as IStorage,
 		},
 	})
 
@@ -102,9 +102,9 @@ describe('Enter credentials action enabled tests', () => {
 			scope: 'system',
 			backend: 'SFTP',
 			config: {
-				status: STORAGE_STATUS.INCOMPLETE_CONF,
+				status: StorageStatus.IncompleteConf,
 				authMechanism: 'password::global::user',
-			} as StorageConfig,
+			} as IStorage,
 		},
 	})
 
@@ -118,7 +118,7 @@ describe('Enter credentials action enabled tests', () => {
 			scope: 'system',
 			backend: 'SFTP',
 			config: {
-			} as StorageConfig,
+			} as IStorage,
 		},
 	})
 
@@ -133,31 +133,61 @@ describe('Enter credentials action enabled tests', () => {
 
 	test('Disabled with on success storage', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([storage], externalStorageView)).toBe(false)
+		expect(action.enabled!({
+			nodes: [storage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled for multiple nodes', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([storage, storage], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [storage, storage],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Enabled for missing user auth storage', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([userProvidedStorage], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [userProvidedStorage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Enabled for missing  global user auth storage', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([globalAuthUserStorage], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [globalAuthUserStorage],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled for missing config', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([missingConfig], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [missingConfig],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled for normal nodes', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([notAStorage], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [notAStorage],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })

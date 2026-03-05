@@ -1,29 +1,14 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Tests\Activity;
 
 use OCA\Files\Activity\Provider;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -43,23 +28,14 @@ use Test\TestCase;
  * @package OCA\Files\Tests\Activity
  */
 class ProviderTest extends TestCase {
-
-	/** @var IFactory|MockObject */
-	protected $l10nFactory;
-	/** @var IURLGenerator|MockObject */
-	protected $url;
-	/** @var IManager|MockObject */
-	protected $activityManager;
-	/** @var IUserManager|MockObject */
-	protected $userManager;
-	/** @var IRootFolder|MockObject */
-	protected $rootFolder;
-	/** @var ICloudIdManager|MockObject */
-	protected $cloudIdManager;
-	/** @var IContactsManager|MockObject */
-	protected $contactsManager;
-	/** @var IEventMerger|MockObject */
-	protected $eventMerger;
+	protected IFactory&MockObject $l10nFactory;
+	protected IURLGenerator&MockObject $url;
+	protected IManager&MockObject $activityManager;
+	protected IUserManager&MockObject $userManager;
+	protected IRootFolder&MockObject $rootFolder;
+	protected ICloudIdManager&MockObject $cloudIdManager;
+	protected IContactsManager&MockObject $contactsManager;
+	protected IEventMerger&MockObject $eventMerger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -91,7 +67,7 @@ class ProviderTest extends TestCase {
 					$this->contactsManager,
 					$this->eventMerger,
 				])
-				->setMethods($methods)
+				->onlyMethods($methods)
 				->getMock();
 		}
 		return new Provider(
@@ -106,23 +82,16 @@ class ProviderTest extends TestCase {
 		);
 	}
 
-	public function dataGetFile() {
+	public static function dataGetFile(): array {
 		return [
 			[[42 => '/FortyTwo.txt'], null, '42', 'FortyTwo.txt', 'FortyTwo.txt'],
 			[['23' => '/Twenty/Three.txt'], null, '23', 'Three.txt', 'Twenty/Three.txt'],
-			['/Foo/Bar.txt', 128, 128, 'Bar.txt', 'Foo/Bar.txt'], // Legacy from ownCloud 8.2 and before
+			['/Foo/Bar.txt', 128, '128', 'Bar.txt', 'Foo/Bar.txt'], // Legacy from ownCloud 8.2 and before
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetFile
-	 * @param mixed $parameter
-	 * @param mixed $eventId
-	 * @param int $id
-	 * @param string $name
-	 * @param string $path
-	 */
-	public function testGetFile($parameter, $eventId, $id, $name, $path) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetFile')]
+	public function testGetFile(array|string $parameter, ?int $eventId, string $id, string $name, string $path): void {
 		$provider = $this->getProvider();
 
 		if ($eventId !== null) {
@@ -149,14 +118,14 @@ class ProviderTest extends TestCase {
 	}
 
 
-	public function testGetFileThrows() {
-		$this->expectException(\InvalidArgumentException::class);
+	public function testGetFileThrows(): void {
+		$this->expectException(UnknownActivityException::class);
 
 		$provider = $this->getProvider();
 		self::invokePrivate($provider, 'getFile', ['/Foo/Bar.txt', null]);
 	}
 
-	public function dataGetUser() {
+	public static function dataGetUser(): array {
 		return [
 			['test', 'Test user', null, ['type' => 'user', 'id' => 'test', 'name' => 'Test user']],
 			['test@http://localhost', null, ['user' => 'test', 'displayId' => 'test@localhost', 'remote' => 'localhost', 'name' => null], ['type' => 'user', 'id' => 'test', 'name' => 'test@localhost', 'server' => 'localhost']],
@@ -165,13 +134,7 @@ class ProviderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetUser
-	 * @param string $uid
-	 * @param string|null $userDisplayName
-	 * @param array|null $cloudIdData
-	 * @param array $expected
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetUser')]
 	public function testGetUser(string $uid, ?string $userDisplayName, ?array $cloudIdData, array $expected): void {
 		$provider = $this->getProvider();
 

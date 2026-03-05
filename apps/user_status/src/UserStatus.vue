@@ -1,71 +1,64 @@
 <!--
-  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<component :is="inline ? 'div' : 'li'">
-		<!-- User Status = Status modal toggle -->
-		<button v-if="!inline"
-			class="user-status-menu-item"
-			@click.stop="openModal">
-			<NcUserStatusIcon class="user-status-icon"
+	<NcListItem
+		v-if="!inline"
+		:class="$style.userStatusMenuItem"
+		compact
+		:name="visibleMessage"
+		@click.stop="openModal">
+		<template #icon>
+			<NcUserStatusIcon
+				:class="$style.userStatusIcon"
 				:status="statusType"
 				aria-hidden="true" />
-			{{ visibleMessage }}
-		</button>
+		</template>
+	</NcListItem>
 
+	<div v-else>
 		<!-- Dashboard Status -->
-		<NcButton v-else
-			@click.stop="openModal">
+		<NcButton @click.stop="openModal">
 			<template #icon>
-				<NcUserStatusIcon class="user-status-icon"
+				<NcUserStatusIcon
+					:class="$style.userStatusIcon"
 					:status="statusType"
 					aria-hidden="true" />
 			</template>
 			{{ visibleMessage }}
 		</NcButton>
-
-		<!-- Status management modal -->
-		<SetStatusModal v-if="isModalOpen"
-			:inline="inline"
-			@close="closeModal" />
-	</component>
+	</div>
+	<!-- Status management modal -->
+	<SetStatusModal
+		v-if="isModalOpen"
+		:inline="inline"
+		@close="closeModal" />
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
 import debounce from 'debounce'
-
-import { sendHeartbeat } from './services/heartbeatService.js'
+import { defineAsyncComponent } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
+import { logger } from './logger.ts'
 import OnlineStatusMixin from './mixins/OnlineStatusMixin.js'
+import { sendHeartbeat } from './services/heartbeatService.js'
 
 export default {
 	name: 'UserStatus',
 
 	components: {
 		NcButton,
+		NcListItem,
 		NcUserStatusIcon,
-		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
+		SetStatusModal: defineAsyncComponent(() => import('./components/SetStatusModal.vue')),
 	},
+
 	mixins: [OnlineStatusMixin],
 
 	props: {
@@ -116,7 +109,7 @@ export default {
 				if (wasAway) {
 					this._backgroundHeartbeat()
 				}
-			}, 1000 * 2, true)
+			}, 1000 * 2, { immediate: true })
 			window.addEventListener('mousemove', this.mouseMoveListener, {
 				capture: true,
 				passive: true,
@@ -130,7 +123,7 @@ export default {
 	/**
 	 * Some housekeeping before destroying the component
 	 */
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('mouseMove', this.mouseMoveListener)
 		clearInterval(this.heartbeatInterval)
 		unsubscribe('user_status:status.updated', this.handleUserStatusUpdated)
@@ -143,6 +136,7 @@ export default {
 		openModal() {
 			this.isModalOpen = true
 		},
+
 		/**
 		 * Closes the modal
 		 */
@@ -165,11 +159,12 @@ export default {
 					await this.$store.dispatch('reFetchStatusFromServer')
 				}
 			} catch (error) {
-				console.debug('Failed sending heartbeat, got: ' + error.response?.status)
+				logger.debug('Failed sending heartbeat, got: ' + error.response?.status)
 			}
 		},
+
 		handleUserStatusUpdated(state) {
-			if (OC.getCurrentUser().uid === state.userId) {
+			if (getCurrentUser()?.uid === state.userId) {
 				this.$store.dispatch('setStatusFromObject', {
 					status: state.status,
 					icon: state.icon,
@@ -181,41 +176,20 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.user-status-menu-item {
-	// Ensure the maxcontrast color is set for the background
-	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
-	width: auto;
-	min-width: 44px;
-	height: 44px;
-	margin: 0;
-	border: 0;
-	border-radius: var(--border-radius-pill);
-	background-color: var(--color-main-background-blur);
-	font-size: inherit;
-	font-weight: normal;
-
-	-webkit-backdrop-filter: var(--background-blur);
-	backdrop-filter: var(--background-blur);
-
-	&:active,
-	&:hover,
-	&:focus-visible {
-		background-color: var(--color-background-hover);
-	}
-	&:focus-visible {
-		box-shadow: 0 0 0 4px var(--color-main-background) !important;
-		outline: 2px solid var(--color-main-text) !important;
-	}
+<style lang="scss" module>
+// Note: As for v9.3.0 NcListItem does not support <style scoped>
+.userStatusMenuItem,
+.userStatusMenuItem * {
+	// TODO: Vue 3 migration - add box-sizing to core menu component
+	box-sizing: border-box;
 }
 
-.user-status-icon {
-	width: 16px;
-	height: 16px;
-	margin-right: 10px;
+.userStatusIcon {
+	width: 20px;
+	height: 20px;
+	margin: calc((var(--default-clickable-area) - 20px) / 2); // 20px icon size
 	opacity: 1 !important;
-	background-size: 16px;
+	background-size: 20px;
 	vertical-align: middle !important;
 }
 </style>

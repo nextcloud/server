@@ -1,53 +1,70 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\SystemTags\Tests\Settings;
 
 use OCA\SystemTags\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
 	/** @var Admin */
 	private $admin;
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $appConfig;
+	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
+	private $initialState;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->admin = new Admin();
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+
+		$this->admin = new Admin(
+			$this->appConfig,
+			$this->initialState
+		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
+		$this->appConfig->expects($this->once())
+			->method('getValueBool')
+			->with('systemtags', 'restrict_creation_to_admin', false)
+			->willReturn(false);
+
+		$this->initialState->expects($this->once())
+			->method('provideInitialState')
+			->with('restrictSystemTagsCreationToAdmin', false);
+
 		$expected = new TemplateResponse('systemtags', 'admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetFormWithRestrictedCreation(): void {
+		$this->appConfig->expects($this->once())
+			->method('getValueBool')
+			->with('systemtags', 'restrict_creation_to_admin', false)
+			->willReturn(true);
+
+		$this->initialState->expects($this->once())
+			->method('provideInitialState')
+			->with('restrictSystemTagsCreationToAdmin', true);
+
+		$expected = new TemplateResponse('systemtags', 'admin', [], '');
+		$this->assertEquals($expected, $this->admin->getForm());
+	}
+
+	public function testGetSection(): void {
 		$this->assertSame('server', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(70, $this->admin->getPriority());
 	}
 }

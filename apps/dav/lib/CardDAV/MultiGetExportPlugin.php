@@ -3,29 +3,12 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CardDAV;
 
+use OCP\AppFramework\Http;
 use Sabre\DAV;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
@@ -61,7 +44,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 		}
 
 		// Only handling xml
-		$contentType = (string) $response->getHeader('Content-Type');
+		$contentType = (string)$response->getHeader('Content-Type');
 		if (!str_contains($contentType, 'application/xml') && !str_contains($contentType, 'text/xml')) {
 			return;
 		}
@@ -83,7 +66,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 		$response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
 		$response->setHeader('Content-Type', 'text/vcard');
 
-		$response->setStatus(200);
+		$response->setStatus(Http::STATUS_OK);
 		$response->setBody($output);
 
 		return true;

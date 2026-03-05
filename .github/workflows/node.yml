@@ -2,11 +2,13 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
 name: Node
 
-on:
-  pull_request:
+on: pull_request
 
 permissions:
   contents: read
@@ -18,6 +20,9 @@ concurrency:
 jobs:
   changes:
     runs-on: ubuntu-latest-low
+    permissions:
+      contents: read
+      pull-requests: read
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -32,12 +37,15 @@ jobs:
               - '.github/workflows/**'
               - '**/src/**'
               - '**/appinfo/info.xml'
+              - 'core/css/*'
+              - 'core/img/**'
               - 'package.json'
-              - 'package-lock.json'
+              - '**/package-lock.json'
               - 'tsconfig.json'
               - '**.js'
               - '**.ts'
               - '**.vue'
+              - 'version.php'
 
   build:
     runs-on: ubuntu-latest
@@ -48,22 +56,31 @@ jobs:
     name: NPM build
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v3.6.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: versions
         with:
-          fallbackNode: '^20'
-          fallbackNpm: '^9'
+          fallbackNode: '^24'
+          fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
-        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+        run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
+
+      # This does not work on server as we have some git dependencies that "npm-package-lock-add-resolved" cannot handle
+      # - name: Validate package-lock.json # See https://github.com/npm/cli/issues/4460
+      #   run: |
+      #     npm i -g npm-package-lock-add-resolved@1.1.4
+      #     npm-package-lock-add-resolved
+      #     git --no-pager diff --exit-code
 
       - name: Install dependencies & build
         env:
@@ -73,7 +90,7 @@ jobs:
           npm ci
           npm run build --if-present
 
-      - name: Check webpack build changes
+      - name: Check build changes
         run: |
           bash -c "[[ ! \"`git status --porcelain `\" ]] || (echo 'Please recompile and commit the assets, see the section \"Show changes on failure\" for details' && exit 1)"
 

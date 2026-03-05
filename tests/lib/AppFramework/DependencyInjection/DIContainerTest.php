@@ -1,26 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @author Morris Jobke
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- * @copyright 2013 Morris Jobke <morris.jobke@gmail.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\DependencyInjection;
@@ -35,41 +20,41 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IRequestId;
+use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DIContainerTest extends \Test\TestCase {
-	/** @var DIContainer|\PHPUnit\Framework\MockObject\MockObject */
-	private $container;
+	private DIContainer&MockObject $container;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->container = $this->getMockBuilder(DIContainer::class)
-			->setMethods(['isAdminUser'])
+			->onlyMethods(['isAdminUser'])
 			->setConstructorArgs(['name'])
 			->getMock();
 	}
 
 
-	public function testProvidesRequest() {
+	public function testProvidesRequest(): void {
 		$this->assertTrue(isset($this->container['Request']));
 	}
 
-	public function testProvidesMiddlewareDispatcher() {
+	public function testProvidesMiddlewareDispatcher(): void {
 		$this->assertTrue(isset($this->container['MiddlewareDispatcher']));
 	}
 
-	public function testProvidesAppName() {
+	public function testProvidesAppName(): void {
 		$this->assertTrue(isset($this->container['AppName']));
+		$this->assertTrue(isset($this->container['appName']));
 	}
 
 
-	public function testAppNameIsSetCorrectly() {
+	public function testAppNameIsSetCorrectly(): void {
 		$this->assertEquals('name', $this->container['AppName']);
+		$this->assertEquals('name', $this->container['appName']);
 	}
 
-	public function testMiddlewareDispatcherIncludesSecurityMiddleware() {
+	public function testMiddlewareDispatcherIncludesSecurityMiddleware(): void {
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
 			$this->createMock(IRequestId::class),
@@ -152,7 +137,7 @@ class DIContainerTest extends \Test\TestCase {
 		$this->fail('Bootstrap registered middleware not found');
 	}
 
-	public function testInvalidAppClass() {
+	public function testInvalidAppClass(): void {
 		$this->expectException(QueryException::class);
 		$this->container->query('\OCA\Name\Foo');
 	}

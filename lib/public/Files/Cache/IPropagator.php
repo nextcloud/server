@@ -1,34 +1,26 @@
 <?php
-/**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
- */
-namespace OCP\Files\Cache;
+
+declare(strict_types=1);
 
 /**
- * Propagate etags and mtimes within the storage
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+namespace OCP\Files\Cache;
+
+use OCP\AppFramework\Attribute\Consumable;
+
+/**
+ * Propagate ETags and mtimes within the storage.
  *
  * @since 9.0.0
  */
+#[Consumable(since: '9.0.0')]
 interface IPropagator {
 	/**
-	 * Mark the beginning of a propagation batch
+	 * Mark the beginning of a propagation batch.
 	 *
 	 * Note that not all cache setups support propagation in which case this will be a noop
 	 *
@@ -37,20 +29,20 @@ interface IPropagator {
 	 *
 	 * @since 9.1.0
 	 */
-	public function beginBatch();
+	public function beginBatch(): void;
 
 	/**
-	 * Commit the active propagation batch
+	 * Commit the active propagation batch.
 	 *
 	 * @since 9.1.0
 	 */
-	public function commitBatch();
+	public function commitBatch(): void;
 
 	/**
 	 * @param string $internalPath
 	 * @param int $time
-	 * @param int $sizeDifference
+	 * @param int $sizeDifference The number of bytes the file has grown.
 	 * @since 9.0.0
 	 */
-	public function propagateChange($internalPath, $time, $sizeDifference = 0);
+	public function propagateChange(string $internalPath, int $time, int $sizeDifference = 0): void;
 }

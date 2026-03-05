@@ -1,15 +1,16 @@
 <?php
+
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
+use OCP\Server;
 
 class TestQueuedJobNew extends QueuedJob {
 	public bool $ran = false;
@@ -28,8 +29,8 @@ class QueuedJobTest extends \Test\TestCase {
 		$this->jobList = new DummyJobList();
 	}
 
-	public function testJobShouldBeRemovedNew() {
-		$job = new TestQueuedJobNew(\OCP\Server::get(ITimeFactory::class));
+	public function testJobShouldBeRemovedNew(): void {
+		$job = new TestQueuedJobNew(Server::get(ITimeFactory::class));
 		$job->setId(42);
 		$this->jobList->add($job);
 

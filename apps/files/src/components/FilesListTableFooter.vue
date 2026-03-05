@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<tr>
 		<th class="files-list__row-checkbox">
@@ -38,18 +21,26 @@
 		<!-- Actions -->
 		<td class="files-list__row-actions" />
 
+		<!-- Mime -->
+		<td
+			v-if="isMimeAvailable"
+			class="files-list__column files-list__row-mime" />
+
 		<!-- Size -->
-		<td v-if="isSizeAvailable"
+		<td
+			v-if="isSizeAvailable"
 			class="files-list__column files-list__row-size">
 			<span>{{ totalSize }}</span>
 		</td>
 
 		<!-- Mtime -->
-		<td v-if="isMtimeAvailable"
+		<td
+			v-if="isMtimeAvailable"
 			class="files-list__column files-list__row-mtime" />
 
 		<!-- Custom views columns -->
-		<th v-for="column in columns"
+		<th
+			v-for="column in columns"
 			:key="column.id"
 			:class="classForColumn(column)">
 			<span>{{ column.summary?.(nodes, currentView) }}</span>
@@ -57,110 +48,75 @@
 	</tr>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import type { IColumn, INode, IView } from '@nextcloud/files'
+
 import { formatFileSize } from '@nextcloud/files'
-import { translate } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useActiveStore } from '../store/active.ts'
 
-import { useFilesStore } from '../store/files.ts'
-import { usePathsStore } from '../store/paths.ts'
+const props = defineProps<{
+	/** The current view */
+	currentView: IView
 
-export default Vue.extend({
-	name: 'FilesListTableFooter',
+	/** Whether the mime column is available */
+	isMimeAvailable: boolean
 
-	components: {
-	},
+	/** Whether the mtime column is available */
+	isMtimeAvailable: boolean
 
-	props: {
-		isMtimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		isSizeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		nodes: {
-			type: Array,
-			required: true,
-		},
-		summary: {
-			type: String,
-			default: '',
-		},
-		filesListWidth: {
-			type: Number,
-			default: 0,
-		},
-	},
+	/** Whether the size column is available */
+	isSizeAvailable: boolean
 
-	setup() {
-		const pathsStore = usePathsStore()
-		const filesStore = useFilesStore()
-		return {
-			filesStore,
-			pathsStore,
-		}
-	},
+	/** The nodes to summarize */
+	nodes: INode[]
 
-	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
+	/** Summary text */
+	summary: string
+}>()
 
-		dir() {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
-		},
+const activeStore = useActiveStore()
+const { isNarrow } = useFileListWidth()
 
-		currentFolder() {
-			if (!this.currentView?.id) {
-				return
-			}
+const currentFolder = computed(() => activeStore.activeFolder)
 
-			if (this.dir === '/') {
-				return this.filesStore.getRoot(this.currentView.id)
-			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
-			return this.filesStore.getNode(fileId)
-		},
-
-		columns() {
-			// Hide columns if the list is too small
-			if (this.filesListWidth < 512) {
-				return []
-			}
-			return this.currentView?.columns || []
-		},
-
-		totalSize() {
-			// If we have the size already, let's use it
-			if (this.currentFolder?.size) {
-				return formatFileSize(this.currentFolder.size, true)
-			}
-
-			// Otherwise let's compute it
-			return formatFileSize(this.nodes.reduce((total, node) => total + node.size || 0, 0), true)
-		},
-	},
-
-	methods: {
-		classForColumn(column) {
-			return {
-				'files-list__row-column-custom': true,
-				[`files-list__row-${this.currentView.id}-${column.id}`]: true,
-			}
-		},
-
-		t: translate,
-	},
+const columns = computed(() => {
+	// Hide columns if the list is too small
+	if (isNarrow.value) {
+		return []
+	}
+	return props.currentView?.columns || []
 })
+
+const totalSize = computed(() => {
+	// If we have the size already, let's use it
+	if (currentFolder.value?.size) {
+		return formatFileSize(currentFolder.value.size, true)
+	}
+
+	// Otherwise let's compute it
+	return formatFileSize(props.nodes.reduce((total, node) => total + (node.size ?? 0), 0), true)
+})
+
+/**
+ * Get the CSS classes for a custom column
+ *
+ * @param column - The column
+ */
+function classForColumn(column: IColumn) {
+	return {
+		'files-list__row-column-custom': true,
+		[`files-list__row-${props.currentView.id}-${column.id}`]: true,
+	}
+}
 </script>
 
 <style scoped lang="scss">
 // Scoped row
 tr {
-	margin-bottom: 300px;
+	margin-bottom: var(--body-container-margin);
 	border-top: 1px solid var(--color-border);
 	// Prevent hover effect on the whole row
 	background-color: transparent !important;

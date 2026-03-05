@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Kate Döen <kate.doeen@nextcloud.com>
- *
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Settings\Controller;
@@ -32,6 +15,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OCA\Settings\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
@@ -70,6 +54,45 @@ class DeclarativeSettingsController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function setValue(string $app, string $formId, string $fieldId, mixed $value): DataResponse {
+		return $this->saveValue($app, $formId, $fieldId, $value);
+	}
+
+	/**
+	 * Sets a declarative settings value.
+	 * Password confirmation is required for sensitive values.
+	 *
+	 * @param string $app ID of the app
+	 * @param string $formId ID of the form
+	 * @param string $fieldId ID of the field
+	 * @param mixed $value Value to be saved
+	 * @return DataResponse<Http::STATUS_OK, null, array{}>
+	 * @throws NotLoggedInException Not logged in or not an admin user
+	 * @throws NotAdminException Not logged in or not an admin user
+	 * @throws OCSBadRequestException Invalid arguments to save value
+	 *
+	 * 200: Value set successfully
+	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
+	public function setSensitiveValue(string $app, string $formId, string $fieldId, mixed $value): DataResponse {
+		return $this->saveValue($app, $formId, $fieldId, $value);
+	}
+
+	/**
+	 * Sets a declarative settings value.
+	 *
+	 * @param string $app ID of the app
+	 * @param string $formId ID of the form
+	 * @param string $fieldId ID of the field
+	 * @param mixed $value Value to be saved
+	 * @return DataResponse<Http::STATUS_OK, null, array{}>
+	 * @throws NotLoggedInException Not logged in or not an admin user
+	 * @throws NotAdminException Not logged in or not an admin user
+	 * @throws OCSBadRequestException Invalid arguments to save value
+	 *
+	 * 200: Value set successfully
+	 */
+	private function saveValue(string $app, string $formId, string $fieldId, mixed $value): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
 			throw new NotLoggedInException();

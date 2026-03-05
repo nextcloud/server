@@ -1,57 +1,23 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Individual IT Services <info@individual-it.net>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jonas Meurer <jonas@freesources.org>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Pellaeon Lin <nfsmwlin@gmail.com>
- * @author Randolph Carter <RandolphCarter@fantasymail.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OC\Security\CSRF\CsrfTokenManager;
+use OCP\L10N\IFactory;
+use OCP\Mail\IEmailValidator;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -69,9 +35,10 @@ class Util {
 	 * get the current installed version of Nextcloud
 	 * @return array
 	 * @since 4.0.0
+	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getVersion
 	 */
 	public static function getVersion() {
-		return \OC_Util::getVersion();
+		return Server::get(ServerVersion::class)->getVersion();
 	}
 
 	/**
@@ -80,11 +47,11 @@ class Util {
 	public static function hasExtendedSupport(): bool {
 		try {
 			/** @var \OCP\Support\Subscription\IRegistry */
-			$subscriptionRegistry = \OCP\Server::get(\OCP\Support\Subscription\IRegistry::class);
+			$subscriptionRegistry = Server::get(\OCP\Support\Subscription\IRegistry::class);
 			return $subscriptionRegistry->delegateHasExtendedSupport();
 		} catch (ContainerExceptionInterface $e) {
 		}
-		return \OC::$server->getConfig()->getSystemValueBool('extendedSupport', false);
+		return \OCP\Server::get(IConfig::class)->getSystemValueBool('extendedSupport', false);
 	}
 
 	/**
@@ -93,16 +60,17 @@ class Util {
 	 * @since 8.1.0
 	 */
 	public static function setChannel($channel) {
-		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
+		\OCP\Server::get(IConfig::class)->setSystemValue('updater.release.channel', $channel);
 	}
 
 	/**
 	 * Get current update channel
 	 * @return string
 	 * @since 8.1.0
+	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getChannel
 	 */
 	public static function getChannel() {
-		return \OC_Util::getChannel();
+		return \OCP\Server::get(ServerVersion::class)->getChannel();
 	}
 
 	/**
@@ -110,19 +78,16 @@ class Util {
 	 *
 	 * @return boolean
 	 * @since 7.0.0
-	 * @deprecated 9.1.0 Use \OC::$server->get(\OCP\Share\IManager::class)->sharingDisabledForUser
+	 * @deprecated 9.1.0 Use Server::get(\OCP\Share\IManager::class)->sharingDisabledForUser
 	 */
 	public static function isSharingDisabledForUser() {
 		if (self::$shareManager === null) {
-			self::$shareManager = \OC::$server->get(IManager::class);
+			self::$shareManager = Server::get(IManager::class);
 		}
 
-		$user = \OC::$server->getUserSession()->getUser();
-		if ($user !== null) {
-			$user = $user->getUID();
-		}
+		$user = Server::get(\OCP\IUserSession::class)->getUser();
 
-		return self::$shareManager->sharingDisabledForUser($user);
+		return self::$shareManager->sharingDisabledForUser($user?->getUID());
 	}
 
 	/**
@@ -134,13 +99,15 @@ class Util {
 	}
 
 	/**
-	 * add a css file
-	 * @param string $application
-	 * @param string $file
+	 * Add a css file
+	 *
+	 * @param string $application application id
+	 * @param ?string $file filename
+	 * @param bool $prepend prepend the style to the beginning of the list
 	 * @since 4.0.0
 	 */
-	public static function addStyle($application, $file = null) {
-		\OC_Util::addStyle($application, $file);
+	public static function addStyle(string $application, ?string $file = null, bool $prepend = false): void {
+		\OC_Util::addStyle($application, $file, $prepend);
 	}
 
 	/**
@@ -215,7 +182,7 @@ class Util {
 	 */
 	public static function getScripts(): array {
 		// Sort scriptDeps into sortedScriptDeps
-		$scriptSort = \OC::$server->get(AppScriptSort::class);
+		$scriptSort = \OCP\Server::get(AppScriptSort::class);
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
@@ -242,7 +209,7 @@ class Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
+			$languageCode = \OCP\Server::get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -275,12 +242,12 @@ class Util {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 * 	The value of $args will be urlencoded
+	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkToAbsolute($app, $file, $args = []) {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
 		);
@@ -293,7 +260,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function linkToRemote($service) {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
 		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
 		return $urlGenerator->getAbsoluteURL(
 			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')
@@ -306,7 +273,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getServerHostName() {
-		$host_name = \OC::$server->getRequest()->getServerHost();
+		$host_name = \OCP\Server::get(IRequest::class)->getServerHost();
 		// strip away port number (if existing)
 		$colon_pos = strpos($host_name, ':');
 		if ($colon_pos != false) {
@@ -332,23 +299,23 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getDefaultEmailAddress(string $user_part): string {
-		$config = \OC::$server->getConfig();
+		$config = \OCP\Server::get(IConfig::class);
 		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
-		$defaultEmailAddress = $user_part.'@'.$host_name;
+		$defaultEmailAddress = $user_part . '@' . $host_name;
 
-		$mailer = \OC::$server->getMailer();
-		if ($mailer->validateMailAddress($defaultEmailAddress)) {
+		$emailValidator = \OCP\Server::get(IEmailValidator::class);
+		if ($emailValidator->isValid($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
 
 		// in case we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
-		return $user_part.'@localhost.localdomain';
+		return $user_part . '@localhost.localdomain';
 	}
 
 	/**
-	 * Converts string to int of float depending if it fits an int
+	 * Converts string to int of float depending on if it fits an int
 	 * @param numeric-string|float|int $number numeric string
 	 * @return int|float int if it fits, float if it is too big
 	 * @since 26.0.0
@@ -365,19 +332,70 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function humanFileSize(int|float $bytes): string {
-		return \OC_Helper::humanFileSize($bytes);
+		if ($bytes < 0) {
+			return '?';
+		}
+		if ($bytes < 1024) {
+			return "$bytes B";
+		}
+		$bytes = round($bytes / 1024, 0);
+		if ($bytes < 1024) {
+			return "$bytes KB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes MB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes GB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes TB";
+		}
+
+		$bytes = round($bytes / 1024, 1);
+		return "$bytes PB";
 	}
 
 	/**
 	 * Make a computer file size (2 kB to 2048)
+	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
+	 *
 	 * @param string $str file size in a fancy format
 	 * @return false|int|float a file size in bytes
-	 *
-	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
 	 */
 	public static function computerFileSize(string $str): false|int|float {
-		return \OC_Helper::computerFileSize($str);
+		$str = strtolower($str);
+		if (is_numeric($str)) {
+			return Util::numericToNumber($str);
+		}
+
+		$bytes_array = [
+			'b' => 1,
+			'k' => 1024,
+			'kb' => 1024,
+			'mb' => 1024 * 1024,
+			'm' => 1024 * 1024,
+			'gb' => 1024 * 1024 * 1024,
+			'g' => 1024 * 1024 * 1024,
+			'tb' => 1024 * 1024 * 1024 * 1024,
+			't' => 1024 * 1024 * 1024 * 1024,
+			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
+			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
+		];
+
+		$bytes = (float)$str;
+
+		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && isset($bytes_array[$matches[1]])) {
+			$bytes *= $bytes_array[$matches[1]];
+		} else {
+			return false;
+		}
+
+		return Util::numericToNumber(round($bytes));
 	}
 
 	/**
@@ -416,7 +434,7 @@ class Util {
 
 	/**
 	 * Cached encrypted CSRF token. Some static unit-tests of ownCloud compare
-	 * multiple OC_Template elements which invoke `callRegister`. If the value
+	 * multiple Template elements which invoke `callRegister`. If the value
 	 * would not be cached these unit-tests would fail.
 	 * @var string
 	 */
@@ -425,10 +443,11 @@ class Util {
 	/**
 	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * @since 4.5.0
+	 * @deprecated 32.0.0 directly use CsrfTokenManager instead
 	 */
 	public static function callRegister() {
 		if (self::$token === '') {
-			self::$token = \OC::$server->getCsrfTokenManager()->getToken()->getEncryptedValue();
+			self::$token = \OCP\Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
 		}
 		return self::$token;
 	}
@@ -440,7 +459,7 @@ class Util {
 	 * string or array of strings before displaying it on a web page.
 	 *
 	 * @param string|string[] $value
-	 * @return string|string[] an array of sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @return ($value is array ? string[] : string) an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
 	public static function sanitizeHTML($value) {
@@ -472,7 +491,12 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		return \OC_Helper::mb_array_change_key_case($input, $case, $encoding);
+		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
+		$ret = [];
+		foreach ($input as $k => $v) {
+			$ret[mb_convert_case($k, $case, $encoding)] = $v;
+		}
+		return $ret;
 	}
 
 	/**
@@ -486,7 +510,18 @@ class Util {
 	 * @deprecated 15.0.0
 	 */
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
-		return \OC_Helper::recursiveArraySearch($haystack, $needle, $index);
+		$aIt = new \RecursiveArrayIterator($haystack);
+		$it = new \RecursiveIteratorIterator($aIt);
+
+		while ($it->valid()) {
+			if (((isset($index) && ($it->key() == $index)) || !isset($index)) && ($it->current() == $needle)) {
+				return $aIt->key();
+			}
+
+			$it->next();
+		}
+
+		return false;
 	}
 
 	/**
@@ -498,7 +533,10 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function maxUploadFilesize(string $dir, int|float|null $free = null): int|float {
-		return \OC_Helper::maxUploadFilesize($dir, $free);
+		if (is_null($free) || $free < 0) {
+			$free = self::freeSpace($dir);
+		}
+		return min($free, self::uploadLimit());
 	}
 
 	/**
@@ -508,7 +546,13 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function freeSpace(string $dir): int|float {
-		return \OC_Helper::freeSpace($dir);
+		$freeSpace = \OC\Files\Filesystem::free_space($dir);
+		if ($freeSpace < \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+			$freeSpace = max($freeSpace, 0);
+			return $freeSpace;
+		} else {
+			return (INF > 0)? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
+		}
 	}
 
 	/**
@@ -518,40 +562,16 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function uploadLimit(): int|float {
-		return \OC_Helper::uploadLimit();
-	}
-
-	/**
-	 * Get a list of characters forbidden in file names
-	 * @return string[]
-	 * @since 29.0.0
-	 */
-	public static function getForbiddenFileNameChars(): array {
-		// Get always forbidden characters
-		$invalidChars = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
-		if ($invalidChars === false) {
-			$invalidChars = [];
+		$ini = Server::get(IniGetWrapper::class);
+		$upload_max_filesize = self::computerFileSize($ini->get('upload_max_filesize')) ?: 0;
+		$post_max_size = self::computerFileSize($ini->get('post_max_size')) ?: 0;
+		if ($upload_max_filesize === 0 && $post_max_size === 0) {
+			return INF;
+		} elseif ($upload_max_filesize === 0 || $post_max_size === 0) {
+			return max($upload_max_filesize, $post_max_size); //only the non 0 value counts
+		} else {
+			return min($upload_max_filesize, $post_max_size);
 		}
-
-		// Get admin defined invalid characters
-		$additionalChars = \OCP\Server::get(IConfig::class)->getSystemValue('forbidden_chars', []);
-		if (!is_array($additionalChars)) {
-			\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "forbidden_chars" is ignored.');
-			$additionalChars = [];
-		}
-		return array_merge($invalidChars, $additionalChars);
-	}
-
-	/**
-	 * Returns whether the given file name is valid
-	 * @param string $file file name to check
-	 * @return bool true if the file name is valid, false otherwise
-	 * @deprecated 8.1.0 use OCP\Files\Storage\IStorage::verifyPath()
-	 * @since 7.0.0
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function isValidFileName($file) {
-		return \OC_Util::isValidFileName($file);
 	}
 
 	/**
@@ -559,7 +579,7 @@ class Util {
 	 * @param string $a first string to compare
 	 * @param string $b second string to compare
 	 * @return int -1 if $b comes before $a, 1 if $a comes before $b
-	 * or 0 if the strings are identical
+	 *             or 0 if the strings are identical
 	 * @since 7.0.0
 	 */
 	public static function naturalSortCompare($a, $b) {
@@ -596,7 +616,7 @@ class Util {
 	 */
 	public static function needUpgrade() {
 		if (!isset(self::$needUpgradeCache)) {
-			self::$needUpgradeCache = \OC_Util::needUpgrade(\OC::$server->getSystemConfig());
+			self::$needUpgradeCache = \OC_Util::needUpgrade(\OCP\Server::get(\OC\SystemConfig::class));
 		}
 		return self::$needUpgradeCache;
 	}
@@ -634,7 +654,7 @@ class Util {
 		if (!function_exists($functionName)) {
 			return false;
 		}
-		$ini = \OCP\Server::get(IniGetWrapper::class);
+		$ini = Server::get(IniGetWrapper::class);
 		$disabled = explode(',', $ini->get('disable_functions') ?: '');
 		$disabled = array_map('trim', $disabled);
 		if (in_array($functionName, $disabled)) {

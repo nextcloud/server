@@ -1,31 +1,14 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 
 /**
@@ -36,8 +19,17 @@ class ShareesContext implements Context, SnippetAcceptingContext {
 	use AppConfiguration;
 
 	protected function resetAppConfigs() {
-		$this->deleteServerConfig('core', 'shareapi_only_share_with_group_members');
-		$this->deleteServerConfig('core', 'shareapi_allow_share_dialog_user_enumeration');
 		$this->deleteServerConfig('core', 'shareapi_allow_group_sharing');
+		$this->deleteServerConfig('core', 'shareapi_allow_share_dialog_user_enumeration');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups_list');
+		$this->deleteServerConfig('core', 'shareapi_only_share_with_group_members');
+		$this->deleteServerConfig('core', 'shareapi_only_share_with_group_members_exclude_group_list');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_email');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_userid');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_group');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_phone');
 	}
 }

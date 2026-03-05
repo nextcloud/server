@@ -1,32 +1,16 @@
 <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  - @author Richard Steinmetz <richard@steinmetz.cloud>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<div v-element-visibility="onVisibilityChange"
+	<div
+		v-element-visibility="onVisibilityChange"
 		class="comments"
 		:class="{ 'icon-loading': isFirstLoading }">
 		<!-- Editor -->
-		<Comment v-bind="editorData"
+		<Comment
+			v-bind="editorData"
 			:auto-complete="autoComplete"
 			:resource-type="resourceType"
 			:editor="true"
@@ -36,16 +20,18 @@
 			@new="onNewComment" />
 
 		<template v-if="!isFirstLoading">
-			<NcEmptyContent v-if="!hasComments && done"
+			<NcEmptyContent
+				v-if="!hasComments && done"
 				class="comments__empty"
 				:name="t('comments', 'No comments yet, start the conversation!')">
 				<template #icon>
-					<MessageReplyTextIcon />
+					<IconMessageReplyTextOutline />
 				</template>
 			</NcEmptyContent>
 			<ul v-else>
 				<!-- Comments -->
-				<Comment v-for="comment in comments"
+				<Comment
+					v-for="comment in comments"
 					:key="comment.props.id"
 					tag="li"
 					v-bind="comment.props"
@@ -69,12 +55,12 @@
 			<template v-else-if="error">
 				<NcEmptyContent class="comments__error" :name="error">
 					<template #icon>
-						<AlertCircleOutlineIcon />
+						<IconAlertCircleOutline />
 					</template>
 				</NcEmptyContent>
 				<NcButton class="comments__retry" @click="getComments">
 					<template #icon>
-						<RefreshIcon />
+						<IconRefresh />
 					</template>
 					{{ t('comments', 'Retry') }}
 				</NcButton>
@@ -87,29 +73,29 @@
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vElementVisibility as elementVisibility } from '@vueuse/components'
-
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
-import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue'
-import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
-
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import IconMessageReplyTextOutline from 'vue-material-design-icons/MessageReplyTextOutline.vue'
+import IconRefresh from 'vue-material-design-icons/Refresh.vue'
 import Comment from '../components/Comment.vue'
-import CommentView from '../mixins/CommentView'
-import cancelableRequest from '../utils/cancelableRequest.js'
-import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
+import logger from '../logger.js'
+import CommentView from '../mixins/CommentView.ts'
+import { DEFAULT_LIMIT, getComments } from '../services/GetComments.ts'
 import { markCommentsAsRead } from '../services/ReadComments.ts'
+import cancelableRequest from '../utils/cancelableRequest.js'
 
 export default {
+	/* eslint vue/multi-word-component-names: "warn" */
 	name: 'Comments',
 
 	components: {
 		Comment,
 		NcEmptyContent,
 		NcButton,
-		RefreshIcon,
-		MessageReplyTextIcon,
-		AlertCircleOutlineIcon,
+		IconRefresh,
+		IconMessageReplyTextOutline,
+		IconAlertCircleOutline,
 	},
 
 	directives: {
@@ -124,7 +110,6 @@ export default {
 			loading: false,
 			done: false,
 
-			currentResourceId: this.resourceId,
 			offset: 0,
 			comments: [],
 
@@ -139,6 +124,7 @@ export default {
 		hasComments() {
 			return this.comments.length > 0
 		},
+
 		isFirstLoading() {
 			return this.loading && this.offset === 0
 		},
@@ -171,7 +157,7 @@ export default {
 		async update(resourceId) {
 			this.currentResourceId = resourceId
 			this.resetState()
-			this.getComments()
+			await this.getComments()
 		},
 
 		/**
@@ -219,8 +205,13 @@ export default {
 					this.done = true
 				}
 
+				// Ensure actor id is a string
+				for (const comment of comments) {
+					comment.props.actorId = comment.props.actorId.toString()
+				}
+
 				// Insert results
-				this.comments.push(...comments)
+				this.comments = [...this.comments, ...comments]
 
 				// Increase offset for next fetch
 				this.offset += DEFAULT_LIMIT
@@ -229,7 +220,7 @@ export default {
 					return
 				}
 				this.error = t('comments', 'Unable to load the comments list')
-				console.error('Error loading the comments list', error)
+				logger.error('Error loading the comments list', { error })
 			} finally {
 				this.loading = false
 			}
@@ -250,11 +241,11 @@ export default {
 		 * @param {number} id the deleted comment
 		 */
 		onDelete(id) {
-			const index = this.comments.findIndex(comment => comment.props.id === id)
+			const index = this.comments.findIndex((comment) => comment.props.id === id)
 			if (index > -1) {
 				this.comments.splice(index, 1)
 			} else {
-				console.error('Could not find the deleted comment in the list', id)
+				logger.error('Could not find the deleted comment in the list', { id })
 			}
 		},
 

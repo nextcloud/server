@@ -1,14 +1,15 @@
 <?php
+
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class JobTest extends \Test\TestCase {
@@ -19,16 +20,16 @@ class JobTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->run = false;
-		$this->timeFactory = \OCP\Server::get(ITimeFactory::class);
+		$this->timeFactory = Server::get(ITimeFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		\OC::$server->registerService(LoggerInterface::class, fn ($c) => $this->logger);
 	}
 
-	public function testRemoveAfterException() {
+	public function testRemoveAfterException(): void {
 		$jobList = new DummyJobList();
 		$e = new \Exception();
-		$job = new TestJob($this->timeFactory, $this, function () use ($e) {
+		$job = new TestJob($this->timeFactory, $this, function () use ($e): void {
 			throw $e;
 		});
 		$jobList->add($job);
@@ -42,9 +43,9 @@ class JobTest extends \Test\TestCase {
 		$this->assertCount(1, $jobList->getAll());
 	}
 
-	public function testRemoveAfterError() {
+	public function testRemoveAfterError(): void {
 		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this, function () {
+		$job = new TestJob($this->timeFactory, $this, function (): void {
 			$test = null;
 			$test->someMethod();
 		});

@@ -1,35 +1,14 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-// TODO: remove when ie not supported
-import 'url-search-params-polyfill'
-
-import { generateOcsUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
-import Share from '../models/Share.js'
+import axios, { isAxiosError } from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
+import { generateOcsUrl } from '@nextcloud/router'
+import Share from '../models/Share.ts'
+import logger from '../services/logger.ts'
 
 const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 
@@ -46,10 +25,10 @@ export default {
 		 * @param {string} [data.password]  password to protect public link Share with
 		 * @param {number} [data.permissions]  1 = read; 2 = update; 4 = create; 8 = delete; 16 = share; 31 = all (default: 31, for public shares: 1)
 		 * @param {boolean} [data.sendPasswordByTalk] send the password via a talk conversation
-		 * @param {string} [data.expireDate] expire the shareautomatically after
+		 * @param {string} [data.expireDate] expire the share automatically after
 		 * @param {string} [data.label] custom label
 		 * @param {string} [data.attributes] Share attributes encoded as json
-		 * @param data.note
+		 * @param {string} data.note custom note to recipient
 		 * @return {Share} the new share
 		 * @throws {Error}
 		 */
@@ -63,13 +42,9 @@ export default {
 				emit('files_sharing:share:created', { share })
 				return share
 			} catch (error) {
-				console.error('Error while creating share', error)
-				const errorMessage = error?.response?.data?.ocs?.meta?.message
-				OC.Notification.showTemporary(
-					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
-					{ type: 'error' },
-				)
-				throw error
+				const errorMessage = getErrorMessage(error) ?? t('files_sharing', 'Error creating the share')
+				showError(errorMessage)
+				throw new Error(errorMessage, { cause: error })
 			}
 		},
 
@@ -88,13 +63,9 @@ export default {
 				emit('files_sharing:share:deleted', { id })
 				return true
 			} catch (error) {
-				console.error('Error while deleting share', error)
-				const errorMessage = error?.response?.data?.ocs?.meta?.message
-				OC.Notification.showTemporary(
-					errorMessage ? t('files_sharing', 'Error deleting the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error deleting the share'),
-					{ type: 'error' },
-				)
-				throw error
+				const errorMessage = getErrorMessage(error) ?? t('files_sharing', 'Error deleting the share')
+				showError(errorMessage)
+				throw new Error(errorMessage, { cause: error })
 			}
 		},
 
@@ -114,17 +85,27 @@ export default {
 					return request.data.ocs.data
 				}
 			} catch (error) {
-				console.error('Error while updating share', error)
-				if (error.response.status !== 400) {
-					const errorMessage = error?.response?.data?.ocs?.meta?.message
-					OC.Notification.showTemporary(
-						errorMessage ? t('files_sharing', 'Error updating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error updating the share'),
-						{ type: 'error' },
-					)
-				}
-				const message = error.response.data.ocs.meta.message
-				throw new Error(message)
+				logger.error('Error while updating share', { error })
+				const errorMessage = getErrorMessage(error) ?? t('files_sharing', 'Error updating the share')
+				// the error will be shown in apps/files_sharing/src/mixins/SharesMixin.js
+				throw new Error(errorMessage, { cause: error })
 			}
 		},
 	},
+}
+
+/**
+ * Handle an error response from the server and show a notification with the error message if possible
+ *
+ * @param {unknown} error - The received error
+ * @return {string|undefined} the error message if it could be extracted from the response, otherwise undefined
+ */
+function getErrorMessage(error) {
+	if (isAxiosError(error) && error.response.data?.ocs) {
+		/** @type {import('@nextcloud/typings/ocs').OCSResponse} */
+		const response = error.response.data
+		if (response.ocs.meta?.message) {
+			return response.ocs.meta.message
+		}
+	}
 }

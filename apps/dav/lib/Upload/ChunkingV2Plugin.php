@@ -1,26 +1,9 @@
 <?php
 
 declare(strict_types=1);
-/*
- * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Upload;
@@ -35,6 +18,7 @@ use OC\Memcache\Redis;
 use OC_Hook;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
+use OCP\AppFramework\Http;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
@@ -141,7 +125,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 			self::UPLOAD_TARGET_ID => $targetFile->getId(),
 		], 86400);
 
-		$response->setStatus(201);
+		$response->setStatus(Http::STATUS_CREATED);
 		return true;
 	}
 
@@ -252,7 +236,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$response = $this->server->httpResponse;
 		$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$response->setHeader('Content-Length', '0');
-		$response->setStatus($destinationExists ? 204 : 201);
+		$response->setStatus($destinationExists ? Http::STATUS_NO_CONTENT : Http::STATUS_CREATED);
 		return false;
 	}
 

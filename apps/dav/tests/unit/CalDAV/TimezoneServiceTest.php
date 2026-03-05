@@ -1,86 +1,53 @@
 <?php
-/*
- * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 declare(strict_types=1);
-
-/*
- * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use DateTimeZone;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\Db\Property;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\IManager;
+use OCP\Config\IUserConfig;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VTimeZone;
 use Test\TestCase;
 
 class TimezoneServiceTest extends TestCase {
-
-	private IConfig|MockObject $config;
-	private PropertyMapper|MockObject $propertyMapper;
-	private IManager|MockObject $calendarManager;
+	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
+	private PropertyMapper&MockObject $propertyMapper;
+	private IManager&MockObject $calendarManager;
 	private TimezoneService $service;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->propertyMapper = $this->createMock(PropertyMapper::class);
 		$this->calendarManager = $this->createMock(IManager::class);
 
 		$this->service = new TimezoneService(
 			$this->config,
+			$this->userConfig,
 			$this->propertyMapper,
 			$this->calendarManager,
 		);
 	}
 
 	public function testGetUserTimezoneFromSettings(): void {
-		$this->config->expects(self::once())
-			->method('getUserValue')
+		$this->userConfig->expects(self::once())
+			->method('getValueString')
 			->with('test123', 'core', 'timezone', '')
 			->willReturn('Europe/Warsaw');
 
@@ -90,8 +57,8 @@ class TimezoneServiceTest extends TestCase {
 	}
 
 	public function testGetUserTimezoneFromAvailability(): void {
-		$this->config->expects(self::once())
-			->method('getUserValue')
+		$this->userConfig->expects(self::once())
+			->method('getValueString')
 			->with('test123', 'core', 'timezone', '')
 			->willReturn('');
 		$property = new Property();
@@ -114,11 +81,11 @@ END:VCALENDAR');
 	}
 
 	public function testGetUserTimezoneFromPersonalCalendar(): void {
-		$this->config->expects(self::exactly(2))
-			->method('getUserValue')
+		$this->userConfig->expects(self::exactly(2))
+			->method('getValueString')
 			->willReturnMap([
-				['test123', 'core', 'timezone', '', ''],
-				['test123', 'dav', 'defaultCalendar', '', 'personal-1'],
+				['test123', 'core', 'timezone', '', false, ''],
+				['test123', 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI, false, 'personal-1'],
 			]);
 		$other = $this->createMock(ICalendar::class);
 		$other->method('getUri')->willReturn('other');
@@ -143,11 +110,11 @@ END:VCALENDAR');
 	}
 
 	public function testGetUserTimezoneFromAny(): void {
-		$this->config->expects(self::exactly(2))
-			->method('getUserValue')
+		$this->userConfig->expects(self::exactly(2))
+			->method('getValueString')
 			->willReturnMap([
-				['test123', 'core', 'timezone', '', ''],
-				['test123', 'dav', 'defaultCalendar', '', 'personal-1'],
+				['test123', 'core', 'timezone', '', false, ''],
+				['test123', 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI, false, 'personal-1'],
 			]);
 		$other = $this->createMock(ICalendar::class);
 		$other->method('getUri')->willReturn('other');

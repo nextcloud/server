@@ -1,36 +1,21 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Cornelius Kölbel <cornelius.koelbel@netknights.it>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC_User;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -42,6 +27,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
@@ -82,16 +68,11 @@ class TwoFactorChallengeController extends Controller {
 		return [$regular, $backup];
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @TwoFactorSetUpDoneRequired
-	 *
-	 * @param string $redirect_url
-	 * @return StandaloneTemplateResponse
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/login/selectchallenge')]
-	public function selectChallenge($redirect_url) {
+	#[TwoFactorSetUpDoneRequired]
+	public function selectChallenge(?string $redirect_url = null): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$allProviders = $providerSet->getProviders();
@@ -106,21 +87,16 @@ class TwoFactorChallengeController extends Controller {
 			'logout_url' => $this->getLogoutUrl(),
 			'hasSetupProviders' => !empty($setupProviders),
 		];
+		Util::addScript('core', 'twofactor-request-token');
 		return new StandaloneTemplateResponse($this->appName, 'twofactorselectchallenge', $data, 'guest');
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @TwoFactorSetUpDoneRequired
-	 *
-	 * @param string $challengeProviderId
-	 * @param string $redirect_url
-	 * @return StandaloneTemplateResponse|RedirectResponse
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[UseSession]
+	#[TwoFactorSetUpDoneRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/login/challenge/{challengeProviderId}')]
-	public function showChallenge($challengeProviderId, $redirect_url) {
+	public function showChallenge(string $challengeProviderId, ?string $redirect_url = null): StandaloneTemplateResponse|RedirectResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$provider = $providerSet->getProvider($challengeProviderId);
@@ -140,7 +116,7 @@ class TwoFactorChallengeController extends Controller {
 		if ($this->session->exists('two_factor_auth_error')) {
 			$this->session->remove('two_factor_auth_error');
 			$error = true;
-			$errorMessage = $this->session->get("two_factor_auth_error_message");
+			$errorMessage = $this->session->get('two_factor_auth_error_message');
 			$this->session->remove('two_factor_auth_error_message');
 		}
 		$tmpl = $provider->getTemplate($user);
@@ -158,24 +134,17 @@ class TwoFactorChallengeController extends Controller {
 		if ($provider instanceof IProvidesCustomCSP) {
 			$response->setContentSecurityPolicy($provider->getCSP());
 		}
+		Util::addScript('core', 'twofactor-request-token');
 		return $response;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @TwoFactorSetUpDoneRequired
-	 *
-	 * @UserRateThrottle(limit=5, period=100)
-	 *
-	 * @param string $challengeProviderId
-	 * @param string $challenge
-	 * @param string $redirect_url
-	 * @return RedirectResponse
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: '/login/challenge/{challengeProviderId}')]
-	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
+	#[TwoFactorSetUpDoneRequired]
+	#[UserRateLimit(limit: 5, period: 100)]
+	public function solveChallenge(string $challengeProviderId, string $challenge, ?string $redirect_url = null): RedirectResponse {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
 		if (is_null($provider)) {
@@ -208,10 +177,8 @@ class TwoFactorChallengeController extends Controller {
 		]));
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: 'login/setupchallenge')]
 	public function setupProviders(?string $redirect_url = null): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
@@ -223,13 +190,12 @@ class TwoFactorChallengeController extends Controller {
 			'redirect_url' => $redirect_url,
 		];
 
+		Util::addScript('core', 'twofactor-request-token');
 		return new StandaloneTemplateResponse($this->appName, 'twofactorsetupselection', $data, 'guest');
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: 'login/setupchallenge/{providerId}')]
 	public function setupProvider(string $providerId, ?string $redirect_url = null) {
 		$user = $this->userSession->getUser();
@@ -256,15 +222,15 @@ class TwoFactorChallengeController extends Controller {
 			'template' => $tmpl->fetchPage(),
 		];
 		$response = new StandaloneTemplateResponse($this->appName, 'twofactorsetupchallenge', $data, 'guest');
+		Util::addScript('core', 'twofactor-request-token');
 		return $response;
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * @todo handle the extreme edge case of an invalid provider ID and redirect to the provider selection page
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'POST', url: 'login/setupchallenge/{providerId}')]
 	public function confirmProviderSetup(string $providerId, ?string $redirect_url = null) {
 		return new RedirectResponse($this->urlGenerator->linkToRoute(

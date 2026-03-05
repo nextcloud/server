@@ -1,29 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Tests;
 
@@ -31,7 +13,7 @@ use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Util;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -40,29 +22,21 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
-	private static $tempStorage = [];
 
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $configMock;
+	protected Util $instance;
+	protected static $tempStorage = [];
 
-	/** @var \OC\Files\View|\PHPUnit\Framework\MockObject\MockObject */
-	private $filesMock;
+	protected IConfig&MockObject $configMock;
+	protected View&MockObject $filesMock;
+	protected IUserManager&MockObject $userManagerMock;
+	protected IMountPoint&MockObject $mountMock;
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManagerMock;
-
-	/** @var \OCP\Files\Mount\IMountPoint|\PHPUnit\Framework\MockObject\MockObject */
-	private $mountMock;
-
-	/** @var Util */
-	private $instance;
-
-	public function testSetRecoveryForUser() {
+	public function testSetRecoveryForUser(): void {
 		$this->instance->setRecoveryForUser('1');
 		$this->assertArrayHasKey('recoveryEnabled', self::$tempStorage);
 	}
 
-	public function testIsRecoveryEnabledForUser() {
+	public function testIsRecoveryEnabledForUser(): void {
 		$this->assertTrue($this->instance->isRecoveryEnabledForUser('admin'));
 
 		// Assert recovery will return default value if not set
@@ -70,7 +44,7 @@ class UtilTest extends TestCase {
 		$this->assertEquals(0, $this->instance->isRecoveryEnabledForUser('admin'));
 	}
 
-	public function testUserHasFiles() {
+	public function testUserHasFiles(): void {
 		$this->filesMock->expects($this->once())
 			->method('file_exists')
 			->willReturn(true);
@@ -84,7 +58,7 @@ class UtilTest extends TestCase {
 		$this->filesMock = $this->createMock(View::class);
 		$this->userManagerMock = $this->createMock(IUserManager::class);
 
-		/** @var \OCA\Encryption\Crypto\Crypt $cryptMock */
+		/** @var Crypt $cryptMock */
 		$cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -141,12 +115,12 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsMasterKeyEnabled
 	 *
 	 * @param string $value
 	 * @param bool $expect
 	 */
-	public function testIsMasterKeyEnabled($value, $expect) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestIsMasterKeyEnabled')]
+	public function testIsMasterKeyEnabled($value, $expect): void {
 		$this->configMock->expects($this->once())->method('getAppValue')
 			->with('encryption', 'useMasterKey', '1')->willReturn($value);
 		$this->assertSame($expect,
@@ -154,7 +128,7 @@ class UtilTest extends TestCase {
 		);
 	}
 
-	public function dataTestIsMasterKeyEnabled() {
+	public static function dataTestIsMasterKeyEnabled(): array {
 		return [
 			['0', false],
 			['1', true]
@@ -162,11 +136,11 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestShouldEncryptHomeStorage
 	 * @param string $returnValue return value from getAppValue()
 	 * @param bool $expected
 	 */
-	public function testShouldEncryptHomeStorage($returnValue, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestShouldEncryptHomeStorage')]
+	public function testShouldEncryptHomeStorage($returnValue, $expected): void {
 		$this->configMock->expects($this->once())->method('getAppValue')
 			->with('encryption', 'encryptHomeStorage', '1')
 			->willReturn($returnValue);
@@ -175,7 +149,7 @@ class UtilTest extends TestCase {
 			$this->instance->shouldEncryptHomeStorage());
 	}
 
-	public function dataTestShouldEncryptHomeStorage() {
+	public static function dataTestShouldEncryptHomeStorage(): array {
 		return [
 			['1', true],
 			['0', false]
@@ -183,25 +157,25 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetEncryptHomeStorage
 	 * @param $value
 	 * @param $expected
 	 */
-	public function testSetEncryptHomeStorage($value, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetEncryptHomeStorage')]
+	public function testSetEncryptHomeStorage($value, $expected): void {
 		$this->configMock->expects($this->once())->method('setAppValue')
 			->with('encryption', 'encryptHomeStorage', $expected);
 		$this->instance->setEncryptHomeStorage($value);
 	}
 
-	public function dataTestSetEncryptHomeStorage() {
+	public static function dataTestSetEncryptHomeStorage(): array {
 		return [
 			[true, '1'],
 			[false, '0']
 		];
 	}
 
-	public function testGetStorage() {
-		$return = $this->getMockBuilder(Storage::class)
+	public function testGetStorage(): void {
+		$return = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
 

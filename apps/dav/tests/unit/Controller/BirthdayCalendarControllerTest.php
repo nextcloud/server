@@ -1,65 +1,33 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author François Freitag <mail@franek.fr>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Unit\DAV\Controller;
+namespace OCA\DAV\Tests\unit\DAV\Controller;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Controller\BirthdayCalendarController;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BirthdayCalendarControllerTest extends TestCase {
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	private $db;
-
-	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
-	private $jobList;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
-	private $caldav;
-
-	/** @var BirthdayCalendarController|\PHPUnit\Framework\MockObject\MockObject */
-	private $controller;
+	private IConfig&MockObject $config;
+	private IRequest&MockObject $request;
+	private IDBConnection&MockObject $db;
+	private IJobList&MockObject $jobList;
+	private IUserManager&MockObject $userManager;
+	private CalDavBackend&MockObject $caldav;
+	private BirthdayCalendarController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -96,16 +64,20 @@ class BirthdayCalendarControllerTest extends TestCase {
 				$closure($user3);
 			});
 
+		$calls = [
+			[GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid1']],
+			[GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid2']],
+			[GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid3']],
+		];
 		$this->jobList->expects($this->exactly(3))
 			->method('add')
-			->withConsecutive(
-				[GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid1']],
-				[GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid2']],
-				[GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid3']],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$response = $this->controller->enable();
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);
+		$this->assertInstanceOf(JSONResponse::class, $response);
 	}
 
 	public function testDisable(): void {
@@ -119,6 +91,6 @@ class BirthdayCalendarControllerTest extends TestCase {
 			->method('deleteAllBirthdayCalendars');
 
 		$response = $this->controller->disable();
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);
+		$this->assertInstanceOf(JSONResponse::class, $response);
 	}
 }

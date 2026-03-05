@@ -1,26 +1,8 @@
 <?php
+
 /**
- * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\AppFramework\Http;
 
@@ -32,13 +14,12 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * Class FileDisplayResponse
  *
  * @since 11.0.0
- * @template S of int
- * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class FileDisplayResponse extends Response implements ICallbackResponse {
-	/** @var File|ISimpleFile */
-	private $file;
+	private File|ISimpleFile $file;
 
 	/**
 	 * FileDisplayResponse constructor.
@@ -66,8 +47,18 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 	 */
 	public function callback(IOutput $output) {
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {
+			$file = $this->file instanceof File
+				? $this->file->fopen('rb')
+				: $this->file->read();
+
+			if ($file === false) {
+				$output->setHttpResponseCode(Http::STATUS_NOT_FOUND);
+				$output->setOutput('');
+				return;
+			}
+
 			$output->setHeader('Content-Length: ' . $this->file->getSize());
-			$output->setOutput($this->file->getContent());
+			$output->setReadfile($file);
 		}
 	}
 }

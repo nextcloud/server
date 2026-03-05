@@ -1,23 +1,9 @@
 <?php
+
 /**
- * @author Sujith Haridasan <sharidasan@owncloud.com>
- * @author Ilja Neumann <ineumann@owncloud.com>
- *
- * @copyright Copyright (c) 2019, ownCloud GmbH
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2019 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Encryption\Command;
@@ -26,7 +12,8 @@ use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\ServerNotAvailableException;
 use OCA\Encryption\Util;
-use OCP\Files\IRootFolder;
+use OCP\Encryption\Exceptions\InvalidHeaderException;
+use OCP\Files\ISetupManager;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IUser;
@@ -39,18 +26,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixEncryptedVersion extends Command {
-	private bool $supportLegacy;
+	private bool $supportLegacy = false;
 
 	public function __construct(
-		private IConfig $config,
-		private LoggerInterface $logger,
-		private IRootFolder $rootFolder,
-		private IUserManager $userManager,
-		private Util $util,
-		private View $view,
+		private readonly IConfig $config,
+		private readonly LoggerInterface $logger,
+		private readonly IUserManager $userManager,
+		private readonly Util $util,
+		private readonly View $view,
+		private readonly ISetupManager $setupManager,
 	) {
-		$this->supportLegacy = false;
-
 		parent::__construct();
 	}
 
@@ -83,66 +68,66 @@ class FixEncryptedVersion extends Command {
 
 		if ($skipSignatureCheck) {
 			$output->writeln("<error>Repairing is not possible when \"encryption_skip_signature_check\" is set. Please disable this flag in the configuration.</error>\n");
-			return 1;
+			return self::FAILURE;
 		}
 
 		if (!$this->util->isMasterKeyEnabled()) {
 			$output->writeln("<error>Repairing only works with master key encryption.</error>\n");
-			return 1;
+			return self::FAILURE;
 		}
 
 		$user = $input->getArgument('user');
 		$all = $input->getOption('all');
 		$pathOption = \trim(($input->getOption('path') ?? ''), '/');
 
+		if (!$user && !$all) {
+			$output->writeln('Either a user id or --all needs to be provided');
+			return self::FAILURE;
+		}
+
 		if ($user) {
 			if ($all) {
-				$output->writeln("Specifying a user id and --all are mutually exclusive");
-				return 1;
+				$output->writeln('Specifying a user id and --all are mutually exclusive');
+				return self::FAILURE;
 			}
 
-			if ($this->userManager->get($user) === null) {
+			$user = $this->userManager->get($user);
+			if ($user === null) {
 				$output->writeln("<error>User id $user does not exist. Please provide a valid user id</error>");
-				return 1;
+				return self::FAILURE;
 			}
 
-			return $this->runForUser($user, $pathOption, $output);
-		} elseif ($all) {
-			$result = 0;
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($pathOption, $output, &$result) {
-				$output->writeln("Processing files for " . $user->getUID());
-				$result = $this->runForUser($user->getUID(), $pathOption, $output);
-				return $result === 0;
-			});
-			return $result;
-		} else {
-			$output->writeln("Either a user id or --all needs to be provided");
-			return 1;
+			return $this->runForUser($user, $pathOption, $output) ? self::SUCCESS : self::FAILURE;
 		}
+
+		foreach ($this->userManager->getSeenUsers() as $user) {
+			$output->writeln('Processing files for ' . $user->getUID());
+			if (!$this->runForUser($user, $pathOption, $output)) {
+				return self::FAILURE;
+			}
+		}
+		return self::SUCCESS;
 	}
 
-	private function runForUser(string $user, string $pathOption, OutputInterface $output): int {
-		$pathToWalk = "/$user/files";
-		if ($pathOption !== "") {
+	private function runForUser(IUser $user, string $pathOption, OutputInterface $output): bool {
+		$pathToWalk = '/' . $user->getUID() . '/files';
+		if ($pathOption !== '') {
 			$pathToWalk = "$pathToWalk/$pathOption";
 		}
 		return $this->walkPathOfUser($user, $pathToWalk, $output);
 	}
 
-	/**
-	 * @return int 0 for success, 1 for error
-	 */
-	private function walkPathOfUser(string $user, string $path, OutputInterface $output): int {
-		$this->setupUserFs($user);
+	private function walkPathOfUser(IUser $user, string $path, OutputInterface $output): bool {
+		$this->setupUserFileSystem($user);
 		if (!$this->view->file_exists($path)) {
 			$output->writeln("<error>Path \"$path\" does not exist. Please provide a valid path.</error>");
-			return 1;
+			return false;
 		}
 
 		if ($this->view->is_file($path)) {
 			$output->writeln("Verifying the content of file \"$path\"");
 			$this->verifyFileContent($path, $output);
-			return 0;
+			return true;
 		}
 		$directories = [];
 		$directories[] = $path;
@@ -158,7 +143,7 @@ class FixEncryptedVersion extends Command {
 				}
 			}
 		}
-		return 0;
+		return true;
 	}
 
 	/**
@@ -210,7 +195,7 @@ class FixEncryptedVersion extends Command {
 			\fclose($handle);
 
 			return true;
-		} catch (ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException|InvalidHeaderException $e) {
 			// not a "bad signature" error and likely "legacy cipher" exception
 			// this could mean that the file is maybe not encrypted but the encrypted version is set
 			if (!$this->supportLegacy && $ignoreCorrectEncVersionCall === true) {
@@ -219,7 +204,7 @@ class FixEncryptedVersion extends Command {
 			}
 			return false;
 		} catch (HintException $e) {
-			$this->logger->warning("Issue: " . $e->getMessage());
+			$this->logger->warning('Issue: ' . $e->getMessage());
 			// If allowOnce is set to false, this becomes recursive.
 			if ($ignoreCorrectEncVersionCall === true) {
 				// Lets rectify the file by correcting encrypted version
@@ -268,7 +253,7 @@ class FixEncryptedVersion extends Command {
 				// try with zero first
 				$cacheInfo = ['encryptedVersion' => 0, 'encrypted' => 0];
 				$cache->put($fileCache->getPath(), $cacheInfo);
-				$output->writeln("<info>Set the encrypted version to 0 (unencrypted)</info>");
+				$output->writeln('<info>Set the encrypted version to 0 (unencrypted)</info>');
 				if ($this->verifyFileContent($path, $output, false) === true) {
 					$output->writeln("<info>Fixed the file: \"$path\" with version 0 (unencrypted)</info>");
 					return true;
@@ -282,7 +267,7 @@ class FixEncryptedVersion extends Command {
 				$cache->put($fileCache->getPath(), $cacheInfo);
 				$output->writeln("<info>Decrement the encrypted version to $encryptedVersion</info>");
 				if ($this->verifyFileContent($path, $output, false) === true) {
-					$output->writeln("<info>Fixed the file: \"$path\" with version " . $encryptedVersion . "</info>");
+					$output->writeln("<info>Fixed the file: \"$path\" with version " . $encryptedVersion . '</info>');
 					return true;
 				}
 				$encryptedVersion--;
@@ -305,7 +290,7 @@ class FixEncryptedVersion extends Command {
 				$cache->put($fileCache->getPath(), $cacheInfo);
 				$output->writeln("<info>Increment the encrypted version to $newEncryptedVersion</info>");
 				if ($this->verifyFileContent($path, $output, false) === true) {
-					$output->writeln("<info>Fixed the file: \"$path\" with version " . $newEncryptedVersion . "</info>");
+					$output->writeln("<info>Fixed the file: \"$path\" with version " . $newEncryptedVersion . '</info>');
 					return true;
 				}
 				$increment++;
@@ -322,8 +307,8 @@ class FixEncryptedVersion extends Command {
 	/**
 	 * Setup user file system
 	 */
-	private function setupUserFs(string $uid): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
+	private function setupUserFileSystem(IUser $user): void {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 	}
 }

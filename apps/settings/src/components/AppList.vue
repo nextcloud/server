@@ -1,28 +1,17 @@
 <!--
-  - @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
-  -
-  - @author Julius Härtl <jus@bitgrid.net>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div id="app-content-inner">
-		<div id="apps-list"
+		<OfficeSuiteSwitcher
+			v-if="category === 'office'"
+			:installed-apps="allApps"
+			@suite-selected="onSuiteSelected" />
+
+		<div
+			id="apps-list"
 			class="apps-list"
 			:class="{
 				'apps-list--list-view': (useBundleView || useListView),
@@ -31,9 +20,10 @@
 			<template v-if="useListView">
 				<div v-if="showUpdateAll" class="apps-list__toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
-					<NcButton v-if="showUpdateAll"
+					<NcButton
+						v-if="showUpdateAll"
 						id="app-list-update-all"
-						type="primary"
+						variant="primary"
 						@click="updateAll">
 						{{ n('settings', 'Update', 'Update all', counter) }}
 					</NcButton>
@@ -61,14 +51,16 @@
 							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
 						</th>
 					</tr>
-					<AppItem v-for="app in apps"
+					<AppItem
+						v-for="app in apps"
 						:key="app.id"
 						:app="app"
 						:category="category" />
 				</TransitionGroup>
 			</template>
 
-			<table v-if="useBundleView"
+			<table
+				v-if="useBundleView"
 				class="apps-list__list-container">
 				<tr key="app-list-view-header">
 					<th id="app-table-col-icon">
@@ -94,13 +86,14 @@
 								<span class="apps-list__bundle-header">
 									{{ bundle.name }}
 								</span>
-								<NcButton type="secondary" @click="toggleBundle(bundle.id)">
+								<NcButton variant="secondary" @click="toggleBundle(bundle.id)">
 									{{ t('settings', bundleToggleText(bundle.id)) }}
 								</NcButton>
 							</div>
 						</th>
 					</tr>
-					<AppItem v-for="app in bundleApps(bundle.id)"
+					<AppItem
+						v-for="app in bundleApps(bundle.id)"
 						:key="bundle.id + app.id"
 						:use-bundle-view="true"
 						:headers="`app-table-rowgroup-${bundle.id}`"
@@ -109,7 +102,8 @@
 				</template>
 			</table>
 			<ul v-if="useAppStoreView" class="apps-list__store-container">
-				<AppItem v-for="app in apps"
+				<AppItem
+					v-for="app in apps"
 					:key="app.id"
 					:app="app"
 					:category="category"
@@ -140,7 +134,8 @@
 							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
 						</th>
 					</tr>
-					<AppItem v-for="app in searchApps"
+					<AppItem
+						v-for="app in searchApps"
 						:key="app.id"
 						:app="app"
 						:category="category" />
@@ -157,16 +152,25 @@
 
 <script>
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import AppItem from './AppList/AppItem.vue'
 import pLimit from 'p-limit'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import AppItem from './AppList/AppItem.vue'
+import OfficeSuiteSwitcher from './AppList/OfficeSuiteSwitcher.vue'
+import { getOfficeSuiteById, OFFICE_SUITES } from '../constants/OfficeSuites.js'
+import logger from '../logger.ts'
+import AppManagement from '../mixins/AppManagement.js'
+import { useAppApiStore } from '../store/app-api-store.ts'
+import { useAppsStore } from '../store/apps-store.ts'
 
 export default {
 	name: 'AppList',
 	components: {
 		AppItem,
 		NcButton,
+		OfficeSuiteSwitcher,
 	},
+
+	mixins: [AppManagement],
 
 	props: {
 		category: {
@@ -175,100 +179,138 @@ export default {
 		},
 	},
 
+	setup() {
+		const appApiStore = useAppApiStore()
+		const store = useAppsStore()
+
+		return {
+			appApiStore,
+			store,
+		}
+	},
+
 	data() {
 		return {
 			search: '',
 		}
 	},
+
 	computed: {
 		counter() {
-			return this.apps.filter(app => app.update).length
+			return this.apps.filter((app) => app.update).length
 		},
+
 		loading() {
-			return this.$store.getters.loading('list')
+			if (!this.$store.getters['appApiApps/isAppApiEnabled']) {
+				return this.$store.getters.loading('list')
+			}
+			return this.$store.getters.loading('list') || this.appApiStore.getLoading('list')
 		},
+
 		hasPendingUpdate() {
-			return this.apps.filter(app => app.update).length > 0
+			return this.apps.filter((app) => app.update).length > 0
 		},
+
 		showUpdateAll() {
 			return this.hasPendingUpdate && this.useListView
 		},
+
+		allApps() {
+			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
+			return [...this.$store.getters.getAllApps, ...exApps]
+		},
+
 		apps() {
-			const apps = this.$store.getters.getAllApps
-				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
+			// Exclude ExApps from the list if AppAPI is disabled
+			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
+			const apps = [...this.$store.getters.getAllApps, ...exApps]
+				.filter((app) => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 				.sort(function(a, b) {
-					const sortStringA = '' + (a.active ? 0 : 1) + (a.update ? 0 : 1) + a.name
-					const sortStringB = '' + (b.active ? 0 : 1) + (b.update ? 0 : 1) + b.name
-					return OC.Util.naturalSortCompare(sortStringA, sortStringB)
+					const natSortDiff = OC.Util.naturalSortCompare(a, b)
+					if (natSortDiff === 0) {
+						const sortStringA = '' + (a.active ? 0 : 1) + (a.update ? 0 : 1)
+						const sortStringB = '' + (b.active ? 0 : 1) + (b.update ? 0 : 1)
+						return Number(sortStringA) - Number(sortStringB)
+					}
+					return natSortDiff
 				})
 
 			if (this.category === 'installed') {
-				return apps.filter(app => app.installed)
+				return apps.filter((app) => app.installed)
 			}
 			if (this.category === 'enabled') {
-				return apps.filter(app => app.active && app.installed)
+				return apps.filter((app) => app.active && app.installed)
 			}
 			if (this.category === 'disabled') {
-				return apps.filter(app => !app.active && app.installed)
+				return apps.filter((app) => !app.active && app.installed)
 			}
 			if (this.category === 'app-bundles') {
-				return apps.filter(app => app.bundles)
+				return apps.filter((app) => app.bundles)
 			}
 			if (this.category === 'updates') {
-				return apps.filter(app => app.update)
+				return apps.filter((app) => app.update)
 			}
 			if (this.category === 'supported') {
 				// For customers of the Nextcloud GmbH the app level will be set to `300` for apps that are supported in their subscription
-				return apps.filter(app => app.level === 300)
+				return apps.filter((app) => app.level === 300)
 			}
 			if (this.category === 'featured') {
 				// An app level of `200` will be set for apps featured on the app store
-				return apps.filter(app => app.level === 200)
+				return apps.filter((app) => app.level === 200)
 			}
 
 			// filter app store categories
-			return apps.filter(app => {
+			return apps.filter((app) => {
 				return app.appstore && app.category !== undefined
 					&& (app.category === this.category || app.category.indexOf(this.category) > -1)
 			})
 		},
+
 		bundles() {
-			return this.$store.getters.getAppBundles.filter(bundle => this.bundleApps(bundle.id).length > 0)
+			return this.$store.getters.getAppBundles.filter((bundle) => this.bundleApps(bundle.id).length > 0)
 		},
+
 		bundleApps() {
 			return function(bundle) {
 				return this.$store.getters.getAllApps
-					.filter(app => {
+					.filter((app) => {
 						return app.bundleIds !== undefined && app.bundleIds.includes(bundle)
 					})
 			}
 		},
+
 		searchApps() {
 			if (this.search === '') {
 				return []
 			}
-			return this.$store.getters.getAllApps
-				.filter(app => {
+			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
+			return [...this.$store.getters.getAllApps, ...exApps]
+				.filter((app) => {
 					if (app.name.toLowerCase().search(this.search.toLowerCase()) !== -1) {
-						return (!this.apps.find(_app => _app.id === app.id))
+						return (!this.apps.find((_app) => _app.id === app.id))
 					}
 					return false
 				})
 		},
+
 		useAppStoreView() {
 			return !this.useListView && !this.useBundleView
 		},
+
 		useListView() {
 			return (this.category === 'installed' || this.category === 'enabled' || this.category === 'disabled' || this.category === 'updates' || this.category === 'featured' || this.category === 'supported')
 		},
+
 		useBundleView() {
 			return (this.category === 'app-bundles')
 		},
+
 		allBundlesEnabled() {
 			return (id) => {
-				return this.bundleApps(id).filter(app => !app.active).length === 0
+				return this.bundleApps(id).filter((app) => !app.active).length === 0
 			}
 		},
+
 		bundleToggleText() {
 			return (id) => {
 				if (this.allBundlesEnabled(id)) {
@@ -279,7 +321,7 @@ export default {
 		},
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('nextcloud:unified-search.search', this.setSearch)
 		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
 	},
@@ -293,36 +335,77 @@ export default {
 		setSearch({ query }) {
 			this.search = query
 		},
+
 		resetSearch() {
 			this.search = ''
 		},
+
+		async disableOfficeSuites(suites) {
+			const disablePromises = suites.map((suite) => this.$store.dispatch('disableApp', { appId: suite.appId }).catch(() => {}))
+			await Promise.all(disablePromises)
+		},
+
+		async onSuiteSelected(suiteId) {
+			logger.info('Office suite selected:', suiteId)
+
+			try {
+				if (suiteId === null) {
+					await this.disableOfficeSuites(OFFICE_SUITES)
+					OC.Notification.showTemporary(t('settings', 'All office suites disabled'))
+					return
+				}
+
+				const selectedSuite = getOfficeSuiteById(suiteId)
+				if (!selectedSuite) {
+					logger.error('Unknown office suite selected:', suiteId)
+					return
+				}
+
+				await this.$store.dispatch('enableApp', { appId: selectedSuite.appId, groups: [] })
+				OC.Notification.showTemporary(t('settings', '{name} enabled', { name: selectedSuite.name }))
+
+				const otherSuites = OFFICE_SUITES.filter((suite) => suite.id !== suiteId)
+				await this.disableOfficeSuites(otherSuites)
+			} catch (error) {
+				logger.error('Error switching office suite:', error)
+				if (error?.message) {
+					OC.Notification.showTemporary(error.message)
+				}
+			}
+		},
+
 		toggleBundle(id) {
 			if (this.allBundlesEnabled(id)) {
 				return this.disableBundle(id)
 			}
 			return this.enableBundle(id)
 		},
+
 		enableBundle(id) {
-			const apps = this.bundleApps(id).map(app => app.id)
+			const apps = this.bundleApps(id).map((app) => app.id)
 			this.$store.dispatch('enableApp', { appId: apps, groups: [] })
 				.catch((error) => {
-					console.error(error)
+					logger.error(error)
 					OC.Notification.show(error)
 				})
 		},
+
 		disableBundle(id) {
-			const apps = this.bundleApps(id).map(app => app.id)
+			const apps = this.bundleApps(id).map((app) => app.id)
 			this.$store.dispatch('disableApp', { appId: apps, groups: [] })
 				.catch((error) => {
 					OC.Notification.show(error)
 				})
 		},
-		updateAll() {
+
+		async updateAll() {
 			const limit = pLimit(1)
-			this.apps
-				.filter(app => app.update)
-				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id })),
-				)
+			const updateTasks = this.apps
+				.filter((app) => app.update)
+				.map((app) => limit(() => {
+					this.update(app.id)
+				}))
+			await Promise.all(updateTasks)
 		},
 	},
 }
@@ -343,14 +426,14 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 	}
 
 	#app-list-update-all {
-		margin-left: 10px;
+		margin-inline-start: 10px;
 	}
 
 	&__toolbar {
 		height: $toolbar-height;
 		padding: $toolbar-padding;
 		// Leave room for app-navigation-toggle
-		padding-left: $toolbar-height;
+		padding-inline-start: $toolbar-height;
 		width: 100%;
 		background-color: var(--color-main-background);
 		position: sticky;
@@ -378,15 +461,17 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 	&__bundle-heading {
 		display: flex;
 		align-items: center;
-		margin: 20px 10px 20px 0;
+		margin-block: 20px;
+		margin-inline: 0 10px;
 	}
 
 	&__bundle-header {
-		margin: 0 10px 0 50px;
+		color: var(--color-main-text);
+		margin-block: 0;
+		margin-inline: 50px 10px;
 		font-weight: bold;
 		font-size: 20px;
 		line-height: 30px;
-		color: var(--color-text-light);
 	}
 }
 

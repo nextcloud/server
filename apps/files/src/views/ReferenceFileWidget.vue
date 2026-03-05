@@ -1,23 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
-  -
-  - @author Julius Härtl <jus@bitgrid.net>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -->
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div v-if="!accessible" class="widget-file widget-file--no-access">
@@ -36,7 +20,8 @@
 	</div>
 
 	<!-- Live preview if a handler is available -->
-	<component :is="viewerHandler.component"
+	<component
+		:is="viewerHandler.component"
 		v-else-if="interactive && viewerHandler && !failedViewer"
 		:active="false /* prevent video from autoplaying */"
 		:can-swipe="false"
@@ -50,7 +35,8 @@
 		@error="failedViewer = true" />
 
 	<!-- The file is accessible -->
-	<a v-else
+	<a
+		v-else
 		class="widget-file widget-file--link"
 		:href="richObject.link"
 		target="_blank"
@@ -70,14 +56,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type Component, type PropType } from 'vue'
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import type { Node } from '@nextcloud/files'
+import type { Component, PropType } from 'vue'
+
 import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
-import { Node } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import path from 'path'
+import { defineComponent } from 'vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
-import path from 'path'
+import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
+import logger from '../logger.ts'
 
 // see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
 type Ressource = {
@@ -122,15 +113,18 @@ export default defineComponent({
 		FolderIcon,
 		FileIcon,
 	},
+
 	props: {
 		richObject: {
 			type: Object as PropType<Ressource>,
 			required: true,
 		},
+
 		accessible: {
 			type: Boolean,
 			default: true,
 		},
+
 		interactive: {
 			type: Boolean,
 			default: true,
@@ -148,10 +142,12 @@ export default defineComponent({
 		availableViewerHandlers(): ViewerHandler[] {
 			return (window?.OCA?.Viewer?.availableHandlers || []) as ViewerHandler[]
 		},
+
 		viewerHandler(): ViewerHandler | undefined {
 			return this.availableViewerHandlers
-				.find(handler => handler.mimes.includes(this.richObject.mimetype))
+				.find((handler) => handler.mimes.includes(this.richObject.mimetype))
 		},
+
 		viewerFile(): ViewerFile {
 			const davSource = generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}/${this.richObject.path}`)
 				.replace(/\/\/$/, '/')
@@ -173,12 +169,15 @@ export default defineComponent({
 		fileSize() {
 			return window.OC.Util.humanFileSize(this.richObject.size)
 		},
+
 		fileMtime() {
 			return window.OC.Util.relativeModifiedDate(this.richObject.mtime * 1000)
 		},
+
 		filePath() {
 			return path.dirname(this.richObject.path)
 		},
+
 		filePreviewStyle() {
 			if (this.previewUrl) {
 				return {
@@ -187,13 +186,14 @@ export default defineComponent({
 			}
 			return {}
 		},
+
 		filePreviewClass() {
 			if (this.previewUrl) {
 				return 'widget-file__image--preview'
 			}
 			return 'widget-file__image--icon'
-
 		},
+
 		isFolder() {
 			return this.richObject.mimetype === 'httpd/unix-directory'
 		},
@@ -208,12 +208,13 @@ export default defineComponent({
 			img.onload = () => {
 				this.previewUrl = previewUrl
 			}
-			img.onerror = err => {
-				console.error('could not load recommendation preview', err)
+			img.onerror = (error) => {
+				logger.error('could not load recommendation preview', { error })
 			}
 			img.src = previewUrl
 		}
 	},
+
 	methods: {
 		navigate(event) {
 			if (this.isFolder) {
@@ -234,14 +235,12 @@ export default defineComponent({
 				.addButton({
 					id: 'open',
 					label: this.t('settings', 'Open in files'),
-					callback(nodes: Node[]) {
-						if (nodes[0]) {
-							window.open(generateUrl('/f/{fileid}', {
-								fileid: nodes[0].fileid,
-							}))
+					callback([node]: Node[]) {
+						if (node) {
+							window.open(generateFileUrl(node.fileid!))
 						}
 					},
-					type: 'primary',
+					variant: 'primary',
 				})
 				.disableNavigation()
 				.startAt(this.richObject.path)
@@ -272,7 +271,7 @@ export default defineComponent({
 			min-width: 88px;
 			max-width: 88px;
 			padding: 12px;
-			padding-right: 0;
+			padding-inline-end: 0;
 			display: flex;
 			align-items: center;
 			justify-content: center;

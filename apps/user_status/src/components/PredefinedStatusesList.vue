@@ -1,72 +1,65 @@
 <!--
-  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<ul v-if="statusesHaveLoaded"
+	<ul
+		v-if="statusesHaveLoaded"
 		class="predefined-statuses-list"
 		:aria-label="t('user_status', 'Predefined statuses')">
-		<PredefinedStatus v-for="status in predefinedStatuses"
+		<PredefinedStatus
+			v-for="status in predefinedStatuses"
 			:key="status.id"
-			:message-id="status.id"
+			:messageId="status.id"
 			:icon="status.icon"
 			:message="status.message"
-			:clear-at="status.clearAt"
+			:clearAt="status.clearAt"
 			:selected="lastSelected === status.id"
 			@select="selectStatus(status)" />
 	</ul>
-	<div v-else
+	<div
+		v-else
 		class="predefined-statuses-list">
 		<div class="icon icon-loading-small" />
 	</div>
 </template>
 
 <script>
-import PredefinedStatus from './PredefinedStatus.vue'
+import { t } from '@nextcloud/l10n'
 import { mapGetters, mapState } from 'vuex'
+import PredefinedStatus from './PredefinedStatus.vue'
 
 export default {
 	name: 'PredefinedStatusesList',
 	components: {
 		PredefinedStatus,
 	},
+
+	emits: ['selectStatus'],
+
 	data() {
 		return {
 			lastSelected: null,
 		}
 	},
+
 	computed: {
 		...mapState({
-			predefinedStatuses: state => state.predefinedStatuses.predefinedStatuses,
-			messageId: state => state.userStatus.messageId,
+			predefinedStatuses: (state) => state.predefinedStatuses.predefinedStatuses,
+			messageId: (state) => state.userStatus.messageId,
 		}),
+
 		...mapGetters(['statusesHaveLoaded']),
 	},
 
 	watch: {
 		messageId: {
-		   immediate: true,
-		   handler() {
-			   this.lastSelected = this.messageId
-		   },
-	   },
+			immediate: true,
+			handler() {
+				this.lastSelected = this.messageId
+			},
+		},
 	},
 
 	/**
@@ -76,7 +69,10 @@ export default {
 	created() {
 		this.$store.dispatch('loadAllPredefinedStatuses')
 	},
+
 	methods: {
+		t,
+
 		/**
 		 * Emits an event when the user selects a status
 		 *
@@ -84,7 +80,7 @@ export default {
 		 */
 		selectStatus(status) {
 			this.lastSelected = status.id
-			this.$emit('select-status', status)
+			this.$emit('selectStatus', status)
 		},
 	},
 }
@@ -94,6 +90,7 @@ export default {
 .predefined-statuses-list {
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 10px;
+	gap: var(--default-grid-baseline);
+	margin-block: 0 calc(2 * var(--default-grid-baseline));
 }
 </style>

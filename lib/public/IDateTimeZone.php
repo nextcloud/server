@@ -1,37 +1,40 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP;
+
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * Interface IDateTimeZone
  *
  * @since 8.0.0
  */
+#[Consumable(since: '8.0.0')]
 interface IDateTimeZone {
+
 	/**
-	 * @param bool|int $timestamp
-	 * @return \DateTimeZone
-	 * @since 8.0.0 - parameter $timestamp was added in 8.1.0
+	 * Get the timezone for a given user.
+	 * If a timestamp is passed the timezone for that given timestamp is retrieved (might differ due to DST).
+	 * If no userId is passed the current user is used.
+	 *
+	 * @param ?string $userId - The user to fetch the timezone for (defaults to current user)
+	 * @since 8.0.0
+	 * @since 8.1.0 - parameter $timestamp was added
+	 * @since 32.0.0 - parameter $userId was added
 	 */
-	public function getTimeZone($timestamp = false);
+	public function getTimeZone(int|false $timestamp = false, ?string $userId = null): \DateTimeZone;
+
+	/**
+	 * Get the timezone configured as the default for this Nextcloud server.
+	 * While the PHP timezone is always set to UTC in Nextcloud this is the timezone
+	 * to use for all time offset calculations if no user value is specified.
+	 *
+	 * @since 32.0.0
+	 */
+	public function getDefaultTimeZone(): \DateTimeZone;
 }

@@ -1,23 +1,6 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { getCanonicalLocale } from '@nextcloud/l10n'
@@ -29,14 +12,20 @@ export enum DateTimePreset {
 	NextWeek = 'next-week',
 }
 
-const getFirstWorkdayOfWeek = () => {
+/**
+ *
+ */
+function getFirstWorkdayOfWeek() {
 	const now = new Date()
 	now.setHours(0, 0, 0, 0)
 	now.setDate(now.getDate() - now.getDay() + 1)
 	return new Date(now)
 }
 
-const getWeek = (date: Date) => {
+/**
+ * @param date - The date to get the week number for
+ */
+function getWeek(date: Date) {
 	const dateClone = new Date(date)
 	dateClone.setHours(0, 0, 0, 0)
 	const firstDayOfYear = new Date(date.getFullYear(), 0, 1, 0, 0, 0, 0)
@@ -44,18 +33,29 @@ const getWeek = (date: Date) => {
 	return Math.ceil((daysFromFirstDay + firstDayOfYear.getDay() + 1) / 7)
 }
 
-const isSameWeek = (a: Date, b: Date) => {
+/**
+ * @param a - First date
+ * @param b - Second date
+ */
+function isSameWeek(a: Date, b: Date) {
 	return getWeek(a) === getWeek(b)
 		&& a.getFullYear() === b.getFullYear()
 }
 
-const isSameDate = (a: Date, b: Date) => {
+/**
+ * @param a - First date
+ * @param b - Second date
+ */
+function isSameDate(a: Date, b: Date) {
 	return a.getDate() === b.getDate()
 		&& a.getMonth() === b.getMonth()
 		&& a.getFullYear() === b.getFullYear()
 }
 
-export const getDateTime = (dateTime: DateTimePreset): null | Date => {
+/**
+ * @param dateTime - The preset to get the date for
+ */
+export function getDateTime(dateTime: DateTimePreset): null | Date {
 	const matchPreset: Record<DateTimePreset, () => null | Date> = {
 		[DateTimePreset.LaterToday]: () => {
 			const now = new Date()
@@ -111,14 +111,20 @@ export const getDateTime = (dateTime: DateTimePreset): null | Date => {
 	return matchPreset[dateTime]()
 }
 
-export const getInitialCustomDueDate = (): Date => {
+/**
+ *
+ */
+export function getInitialCustomDueDate(): Date {
 	const now = new Date()
 	const dueDate = new Date()
 	dueDate.setHours(now.getHours() + 2, 0, 0, 0)
 	return dueDate
 }
 
-export const getDateString = (dueDate: Date): string => {
+/**
+ * @param dueDate - The date to format as a string
+ */
+export function getDateString(dueDate: Date): string {
 	let formatOptions: Intl.DateTimeFormatOptions = {
 		hour: 'numeric',
 		minute: '2-digit',
@@ -154,7 +160,10 @@ export const getDateString = (dueDate: Date): string => {
 	)
 }
 
-export const getVerboseDateString = (dueDate: Date): string => {
+/**
+ * @param dueDate - The date to format as a string
+ */
+export function getVerboseDateString(dueDate: Date): string {
 	let formatOptions: Intl.DateTimeFormatOptions = {
 		month: 'long',
 		day: 'numeric',

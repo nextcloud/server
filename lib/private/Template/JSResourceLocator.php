@@ -1,56 +1,36 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Kyle Fazzari <kyrofa@ubuntu.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Template;
 
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class JSResourceLocator extends ResourceLocator {
-	protected JSCombiner $jsCombiner;
-	protected IAppManager $appManager;
-
-	public function __construct(LoggerInterface $logger, JSCombiner $JSCombiner, IAppManager $appManager) {
-		parent::__construct($logger);
-
-		$this->jsCombiner = $JSCombiner;
-		$this->appManager = $appManager;
+	public function __construct(
+		LoggerInterface $logger,
+		IConfig $config,
+		protected JSCombiner $jsCombiner,
+		protected IAppManager $appManager,
+	) {
+		parent::__construct($logger, $config);
 	}
 
-	/**
-	 * @param string $script
-	 */
-	public function doFind($script) {
-		$theme_dir = 'themes/'.$this->theme.'/';
+	public function doFind(string $resource): void {
+		$theme_dir = 'themes/' . $this->theme . '/';
 
 		// Extracting the appId and the script file name
-		$app = substr($script, 0, strpos($script, '/'));
-		$scriptName = basename($script);
+		[$app] = explode('/', $resource, 2);
+		$scriptName = basename($resource);
 		// Get the app root path
 		$appRoot = $this->serverroot . '/apps/';
 		$appWebRoot = null;
@@ -68,69 +48,65 @@ class JSResourceLocator extends ResourceLocator {
 			// ignore
 		}
 
-		if (str_contains($script, '/l10n/')) {
+		if (str_contains($resource, '/l10n/')) {
 			// For language files we try to load them all, so themes can overwrite
 			// single l10n strings without having to translate all of them.
-			$found = 0;
-			$found += $this->appendScriptIfExist($this->serverroot, 'core/'.$script);
-			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'core/'.$script);
-			$found += $this->appendScriptIfExist($this->serverroot, $script);
-			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.$script);
-			$found += $this->appendScriptIfExist($appRoot, $script, $appWebRoot);
-			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'apps/'.$script);
+			$found = $this->appendScriptIfExist($this->serverroot, 'core/' . $resource)
+				|| $this->appendScriptIfExist($this->serverroot, $theme_dir . 'core/' . $resource)
+				|| $this->appendScriptIfExist($this->serverroot, $resource)
+				|| $this->appendScriptIfExist($this->serverroot, $theme_dir . $resource)
+				|| $this->appendScriptIfExist($appRoot, $resource, $appWebRoot)
+				|| $this->appendScriptIfExist($this->serverroot, $theme_dir . 'apps/' . $resource);
 
 			if ($found) {
 				return;
 			}
-		} elseif ($this->appendScriptIfExist($this->serverroot, $theme_dir.'apps/'.$script)
-			|| $this->appendScriptIfExist($this->serverroot, $theme_dir.$script)
-			|| $this->appendScriptIfExist($this->serverroot, $script)
-			|| $this->appendScriptIfExist($this->serverroot, $theme_dir."dist/$app-$scriptName")
+		} elseif ($this->appendScriptIfExist($this->serverroot, $theme_dir . 'apps/' . $resource)
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir . $resource)
+			|| $this->appendScriptIfExist($this->serverroot, $resource)
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir . "dist/$app-$scriptName")
 			|| $this->appendScriptIfExist($this->serverroot, "dist/$app-$scriptName")
-			|| $this->appendScriptIfExist($appRoot, $script, $appWebRoot)
-			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')
-			|| $this->cacheAndAppendCombineJsonIfExist($appRoot, $script.'.json', $appWebRoot)
-			|| $this->appendScriptIfExist($this->serverroot, $theme_dir.'core/'.$script)
-			|| $this->appendScriptIfExist($this->serverroot, 'core/'.$script)
-			|| (strpos($scriptName, '/') === -1 && ($this->appendScriptIfExist($this->serverroot, $theme_dir."dist/core-$scriptName")
-				|| $this->appendScriptIfExist($this->serverroot, "dist/core-$scriptName")))
-			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/'.$script.'.json')
+			|| $this->appendScriptIfExist($appRoot, $resource, $appWebRoot)
+			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $resource . '.json')
+			|| $this->cacheAndAppendCombineJsonIfExist($appRoot, $resource . '.json', $app)
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir . 'core/' . $resource)
+			|| $this->appendScriptIfExist($this->serverroot, 'core/' . $resource)
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir . "dist/core-$scriptName")
+			|| $this->appendScriptIfExist($this->serverroot, "dist/core-$scriptName")
+			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/' . $resource . '.json')
 		) {
 			return;
 		}
 
 		// missing translations files will be ignored
-		if (str_contains($script, '/l10n/')) {
+		if (str_contains($resource, '/l10n/')) {
 			return;
 		}
 
 		$this->logger->error('Could not find resource {resource} to load', [
-			'resource' => $script . '.js',
+			'resource' => $resource . '.js',
 			'app' => 'jsresourceloader',
 		]);
 	}
 
-	/**
-	 * @param string $script
-	 */
-	public function doFindTheme($script) {
+	public function doFindTheme(string $resource): void {
 	}
 
 	/**
 	 * Try to find ES6 script file (`.mjs`) with fallback to plain javascript (`.js`)
 	 * @see appendIfExist()
 	 */
-	protected function appendScriptIfExist(string $root, string $file, ?string $webRoot = null) {
+	protected function appendScriptIfExist(string $root, string $file, ?string $webRoot = null): bool {
 		if (!$this->appendIfExist($root, $file . '.mjs', $webRoot)) {
 			return $this->appendIfExist($root, $file . '.js', $webRoot);
 		}
 		return true;
 	}
 
-	protected function cacheAndAppendCombineJsonIfExist($root, $file, $app = 'core') {
-		if (is_file($root.'/'.$file)) {
+	protected function cacheAndAppendCombineJsonIfExist(string $root, string $file, string $app = 'core'): bool {
+		if (is_file($root . '/' . $file)) {
 			if ($this->jsCombiner->process($root, $file, $app)) {
-				$this->append($this->serverroot, $this->jsCombiner->getCachedJS($app, $file), false, false);
+				$this->append($this->serverroot, $this->jsCombiner->getCachedJS($app, $file), null, false);
 			} else {
 				// Add all the files from the json
 				$files = $this->jsCombiner->getContent($root, $file);

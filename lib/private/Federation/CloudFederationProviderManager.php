@@ -3,31 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Federation;
 
 use OC\AppFramework\Http;
+use OC\OCM\OCMSignatoryManager;
 use OCP\App\IAppManager;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationNotification;
@@ -35,11 +17,15 @@ use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\OCM\Exceptions\OCMCapabilityException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\ISignatureManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -56,10 +42,13 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	public function __construct(
 		private IConfig $config,
 		private IAppManager $appManager,
+		private IAppConfig $appConfig,
 		private IClientService $httpClientService,
 		private ICloudIdManager $cloudIdManager,
 		private IOCMDiscoveryService $discoveryService,
-		private LoggerInterface $logger
+		private readonly ISignatureManager $signatureManager,
+		private readonly OCMSignatoryManager $signatoryManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -118,21 +107,11 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	public function sendShare(ICloudFederationShare $share) {
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
 		try {
-			$ocmProvider = $this->discoveryService->discover($cloudID->getRemote());
-		} catch (OCMProviderException $e) {
-			return false;
-		}
-
-		$client = $this->httpClientService->newClient();
-		try {
-			$response = $client->post($ocmProvider->getEndPoint() . '/shares', [
-				'body' => json_encode($share->getShare()),
-				'headers' => ['content-type' => 'application/json'],
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
-
+			try {
+				$response = $this->postOcmPayload($cloudID->getRemote(), '/shares', $share->getShare());
+			} catch (OCMProviderException) {
+				return false;
+			}
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
 				$result = json_decode($response->getBody(), true);
 				return (is_array($result)) ? $result : [];
@@ -158,17 +137,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 */
 	public function sendCloudShare(ICloudFederationShare $share): IResponse {
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
-		$ocmProvider = $this->discoveryService->discover($cloudID->getRemote());
-
 		$client = $this->httpClientService->newClient();
 		try {
-			return $client->post($ocmProvider->getEndPoint() . '/shares', [
-				'body' => json_encode($share->getShare()),
-				'headers' => ['content-type' => 'application/json'],
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
+			return $this->postOcmPayload($cloudID->getRemote(), '/shares', $share->getShare(), $client);
 		} catch (\Throwable $e) {
 			$this->logger->error('Error while sending share to federation server: ' . $e->getMessage(), ['exception' => $e]);
 			try {
@@ -187,20 +158,11 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 */
 	public function sendNotification($url, ICloudFederationNotification $notification) {
 		try {
-			$ocmProvider = $this->discoveryService->discover($url);
-		} catch (OCMProviderException $e) {
-			return false;
-		}
-
-		$client = $this->httpClientService->newClient();
-		try {
-			$response = $client->post($ocmProvider->getEndPoint() . '/notifications', [
-				'body' => json_encode($notification->getMessage()),
-				'headers' => ['content-type' => 'application/json'],
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
+			try {
+				$response = $this->postOcmPayload($url, '/notifications', $notification->getMessage());
+			} catch (OCMProviderException) {
+				return false;
+			}
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
 				$result = json_decode($response->getBody(), true);
 				return (is_array($result)) ? $result : [];
@@ -220,17 +182,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @throws OCMProviderException
 	 */
 	public function sendCloudNotification(string $url, ICloudFederationNotification $notification): IResponse {
-		$ocmProvider = $this->discoveryService->discover($url);
-
 		$client = $this->httpClientService->newClient();
 		try {
-			return $client->post($ocmProvider->getEndPoint() . '/notifications', [
-				'body' => json_encode($notification->getMessage()),
-				'headers' => ['content-type' => 'application/json'],
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
+			return $this->postOcmPayload($url, '/notifications', $notification->getMessage(), $client);
 		} catch (\Throwable $e) {
 			$this->logger->error('Error while sending notification to federation server: ' . $e->getMessage(), ['exception' => $e]);
 			try {
@@ -248,5 +202,21 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 */
 	public function isReady() {
 		return $this->appManager->isEnabledForUser('cloud_federation_api');
+	}
+
+	/**
+	 * @throws OCMCapabilityException
+	 * @throws OCMProviderException
+	 */
+	private function postOcmPayload(string $cloudId, string $uri, array $payload, ?IClient $client = null): IResponse {
+		return $this->discoveryService->requestRemoteOcmEndpoint(
+			null,
+			$cloudId,
+			$uri,
+			$payload,
+			'post',
+			$client,
+			['verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false)],
+		);
 	}
 }

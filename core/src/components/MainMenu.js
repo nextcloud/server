@@ -1,34 +1,17 @@
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translatePlural as n, translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
-
 import AppMenu from './AppMenu.vue'
 
-export const setUp = () => {
-
+/**
+ * Set up the main menu component ("AppMenu")
+ * This is the top left menu where users can navigate between different apps.
+ */
+export function setUp() {
 	Vue.mixin({
 		methods: {
 			t,
@@ -36,7 +19,7 @@ export const setUp = () => {
 		},
 	})
 
-	const container = document.getElementById('header-left__appmenu')
+	const container = document.getElementById('header-start__appmenu')
 	if (!container) {
 		// no container, possibly we're on a public page
 		return
@@ -49,5 +32,4 @@ export const setUp = () => {
 			appMenu.setNavigationCounter(id, counter)
 		},
 	})
-
 }

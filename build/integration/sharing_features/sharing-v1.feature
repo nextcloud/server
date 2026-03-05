@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 Feature: sharing
   Background:
     Given using api version "1"
@@ -228,6 +230,62 @@ Feature: sharing
       | displayname_owner | user0 |
       | url | AN_URL |
       | mimetype | httpd/unix-directory |
+
+  Scenario: Creating a new share with expiration date empty, when default expiration is set
+    Given user "user0" exists
+    And user "user1" exists
+    And parameter "shareapi_default_internal_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_internal_expire_after_n_days" of app "core" is set to "3"
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+      | expireDate | |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration ||
+
+  Scenario: Creating a new share with expiration date removed, when default expiration is set
+    Given user "user0" exists
+    And user "user1" exists
+    And parameter "shareapi_default_internal_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_internal_expire_after_n_days" of app "core" is set to "3"
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
+
+  Scenario: Creating a new share with expiration date null, when default expiration is set
+    Given user "user0" exists
+    And user "user1" exists
+    And parameter "shareapi_default_internal_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_internal_expire_after_n_days" of app "core" is set to "3"
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+      | expireDate | null |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
 
   Scenario: Creating a new public share, updating its password and getting its info
     Given user "user0" exists
@@ -501,6 +559,8 @@ Feature: sharing
   Scenario: getting all shares of a user using that user
     Given user "user0" exists
     And user "user1" exists
+    When User "user1" deletes file "/textfile0.txt"
+    And the HTTP status code should be "204"
     And file "textfile0.txt" of user "user0" is shared with user "user1"
     And As an "user0"
     When sending "GET" to "/apps/files_sharing/api/v1/shares"

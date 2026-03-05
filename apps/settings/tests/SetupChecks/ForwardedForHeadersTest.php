@@ -3,28 +3,10 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Morris Jobke <hey@morrisjobke.de>
- *
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests;
+namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\ForwardedForHeaders;
 use OCP\IConfig;
@@ -32,28 +14,29 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\SetupCheck\SetupResult;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ForwardedForHeadersTest extends TestCase {
-	private IL10N $l10n;
-	private IConfig $config;
-	private IURLGenerator $urlGenerator;
-	private IRequest $request;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IRequest&MockObject $request;
 	private ForwardedForHeaders $check;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			});
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->request = $this->createMock(IRequest::class);
 		$this->check = new ForwardedForHeaders(
 			$this->l10n,
 			$this->config,
@@ -62,9 +45,7 @@ class ForwardedForHeadersTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataForwardedForHeadersWorking
-	 */
+	#[DataProvider(methodName: 'dataForwardedForHeadersWorking')]
 	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, string $result): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
@@ -86,7 +67,7 @@ class ForwardedForHeadersTest extends TestCase {
 		);
 	}
 
-	public function dataForwardedForHeadersWorking(): array {
+	public static function dataForwardedForHeadersWorking(): array {
 		return [
 			// description => trusted proxies, getHeader('REMOTE_ADDR'), getRemoteAddr, expected result
 			'no trusted proxies' => [[], '2.2.2.2', '2.2.2.2', SetupResult::SUCCESS],

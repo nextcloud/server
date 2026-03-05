@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\App;
@@ -31,8 +14,7 @@ use OC\App\CompareVersion;
 use Test\TestCase;
 
 class CompareVersionTest extends TestCase {
-	/** @var CompareVersion */
-	private $compare;
+	private CompareVersion $compare;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -40,7 +22,7 @@ class CompareVersionTest extends TestCase {
 		$this->compare = new CompareVersion();
 	}
 
-	public function comparisonData() {
+	public static function comparisonData(): array {
 		return [
 			// Compatible versions
 			['13.0.0.3', '13.0.0', '>=', true],
@@ -71,25 +53,23 @@ class CompareVersionTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider comparisonData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('comparisonData')]
 	public function testComparison(string $actualVersion, string $requiredVersion,
-		string $comparator, bool $expected) {
+		string $comparator, bool $expected): void {
 		$isCompatible = $this->compare->isCompatible($actualVersion, $requiredVersion,
 			$comparator);
 
 		$this->assertEquals($expected, $isCompatible);
 	}
 
-	public function testInvalidServerVersion() {
+	public function testInvalidServerVersion(): void {
 		$actualVersion = '13';
 		$this->expectException(InvalidArgumentException::class);
 
 		$this->compare->isCompatible($actualVersion, '13.0.0');
 	}
 
-	public function testInvalidRequiredVersion() {
+	public function testInvalidRequiredVersion(): void {
 		$actualVersion = '13.0.0';
 		$this->expectException(InvalidArgumentException::class);
 

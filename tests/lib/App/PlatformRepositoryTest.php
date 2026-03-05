@@ -1,29 +1,25 @@
 <?php
 
-/**
- * @author Thomas Müller
- * @copyright 2014 Thomas Müller deepdiver@owncloud.com
- * later.
- * See the COPYING-README file.
- */
+declare(strict_types=1);
 
+/**
+ * SPDX-FileCopyrightText: 2020-2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace Test\App;
 
-use OC;
+use OC\App\PlatformRepository;
 
 class PlatformRepositoryTest extends \Test\TestCase {
-	/**
-	 * @dataProvider providesVersions
-	 * @param $expected
-	 * @param $input
-	 */
-	public function testVersion($input, $expected) {
-		$pr = new OC\App\PlatformRepository();
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesVersions')]
+	public function testVersion(string $input, string $expected): void {
+		$pr = new PlatformRepository();
 		$normalizedVersion = $pr->normalizeVersion($input);
 		$this->assertEquals($expected, $normalizedVersion);
 	}
 
-	public function providesVersions() {
+	public static function providesVersions(): array {
 		return [
 			'none' => ['1.0.0', '1.0.0.0'],
 			'none/2' => ['1.2.3.4', '1.2.3.4'],

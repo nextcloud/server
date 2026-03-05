@@ -1,38 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Memcache;
 
+use OC\SystemConfig;
 use OCP\HintException;
+use OCP\IConfig;
 use OCP\IMemcache;
+use OCP\Server;
 
 class Memcached extends Cache implements IMemcache {
 	use CASTrait;
@@ -73,10 +52,10 @@ class Memcached extends Cache implements IMemcache {
 			 * @psalm-suppress TypeDoesNotContainType
 			 */
 			if (\Memcached::HAVE_IGBINARY) {
-				$defaultOptions[\Memcached::OPT_SERIALIZER] =
-					\Memcached::SERIALIZER_IGBINARY;
+				$defaultOptions[\Memcached::OPT_SERIALIZER]
+					= \Memcached::SERIALIZER_IGBINARY;
 			}
-			$options = \OC::$server->getConfig()->getSystemValue('memcached_options', []);
+			$options = Server::get(IConfig::class)->getSystemValue('memcached_options', []);
 			if (is_array($options)) {
 				$options = $options + $defaultOptions;
 				self::$cache->setOptions($options);
@@ -84,9 +63,9 @@ class Memcached extends Cache implements IMemcache {
 				throw new HintException("Expected 'memcached_options' config to be an array, got $options");
 			}
 
-			$servers = \OC::$server->getSystemConfig()->getValue('memcached_servers');
+			$servers = Server::get(SystemConfig::class)->getValue('memcached_servers');
 			if (!$servers) {
-				$server = \OC::$server->getSystemConfig()->getValue('memcached_server');
+				$server = Server::get(SystemConfig::class)->getValue('memcached_server');
 				if ($server) {
 					$servers = [$server];
 				} else {
@@ -106,7 +85,7 @@ class Memcached extends Cache implements IMemcache {
 
 	public function get($key) {
 		$result = self::$cache->get($this->getNameSpace() . $key);
-		if ($result === false and self::$cache->getResultCode() == \Memcached::RES_NOTFOUND) {
+		if ($result === false && self::$cache->getResultCode() === \Memcached::RES_NOTFOUND) {
 			return null;
 		} else {
 			return $result;

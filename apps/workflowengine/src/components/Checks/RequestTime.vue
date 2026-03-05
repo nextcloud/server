@@ -1,18 +1,25 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="timeslot">
-		<input v-model="newValue.startTime"
+		<input
+			v-model="newValue.startTime"
 			type="text"
 			class="timeslot--start"
 			placeholder="e.g. 08:00"
 			@input="update">
-		<input v-model="newValue.endTime"
+		<input
+			v-model="newValue.endTime"
 			type="text"
 			placeholder="e.g. 18:00"
 			@input="update">
 		<p v-if="!valid" class="invalid-hint">
 			{{ t('workflowengine', 'Please enter a valid time span') }}
 		</p>
-		<NcSelect v-show="valid"
+		<NcSelect
+			v-show="valid"
 			v-model="newValue.timezone"
 			:clearable="false"
 			:options="timezones"
@@ -21,9 +28,8 @@
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import moment from 'moment-timezone'
-import valueMixin from '../../mixins/valueMixin.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 const zones = moment.tz.names()
 export default {
@@ -31,15 +37,15 @@ export default {
 	components: {
 		NcSelect,
 	},
-	mixins: [
-		valueMixin,
-	],
+
 	props: {
-		value: {
+		modelValue: {
 			type: String,
-			default: '',
+			default: '[]',
 		},
 	},
+
+	emits: ['update:model-value'],
 	data() {
 		return {
 			timezones: zones,
@@ -49,26 +55,41 @@ export default {
 				endTime: null,
 				timezone: moment.tz.guess(),
 			},
+
+			stringifiedValue: '[]',
 		}
 	},
-	mounted() {
-		this.validate()
+
+	watch: {
+		modelValue() {
+			this.updateInternalValue()
+		},
 	},
+
+	beforeMount() {
+		// this is necessary to keep so the value is re-applied when a different
+		// check is being removed.
+		this.updateInternalValue()
+	},
+
 	methods: {
-		updateInternalValue(value) {
+		updateInternalValue() {
 			try {
-				const data = JSON.parse(value)
+				const data = JSON.parse(this.modelValue)
 				if (data.length === 2) {
 					this.newValue = {
 						startTime: data[0].split(' ', 2)[0],
 						endTime: data[1].split(' ', 2)[0],
 						timezone: data[0].split(' ', 2)[1],
 					}
+					this.stringifiedValue = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
+					this.validate()
 				}
-			} catch (e) {
+			} catch {
 				// ignore invalid values
 			}
 		},
+
 		validate() {
 			this.valid = this.newValue.startTime && this.newValue.startTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
 				&& this.newValue.endTime && this.newValue.endTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
@@ -80,13 +101,14 @@ export default {
 			}
 			return this.valid
 		},
+
 		update() {
 			if (this.newValue.timezone === null) {
 				this.newValue.timezone = moment.tz.guess()
 			}
 			if (this.validate()) {
-				const output = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
-				this.$emit('input', output)
+				this.stringifiedValue = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
+				this.$emit('update:model-value', this.stringifiedValue)
 			}
 		},
 	},
@@ -105,7 +127,7 @@ export default {
 			margin-bottom: 5px;
 		}
 
-		.multiselect::v-deep .multiselect__tags:not(:hover):not(:focus):not(:active) {
+		.multiselect:deep(.multiselect__tags:not(:hover):not(:focus):not(:active)) {
 			border: 1px solid transparent;
 		}
 
@@ -116,7 +138,7 @@ export default {
 			min-height: 48px;
 
 			&.timeslot--start {
-				margin-right: 5px;
+				margin-inline-end: 5px;
 				width: calc(50% - 5px);
 			}
 		}

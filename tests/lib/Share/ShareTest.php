@@ -1,38 +1,28 @@
 <?php
+
 /**
- * ownCloud
- *
- * @author Michael Gapczynski
- * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Share;
 
 use OC\Share\Share;
+use OC\SystemConfig;
+use OCP\Constants;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 
 /**
  * Class Test_Share
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareTest extends \Test\TestCase {
 	protected $itemType;
 
@@ -59,8 +49,8 @@ class ShareTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->groupManager = \OC::$server->getGroupManager();
-		$this->userManager = \OC::$server->getUserManager();
+		$this->groupManager = Server::get(IGroupManager::class);
+		$this->userManager = Server::get(IUserManager::class);
 
 		$this->userManager->clearBackends();
 		$this->userManager->registerBackend(new \Test\Util\User\Dummy());
@@ -80,7 +70,7 @@ class ShareTest extends \Test\TestCase {
 		$this->group1 = $this->groupManager->createGroup($this->getUniqueID('group1_'));
 		$this->group2 = $this->groupManager->createGroup($this->getUniqueID('group2_'));
 		$this->groupAndUser_group = $this->groupManager->createGroup($groupAndUserId);
-		$this->connection = \OC::$server->get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 
 		$this->group1->addUser($this->user1);
 		$this->group1->addUser($this->user2);
@@ -92,9 +82,9 @@ class ShareTest extends \Test\TestCase {
 
 		Share::registerBackend('test', 'Test\Share\Backend');
 		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks(\OC::$server->getSystemConfig());
-		$this->resharing = \OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes');
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', 'yes');
+		\OC::registerShareHooks(Server::get(SystemConfig::class));
+		$this->resharing = Server::get(IConfig::class)->getAppValue('core', 'shareapi_allow_resharing', 'yes');
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_allow_resharing', 'yes');
 
 		// 20 Minutes in the past, 20 minutes in the future.
 		$now = time();
@@ -107,7 +97,7 @@ class ShareTest extends \Test\TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('share')->andWhere($query->expr()->eq('item_type', $query->createNamedParameter('test')));
 		$query->executeStatement();
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', $this->resharing);
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_allow_resharing', $this->resharing);
 
 		$this->user1->delete();
 		$this->user2->delete();
@@ -136,17 +126,17 @@ class ShareTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider urls
 	 * @param string $url
 	 * @param string $expectedResult
 	 */
-	public function testRemoveProtocolFromUrl($url, $expectedResult) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('urls')]
+	public function testRemoveProtocolFromUrl($url, $expectedResult): void {
 		$share = new Share();
 		$result = self::invokePrivate($share, 'removeProtocolFromUrl', [$url]);
 		$this->assertSame($expectedResult, $result);
 	}
 
-	public function urls() {
+	public static function urls(): array {
 		return [
 			['http://owncloud.org', 'owncloud.org'],
 			['https://owncloud.org', 'owncloud.org'],
@@ -155,11 +145,11 @@ class ShareTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataProviderTestGroupItems
 	 * @param array $ungrouped
 	 * @param array $grouped
 	 */
-	public function testGroupItems($ungrouped, $grouped) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderTestGroupItems')]
+	public function testGroupItems($ungrouped, $grouped): void {
 		$result = DummyShareClass::groupItemsTest($ungrouped);
 
 		$this->compareArrays($grouped, $result);
@@ -175,25 +165,25 @@ class ShareTest extends \Test\TestCase {
 		}
 	}
 
-	public function dataProviderTestGroupItems() {
+	public static function dataProviderTestGroupItems(): array {
 		return [
 			// one array with one share
 			[
 				[ // input
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_ALL, 'item_target' => 't1']],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_ALL, 'item_target' => 't1']],
 				[ // expected result
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_ALL, 'item_target' => 't1']]],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_ALL, 'item_target' => 't1']]],
 			// two shares both point to the same source
 			[
 				[ // input
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_READ, 'item_target' => 't1'],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
 				],
 				[ // expected result
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1',
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE, 'item_target' => 't1',
 						'grouped' => [
-							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
-							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
+							['item_source' => 1, 'permissions' => Constants::PERMISSION_READ, 'item_target' => 't1'],
+							['item_source' => 1, 'permissions' => Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
 						]
 					],
 				]
@@ -201,29 +191,29 @@ class ShareTest extends \Test\TestCase {
 			// two shares both point to the same source but with different targets
 			[
 				[ // input
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't2'],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_READ, 'item_target' => 't1'],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_UPDATE, 'item_target' => 't2'],
 				],
 				[ // expected result
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't2'],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_READ, 'item_target' => 't1'],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_UPDATE, 'item_target' => 't2'],
 				]
 			],
 			// three shares two point to the same source
 			[
 				[ // input
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
-					['item_source' => 2, 'permissions' => \OCP\Constants::PERMISSION_CREATE, 'item_target' => 't2'],
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_READ, 'item_target' => 't1'],
+					['item_source' => 2, 'permissions' => Constants::PERMISSION_CREATE, 'item_target' => 't2'],
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
 				],
 				[ // expected result
-					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1',
+					['item_source' => 1, 'permissions' => Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE, 'item_target' => 't1',
 						'grouped' => [
-							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
-							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
+							['item_source' => 1, 'permissions' => Constants::PERMISSION_READ, 'item_target' => 't1'],
+							['item_source' => 1, 'permissions' => Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
 						]
 					],
-					['item_source' => 2, 'permissions' => \OCP\Constants::PERMISSION_CREATE, 'item_target' => 't2'],
+					['item_source' => 2, 'permissions' => Constants::PERMISSION_CREATE, 'item_target' => 't2'],
 				]
 			],
 		];

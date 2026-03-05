@@ -1,25 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP;
 
@@ -101,7 +84,7 @@ class Color {
 	 * @since 25.0.0
 	 */
 	public function name(): string {
-		return sprintf("#%02x%02x%02x", $this->r, $this->g, $this->b);
+		return sprintf('#%02x%02x%02x', $this->r, $this->g, $this->b);
 	}
 
 	/**
@@ -143,7 +126,7 @@ class Color {
 	 * Calculate steps between two Colors
 	 * @param int $steps start color
 	 * @param Color[] $ends end color
-	 * @return array{0: int, 1: int, 2: int} [r,g,b] steps for each color to go from $steps to $ends
+	 * @return array{0: float, 1: float, 2: float} [r,g,b] steps for each color to go from $steps to $ends
 	 * @since 25.0.0
 	 */
 	private static function stepCalc(int $steps, array $ends): array {

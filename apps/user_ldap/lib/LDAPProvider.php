@@ -1,71 +1,51 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author root <root@localhost.localdomain>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
-use OCP\IServerContainer;
+use OCP\GroupInterface;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\LDAP\ILDAPProvider;
+use OCP\UserInterface;
+use Psr\Log\LoggerInterface;
 
 /**
- * LDAP provider for pulic access to the LDAP backend.
+ * LDAP provider for public access to the LDAP backend.
  */
 class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
-	private $userBackend;
-	private $groupBackend;
-	private $logger;
-	private $helper;
-	private $deletedUsersIndex;
+	private IUserLDAP&UserInterface $userBackend;
+	private IGroupLDAP&GroupInterface $groupBackend;
 
 	/**
-	 * Create new LDAPProvider
-	 * @param \OCP\IServerContainer $serverContainer
-	 * @param Helper $helper
-	 * @param DeletedUsersIndex $deletedUsersIndex
 	 * @throws \Exception if user_ldap app was not enabled
 	 */
-	public function __construct(IServerContainer $serverContainer, Helper $helper, DeletedUsersIndex $deletedUsersIndex) {
-		$this->logger = $serverContainer->getLogger();
-		$this->helper = $helper;
-		$this->deletedUsersIndex = $deletedUsersIndex;
+	public function __construct(
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		private Helper $helper,
+		private DeletedUsersIndex $deletedUsersIndex,
+		private LoggerInterface $logger,
+	) {
 		$userBackendFound = false;
 		$groupBackendFound = false;
-		foreach ($serverContainer->getUserManager()->getBackends() as $backend) {
-			$this->logger->debug('instance '.get_class($backend).' user backend.', ['app' => 'user_ldap']);
+		foreach ($userManager->getBackends() as $backend) {
+			$this->logger->debug('instance ' . get_class($backend) . ' user backend.', ['app' => 'user_ldap']);
 			if ($backend instanceof IUserLDAP) {
 				$this->userBackend = $backend;
 				$userBackendFound = true;
 				break;
 			}
 		}
-		foreach ($serverContainer->getGroupManager()->getBackends() as $backend) {
-			$this->logger->debug('instance '.get_class($backend).' group backend.', ['app' => 'user_ldap']);
+		foreach ($groupManager->getBackends() as $backend) {
+			$this->logger->debug('instance ' . get_class($backend) . ' group backend.', ['app' => 'user_ldap']);
 			if ($backend instanceof IGroupLDAP) {
 				$this->groupBackend = $backend;
 				$groupBackendFound = true;
@@ -73,7 +53,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 			}
 		}
 
-		if (!$userBackendFound or !$groupBackendFound) {
+		if (!$userBackendFound || !$groupBackendFound) {
 			throw new \Exception('To use the LDAPProvider, user_ldap app must be enabled');
 		}
 	}
@@ -138,8 +118,8 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 
 	/**
 	 * Sanitize a DN received from the LDAP server.
-	 * @param array $dn the DN in question
-	 * @return array the sanitized DN
+	 * @param array|string $dn the DN in question
+	 * @return array|string the sanitized DN
 	 */
 	public function sanitizeDN($dn) {
 		return $this->helper->sanitizeDN($dn);

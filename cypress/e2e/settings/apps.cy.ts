@@ -1,27 +1,10 @@
 /**
- * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import { handlePasswordConfirmation } from './usersUtils'
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { handlePasswordConfirmation } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -34,8 +17,15 @@ describe('Settings: App management', { testIsolation: true }, () => {
 
 		// I am logged in as the admin
 		cy.login(admin)
+
+		// Intercept the apps list request
+		cy.intercept('GET', '*/settings/apps/list').as('fetchAppsList')
+
 		// I open the Apps management
 		cy.visit('/settings/apps/installed')
+
+		// Wait for the apps list to load
+		cy.wait('@fetchAppsList')
 	})
 
 	it('Can enable an installed app', () => {
@@ -133,7 +123,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('#app-category-your-bundles').find('.active').should('exist')
 		// I see the app bundles
 		cy.get('#apps-list').contains('tr', 'Enterprise bundle')
-		cy.get('#apps-list').contains('tr', 'Education Edition')
+		cy.get('#apps-list').contains('tr', 'Education bundle')
 		// I see that the "Enterprise bundle" is disabled
 		cy.get('#apps-list').contains('tr', 'Enterprise bundle').contains('button', 'Download and enable all')
 	})
@@ -150,6 +140,34 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('#app-sidebar-vue').find('input[type="button"][value="Enable"]').should('be.visible')
 		cy.get('#app-sidebar-vue').find('input[type="button"][value="Remove"]').should('be.visible')
 		cy.get('#app-sidebar-vue').contains(/Version \d+\.\d+\.\d+/).should('be.visible')
+	})
+
+	it('Limit app usage to group', () => {
+		// When I open the "Active apps" section
+		cy.get('#app-category-enabled a')
+			.should('contain', 'Active apps')
+			.click({ force: true })
+		// Then I see that the current section is "Active apps"
+		cy.url().should('match', /settings\/apps\/enabled$/)
+		cy.get('#app-category-enabled').find('.active').should('exist')
+		// Then I select the app
+		cy.get('#apps-list')
+			.should('exist')
+			.contains('tr', 'Dashboard', { timeout: 10000 })
+			.click()
+		// Then I enable "limit app to group"
+		cy.get('[for="groups_enable_dashboard"]').click()
+		// Then I select a group
+		cy.get('#limitToGroups').click()
+		cy.get('ul[role="listbox"]')
+			.find('span')
+			.contains('admin')
+			.click()
+		cy.get('span.name-parts__first')
+			.contains('admin')
+			.should('be.visible')
+		// Then I disable the group limitation
+		cy.get('button[title="Deselect admin"]').click()
 	})
 
 	/*

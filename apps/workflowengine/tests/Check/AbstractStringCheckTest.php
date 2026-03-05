@@ -1,33 +1,19 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCA\WorkflowEngine\Check\AbstractStringCheck;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AbstractStringCheckTest extends \Test\TestCase {
-	protected function getCheckMock() {
+	protected function getCheckMock(): AbstractStringCheck|MockObject {
 		$l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -37,12 +23,11 @@ class AbstractStringCheckTest extends \Test\TestCase {
 				return sprintf($string, $args);
 			});
 
-		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
+		$check = $this->getMockBuilder(AbstractStringCheck::class)
 			->setConstructorArgs([
 				$l,
 			])
-			->setMethods([
-				'setPath',
+			->onlyMethods([
 				'executeCheck',
 				'getActualValue',
 			])
@@ -51,7 +36,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		return $check;
 	}
 
-	public function dataExecuteStringCheck() {
+	public static function dataExecuteStringCheck(): array {
 		return [
 			['is', 'same', 'same', true],
 			['is', 'different', 'not the same', false],
@@ -65,21 +50,15 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecuteStringCheck
-	 * @param string $operation
-	 * @param string $checkValue
-	 * @param string $actualValue
-	 * @param bool $expected
-	 */
-	public function testExecuteStringCheck($operation, $checkValue, $actualValue, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteStringCheck')]
+	public function testExecuteStringCheck(string $operation, string $checkValue, string $actualValue, bool $expected): void {
 		$check = $this->getCheckMock();
 
-		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+		/** @var AbstractStringCheck $check */
 		$this->assertEquals($expected, $this->invokePrivate($check, 'executeStringCheck', [$operation, $checkValue, $actualValue]));
 	}
 
-	public function dataValidateCheck() {
+	public static function dataValidateCheck(): array {
 		return [
 			['is', '/Invalid(Regex/'],
 			['!is', '/Invalid(Regex/'],
@@ -88,21 +67,17 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheck
-	 * @param string $operator
-	 * @param string $value
-	 */
-	public function testValidateCheck($operator, $value) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataValidateCheck')]
+	public function testValidateCheck(string $operator, string $value): void {
 		$check = $this->getCheckMock();
 
-		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+		/** @var AbstractStringCheck $check */
 		$check->validateCheck($operator, $value);
 
 		$this->addToAssertionCount(1);
 	}
 
-	public function dataValidateCheckInvalid() {
+	public static function dataValidateCheckInvalid(): array {
 		return [
 			['!!is', '', 1, 'The given operator is invalid'],
 			['less', '', 1, 'The given operator is invalid'],
@@ -111,18 +86,12 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheckInvalid
-	 * @param $operator
-	 * @param $value
-	 * @param $exceptionCode
-	 * @param $exceptionMessage
-	 */
-	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataValidateCheckInvalid')]
+	public function testValidateCheckInvalid(string $operator, string $value, int $exceptionCode, string $exceptionMessage): void {
 		$check = $this->getCheckMock();
 
 		try {
-			/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+			/** @var AbstractStringCheck $check */
 			$check->validateCheck($operator, $value);
 		} catch (\UnexpectedValueException $e) {
 			$this->assertEquals($exceptionCode, $e->getCode());
@@ -130,21 +99,15 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		}
 	}
 
-	public function dataMatch() {
+	public static function dataMatch(): array {
 		return [
 			['/valid/', 'valid', [], true],
 			['/valid/', 'valid', [md5('/valid/') => [md5('valid') => false]], false], // Cache hit
 		];
 	}
 
-	/**
-	 * @dataProvider dataMatch
-	 * @param string $pattern
-	 * @param string $subject
-	 * @param array[] $matches
-	 * @param bool $expected
-	 */
-	public function testMatch($pattern, $subject, $matches, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataMatch')]
+	public function testMatch(string $pattern, string $subject, array $matches, bool $expected): void {
 		$check = $this->getCheckMock();
 
 		$this->invokePrivate($check, 'matches', [$matches]);

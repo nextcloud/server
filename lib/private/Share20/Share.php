@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Share20;
 
@@ -36,17 +14,17 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IAttributes;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Override;
 
 class Share implements IShare {
-	/** @var string */
-	private $id;
-	/** @var string */
-	private $providerId;
-	/** @var Node */
-	private $node;
+	private ?string $id = null;
+	private ?string $providerId = null;
+	private ?Node $node = null;
 	/** @var int */
 	private $fileId;
 	/** @var string */
@@ -80,101 +58,73 @@ class Share implements IShare {
 	private $sendPasswordByTalk = false;
 	/** @var string */
 	private $token;
-	/** @var int */
-	private $parent;
+	private ?int $parent = null;
 	/** @var string */
 	private $target;
 	/** @var \DateTime */
 	private $shareTime;
 	/** @var bool */
 	private $mailSend;
-	/** @var string */
-	private $label = '';
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserManager */
-	private $userManager;
-
 	/** @var ICacheEntry|null */
 	private $nodeCacheEntry;
-
 	/** @var bool */
 	private $hideDownload = false;
+	private bool $reminderSent = false;
 
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
+	private string $label = '';
+	private bool $noExpirationDate = false;
+
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private IUserManager $userManager,
+	) {
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setId($id) {
-		if (is_int($id)) {
-			$id = (string)$id;
-		}
-
-		if (!is_string($id)) {
-			throw new \InvalidArgumentException('String expected.');
-		}
-
+	#[Override]
+	public function setId(string $id): self {
 		if ($this->id !== null) {
 			throw new IllegalIDChangeException('Not allowed to assign a new internal id to a share');
 		}
-
-		$this->id = trim($id);
+		$this->id = $id;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getId() {
+	#[Override]
+	public function getId(): string {
+		if ($this->id === null) {
+			throw new \LogicException('Share id is null');
+		}
 		return $this->id;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getFullId() {
+	#[Override]
+	public function getFullId(): string {
 		if ($this->providerId === null || $this->id === null) {
 			throw new \UnexpectedValueException;
 		}
 		return $this->providerId . ':' . $this->id;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setProviderId($id) {
-		if (!is_string($id)) {
-			throw new \InvalidArgumentException('String expected.');
-		}
-
+	#[Override]
+	public function setProviderId(string $id): self {
 		if ($this->providerId !== null) {
 			throw new IllegalIDChangeException('Not allowed to assign a new provider id to a share');
 		}
 
-		$this->providerId = trim($id);
+		$this->providerId = $id;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setNode(Node $node) {
+	#[Override]
+	public function setNode(Node $node): self {
 		$this->fileId = null;
 		$this->nodeType = null;
 		$this->node = $node;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getNode() {
+	#[Override]
+	public function getNode(): Node {
 		if ($this->node === null) {
 			if ($this->shareOwner === null || $this->fileId === null) {
 				throw new NotFoundException();
@@ -217,7 +167,7 @@ class Share implements IShare {
 		}
 
 		if ($this->fileId === null) {
-			throw new NotFoundException("Share source not found");
+			throw new NotFoundException('Share source not found');
 		} else {
 			return $this->fileId;
 		}
@@ -428,9 +378,24 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	public function setNoExpirationDate(bool $noExpirationDate) {
+		$this->noExpirationDate = $noExpirationDate;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNoExpirationDate(): bool {
+		return $this->noExpirationDate;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function isExpired() {
-		return $this->getExpirationDate() !== null &&
-			$this->getExpirationDate() <= new \DateTime();
+		return $this->getExpirationDate() !== null
+			&& $this->getExpirationDate() <= new \DateTime();
 	}
 
 	/**
@@ -535,25 +500,12 @@ class Share implements IShare {
 		return $this->token;
 	}
 
-	/**
-	 * Set the parent of this share
-	 *
-	 * @param int parent
-	 * @return IShare
-	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
-	 */
-	public function setParent($parent) {
+	public function setParent(int $parent): self {
 		$this->parent = $parent;
 		return $this;
 	}
 
-	/**
-	 * Get the parent of this share.
-	 *
-	 * @return int
-	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
-	 */
-	public function getParent() {
+	public function getParent(): ?int {
 		return $this->parent;
 	}
 
@@ -623,5 +575,33 @@ class Share implements IShare {
 
 	public function getHideDownload(): bool {
 		return $this->hideDownload;
+	}
+
+	public function setReminderSent(bool $reminderSent): IShare {
+		$this->reminderSent = $reminderSent;
+		return $this;
+	}
+
+	public function getReminderSent(): bool {
+		return $this->reminderSent;
+	}
+
+	public function canSeeContent(): bool {
+		$shareManager = Server::get(IManager::class);
+
+		$allowViewWithoutDownload = $shareManager->allowViewWithoutDownload();
+		// If the share manager allows viewing without download, we can always see the content.
+		if ($allowViewWithoutDownload) {
+			return true;
+		}
+
+		// No "allow preview" header set, so we must check if
+		// the share has not explicitly disabled download permissions
+		$attributes = $this->getAttributes();
+		if ($attributes?->getAttribute('permissions', 'download') === false) {
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OC\Memcache;
 
 use OCP\Cache\CappedMemoryCache;
@@ -9,11 +13,12 @@ use OCP\ICache;
  * Wrap a cache instance with an extra later of local, in-memory caching
  */
 class WithLocalCache implements ICache {
-	private ICache $inner;
 	private CappedMemoryCache $cached;
 
-	public function __construct(ICache $inner, int $localCapacity = 512) {
-		$this->inner = $inner;
+	public function __construct(
+		private ICache $inner,
+		int $localCapacity = 512,
+	) {
 		$this->cached = new CappedMemoryCache($localCapacity);
 	}
 

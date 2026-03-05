@@ -1,51 +1,42 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
+use OCA\DAV\Db\PropertyMapper;
 use OCP\Contacts\IManager;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContactsManagerTest extends TestCase {
 	public function test(): void {
-		/** @var IManager | \PHPUnit\Framework\MockObject\MockObject $cm */
-		$cm = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
-		$cm->expects($this->exactly(2))->method('registerAddressBook');
-		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)->disableOriginalConstructor()->getMock();
-		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backEnd */
-		$backEnd = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		/** @var IManager&MockObject $cm */
+		$cm = $this->createMock(IManager::class);
+		$cm->expects($this->exactly(1))->method('registerAddressBook');
+		/** @var IURLGenerator&MockObject $urlGenerator */
+		$urlGenerator = $this->createMock(IURLGenerator::class);
+		/** @var CardDavBackend&MockObject $backEnd */
+		$backEnd = $this->createMock(CardDavBackend::class);
 		$backEnd->method('getAddressBooksForUser')->willReturn([
 			['{DAV:}displayname' => 'Test address book', 'uri' => 'default'],
 		]);
+		$propertyMapper = $this->createMock(PropertyMapper::class);
+		/** @var IAppConfig&MockObject $appConfig */
+		$appConfig = $this->createMock(IAppConfig::class);
 
+		/** @var IL10N&MockObject $l */
 		$l = $this->createMock(IL10N::class);
-		$app = new ContactsManager($backEnd, $l);
+		$app = new ContactsManager($backEnd, $l, $propertyMapper, $appConfig);
 		$app->setupContactsProvider($cm, 'user01', $urlGenerator);
 	}
 }

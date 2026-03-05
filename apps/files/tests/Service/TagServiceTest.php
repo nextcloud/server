@@ -1,132 +1,86 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Tests\Service;
 
 use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
-use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\ITagManager;
 use OCP\ITags;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class TagServiceTest
  *
- * @group DB
  *
  * @package OCA\Files
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class TagServiceTest extends \Test\TestCase {
-
-	/**
-	 * @var string
-	 */
-	private $user;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $activityManager;
-
-	/**
-	 * @var \OCP\Files\Folder
-	 */
-	private $root;
-
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $dispatcher;
-
-	/**
-	 * @var \OCA\Files\Service\TagService|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $tagService;
-
-	/**
-	 * @var \OCP\ITags
-	 */
-	private $tagger;
+	private string $user;
+	private IUserSession&MockObject $userSession;
+	private IManager&MockObject $activityManager;
+	private Folder $root;
+	private TagService&MockObject $tagService;
+	private ITags $tagger;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->user = static::getUniqueID('user');
 		$this->activityManager = $this->createMock(IManager::class);
-		\OC::$server->getUserManager()->createUser($this->user, 'test');
+		Server::get(IUserManager::class)->createUser($this->user, 'test');
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
 		$user = $this->createMock(IUser::class);
-		/**
-		 * @var \OCP\IUserSession
-		 */
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
 			->withAnyParameters()
 			->willReturn($user);
 
-		$this->root = \OC::$server->getUserFolder();
-		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->root = Server::get(IRootFolder::class)->getUserFolder($this->user);
 
-		$this->tagger = \OC::$server->getTagManager()->load('files');
-		$this->tagService = $this->getTagService(['addActivity']);
+		$this->tagger = Server::get(ITagManager::class)->load('files');
+		$this->tagService = $this->getTagService();
 	}
 
-	/**
-	 * @param array $methods
-	 * @return TagService|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected function getTagService(array $methods = []) {
+	protected function getTagService(array $methods = []): TagService&MockObject {
 		return $this->getMockBuilder(TagService::class)
 			->setConstructorArgs([
 				$this->userSession,
 				$this->activityManager,
 				$this->tagger,
 				$this->root,
-				$this->dispatcher,
 			])
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
 	protected function tearDown(): void {
 		\OC_User::setUserId('');
-		$user = \OC::$server->getUserManager()->get($this->user);
+		$user = Server::get(IUserManager::class)->get($this->user);
 		if ($user !== null) {
 			$user->delete();
 		}
+
+		parent::tearDown();
 	}
 
-	public function testUpdateFileTags() {
+	public function testUpdateFileTags(): void {
 		$tag1 = 'tag1';
 		$tag2 = 'tag2';
-
-		$this->tagService->expects($this->never())
-			->method('addActivity');
 
 		$subdir = $this->root->newFolder('subdir');
 		$testFile = $subdir->newFile('test.txt');
@@ -154,31 +108,10 @@ class TagServiceTest extends \Test\TestCase {
 		$caught = false;
 		try {
 			$this->tagService->updateFileTags('subdir/unexist.txt', [$tag1]);
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			$caught = true;
 		}
 		$this->assertTrue($caught);
-
-		$subdir->delete();
-	}
-
-	public function testFavoriteActivity() {
-		$subdir = $this->root->newFolder('subdir');
-		$file = $subdir->newFile('test.txt');
-
-		$this->tagService->expects($this->exactly(2))
-			->method('addActivity')
-			->withConsecutive(
-				[true, $file->getId(), 'subdir/test.txt'],
-				[false, $file->getId(), 'subdir/test.txt']
-			);
-
-		// set tags
-		$this->tagService->updateFileTags('subdir/test.txt', [ITags::TAG_FAVORITE]);
-
-		// remove tag
-		$this->tagService->updateFileTags('subdir/test.txt', []);
-
 
 		$subdir->delete();
 	}

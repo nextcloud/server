@@ -1,13 +1,19 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div v-click-outside="hideDelete" class="check" @click="showDelete">
-		<NcSelect ref="checkSelector"
+		<NcSelect
+			ref="checkSelector"
 			v-model="currentOption"
 			:options="options"
 			label="name"
 			:clearable="false"
 			:placeholder="t('workflowengine', 'Select a filter')"
 			@input="updateCheck" />
-		<NcSelect v-model="currentOperator"
+		<NcSelect
+			v-model="currentOperator"
 			:disabled="!currentOption"
 			:options="operators"
 			class="comparator"
@@ -15,16 +21,29 @@
 			:clearable="false"
 			:placeholder="t('workflowengine', 'Select a comparator')"
 			@input="updateCheck" />
-		<component :is="currentOption.component"
-			v-if="currentOperator && currentComponent"
+		<component
+			:is="currentElement"
+			v-if="currentElement"
+			ref="checkComponent"
+			:disabled="!currentOption"
+			:operator="check.operator"
+			:model-value="check.value"
+			class="option"
+			@update:model-value="updateCheck"
+			@valid="(valid = true) && validate()"
+			@invalid="!(valid = false) && validate()" />
+		<component
+			:is="currentOption.component"
+			v-else-if="currentOperator && currentComponent"
 			v-model="check.value"
 			:disabled="!currentOption"
 			:check="check"
 			class="option"
 			@input="updateCheck"
-			@valid="(valid=true) && validate()"
-			@invalid="!(valid=false) && validate()" />
-		<input v-else
+			@valid="(valid = true) && validate()"
+			@invalid="!(valid = false) && validate()" />
+		<input
+			v-else
 			v-model="check.value"
 			type="text"
 			:class="{ invalid: !valid }"
@@ -43,15 +62,15 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-
-import CloseIcon from 'vue-material-design-icons/Close.vue'
-
 import ClickOutside from 'vue-click-outside'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import CloseIcon from 'vue-material-design-icons/Close.vue'
+import { logger } from '../logger.ts'
 
 export default {
+	/* eslint vue/multi-word-component-names: "warn" */
 	name: 'Check',
 	components: {
 		NcActionButton,
@@ -61,19 +80,23 @@ export default {
 		// Icons
 		CloseIcon,
 	},
+
 	directives: {
 		ClickOutside,
 	},
+
 	props: {
 		check: {
 			type: Object,
 			required: true,
 		},
+
 		rule: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			deleteVisible: false,
@@ -83,22 +106,37 @@ export default {
 			valid: false,
 		}
 	},
+
 	computed: {
 		checks() {
 			return this.$store.getters.getChecksForEntity(this.rule.entity)
 		},
+
 		operators() {
-			if (!this.currentOption) { return [] }
+			if (!this.currentOption) {
+				return []
+			}
 			const operators = this.checks[this.currentOption.class].operators
 			if (typeof operators === 'function') {
 				return operators(this.check)
 			}
 			return operators
 		},
+
+		currentElement() {
+			if (!this.check.class) {
+				return false
+			}
+			return this.checks[this.check.class].element
+		},
+
 		currentComponent() {
-			if (!this.currentOption) { return [] }
+			if (!this.currentOption) {
+				return []
+			}
 			return this.checks[this.currentOption.class].component
 		},
+
 		valuePlaceholder() {
 			if (this.currentOption && this.currentOption.placeholder) {
 				return this.currentOption.placeholder(this.check)
@@ -106,28 +144,42 @@ export default {
 			return ''
 		},
 	},
+
 	watch: {
-		'check.operator'() {
+		'check.operator': function() {
 			this.validate()
 		},
 	},
+
 	mounted() {
 		this.options = Object.values(this.checks)
 		this.currentOption = this.checks[this.check.class]
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
+
+		if (this.currentElement) {
+			// If we do not set it, the check`s value would remain empty. Unsure why Vue behaves this way.
+			this.$refs.checkComponent.modelValue = undefined
+		} else if (this.currentOption?.component) {
+			// keeping this in an else for apps that try to be backwards compatible and may ship both
+			// to be removed in 03/2028
+			logger.warn('Developer warning: `CheckPlugin.options` is deprecated. Use `CheckPlugin.element` instead.')
+		}
 
 		if (this.check.class === null) {
 			this.$nextTick(() => this.$refs.checkSelector.$el.focus())
 		}
 		this.validate()
 	},
+
 	methods: {
 		showDelete() {
 			this.deleteVisible = true
 		},
+
 		hideDelete() {
 			this.deleteVisible = false
 		},
+
 		validate() {
 			this.valid = true
 			if (this.currentOption && this.currentOption.validate) {
@@ -137,10 +189,15 @@ export default {
 			this.check.invalid = !this.valid
 			this.$emit('validate', this.valid)
 		},
-		updateCheck() {
-			const matchingOperator = this.operators.findIndex((operator) => this.check.operator === operator.operator)
+
+		updateCheck(event) {
+			const selectedOperator = event?.operator || this.currentOperator?.operator || this.check.operator
+			const matchingOperator = this.operators.findIndex((operator) => selectedOperator === operator.operator)
 			if (this.check.class !== this.currentOption.class || matchingOperator === -1) {
 				this.currentOperator = this.operators[0]
+			}
+			if (event?.detail) {
+				this.check.value = event.detail[0]
 			}
 			// eslint-disable-next-line vue/no-mutating-props
 			this.check.class = this.currentOption.class
@@ -161,7 +218,7 @@ export default {
 		flex-wrap: wrap;
 		align-items: flex-start; // to not stretch components vertically
 		width: 100%;
-		padding-right: 20px;
+		padding-inline-end: 20px;
 
 		& > *:not(.close) {
 			width: 180px;
@@ -182,14 +239,16 @@ export default {
 		& > .v-select,
 		& > .button-vue,
 		& > input[type=text] {
-			margin-right: 5px;
+			margin-inline-end: 5px;
 			margin-bottom: 5px;
 		}
 	}
+
 	input[type=text] {
 		margin: 0;
 	}
+
 	.invalid {
-		border-color: var(--color-error) !important;
+		border-color: var(--color-border-error) !important;
 	}
 </style>

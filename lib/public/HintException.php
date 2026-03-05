@@ -1,27 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP;
 
@@ -40,12 +21,12 @@ class HintException extends \Exception {
 	 * HintException constructor.
 	 *
 	 * @since 23.0.0
-	 * @param string $message  The error message. It will be not revealed to the
-	 *                         the user (unless the hint is empty) and thus
-	 *                         should be not translated.
-	 * @param string $hint     A useful message that is presented to the end
-	 *                         user. It should be translated, but must not
-	 *                         contain sensitive data.
+	 * @param string $message The error message. It will be not revealed to the
+	 *                        the user (unless the hint is empty) and thus
+	 *                        should be not translated.
+	 * @param string $hint A useful message that is presented to the end
+	 *                     user. It should be translated, but must not
+	 *                     contain sensitive data.
 	 * @param int $code
 	 * @param \Exception|null $previous
 	 */
@@ -62,7 +43,7 @@ class HintException extends \Exception {
 	 * @return string
 	 */
 	public function __toString(): string {
-		return __CLASS__ . ": [{$this->code}]: {$this->message} ({$this->hint})\n";
+		return self::class . ": [{$this->code}]: {$this->message} ({$this->hint})\n";
 	}
 
 	/**

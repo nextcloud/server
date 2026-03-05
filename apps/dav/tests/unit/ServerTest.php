@@ -1,28 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit;
 
@@ -32,16 +14,14 @@ use OCP\IRequest;
 /**
  * Class ServerTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\Unit
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ServerTest extends \Test\TestCase {
 
-	/**
-	 * @dataProvider providesUris
-	 */
-	public function test($uri, array $plugins): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesUris')]
+	public function test(string $uri, array $plugins): void {
 		/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject $r */
 		$r = $this->createMock(IRequest::class);
 		$r->expects($this->any())->method('getRequestUri')->willReturn($uri);
@@ -52,7 +32,7 @@ class ServerTest extends \Test\TestCase {
 			$this->assertNotNull($s->server->getPlugin($plugin));
 		}
 	}
-	public function providesUris() {
+	public static function providesUris(): array {
 		return [
 			'principals' => ['principals/users/admin', ['caldav', 'oc-resource-sharing', 'carddav']],
 			'calendars' => ['calendars/admin', ['caldav', 'oc-resource-sharing']],

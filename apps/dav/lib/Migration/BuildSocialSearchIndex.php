@@ -1,62 +1,29 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright 2017 Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author call-me-matt <nextcloud@matthiasheinisch.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Migration;
 
 use OCP\BackgroundJob\IJobList;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class BuildSocialSearchIndex implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IDBConnection $db
-	 * @param IJobList $jobList
-	 * @param IConfig $config
-	 */
-	public function __construct(IDBConnection $db,
-		IJobList $jobList,
-		IConfig $config) {
-		$this->db = $db;
-		$this->jobList = $jobList;
-		$this->config = $config;
+	public function __construct(
+		private readonly IDBConnection $db,
+		private readonly IJobList $jobList,
+		private readonly IAppConfig $config,
+	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Register building of social profile search index as background job';
 	}
 
@@ -65,7 +32,7 @@ class BuildSocialSearchIndex implements IRepairStep {
 	 */
 	public function run(IOutput $output) {
 		// only run once
-		if ($this->config->getAppValue('dav', 'builtSocialSearchIndex') === 'yes') {
+		if ($this->config->getValueBool('dav', 'builtSocialSearchIndex')) {
 			$output->info('Repair step already executed');
 			return;
 		}
@@ -74,7 +41,7 @@ class BuildSocialSearchIndex implements IRepairStep {
 		$query->select($query->func()->max('cardid'))
 			->from('cards_properties')
 			->where($query->expr()->eq('name', $query->createNamedParameter('X-SOCIALPROFILE')));
-		$maxId = (int)$query->execute()->fetchOne();
+		$maxId = (int)$query->executeQuery()->fetchOne();
 
 		if ($maxId === 0) {
 			return;
@@ -87,6 +54,6 @@ class BuildSocialSearchIndex implements IRepairStep {
 		]);
 
 		// no need to redo the repair during next upgrade
-		$this->config->setAppValue('dav', 'builtSocialSearchIndex', 'yes');
+		$this->config->setValueBool('dav', 'builtSocialSearchIndex', true);
 	}
 }

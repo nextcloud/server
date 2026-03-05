@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2017 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 Feature: sharees_provisioningapiv2
   Background:
     Given using api version "2"
@@ -15,7 +18,7 @@ Feature: sharees_provisioningapiv2
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
-      | Sharee1 | 0 | Sharee1 |
+      | Sharee1 | 0 | Sharee1 | Sharee1 |
     And "exact groups" sharees returned is empty
     And "groups" sharees returned are
       | ShareeGroup | 1 | ShareeGroup |
@@ -31,7 +34,7 @@ Feature: sharees_provisioningapiv2
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
-      | Sharee1 | 0 | Sharee1 |
+      | Sharee1 | 0 | Sharee1 | Sharee1 |
     And "exact groups" sharees returned is empty
     And "groups" sharees returned are
       | ShareeGroup | 1 | ShareeGroup |
@@ -65,7 +68,7 @@ Feature: sharees_provisioningapiv2
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
-      | Sharee1 | 0 | Sharee1 |
+      | Sharee1 | 0 | Sharee1 | Sharee1 |
     And "exact groups" sharees returned is empty
     And "groups" sharees returned are
       | ShareeGroup | 1 | ShareeGroup |
@@ -111,7 +114,7 @@ Feature: sharees_provisioningapiv2
     Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     And "exact users" sharees returned are
-      | Sharee1 | 0 | Sharee1 |
+      | Sharee1 | 0 | Sharee1 | Sharee1 |
     And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
@@ -142,7 +145,7 @@ Feature: sharees_provisioningapiv2
     Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     Then "exact users" sharees returned are
-      | Sharee1 | 0 | Sharee1 |
+      | Sharee1 | 0 | Sharee1 | Sharee1 |
     Then "users" sharees returned is empty
     Then "exact groups" sharees returned is empty
     Then "groups" sharees returned is empty
@@ -157,7 +160,7 @@ Feature: sharees_provisioningapiv2
     Then the OCS status code should be "200"
     And the HTTP status code should be "200"
     Then "exact users" sharees returned are
-      | Sharee1 | 0 | Sharee1 |
+      | Sharee1 | 0 | Sharee1 | Sharee1 |
     Then "users" sharees returned is empty
     Then "exact groups" sharees returned is empty
     Then "groups" sharees returned is empty
@@ -186,8 +189,7 @@ Feature: sharees_provisioningapiv2
       | itemType | file |
     Then the OCS status code should be "200"
     And the HTTP status code should be "200"
-    Then "exact users" sharees returned are
-      | Sharee1 | 0 | Sharee1 |
+    Then "exact users" sharees returned is empty
     Then "users" sharees returned is empty
     Then "exact groups" sharees returned is empty
     Then "groups" sharees returned is empty
@@ -209,7 +211,7 @@ Feature: sharees_provisioningapiv2
       | test (localhost) | 6 | test@localhost |
     Then "remotes" sharees returned is empty
 
-  Scenario: Remote sharee for calendars not allowed
+  Scenario: Remote sharee for calendars
     Given As an "test"
     When getting sharees for
       | search | test@localhost |
@@ -220,7 +222,8 @@ Feature: sharees_provisioningapiv2
     Then "users" sharees returned is empty
     Then "exact groups" sharees returned is empty
     Then "groups" sharees returned is empty
-    Then "exact remotes" sharees returned is empty
+    Then "exact remotes" sharees returned are
+      | test (localhost) | 6 | test@localhost |
     Then "remotes" sharees returned is empty
 
   Scenario: Group sharees not returned when group sharing is disabled
@@ -233,7 +236,7 @@ Feature: sharees_provisioningapiv2
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
     And "users" sharees returned are
-      | Sharee1 | 0 | Sharee1 |
+      | Sharee1 | 0 | Sharee1 | Sharee1 |
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
     And "exact remotes" sharees returned is empty

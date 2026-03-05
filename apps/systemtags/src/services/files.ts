@@ -1,34 +1,23 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { FileStat, ResponseDataDetailed } from 'webdav'
-import type { ServerTagWithId, Tag, TagWithId } from '../types.js'
+import type { ServerTagWithId, Tag, TagWithId } from '../types.ts'
 
-import { davClient } from './davClient.js'
-import { createTag, fetchTagsPayload } from './api.js'
-import { formatTag, parseTags } from '../utils.js'
-import { logger } from '../logger.js'
+import { t } from '@nextcloud/l10n'
+import logger from '../logger.ts'
+import { formatTag, parseTags } from '../utils.ts'
+import { createTag, fetchTagsPayload } from './api.ts'
+import { davClient } from './davClient.ts'
 
-export const fetchTagsForFile = async (fileId: number): Promise<TagWithId[]> => {
+/**
+ * Fetch all tags for a given file (by id).
+ *
+ * @param fileId - The id of the file to fetch tags for
+ */
+export async function fetchTagsForFile(fileId: number): Promise<TagWithId[]> {
 	const path = '/systemtags-relations/files/' + fileId
 	try {
 		const { data: tags } = await davClient.getDirectoryContents(path, {
@@ -44,9 +33,13 @@ export const fetchTagsForFile = async (fileId: number): Promise<TagWithId[]> => 
 }
 
 /**
- * @return created tag id
+ * Create a tag and apply it to a given file (by id).
+ * This returns the id of the newly created tag.
+ *
+ * @param tag The tag to create
+ * @param fileId Id of the file to tag
  */
-export const createTagForFile = async (tag: Tag, fileId: number): Promise<number> => {
+export async function createTagForFile(tag: Tag, fileId: number): Promise<number> {
 	const tagToCreate = formatTag(tag)
 	const tagId = await createTag(tagToCreate)
 	const tagToSet: ServerTagWithId = {
@@ -57,7 +50,13 @@ export const createTagForFile = async (tag: Tag, fileId: number): Promise<number
 	return tagToSet.id
 }
 
-export const setTagForFile = async (tag: TagWithId | ServerTagWithId, fileId: number): Promise<void> => {
+/**
+ * Set a tag for a given file (by id).
+ *
+ * @param tag - The tag to set
+ * @param fileId - The id of the file to set the tag for
+ */
+export async function setTagForFile(tag: TagWithId | ServerTagWithId, fileId: number): Promise<void> {
 	const path = '/systemtags-relations/files/' + fileId + '/' + tag.id
 	const tagToPut = formatTag(tag)
 	try {
@@ -71,7 +70,13 @@ export const setTagForFile = async (tag: TagWithId | ServerTagWithId, fileId: nu
 	}
 }
 
-export const deleteTagForFile = async (tag: TagWithId, fileId: number): Promise<void> => {
+/**
+ * Delete a tag for a given file (by id).
+ *
+ * @param tag - The tag to delete
+ * @param fileId - The id of the file to delete the tag for
+ */
+export async function deleteTagForFile(tag: TagWithId, fileId: number): Promise<void> {
 	const path = '/systemtags-relations/files/' + fileId + '/' + tag.id
 	try {
 		await davClient.deleteFile(path)

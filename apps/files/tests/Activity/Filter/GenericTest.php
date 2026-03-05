@@ -1,117 +1,81 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Tests\Activity\Filter;
 
 use OCA\Files\Activity\Filter\Favorites;
 use OCA\Files\Activity\Filter\FileChanges;
 use OCP\Activity\IFilter;
+use OCP\Server;
 use Test\TestCase;
 
 /**
  * Class GenericTest
  *
  * @package OCA\Files\Tests\Activity\Filter
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class GenericTest extends TestCase {
-	public function dataFilters() {
+	public static function dataFilters(): array {
 		return [
 			[Favorites::class],
 			[FileChanges::class],
 		];
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 * @param string $filterClass
-	 */
-	public function testImplementsInterface($filterClass) {
-		$filter = \OC::$server->query($filterClass);
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
+	public function testImplementsInterface(string $filterClass): void {
+		$filter = Server::get($filterClass);
 		$this->assertInstanceOf(IFilter::class, $filter);
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 * @param string $filterClass
-	 */
-	public function testGetIdentifier($filterClass) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
+	public function testGetIdentifier(string $filterClass): void {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = Server::get($filterClass);
 		$this->assertIsString($filter->getIdentifier());
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 * @param string $filterClass
-	 */
-	public function testGetName($filterClass) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
+	public function testGetName(string $filterClass): void {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = Server::get($filterClass);
 		$this->assertIsString($filter->getName());
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 * @param string $filterClass
-	 */
-	public function testGetPriority($filterClass) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
+	public function testGetPriority(string $filterClass): void {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = Server::get($filterClass);
 		$priority = $filter->getPriority();
 		$this->assertIsInt($filter->getPriority());
 		$this->assertGreaterThanOrEqual(0, $priority);
 		$this->assertLessThanOrEqual(100, $priority);
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 * @param string $filterClass
-	 */
-	public function testGetIcon($filterClass) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
+	public function testGetIcon(string $filterClass): void {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = Server::get($filterClass);
 		$this->assertIsString($filter->getIcon());
 		$this->assertStringStartsWith('http', $filter->getIcon());
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 * @param string $filterClass
-	 */
-	public function testFilterTypes($filterClass) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
+	public function testFilterTypes(string $filterClass): void {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = Server::get($filterClass);
 		$this->assertIsArray($filter->filterTypes([]));
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 * @param string $filterClass
-	 */
-	public function testAllowedApps($filterClass) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
+	public function testAllowedApps(string $filterClass): void {
 		/** @var IFilter $filter */
-		$filter = \OC::$server->query($filterClass);
+		$filter = Server::get($filterClass);
 		$this->assertIsArray($filter->allowedApps());
 	}
 }

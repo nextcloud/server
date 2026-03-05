@@ -3,54 +3,32 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Share\Events;
 
 use OC\Files\View;
 use OCP\EventDispatcher\Event;
+use OCP\IUser;
 use OCP\Share\IShare;
 
 /**
  * @since 19.0.0
  */
 class VerifyMountPointEvent extends Event {
-	/** @var IShare */
-	private $share;
-	/** @var View */
-	private $view;
-	/** @var string */
-	private $parent;
+	private bool $createParent = false;
 
 	/**
 	 * @since 19.0.0
 	 */
-	public function __construct(IShare $share,
-		View $view,
-		string $parent) {
+	public function __construct(
+		private readonly IShare $share,
+		private readonly View $view,
+		private string $parent,
+		private readonly IUser $user,
+	) {
 		parent::__construct();
-
-		$this->share = $share;
-		$this->view = $view;
-		$this->parent = $parent;
 	}
 
 	/**
@@ -62,12 +40,15 @@ class VerifyMountPointEvent extends Event {
 
 	/**
 	 * @since 19.0.0
+	 * @depecated 34.0.0 Get the user folder for `$this->getUser()` instead
 	 */
 	public function getView(): View {
 		return $this->view;
 	}
 
 	/**
+	 * The parent folder where the share is placed, as relative path to the users home directory.
+	 *
 	 * @since 19.0.0
 	 */
 	public function getParent(): string {
@@ -79,5 +60,31 @@ class VerifyMountPointEvent extends Event {
 	 */
 	public function setParent(string $parent): void {
 		$this->parent = $parent;
+	}
+
+	/**
+	 * @since 34.0.0
+	 */
+	public function setCreateParent(bool $create): void {
+		$this->createParent = $create;
+	}
+
+	/**
+	 * Whether the parent folder should be created if missing.
+	 *
+	 * If set for `false` (the default), and the parent folder doesn't exist already,
+	 * the share will be moved to the default share folder instead.
+	 *
+	 * @since 34.0.0
+	 */
+	public function createParent(): bool {
+		return $this->createParent;
+	}
+
+	/**
+	 * @since 34.0.0
+	 */
+	public function getUser(): IUser {
+		return $this->user;
 	}
 }

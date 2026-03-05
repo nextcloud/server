@@ -1,7 +1,11 @@
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import type { Ref } from 'vue'
 import type { IAppstoreApp } from '../app-types.ts'
 
-import { mdiCog } from '@mdi/js'
+import { mdiCog, mdiCogOutline } from '@mdi/js'
 import { computed, ref, watchEffect } from 'vue'
 import AppstoreCategoryIcons from '../constants/AppstoreCategoryIcons.ts'
 import logger from '../logger.ts'
@@ -13,17 +17,23 @@ import logger from '../logger.ts'
  * @param app The app to get the icon for
  */
 export function useAppIcon(app: Ref<IAppstoreApp>) {
-	const appIcon = ref<string|null>(null)
+	const appIcon = ref<string | null>(null)
 
 	/**
 	 * Fallback value if no app icon available
 	 */
 	const categoryIcon = computed(() => {
-		const path = [app.value?.category ?? []].flat()
-			.map((name) => AppstoreCategoryIcons[name])
-			.filter((icon) => !!icon)
-			.at(0)
-			?? mdiCog
+		let path: string
+		if (app.value?.app_api) {
+			// Use different default icon for ExApps (AppAPI)
+			path = mdiCogOutline
+		} else {
+			path = [app.value?.category ?? []].flat()
+				.map((name) => AppstoreCategoryIcons[name])
+				.filter((icon) => !!icon)
+				.at(0)
+				?? (!app.value?.app_api ? mdiCog : mdiCogOutline)
+		}
 		return path ? `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="${path}" /></svg>` : null
 	})
 

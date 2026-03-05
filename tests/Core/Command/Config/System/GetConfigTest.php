@@ -1,22 +1,9 @@
 <?php
+
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Config\System;
@@ -48,12 +35,12 @@ class GetConfigTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OC\SystemConfig $systemConfig */
+		/** @var SystemConfig $systemConfig */
 		$this->command = new GetConfig($systemConfig);
 	}
 
 
-	public function getData() {
+	public static function getData(): array {
 		return [
 			// String output as json
 			['name', 'newvalue', true, null, false, 'json', 0, json_encode('newvalue')],
@@ -102,7 +89,6 @@ class GetConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getData
 	 *
 	 * @param string[] $configNames
 	 * @param mixed $value
@@ -113,7 +99,8 @@ class GetConfigTest extends TestCase {
 	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
-	public function testGet($configNames, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('getData')]
+	public function testGet($configNames, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage): void {
 		if (is_array($configNames)) {
 			$configName = $configNames[0];
 		} else {

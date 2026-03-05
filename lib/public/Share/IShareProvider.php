@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Share;
 
@@ -61,16 +43,6 @@ interface IShareProvider {
 	 * @since 9.0.0
 	 */
 	public function update(\OCP\Share\IShare $share);
-
-	/**
-	 * Accept a share.
-	 *
-	 * @param IShare $share
-	 * @param string $recipient
-	 * @return IShare The share object
-	 * @since 17.0.0
-	 */
-	//	public function acceptShare(IShare $share, string $recipient): IShare;
 
 	/**
 	 * Delete a share
@@ -123,7 +95,7 @@ interface IShareProvider {
 	 * @param Folder $node
 	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
 	 * @param bool $shallow Whether the method should stop at the first level, or look into sub-folders.
-	 * @return \OCP\Share\IShare[][]
+	 * @return array<int, list<\OCP\Share\IShare>>
 	 * @since 11.0.0
 	 */
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true);
@@ -145,7 +117,7 @@ interface IShareProvider {
 	/**
 	 * Get share by id
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @param string|null $recipientId
 	 * @return \OCP\Share\IShare
 	 * @throws ShareNotFound
@@ -183,7 +155,7 @@ interface IShareProvider {
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */
-	public function getShareByToken($token);
+	public function getShareByToken(string $token);
 
 	/**
 	 * A user is deleted from the system
@@ -232,8 +204,16 @@ interface IShareProvider {
 	 * Get all the shares in this provider returned as iterable to reduce memory
 	 * overhead
 	 *
-	 * @return iterable
+	 * @return iterable<IShare>
 	 * @since 18.0.0
 	 */
 	public function getAllShares(): iterable;
+
+	/**
+	 * Get all children of this share
+	 *
+	 * @return IShare[]
+	 * @since 9.0.0
+	 */
+	public function getChildren(IShare $parent);
 }

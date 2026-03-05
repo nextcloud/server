@@ -1,25 +1,9 @@
 <?php
+
 /**
- * @author Roeland Jago Douma <rullzer@owncloud.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Avatar;
@@ -88,7 +72,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetAvatarInvalidUser() {
+	public function testGetAvatarInvalidUser(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('user does not exist');
 
@@ -101,7 +85,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->avatarManager->getAvatar('invalidUser');
 	}
 
-	public function testGetAvatarForSelf() {
+	public function testGetAvatarForSelf(): void {
 		$user = $this->createMock(User::class);
 		$user
 			->expects($this->any())
@@ -141,9 +125,9 @@ class AvatarManagerTest extends \Test\TestCase {
 			->willReturn(IAccountManager::SCOPE_PRIVATE);
 
 		$this->knownUserService->expects($this->any())
-			 ->method('isKnownToUser')
-			 ->with('valid-user', 'valid-user')
-			 ->willReturn(true);
+			->method('isKnownToUser')
+			->with('valid-user', 'valid-user')
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
@@ -156,7 +140,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 
-	public function testGetAvatarValidUserDifferentCasing() {
+	public function testGetAvatarValidUserDifferentCasing(): void {
 		$user = $this->createMock(User::class);
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -203,7 +187,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 
-	public function dataGetAvatarScopes() {
+	public static function dataGetAvatarScopes(): array {
 		return [
 			// public access cannot see real avatar
 			[IAccountManager::SCOPE_PRIVATE, true, false, true],
@@ -220,10 +204,8 @@ class AvatarManagerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetAvatarScopes
-	 */
-	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAvatarScopes')]
+	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder): void {
 		if ($isPublicCall) {
 			$requestingUser = null;
 		} else {
@@ -278,16 +260,16 @@ class AvatarManagerTest extends \Test\TestCase {
 
 		if (!$isPublicCall) {
 			$this->knownUserService->expects($this->any())
-				 ->method('isKnownToUser')
-				 ->with('requesting-user', 'valid-user')
-				 ->willReturn($isKnownUser);
+				->method('isKnownToUser')
+				->with('requesting-user', 'valid-user')
+				->willReturn($isKnownUser);
 		} else {
 			$this->knownUserService->expects($this->never())
-				 ->method('isKnownToUser');
+				->method('isKnownToUser');
 		}
 
 		if ($expectedPlaceholder) {
-			$expected = new PlaceholderAvatar($folder, $user, $this->createMock(LoggerInterface::class));
+			$expected = new PlaceholderAvatar($folder, $user, $this->config, $this->logger);
 		} else {
 			$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
 		}

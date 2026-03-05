@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors*
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Federation;
 
@@ -40,21 +20,15 @@ use OCP\IL10N;
  * Handles all database calls for the federation app
  *
  * @todo Port to QBMapper
- *
- * @group DB
  * @package OCA\Federation
  */
 class DbHandler {
-	private IDBConnection $connection;
-	private IL10N $IL10N;
 	private string $dbTable = 'trusted_servers';
 
 	public function __construct(
-		IDBConnection $connection,
-		IL10N $il10n
+		private IDBConnection $connection,
+		private IL10N $IL10N,
 	) {
-		$this->connection = $connection;
-		$this->IL10N = $il10n;
 	}
 
 	/**
@@ -110,14 +84,15 @@ class DbHandler {
 			->setParameter('id', $id, IQueryBuilder::PARAM_INT);
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		/** @var array{id: int, url: string, url_hash: string, token: ?string, shared_secret: ?string, status: int, sync_token: ?string} $result */
+		$result = $qResult->fetchAssociative();
 		$qResult->closeCursor();
 
-		if (empty($result)) {
+		if ($result === false) {
 			throw new \Exception('No Server found with ID: ' . $id);
 		}
 
-		return $result[0];
+		return $result;
 	}
 
 	/**
@@ -131,7 +106,7 @@ class DbHandler {
 		$query->select(['url', 'url_hash', 'id', 'status', 'shared_secret', 'sync_token'])
 			->from($this->dbTable);
 		$statement = $query->executeQuery();
-		$result = $statement->fetchAll();
+		$result = $statement->fetchAllAssociative();
 		$statement->closeCursor();
 		return $result;
 	}
@@ -147,7 +122,7 @@ class DbHandler {
 			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
 			->setParameter('url_hash', $hash);
 		$statement = $query->executeQuery();
-		$result = $statement->fetchAll();
+		$result = $statement->fetchAllAssociative();
 		$statement->closeCursor();
 
 		return !empty($result);
@@ -179,7 +154,7 @@ class DbHandler {
 			->setParameter('url_hash', $hash);
 
 		$statement = $query->executeQuery();
-		$result = $statement->fetch();
+		$result = $statement->fetchAssociative();
 		$statement->closeCursor();
 
 		if (!isset($result['token'])) {
@@ -214,7 +189,7 @@ class DbHandler {
 			->setParameter('url_hash', $hash);
 
 		$statement = $query->executeQuery();
-		$result = $statement->fetch();
+		$result = $statement->fetchAssociative();
 		$statement->closeCursor();
 		return (string)$result['shared_secret'];
 	}
@@ -226,8 +201,8 @@ class DbHandler {
 		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
 		$query->update($this->dbTable)
-				->set('status', $query->createNamedParameter($status))
-				->where($query->expr()->eq('url_hash', $query->createNamedParameter($hash)));
+			->set('status', $query->createNamedParameter($status))
+			->where($query->expr()->eq('url_hash', $query->createNamedParameter($hash)));
 		if (!is_null($token)) {
 			$query->set('sync_token', $query->createNamedParameter($token));
 		}
@@ -241,11 +216,11 @@ class DbHandler {
 		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
 		$query->select('status')->from($this->dbTable)
-				->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
-				->setParameter('url_hash', $hash);
+			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
+			->setParameter('url_hash', $hash);
 
 		$statement = $query->executeQuery();
-		$result = $statement->fetch();
+		$result = $statement->fetchAssociative();
 		$statement->closeCursor();
 		return (int)$result['status'];
 	}
@@ -282,10 +257,10 @@ class DbHandler {
 		}
 		$query = $this->connection->getQueryBuilder();
 		$query->select('url')->from($this->dbTable)
-				->where($query->expr()->eq('shared_secret', $query->createNamedParameter($password)));
+			->where($query->expr()->eq('shared_secret', $query->createNamedParameter($password)));
 
 		$statement = $query->executeQuery();
-		$result = $statement->fetch();
+		$result = $statement->fetchAssociative();
 		$statement->closeCursor();
 		return !empty($result);
 	}

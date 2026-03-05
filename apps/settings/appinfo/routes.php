@@ -3,28 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Jan C. Borchardt <hey@jancborchardt.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 return [
 	'resources' => [
@@ -76,6 +57,10 @@ return [
 		['name' => 'TwoFactorSettings#update', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'PUT' , 'root' => ''],
 		['name' => 'AISettings#update', 'url' => '/settings/api/admin/ai', 'verb' => 'PUT' , 'root' => ''],
 
+		['name' => 'Preset#getPreset', 'url' => '/settings/preset', 'verb' => 'GET' , 'root' => ''],
+		['name' => 'Preset#getCurrentPreset', 'url' => '/settings/preset/current', 'verb' => 'GET' , 'root' => ''],
+		['name' => 'Preset#setCurrentPreset', 'url' => '/settings/preset/current', 'verb' => 'POST' , 'root' => ''],
+
 		['name' => 'Help#help', 'url' => '/settings/help/{mode}', 'verb' => 'GET', 'defaults' => ['mode' => ''] , 'root' => ''],
 
 		['name' => 'WebAuthn#startRegistration', 'url' => '/settings/api/personal/webauthn/registration', 'verb' => 'GET' , 'root' => ''],
@@ -86,6 +71,7 @@ return [
 	],
 	'ocs' => [
 		['name' => 'DeclarativeSettings#setValue', 'url' => '/settings/api/declarative/value', 'verb' => 'POST', 'root' => ''],
+		['name' => 'DeclarativeSettings#setSensitiveValue', 'url' => '/settings/api/declarative/value-sensitive', 'verb' => 'POST', 'root' => ''],
 		['name' => 'DeclarativeSettings#getForms', 'url' => '/settings/api/declarative/forms', 'verb' => 'GET', 'root' => ''],
 	],
 ];

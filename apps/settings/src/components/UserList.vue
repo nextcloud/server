@@ -1,46 +1,33 @@
 <!--
-  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<Fragment>
-		<NewUserModal v-if="showConfig.showNewUserForm"
+		<NewUserDialog
+			v-if="showConfig.showNewUserForm"
 			:loading="loading"
 			:new-user="newUser"
 			:quota-options="quotaOptions"
 			@reset="resetForm"
-			@close="closeModal" />
+			@closing="closeDialog" />
 
-		<NcEmptyContent v-if="filteredUsers.length === 0"
+		<NcEmptyContent
+			v-if="filteredUsers.length === 0"
 			class="empty"
 			:name="isInitialLoad && loading.users ? null : t('settings', 'No accounts')">
 			<template #icon>
-				<NcLoadingIcon v-if="isInitialLoad && loading.users"
-					:name="t('settings', 'Loading accounts …')"
+				<NcLoadingIcon
+					v-if="isInitialLoad && loading.users"
+					:name="t('settings', 'Loading accounts …')"
 					:size="64" />
-				<NcIconSvgWrapper v-else :path="mdiAccountGroup" :size="64" />
+				<NcIconSvgWrapper v-else :path="mdiAccountGroupOutline" :size="64" />
 			</template>
 		</NcEmptyContent>
 
-		<VirtualList v-else
+		<VirtualList
+			v-else
 			:data-component="UserRow"
 			:data-sources="filteredUsers"
 			data-key="id"
@@ -51,8 +38,6 @@
 				users,
 				settings,
 				hasObfuscated,
-				groups,
-				subAdminsGroups,
 				quotaOptions,
 				languages,
 				externalActions,
@@ -69,7 +54,8 @@
 			</template>
 
 			<template #footer>
-				<UserListFooter :loading="loading.users"
+				<UserListFooter
+					:loading="loading.users"
 					:filtered-users="filteredUsers" />
 			</template>
 		</VirtualList>
@@ -77,24 +63,21 @@
 </template>
 
 <script>
-import { mdiAccountGroup } from '@mdi/js'
+import { mdiAccountGroupOutline } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Fragment } from 'vue-frag'
-
 import Vue from 'vue'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-
-import VirtualList from './Users/VirtualList.vue'
-import NewUserModal from './Users/NewUserModal.vue'
+import { Fragment } from 'vue-frag'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NewUserDialog from './Users/NewUserDialog.vue'
 import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
-
-import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
+import VirtualList from './Users/VirtualList.vue'
 import logger from '../logger.ts'
+import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
 
 const newUser = Object.freeze({
 	id: '',
@@ -119,7 +102,7 @@ export default {
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		NewUserModal,
+		NewUserDialog,
 		UserListFooter,
 		UserListHeader,
 		VirtualList,
@@ -130,6 +113,7 @@ export default {
 			type: String,
 			default: null,
 		},
+
 		externalActions: {
 			type: Array,
 			default: () => [],
@@ -139,7 +123,7 @@ export default {
 	setup() {
 		// non reactive properties
 		return {
-			mdiAccountGroup,
+			mdiAccountGroupOutline,
 			rowHeight: 55,
 
 			UserRow,
@@ -153,6 +137,7 @@ export default {
 				groups: false,
 				users: false,
 			},
+
 			newUser: { ...newUser },
 			isInitialLoad: true,
 			searchQuery: '',
@@ -175,7 +160,7 @@ export default {
 		},
 
 		hasObfuscated() {
-			return this.filteredUsers.some(user => isObfuscated(user))
+			return this.filteredUsers.some((user) => isObfuscated(user))
 		},
 
 		users() {
@@ -184,25 +169,14 @@ export default {
 
 		filteredUsers() {
 			if (this.selectedGroup === 'disabled') {
-				return this.users.filter(user => user.enabled === false)
+				return this.users.filter((user) => user.enabled === false)
 			}
-			if (!this.settings.isAdmin) {
-				// we don't want subadmins to edit themselves
-				return this.users.filter(user => user.enabled !== false)
-			}
-			return this.users.filter(user => user.enabled !== false)
+			return this.users.filter((user) => user.enabled !== false)
 		},
 
 		groups() {
-			// data provided php side + remove the disabled group
-			return this.$store.getters.getGroups
-				.filter(group => group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
-		},
-
-		subAdminsGroups() {
-			// data provided php side
-			return this.$store.getters.getSubadminGroups
+			return this.$store.getters.getSortedGroups
+				.filter((group) => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
 		},
 
 		quotaOptions() {
@@ -313,6 +287,13 @@ export default {
 					await this.$store.dispatch('getDisabledUsers', {
 						offset: this.disabledUsersOffset,
 						limit: this.disabledUsersLimit,
+						search: this.searchQuery,
+					})
+				} else if (this.selectedGroup === '__nc_internal_recent') {
+					await this.$store.dispatch('getRecentUsers', {
+						offset: this.usersOffset,
+						limit: this.usersLimit,
+						search: this.searchQuery,
 					})
 				} else {
 					await this.$store.dispatch('getUsers', {
@@ -331,8 +312,8 @@ export default {
 			this.isInitialLoad = false
 		},
 
-		closeModal() {
-			this.$store.commit('setShowConfig', {
+		closeDialog() {
+			this.$store.dispatch('setShowConfig', {
 				key: 'showNewUserForm',
 				value: false,
 			})
@@ -350,7 +331,7 @@ export default {
 
 		resetForm() {
 			// revert form to original state
-			this.newUser = Object.assign({}, newUser)
+			this.newUser = { ...newUser }
 
 			/**
 			 * Init default language from server data. The use of this.settings
@@ -371,9 +352,20 @@ export default {
 		},
 
 		setNewUserDefaultGroup(value) {
-			if (value && value.length > 0) {
+			// Is no value set, but user is a line manager we set their group as this is a requirement for line manager
+			if (!value && !this.settings.isAdmin && !this.settings.isDelegatedAdmin) {
+				const groups = this.$store.getters.getSubAdminGroups
+				// if there are multiple groups we do not know which to add,
+				// so we cannot make the managers life easier by preselecting it.
+				if (groups.length === 1) {
+					this.newUser.groups = [...groups]
+				}
+				return
+			}
+
+			if (value) {
 				// setting new account default group to the current selected one
-				const currentGroup = this.groups.find(group => group.id === value)
+				const currentGroup = this.groups.find((group) => group.id === value)
 				if (currentGroup) {
 					this.newUser.groups = [currentGroup]
 					return
@@ -392,7 +384,7 @@ export default {
 		async redirectIfDisabled() {
 			const allGroups = this.$store.getters.getGroups
 			if (this.selectedGroup === 'disabled'
-						&& allGroups.findIndex(group => group.id === 'disabled' && group.usercount === 0) > -1) {
+				&& allGroups.findIndex((group) => group.id === 'disabled' && group.usercount === 0) > -1) {
 				// disabled group is empty, redirection to all users
 				this.$router.push({ name: 'users' })
 				await this.loadUsers()
@@ -403,7 +395,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './Users/shared/styles.scss';
+@use './Users/shared/styles.scss' as *;
 
 .empty {
 	:deep {

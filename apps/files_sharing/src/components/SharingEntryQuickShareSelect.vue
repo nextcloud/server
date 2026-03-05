@@ -1,14 +1,21 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<NcActions ref="quickShareActions"
+	<NcActions
+		ref="quickShareActions"
 		class="share-select"
 		:menu-name="selectedOption"
 		:aria-label="ariaLabel"
-		type="tertiary-no-background"
+		variant="tertiary-no-background"
+		:disabled="!share.canEdit"
 		force-name>
 		<template #icon>
 			<DropdownIcon :size="15" />
 		</template>
-		<NcActionButton v-for="option in options"
+		<NcActionButton
+			v-for="option in options"
 			:key="option.label"
 			type="radio"
 			:model-value="option.label === selectedOption"
@@ -23,21 +30,21 @@
 </template>
 
 <script>
-import DropdownIcon from 'vue-material-design-icons/TriangleSmallDown.vue'
-import SharesMixin from '../mixins/SharesMixin.js'
-import ShareDetails from '../mixins/ShareDetails.js'
-import ShareTypes from '../mixins/ShareTypes.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { ShareType } from '@nextcloud/sharing'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import IconEyeOutline from 'vue-material-design-icons/EyeOutline.vue'
-import IconPencil from 'vue-material-design-icons/Pencil.vue'
-import IconFileUpload from 'vue-material-design-icons/FileUpload.vue'
+import IconPencil from 'vue-material-design-icons/PencilOutline.vue'
+import IconFileUpload from 'vue-material-design-icons/TrayArrowUp.vue'
+import DropdownIcon from 'vue-material-design-icons/TriangleSmallDown.vue'
 import IconTune from 'vue-material-design-icons/Tune.vue'
-
 import {
-	BUNDLED_PERMISSIONS,
 	ATOMIC_PERMISSIONS,
+	getBundledPermissions,
 } from '../lib/SharePermissionsToolBox.js'
+import ShareDetails from '../mixins/ShareDetails.js'
+import SharesMixin from '../mixins/SharesMixin.js'
 
 export default {
 	name: 'SharingEntryQuickShareSelect',
@@ -48,7 +55,7 @@ export default {
 		NcActionButton,
 	},
 
-	mixins: [SharesMixin, ShareDetails, ShareTypes],
+	mixins: [SharesMixin, ShareDetails],
 
 	props: {
 		share: {
@@ -69,31 +76,42 @@ export default {
 		ariaLabel() {
 			return t('files_sharing', 'Quick share options, the current selected is "{selectedOption}"', { selectedOption: this.selectedOption })
 		},
+
 		canViewText() {
 			return t('files_sharing', 'View only')
 		},
+
 		canEditText() {
 			return t('files_sharing', 'Can edit')
 		},
+
 		fileDropText() {
-			return t('files_sharing', 'File drop')
+			return t('files_sharing', 'File request')
 		},
+
 		customPermissionsText() {
 			return t('files_sharing', 'Custom permissions')
 		},
+
+		bundledPermissions() {
+			return getBundledPermissions(this.config.excludeReshareFromEdit)
+		},
+
 		preSelectedOption() {
 			// We remove the share permission for the comparison as it is not relevant for bundled permissions.
-			if ((this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE) === BUNDLED_PERMISSIONS.READ_ONLY) {
+			const permissionsWithoutShare = this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE
+			const basePermissions = getBundledPermissions(true)
+			if (permissionsWithoutShare === basePermissions.READ_ONLY) {
 				return this.canViewText
-			} else if (this.share.permissions === BUNDLED_PERMISSIONS.ALL || this.share.permissions === BUNDLED_PERMISSIONS.ALL_FILE) {
+			} else if (permissionsWithoutShare === basePermissions.ALL || permissionsWithoutShare === basePermissions.ALL_FILE) {
 				return this.canEditText
-			} else if ((this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE) === BUNDLED_PERMISSIONS.FILE_DROP) {
+			} else if (permissionsWithoutShare === basePermissions.FILE_DROP) {
 				return this.fileDropText
 			}
 
 			return this.customPermissionsText
-
 		},
+
 		options() {
 			const options = [{
 				label: this.canViewText,
@@ -115,30 +133,45 @@ export default {
 
 			return options
 		},
+
 		supportsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
 				const shareType = this.share.type ?? this.share.shareType
-				return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
+				return [ShareType.Link, ShareType.Email].includes(shareType)
 			}
 			return false
 		},
+
 		dropDownPermissionValue() {
 			switch (this.selectedOption) {
-			case this.canEditText:
-				return this.isFolder ? BUNDLED_PERMISSIONS.ALL : BUNDLED_PERMISSIONS.ALL_FILE
-			case this.fileDropText:
-				return BUNDLED_PERMISSIONS.FILE_DROP
-			case this.customPermissionsText:
-				return 'custom'
-			case this.canViewText:
-			default:
-				return BUNDLED_PERMISSIONS.READ_ONLY
+				case this.canEditText:
+					return this.isFolder ? this.bundledPermissions.ALL : this.bundledPermissions.ALL_FILE
+				case this.fileDropText:
+					return this.bundledPermissions.FILE_DROP
+				case this.customPermissionsText:
+					return 'custom'
+				case this.canViewText:
+				default:
+					return this.bundledPermissions.READ_ONLY
 			}
 		},
 	},
 
 	created() {
 		this.selectedOption = this.preSelectedOption
+	},
+
+	mounted() {
+		subscribe('update:share', (share) => {
+			if (share.id === this.share.id) {
+				this.share.permissions = share.permissions
+				this.selectedOption = this.preSelectedOption
+			}
+		})
+	},
+
+	unmounted() {
+		unsubscribe('update:share')
 	},
 
 	methods: {

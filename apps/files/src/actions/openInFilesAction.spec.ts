@@ -1,44 +1,39 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './openInFilesAction'
-import { expect } from '@jest/globals'
-import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
+
+import type { IView } from '@nextcloud/files'
+
+import { DefaultType, File, Folder, Permission } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+import { action } from './openInFilesAction.ts'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const recentView = {
 	id: 'recent',
 	name: 'Recent',
-} as View
+} as IView
 
 describe('Open in files action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
-		expect(action.id).toBe('open-in-files-recent')
-		expect(action.displayName([], recentView)).toBe('Open in Files')
-		expect(action.iconSvgInline([], recentView)).toBe('')
+		expect(action.id).toBe('open-in-files')
+		expect(action.displayName({
+			nodes: [],
+			view: recentView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Open in Files')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view: recentView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('')
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-1000)
 		expect(action.inline).toBeUndefined()
@@ -48,18 +43,28 @@ describe('Open in files action conditions tests', () => {
 describe('Open in files action enabled tests', () => {
 	test('Enabled with on valid view', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], recentView)).toBe(true)
+		expect(action.enabled!({
+			nodes: [],
+			view: recentView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled on wrong view', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
 describe('Open in files action execute tests', () => {
 	test('Open in files', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -71,16 +76,21 @@ describe('Open in files action execute tests', () => {
 			permissions: Permission.ALL,
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/Foo' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: '1', view: 'files' }, { dir: '/Foo', openfile: 'true' })
 	})
 
 	test('Open in files with folder', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new Folder({
@@ -91,11 +101,16 @@ describe('Open in files action execute tests', () => {
 			permissions: Permission.ALL,
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/Foo/Bar' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: '1', view: 'files' }, { dir: '/Foo/Bar', openfile: 'true' })
 	})
 })

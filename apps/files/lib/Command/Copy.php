@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files\Command;
@@ -34,10 +19,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Copy extends Command {
-	private FileUtils $fileUtils;
-
-	public function __construct(FileUtils $fileUtils) {
-		$this->fileUtils = $fileUtils;
+	public function __construct(
+		private FileUtils $fileUtils,
+	) {
 		parent::__construct();
 	}
 
@@ -45,10 +29,10 @@ class Copy extends Command {
 		$this
 			->setName('files:copy')
 			->setDescription('Copy a file or folder')
-			->addArgument('source', InputArgument::REQUIRED, "Source file id or path")
-			->addArgument('target', InputArgument::REQUIRED, "Target path")
+			->addArgument('source', InputArgument::REQUIRED, 'Source file id or path')
+			->addArgument('target', InputArgument::REQUIRED, 'Target path')
 			->addOption('force', 'f', InputOption::VALUE_NONE, "Don't ask for confirmation and don't output any warnings")
-			->addOption('no-target-directory', 'T', InputOption::VALUE_NONE, "When target path is folder, overwrite the folder instead of copying into the folder");
+			->addOption('no-target-directory', 'T', InputOption::VALUE_NONE, 'When target path is folder, overwrite the folder instead of copying into the folder');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -113,7 +97,7 @@ class Copy extends Command {
 				/** @var QuestionHelper $helper */
 				$helper = $this->getHelper('question');
 
-				$question = new ConfirmationQuestion("<info>" . $targetInput . "</info> already exists, overwrite? [y/N] ", false);
+				$question = new ConfirmationQuestion('<info>' . $targetInput . '</info> already exists, overwrite? [y/N] ', false);
 				if (!$helper->ask($input, $output, $question)) {
 					return 1;
 				}

@@ -1,27 +1,11 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<tr :class="{'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
+	<tr
+		:class="{ 'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading }"
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
 		:data-cy-files-list-row-name="source.basename"
@@ -34,10 +18,11 @@
 		@dragend="onDragEnd"
 		@drop="onDrop">
 		<!-- Failed indicator -->
-		<span v-if="source.attributes.failed" class="files-list__row--failed" />
+		<span v-if="isFailedSource" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
-		<FileEntryCheckbox :fileid="fileid"
+		<FileEntryCheckbox
+			:fileid="fileid"
 			:is-loading="isLoading"
 			:nodes="nodes"
 			:source="source" />
@@ -45,46 +30,63 @@
 		<!-- Link to file -->
 		<td class="files-list__row-name" data-cy-files-list-row-name>
 			<!-- Icon or preview -->
-			<FileEntryPreview ref="preview"
+			<FileEntryPreview
+				ref="preview"
 				:dragover="dragover"
 				:grid-mode="true"
 				:source="source"
+				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
 
-			<FileEntryName ref="name"
-				:display-name="displayName"
+			<FileEntryName
+				ref="name"
+				:basename="basename"
 				:extension="extension"
-				:files-list-width="filesListWidth"
-				:grid-mode="true"
-				:nodes="nodes"
 				:source="source"
-				@click="execDefaultAction" />
+				@auxclick.native="execDefaultAction"
+				@click.native="execDefaultAction" />
+		</td>
+
+		<!-- Mtime -->
+		<td
+			v-if="!compact && isMtimeAvailable"
+			:style="mtimeOpacity"
+			class="files-list__row-mtime"
+			data-cy-files-list-row-mtime
+			@click="openDetailsIfAvailable">
+			<NcDateTime
+				v-if="mtime"
+				ignore-seconds
+				:timestamp="mtime" />
 		</td>
 
 		<!-- Actions -->
-		<FileEntryActions ref="actions"
-			:class="`files-list__row-actions-${uniqueId}`"
-			:files-list-width="filesListWidth"
-			:grid-mode="true"
-			:loading.sync="loading"
+		<FileEntryActions
+			ref="actions"
 			:opened.sync="openedMenu"
+			:class="`files-list__row-actions-${uniqueId}`"
+			:grid-mode="true"
 			:source="source" />
 	</tr>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import FileEntryActions from './FileEntry/FileEntryActions.vue'
+import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
+import FileEntryName from './FileEntry/FileEntryName.vue'
+import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
+import { useFileActions } from '../composables/useFileActions.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import FileEntryMixin from './FileEntryMixin.ts'
-import FileEntryActions from './FileEntry/FileEntryActions.vue'
-import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
-import FileEntryName from './FileEntry/FileEntryName.vue'
-import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 
 export default defineComponent({
 	name: 'FileEntryGrid',
@@ -94,6 +96,7 @@ export default defineComponent({
 		FileEntryCheckbox,
 		FileEntryName,
 		FileEntryPreview,
+		NcDateTime,
 	},
 
 	mixins: [
@@ -102,15 +105,35 @@ export default defineComponent({
 
 	inheritAttrs: false,
 
+	// keep in sync with FileEntry.vue
 	setup() {
 		const actionsMenuStore = useActionsMenuStore()
 		const draggingStore = useDragAndDropStore()
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
+		const { isNarrow } = useFileListWidth()
+		const {
+			fileId: currentRouteFileId,
+		} = useRouteParameters()
+
+		const {
+			activeFolder,
+			activeNode,
+			activeView,
+		} = useActiveStore()
+
+		const actions = useFileActions()
+
 		return {
+			actions,
 			actionsMenuStore,
+			activeFolder,
+			activeNode,
+			activeView,
+			currentRouteFileId,
 			draggingStore,
+			isNarrow,
 			filesStore,
 			renamingStore,
 			selectionStore,

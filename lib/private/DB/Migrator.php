@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\DB;
 
@@ -40,37 +20,24 @@ use OCP\IConfig;
 use function preg_match;
 
 class Migrator {
-	/** @var Connection */
-	protected $connection;
+	private bool $noEmit = false;
 
-	/** @var IConfig */
-	protected $config;
-
-	private ?IEventDispatcher $dispatcher;
-
-	/** @var bool */
-	private $noEmit = false;
-
-	public function __construct(Connection $connection,
-		IConfig $config,
-		?IEventDispatcher $dispatcher = null) {
-		$this->connection = $connection;
-		$this->config = $config;
-		$this->dispatcher = $dispatcher;
+	public function __construct(
+		protected Connection $connection,
+		protected IConfig $config,
+		private ?IEventDispatcher $dispatcher = null,
+	) {
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public function migrate(Schema $targetSchema) {
+	public function migrate(Schema $targetSchema): void {
 		$this->noEmit = true;
 		$this->applySchema($targetSchema);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function generateChangeScript(Schema $targetSchema) {
+	public function generateChangeScript(Schema $targetSchema): string {
 		$schemaDiff = $this->getDiff($targetSchema, $this->connection);
 
 		$script = '';
@@ -85,7 +52,7 @@ class Migrator {
 	/**
 	 * @throws Exception
 	 */
-	public function createSchema() {
+	public function createSchema(): Schema {
 		$this->connection->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
 			/** @var string|AbstractAsset $asset */
 			$filterExpression = $this->getFilterExpression();
@@ -97,10 +64,7 @@ class Migrator {
 		return $this->connection->createSchemaManager()->introspectSchema();
 	}
 
-	/**
-	 * @return SchemaDiff
-	 */
-	protected function getDiff(Schema $targetSchema, Connection $connection) {
+	protected function getDiff(Schema $targetSchema, Connection $connection): SchemaDiff {
 		// Adjust STRING columns with a length higher than 4000 to TEXT (clob)
 		// for consistency between the supported databases and
 		// old vs. new installations.
@@ -159,7 +123,7 @@ class Migrator {
 		$step = 0;
 		foreach ($sqls as $sql) {
 			$this->emit($sql, $step++, count($sqls));
-			$connection->executeQuery($sql);
+			$connection->executeStatement($sql);
 		}
 		if (!$connection->getDatabasePlatform() instanceof MySQLPlatform) {
 			$connection->commit();

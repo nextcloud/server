@@ -1,48 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Tests\Users;
 
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SetupTest extends TestCase {
-	/**
-	 * @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $keyManagerMock;
-	/**
-	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $cryptMock;
-	/**
-	 * @var Setup
-	 */
-	private $instance;
+
+	protected Setup $instance;
+
+	protected KeyManager&MockObject $keyManagerMock;
+	protected Crypt&MockObject $cryptMock;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -60,7 +38,7 @@ class SetupTest extends TestCase {
 	}
 
 
-	public function testSetupSystem() {
+	public function testSetupSystem(): void {
 		$this->keyManagerMock->expects($this->once())->method('validateShareKey');
 		$this->keyManagerMock->expects($this->once())->method('validateMasterKey');
 
@@ -68,12 +46,12 @@ class SetupTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetupUser
 	 *
 	 * @param bool $hasKeys
 	 * @param bool $expected
 	 */
-	public function testSetupUser($hasKeys, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetupUser')]
+	public function testSetupUser($hasKeys, $expected): void {
 		$this->keyManagerMock->expects($this->once())->method('userHasKeys')
 			->with('uid')->willReturn($hasKeys);
 
@@ -90,7 +68,7 @@ class SetupTest extends TestCase {
 		);
 	}
 
-	public function dataTestSetupUser() {
+	public static function dataTestSetupUser(): array {
 		return [
 			[true, true],
 			[false, true]

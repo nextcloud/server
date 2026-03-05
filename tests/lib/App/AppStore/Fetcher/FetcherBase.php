@@ -1,22 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\App\AppStore\Fetcher;
@@ -34,30 +22,21 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\Support\Subscription\IRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 abstract class FetcherBase extends TestCase {
-	/** @var Factory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appDataFactory;
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appData;
-	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
-	protected $clientService;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $timeFactory;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
-	protected $registry;
-	/** @var Fetcher */
-	protected $fetcher;
-	/** @var string */
-	protected $fileName;
-	/** @var string */
-	protected $endpoint;
+	protected Factory&MockObject $appDataFactory;
+	protected IAppData&MockObject $appData;
+	protected IClientService&MockObject $clientService;
+	protected ITimeFactory&MockObject $timeFactory;
+	protected IConfig&MockObject $config;
+	protected LoggerInterface&MockObject $logger;
+	protected IRegistry&MockObject $registry;
+	protected Fetcher $fetcher;
+	protected string $fileName;
+	protected string $endpoint;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -74,7 +53,7 @@ abstract class FetcherBase extends TestCase {
 		$this->registry = $this->createMock(IRegistry::class);
 	}
 
-	public function testGetWithAlreadyExistingFileAndUpToDateTimestampAndVersion() {
+	public function testGetWithAlreadyExistingFileAndUpToDateTimestampAndVersion(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -115,7 +94,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithNotExistingFileAndUpToDateTimestampAndVersion() {
+	public function testGetWithNotExistingFileAndUpToDateTimestampAndVersion(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -190,7 +169,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithAlreadyExistingFileAndOutdatedTimestamp() {
+	public function testGetWithAlreadyExistingFileAndOutdatedTimestamp(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -264,7 +243,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithAlreadyExistingFileAndNoVersion() {
+	public function testGetWithAlreadyExistingFileAndNoVersion(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -337,7 +316,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithAlreadyExistingFileAndOutdatedVersion() {
+	public function testGetWithAlreadyExistingFileAndOutdatedVersion(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -409,7 +388,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithExceptionInClient() {
+	public function testGetWithExceptionInClient(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnArgument(1);
 		$this->config->method('getSystemValueBool')
@@ -445,7 +424,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame([], $this->fetcher->get());
 	}
 
-	public function testGetMatchingETag() {
+	public function testGetMatchingETag(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -456,6 +435,12 @@ abstract class FetcherBase extends TestCase {
 			});
 		$this->config->method('getSystemValueBool')
 			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -502,7 +487,7 @@ abstract class FetcherBase extends TestCase {
 			->with(
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
-					'timeout' => 60,
+					'timeout' => 120,
 					'headers' => [
 						'If-None-Match' => '"myETag"'
 					]
@@ -524,7 +509,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetNoMatchingETag() {
+	public function testGetNoMatchingETag(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -535,6 +520,12 @@ abstract class FetcherBase extends TestCase {
 			});
 		$this->config->method('getSystemValueBool')
 			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -579,7 +570,7 @@ abstract class FetcherBase extends TestCase {
 			->with(
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
-					'timeout' => 60,
+					'timeout' => 120,
 					'headers' => [
 						'If-None-Match' => '"myETag"',
 					]
@@ -609,7 +600,7 @@ abstract class FetcherBase extends TestCase {
 	}
 
 
-	public function testFetchAfterUpgradeNoETag() {
+	public function testFetchAfterUpgradeNoETag(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -620,6 +611,12 @@ abstract class FetcherBase extends TestCase {
 			});
 		$this->config->method('getSystemValueBool')
 			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -657,7 +654,7 @@ abstract class FetcherBase extends TestCase {
 			->with(
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
-					'timeout' => 60,
+					'timeout' => 120,
 				])
 			)
 			->willReturn($response);

@@ -3,29 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
@@ -41,21 +20,11 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class PruneOutdatedSyncTokensJobTest extends TestCase {
-	/** @var ITimeFactory | MockObject */
-	private $timeFactory;
-
-	/** @var CalDavBackend | MockObject */
-	private $calDavBackend;
-
-	/** @var CardDavBackend | MockObject */
-	private $cardDavBackend;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var LoggerInterface|MockObject*/
-	private $logger;
-
+	private ITimeFactory&MockObject $timeFactory;
+	private CalDavBackend&MockObject $calDavBackend;
+	private CardDavBackend&MockObject $cardDavBackend;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
 	private PruneOutdatedSyncTokensJob $backgroundJob;
 
 	protected function setUp(): void {
@@ -70,9 +39,7 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 		$this->backgroundJob = new PruneOutdatedSyncTokensJob($this->timeFactory, $this->calDavBackend, $this->cardDavBackend, $this->config, $this->logger);
 	}
 
-	/**
-	 * @dataProvider dataForTestRun
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataForTestRun')]
 	public function testRun(string $configToKeep, string $configRetentionDays, int $actualLimit, int $retentionDays, int $deletedCalendarSyncTokens, int $deletedAddressBookSyncTokens): void {
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
@@ -105,7 +72,7 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 		$this->backgroundJob->run(null);
 	}
 
-	public function dataForTestRun(): array {
+	public static function dataForTestRun(): array {
 		return [
 			['100', '2', 100, 7 * 24 * 3600, 2, 3],
 			['100', '14', 100, 14 * 24 * 3600, 2, 3],

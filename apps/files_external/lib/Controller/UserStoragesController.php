@@ -1,30 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Controller;
 
@@ -34,12 +13,15 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -48,27 +30,19 @@ use Psr\Log\LoggerInterface;
 class UserStoragesController extends StoragesController {
 	/**
 	 * Creates a new user storages controller.
-	 *
-	 * @param string $AppName application name
-	 * @param IRequest $request request object
-	 * @param IL10N $l10n l10n service
-	 * @param UserStoragesService $userStoragesService storage service
-	 * @param LoggerInterface $logger
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
-		$AppName,
+		string $appName,
 		IRequest $request,
 		IL10N $l10n,
 		UserStoragesService $userStoragesService,
 		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IConfig $config
+		IConfig $config,
 	) {
 		parent::__construct(
-			$AppName,
+			$appName,
 			$request,
 			$l10n,
 			$userStoragesService,
@@ -79,7 +53,7 @@ class UserStoragesController extends StoragesController {
 		);
 	}
 
-	protected function manipulateStorageConfig(StorageConfig $storage) {
+	protected function manipulateStorageConfig(StorageConfig $storage): void {
 		/** @var AuthMechanism */
 		$authMechanism = $storage->getAuthMechanism();
 		$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
@@ -90,24 +64,20 @@ class UserStoragesController extends StoragesController {
 
 	/**
 	 * Get all storage entries
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @return DataResponse
 	 */
-	public function index() {
+	#[Override]
+	#[NoAdminRequired]
+	public function index(): DataResponse {
 		return parent::index();
 	}
 
 	/**
 	 * Return storage
-	 *
-	 * @NoAdminRequired
-	 *
-	 * {@inheritdoc}
 	 */
-	public function show($id, $testOnly = true) {
-		return parent::show($id, $testOnly);
+	#[Override]
+	#[NoAdminRequired]
+	public function show(int $id): DataResponse {
+		return parent::show($id);
 	}
 
 	/**
@@ -118,18 +88,16 @@ class UserStoragesController extends StoragesController {
 	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions backend-specific mount options
-	 *
-	 * @return DataResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
-		$mountPoint,
-		$backend,
-		$authMechanism,
-		$backendOptions,
-		$mountOptions
-	) {
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
+		array $backendOptions,
+		?array $mountOptions,
+	): DataResponse {
 		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
 		if (!$canCreateNewLocalStorage && $backend === 'local') {
 			return new DataResponse(
@@ -158,6 +126,7 @@ class UserStoragesController extends StoragesController {
 		$newStorage = $this->service->addStorage($newStorage);
 		$this->updateStorageStatus($newStorage);
 
+		$newStorage->setType(StorageConfig::MOUNT_TYPE_PERSONAL);
 		return new DataResponse(
 			$newStorage->jsonSerialize(true),
 			Http::STATUS_CREATED
@@ -172,22 +141,18 @@ class UserStoragesController extends StoragesController {
 	 * @param string $backend backend identifier
 	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
-	 * @param array $mountOptions backend-specific mount options
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
-	 *
-	 * @return DataResponse
-	 *
-	 * @NoAdminRequired
+	 * @param ?array $mountOptions backend-specific mount options
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
-		$id,
-		$mountPoint,
-		$backend,
-		$authMechanism,
-		$backendOptions,
-		$mountOptions,
-		$testOnly = true
-	) {
+		int $id,
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
+		array $backendOptions,
+		?array $mountOptions,
+	): DataResponse {
 		$storage = $this->createStorage(
 			$mountPoint,
 			$backend,
@@ -216,7 +181,7 @@ class UserStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage, $testOnly);
+		$this->updateStorageStatus($storage);
 
 		return new DataResponse(
 			$storage->jsonSerialize(true),
@@ -226,12 +191,11 @@ class UserStoragesController extends StoragesController {
 
 	/**
 	 * Delete storage
-	 *
-	 * @NoAdminRequired
-	 *
-	 * {@inheritdoc}
 	 */
-	public function destroy($id) {
+	#[Override]
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
+	public function destroy(int $id): DataResponse {
 		return parent::destroy($id);
 	}
 }

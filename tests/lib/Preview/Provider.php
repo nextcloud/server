@@ -1,55 +1,42 @@
 <?php
+
 /**
- * @author Olivier Paroz <owncloud@interfasys.ch>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Preview;
 
+use OC\Files\Filesystem;
 use OC\Files\Node\File;
+use OC\Files\Storage\Storage;
+use OC\Files\Storage\Temporary;
+use OC\Files\View;
+use OC\Preview\ProviderV2;
+use OC\Preview\TXT;
 use OCP\Files\IRootFolder;
+use OCP\IImage;
+use OCP\IUserManager;
+use OCP\Preview\IProviderV2;
+use OCP\Server;
 
 abstract class Provider extends \Test\TestCase {
-	/** @var string */
-	protected $imgPath;
-	/** @var int */
-	protected $width;
-	/** @var int */
-	protected $height;
-	/** @var \OC\Preview\Provider */
-	protected $provider;
-	/** @var int */
-	protected $maxWidth = 1024;
-	/** @var int */
-	protected $maxHeight = 1024;
-	/** @var bool */
-	protected $scalingUp = false;
-	/** @var int */
-	protected $userId;
-	/** @var \OC\Files\View */
-	protected $rootView;
-	/** @var \OC\Files\Storage\Storage */
-	protected $storage;
+	protected string $imgPath;
+	protected int $width;
+	protected int $height;
+	protected IProviderV2 $provider;
+	protected int $maxWidth = 1024;
+	protected int $maxHeight = 1024;
+	protected bool $scalingUp = false;
+	protected string $userId;
+	protected View $rootView;
+	protected Storage $storage;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$userManager->clearBackends();
 		$backend = new \Test\Util\User\Dummy();
 		$userManager->registerBackend($backend);
@@ -58,10 +45,10 @@ abstract class Provider extends \Test\TestCase {
 		$backend->createUser($userId, $userId);
 		$this->loginAsUser($userId);
 
-		$this->storage = new \OC\Files\Storage\Temporary([]);
-		\OC\Files\Filesystem::mount($this->storage, [], '/' . $userId . '/');
+		$this->storage = new Temporary([]);
+		Filesystem::mount($this->storage, [], '/' . $userId . '/');
 
-		$this->rootView = new \OC\Files\View('');
+		$this->rootView = new View('');
 		$this->rootView->mkdir('/' . $userId);
 		$this->rootView->mkdir('/' . $userId . '/files');
 
@@ -86,13 +73,13 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Launches all the tests we have
 	 *
-	 * @dataProvider dimensionsDataProvider
-	 * @requires extension imagick
 	 *
 	 * @param int $widthAdjustment
 	 * @param int $heightAdjustment
 	 */
-	public function testGetThumbnail($widthAdjustment, $heightAdjustment) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dimensionsDataProvider')]
+	#[\PHPUnit\Framework\Attributes\RequiresPhpExtension('imagick')]
+	public function testGetThumbnail($widthAdjustment, $heightAdjustment): void {
 		$ratio = round($this->width / $this->height, 2);
 		$this->maxWidth = $this->width - $widthAdjustment;
 		$this->maxHeight = $this->height - $heightAdjustment;
@@ -105,7 +92,7 @@ abstract class Provider extends \Test\TestCase {
 		$preview = $this->getPreview($this->provider);
 		// The TXT provider uses the max dimensions to create its canvas,
 		// so the ratio will always be the one of the max dimension canvas
-		if (!$this->provider instanceof \OC\Preview\TXT) {
+		if (!$this->provider instanceof TXT) {
 			$this->doesRatioMatch($preview, $ratio);
 		}
 		$this->doesPreviewFit($preview);
@@ -133,17 +120,11 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Retrieves a max size thumbnail can be created
 	 *
-	 * @param \OC\Preview\Provider $provider
-	 *
-	 * @return bool|\OCP\IImage
+	 * @return bool|IImage
 	 */
-	private function getPreview($provider) {
-		$file = new File(\OC::$server->get(IRootFolder::class), $this->rootView, $this->imgPath);
+	private function getPreview(ProviderV2 $provider) {
+		$file = new File(Server::get(IRootFolder::class), $this->rootView, $this->imgPath);
 		$preview = $provider->getThumbnail($file, $this->maxWidth, $this->maxHeight, $this->scalingUp);
-
-		if (get_class($this) === BitmapTest::class && $preview === null) {
-			$this->markTestSkipped('An error occured while operating with Imagick.');
-		}
 
 		$this->assertNotEquals(false, $preview);
 		$this->assertEquals(true, $preview->valid());
@@ -154,7 +135,7 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Checks if the preview ratio matches the original ratio
 	 *
-	 * @param \OCP\IImage $preview
+	 * @param IImage $preview
 	 * @param int $ratio
 	 */
 	private function doesRatioMatch($preview, $ratio) {
@@ -165,7 +146,7 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Tests if a max size preview of smaller dimensions can be created
 	 *
-	 * @param \OCP\IImage $preview
+	 * @param IImage $preview
 	 */
 	private function doesPreviewFit($preview) {
 		$maxDimRatio = round($this->maxWidth / $this->maxHeight, 2);

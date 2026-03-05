@@ -1,20 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\AppCalendar;
 
@@ -28,13 +17,13 @@ use Test\TestCase;
 use function rewind;
 
 class AppCalendarTest extends TestCase {
-	private $principal = 'principals/users/foo';
+	private string $principal = 'principals/users/foo';
 
 	private AppCalendar $appCalendar;
 	private AppCalendar $writeableAppCalendar;
 
-	private ICalendar|MockObject $calendar;
-	private ICalendar|MockObject $writeableCalendar;
+	private ICalendar&MockObject $calendar;
+	private ICalendar&MockObject $writeableCalendar;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -64,10 +53,18 @@ class AppCalendarTest extends TestCase {
 		$this->appCalendar->delete();
 	}
 
-	public function testCreateFile() {
+	public function testCreateFile(): void {
+		$calls = [
+			['some-name', 'data'],
+			['other-name', ''],
+			['name', 'some data'],
+		];
 		$this->writeableCalendar->expects($this->exactly(3))
 			->method('createFromString')
-			->withConsecutive(['some-name', 'data'], ['other-name', ''], ['name', 'some data']);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		// pass data
 		$this->assertNull($this->writeableAppCalendar->createFile('some-name', 'data'));
@@ -81,7 +78,7 @@ class AppCalendarTest extends TestCase {
 		fclose($fp);
 	}
 
-	public function testCreateFile_readOnly() {
+	public function testCreateFile_readOnly(): void {
 		// If writing is not supported
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('Creating a new entry is not allowed');

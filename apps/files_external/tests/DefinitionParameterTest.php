@@ -1,32 +1,17 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests;
 
 use OCA\Files_External\Lib\DefinitionParameter as Param;
 
 class DefinitionParameterTest extends \Test\TestCase {
-	public function testJsonSerialization() {
+	public function testJsonSerialization(): void {
 		$param = new Param('foo', 'bar');
 		$this->assertEquals([
 			'value' => 'bar',
@@ -55,21 +40,22 @@ class DefinitionParameterTest extends \Test\TestCase {
 			'tooltip' => '',
 		], $param->jsonSerialize());
 
-		$param->setType(Param::VALUE_HIDDEN);
-		$param->setFlags(Param::FLAG_NONE);
+		$param->setType(Param::VALUE_TEXT);
+		$param->setFlags(Param::FLAG_HIDDEN);
 		$this->assertEquals([
 			'value' => 'bar',
-			'flags' => Param::FLAG_NONE,
-			'type' => Param::VALUE_HIDDEN,
+			'flags' => Param::FLAG_HIDDEN,
+			'type' => Param::VALUE_TEXT,
 			'tooltip' => '',
 		], $param->jsonSerialize());
 	}
 
-	public function validateValueProvider() {
+	public static function validateValueProvider(): array {
 		return [
 			[Param::VALUE_TEXT, Param::FLAG_NONE, 'abc', true],
 			[Param::VALUE_TEXT, Param::FLAG_NONE, '', false],
 			[Param::VALUE_TEXT, Param::FLAG_OPTIONAL, '', true],
+			[Param::VALUE_TEXT, Param::FLAG_HIDDEN, '', false],
 
 			[Param::VALUE_BOOLEAN, Param::FLAG_NONE, false, true],
 			[Param::VALUE_BOOLEAN, Param::FLAG_NONE, 123, false],
@@ -79,15 +65,11 @@ class DefinitionParameterTest extends \Test\TestCase {
 
 			[Param::VALUE_PASSWORD, Param::FLAG_NONE, 'foobar', true],
 			[Param::VALUE_PASSWORD, Param::FLAG_NONE, '', false],
-
-			[Param::VALUE_HIDDEN, Param::FLAG_NONE, '', false]
 		];
 	}
 
-	/**
-	 * @dataProvider validateValueProvider
-	 */
-	public function testValidateValue($type, $flags, $value, $success, $expectedValue = null) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateValueProvider')]
+	public function testValidateValue($type, $flags, $value, $success, $expectedValue = null): void {
 		$param = new Param('foo', 'bar');
 		$param->setType($type);
 		$param->setFlags($flags);

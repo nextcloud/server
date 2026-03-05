@@ -1,222 +1,267 @@
 <!--
-  - @copyright 2023 Christopher Ng <chrng8@gmail.com>
-  -
-  - @author Christopher Ng <chrng8@gmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<div class="system-tags">
-		<NcLoadingIcon v-if="loadingTags"
-			:name="t('systemtags', 'Loading collaborative tags …')"
-			:size="32" />
-		<template v-else>
-			<NcSelectTags class="system-tags__select"
-				:input-label="t('systemtags', 'Search or create collaborative tags')"
-				:placeholder="t('systemtags', 'Collaborative tags …')"
-				:options="sortedTags"
-				:value="selectedTags"
-				:create-option="createOption"
-				:taggable="true"
-				:passthru="true"
-				:fetch-tags="false"
-				:loading="loading"
-				@input="handleInput"
-				@option:selected="handleSelect"
-				@option:created="handleCreate"
-				@option:deselected="handleDeselect">
-				<template #no-options>
-					{{ t('systemtags', 'No tags to select, type to create a new tag') }}
-				</template>
-			</NcSelectTags>
-		</template>
-	</div>
-</template>
+<script setup lang="ts">
+import type { INode } from '@nextcloud/files'
+import type { Tag, TagWithId } from '../types.ts'
 
-<script lang="ts">
-// FIXME Vue TypeScript ESLint errors
-/* eslint-disable */
-import Vue from 'vue'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcSelectTags from '@nextcloud/vue/dist/Components/NcSelectTags.js'
-
-import { translate as t } from '@nextcloud/l10n'
 import { showError } from '@nextcloud/dialogs'
-
-import { defaultBaseTag } from '../utils.js'
-import { fetchLastUsedTagIds, fetchTags } from '../services/api.js'
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { getSidebar } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
+import logger from '../logger.ts'
+import { fetchLastUsedTagIds, fetchTags } from '../services/api.ts'
+import { fetchNode } from '../services/davClient.ts'
 import {
 	createTagForFile,
 	deleteTagForFile,
 	fetchTagsForFile,
 	setTagForFile,
-} from '../services/files.js'
+} from '../services/files.ts'
+import { defaultBaseTag } from '../utils.ts'
 
-import type { Tag, TagWithId } from '../types.js'
+const props = defineProps<{
+	fileId: number
+	disabled?: boolean
+}>()
 
-export default Vue.extend({
-	name: 'SystemTags',
+const sortedTags = ref<TagWithId[]>([])
+const selectedTags = ref<TagWithId[]>([])
+const loadingTags = ref(false)
+const loading = ref(false)
 
-	components: {
-		NcLoadingIcon,
-		NcSelectTags,
-	},
+watch(() => props.fileId, async () => {
+	loadingTags.value = true
+	try {
+		selectedTags.value = await fetchTagsForFile(props.fileId)
+	} catch (error) {
+		showError(t('systemtags', 'Failed to load selected tags'))
+		logger.error('Failed to load selected tags', { error })
+	} finally {
+		loadingTags.value = false
+	}
+}, { immediate: true })
 
-	props: {
-		fileId: {
-			type: Number,
-			required: true,
-		},
-	},
+onBeforeMount(async () => {
+	try {
+		const tags = await fetchTags()
+		const lastUsedOrder = await fetchLastUsedTagIds()
 
-	data() {
-		return {
-			sortedTags: [] as TagWithId[],
-			selectedTags: [] as TagWithId[],
-			loadingTags: false,
-			loading: false,
+		const lastUsedTags: TagWithId[] = []
+		const remainingTags: TagWithId[] = []
+
+		for (const tag of tags) {
+			if (lastUsedOrder.includes(tag.id)) {
+				lastUsedTags.push(tag)
+				continue
+			}
+			remainingTags.push(tag)
 		}
-	},
 
-	async created() {
-		try {
-			const tags = await fetchTags()
-			const lastUsedOrder = await fetchLastUsedTagIds()
-
-			const lastUsedTags: TagWithId[] = []
-			const remainingTags: TagWithId[] = []
-
-			for (const tag of tags) {
-				if (lastUsedOrder.includes(tag.id)) {
-					lastUsedTags.push(tag)
-					continue
-				}
-				remainingTags.push(tag)
-			}
-
-			const sortByLastUsed = (a: TagWithId, b: TagWithId) => {
-				return lastUsedOrder.indexOf(a.id) - lastUsedOrder.indexOf(b.id)
-			}
-			lastUsedTags.sort(sortByLastUsed)
-
-			this.sortedTags = [...lastUsedTags, ...remainingTags]
-		} catch (error) {
-			showError(t('systemtags', 'Failed to load tags'))
+		const sortByLastUsed = (a: TagWithId, b: TagWithId) => {
+			return lastUsedOrder.indexOf(a.id) - lastUsedOrder.indexOf(b.id)
 		}
-	},
+		lastUsedTags.sort(sortByLastUsed)
 
-	watch: {
-		fileId: {
-			immediate: true,
-			async handler() {
-				this.loadingTags = true
-				try {
-					this.selectedTags = await fetchTagsForFile(this.fileId)
-					this.$emit('has-tags', this.selectedTags.length > 0)
-				} catch (error) {
-					showError(t('systemtags', 'Failed to load selected tags'))
-				}
-				this.loadingTags = false
-			},
-		},
-	},
-
-	methods: {
-		t,
-
-		createOption(newDisplayName: string): Tag {
-			for (const tag of this.sortedTags) {
-				const { id, displayName, ...baseTag } = tag
-				if (
-					displayName === newDisplayName
-					&& Object.entries(baseTag)
-						.every(([key, value]) => defaultBaseTag[key] === value)
-				) {
-					// Return existing tag to prevent vue-select from thinking the tags are different and showing duplicate options
-					return tag
-				}
-			}
-			return {
-				...defaultBaseTag,
-				displayName: newDisplayName,
-			}
-		},
-
-		handleInput(selectedTags: Tag[]) {
-			/**
-			 * Filter out tags with no id to prevent duplicate selected options
-			 *
-			 * Created tags are added programmatically by `handleCreate()` with
-			 * their respective ids returned from the server
-			 */
-			this.selectedTags = selectedTags.filter(selectedTag => Boolean(selectedTag.id)) as TagWithId[]
-		},
-
-		async handleSelect(tags: Tag[]) {
-			const lastTag = tags[tags.length - 1]
-			if (!lastTag.id) {
-				// Ignore created tags handled by `handleCreate()`
-				return
-			}
-			const selectedTag = lastTag as TagWithId
-			this.loading = true
-			try {
-				await setTagForFile(selectedTag, this.fileId)
-				const sortToFront = (a: TagWithId, b: TagWithId) => {
-					if (a.id === selectedTag.id) {
-						return -1
-					} else if (b.id === selectedTag.id) {
-						return 1
-					}
-					return 0
-				}
-				this.sortedTags.sort(sortToFront)
-			} catch (error) {
-				showError(t('systemtags', 'Failed to select tag'))
-			}
-			this.loading = false
-		},
-
-		async handleCreate(tag: Tag) {
-			this.loading = true
-			try {
-				const id = await createTagForFile(tag, this.fileId)
-				const createdTag = { ...tag, id }
-				this.sortedTags.unshift(createdTag)
-				this.selectedTags.push(createdTag)
-			} catch (error) {
-				showError(t('systemtags', 'Failed to create tag'))
-			}
-			this.loading = false
-		},
-
-		async handleDeselect(tag: TagWithId) {
-			this.loading = true
-			try {
-				await deleteTagForFile(tag, this.fileId)
-			} catch (error) {
-				showError(t('systemtags', 'Failed to delete tag'))
-			}
-			this.loading = false
-		},
-	},
+		sortedTags.value = [...lastUsedTags, ...remainingTags]
+	} catch (error) {
+		showError(t('systemtags', 'Failed to load tags'))
+		logger.error('Failed to load tags', { error })
+	}
 })
+
+onMounted(() => {
+	subscribe('systemtags:node:updated', onTagUpdated)
+})
+
+/**
+ * Create a new tag
+ *
+ * @param newDisplayName - The display name of the tag to create
+ */
+function createOption(newDisplayName: string): Tag {
+	for (const tag of sortedTags.value) {
+		const { displayName, ...baseTag } = tag
+		if (
+			displayName === newDisplayName
+			&& Object.entries(baseTag)
+				.every(([key, value]) => defaultBaseTag[key] === value)
+		) {
+			// Return existing tag to prevent vue-select from thinking the tags are different and showing duplicate options
+			return tag
+		}
+	}
+	return {
+		...defaultBaseTag,
+		displayName: newDisplayName,
+	}
+}
+
+/**
+ * Filter out tags with no id to prevent duplicate selected options
+ *
+ * Created tags are added programmatically by `handleCreate()` with
+ * their respective ids returned from the server.
+ *
+ * @param currentTags - The selected tags
+ */
+function handleInput(currentTags: Tag[]) {
+	selectedTags.value = currentTags.filter((selectedTag) => Boolean(selectedTag.id)) as TagWithId[]
+}
+
+/**
+ * Handle tag selection
+ *
+ * @param tags - The selected tags
+ */
+async function handleSelect(tags: Tag[]) {
+	const lastTag = tags[tags.length - 1]!
+	if (!lastTag.id) {
+		// Ignore created tags handled by `handleCreate()`
+		return
+	}
+	const selectedTag = lastTag as TagWithId
+	loading.value = true
+	try {
+		await setTagForFile(selectedTag, props.fileId)
+		const sortToFront = (a: TagWithId, b: TagWithId) => {
+			if (a.id === selectedTag.id) {
+				return -1
+			} else if (b.id === selectedTag.id) {
+				return 1
+			}
+			return 0
+		}
+		sortedTags.value.sort(sortToFront)
+	} catch (error) {
+		showError(t('systemtags', 'Failed to select tag'))
+		logger.error('Failed to select tag', { error })
+	}
+	loading.value = false
+
+	updateAndDispatchNodeTagsEvent(props.fileId)
+}
+
+/**
+ * Handle tag creation
+ *
+ * @param tag - The created tag
+ */
+async function handleCreate(tag: Tag) {
+	loading.value = true
+	try {
+		const id = await createTagForFile(tag, props.fileId)
+		const createdTag = { ...tag, id }
+		sortedTags.value.unshift(createdTag)
+		selectedTags.value.push(createdTag)
+	} catch (error) {
+		const systemTagsCreationRestrictedToAdmin = loadState<true | false>('settings', 'restrictSystemTagsCreationToAdmin', false) === true
+		logger.error('Failed to create tag', { error })
+		if (systemTagsCreationRestrictedToAdmin) {
+			showError(t('systemtags', 'System admin disabled tag creation. You can only use existing ones.'))
+			return
+		}
+		showError(t('systemtags', 'Failed to create tag'))
+	}
+	loading.value = false
+
+	updateAndDispatchNodeTagsEvent(props.fileId)
+}
+
+/**
+ * Handle tag deselection
+ *
+ * @param tag - The deselected tag
+ */
+async function handleDeselect(tag: TagWithId) {
+	loading.value = true
+	try {
+		await deleteTagForFile(tag, props.fileId)
+	} catch (error) {
+		showError(t('systemtags', 'Failed to delete tag'))
+		logger.error('Failed to delete tag', { error })
+	}
+	loading.value = false
+
+	updateAndDispatchNodeTagsEvent(props.fileId)
+}
+
+/**
+ * Handle node updated event
+ *
+ * @param node - The updated node
+ */
+async function onTagUpdated(node: INode) {
+	if (node.fileid !== props.fileId) {
+		return
+	}
+
+	loadingTags.value = true
+	try {
+		selectedTags.value = await fetchTagsForFile(props.fileId)
+	} catch (error) {
+		showError(t('systemtags', 'Failed to load selected tags'))
+		logger.error('Failed to load selected tags', { error })
+	}
+
+	loadingTags.value = false
+}
+
+/**
+ * Update and dispatch system tags node updated event
+ *
+ * @param fileId - The file ID
+ */
+async function updateAndDispatchNodeTagsEvent(fileId: number) {
+	const sidebar = getSidebar()
+	const path = sidebar.node?.path ?? ''
+	try {
+		const node = await fetchNode(path)
+		if (node) {
+			emit('systemtags:node:updated', node)
+		}
+	} catch (error) {
+		logger.error('Failed to fetch node for system tags update', { error, fileId })
+	}
+}
 </script>
+
+<template>
+	<div class="system-tags">
+		<NcLoadingIcon
+			v-if="loadingTags"
+			:name="t('systemtags', 'Loading collaborative tags …')"
+			:size="32" />
+
+		<NcSelectTags
+			v-show="!loadingTags"
+			class="system-tags__select"
+			:inputLabel="t('systemtags', 'Search or create collaborative tags')"
+			:placeholder="t('systemtags', 'Collaborative tags …')"
+			:options="sortedTags"
+			:modelValue="selectedTags"
+			:createOption="createOption"
+			:disabled="disabled"
+			:taggable="true"
+			:passthru="true"
+			:fetchTags="false"
+			:loading="loading"
+			@input="handleInput"
+			@option:selected="handleSelect"
+			@option:created="handleCreate"
+			@option:deselected="handleDeselect">
+			<template #no-options>
+				{{ t('systemtags', 'No tags to select, type to create a new tag') }}
+			</template>
+		</NcSelectTags>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 .system-tags {

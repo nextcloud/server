@@ -1,41 +1,19 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests\Controller;
 
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\Tests\TestCase;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\Collaboration\Collaborators\ISearch;
+use OCP\GlobalScale\IConfig as GlobalScaleIConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -46,10 +24,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class ShareesTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests\API
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareesAPIControllerTest extends TestCase {
 	/** @var ShareesAPIController */
 	protected $sharees;
@@ -63,11 +41,14 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var IManager|MockObject */
 	protected $shareManager;
 
-	/** @var  ISearch|MockObject */
+	/** @var ISearch|MockObject */
 	protected $collaboratorSearch;
 
 	/** @var IConfig|MockObject */
 	protected $config;
+
+	/** @var FederatedShareProvider|MockObject */
+	protected $federatedShareProvider;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -81,6 +62,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$urlGeneratorMock = $this->createMock(IURLGenerator::class);
 
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
+		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 
 		$this->sharees = new ShareesAPIController(
 			'files_sharing',
@@ -89,11 +71,12 @@ class ShareesAPIControllerTest extends TestCase {
 			$this->config,
 			$urlGeneratorMock,
 			$this->shareManager,
-			$this->collaboratorSearch
+			$this->collaboratorSearch,
+			$this->federatedShareProvider
 		);
 	}
 
-	public function dataSearch(): array {
+	public static function dataSearch(): array {
 		$noRemote = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_EMAIL];
 		$allTypes = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP, IShare::TYPE_EMAIL];
 
@@ -221,7 +204,6 @@ class ShareesAPIControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSearch
 	 *
 	 * @param array $getData
 	 * @param string $apiSetting
@@ -235,6 +217,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param bool $allowGroupSharing
 	 * @throws OCSBadRequestException
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSearch')]
 	public function testSearch(
 		array $getData,
 		string $apiSetting,
@@ -247,21 +230,21 @@ class ShareesAPIControllerTest extends TestCase {
 		bool $shareWithGroupOnly,
 		bool $shareeEnumeration,
 		bool $allowGroupSharing,
-	) {
+	): void {
 		$search = $getData['search'] ?? '';
 		$itemType = $getData['itemType'] ?? 'irrelevant';
 		$page = $getData['page'] ?? 1;
 		$perPage = $getData['perPage'] ?? 200;
 		$shareType = $getData['shareType'] ?? null;
 
+		$globalConfig = $this->createMock(GlobalScaleIConfig::class);
+		$globalConfig->expects(self::once())
+			->method('isGlobalScaleEnabled')
+			->willReturn(true);
+		$this->overwriteService(GlobalScaleIConfig::class, $globalConfig);
+
 		/** @var IConfig|MockObject $config */
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->exactly(1))
-			->method('getAppValue')
-			->with($this->anything(), $this->anything(), $this->anything())
-			->willReturnMap([
-				['files_sharing', 'lookupServerEnabled', 'yes', 'yes'],
-			]);
 
 		$this->shareManager->expects($this->once())
 			->method('allowGroupSharing')
@@ -283,7 +266,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$config,
 				$urlGenerator,
 				$this->shareManager,
-				$this->collaboratorSearch
+				$this->collaboratorSearch,
+				$this->federatedShareProvider
 			])
 			->onlyMethods(['isRemoteSharingAllowed', 'isRemoteGroupSharingAllowed'])
 			->getMock();
@@ -322,10 +306,10 @@ class ShareesAPIControllerTest extends TestCase {
 				}
 			});
 
-		$this->assertInstanceOf(Http\DataResponse::class, $sharees->search($search, $itemType, $page, $perPage, $shareType));
+		$this->assertInstanceOf(DataResponse::class, $sharees->search($search, $itemType, $page, $perPage, $shareType));
 	}
 
-	public function dataSearchInvalid(): array {
+	public static function dataSearchInvalid(): array {
 		return [
 			// Test invalid pagination
 			[[
@@ -352,12 +336,12 @@ class ShareesAPIControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSearchInvalid
 	 *
 	 * @param array $getData
 	 * @param string $message
 	 */
-	public function testSearchInvalid($getData, $message) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSearchInvalid')]
+	public function testSearchInvalid($getData, $message): void {
 		$page = $getData['page'] ?? 1;
 		$perPage = $getData['perPage'] ?? 200;
 
@@ -382,7 +366,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$config,
 				$urlGenerator,
 				$this->shareManager,
-				$this->collaboratorSearch
+				$this->collaboratorSearch,
+				$this->federatedShareProvider
 			])
 			->onlyMethods(['isRemoteSharingAllowed'])
 			->getMock();
@@ -400,7 +385,7 @@ class ShareesAPIControllerTest extends TestCase {
 		}
 	}
 
-	public function dataIsRemoteSharingAllowed() {
+	public static function dataIsRemoteSharingAllowed() {
 		return [
 			['file', true],
 			['folder', true],
@@ -410,16 +395,16 @@ class ShareesAPIControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsRemoteSharingAllowed
 	 *
 	 * @param string $itemType
 	 * @param bool $expected
 	 */
-	public function testIsRemoteSharingAllowed($itemType, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataIsRemoteSharingAllowed')]
+	public function testIsRemoteSharingAllowed($itemType, $expected): void {
 		$this->assertSame($expected, $this->invokePrivate($this->sharees, 'isRemoteSharingAllowed', [$itemType]));
 	}
 
-	public function testSearchSharingDisabled() {
+	public function testSearchSharingDisabled(): void {
 		$this->shareManager->expects($this->once())
 			->method('sharingDisabledForUser')
 			->with($this->uid)
@@ -436,14 +421,14 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(DataResponse::class, $this->sharees->search('', null, 1, 10, [], false));
 	}
 
-	public function testSearchNoItemType() {
-		$this->expectException(\OCP\AppFramework\OCS\OCSBadRequestException::class);
+	public function testSearchNoItemType(): void {
+		$this->expectException(OCSBadRequestException::class);
 		$this->expectExceptionMessage('Missing itemType');
 
 		$this->sharees->search('', null, 1, 10, [], false);
 	}
 
-	public function dataGetPaginationLink() {
+	public static function dataGetPaginationLink() {
 		return [
 			[1, '/ocs/v1.php', ['perPage' => 2], '<?perPage=2&page=2>; rel="next"'],
 			[10, '/ocs/v2.php', ['perPage' => 2], '<?perPage=2&page=11>; rel="next"'],
@@ -451,14 +436,14 @@ class ShareesAPIControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetPaginationLink
 	 *
 	 * @param int $page
 	 * @param string $scriptName
 	 * @param array $params
 	 * @param array $expected
 	 */
-	public function testGetPaginationLink($page, $scriptName, $params, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetPaginationLink')]
+	public function testGetPaginationLink($page, $scriptName, $params, $expected): void {
 		$this->request->expects($this->once())
 			->method('getScriptName')
 			->willReturn($scriptName);
@@ -466,7 +451,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->invokePrivate($this->sharees, 'getPaginationLink', [$page, $params]));
 	}
 
-	public function dataIsV2() {
+	public static function dataIsV2() {
 		return [
 			['/ocs/v1.php', false],
 			['/ocs/v2.php', true],
@@ -474,12 +459,12 @@ class ShareesAPIControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsV2
 	 *
 	 * @param string $scriptName
 	 * @param bool $expected
 	 */
-	public function testIsV2($scriptName, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataIsV2')]
+	public function testIsV2($scriptName, $expected): void {
 		$this->request->expects($this->once())
 			->method('getScriptName')
 			->willReturn($scriptName);

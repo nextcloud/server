@@ -1,25 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Auth\PublicKey;
 
@@ -36,12 +20,10 @@ use phpseclib\Crypt\RSA as RSACrypt;
  */
 class RSA extends AuthMechanism {
 
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IL10N $l, IConfig $config) {
-		$this->config = $config;
-
+	public function __construct(
+		IL10N $l,
+		private IConfig $config,
+	) {
 		$this
 			->setIdentifier('publickey::rsa')
 			->setScheme(self::SCHEME_PUBLICKEY)
@@ -50,9 +32,10 @@ class RSA extends AuthMechanism {
 				new DefinitionParameter('user', $l->t('Login')),
 				new DefinitionParameter('public_key', $l->t('Public key')),
 				(new DefinitionParameter('private_key', 'private_key'))
-					->setType(DefinitionParameter::VALUE_HIDDEN),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 			])
-			->addCustomJs('public_key')
+			->addCustomJs('auth_rsa')
 		;
 	}
 

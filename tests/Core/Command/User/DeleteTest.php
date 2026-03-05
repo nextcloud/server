@@ -1,22 +1,9 @@
 <?php
+
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\User;
@@ -48,12 +35,12 @@ class DeleteTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\IUserManager $userManager */
+		/** @var IUserManager $userManager */
 		$this->command = new Delete($userManager);
 	}
 
 
-	public function validUserLastSeen() {
+	public static function validUserLastSeen(): array {
 		return [
 			[true, 'The specified user was deleted'],
 			[false, 'The specified user could not be deleted'],
@@ -61,12 +48,12 @@ class DeleteTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider validUserLastSeen
 	 *
 	 * @param bool $deleteSuccess
 	 * @param string $expectedString
 	 */
-	public function testValidUser($deleteSuccess, $expectedString) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('validUserLastSeen')]
+	public function testValidUser($deleteSuccess, $expectedString): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->once())
 			->method('delete')
@@ -89,7 +76,7 @@ class DeleteTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testInvalidUser() {
+	public function testInvalidUser(): void {
 		$this->userManager->expects($this->once())
 			->method('get')
 			->with('user')

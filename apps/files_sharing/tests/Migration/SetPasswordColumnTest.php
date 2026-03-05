@@ -1,43 +1,27 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests\Migration;
 
 use OCA\Files_Sharing\Migration\SetPasswordColumn;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
  * Class SetPasswordColumnTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SetPasswordColumnTest extends TestCase {
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	private $connection;
 
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -51,7 +35,7 @@ class SetPasswordColumnTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->migration = new SetPasswordColumn($this->connection, $this->config);
 
@@ -65,10 +49,10 @@ class SetPasswordColumnTest extends TestCase {
 
 	private function cleanDB() {
 		$query = $this->connection->getQueryBuilder();
-		$query->delete($this->table)->execute();
+		$query->delete($this->table)->executeStatement();
 	}
 
-	public function testAddPasswordColumn() {
+	public function testAddPasswordColumn(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('files_sharing', 'installed_version', '0.0.0')
@@ -95,7 +79,7 @@ class SetPasswordColumnTest extends TestCase {
 						'stime' => $query->createNamedParameter(time()),
 					]);
 
-				$this->assertSame(1, $query->execute());
+				$this->assertSame(1, $query->executeStatement());
 			}
 		}
 
@@ -106,8 +90,8 @@ class SetPasswordColumnTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('share');
-		$result = $query->execute();
-		$allShares = $result->fetchAll();
+		$result = $query->executeQuery();
+		$allShares = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		foreach ($allShares as $share) {

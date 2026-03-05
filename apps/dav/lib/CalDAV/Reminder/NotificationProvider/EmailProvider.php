@@ -3,31 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Thomas Citharel
- * @copyright Copyright (c) 2019, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
@@ -39,7 +16,9 @@ use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject;
 use Sabre\VObject\Component\VEvent;
@@ -55,15 +34,15 @@ class EmailProvider extends AbstractProvider {
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'EMAIL';
 
-	private IMailer $mailer;
-
-	public function __construct(IConfig $config,
-		IMailer $mailer,
+	public function __construct(
+		IConfig $config,
+		private IMailer $mailer,
 		LoggerInterface $logger,
 		L10NFactory $l10nFactory,
-		IURLGenerator $urlGenerator) {
+		IURLGenerator $urlGenerator,
+		private IEmailValidator $emailValidator,
+	) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
-		$this->mailer = $mailer;
 	}
 
 	/**
@@ -110,7 +89,7 @@ class EmailProvider extends AbstractProvider {
 				$lang = $fallbackLanguage;
 			}
 			$l10n = $this->getL10NForLang($lang);
-			$fromEMail = \OCP\Util::getDefaultEmailAddress('reminders-noreply');
+			$fromEMail = Util::getDefaultEmailAddress('reminders-noreply');
 
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
 			$template->addHeader();
@@ -119,7 +98,7 @@ class EmailProvider extends AbstractProvider {
 			$template->addFooter();
 
 			foreach ($emailAddresses as $emailAddress) {
-				if (!$this->mailer->validateMailAddress($emailAddress)) {
+				if (!$this->emailValidator->isValid($emailAddress)) {
 					$this->logger->error('Email address {address} for reminder notification is incorrect', ['app' => 'dav', 'address' => $emailAddress]);
 					continue;
 				}
@@ -165,19 +144,31 @@ class EmailProvider extends AbstractProvider {
 		IL10N $l10n,
 		string $calendarDisplayName,
 		VEvent $vevent):void {
-		$template->addBodyListItem($calendarDisplayName, $l10n->t('Calendar:'),
-			$this->getAbsoluteImagePath('actions/info.png'));
+		$template->addBodyListItem(
+			htmlspecialchars($calendarDisplayName),
+			$l10n->t('Calendar:'),
+			$this->getAbsoluteImagePath('actions/info.png'),
+			htmlspecialchars($calendarDisplayName),
+		);
 
 		$template->addBodyListItem($this->generateDateString($l10n, $vevent), $l10n->t('Date:'),
 			$this->getAbsoluteImagePath('places/calendar.png'));
 
 		if (isset($vevent->LOCATION)) {
-			$template->addBodyListItem((string) $vevent->LOCATION, $l10n->t('Where:'),
-				$this->getAbsoluteImagePath('actions/address.png'));
+			$template->addBodyListItem(
+				htmlspecialchars((string)$vevent->LOCATION),
+				$l10n->t('Where:'),
+				$this->getAbsoluteImagePath('actions/address.png'),
+				htmlspecialchars((string)$vevent->LOCATION),
+			);
 		}
 		if (isset($vevent->DESCRIPTION)) {
-			$template->addBodyListItem((string) $vevent->DESCRIPTION, $l10n->t('Description:'),
-				$this->getAbsoluteImagePath('actions/more.png'));
+			$template->addBodyListItem(
+				htmlspecialchars((string)$vevent->DESCRIPTION),
+				$l10n->t('Description:'),
+				$this->getAbsoluteImagePath('actions/more.png'),
+				htmlspecialchars((string)$vevent->DESCRIPTION),
+			);
 		}
 	}
 
@@ -203,7 +194,7 @@ class EmailProvider extends AbstractProvider {
 
 		$organizerEMail = substr($organizer->getValue(), 7);
 
-		if (!$this->mailer->validateMailAddress($organizerEMail)) {
+		if (!$this->emailValidator->isValid($organizerEMail)) {
 			return null;
 		}
 
@@ -274,7 +265,7 @@ class EmailProvider extends AbstractProvider {
 					foreach ($emailAddressesOfDelegates as $addressesOfDelegate) {
 						if (strcasecmp($addressesOfDelegate, 'mailto:') === 0) {
 							$delegateEmail = substr($addressesOfDelegate, 7);
-							if ($this->mailer->validateMailAddress($delegateEmail)) {
+							if ($this->emailValidator->isValid($delegateEmail)) {
 								$emailAddresses[$delegateEmail] = [];
 							}
 						}
@@ -334,7 +325,7 @@ class EmailProvider extends AbstractProvider {
 			return null;
 		}
 		$attendeeEMail = substr($attendee->getValue(), 7);
-		if (!$this->mailer->validateMailAddress($attendeeEMail)) {
+		if (!$this->emailValidator->isValid($attendeeEMail)) {
 			return null;
 		}
 

@@ -1,54 +1,58 @@
 <?php
+
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Node;
 
+use OC\Files\Node\File;
 use OC\Files\Node\Root;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountManager;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
 
 /**
  * Class IntegrationTest
  *
- * @group DB
  *
  * @package Test\Files\Node
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class IntegrationTest extends \Test\TestCase {
 	use UserTrait;
 
 	/**
-	 * @var \OC\Files\Node\Root $root
+	 * @var Root $root
 	 */
 	private $root;
 
 	/**
-	 * @var \OC\Files\Storage\Storage[]
+	 * @var Storage[]
 	 */
 	private $storages;
 
 	/**
-	 * @var \OC\Files\View $view
+	 * @var View $view
 	 */
 	private $view;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var IMountManager $manager */
-		$manager = \OC::$server->get(IMountManager::class);
+		$manager = Server::get(IMountManager::class);
 
 		\OC_Hook::clear('OC_Filesystem');
 
@@ -65,11 +69,12 @@ class IntegrationTest extends \Test\TestCase {
 			$manager,
 			$this->view,
 			$user,
-			\OC::$server->getUserMountCache(),
+			Server::get(IUserMountCache::class),
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),
 			$cacheFactory,
+			$this->createMock(IAppConfig::class),
 		);
 		$storage = new Temporary([]);
 		$subStorage = new Temporary([]);
@@ -89,7 +94,7 @@ class IntegrationTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testBasicFile() {
+	public function testBasicFile(): void {
 		$file = $this->root->newFile('/foo.txt');
 		$this->assertCount(2, $this->root->getDirectoryListing());
 		$this->assertTrue($this->root->nodeExists('/foo.txt'));
@@ -112,7 +117,7 @@ class IntegrationTest extends \Test\TestCase {
 		$this->assertEquals('qwerty', $file->getContent());
 	}
 
-	public function testBasicFolder() {
+	public function testBasicFolder(): void {
 		$folder = $this->root->newFolder('/foo');
 		$this->assertTrue($this->root->nodeExists('/foo'));
 		$file = $folder->newFile('/bar');
@@ -130,7 +135,7 @@ class IntegrationTest extends \Test\TestCase {
 
 		$folder->move('/asd');
 		/**
-		 * @var \OC\Files\Node\File $file
+		 * @var File $file
 		 */
 		$file = $folder->get('/bar');
 		$this->assertInstanceOf('\OC\Files\Node\File', $file);
@@ -139,7 +144,7 @@ class IntegrationTest extends \Test\TestCase {
 		$this->assertEquals('qwerty', $file->getContent());
 		$folder->move('/substorage/foo');
 		/**
-		 * @var \OC\Files\Node\File $file
+		 * @var File $file
 		 */
 		$file = $folder->get('/bar');
 		$this->assertInstanceOf('\OC\Files\Node\File', $file);

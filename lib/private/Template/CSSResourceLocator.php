@@ -1,61 +1,50 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Axel Helmert <axel.helmert@luka.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Kyle Fazzari <kyrofa@ubuntu.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author tux-rampage <tux-rampage@users.noreply.github.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Template;
 
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class CSSResourceLocator extends ResourceLocator {
-	public function __construct(LoggerInterface $logger) {
-		parent::__construct($logger);
+	public function __construct(
+		LoggerInterface $logger,
+		IConfig $config,
+		protected IAppManager $appManager,
+	) {
+		parent::__construct($logger, $config);
 	}
 
-	/**
-	 * @param string $style
-	 */
-	public function doFind($style) {
-		$app = substr($style, 0, strpos($style, '/'));
-		if ($this->appendIfExist($this->serverroot, $style.'.css')
-			|| $this->appendIfExist($this->serverroot, 'core/'.$style.'.css')
+	public function doFind(string $resource): void {
+		$parts = explode('/', $resource);
+		if (count($parts) < 2) {
+			return;
+		}
+		$app = $parts[0];
+		$filename = $parts[array_key_last($parts)];
+		if ($this->appendIfExist($this->serverroot, $resource . '.css')
+			|| $this->appendIfExist($this->serverroot, 'core/' . $resource . '.css')
+			|| $this->appendIfExist($this->serverroot, 'dist/' . $app . '-' . $filename . '.css')
 		) {
 			return;
 		}
-		$style = substr($style, strpos($style, '/') + 1);
-		$app_path = \OC_App::getAppPath($app);
-		$app_url = \OC_App::getAppWebPath($app);
-
-		if ($app_path === false && $app_url === false) {
+		try {
+			$app_path = $this->appManager->getAppPath($app);
+			$app_url = $this->appManager->getAppWebPath($app);
+		} catch (AppPathNotFoundException $e) {
 			$this->logger->error('Could not find resource {resource} to load', [
-				'resource' => $app . '/' . $style . '.css',
+				'resource' => $resource . '.css',
 				'app' => 'cssresourceloader',
+				'exception' => $e,
 			]);
 			return;
 		}
@@ -65,24 +54,21 @@ class CSSResourceLocator extends ResourceLocator {
 		// turned into cwd.
 		$app_path = realpath($app_path);
 
-		$this->append($app_path, $style.'.css', $app_url);
+		$this->append($app_path, join('/', array_slice($parts, 1)) . '.css', $app_url);
 	}
 
-	/**
-	 * @param string $style
-	 */
-	public function doFindTheme($style) {
-		$theme_dir = 'themes/'.$this->theme.'/';
-		$this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$style.'.css')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.$style.'.css')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$style.'.css');
+	public function doFindTheme(string $resource): void {
+		$theme_dir = 'themes/' . $this->theme . '/';
+		$this->appendIfExist($this->serverroot, $theme_dir . 'apps/' . $resource . '.css')
+			|| $this->appendIfExist($this->serverroot, $theme_dir . $resource . '.css')
+			|| $this->appendIfExist($this->serverroot, $theme_dir . 'core/' . $resource . '.css');
 	}
 
-	public function append($root, $file, $webRoot = null, $throw = true, $scss = false) {
+	public function append(string $root, string $file, ?string $webRoot = null, bool $throw = true, bool $scss = false): void {
 		if (!$scss) {
 			parent::append($root, $file, $webRoot, $throw);
 		} else {
-			if (!$webRoot) {
+			if ($webRoot === null || $webRoot === '') {
 				$webRoot = $this->findWebRoot($root);
 
 				if ($webRoot === null) {

@@ -1,0 +1,8 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Robert Kieffer
+
+
+This file is generated from multiple sources. Included packages:
+- mime
+	- version: 4.1.0
+	- license: MIT

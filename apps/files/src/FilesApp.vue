@@ -1,25 +1,24 @@
+<!--
+ - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+ -->
 <template>
 	<NcContent app-name="files">
-		<Navigation />
-		<FilesList />
+		<FilesNavigation v-if="!isPublic" />
+		<FilesList :is-public="isPublic" />
+		<FilesSidebar v-if="!isPublic" />
 	</NcContent>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
-
-import Navigation from './views/Navigation.vue'
+<script setup lang="ts">
+import { isPublicShare } from '@nextcloud/sharing/public'
+import NcContent from '@nextcloud/vue/components/NcContent'
 import FilesList from './views/FilesList.vue'
+import FilesNavigation from './views/FilesNavigation.vue'
+import FilesSidebar from './views/FilesSidebar.vue'
+import { useHotKeys } from './composables/useHotKeys.ts'
 
-export default defineComponent({
-	name: 'FilesApp',
+useHotKeys()
 
-	components: {
-		NcContent,
-		FilesList,
-		Navigation,
-	},
-})
+const isPublic = isPublicShare()
 </script>

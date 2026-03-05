@@ -1,69 +1,38 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
+use OC\Files\Storage\Storage;
+use OCA\Files_Sharing\External\Cache;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\ICacheFactory;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class Cache
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests\External
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CacheTest extends TestCase {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/**
-	 * @var \OC\Files\Storage\Storage
-	 **/
-	private $storage;
-
-	/**
-	 * @var \OCA\Files_Sharing\External\Cache
-	 */
-	private $cache;
-
-	/**
-	 * @var string
-	 */
-	private $remoteUser;
-
-	/** @var  ICloudIdManager */
-	private $cloudIdManager;
+	protected IManager&MockObject $contactsManager;
+	private Storage&MockObject $storage;
+	private Cache $cache;
+	private string $remoteUser;
+	private ICloudIdManager $cloudIdManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -71,15 +40,15 @@ class CacheTest extends TestCase {
 		$this->contactsManager = $this->createMock(IManager::class);
 
 		$this->cloudIdManager = new CloudIdManager(
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->createMock(IUserManager::class),
-			$this->createMock(ICacheFactory::class),
-			$this->createMock(IEventDispatcher::class)
 		);
 		$this->remoteUser = $this->getUniqueID('remoteuser');
 
-		$this->storage = $this->getMockBuilder('\OCA\Files_Sharing\External\Storage')
+		$this->storage = $this->getMockBuilder(\OCA\Files_Sharing\External\Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->storage
@@ -91,10 +60,11 @@ class CacheTest extends TestCase {
 			->method('search')
 			->willReturn([]);
 
-		$this->cache = new \OCA\Files_Sharing\External\Cache(
+		$this->cache = new Cache(
 			$this->storage,
 			$this->cloudIdManager->getCloudId($this->remoteUser, 'http://example.com/owncloud')
 		);
+		$this->cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$this->cache->put(
 			'test.txt',
 			[
@@ -112,7 +82,7 @@ class CacheTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testGetInjectsOwnerDisplayName() {
+	public function testGetInjectsOwnerDisplayName(): void {
 		$info = $this->cache->get('test.txt');
 		$this->assertEquals(
 			$this->remoteUser . '@example.com/owncloud',
@@ -120,12 +90,12 @@ class CacheTest extends TestCase {
 		);
 	}
 
-	public function testGetReturnsFalseIfNotFound() {
+	public function testGetReturnsFalseIfNotFound(): void {
 		$info = $this->cache->get('unexisting-entry.txt');
 		$this->assertFalse($info);
 	}
 
-	public function testGetFolderPopulatesOwner() {
+	public function testGetFolderPopulatesOwner(): void {
 		$dirId = $this->cache->put(
 			'subdir',
 			[

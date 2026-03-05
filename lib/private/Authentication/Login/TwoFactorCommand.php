@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\Login;
 
@@ -34,21 +16,11 @@ use function array_pop;
 use function count;
 
 class TwoFactorCommand extends ALoginCommand {
-	/** @var Manager */
-	private $twoFactorManager;
-
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(Manager $twoFactorManager,
-		MandatoryTwoFactor $mandatoryTwoFactor,
-		IURLGenerator $urlGenerator) {
-		$this->twoFactorManager = $twoFactorManager;
-		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private Manager $twoFactorManager,
+		private MandatoryTwoFactor $mandatoryTwoFactor,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {
@@ -86,7 +58,6 @@ class TwoFactorCommand extends ALoginCommand {
 		}
 
 		return LoginResult::success(
-			$loginData,
 			$this->urlGenerator->linkToRoute($url, $urlParams)
 		);
 	}

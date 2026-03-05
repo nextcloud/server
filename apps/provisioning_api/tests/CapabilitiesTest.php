@@ -1,26 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2021 Vincent Petry <vincent@nextcloud.com>
- *
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Provisioning_API\Tests\unit;
+namespace OCA\Provisioning_API\Tests;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Provisioning_API\Capabilities;
@@ -34,15 +19,12 @@ use Test\TestCase;
  * Note: group DB needed because of usage of overwriteService()
  *
  * @package OCA\Provisioning_API\Tests
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CapabilitiesTest extends TestCase {
 
-	/** @var Capabilities */
-	protected $capabilities;
-
-	/** @var IAppManager|MockObject */
-	protected $appManager;
+	protected IAppManager&MockObject $appManager;
+	protected Capabilities $capabilities;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -55,7 +37,7 @@ class CapabilitiesTest extends TestCase {
 			->willReturn('1.12');
 	}
 
-	public function getCapabilitiesProvider() {
+	public static function getCapabilitiesProvider(): array {
 		return [
 			[true, false, false, true, false],
 			[true, true, false, true, false],
@@ -66,23 +48,21 @@ class CapabilitiesTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider getCapabilitiesProvider
-	 */
-	public function testGetCapabilities($federationAppEnabled, $federatedFileSharingAppEnabled, $lookupServerEnabled, $expectedFederatedScopeEnabled, $expectedPublishedScopeEnabled) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getCapabilitiesProvider')]
+	public function testGetCapabilities(bool $federationAppEnabled, bool $federatedFileSharingAppEnabled, bool $lookupServerEnabled, bool $expectedFederatedScopeEnabled, bool $expectedPublishedScopeEnabled): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['federation', null, $federationAppEnabled],
 				['federatedfilesharing', null, $federatedFileSharingAppEnabled],
-			]));
+			]);
 
 		$federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->overwriteService(FederatedShareProvider::class, $federatedShareProvider);
 
 		$federatedShareProvider->expects($this->any())
-			 ->method('isLookupServerUploadEnabled')
-			 ->willReturn($lookupServerEnabled);
+			->method('isLookupServerUploadEnabled')
+			->willReturn($lookupServerEnabled);
 
 		$expected = [
 			'provisioning_api' => [

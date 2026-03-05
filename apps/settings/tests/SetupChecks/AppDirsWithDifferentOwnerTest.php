@@ -3,35 +3,20 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests;
+namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AppDirsWithDifferentOwnerTest extends TestCase {
-	private IL10N $l10n;
 	private AppDirsWithDifferentOwner $check;
+
+	private IL10N&MockObject $l10n;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -43,8 +28,7 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($message, array $replace) {
@@ -60,10 +44,8 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	 * Then calls the 'getAppDirsWithDifferentOwner' method.
 	 * The result is expected to be empty since
 	 * there are no directories with different owners than the current user.
-	 *
-	 * @return void
 	 */
-	public function testAppDirectoryOwnersOk() {
+	public function testAppDirectoryOwnersOk(): void {
 		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
 		mkdir($tempDir);
 		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app1');
@@ -87,10 +69,8 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	/**
 	 * Calls the check for a none existing app root that is marked as not writable.
 	 * It's expected that no error happens since the check shouldn't apply.
-	 *
-	 * @return void
 	 */
-	public function testAppDirectoryOwnersNotWritable() {
+	public function testAppDirectoryOwnersNotWritable(): void {
 		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
 		\OC::$APPSROOTS = [
 			[
@@ -107,11 +87,9 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 
 	/**
 	 * Removes directories created during tests.
-	 *
-	 * @after
-	 * @return void
 	 */
-	public function removeTestDirectories() {
+	#[\PHPUnit\Framework\Attributes\After()]
+	public function removeTestDirectories(): void {
 		foreach ($this->dirsToRemove as $dirToRemove) {
 			rmdir($dirToRemove);
 		}

@@ -1,26 +1,10 @@
- <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<NcHeaderMenu id="unified-search"
+	<NcHeaderMenu
+		id="unified-search"
 		class="unified-search"
 		:exclude-click-outside-selectors="['.popover']"
 		:open.sync="open"
@@ -29,23 +13,23 @@
 		@close="onClose">
 		<!-- Header icon -->
 		<template #trigger>
-			<Magnify class="unified-search__trigger"
-				:size="22/* fit better next to other 20px icons */" />
+			<Magnify class="unified-search__trigger-icon" :size="20" />
 		</template>
 
 		<!-- Search form & filters wrapper -->
 		<div class="unified-search__input-wrapper">
 			<div class="unified-search__input-row">
-				<NcTextField ref="input"
-					:value.sync="query"
+				<NcTextField
+					ref="input"
+					v-model="query"
 					trailing-button-icon="close"
 					:label="ariaLabel"
-					:trailing-button-label="t('core','Reset search')"
+					:trailing-button-label="t('core', 'Reset search')"
 					:show-trailing-button="query !== ''"
 					aria-describedby="unified-search-desc"
 					class="unified-search__form-input"
-					:class="{'unified-search__form-input--with-reset': !!query}"
-					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
+					:class="{ 'unified-search__form-input--with-reset': !!query }"
+					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
 					@trailing-button-click="onReset"
 					@input="onInputDebounced" />
 				<p id="unified-search-desc" class="hidden-visually">
@@ -53,12 +37,14 @@
 				</p>
 
 				<!-- Search filters -->
-				<NcActions v-if="availableFilters.length > 1"
+				<NcActions
+					v-if="availableFilters.length > 1"
 					class="unified-search__filters"
 					placement="bottom-end"
 					container=".unified-search__input-wrapper">
 					<!-- FIXME use element ref for container after https://github.com/nextcloud/nextcloud-vue/pull/3462 -->
-					<NcActionButton v-for="filter in availableFilters"
+					<NcActionButton
+						v-for="filter in availableFilters"
 						:key="filter"
 						icon="icon-filter"
 						@click.stop="onClickFilter(`in:${filter}`)">
@@ -72,14 +58,16 @@
 			<!-- Loading placeholders -->
 			<SearchResultPlaceholders v-if="isLoading" />
 
-			<NcEmptyContent v-else-if="isValidQuery"
+			<NcEmptyContent
+				v-else-if="isValidQuery"
 				:title="validQueryTitle">
 				<template #icon>
 					<Magnify />
 				</template>
 			</NcEmptyContent>
 
-			<NcEmptyContent v-else-if="!isLoading || isShortQuery"
+			<NcEmptyContent
+				v-else-if="!isLoading || isShortQuery"
 				:title="t('core', 'Start typing to search')"
 				:description="shortQueryDescription">
 				<template #icon>
@@ -89,17 +77,19 @@
 		</template>
 
 		<!-- Grouped search results -->
-		<template v-for="({list, type}, typesIndex) in orderedResults" v-else>
+		<template v-for="({ list, type }, typesIndex) in orderedResults" v-else>
 			<h2 :key="type" class="unified-search__results-header">
 				{{ typesMap[type] }}
 			</h2>
-			<ul :key="type"
+			<ul
+				:key="type"
 				class="unified-search__results"
 				:class="`unified-search__results-${type}`"
 				:aria-label="typesMap[type]">
 				<!-- Search results -->
 				<li v-for="(result, index) in limitIfAny(list, type)" :key="result.resourceUrl">
-					<SearchResult v-bind="result"
+					<SearchResult
+						v-bind="result"
 						:query="query"
 						:focused="focused === 0 && typesIndex === 0 && index === 0"
 						@focus="setFocusedIndex" />
@@ -107,10 +97,11 @@
 
 				<!-- Load more button -->
 				<li>
-					<SearchResult v-if="!reached[type]"
+					<SearchResult
+						v-if="!reached[type]"
 						class="unified-search__result-more"
 						:title="loading[type]
-							? t('core', 'Loading more results …')
+							? t('core', 'Loading more results …')
 							: t('core', 'Load more results')"
 						:icon-class="loading[type] ? 'icon-loading-small' : ''"
 						@click.prevent.stop="loadMore(type)"
@@ -122,22 +113,19 @@
 </template>
 
 <script>
-import debounce from 'debounce'
-import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { showError } from '@nextcloud/dialogs'
-
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import debounce from 'debounce'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
-
 import SearchResult from '../components/UnifiedSearch/LegacySearchResult.vue'
 import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders.vue'
-
-import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot, enableLiveSearch } from '../services/LegacyUnifiedSearchService.js'
+import logger from '../logger.js'
+import { defaultLimit, enableLiveSearch, getTypes, minSearchLength, regexFilterIn, regexFilterNot, search } from '../services/LegacyUnifiedSearchService.js'
 
 const REQUEST_FAILED = 0
 const REQUEST_OK = 1
@@ -188,11 +176,13 @@ export default {
 
 	computed: {
 		typesIDs() {
-			return this.types.map(type => type.id)
+			return this.types.map((type) => type.id)
 		},
+
 		typesNames() {
-			return this.types.map(type => type.name)
+			return this.types.map((type) => type.name)
 		},
+
 		typesMap() {
 			return this.types.reduce((prev, curr) => {
 				prev[curr.id] = curr.name
@@ -220,8 +210,8 @@ export default {
 		 */
 		orderedResults() {
 			return this.typesIDs
-				.filter(type => type in this.results)
-				.map(type => ({
+				.filter((type) => type in this.results)
+				.map((type) => ({
 					type,
 					list: this.results[type],
 				}))
@@ -286,11 +276,13 @@ export default {
 				return ''
 			}
 
-			return n('core',
+			return n(
+				'core',
 				'Please enter {minSearchLength} character or more to search',
-				'Please enter {minSearchLength} characters  or more to search',
+				'Please enter {minSearchLength} characters or more to search',
 				this.minSearchLength,
-				{ minSearchLength: this.minSearchLength })
+				{ minSearchLength: this.minSearchLength },
+			)
 		},
 
 		/**
@@ -317,7 +309,7 @@ export default {
 		 * @return {boolean}
 		 */
 		isDoneSearching() {
-			return Object.values(this.reached).every(state => state === false)
+			return Object.values(this.reached).every((state) => state === false)
 		},
 
 		/**
@@ -326,13 +318,13 @@ export default {
 		 * @return {boolean}
 		 */
 		isLoading() {
-			return Object.values(this.loading).some(state => state === true)
+			return Object.values(this.loading).some((state) => state === true)
 		},
 	},
 
 	async created() {
 		this.types = await getTypes()
-		this.logger.debug('Unified Search initialized with the following providers', this.types)
+		logger.debug('Unified Search initialized with the following providers', this.types)
 	},
 
 	beforeDestroy() {
@@ -377,6 +369,7 @@ export default {
 			// Update types list in the background
 			this.types = await getTypes()
 		},
+
 		onClose() {
 			emit('nextcloud:unified-search.close')
 		},
@@ -395,6 +388,7 @@ export default {
 			this.resetState()
 			this.focusInput()
 		},
+
 		async resetState() {
 			this.cursors = {}
 			this.limits = {}
@@ -414,7 +408,7 @@ export default {
 			this.requests = []
 
 			// Cancel all pending requests
-			await Promise.all(requests.map(cancel => cancel()))
+			await Promise.all(requests.map((cancel) => cancel()))
 		},
 
 		/**
@@ -460,12 +454,12 @@ export default {
 
 			// Filter out types
 			if (this.usedFiltersNot.length > 0) {
-				types = this.typesIDs.filter(type => this.usedFiltersNot.indexOf(type) === -1)
+				types = this.typesIDs.filter((type) => this.usedFiltersNot.indexOf(type) === -1)
 			}
 
 			// Only use those filters if any and check if they are valid
 			if (this.usedFiltersIn.length > 0) {
-				types = this.typesIDs.filter(type => this.usedFiltersIn.indexOf(type) > -1)
+				types = this.typesIDs.filter((type) => this.usedFiltersIn.indexOf(type) > -1)
 			}
 
 			// Remove any filters from the query
@@ -484,7 +478,7 @@ export default {
 			this.$set(this.loading, 'all', true)
 			this.logger.debug(`Searching ${query} in`, types)
 
-			Promise.all(types.map(async type => {
+			Promise.all(types.map(async (type) => {
 				try {
 					// Init cancellable request
 					const { request, cancel } = search({ type, query })
@@ -530,20 +524,21 @@ export default {
 					}
 					return REQUEST_CANCELED
 				}
-			})).then(results => {
+			})).then((results) => {
 				// Do not declare loading finished if the request have been cancelled
 				// This means another search was triggered and we're therefore still loading
-				if (results.some(result => result === REQUEST_CANCELED)) {
+				if (results.some((result) => result === REQUEST_CANCELED)) {
 					return
 				}
 				// We finished all searches
 				this.loading = {}
 			})
 		},
+
 		onInputDebounced: enableLiveSearch
 			? debounce(function(e) {
-				this.onInput(e)
-			}, 500)
+					this.onInput(e)
+				}, 500)
 			: function() {
 				this.triggered = false
 			},
@@ -675,7 +670,6 @@ export default {
 				this.focused--
 				this.focusIndex(this.focused)
 			}
-
 		},
 
 		/**
@@ -698,7 +692,7 @@ export default {
 		setFocusedIndex(event) {
 			const entry = event.target
 			const results = this.getResultsList()
-			const index = [...results].findIndex(search => search === entry)
+			const index = [...results].findIndex((search) => search === entry)
 			if (index > -1) {
 				// let's not use focusIndex as the entry is already focused
 				this.focused = index
@@ -723,6 +717,10 @@ $input-height: 34px;
 $input-padding: 10px;
 
 .unified-search {
+	&__trigger-icon {
+		color: var(--color-background-plain-text) !important;
+	}
+
 	&__input-wrapper {
 		position: sticky;
 		// above search results
@@ -738,17 +736,7 @@ $input-padding: 10px;
 			align-self: flex-start;
 			font-weight: bold;
 			font-size: 19px;
-			margin-left: 13px;
-		}
-	}
-
-	&__form-input {
-		margin: 0 !important;
-		&:focus,
-		&:focus-visible,
-		&:active {
-			border-color: 2px solid var(--color-main-text) !important;
-			box-shadow: 0 0 0 2px var(--color-main-background) !important;
+			margin-inline-start: 13px;
 		}
 	}
 
@@ -759,7 +747,8 @@ $input-padding: 10px;
 	}
 
 	&__filters {
-		margin: $margin 0 $margin math.div($margin, 2);
+		margin-block: $margin;
+		margin-inline: math.div($margin, 2) 0;
 		padding-top: 5px;
 		ul {
 			display: inline-flex;
@@ -774,8 +763,7 @@ $input-padding: 10px;
 
 		// Loading spinner
 		&::after {
-			right: $input-padding;
-			left: auto;
+		inset-inline-start: auto $input-padding;
 		}
 
 		&-input,
@@ -787,6 +775,13 @@ $input-padding: 10px;
 			width: 100%;
 			height: $input-height;
 			padding: $input-padding;
+
+			&:focus,
+			&:focus-visible,
+			&:active {
+				border-color: 2px solid var(--color-main-text) !important;
+				box-shadow: 0 0 0 2px var(--color-main-background) !important;
+			}
 
 			&,
 			&[placeholder],
@@ -805,10 +800,11 @@ $input-padding: 10px;
 			}
 		}
 
-		&-reset, &-submit {
+		&-reset,
+		&-submit {
 			position: absolute;
 			top: 0;
-			right: 4px;
+			inset-inline-end: 4px;
 			width: $input-height - $input-padding;
 			height: $input-height - $input-padding;
 			min-height: 30px;
@@ -816,7 +812,7 @@ $input-padding: 10px;
 			opacity: .5;
 			border: none;
 			background-color: transparent;
-			margin-right: 0;
+			margin-inline-end: 0;
 
 			&:hover,
 			&:focus,
@@ -826,35 +822,36 @@ $input-padding: 10px;
 		}
 
 		&-submit {
-			right: 28px;
+			inset-inline-end: 28px;
 		}
 	}
 
 	&__results {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+
 		&-header {
 			display: block;
 			margin: $margin;
 			margin-bottom: $margin - 4px;
-			margin-left: 13px;
+			margin-inline-start: 13px;
 			color: var(--color-primary-element);
 			font-size: 19px;
 			font-weight: bold;
 		}
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
 	}
 
-	.unified-search__result-more::v-deep {
+	:deep(.unified-search__result-more) {
 		color: var(--color-text-maxcontrast);
 	}
 
 	.empty-content {
 		margin: 10vh 0;
 
-		::v-deep .empty-content__title {
+		:deep(.empty-content__title) {
 			font-weight: normal;
-            font-size: var(--default-font-size);
+			font-size: var(--default-font-size);
 			text-align: center;
 		}
 	}

@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, NextCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Sean Molenaar <sean@seanmolenaar.eu>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\User\AuthTokens;
 
@@ -66,6 +48,12 @@ class Add extends Command {
 				InputOption::VALUE_NONE,
 				'Read password from environment variable NC_PASS/OC_PASS. Alternatively it will be asked for interactively or an app password without the login password will be created.'
 			)
+			->addOption(
+				'name',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Name for the app password, defaults to "cli".'
+			)
 		;
 	}
 
@@ -80,9 +68,9 @@ class Add extends Command {
 		}
 
 		if ($input->getOption('password-from-env')) {
-			$password = getenv('NC_PASS') ?? getenv('OC_PASS');
+			$password = getenv('NC_PASS') ?: getenv('OC_PASS');
 			if (!$password) {
-				$output->writeln('<error>--password-from-env given, but NC_PASS is empty!</error>');
+				$output->writeln('<error>--password-from-env given, but NC_PASS/OC_PASS is empty!</error>');
 				return 1;
 			}
 		} elseif ($input->isInteractive()) {
@@ -99,13 +87,15 @@ class Add extends Command {
 			$output->writeln('<info>No password provided. The generated app password will therefore have limited capabilities. Any operation that requires the login password will fail.</info>');
 		}
 
-		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$tokenName = $input->getOption('name') ?: 'cli';
+
+		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
 			$user->getUID(),
 			$user->getUID(),
 			$password,
-			'cli',
+			$tokenName,
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);

@@ -1,16 +1,24 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace Test\Comments;
 
 use OC\Comments\Comment;
 use OCP\Comments\IComment;
+use OCP\Comments\IllegalIDChangeException;
+use OCP\Comments\MessageTooLongException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 class CommentTest extends TestCase {
 	/**
-	 * @throws \OCP\Comments\IllegalIDChangeException
+	 * @throws IllegalIDChangeException
 	 */
-	public function testSettersValidInput() {
+	public function testSettersValidInput(): void {
 		$comment = new Comment();
 
 		$id = 'comment23';
@@ -57,8 +65,8 @@ class CommentTest extends TestCase {
 	}
 
 
-	public function testSetIdIllegalInput() {
-		$this->expectException(\OCP\Comments\IllegalIDChangeException::class);
+	public function testSetIdIllegalInput(): void {
+		$this->expectException(IllegalIDChangeException::class);
 
 		$comment = new Comment();
 
@@ -67,9 +75,9 @@ class CommentTest extends TestCase {
 	}
 
 	/**
-	 * @throws \OCP\Comments\IllegalIDChangeException
+	 * @throws IllegalIDChangeException
 	 */
-	public function testResetId() {
+	public function testResetId(): void {
 		$comment = new Comment();
 		$comment->setId('c23');
 		$comment->setId('');
@@ -77,7 +85,7 @@ class CommentTest extends TestCase {
 		$this->assertSame('', $comment->getId());
 	}
 
-	public function simpleSetterProvider() {
+	public static function simpleSetterProvider(): array {
 		return [
 			['Id', true],
 			['TopmostParentId', true],
@@ -89,10 +97,8 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider simpleSetterProvider
-	 */
-	public function testSimpleSetterInvalidInput($field, $input) {
+	#[DataProvider(methodName: 'simpleSetterProvider')]
+	public function testSimpleSetterInvalidInput($field, $input): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$comment = new Comment();
@@ -101,7 +107,7 @@ class CommentTest extends TestCase {
 		$comment->$setter($input);
 	}
 
-	public function roleSetterProvider() {
+	public static function roleSetterProvider(): array {
 		return [
 			['Actor', true, true],
 			['Actor', 'users', true],
@@ -114,10 +120,8 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider roleSetterProvider
-	 */
-	public function testSetRoleInvalidInput($role, $type, $id) {
+	#[DataProvider(methodName: 'roleSetterProvider')]
+	public function testSetRoleInvalidInput($role, $type, $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$comment = new Comment();
@@ -126,15 +130,15 @@ class CommentTest extends TestCase {
 	}
 
 
-	public function testSetUberlongMessage() {
-		$this->expectException(\OCP\Comments\MessageTooLongException::class);
+	public function testSetUberlongMessage(): void {
+		$this->expectException(MessageTooLongException::class);
 
 		$comment = new Comment();
 		$msg = str_pad('', IComment::MAX_MESSAGE_LENGTH + 1, 'x');
 		$comment->setMessage($msg);
 	}
 
-	public function mentionsProvider(): array {
+	public static function mentionsProvider(): array {
 		return [
 			[
 				'@alice @bob look look, a cook!',
@@ -154,11 +158,11 @@ class CommentTest extends TestCase {
 				/* author: */ 'alice'
 			],
 			[
-				'@foobar and @barfoo you should know, @foo@bar.com is valid' .
-					' and so is @bar@foo.org@foobar.io I hope that clarifies everything.' .
-					' cc @23452-4333-54353-2342 @yolo!' .
-					' however the most important thing to know is that www.croissant.com/@oil is not valid' .
-					' and won\'t match anything at all',
+				'@foobar and @barfoo you should know, @foo@bar.com is valid'
+					. ' and so is @bar@foo.org@foobar.io I hope that clarifies everything.'
+					. ' cc @23452-4333-54353-2342 @yolo!'
+					. ' however the most important thing to know is that www.croissant.com/@oil is not valid'
+					. ' and won\'t match anything at all',
 				[
 					['type' => 'user', 'id' => 'bar@foo.org@foobar.io'],
 					['type' => 'user', 'id' => '23452-4333-54353-2342'],
@@ -192,16 +196,16 @@ class CommentTest extends TestCase {
 					['type' => 'federated_team', 'id' => 'Former Cirle'],
 				],
 			],
+			[
+				'Emails are supported since 30.0.2 right? @"email/aa23d315de327cfc330f0401ea061005b2b0cdd45ec8346f12664dd1f34cb886"',
+				[
+					['type' => 'email', 'id' => 'aa23d315de327cfc330f0401ea061005b2b0cdd45ec8346f12664dd1f34cb886'],
+				],
+			],
 		];
 	}
 
-	/**
-	 * @dataProvider mentionsProvider
-	 *
-	 * @param string $message
-	 * @param array $expectedMentions
-	 * @param ?string $author
-	 */
+	#[DataProvider(methodName: 'mentionsProvider')]
 	public function testMentions(string $message, array $expectedMentions, ?string $author = null): void {
 		$comment = new Comment();
 		$comment->setMessage($message);

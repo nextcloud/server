@@ -1,41 +1,17 @@
 <?php
-/**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Reiter <ockham@raz.or.at>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sebastian Döll <sebastian.doell@libasys.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Volkan Gezer <volkangezer@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
- */
 
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace OC\Share;
 
 use OCA\Files_Sharing\ShareBackend\File;
+use OCP\IConfig;
+use OCP\Server;
+use OCP\Share_Backend;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -72,7 +48,7 @@ class Share extends Constants {
 	 * @return boolean true if backend is registered or false if error
 	 */
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
-		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') == 'yes') {
+		if (Server::get(IConfig::class)->getAppValue('core', 'shareapi_enabled', 'yes') == 'yes') {
 			if (!isset(self::$backendTypes[$itemType])) {
 				self::$backendTypes[$itemType] = [
 					'class' => $class,
@@ -81,9 +57,9 @@ class Share extends Constants {
 				];
 				return true;
 			}
-			\OC::$server->get(LoggerInterface::class)->warning(
-				'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class']
-				.' is already registered for '.$itemType,
+			Server::get(LoggerInterface::class)->warning(
+				'Sharing backend ' . $class . ' not registered, ' . self::$backendTypes[$itemType]['class']
+				. ' is already registered for ' . $itemType,
 				['app' => 'files_sharing']);
 		}
 		return false;
@@ -93,19 +69,19 @@ class Share extends Constants {
 	 * Get the backend class for the specified item type
 	 *
 	 * @param string $itemType
-	 * @return \OCP\Share_Backend
+	 * @return Share_Backend
 	 * @throws \Exception
 	 */
 	public static function getBackend($itemType) {
-		$l = \OCP\Util::getL10N('lib');
-		$logger = \OCP\Server::get(LoggerInterface::class);
+		$l = Util::getL10N('lib');
+		$logger = Server::get(LoggerInterface::class);
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
 		} elseif (isset(self::$backendTypes[$itemType]['class'])) {
 			$class = self::$backendTypes[$itemType]['class'];
 			if (class_exists($class)) {
 				self::$backends[$itemType] = new $class;
-				if (!(self::$backends[$itemType] instanceof \OCP\Share_Backend)) {
+				if (!(self::$backends[$itemType] instanceof Share_Backend)) {
 					$message = 'Sharing backend %s must implement the interface OCP\Share_Backend';
 					$message_t = $l->t('Sharing backend %s must implement the interface OCP\Share_Backend', [$class]);
 					$logger->error(sprintf($message, $class), ['app' => 'OCP\Share']);
@@ -134,7 +110,7 @@ class Share extends Constants {
 	 */
 	public static function isResharingAllowed() {
 		if (!isset(self::$isResharingAllowed)) {
-			if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
+			if (Server::get(IConfig::class)->getAppValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
 				self::$isResharingAllowed = true;
 			} else {
 				self::$isResharingAllowed = false;
@@ -161,8 +137,8 @@ class Share extends Constants {
 				// for file/folder shares we need to compare file_source, otherwise we compare item_source
 				// only group shares if they already point to the same target, otherwise the file where shared
 				// before grouping of shares was added. In this case we don't group them to avoid confusions
-				if (($fileSharing && $item['file_source'] === $r['file_source'] && $item['file_target'] === $r['file_target']) ||
-					(!$fileSharing && $item['item_source'] === $r['item_source'] && $item['item_target'] === $r['item_target'])) {
+				if (($fileSharing && $item['file_source'] === $r['file_source'] && $item['file_target'] === $r['file_target'])
+					|| (!$fileSharing && $item['item_source'] === $r['item_source'] && $item['item_target'] === $r['item_target'])) {
 					// add the first item to the list of grouped shares
 					if (!isset($result[$key]['grouped'])) {
 						$result[$key]['grouped'][] = $result[$key];
@@ -203,6 +179,6 @@ class Share extends Constants {
 	 * @return int
 	 */
 	public static function getExpireInterval() {
-		return (int)\OC::$server->getConfig()->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+		return (int)Server::get(IConfig::class)->getAppValue('core', 'shareapi_expire_after_n_days', '7');
 	}
 }

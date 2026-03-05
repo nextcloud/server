@@ -1,40 +1,64 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t } from '@nextcloud/l10n'
-import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 
-import { getContents } from '../services/Files'
-import { View, getNavigation } from '@nextcloud/files'
+import FolderSvg from '@mdi/svg/svg/folder-outline.svg?raw'
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { getNavigation, View } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { getContents } from '../services/Files.ts'
+import { useActiveStore } from '../store/active.ts'
+import { defaultView } from '../utils/filesViews.ts'
 
-export default () => {
+export const VIEW_ID = 'files'
+
+/**
+ * Register the files view to the navigation
+ */
+export function registerFilesView() {
+	// we cache the query to allow more performant search (see below in event listener)
+	let oldQuery = ''
+
 	const Navigation = getNavigation()
 	Navigation.register(new View({
-		id: 'files',
+		id: VIEW_ID,
 		name: t('files', 'All files'),
 		caption: t('files', 'List of your files and folders.'),
 
 		icon: FolderSvg,
-		order: 0,
+		// if this is the default view we set it at the top of the list - otherwise below it
+		order: defaultView() === VIEW_ID ? 0 : 5,
 
 		getContents,
 	}))
+
+	// when the search is updated
+	// and we are in the files view
+	// and there is already a folder fetched
+	// then we "update" it to trigger a new `getContents` call to search for the query while the filelist is filtered
+	subscribe('files:search:updated', ({ scope, query }) => {
+		if (scope === 'globally') {
+			return
+		}
+
+		if (Navigation.active?.id !== VIEW_ID) {
+			return
+		}
+
+		// If neither the old query nor the new query is longer than the search minimum
+		// then we do not need to trigger a new PROPFIND / SEARCH
+		// so we skip unneccessary requests here
+		if (oldQuery.length < 3 && query.length < 3) {
+			return
+		}
+
+		const store = useActiveStore()
+		if (!store.activeFolder) {
+			return
+		}
+
+		oldQuery = query
+		emit('files:node:updated', store.activeFolder)
+	})
 }

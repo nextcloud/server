@@ -3,29 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Louis Chmn <louis@chmn.me>
- *
- * @author Louis Chmn <louis@chmn.me>
- *
- * @license GNU AGPL-3.0-or-later
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Listener;
 
 use Exception;
 use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
 use OCA\Files_Versions\Versions\IVersionBackend;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Files_Versions\Versions\IVersionsImporterBackend;
@@ -41,6 +27,7 @@ use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<Event> */
 class VersionStorageMoveListener implements IEventListener {
@@ -50,6 +37,7 @@ class VersionStorageMoveListener implements IEventListener {
 	public function __construct(
 		private IVersionManager $versionManager,
 		private IUserSession $userSession,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -79,7 +67,7 @@ class VersionStorageMoveListener implements IEventListener {
 		$user = $this->userSession->getUser() ?? $source->getOwner();
 
 		if ($user === null) {
-			throw new Exception("Cannot move versions across storages without a user.");
+			throw new Exception('Cannot move versions across storages without a user.');
 		}
 
 		if ($event instanceof BeforeNodeRenamedEvent) {
@@ -112,7 +100,21 @@ class VersionStorageMoveListener implements IEventListener {
 				$source = $this->movedNodes[$target->getId()];
 			}
 
-			/** @var File $source */
+			if ($source === null) {
+				$this->logger->warning(
+					'Failed to retrieve source file during version move/copy.',
+					[
+						'eventClass' => get_class($event),
+						'targetPath' => $target->getPath(),
+						'targetId' => $target->getId(),
+						'movedNodesKeys' => array_keys($this->movedNodes),
+						'sourceBackendClass' => get_class($sourceBackend),
+						'targetBackendClass' => get_class($targetBackend),
+					]
+				);
+				return;
+			}
+
 			$this->handleMoveOrCopy($event, $user, $source, $target, $sourceBackend, $targetBackend);
 		} elseif ($target instanceof Folder) {
 			/** @var Folder $source */
@@ -145,7 +147,7 @@ class VersionStorageMoveListener implements IEventListener {
 	}
 
 	private function getNodeStorage(Node $node): IStorage {
-		if ($node instanceof NonExistingFile) {
+		if ($node instanceof NonExistingFile || $node instanceof NonExistingFolder) {
 			return $node->getParent()->getStorage();
 		} else {
 			return $node->getStorage();

@@ -1,42 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Rudolf <github.com@daniel-rudolf.de>
- * @author Felix Epp <work@felixepp.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author mmccarn <mmccarn-github@mmsionline.us>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -46,48 +14,41 @@ use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Server;
 use RuntimeException;
 
-/**
- * Class to generate URLs
- */
 class URLGenerator implements IURLGenerator {
-	/** @var IConfig */
-	private $config;
-	/** @var IUserSession */
-	public $userSession;
-	/** @var ICacheFactory */
-	private $cacheFactory;
-	/** @var IRequest */
-	private $request;
-	/** @var Router */
-	private $router;
-	/** @var null|string */
-	private $baseUrl = null;
+	private ?string $baseUrl = null;
 	private ?IAppManager $appManager = null;
+	private ?INavigationManager $navigationManager = null;
 
-	public function __construct(IConfig $config,
-		IUserSession $userSession,
-		ICacheFactory $cacheFactory,
-		IRequest $request,
-		Router $router
+	public function __construct(
+		private IConfig $config,
+		public IUserSession $userSession,
+		private ICacheFactory $cacheFactory,
+		private IRequest $request,
+		private Router $router,
 	) {
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->cacheFactory = $cacheFactory;
-		$this->request = $request;
-		$this->router = $router;
 	}
 
 	private function getAppManager(): IAppManager {
 		if ($this->appManager !== null) {
 			return $this->appManager;
 		}
-		$this->appManager = \OCP\Server::get(IAppManager::class);
+		$this->appManager = Server::get(IAppManager::class);
 		return $this->appManager;
+	}
+
+	private function getNavigationManager(): INavigationManager {
+		if ($this->navigationManager !== null) {
+			return $this->navigationManager;
+		}
+		$this->navigationManager = Server::get(INavigationManager::class);
+		return $this->navigationManager;
 	}
 
 	/**
@@ -118,7 +79,7 @@ class URLGenerator implements IURLGenerator {
 	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
 		// Returns `/subfolder/index.php/ocsapp/…` with `'htaccess.IgnoreFrontController' => false` in config.php
 		// And `/subfolder/ocsapp/…` with `'htaccess.IgnoreFrontController' => true` in config.php
-		$route = $this->router->generate('ocs.'.$routeName, $arguments, false);
+		$route = $this->router->generate('ocs.' . $routeName, $arguments, false);
 
 		// Cut off `/subfolder`
 		if (\OC::$WEBROOT !== '' && str_starts_with($route, \OC::$WEBROOT)) {
@@ -144,7 +105,7 @@ class URLGenerator implements IURLGenerator {
 	 * @param string $appName app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
+	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
@@ -198,8 +159,8 @@ class URLGenerator implements IURLGenerator {
 	 * Returns the path to the image.
 	 */
 	public function imagePath(string $appName, string $file): string {
-		$cache = $this->cacheFactory->createDistributed('imagePath-'.md5($this->getBaseUrl()).'-');
-		$cacheKey = $appName.'-'.$file;
+		$cache = $this->cacheFactory->createDistributed('imagePath-' . md5($this->getBaseUrl()) . '-');
+		$cacheKey = $appName . '-' . $file;
 		if ($key = $cache->get($cacheKey)) {
 			return $key;
 		}
@@ -211,14 +172,14 @@ class URLGenerator implements IURLGenerator {
 		$basename = substr(basename($file), 0, -4);
 
 		try {
-			$appPath = $this->getAppManager()->getAppPath($appName);
-		} catch (AppPathNotFoundException $e) {
 			if ($appName === 'core' || $appName === '') {
 				$appName = 'core';
 				$appPath = false;
 			} else {
-				throw new RuntimeException('image not found: image: ' . $file . ' webroot: ' . \OC::$WEBROOT . ' serverroot: ' . \OC::$SERVERROOT);
+				$appPath = $this->getAppManager()->getAppPath($appName);
 			}
+		} catch (AppPathNotFoundException $e) {
+			throw new RuntimeException('image not found: image: ' . $file . ' webroot: ' . \OC::$WEBROOT . ' serverroot: ' . \OC::$SERVERROOT);
 		}
 
 		// Check if the app is in the app folder
@@ -226,7 +187,7 @@ class URLGenerator implements IURLGenerator {
 		$themingEnabled = $this->config->getSystemValueBool('installed', false) && $this->getAppManager()->isEnabledForUser('theming');
 		$themingImagePath = false;
 		if ($themingEnabled) {
-			$themingDefaults = \OC::$server->get('ThemingDefaults');
+			$themingDefaults = Server::get('ThemingDefaults');
 			if ($themingDefaults instanceof ThemingDefaults) {
 				$themingImagePath = $themingDefaults->replaceImagePath($appName, $file);
 			}
@@ -237,9 +198,9 @@ class URLGenerator implements IURLGenerator {
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$appName/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$appName/img/$basename.png")) {
 			$path = \OC::$WEBROOT . "/themes/$theme/apps/$appName/img/$basename.png";
-		} elseif (!empty($appName) and file_exists(\OC::$SERVERROOT . "/themes/$theme/$appName/img/$file")) {
+		} elseif (!empty($appName) && file_exists(\OC::$SERVERROOT . "/themes/$theme/$appName/img/$file")) {
 			$path = \OC::$WEBROOT . "/themes/$theme/$appName/img/$file";
-		} elseif (!empty($appName) and (!file_exists(\OC::$SERVERROOT . "/themes/$theme/$appName/img/$basename.svg")
+		} elseif (!empty($appName) && (!file_exists(\OC::$SERVERROOT . "/themes/$theme/$appName/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/$appName/img/$basename.png"))) {
 			$path = \OC::$WEBROOT . "/themes/$theme/$appName/img/$basename.png";
 		} elseif (file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$file")) {
@@ -254,9 +215,9 @@ class URLGenerator implements IURLGenerator {
 		} elseif ($appPath && !file_exists($appPath . "/img/$basename.svg")
 			&& file_exists($appPath . "/img/$basename.png")) {
 			$path = $this->getAppManager()->getAppWebPath($appName) . "/img/$basename.png";
-		} elseif (!empty($appName) and file_exists(\OC::$SERVERROOT . "/$appName/img/$file")) {
+		} elseif (!empty($appName) && file_exists(\OC::$SERVERROOT . "/$appName/img/$file")) {
 			$path = \OC::$WEBROOT . "/$appName/img/$file";
-		} elseif (!empty($appName) and (!file_exists(\OC::$SERVERROOT . "/$appName/img/$basename.svg")
+		} elseif (!empty($appName) && (!file_exists(\OC::$SERVERROOT . "/$appName/img/$basename.svg")
 				&& file_exists(\OC::$SERVERROOT . "/$appName/img/$basename.png"))) {
 			$path = \OC::$WEBROOT . "/$appName/img/$basename.png";
 		} elseif (file_exists(\OC::$SERVERROOT . "/core/img/$file")) {
@@ -277,7 +238,7 @@ class URLGenerator implements IURLGenerator {
 
 	/**
 	 * Makes an URL absolute
-	 * @param string $url the url in the ownCloud host
+	 * @param string $url the url in the Nextcloud host
 	 * @return string the absolute version of the url
 	 */
 	public function getAbsoluteURL(string $url): string {
@@ -286,7 +247,7 @@ class URLGenerator implements IURLGenerator {
 		if (\OC::$CLI && !\defined('PHPUNIT_RUN')) {
 			return rtrim($this->config->getSystemValueString('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
-		// The ownCloud web root can already be prepended.
+		// The Nextcloud web root could already be prepended.
 		if (\OC::$WEBROOT !== '' && str_starts_with($url, \OC::$WEBROOT)) {
 			$url = substr($url, \strlen(\OC::$WEBROOT));
 		}
@@ -299,7 +260,7 @@ class URLGenerator implements IURLGenerator {
 	 * @return string url to the online documentation
 	 */
 	public function linkToDocs(string $key): string {
-		$theme = \OC::$server->get('ThemingDefaults');
+		$theme = Server::get('ThemingDefaults');
 		return $theme->buildDocLinkToKey($key);
 	}
 
@@ -320,14 +281,22 @@ class URLGenerator implements IURLGenerator {
 			return $this->getAbsoluteURL($defaultPage);
 		}
 
-		$appId = $this->getAppManager()->getDefaultAppForUser();
-
-		if ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false)
-			|| getenv('front_controller_active') === 'true') {
-			return $this->getAbsoluteURL('/apps/' . $appId . '/');
+		$entryId = $this->getNavigationManager()->getDefaultEntryIdForUser();
+		$entry = $this->getNavigationManager()->get($entryId);
+		$href = (string)$entry['href'];
+		if ($href === '') {
+			throw new \InvalidArgumentException('Default navigation entry is missing href: ' . $entryId);
 		}
 
-		return $this->getAbsoluteURL('/index.php/apps/' . $appId . '/');
+		if (str_starts_with($href, $this->getBaseUrl())) {
+			return $href;
+		}
+
+		if (str_starts_with($href, '/index.php/') && ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false) || getenv('front_controller_active') === 'true')) {
+			$href = substr($href, 10);
+		}
+
+		return $this->getAbsoluteURL($href);
 	}
 
 	/**
@@ -335,7 +304,7 @@ class URLGenerator implements IURLGenerator {
 	 */
 	public function getBaseUrl(): string {
 		// BaseUrl can be equal to 'http(s)://' during the first steps of the initial setup.
-		if ($this->baseUrl === null || $this->baseUrl === "http://" || $this->baseUrl === "https://") {
+		if ($this->baseUrl === null || $this->baseUrl === 'http://' || $this->baseUrl === 'https://') {
 			$this->baseUrl = $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
 		}
 		return $this->baseUrl;

@@ -1,30 +1,17 @@
 <?php
-/**
- * @copyright Copyright (c) 2021 Carl Schwan <carl@carlschwan.eu>
- *
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
 
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OC;
 
 use OCP\IImage;
 use OCP\IStreamImage;
+use Override;
 
 /**
  * Only useful when dealing with transferring streamed previews from an external
@@ -34,119 +21,137 @@ use OCP\IStreamImage;
  * valid result.
  */
 class StreamImage implements IStreamImage {
-	/** @var resource The internal stream */
-	private $stream;
-
-	/** @var null|string */
-	private $mimeType;
-
-	/** @var int */
-	private $width;
-
-	/** @var int */
-	private $height;
-
 	/** @param resource $stream */
-	public function __construct($stream, string $mimeType, int $width, int $height) {
-		$this->stream = $stream;
-		$this->mimeType = $mimeType;
-		$this->width = $width;
-		$this->height = $height;
+	public function __construct(
+		private $stream,
+		private ?string $mimeType,
+		private int $width,
+		private int $height,
+	) {
 	}
 
-	/** @inheritDoc */
+	#[Override]
 	public function valid(): bool {
 		return is_resource($this->stream);
 	}
 
-	/** @inheritDoc */
+	#[Override]
 	public function mimeType(): ?string {
 		return $this->mimeType;
 	}
 
-	/** @inheritDoc */
+	#[Override]
 	public function width(): int {
 		return $this->width;
 	}
 
-	/** @inheritDoc */
+	#[Override]
 	public function height(): int {
 		return $this->height;
 	}
 
+	#[Override]
 	public function widthTopLeft(): int {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function heightTopLeft(): int {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function show(?string $mimeType = null): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function save(?string $filePath = null, ?string $mimeType = null): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function resource() {
 		return $this->stream;
 	}
 
+	#[Override]
 	public function dataMimeType(): ?string {
 		return $this->mimeType;
 	}
 
+	#[Override]
 	public function data(): ?string {
 		return '';
 	}
 
+	#[Override]
 	public function getOrientation(): int {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function fixOrientation(): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function resize(int $maxSize): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function preciseResize(int $width, int $height): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function centerCrop(int $size = 0): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function crop(int $x, int $y, int $w, int $h): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function fitIn(int $maxWidth, int $maxHeight): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function scaleDownToFit(int $maxWidth, int $maxHeight): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function copy(): IImage {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function cropCopy(int $x, int $y, int $w, int $h): IImage {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function preciseResizeCopy(int $width, int $height): IImage {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
+	#[Override]
 	public function resizeCopy(int $maxSize): IImage {
+		throw new \BadMethodCallException('Not implemented');
+	}
+
+	#[Override]
+	public function loadFromData(string $str): \GdImage|false {
+		throw new \BadMethodCallException('Not implemented');
+	}
+
+	#[Override]
+	public function readExif(string $data): void {
 		throw new \BadMethodCallException('Not implemented');
 	}
 }

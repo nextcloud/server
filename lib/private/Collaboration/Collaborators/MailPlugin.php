@@ -1,28 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Tobia De Koninck <tobia@ledfan.be>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Collaboration\Collaborators;
 
@@ -37,7 +17,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Mail\IMailer;
+use OCP\Mail\IEmailValidator;
 use OCP\Share\IShare;
 
 class MailPlugin implements ISearchPlugin {
@@ -60,8 +40,9 @@ class MailPlugin implements ISearchPlugin {
 		private IGroupManager $groupManager,
 		private KnownUserService $knownUserService,
 		private IUserSession $userSession,
-		private IMailer $mailer,
-		private mixed $shareWithGroupOnlyExcludeGroupsList = [],
+		private IEmailValidator $emailValidator,
+		private mixed $shareWithGroupOnlyExcludeGroupsList,
+		private int $shareType,
 	) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
@@ -121,6 +102,11 @@ class MailPlugin implements ISearchPlugin {
 						$emailAddress = $emailAddressData['value'];
 						$emailAddressType = $emailAddressData['type'];
 					}
+
+					if (!filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+						continue;
+					}
+
 					if (isset($contact['FN'])) {
 						$displayName = $contact['FN'] . ' (' . $emailAddress . ')';
 					}
@@ -154,7 +140,7 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
+							if ($this->shareType === IShare::TYPE_USER && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
 									'label' => $displayName,
 									'uuid' => $contact['UID'] ?? $emailAddress,
@@ -174,6 +160,9 @@ class MailPlugin implements ISearchPlugin {
 
 						if ($this->shareeEnumeration) {
 							try {
+								if (!isset($contact['CLOUD'])) {
+									continue;
+								}
 								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0] ?? '');
 							} catch (\InvalidArgumentException $e) {
 								continue;
@@ -195,19 +184,25 @@ class MailPlugin implements ISearchPlugin {
 								}
 							}
 							if ($addToWide && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
-								$userResults['wide'][] = [
-									'label' => $displayName,
-									'uuid' => $contact['UID'] ?? $emailAddress,
-									'name' => $contact['FN'] ?? $displayName,
-									'value' => [
-										'shareType' => IShare::TYPE_USER,
-										'shareWith' => $cloud->getUser(),
-									],
-									'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
-								];
+								if ($this->shareType === IShare::TYPE_USER) {
+									$userResults['wide'][] = [
+										'label' => $displayName,
+										'uuid' => $contact['UID'] ?? $emailAddress,
+										'name' => $contact['FN'] ?? $displayName,
+										'value' => [
+											'shareType' => IShare::TYPE_USER,
+											'shareWith' => $cloud->getUser(),
+										],
+										'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
+									];
+								}
 								continue;
 							}
 						}
+						continue;
+					}
+
+					if ($this->shareType !== IShare::TYPE_EMAIL) {
 						continue;
 					}
 
@@ -244,14 +239,15 @@ class MailPlugin implements ISearchPlugin {
 
 		$reachedEnd = true;
 		if ($this->shareeEnumeration) {
-			$reachedEnd = (count($result['wide']) < $offset + $limit) &&
-				(count($userResults['wide']) < $offset + $limit);
+			$reachedEnd = (count($result['wide']) < $offset + $limit)
+				&& (count($userResults['wide']) < $offset + $limit);
 
 			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
 		}
 
-		if (!$searchResult->hasExactIdMatch($emailType) && $this->mailer->validateMailAddress($search)) {
+		if ($this->shareType === IShare::TYPE_EMAIL
+				&& !$searchResult->hasExactIdMatch($emailType) && $this->emailValidator->isValid($search)) {
 			$result['exact'][] = [
 				'label' => $search,
 				'uuid' => $search,
@@ -262,10 +258,12 @@ class MailPlugin implements ISearchPlugin {
 			];
 		}
 
-		if (!empty($userResults['wide'])) {
+		if ($this->shareType === IShare::TYPE_USER && !empty($userResults['wide'])) {
 			$searchResult->addResultSet($userType, $userResults['wide'], []);
 		}
-		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
+		if ($this->shareType === IShare::TYPE_EMAIL) {
+			$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
+		}
 
 		return !$reachedEnd;
 	}

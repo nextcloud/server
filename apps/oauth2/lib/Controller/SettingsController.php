@@ -3,30 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Patrik Kernstock <info@pkern.at>
- * @author rakekniven <mark.ziegler@rakekniven.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\OAuth2\Controller;
 
@@ -57,7 +35,7 @@ class SettingsController extends Controller {
 		private IL10N $l,
 		private IAuthTokenProvider $tokenProvider,
 		private IUserManager $userManager,
-		private ICrypto $crypto
+		private ICrypto $crypto,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -72,8 +50,8 @@ class SettingsController extends Controller {
 		$client->setName($name);
 		$client->setRedirectUri($redirectUri);
 		$secret = $this->secureRandom->generate(64, self::validChars);
-		$encryptedSecret = $this->crypto->encrypt($secret);
-		$client->setSecret($encryptedSecret);
+		$hashedSecret = bin2hex($this->crypto->calculateHMAC($secret));
+		$client->setSecret($hashedSecret);
 		$client->setClientIdentifier($this->secureRandom->generate(64, self::validChars));
 		$client = $this->clientMapper->insert($client);
 
@@ -91,7 +69,7 @@ class SettingsController extends Controller {
 	public function deleteClient(int $id): JSONResponse {
 		$client = $this->clientMapper->getByUid($id);
 
-		$this->userManager->callForAllUsers(function (IUser $user) use ($client) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($client): void {
 			$this->tokenProvider->invalidateTokensOfUser($user->getUID(), $client->getName());
 		});
 

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitLookupServerConnector
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\LookupServerConnector\\' => 26,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\LookupServerConnector\\' => 
+        'OCA\\LookupServerConnector\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

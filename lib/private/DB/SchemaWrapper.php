@@ -1,55 +1,46 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\ISchemaWrapper;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class SchemaWrapper implements ISchemaWrapper {
-	/** @var Connection */
-	protected $connection;
+	protected Schema $schema;
 
-	/** @var Schema */
-	protected $schema;
+	/** @var array<string, true> */
+	protected array $tablesToDelete = [];
 
-	/** @var array */
-	protected $tablesToDelete = [];
-
-	public function __construct(Connection $connection) {
-		$this->connection = $connection;
-		$this->schema = $this->connection->createSchema();
+	public function __construct(
+		protected Connection $connection,
+		?Schema $schema = null,
+	) {
+		if ($schema !== null) {
+			$this->schema = $schema;
+		} else {
+			$this->schema = $this->connection->createSchema();
+		}
 	}
 
 	public function getWrappedSchema() {
 		return $this->schema;
 	}
 
-	public function performDropTableCalls() {
+	public function performDropTableCalls(): void {
 		foreach ($this->tablesToDelete as $tableName => $true) {
 			$this->connection->dropTable($tableName);
+			foreach ($this->connection->getShardConnections() as $shardConnection) {
+				$shardConnection->dropTable($tableName);
+			}
 			unset($this->tablesToDelete[$tableName]);
 		}
 	}
@@ -140,5 +131,19 @@ class SchemaWrapper implements ISchemaWrapper {
 	 */
 	public function getDatabasePlatform() {
 		return $this->connection->getDatabasePlatform();
+	}
+
+	public function dropAutoincrementColumn(string $table, string $column): void {
+		$tableObj = $this->schema->getTable($this->connection->getPrefix() . $table);
+		$tableObj->modifyColumn('id', ['autoincrement' => false]);
+		$platform = $this->getDatabasePlatform();
+		if ($platform instanceof OraclePlatform) {
+			try {
+				$this->connection->executeStatement('DROP TRIGGER "' . $this->connection->getPrefix() . $table . '_AI_PK"');
+				$this->connection->executeStatement('DROP SEQUENCE "' . $this->connection->getPrefix() . $table . '_SEQ"');
+			} catch (Exception $e) {
+				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+			}
+		}
 	}
 }

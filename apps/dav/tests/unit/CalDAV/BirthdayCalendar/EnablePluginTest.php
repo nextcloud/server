@@ -1,28 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2017 Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author François Freitag <mail@franek.fr>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\BirthdayCalendar;
 
@@ -32,24 +13,15 @@ use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class EnablePluginTest extends TestCase {
-
-	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
-	protected $server;
-
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var BirthdayService |\PHPUnit\Framework\MockObject\MockObject */
-	protected $birthdayService;
-
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject  */
-	protected $user;
-
-	/** @var \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin $plugin */
-	protected $plugin;
+	protected \Sabre\DAV\Server&MockObject $server;
+	protected IConfig&MockObject $config;
+	protected BirthdayService&MockObject $birthdayService;
+	protected IUser&MockObject $user;
+	protected EnablePlugin $plugin;
 
 	protected $request;
 

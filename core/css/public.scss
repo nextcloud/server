@@ -1,8 +1,11 @@
-$footer-height: 65px;
-
+/*!
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 #body-public {
-	.header-right {
+	--footer-height: calc(2lh + 2 * var(--default-grid-baseline)); // Set the initial value, will be updated programmatically to match the actual height
 
+	.header-end {
 		#header-primary-action a {
 			color: var(--color-primary-element-text);
 		}
@@ -37,9 +40,12 @@ $footer-height: 65px;
 	}
 
 	#content {
-		// 100% - footer
-		min-height: calc(100% - #{$footer-height});
+		min-height: var(--body-height, calc(100% - var(--footer-height)));
+		padding-block-end: var(--footer-height);
+	}
 
+	#app-content-vue {
+		padding-block-end: var(--footer-height);
 	}
 
 	/** don't apply content header padding on the base layout */
@@ -64,27 +70,34 @@ $footer-height: 65px;
 	/* public footer */
 	footer {
 		position: fixed;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: $footer-height;
-		flex-direction: column;
-		bottom: 0;
-		width: calc(100% - 16px);
-		margin: 8px;
-		background-color: var(--color-main-background);
-		border-radius: var(--border-radius-large);
-		p {
-			text-align: center;
-			color: var(--color-text-lighter);
-			a {
-				color: var(--color-text-lighter);
-				font-weight: bold;
-				white-space: nowrap;
-				/* increasing clickability to more than the text height */
-				padding: 10px;
-				margin: -10px;
-				line-height: 200%;
+		left: 50%;
+		bottom: var(--body-container-margin);
+		transform: translateX(-50%);
+		width: fit-content;
+		max-width: 90vw;
+
+		&.guest-box {
+			// Ensure the maxcontrast color is set for the background
+			--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+			color: var(--color-main-text);
+			background-color: var(--color-main-background-blur);
+			padding: var(--default-grid-baseline) calc(3 * var(--default-grid-baseline));
+			border-radius: var(--border-radius-container);
+			box-shadow: 0 0 10px var(--color-box-shadow);
+			-webkit-backdrop-filter: var(--filter-background-blur);
+			backdrop-filter: var(--filter-background-blur);
+
+			.info {
+				text-shadow: none;
+				margin: 0;
+
+				.entity-name {
+					font-weight: bold;
+				}
+			}
+
+			a.legal {
+				font-size: smaller;
 			}
 		}
 	}

@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Thomas Citharel <nextcloud@tcit.fr>
- *
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Migration;
 
@@ -32,12 +15,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var IUserManager */
-	private $userManager;
-
 	/** @var int */
 	private $progress = 0;
 
@@ -46,9 +23,10 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 
 	private const SUBSCRIPTIONS_CHUNK_SIZE = 1000;
 
-	public function __construct(IDBConnection $connection, IUserManager $userManager) {
-		$this->connection = $connection;
-		$this->userManager = $userManager;
+	public function __construct(
+		private IDBConnection $connection,
+		private IUserManager $userManager,
+	) {
 	}
 
 	/**
@@ -86,7 +64,7 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 		$query = $qb->select($qb->func()->count('*'))
 			->from('calendarsubscriptions');
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$count = $result->fetchOne();
 		$result->closeCursor();
 
@@ -109,11 +87,11 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 			->setMaxResults(self::SUBSCRIPTIONS_CHUNK_SIZE)
 			->setFirstResult($this->progress);
 
-		$result = $query->execute();
-		while ($row = $result->fetch()) {
+		$result = $query->executeQuery();
+		while ($row = $result->fetchAssociative()) {
 			$username = $this->getPrincipal($row['principaluri']);
 			if (!$this->userManager->userExists($username)) {
-				$this->orphanSubscriptionIds[] = (int) $row['id'];
+				$this->orphanSubscriptionIds[] = (int)$row['id'];
 			}
 		}
 		$result->closeCursor();

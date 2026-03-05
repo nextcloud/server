@@ -1,45 +1,52 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<NcBreadcrumbs data-cy-files-content-breadcrumbs
+	<NcBreadcrumbs
+		data-cy-files-content-breadcrumbs
 		:aria-label="t('files', 'Current directory path')"
 		class="files-list__breadcrumbs"
 		:class="{ 'files-list__breadcrumbs--with-progress': wrapUploadProgressBar }">
 		<!-- Current path sections -->
-		<NcBreadcrumb v-for="(section, index) in sections"
+		<NcBreadcrumb
+			v-for="(section, index) in sections"
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
-			:force-icon-text="index === 0 && filesListWidth >= 486"
+			:force-icon-text="index === 0 && !isNarrow"
+			force-menu
+			:open.sync="isMenuOpen"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
-			@click.native="onClick(section.to)"
 			@dragover.native="onDragOver($event, section.dir)"
 			@drop="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
-				<NcIconSvgWrapper :size="20"
+				<NcIconSvgWrapper
+					:size="20"
 					:svg="viewIcon" />
+			</template>
+			<template v-if="index === sections.length - 1" #menu-icon>
+				<NcIconSvgWrapper :path="isMenuOpen ? mdiChevronUp : mdiChevronDown" />
+			</template>
+			<template v-if="index === sections.length - 1" #default>
+				<!-- Sharing button -->
+				<NcActionButton v-if="canShare" close-after-click @click="openSharingSidebar">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiAccountPlus" />
+					</template>
+					{{ t('files', 'Share') }}
+				</NcActionButton>
+
+				<!-- Reload button -->
+				<NcActionButton close-after-click @click="$emit('reload')">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiReload" />
+					</template>
+					{{ t('files', 'Reload content') }}
+				</NcActionButton>
 			</template>
 		</NcBreadcrumb>
 
@@ -52,38 +59,41 @@
 
 <script lang="ts">
 import type { Node } from '@nextcloud/files'
+import type { FileSource } from '../types.ts'
 
-import { basename } from 'path'
-import { defineComponent } from 'vue'
-import { Permission } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import { mdiAccountPlus, mdiChevronDown, mdiChevronUp, mdiReload } from '@mdi/js'
 import HomeSvg from '@mdi/svg/svg/home.svg?raw'
-import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
-import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-
-import { onDropInternalFiles, dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { showError } from '@nextcloud/dialogs'
+import { getSidebar, Permission } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { isPublicShare } from '@nextcloud/sharing/public'
+import { basename } from 'path'
+import { computed, defineComponent, ref, watch } from 'vue'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcBreadcrumb from '@nextcloud/vue/components/NcBreadcrumb'
+import NcBreadcrumbs from '@nextcloud/vue/components/NcBreadcrumbs'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useViews } from '../composables/useViews.ts'
+import logger from '../logger.ts'
+import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import logger from '../logger'
 
 export default defineComponent({
 	name: 'BreadCrumbs',
 
 	components: {
+		NcActionButton,
 		NcBreadcrumbs,
 		NcBreadcrumb,
 		NcIconSvgWrapper,
 	},
-
-	mixins: [
-		filesListWidthMixin,
-	],
 
 	props: {
 		path: {
@@ -92,27 +102,62 @@ export default defineComponent({
 		},
 	},
 
+	emits: ['reload'],
+
 	setup() {
-		const draggingStore = useDragAndDropStore()
+		const activeStore = useActiveStore()
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
+		const draggingStore = useDragAndDropStore()
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
 
+		const { isNarrow } = useFileListWidth()
+		const views = useViews()
+
+		const isMenuOpen = ref(false)
+		watch(() => activeStore.activeFolder, () => {
+			isMenuOpen.value = false
+		})
+
+		const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
+		const isPublic = isPublicShare()
+		const canShare = computed(() => {
+			return isSharingEnabled
+				&& !isPublic
+				&& activeStore.activeFolder
+				&& (activeStore.activeFolder.permissions & Permission.SHARE) !== 0
+		})
+
 		return {
+			activeStore,
 			draggingStore,
 			filesStore,
 			pathsStore,
 			selectionStore,
 			uploaderStore,
+
+			canShare,
+			isMenuOpen,
+			isNarrow,
+			views,
+			openSharingSidebar,
+
+			mdiAccountPlus,
+			mdiChevronDown,
+			mdiChevronUp,
+			mdiReload,
+		}
+
+		/**
+		 * Open the sharing sidebar for the current folder
+		 */
+		function openSharingSidebar() {
+			getSidebar().open(activeStore.activeFolder!, 'sharing')
 		}
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		dirs(): string[] {
 			const cumulativePath = (acc: string) => (value: string) => (acc += `${value}/`)
 			// Generate a cumulative path for each path segment: ['/', '/foo', '/foo/bar', ...] etc
@@ -123,13 +168,13 @@ export default defineComponent({
 
 		sections() {
 			return this.dirs.map((dir: string, index: number) => {
-				const fileid = this.getFileIdFromPath(dir)
-				const to = { ...this.$route, params: { fileid }, query: { dir } }
+				const source = this.getFileSourceFromPath(dir)
+				const node: Node | undefined = source ? this.getNodeFromSource(source) : undefined
 				return {
 					dir,
 					exact: true,
 					name: this.getDirDisplayName(dir),
-					to,
+					to: this.getTo(dir, node),
 					// disable drop on current directory
 					disableDrop: index === this.dirs.length - 1,
 				}
@@ -144,47 +189,70 @@ export default defineComponent({
 		wrapUploadProgressBar(): boolean {
 			// if an upload is ongoing, and on small screens / mobile, then
 			// show the progress bar for the upload below breadcrumbs
-			return this.isUploadInProgress && this.filesListWidth < 512
+			return this.isUploadInProgress && this.isNarrow
 		},
 
 		// used to show the views icon for the first breadcrumb
 		viewIcon(): string {
-			return this.currentView?.icon ?? HomeSvg
+			return this.activeStore.activeView?.icon ?? HomeSvg
 		},
 
 		selectedFiles() {
-			return this.selectionStore.selected
+			return this.selectionStore.selected as FileSource[]
 		},
 
 		draggingFiles() {
-			return this.draggingStore.dragging
+			return this.draggingStore.dragging as FileSource[]
 		},
 	},
 
 	methods: {
-		getNodeFromId(id: number): Node | undefined {
-			return this.filesStore.getNode(id)
+		getNodeFromSource(source: FileSource): Node | undefined {
+			return this.filesStore.getNode(source)
 		},
-		getFileIdFromPath(path: string): number | undefined {
-			return this.pathsStore.getPath(this.currentView?.id, path)
+
+		getFileSourceFromPath(path: string): FileSource | null {
+			return (this.activeStore.activeView && this.pathsStore.getPath(this.activeStore.activeView.id, path)) ?? null
 		},
+
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
-				return this.$navigation?.active?.name || t('files', 'Home')
+				return this.activeStore.activeView?.name || t('files', 'Home')
 			}
 
-			const fileId: number | undefined = this.getFileIdFromPath(path)
-			const node: Node | undefined = (fileId) ? this.getNodeFromId(fileId) : undefined
-			return node?.attributes?.displayName || basename(path)
+			const source = this.getFileSourceFromPath(path)
+			const node = source ? this.getNodeFromSource(source) : undefined
+			return node?.displayname || basename(path)
 		},
 
-		onClick(to) {
-			if (to?.query?.dir === this.$route.query.dir) {
-				this.$emit('reload')
+		getTo(dir: string, node?: Node): Record<string, unknown> {
+			if (dir === '/') {
+				return {
+					...this.$route,
+					params: { view: this.activeStore.activeView?.id },
+					query: {},
+				}
+			}
+			if (node === undefined) {
+				const view = this.views.find((view) => view.params?.dir === dir)
+				return {
+					...this.$route,
+					params: { fileid: view?.params?.fileid ?? '' },
+					query: { dir },
+				}
+			}
+			return {
+				...this.$route,
+				params: { fileid: String(node.fileid) },
+				query: { dir: node.path },
 			}
 		},
 
 		onDragOver(event: DragEvent, path: string) {
+			if (!event.dataTransfer) {
+				return
+			}
+
 			// Cannot drop on the current directory
 			if (path === this.dirs[this.dirs.length - 1]) {
 				event.dataTransfer.dropEffect = 'none'
@@ -219,7 +287,8 @@ export default defineComponent({
 			const fileTree = await dataTransferToFileTree(items)
 
 			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(path)
+			const controller = new AbortController()
+			const contents = await this.activeStore.activeView?.getContents(path, { signal: controller.signal })
 			const folder = contents?.folder
 			if (!folder) {
 				showError(this.t('files', 'Target folder does not exist any more'))
@@ -244,12 +313,12 @@ export default defineComponent({
 			}
 
 			// Else we're moving/copying files
-			const nodes = selection.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
 			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection
-			if (selection.some(fileid => this.selectedFiles.includes(fileid))) {
+			if (selection.some((source) => this.selectedFiles.includes(source))) {
 				logger.debug('Dropped selection, resetting select store...')
 				this.selectionStore.reset()
 			}
@@ -261,14 +330,12 @@ export default defineComponent({
 			} else if (index === 0) {
 				return t('files', 'Go to the "{dir}" directory', section)
 			}
-			return null
 		},
 
 		ariaForSection(section) {
 			if (section?.to?.query?.dir === this.$route.query.dir) {
 				return t('files', 'Reload current directory')
 			}
-			return null
 		},
 
 		t,
@@ -282,8 +349,8 @@ export default defineComponent({
 	flex: 1 1 100% !important;
 	width: 100%;
 	height: 100%;
-	margin-block: 0;
-	margin-inline: 10px;
+	margin: 0;
+	min-width: 0;
 
 	:deep() {
 		a {

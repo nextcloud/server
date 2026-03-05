@@ -1,30 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Preview;
 
 use OC\Archive\ZIP;
 use OCP\Files\File;
 use OCP\IImage;
+use OCP\Image;
+use OCP\ITempManager;
+use OCP\Server;
 
 /**
  * Extracts a preview from files that embed them in an ZIP archive
@@ -35,8 +22,8 @@ abstract class Bundled extends ProviderV2 {
 			return null;
 		}
 
-		$sourceTmp = \OC::$server->getTempManager()->getTemporaryFile();
-		$targetTmp = \OC::$server->getTempManager()->getTemporaryFile();
+		$sourceTmp = Server::get(ITempManager::class)->getTemporaryFile();
+		$targetTmp = Server::get(ITempManager::class)->getTemporaryFile();
 		$this->tmpFiles[] = $sourceTmp;
 		$this->tmpFiles[] = $targetTmp;
 
@@ -47,7 +34,7 @@ abstract class Bundled extends ProviderV2 {
 			$zip = new ZIP($sourceTmp);
 			$zip->extractFile($path, $targetTmp);
 
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromFile($targetTmp);
 			$image->fixOrientation();
 

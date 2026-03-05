@@ -1,21 +1,26 @@
 <?php
+
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\BackgroundJob;
 
+use ArrayIterator;
+use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJob;
+use OCP\BackgroundJob\Job;
+use OCP\Server;
+use OCP\Snowflake\ISnowflakeGenerator;
 
 /**
  * Class DummyJobList
  *
  * in memory job list for testing purposes
  */
-class DummyJobList extends \OC\BackgroundJob\JobList {
+class DummyJobList extends JobList {
 	/**
 	 * @var IJob[]
 	 */
@@ -38,9 +43,10 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	public function add($job, $argument = null, ?int $firstCheck = null): void {
 		if (is_string($job)) {
 			/** @var IJob $job */
-			$job = \OCP\Server::get($job);
+			$job = Server::get($job);
 		}
 		$job->setArgument($argument);
+		$job->setId(Server::get(ISnowflakeGenerator::class)->nextId());
 		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;
 		}
@@ -55,9 +61,20 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null): void {
-		$index = array_search($job, $this->jobs);
-		if ($index !== false) {
-			unset($this->jobs[$index]);
+		foreach ($this->jobs as $index => $listJob) {
+			if (get_class($job) === get_class($listJob) && $job->getArgument() == $listJob->getArgument()) {
+				unset($this->jobs[$index]);
+				return;
+			}
+		}
+	}
+
+	public function removeById(string $id): void {
+		foreach ($this->jobs as $index => $listJob) {
+			if ($listJob->getId() === $id) {
+				unset($this->jobs[$index]);
+				return;
+			}
 		}
 	}
 
@@ -81,26 +98,29 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		return $this->jobs;
 	}
 
-	public function getJobsIterator($job, ?int $limit, int $offset): array {
+	public function getJobsIterator($job, ?int $limit, int $offset): iterable {
 		if ($job instanceof IJob) {
 			$jobClass = get_class($job);
 		} else {
 			$jobClass = $job;
 		}
-		return array_slice(
+
+		$jobs = array_slice(
 			array_filter(
 				$this->jobs,
-				fn ($job) => ($jobClass === null) || (get_class($job) == $jobClass)
+				fn ($job) => ($jobClass === null) || (get_class($job) === $jobClass)
 			),
 			$offset,
 			$limit
 		);
+
+		return new ArrayIterator($jobs);
 	}
 
 	/**
 	 * get the next job in the list
 	 */
-	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
+	public function getNext(bool $onlyTimeSensitive = false, ?array $jobClasses = null): ?IJob {
 		if (count($this->jobs) > 0) {
 			if ($this->last < (count($this->jobs) - 1)) {
 				$i = $this->last + 1;
@@ -116,7 +136,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param \OCP\BackgroundJob\Job $job
+	 * @param Job $job
 	 */
 	public function setLastJob(IJob $job): void {
 		$i = array_search($job, $this->jobs);
@@ -127,7 +147,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		}
 	}
 
-	public function getById(int $id): IJob {
+	public function getById(string $id): ?IJob {
 		foreach ($this->jobs as $job) {
 			if ($job->getId() === $id) {
 				return $job;
@@ -136,7 +156,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		return null;
 	}
 
-	public function getDetailsById(int $id): ?array {
+	public function getDetailsById(string $id): ?array {
 		return null;
 	}
 

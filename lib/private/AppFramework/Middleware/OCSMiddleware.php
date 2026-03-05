@@ -1,27 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\AppFramework\Middleware;
 
@@ -39,17 +20,15 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class OCSMiddleware extends Middleware {
-	/** @var IRequest */
-	private $request;
-
 	/** @var int */
 	private $ocsVersion;
 
 	/**
 	 * @param IRequest $request
 	 */
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(
+		private IRequest $request,
+	) {
 	}
 
 	/**
@@ -78,7 +57,7 @@ class OCSMiddleware extends Middleware {
 		if ($controller instanceof OCSController && $exception instanceof OCSException) {
 			$code = $exception->getCode();
 			if ($code === 0) {
-				$code = \OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR;
+				$code = OCSController::RESPOND_UNKNOWN_ERROR;
 			}
 
 			return $this->buildNewResponse($controller, $code, $exception->getMessage());
@@ -91,7 +70,7 @@ class OCSMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param Response $response
-	 * @return \OCP\AppFramework\Http\Response
+	 * @return Response
 	 */
 	public function afterController($controller, $methodName, Response $response) {
 		/*
@@ -129,7 +108,10 @@ class OCSMiddleware extends Middleware {
 	 * @return V1Response|V2Response
 	 */
 	private function buildNewResponse(Controller $controller, $code, $message) {
-		$format = $this->getFormat($controller);
+		$format = $this->request->getFormat();
+		if ($format === null || !$controller->isResponderRegistered($format)) {
+			$format = 'xml';
+		}
 
 		$data = new DataResponse();
 		$data->setStatus($code);
@@ -140,22 +122,5 @@ class OCSMiddleware extends Middleware {
 		}
 
 		return $response;
-	}
-
-	/**
-	 * @param Controller $controller
-	 * @return string
-	 */
-	private function getFormat(Controller $controller) {
-		// get format from the url format or request format parameter
-		$format = $this->request->getParam('format');
-
-		// if none is given try the first Accept header
-		if ($format === null) {
-			$headers = $this->request->getHeader('Accept');
-			$format = $controller->getResponderByHTTPHeader($headers, 'xml');
-		}
-
-		return $format;
 	}
 }

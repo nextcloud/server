@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitTheming
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Theming\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Theming\\' => 
+        'OCA\\Theming\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -25,6 +25,7 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Theming\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\Theming\\Command\\UpdateConfig' => __DIR__ . '/..' . '/../lib/Command/UpdateConfig.php',
+        'OCA\\Theming\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\Theming\\Controller\\IconController' => __DIR__ . '/..' . '/../lib/Controller/IconController.php',
         'OCA\\Theming\\Controller\\ThemingController' => __DIR__ . '/..' . '/../lib/Controller/ThemingController.php',
         'OCA\\Theming\\Controller\\UserThemeController' => __DIR__ . '/..' . '/../lib/Controller/UserThemeController.php',
@@ -32,9 +33,11 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\IconBuilder' => __DIR__ . '/..' . '/../lib/IconBuilder.php',
         'OCA\\Theming\\ImageManager' => __DIR__ . '/..' . '/../lib/ImageManager.php',
         'OCA\\Theming\\Jobs\\MigrateBackgroundImages' => __DIR__ . '/..' . '/../lib/Jobs/MigrateBackgroundImages.php',
+        'OCA\\Theming\\Jobs\\RestoreBackgroundImageColor' => __DIR__ . '/..' . '/../lib/Jobs/RestoreBackgroundImageColor.php',
         'OCA\\Theming\\Listener\\BeforePreferenceListener' => __DIR__ . '/..' . '/../lib/Listener/BeforePreferenceListener.php',
         'OCA\\Theming\\Listener\\BeforeTemplateRenderedListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeTemplateRenderedListener.php',
         'OCA\\Theming\\Migration\\InitBackgroundImagesMigration' => __DIR__ . '/..' . '/../lib/Migration/InitBackgroundImagesMigration.php',
+        'OCA\\Theming\\Migration\\Version2006Date20240905111627' => __DIR__ . '/..' . '/../lib/Migration/Version2006Date20240905111627.php',
         'OCA\\Theming\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Theming\\Service\\BackgroundService' => __DIR__ . '/..' . '/../lib/Service/BackgroundService.php',
         'OCA\\Theming\\Service\\JSDataService' => __DIR__ . '/..' . '/../lib/Service/JSDataService.php',

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OC\Files\Search\QueryOptimizer;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -10,8 +14,8 @@ class FlattenNestedBool extends QueryOptimizerStep {
 	public function processOperator(ISearchOperator &$operator) {
 		if (
 			$operator instanceof SearchBinaryOperator && (
-				$operator->getType() === ISearchBinaryOperator::OPERATOR_OR ||
-				$operator->getType() === ISearchBinaryOperator::OPERATOR_AND
+				$operator->getType() === ISearchBinaryOperator::OPERATOR_OR
+				|| $operator->getType() === ISearchBinaryOperator::OPERATOR_AND
 			)
 		) {
 			$newArguments = [];

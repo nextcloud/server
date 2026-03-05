@@ -1,54 +1,35 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Greta Doci <gretadoci@gmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
 
 namespace OCP;
 
 /**
- * User session
+ * Interface for managing and querying user session state.
+ *
+ * Provides methods for authenticating users, accessing the active user,
+ * and handling login/logout functionality in a Nextcloud server session.
  * @since 6.0.0
  */
 interface IUserSession {
 	/**
-	 * Do a user login
+	 * Attempts to authenticate the given user and start a session.
 	 *
-	 * @param string $uid the username
-	 * @param string $password the password
-	 * @return bool true if successful
+	 * @param string $uid The user's unique identifier (username).
+	 * @param string $password The user's plain-text password.
+	 * @return bool True on successful login, false otherwise.
 	 * @since 6.0.0
 	 */
 	public function login($uid, $password);
 
 	/**
-	 * Logs the user out including all the session data
-	 * Logout, destroys session
+	 * Logs out the current user and terminates their session.
+	 *
+	 * Clears authentication tokens and user-related session data.
 	 *
 	 * @return void
 	 * @since 6.0.0
@@ -56,48 +37,58 @@ interface IUserSession {
 	public function logout();
 
 	/**
-	 * set the currently active user
+	 * Sets the current active user for this session.
 	 *
-	 * @param \OCP\IUser|null $user
+	 * Pass null to clear the active user and log out any existing session.
+	 *
+	 * @param \OCP\IUser|null $user The user to set as active, or null to unset.
 	 * @since 8.0.0
 	 */
 	public function setUser($user);
 
 	/**
-	 * Temporarily set the currently active user without persisting in the session
+	 * Temporarily sets the active user for this session without persisting it in the session storage.
 	 *
-	 * @param IUser|null $user
+	 * Useful for request-scoped user overrides that do not affect the actual session state.
+	 *
+	 * @param \OCP\IUser|null $user The user to set as active, or null to clear.
 	 * @since 29.0.0
 	 */
 	public function setVolatileActiveUser(?IUser $user): void;
 
 	/**
-	 * get the current active user
+	 * Returns the currently authenticated user for this session, or null if the session has no active user.
 	 *
-	 * @return \OCP\IUser|null Current user, otherwise null
+	 * @return \OCP\IUser|null The active user, or null if the session is anonymous, expired, or in incognito mode.
 	 * @since 8.0.0
 	 */
 	public function getUser();
 
 	/**
-	 * Checks whether the user is logged in
+	 * Checks whether a user is currently logged in for this session.
 	 *
-	 * @return bool if logged in
+	 * @return bool True if a user is authenticated and enabled, false otherwise.
 	 * @since 8.0.0
 	 */
 	public function isLoggedIn();
 
 	/**
-	 * get getImpersonatingUserID
+	 * Returns the user ID of the impersonator if another user is being impersonated.
 	 *
-	 * @return string|null
+	 * @return string|null The impersonating user's ID, or null if not impersonating.
 	 * @since 18.0.0
 	 */
 	public function getImpersonatingUserID(): ?string;
 
 	/**
-	 * set setImpersonatingUserID
+	 * Sets or clears the impersonator's user ID in the current session.
 	 *
+	 * Note: This does not initiate impersonation, but only records the identity of the impersonator in the session.
+	 *
+	 * If $useCurrentUser is true (default), records the current user's ID as the impersonator.
+	 * If false, removes any impersonator information from the session.
+	 *
+	 * @param bool $useCurrentUser Whether to assign the current user as the impersonator or to clear it.
 	 * @since 18.0.0
 	 */
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void;

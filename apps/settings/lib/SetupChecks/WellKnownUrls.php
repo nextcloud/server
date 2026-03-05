@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Settings\SetupChecks;
@@ -31,6 +13,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\SetupCheck\CheckServerResponseTrait;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 use Psr\Log\LoggerInterface;
@@ -62,15 +45,16 @@ class WellKnownUrls implements ISetupCheck {
 		}
 
 		$urls = [
-			['get', '/.well-known/webfinger', [200, 404], true],
+			['get', '/.well-known/webfinger', [200, 400, 404], true], // 400 indicates a handler is installed but (correctly) failed because we didn't specify a resource
 			['get', '/.well-known/nodeinfo', [200, 404], true],
 			['propfind', '/.well-known/caldav', [207], false],
 			['propfind', '/.well-known/carddav', [207], false],
 		];
 
+		$requestOptions = ['httpErrors' => false, 'options' => ['allow_redirects' => ['track_redirects' => true]]];
 		foreach ($urls as [$verb,$url,$validStatuses,$checkCustomHeader]) {
 			$works = null;
-			foreach ($this->runRequest($verb, $url, ['httpErrors' => false, 'options' => ['allow_redirects' => ['track_redirects' => true]]]) as $response) {
+			foreach ($this->runRequest($verb, $url, $requestOptions, isRootRequest: true) as $response) {
 				// Check that the response status matches
 				$works = in_array($response->getStatusCode(), $validStatuses);
 				// and (if needed) the custom Nextcloud header is set
@@ -81,7 +65,7 @@ class WellKnownUrls implements ISetupCheck {
 					if (!$works && $response->getStatusCode() === 401) {
 						$redirectHops = explode(',', $response->getHeader('X-Guzzle-Redirect-History'));
 						$effectiveUri = end($redirectHops);
-						$works = str_ends_with($effectiveUri, '/remote.php/dav/');
+						$works = str_ends_with(rtrim($effectiveUri, '/'), '/remote.php/dav');
 					}
 				}
 				// Skip the other requests if one works

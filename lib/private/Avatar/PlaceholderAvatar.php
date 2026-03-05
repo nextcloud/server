@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, Michael Weimann <mail@michael-weimann.eu>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Avatar;
 
@@ -32,7 +14,9 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IConfig;
 use OCP\IImage;
+use OCP\PreConditionNotMetException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -45,9 +29,10 @@ class PlaceholderAvatar extends Avatar {
 	public function __construct(
 		private ISimpleFolder $folder,
 		private User $user,
+		IConfig $config,
 		LoggerInterface $logger,
 	) {
-		parent::__construct($logger);
+		parent::__construct($config, $logger);
 	}
 
 	/**
@@ -86,8 +71,8 @@ class PlaceholderAvatar extends Avatar {
 	 * If there is no avatar file yet, one is generated.
 	 *
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws NotPermittedException
+	 * @throws PreConditionNotMetException
 	 */
 	public function getFile(int $size, bool $darkTheme = false): ISimpleFile {
 		$ext = 'png';
@@ -105,8 +90,9 @@ class PlaceholderAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 
-			if (!$data = $this->generateAvatarFromSvg($size, $darkTheme)) {
-				$data = $this->generateAvatar($this->getDisplayName(), $size, $darkTheme);
+			$userDisplayName = $this->getDisplayName();
+			if (!$data = $this->generateAvatarFromSvg($userDisplayName, $size, $darkTheme)) {
+				$data = $this->generateAvatar($userDisplayName, $size, $darkTheme);
 			}
 
 			try {
@@ -135,7 +121,7 @@ class PlaceholderAvatar extends Avatar {
 	 * @param mixed $oldValue The previous value
 	 * @param mixed $newValue The new value
 	 * @throws NotPermittedException
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function userChanged(string $feature, $oldValue, $newValue): void {
 		$this->remove();

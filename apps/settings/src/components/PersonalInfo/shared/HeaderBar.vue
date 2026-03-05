@@ -1,28 +1,11 @@
 <!--
-	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license GNU AGPL version 3 or any later version
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
 	<div class="headerbar-label" :class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
-		<h3 v-if="isHeading">
+		<h3 v-if="isHeading" class="headerbar__heading">
 			<!-- Already translated as required by prop validator -->
 			{{ readable }}
 		</h3>
@@ -32,14 +15,16 @@
 		</label>
 
 		<template v-if="scope">
-			<FederationControl class="federation-control"
+			<FederationControl
+				class="federation-control"
 				:readable="readable"
 				:scope.sync="localScope"
 				@update:scope="onScopeChange" />
 		</template>
 
 		<template v-if="isEditable && isMultiValueSupported">
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:disabled="!isValidSection"
 				:aria-label="t('settings', 'Add additional email')"
 				@click.stop.prevent="onAddAdditional">
@@ -53,11 +38,9 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import Plus from 'vue-material-design-icons/Plus.vue'
-
 import FederationControl from './FederationControl.vue'
-
 import {
 	ACCOUNT_PROPERTY_READABLE_ENUM,
 	PROFILE_READABLE_ENUM,
@@ -77,26 +60,32 @@ export default {
 			type: String,
 			default: null,
 		},
+
 		readable: {
 			type: String,
 			required: true,
 		},
+
 		inputId: {
 			type: String,
 			default: null,
 		},
+
 		isEditable: {
 			type: Boolean,
 			default: true,
 		},
+
 		isMultiValueSupported: {
 			type: Boolean,
 			default: false,
 		},
+
 		isValidSection: {
 			type: Boolean,
 			default: true,
 		},
+
 		isHeading: {
 			type: Boolean,
 			default: false,
@@ -133,21 +122,21 @@ export default {
 
 <style lang="scss" scoped>
 	.headerbar-label {
-		font-weight: normal;
-		display: inline-flex;
-		width: 100%;
-		margin: 12px 0 0 0;
-		gap: 8px;
 		align-items: center;
+		color: var(--color-main-text);
+		display: inline-flex;
 		font-size: 16px;
-		color: var(--color-text-light);
+		font-weight: normal;
+		gap: 8px;
+		margin: 12px 0 0 0;
+		width: 100%;
 
 		&.profile-property {
 			height: 38px;
 		}
 
 		&.setting-property {
-			height: 44px;
+			height: 34px;
 		}
 
 		label {
@@ -155,11 +144,16 @@ export default {
 		}
 	}
 
+	.headerbar__heading {
+		margin: 0;
+	}
+
 	.federation-control {
 		margin: 0;
 	}
 
 	.button-vue  {
-		margin: 0 0 0 auto !important;
+		margin: 0 !important;
+		margin-inline-start: auto !important;
 	}
 </style>

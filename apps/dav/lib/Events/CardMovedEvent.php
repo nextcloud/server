@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023, Thomas Citharel <nextcloud@tcit.fr>
- *
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Events;
 
@@ -34,32 +17,19 @@ use OCP\EventDispatcher\Event;
  * @since 27.0.0
  */
 class CardMovedEvent extends Event {
-	private int $sourceAddressBookId;
-	private array $sourceAddressBookData;
-	private int $targetAddressBookId;
-	private array $targetAddressBookData;
-	private array $sourceShares;
-	private array $targetShares;
-	private array $objectData;
-
 	/**
 	 * @since 27.0.0
 	 */
-	public function __construct(int $sourceAddressBookId,
-		array $sourceAddressBookData,
-		int $targetAddressBookId,
-		array $targetAddressBookData,
-		array $sourceShares,
-		array $targetShares,
-		array $objectData) {
+	public function __construct(
+		private int $sourceAddressBookId,
+		private array $sourceAddressBookData,
+		private int $targetAddressBookId,
+		private array $targetAddressBookData,
+		private array $sourceShares,
+		private array $targetShares,
+		private array $objectData,
+	) {
 		parent::__construct();
-		$this->sourceAddressBookId = $sourceAddressBookId;
-		$this->sourceAddressBookData = $sourceAddressBookData;
-		$this->targetAddressBookId = $targetAddressBookId;
-		$this->targetAddressBookData = $targetAddressBookData;
-		$this->sourceShares = $sourceShares;
-		$this->targetShares = $targetShares;
-		$this->objectData = $objectData;
 	}
 
 	/**

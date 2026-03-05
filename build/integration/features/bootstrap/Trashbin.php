@@ -1,31 +1,14 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017, ownCloud GmbH.
- *
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-use DMS\PHPUnitExtensions\ArraySubset\Assert as AssertArraySubset;
+
 use PHPUnit\Framework\Assert;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 /**
  * Trashbin functions
@@ -114,8 +97,8 @@ trait Trashbin {
 			$elementsSimplified = $this->simplifyArray($elementRows);
 			foreach ($elementsSimplified as $expectedElement) {
 				$expectedElement = ltrim($expectedElement, '/');
-				if (array_search($expectedElement, $trashContent) === false) {
-					Assert::fail("$expectedElement" . " is not in trash listing");
+				if (array_search($expectedElement, $trashContent, true) === false) {
+					Assert::fail("$expectedElement" . ' is not in trash listing');
 				}
 			}
 		}
@@ -138,7 +121,9 @@ trait Trashbin {
 			return $item['{http://nextcloud.org/ns}trashbin-filename'];
 		}, $elementList));
 
-		AssertArraySubset::assertArraySubset([$name], array_values($trashContent));
+		if (array_search($name, array_values($trashContent), true) === false) {
+			Assert::fail("$name" . ' is not in trash listing');
+		}
 	}
 
 	/**

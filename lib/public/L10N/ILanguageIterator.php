@@ -1,24 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\L10N;
 
@@ -37,7 +21,7 @@ namespace OCP\L10N;
  * if settings are not present or truncating is not applicable, the iterator
  * skips to the next valid item itself
  *
- *
+ * @template-extends \Iterator<int, string>
  * @since 14.0.0
  */
 interface ILanguageIterator extends \Iterator {
@@ -52,22 +36,20 @@ interface ILanguageIterator extends \Iterator {
 	 * Move forward to next element
 	 *
 	 * @since 14.0.0
-	 * @return void
 	 */
-	#[\ReturnTypeWillChange]
-	public function next();
+	public function next(): void;
 
 	/**
 	 * Return the key of the current element
 	 *
 	 * @since 14.0.0
 	 */
-	public function key():int;
+	public function key(): int;
 
 	/**
 	 * Checks if current position is valid
 	 *
 	 * @since 14.0.0
 	 */
-	public function valid():bool;
+	public function valid(): bool;
 }

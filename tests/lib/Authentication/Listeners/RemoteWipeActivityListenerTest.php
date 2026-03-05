@@ -3,24 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Authentication\Events;
@@ -59,7 +43,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		);
 	}
 
-	public function testHandleUnrelated() {
+	public function testHandleUnrelated(): void {
 		$event = new Event();
 
 		$this->listener->handle($event);
@@ -67,7 +51,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testHandleRemoteWipeStarted() {
+	public function testHandleRemoteWipeStarted(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
@@ -103,7 +87,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeStartedCanNotPublish() {
+	public function testHandleRemoteWipeStartedCanNotPublish(): void {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
 		$this->activityManager->expects($this->once())
@@ -115,7 +99,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeFinished() {
+	public function testHandleRemoteWipeFinished(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);

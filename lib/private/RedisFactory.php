@@ -1,55 +1,27 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Alejandro Varela <epma01@gmail.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
 use OCP\Diagnostics\IEventLogger;
 
 class RedisFactory {
-	public const REDIS_MINIMAL_VERSION = '3.1.3';
+	public const REDIS_MINIMAL_VERSION = '4.0.0';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
 
-	/** @var  \Redis|\RedisCluster */
-	private $instance;
+	private \Redis|\RedisCluster|null $instance = null;
 
-	private SystemConfig $config;
-
-	private IEventLogger $eventLogger;
-
-	/**
-	 * RedisFactory constructor.
-	 *
-	 * @param SystemConfig $config
-	 */
-	public function __construct(SystemConfig $config, IEventLogger $eventLogger) {
-		$this->config = $config;
-		$this->eventLogger = $eventLogger;
+	public function __construct(
+		private SystemConfig $config,
+		private IEventLogger $eventLogger,
+	) {
 	}
 
-	private function create() {
+	private function create(): void {
 		$isCluster = in_array('redis.cluster', $this->config->getKeys(), true);
 		$config = $isCluster
 			? $this->config->getValue('redis.cluster', [])
@@ -74,6 +46,7 @@ class RedisFactory {
 		// # TLS support
 		// # https://github.com/phpredis/phpredis/issues/1600
 		$connectionParameters = $this->getSslContext($config);
+		$persistent = $this->config->getValue('redis.persistent', true);
 
 		// cluster config
 		if ($isCluster) {
@@ -83,9 +56,9 @@ class RedisFactory {
 
 			// Support for older phpredis versions not supporting connectionParameters
 			if ($connectionParameters !== null) {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, true, $auth, $connectionParameters);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, $persistent, $auth, $connectionParameters);
 			} else {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, true, $auth);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, $persistent, $auth);
 			}
 
 			if (isset($config['failover_mode'])) {
@@ -95,7 +68,7 @@ class RedisFactory {
 			$this->instance = new \Redis();
 
 			$host = $config['host'] ?? '127.0.0.1';
-			$port = $config['port'] ?? ($host[0] !== '/' ? 6379 : null);
+			$port = $config['port'] ?? ($host[0] !== '/' ? 6379 : 0);
 
 			$this->eventLogger->start('connect:redis', 'Connect to redis and send AUTH, SELECT');
 			// Support for older phpredis versions not supporting connectionParameters
@@ -104,17 +77,25 @@ class RedisFactory {
 				$connectionParameters = [
 					'stream' => $this->getSslContext($config)
 				];
-				/**
-				 * even though the stubs and documentation don't want you to know this,
-				 * pconnect does have the same $connectionParameters argument connect has
-				 *
-				 * https://github.com/phpredis/phpredis/blob/0264de1824b03fb2d0ad515b4d4ec019cd2dae70/redis.c#L710-L730
-				 *
-				 * @psalm-suppress TooManyArguments
-				 */
-				$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+				if ($persistent) {
+					/**
+					 * even though the stubs and documentation don't want you to know this,
+					 * pconnect does have the same $connectionParameters argument connect has
+					 *
+					 * https://github.com/phpredis/phpredis/blob/0264de1824b03fb2d0ad515b4d4ec019cd2dae70/redis.c#L710-L730
+					 *
+					 * @psalm-suppress TooManyArguments
+					 */
+					$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+				} else {
+					$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+				}
 			} else {
-				$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout);
+				if ($persistent) {
+					$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout);
+				} else {
+					$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout);
+				}
 			}
 
 
@@ -134,10 +115,9 @@ class RedisFactory {
 	 * Get the ssl context config
 	 *
 	 * @param array $config the current config
-	 * @return array|null
 	 * @throws \UnexpectedValueException
 	 */
-	private function getSslContext($config) {
+	private function getSslContext(array $config): ?array {
 		if (isset($config['ssl_context'])) {
 			if (!$this->isConnectionParametersSupported()) {
 				throw new \UnexpectedValueException(\sprintf(
@@ -150,20 +130,24 @@ class RedisFactory {
 		return null;
 	}
 
-	public function getInstance() {
+	public function getInstance(): \Redis|\RedisCluster {
 		if (!$this->isAvailable()) {
 			throw new \Exception('Redis support is not available');
 		}
-		if (!$this->instance instanceof \Redis) {
+		if ($this->instance === null) {
 			$this->create();
+		}
+
+		if ($this->instance === null) {
+			throw new \Exception('Redis support is not available');
 		}
 
 		return $this->instance;
 	}
 
 	public function isAvailable(): bool {
-		return \extension_loaded('redis') &&
-			\version_compare(\phpversion('redis'), self::REDIS_MINIMAL_VERSION, '>=');
+		return \extension_loaded('redis')
+			&& \version_compare(\phpversion('redis'), self::REDIS_MINIMAL_VERSION, '>=');
 	}
 
 	/**
@@ -173,7 +157,7 @@ class RedisFactory {
 	 * @return boolean
 	 */
 	private function isConnectionParametersSupported(): bool {
-		return \extension_loaded('redis') &&
-			\version_compare(\phpversion('redis'), self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
+		return \extension_loaded('redis')
+			&& \version_compare(\phpversion('redis'), self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
 	}
 }

@@ -1,27 +1,16 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Crypto;
 
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
@@ -32,52 +21,19 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 class DecryptAll {
-
-	/** @var Util  */
-	protected $util;
-
-	/** @var QuestionHelper  */
-	protected $questionHelper;
-
-	/** @var  Crypt */
-	protected $crypt;
-
-	/** @var  KeyManager */
-	protected $keyManager;
-
-	/** @var Session  */
-	protected $session;
-
-	/**
-	 * @param Util $util
-	 * @param KeyManager $keyManager
-	 * @param Crypt $crypt
-	 * @param Session $session
-	 * @param QuestionHelper $questionHelper
-	 */
 	public function __construct(
-		Util $util,
-		KeyManager $keyManager,
-		Crypt $crypt,
-		Session $session,
-		QuestionHelper $questionHelper
+		protected Util $util,
+		protected KeyManager $keyManager,
+		protected Crypt $crypt,
+		protected Session $session,
+		protected QuestionHelper $questionHelper,
 	) {
-		$this->util = $util;
-		$this->keyManager = $keyManager;
-		$this->crypt = $crypt;
-		$this->session = $session;
-		$this->questionHelper = $questionHelper;
 	}
 
 	/**
 	 * prepare encryption module to decrypt all files
-	 *
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @param $user
-	 * @return bool
 	 */
-	public function prepare(InputInterface $input, OutputInterface $output, $user) {
+	public function prepare(InputInterface $input, OutputInterface $output, ?string $user): bool {
 		$question = new Question('Please enter the recovery key password: ');
 
 		if ($this->util->isMasterKeyEnabled()) {
@@ -86,9 +42,9 @@ class DecryptAll {
 			$password = $this->keyManager->getMasterKeyPassword();
 		} else {
 			$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
-			if (!empty($user)) {
+			if ($user !== null && $user !== '') {
 				$output->writeln('You can only decrypt the users files if you know');
-				$output->writeln('the users password or if he activated the recovery key.');
+				$output->writeln('the users password or if they activated the recovery key.');
 				$output->writeln('');
 				$questionUseLoginPassword = new ConfirmationQuestion(
 					'Do you want to use the users login password to decrypt all files? (y/n) ',
@@ -130,12 +86,9 @@ class DecryptAll {
 	/**
 	 * get the private key which will be used to decrypt all files
 	 *
-	 * @param string $user
-	 * @param string $password
-	 * @return bool|string
-	 * @throws \OCA\Encryption\Exceptions\PrivateKeyMissingException
+	 * @throws PrivateKeyMissingException
 	 */
-	protected function getPrivateKey($user, $password) {
+	protected function getPrivateKey(string $user, string $password): string|false {
 		$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
 		$masterKeyId = $this->keyManager->getMasterKeyId();
 		if ($user === $recoveryKeyId) {
@@ -152,7 +105,7 @@ class DecryptAll {
 		return $privateKey;
 	}
 
-	protected function updateSession($user, $privateKey) {
+	protected function updateSession(string $user, string $privateKey): void {
 		$this->session->prepareDecryptAll($user, $privateKey);
 	}
 }

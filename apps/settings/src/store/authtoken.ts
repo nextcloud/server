@@ -1,38 +1,24 @@
+import axios from '@nextcloud/axios'
 /**
- * @copyright 2023 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import { confirmPassword } from '@nextcloud/password-confirmation'
+import { addPasswordConfirmationInterceptors, confirmPassword, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-
-import axios from '@nextcloud/axios'
-import logger from '../logger'
+import logger from '../logger.ts'
 
 const BASE_URL = generateUrl('/settings/personal/authtokens')
+addPasswordConfirmationInterceptors(axios)
 
-const confirm = () => {
-	return new Promise(resolve => {
+/**
+ *
+ */
+function confirm() {
+	return new Promise((resolve) => {
 		window.OC.dialogs.confirm(
 			t('settings', 'Do you really want to wipe your data from this device?'),
 			t('settings', 'Confirm wipe'),
@@ -46,6 +32,7 @@ export enum TokenType {
 	TEMPORARY_TOKEN = 0,
 	PERMANENT_TOKEN = 1,
 	WIPING_TOKEN = 2,
+	ONETIME_TOKEN = 3,
 }
 
 export interface IToken {
@@ -86,6 +73,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 	actions: {
 		/**
 		 * Update a token on server
+		 *
 		 * @param token Token to update
 		 */
 		async updateToken(token: IToken) {
@@ -95,25 +83,26 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 		/**
 		 * Add a new token
+		 *
 		 * @param name The token name
 		 */
 		async addToken(name: string) {
 			logger.debug('Creating a new app token')
 
 			try {
-				await confirmPassword()
+				const { data } = await axios.post<ITokenResponse>(BASE_URL, { name, oneTime: true }, { confirmPassword: PwdConfirmationMode.Strict })
 
-				const { data } = await axios.post<ITokenResponse>(BASE_URL, { name })
 				this.tokens.push(data.deviceToken)
 				logger.debug('App token created')
 				return data
-			} catch (error) {
+			} catch {
 				return null
 			}
 		},
 
 		/**
 		 * Delete a given app token
+		 *
 		 * @param token Token to delete
 		 */
 		async deleteToken(token: IToken) {
@@ -136,6 +125,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 		/**
 		 * Wipe a token and the connected device
+		 *
 		 * @param token Token to wipe
 		 */
 		async wipeToken(token: IToken) {
@@ -164,6 +154,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 		/**
 		 * Rename an existing token
+		 *
 		 * @param token The token to rename
 		 * @param newName The new name to set
 		 */
@@ -188,6 +179,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 		/**
 		 * Set scope of the token
+		 *
 		 * @param token Token to set scope
 		 * @param scope scope to set
 		 * @param value value to set

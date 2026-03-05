@@ -10,7 +10,6 @@
   <IfModule mod_env.c>
     # Add security and privacy related headers
     Header set X-Content-Type-Options "nosniff"
-    Header set X-XSS-Protection "1; mode=block"
     Header set X-Robots-Tag "noindex, nofollow"
     Header set X-Frame-Options "SAMEORIGIN"
     SetEnv modHeadersAvailable true
@@ -25,7 +24,6 @@
 php_value upload_max_filesize 513M
 php_value post_max_size 513M
 php_value memory_limit 512M
-php_value mbstring.func_overload 0
 php_value always_populate_raw_post_data -1
 php_value default_charset 'UTF-8'
 php_value output_buffering off

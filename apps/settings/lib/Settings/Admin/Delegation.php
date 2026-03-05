@@ -1,26 +1,9 @@
 <?php
-/**
- * @copyright Copyright (c) 2021 Carl Schwan <carl@carlschwan.eu>
- *
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
- *
- */
 
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OCA\Settings\Settings\Admin;
 
 use OCA\Settings\AppInfo\Application;
@@ -34,24 +17,13 @@ use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
 
 class Delegation implements ISettings {
-	private IManager $settingManager;
-	private IInitialState $initialStateService;
-	private IGroupManager $groupManager;
-	private AuthorizedGroupService $authorizedGroupService;
-	private IURLGenerator $urlGenerator;
-
 	public function __construct(
-		IManager $settingManager,
-		IInitialState $initialStateService,
-		IGroupManager $groupManager,
-		AuthorizedGroupService $authorizedGroupService,
-		IURLGenerator $urlGenerator
+		private IManager $settingManager,
+		private IInitialState $initialStateService,
+		private IGroupManager $groupManager,
+		private AuthorizedGroupService $authorizedGroupService,
+		private IURLGenerator $urlGenerator,
 	) {
-		$this->settingManager = $settingManager;
-		$this->initialStateService = $initialStateService;
-		$this->groupManager = $groupManager;
-		$this->authorizedGroupService = $authorizedGroupService;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -73,32 +45,19 @@ class Delegation implements ISettings {
 
 	private function initSettingState(): void {
 		// Available settings page initialization
-		$sections = $this->settingManager->getAdminSections();
+		$delegatedSettings = $this->settingManager->getAdminDelegatedSettings();
 		$settings = [];
-		foreach ($sections as $sectionPriority) {
-			foreach ($sectionPriority as $section) {
-				$sectionSettings = $this->settingManager->getAdminSettings($section->getId());
-				$sectionSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
-				$settings = array_merge(
-					$settings,
-					array_map(function (IDelegatedSettings $setting) use ($section) {
-						$sectionName = $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : '');
-						return [
-							'class' => get_class($setting),
-							'sectionName' => $sectionName,
-							'id' => mb_strtolower(str_replace(' ', '-', $sectionName)),
-							'priority' => $section->getPriority(),
-						];
-					}, $sectionSettings)
-				);
+		foreach ($delegatedSettings as ['section' => $section, 'settings' => $sectionSettings]) {
+			foreach ($sectionSettings as $setting) {
+				$sectionName = $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : '');
+				$settings[] = [
+					'class' => get_class($setting),
+					'sectionName' => $sectionName,
+					'id' => mb_strtolower(str_replace(' ', '-', $sectionName)),
+					'priority' => $section->getPriority(),
+				];
 			}
 		}
-		usort($settings, function (array $a, array $b) {
-			if ($a['priority'] == $b['priority']) {
-				return 0;
-			}
-			return ($a['priority'] < $b['priority']) ? -1 : 1;
-		});
 		$this->initialStateService->provideInitialState('available-settings', $settings);
 	}
 

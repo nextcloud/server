@@ -1,29 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Migration;
 
@@ -31,13 +11,20 @@ use Closure;
 use OCP\DB\ISchemaWrapper;
 
 /**
+ * This interface represents a database migration step.
+ *
+ * To implement a migration step, you must extend \OCP\Migration\SimpleMigrationStep
+ *
+ * You should additionally add some attributes found in the
+ * \OCP\Migration\Attributes namespace to the migration, to describe the change
+ * that will be done by the migration step to the admin.
+ *
  * @since 13.0.0
  */
 interface IMigrationStep {
 	/**
 	 * Human-readable name of the migration step
 	 *
-	 * @return string
 	 * @since 14.0.0
 	 */
 	public function name(): string;
@@ -45,35 +32,28 @@ interface IMigrationStep {
 	/**
 	 * Human-readable description of the migration step
 	 *
-	 * @return string
 	 * @since 14.0.0
 	 */
 	public function description(): string;
 
 	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
-	 * @param array $options
+	 * @param Closure():ISchemaWrapper $schemaClosure
+	 * @param array{tablePrefix?: string} $options
 	 * @since 13.0.0
 	 */
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options);
 
 	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
-	 * @param array $options
+	 * @param Closure():ISchemaWrapper $schemaClosure
+	 * @param array{tablePrefix?: string} $options
 	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options);
 
 	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
-	 * @param array $options
+	 * @param Closure():ISchemaWrapper $schemaClosure
+	 * @param array{tablePrefix?: string} $options
 	 * @since 13.0.0
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options);

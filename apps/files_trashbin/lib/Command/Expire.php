@@ -1,60 +1,55 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Trashbin\Command;
 
 use OC\Command\FileAccess;
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Command\ICommand;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\IUserManager;
+use OCP\Server;
+use Override;
+use Psr\Log\LoggerInterface;
 
 class Expire implements ICommand {
 	use FileAccess;
 
-	/**
-	 * @var string
-	 */
-	private $user;
-
-	/**
-	 * @param string $user
-	 */
-	public function __construct($user) {
-		$this->user = $user;
+	public function __construct(
+		private readonly string $userId,
+	) {
 	}
 
-	public function handle() {
-		$userManager = \OC::$server->getUserManager();
-		if (!$userManager->userExists($this->user)) {
+	#[Override]
+	public function handle(): void {
+		// can't use DI because Expire needs to be serializable
+		$userManager = Server::get(IUserManager::class);
+		$user = $userManager->get($this->userId);
+		if (!$user) {
 			// User has been deleted already
 			return;
 		}
 
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($this->user);
-		Trashbin::expire($this->user);
-		\OC_Util::tearDownFS();
+		try {
+			$setupManager = Server::get(SetupManager::class);
+			$setupManager->tearDown();
+			$setupManager->setupForUser($user);
+
+			$trashRoot = Server::get(IRootFolder::class)->getUserFolder($user->getUID())->getParent()->get('files_trashbin');
+			if (!$trashRoot instanceof Folder) {
+				throw new \LogicException("Didn't expect files_trashbin to be a file instead of a folder");
+			}
+			Trashbin::expire($trashRoot, $user);
+		} catch (\Exception $e) {
+			Server::get(LoggerInterface::class)->error('Error while expiring trashbin for user ' . $user->getUID(), ['exception' => $e]);
+		} finally {
+			$setupManager->tearDown();
+		}
 	}
 }

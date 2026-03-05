@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\UserStatus\Tests\Dashboard;
 
@@ -35,33 +16,18 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UserStatusWidgetTest extends TestCase {
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-
-	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
-	private $dateTimeFormatter;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
-	private $initialState;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-
-	/** @var StatusService|\PHPUnit\Framework\MockObject\MockObject */
-	private $service;
-
-	/** @var UserStatusWidget */
-	private $widget;
+	private IL10N&MockObject $l10n;
+	private IDateTimeFormatter&MockObject $dateTimeFormatter;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IInitialState&MockObject $initialState;
+	private IUserManager&MockObject $userManager;
+	private IUserSession&MockObject $userSession;
+	private StatusService&MockObject $service;
+	private UserStatusWidget $widget;
 
 	protected function setUp(): void {
 		parent::setUp();

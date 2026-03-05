@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Rello <Rello@users.noreply.github.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Type;
 
@@ -38,8 +21,6 @@ use OCP\IDBConnection;
 class Loader implements IMimeTypeLoader {
 	use TTransactional;
 
-	private IDBConnection $dbConnection;
-
 	/** @psalm-var array<int, string> */
 	protected array $mimetypes;
 
@@ -49,8 +30,9 @@ class Loader implements IMimeTypeLoader {
 	/**
 	 * @param IDBConnection $dbConnection
 	 */
-	public function __construct(IDBConnection $dbConnection) {
-		$this->dbConnection = $dbConnection;
+	public function __construct(
+		private IDBConnection $dbConnection,
+	) {
 		$this->mimetypes = [];
 		$this->mimetypeIds = [];
 	}
@@ -132,7 +114,7 @@ class Loader implements IMimeTypeLoader {
 				throw new \Exception("Database threw an unique constraint on inserting a new mimetype, but couldn't return the ID for this very mimetype");
 			}
 
-			$mimetypeId = (int) $id;
+			$mimetypeId = (int)$id;
 		}
 
 		$this->mimetypes[$mimetypeId] = $mimetype;
@@ -153,8 +135,8 @@ class Loader implements IMimeTypeLoader {
 		$result->closeCursor();
 
 		foreach ($results as $row) {
-			$this->mimetypes[(int) $row['id']] = $row['mimetype'];
-			$this->mimetypeIds[$row['mimetype']] = (int) $row['id'];
+			$this->mimetypes[(int)$row['id']] = $row['mimetype'];
+			$this->mimetypeIds[$row['mimetype']] = (int)$row['id'];
 		}
 	}
 
@@ -178,6 +160,6 @@ class Loader implements IMimeTypeLoader {
 				$update->func()->lower('name'),
 				$update->createNamedParameter('%' . $this->dbConnection->escapeLikeParameter('.' . $ext))
 			));
-		return $update->execute();
+		return $update->executeStatement();
 	}
 }

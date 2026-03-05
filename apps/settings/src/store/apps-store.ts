@@ -1,37 +1,18 @@
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { IAppstoreApp, IAppstoreCategory } from '../app-types.ts'
 
+import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-
-import axios from '@nextcloud/axios'
-
-import logger from '../logger'
 import APPSTORE_CATEGORY_ICONS from '../constants/AppstoreCategoryIcons.ts'
+import logger from '../logger.ts'
 
 const showApiError = () => showError(t('settings', 'An error occurred during the request. Unable to proceed.'))
 
@@ -97,8 +78,15 @@ export const useAppsStore = defineStore('settings-apps', {
 			return this.categories.find(({ id }) => id === categoryId) ?? null
 		},
 
-		getAppById(appId: string): IAppstoreApp|null {
+		getAppById(appId: string): IAppstoreApp | null {
 			return this.apps.find(({ id }) => id === appId) ?? null
+		},
+
+		updateAppGroups(appId: string, groups: string[]) {
+			const app = this.apps.find(({ id }) => id === appId)
+			if (app) {
+				app.groups = [...groups]
+			}
 		},
 	},
 })

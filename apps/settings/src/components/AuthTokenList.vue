@@ -1,24 +1,7 @@
 <!--
-  - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
-  -
-  - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
-  - @author Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<table id="app-tokens-table" class="token-list">
@@ -38,7 +21,8 @@
 			</tr>
 		</thead>
 		<tbody class="token-list__body">
-			<AuthToken v-for="token in sortedTokens"
+			<AuthToken
+				v-for="token in sortedTokens"
 				:key="token.id"
 				:token="token" />
 		</tbody>
@@ -48,24 +32,28 @@
 <script lang="ts">
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-import { useAuthTokenStore } from '../store/authtoken'
-
 import AuthToken from './AuthToken.vue'
+import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 
 export default defineComponent({
 	name: 'AuthTokenList',
 	components: {
 		AuthToken,
 	},
+
 	setup() {
 		const authTokenStore = useAuthTokenStore()
 		return { authTokenStore }
 	},
+
 	computed: {
 		sortedTokens() {
-			return [...this.authTokenStore.tokens].sort((t1, t2) => t2.lastActivity - t1.lastActivity)
+			return [...this.authTokenStore.tokens]
+				.filter((t) => t.type !== TokenType.ONETIME_TOKEN)
+				.sort((t1, t2) => t2.lastActivity - t1.lastActivity)
 		},
 	},
+
 	methods: {
 		t,
 	},

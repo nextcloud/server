@@ -1,48 +1,32 @@
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import {
-	mdiAccount,
-	mdiAccountMultiple,
-	mdiArchive,
+	mdiAccountMultipleOutline,
+	mdiAccountOutline,
+	mdiArchiveOutline,
 	mdiCheck,
-	mdiClipboardFlow,
+	mdiClipboardFlowOutline,
 	mdiClose,
-	mdiCog,
-	mdiControllerClassic,
+	mdiCogOutline,
+	mdiControllerClassicOutline,
+	mdiCreationOutline,
 	mdiDownload,
 	mdiFileDocumentEdit,
 	mdiFolder,
-	mdiKey,
+	mdiKeyOutline,
 	mdiMagnify,
 	mdiMonitorEye,
 	mdiMultimedia,
-	mdiOfficeBuilding,
+	mdiOfficeBuildingOutline,
 	mdiOpenInApp,
 	mdiSecurity,
 	mdiStar,
 	mdiStarCircleOutline,
-	mdiStarShooting,
+	mdiStarShootingOutline,
 	mdiTools,
-	mdiViewDashboard,
+	mdiViewColumnOutline,
 } from '@mdi/js'
 
 /**
@@ -51,28 +35,29 @@ import {
 export default Object.freeze({
 	// system special categories
 	discover: mdiStarCircleOutline,
-	installed: mdiAccount,
+	installed: mdiAccountOutline,
 	enabled: mdiCheck,
 	disabled: mdiClose,
-	bundles: mdiArchive,
-	supported: mdiStarShooting,
+	bundles: mdiArchiveOutline,
+	supported: mdiStarShootingOutline,
 	featured: mdiStar,
 	updates: mdiDownload,
 
-	// generic categories
-	auth: mdiKey,
-	customization: mdiCog,
-	dashboard: mdiViewDashboard,
+	// generic category
+	ai: mdiCreationOutline,
+	auth: mdiKeyOutline,
+	customization: mdiCogOutline,
+	dashboard: mdiViewColumnOutline,
 	files: mdiFolder,
-	games: mdiControllerClassic,
+	games: mdiControllerClassicOutline,
 	integration: mdiOpenInApp,
 	monitoring: mdiMonitorEye,
 	multimedia: mdiMultimedia,
 	office: mdiFileDocumentEdit,
-	organization: mdiOfficeBuilding,
+	organization: mdiOfficeBuildingOutline,
 	search: mdiMagnify,
 	security: mdiSecurity,
-	social: mdiAccountMultiple,
+	social: mdiAccountMultipleOutline,
 	tools: mdiTools,
-	workflow: mdiClipboardFlow,
+	workflow: mdiClipboardFlowOutline,
 })

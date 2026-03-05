@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption;
 
@@ -39,26 +20,6 @@ class Recovery {
 	 * @var null|IUser
 	 */
 	protected $user;
-	/**
-	 * @var Crypt
-	 */
-	protected $crypt;
-	/**
-	 * @var KeyManager
-	 */
-	private $keyManager;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var View
-	 */
-	private $view;
-	/**
-	 * @var IFile
-	 */
-	private $file;
 
 	/**
 	 * @param IUserSession $userSession
@@ -68,18 +29,15 @@ class Recovery {
 	 * @param IFile $file
 	 * @param View $view
 	 */
-	public function __construct(IUserSession $userSession,
-		Crypt $crypt,
-		KeyManager $keyManager,
-		IConfig $config,
-		IFile $file,
-		View $view) {
+	public function __construct(
+		IUserSession $userSession,
+		protected Crypt $crypt,
+		private KeyManager $keyManager,
+		private IConfig $config,
+		private IFile $file,
+		private View $view,
+	) {
 		$this->user = ($userSession->isLoggedIn()) ? $userSession->getUser() : null;
-		$this->crypt = $crypt;
-		$this->keyManager = $keyManager;
-		$this->config = $config;
-		$this->view = $view;
-		$this->file = $file;
 	}
 
 	/**
@@ -109,12 +67,8 @@ class Recovery {
 
 	/**
 	 * change recovery key id
-	 *
-	 * @param string $newPassword
-	 * @param string $oldPassword
-	 * @return bool
 	 */
-	public function changeRecoveryKeyPassword($newPassword, $oldPassword) {
+	public function changeRecoveryKeyPassword(string $newPassword, string $oldPassword): bool {
 		$recoveryKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
 		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $oldPassword);
 		if ($decryptedRecoveryKey === false) {
@@ -122,7 +76,7 @@ class Recovery {
 		}
 		$encryptedRecoveryKey = $this->crypt->encryptPrivateKey($decryptedRecoveryKey, $newPassword);
 		$header = $this->crypt->generateHeader();
-		if ($encryptedRecoveryKey) {
+		if ($encryptedRecoveryKey !== false) {
 			$this->keyManager->setSystemPrivateKey($this->keyManager->getRecoveryKeyId(), $header . $encryptedRecoveryKey);
 			return true;
 		}
@@ -205,7 +159,7 @@ class Recovery {
 			if ($item['type'] === 'dir') {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
-				$fileKey = $this->keyManager->getFileKey($filePath, $this->user->getUID(), null);
+				$fileKey = $this->keyManager->getFileKey($filePath, null);
 				if (!empty($fileKey)) {
 					$accessList = $this->file->getAccessList($filePath);
 					$publicKeys = [];

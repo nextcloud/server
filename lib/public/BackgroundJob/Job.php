@@ -1,33 +1,14 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\ILogger;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -37,38 +18,24 @@ use Psr\Log\LoggerInterface;
  * For the most common use cases have a look at QueuedJob and TimedJob
  *
  * @since 15.0.0
+ * @since 25.0.0 deprecated `execute()` method in favor of `start()`
+ * @since 33.0.0 removed deprecated `execute()` method
  */
 abstract class Job implements IJob, IParallelAwareJob {
-	protected int $id = 0;
+	protected string $id = '0';
 	protected int $lastRun = 0;
-	protected $argument;
-	protected ITimeFactory $time;
+	protected mixed $argument = null;
 	protected bool $allowParallelRuns = true;
 
 	/**
 	 * @since 15.0.0
 	 */
-	public function __construct(ITimeFactory $time) {
-		$this->time = $time;
+	public function __construct(
+		protected ITimeFactory $time,
+	) {
 	}
 
-	/**
-	 * The function to prepare the execution of the job.
-	 *
-	 * @return void
-	 *
-	 * @since 15.0.0
-	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
-	 * with the ILogger interface
-	 */
-	public function execute(IJobList $jobList, ?ILogger $logger = null) {
-		$this->start($jobList);
-	}
-
-	/**
-	 * @inheritdoc
-	 * @since 25.0.0
-	 */
+	#[Override]
 	public function start(IJobList $jobList): void {
 		$jobList->setLastRun($this);
 		$logger = \OCP\Server::get(LoggerInterface::class);
@@ -92,74 +59,45 @@ abstract class Job implements IJob, IParallelAwareJob {
 		}
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	final public function setId(int $id) {
+	#[Override]
+	final public function setId(string $id): void {
 		$this->id = $id;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	final public function setLastRun(int $lastRun) {
+	#[Override]
+	final public function setLastRun(int $lastRun): void {
 		$this->lastRun = $lastRun;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	public function setArgument($argument) {
+	#[Override]
+	public function setArgument(mixed $argument): void {
 		$this->argument = $argument;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	final public function getId(): int {
+	#[Override]
+	final public function getId(): string {
 		return $this->id;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
+	#[Override]
 	final public function getLastRun(): int {
 		return $this->lastRun;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	public function getArgument() {
+	#[Override]
+	public function getArgument(): mixed {
 		return $this->argument;
 	}
 
-	/**
-	 * Set this to false to prevent two Jobs from this class from running in parallel
-	 *
-	 * @param bool $allow
-	 * @return void
-	 * @since 27.0.0
-	 */
+	#[Override]
 	public function setAllowParallelRuns(bool $allow): void {
 		$this->allowParallelRuns = $allow;
 	}
 
-	/**
-	 * @return bool
-	 * @since 27.0.0
-	 */
+	#[Override]
 	public function getAllowParallelRuns(): bool {
 		return $this->allowParallelRuns;
 	}
 
-	/**
-	 * The actual function that is called to run the job
-	 *
-	 * @param $argument
-	 * @return void
-	 *
-	 * @since 15.0.0
-	 */
 	abstract protected function run($argument);
 }

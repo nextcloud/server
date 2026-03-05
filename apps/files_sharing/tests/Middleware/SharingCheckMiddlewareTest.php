@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Middleware;
 
@@ -55,9 +36,9 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	private $controllerMock;
 	/** @var IControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
 	private $reflector;
-	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
-	/** @var  IRequest | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
 	protected function setUp(): void {
@@ -79,7 +60,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			$this->request);
 	}
 
-	public function testIsSharingEnabledWithAppEnabled() {
+	public function testIsSharingEnabledWithAppEnabled(): void {
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
@@ -89,7 +70,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->assertTrue(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
 
-	public function testIsSharingEnabledWithAppDisabled() {
+	public function testIsSharingEnabledWithAppDisabled(): void {
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
@@ -99,7 +80,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
 
-	public function externalSharesChecksDataProvider() {
+	public static function externalSharesChecksDataProvider() {
 		$data = [];
 
 		foreach ([false, true] as $annIn) {
@@ -134,10 +115,8 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		return $data;
 	}
 
-	/**
-	 * @dataProvider externalSharesChecksDataProvider
-	 */
-	public function testExternalSharesChecks($annotations, $config, $expectedResult) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'externalSharesChecksDataProvider')]
+	public function testExternalSharesChecks($annotations, $config, $expectedResult): void {
 		$this->reflector
 			->expects($this->atLeastOnce())
 			->method('hasAnnotation')
@@ -150,10 +129,8 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, self::invokePrivate($this->sharingCheckMiddleware, 'externalSharesChecks'));
 	}
 
-	/**
-	 * @dataProvider externalSharesChecksDataProvider
-	 */
-	public function testBeforeControllerWithExternalShareControllerWithSharingEnabled($annotations, $config, $noException) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'externalSharesChecksDataProvider')]
+	public function testBeforeControllerWithExternalShareControllerWithSharingEnabled($annotations, $config, $noException): void {
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
@@ -182,7 +159,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->assertNotEquals($noException, $exceptionThrown);
 	}
 
-	public function testBeforeControllerWithShareControllerWithSharingEnabled() {
+	public function testBeforeControllerWithShareControllerWithSharingEnabled(): void {
 		$share = $this->createMock(IShare::class);
 
 		$this->appManager
@@ -197,8 +174,8 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 
-	public function testBeforeControllerWithSharingDisabled() {
-		$this->expectException(\OCP\Files\NotFoundException::class);
+	public function testBeforeControllerWithSharingDisabled(): void {
+		$this->expectException(NotFoundException::class);
 		$this->expectExceptionMessage('Sharing is disabled.');
 
 		$this->appManager
@@ -211,18 +188,18 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 
-	public function testAfterExceptionWithRegularException() {
+	public function testAfterExceptionWithRegularException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('My Exception message');
 
 		$this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new \Exception('My Exception message'));
 	}
 
-	public function testAfterExceptionWithNotFoundException() {
+	public function testAfterExceptionWithNotFoundException(): void {
 		$this->assertEquals(new NotFoundResponse(), $this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new NotFoundException('My Exception message')));
 	}
 
-	public function testAfterExceptionWithS2SException() {
+	public function testAfterExceptionWithS2SException(): void {
 		$this->assertEquals(new JSONResponse('My Exception message', 405), $this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new S2SException('My Exception message')));
 	}
 }

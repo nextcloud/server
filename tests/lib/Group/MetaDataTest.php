@@ -1,38 +1,22 @@
 <?php
+
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Group;
 
+use OC\Group\MetaData;
 use OCP\IUserSession;
 
 class MetaDataTest extends \Test\TestCase {
-	/** @var \OC\Group\Manager */
-	private $groupManager;
-	/** @var \OCP\IUserSession */
-	private $userSession;
-	/** @var \OC\Group\MetaData */
-	private $groupMetadata;
-	/** @var bool */
-	private $isAdmin = true;
+	private \OC\Group\Manager $groupManager;
+	private IUserSession $userSession;
+	private MetaData $groupMetadata;
+	private bool $isAdmin = true;
+	private bool $isDelegatedAdmin = true;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -40,9 +24,10 @@ class MetaDataTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->groupMetadata = new \OC\Group\MetaData(
+		$this->groupMetadata = new MetaData(
 			'foo',
 			$this->isAdmin,
+			$this->isDelegatedAdmin,
 			$this->groupManager,
 			$this->userSession
 		);
@@ -54,29 +39,20 @@ class MetaDataTest extends \Test\TestCase {
 			->getMock();
 
 		$group->expects($this->exactly(6))
-			->method('getGID')
-			->will($this->onConsecutiveCalls(
-				'admin', 'admin',
-				'g2', 'g2',
-				'g3', 'g3'));
+			->method('getGID')->willReturnOnConsecutiveCalls('admin', 'admin', 'g2', 'g2', 'g3', 'g3');
 
 		$group->expects($this->exactly(3))
-			->method('getDisplayName')
-			->will($this->onConsecutiveCalls(
-				'admin',
-				'g2',
-				'g3'));
+			->method('getDisplayName')->willReturnOnConsecutiveCalls('admin', 'g2', 'g3');
 
 		$group->expects($this->exactly($countCallCount))
 			->method('count')
-			->with('')
-			->will($this->onConsecutiveCalls(2, 3, 5));
+			->with('')->willReturnOnConsecutiveCalls(2, 3, 5);
 
 		return $group;
 	}
 
 
-	public function testGet() {
+	public function testGet(): void {
 		$group = $this->getGroupMock();
 		$groups = array_fill(0, 3, $group);
 
@@ -95,7 +71,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->assertSame(0, $ordinaryGroups[0]['usercount']);
 	}
 
-	public function testGetWithSorting() {
+	public function testGetWithSorting(): void {
 		$this->groupMetadata->setSorting(1);
 		$group = $this->getGroupMock(3);
 		$groups = array_fill(0, 3, $group);
@@ -114,7 +90,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->assertSame(5, $ordinaryGroups[0]['usercount']);
 	}
 
-	public function testGetWithCache() {
+	public function testGetWithCache(): void {
 		$group = $this->getGroupMock();
 		$groups = array_fill(0, 3, $group);
 
@@ -132,7 +108,7 @@ class MetaDataTest extends \Test\TestCase {
 	//get() does not need to be tested with search parameters, because they are
 	//solely and only passed to GroupManager and Group.
 
-	public function testGetGroupsAsAdmin() {
+	public function testGetGroupsAsAdmin(): void {
 		$this->groupManager
 			->expects($this->once())
 			->method('search')

@@ -1,38 +1,23 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests\Command;
 
 use OCA\Files_External\Command\Applicable;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class ApplicableTest extends CommandTest {
-	private function getInstance($storageService) {
-		/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
+class ApplicableTest extends CommandTestCase {
+	private function getInstance($storageService): Applicable {
+		/** @var IUserManager&MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
-		/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject $groupManager */
+		/** @var IGroupManager&MockObject $groupManager */
 		$groupManager = $this->createMock(IGroupManager::class);
 
 		$userManager->expects($this->any())
@@ -46,7 +31,7 @@ class ApplicableTest extends CommandTest {
 		return new Applicable($storageService, $userManager, $groupManager);
 	}
 
-	public function testListEmpty() {
+	public function testListEmpty(): void {
 		$mount = $this->getMount(1, '', '');
 
 		$storageService = $this->getGlobalStorageService([$mount]);
@@ -63,7 +48,7 @@ class ApplicableTest extends CommandTest {
 		$this->assertEquals(['users' => [], 'groups' => []], $result);
 	}
 
-	public function testList() {
+	public function testList(): void {
 		$mount = $this->getMount(1, '', '', '', [], [], ['test', 'asd']);
 
 		$storageService = $this->getGlobalStorageService([$mount]);
@@ -80,7 +65,7 @@ class ApplicableTest extends CommandTest {
 		$this->assertEquals(['users' => ['test', 'asd'], 'groups' => []], $result);
 	}
 
-	public function testAddSingle() {
+	public function testAddSingle(): void {
 		$mount = $this->getMount(1, '', '', '', [], [], []);
 
 		$storageService = $this->getGlobalStorageService([$mount]);
@@ -98,7 +83,7 @@ class ApplicableTest extends CommandTest {
 		$this->assertEquals(['foo'], $mount->getApplicableUsers());
 	}
 
-	public function testAddDuplicate() {
+	public function testAddDuplicate(): void {
 		$mount = $this->getMount(1, '', '', '', [], [], ['foo']);
 
 		$storageService = $this->getGlobalStorageService([$mount]);
@@ -116,7 +101,7 @@ class ApplicableTest extends CommandTest {
 		$this->assertEquals(['foo', 'bar'], $mount->getApplicableUsers());
 	}
 
-	public function testRemoveSingle() {
+	public function testRemoveSingle(): void {
 		$mount = $this->getMount(1, '', '', '', [], [], ['foo', 'bar']);
 
 		$storageService = $this->getGlobalStorageService([$mount]);
@@ -134,7 +119,7 @@ class ApplicableTest extends CommandTest {
 		$this->assertEquals(['foo'], $mount->getApplicableUsers());
 	}
 
-	public function testRemoveNonExisting() {
+	public function testRemoveNonExisting(): void {
 		$mount = $this->getMount(1, '', '', '', [], [], ['foo', 'bar']);
 
 		$storageService = $this->getGlobalStorageService([$mount]);
@@ -152,7 +137,7 @@ class ApplicableTest extends CommandTest {
 		$this->assertEquals(['foo'], $mount->getApplicableUsers());
 	}
 
-	public function testRemoveAddRemove() {
+	public function testRemoveAddRemove(): void {
 		$mount = $this->getMount(1, '', '', '', [], [], ['foo', 'bar']);
 
 		$storageService = $this->getGlobalStorageService([$mount]);

@@ -1,28 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Romain Rivière <lecoyote@lecoyote.org>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\IntegrityCheck\Iterator;
 
@@ -42,10 +24,11 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 	 */
 	private $excludedFilenames = [
 		'.DS_Store', // Mac OS X
-		'Thumbs.db', // Microsoft Windows
 		'.directory', // Dolphin (KDE)
-		'.webapp', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage web-apps.
 		'.rnd',
+		'.webapp', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage web-apps.
+		'Thumbs.db', // Microsoft Windows
+		'nextcloud-init-sync.lock' // Used by nextcloud/docker to prevent running the initialization script on multiple containers at the same time: https://github.com/nextcloud/docker/issues/2299.
 	];
 
 	/**

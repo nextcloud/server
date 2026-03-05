@@ -3,32 +3,14 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification\BackgroundJob;
 
 use OC\Installer;
 use OC\Updater\VersionCheck;
+use OCA\UpdateNotification\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -37,15 +19,22 @@ use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\Notification\IManager;
+use OCP\ServerVersion;
 
 class UpdateAvailableNotifications extends TimedJob {
-	protected $connectionNotifications = [3, 7, 14, 30];
 
-	/** @var string[] */
-	protected $users;
+	/**
+	 * Numbers of failed updater connection to report error as notification.
+	 * @var list<int>
+	 */
+	protected const CONNECTION_NOTIFICATIONS = [3, 7, 14, 30];
+
+	/** @var ?string[] */
+	protected $users = null;
 
 	public function __construct(
 		ITimeFactory $timeFactory,
+		protected ServerVersion $serverVersion,
 		protected IConfig $config,
 		protected IAppConfig $appConfig,
 		protected IManager $notificationManager,
@@ -57,6 +46,7 @@ class UpdateAvailableNotifications extends TimedJob {
 		parent::__construct($timeFactory);
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	protected function run($argument) {
@@ -80,10 +70,15 @@ class UpdateAvailableNotifications extends TimedJob {
 	}
 
 	/**
-	 * Check for ownCloud update
+	 * Check for Nextcloud server update
 	 */
-	protected function checkCoreUpdate() {
-		if (\in_array($this->getChannel(), ['daily', 'git'], true)) {
+	protected function checkCoreUpdate(): void {
+		if (!$this->config->getSystemValueBool('updatechecker', true)) {
+			// update checker is disabled so no core update check!
+			return;
+		}
+
+		if (\in_array($this->serverVersion->getChannel(), ['daily', 'git'], true)) {
 			// "These aren't the update channels you're looking for." - Ben Obi-Wan Kenobi
 			return;
 		}
@@ -93,7 +88,7 @@ class UpdateAvailableNotifications extends TimedJob {
 			$errors = 1 + $this->appConfig->getAppValueInt('update_check_errors', 0);
 			$this->appConfig->setAppValueInt('update_check_errors', $errors);
 
-			if (\in_array($errors, $this->connectionNotifications, true)) {
+			if (\in_array($errors, self::CONNECTION_NOTIFICATIONS, true)) {
 				$this->sendErrorNotifications($errors);
 			}
 		} elseif (\is_array($status)) {
@@ -110,14 +105,14 @@ class UpdateAvailableNotifications extends TimedJob {
 	 * Send a message to the admin when the update server could not be reached
 	 * @param int $numDays
 	 */
-	protected function sendErrorNotifications($numDays) {
+	protected function sendErrorNotifications($numDays): void {
 		$this->clearErrorNotifications();
 
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp('updatenotification')
+			$notification->setApp(Application::APP_NAME)
 				->setDateTime(new \DateTime())
-				->setObject('updatenotification', 'error')
+				->setObject(Application::APP_NAME, 'error')
 				->setSubject('connection_error', ['days' => $numDays]);
 
 			foreach ($this->getUsersToNotify() as $uid) {
@@ -132,12 +127,12 @@ class UpdateAvailableNotifications extends TimedJob {
 	/**
 	 * Remove error notifications again
 	 */
-	protected function clearErrorNotifications() {
+	protected function clearErrorNotifications(): void {
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp('updatenotification')
+			$notification->setApp(Application::APP_NAME)
 				->setSubject('connection_error')
-				->setObject('updatenotification', 'error');
+				->setObject(Application::APP_NAME, 'error');
 		} catch (\InvalidArgumentException $e) {
 			return;
 		}
@@ -147,8 +142,8 @@ class UpdateAvailableNotifications extends TimedJob {
 	/**
 	 * Check all installed apps for updates
 	 */
-	protected function checkAppUpdates() {
-		$apps = $this->appManager->getInstalledApps();
+	protected function checkAppUpdates(): void {
+		$apps = $this->appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			$update = $this->isUpdateAvailable($app);
 			if ($update !== false) {
@@ -164,7 +159,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	 * @param string $version
 	 * @param string $visibleVersion
 	 */
-	protected function createNotifications($app, $version, $visibleVersion = '') {
+	protected function createNotifications($app, $version, $visibleVersion = ''): void {
 		$lastNotification = $this->appConfig->getAppValueString($app, '');
 		if ($lastNotification === $version) {
 			// We already notified about this update
@@ -178,7 +173,7 @@ class UpdateAvailableNotifications extends TimedJob {
 
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp('updatenotification')
+			$notification->setApp(Application::APP_NAME)
 				->setDateTime(new \DateTime())
 				->setObject($app, $version);
 
@@ -228,22 +223,15 @@ class UpdateAvailableNotifications extends TimedJob {
 	 * @param string $app
 	 * @param string $version
 	 */
-	protected function deleteOutdatedNotifications($app, $version) {
+	protected function deleteOutdatedNotifications($app, $version): void {
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp('updatenotification')
+			$notification->setApp(Application::APP_NAME)
 				->setObject($app, $version);
-		} catch (\InvalidArgumentException $e) {
+		} catch (\InvalidArgumentException) {
 			return;
 		}
 		$this->notificationManager->markProcessed($notification);
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getChannel(): string {
-		return \OC_Util::getChannel();
 	}
 
 	/**

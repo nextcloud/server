@@ -1,6 +1,11 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: S3 primary storage integration tests
 on:
   pull_request:
+
+permissions:
+  contents: read
 
 concurrency:
   group: integration-s3-primary-${{ github.head_ref || github.run_id }}
@@ -22,14 +27,23 @@ jobs:
             src:
               - '.github/workflows/**'
               - '3rdparty/**'
-              - '**/*.php'
-              - '**/lib/**'
-              - '**/tests/**'
-              - '**/vendor-bin/**'
-              - 'build/integration/**'
-              - '.php-cs-fixer.dist.php'
+              - 'vendor/**'
+              - 'vendor-bin/**'
               - 'composer.json'
               - 'composer.lock'
+              - 'build/integration/**'
+              - 'apps/files/lib/**'
+              - 'apps/files/tests/**'
+              - 'apps/files_external/**'
+              - 'apps/files_sharing/lib/**'
+              - 'apps/files_sharing/tests/**'
+              - 'apps/files_trashbin/lib/**'
+              - 'apps/files_trashbin/tests/**'
+              - 'apps/files_versions/lib/**'
+              - 'apps/files_versions/tests/**'
+              - 'lib/private/Files/**'
+              - 'lib/public/Files/**'
+              - 'tests/lib/Files/**'
 
   integration-s3-primary:
     runs-on: ubuntu-latest
@@ -38,22 +52,21 @@ jobs:
     if: needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh'
 
     strategy:
-      # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.1']
+        php-versions: ['8.2']
         key: ['objectstore', 'objectstore_multibucket']
 
     name: php${{ matrix.php-versions }}-${{ matrix.key }}-minio
 
     services:
       redis:
-        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
         ports:
           - 6379:6379/tcp
       minio:
-        image: bitnami/minio
+        image: bitnami/minio@sha256:50cec18ac4184af4671a78aedd5554942c8ae105d51a465fa82037949046da01 # v2025.4.22
         env:
           MINIO_ROOT_USER: nextcloud
           MINIO_ROOT_PASSWORD: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
@@ -63,12 +76,14 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -85,6 +100,7 @@ jobs:
 
       - name: Set up Nextcloud
         run: |
+          composer install
           mkdir data
           echo '<?php $CONFIG=["${{ matrix.key }}" => ["class" => "OC\Files\ObjectStore\S3", "arguments" => ["bucket" => "nextcloud", "autocreate" => true, "key" => "nextcloud", "secret" => "bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=", "hostname" => "localhost", "port" => 9000, "use_ssl" => false, "use_path_style" => true, "uploadPartSize" => 52428800]]];' > config/config.php
           echo '<?php $CONFIG=["redis" => ["host" => "localhost", "port" => 6379], "memcache.local" => "\OC\Memcache\Redis", "memcache.distributed" => "\OC\Memcache\Redis"];' > config/redis.config.php

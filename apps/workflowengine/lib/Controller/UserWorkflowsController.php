@@ -3,45 +3,33 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Controller;
 
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCA\WorkflowEngine\ResponseDefinitions;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
+use OCP\WorkflowEngine\IOperation;
 use Psr\Log\LoggerInterface;
 
-class UserWorkflowsController extends AWorkflowController {
-
-	/** @var IUserSession */
-	private $session;
+/**
+ * @psalm-import-type WorkflowEngineCheck from ResponseDefinitions
+ * @psalm-import-type WorkflowEngineRule from ResponseDefinitions
+ */
+class UserWorkflowsController extends AWorkflowOCSController {
 
 	/** @var ScopeContext */
 	private $scopeContext;
@@ -50,61 +38,97 @@ class UserWorkflowsController extends AWorkflowController {
 		$appName,
 		IRequest $request,
 		Manager $manager,
-		IUserSession $session,
-		LoggerInterface $logger
+		private IUserSession $session,
+		LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request, $manager, $logger);
-
-		$this->session = $session;
 	}
 
 	/**
 	 * Retrieve all configured workflow rules
 	 *
-	 * Example: curl -u joann -H "OCS-APIREQUEST: true" "http://my.nc.srvr/ocs/v2.php/apps/workflowengine/api/v1/workflows/user?format=json"
+	 * @return DataResponse<Http::STATUS_OK, array<class-string<IOperation>, list<WorkflowEngineRule>>, array{}>
 	 *
-	 * @NoAdminRequired
-	 * @throws OCSForbiddenException
+	 * 200: List of workflows returned
 	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'GET', url: '/api/v1/workflows/user')]
 	public function index(): DataResponse {
 		return parent::index();
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * Retrieve a specific workflow
 	 *
-	 * Example: curl -u joann -H "OCS-APIREQUEST: true" "http://my.nc.srvr/ocs/v2.php/apps/workflowengine/api/v1/workflows/user/OCA\\Workflow_DocToPdf\\Operation?format=json"
-	 * @throws OCSForbiddenException
+	 * @param string $id Workflow ID to load
+	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule|list<empty>, array{}>
+	 *
+	 * 200: Workflow returned or empty array if the ID is unknown in the scope
 	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'GET', url: '/api/v1/workflows/user/{id}')]
 	public function show(string $id): DataResponse {
 		return parent::show($id);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @throws OCSBadRequestException
-	 * @throws OCSForbiddenException
+	 * Create a workflow
+	 *
+	 * @param class-string<IOperation> $class Operation class to execute
+	 * @param string $name Name of the workflow rule
+	 * @param list<WorkflowEngineCheck> $checks List of conditions that need to apply for the rule to match
+	 * @param string $operation Operation class to execute on match
+	 * @param string $entity The matched entity
+	 * @param list<class-string<IEntityEvent>> $events The list of events on which the rule should be validated
+	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule, array{}>
+	 *
+	 * 200: Workflow created
+	 *
+	 * @throws OCSBadRequestException Thrown when a check or check value is invalid
 	 */
+	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/workflows/user')]
 	public function create(string $class, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
 		return parent::create($class, $name, $checks, $operation, $entity, $events);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @throws OCSBadRequestException
-	 * @throws OCSForbiddenException
+	 * Modify a workflow
+	 *
+	 * @param int $id Workflow ID to delete
+	 * @param string $name Name of the workflow rule
+	 * @param list<WorkflowEngineCheck> $checks List of conditions that need to apply for the rule to match
+	 * @param string $operation Operation action to execute on match
+	 * @param string $entity The matched entity
+	 * @param list<class-string<IEntityEvent>> $events The list of events on which the rule should be validated
+	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule, array{}>
+	 *
+	 * 200: Workflow updated
+	 *
+	 * @throws OCSBadRequestException Thrown when a check or check value is invalid
+	 * @throws OCSForbiddenException Thrown when workflow is from a different scope
 	 */
+	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
+	#[ApiRoute(verb: 'PUT', url: '/api/v1/workflows/user/{id}')]
 	public function update(int $id, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
 		return parent::update($id, $name, $checks, $operation, $entity, $events);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @throws OCSForbiddenException
+	 * Delete a workflow
+	 *
+	 * @param int $id Workflow ID to delete
+	 * @return DataResponse<Http::STATUS_OK, bool, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
+	 *
+	 * 200: Workflow deleted
+	 *
+	 * @throws OCSForbiddenException Thrown when workflow is from a different scope
 	 */
+	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
+	#[ApiRoute(verb: 'DELETE', url: '/api/v1/workflows/user/{id}')]
 	public function destroy(int $id): DataResponse {
 		return parent::destroy($id);
 	}

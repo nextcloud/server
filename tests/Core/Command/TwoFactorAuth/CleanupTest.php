@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Core\Command\TwoFactorAuth;
@@ -53,7 +36,7 @@ class CleanupTest extends TestCase {
 		$this->cmd = new CommandTester($cmd);
 	}
 
-	public function testCleanup() {
+	public function testCleanup(): void {
 		$this->registry->expects($this->once())
 			->method('cleanUp')
 			->with('u2f');
@@ -64,6 +47,6 @@ class CleanupTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$output = $this->cmd->getDisplay();
-		$this->assertStringContainsString("All user-provider associations for provider u2f have been removed", $output);
+		$this->assertStringContainsString('All user-provider associations for provider u2f have been removed', $output);
 	}
 }

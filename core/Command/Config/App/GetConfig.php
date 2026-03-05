@@ -2,42 +2,19 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Command\Config\App;
 
 use OCP\Exceptions\AppConfigUnknownKeyException;
-use OCP\IAppConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetConfig extends Base {
-	public function __construct(
-		protected IAppConfig $appConfig,
-	) {
-		parent::__construct();
-	}
-
 	protected function configure() {
 		parent::configure();
 
@@ -61,6 +38,12 @@ class GetConfig extends Base {
 				'returns complete details about the app config value'
 			)
 			->addOption(
+				'--key-details',
+				null,
+				InputOption::VALUE_NONE,
+				'returns complete details about the app config key'
+			)
+			->addOption(
 				'default-value',
 				null,
 				InputOption::VALUE_OPTIONAL,
@@ -72,7 +55,7 @@ class GetConfig extends Base {
 	/**
 	 * Executes the current command.
 	 *
-	 * @param InputInterface  $input  An InputInterface instance
+	 * @param InputInterface $input An InputInterface instance
 	 * @param OutputInterface $output An OutputInterface instance
 	 * @return int 0 if everything went fine, or an error code
 	 */
@@ -85,6 +68,12 @@ class GetConfig extends Base {
 			$details = $this->appConfig->getDetails($appName, $configName);
 			$details['type'] = $details['typeString'];
 			unset($details['typeString']);
+			$this->writeArrayInOutputFormat($input, $output, $details);
+			return 0;
+		}
+
+		if ($input->getOption('key-details')) {
+			$details = $this->appConfig->getKeyDetails($appName, $configName);
 			$this->writeArrayInOutputFormat($input, $output, $details);
 			return 0;
 		}

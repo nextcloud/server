@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright 2021 Anna Larch <anna.larch@gmx.net>
- *
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Calendar;
 
@@ -34,9 +17,31 @@ use OCP\Calendar\Exceptions\CalendarException;
  */
 interface ICreateFromString extends ICalendar {
 	/**
-	 * @since 23.0.0
+	 * Create an event in this calendar from an ICS string.
+	 *
+	 * @param string $name the file name - needs to contain the .ics ending
+	 * @param string $calendarData a string containing a valid VEVENT ics
 	 *
 	 * @throws CalendarException
+	 *
+	 * @since 23.0.0
+	 *
 	 */
 	public function createFromString(string $name, string $calendarData): void;
+
+	/**
+	 * Create an event in this calendar from an ICS string using a minimal CalDAV server.
+	 * Usually, the createFromString() method should be preferred.
+	 *
+	 * However, in some cases it is useful to not set up a full CalDAV server.
+	 * Missing features include no iMIP plugin, no invitation emails amongst others.
+	 *
+	 * @param string $name the file name - needs to contain the .ics ending
+	 * @param string $calendarData a string containing a valid VEVENT ics
+	 *
+	 * @throws CalendarException
+	 *
+	 * @since 32.0.0
+	 */
+	public function createFromStringMinimal(string $name, string $calendarData): void;
 }

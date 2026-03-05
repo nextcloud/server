@@ -1,25 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Comments;
 
@@ -46,37 +30,19 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	public const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
 	public const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
 
-	/** @var  IComment */
-	public $comment;
-
-	/** @var ICommentsManager */
-	protected $commentsManager;
-
-	protected LoggerInterface $logger;
-
 	/** @var array list of properties with key being their name and value their setter */
 	protected $properties = [];
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IUserSession */
-	protected $userSession;
 
 	/**
 	 * CommentNode constructor.
 	 */
 	public function __construct(
-		ICommentsManager $commentsManager,
-		IComment $comment,
-		IUserManager $userManager,
-		IUserSession $userSession,
-		LoggerInterface $logger
+		protected ICommentsManager $commentsManager,
+		public IComment $comment,
+		protected IUserManager $userManager,
+		protected IUserSession $userSession,
+		protected LoggerInterface $logger,
 	) {
-		$this->commentsManager = $commentsManager;
-		$this->comment = $comment;
-		$this->logger = $logger;
-
 		$methods = get_class_methods($this->comment);
 		$methods = array_filter($methods, function ($name) {
 			return str_starts_with($name, 'get');
@@ -85,11 +51,9 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			if ($getter === 'getMentions') {
 				continue;	// special treatment
 			}
-			$name = '{'.self::NS_OWNCLOUD.'}' . lcfirst(substr($getter, 3));
+			$name = '{' . self::NS_OWNCLOUD . '}' . lcfirst(substr($getter, 3));
 			$this->properties[$name] = $getter;
 		}
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
 	}
 
 	/**

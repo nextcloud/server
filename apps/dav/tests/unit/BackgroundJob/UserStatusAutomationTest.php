@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Tests\unit\BackgroundJob;
@@ -31,8 +14,10 @@ use OCA\DAV\BackgroundJob\UserStatusAutomation;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\User\IAvailabilityCoordinator;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IUserStatus;
@@ -40,18 +25,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserStatusAutomationTest extends TestCase {
-
-	protected MockObject|ITimeFactory $time;
-	protected MockObject|IJobList $jobList;
-	protected MockObject|LoggerInterface $logger;
-	protected MockObject|IManager $statusManager;
-	protected MockObject|IConfig $config;
-	private IAvailabilityCoordinator|MockObject $coordinator;
-	private IUserManager|MockObject $userManager;
+	protected ITimeFactory&MockObject $time;
+	protected IJobList&MockObject $jobList;
+	protected LoggerInterface&MockObject $logger;
+	protected IManager&MockObject $statusManager;
+	protected IConfig&MockObject $config;
+	private IAvailabilityCoordinator&MockObject $coordinator;
+	private IUserManager&MockObject $userManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -70,7 +52,7 @@ class UserStatusAutomationTest extends TestCase {
 		if (empty($methods)) {
 			return new UserStatusAutomation(
 				$this->time,
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->jobList,
 				$this->logger,
 				$this->statusManager,
@@ -83,7 +65,7 @@ class UserStatusAutomationTest extends TestCase {
 		return $this->getMockBuilder(UserStatusAutomation::class)
 			->setConstructorArgs([
 				$this->time,
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->jobList,
 				$this->logger,
 				$this->statusManager,
@@ -91,11 +73,11 @@ class UserStatusAutomationTest extends TestCase {
 				$this->coordinator,
 				$this->userManager,
 			])
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
-	public function dataRun(): array {
+	public static function dataRun(): array {
 		return [
 			['20230217', '2023-02-24 10:49:36.613834', true],
 			['20230224', '2023-02-24 10:49:36.613834', true],
@@ -104,9 +86,7 @@ class UserStatusAutomationTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataRun
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataRun')]
 	public function testRunNoOOO(string $ruleDay, string $currentTime, bool $isAvailable): void {
 		$user = $this->createConfiguredMock(IUser::class, [
 			'getUID' => 'user'
@@ -125,8 +105,6 @@ class UserStatusAutomationTest extends TestCase {
 			->willReturn(new \DateTime($currentTime, new \DateTimeZone('UTC')));
 		$this->logger->expects(self::exactly(4))
 			->method('debug');
-		$this->statusManager->expects(self::exactly(2))
-			->method('revertUserStatus');
 		if (!$isAvailable) {
 			$this->statusManager->expects(self::once())
 				->method('setUserStatus')
@@ -189,8 +167,6 @@ END:VCALENDAR');
 			->willReturn('yes');
 		$this->time->method('getDateTime')
 			->willReturn(new \DateTime('2023-02-24 13:58:24.479357', new \DateTimeZone('UTC')));
-		$this->statusManager->expects($this->exactly(3))
-			->method('revertUserStatus');
 		$this->jobList->expects($this->once())
 			->method('remove')
 			->with(UserStatusAutomation::class, ['userId' => 'user']);
@@ -224,8 +200,6 @@ END:VCALENDAR');
 		$this->coordinator->expects(self::once())
 			->method('isInEffect')
 			->willReturn(true);
-		$this->statusManager->expects($this->exactly(2))
-			->method('revertUserStatus');
 		$this->statusManager->expects(self::once())
 			->method('setUserStatus')
 			->with('user', IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND, true, $ooo->getShortMessage());

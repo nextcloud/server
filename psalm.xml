@@ -1,17 +1,23 @@
 <?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <psalm
 	errorLevel="4"
 	resolveFromConfigFile="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
-	xsi:schemaLocation="https://getpsalm.org/schema/config"
-    errorBaseline="build/psalm-baseline.xml"
-	findUnusedBaselineEntry="false"
+	xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
+	errorBaseline="build/psalm-baseline.xml"
+	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
-	phpVersion="8.1"
+	phpVersion="8.2"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
+		<plugin filename="build/psalm/AttributeNamedParameters.php" />
+		<plugin filename="build/psalm/LogicalOperatorChecker.php" />
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
@@ -25,11 +31,13 @@
 		<directory name="apps/federation"/>
 		<directory name="apps/files"/>
 		<directory name="apps/files_external"/>
+		<directory name="apps/files_reminders"/>
 		<directory name="apps/files_sharing"/>
 		<directory name="apps/files_trashbin"/>
 		<directory name="apps/files_versions"/>
 		<directory name="apps/lookup_server_connector"/>
 		<directory name="apps/oauth2"/>
+		<directory name="apps/profile"/>
 		<directory name="apps/provisioning_api"/>
 		<directory name="apps/settings"/>
 		<directory name="apps/sharebymail"/>
@@ -41,10 +49,12 @@
 		<directory name="apps/user_ldap"/>
 		<directory name="apps/user_status"/>
 		<directory name="apps/weather_status"/>
+		<directory name="apps/webhook_listeners"/>
 		<directory name="apps/workflowengine"/>
 		<directory name="core"/>
 		<directory name="lib"/>
 		<directory name="ocs"/>
+		<directory name="tests/lib/Comments"/>
 		<directory name="ocs-provider"/>
 		<file name="cron.php"/>
 		<file name="index.php"/>
@@ -52,20 +62,22 @@
 		<file name="remote.php"/>
 		<file name="status.php"/>
 		<file name="version.php"/>
+		<file name="tests/lib/TestCase.php"/>
 		<ignoreFiles>
-			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
-			<directory name="apps/files_external/3rdparty"/>
+			<directory name="apps/**/composer"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
+			<directory name="3rdparty"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
 		<directory name="3rdparty"/>
-		<directory name="apps/files_external/3rdparty"/>
+		<directory name="vendor-bin/phpunit/vendor/phpunit"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>
+		<file name="build/stubs/excimer.php"/>
 		<file name="build/stubs/gd.php"/>
 		<file name="build/stubs/imagick.php"/>
 		<file name="build/stubs/intl.php"/>
@@ -84,6 +96,7 @@
 		<file name="build/stubs/psr_container.php"/>
 		<file name="3rdparty/sabre/uri/lib/functions.php" />
 		<file name="build/stubs/app_api.php" />
+		<file name="build/stubs/php-polyfill.php" />
 	</stubs>
 	<issueHandlers>
 		<LessSpecificReturnStatement errorLevel="error"/>
@@ -96,9 +109,12 @@
 				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException"/>
 				<referencedClass name="OCA\Circles\Model\Circle"/>
 				<referencedClass name="OCA\Circles\Model\Member"/>
+				<referencedClass name="OCA\ContextChat\Public\ContentManager"/>
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
+				<referencedClass name="OCA\Guests\UserBackend"/>
+				<referencedClass name="OCA\GroupFolders\Mount\GroupMountPoint"/>
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>
@@ -145,5 +161,64 @@
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 			</errorLevel>
 		</UndefinedDocblockClass>
+		<AmbiguousConstantInheritance>
+			<errorLevel type="suppress">
+				<!-- false positive: https://github.com/vimeo/psalm/issues/7818 -->
+				<referencedConstant name="OC\Memcache\Redis::DEFAULT_TTL" />
+				<referencedConstant name="OC\Memcache\LoggerWrapperCache::DEFAULT_TTL" />
+			</errorLevel>
+		</AmbiguousConstantInheritance>
+		<DeprecatedClass>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</DeprecatedClass>
+		<DeprecatedConstant>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</DeprecatedConstant>
+		<DeprecatedFunction>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</DeprecatedFunction>
+		<DeprecatedInterface>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</DeprecatedInterface>
+		<DeprecatedMethod>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</DeprecatedMethod>
+		<DeprecatedProperty>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</DeprecatedProperty>
+		<DeprecatedTrait>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</DeprecatedTrait>
+		<InternalMethod>
+			<errorLevel type="suppress">
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</InternalMethod>
+		<InternalClass>
+			<errorLevel type="suppress">
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</InternalClass>
 	</issueHandlers>
 </psalm>

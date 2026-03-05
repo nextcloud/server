@@ -3,63 +3,41 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\OfflineUser;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class OfflineUserTest extends TestCase {
-
-	/** @var OfflineUser */
-	protected $offlineUser;
-	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
-	protected $mapping;
-	/** @var string */
-	protected $uid;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $shareManager;
+	protected UserMapping&MockObject $mapping;
+	protected string $uid;
+	protected IUserConfig&MockObject $userConfig;
+	protected IManager&MockObject $shareManager;
+	protected OfflineUser $offlineUser;
 
 	public function setUp(): void {
 		$this->uid = 'deborah';
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->mapping = $this->createMock(UserMapping::class);
 		$this->shareManager = $this->createMock(IManager::class);
 
 		$this->offlineUser = new OfflineUser(
 			$this->uid,
-			$this->config,
+			$this->userConfig,
 			$this->mapping,
 			$this->shareManager
 		);
 	}
 
-	public function shareOwnerProvider(): array {
+	public static function shareOwnerProvider(): array {
 		return [
 			[[], false],
 			[[IShare::TYPE_USER], true],
@@ -69,10 +47,8 @@ class OfflineUserTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider shareOwnerProvider
-	 */
-	public function testHasActiveShares(array $existingShareTypes, bool $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'shareOwnerProvider')]
+	public function testHasActiveShares(array $existingShareTypes, bool $expected): void {
 		$shareMock = $this->createMock(IShare::class);
 
 		$this->shareManager->expects($this->atLeastOnce())

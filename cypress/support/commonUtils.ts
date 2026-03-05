@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/**
  * Get the header navigation bar
  */
 export function getNextcloudHeader() {
@@ -42,10 +47,14 @@ export function clearState() {
 export function installTestApp() {
 	const testAppPath = 'cypress/fixtures/testapp'
 	cy.runOccCommand('-V').then((output) => {
+		// @ts-expect-error we added this property in cypress.config.ts
+		const containerName = Cypress.config('dockerContainerName')
 		const version = output.stdout.match(/(\d\d+)\.\d+\.\d+/)?.[1]
 		cy.wrap(version).should('not.be.undefined')
-		cy.exec(`docker cp '${testAppPath}' nextcloud-cypress-tests-server:/var/www/html/apps`, { log: true })
-		cy.exec(`docker exec nextcloud-cypress-tests-server sed -i -e 's|-version="[0-9]\\+|-version="${version}|g' apps/testapp/appinfo/info.xml`)
+
+		cy.exec(`docker cp '${testAppPath}' ${containerName}:/var/www/html/apps-cypress`, { log: true })
+		cy.exec(`docker exec --workdir /var/www/html ${containerName} chown -R www-data:www-data /var/www/html/apps-cypress/testapp`)
+		cy.runCommand(`sed -i -e 's|-version=\\"[0-9]\\+|-version=\\"${version}|g' apps-cypress/testapp/appinfo/info.xml`)
 		cy.runOccCommand('app:enable --force testapp')
 	})
 }
@@ -55,5 +64,5 @@ export function installTestApp() {
  */
 export function uninstallTestApp() {
 	cy.runOccCommand('app:remove testapp', { failOnNonZeroExit: false })
-	cy.exec('docker exec nextcloud-cypress-tests-server rm -fr apps/testapp/appinfo/info.xml')
+	cy.runCommand('rm -fr apps-cypress/testapp')
 }

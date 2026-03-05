@@ -1,30 +1,12 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP\Files;
 
@@ -64,13 +46,14 @@ interface Folder extends Node {
 	public function isSubNode($node);
 
 	/**
-	 * get the content of this directory
+	 * Get the content of this directory.
 	 *
+	 * @param ?non-empty-string $mimetypeFilter Limit the returned content to this mimetype or mimepart
 	 * @throws \OCP\Files\NotFoundException
 	 * @return \OCP\Files\Node[]
 	 * @since 6.0.0
 	 */
-	public function getDirectoryListing();
+	public function getDirectoryListing(?string $mimetypeFilter = null): array;
 
 	/**
 	 * Get the node at $path
@@ -78,9 +61,19 @@ interface Folder extends Node {
 	 * @param string $path relative path of the file or folder
 	 * @return \OCP\Files\Node
 	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @since 6.0.0
 	 */
 	public function get($path);
+
+	/**
+	 * Get or create new folder if the folder does not already exist.
+	 *
+	 * @param string $path relative path of the file or folder
+	 * @throw \OCP\Files\NotPermittedException
+	 * @since 33.0.0
+	 */
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): Folder;
 
 	/**
 	 * Check if a file or folder exists in the folder
@@ -202,12 +195,12 @@ interface Folder extends Node {
 	/**
 	 * Add a suffix to the name in case the file exists
 	 *
-	 * @param string $name
+	 * @param string $filename
 	 * @return string
 	 * @throws NotPermittedException
 	 * @since 8.1.0
 	 */
-	public function getNonExistingName($name);
+	public function getNonExistingName($filename);
 
 	/**
 	 * @param int $limit
@@ -216,4 +209,15 @@ interface Folder extends Node {
 	 * @since 9.1.0
 	 */
 	public function getRecent($limit, $offset = 0);
+
+	/**
+	 * Verify if the given path is valid and allowed from this folder.
+	 *
+	 * @param string $path the path from this folder
+	 * @param string $fileName
+	 * @param bool $readonly Check only if the path is allowed for read-only access
+	 * @throws InvalidPathException
+	 * @since 32.0.0
+	 */
+	public function verifyPath($fileName, $readonly = false): void;
 }

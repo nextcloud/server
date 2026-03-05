@@ -3,46 +3,21 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification;
 
-use OC\Updater\ChangesCheck;
 use OC\Updater\VersionCheck;
+use OCP\AppFramework\Services\IInitialState;
 
 class UpdateChecker {
-	/** @var VersionCheck */
-	private $updater;
-	/** @var ChangesCheck */
-	private $changesCheck;
 
-	/**
-	 * @param VersionCheck $updater
-	 */
-	public function __construct(VersionCheck $updater, ChangesCheck $changesCheck) {
-		$this->updater = $updater;
-		$this->changesCheck = $changesCheck;
+	public function __construct(
+		private VersionCheck $updater,
+		private IInitialState $initialState,
+	) {
 	}
 
 	/**
@@ -64,13 +39,6 @@ class UpdateChecker {
 			if (strpos($data['url'], 'https://') === 0) {
 				$result['downloadLink'] = $data['url'];
 			}
-			if (strpos($data['changes'], 'https://') === 0) {
-				try {
-					$result['changes'] = $this->changesCheck->check($data['changes'], $data['version']);
-				} catch (\Exception $e) {
-					// no info, not a problem
-				}
-			}
 
 			return $result;
 		}
@@ -79,13 +47,17 @@ class UpdateChecker {
 	}
 
 	/**
-	 * @param array $data
+	 * Provide update information as initial state
 	 */
-	public function populateJavaScriptVariables(array $data) {
-		$data['array']['oc_updateState'] = json_encode([
-			'updateAvailable' => true,
-			'updateVersion' => $this->getUpdateState()['updateVersionString'],
-			'updateLink' => $this->getUpdateState()['updateLink'] ?? '',
+	public function setInitialState(): void {
+		$updateState = $this->getUpdateState();
+		if (empty($updateState)) {
+			return;
+		}
+
+		$this->initialState->provideInitialState('updateState', [
+			'updateVersion' => $updateState['updateVersionString'],
+			'updateLink' => $updateState['updateLink'] ?? '',
 		]);
 	}
 }

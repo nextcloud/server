@@ -1,78 +1,49 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-// eslint-disable-next-line n/no-extraneous-import
-import type { AxiosResponse } from 'axios'
+
+import type { AxiosResponse } from '@nextcloud/axios'
 import type { ContentsWithRoot } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
+import type { IStorage } from '../types.ts'
 
-import { Folder, Permission } from '@nextcloud/files'
-import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-
-import { STORAGE_STATUS } from '../utils/credentialsUtils'
+import { Folder, Permission } from '@nextcloud/files'
+import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { StorageStatus } from '../types.ts'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`
-
-export type StorageConfig = {
-	applicableUsers?: string[]
-	applicableGroups?: string[]
-	authMechanism: string
-	backend: string
-	backendOptions: Record<string, string>
-	can_edit: boolean
-	id: number
-	mountOptions?: Record<string, string>
-	mountPoint: string
-	priority: number
-	status: number
-	statusMessage: string
-	type: 'system' | 'user'
-	userProvided: boolean
-}
 
 /**
  * https://github.com/nextcloud/server/blob/ac2bc2384efe3c15ff987b87a7432bc60d545c67/apps/files_external/lib/Controller/ApiController.php#L71-L97
  */
 export type MountEntry = {
 	name: string
-	path: string,
-	type: 'dir',
-	backend: 'SFTP',
-	scope: 'system' | 'personal',
-	permissions: number,
-	id: number,
+	path: string
+	type: 'dir'
+	backend: 'SFTP'
+	scope: 'system' | 'personal'
+	permissions: number
+	id: number
 	class: string
-	config: StorageConfig
+	config: IStorage
 }
 
-const entryToFolder = (ocsEntry: MountEntry): Folder => {
+/**
+ * Convert an OCS api result (mount entry) to a Folder instance
+ *
+ * @param ocsEntry - The OCS mount entry
+ */
+function entryToFolder(ocsEntry: MountEntry): Folder {
 	const path = (ocsEntry.path + '/' + ocsEntry.name).replace(/^\//gm, '')
 	return new Folder({
 		id: ocsEntry.id,
 		source: generateRemoteUrl('dav' + rootPath + '/' + path),
 		root: rootPath,
 		owner: getCurrentUser()?.uid || null,
-		permissions: ocsEntry.config.status !== STORAGE_STATUS.SUCCESS
+		permissions: ocsEntry.config.status !== StorageStatus.Success
 			? Permission.NONE
 			: ocsEntry?.permissions || Permission.READ,
 		attributes: {
@@ -82,7 +53,10 @@ const entryToFolder = (ocsEntry: MountEntry): Folder => {
 	})
 }
 
-export const getContents = async (): Promise<ContentsWithRoot> => {
+/**
+ * Fetch the contents of external storage mounts
+ */
+export async function getContents(): Promise<ContentsWithRoot> {
 	const response = await axios.get(generateOcsUrl('apps/files_external/api/v1/mounts')) as AxiosResponse<OCSResponse<MountEntry[]>>
 	const contents = response.data.ocs.data.map(entryToFolder)
 
@@ -98,7 +72,13 @@ export const getContents = async (): Promise<ContentsWithRoot> => {
 	}
 }
 
-export const getStatus = function(id: number, global = true) {
+/**
+ * Get the status of an external storage mount
+ *
+ * @param id - The storage ID
+ * @param global - Whether the storage is global or user specific
+ */
+export function getStatus(id: number, global = true) {
 	const type = global ? 'userglobalstorages' : 'userstorages'
-	return axios.get(generateUrl(`apps/files_external/${type}/${id}?testOnly=false`)) as Promise<AxiosResponse<StorageConfig>>
+	return axios.get(generateUrl(`apps/files_external/${type}/${id}?testOnly=false`)) as Promise<AxiosResponse<IStorage>>
 }

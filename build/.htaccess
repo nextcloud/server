@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 # line below if for Apache 2.4
 <ifModule mod_authz_core.c>
 Require all denied

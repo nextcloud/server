@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Search;
 
@@ -36,6 +17,7 @@ use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Property;
+use Sabre\VObject\Property\ICalendar\DateTime;
 use function array_combine;
 use function array_fill;
 use function array_key_exists;
@@ -168,16 +150,24 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById): SearchResultEntry {
 			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::$componentType);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
-			$subline = $this->generateSubline($component);
 
 			if ($eventRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {
 				$calendar = $calendarsById[$eventRow['calendarid']];
 			} else {
 				$calendar = $subscriptionsById[$eventRow['calendarid']];
 			}
+			$subline = $this->generateSubline($component, $calendar);
 			$resourceUrl = $this->getDeepLinkToCalendarApp($calendar['principaluri'], $calendar['uri'], $eventRow['uri']);
+			$result = new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
 
-			return new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
+			$dtStart = $component->DTSTART;
+
+			if ($dtStart instanceof DateTime) {
+				$startDateTime = $dtStart->getDateTime()->format('U');
+				$result->addAttribute('createdAt', $startDateTime);
+			}
+
+			return $result;
 		}, $searchResults);
 
 		return SearchResult::paginated(
@@ -204,17 +194,17 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	protected function getDavUrlForCalendarObject(
 		string $principalUri,
 		string $calendarUri,
-		string $calendarObjectUri
+		string $calendarObjectUri,
 	): string {
 		[,, $principalId] = explode('/', $principalUri, 3);
 
 		return $this->urlGenerator->linkTo('', 'remote.php') . '/dav/calendars/'
-			. $principalId . '/'
+			. str_replace(' ', '%20', $principalId) . '/'
 			. $calendarUri . '/'
 			. $calendarObjectUri;
 	}
 
-	protected function generateSubline(Component $eventComponent): string {
+	protected function generateSubline(Component $eventComponent, array $calendarInfo): string {
 		$dtStart = $eventComponent->DTSTART;
 		$dtEnd = $this->getDTEndForEvent($eventComponent);
 		$isAllDayEvent = $dtStart instanceof Property\ICalendar\Date;
@@ -224,24 +214,31 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		if ($isAllDayEvent) {
 			$endDateTime->modify('-1 day');
 			if ($this->isDayEqual($startDateTime, $endDateTime)) {
-				return $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
+				$formattedSubline = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
+			} else {
+				$formattedStart = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
+				$formattedEnd = $this->l10n->l('date', $endDateTime, ['width' => 'medium']);
+				$formattedSubline = "$formattedStart - $formattedEnd";
 			}
+		} else {
+			$formattedStartDate = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
+			$formattedEndDate = $this->l10n->l('date', $endDateTime, ['width' => 'medium']);
+			$formattedStartTime = $this->l10n->l('time', $startDateTime, ['width' => 'short']);
+			$formattedEndTime = $this->l10n->l('time', $endDateTime, ['width' => 'short']);
 
-			$formattedStart = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
-			$formattedEnd = $this->l10n->l('date', $endDateTime, ['width' => 'medium']);
-			return "$formattedStart - $formattedEnd";
+			if ($this->isDayEqual($startDateTime, $endDateTime)) {
+				$formattedSubline = "$formattedStartDate $formattedStartTime - $formattedEndTime";
+			} else {
+				$formattedSubline = "$formattedStartDate $formattedStartTime - $formattedEndDate $formattedEndTime";
+			}
 		}
 
-		$formattedStartDate = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
-		$formattedEndDate = $this->l10n->l('date', $endDateTime, ['width' => 'medium']);
-		$formattedStartTime = $this->l10n->l('time', $startDateTime, ['width' => 'short']);
-		$formattedEndTime = $this->l10n->l('time', $endDateTime, ['width' => 'short']);
-
-		if ($this->isDayEqual($startDateTime, $endDateTime)) {
-			return "$formattedStartDate $formattedStartTime - $formattedEndTime";
+		if (isset($calendarInfo['{DAV:}displayname']) && !empty($calendarInfo['{DAV:}displayname'])) {
+			$formattedSubline = $formattedSubline . " ({$calendarInfo['{DAV:}displayname']})";
 		}
 
-		return "$formattedStartDate $formattedStartTime - $formattedEndDate $formattedEndTime";
+		// string cast is just to make psalm happy
+		return (string)$formattedSubline;
 	}
 
 	protected function getDTEndForEvent(Component $eventComponent):Property {

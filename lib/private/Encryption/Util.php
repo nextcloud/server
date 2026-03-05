@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Encryption;
 
@@ -32,6 +12,7 @@ use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCA\Encryption\Crypto\Encryption;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Files\Mount\ISystemMountPoint;
 use OCP\IConfig;
@@ -47,54 +28,32 @@ class Util {
 	public const HEADER_ENCRYPTION_MODULE_KEY = 'oc_encryption_module';
 
 	/**
-	 * block size will always be 8192 for a PHP stream
+	 * Block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641
-	 * @var integer
 	 */
-	protected $headerSize = 8192;
+	protected int $headerSize = 8192;
 
 	/**
-	 * block size will always be 8192 for a PHP stream
+	 * Block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641
-	 * @var integer
 	 */
-	protected $blockSize = 8192;
+	protected int $blockSize = 8192;
 
-	/** @var View */
-	protected $rootView;
-
-	/** @var array */
-	protected $ocHeaderKeys;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var array paths excluded from encryption */
+	protected array $ocHeaderKeys;
 	protected array $excludedPaths = [];
-	protected IGroupManager $groupManager;
-	protected IUserManager $userManager;
 
-	/**
-	 *
-	 * @param View $rootView
-	 * @param IConfig $config
-	 */
 	public function __construct(
-		View $rootView,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IConfig $config) {
+		protected View $rootView,
+		protected IUserManager $userManager,
+		protected IGroupManager $groupManager,
+		protected IConfig $config,
+	) {
 		$this->ocHeaderKeys = [
 			self::HEADER_ENCRYPTION_MODULE_KEY
 		];
 
-		$this->rootView = $rootView;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->config = $config;
-
 		$this->excludedPaths[] = 'files_encryption';
-		$this->excludedPaths[] = 'appdata_' . $config->getSystemValueString('instanceid');
+		$this->excludedPaths[] = 'appdata_' . $this->config->getSystemValueString('instanceid');
 		$this->excludedPaths[] = 'files_external';
 	}
 
@@ -115,7 +74,7 @@ class Util {
 			if (class_exists('\OCA\Encryption\Crypto\Encryption')) {
 				// fall back to default encryption if the user migrated from
 				// ownCloud <= 8.0 with the old encryption
-				$id = \OCA\Encryption\Crypto\Encryption::ID;
+				$id = Encryption::ID;
 			} else {
 				throw new ModuleDoesNotExistsException('Default encryption module missing');
 			}
@@ -310,8 +269,8 @@ class Util {
 		if (count($root) > 1) {
 			// detect alternative key storage root
 			$rootDir = $this->getKeyStorageRoot();
-			if ($rootDir !== '' &&
-				str_starts_with(Filesystem::normalizePath($path), Filesystem::normalizePath($rootDir))
+			if ($rootDir !== ''
+				&& str_starts_with(Filesystem::normalizePath($path), Filesystem::normalizePath($rootDir))
 			) {
 				return true;
 			}
@@ -324,7 +283,7 @@ class Util {
 
 			// detect user specific folders
 			if ($this->userManager->userExists($root[1])
-				&& in_array($root[2], $this->excludedPaths)) {
+				&& in_array($root[2] ?? '', $this->excludedPaths)) {
 				return true;
 			}
 		}

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 Feature: carddav
   Scenario: Accessing a not existing addressbook of another user
     Given user "user0" exists
@@ -47,7 +49,6 @@ Feature: carddav
         |X-Frame-Options|SAMEORIGIN|
         |X-Permitted-Cross-Domain-Policies|none|
         |X-Robots-Tag|noindex, nofollow|
-        |X-XSS-Protection|1; mode=block|
 
   Scenario: Exporting the picture of ones own contact
     Given "admin" creates an addressbook named "MyAddressbook" with statuscode "201"
@@ -61,7 +62,6 @@ Feature: carddav
       |X-Frame-Options|SAMEORIGIN|
       |X-Permitted-Cross-Domain-Policies|none|
       |X-Robots-Tag|noindex, nofollow|
-      |X-XSS-Protection|1; mode=block|
 
   Scenario: Create addressbook request for non-existing addressbook of another user
     Given user "user0" exists
@@ -77,3 +77,7 @@ Feature: carddav
     Then The CardDAV HTTP status code should be "404"
     And The CardDAV exception is "Sabre\DAV\Exception\NotFound"
     And The CardDAV error message is "File not found: admin in 'addressbooks'"
+
+  Scenario: Should create default addressbook on first login
+    Given user "first-login" exists
+    Then "first-login" requests addressbook "first-login/contacts" with statuscode "207" on the endpoint "/remote.php/dav/addressbooks/users/"

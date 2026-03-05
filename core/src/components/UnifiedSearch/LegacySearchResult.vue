@@ -1,26 +1,10 @@
- <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<a :href="resourceUrl || '#'"
+	<a
+		:href="resourceUrl || '#'"
 		class="unified-search__result"
 		:class="{
 			'unified-search__result--focused': focused,
@@ -29,7 +13,8 @@
 		@focus="reEmitEvent">
 
 		<!-- Icon describing the result -->
-		<div class="unified-search__result-icon"
+		<div
+			class="unified-search__result-icon"
 			:class="{
 				'unified-search__result-icon--rounded': rounded,
 				'unified-search__result-icon--no-preview': !hasValidThumbnail && !loaded,
@@ -40,7 +25,8 @@
 				backgroundImage: isIconUrl ? `url(${icon})` : '',
 			}">
 
-			<img v-if="hasValidThumbnail"
+			<img
+				v-if="hasValidThumbnail"
 				v-show="loaded"
 				:src="thumbnailUrl"
 				alt=""
@@ -59,7 +45,7 @@
 </template>
 
 <script>
-import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight.js'
+import NcHighlight from '@nextcloud/vue/components/NcHighlight'
 
 export default {
 	name: 'LegacySearchResult',
@@ -73,26 +59,32 @@ export default {
 			type: String,
 			default: null,
 		},
+
 		title: {
 			type: String,
 			required: true,
 		},
+
 		subline: {
 			type: String,
 			default: null,
 		},
+
 		resourceUrl: {
 			type: String,
 			default: null,
 		},
+
 		icon: {
 			type: String,
 			default: '',
 		},
+
 		rounded: {
 			type: Boolean,
 			default: false,
 		},
+
 		query: {
 			type: String,
 			default: '',
@@ -125,7 +117,6 @@ export default {
 
 			// Otherwise, let's check if this is a valid url
 			try {
-				// eslint-disable-next-line no-new
 				new URL(this.icon)
 			} catch {
 				return false
@@ -236,7 +227,7 @@ $margin: 10px;
 		flex-wrap: wrap;
 		// Set to minimum and gro from it
 		min-width: 0;
-		padding-left: $margin;
+		padding-inline-start: $margin;
 	}
 
 	&-line-one,

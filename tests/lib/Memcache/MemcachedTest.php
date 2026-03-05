@@ -1,26 +1,25 @@
 <?php
 
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Memcache;
 
-/**
- * @group Memcache
- * @group Memcached
- */
+use OC\Memcache\Memcached;
+
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
+#[\PHPUnit\Framework\Attributes\Group('Memcached')]
 class MemcachedTest extends Cache {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
-		if (!\OC\Memcache\Memcached::isAvailable()) {
+		if (!Memcached::isAvailable()) {
 			self::markTestSkipped('The memcached extension is not available.');
 		}
-		$instance = new \OC\Memcache\Memcached(self::getUniqueID());
+		$instance = new Memcached(self::getUniqueID());
 		if ($instance->set(self::getUniqueID(), self::getUniqueID()) === false) {
 			self::markTestSkipped('memcached server seems to be down.');
 		}
@@ -28,10 +27,10 @@ class MemcachedTest extends Cache {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->instance = new \OC\Memcache\Memcached($this->getUniqueID());
+		$this->instance = new Memcached($this->getUniqueID());
 	}
 
-	public function testClear() {
+	public function testClear(): void {
 		// Memcached is sometimes broken with clear(), so we don't test it thoroughly
 		$value = 'ipsum lorum';
 		$this->instance->set('1_value1', $value);

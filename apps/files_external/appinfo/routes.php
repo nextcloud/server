@@ -1,42 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Ross Nicoll <jrn@jrn.me.uk>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-
-
-$this->create('files_external_oauth1', 'apps/files_external/ajax/oauth1.php')
-	->actionInclude('files_external/ajax/oauth1.php');
-$this->create('files_external_oauth2', 'apps/files_external/ajax/oauth2.php')
-	->actionInclude('files_external/ajax/oauth2.php');
-
-
-$this->create('files_external_list_applicable', '/apps/files_external/applicable')
-	->actionInclude('files_external/ajax/applicable.php');
-
 return [
 	'resources' => [
 		'global_storages' => ['url' => '/globalstorages'],
@@ -45,10 +15,14 @@ return [
 	],
 	'routes' => [
 		[
+			'name' => 'Ajax#getApplicableEntities',
+			'url' => '/ajax/applicable',
+			'verb' => 'GET',
+		],
+		[
 			'name' => 'Ajax#getSshKeys',
 			'url' => '/ajax/public_key.php',
 			'verb' => 'POST',
-			'requirements' => [],
 		],
 		[
 			'name' => 'Ajax#saveGlobalCredentials',
@@ -60,11 +34,6 @@ return [
 		[
 			'name' => 'Api#getUserMounts',
 			'url' => '/api/v1/mounts',
-			'verb' => 'GET',
-		],
-		[
-			'name' => 'Api#askNativeAuth',
-			'url' => '/api/v1/auth',
 			'verb' => 'GET',
 		],
 	],

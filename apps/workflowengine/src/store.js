@@ -1,36 +1,14 @@
 /**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import axios from '@nextcloud/axios'
+import { loadState } from '@nextcloud/initial-state'
+import { confirmPassword } from '@nextcloud/password-confirmation'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import axios from '@nextcloud/axios'
 import { getApiUrl } from './helpers/api.js'
-import { confirmPassword } from '@nextcloud/password-confirmation'
-import '@nextcloud/password-confirmation/dist/style.css'
-import { loadState } from '@nextcloud/initial-state'
 
 Vue.use(Vuex)
 
@@ -48,7 +26,7 @@ const store = new Store({
 
 		entities: loadState('workflowengine', 'entities'),
 		events: loadState('workflowengine', 'entities')
-			.map((entity) => entity.events.map(event => {
+			.map((entity) => entity.events.map((event) => {
 				return {
 					id: `${entity.id}::${event.eventName}`,
 					entity,
@@ -63,7 +41,7 @@ const store = new Store({
 		},
 		updateRule(state, rule) {
 			const index = state.rules.findIndex((item) => rule.id === item.id)
-			const newRule = Object.assign({}, rule)
+			const newRule = { ...rule }
 			Vue.set(state.rules, index, newRule)
 		},
 		removeRule(state, rule) {
@@ -74,9 +52,11 @@ const store = new Store({
 			Vue.set(state.plugins.checks, plugin.class, plugin)
 		},
 		addPluginOperator(state, plugin) {
-			plugin = Object.assign(
-				{ color: 'var(--color-primary-element)' },
-				plugin, state.operations[plugin.id] || {})
+			plugin = {
+				color: 'var(--color-primary-element)',
+				...plugin,
+				...state.operations[plugin.id] || {},
+			}
 			if (typeof state.operations[plugin.id] !== 'undefined') {
 				Vue.set(state.operations, plugin.id, plugin)
 			}
@@ -147,6 +127,10 @@ const store = new Store({
 				return rule1.id - rule2.id || rule2.class - rule1.class
 			})
 		},
+		/**
+		 * @param state
+		 * @return {OperatorPlugin}
+		 */
 		getOperationForRule(state) {
 			return (rule) => state.operations[rule.class]
 		},
@@ -154,7 +138,7 @@ const store = new Store({
 			return (operation) => state.entities.find((entity) => operation.fixedEntity === entity.id)
 		},
 		getEventsForOperation(state) {
-			return (operation) => state.events
+			return () => state.events
 		},
 
 		/**

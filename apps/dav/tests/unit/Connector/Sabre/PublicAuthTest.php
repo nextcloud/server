@@ -1,63 +1,42 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Connector;
 
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class PublicAuthTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PublicAuthTest extends \Test\TestCase {
 
-	/** @var ISession|MockObject */
-	private $session;
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var IManager|MockObject */
-	private $shareManager;
-	/** @var PublicAuth */
-	private $auth;
-	/** @var IThrottler|MockObject */
-	private $throttler;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
+	private ISession&MockObject $session;
+	private IRequest&MockObject $request;
+	private IManager&MockObject $shareManager;
+	private IThrottler&MockObject $throttler;
+	private LoggerInterface&MockObject $logger;
+	private IURLGenerator&MockObject $urlGenerator;
+	private PublicAuth $auth;
 
-	/** @var string */
-	private $oldUser;
+	private bool|string $oldUser;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -67,13 +46,15 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
-		$this->auth = new \OCA\DAV\Connector\Sabre\PublicAuth(
+		$this->auth = new PublicAuth(
 			$this->request,
 			$this->shareManager,
 			$this->session,
 			$this->throttler,
 			$this->logger,
+			$this->urlGenerator,
 		);
 
 		// Store current user
@@ -85,7 +66,9 @@ class PublicAuthTest extends \Test\TestCase {
 
 		// Set old user
 		\OC_User::setUserId($this->oldUser);
-		\OC_Util::setupFS($this->oldUser);
+		if ($this->oldUser !== false) {
+			\OC_Util::setupFS($this->oldUser);
+		}
 
 		parent::tearDown();
 	}
@@ -94,7 +77,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$result = $this->invokePrivate($this->auth, 'getToken');
+		$result = self::invokePrivate($this->auth, 'getToken');
 
 		$this->assertSame('GX9HSGQrGE', $result);
 	}
@@ -104,16 +87,14 @@ class PublicAuthTest extends \Test\TestCase {
 			->willReturn('/dav/files');
 
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
-		$this->invokePrivate($this->auth, 'getToken');
+		self::invokePrivate($this->auth, 'getToken');
 	}
 
 	public function testCheckTokenValidShare(): void {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn(null);
 
 		$this->shareManager->expects($this->once())
@@ -121,7 +102,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->with('GX9HSGQrGE')
 			->willReturn($share);
 
-		$result = $this->invokePrivate($this->auth, 'checkToken');
+		$result = self::invokePrivate($this->auth, 'checkToken');
 		$this->assertSame([true, 'principals/GX9HSGQrGE'], $result);
 	}
 
@@ -133,19 +114,17 @@ class PublicAuthTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getShareByToken')
 			->with('GX9HSGQrGE')
-			->will($this->throwException(new ShareNotFound()));
+			->willThrowException(new ShareNotFound());
 
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
-		$this->invokePrivate($this->auth, 'checkToken');
+		self::invokePrivate($this->auth, 'checkToken');
 	}
 
 	public function testCheckTokenAlreadyAuthenticated(): void {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(42);
 
 		$this->shareManager->expects($this->once())
@@ -155,8 +134,8 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
-	
-		$result = $this->invokePrivate($this->auth, 'checkToken');
+
+		$result = self::invokePrivate($this->auth, 'checkToken');
 		$this->assertSame([true, 'principals/GX9HSGQrGE'], $result);
 	}
 
@@ -164,9 +143,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(42);
 
@@ -176,18 +153,16 @@ class PublicAuthTest extends \Test\TestCase {
 			->willReturn($share);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
-	
+
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
-		$this->invokePrivate($this->auth, 'checkToken');
+		self::invokePrivate($this->auth, 'checkToken');
 	}
 
 	public function testCheckTokenPasswordAuthenticatedWrongShare(): void {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(42);
 
@@ -198,9 +173,9 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
-	
+
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
-		$this->invokePrivate($this->auth, 'checkToken');
+		self::invokePrivate($this->auth, 'checkToken');
 	}
 
 	public function testNoShare(): void {
@@ -212,7 +187,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->with('GX9HSGQrGE')
 			->willThrowException(new ShareNotFound());
 
-		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertFalse($result);
 	}
@@ -221,9 +196,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn(null);
 
 		$this->shareManager->expects($this->once())
@@ -231,7 +204,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->with('GX9HSGQrGE')
 			->willReturn($share);
 
-		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertTrue($result);
 	}
@@ -240,9 +213,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(42);
 
@@ -251,7 +222,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->with('GX9HSGQrGE')
 			->willReturn($share);
 
-		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertFalse($result);
 	}
@@ -261,9 +232,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_REMOTE);
 
@@ -272,7 +241,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->with('GX9HSGQrGE')
 			->willReturn($share);
 
-		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertTrue($result);
 	}
@@ -281,9 +250,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 
@@ -298,7 +265,7 @@ class PublicAuthTest extends \Test\TestCase {
 				$this->equalTo('password')
 			)->willReturn(true);
 
-		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertTrue($result);
 	}
@@ -307,9 +274,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 
@@ -324,7 +289,7 @@ class PublicAuthTest extends \Test\TestCase {
 				$this->equalTo('password')
 			)->willReturn(true);
 
-		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertTrue($result);
 	}
@@ -333,9 +298,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
@@ -353,9 +316,9 @@ class PublicAuthTest extends \Test\TestCase {
 			)->willReturn(false);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['42']);
 
-		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertTrue($result);
 	}
@@ -364,9 +327,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
@@ -386,7 +347,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
 
-		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertFalse($result);
 	}
@@ -396,9 +357,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
 
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 		$share->method('getId')->willReturn('42');
@@ -418,7 +377,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
 
-		$result = $this->invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
+		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
 		$this->assertFalse($result);
 	}

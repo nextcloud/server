@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Daniel Kesselberg <mail@danielkesselberg.de>
- *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\ContactsInteraction\Tests\Db;
 
@@ -29,26 +12,21 @@ use OCA\ContactsInteraction\Db\RecentContact;
 use OCA\ContactsInteraction\Db\RecentContactMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
+use OCP\Server;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\UUIDUtil;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class RecentContactMapperTest extends TestCase {
-
-	/** @var RecentContactMapper */
-	private $recentContactMapper;
-
-	/** @var ITimeFactory */
-	private $time;
+	private RecentContactMapper $recentContactMapper;
+	private ITimeFactory $time;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->recentContactMapper = \OC::$server->get(RecentContactMapper::class);
-		$this->time = \OC::$server->get(ITimeFactory::class);
+		$this->recentContactMapper = Server::get(RecentContactMapper::class);
+		$this->time = Server::get(ITimeFactory::class);
 	}
 
 	protected function tearDown(): void {

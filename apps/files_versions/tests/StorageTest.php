@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\files_versions\tests;
@@ -27,18 +12,17 @@ use OCA\Files_Versions\Expiration;
 use OCA\Files_Versions\Storage;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Server;
 use Test\TestCase;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class StorageTest extends TestCase {
 	use UserTrait;
 
 	private $versionsRoot;
 	private $userFolder;
-	private $expireTimestamp = 10;
+	private int $expireTimestamp = 10;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -55,22 +39,22 @@ class StorageTest extends TestCase {
 		$this->createUser('version_test', '');
 		$this->loginAsUser('version_test');
 		/** @var IRootFolder $root */
-		$root = \OC::$server->get(IRootFolder::class);
+		$root = Server::get(IRootFolder::class);
 		$this->userFolder = $root->getUserFolder('version_test');
 	}
 
 
-	protected function createPastFile(string $path, int $mtime) {
+	protected function createPastFile(string $path, int $mtime): void {
 		try {
 			$file = $this->userFolder->get($path);
+			$file->putContent((string)$mtime);
 		} catch (NotFoundException $e) {
-			$file = $this->userFolder->newFile($path);
+			$file = $this->userFolder->newFile($path, (string)$mtime);
 		}
-		$file->putContent((string)$mtime);
 		$file->touch($mtime);
 	}
 
-	public function testExpireMaxAge() {
+	public function testExpireMaxAge(): void {
 		$this->userFolder->newFolder('folder1');
 		$this->userFolder->newFolder('folder1/sub1');
 		$this->userFolder->newFolder('folder2');

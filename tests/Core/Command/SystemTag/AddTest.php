@@ -1,24 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2021, hosting.de, Johannes Leuker <developers@hosting.de>
- *
- * @author Johannes Leuker <developers@hosting.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Core\Command\SystemTag;
@@ -50,14 +34,14 @@ class AddTest extends TestCase {
 		$this->systemTagManager = $this->createMock(ISystemTagManager::class);
 		$this->command = $this->getMockBuilder(Add::class)
 			->setConstructorArgs([$this->systemTagManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$tagId = '42';
 		$tagName = 'wichtig';
 		$tagAccess = 'public';
@@ -99,7 +83,7 @@ class AddTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testAlreadyExists() {
+	public function testAlreadyExists(): void {
 		$tagId = '42';
 		$tagName = 'wichtig';
 		$tagAccess = 'public';
@@ -110,9 +94,9 @@ class AddTest extends TestCase {
 		$tag->method('getAccessLevel')->willReturn(ISystemTag::ACCESS_LEVEL_PUBLIC);
 
 		$this->systemTagManager->method('createTag')
-			->willReturnCallback(function ($tagName, $userVisible, $userAssignable) {
+			->willReturnCallback(function ($tagName, $userVisible, $userAssignable): void {
 				throw new TagAlreadyExistsException(
-					'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists'
+					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);
 			});
 

@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2015 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security;
@@ -28,12 +27,12 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider trustedDomainDataProvider
 	 * @param string $trustedDomains
 	 * @param string $testDomain
 	 * @param bool $result
 	 */
-	public function testIsTrustedUrl($trustedDomains, $testDomain, $result) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('trustedDomainDataProvider')]
+	public function testIsTrustedUrl($trustedDomains, $testDomain, $result): void {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
 				['overwritehost', '', ''],
@@ -45,12 +44,12 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider trustedDomainDataProvider
 	 * @param string $trustedDomains
 	 * @param string $testDomain
 	 * @param bool $result
 	 */
-	public function testIsTrustedDomain($trustedDomains, $testDomain, $result) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('trustedDomainDataProvider')]
+	public function testIsTrustedDomain($trustedDomains, $testDomain, $result): void {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
 				['overwritehost', '', ''],
@@ -64,7 +63,7 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	/**
 	 * @return array
 	 */
-	public function trustedDomainDataProvider() {
+	public static function trustedDomainDataProvider(): array {
 		$trustedHostTestList = [
 			'host.one.test',
 			'host.two.test',
@@ -135,7 +134,7 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 		];
 	}
 
-	public function testIsTrustedDomainOverwriteHost() {
+	public function testIsTrustedDomainOverwriteHost(): void {
 		$this->config->method('getSystemValue')
 			->with('overwritehost')
 			->willReturn('myproxyhost');

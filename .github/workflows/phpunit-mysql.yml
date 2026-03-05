@@ -2,6 +2,9 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
 name: PHPUnit mysql
 
@@ -20,6 +23,9 @@ concurrency:
 jobs:
   changes:
     runs-on: ubuntu-latest-low
+    permissions:
+      contents: read
+      pull-requests: read
 
     outputs:
       src: ${{ steps.changes.outputs.src }}
@@ -51,25 +57,30 @@ jobs:
     if: needs.changes.outputs.src != 'false'
 
     strategy:
+      fail-fast: false
       matrix:
-        php-versions: ['8.1']
-        mysql-versions: ['8.0', '8.3']
+        php-versions: ['8.2']
+        mysql-versions: ['8.0']
         include:
           - mysql-versions: '8.0'
             php-versions: '8.3'
             coverage: ${{ github.event_name != 'pull_request' }}
+          - mysql-versions: '8.4'
+            php-versions: '8.4'
+          - mysql-versions: '8.4'
+            php-versions: '8.5'
 
     name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
     services:
       cache:
-        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
         ports:
           - 6379:6379/tcp
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       mysql:
-        image: ghcr.io/nextcloud/continuous-integration-mysql-${{ matrix.mysql-versions }}:latest
+        image: ghcr.io/nextcloud/continuous-integration-mysql-${{ matrix.mysql-versions }}:latest # zizmor: ignore[unpinned-images]
         ports:
           - 4444:3306/tcp
         env:
@@ -77,16 +88,18 @@ jobs:
           MYSQL_USER: oc_autotest
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: oc_autotest
-        options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 5
+        options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 10
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -112,16 +125,22 @@ jobs:
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
-          php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
+          php -f tests/enable_all.php
 
       - name: PHPUnit
-        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
+        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v4.1.1
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
           files: ./clover.db.xml
+          flags: phpunit-mysql
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
           flags: phpunit-mysql
 
       - name: Print logs

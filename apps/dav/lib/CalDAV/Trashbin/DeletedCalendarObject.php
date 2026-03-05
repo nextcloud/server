@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Trashbin;
 
@@ -35,26 +18,13 @@ use Sabre\DAVACL\IACL;
 class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	use ACLTrait;
 
-	/** @var string */
-	private $name;
-
-	/** @var mixed[] */
-	private $objectData;
-
-	/** @var string */
-	private $principalUri;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	public function __construct(string $name,
-		array $objectData,
-		string $principalUri,
-		CalDavBackend $calDavBackend) {
-		$this->name = $name;
-		$this->objectData = $objectData;
-		$this->calDavBackend = $calDavBackend;
-		$this->principalUri = $principalUri;
+	public function __construct(
+		private string $name,
+		/** @var mixed[] */
+		private array $objectData,
+		private string $principalUri,
+		private CalDavBackend $calDavBackend,
+	) {
 	}
 
 	public function delete() {
@@ -89,7 +59,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	public function getContentType() {
 		$mime = 'text/calendar; charset=utf-8';
 		if (isset($this->objectData['component']) && $this->objectData['component']) {
-			$mime .= '; component='.$this->objectData['component'];
+			$mime .= '; component=' . $this->objectData['component'];
 		}
 
 		return $mime;
@@ -100,7 +70,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	public function getSize() {
-		return (int) $this->objectData['size'];
+		return (int)$this->objectData['size'];
 	}
 
 	public function restore(): void {
@@ -108,7 +78,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	public function getDeletedAt(): ?int {
-		return $this->objectData['deleted_at'] ? (int) $this->objectData['deleted_at'] : null;
+		return $this->objectData['deleted_at'] ? (int)$this->objectData['deleted_at'] : null;
 	}
 
 	public function getCalendarUri(): string {

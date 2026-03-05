@@ -3,39 +3,18 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\user_ldap\tests\Service;
+namespace OCA\User_LDAP\Tests\Service;
 
 use OCA\User_LDAP\Db\GroupMembership;
 use OCA\User_LDAP\Db\GroupMembershipMapper;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Service\UpdateGroupsService;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -45,23 +24,12 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UpdateGroupsServiceTest extends TestCase {
-	/** @var Group_Proxy|MockObject  */
-	protected $groupBackend;
-	/** @var IEventDispatcher|MockObject  */
-	protected $dispatcher;
-	/** @var IGroupManager|MockObject  */
-	protected $groupManager;
-	/** @var IUserManager|MockObject */
-	protected $userManager;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-	/** @var GroupMembershipMapper|MockObject  */
-	protected $groupMembershipMapper;
-	/** @var IConfig|MockObject */
-	protected $config;
-	/** @var ITimeFactory|MockObject */
-	protected $timeFactory;
-
+	protected Group_Proxy&MockObject $groupBackend;
+	protected IEventDispatcher&MockObject $dispatcher;
+	protected IGroupManager&MockObject $groupManager;
+	protected IUserManager&MockObject $userManager;
+	protected LoggerInterface&MockObject $logger;
+	protected GroupMembershipMapper&MockObject $groupMembershipMapper;
 	protected UpdateGroupsService $updateGroupsService;
 
 	public function setUp(): void {
@@ -71,8 +39,6 @@ class UpdateGroupsServiceTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->groupMembershipMapper = $this->createMock(GroupMembershipMapper::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->updateGroupsService = new UpdateGroupsService(
 			$this->groupBackend,
@@ -81,8 +47,6 @@ class UpdateGroupsServiceTest extends TestCase {
 			$this->userManager,
 			$this->logger,
 			$this->groupMembershipMapper,
-			$this->config,
-			$this->timeFactory
 		);
 	}
 
@@ -156,7 +120,7 @@ class UpdateGroupsServiceTest extends TestCase {
 		$removedEvents = 0;
 		$this->dispatcher->expects($this->exactly(4))
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) use (&$addedEvents, &$removedEvents) {
+			->willReturnCallback(function ($event) use (&$addedEvents, &$removedEvents): void {
 				if ($event instanceof UserRemovedEvent) {
 					$removedEvents++;
 				} elseif ($event instanceof UserAddedEvent) {

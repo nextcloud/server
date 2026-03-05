@@ -1,31 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Joel S <joel.devbox@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Erik Wouters <6179932+EWouters@users.noreply.github.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Command;
 
@@ -33,13 +10,17 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\Utils\Scanner;
 use OC\ForbiddenException;
+use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -52,10 +33,12 @@ class ScanAppData extends Base {
 	protected int $foldersCounter = 0;
 
 	protected int $filesCounter = 0;
+	protected int $previewsCounter = -1;
 
 	public function __construct(
 		protected IRootFolder $rootFolder,
 		protected IConfig $config,
+		private StorageFactory $previewStorage,
 	) {
 		parent::__construct();
 	}
@@ -70,9 +53,27 @@ class ScanAppData extends Base {
 		$this->addArgument('folder', InputArgument::OPTIONAL, 'The appdata subfolder to scan', '');
 	}
 
+	protected function getScanner(OutputInterface $output): Scanner {
+		$connection = $this->reconnectToDatabase($output);
+		return new Scanner(
+			null,
+			new ConnectionAdapter($connection),
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+		);
+	}
+
 	protected function scanFiles(OutputInterface $output, string $folder): int {
+		if ($folder === 'preview' || $folder === '') {
+			$this->previewsCounter = $this->previewStorage->scan();
+
+			if ($folder === 'preview') {
+				return self::SUCCESS;
+			}
+		}
+
 		try {
-			/** @var \OCP\Files\Folder $appData */
+			/** @var Folder $appData */
 			$appData = $this->getAppDataFolder();
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>NoAppData folder found</error>');
@@ -88,32 +89,26 @@ class ScanAppData extends Base {
 			}
 		}
 
-		$connection = $this->reconnectToDatabase($output);
-		$scanner = new \OC\Files\Utils\Scanner(
-			null,
-			new ConnectionAdapter($connection),
-			\OC::$server->query(IEventDispatcher::class),
-			\OC::$server->get(LoggerInterface::class)
-		);
+		$scanner = $this->getScanner($output);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output): void {
 			$output->writeln("\tFile   <info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->filesCounter;
 			$this->abortIfInterrupted();
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output): void {
 			$output->writeln("\tFolder <info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->foldersCounter;
 			$this->abortIfInterrupted();
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output): void {
 			$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')', OutputInterface::VERBOSITY_VERBOSE);
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', function ($fullPath) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', function ($fullPath) use ($output): void {
 			$output->writeln("\t<error>Entry \"" . $fullPath . '" will not be accessible due to incompatible encoding</error>');
 		});
 
@@ -151,10 +146,13 @@ class ScanAppData extends Base {
 
 		$folder = $input->getArgument('folder');
 
+		// Start the timer
+		$this->execTime = -microtime(true);
+
 		$this->initTools();
 
 		$exitCode = $this->scanFiles($output, $folder);
-		if ($exitCode === 0) {
+		if ($exitCode === self::SUCCESS) {
 			$this->presentStats($output);
 		}
 		return $exitCode;
@@ -164,8 +162,6 @@ class ScanAppData extends Base {
 	 * Initialises some useful tools for the Command
 	 */
 	protected function initTools(): void {
-		// Start the timer
-		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
 		set_error_handler([$this, 'exceptionErrorHandler'], E_ALL);
 	}
@@ -182,7 +178,7 @@ class ScanAppData extends Base {
 	 *
 	 * @throws \ErrorException
 	 */
-	public function exceptionErrorHandler($severity, $message, $file, $line) {
+	public function exceptionErrorHandler(int $severity, string $message, string $file, int $line): void {
 		if (!(error_reporting() & $severity)) {
 			// This error code is not included in error_reporting
 			return;
@@ -193,10 +189,12 @@ class ScanAppData extends Base {
 	protected function presentStats(OutputInterface $output): void {
 		// Stop the timer
 		$this->execTime += microtime(true);
-
-		$headers = [
-			'Folders', 'Files', 'Elapsed time'
-		];
+		if ($this->previewsCounter !== -1) {
+			$headers[] = 'Previews';
+		}
+		$headers[] = 'Folders';
+		$headers[] = 'Files';
+		$headers[] = 'Elapsed time';
 
 		$this->showSummary($headers, null, $output);
 	}
@@ -207,15 +205,21 @@ class ScanAppData extends Base {
 	 * @param string[] $headers
 	 * @param string[] $rows
 	 */
-	protected function showSummary($headers, $rows, OutputInterface $output): void {
+	protected function showSummary(array $headers, ?array $rows, OutputInterface $output): void {
 		$niceDate = $this->formatExecTime();
 		if (!$rows) {
-			$rows = [
-				$this->foldersCounter,
-				$this->filesCounter,
-				$niceDate,
-			];
+			if ($this->previewsCounter !== -1) {
+				$rows[] = $this->previewsCounter;
+			}
+			$rows[] = $this->foldersCounter;
+			$rows[] = $this->filesCounter;
+			$rows[] = $niceDate;
 		}
+
+		$this->displayTable($output, $headers, $rows);
+	}
+
+	protected function displayTable($output, $headers, $rows): void {
 		$table = new Table($output);
 		$table
 			->setHeaders($headers)
@@ -234,8 +238,8 @@ class ScanAppData extends Base {
 	}
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {
-		/** @var Connection $connection*/
-		$connection = \OC::$server->get(Connection::class);
+		/** @var Connection $connection */
+		$connection = Server::get(Connection::class);
 		try {
 			$connection->close();
 		} catch (\Exception $ex) {
@@ -256,12 +260,12 @@ class ScanAppData extends Base {
 	 * @throws NotFoundException
 	 */
 	private function getAppDataFolder(): Node {
-		$instanceId = $this->config->getSystemValue('instanceid', null);
+		$instanceId = $this->config->getSystemValueString('instanceid', '');
 
-		if ($instanceId === null) {
+		if ($instanceId === '') {
 			throw new NotFoundException();
 		}
 
-		return $this->rootFolder->get('appdata_'.$instanceId);
+		return $this->rootFolder->get('appdata_' . $instanceId);
 	}
 }

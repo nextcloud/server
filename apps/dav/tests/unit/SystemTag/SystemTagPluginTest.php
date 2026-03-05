@@ -1,36 +1,19 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
 use OCA\DAV\SystemTag\SystemTagNode;
+use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\SystemTag\SystemTagsByIdCollection;
 use OCA\DAV\SystemTag\SystemTagsObjectMappingCollection;
+use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -38,74 +21,39 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class SystemTagPluginTest extends \Test\TestCase {
-	public const ID_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::ID_PROPERTYNAME;
-	public const DISPLAYNAME_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::DISPLAYNAME_PROPERTYNAME;
-	public const USERVISIBLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERVISIBLE_PROPERTYNAME;
-	public const USERASSIGNABLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME;
-	public const CANASSIGN_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::CANASSIGN_PROPERTYNAME;
-	public const GROUPS_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::GROUPS_PROPERTYNAME;
+	public const ID_PROPERTYNAME = SystemTagPlugin::ID_PROPERTYNAME;
+	public const DISPLAYNAME_PROPERTYNAME = SystemTagPlugin::DISPLAYNAME_PROPERTYNAME;
+	public const USERVISIBLE_PROPERTYNAME = SystemTagPlugin::USERVISIBLE_PROPERTYNAME;
+	public const USERASSIGNABLE_PROPERTYNAME = SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME;
+	public const CANASSIGN_PROPERTYNAME = SystemTagPlugin::CANASSIGN_PROPERTYNAME;
+	public const GROUPS_PROPERTYNAME = SystemTagPlugin::GROUPS_PROPERTYNAME;
 
-	/**
-	 * @var \Sabre\DAV\Server
-	 */
-	private $server;
-
-	/**
-	 * @var \Sabre\DAV\Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
-	 * @var IUser
-	 */
-	private $user;
-
-	/**
-	 * @var \OCA\DAV\SystemTag\SystemTagPlugin
-	 */
-	private $plugin;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
+	private \Sabre\DAV\Server $server;
+	private \Sabre\DAV\Tree&MockObject $tree;
+	private ISystemTagManager&MockObject $tagManager;
+	private IGroupManager&MockObject $groupManager;
+	private IUserSession&MockObject $userSession;
+	private IRootFolder&MockObject $rootFolder;
+	private IUser&MockObject $user;
+	private ISystemTagObjectMapper&MockObject $tagMapper;
+	private SystemTagPlugin $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->tree = $this->createMock(Tree::class);
 
 		$this->server = new \Sabre\DAV\Server($this->tree);
 
-		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
-			->getMock();
-		$this->groupManager = $this->getMockBuilder(IGroupManager::class)
-			->getMock();
-		$this->user = $this->getMockBuilder(IUser::class)
-			->getMock();
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->getMock();
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->user = $this->createMock(IUser::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
@@ -114,22 +62,24 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('isLoggedIn')
 			->willReturn(true);
-		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
-			->getMock();
 
-		$this->plugin = new \OCA\DAV\SystemTag\SystemTagPlugin(
+		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+
+		$this->plugin = new SystemTagPlugin(
 			$this->tagManager,
 			$this->groupManager,
 			$this->userSession,
+			$this->rootFolder,
 			$this->tagMapper
 		);
 		$this->plugin->initialize($this->server);
 	}
 
-	public function getPropertiesDataProvider() {
+	public static function getPropertiesDataProvider(): array {
 		return [
 			[
-				new SystemTag(1, 'Test', true, true),
+				new SystemTag('1', 'Test', true, true),
 				[],
 				[
 					self::ID_PROPERTYNAME,
@@ -147,7 +97,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 				]
 			],
 			[
-				new SystemTag(1, 'Test', true, false),
+				new SystemTag('1', 'Test', true, false),
 				[],
 				[
 					self::ID_PROPERTYNAME,
@@ -165,7 +115,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 				]
 			],
 			[
-				new SystemTag(1, 'Test', true, false),
+				new SystemTag('1', 'Test', true, false),
 				['group1', 'group2'],
 				[
 					self::ID_PROPERTYNAME,
@@ -177,7 +127,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 				]
 			],
 			[
-				new SystemTag(1, 'Test', true, true),
+				new SystemTag('1', 'Test', true, true),
 				['group1', 'group2'],
 				[
 					self::ID_PROPERTYNAME,
@@ -192,10 +142,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider getPropertiesDataProvider
-	 */
-	public function testGetProperties(ISystemTag $systemTag, $groups, $requestedProperties, $expectedProperties): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getPropertiesDataProvider')]
+	public function testGetProperties(ISystemTag $systemTag, array $groups, array $requestedProperties, array $expectedProperties): void {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('admin');
@@ -246,7 +194,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	public function testGetPropertiesForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
-		$systemTag = new SystemTag(1, 'Test', true, false);
+		$systemTag = new SystemTag('1', 'Test', true, false);
 		$requestedProperties = [
 			self::ID_PROPERTYNAME,
 			self::GROUPS_PROPERTYNAME,
@@ -285,7 +233,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	}
 
 	public function testUpdatePropertiesAdmin(): void {
-		$systemTag = new SystemTag(1, 'Test', true, false);
+		$systemTag = new SystemTag('1', 'Test', true, false);
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('admin');
@@ -343,7 +291,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	public function testUpdatePropertiesForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
-		$systemTag = new SystemTag(1, 'Test', true, false);
+		$systemTag = new SystemTag('1', 'Test', true, false);
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('admin');
@@ -384,17 +332,15 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$propPatch->commit();
 	}
 
-	public function createTagInsufficientPermissionsProvider() {
+	public static function createTagInsufficientPermissionsProvider(): array {
 		return [
 			[true, false, ''],
 			[false, true, ''],
 			[true, true, 'group1|group2'],
 		];
 	}
-	/**
-	 * @dataProvider createTagInsufficientPermissionsProvider
-	 */
-	public function testCreateNotAssignableTagAsRegularUser($userVisible, $userAssignable, $groups): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'createTagInsufficientPermissionsProvider')]
+	public function testCreateNotAssignableTagAsRegularUser(bool $userVisible, bool $userAssignable, string $groups): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Not sufficient permissions');
 
@@ -417,9 +363,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		}
 		$requestData = json_encode($requestData);
 
-		$node = $this->getMockBuilder(SystemTagsByIdCollection::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(SystemTagsByIdCollection::class);
 		$this->tagManager->expects($this->never())
 			->method('createTag');
 		$this->tagManager->expects($this->never())
@@ -430,12 +374,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with('/systemtags')
 			->willReturn($node);
 
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 
 		$request->expects($this->once())
 			->method('getPath')
@@ -454,7 +394,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	}
 
 	public function testCreateTagInByIdCollectionAsRegularUser(): void {
-		$systemTag = new SystemTag(1, 'Test', true, false);
+		$systemTag = new SystemTag('1', 'Test', true, false);
 
 		$requestData = json_encode([
 			'name' => 'Test',
@@ -462,9 +402,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 			'userAssignable' => true,
 		]);
 
-		$node = $this->getMockBuilder(SystemTagsByIdCollection::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(SystemTagsByIdCollection::class);
 		$this->tagManager->expects($this->once())
 			->method('createTag')
 			->with('Test', true, true)
@@ -475,12 +413,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with('/systemtags')
 			->willReturn($node);
 
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 
 		$request->expects($this->once())
 			->method('getPath')
@@ -506,7 +440,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	public function createTagProvider() {
+	public static function createTagProvider(): array {
 		return [
 			[true, false, ''],
 			[false, false, ''],
@@ -514,10 +448,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider createTagProvider
-	 */
-	public function testCreateTagInByIdCollection($userVisible, $userAssignable, $groups): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'createTagProvider')]
+	public function testCreateTagInByIdCollection(bool $userVisible, bool $userAssignable, string $groups): void {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
@@ -527,7 +459,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with('admin')
 			->willReturn(true);
 
-		$systemTag = new SystemTag(1, 'Test', true, false);
+		$systemTag = new SystemTag('1', 'Test', true, false);
 
 		$requestData = [
 			'name' => 'Test',
@@ -539,9 +471,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		}
 		$requestData = json_encode($requestData);
 
-		$node = $this->getMockBuilder(SystemTagsByIdCollection::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(SystemTagsByIdCollection::class);
 		$this->tagManager->expects($this->once())
 			->method('createTag')
 			->with('Test', $userVisible, $userAssignable)
@@ -562,12 +492,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with('/systemtags')
 			->willReturn($node);
 
-		$request = $this->getMockBuilder(RequestInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 
 		$request->expects($this->once())
 			->method('getPath')
@@ -593,7 +519,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	public function nodeClassProvider() {
+	public static function nodeClassProvider(): array {
 		return [
 			['\OCA\DAV\SystemTag\SystemTagsByIdCollection'],
 			['\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection'],
@@ -610,7 +536,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with('admin')
 			->willReturn(true);
 
-		$systemTag = new SystemTag(1, 'Test', true, false);
+		$systemTag = new SystemTag('1', 'Test', true, false);
 
 		$requestData = json_encode([
 			'name' => 'Test',
@@ -618,9 +544,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 			'userAssignable' => false,
 		]);
 
-		$node = $this->getMockBuilder(SystemTagsObjectMappingCollection::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(SystemTagsObjectMappingCollection::class);
 
 		$this->tagManager->expects($this->once())
 			->method('createTag')
@@ -636,12 +560,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->method('createFile')
 			->with(1);
 
-		$request = $this->getMockBuilder(RequestInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 
 		$request->expects($this->once())
 			->method('getPath')
@@ -671,13 +591,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 	public function testCreateTagToUnknownNode(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
-		$node = $this->getMockBuilder(SystemTagsObjectMappingCollection::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(SystemTagsObjectMappingCollection::class);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
-			->will($this->throwException(new \Sabre\DAV\Exception\NotFound()));
+			->willThrowException(new \Sabre\DAV\Exception\NotFound());
 
 		$this->tagManager->expects($this->never())
 			->method('createTag');
@@ -685,12 +603,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$node->expects($this->never())
 			->method('createFile');
 
-		$request = $this->getMockBuilder(RequestInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 
 		$request->expects($this->once())
 			->method('getPath')
@@ -699,10 +613,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	/**
-	 * @dataProvider nodeClassProvider
-	 */
-	public function testCreateTagConflict($nodeClass): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'nodeClassProvider')]
+	public function testCreateTagConflict(string $nodeClass): void {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 
 		$this->user->expects($this->once())
@@ -720,25 +632,19 @@ class SystemTagPluginTest extends \Test\TestCase {
 			'userAssignable' => false,
 		]);
 
-		$node = $this->getMockBuilder($nodeClass)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock($nodeClass);
 		$this->tagManager->expects($this->once())
 			->method('createTag')
 			->with('Test', true, false)
-			->will($this->throwException(new TagAlreadyExistsException('Tag already exists')));
+			->willThrowException(new TagAlreadyExistsException('Tag already exists'));
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/systemtags')
 			->willReturn($node);
 
-		$request = $this->getMockBuilder(RequestInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 
 		$request->expects($this->once())
 			->method('getPath')

@@ -1,31 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Testing\Locking;
 
 use OC\Lock\DBLockingProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use Override;
 
 class FakeDBLockingProvider extends DBLockingProvider {
 	// Lock for 10 hours just to be sure
@@ -38,20 +24,22 @@ class FakeDBLockingProvider extends DBLockingProvider {
 
 	public function __construct(
 		IDBConnection $connection,
-		ITimeFactory $timeFactory
+		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($connection, $timeFactory);
 		$this->db = $connection;
 	}
 
-	/** @inheritDoc */
+	#[Override]
 	public function releaseLock(string $path, int $type): void {
-		// we DONT keep shared locks till the end of the request
+		// we DON'T keep shared locks till the end of the request
 		if ($type === self::LOCK_SHARED) {
-			$this->db->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = 0 WHERE `key` = ? AND `lock` = 1',
-				[$path]
-			);
+			$qb = $this->db->getQueryBuilder();
+			$qb->update('file_locks')
+				->set('lock', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+				->where($qb->expr()->eq('key', $qb->createNamedParameter($path, IQueryBuilder::PARAM_STR)))
+				->andWhere($qb->expr()->eq('lock', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)))
+				->executeStatement();
 		}
 
 		parent::releaseLock($path, $type);

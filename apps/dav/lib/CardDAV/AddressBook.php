@@ -1,33 +1,13 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
-use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\DB\Exception;
 use OCP\IL10N;
 use OCP\Server;
@@ -57,8 +37,8 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		parent::__construct($carddavBackend, $addressBookInfo);
 
 
-		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME &&
-			$this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {
+		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME
+			&& $this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {
 			$this->addressBookInfo['{DAV:}displayname'] = $l10n->t('Contacts');
 		}
 	}
@@ -253,9 +233,6 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	}
 
 	public function getChanges($syncToken, $syncLevel, $limit = null) {
-		if (!$syncToken && $limit) {
-			throw new UnsupportedLimitOnInitialSyncException();
-		}
 
 		return parent::getChanges($syncToken, $syncLevel, $limit);
 	}
@@ -269,7 +246,12 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		}
 
 		try {
-			return $this->carddavBackend->moveCard($sourceNode->getAddressbookId(), (int)$this->addressBookInfo['id'], $sourceNode->getUri(), $sourceNode->getOwner());
+			return $this->carddavBackend->moveCard(
+				$sourceNode->getAddressbookId(),
+				$sourceNode->getUri(),
+				$this->getResourceId(),
+				$targetName,
+			);
 		} catch (Exception $e) {
 			// Avoid injecting LoggerInterface everywhere
 			Server::get(LoggerInterface::class)->error('Could not move calendar object: ' . $e->getMessage(), ['exception' => $e]);

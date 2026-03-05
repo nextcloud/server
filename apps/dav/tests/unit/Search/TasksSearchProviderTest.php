@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\Search;
 
@@ -35,89 +17,80 @@ use OCP\IUser;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class TasksSearchProviderTest extends TestCase {
-
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
-	private $backend;
-
-	/** @var TasksSearchProvider */
-	private $provider;
+	private IAppManager&MockObject $appManager;
+	private IL10N&MockObject $l10n;
+	private IURLGenerator&MockObject $urlGenerator;
+	private CalDavBackend&MockObject $backend;
+	private TasksSearchProvider $provider;
 
 	// NO DUE NOR COMPLETED NOR SUMMARY
-	private $vTodo0 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'PRODID:TEST'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'BEGIN:VTODO'.PHP_EOL.
-		'UID:20070313T123432Z-456553@example.com'.PHP_EOL.
-		'DTSTAMP:20070313T123432Z'.PHP_EOL.
-		'STATUS:NEEDS-ACTION'.PHP_EOL.
-		'END:VTODO'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vTodo0 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'PRODID:TEST' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'BEGIN:VTODO' . PHP_EOL
+		. 'UID:20070313T123432Z-456553@example.com' . PHP_EOL
+		. 'DTSTAMP:20070313T123432Z' . PHP_EOL
+		. 'STATUS:NEEDS-ACTION' . PHP_EOL
+		. 'END:VTODO' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// DUE AND COMPLETED
-	private $vTodo1 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'PRODID:TEST'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'BEGIN:VTODO'.PHP_EOL.
-		'UID:20070313T123432Z-456553@example.com'.PHP_EOL.
-		'DTSTAMP:20070313T123432Z'.PHP_EOL.
-		'COMPLETED:20070707T100000Z'.PHP_EOL.
-		'DUE;VALUE=DATE:20070501'.PHP_EOL.
-		'SUMMARY:Task title'.PHP_EOL.
-		'STATUS:NEEDS-ACTION'.PHP_EOL.
-		'END:VTODO'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vTodo1 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'PRODID:TEST' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'BEGIN:VTODO' . PHP_EOL
+		. 'UID:20070313T123432Z-456553@example.com' . PHP_EOL
+		. 'DTSTAMP:20070313T123432Z' . PHP_EOL
+		. 'COMPLETED:20070707T100000Z' . PHP_EOL
+		. 'DUE;VALUE=DATE:20070501' . PHP_EOL
+		. 'SUMMARY:Task title' . PHP_EOL
+		. 'STATUS:NEEDS-ACTION' . PHP_EOL
+		. 'END:VTODO' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// COMPLETED ONLY
-	private $vTodo2 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'PRODID:TEST'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'BEGIN:VTODO'.PHP_EOL.
-		'UID:20070313T123432Z-456553@example.com'.PHP_EOL.
-		'DTSTAMP:20070313T123432Z'.PHP_EOL.
-		'COMPLETED:20070707T100000Z'.PHP_EOL.
-		'SUMMARY:Task title'.PHP_EOL.
-		'STATUS:NEEDS-ACTION'.PHP_EOL.
-		'END:VTODO'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vTodo2 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'PRODID:TEST' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'BEGIN:VTODO' . PHP_EOL
+		. 'UID:20070313T123432Z-456553@example.com' . PHP_EOL
+		. 'DTSTAMP:20070313T123432Z' . PHP_EOL
+		. 'COMPLETED:20070707T100000Z' . PHP_EOL
+		. 'SUMMARY:Task title' . PHP_EOL
+		. 'STATUS:NEEDS-ACTION' . PHP_EOL
+		. 'END:VTODO' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// DUE DATE
-	private $vTodo3 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'PRODID:TEST'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'BEGIN:VTODO'.PHP_EOL.
-		'UID:20070313T123432Z-456553@example.com'.PHP_EOL.
-		'DTSTAMP:20070313T123432Z'.PHP_EOL.
-		'DUE;VALUE=DATE:20070501'.PHP_EOL.
-		'SUMMARY:Task title'.PHP_EOL.
-		'STATUS:NEEDS-ACTION'.PHP_EOL.
-		'END:VTODO'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vTodo3 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'PRODID:TEST' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'BEGIN:VTODO' . PHP_EOL
+		. 'UID:20070313T123432Z-456553@example.com' . PHP_EOL
+		. 'DTSTAMP:20070313T123432Z' . PHP_EOL
+		. 'DUE;VALUE=DATE:20070501' . PHP_EOL
+		. 'SUMMARY:Task title' . PHP_EOL
+		. 'STATUS:NEEDS-ACTION' . PHP_EOL
+		. 'END:VTODO' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// DUE DATETIME
-	private $vTodo4 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'PRODID:TEST'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'BEGIN:VTODO'.PHP_EOL.
-		'UID:20070313T123432Z-456553@example.com'.PHP_EOL.
-		'DTSTAMP:20070313T123432Z'.PHP_EOL.
-		'DUE:20070709T130000Z'.PHP_EOL.
-		'SUMMARY:Task title'.PHP_EOL.
-		'STATUS:NEEDS-ACTION'.PHP_EOL.
-		'END:VTODO'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vTodo4 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'PRODID:TEST' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'BEGIN:VTODO' . PHP_EOL
+		. 'UID:20070313T123432Z-456553@example.com' . PHP_EOL
+		. 'DTSTAMP:20070313T123432Z' . PHP_EOL
+		. 'DUE:20070709T130000Z' . PHP_EOL
+		. 'SUMMARY:Task title' . PHP_EOL
+		. 'STATUS:NEEDS-ACTION' . PHP_EOL
+		. 'END:VTODO' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -222,19 +195,19 @@ class TasksSearchProviderTest extends TestCase {
 					'calendarid' => 99,
 					'calendartype' => CalDavBackend::CALENDAR_TYPE_CALENDAR,
 					'uri' => 'todo0.ics',
-					'calendardata' => $this->vTodo0,
+					'calendardata' => self::$vTodo0,
 				],
 				[
 					'calendarid' => 123,
 					'calendartype' => CalDavBackend::CALENDAR_TYPE_CALENDAR,
 					'uri' => 'todo1.ics',
-					'calendardata' => $this->vTodo1,
+					'calendardata' => self::$vTodo1,
 				],
 				[
 					'calendarid' => 1337,
 					'calendartype' => CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION,
 					'uri' => 'todo2.ics',
-					'calendardata' => $this->vTodo2,
+					'calendardata' => self::$vTodo2,
 				]
 			]);
 
@@ -245,7 +218,7 @@ class TasksSearchProviderTest extends TestCase {
 				$this->urlGenerator,
 				$this->backend,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getDeepLinkToTasksApp',
 				'generateSubline',
 			])
@@ -256,12 +229,11 @@ class TasksSearchProviderTest extends TestCase {
 			->willReturn('subline');
 		$provider->expects($this->exactly(3))
 			->method('getDeepLinkToTasksApp')
-			->withConsecutive(
-				['calendar-uri-99', 'todo0.ics'],
-				['calendar-uri-123', 'todo1.ics'],
-				['subscription-uri-1337', 'todo2.ics']
-			)
-			->willReturn('deep-link-to-tasks');
+			->willReturnMap([
+				['calendar-uri-99', 'todo0.ics', 'deep-link-to-tasks'],
+				['calendar-uri-123', 'todo1.ics', 'deep-link-to-tasks'],
+				['subscription-uri-1337', 'todo2.ics', 'deep-link-to-tasks']
+			]);
 
 		$actual = $provider->search($user, $query);
 		$data = $actual->jsonSerialize();
@@ -310,37 +282,37 @@ class TasksSearchProviderTest extends TestCase {
 			->willReturn('link-to-route-tasks.index');
 		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
-			->with('link-to-route-tasks.index#/calendars/uri-john.doe/tasks/task-uri.ics')
-			->willReturn('absolute-url-link-to-route-tasks.index#/calendars/uri-john.doe/tasks/task-uri.ics');
+			->with('link-to-route-tasks.indexcalendars/uri-john.doe/tasks/task-uri.ics')
+			->willReturn('absolute-url-link-to-route-tasks.indexcalendars/uri-john.doe/tasks/task-uri.ics');
 
 		$actual = self::invokePrivate($this->provider, 'getDeepLinkToTasksApp', ['uri-john.doe', 'task-uri.ics']);
-		$this->assertEquals('absolute-url-link-to-route-tasks.index#/calendars/uri-john.doe/tasks/task-uri.ics', $actual);
+		$this->assertEquals('absolute-url-link-to-route-tasks.indexcalendars/uri-john.doe/tasks/task-uri.ics', $actual);
 	}
 
-	/**
-	 * @param string $ics
-	 * @param string $expectedSubline
-	 *
-	 * @dataProvider generateSublineDataProvider
-	 */
-	public function testGenerateSubline(string $ics, string $expectedSubline): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'generateSublineDataProvider')]
+	public function testGenerateSubline(string $ics, string $expectedSubline, array $calendarInfo = []): void {
 		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
 		$taskComponent = $vCalendar->VTODO;
 
 		$this->l10n->method('t')->willReturnArgument(0);
-		$this->l10n->method('l')->willReturnArgument('');
+		$this->l10n->method('l')->willReturnArgument(0);
 
-		$actual = self::invokePrivate($this->provider, 'generateSubline', [$taskComponent]);
+		$actual = self::invokePrivate($this->provider, 'generateSubline', [$taskComponent, $calendarInfo]);
 		$this->assertEquals($expectedSubline, $actual);
 	}
 
-	public function generateSublineDataProvider(): array {
+	public static function generateSublineDataProvider(): array {
 		return [
-			[$this->vTodo0, ''],
-			[$this->vTodo1, 'Completed on %s'],
-			[$this->vTodo2, 'Completed on %s'],
-			[$this->vTodo3, 'Due on %s'],
-			[$this->vTodo4, 'Due on %s by %s'],
+			[self::$vTodo0, '', []],
+			[self::$vTodo1, 'Completed on %s', []],
+			[self::$vTodo2, 'Completed on %s', []],
+			[self::$vTodo3, 'Due on %s', []],
+			[self::$vTodo4, 'Due on %s by %s', []],
+			[self::$vTodo0, '(My Tasks)', ['{DAV:}displayname' => 'My Tasks']],
+			[self::$vTodo1, 'Completed on %s (My Tasks)', ['{DAV:}displayname' => 'My Tasks']],
+			[self::$vTodo3, 'Due on %s (My Tasks)', ['{DAV:}displayname' => 'My Tasks']],
+			[self::$vTodo4, 'Due on %s by %s (My Tasks)', ['{DAV:}displayname' => 'My Tasks']],
+			[self::$vTodo1, 'Completed on %s', ['{DAV:}displayname' => '']],
 		];
 	}
 }

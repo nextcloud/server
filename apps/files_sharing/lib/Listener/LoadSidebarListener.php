@@ -3,34 +3,21 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files_Sharing\Listener;
 
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\GlobalScale\IConfig;
+use OCP\IAppConfig;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Util;
 
@@ -39,14 +26,28 @@ use OCP\Util;
  */
 class LoadSidebarListener implements IEventListener {
 
-	public function __construct(private IInitialState $initialState, private IManager $shareManager) {
+	public function __construct(
+		private IInitialState $initialState,
+		private IManager $shareManager,
+	) {
 	}
 
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadSidebar)) {
 			return;
 		}
-
 		Util::addScript(Application::APP_ID, 'files_sharing_tab', 'files');
+
+		$appConfig = Server::get(IAppConfig::class);
+		$gsConfig = Server::get(IConfig::class);
+		$showFederatedToTrustedAsInternal = $gsConfig->isGlobalScaleEnabled() || $appConfig->getValueBool('files_sharing', ConfigLexicon::SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL);
+		$showFederatedAsInternal = ($gsConfig->isGlobalScaleEnabled() && $gsConfig->onlyInternalFederation())
+			|| $appConfig->getValueBool('files_sharing', ConfigLexicon::SHOW_FEDERATED_AS_INTERNAL);
+		$showExternalSharing = $appConfig->getValueBool('files_sharing', 'outgoing_server2server_share_enabled', true)
+			|| $appConfig->getValueBool('core', 'shareapi_allow_links', true);
+
+		$this->initialState->provideInitialState('showFederatedSharesAsInternal', $showFederatedAsInternal);
+		$this->initialState->provideInitialState('showFederatedSharesToTrustedServersAsInternal', $showFederatedToTrustedAsInternal);
+		$this->initialState->provideInitialState('showExternalSharing', $showExternalSharing);
 	}
 }

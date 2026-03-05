@@ -3,143 +3,167 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Thomas Citharel <nextcloud@tcit.fr>
- * @copyright Copyright (c) 2020, leith abdulla (<online-nextcloud@eleith.com>)
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author eleith <online+github@eleith.com>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
-use Exception;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCP\Http\Client\IClientService;
-use OCP\Http\Client\LocalServerException;
-use OCP\IConfig;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use OCA\DAV\CalDAV\Import\ImportService;
+use OCP\AppFramework\Utility\ITimeFactory;
 use Psr\Log\LoggerInterface;
-use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\PropPatch;
-use Sabre\DAV\Xml\Property\Href;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
-use Sabre\VObject\Reader;
-use Sabre\VObject\Recur\NoInstancesException;
-use Sabre\VObject\Splitter\ICalendar;
 use Sabre\VObject\UUIDUtil;
 use function count;
 
 class RefreshWebcalService {
-
-	private CalDavBackend $calDavBackend;
-
-	private IClientService $clientService;
-
-	private IConfig $config;
-
-	/** @var LoggerInterface */
-	private LoggerInterface $logger;
 
 	public const REFRESH_RATE = '{http://apple.com/ns/ical/}refreshrate';
 	public const STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
 	public const STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
 	public const STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
 
-	public function __construct(CalDavBackend $calDavBackend, IClientService $clientService, IConfig $config, LoggerInterface $logger) {
-		$this->calDavBackend = $calDavBackend;
-		$this->clientService = $clientService;
-		$this->config = $config;
-		$this->logger = $logger;
+	public function __construct(
+		private CalDavBackend $calDavBackend,
+		private LoggerInterface $logger,
+		private Connection $connection,
+		private ITimeFactory $time,
+		private ImportService $importService,
+	) {
 	}
 
 	public function refreshSubscription(string $principalUri, string $uri) {
 		$subscription = $this->getSubscription($principalUri, $uri);
-		$mutations = [];
 		if (!$subscription) {
 			return;
 		}
 
-		$webcalData = $this->queryWebcalFeed($subscription, $mutations);
-		if (!$webcalData) {
+		// Check the refresh rate if there is any
+		if (!empty($subscription[self::REFRESH_RATE])) {
+			// add the refresh interval to the last modified timestamp
+			$refreshInterval = new \DateInterval($subscription[self::REFRESH_RATE]);
+			$updateTime = $this->time->getDateTime();
+			$updateTime->setTimestamp($subscription['lastmodified'])->add($refreshInterval);
+			if ($updateTime->getTimestamp() > $this->time->getTime()) {
+				return;
+			}
+		}
+
+		$result = $this->connection->queryWebcalFeed($subscription);
+		if (!$result) {
 			return;
 		}
+
+		$data = $result['data'];
+		$format = $result['format'];
 
 		$stripTodos = ($subscription[self::STRIP_TODOS] ?? 1) === 1;
 		$stripAlarms = ($subscription[self::STRIP_ALARMS] ?? 1) === 1;
 		$stripAttachments = ($subscription[self::STRIP_ATTACHMENTS] ?? 1) === 1;
 
 		try {
-			$splitter = new ICalendar($webcalData, Reader::OPTION_FORGIVING);
+			$existingObjects = $this->calDavBackend->getLimitedCalendarObjects((int)$subscription['id'], CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION, ['id', 'uid', 'etag', 'uri']);
 
-			// we wait with deleting all outdated events till we parsed the new ones
-			// in case the new calendar is broken and `new ICalendar` throws a ParseException
-			// the user will still see the old data
-			$this->calDavBackend->purgeAllCachedEventsForSubscription($subscription['id']);
+			$generator = match ($format) {
+				'xcal' => $this->importService->importXml(...),
+				'jcal' => $this->importService->importJson(...),
+				default => $this->importService->importText(...)
+			};
 
-			while ($vObject = $splitter->getNext()) {
-				/** @var Component $vObject */
-				$compName = null;
+			foreach ($generator($data) as $vObject) {
+				/** @var Component\VCalendar $vObject */
+				$vBase = $vObject->getBaseComponent();
 
-				foreach ($vObject->getComponents() as $component) {
-					if ($component->name === 'VTIMEZONE') {
-						continue;
-					}
-
-					$compName = $component->name;
-
-					if ($stripAlarms) {
-						unset($component->{'VALARM'});
-					}
-					if ($stripAttachments) {
-						unset($component->{'ATTACH'});
-					}
-				}
-
-				if ($stripTodos && $compName === 'VTODO') {
+				// Skip if no base component found
+				if (!isset($vBase->UID)) {
 					continue;
 				}
 
-				$objectUri = $this->getRandomCalendarObjectUri();
-				$calendarData = $vObject->serialize();
-				try {
-					$this->calDavBackend->createCalendarObject($subscription['id'], $objectUri, $calendarData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
-				} catch (NoInstancesException | BadRequest $ex) {
-					$this->logger->error('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
+				// Some calendar providers (e.g. Google, MS) use very long UIDs
+				if (strlen($vBase->UID->getValue()) > 512) {
+					$this->logger->warning('Skipping calendar object with overly long UID from subscription "{subscriptionId}"', [
+						'subscriptionId' => $subscription['id'],
+						'uid' => $vBase->UID->getValue(),
+					]);
+					continue;
+				}
+
+				if ($stripTodos && $vBase->name === 'VTODO') {
+					continue;
+				}
+
+				if ($stripAlarms || $stripAttachments) {
+					foreach ($vObject->getComponents() as $component) {
+						if ($component->name === 'VTIMEZONE') {
+							continue;
+						}
+						if ($stripAlarms) {
+							$component->remove('VALARM');
+						}
+						if ($stripAttachments) {
+							$component->remove('ATTACH');
+						}
+					}
+				}
+
+				$sObject = $vObject->serialize();
+				$uid = $vBase->UID->getValue();
+				$etag = md5($sObject);
+
+				// No existing object with this UID, create it
+				if (!isset($existingObjects[$uid])) {
+					try {
+						$this->calDavBackend->createCalendarObject(
+							$subscription['id'],
+							UUIDUtil::getUUID() . '.ics',
+							$sObject,
+							CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION
+						);
+					} catch (\Exception $ex) {
+						$this->logger->warning('Unable to create calendar object from subscription {subscriptionId}', [
+							'exception' => $ex,
+							'subscriptionId' => $subscription['id'],
+							'source' => $subscription['source'],
+						]);
+					}
+				} elseif ($existingObjects[$uid]['etag'] !== $etag) {
+					// Existing object with this UID but different etag, update it
+					$this->calDavBackend->updateCalendarObject(
+						$subscription['id'],
+						$existingObjects[$uid]['uri'],
+						$sObject,
+						CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION
+					);
+					unset($existingObjects[$uid]);
+				} else {
+					// Existing object with same etag, just remove from tracking
+					unset($existingObjects[$uid]);
 				}
 			}
 
-			$newRefreshRate = $this->checkWebcalDataForRefreshRate($subscription, $webcalData);
-			if ($newRefreshRate) {
-				$mutations[self::REFRESH_RATE] = $newRefreshRate;
+			// Clean up objects that no longer exist in the remote feed
+			// The only events left over should be those not found upstream
+			if (!empty($existingObjects)) {
+				$ids = array_map('intval', array_column($existingObjects, 'id'));
+				$uris = array_column($existingObjects, 'uri');
+				$this->calDavBackend->purgeCachedEventsForSubscription((int)$subscription['id'], $ids, $uris);
 			}
 
-			$this->updateSubscription($subscription, $mutations);
+			// Update refresh rate from the last processed object
+			if (isset($vObject)) {
+				$this->updateRefreshRate($subscription, $vObject);
+			}
 		} catch (ParseException $ex) {
-			$this->logger->error("Subscription {subscriptionId} could not be refreshed due to a parsing error", ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
+			$this->logger->error('Subscription {subscriptionId} could not be refreshed due to a parsing error', ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
+		} finally {
+			// Close the data stream to free resources
+			if (is_resource($data)) {
+				fclose($data);
+			}
 		}
 	}
 
@@ -162,211 +186,33 @@ class RefreshWebcalService {
 	}
 
 	/**
-	 * gets webcal feed from remote server
+	 * Update refresh rate from calendar object if:
+	 *  - current subscription does not store a refreshrate
+	 *  - the webcal feed suggests a valid refreshrate
 	 */
-	private function queryWebcalFeed(array $subscription, array &$mutations): ?string {
-		$client = $this->clientService->newClient();
-
-		$didBreak301Chain = false;
-		$latestLocation = null;
-
-		$handlerStack = HandlerStack::create();
-		$handlerStack->push(Middleware::mapRequest(function (RequestInterface $request) {
-			return $request
-				->withHeader('Accept', 'text/calendar, application/calendar+json, application/calendar+xml')
-				->withHeader('User-Agent', 'Nextcloud Webcal Service');
-		}));
-		$handlerStack->push(Middleware::mapResponse(function (ResponseInterface $response) use (&$didBreak301Chain, &$latestLocation) {
-			if (!$didBreak301Chain) {
-				if ($response->getStatusCode() !== 301) {
-					$didBreak301Chain = true;
-				} else {
-					$latestLocation = $response->getHeader('Location');
-				}
-			}
-			return $response;
-		}));
-
-		$allowLocalAccess = $this->config->getAppValue('dav', 'webcalAllowLocalAccess', 'no');
-		$subscriptionId = $subscription['id'];
-		$url = $this->cleanURL($subscription['source']);
-		if ($url === null) {
-			return null;
-		}
-
-		try {
-			$params = [
-				'allow_redirects' => [
-					'redirects' => 10
-				],
-				'handler' => $handlerStack,
-				'nextcloud' => [
-					'allow_local_address' => $allowLocalAccess === 'yes',
-				]
-			];
-
-			$user = parse_url($subscription['source'], PHP_URL_USER);
-			$pass = parse_url($subscription['source'], PHP_URL_PASS);
-			if ($user !== null && $pass !== null) {
-				$params['auth'] = [$user, $pass];
-			}
-
-			$response = $client->get($url, $params);
-			$body = $response->getBody();
-
-			if ($latestLocation) {
-				$mutations['{http://calendarserver.org/ns/}source'] = new Href($latestLocation);
-			}
-
-			$contentType = $response->getHeader('Content-Type');
-			$contentType = explode(';', $contentType, 2)[0];
-			switch ($contentType) {
-				case 'application/calendar+json':
-					try {
-						$jCalendar = Reader::readJson($body, Reader::OPTION_FORGIVING);
-					} catch (Exception $ex) {
-						// In case of a parsing error return null
-						$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
-						return null;
-					}
-					return $jCalendar->serialize();
-
-				case 'application/calendar+xml':
-					try {
-						$xCalendar = Reader::readXML($body);
-					} catch (Exception $ex) {
-						// In case of a parsing error return null
-						$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
-						return null;
-					}
-					return $xCalendar->serialize();
-
-				case 'text/calendar':
-				default:
-					try {
-						$vCalendar = Reader::read($body);
-					} catch (Exception $ex) {
-						// In case of a parsing error return null
-						$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
-						return null;
-					}
-					return $vCalendar->serialize();
-			}
-		} catch (LocalServerException $ex) {
-			$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules", [
-				'exception' => $ex,
-			]);
-
-			return null;
-		} catch (Exception $ex) {
-			$this->logger->warning("Subscription $subscriptionId could not be refreshed due to a network error", [
-				'exception' => $ex,
-			]);
-
-			return null;
-		}
-	}
-
-	/**
-	 * check if:
-	 *  - current subscription stores a refreshrate
-	 *  - the webcal feed suggests a refreshrate
-	 *  - return suggested refreshrate if user didn't set a custom one
-	 *
-	 */
-	private function checkWebcalDataForRefreshRate(array $subscription, string $webcalData): ?string {
-		// if there is no refreshrate stored in the database, check the webcal feed
-		// whether it suggests any refresh rate and store that in the database
-		if (isset($subscription[self::REFRESH_RATE]) && $subscription[self::REFRESH_RATE] !== null) {
-			return null;
-		}
-
-		/** @var Component\VCalendar $vCalendar */
-		$vCalendar = Reader::read($webcalData);
-
-		$newRefreshRate = null;
-		if (isset($vCalendar->{'X-PUBLISHED-TTL'})) {
-			$newRefreshRate = $vCalendar->{'X-PUBLISHED-TTL'}->getValue();
-		}
-		if (isset($vCalendar->{'REFRESH-INTERVAL'})) {
-			$newRefreshRate = $vCalendar->{'REFRESH-INTERVAL'}->getValue();
-		}
-
-		if (!$newRefreshRate) {
-			return null;
-		}
-
-		// check if new refresh rate is even valid
-		try {
-			DateTimeParser::parseDuration($newRefreshRate);
-		} catch (InvalidDataException $ex) {
-			return null;
-		}
-
-		return $newRefreshRate;
-	}
-
-	/**
-	 * update subscription stored in database
-	 * used to set:
-	 *  - refreshrate
-	 *  - source
-	 *
-	 * @param array $subscription
-	 * @param array $mutations
-	 */
-	private function updateSubscription(array $subscription, array $mutations) {
-		if (empty($mutations)) {
+	private function updateRefreshRate(array $subscription, Component\VCalendar $vCalendar): void {
+		// if there is already a refreshrate stored in the database, don't override it
+		if (!empty($subscription[self::REFRESH_RATE])) {
 			return;
 		}
 
-		$propPatch = new PropPatch($mutations);
+		$refreshRate = $vCalendar->{'REFRESH-INTERVAL'}?->getValue()
+			?? $vCalendar->{'X-PUBLISHED-TTL'}?->getValue();
+
+		if ($refreshRate === null) {
+			return;
+		}
+
+		// check if refresh rate is valid
+		try {
+			DateTimeParser::parseDuration($refreshRate);
+		} catch (InvalidDataException) {
+			return;
+		}
+
+		$propPatch = new PropPatch([self::REFRESH_RATE => $refreshRate]);
 		$this->calDavBackend->updateSubscription($subscription['id'], $propPatch);
 		$propPatch->commit();
 	}
 
-	/**
-	 * This method will strip authentication information and replace the
-	 * 'webcal' or 'webcals' protocol scheme
-	 *
-	 * @param string $url
-	 * @return string|null
-	 */
-	private function cleanURL(string $url): ?string {
-		$parsed = parse_url($url);
-		if ($parsed === false) {
-			return null;
-		}
-
-		if (isset($parsed['scheme']) && $parsed['scheme'] === 'http') {
-			$scheme = 'http';
-		} else {
-			$scheme = 'https';
-		}
-
-		$host = $parsed['host'] ?? '';
-		$port = isset($parsed['port']) ? ':' . $parsed['port'] : '';
-		$path = $parsed['path'] ?? '';
-		$query = isset($parsed['query']) ? '?' . $parsed['query'] : '';
-		$fragment = isset($parsed['fragment']) ? '#' . $parsed['fragment'] : '';
-
-		$cleanURL = "$scheme://$host$port$path$query$fragment";
-		// parse_url is giving some weird results if no url and no :// is given,
-		// so let's test the url again
-		$parsedClean = parse_url($cleanURL);
-		if ($parsedClean === false || !isset($parsedClean['host'])) {
-			return null;
-		}
-
-		return $cleanURL;
-	}
-
-	/**
-	 * Returns a random uri for a calendar-object
-	 *
-	 * @return string
-	 */
-	public function getRandomCalendarObjectUri():string {
-		return UUIDUtil::getUUID() . '.ics';
-	}
 }

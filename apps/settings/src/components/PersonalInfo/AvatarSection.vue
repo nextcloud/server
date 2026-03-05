@@ -1,57 +1,45 @@
 <!--
-	- @copyright 2022 Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
 	<section id="vue-avatar-section">
-		<HeaderBar :is-heading="true"
+		<HeaderBar
+			:is-heading="true"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
 
 		<div v-if="!showCropper" class="avatar__container">
 			<div class="avatar__preview">
-				<NcAvatar v-if="!loading"
+				<NcAvatar
+					v-if="!loading"
 					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
 					:disable-tooltip="true"
-					:show-user-status="false"
+					hide-status
 					:size="180" />
 				<div v-else class="icon-loading" />
 			</div>
 			<template v-if="avatarChangeSupported">
 				<div class="avatar__buttons">
-					<NcButton :aria-label="t('settings', 'Upload profile picture')"
+					<NcButton
+						:aria-label="t('settings', 'Upload profile picture')"
 						@click="activateLocalFilePicker">
 						<template #icon>
 							<Upload :size="20" />
 						</template>
 					</NcButton>
-					<NcButton :aria-label="t('settings', 'Choose profile picture from Files')"
+					<NcButton
+						:aria-label="t('settings', 'Choose profile picture from Files')"
 						@click="openFilePicker">
 						<template #icon>
 							<Folder :size="20" />
 						</template>
 					</NcButton>
-					<NcButton v-if="!isGenerated"
+					<NcButton
+						v-if="!isGenerated"
 						:aria-label="t('settings', 'Remove profile picture')"
 						@click="removeAvatar">
 						<template #icon>
@@ -60,7 +48,8 @@
 					</NcButton>
 				</div>
 				<span>{{ t('settings', 'The file must be a PNG or JPG') }}</span>
-				<input ref="input"
+				<input
+					ref="input"
 					type="file"
 					:accept="validMimeTypes.join(',')"
 					@change="onChange">
@@ -72,14 +61,16 @@
 
 		<!-- Use v-show to ensure early cropper ref availability -->
 		<div v-show="showCropper" class="avatar__container">
-			<VueCropper ref="cropper"
+			<VueCropper
+				ref="cropper"
 				class="avatar__cropper"
 				v-bind="cropperOptions" />
 			<div class="avatar__cropper-buttons">
 				<NcButton @click="cancel">
 					{{ t('settings', 'Cancel') }}
 				</NcButton>
-				<NcButton type="primary"
+				<NcButton
+					variant="primary"
 					@click="saveAvatar">
 					{{ t('settings', 'Set as profile picture') }}
 				</NcButton>
@@ -90,25 +81,22 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import { loadState } from '@nextcloud/initial-state'
-import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
 import VueCropper from 'vue-cropperjs'
-// eslint-disable-next-line n/no-extraneous-import
-import 'cropperjs/dist/cropper.css'
-
-import Upload from 'vue-material-design-icons/Upload.vue'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import Folder from 'vue-material-design-icons/Folder.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
-
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
 import HeaderBar from './shared/HeaderBar.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+
+import 'cropperjs/dist/cropper.css'
 
 const { avatar } = loadState('settings', 'personalInfoParameters', {})
 const { avatarChangeSupported } = loadState('settings', 'accountParameters', {})
@@ -143,8 +131,8 @@ export default {
 			loading: false,
 			userId: getCurrentUser().uid,
 			displayName: getCurrentUser().displayName,
-			version: oc_userconfig.avatar.version,
-			isGenerated: oc_userconfig.avatar.generated,
+			version: window.oc_userconfig.avatar.version,
+			isGenerated: window.oc_userconfig.avatar.generated,
 			validMimeTypes: VALID_MIME_TYPES,
 			cropperOptions: {
 				aspectRatio: 1 / 1,
@@ -199,14 +187,13 @@ export default {
 				if (data.status === 'success') {
 					this.handleAvatarUpdate(false)
 				} else if (data.data === 'notsquare') {
-					const tempAvatar = generateUrl('/avatar/tmp') + '?requesttoken=' + encodeURIComponent(OC.requestToken) + '#' + Math.floor(Math.random() * 1000)
-					this.$refs.cropper.replace(tempAvatar)
+					this.$refs.cropper.replace(data.image)
 					this.showCropper = true
 				} else {
 					showError(data.data.message)
 					this.cancel()
 				}
-			} catch (e) {
+			} catch {
 				showError(t('settings', 'Error setting profile picture'))
 				this.cancel()
 			}
@@ -231,7 +218,7 @@ export default {
 				try {
 					await axios.post(generateUrl('/avatar'), formData)
 					this.handleAvatarUpdate(false)
-				} catch (e) {
+				} catch {
 					showError(t('settings', 'Error saving profile picture'))
 					this.handleAvatarUpdate(this.isGenerated)
 				}
@@ -243,7 +230,7 @@ export default {
 			try {
 				await axios.delete(generateUrl('/avatar'))
 				this.handleAvatarUpdate(true)
-			} catch (e) {
+			} catch {
 				showError(t('settings', 'Error removing profile picture'))
 				this.handleAvatarUpdate(this.isGenerated)
 			}
@@ -256,14 +243,14 @@ export default {
 
 		handleAvatarUpdate(isGenerated) {
 			// Update the avatar version so that avatar update handlers refresh correctly
-			this.version = oc_userconfig.avatar.version = Date.now()
-			this.isGenerated = oc_userconfig.avatar.generated = isGenerated
+			this.version = window.oc_userconfig.avatar.version = Date.now()
+			this.isGenerated = window.oc_userconfig.avatar.generated = isGenerated
 			this.loading = false
-			emit('settings:avatar:updated', oc_userconfig.avatar.version)
+			emit('settings:avatar:updated', window.oc_userconfig.avatar.version)
 		},
 
 		handleDisplayNameUpdate() {
-			this.version = oc_userconfig.avatar.version
+			this.version = window.oc_userconfig.avatar.version
 		},
 	},
 }
@@ -274,9 +261,10 @@ section {
 	grid-row: 1/3;
 	padding: 10px 10px;
 }
+
 .avatar {
 	&__container {
-		margin: 0 auto;
+		margin: calc(var(--default-grid-baseline) * 2) auto 0 auto;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -285,7 +273,7 @@ section {
 		width: min(100%, 300px);
 
 		span {
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 		}
 	}
 
@@ -313,7 +301,7 @@ section {
 			justify-content: space-between;
 		}
 
-		&::v-deep .cropper-view-box {
+		:deep(.cropper-view-box) {
 			border-radius: 50%;
 		}
 	}

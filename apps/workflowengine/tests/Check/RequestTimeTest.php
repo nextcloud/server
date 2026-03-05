@@ -1,43 +1,23 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCA\WorkflowEngine\Check\RequestTime;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class RequestTimeTest extends \Test\TestCase {
+	protected ITimeFactory&MockObject $timeFactory;
 
-	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $timeFactory;
-
-	/**
-	 * @return \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected function getL10NMock() {
-		$l = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()
-			->getMock();
+	protected function getL10NMock(): IL10N&MockObject {
+		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($string, $args) {
@@ -49,11 +29,10 @@ class RequestTimeTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
-			->getMock();
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 	}
 
-	public function dataExecuteCheck() {
+	public static function dataExecuteCheck(): array {
 		return [
 			[json_encode(['08:00 Europe/Berlin', '17:00 Europe/Berlin']), 1467870105, false], // 2016-07-07T07:41:45+02:00
 			[json_encode(['08:00 Europe/Berlin', '17:00 Europe/Berlin']), 1467873705, true], // 2016-07-07T08:41:45+02:00
@@ -84,14 +63,9 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecuteCheck
-	 * @param string $value
-	 * @param int $timestamp
-	 * @param bool $expected
-	 */
-	public function testExecuteCheckIn($value, $timestamp, $expected) {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteCheck')]
+	public function testExecuteCheckIn(string $value, int $timestamp, bool $expected): void {
+		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
@@ -100,14 +74,9 @@ class RequestTimeTest extends \Test\TestCase {
 		$this->assertEquals($expected, $check->executeCheck('in', $value));
 	}
 
-	/**
-	 * @dataProvider dataExecuteCheck
-	 * @param string $value
-	 * @param int $timestamp
-	 * @param bool $expected
-	 */
-	public function testExecuteCheckNotIn($value, $timestamp, $expected) {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteCheck')]
+	public function testExecuteCheckNotIn(string $value, int $timestamp, bool $expected): void {
+		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
@@ -116,7 +85,7 @@ class RequestTimeTest extends \Test\TestCase {
 		$this->assertEquals(!$expected, $check->executeCheck('!in', $value));
 	}
 
-	public function dataValidateCheck() {
+	public static function dataValidateCheck(): array {
 		return [
 			['in', '["08:00 Europe/Berlin","17:00 Europe/Berlin"]'],
 			['!in', '["08:00 Europe/Berlin","17:00 America/North_Dakota/Beulah"]'],
@@ -124,18 +93,14 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheck
-	 * @param string $operator
-	 * @param string $value
-	 */
-	public function testValidateCheck($operator, $value) {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataValidateCheck')]
+	public function testValidateCheck(string $operator, string $value): void {
+		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 		$check->validateCheck($operator, $value);
 		$this->addToAssertionCount(1);
 	}
 
-	public function dataValidateCheckInvalid() {
+	public static function dataValidateCheckInvalid(): array {
 		return [
 			['!!in', '["08:00 Europe/Berlin","17:00 Europe/Berlin"]', 1, 'The given operator is invalid'],
 			['in', '["28:00 Europe/Berlin","17:00 Europe/Berlin"]', 2, 'The given time span is invalid'],
@@ -147,15 +112,9 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheckInvalid
-	 * @param string $operator
-	 * @param string $value
-	 * @param int $exceptionCode
-	 * @param string $exceptionMessage
-	 */
-	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage) {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataValidateCheckInvalid')]
+	public function testValidateCheckInvalid(string $operator, string $value, int $exceptionCode, string $exceptionMessage): void {
+		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		try {
 			$check->validateCheck($operator, $value);

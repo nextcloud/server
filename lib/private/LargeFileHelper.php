@@ -1,35 +1,15 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author marco44 <cousinmarc@gmail.com>
- * @author Michael Roitzsch <reactorcontrol@icloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OCP\Server;
+use OCP\Util;
 
 /**
  * Helper class for large files on 32-bit platforms.
@@ -118,7 +98,7 @@ class LargeFileHelper {
 	 *                        null on failure.
 	 */
 	public function getFileSizeViaCurl(string $fileName): null|int|float {
-		if (\OC::$server->get(IniGetWrapper::class)->getString('open_basedir') === '') {
+		if (Server::get(IniGetWrapper::class)->getString('open_basedir') === '') {
 			$encodedFileName = rawurlencode($fileName);
 			$ch = curl_init("file:///$encodedFileName");
 			curl_setopt($ch, CURLOPT_NOBODY, true);
@@ -146,7 +126,7 @@ class LargeFileHelper {
 	 *                        null on failure.
 	 */
 	public function getFileSizeViaExec(string $filename): null|int|float {
-		if (\OCP\Util::isFunctionEnabled('exec')) {
+		if (Util::isFunctionEnabled('exec')) {
 			$os = strtolower(php_uname('s'));
 			$arg = escapeshellarg($filename);
 			$result = null;
@@ -176,7 +156,7 @@ class LargeFileHelper {
 			// For file sizes between 2 GiB and 4 GiB, filesize() will return a
 			// negative int, as the PHP data type int is signed. Interpret the
 			// returned int as an unsigned integer and put it into a float.
-			return (float) sprintf('%u', $result);
+			return (float)sprintf('%u', $result);
 		}
 		return $result;
 	}
@@ -191,7 +171,7 @@ class LargeFileHelper {
 			$result = - 1;
 		}
 		if ($result < 0) {
-			if (\OCP\Util::isFunctionEnabled('exec')) {
+			if (Util::isFunctionEnabled('exec')) {
 				$os = strtolower(php_uname('s'));
 				if (str_contains($os, 'linux')) {
 					return (int)($this->exec('stat -c %Y ' . escapeshellarg($fullPath)) ?? -1);

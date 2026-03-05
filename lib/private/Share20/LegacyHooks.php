@@ -1,28 +1,8 @@
 <?php
+
 /**
- * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Pauli Järvinen <pauli.jarvinen@gmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Share20;
 
@@ -37,25 +17,22 @@ use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IShare;
 
 class LegacyHooks {
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	public function __construct(IEventDispatcher $eventDispatcher) {
-		$this->eventDispatcher = $eventDispatcher;
-
-		$this->eventDispatcher->addListener(BeforeShareDeletedEvent::class, function (BeforeShareDeletedEvent $event) {
+	public function __construct(
+		private IEventDispatcher $eventDispatcher,
+	) {
+		$this->eventDispatcher->addListener(BeforeShareDeletedEvent::class, function (BeforeShareDeletedEvent $event): void {
 			$this->preUnshare($event);
 		});
-		$this->eventDispatcher->addListener(ShareDeletedEvent::class, function (ShareDeletedEvent $event) {
+		$this->eventDispatcher->addListener(ShareDeletedEvent::class, function (ShareDeletedEvent $event): void {
 			$this->postUnshare($event);
 		});
-		$this->eventDispatcher->addListener(ShareDeletedFromSelfEvent::class, function (ShareDeletedFromSelfEvent $event) {
+		$this->eventDispatcher->addListener(ShareDeletedFromSelfEvent::class, function (ShareDeletedFromSelfEvent $event): void {
 			$this->postUnshareFromSelf($event);
 		});
-		$this->eventDispatcher->addListener(BeforeShareCreatedEvent::class, function (BeforeShareCreatedEvent $event) {
+		$this->eventDispatcher->addListener(BeforeShareCreatedEvent::class, function (BeforeShareCreatedEvent $event): void {
 			$this->preShare($event);
 		});
-		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
+		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event): void {
 			$this->postShare($event);
 		});
 	}
@@ -90,9 +67,9 @@ class LegacyHooks {
 		// Prepare hook
 		$shareType = $share->getShareType();
 		$sharedWith = '';
-		if ($shareType === IShare::TYPE_USER ||
-			$shareType === IShare::TYPE_GROUP ||
-			$shareType === IShare::TYPE_REMOTE) {
+		if ($shareType === IShare::TYPE_USER
+			|| $shareType === IShare::TYPE_GROUP
+			|| $shareType === IShare::TYPE_REMOTE) {
 			$sharedWith = $share->getSharedWith();
 		}
 
@@ -102,7 +79,7 @@ class LegacyHooks {
 			'itemSource' => $share->getNodeId(),
 			'shareType' => $shareType,
 			'shareWith' => $sharedWith,
-			'itemparent' => method_exists($share, 'getParent') ? $share->getParent() : '',
+			'itemparent' => $share->getParent(),
 			'uidOwner' => $share->getSharedBy(),
 			'fileSource' => $share->getNodeId(),
 			'fileTarget' => $share->getTarget()

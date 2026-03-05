@@ -1,37 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nmz <nemesiz@nmz.lt>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\Image;
 
 class TXT extends ProviderV2 {
 	/**
@@ -72,7 +51,7 @@ class TXT extends ProviderV2 {
 		$lines = preg_split("/\r\n|\n|\r/", $content);
 
 		// Define text size of text file preview
-		$fontSize = $maxX ? (int) ((1 / 32) * $maxX) : 5; //5px
+		$fontSize = $maxX ? (int)((1 / 32) * $maxX) : 5; //5px
 		$lineSize = ceil($fontSize * 1.5);
 
 		$image = imagecreate($maxX, $maxY);
@@ -89,7 +68,7 @@ class TXT extends ProviderV2 {
 			$index = $index + 1;
 
 			$x = 1;
-			$y = (int) ($index * $lineSize);
+			$y = (int)($index * $lineSize);
 
 			if ($canUseTTF === true) {
 				imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontFile, $line);
@@ -103,7 +82,7 @@ class TXT extends ProviderV2 {
 			}
 		}
 
-		$imageObject = new \OCP\Image();
+		$imageObject = new Image();
 		$imageObject->setResource($image);
 
 		return $imageObject->valid() ? $imageObject : null;

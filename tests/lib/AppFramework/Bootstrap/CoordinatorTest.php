@@ -3,30 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Support\CrashReport\Registry;
+use OCA\Settings\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -42,29 +27,14 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CoordinatorTest extends TestCase {
-	/** @var IAppManager|MockObject */
-	private $appManager;
-
-	/** @var IServerContainer|MockObject */
-	private $serverContainer;
-
-	/** @var Registry|MockObject */
-	private $crashReporterRegistry;
-
-	/** @var IManager|MockObject */
-	private $dashboardManager;
-
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
-
-	/** @var IEventLogger|MockObject */
-	private $eventLogger;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var Coordinator */
-	private $coordinator;
+	private IAppManager&MockObject $appManager;
+	private IServerContainer&MockObject $serverContainer;
+	private Registry&MockObject $crashReporterRegistry;
+	private IManager&MockObject $dashboardManager;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IEventLogger&MockObject $eventLogger;
+	private LoggerInterface&MockObject $logger;
+	private Coordinator $coordinator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -92,8 +62,8 @@ class CoordinatorTest extends TestCase {
 		$appId = 'settings';
 		$this->serverContainer->expects($this->once())
 			->method('query')
-			->with(\OCA\Settings\AppInfo\Application::class)
-			->willThrowException(new QueryException(""));
+			->with(Application::class)
+			->willThrowException(new QueryException(''));
 		$this->logger->expects($this->once())
 			->method('error');
 
@@ -102,10 +72,10 @@ class CoordinatorTest extends TestCase {
 
 	public function testBootAppNotBootable(): void {
 		$appId = 'settings';
-		$mockApp = $this->createMock(\OCA\Settings\AppInfo\Application::class);
+		$mockApp = $this->createMock(Application::class);
 		$this->serverContainer->expects($this->once())
 			->method('query')
-			->with(\OCA\Settings\AppInfo\Application::class)
+			->with(Application::class)
 			->willReturn($mockApp);
 
 		$this->coordinator->bootApp($appId);
@@ -126,7 +96,7 @@ class CoordinatorTest extends TestCase {
 		};
 		$this->serverContainer->expects($this->once())
 			->method('query')
-			->with(\OCA\Settings\AppInfo\Application::class)
+			->with(Application::class)
 			->willReturn($mockApp);
 
 		$this->coordinator->bootApp($appId);

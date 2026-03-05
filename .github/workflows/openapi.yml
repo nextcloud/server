@@ -1,7 +1,18 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2024 Arthur Schiwon <blizzz@arthur-schiwon.de>
+# SPDX-License-Identifier: MIT
+
 name: OpenAPI
 
-on:
-  pull_request:
+on: pull_request
+
+permissions:
+  contents: read
 
 concurrency:
   group: openapi-${{ github.head_ref || github.run_id }}
@@ -15,18 +26,22 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Set up php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
+        timeout-minutes: 5
         with:
           php-version: '8.2'
-          extensions: xml
+          extensions: ctype, curl, dom, fileinfo, gd, json, libxml, mbstring, openssl, pcntl, pdo, posix, session, simplexml, xml, xmlreader, xmlwriter, zip, zlib
           coverage: none
+          ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Composer install
+      - name: Set up dependencies
         run: composer i
 
       - name: OpenAPI checker

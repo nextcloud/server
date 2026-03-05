@@ -1,38 +1,22 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Setup;
 
 use OC\DB\ConnectionFactory;
 
 class Sqlite extends AbstractDatabase {
-	public $dbprettyname = 'Sqlite';
+	public string $dbprettyname = 'Sqlite';
 
-	public function validate($config) {
+	public function validate(array $config): array {
 		return [];
 	}
 
-	public function initialize($config) {
+	public function initialize(array $config): void {
 		/*
 		 * Web: When using web based installer its not possible to set dbname
 		 * or dbtableprefix. Defaults used from ConnectionFactory and dbtype = 'sqlite'
@@ -61,7 +45,7 @@ class Sqlite extends AbstractDatabase {
 		}
 	}
 
-	public function setupDatabase($username) {
+	public function setupDatabase(): void {
 		$datadir = $this->config->getValue(
 			'datadirectory',
 			\OC::$SERVERROOT . '/data'

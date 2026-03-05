@@ -1,39 +1,53 @@
-/**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { RawLocation, Route } from 'vue-router'
-import type { ErrorHandler } from 'vue-router/types/router.d.ts'
 
+import type { INode } from '@nextcloud/files'
+import type { RawLocation, Route } from 'vue-router'
+
+import { subscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
+import { relative } from 'path'
 import queryString from 'query-string'
-import Router from 'vue-router'
 import Vue from 'vue'
+import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
+import logger from '../logger.ts'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
+import { usePathsStore } from '../store/paths.ts'
+import { defaultView } from '../utils/filesViews.ts'
 
 Vue.use(Router)
 
 // Prevent router from throwing errors when we're already on the page we're trying to go to
-const originalPush = Router.prototype.push as (to, onComplete?, onAbort?) => Promise<Route>
-Router.prototype.push = function push(to: RawLocation, onComplete?: ((route: Route) => void) | undefined, onAbort?: ErrorHandler | undefined): Promise<Route> {
-	if (onComplete || onAbort) return originalPush.call(this, to, onComplete, onAbort)
-	return originalPush.call(this, to).catch(err => err)
+const originalPush = Router.prototype.push
+Router.prototype.push = (function(this: Router, ...args: Parameters<typeof originalPush>) {
+	if (args.length > 1) {
+		return originalPush.call(this, ...args)
+	}
+	return originalPush.call<Router, [RawLocation], Promise<Route>>(this, args[0]).catch(ignoreDuplicateNavigation)
+}) as typeof originalPush
+
+const originalReplace = Router.prototype.replace
+Router.prototype.replace = (function(this: Router, ...args: Parameters<typeof originalReplace>) {
+	if (args.length > 1) {
+		return originalReplace.call(this, ...args)
+	}
+	return originalReplace.call<Router, [RawLocation], Promise<Route>>(this, args[0]).catch(ignoreDuplicateNavigation)
+}) as typeof originalReplace
+
+/**
+ * Ignore duplicated-navigation error but forward real exceptions
+ *
+ * @param error The thrown error
+ */
+function ignoreDuplicateNavigation(error: unknown): void {
+	if (isNavigationFailure(error, NavigationFailureType.duplicated)) {
+		logger.debug('Ignoring duplicated navigation from vue-router', { error })
+	} else {
+		throw error
+	}
 }
 
 const router = new Router({
@@ -48,7 +62,7 @@ const router = new Router({
 		{
 			path: '/',
 			// Pretending we're using the default view
-			redirect: { name: 'filelist', params: { view: 'files' } },
+			redirect: { name: 'filelist', params: { view: defaultView() } },
 		},
 		{
 			path: '/:view/:fileid(\\d+)?',
@@ -62,6 +76,100 @@ const router = new Router({
 		const result = queryString.stringify(query).replace(/%2F/gmi, '/')
 		return result ? ('?' + result) : ''
 	},
+})
+
+// Handle aborted navigation (NavigationGuards) gracefully
+router.onError((error) => {
+	if (isNavigationFailure(error, NavigationFailureType.aborted)) {
+		logger.debug('Navigation was aboorted', { error })
+	} else {
+		throw error
+	}
+})
+
+// If navigating back from a folder to a parent folder,
+// we need to keep the current dir fileid so it's highlighted
+// and scrolled into view.
+router.beforeResolve((to, from, next) => {
+	if (to.params?.parentIntercept) {
+		delete to.params.parentIntercept
+		return next()
+	}
+
+	if (to.params.view !== from.params.view) {
+		// skip if different views
+		return next()
+	}
+
+	const fromDir = (from.query?.dir || '/') as string
+	const toDir = (to.query?.dir || '/') as string
+
+	// We are going back to a parent directory
+	if (relative(fromDir, toDir) === '..') {
+		const { getNode } = useFilesStore()
+		const { getPath } = usePathsStore()
+
+		if (!from.params.view) {
+			logger.error('No current view id found, cannot navigate to parent directory', { fromDir, toDir })
+			return next()
+		}
+
+		// Get the previous parent's file id
+		const fromSource = getPath(from.params.view, fromDir)
+		if (!fromSource) {
+			logger.error('No source found for the parent directory', { fromDir, toDir })
+			return next()
+		}
+
+		const fileId = getNode(fromSource)?.fileid
+		if (!fileId) {
+			logger.error('No fileid found for the parent directory', { fromDir, toDir, fromSource })
+			return next()
+		}
+
+		logger.debug('Navigating back to parent directory', { fromDir, toDir, fileId })
+		return next({
+			name: 'filelist',
+			query: to.query,
+			params: {
+				...to.params,
+				fileid: String(fileId),
+				// Prevents the beforeEach from being called again
+				parentIntercept: 'true',
+			},
+			// Replace the current history entry
+			replace: true,
+		})
+	}
+
+	// else, we just continue
+	next()
+})
+
+subscribe('files:node:deleted', (node: INode) => {
+	if (router.currentRoute.params.fileid === String(node.fileid)) {
+		const params = { ...router.currentRoute.params }
+		const { getPath } = usePathsStore(getPinia())
+		const { getNode } = useFilesStore(getPinia())
+		const source = getPath(router.currentRoute.params.view, node.dirname)
+		const parentFolder = getNode(source!)
+		if (source && parentFolder) {
+			params.fileid = String(parentFolder.fileid)
+		} else {
+			delete params.fileid
+		}
+
+		const query = { ...router.currentRoute.query }
+		delete query.opendetails
+		delete query.openfile
+
+		router.replace({
+			...router.currentRoute,
+			name: router.currentRoute.name as string,
+			params,
+			query,
+		})
+	}
 })
 
 export default router

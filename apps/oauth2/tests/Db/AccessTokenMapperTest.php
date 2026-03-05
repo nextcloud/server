@@ -1,50 +1,34 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
+use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AccessTokenMapperTest extends TestCase {
 	/** @var AccessTokenMapper */
 	private $accessTokenMapper;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->accessTokenMapper = new AccessTokenMapper(\OC::$server->getDatabaseConnection(), \OC::$server->get(ITimeFactory::class));
+		$this->accessTokenMapper = new AccessTokenMapper(Server::get(IDBConnection::class), Server::get(ITimeFactory::class));
 	}
 
-	public function testGetByCode() {
+	public function testGetByCode(): void {
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();
 		$token->setClientId(1234);
-		$token->setTokenId((string)time());
+		$token->setTokenId(time());
 		$token->setEncryptedToken('MyEncryptedToken');
 		$token->setHashedCode(hash('sha512', 'MyAwesomeToken'));
 		$this->accessTokenMapper->insert($token);
@@ -56,13 +40,13 @@ class AccessTokenMapperTest extends TestCase {
 	}
 
 
-	public function testDeleteByClientId() {
-		$this->expectException(\OCA\OAuth2\Exceptions\AccessTokenNotFoundException::class);
+	public function testDeleteByClientId(): void {
+		$this->expectException(AccessTokenNotFoundException::class);
 
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();
 		$token->setClientId(1234);
-		$token->setTokenId((string)time());
+		$token->setTokenId(time());
 		$token->setEncryptedToken('MyEncryptedToken');
 		$token->setHashedCode(hash('sha512', 'MyAwesomeToken'));
 		$this->accessTokenMapper->insert($token);

@@ -1,41 +1,25 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\App\AppStore\Bundles;
 
 use OC\App\AppStore\Bundles\Bundle;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 abstract class BundleBase extends TestCase {
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10n;
-	/** @var Bundle */
-	protected $bundle;
-	/** @var string */
-	protected $bundleIdentifier;
-	/** @var string */
-	protected $bundleName;
-	/** @var array */
-	protected $bundleAppIds;
+	protected IL10N&MockObject $l10n;
+	protected Bundle $bundle;
+	protected string $bundleIdentifier;
+	protected string $bundleName;
+	protected array $bundleAppIds;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,15 +30,15 @@ abstract class BundleBase extends TestCase {
 			});
 	}
 
-	public function testGetIdentifier() {
+	public function testGetIdentifier(): void {
 		$this->assertSame($this->bundleIdentifier, $this->bundle->getIdentifier());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame($this->bundleName, $this->bundle->getName());
 	}
 
-	public function testGetAppIdentifiers() {
+	public function testGetAppIdentifiers(): void {
 		$this->assertSame($this->bundleAppIds, $this->bundle->getAppIdentifiers());
 	}
 }

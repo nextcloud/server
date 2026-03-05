@@ -1,30 +1,12 @@
 /**
- * @copyright 2021 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
-import { generateOcsUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import '@nextcloud/password-confirmation/dist/style.css'
+import { generateOcsUrl } from '@nextcloud/router'
 
 /**
  * Save the visibility of the profile parameter
@@ -33,7 +15,7 @@ import '@nextcloud/password-confirmation/dist/style.css'
  * @param {string} visibility the visibility
  * @return {object}
  */
-export const saveProfileParameterVisibility = async (paramId, visibility) => {
+export async function saveProfileParameterVisibility(paramId, visibility) {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('/profile/{userId}', { userId })
 
@@ -53,13 +35,37 @@ export const saveProfileParameterVisibility = async (paramId, visibility) => {
  * @param {boolean} isEnabled the default
  * @return {object}
  */
-export const saveProfileDefault = async (isEnabled) => {
+export async function saveProfileDefault(isEnabled) {
 	// Convert to string for compatibility
 	isEnabled = isEnabled ? '1' : '0'
 
 	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
 		appId: 'settings',
 		key: 'profile_enabled_by_default',
+	})
+
+	await confirmPassword()
+
+	const res = await axios.post(url, {
+		value: isEnabled,
+	})
+
+	return res.data
+}
+
+/**
+ * Save profile picker default
+ *
+ * @param {boolean} isEnabled the default
+ * @return {object}
+ */
+export async function saveProfilePicker(isEnabled) {
+	// Convert to string for compatibility
+	isEnabled = isEnabled ? '1' : '0'
+
+	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+		appId: 'settings',
+		key: 'profile_picker_enabled',
 	})
 
 	await confirmPassword()

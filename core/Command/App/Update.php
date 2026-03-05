@@ -3,34 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, michag86 (michag86@arcor.de)
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author michag86 <micha_g@arcor.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\App;
 
 use OC\Installer;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -70,6 +49,12 @@ class Update extends Command {
 				'show update(s) without updating'
 			)
 			->addOption(
+				'showcurrent',
+				null,
+				InputOption::VALUE_NONE,
+				'show currently installed version'
+			)
+			->addOption(
 				'allow-unstable',
 				null,
 				InputOption::VALUE_NONE,
@@ -81,19 +66,20 @@ class Update extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$singleAppId = $input->getArgument('app-id');
 		$updateFound = false;
+		$showOnly = $input->getOption('showonly') || $input->getOption('showcurrent');
 
 		if ($singleAppId) {
 			$apps = [$singleAppId];
 			try {
 				$this->manager->getAppPath($singleAppId);
-			} catch (\OCP\App\AppPathNotFoundException $e) {
+			} catch (AppPathNotFoundException $e) {
 				$output->writeln($singleAppId . ' not installed');
 				return 1;
 			}
-		} elseif ($input->getOption('all') || $input->getOption('showonly')) {
-			$apps = \OC_App::getAllApps();
+		} elseif ($input->getOption('all') || $showOnly) {
+			$apps = $this->manager->getAllAppsInAppsFolders();
 		} else {
-			$output->writeln("<error>Please specify an app to update or \"--all\" to update all updatable apps\"</error>");
+			$output->writeln('<error>Please specify an app to update or "--all" to update all updatable apps"</error>');
 			return 1;
 		}
 
@@ -102,9 +88,13 @@ class Update extends Command {
 			$newVersion = $this->installer->isUpdateAvailable($appId, $input->getOption('allow-unstable'));
 			if ($newVersion) {
 				$updateFound = true;
-				$output->writeln($appId . ' new version available: ' . $newVersion);
+				$message = $appId . ' new version available: ' . $newVersion;
+				if ($input->getOption('showcurrent')) {
+					$message .= ' (current version: ' . $this->manager->getAppVersion($appId) . ')';
+				}
+				$output->writeln($message);
 
-				if (!$input->getOption('showonly')) {
+				if (!$showOnly) {
 					try {
 						$result = $this->installer->updateAppstoreApp($appId, $input->getOption('allow-unstable'));
 					} catch (\Exception $e) {

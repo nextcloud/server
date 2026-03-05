@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+
 set -e
 
 DC_IP="$1"
@@ -11,6 +16,7 @@ if [[ "$LOGIN_CONTENT" =~ "Location: http://localhost/success" ]]; then
   echo "✔️"
 else
   echo "❌"
+  echo "$CONTENT"
   exit 1
 fi
 echo -n "Getting test file: "
@@ -21,5 +27,6 @@ if [[ $CONTENT == "testfile" ]]; then
   echo "✔️"
 else
   echo "❌"
+  echo "$CONTENT"
   exit 1
 fi

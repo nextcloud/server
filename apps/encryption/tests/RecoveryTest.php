@@ -1,30 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests;
 
 use OC\Files\View;
@@ -40,40 +23,18 @@ use Test\TestCase;
 
 class RecoveryTest extends TestCase {
 	private static $tempStorage = [];
-	/**
-	 * @var \OCP\Encryption\IFile|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $fileMock;
-	/**
-	 * @var \OC\Files\View|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $viewMock;
-	/**
-	 * @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $userSessionMock;
-	/**
-	 * @var MockObject|IUser
-	 */
-	private $user;
-	/**
-	 * @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $keyManagerMock;
-	/**
-	 * @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $configMock;
-	/**
-	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $cryptMock;
-	/**
-	 * @var Recovery
-	 */
-	private $instance;
 
-	public function testEnableAdminRecoverySuccessful() {
+	private IFile&MockObject $fileMock;
+	private View&MockObject $viewMock;
+	private IUserSession&MockObject $userSessionMock;
+	private IUser&MockObject $user;
+	private KeyManager&MockObject $keyManagerMock;
+	private IConfig&MockObject $configMock;
+	private Crypt&MockObject $cryptMock;
+
+	private Recovery $instance;
+
+	public function testEnableAdminRecoverySuccessful(): void {
 		$this->keyManagerMock->expects($this->exactly(2))
 			->method('recoveryKeyExists')
 			->willReturnOnConsecutiveCalls(false, true);
@@ -100,7 +61,7 @@ class RecoveryTest extends TestCase {
 		$this->assertTrue($this->instance->enableAdminRecovery('password'));
 	}
 
-	public function testEnableAdminRecoveryCouldNotCheckPassword() {
+	public function testEnableAdminRecoveryCouldNotCheckPassword(): void {
 		$this->keyManagerMock->expects($this->exactly(2))
 			->method('recoveryKeyExists')
 			->willReturnOnConsecutiveCalls(false, true);
@@ -127,7 +88,7 @@ class RecoveryTest extends TestCase {
 		$this->assertFalse($this->instance->enableAdminRecovery('password'));
 	}
 
-	public function testEnableAdminRecoveryCouldNotCreateKey() {
+	public function testEnableAdminRecoveryCouldNotCreateKey(): void {
 		$this->keyManagerMock->expects($this->once())
 			->method('recoveryKeyExists')
 			->willReturn(false);
@@ -139,25 +100,27 @@ class RecoveryTest extends TestCase {
 		$this->assertFalse($this->instance->enableAdminRecovery('password'));
 	}
 
-	public function testChangeRecoveryKeyPasswordSuccessful() {
-		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password',
-			'passwordOld'));
+	public function testChangeRecoveryKeyPasswordSuccessful(): void {
+		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
 
 		$this->keyManagerMock->expects($this->once())
-			->method('getSystemPrivateKey');
+			->method('getSystemPrivateKey')
+			->willReturn('privateKey');
 
 		$this->cryptMock->expects($this->once())
-			->method('decryptPrivateKey');
+			->method('decryptPrivateKey')
+			->with('privateKey', 'passwordOld')
+			->willReturn('decryptedPrivateKey');
 
 		$this->cryptMock->expects($this->once())
 			->method('encryptPrivateKey')
-			->willReturn(true);
+			->with('decryptedPrivateKey', 'password')
+			->willReturn('privateKey');
 
-		$this->assertTrue($this->instance->changeRecoveryKeyPassword('password',
-			'passwordOld'));
+		$this->assertTrue($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
 	}
 
-	public function testChangeRecoveryKeyPasswordCouldNotDecryptPrivateRecoveryKey() {
+	public function testChangeRecoveryKeyPasswordCouldNotDecryptPrivateRecoveryKey(): void {
 		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
 
 		$this->keyManagerMock->expects($this->once())
@@ -170,7 +133,7 @@ class RecoveryTest extends TestCase {
 		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
 	}
 
-	public function testDisableAdminRecovery() {
+	public function testDisableAdminRecovery(): void {
 		$this->keyManagerMock->expects($this->exactly(2))
 			->method('checkRecoveryPassword')
 			->willReturnOnConsecutiveCalls(true, false);
@@ -182,7 +145,7 @@ class RecoveryTest extends TestCase {
 		$this->assertFalse($this->instance->disableAdminRecovery('password'));
 	}
 
-	public function testIsRecoveryEnabledForUser() {
+	public function testIsRecoveryEnabledForUser(): void {
 		$this->configMock->expects($this->exactly(2))
 			->method('getUserValue')
 			->willReturnOnConsecutiveCalls('1', '0');
@@ -191,13 +154,13 @@ class RecoveryTest extends TestCase {
 		$this->assertFalse($this->instance->isRecoveryEnabledForUser('admin'));
 	}
 
-	public function testIsRecoveryKeyEnabled() {
+	public function testIsRecoveryKeyEnabled(): void {
 		$this->assertFalse($this->instance->isRecoveryKeyEnabled());
 		self::$tempStorage['recoveryAdminEnabled'] = '1';
 		$this->assertTrue($this->instance->isRecoveryKeyEnabled());
 	}
 
-	public function testSetRecoveryFolderForUser() {
+	public function testSetRecoveryFolderForUser(): void {
 		$this->viewMock->expects($this->exactly(2))
 			->method('getDirectoryContent')
 			->willReturn([]);
@@ -205,7 +168,7 @@ class RecoveryTest extends TestCase {
 		$this->assertTrue($this->instance->setRecoveryForUser('1'));
 	}
 
-	public function testRecoverUserFiles() {
+	public function testRecoverUserFiles(): void {
 		$this->viewMock->expects($this->once())
 			->method('getDirectoryContent')
 			->willReturn([]);
@@ -217,7 +180,7 @@ class RecoveryTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testRecoverFile() {
+	public function testRecoverFile(): void {
 		$this->keyManagerMock->expects($this->once())
 			->method('getEncryptedFileKey')
 			->willReturn(true);

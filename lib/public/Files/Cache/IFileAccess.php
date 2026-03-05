@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Files\Cache;
 
@@ -96,4 +79,36 @@ interface IFileAccess {
 	 * @since 29.0.0
 	 */
 	public function getByFileIdsInStorage(array $fileIds, int $storageId): array;
+
+	/**
+	 * Retrieves files stored in a specific storage that have a specified ancestor in the file hierarchy.
+	 * Allows filtering by mime types, encryption status, and limits the number of results.
+	 *
+	 * @param int $storageId The ID of the storage to search within.
+	 * @param int $folderId The file ID of the ancestor to base the search on.
+	 * @param int $fileIdCursor The last processed file ID. Only files with a higher ID will be included. Defaults to 0.
+	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
+	 * @param list<int> $mimeTypeIds An array of mime types to filter the results. If empty, no mime type filtering will be applied.
+	 * @param bool $endToEndEncrypted Whether to include EndToEndEncrypted files
+	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
+	 * @return \Generator<ICacheEntry> A generator yielding matching files as cache entries.
+	 * @throws \OCP\DB\Exception
+	 *
+	 * @since 32.0.0
+	 */
+	public function getByAncestorInStorage(int $storageId, int $folderId, int $fileIdCursor = 0, int $maxResults = 100, array $mimeTypeIds = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true): \Generator;
+
+	/**
+	 * Retrieves a list of all distinct mounts.
+	 * Allows filtering by specific mount providers.
+	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
+	 *
+	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
+	 * @param bool $onlyUserFilesMounts Whether to rewrite the root IDs for home directories to only include user files and to only consider mounts with mount points in the user files.
+	 * @return \Generator<array{storage_id: int, root_id: int, overridden_root: int}> A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
+	 * @throws \OCP\DB\Exception
+	 *
+	 * @since 32.0.0
+	 */
+	public function getDistinctMounts(array $mountProviders = [], bool $onlyUserFilesMounts = true): \Generator;
 }

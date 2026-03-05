@@ -1,0 +1,7 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+
+This file is generated from multiple sources. Included packages:
+- vite-plugin-node-polyfills
+	- version: 0.24.0
+	- license: MIT

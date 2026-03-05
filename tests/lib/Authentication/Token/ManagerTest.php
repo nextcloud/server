@@ -3,35 +3,18 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Authentication\Token;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\Manager;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenProvider;
+use OCP\DB\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -50,7 +33,7 @@ class ManagerTest extends TestCase {
 		);
 	}
 
-	public function testGenerateToken() {
+	public function testGenerateToken(): void {
 		$token = new PublicKeyToken();
 
 		$this->publicKeyTokenProvider->expects($this->once())
@@ -78,9 +61,10 @@ class ManagerTest extends TestCase {
 		$this->assertSame($token, $actual);
 	}
 
-	public function testGenerateConflictingToken() {
-		/** @var MockObject|UniqueConstraintViolationException $exception */
-		$exception = $this->createMock(UniqueConstraintViolationException::class);
+	public function testGenerateConflictingToken(): void {
+		/** @var MockObject|Exception $exception */
+		$exception = $this->createMock(Exception::class);
+		$exception->method('getReason')->willReturn(Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
 
 		$token = new PublicKeyToken();
 		$token->setUid('uid');
@@ -114,7 +98,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($token, $actual);
 	}
 
-	public function testGenerateTokenTooLongName() {
+	public function testGenerateTokenTooLongName(): void {
 		$token = $this->createMock(IToken::class);
 		$token->method('getName')
 			->willReturn(str_repeat('a', 120) . '…');
@@ -145,10 +129,10 @@ class ManagerTest extends TestCase {
 		$this->assertSame(121, mb_strlen($actual->getName()));
 	}
 
-	public function tokenData(): array {
+	public static function tokenData(): array {
 		return [
 			[new PublicKeyToken()],
-			[$this->createMock(IToken::class)],
+			[IToken::class],
 		];
 	}
 
@@ -174,10 +158,12 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
-	public function testUpdateToken(IToken $token) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
+	public function testUpdateToken(IToken|string $token): void {
+		if (is_string($token)) {
+			$token = $this->createMock($token);
+		}
+
 		$this->setNoCall($token);
 		$this->setCall($token, 'updateToken');
 		$this->setException($token);
@@ -185,10 +171,12 @@ class ManagerTest extends TestCase {
 		$this->manager->updateToken($token);
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
-	public function testUpdateTokenActivity(IToken $token) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
+	public function testUpdateTokenActivity(IToken|string $token): void {
+		if (is_string($token)) {
+			$token = $this->createMock($token);
+		}
+
 		$this->setNoCall($token);
 		$this->setCall($token, 'updateTokenActivity');
 		$this->setException($token);
@@ -196,10 +184,12 @@ class ManagerTest extends TestCase {
 		$this->manager->updateTokenActivity($token);
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
-	public function testGetPassword(IToken $token) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
+	public function testGetPassword(IToken|string $token): void {
+		if (is_string($token)) {
+			$token = $this->createMock($token);
+		}
+
 		$this->setNoCall($token);
 		$this->setCall($token, 'getPassword', 'password');
 		$this->setException($token);
@@ -209,10 +199,12 @@ class ManagerTest extends TestCase {
 		$this->assertSame('password', $result);
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
-	public function testSetPassword(IToken $token) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
+	public function testSetPassword(IToken|string $token): void {
+		if (is_string($token)) {
+			$token = $this->createMock($token);
+		}
+
 		$this->setNoCall($token);
 		$this->setCall($token, 'setPassword');
 		$this->setException($token);
@@ -220,7 +212,7 @@ class ManagerTest extends TestCase {
 		$this->manager->setPassword($token, 'tokenId', 'password');
 	}
 
-	public function testInvalidateTokens() {
+	public function testInvalidateTokens(): void {
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('invalidateToken')
 			->with('token');
@@ -228,7 +220,7 @@ class ManagerTest extends TestCase {
 		$this->manager->invalidateToken('token');
 	}
 
-	public function testInvalidateTokenById() {
+	public function testInvalidateTokenById(): void {
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('invalidateTokenById')
 			->with('uid', 42);
@@ -236,14 +228,14 @@ class ManagerTest extends TestCase {
 		$this->manager->invalidateTokenById('uid', 42);
 	}
 
-	public function testInvalidateOldTokens() {
+	public function testInvalidateOldTokens(): void {
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('invalidateOldTokens');
 
 		$this->manager->invalidateOldTokens();
 	}
 
-	public function testInvalidateLastUsedBefore() {
+	public function testInvalidateLastUsedBefore(): void {
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('invalidateLastUsedBefore')
 			->with('user', 946684800);
@@ -251,7 +243,7 @@ class ManagerTest extends TestCase {
 		$this->manager->invalidateLastUsedBefore('user', 946684800);
 	}
 
-	public function testGetTokenByUser() {
+	public function testGetTokenByUser(): void {
 		$t1 = new PublicKeyToken();
 		$t2 = new PublicKeyToken();
 
@@ -264,7 +256,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([$t1, $t2], $result);
 	}
 
-	public function testRenewSessionTokenPublicKey() {
+	public function testRenewSessionTokenPublicKey(): void {
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('renewSessionToken')
 			->with('oldId', 'newId');
@@ -272,7 +264,7 @@ class ManagerTest extends TestCase {
 		$this->manager->renewSessionToken('oldId', 'newId');
 	}
 
-	public function testRenewSessionInvalid() {
+	public function testRenewSessionInvalid(): void {
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('renewSessionToken')
 			->with('oldId', 'newId')
@@ -282,7 +274,7 @@ class ManagerTest extends TestCase {
 		$this->manager->renewSessionToken('oldId', 'newId');
 	}
 
-	public function testGetTokenByIdPublicKey() {
+	public function testGetTokenByIdPublicKey(): void {
 		$token = $this->createMock(IToken::class);
 
 		$this->publicKeyTokenProvider->expects($this->once())
@@ -293,7 +285,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($token, $this->manager->getTokenById(42));
 	}
 
-	public function testGetTokenByIdInvalid() {
+	public function testGetTokenByIdInvalid(): void {
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('getTokenById')
 			->with(42)
@@ -303,7 +295,7 @@ class ManagerTest extends TestCase {
 		$this->manager->getTokenById(42);
 	}
 
-	public function testGetTokenPublicKey() {
+	public function testGetTokenPublicKey(): void {
 		$token = new PublicKeyToken();
 
 		$this->publicKeyTokenProvider
@@ -314,7 +306,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($token, $this->manager->getToken('tokenId'));
 	}
 
-	public function testGetTokenInvalid() {
+	public function testGetTokenInvalid(): void {
 		$this->publicKeyTokenProvider
 			->method('getToken')
 			->with('tokenId')
@@ -324,12 +316,12 @@ class ManagerTest extends TestCase {
 		$this->manager->getToken('tokenId');
 	}
 
-	public function testRotateInvalid() {
+	public function testRotateInvalid(): void {
 		$this->expectException(InvalidTokenException::class);
 		$this->manager->rotate($this->createMock(IToken::class), 'oldId', 'newId');
 	}
 
-	public function testRotatePublicKey() {
+	public function testRotatePublicKey(): void {
 		$token = new PublicKeyToken();
 
 		$this->publicKeyTokenProvider
@@ -340,7 +332,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($token, $this->manager->rotate($token, 'oldId', 'newId'));
 	}
 
-	public function testMarkPasswordInvalidPublicKey() {
+	public function testMarkPasswordInvalidPublicKey(): void {
 		$token = $this->createMock(PublicKeyToken::class);
 
 		$this->publicKeyTokenProvider->expects($this->once())
@@ -350,13 +342,13 @@ class ManagerTest extends TestCase {
 		$this->manager->markPasswordInvalid($token, 'tokenId');
 	}
 
-	public function testMarkPasswordInvalidInvalidToken() {
+	public function testMarkPasswordInvalidInvalidToken(): void {
 		$this->expectException(InvalidTokenException::class);
 
 		$this->manager->markPasswordInvalid($this->createMock(IToken::class), 'tokenId');
 	}
 
-	public function testUpdatePasswords() {
+	public function testUpdatePasswords(): void {
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('updatePasswords')
 			->with('uid', 'pass');
@@ -364,7 +356,7 @@ class ManagerTest extends TestCase {
 		$this->manager->updatePasswords('uid', 'pass');
 	}
 
-	public function testInvalidateTokensOfUserNoClientName() {
+	public function testInvalidateTokensOfUserNoClientName(): void {
 		$t1 = new PublicKeyToken();
 		$t2 = new PublicKeyToken();
 		$t1->setId(123);
@@ -375,17 +367,22 @@ class ManagerTest extends TestCase {
 			->method('getTokenByUser')
 			->with('theUser')
 			->willReturn([$t1, $t2]);
+
+		$calls = [
+			['theUser', 123],
+			['theUser', 456],
+		];
 		$this->publicKeyTokenProvider
 			->expects($this->exactly(2))
 			->method('invalidateTokenById')
-			->withConsecutive(
-				['theUser', 123],
-				['theUser', 456],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->manager->invalidateTokensOfUser('theUser', null);
 	}
 
-	public function testInvalidateTokensOfUserClientNameGiven() {
+	public function testInvalidateTokensOfUserClientNameGiven(): void {
 		$t1 = new PublicKeyToken();
 		$t2 = new PublicKeyToken();
 		$t3 = new PublicKeyToken();

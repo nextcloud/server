@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\UserStatus\Tests\Controller;
 
@@ -39,22 +21,16 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Throwable;
 
 class UserStatusControllerTest extends TestCase {
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-
-	/** @var StatusService|\PHPUnit\Framework\MockObject\MockObject */
-	private $statusService;
-
-	/** @var CalendarStatusService|\PHPUnit\Framework\MockObject\MockObject $calendarStatusService */
-	private $calendarStatusService;
-
-	/** @var UserStatusController */
-	private $controller;
+	private LoggerInterface&MockObject $logger;
+	private StatusService&MockObject $statusService;
+	private CalendarStatusService&MockObject $calendarStatusService;
+	private UserStatusController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -111,20 +87,9 @@ class UserStatusControllerTest extends TestCase {
 		$this->controller->getStatus();
 	}
 
-	/**
-	 * @param string $statusType
-	 * @param string|null $statusIcon
-	 * @param string|null $message
-	 * @param int|null $clearAt
-	 * @param bool $expectSuccess
-	 * @param bool $expectException
-	 * @param Throwable|null $exception
-	 * @param bool $expectLogger
-	 * @param string|null $expectedLogMessage
-	 *
-	 * @dataProvider setStatusDataProvider
-	 */
-	public function testSetStatus(string $statusType,
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setStatusDataProvider')]
+	public function testSetStatus(
+		string $statusType,
 		?string $statusIcon,
 		?string $message,
 		?int $clearAt,
@@ -132,7 +97,8 @@ class UserStatusControllerTest extends TestCase {
 		bool $expectException,
 		?Throwable $exception,
 		bool $expectLogger,
-		?string $expectedLogMessage): void {
+		?string $expectedLogMessage,
+	): void {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
@@ -173,7 +139,7 @@ class UserStatusControllerTest extends TestCase {
 		}
 	}
 
-	public function setStatusDataProvider(): array {
+	public static function setStatusDataProvider(): array {
 		return [
 			['busy', '👨🏽‍💻', 'Busy developing the status feature', 500, true, false, null, false, null],
 			['busy', '👨🏽‍💻', 'Busy developing the status feature', 500, false, true, new InvalidStatusTypeException('Original exception message'), true,
@@ -181,24 +147,16 @@ class UserStatusControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param string $messageId
-	 * @param int|null $clearAt
-	 * @param bool $expectSuccess
-	 * @param bool $expectException
-	 * @param Throwable|null $exception
-	 * @param bool $expectLogger
-	 * @param string|null $expectedLogMessage
-	 *
-	 * @dataProvider setPredefinedMessageDataProvider
-	 */
-	public function testSetPredefinedMessage(string $messageId,
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setPredefinedMessageDataProvider')]
+	public function testSetPredefinedMessage(
+		string $messageId,
 		?int $clearAt,
 		bool $expectSuccess,
 		bool $expectException,
 		?Throwable $exception,
 		bool $expectLogger,
-		?string $expectedLogMessage): void {
+		?string $expectedLogMessage,
+	): void {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
@@ -239,7 +197,7 @@ class UserStatusControllerTest extends TestCase {
 		}
 	}
 
-	public function setPredefinedMessageDataProvider(): array {
+	public static function setPredefinedMessageDataProvider(): array {
 		return [
 			['messageId-42', 500, true, false, null, false, null],
 			['messageId-42', 500, false, true, new InvalidClearAtException('Original exception message'), true,
@@ -249,20 +207,9 @@ class UserStatusControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param string|null $statusIcon
-	 * @param string $message
-	 * @param int|null $clearAt
-	 * @param bool $expectSuccess
-	 * @param bool $expectException
-	 * @param Throwable|null $exception
-	 * @param bool $expectLogger
-	 * @param string|null $expectedLogMessage
-	 * @param bool $expectSuccessAsReset
-	 *
-	 * @dataProvider setCustomMessageDataProvider
-	 */
-	public function testSetCustomMessage(?string $statusIcon,
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setCustomMessageDataProvider')]
+	public function testSetCustomMessage(
+		?string $statusIcon,
 		string $message,
 		?int $clearAt,
 		bool $expectSuccess,
@@ -270,7 +217,8 @@ class UserStatusControllerTest extends TestCase {
 		?Throwable $exception,
 		bool $expectLogger,
 		?string $expectedLogMessage,
-		bool $expectSuccessAsReset = false): void {
+		bool $expectSuccessAsReset = false,
+	): void {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
@@ -326,7 +274,7 @@ class UserStatusControllerTest extends TestCase {
 		}
 	}
 
-	public function setCustomMessageDataProvider(): array {
+	public static function setCustomMessageDataProvider(): array {
 		return [
 			['👨🏽‍💻', 'Busy developing the status feature', 500, true, false, null, false, null],
 			['👨🏽‍💻', '', 500, true, false, null, false, null, false],

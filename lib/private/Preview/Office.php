@@ -1,38 +1,19 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Olivier Paroz <github@oparoz.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tor Lillqvist <tml@collabora.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\Image;
 use OCP\ITempManager;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 abstract class Office extends ProviderV2 {
 	/**
@@ -54,6 +35,13 @@ abstract class Office extends ProviderV2 {
 
 		// The file to generate the preview for.
 		$absPath = $this->getLocalFile($file);
+		if ($absPath === false) {
+			Server::get(LoggerInterface::class)->error(
+				'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
+				['app' => 'core']
+			);
+			return null;
+		}
 
 		// The destination for the LibreOffice user profile.
 		// LibreOffice can rune once per user profile and therefore instance id and file id are included.
@@ -94,7 +82,7 @@ abstract class Office extends ProviderV2 {
 
 		$preview = $outdir . pathinfo($absPath, PATHINFO_FILENAME) . '.png';
 
-		$image = new \OCP\Image();
+		$image = new Image();
 		$image->loadFromFile($preview);
 
 		$this->cleanTmpFiles();

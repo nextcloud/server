@@ -3,30 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Thomas Citharel
- * @copyright Copyright (c) 2019, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
@@ -35,13 +13,11 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class PushProviderTest extends AbstractNotificationProviderTest {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $manager;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
+class PushProviderTest extends AbstractNotificationProviderTestCase {
+	private IManager&MockObject $manager;
+	private ITimeFactory&MockObject $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -118,20 +94,23 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 
 		$this->manager->expects($this->exactly(3))
 			->method('createNotification')
-			->with()
 			->willReturnOnConsecutiveCalls(
 				$notification1,
 				$notification2,
 				$notification3
 			);
 
+		$calls = [
+			$notification1,
+			$notification2,
+			$notification3,
+		];
 		$this->manager->expects($this->exactly(3))
 			->method('notify')
-			->withConsecutive(
-				[$notification1],
-				[$notification2],
-				[$notification3],
-			);
+			->willReturnCallback(function ($notification) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, $notification);
+			});
 
 		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, [], $users);
 	}

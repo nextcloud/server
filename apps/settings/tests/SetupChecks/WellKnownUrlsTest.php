@@ -3,27 +3,10 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests;
+namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\WellKnownUrls;
 use OCP\Http\Client\IClientService;
@@ -37,19 +20,18 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class WellKnownUrlsTest extends TestCase {
-	private IL10N|MockObject $l10n;
-	private IConfig|MockObject $config;
-	private IURLGenerator|MockObject $urlGenerator;
-	private IClientService|MockObject $clientService;
-	private LoggerInterface|MockObject $logger;
-	private WellKnownUrls|MockObject $setupcheck;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IClientService&MockObject $clientService;
+	private LoggerInterface&MockObject $logger;
+	private WellKnownUrls&MockObject $setupcheck;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var IL10N|MockObject */
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		/** @var IL10N&MockObject */
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($message, array $replace) {
@@ -105,7 +87,7 @@ class WellKnownUrlsTest extends TestCase {
 		$this->setupcheck
 			->expects($this->once())
 			->method('runRequest')
-			->will($this->generate([]));
+			->willReturn($this->generate([]));
 
 		$result = $this->setupcheck->run();
 		$this->assertEquals(SetupResult::INFO, $result->getSeverity());
@@ -114,26 +96,10 @@ class WellKnownUrlsTest extends TestCase {
 
 	/**
 	 * Test responses
-	 * @dataProvider dataTestResponses
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestResponses')]
 	public function testResponses($responses, string $expectedSeverity): void {
-		$this->config
-			->expects($this->once())
-			->method('getSystemValueBool')
-			->with('check_for_working_wellknown_setup')
-			->willReturn(true);
-
-		$this->setupcheck
-			->expects($this->atLeastOnce())
-			->method('runRequest')
-			->willReturnOnConsecutiveCalls(...$responses);
-
-		$result = $this->setupcheck->run();
-		$this->assertEquals($expectedSeverity, $result->getSeverity());
-	}
-
-	public function dataTestResponses(): array {
-		$createResponse = function (int $statuscode, array $header = []): IResponse|MockObject {
+		$createResponse = function (int $statuscode, array $header = []): IResponse&MockObject {
 			$response = $this->createMock(IResponse::class);
 			$response->expects($this->any())
 				->method('getStatusCode')
@@ -144,78 +110,105 @@ class WellKnownUrlsTest extends TestCase {
 			return $response;
 		};
 
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('check_for_working_wellknown_setup')
+			->willReturn(true);
+
+		/* Use generate to mock a Generator, and $createResponse to create the response objects */
+		$responses = array_map(
+			fn (array $items) => $this->generate(
+				array_map(
+					fn (array $item) => $createResponse(...$item),
+					$items,
+				)
+			),
+			$responses,
+		);
+
+		$this->setupcheck
+			->expects($this->atLeastOnce())
+			->method('runRequest')
+			->willReturnOnConsecutiveCalls(...$responses);
+
+		$result = $this->setupcheck->run();
+		$this->assertEquals($expectedSeverity, $result->getSeverity());
+	}
+
+	public static function dataTestResponses(): array {
 		$wellKnownHeader = ['X-NEXTCLOUD-WELL-KNOWN' => 'yes'];
 
 		return [
 			'expected codes' => [
 				[
-					$this->generate([$createResponse(200, $wellKnownHeader)]),
-					$this->generate([$createResponse(200, $wellKnownHeader)]),
-					$this->generate([$createResponse(207)]),
-					$this->generate([$createResponse(207)]),
+					[[200, $wellKnownHeader]],
+					[[200, $wellKnownHeader]],
+					[[207]],
+					[[207]],
 				],
 				SetupResult::SUCCESS,
 			],
 			'late response with expected codes' => [
 				[
-					$this->generate([$createResponse(404), $createResponse(200, $wellKnownHeader)]),
-					$this->generate([$createResponse(404), $createResponse(200, $wellKnownHeader)]),
-					$this->generate([$createResponse(404), $createResponse(207)]),
-					$this->generate([$createResponse(404), $createResponse(207)]),
+					[[404], [200, $wellKnownHeader]],
+					[[404], [200, $wellKnownHeader]],
+					[[404], [207]],
+					[[404], [207]],
 				],
 				SetupResult::SUCCESS,
 			],
 			'working but disabled webfinger' => [
 				[
-					$this->generate([$createResponse(404, $wellKnownHeader)]),
-					$this->generate([$createResponse(404, $wellKnownHeader)]),
-					$this->generate([$createResponse(207)]),
-					$this->generate([$createResponse(207)]),
+					[[404, $wellKnownHeader]],
+					[[404, $wellKnownHeader]],
+					[[207]],
+					[[207]],
 				],
 				SetupResult::SUCCESS,
 			],
 			'unauthorized webdav but with correct configured redirect' => [
 				[
-					$this->generate([$createResponse(404, $wellKnownHeader)]),
-					$this->generate([$createResponse(404, $wellKnownHeader)]),
-					$this->generate([$createResponse(401, ['X-Guzzle-Redirect-History' => 'https://example.com,https://example.com/remote.php/dav/'])]),
-					$this->generate([$createResponse(401, ['X-Guzzle-Redirect-History' => 'https://example.com/remote.php/dav/'])]),
+					[[404, $wellKnownHeader]],
+					[[404, $wellKnownHeader]],
+					[[401, ['X-Guzzle-Redirect-History' => 'https://example.com,https://example.com/remote.php/dav/']]],
+					[[401, ['X-Guzzle-Redirect-History' => 'https://example.com/remote.php/dav/']]],
 				],
 				SetupResult::SUCCESS,
 			],
 			'not configured path' => [
 				[
-					$this->generate([$createResponse(404)]),
-					$this->generate([$createResponse(404)]),
-					$this->generate([$createResponse(404)]),
-					$this->generate([$createResponse(404)]),
+					[[404]],
+					[[404]],
+					[[404]],
+					[[404]],
 				],
 				SetupResult::WARNING,
 			],
 			'Invalid webfinger' => [
 				[
-					$this->generate([$createResponse(404)]),
-					$this->generate([$createResponse(404, $wellKnownHeader)]),
-					$this->generate([$createResponse(207)]),
-					$this->generate([$createResponse(207)]),
+					[[404]],
+					[[404, $wellKnownHeader]],
+					[[207]],
+					[[207]],
 				],
 				SetupResult::WARNING,
 			],
 			'Invalid nodeinfo' => [
 				[
-					$this->generate([$createResponse(404, $wellKnownHeader)]),
-					$this->generate([$createResponse(404)]),
-					$this->generate([$createResponse(207)]),
-					$this->generate([$createResponse(207)]),
+					[[404, $wellKnownHeader]],
+					[[404]],
+					[[207]],
+					[[207]],
 				],
 				SetupResult::WARNING,
 			],
 			'Invalid caldav' => [
 				[
-					$this->generate([$createResponse(404, $wellKnownHeader)]),
-					$this->generate([$createResponse(404, $wellKnownHeader)]),
-					$this->generate([$createResponse(404)]),
-					$this->generate([$createResponse(207)]),
+					[[404, $wellKnownHeader]],
+					[[404, $wellKnownHeader]],
+					[[404]],
+					[[207]],
 				],
 				SetupResult::WARNING,
 			],
@@ -226,8 +219,6 @@ class WellKnownUrlsTest extends TestCase {
 	 * Helper function creates a nicer interface for mocking Generator behavior
 	 */
 	protected function generate(array $yield_values) {
-		return $this->returnCallback(function () use ($yield_values) {
-			yield from $yield_values;
-		});
+		yield from $yield_values;
 	}
 }

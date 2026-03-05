@@ -1,28 +1,11 @@
 /**
- * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils'
-import { clearState } from '../../support/commonUtils'
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { clearState } from '../../support/commonUtils.ts'
+import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -31,7 +14,9 @@ describe('Settings: Change user properties', function() {
 
 	beforeEach(function() {
 		clearState()
-		cy.createRandomUser().then(($user) => { user = $user })
+		cy.createRandomUser().then(($user) => {
+			user = $user
+		})
 		cy.login(admin)
 	})
 
@@ -155,7 +140,7 @@ describe('Settings: Change user properties', function() {
 
 		// I see that the quota was set on the backend
 		cy.runOccCommand(`user:info --output=json '${user.userId}'`).then(($result) => {
-			expect($result.code).to.equal(0)
+			expect($result.exitCode).to.equal(0)
 			const info = JSON.parse($result.stdout)
 			expect(info?.quota).to.equal('5 GB')
 		})
@@ -191,52 +176,11 @@ describe('Settings: Change user properties', function() {
 
 		// I see that the quota was set on the backend
 		cy.runOccCommand(`user:info --output=json '${user.userId}'`).then(($result) => {
-			expect($result.code).to.equal(0)
+			expect($result.exitCode).to.equal(0)
 			// TODO: Enable this after the file size handling is fixed!!!!!!
 			// const info = JSON.parse($result.stdout)
 			// expect(info?.quota).to.equal('4 MB')
 		})
-	})
-
-	it('Can set manager of a user', function() {
-		// create the manager
-		let manager: User
-		cy.createRandomUser().then(($user) => { manager = $user })
-
-		// open the User settings as admin
-		cy.login(admin)
-		cy.visit('/settings/users')
-
-		// toggle edit button into edit mode
-		toggleEditButton(user, true)
-
-		getUserListRow(user.userId)
-			.find('[data-cy-user-list-cell-manager]')
-			.scrollIntoView()
-
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-manager]').within(() => {
-			// see that the user has no manager
-			cy.get('.vs__selected').should('not.exist')
-			// Open the dropdown menu
-			cy.get('[role="combobox"]').click({ force: true })
-			// select the manager
-			cy.contains('li', manager.userId).click({ force: true })
-
-			// Handle password confirmation on time out
-			handlePasswordConfirmation(admin.password)
-
-			// see that the user has a manager set
-			cy.get('.vs__selected').should('exist').and('contain.text', manager.userId)
-		})
-
-		// see that the changes are loading
-		waitLoading('[data-cy-user-list-input-manager]')
-
-		// finish editing the user
-		toggleEditButton(user, false)
-
-		// validate the manager is set
-		cy.getUserData(user).then(($result) => expect($result.body).to.contain(`<manager>${manager.userId}</manager>`))
 	})
 
 	it('Can make user a subadmin of a group', function() {
@@ -256,6 +200,8 @@ describe('Settings: Change user properties', function() {
 			cy.get('.vs__selected').should('not.exist')
 			// Open the dropdown menu
 			cy.get('[role="combobox"]').click({ force: true })
+			// Search for the group
+			cy.get('[role="combobox"]').type('userstestgroup')
 			// select the group
 			cy.contains('li', groupName).click({ force: true })
 

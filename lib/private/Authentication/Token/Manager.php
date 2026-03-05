@@ -1,33 +1,12 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\Token;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
@@ -35,13 +14,12 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
 use OCP\Authentication\Token\IToken as OCPIToken;
+use OCP\DB\Exception;
 
 class Manager implements IProvider, OCPIProvider {
-	/** @var PublicKeyTokenProvider */
-	private $publicKeyTokenProvider;
-
-	public function __construct(PublicKeyTokenProvider $publicKeyTokenProvider) {
-		$this->publicKeyTokenProvider = $publicKeyTokenProvider;
+	public function __construct(
+		private PublicKeyTokenProvider $publicKeyTokenProvider,
+	) {
 	}
 
 	/**
@@ -62,7 +40,9 @@ class Manager implements IProvider, OCPIProvider {
 		$password,
 		string $name,
 		int $type = OCPIToken::TEMPORARY_TOKEN,
-		int $remember = OCPIToken::DO_NOT_REMEMBER): OCPIToken {
+		int $remember = OCPIToken::DO_NOT_REMEMBER,
+		?array $scope = null,
+	): OCPIToken {
 		if (mb_strlen($name) > 128) {
 			$name = mb_substr($name, 0, 120) . '…';
 		}
@@ -75,9 +55,13 @@ class Manager implements IProvider, OCPIProvider {
 				$password,
 				$name,
 				$type,
-				$remember
+				$remember,
+				$scope,
 			);
-		} catch (UniqueConstraintViolationException $e) {
+		} catch (Exception $e) {
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
 			// It's rare, but if two requests of the same session (e.g. env-based SAML)
 			// try to create the session token they might end up here at the same time
 			// because we use the session ID as token and the db token is created anew

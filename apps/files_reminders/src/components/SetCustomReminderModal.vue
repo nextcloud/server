@@ -1,44 +1,137 @@
 <!--
-  - @copyright 2023 Christopher Ng <chrng8@gmail.com>
-  -
-  - @author Christopher Ng <chrng8@gmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { INode } from '@nextcloud/files'
+
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { emit as emitEventBus } from '@nextcloud/event-bus'
+import { t } from '@nextcloud/l10n'
+import { onBeforeMount, onMounted, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import { clearReminder, setReminder } from '../services/reminderService.ts'
+import { logger } from '../shared/logger.ts'
+import { getInitialCustomDueDate } from '../shared/utils.ts'
+
+const props = defineProps<{
+	node: INode
+}>()
+
+const emit = defineEmits<{
+	close: [void]
+}>()
+
+const hasDueDate = ref(false)
+const opened = ref(false)
+const isValid = ref(true)
+const customDueDate = ref<Date>()
+const nowDate = ref(new Date())
+
+onBeforeMount(() => {
+	const dueDate = props.node.attributes['reminder-due-date']
+		? new Date(props.node.attributes['reminder-due-date'])
+		: undefined
+
+	hasDueDate.value = Boolean(dueDate)
+	isValid.value = true
+	opened.value = true
+	customDueDate.value = dueDate ?? getInitialCustomDueDate()
+	nowDate.value = new Date()
+})
+
+onMounted(() => {
+	const input = document.getElementById('set-custom-reminder') as HTMLInputElement
+	input.focus()
+	if (!hasDueDate.value) {
+		input.showPicker()
+	}
+})
+
+/**
+ * Set the custom reminder
+ */
+async function setCustom(): Promise<void> {
+	// Handle input cleared or invalid date
+	if (!(customDueDate.value instanceof Date) || isNaN(customDueDate.value.getTime())) {
+		showError(t('files_reminders', 'Please choose a valid date & time'))
+		return
+	}
+
+	try {
+		await setReminder(props.node.fileid!, customDueDate.value)
+		const node = props.node.clone()
+		node.attributes['reminder-due-date'] = customDueDate.value.toISOString()
+		emitEventBus('files:node:updated', node)
+		showSuccess(t('files_reminders', 'Reminder set for "{fileName}"', { fileName: props.node.displayname }))
+		onClose()
+	} catch (error) {
+		logger.error('Failed to set reminder', { error })
+		showError(t('files_reminders', 'Failed to set reminder'))
+	}
+}
+
+/**
+ * Clear the reminder
+ */
+async function clear(): Promise<void> {
+	try {
+		await clearReminder(props.node.fileid!)
+		const node = props.node.clone()
+		node.attributes['reminder-due-date'] = ''
+		emitEventBus('files:node:updated', node)
+		showSuccess(t('files_reminders', 'Reminder cleared for "{fileName}"', { fileName: props.node.displayname }))
+		onClose()
+	} catch (error) {
+		logger.error('Failed to clear reminder', { error })
+		showError(t('files_reminders', 'Failed to clear reminder'))
+	}
+}
+
+/**
+ * Close the modal
+ */
+function onClose(): void {
+	opened.value = false
+	emit('close')
+}
+
+/**
+ * Validate the input on change
+ */
+function onInput(): void {
+	const input = document.getElementById('set-custom-reminder') as HTMLInputElement
+	isValid.value = input.checkValidity()
+}
+</script>
+
 <template>
-	<NcDialog v-if="opened"
-		:name="name"
-		:out-transition="true"
+	<NcDialog
+		v-if="opened"
+		:name="t('files_reminders', `Set reminder for '{fileName}'`, { fileName: node.displayname })"
+		outTransition
 		size="small"
-		close-on-click-outside
+		closeOnClickOutside
 		@closing="onClose">
-		<form id="set-custom-reminder-form"
+		<form
+			id="set-custom-reminder-form"
 			class="custom-reminder-modal"
 			@submit.prevent="setCustom">
-			<NcDateTimePickerNative id="set-custom-reminder"
+			<NcDateTimePickerNative
+				id="set-custom-reminder"
 				v-model="customDueDate"
-				:label="label"
+				:label="t('files_reminders', 'Reminder at custom date & time')"
 				:min="nowDate"
 				:required="true"
 				type="datetime-local"
 				@input="onInput" />
 
-			<NcNoteCard v-if="isValid" type="info">
+			<NcNoteCard v-if="isValid && customDueDate" type="info">
 				{{ t('files_reminders', 'We will remind you of this file') }}
 				<NcDateTime :timestamp="customDueDate" />
 			</NcNoteCard>
@@ -49,7 +142,7 @@
 		</form>
 		<template #actions>
 			<!-- Cancel pick -->
-			<NcButton type="tertiary" @click="onClose">
+			<NcButton variant="tertiary" @click="onClose">
 				{{ t('files_reminders', 'Cancel') }}
 			</NcButton>
 
@@ -59,151 +152,16 @@
 			</NcButton>
 
 			<!-- Set reminder -->
-			<NcButton :disabled="!isValid"
-				type="primary"
+			<NcButton
+				:disabled="!isValid"
+				variant="primary"
 				form="set-custom-reminder-form"
-				native-type="submit">
+				type="submit">
 				{{ t('files_reminders', 'Set reminder') }}
 			</NcButton>
 		</template>
 	</NcDialog>
 </template>
-
-<script lang="ts">
-import Vue from 'vue'
-import type { Node } from '@nextcloud/files'
-import { emit } from '@nextcloud/event-bus'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-
-import { getDateString, getInitialCustomDueDate } from '../shared/utils.ts'
-import { logger } from '../shared/logger.ts'
-import { clearReminder, setReminder } from '../services/reminderService.ts'
-
-export default Vue.extend({
-	name: 'SetCustomReminderModal',
-
-	components: {
-		NcButton,
-		NcDateTime,
-		NcDateTimePickerNative,
-		NcDialog,
-		NcNoteCard,
-	},
-
-	data() {
-		return {
-			node: undefined as Node | undefined,
-			hasDueDate: false,
-			opened: false,
-			isValid: true,
-
-			customDueDate: null as null | Date,
-			nowDate: new Date(),
-		}
-	},
-
-	computed: {
-		fileId(): number {
-			return this.node.fileid
-		},
-
-		fileName(): string {
-			return this.node.basename
-		},
-
-		name() {
-			return t('files_reminders', 'Set reminder for "{fileName}"', { fileName: this.fileName })
-		},
-
-		label(): string {
-			return t('files_reminders', 'Set reminder at custom date & time')
-		},
-
-		clearAriaLabel(): string {
-			return t('files_reminders', 'Clear reminder')
-		},
-	},
-
-	methods: {
-		t,
-		getDateString,
-
-		/**
-		 * Open the modal to set a custom reminder
-		 * and reset the state.
-		 * @param node The node to set a reminder for
-		 */
-		open(node: Node): void {
-			const dueDate = node.attributes['reminder-due-date'] ? new Date(node.attributes['reminder-due-date']) : null
-
-			this.node = node
-			this.hasDueDate = Boolean(dueDate)
-			this.isValid = true
-			this.opened = true
-			this.customDueDate = dueDate ?? getInitialCustomDueDate()
-			this.nowDate = new Date()
-
-			// Focus the input and show the picker after the animation
-			setTimeout(() => {
-				const input = document.getElementById('set-custom-reminder') as HTMLInputElement
-				input.focus()
-				if (!this.hasDueDate) {
-					input.showPicker()
-				}
-			}, 300)
-		},
-
-		async setCustom(): Promise<void> {
-			// Handle input cleared or invalid date
-			if (!(this.customDueDate instanceof Date) || isNaN(this.customDueDate)) {
-				showError(t('files_reminders', 'Please choose a valid date & time'))
-				return
-			}
-
-			try {
-				await setReminder(this.fileId, this.customDueDate)
-				Vue.set(this.node.attributes, 'reminder-due-date', this.customDueDate.toISOString())
-				emit('files:node:updated', this.node)
-				showSuccess(t('files_reminders', 'Reminder set for "{fileName}"', { fileName: this.fileName }))
-				this.onClose()
-			} catch (error) {
-				logger.error('Failed to set reminder', { error })
-				showError(t('files_reminders', 'Failed to set reminder'))
-			}
-		},
-
-		async clear(): Promise<void> {
-			try {
-				await clearReminder(this.fileId)
-				Vue.set(this.node.attributes, 'reminder-due-date', '')
-				emit('files:node:updated', this.node)
-				showSuccess(t('files_reminders', 'Reminder cleared for "{fileName}"', { fileName: this.fileName }))
-				this.onClose()
-			} catch (error) {
-				logger.error('Failed to clear reminder', { error })
-				showError(t('files_reminders', 'Failed to clear reminder'))
-			}
-		},
-
-		onClose(): void {
-			this.opened = false
-			this.$emit('close')
-		},
-
-		onInput(): void {
-			const input = document.getElementById('set-custom-reminder') as HTMLInputElement
-			this.isValid = input.checkValidity()
-		},
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 .custom-reminder-modal {

@@ -1,26 +1,9 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
+import { User } from '@nextcloud/e2e-test-server/cypress'
 import { assertNotExistOrNotVisible, getUserList } from './usersUtils.js'
 
 const admin = new User('admin', 'admin')
@@ -44,7 +27,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
 	})
 
 	it('Can show a column', function() {
@@ -67,7 +50,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
 
 		// see that the language column is in the header
 		cy.get('[data-cy-user-list-header-languages]').should('exist')
@@ -76,6 +59,11 @@ describe('Settings: Show and hide columns', function() {
 		getUserList().find('tbody tr').each(($row) => {
 			cy.wrap($row).get('[data-cy-user-list-cell-language]').should('exist')
 		})
+
+		// Clear local storage and reload to verify user settings DB persistence
+		cy.clearLocalStorage()
+		cy.reload()
+		cy.get('[data-cy-user-list-header-languages]').should('exist')
 	})
 
 	it('Can hide a column', function() {
@@ -98,7 +86,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.contains('.modal-container', 'Account management settings').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.contains('.modal-container', 'Account management settings').should((el) => assertNotExistOrNotVisible(el)))
 
 		// see that the last login column is not in the header
 		cy.get('[data-cy-user-list-header-last-login]').should('not.exist')

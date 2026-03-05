@@ -1,38 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Rémy Jacquin <remy@remyj.fr>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Controller;
 
@@ -43,9 +14,14 @@ use OC\Core\Events\PasswordResetEvent;
 use OC\Core\Exception\ResetPasswordException;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
+use OC\User\Session;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -61,8 +37,11 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
+use OCP\PreConditionNotMetException;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 use function count;
@@ -77,8 +56,6 @@ use function reset;
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class LostController extends Controller {
-	protected string $from;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -87,7 +64,7 @@ class LostController extends Controller {
 		private Defaults $defaults,
 		private IL10N $l10n,
 		private IConfig $config,
-		string $defaultMailAddress,
+		protected string $defaultMailAddress,
 		private IManager $encryptionManager,
 		private IMailer $mailer,
 		private LoggerInterface $logger,
@@ -98,17 +75,15 @@ class LostController extends Controller {
 		private Limiter $limiter,
 	) {
 		parent::__construct($appName, $request);
-		$this->from = $defaultMailAddress;
 	}
 
 	/**
 	 * Someone wants to reset their password:
-	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @BruteForceProtection(action=passwordResetEmail)
-	 * @AnonRateThrottle(limit=10, period=300)
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'passwordResetEmail')]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'GET', url: '/lostpassword/reset/form/{token}/{userId}')]
 	public function resetform(string $token, string $userId): TemplateResponse {
 		try {
@@ -120,7 +95,7 @@ class LostController extends Controller {
 			) {
 				$response = new TemplateResponse(
 					'core', 'error', [
-						"errors" => [["error" => $e->getMessage()]]
+						'errors' => [['error' => $e->getMessage()]]
 					],
 					TemplateResponse::RENDER_AS_GUEST
 				);
@@ -169,11 +144,9 @@ class LostController extends Controller {
 		return array_merge($data, ['status' => 'success']);
 	}
 
-	/**
-	 * @PublicPage
-	 * @BruteForceProtection(action=passwordResetEmail)
-	 * @AnonRateThrottle(limit=10, period=300)
-	 */
+	#[PublicPage]
+	#[BruteForceProtection(action: 'passwordResetEmail')]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/lostpassword/email')]
 	public function email(string $user): JSONResponse {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
@@ -186,7 +159,7 @@ class LostController extends Controller {
 			return new JSONResponse($this->error($this->l10n->t('Unsupported email length (>255)')));
 		}
 
-		\OCP\Util::emitHook(
+		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
 			['uid' => &$user]
@@ -207,11 +180,9 @@ class LostController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @PublicPage
-	 * @BruteForceProtection(action=passwordResetEmail)
-	 * @AnonRateThrottle(limit=10, period=300)
-	 */
+	#[PublicPage]
+	#[BruteForceProtection(action: 'passwordResetEmail')]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/lostpassword/set/{token}/{userId}')]
 	public function setPassword(string $token, string $userId, string $password, bool $proceed): JSONResponse {
 		if ($this->encryptionManager->isEnabled() && !$proceed) {
@@ -247,7 +218,7 @@ class LostController extends Controller {
 			$this->twoFactorManager->clearTwoFactorPending($userId);
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
-			@\OC::$server->getUserSession()->unsetMagicInCookie();
+			@Server::get(Session::class)->unsetMagicInCookie();
 		} catch (HintException $e) {
 			$response = new JSONResponse($this->error($e->getHint()));
 			$response->throttle();
@@ -263,7 +234,7 @@ class LostController extends Controller {
 
 	/**
 	 * @throws ResetPasswordException
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	protected function sendEmail(string $input): void {
 		$user = $this->findUserByIdOrMail($input);
@@ -310,7 +281,7 @@ class LostController extends Controller {
 		try {
 			$message = $this->mailer->createMessage();
 			$message->setTo([$email => $user->getDisplayName()]);
-			$message->setFrom([$this->from => $this->defaults->getName()]);
+			$message->setFrom([$this->defaultMailAddress => $this->defaults->getName()]);
 			$message->useTemplate($emailTemplate);
 			$this->mailer->send($message);
 		} catch (Exception $e) {

@@ -1,28 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Security;
 
@@ -31,8 +13,8 @@ namespace OCP\Security;
  * it will use the secret defined in config.php as key. Additionally the message will be HMAC'd.
  *
  * Usage:
- * $encryptWithDefaultPassword = \OC::$server->getCrypto()->encrypt('EncryptedText');
- * $encryptWithCustomPassword = \OC::$server->getCrypto()->encrypt('EncryptedText', 'password');
+ * $encryptWithDefaultPassword = \OCP\Server::get(ICrypto::class)->encrypt('EncryptedText');
+ * $encryptWithCustomPassword = \OCP\Server::get(ICrypto::class)->encrypt('EncryptedText', 'password');
  *
  * @since 8.0.0
  */

@@ -1,22 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Accounts;
@@ -35,17 +23,13 @@ use Test\TestCase;
  * Class HooksTest
  *
  * @package Test\Accounts
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HooksTest extends TestCase {
-	/** @var LoggerInterface|MockObject */
-	private $logger;
 
-	/** @var AccountManager|MockObject */
-	private $accountManager;
-
-	/** @var Hooks */
-	private $hooks;
+	private LoggerInterface&MockObject $logger;
+	private AccountManager&MockObject $accountManager;
+	private Hooks $hooks;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -58,7 +42,6 @@ class HooksTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestChangeUserHook
 	 *
 	 * @param $params
 	 * @param $data
@@ -66,7 +49,8 @@ class HooksTest extends TestCase {
 	 * @param $setDisplayName
 	 * @param $error
 	 */
-	public function testChangeUserHook($params, $data, $setEmail, $setDisplayName, $error) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestChangeUserHook')]
+	public function testChangeUserHook($params, $data, $setEmail, $setDisplayName, $error): void {
 		if ($error) {
 			$this->accountManager->expects($this->never())->method('updateAccount');
 		} else {
@@ -111,14 +95,14 @@ class HooksTest extends TestCase {
 			}
 		}
 
+		$params['user'] = $this->createMock(IUser::class);
 		$this->hooks->changeUserHook($params['user'], $params['feature'], $params['value']);
 	}
 
-	public function dataTestChangeUserHook() {
-		$user = $this->createMock(IUser::class);
+	public static function dataTestChangeUserHook(): array {
 		return [
 			[
-				['user' => $user, 'feature' => '', 'value' => ''],
+				['feature' => '', 'value' => ''],
 				[
 					IAccountManager::PROPERTY_EMAIL => ['value' => ''],
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
@@ -126,7 +110,7 @@ class HooksTest extends TestCase {
 				false, false, true
 			],
 			[
-				['user' => $user, 'feature' => 'foo', 'value' => 'bar'],
+				['feature' => 'foo', 'value' => 'bar'],
 				[
 					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
@@ -134,7 +118,7 @@ class HooksTest extends TestCase {
 				false, false, false
 			],
 			[
-				['user' => $user, 'feature' => 'eMailAddress', 'value' => 'newMail@example.com'],
+				['feature' => 'eMailAddress', 'value' => 'newMail@example.com'],
 				[
 					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
@@ -142,7 +126,7 @@ class HooksTest extends TestCase {
 				true, false, false
 			],
 			[
-				['user' => $user, 'feature' => 'displayName', 'value' => 'newDisplayName'],
+				['feature' => 'displayName', 'value' => 'newDisplayName'],
 				[
 					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']

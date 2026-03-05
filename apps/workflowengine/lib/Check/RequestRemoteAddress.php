@@ -1,28 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Check;
 
@@ -32,19 +12,14 @@ use OCP\WorkflowEngine\ICheck;
 
 class RequestRemoteAddress implements ICheck {
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IRequest */
-	protected $request;
-
 	/**
 	 * @param IL10N $l
 	 * @param IRequest $request
 	 */
-	public function __construct(IL10N $l, IRequest $request) {
-		$this->l = $l;
-		$this->request = $request;
+	public function __construct(
+		protected IL10N $l,
+		protected IRequest $request,
+	) {
 	}
 
 	/**
@@ -57,13 +32,13 @@ class RequestRemoteAddress implements ICheck {
 		$decodedValue = explode('/', $value);
 
 		if ($operator === 'matchesIPv4') {
-			return $this->matchIPv4($actualValue, $decodedValue[0], $decodedValue[1]);
+			return $this->matchIPv4($actualValue, $decodedValue[0], (int)$decodedValue[1]);
 		} elseif ($operator === '!matchesIPv4') {
-			return !$this->matchIPv4($actualValue, $decodedValue[0], $decodedValue[1]);
+			return !$this->matchIPv4($actualValue, $decodedValue[0], (int)$decodedValue[1]);
 		} elseif ($operator === 'matchesIPv6') {
-			return $this->matchIPv6($actualValue, $decodedValue[0], $decodedValue[1]);
+			return $this->matchIPv6($actualValue, $decodedValue[0], (int)$decodedValue[1]);
 		} else {
-			return !$this->matchIPv6($actualValue, $decodedValue[0], $decodedValue[1]);
+			return !$this->matchIPv6($actualValue, $decodedValue[0], (int)$decodedValue[1]);
 		}
 	}
 
@@ -101,12 +76,8 @@ class RequestRemoteAddress implements ICheck {
 
 	/**
 	 * Based on https://stackoverflow.com/a/594134
-	 * @param string $ip
-	 * @param string $rangeIp
-	 * @param int $bits
-	 * @return bool
 	 */
-	protected function matchIPv4($ip, $rangeIp, $bits) {
+	protected function matchIPv4(string $ip, string $rangeIp, int $bits): bool {
 		$rangeDecimal = ip2long($rangeIp);
 		$ipDecimal = ip2long($ip);
 		$mask = -1 << (32 - $bits);
@@ -115,12 +86,8 @@ class RequestRemoteAddress implements ICheck {
 
 	/**
 	 * Based on https://stackoverflow.com/a/7951507
-	 * @param string $ip
-	 * @param string $rangeIp
-	 * @param int $bits
-	 * @return bool
 	 */
-	protected function matchIPv6($ip, $rangeIp, $bits) {
+	protected function matchIPv6(string $ip, string $rangeIp, int $bits): bool {
 		$ipNet = inet_pton($ip);
 		$binaryIp = $this->ipv6ToBits($ipNet);
 		$ipNetBits = substr($binaryIp, 0, $bits);
@@ -134,10 +101,8 @@ class RequestRemoteAddress implements ICheck {
 
 	/**
 	 * Based on https://stackoverflow.com/a/7951507
-	 * @param string $packedIp
-	 * @return string
 	 */
-	protected function ipv6ToBits($packedIp) {
+	protected function ipv6ToBits(string $packedIp): string {
 		$unpackedIp = unpack('A16', $packedIp);
 		$unpackedIp = str_split($unpackedIp[1]);
 		$binaryIp = '';

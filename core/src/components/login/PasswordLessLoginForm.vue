@@ -1,78 +1,101 @@
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<form v-if="(isHttps || isLocalhost) && supportsWebauthn"
+	<form
+		v-if="(isHttps || isLocalhost) && supportsWebauthn"
 		ref="loginForm"
+		aria-labelledby="password-less-login-form-title"
+		class="password-less-login-form"
 		method="post"
 		name="login"
 		@submit.prevent="submit">
-		<h2>{{ t('core', 'Log in with a device') }}</h2>
-		<fieldset>
-			<NcTextField required
-				:value="user"
-				:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
-				:error="!validCredentials"
-				:label="t('core', 'Login or email')"
-				:placeholder="t('core', 'Login or email')"
-				:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
-				@update:value="changeUsername" />
+		<h2 id="password-less-login-form-title">
+			{{ t('core', 'Log in with a device') }}
+		</h2>
 
-			<LoginButton v-if="validCredentials"
-				:loading="loading"
-				@click="authenticate" />
-		</fieldset>
+		<NcTextField
+			required
+			:model-value="user"
+			:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
+			:error="!validCredentials"
+			:label="t('core', 'Login or email')"
+			:placeholder="t('core', 'Login or email')"
+			:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
+			@update:value="changeUsername" />
+
+		<LoginButton
+			v-if="validCredentials"
+			:loading="loading"
+			@click="authenticate" />
 	</form>
-	<div v-else-if="!supportsWebauthn" class="update">
-		<InformationIcon size="70" />
-		<h2>{{ t('core', 'Browser not supported') }}</h2>
-		<p class="infogroup">
-			{{ t('core', 'Passwordless authentication is not supported in your browser.') }}
-		</p>
-	</div>
-	<div v-else-if="!isHttps && !isLocalhost" class="update">
-		<LockOpenIcon size="70" />
-		<h2>{{ t('core', 'Your connection is not secure') }}</h2>
-		<p class="infogroup">
-			{{ t('core', 'Passwordless authentication is only available over a secure connection.') }}
-		</p>
-	</div>
+
+	<NcEmptyContent
+		v-else-if="!isHttps && !isLocalhost"
+		:name="t('core', 'Your connection is not secure')"
+		:description="t('core', 'Passwordless authentication is only available over a secure connection.')">
+		<template #icon>
+			<LockOpenIcon />
+		</template>
+	</NcEmptyContent>
+
+	<NcEmptyContent
+		v-else
+		:name="t('core', 'Browser not supported')"
+		:description="t('core', 'Passwordless authentication is not supported in your browser.')">
+		<template #icon>
+			<InformationIcon />
+		</template>
+	</NcEmptyContent>
 </template>
 
-<script>
+<script type="ts">
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
-import {
-	startAuthentication,
-	finishAuthentication,
-} from '../../services/WebAuthnAuthenticationService.ts'
-import LoginButton from './LoginButton.vue'
-import InformationIcon from 'vue-material-design-icons/Information.vue'
+import { defineComponent } from 'vue'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import InformationIcon from 'vue-material-design-icons/InformationOutline.vue'
 import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import logger from '../../logger'
+import LoginButton from './LoginButton.vue'
+import logger from '../../logger.js'
+import {
+	finishAuthentication,
+	NoValidCredentials,
+	startAuthentication,
+} from '../../services/WebAuthnAuthenticationService.ts'
 
-export default {
+export default defineComponent({
 	name: 'PasswordLessLoginForm',
 	components: {
 		LoginButton,
 		InformationIcon,
 		LockOpenIcon,
+		NcEmptyContent,
 		NcTextField,
 	},
+
 	props: {
 		username: {
 			type: String,
 			default: '',
 		},
+
 		redirectUrl: {
-			type: [String, Boolean],
+			type: [Boolean, String],
 			default: false,
 		},
+
 		autoCompleteAllowed: {
 			type: Boolean,
 			default: true,
 		},
+
 		isHttps: {
 			type: Boolean,
 			default: false,
 		},
+
 		isLocalhost: {
 			type: Boolean,
 			default: false,
@@ -92,6 +115,7 @@ export default {
 			validCredentials: true,
 		}
 	},
+
 	methods: {
 		async authenticate() {
 			// check required fields
@@ -99,7 +123,7 @@ export default {
 				return
 			}
 
-			console.debug('passwordless login initiated')
+			logger.debug('passwordless login initiated')
 
 			try {
 				const params = await startAuthentication(this.user)
@@ -112,43 +136,37 @@ export default {
 				logger.debug(error)
 			}
 		},
+
 		changeUsername(username) {
 			this.user = username
 			this.$emit('update:username', this.user)
 		},
+
 		completeAuthentication(challenge) {
 			const redirectUrl = this.redirectUrl
 
 			return finishAuthentication(challenge)
 				.then(({ defaultRedirectUrl }) => {
-					console.debug('Logged in redirecting')
-					// Redirect url might be false so || should be used instead of ??.
+					logger.debug('Logged in redirecting') // Redirect url might be false so || should be used instead of ??.
 					window.location.href = redirectUrl || defaultRedirectUrl
 				})
-				.catch(error => {
-					console.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!')
-					console.debug(error) // Example: timeout, interaction refused...
+				.catch((error) => {
+					logger.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!', { error }) // Example: timeout, interaction refused...
 				})
 		},
+
 		submit() {
 			// noop
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
-	fieldset {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-
-		:deep(label) {
-			text-align: initial;
-		}
-	}
-
-	.update {
-		margin: 0 auto;
-	}
+.password-less-login-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin: 0;
+}
 </style>

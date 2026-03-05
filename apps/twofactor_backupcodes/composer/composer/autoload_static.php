@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitTwoFactorBackupCodes
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\TwoFactorBackupCodes\\' => 25,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\TwoFactorBackupCodes\\' => 
+        'OCA\\TwoFactorBackupCodes\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

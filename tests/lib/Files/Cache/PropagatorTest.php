@@ -1,9 +1,9 @@
 <?php
+
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache;
@@ -13,12 +13,9 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PropagatorTest extends TestCase {
-	/** @var  IStorage */
-	private $storage;
+	private IStorage $storage;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,7 +36,7 @@ class PropagatorTest extends TestCase {
 		return array_combine($paths, $values);
 	}
 
-	public function testEtagPropagation() {
+	public function testEtagPropagation(): void {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldInfos = $this->getFileInfos($paths);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time());
@@ -50,7 +47,7 @@ class PropagatorTest extends TestCase {
 		}
 	}
 
-	public function testTimePropagation() {
+	public function testTimePropagation(): void {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldTime = time() - 200;
 		$targetTime = time() - 100;
@@ -70,7 +67,7 @@ class PropagatorTest extends TestCase {
 		$this->assertEquals($now, $newInfos['']->getMTime());
 	}
 
-	public function testSizePropagation() {
+	public function testSizePropagation(): void {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldInfos = $this->getFileInfos($paths);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time(), 10);
@@ -81,7 +78,7 @@ class PropagatorTest extends TestCase {
 		}
 	}
 
-	public function testSizePropagationNoNegative() {
+	public function testSizePropagationNoNegative(): void {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldInfos = $this->getFileInfos($paths);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time(), -100);
@@ -92,7 +89,7 @@ class PropagatorTest extends TestCase {
 		}
 	}
 
-	public function testBatchedPropagation() {
+	public function testBatchedPropagation(): void {
 		$this->storage->mkdir('foo/baz');
 		$this->storage->mkdir('asd');
 		$this->storage->file_put_contents('asd/file.txt', 'bar');
@@ -123,7 +120,7 @@ class PropagatorTest extends TestCase {
 
 		foreach ($oldInfos as $i => $oldInfo) {
 			if ($oldInfo->getPath() !== 'foo/baz') {
-				$this->assertNotEquals($oldInfo->getEtag(), $newInfos[$i]->getEtag());
+				$this->assertNotEquals($oldInfo->getEtag(), $newInfos[$i]->getEtag(), "etag for {$oldInfo->getPath()} not updated");
 			}
 		}
 

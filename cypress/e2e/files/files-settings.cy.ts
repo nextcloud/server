@@ -1,39 +1,64 @@
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { getRowForFile } from './FilesUtils'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-const showHiddenFiles = () => {
-	// Open the files settings
-	cy.get('[data-cy-files-navigation-settings-button] a').click({ force: true })
-	// Toggle the hidden files setting
-	cy.get('[data-cy-files-settings-setting="show_hidden"]').within(() => {
-		cy.get('input').should('not.be.checked')
-		cy.get('input').check({ force: true })
+import { getRowForFile } from './FilesUtils.ts'
+
+describe('files: Set default view', { testIsolation: true }, () => {
+	beforeEach(() => {
+		cy.createRandomUser().then(($user) => {
+			cy.login($user)
+		})
 	})
-	// Close the dialog
-	cy.get('[data-cy-files-navigation-settings] button[aria-label="Close"]').click()
-}
+
+	it('Defaults to the "files" view', () => {
+		cy.visit('/apps/files')
+
+		// See URL and current view
+		cy.url().should('match', /\/apps\/files\/files/)
+		cy.findByRole('navigation', { name: 'Current directory path' })
+			.findAllByRole('button')
+			.first()
+			.should('have.text', 'All files')
+
+		// See the option is also selected
+		// Open the files settings
+		cy.findByRole('link', { name: 'Files settings' }).click({ force: true })
+		// Toggle the setting
+		cy.findByRole('dialog', { name: 'Files settings' })
+			.should('be.visible')
+			.within(() => {
+				cy.findByRole('group', { name: 'Default view' })
+					.findByRole('radio', { name: 'All files' })
+					.should('be.checked')
+			})
+	})
+
+	it('Can set it to personal files', () => {
+		cy.visit('/apps/files')
+
+		// Open the files settings
+		cy.findByRole('link', { name: 'Files settings' }).click({ force: true })
+		// Toggle the setting
+		cy.findByRole('dialog', { name: 'Files settings' })
+			.should('be.visible')
+			.within(() => {
+				cy.findByRole('group', { name: 'Default view' })
+					.findByRole('radio', { name: 'Personal files' })
+					.check({ force: true })
+			})
+
+		cy.visit('/apps/files')
+		cy.url().should('match', /\/apps\/files\/personal/)
+		cy.findByRole('navigation', { name: 'Current directory path' })
+			.findAllByRole('button')
+			.first()
+			.should('have.text', 'Personal files')
+	})
+})
 
 describe('files: Hide or show hidden files', { testIsolation: true }, () => {
 	let user: User
@@ -114,3 +139,21 @@ describe('files: Hide or show hidden files', { testIsolation: true }, () => {
 		})
 	})
 })
+
+/**
+ * Helper to toggle the hidden files settings
+ */
+function showHiddenFiles() {
+	// Open the files settings
+	cy.get('[data-cy-files-navigation-settings-button] a').click({ force: true })
+	// Toggle the hidden files setting
+	cy.findByRole('switch', { name: /show hidden files/i })
+		.as('hiddenFiles')
+		.scrollIntoView()
+	cy.get('@hiddenFiles')
+		.should('not.be.checked')
+		.check({ force: true })
+
+	// Close the dialog
+	cy.get('[data-cy-files-navigation-settings] button[aria-label="Close"]').click()
+}

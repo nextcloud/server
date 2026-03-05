@@ -1,36 +1,18 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Collaboration\Collaborators;
 
+use OCA\Federation\TrustedServers;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -47,24 +29,27 @@ class RemotePlugin implements ISearchPlugin {
 		private IConfig $config,
 		private IUserManager $userManager,
 		IUserSession $userSession,
+		private IAppConfig $appConfig,
+		private ?TrustedServers $trustedServers,
 	) {
 		$this->userId = $userSession->getUser()?->getUID() ?? '';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
+
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$result = ['wide' => [], 'exact' => []];
 		$resultType = new SearchResultType('remotes');
 
 		// Search in contacts
-		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN'], [
+		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN', 'EMAIL'], [
 			'limit' => $limit,
 			'offset' => $offset,
 			'enumeration' => false,
 			'fullmatch' => false,
 		]);
 		foreach ($addressBookContacts as $contact) {
-			if (isset($contact['isLocalSystemBook'])) {
+			if (isset($contact['isLocalSystemBook']) || isset($contact['isVirtualAddressbook'])) {
 				continue;
 			}
 			if (isset($contact['CLOUD'])) {
@@ -87,9 +72,6 @@ class RemotePlugin implements ISearchPlugin {
 					}
 
 					$localUser = $this->userManager->get($remoteUser);
-					/**
-					 * Add local share if remote cloud id matches a local user ones
-					 */
 					if ($localUser !== null && $remoteUser !== $this->userId && $cloudId === $localUser->getCloudId()) {
 						$result['wide'][] = [
 							'label' => $contact['FN'],
@@ -102,7 +84,17 @@ class RemotePlugin implements ISearchPlugin {
 						];
 					}
 
-					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
+					$emailMatch = false;
+					if (isset($contact['EMAIL'])) {
+						$emails = is_array($contact['EMAIL']) ? $contact['EMAIL'] : [$contact['EMAIL']];
+						foreach ($emails as $email) {
+							if (is_string($email) && strtolower($email) === $lowerSearch) {
+								$emailMatch = true;
+								break;
+							}
+						}
+					}
+					if ($emailMatch || strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
 						if (strtolower($cloudId) === $lowerSearch) {
 							$searchResult->markExactIdMatch($resultType);
 						}
@@ -115,6 +107,7 @@ class RemotePlugin implements ISearchPlugin {
 								'shareType' => IShare::TYPE_REMOTE,
 								'shareWith' => $cloudId,
 								'server' => $serverUrl,
+								'isTrustedServer' => $this->trustedServers?->isTrustedServer($serverUrl) ?? false,
 							],
 						];
 					} else {
@@ -127,6 +120,7 @@ class RemotePlugin implements ISearchPlugin {
 								'shareType' => IShare::TYPE_REMOTE,
 								'shareWith' => $cloudId,
 								'server' => $serverUrl,
+								'isTrustedServer' => $this->trustedServers?->isTrustedServer($serverUrl) ?? false,
 							],
 						];
 					}
@@ -140,9 +134,6 @@ class RemotePlugin implements ISearchPlugin {
 			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 		}
 
-		/**
-		 * Add generic share with remote item for valid cloud ids that are not users of the local instance
-		 */
 		if (!$searchResult->hasExactIdMatch($resultType) && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
 			try {
 				[$remoteUser, $serverUrl] = $this->splitUserRemote($search);
@@ -156,6 +147,7 @@ class RemotePlugin implements ISearchPlugin {
 							'shareType' => IShare::TYPE_REMOTE,
 							'shareWith' => $search,
 							'server' => $serverUrl,
+							'isTrustedServer' => $this->trustedServers?->isTrustedServer($serverUrl) ?? false,
 						],
 					];
 				}
@@ -178,7 +170,7 @@ class RemotePlugin implements ISearchPlugin {
 	public function splitUserRemote(string $address): array {
 		try {
 			$cloudId = $this->cloudIdManager->resolveCloudId($address);
-			return [$cloudId->getUser(), $cloudId->getRemote()];
+			return [$cloudId->getUser(), $this->cloudIdManager->removeProtocolFromUrl($cloudId->getRemote(), true)];
 		} catch (\InvalidArgumentException $e) {
 			throw new \InvalidArgumentException('Invalid Federated Cloud ID', 0, $e);
 		}

@@ -1,40 +1,27 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Command;
 
 /**
  * Interface IBus
  *
+ * @deprecated 33.0.0 The interface is considered internal going forward and should not be implemented by apps anymore
  * @since 8.1.0
  */
 interface IBus {
 	/**
 	 * Schedule a command to be fired
 	 *
-	 * @param \OCP\Command\ICommand | callable $command
+	 * @param \OCP\Command\ICommand $command
+	 * @since 33.0.0 Only allowed for {@see \OCA\Files_Trashbin\Command\Expire} and {@see \OCA\Files_Versions\Command\Expire}
 	 * @since 8.1.0
 	 */
-	public function push($command);
+	public function push(ICommand $command): void;
 
 	/**
 	 * Require all commands using a trait to be run synchronous
@@ -42,5 +29,5 @@ interface IBus {
 	 * @param string $trait
 	 * @since 8.1.0
 	 */
-	public function requireSync($trait);
+	public function requireSync(string $trait): void;
 }

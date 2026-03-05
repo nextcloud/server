@@ -1,103 +1,175 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { generateUrl } from '@nextcloud/router'
-import { FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+
+import type { IFileAction, INode, IView } from '@nextcloud/files'
+
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { DefaultType, FileType } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import logger from '../logger.ts'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
+import { usePathsStore } from '../store/paths.ts'
+import { isDownloadable } from '../utils/permissions.ts'
 
-const triggerDownload = function(url: string) {
-	const hiddenElement = document.createElement('a')
-	hiddenElement.download = ''
-	hiddenElement.href = url
-	hiddenElement.click()
-}
-
-const downloadNodes = function(dir: string, nodes: Node[]) {
-	const secret = Math.random().toString(36).substring(2)
-	const url = generateUrl('/apps/files/ajax/download.php?dir={dir}&files={files}&downloadStartSecret={secret}', {
-		dir,
-		secret,
-		files: JSON.stringify(nodes.map(node => node.basename)),
-	})
-	triggerDownload(url)
-}
-
-const isDownloadable = function(node: Node) {
-	if ((node.permissions & Permission.READ) === 0) {
-		return false
-	}
-
-	// If the mount type is a share, ensure it got download permissions.
-	if (node.attributes['mount-type'] === 'shared') {
-		const shareAttributes = JSON.parse(node.attributes['share-attributes'] ?? 'null')
-		const downloadAttribute = shareAttributes?.find?.((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
-		if (downloadAttribute !== undefined && downloadAttribute.enabled === false) {
-			return false
-		}
-	}
-
-	return true
-}
-
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'download',
+	default: DefaultType.DEFAULT,
+
 	displayName: () => t('files', 'Download'),
 	iconSvgInline: () => ArrowDownSvg,
 
-	enabled(nodes: Node[]) {
+	enabled({ nodes, view }): boolean {
 		if (nodes.length === 0) {
 			return false
 		}
 
-		// We can download direct dav files. But if we have
-		// some folders, we need to use the /apps/files/ajax/download.php
-		// endpoint, which only supports user root folder.
-		if (nodes.some(node => node.type === FileType.Folder)
-			&& nodes.some(node => !node.root?.startsWith('/files'))) {
+		// We can only download dav files and folders.
+		if (nodes.some((node) => !node.isDavResource)) {
+			return false
+		}
+
+		// Trashbin does not allow batch download
+		if (nodes.length > 1 && view.id === 'trashbin') {
 			return false
 		}
 
 		return nodes.every(isDownloadable)
 	},
 
-	async exec(node: Node, view: View, dir: string) {
-		if (node.type === FileType.Folder) {
-			downloadNodes(dir, [node])
-			return null
+	async exec({ nodes }) {
+		try {
+			await downloadNodes(nodes)
+		} catch (error) {
+			showError(t('files', 'The requested file is not available.'))
+			logger.error('The requested file is not available.', { error })
+			emit('files:node:deleted', nodes[0])
 		}
-
-		triggerDownload(node.encodedSource)
 		return null
 	},
 
-	async execBatch(nodes: Node[], view: View, dir: string) {
-		if (nodes.length === 1) {
-			this.exec(nodes[0], view, dir)
-			return [null]
+	async execBatch({ nodes, view, folder }) {
+		try {
+			await downloadNodes(nodes)
+		} catch (error) {
+			showError(t('files', 'The requested files are not available.'))
+			logger.error('The requested files are not available.', { error })
+			// Try to reload the current directory to update the view
+			const directory = getCurrentDirectory(view, folder.path)!
+			emit('files:node:updated', directory)
 		}
-
-		downloadNodes(dir, nodes)
 		return new Array(nodes.length).fill(null)
 	},
 
 	order: 30,
-})
+}
+
+/**
+ * Trigger downloading a file.
+ *
+ * @param url The url of the asset to download
+ * @param name Optionally the recommended name of the download (browsers might ignore it)
+ */
+async function triggerDownload(url: string, name?: string) {
+	// try to see if the resource is still available
+	await axios.head(url)
+
+	const hiddenElement = document.createElement('a')
+	hiddenElement.download = name ?? ''
+	hiddenElement.href = url
+	hiddenElement.click()
+}
+
+/**
+ * Find the longest common path prefix of both input paths
+ *
+ * @param first The first path
+ * @param second The second path
+ */
+function longestCommonPath(first: string, second: string): string {
+	const firstSegments = first.split('/').filter(Boolean)
+	const secondSegments = second.split('/').filter(Boolean)
+	let base = ''
+	for (const [index, segment] of firstSegments.entries()) {
+		if (index >= second.length) {
+			break
+		}
+		if (segment !== secondSegments[index]) {
+			break
+		}
+		const sep = base === '' ? '' : '/'
+		base = `${base}${sep}${segment}`
+	}
+	return base
+}
+
+/**
+ * Download the given nodes.
+ *
+ * If only one node is given, it will be downloaded directly.
+ * If multiple nodes are given, they will be zipped and downloaded.
+ *
+ * @param nodes The node(s) to download
+ */
+async function downloadNodes(nodes: INode[]) {
+	let url: URL
+
+	if (!nodes[0]) {
+		throw new Error('No nodes to download')
+	}
+
+	if (nodes.length === 1) {
+		if (nodes[0].type === FileType.File) {
+			await triggerDownload(nodes[0].encodedSource, nodes[0].displayname)
+			return
+		} else {
+			url = new URL(nodes[0].encodedSource)
+			url.searchParams.append('accept', 'zip')
+		}
+	} else {
+		url = new URL(nodes[0].encodedSource)
+		let base = url.pathname
+		for (const node of nodes.slice(1)) {
+			base = longestCommonPath(base, (new URL(node.encodedSource).pathname))
+		}
+		url.pathname = base
+
+		// The URL contains the path encoded so we need to decode as the query.append will re-encode it
+		const filenames = nodes.map((node) => decodeURIComponent(node.encodedSource.slice(url.href.length + 1)))
+		url.searchParams.append('accept', 'zip')
+		url.searchParams.append('files', JSON.stringify(filenames))
+	}
+
+	if (url.pathname.at(-1) !== '/') {
+		url.pathname = `${url.pathname}/`
+	}
+
+	await triggerDownload(url.href)
+}
+
+/**
+ * Get the current directory node for the given view and path.
+ * TODO: ideally the folder would directly be passed as exec params
+ *
+ * @param view The current view
+ * @param directory The directory path
+ * @return The current directory node or null if not found
+ */
+function getCurrentDirectory(view: IView, directory: string): INode | null {
+	const filesStore = useFilesStore(getPinia())
+	const pathsStore = usePathsStore(getPinia())
+	if (!view?.id) {
+		return null
+	}
+
+	if (directory === '/') {
+		return filesStore.getRoot(view.id) || null
+	}
+	const fileId = pathsStore.getPath(view.id, directory)!
+	return filesStore.getNode(fileId) || null
+}

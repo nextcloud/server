@@ -1,16 +1,22 @@
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<!-- eslint-disable-next-line vue/no-v-html -->
 	<div class="markdown" v-html="html" />
 </template>
 
 <script setup lang="ts">
+/* eslint vue/multi-word-component-names: "warn" */
+
 import { toRef } from 'vue'
-import { useMarkdown } from '../composables/useMarkdown'
+import { useMarkdown } from '../composables/useMarkdown.ts'
 
 const props = withDefaults(
 	defineProps<{
 		markdown: string
-		minHeadingLevel?: 1|2|3|4|5|6
+		minHeadingLevel?: 1 | 2 | 3 | 4 | 5 | 6
 	}>(),
 	{
 		minHeadingLevel: 2,

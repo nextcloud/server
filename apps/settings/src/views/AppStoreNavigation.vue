@@ -1,47 +1,58 @@
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<!-- Categories & filters -->
 	<NcAppNavigation :aria-label="t('settings', 'Apps')">
 		<template #list>
-			<NcAppNavigationItem id="app-category-discover"
-				:to="{ name: 'apps-category', params: { category: 'discover'} }"
+			<NcAppNavigationItem
+				v-if="appstoreEnabled"
+				id="app-category-discover"
+				:to="{ name: 'apps-category', params: { category: 'discover' } }"
 				:name="APPS_SECTION_ENUM.discover">
 				<template #icon>
 					<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.discover" />
 				</template>
 			</NcAppNavigationItem>
-			<NcAppNavigationItem id="app-category-installed"
-				:to="{ name: 'apps-category', params: { category: 'installed'} }"
+			<NcAppNavigationItem
+				id="app-category-installed"
+				:to="{ name: 'apps-category', params: { category: 'installed' } }"
 				:name="APPS_SECTION_ENUM.installed">
 				<template #icon>
 					<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.installed" />
 				</template>
 			</NcAppNavigationItem>
-			<NcAppNavigationItem id="app-category-enabled"
+			<NcAppNavigationItem
+				id="app-category-enabled"
 				:to="{ name: 'apps-category', params: { category: 'enabled' } }"
 				:name="APPS_SECTION_ENUM.enabled">
 				<template #icon>
 					<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.enabled" />
 				</template>
 			</NcAppNavigationItem>
-			<NcAppNavigationItem id="app-category-disabled"
+			<NcAppNavigationItem
+				id="app-category-disabled"
 				:to="{ name: 'apps-category', params: { category: 'disabled' } }"
 				:name="APPS_SECTION_ENUM.disabled">
 				<template #icon>
 					<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.disabled" />
 				</template>
 			</NcAppNavigationItem>
-			<NcAppNavigationItem v-if="updateCount > 0"
+			<NcAppNavigationItem
+				v-if="store.updateCount > 0"
 				id="app-category-updates"
 				:to="{ name: 'apps-category', params: { category: 'updates' } }"
 				:name="APPS_SECTION_ENUM.updates">
 				<template #counter>
-					<NcCounterBubble>{{ updateCount }}</NcCounterBubble>
+					<NcCounterBubble>{{ store.updateCount }}</NcCounterBubble>
 				</template>
 				<template #icon>
 					<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.updates" />
 				</template>
 			</NcAppNavigationItem>
-			<NcAppNavigationItem id="app-category-your-bundles"
+			<NcAppNavigationItem
+				id="app-category-your-bundles"
 				:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
 				:name="APPS_SECTION_ENUM['app-bundles']">
 				<template #icon>
@@ -56,7 +67,8 @@
 				<NcLoadingIcon :size="20" :aria-label="t('settings', 'Loading categories')" />
 			</li>
 			<template v-else-if="appstoreEnabled && !categoriesLoading">
-				<NcAppNavigationItem v-if="isSubscribed"
+				<NcAppNavigationItem
+					v-if="isSubscribed"
 					id="app-category-supported"
 					:to="{ name: 'apps-category', params: { category: 'supported' } }"
 					:name="APPS_SECTION_ENUM.supported">
@@ -64,7 +76,8 @@
 						<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.supported" />
 					</template>
 				</NcAppNavigationItem>
-				<NcAppNavigationItem id="app-category-featured"
+				<NcAppNavigationItem
+					id="app-category-featured"
 					:to="{ name: 'apps-category', params: { category: 'featured' } }"
 					:name="APPS_SECTION_ENUM.featured">
 					<template #icon>
@@ -72,7 +85,8 @@
 					</template>
 				</NcAppNavigationItem>
 
-				<NcAppNavigationItem v-for="category in categories"
+				<NcAppNavigationItem
+					v-for="category in categories"
 					:id="`app-category-${category.id}`"
 					:key="category.id"
 					:name="category.displayName"
@@ -85,10 +99,6 @@
 					</template>
 				</NcAppNavigationItem>
 			</template>
-
-			<NcAppNavigationItem id="app-developer-docs"
-				:name="t('settings', 'Developer documentation ↗')"
-				:href="developerDocsUrl" />
 		</template>
 	</NcAppNavigation>
 </template>
@@ -97,21 +107,17 @@
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { computed, onBeforeMount } from 'vue'
-import { APPS_SECTION_ENUM } from '../constants/AppsConstants'
-import { useAppsStore } from '../store/apps-store'
-
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcAppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigationSpacer.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-
+import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcAppNavigationSpacer from '@nextcloud/vue/components/NcAppNavigationSpacer'
+import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import { APPS_SECTION_ENUM } from '../constants/AppsConstants.js'
 import APPSTORE_CATEGORY_ICONS from '../constants/AppstoreCategoryIcons.ts'
+import { useAppsStore } from '../store/apps-store.ts'
 
-const updateCount = loadState<number>('settings', 'appstoreUpdateCount', 0)
 const appstoreEnabled = loadState<boolean>('settings', 'appstoreEnabled', true)
-const developerDocsUrl = loadState<string>('settings', 'appstoreDeveloperDocs', '')
 
 const store = useAppsStore()
 const categories = computed(() => store.categories)

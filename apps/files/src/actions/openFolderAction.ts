@@ -1,46 +1,35 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Permission, Node, FileType, View, FileAction, DefaultType } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 
-export const action = new FileAction({
+import type { IFileAction } from '@nextcloud/files'
+
+import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
+import { DefaultType, FileType, Permission } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+
+export const action: IFileAction = {
 	id: 'open-folder',
-	displayName(files: Node[]) {
+	displayName({ nodes }) {
+		if (nodes.length !== 1 || !nodes[0]) {
+			return t('files', 'Open folder')
+		}
+
 		// Only works on single node
-		const displayName = files[0].attributes.displayName || files[0].basename
+		const displayName = nodes[0].displayname
 		return t('files', 'Open folder {displayName}', { displayName })
 	},
 	iconSvgInline: () => FolderSvg,
 
-	enabled(nodes: Node[]) {
+	enabled({ nodes }) {
 		// Only works on single node
-		if (nodes.length !== 1) {
+		if (nodes.length !== 1 || !nodes[0]) {
 			return false
 		}
 
 		const node = nodes[0]
-
-		if (!node.isDavRessource) {
+		if (!node.isDavResource) {
 			return false
 		}
 
@@ -48,14 +37,15 @@ export const action = new FileAction({
 			&& (node.permissions & Permission.READ) !== 0
 	},
 
-	async exec(node: Node, view: View) {
+	async exec({ nodes, view }) {
+		const node = nodes[0]
 		if (!node || node.type !== FileType.Folder) {
 			return false
 		}
 
 		window.OCP.Files.Router.goToRoute(
 			null,
-			{ view: view.id, fileid: node.fileid },
+			{ view: view.id, fileid: String(node.fileid) },
 			{ dir: node.path },
 		)
 		return null
@@ -64,4 +54,4 @@ export const action = new FileAction({
 	// Main action if enabled, meaning folders only
 	default: DefaultType.HIDDEN,
 	order: -100,
-})
+}

@@ -1,53 +1,44 @@
 <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<NcModal v-if="opened"
+	<NcModal
+		v-if="opened"
 		:clear-view-delay="-1"
 		class="templates-picker"
 		size="large"
 		@close="close">
-		<form class="templates-picker__form"
+		<form
+			class="templates-picker__form"
 			:style="style"
 			@submit.prevent.stop="onSubmit">
 			<h2>{{ t('files', 'Pick a template for {name}', { name: nameWithoutExt }) }}</h2>
 
 			<!-- Templates list -->
 			<ul class="templates-picker__list">
-				<TemplatePreview v-bind="emptyTemplate"
+				<TemplatePreview
+					v-bind="emptyTemplate"
+					ref="emptyTemplatePreview"
 					:checked="checked === emptyTemplate.fileid"
+					@confirm-click="onConfirmClick"
 					@check="onCheck" />
 
-				<TemplatePreview v-for="template in provider.templates"
+				<TemplatePreview
+					v-for="template in provider.templates"
 					:key="template.fileid"
 					v-bind="template"
 					:checked="checked === template.fileid"
 					:ratio="provider.ratio"
+					@confirm-click="onConfirmClick"
 					@check="onCheck" />
 			</ul>
 
 			<!-- Cancel and submit -->
 			<div class="templates-picker__buttons">
-				<input type="submit"
+				<input
+					type="submit"
 					class="primary"
 					:value="t('files', 'Create')"
 					:aria-label="t('files', 'Create a new file with the selected template')">
@@ -61,22 +52,26 @@
 </template>
 
 <script lang="ts">
+import type { Node } from '@nextcloud/files'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { TemplateFile } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { File } from '@nextcloud/files'
+import { getClient, getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { normalize, extname, join } from 'path'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
+import { extname, join, normalize } from 'path'
 import { defineComponent } from 'vue'
-import { createFromTemplate, getTemplates } from '../services/Templates.js'
-
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import TemplateFiller from '../components/TemplateFiller.vue'
 import TemplatePreview from '../components/TemplatePreview.vue'
-import logger from '../logger.js'
+import logger from '../logger.ts'
+import { createFromTemplate, getTemplateFields, getTemplates } from '../services/Templates.js'
 
 const border = 2
 const margin = 8
@@ -105,9 +100,9 @@ export default defineComponent({
 			// Check empty template by default
 			checked: -1,
 			loading: false,
-			name: null as string|null,
+			name: null as string | null,
 			opened: false,
-			provider: null as TemplateFile|null,
+			provider: null as TemplateFile | null,
 		}
 	},
 
@@ -172,13 +167,19 @@ export default defineComponent({
 		/**
 		 * Open the picker
 		 *
-		 * @param {string} name the file name to create
-		 * @param {object} provider the template provider picked
+		 * @param name the file name to create
+		 * @param provider the template provider picked
 		 */
 		async open(name: string, provider) {
 			this.checked = this.emptyTemplate.fileid
 			this.name = name
 			this.provider = provider
+
+			// Skip templates logic for external users.
+			if (getCurrentUser() === null) {
+				this.onSubmit()
+				return
+			}
 
 			const templates = await getTemplates()
 			const fetchedProvider = templates.find((fetchedProvider) => fetchedProvider.app === provider.app && fetchedProvider.label === provider.label)
@@ -195,6 +196,11 @@ export default defineComponent({
 
 			// Else, open the picker
 			this.opened = true
+
+			// Set initial focus to the empty template preview
+			this.$nextTick(() => {
+				this.$refs.emptyTemplatePreview?.focus()
+			})
 		},
 
 		/**
@@ -217,8 +223,13 @@ export default defineComponent({
 			this.checked = fileid
 		},
 
-		async onSubmit() {
-			this.loading = true
+		onConfirmClick(fileid: number) {
+			if (fileid === this.checked) {
+				this.onSubmit()
+			}
+		},
+
+		async createFile(templateFields = []) {
 			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
 
 			// If the file doesn't have an extension, add the default one
@@ -227,51 +238,97 @@ export default defineComponent({
 				this.name = `${this.name}${this.provider?.extension ?? ''}`
 			}
 
-			try {
-				const fileInfo = await createFromTemplate(
-					normalize(`${currentDirectory}/${this.name}`),
-					this.selectedTemplate?.filename as string ?? '',
-					this.selectedTemplate?.templateType as string ?? '',
-				)
-				logger.debug('Created new file', fileInfo)
+			// Create a blank file for external users as we can't use the templates.
+			if (getCurrentUser() === null) {
+				const client = getClient()
+				const filename = join(getRootPath(), currentDirectory, this.name ?? '')
 
-				const owner = getCurrentUser()?.uid || null
-				const node = new File({
-					id: fileInfo.fileid,
-					source: generateRemoteUrl(join(`dav/files/${owner}`, fileInfo.filename)),
-					root: `/files/${owner}`,
-					mime: fileInfo.mime,
-					mtime: new Date(fileInfo.lastmod * 1000),
-					owner,
-					size: fileInfo.size,
-					permissions: fileInfo.permissions,
-					attributes: {
-						// Inherit some attributes from parent folder like the mount type and real owner
-						'mount-type': this.parent?.attributes?.['mount-type'],
-						'owner-id': this.parent?.attributes?.['owner-id'],
-						'owner-display-name': this.parent?.attributes?.['owner-display-name'],
-						...fileInfo,
-						'has-preview': fileInfo.hasPreview,
-					},
+				await client.putFileContents(filename, '')
+				const response = await client.stat(filename, { data: getDefaultPropfind(), details: true }) as ResponseDataDetailed<FileStat>
+				logger.debug('Created new file', { fileInfo: response.data })
+
+				const node = resultToNode(response.data)
+
+				this.handleFileCreation(node)
+			} else {
+				try {
+					const fileInfo = await createFromTemplate(
+						normalize(`${currentDirectory}/${this.name}`),
+						this.selectedTemplate?.filename as string ?? '',
+						this.selectedTemplate?.templateType as string ?? '',
+						templateFields,
+					)
+					logger.debug('Created new file', { fileInfo })
+
+					const owner = getCurrentUser()?.uid || null
+					const node = new File({
+						id: fileInfo.fileid,
+						source: generateRemoteUrl(join(`dav/files/${owner}`, fileInfo.filename)),
+						root: `/files/${owner}`,
+						mime: fileInfo.mime,
+						mtime: new Date(fileInfo.lastmod * 1000),
+						owner,
+						size: fileInfo.size,
+						permissions: fileInfo.permissions,
+						attributes: {
+							// Inherit some attributes from parent folder like the mount type and real owner
+							'mount-type': this.parent?.attributes?.['mount-type'],
+							'owner-id': this.parent?.attributes?.['owner-id'],
+							'owner-display-name': this.parent?.attributes?.['owner-display-name'],
+							...fileInfo,
+							'has-preview': fileInfo.hasPreview,
+						},
+					})
+
+					this.handleFileCreation(node)
+
+					// Close the picker
+					this.close()
+				} catch (error) {
+					logger.error('Error while creating the new file from template', { error })
+					showError(t('files', 'Unable to create new file from template'))
+				} finally {
+					this.loading = false
+				}
+			}
+		},
+
+		handleFileCreation(node: Node) {
+			// Update files list
+			emit('files:node:created', node)
+
+			// Open the new file
+			window.OCP.Files.Router.goToRoute(
+				null, // use default route
+				{ view: 'files', fileid: node.fileid },
+				{ dir: node.dirname, openfile: 'true' },
+			)
+		},
+
+		async onSubmit() {
+			// Skip templates logic for external users.
+			if (getCurrentUser() === null) {
+				this.loading = true
+				return this.createFile()
+			}
+
+			const fileId = this.selectedTemplate?.fileid
+
+			// Only request field extraction if there is a valid template
+			// selected and it's not the blank template
+			let fields = []
+			if (fileId && fileId !== this.emptyTemplate.fileid) {
+				fields = await getTemplateFields(fileId)
+			}
+
+			if (fields.length > 0) {
+				spawnDialog(TemplateFiller, {
+					fields,
+					onSubmit: this.createFile,
 				})
-
-				// Update files list
-				emit('files:node:created', node)
-
-				// Open the new file
-				window.OCP.Files.Router.goToRoute(
-					null, // use default route
-					{ view: 'files', fileid: node.fileid },
-					{ dir: node.dirname, openfile: 'true' },
-				)
-
-				// Close the picker
-				this.close()
-			} catch (error) {
-				logger.error('Error while creating the new file from template', { error })
-				showError(t('files', 'Unable to create new file from template'))
-			} finally {
-				this.loading = false
+			} else {
+				this.loading = true
+				await this.createFile()
 			}
 		},
 	},
@@ -294,7 +351,7 @@ export default defineComponent({
 
 	&__list {
 		display: grid;
-		grid-gap: calc(var(--margin) * 2);
+		gap: calc(var(--margin) * 2);
 		grid-auto-columns: 1fr;
 		// We want maximum 5 columns. Putting 6 as we don't count the grid gap. So it will always be lower than 6
 		max-width: calc(var(--fullwidth) * 6);
@@ -311,7 +368,7 @@ export default defineComponent({
 		padding: calc(var(--margin) * 2) var(--margin);
 		position: sticky;
 		bottom: 0;
-		background-image: linear-gradient(0, var(--gradient-main-background));
+		background-image: linear-gradient(0deg, var(--gradient-main-background));
 
 		button, input[type='submit'] {
 			height: 44px;
@@ -319,14 +376,14 @@ export default defineComponent({
 	}
 
 	// Make sure we're relative for the loading emptycontent on top
-	::v-deep .modal-container {
+	:deep(.modal-container) {
 		position: relative;
 	}
 
 	&__loading {
 		position: absolute;
 		top: 0;
-		left: 0;
+		inset-inline-start: 0;
 		justify-content: center;
 		width: 100%;
 		height: 100%;

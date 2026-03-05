@@ -1,24 +1,10 @@
 <?php
-/**
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
- */
 
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace Test\IntegrityCheck\Iterator;
 
 use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
@@ -32,11 +18,11 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 		parent::setUp();
 		$this->filter = $this->getMockBuilder(ExcludeFileByNameFilterIterator::class)
 			->disableOriginalConstructor()
-			->setMethods(['current'])
+			->onlyMethods(['current'])
 			->getMock();
 	}
 
-	public function fileNameProvider(): array {
+	public static function fileNameProvider(): array {
 		return [
 			['a file', true],
 			['Thumbs.db', false],
@@ -50,14 +36,14 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider fileNameProvider
 	 * @param string $fileName
 	 * @param bool $expectedResult
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileNameProvider')]
 	public function testAcceptForFiles($fileName, $expectedResult): void {
 		$iteratorMock = $this->getMockBuilder(\RecursiveDirectoryIterator::class)
 			->disableOriginalConstructor()
-			->setMethods(['getFilename', 'isDir'])
+			->onlyMethods(['getFilename', 'isDir'])
 			->getMock();
 
 		$iteratorMock->method('getFilename')
@@ -72,14 +58,14 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider fileNameProvider
 	 * @param string $fileName
 	 * @param bool $expectedResult
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileNameProvider')]
 	public function testAcceptForDirs($fileName, $expectedResult): void {
 		$iteratorMock = $this->getMockBuilder(\RecursiveDirectoryIterator::class)
 			->disableOriginalConstructor()
-			->setMethods(['getFilename', 'isDir'])
+			->onlyMethods(['getFilename', 'isDir'])
 			->getMock();
 
 		$iteratorMock->method('getFilename')

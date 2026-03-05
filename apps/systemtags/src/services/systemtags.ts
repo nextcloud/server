@@ -1,51 +1,50 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { ContentsWithRoot } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
-import type { TagWithId } from '../types'
+import type { TagWithId } from '../types.ts'
 
-import { Folder, type ContentsWithRoot, Permission, getDavNameSpaces, getDavProperties } from '@nextcloud/files'
-import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { Folder, Permission } from '@nextcloud/files'
+import { getClient, getDavNameSpaces, getDavProperties, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
+import { fetchTags } from './api.ts'
 
-import { fetchTags } from './api'
-import { getClient } from '../../../files/src/services/WebdavClient'
-import { resultToNode } from '../../../files/src/services/Files'
+const rootPath = '/systemtags'
 
-const formatReportPayload = (tagId: number) => `<?xml version="1.0"?>
+const client = getClient()
+
+/**
+ * Format the REPORT payload to filter files by tag
+ *
+ * @param tagId - The tag ID
+ */
+function formatReportPayload(tagId: number) {
+	return `<?xml version="1.0"?>
 <oc:filter-files ${getDavNameSpaces()}>
 	<d:prop>
 		${getDavProperties()}
 	</d:prop>
-    <oc:filter-rules>
-        <oc:systemtag>${tagId}</oc:systemtag>
-    </oc:filter-rules>
+	<oc:filter-rules>
+		<oc:systemtag>${tagId}</oc:systemtag>
+	</oc:filter-rules>
 </oc:filter-files>`
+}
 
-const tagToNode = function(tag: TagWithId): Folder {
+/**
+ * Convert a tag to a Folder node
+ *
+ * @param tag - The tag
+ */
+function tagToNode(tag: TagWithId): Folder {
 	return new Folder({
 		id: tag.id,
-		source: generateRemoteUrl('dav/systemtags/' + tag.id),
-		owner: getCurrentUser()?.uid as string,
-		root: '/systemtags',
+		source: `${getRemoteURL()}${rootPath}/${tag.id}`,
+		owner: String(getCurrentUser()?.uid ?? 'anonymous'),
+		root: rootPath,
+		displayname: tag.displayName,
 		permissions: Permission.READ,
 		attributes: {
 			...tag,
@@ -54,32 +53,41 @@ const tagToNode = function(tag: TagWithId): Folder {
 	})
 }
 
-export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
+/**
+ * Get the contents of a folder or tag
+ *
+ * @param path - The path to the folder or tag
+ */
+export async function getContents(path = '/'): Promise<ContentsWithRoot> {
 	// List tags in the root
-	const tagsCache = (await fetchTags()).filter(tag => tag.userVisible) as TagWithId[]
+	const tagsCache = (await fetchTags()).filter((tag) => tag.userVisible) as TagWithId[]
 
 	if (path === '/') {
 		return {
 			folder: new Folder({
 				id: 0,
-				source: generateRemoteUrl('dav/systemtags'),
+				source: `${getRemoteURL()}${rootPath}`,
 				owner: getCurrentUser()?.uid as string,
-				root: '/systemtags',
+				root: rootPath,
 				permissions: Permission.NONE,
 			}),
 			contents: tagsCache.map(tagToNode),
 		}
 	}
 
-	const tagId = parseInt(path.replace('/', ''), 10)
-	const tag = tagsCache.find(tag => tag.id === tagId)
+	const tagIdStr = path.split('/', 2)[1]
+	if (!tagIdStr || isNaN(parseInt(tagIdStr))) {
+		throw new Error('Invalid tag ID')
+	}
 
+	const tagId = parseInt(tagIdStr)
+	const tag = tagsCache.find((tag) => tag.id === tagId)
 	if (!tag) {
 		throw new Error('Tag not found')
 	}
 
 	const folder = tagToNode(tag)
-	const contentsResponse = await getClient().getDirectoryContents('/', {
+	const contentsResponse = await client.getDirectoryContents(getRootPath(), {
 		details: true,
 		// Only filter favorites if we're at the root
 		data: formatReportPayload(tagId),
@@ -91,7 +99,6 @@ export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 
 	return {
 		folder,
-		contents: contentsResponse.data.map(resultToNode),
+		contents: contentsResponse.data.map((stat) => resultToNode(stat)),
 	}
-
 }

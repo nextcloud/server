@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2015 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Http\Client;
@@ -22,6 +21,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
+use OCP\ServerVersion;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
@@ -41,11 +41,12 @@ class ClientServiceTest extends \Test\TestCase {
 		$dnsPinMiddleware
 			->expects($this->atLeastOnce())
 			->method('addDnsPinning')
-			->willReturn(function () {
+			->willReturn(function (): void {
 			});
 		$remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
 		$eventLogger = $this->createMock(IEventLogger::class);
 		$logger = $this->createMock(LoggerInterface::class);
+		$serverVersion = $this->createMock(ServerVersion::class);
 
 		$clientService = new ClientService(
 			$config,
@@ -54,14 +55,15 @@ class ClientServiceTest extends \Test\TestCase {
 			$remoteHostValidator,
 			$eventLogger,
 			$logger,
+			$serverVersion,
 		);
 
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		$stack->push($dnsPinMiddleware->addDnsPinning());
-		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
-			$eventLogger->start('http:request', $request->getMethod() . " request to " . $request->getRequestTarget());
-		}, function () use ($eventLogger) {
+		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
+			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
+		}, function () use ($eventLogger): void {
 			$eventLogger->end('http:request');
 		}), 'event logger');
 		$guzzleClient = new GuzzleClient(['handler' => $stack]);
@@ -73,6 +75,7 @@ class ClientServiceTest extends \Test\TestCase {
 				$guzzleClient,
 				$remoteHostValidator,
 				$logger,
+				$serverVersion,
 			),
 			$clientService->newClient()
 		);
@@ -90,11 +93,12 @@ class ClientServiceTest extends \Test\TestCase {
 		$dnsPinMiddleware
 			->expects($this->never())
 			->method('addDnsPinning')
-			->willReturn(function () {
+			->willReturn(function (): void {
 			});
 		$remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
 		$eventLogger = $this->createMock(IEventLogger::class);
 		$logger = $this->createMock(LoggerInterface::class);
+		$serverVersion = $this->createMock(ServerVersion::class);
 
 		$clientService = new ClientService(
 			$config,
@@ -103,13 +107,14 @@ class ClientServiceTest extends \Test\TestCase {
 			$remoteHostValidator,
 			$eventLogger,
 			$logger,
+			$serverVersion,
 		);
 
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
-		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
-			$eventLogger->start('http:request', $request->getMethod() . " request to " . $request->getRequestTarget());
-		}, function () use ($eventLogger) {
+		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
+			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
+		}, function () use ($eventLogger): void {
 			$eventLogger->end('http:request');
 		}), 'event logger');
 		$guzzleClient = new GuzzleClient(['handler' => $stack]);
@@ -121,6 +126,7 @@ class ClientServiceTest extends \Test\TestCase {
 				$guzzleClient,
 				$remoteHostValidator,
 				$logger,
+				$serverVersion,
 			),
 			$clientService->newClient()
 		);

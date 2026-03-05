@@ -1,26 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests\AppInfo;
 
@@ -42,14 +25,11 @@ use Test\TestCase;
  * Class ApplicationTest
  *
  * @package Tests\Settings
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
-	/** @var Application */
-	protected $app;
-
-	/** @var IAppContainer */
-	protected $container;
+	protected Application $app;
+	protected IAppContainer $container;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -57,12 +37,12 @@ class ApplicationTest extends TestCase {
 		$this->container = $this->app->getContainer();
 	}
 
-	public function testContainerAppName() {
+	public function testContainerAppName(): void {
 		$this->app = new Application();
-		$this->assertEquals('settings', $this->container->getAppName());
+		$this->assertEquals('settings', $this->container->get('appName'));
 	}
 
-	public function dataContainerQuery() {
+	public static function dataContainerQuery(): array {
 		return [
 			[AdminSettingsController::class, Controller::class],
 			[AppSettingsController::class, Controller::class],
@@ -76,12 +56,8 @@ class ApplicationTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataContainerQuery
-	 * @param string $service
-	 * @param string $expected
-	 */
-	public function testContainerQuery($service, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataContainerQuery')]
+	public function testContainerQuery(string $service, string $expected): void {
 		$this->assertTrue($this->container->query($service) instanceof $expected);
 	}
 }

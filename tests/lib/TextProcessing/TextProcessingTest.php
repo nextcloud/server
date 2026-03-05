@@ -1,9 +1,8 @@
 <?php
+
 /**
- * Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\TextProcessing;
@@ -25,6 +24,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
+use OCP\Server;
 use OCP\TextProcessing\Events\TaskFailedEvent;
 use OCP\TextProcessing\Events\TaskSuccessfulEvent;
 use OCP\TextProcessing\FreePromptTaskType;
@@ -88,6 +88,7 @@ class FreePromptProvider implements IProvider {
 	}
 }
 
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class TextProcessingTest extends \Test\TestCase {
 	private IManager $manager;
 	private Coordinator $coordinator;
@@ -117,7 +118,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->eventDispatcher = new EventDispatcher(
 			new \Symfony\Component\EventDispatcher\EventDispatcher(),
 			$this->serverContainer,
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 
 		$this->registrationContext = $this->createMock(RegistrationContext::class);
@@ -157,14 +158,14 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->taskMapper
 			->expects($this->any())
 			->method('deleteOlderThan')
-			->willReturnCallback(function (int $timeout) {
+			->willReturnCallback(function (int $timeout): void {
 				$this->tasksDb = array_filter($this->tasksDb, function (array $task) use ($timeout) {
 					return $task['last_updated'] >= $this->currentTime->getTimestamp() - $timeout;
 				});
 			});
 
 		$this->jobList = $this->createPartialMock(DummyJobList::class, ['add']);
-		$this->jobList->expects($this->any())->method('add')->willReturnCallback(function () {
+		$this->jobList->expects($this->any())->method('add')->willReturnCallback(function (): void {
 		});
 
 		$config = $this->createMock(IConfig::class);
@@ -175,14 +176,15 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->manager = new Manager(
 			$this->serverContainer,
 			$this->coordinator,
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 			$this->jobList,
 			$this->taskMapper,
-			$config
+			$config,
+			$this->createMock(\OCP\TaskProcessing\IManager::class),
 		);
 	}
 
-	public function testShouldNotHaveAnyProviders() {
+	public function testShouldNotHaveAnyProviders(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
 		$this->assertCount(0, $this->manager->getAvailableTaskTypes());
 		$this->assertFalse($this->manager->hasProviders());
@@ -190,7 +192,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->manager->runTask(new \OCP\TextProcessing\Task(FreePromptTaskType::class, 'Hello', 'test', null));
 	}
 
-	public function testProviderShouldBeRegisteredAndRun() {
+	public function testProviderShouldBeRegisteredAndRun(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSummaryProvider::class)
 		]);
@@ -203,7 +205,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->manager->runTask(new Task(FreePromptTaskType::class, 'Hello', 'test', null));
 	}
 
-	public function testProviderShouldBeRegisteredAndScheduled() {
+	public function testProviderShouldBeRegisteredAndScheduled(): void {
 		// register provider
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSummaryProvider::class)
@@ -237,7 +239,7 @@ class TextProcessingTest extends \Test\TestCase {
 
 		// run background job
 		$bgJob = new TaskBackgroundJob(
-			\OC::$server->get(ITimeFactory::class),
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->eventDispatcher,
 		);
@@ -254,7 +256,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->assertEquals(Task::STATUS_SUCCESSFUL, $task3->getStatus());
 	}
 
-	public function testMultipleProvidersShouldBeRegisteredAndRunCorrectly() {
+	public function testMultipleProvidersShouldBeRegisteredAndRunCorrectly(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSummaryProvider::class),
 			new ServiceRegistration('test', FreePromptProvider::class),
@@ -273,12 +275,12 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->manager->runTask(new Task(TopicsTaskType::class, 'Hello', 'test', null));
 	}
 
-	public function testNonexistentTask() {
+	public function testNonexistentTask(): void {
 		$this->expectException(NotFoundException::class);
 		$this->manager->getTask(2147483646);
 	}
 
-	public function testTaskFailure() {
+	public function testTaskFailure(): void {
 		// register provider
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', FailingSummaryProvider::class),
@@ -312,7 +314,7 @@ class TextProcessingTest extends \Test\TestCase {
 
 		// run background job
 		$bgJob = new TaskBackgroundJob(
-			\OC::$server->get(ITimeFactory::class),
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->eventDispatcher,
 		);
@@ -329,7 +331,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->assertEquals(Task::STATUS_FAILED, $task3->getStatus());
 	}
 
-	public function testOldTasksShouldBeCleanedUp() {
+	public function testOldTasksShouldBeCleanedUp(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSummaryProvider::class)
 		]);
@@ -341,9 +343,9 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->currentTime = $this->currentTime->add(new \DateInterval('P1Y'));
 		// run background job
 		$bgJob = new RemoveOldTasksBackgroundJob(
-			\OC::$server->get(ITimeFactory::class),
+			Server::get(ITimeFactory::class),
 			$this->taskMapper,
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$bgJob->setArgument([]);
 		$bgJob->start($this->jobList);

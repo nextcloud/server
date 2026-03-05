@@ -1,45 +1,24 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\AppFramework\Http;
 
 use OC\Streamer;
 use OCP\AppFramework\Http;
+use OCP\IDateTimeZone;
 use OCP\IRequest;
 
 /**
  * Public library to send several files in one zip archive.
  *
  * @since 15.0.0
- * @template S of int
- * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class ZipResponse extends Response implements ICallbackResponse {
 	/** @var array{internalName: string, resource: resource, size: int, time: int}[] Files to be added to the zip response */
@@ -87,7 +66,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 			$size += $resource['size'];
 		}
 
-		$zip = new Streamer($this->request, $size, $files);
+		$zip = new Streamer($this->request, $size, $files, \OCP\Server::get(IDateTimeZone::class));
 		$zip->sendHeaders($this->name);
 
 		foreach ($this->resources as $resource) {

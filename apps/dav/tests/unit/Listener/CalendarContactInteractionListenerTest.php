@@ -3,61 +3,33 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Unit\Listener;
+namespace OCA\DAV\Tests\unit\Listener;
 
 use OCA\DAV\Connector\Sabre\Principal;
-use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
+use OCP\Calendar\Events\CalendarObjectCreatedEvent;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Mail\IMailer;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 class CalendarContactInteractionListenerTest extends TestCase {
+	use EmailValidatorTrait;
 
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
-
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var Principal|MockObject */
-	private $principalConnector;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var IMailer|MockObject */
-	private $mailer;
-
-	/** @var CalendarContactInteractionListener */
-	private $listener;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IUserSession&MockObject $userSession;
+	private Principal&MockObject $principalConnector;
+	private LoggerInterface&MockObject $logger;
+	private CalendarContactInteractionListener $listener;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -65,14 +37,13 @@ class CalendarContactInteractionListenerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->principalConnector = $this->createMock(Principal::class);
-		$this->mailer = $this->createMock(IMailer::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->listener = new CalendarContactInteractionListener(
 			$this->eventDispatcher,
 			$this->userSession,
 			$this->principalConnector,
-			$this->mailer,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->logger
 		);
 	}
@@ -191,7 +162,6 @@ END:VCALENDAR
 EVENT]);
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects(self::once())->method('getUser')->willReturn($user);
-		$this->mailer->expects(self::once())->method('validateMailAddress')->willReturn(true);
 		$this->eventDispatcher->expects(self::once())
 			->method('dispatchTyped')
 			->with(self::equalTo((new ContactInteractedWithEvent($user))->setEmail('user@domain.tld')));

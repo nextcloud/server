@@ -1,7 +1,20 @@
+# SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Psalm static code analysis
 
 on:
   pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - stable*
+    paths:
+      - '.github/workflows/static-code-analysis.yml'
+      - '**.php'
+
+permissions:
+  contents: read
 
 concurrency:
   group: static-code-analysis-${{ github.head_ref || github.run_id }}
@@ -11,19 +24,21 @@ jobs:
   static-code-analysis:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        timeout-minutes: 5
         with:
-          php-version: '8.1'
-          extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          php-version: '8.2'
+          extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,60 +47,69 @@ jobs:
         run: composer i
 
       - name: Psalm
-        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+        run: composer run psalm -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline
 
       - name: Show potential changes in Psalm baseline
         if: always()
-        run: git diff -- . ':!lib/composer'
-
-      - name: Upload Analysis results to GitHub
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: results.sarif
+        run: git diff --exit-code -- . ':!lib/composer'
 
   static-code-analysis-security:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
+    permissions:
+      security-events: write
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        timeout-minutes: 5
         with:
-          php-version: '8.1'
-          extensions: ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          php-version: '8.2'
+          extensions: ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
 
       - name: Composer install
         run: composer i
 
       - name: Psalm taint analysis
-        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --report=results.sarif --taint-analysis
+        run: composer run psalm:security -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+
+      - name: Show potential changes in Psalm baseline
+        if: always()
+        run: git diff --exit-code -- . ':!lib/composer'
 
       - name: Upload Security Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@89a39a4e59826350b863aa6b6252a07ad50cf83e # v3
         with:
           sarif_file: results.sarif
 
   static-code-analysis-ocp:
     runs-on: ubuntu-latest
 
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        timeout-minutes: 5
         with:
-          php-version: '8.1'
-          extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          php-version: '8.2'
+          extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -94,8 +118,63 @@ jobs:
         run: composer i
 
       - name: Psalm
-        run: composer run psalm:ci -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
+        run: composer run psalm:ocp -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline
 
       - name: Show potential changes in Psalm baseline
         if: always()
-        run: git diff -- . ':!lib/composer'
+        run: git diff --exit-code -- . ':!lib/composer'
+
+  static-code-analysis-ncu:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        timeout-minutes: 5
+        with:
+          php-version: '8.2'
+          extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Composer install
+        run: composer i
+
+      - name: Psalm
+        run: composer run psalm:ncu -- --threads=1 --monochrome --no-progress --output-format=github
+
+  static-code-analysis-strict:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        with:
+          php-version: '8.2'
+          extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Composer install
+        run: composer i
+
+      - name: Psalm
+        run: composer run psalm:strict -- --threads=1 --monochrome --no-progress --output-format=github

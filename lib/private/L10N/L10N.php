@@ -1,71 +1,36 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\L10N;
 
 use OCP\IL10N;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Punic\Calendar;
 use Symfony\Component\Translation\IdentityTranslator;
 
 class L10N implements IL10N {
-	/** @var IFactory */
-	protected $factory;
-
-	/** @var string App of this object */
-	protected $app;
-
-	/** @var string Language of this object */
-	protected $lang;
-
-	/** @var string Locale of this object */
-	protected $locale;
-
-	/** @var IdentityTranslator */
-	private $identityTranslator;
+	private ?IdentityTranslator $identityTranslator = null;
 
 	/** @var string[] */
-	private $translations = [];
+	private array $translations = [];
 
 	/**
-	 * @param IFactory $factory
-	 * @param string $app
-	 * @param string $lang
-	 * @param string $locale
-	 * @param array $files
+	 * @param string[] $files
 	 */
-	public function __construct(IFactory $factory, $app, $lang, $locale, array $files) {
-		$this->factory = $factory;
-		$this->app = $app;
-		$this->lang = $lang;
-		$this->locale = $locale;
-
+	public function __construct(
+		protected IFactory $factory,
+		protected string $app,
+		protected string $lang,
+		protected ?string $locale,
+		array $files,
+	) {
 		foreach ($files as $languageFile) {
 			$this->load($languageFile);
 		}
@@ -86,7 +51,7 @@ class L10N implements IL10N {
 	 * @return string locale
 	 */
 	public function getLocaleCode(): string {
-		return $this->locale;
+		return $this->locale ?? '';
 	}
 
 	/**
@@ -103,7 +68,7 @@ class L10N implements IL10N {
 			$parameters = [$parameters];
 		}
 
-		return (string) new L10NString($this, $text, $parameters);
+		return (string)new L10NString($this, $text, $parameters);
 	}
 
 	/**
@@ -124,20 +89,20 @@ class L10N implements IL10N {
 	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string {
 		$identifier = "_{$text_singular}_::_{$text_plural}_";
 		if (isset($this->translations[$identifier])) {
-			return (string) new L10NString($this, $identifier, $parameters, $count);
+			return (string)new L10NString($this, $identifier, $parameters, $count);
 		}
 
 		if ($count === 1) {
-			return (string) new L10NString($this, $text_singular, $parameters, $count);
+			return (string)new L10NString($this, $text_singular, $parameters, $count);
 		}
 
-		return (string) new L10NString($this, $text_plural, $parameters, $count);
+		return (string)new L10NString($this, $text_plural, $parameters, $count);
 	}
 
 	/**
 	 * Localization
 	 * @param string $type Type of localization
-	 * @param \DateTime|int|string $data parameters for this localization
+	 * @param \DateTime|int|string|null $data parameters for this localization
 	 * @param array $options
 	 * @return string|int|false
 	 *
@@ -166,10 +131,10 @@ class L10N implements IL10N {
 		}
 
 		if ($type === 'firstday') {
-			return (int) Calendar::getFirstWeekday($this->locale);
+			return (int)Calendar::getFirstWeekday($this->locale);
 		}
 		if ($type === 'jsdate') {
-			return (string) Calendar::getDateFormat('short', $this->locale);
+			return (string)Calendar::getDateFormat('short', $this->locale);
 		}
 
 		$value = new \DateTime();
@@ -187,13 +152,13 @@ class L10N implements IL10N {
 		$width = $options['width'];
 		switch ($type) {
 			case 'date':
-				return (string) Calendar::formatDate($value, $width, $this->locale);
+				return (string)Calendar::formatDate($value, $width, $this->locale);
 			case 'datetime':
-				return (string) Calendar::formatDatetime($value, $width, $this->locale);
+				return (string)Calendar::formatDatetime($value, $width, $this->locale);
 			case 'time':
-				return (string) Calendar::formatTime($value, $width, $this->locale);
+				return (string)Calendar::formatTime($value, $width, $this->locale);
 			case 'weekdayName':
-				return (string) Calendar::getWeekdayName($value, $width, $this->locale);
+				return (string)Calendar::getWeekdayName($value, $width, $this->locale);
 			default:
 				return false;
 		}
@@ -235,7 +200,7 @@ class L10N implements IL10N {
 		$json = json_decode(file_get_contents($translationFile), true);
 		if (!\is_array($json)) {
 			$jsonError = json_last_error();
-			\OCP\Server::get(LoggerInterface::class)->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
+			Server::get(LoggerInterface::class)->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
 			return false;
 		}
 

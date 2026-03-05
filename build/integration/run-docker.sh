@@ -1,22 +1,7 @@
 #!/usr/bin/env bash
 
-# @copyright Copyright (c) 2017, Daniel Calviño Sánchez (danxuliu@gmail.com)
-# @copyright Copyright (c) 2018, Daniel Calviño Sánchez (danxuliu@gmail.com)
-#
-# @license GNU AGPL version 3 or any later version
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Helper script to run the integration tests on a fresh Nextcloud server through
 # Docker.
@@ -164,6 +149,10 @@ function prepareDocker() {
 
 	docker exec $NEXTCLOUD_LOCAL_CONTAINER mkdir /nextcloud
 	docker cp - $NEXTCLOUD_LOCAL_CONTAINER:/nextcloud/ < "$NEXTCLOUD_LOCAL_TAR"
+	docker exec $NEXTCLOUD_LOCAL_CONTAINER chown -R www-data:www-data /nextcloud
+
+	# Install Nextcloud in the container
+	docker exec -w /nextcloud $NEXTCLOUD_LOCAL_CONTAINER composer install
 
 	# Database options are needed only when a database other than SQLite is
 	# used.
@@ -173,7 +162,7 @@ function prepareDocker() {
 	fi
 
 	echo "Installing Nextcloud in the container"
-	docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && php occ maintenance:install --admin-pass=admin $NEXTCLOUD_LOCAL_CONTAINER_INSTALL_DATABASE_OPTIONS"
+	docker exec --user www-data --workdir /nextcloud $NEXTCLOUD_LOCAL_CONTAINER php occ maintenance:install --admin-pass=admin $NEXTCLOUD_LOCAL_CONTAINER_INSTALL_DATABASE_OPTIONS
 }
 
 # Removes/stops temporal elements created/started by this script.
@@ -214,9 +203,8 @@ trap cleanUp EXIT
 cd "$(dirname $0)"
 
 # "--image XXX" option can be provided to set the Docker image to use to run
-# the integration tests (one of the "nextcloudci/phpX.Y:phpX.Y-Z" or
-# "ghcr.io/nextcloud/continuous-integration-integration-phpX.Y:latest" images).
-NEXTCLOUD_LOCAL_IMAGE="ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest"
+# the integration tests (one of the "nextcloud/continuous-integration-phpX.Y:latest" images).
+NEXTCLOUD_LOCAL_IMAGE="ghcr.io/nextcloud/continuous-integration-php8.3:latest"
 if [ "$1" = "--image" ]; then
 	NEXTCLOUD_LOCAL_IMAGE=$2
 
@@ -242,9 +230,9 @@ fi
 # "--database-image XXX" option can be provided to set the Docker image to use
 # for the database container (ignored when using "sqlite").
 if [ "$DATABASE" = "mysql" ]; then
-	DATABASE_IMAGE="mysql:5.7"
+	DATABASE_IMAGE="mysql:8.4"
 elif [ "$DATABASE" = "pgsql" ]; then
-	DATABASE_IMAGE="postgres:10"
+	DATABASE_IMAGE="postgres:15"
 fi
 if [ "$1" = "--database-image" ]; then
 	DATABASE_IMAGE=$2
@@ -262,4 +250,4 @@ prepareDocker
 
 echo "Running tests"
 # --tty is needed to get colourful output.
-docker exec --tty $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud/build/integration && ./run.sh $SCENARIO_TO_RUN"
+docker exec --tty --user www-data -w "/nextcloud/build/integration" $NEXTCLOUD_LOCAL_CONTAINER bash -c "./run.sh $SCENARIO_TO_RUN"

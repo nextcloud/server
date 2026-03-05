@@ -1,29 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests\Settings\Admin;
 
@@ -38,21 +17,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityTest extends TestCase {
-	/** @var Security */
-	private $admin;
-	/** @var Manager */
-	private $manager;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var MandatoryTwoFactor|MockObject */
-	private $mandatoryTwoFactor;
-	/** @var IInitialState|MockObject */
-	private $initialState;
+	private Manager&MockObject $manager;
+	private IUserManager&MockObject $userManager;
+	private MandatoryTwoFactor&MockObject $mandatoryTwoFactor;
+	private IInitialState&MockObject $initialState;
+	private Security $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->manager = $this->getMockBuilder(Manager::class)->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
+		$this->manager = $this->createMock(Manager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->mandatoryTwoFactor = $this->createMock(MandatoryTwoFactor::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 
@@ -65,21 +39,15 @@ class SecurityTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function encryptionSettingsProvider() {
+	public static function encryptionSettingsProvider(): array {
 		return [
 			[true],
 			[false],
 		];
 	}
 
-	/**
-	 * @dataProvider encryptionSettingsProvider
-	 * @param bool $enabled
-	 */
-	public function testGetFormWithOnlyOneBackend($enabled) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'encryptionSettingsProvider')]
+	public function testGetFormWithOnlyOneBackend(bool $enabled): void {
 		$this->manager
 			->expects($this->once())
 			->method('isEnabled')
@@ -106,10 +74,10 @@ class SecurityTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider encryptionSettingsProvider
 	 * @param bool $enabled
 	 */
-	public function testGetFormWithMultipleBackends($enabled) {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'encryptionSettingsProvider')]
+	public function testGetFormWithMultipleBackends($enabled): void {
 		$this->manager
 			->expects($this->once())
 			->method('isEnabled')
@@ -135,11 +103,11 @@ class SecurityTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('security', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(10, $this->admin->getPriority());
 	}
 }

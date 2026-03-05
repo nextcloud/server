@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div v-show="enabled" :class="`files-list__header-${header.id}`">
 		<span ref="mount" />
@@ -26,6 +9,12 @@
 </template>
 
 <script lang="ts">
+import type { Folder, IFileListHeader, View } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
+import PQueue from 'p-queue'
+import logger from '../logger.ts'
+
 /**
  * This component is used to render custom
  * elements provided by an API. Vue doesn't allow
@@ -36,37 +25,83 @@ export default {
 	name: 'FilesListHeader',
 	props: {
 		header: {
-			type: Object,
+			type: Object as PropType<IFileListHeader>,
 			required: true,
 		},
+
 		currentFolder: {
-			type: Object,
+			type: Object as PropType<Folder>,
 			required: true,
 		},
+
 		currentView: {
-			type: Object,
+			type: Object as PropType<View>,
 			required: true,
 		},
 	},
+
+	setup() {
+		// Create a queue to ensure that the header is only rendered once at a time
+		const queue = new PQueue({ concurrency: 1 })
+
+		return {
+			queue,
+		}
+	},
+
 	computed: {
 		enabled() {
-			return this.header.enabled(this.currentFolder, this.currentView)
+			return this.header.enabled?.(this.currentFolder, this.currentView) ?? true
 		},
 	},
+
 	watch: {
 		enabled(enabled) {
 			if (!enabled) {
 				return
 			}
-			this.header.updated(this.currentFolder, this.currentView)
+			// If the header is enabled, we need to render it
+			logger.debug(`Enabled ${this.header.id} FilesListHeader`, { header: this.header })
+			this.queueUpdate(this.currentFolder, this.currentView)
 		},
-		currentFolder() {
-			this.header.updated(this.currentFolder, this.currentView)
+
+		currentFolder(folder: Folder) {
+			// This method can be used to queue an update of the header
+			// It will ensure that the header is only updated once at a time
+			this.queueUpdate(folder, this.currentView)
+		},
+
+		currentView(view: View) {
+			this.queueUpdate(this.currentFolder, view)
 		},
 	},
+
 	mounted() {
-		console.debug('Mounted', this.header.id)
-		this.header.render(this.$refs.mount, this.currentFolder, this.currentView)
+		logger.debug(`Mounted ${this.header.id} FilesListHeader`, { header: this.header })
+		const initialRender = () => this.header.render(this.$refs.mount as HTMLElement, this.currentFolder, this.currentView)
+		this.queue.add(initialRender).then(() => {
+			logger.debug(`Rendered ${this.header.id} FilesListHeader`, { header: this.header })
+		}).catch((error) => {
+			logger.error(`Error rendering ${this.header.id} FilesListHeader`, { header: this.header, error })
+		})
+	},
+
+	destroyed() {
+		logger.debug(`Destroyed ${this.header.id} FilesListHeader`, { header: this.header })
+	},
+
+	methods: {
+		queueUpdate(currentFolder: Folder, currentView: View) {
+			// This method can be used to queue an update of the header
+			// It will ensure that the header is only updated once at a time
+			this.queue.add(() => this.header.updated(currentFolder, currentView))
+				.then(() => {
+					logger.debug(`Updated ${this.header.id} FilesListHeader`, { header: this.header })
+				})
+				.catch((error) => {
+					logger.error(`Error updating ${this.header.id} FilesListHeader`, { header: this.header, error })
+				})
+		},
 	},
 }
 </script>

@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Settings\SetupChecks;
@@ -43,7 +26,7 @@ class FileLocking implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('File locking');
+		return $this->l10n->t('Transactional File Locking');
 	}
 
 	public function getCategory(): string {
@@ -60,8 +43,8 @@ class FileLocking implements ISetupCheck {
 
 	public function run(): SetupResult {
 		if (!$this->hasWorkingFileLocking()) {
-			return SetupResult::warning(
-				$this->l10n->t('Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems.'),
+			return SetupResult::error(
+				$this->l10n->t('Transactional File Locking is disabled. This is not a a supported configuraton. It may lead to difficult to isolate problems including file corruption. Please remove the `\'filelocking.enabled\' => false` configuration entry from your `config.php` to avoid these problems.'),
 				$this->urlGenerator->linkToDocs('admin-transactional-locking')
 			);
 		}

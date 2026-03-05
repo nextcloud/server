@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\Login;
 
@@ -32,22 +13,19 @@ use OC\User\Session;
 use OCP\IConfig;
 
 class CreateSessionTokenCommand extends ALoginCommand {
-	/** @var IConfig */
-	private $config;
-
-	/** @var Session */
-	private $userSession;
-
-	public function __construct(IConfig $config,
-		Session $userSession) {
-		$this->config = $config;
-		$this->userSession = $userSession;
+	public function __construct(
+		private IConfig $config,
+		private Session $userSession,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {
-		$tokenType = IToken::REMEMBER;
 		if ($this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15) === 0) {
 			$loginData->setRememberLogin(false);
+		}
+		if ($loginData->isRememberLogin()) {
+			$tokenType = IToken::REMEMBER;
+		} else {
 			$tokenType = IToken::DO_NOT_REMEMBER;
 		}
 

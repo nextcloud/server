@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFederatedFileSharing
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\FederatedFileSharing\\' => 25,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\FederatedFileSharing\\' => 
+        'OCA\\FederatedFileSharing\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

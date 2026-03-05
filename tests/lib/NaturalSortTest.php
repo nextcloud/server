@@ -1,32 +1,31 @@
 <?php
+
 /**
- * Copyright (c) 2014 Vincent Petry <PVince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
 
+use OC\NaturalSort;
+use OC\NaturalSort_DefaultCollator;
+
 class NaturalSortTest extends \Test\TestCase {
-	/**
-	 * @dataProvider naturalSortDataProvider
-	 */
-	public function testNaturalSortCompare($array, $sorted) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('naturalSortDataProvider')]
+	public function testNaturalSortCompare($array, $sorted): void {
 		if (!class_exists('Collator')) {
 			$this->markTestSkipped('The intl module is not available, natural sorting might not work as expected.');
 			return;
 		}
-		$comparator = \OC\NaturalSort::getInstance();
+		$comparator = NaturalSort::getInstance();
 		usort($array, [$comparator, 'compare']);
 		$this->assertEquals($sorted, $array);
 	}
 
-	/**
-	 * @dataProvider defaultCollatorDataProvider
-	 */
-	public function testDefaultCollatorCompare($array, $sorted) {
-		$comparator = new \OC\NaturalSort(new \OC\NaturalSort_DefaultCollator());
+	#[\PHPUnit\Framework\Attributes\DataProvider('defaultCollatorDataProvider')]
+	public function testDefaultCollatorCompare($array, $sorted): void {
+		$comparator = new NaturalSort(new NaturalSort_DefaultCollator());
 		usort($array, [$comparator, 'compare']);
 		$this->assertEquals($sorted, $array);
 	}
@@ -36,7 +35,7 @@ class NaturalSortTest extends \Test\TestCase {
 	 * Must provide the same result as in core/js/tests/specs/coreSpec.js
 	 * @return array test cases
 	 */
-	public function naturalSortDataProvider() {
+	public static function naturalSortDataProvider(): array {
 		return [
 			// different casing
 			[
@@ -190,7 +189,7 @@ class NaturalSortTest extends \Test\TestCase {
 	 * Must provide the same result as in core/js/tests/specs/coreSpec.js
 	 * @return array test cases
 	 */
-	public function defaultCollatorDataProvider() {
+	public static function defaultCollatorDataProvider(): array {
 		return [
 			// different casing
 			[

@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests\Settings\Personal\Security;
 
@@ -30,30 +13,21 @@ use OC\Authentication\Token\PublicKeyToken;
 use OCA\Settings\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\Token\IToken;
+use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AuthtokensTest extends TestCase {
-
-	/** @var IAuthTokenProvider|MockObject */
-	private $authTokenProvider;
-
-	/** @var ISession|MockObject */
-	private $session;
-
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var IInitialState|MockObject */
-	private $initialState;
-
-	/** @var string */
-	private $uid;
-
-	/** @var Authtokens */
-	private $section;
+	private IAuthTokenProvider&MockObject $authTokenProvider;
+	private ISession&MockObject $session;
+	private IUserSession&MockObject $userSession;
+	private IInitialState&MockObject $initialState;
+	private IConfig&MockObject $serverConfig;
+	private string $uid;
+	private Authtokens $section;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,6 +36,7 @@ class AuthtokensTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->initialState = $this->createMock(IInitialState::class);
+		$this->serverConfig = $this->createMock(IConfig::class);
 		$this->uid = 'test123';
 
 		$this->section = new Authtokens(
@@ -69,11 +44,12 @@ class AuthtokensTest extends TestCase {
 			$this->session,
 			$this->userSession,
 			$this->initialState,
-			$this->uid
+			$this->serverConfig,
+			$this->uid,
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$token1 = new PublicKeyToken();
 		$token1->setId(100);
 		$token2 = new PublicKeyToken();
@@ -85,6 +61,9 @@ class AuthtokensTest extends TestCase {
 		$sessionToken = new PublicKeyToken();
 		$sessionToken->setId(100);
 
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(true);
 		$this->authTokenProvider->expects($this->once())
 			->method('getTokenByUser')
 			->with($this->uid)
@@ -96,34 +75,39 @@ class AuthtokensTest extends TestCase {
 			->method('getToken')
 			->with('session123')
 			->willReturn($sessionToken);
+
+		$calls = [
+			[
+				'app_tokens', [
+					[
+						'id' => 100,
+						'name' => null,
+						'lastActivity' => 0,
+						'type' => 0,
+						'canDelete' => false,
+						'current' => true,
+						'scope' => [IToken::SCOPE_FILESYSTEM => true],
+						'canRename' => false,
+					],
+					[
+						'id' => 200,
+						'name' => null,
+						'lastActivity' => 0,
+						'type' => 0,
+						'canDelete' => true,
+						'scope' => [IToken::SCOPE_FILESYSTEM => true],
+						'canRename' => true,
+					],
+				]
+			],
+			['can_create_app_token', true],
+		];
 		$this->initialState->expects($this->exactly(2))
 			->method('provideInitialState')
-			->withConsecutive(
-				[
-					'app_tokens', [
-						[
-							'id' => 100,
-							'name' => null,
-							'lastActivity' => 0,
-							'type' => 0,
-							'canDelete' => false,
-							'current' => true,
-							'scope' => ['filesystem' => true],
-							'canRename' => false,
-						],
-						[
-							'id' => 200,
-							'name' => null,
-							'lastActivity' => 0,
-							'type' => 0,
-							'canDelete' => true,
-							'scope' => ['filesystem' => true],
-							'canRename' => true,
-						],
-					]
-				],
-				['can_create_app_token', true],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$form = $this->section->getForm();
 

@@ -1,27 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Comments\Tests\Unit\Controller;
 
@@ -40,26 +24,16 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotificationsTest extends TestCase {
-	/** @var NotificationsController */
-	protected $notificationsController;
-
-	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $commentsManager;
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	protected $rootFolder;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
+	protected ICommentsManager&MockObject $commentsManager;
+	protected IRootFolder&MockObject $rootFolder;
+	protected IUserSession&MockObject $session;
+	protected IManager&MockObject $notificationManager;
+	protected IURLGenerator&MockObject $urlGenerator;
+	protected NotificationsController $notificationsController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -81,7 +55,7 @@ class NotificationsTest extends TestCase {
 		);
 	}
 
-	public function testViewGuestRedirect() {
+	public function testViewGuestRedirect(): void {
 		$this->commentsManager->expects($this->never())
 			->method('get');
 
@@ -99,10 +73,6 @@ class NotificationsTest extends TestCase {
 
 		$this->urlGenerator->expects($this->exactly(2))
 			->method('linkToRoute')
-			->withConsecutive(
-				['comments.Notifications.view', ['id' => '42']],
-				['core.login.showLoginForm', ['redirect_url' => 'link-to-comment']]
-			)
 			->willReturnMap([
 				['comments.Notifications.view', ['id' => '42'], 'link-to-comment'],
 				['core.login.showLoginForm', ['redirect_url' => 'link-to-comment'], 'link-to-login'],
@@ -114,7 +84,7 @@ class NotificationsTest extends TestCase {
 		$this->assertSame('link-to-login', $response->getRedirectURL());
 	}
 
-	public function testViewSuccess() {
+	public function testViewSuccess(): void {
 		$comment = $this->createMock(IComment::class);
 		$comment->expects($this->any())
 			->method('getObjectType')
@@ -137,8 +107,8 @@ class NotificationsTest extends TestCase {
 			->willReturn($folder);
 
 		$folder->expects($this->once())
-			->method('getById')
-			->willReturn([$file]);
+			->method('getFirstNodeById')
+			->willReturn($file);
 
 		$this->session->expects($this->once())
 			->method('getUser')
@@ -164,11 +134,11 @@ class NotificationsTest extends TestCase {
 		$this->assertInstanceOf(RedirectResponse::class, $response);
 	}
 
-	public function testViewInvalidComment() {
+	public function testViewInvalidComment(): void {
 		$this->commentsManager->expects($this->any())
 			->method('get')
 			->with('42')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$this->rootFolder->expects($this->never())
 			->method('getUserFolder');
@@ -192,7 +162,7 @@ class NotificationsTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $response);
 	}
 
-	public function testViewNoFile() {
+	public function testViewNoFile(): void {
 		$comment = $this->createMock(IComment::class);
 		$comment->expects($this->any())
 			->method('getObjectType')
@@ -213,8 +183,8 @@ class NotificationsTest extends TestCase {
 			->willReturn($folder);
 
 		$folder->expects($this->once())
-			->method('getById')
-			->willReturn([]);
+			->method('getFirstNodeById')
+			->willReturn(null);
 
 		$user = $this->createMock(IUser::class);
 

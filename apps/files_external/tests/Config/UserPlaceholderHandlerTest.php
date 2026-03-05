@@ -1,29 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\files_external\tests\Config;
+namespace OCA\Files_External\Tests\Config;
 
 use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCP\IRequest;
@@ -32,25 +14,17 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
-class UserPlaceholderHandlerTest extends \Test\TestCase {
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-	protected $user;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var UserPlaceholderHandler */
-	protected $handler;
+class UserPlaceholderHandlerTest extends TestCase {
+	protected IUser&MockObject $user;
+	protected IUserSession&MockObject $session;
+	protected IManager&MockObject $shareManager;
+	protected IRequest&MockObject $request;
+	protected IUserManager&MockObject $userManager;
+	protected UserPlaceholderHandler $handler;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,18 +36,21 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 		$this->session = $this->createMock(IUserSession::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->request->method('getParam')
+			->with('token')
+			->willReturn('foo');
 		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->handler = new UserPlaceholderHandler($this->session, $this->shareManager, $this->request, $this->userManager);
 	}
 
-	protected function setUser() {
+	protected function setUser(): void {
 		$this->session->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
 	}
 
-	public function optionProvider() {
+	public static function optionProvider(): array {
 		return [
 			['/foo/bar/$user/foobar', '/foo/bar/alice/foobar'],
 			[['/foo/bar/$user/foobar'], ['/foo/bar/alice/foobar']],
@@ -81,20 +58,17 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider optionProvider
-	 */
-	public function testHandle($option, $expected) {
+	#[DataProvider(methodName: 'optionProvider')]
+	public function testHandle(string|array $option, string|array $expected): void {
 		$this->setUser();
 		$this->assertSame($expected, $this->handler->handle($option));
 	}
 
-	/**
-	 * @dataProvider optionProvider
-	 */
-	public function testHandleNoUser($option) {
+	#[DataProvider(methodName: 'optionProvider')]
+	public function testHandleNoUser(string|array $option): void {
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
+			->with('foo')
 			->willThrowException(new ShareNotFound());
 		$this->assertSame($option, $this->handler->handle($option));
 	}

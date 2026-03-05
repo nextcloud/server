@@ -3,39 +3,17 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Service;
 
 use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
-use OCP\AppFramework\QueryException;
+use OCA\WorkflowEngine\ResponseDefinitions;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IEntity;
@@ -44,43 +22,28 @@ use OCP\WorkflowEngine\IFileCheck;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use RuntimeException;
 
+/**
+ * @psalm-import-type WorkflowEngineCheck from ResponseDefinitions
+ */
 class RuleMatcher implements IRuleMatcher {
 
-	/** @var IUserSession */
-	protected $session;
-	/** @var IManager */
-	protected $manager;
-	/** @var array */
-	protected $contexts;
-	/** @var IServerContainer */
-	protected $container;
-	/** @var array */
-	protected $fileInfo = [];
-	/** @var IL10N */
-	protected $l;
-	/** @var IOperation */
-	protected $operation;
-	/** @var IEntity */
-	protected $entity;
-	/** @var Logger */
-	protected $logger;
-	/** @var string */
-	protected $eventName;
+	protected array $contexts;
+	protected array $fileInfo = [];
+	protected ?IOperation $operation = null;
+	protected ?IEntity $entity = null;
+	protected ?string $eventName = null;
 
 	public function __construct(
-		IUserSession $session,
-		IServerContainer $container,
-		IL10N $l,
-		Manager $manager,
-		Logger $logger
+		protected readonly IUserSession $session,
+		protected readonly ContainerInterface $container,
+		protected readonly IL10N $l,
+		protected readonly Manager $manager,
+		protected readonly Logger $logger,
 	) {
-		$this->session = $session;
-		$this->manager = $manager;
-		$this->container = $container;
-		$this->l = $l;
-		$this->logger = $logger;
 	}
 
 	public function setFileInfo(IStorage $storage, string $path, bool $isDir = false): void {
@@ -217,13 +180,13 @@ class RuleMatcher implements IRuleMatcher {
 	}
 
 	/**
-	 * @param array $check
+	 * @param WorkflowEngineCheck $check
 	 * @return bool
 	 */
-	public function check(array $check) {
+	public function check(array $check): bool {
 		try {
-			$checkInstance = $this->container->query($check['class']);
-		} catch (QueryException $e) {
+			$checkInstance = $this->container->get($check['class']);
+		} catch (ContainerExceptionInterface $e) {
 			// Check does not exist, assume it matches.
 			return true;
 		}

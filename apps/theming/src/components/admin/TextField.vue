@@ -1,95 +1,61 @@
 <!--
-  - @copyright 2022 Christopher Ng <chrng8@gmail.com>
-  -
-  - @author Christopher Ng <chrng8@gmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<div class="field">
-		<NcTextField :value.sync="localValue"
-			:label="displayName"
-			:placeholder="placeholder"
-			:type="type"
-			:maxlength="maxlength"
-			:spellcheck="false"
-			:success="showSuccess"
-			:error="Boolean(errorMessage)"
-			:helper-text="errorMessage"
-			:show-trailing-button="value !== defaultValue"
-			trailing-button-icon="undo"
-			@trailing-button-click="undo"
-			@keydown.enter="save"
-			@blur="save" />
-	</div>
-</template>
+<script setup lang="ts">
+import type { AdminThemingParameters } from '../../types.d.ts'
 
-<script>
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import { loadState } from '@nextcloud/initial-state'
+import { watchDebounced } from '@vueuse/core'
+import { ref, toRef } from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import { useAdminThemingValue } from '../../composables/useAdminThemingValue.ts'
 
-import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
+const props = withDefaults(defineProps<{
+	name: keyof AdminThemingParameters
+	label: string
+	defaultValue: string
+	type?: 'text' | 'url'
+}>(), {
+	type: 'text',
+})
 
-export default {
-	name: 'TextField',
+const modelValue = ref(loadState<AdminThemingParameters>('theming', 'adminThemingParameters')[props.name].toString())
 
-	components: {
-		NcTextField,
-	},
+const {
+	isSaving,
+	isSaved,
+	reset,
+} = useAdminThemingValue(toRef(() => props.name), modelValue, toRef(() => props.defaultValue))
 
-	mixins: [
-		TextValueMixin,
-	],
-
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
-		value: {
-			type: String,
-			required: true,
-		},
-		defaultValue: {
-			type: String,
-			required: true,
-		},
-		type: {
-			type: String,
-			required: true,
-		},
-		displayName: {
-			type: String,
-			required: true,
-		},
-		placeholder: {
-			type: String,
-			required: true,
-		},
-		maxlength: {
-			type: Number,
-			required: true,
-		},
-	},
-}
+watchDebounced(modelValue, (value) => {
+	if (props.type === 'url' && value.includes('"')) {
+		try {
+			const url = new URL(value)
+			url.pathname = url.pathname.replaceAll(/"/g, '%22')
+			modelValue.value = url.href
+		} catch {
+			// invalid URL, do nothing
+			return
+		}
+	}
+}, { debounce: 600 })
 </script>
 
-<style lang="scss" scoped>
-.field {
-	max-width: 400px;
-}
-</style>
+<template>
+	<NcTextField
+		v-model="modelValue"
+		:label
+		:readonly="isSaving"
+		:success="isSaved"
+		:type
+		:showTrailingButton="modelValue !== defaultValue"
+		:trailingButtonIcon="defaultValue ? 'undo' : 'close'"
+		@trailingButtonClick="reset">
+		<template v-if="isSaving" #icon>
+			<NcLoadingIcon />
+		</template>
+	</NcTextField>
+</template>

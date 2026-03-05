@@ -3,50 +3,30 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021, Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Http\Client;
 
+use OC\Diagnostics\TLogSlowOperation;
 use OC\Net\IpAddressClassifier;
 use OCP\Http\Client\LocalServerException;
 use Psr\Http\Message\RequestInterface;
+use Psr\Log\LoggerInterface;
 
 class DnsPinMiddleware {
-	/** @var NegativeDnsCache */
-	private $negativeDnsCache;
-	private IpAddressClassifier $ipAddressClassifier;
+
+	use TLogSlowOperation;
 
 	public function __construct(
-		NegativeDnsCache $negativeDnsCache,
-		IpAddressClassifier $ipAddressClassifier
+		private NegativeDnsCache $negativeDnsCache,
+		private IpAddressClassifier $ipAddressClassifier,
+		private LoggerInterface $logger,
 	) {
-		$this->negativeDnsCache = $negativeDnsCache;
-		$this->ipAddressClassifier = $ipAddressClassifier;
 	}
 
 	/**
 	 * Fetch soa record for a target
-	 *
-	 * @param string $target
-	 * @return array|null
 	 */
 	private function soaRecord(string $target): ?array {
 		$labels = explode('.', $target);
@@ -74,17 +54,21 @@ class DnsPinMiddleware {
 
 		$soaDnsEntry = $this->soaRecord($target);
 		$dnsNegativeTtl = $soaDnsEntry['minimum-ttl'] ?? null;
+		$canHaveCnameRecord = true;
 
 		$dnsTypes = \defined('AF_INET6') || @inet_pton('::1')
 			? [DNS_A, DNS_AAAA, DNS_CNAME]
 			: [DNS_A, DNS_CNAME];
 		foreach ($dnsTypes as $dnsType) {
+			if ($canHaveCnameRecord === false && $dnsType === DNS_CNAME) {
+				continue;
+			}
+
 			if ($this->negativeDnsCache->isNegativeCached($target, $dnsType)) {
 				continue;
 			}
 
 			$dnsResponses = $this->dnsGetRecord($target, $dnsType);
-			$canHaveCnameRecord = true;
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
 					if (isset($dnsResponse['ip'])) {
@@ -95,7 +79,6 @@ class DnsPinMiddleware {
 						$canHaveCnameRecord = false;
 					} elseif (isset($dnsResponse['target']) && $canHaveCnameRecord) {
 						$targetIps = array_merge($targetIps, $this->dnsResolve($dnsResponse['target'], $recursionCount));
-						$canHaveCnameRecord = true;
 					}
 				}
 			} elseif ($dnsNegativeTtl !== null) {
@@ -110,20 +93,24 @@ class DnsPinMiddleware {
 	 * Wrapper for dns_get_record
 	 */
 	protected function dnsGetRecord(string $hostname, int $type): array|false {
-		return \dns_get_record($hostname, $type);
+		return $this->monitorAndLog(
+			$this->logger,
+			'dns_get_record',
+			fn () => \dns_get_record($hostname, $type),
+		);
 	}
 
-	public function addDnsPinning() {
+	public function addDnsPinning(): callable {
 		return function (callable $handler) {
 			return function (
 				RequestInterface $request,
-				array $options
+				array $options,
 			) use ($handler) {
 				if ($options['nextcloud']['allow_local_address'] === true) {
 					return $handler($request, $options);
 				}
 
-				$hostName = (string)$request->getUri()->getHost();
+				$hostName = $request->getUri()->getHost();
 				$port = $request->getUri()->getPort();
 
 				$ports = [
@@ -149,7 +136,7 @@ class DnsPinMiddleware {
 					foreach ($targetIps as $ip) {
 						if ($this->ipAddressClassifier->isLocalAddress($ip)) {
 							// TODO: continue with all non-local IPs?
-							throw new LocalServerException('Host "'.$ip.'" ('.$hostName.':'.$port.') violates local access rules');
+							throw new LocalServerException('Host "' . $ip . '" (' . $hostName . ':' . $port . ') violates local access rules');
 						}
 						$curlResolves["$hostName:$port"][] = $ip;
 					}

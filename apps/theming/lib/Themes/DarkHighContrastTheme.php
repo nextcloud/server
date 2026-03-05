@@ -2,26 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Themes;
 
@@ -59,10 +41,10 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 		$colorMainBackground = '#000000';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 
-		$colorError = '#ff5252';
-		$colorWarning = '#ffcc00';
-		$colorSuccess = '#42a942';
-		$colorInfo = '#38c0ff';
+		$colorError = '#750000';
+		$colorWarning = '#423800';
+		$colorSuccess = '#1A4020';
+		$colorInfo = '#004875';
 
 		return array_merge(
 			$defaultVariables,
@@ -73,8 +55,8 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 				'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), 1)',
 				'--color-main-text' => $colorMainText,
 
-				'--color-background-dark' => $this->util->lighten($colorMainBackground, 25),
-				'--color-background-darker' => $this->util->lighten($colorMainBackground, 25),
+				'--color-background-dark' => $this->util->lighten($colorMainBackground, 20),
+				'--color-background-darker' => $this->util->lighten($colorMainBackground, 20),
 
 				'--color-main-background-blur' => $colorMainBackground,
 				'--filter-background-blur' => 'none',
@@ -84,30 +66,40 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 
 				'--color-text-maxcontrast' => $colorMainText,
 				'--color-text-maxcontrast-background-blur' => $colorMainText,
-				'--color-text-light' => $colorMainText,
-				'--color-text-lighter' => $colorMainText,
+				'--color-text-error' => $this->util->lighten($colorError, 65),
+				'--color-text-success' => $this->util->lighten($colorSuccess, 65),
+				'--color-text-warning' => $this->util->lighten($colorWarning, 65),
+
+				'--color-element-error' => $this->util->lighten($colorError, 30),
+				'--color-element-info' => $this->util->lighten($colorInfo, 30),
+				'--color-element-success' => $this->util->lighten($colorSuccess, 30),
+				'--color-element-warning' => $this->util->lighten($colorWarning, 30),
+
+				'--color-border' => $this->util->lighten($colorMainBackground, 50),
+				'--color-border-dark' => $this->util->lighten($colorMainBackground, 50),
+				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 55),
 
 				'--color-error' => $colorError,
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
-				'--color-error-hover' => $this->util->lighten($colorError, 10),
-				'--color-error-text' => $this->util->lighten($colorError, 25),
+				'--color-error-hover' => $this->util->lighten($colorError, 4),
+				'--color-error-text' => $this->util->lighten($colorError, 70),
 
 				'--color-warning' => $colorWarning,
 				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
-				'--color-warning-hover' => $this->util->lighten($colorWarning, 10),
-				'--color-warning-text' => $this->util->lighten($colorWarning, 10),
+				'--color-warning-hover' => $this->util->lighten($colorWarning, 5),
+				'--color-warning-text' => $this->util->lighten($colorWarning, 65),
 
 				'--color-success' => $colorSuccess,
 				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
-				'--color-success-hover' => $this->util->lighten($colorSuccess, 10),
-				'--color-success-text' => $this->util->lighten($colorSuccess, 35),
+				'--color-success-hover' => $this->util->lighten($colorSuccess, 5),
+				'--color-success-text' => $this->util->lighten($colorSuccess, 70),
 
 				'--color-info' => $colorInfo,
 				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
-				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
-				'--color-info-text' => $this->util->lighten($colorInfo, 20),
+				'--color-info-hover' => $this->util->lighten($colorInfo, 5),
+				'--color-info-text' => $this->util->lighten($colorInfo, 60),
 
-				'--color-scrollbar' => $this->util->lighten($colorMainBackground, 35),
+				'--color-scrollbar' => 'auto transparent',
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#000000',
@@ -116,9 +108,8 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 				'--color-box-shadow-rgb' => $colorMainText,
 				'--color-box-shadow' => $colorMainText,
 
-				'--color-border' => $this->util->lighten($colorMainBackground, 50),
-				'--color-border-dark' => $this->util->lighten($colorMainBackground, 50),
-				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 55),
+				// remove the gradient from the app icons
+				'--header-menu-icon-mask' => 'none',
 			]
 		);
 	}

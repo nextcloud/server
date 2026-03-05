@@ -2,36 +2,22 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2019, Daniel Kesselberg (mail@danielkesselberg.de)
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Core\Command\Config;
 
 use OC\Core\Command\App\Disable;
+use OCP\App\IAppManager;
+use OCP\Server;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 /**
  * Class AppsDisableTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppsDisableTest extends TestCase {
 	/** @var CommandTester */
 	private $commandTester;
@@ -40,22 +26,22 @@ class AppsDisableTest extends TestCase {
 		parent::setUp();
 
 		$command = new Disable(
-			\OC::$server->getAppManager()
+			Server::get(IAppManager::class)
 		);
 
 		$this->commandTester = new CommandTester($command);
 
-		\OC::$server->getAppManager()->enableApp('admin_audit');
-		\OC::$server->getAppManager()->enableApp('comments');
+		Server::get(IAppManager::class)->enableApp('admin_audit');
+		Server::get(IAppManager::class)->enableApp('comments');
 	}
 
 	/**
-	 * @dataProvider dataCommandInput
 	 * @param $appId
 	 * @param $groups
 	 * @param $statusCode
 	 * @param $pattern
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCommandInput')]
 	public function testCommandInput($appId, $statusCode, $pattern): void {
 		$input = ['app-id' => $appId];
 
@@ -65,7 +51,7 @@ class AppsDisableTest extends TestCase {
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
-	public function dataCommandInput(): array {
+	public static function dataCommandInput(): array {
 		return [
 			[['admin_audit'], 0, 'admin_audit ([\d\.]*) disabled'],
 			[['comments'], 0, 'comments ([\d\.]*) disabled'],

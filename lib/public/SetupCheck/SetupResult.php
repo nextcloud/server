@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Carl Schwan <carl@carlschwan.eu>
- *
- * @author Carl Schwan <carl@carlschwan.eu>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCP\SetupCheck;
@@ -62,6 +45,7 @@ class SetupResult implements \JsonSerializable {
 	/**
 	 * @brief Private constructor, use success()/info()/warning()/error() instead
 	 * @param self::SUCCESS|self::INFO|self::WARNING|self::ERROR $severity
+	 * @param array<string, array<string, string>> $descriptionParameters
 	 * @throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 * @since 28.0.0
 	 * @since 28.0.2 Optional parameter ?array $descriptionParameters

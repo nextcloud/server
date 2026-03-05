@@ -1,39 +1,11 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jesús Macias <jmacias@solidgear.es>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Juan Pablo Villafañez <jvillafanez@solidgear.es>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Philipp Kapfer <philipp.kapfer@gmx.at>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roland Tapken <roland@bitarbeiter.net>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\SMB\ACL;
@@ -51,7 +23,7 @@ use Icewind\SMB\IFileInfo;
 use Icewind\SMB\Native\NativeServer;
 use Icewind\SMB\Options;
 use Icewind\SMB\ServerFactory;
-use Icewind\SMB\System;
+use Icewind\SMB\Wrapped\Server;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
@@ -60,12 +32,14 @@ use OCA\Files_External\Lib\Notify\SMBNotifyHandler;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\EntityTooLargeException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 
 class SMB extends Common implements INotifyStorage {
@@ -98,57 +72,58 @@ class SMB extends Common implements INotifyStorage {
 	/** @var bool */
 	protected $checkAcl;
 
-	public function __construct($params) {
-		if (!isset($params['host'])) {
+	public function __construct(array $parameters) {
+		if (!isset($parameters['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
 		}
 
-		if (isset($params['auth'])) {
-			$auth = $params['auth'];
-		} elseif (isset($params['user']) && isset($params['password']) && isset($params['share'])) {
-			[$workgroup, $user] = $this->splitUser($params['user']);
-			$auth = new BasicAuth($user, $workgroup, $params['password']);
+		if (isset($parameters['auth'])) {
+			$auth = $parameters['auth'];
+		} elseif (isset($parameters['user']) && isset($parameters['password']) && isset($parameters['share'])) {
+			[$workgroup, $user] = $this->splitUser($parameters['user']);
+			$auth = new BasicAuth($user, $workgroup, $parameters['password']);
 		} else {
 			throw new \Exception('Invalid configuration, no credentials provided');
 		}
 
-		if (isset($params['logger'])) {
-			if (!$params['logger'] instanceof LoggerInterface) {
+		if (isset($parameters['logger'])) {
+			if (!$parameters['logger'] instanceof LoggerInterface) {
 				throw new \Exception(
 					'Invalid logger. Got '
-					. get_class($params['logger'])
+					. get_class($parameters['logger'])
 					. ' Expected ' . LoggerInterface::class
 				);
 			}
-			$this->logger = $params['logger'];
+			$this->logger = $parameters['logger'];
 		} else {
-			$this->logger = \OC::$server->get(LoggerInterface::class);
+			$this->logger = \OCP\Server::get(LoggerInterface::class);
 		}
 
 		$options = new Options();
-		if (isset($params['timeout'])) {
-			$timeout = (int)$params['timeout'];
+		if (isset($parameters['timeout'])) {
+			$timeout = (int)$parameters['timeout'];
 			if ($timeout > 0) {
 				$options->setTimeout($timeout);
 			}
 		}
-		$serverFactory = new ServerFactory($options);
-		$this->server = $serverFactory->createServer($params['host'], $auth);
-		$this->share = $this->server->getShare(trim($params['share'], '/'));
+		$system = \OCP\Server::get(SystemBridge::class);
+		$serverFactory = new ServerFactory($options, $system);
+		$this->server = $serverFactory->createServer($parameters['host'], $auth);
+		$this->share = $this->server->getShare(trim($parameters['share'], '/'));
 
-		$this->root = $params['root'] ?? '/';
+		$this->root = $parameters['root'] ?? '/';
 		$this->root = '/' . ltrim($this->root, '/');
 		$this->root = rtrim($this->root, '/') . '/';
 
-		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
-		$this->caseSensitive = (bool) ($params['case_sensitive'] ?? true);
-		$this->checkAcl = isset($params['check_acl']) && $params['check_acl'];
+		$this->showHidden = isset($parameters['show_hidden']) && $parameters['show_hidden'];
+		$this->caseSensitive = (bool)($parameters['case_sensitive'] ?? true);
+		$this->checkAcl = isset($parameters['check_acl']) && $parameters['check_acl'];
 
 		$this->statCache = new CappedMemoryCache();
-		parent::__construct($params);
+		parent::__construct($parameters);
 	}
 
-	private function splitUser($user) {
+	private function splitUser(string $user): array {
 		if (str_contains($user, '/')) {
 			return explode('/', $user, 2);
 		} elseif (str_contains($user, '\\')) {
@@ -158,25 +133,18 @@ class SMB extends Common implements INotifyStorage {
 		return [null, $user];
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getId() {
+	public function getId(): string {
 		// FIXME: double slash to keep compatible with the old storage ids,
 		// failure to do so will lead to creation of a new storage id and
 		// loss of shares from the storage
 		return 'smb::' . $this->server->getAuth()->getUsername() . '@' . $this->server->getHost() . '//' . $this->share->getName() . '/' . $this->root;
 	}
 
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	protected function buildPath($path) {
+	protected function buildPath(string $path): string {
 		return Filesystem::normalizePath($this->root . '/' . $path, true, false, true);
 	}
 
-	protected function relativePath($fullPath) {
+	protected function relativePath(string $fullPath): ?string {
 		if ($fullPath === $this->root) {
 			return '';
 		} elseif (substr($fullPath, 0, strlen($this->root)) === $this->root) {
@@ -187,11 +155,11 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	/**
-	 * @param string $path
-	 * @return IFileInfo
 	 * @throws StorageAuthException
+	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\ForbiddenException
 	 */
-	protected function getFileInfo($path) {
+	protected function getFileInfo(string $path): IFileInfo {
 		try {
 			$path = $this->buildPath($path);
 			$cached = $this->statCache[$path] ?? null;
@@ -204,36 +172,44 @@ class SMB extends Common implements INotifyStorage {
 			}
 		} catch (ConnectException $e) {
 			$this->throwUnavailable($e);
+		} catch (InvalidArgumentException $e) {
+			$this->throwUnavailable($e);
 		} catch (NotFoundException $e) {
 			throw new \OCP\Files\NotFoundException($e->getMessage(), 0, $e);
 		} catch (ForbiddenException $e) {
 			// with php-smbclient, this exception is thrown when the provided password is invalid.
-			// Possible is also ForbiddenException with a different error code, so we check it.
-			if ($e->getCode() === 1) {
+			// we check if we can stat the root, which should only fail in authentication failures
+			if ($path === '') {
 				$this->throwUnavailable($e);
+			} else {
+				try {
+					$this->share->stat('');
+				} catch (\Exception $e) {
+					$this->throwUnavailable($e);
+				}
 			}
 			throw new \OCP\Files\ForbiddenException($e->getMessage(), false, $e);
 		}
 	}
 
 	/**
-	 * @param \Exception $e
-	 * @return never
 	 * @throws StorageAuthException
 	 */
-	protected function throwUnavailable(\Exception $e) {
+	protected function throwUnavailable(\Exception $e): never {
 		$this->logger->error('Error while getting file info', ['exception' => $e]);
 		throw new StorageAuthException($e->getMessage(), $e);
 	}
 
 	/**
 	 * get the acl from fileinfo that is relevant for the configured user
-	 *
-	 * @param IFileInfo $file
-	 * @return ACL|null
 	 */
 	private function getACL(IFileInfo $file): ?ACL {
-		$acls = $file->getAcls();
+		try {
+			$acls = $file->getAcls();
+		} catch (Exception $e) {
+			$this->logger->warning('Error while getting file acls', ['exception' => $e]);
+			return null;
+		}
 		foreach ($acls as $user => $acl) {
 			[, $user] = $this->splitUser($user); // strip domain
 			if ($user === $this->server->getAuth()->getUsername()) {
@@ -245,11 +221,10 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	/**
-	 * @param string $path
 	 * @return \Generator<IFileInfo>
 	 * @throws StorageNotAvailableException
 	 */
-	protected function getFolderContents($path): iterable {
+	protected function getFolderContents(string $path): iterable {
 		try {
 			$path = ltrim($this->buildPath($path), '/');
 			try {
@@ -300,11 +275,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
-	/**
-	 * @param IFileInfo $info
-	 * @return array
-	 */
-	protected function formatInfo($info) {
+	protected function formatInfo(IFileInfo $info): array {
 		$result = [
 			'size' => $info->getSize(),
 			'mtime' => $info->getMTime(),
@@ -322,9 +293,8 @@ class SMB extends Common implements INotifyStorage {
 	 *
 	 * @param string $source the old name of the path
 	 * @param string $target the new name of the path
-	 * @return bool true if the rename is successful, false otherwise
 	 */
-	public function rename($source, $target, $retry = true): bool {
+	public function rename(string $source, string $target, bool $retry = true): bool {
 		if ($this->isRootDir($source) || $this->isRootDir($target)) {
 			return false;
 		}
@@ -363,10 +333,10 @@ class SMB extends Common implements INotifyStorage {
 		return $result;
 	}
 
-	public function stat($path, $retry = true) {
+	public function stat(string $path, bool $retry = true): array|false {
 		try {
 			$result = $this->formatInfo($this->getFileInfo($path));
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
@@ -374,7 +344,7 @@ class SMB extends Common implements INotifyStorage {
 			if ($retry) {
 				return $this->stat($path, false);
 			} else {
-				throw $e;
+				throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 			}
 		}
 		if ($this->remoteIsShare() && $this->isRootDir($path)) {
@@ -385,10 +355,8 @@ class SMB extends Common implements INotifyStorage {
 
 	/**
 	 * get the best guess for the modification time of the share
-	 *
-	 * @return int
 	 */
-	private function shareMTime() {
+	private function shareMTime(): int {
 		$highestMTime = 0;
 		$files = $this->share->dir($this->root);
 		foreach ($files as $fileInfo) {
@@ -407,28 +375,19 @@ class SMB extends Common implements INotifyStorage {
 
 	/**
 	 * Check if the path is our root dir (not the smb one)
-	 *
-	 * @param string $path the path
-	 * @return bool
 	 */
-	private function isRootDir($path) {
+	private function isRootDir(string $path): bool {
 		return $path === '' || $path === '/' || $path === '.';
 	}
 
 	/**
 	 * Check if our root points to a smb share
-	 *
-	 * @return bool true if our root points to a share false otherwise
 	 */
-	private function remoteIsShare() {
+	private function remoteIsShare(): bool {
 		return $this->share->getName() && (!$this->root || $this->root === '/');
 	}
 
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function unlink($path) {
+	public function unlink(string $path): bool {
 		if ($this->isRootDir($path)) {
 			return false;
 		}
@@ -454,41 +413,36 @@ class SMB extends Common implements INotifyStorage {
 
 	/**
 	 * check if a file or folder has been updated since $time
-	 *
-	 * @param string $path
-	 * @param int $time
-	 * @return bool
 	 */
-	public function hasUpdated($path, $time) {
-		if (!$path and $this->root === '/') {
+	public function hasUpdated(string $path, int $time): bool {
+		if (!$path && $this->root === '/') {
 			// mtime doesn't work for shares, but giving the nature of the backend,
 			// doing a full update is still just fast enough
 			return true;
 		} else {
 			$actualTime = $this->filemtime($path);
-			return $actualTime > $time;
+			return $actualTime > $time || $actualTime === 0;
 		}
 	}
 
 	/**
-	 * @param string $path
-	 * @param string $mode
-	 * @return resource|bool
+	 * @return resource|false
 	 */
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$fullPath = $this->buildPath($path);
 		try {
 			switch ($mode) {
 				case 'r':
 				case 'rb':
 					if (!$this->file_exists($path)) {
+						$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', file doesn\'t exist.');
 						return false;
 					}
 					return $this->share->read($fullPath);
 				case 'w':
 				case 'wb':
 					$source = $this->share->write($fullPath);
-					return CallBackWrapper::wrap($source, null, null, function () use ($fullPath) {
+					return CallBackWrapper::wrap($source, null, null, function () use ($fullPath): void {
 						unset($this->statCache[$fullPath]);
 					});
 				case 'a':
@@ -509,18 +463,20 @@ class SMB extends Common implements INotifyStorage {
 					}
 					if ($this->file_exists($path)) {
 						if (!$this->isUpdatable($path)) {
+							$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', file not updatable.');
 							return false;
 						}
 						$tmpFile = $this->getCachedFile($path);
 					} else {
 						if (!$this->isCreatable(dirname($path))) {
+							$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', parent directory not writable.');
 							return false;
 						}
-						$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+						$tmpFile = \OCP\Server::get(ITempManager::class)->getTemporaryFile($ext);
 					}
 					$source = fopen($tmpFile, $mode);
 					$share = $this->share;
-					return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $fullPath, $share) {
+					return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $fullPath, $share): void {
 						unset($this->statCache[$fullPath]);
 						$share->put($tmpFile, $fullPath);
 						unlink($tmpFile);
@@ -528,18 +484,21 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return false;
 		} catch (NotFoundException $e) {
+			$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', not found.', ['exception' => $e]);
 			return false;
 		} catch (ForbiddenException $e) {
+			$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', forbidden.', ['exception' => $e]);
 			return false;
 		} catch (OutOfSpaceException $e) {
-			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
+			$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', out of space.', ['exception' => $e]);
+			throw new EntityTooLargeException('not enough available space to create file', 0, $e);
 		} catch (ConnectException $e) {
-			$this->logger->error('Error while opening file', ['exception' => $e]);
+			$this->logger->error('Error while opening file ' . $path . ' on ' . $this->getId(), ['exception' => $e]);
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		}
 	}
 
-	public function rmdir($path) {
+	public function rmdir(string $path): bool {
 		if ($this->isRootDir($path)) {
 			return false;
 		}
@@ -566,7 +525,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
-	public function touch($path, $mtime = null) {
+	public function touch(string $path, ?int $mtime = null): bool {
 		try {
 			if (!$this->file_exists($path)) {
 				$fh = $this->share->write($this->buildPath($path));
@@ -575,29 +534,26 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return false;
 		} catch (OutOfSpaceException $e) {
-			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
+			throw new EntityTooLargeException('not enough available space to create file', 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while creating file', ['exception' => $e]);
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		}
 	}
 
-	public function getMetaData($path) {
+	public function getMetaData(string $path): ?array {
 		try {
 			$fileInfo = $this->getFileInfo($path);
 		} catch (\OCP\Files\NotFoundException $e) {
 			return null;
-		} catch (ForbiddenException $e) {
-			return null;
-		}
-		if (!$fileInfo) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return null;
 		}
 
 		return $this->getMetaDataFromFileInfo($fileInfo);
 	}
 
-	private function getMetaDataFromFileInfo(IFileInfo $fileInfo) {
+	private function getMetaDataFromFileInfo(IFileInfo $fileInfo): array {
 		$permissions = Constants::PERMISSION_READ + Constants::PERMISSION_SHARE;
 
 		if (
@@ -614,7 +570,7 @@ class SMB extends Common implements INotifyStorage {
 		if ($fileInfo->isDirectory()) {
 			$data['mimetype'] = 'httpd/unix-directory';
 		} else {
-			$data['mimetype'] = \OC::$server->getMimeTypeDetector()->detectPath($fileInfo->getPath());
+			$data['mimetype'] = \OCP\Server::get(IMimeTypeDetector::class)->detectPath($fileInfo->getPath());
 		}
 		$data['mtime'] = $fileInfo->getMTime();
 		if ($fileInfo->isDirectory()) {
@@ -630,7 +586,7 @@ class SMB extends Common implements INotifyStorage {
 		return $data;
 	}
 
-	public function opendir($path) {
+	public function opendir(string $path) {
 		try {
 			$files = $this->getFolderContents($path);
 		} catch (NotFoundException $e) {
@@ -645,7 +601,7 @@ class SMB extends Common implements INotifyStorage {
 		return IteratorDirectory::wrap($names);
 	}
 
-	public function getDirectoryContent($directory): \Traversable {
+	public function getDirectoryContent(string $directory): \Traversable {
 		try {
 			$files = $this->getFolderContents($directory);
 			foreach ($files as $file) {
@@ -658,17 +614,17 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
-	public function filetype($path) {
+	public function filetype(string $path): string|false {
 		try {
 			return $this->getFileInfo($path)->isDirectory() ? 'dir' : 'file';
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		}
 	}
 
-	public function mkdir($path) {
+	public function mkdir(string $path): bool {
 		$path = $this->buildPath($path);
 		try {
 			$this->share->mkdir($path);
@@ -681,12 +637,12 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
-	public function file_exists($path) {
+	public function file_exists(string $path): bool {
 		try {
 			// Case sensitive filesystem doesn't matter for root directory
 			if ($this->caseSensitive === false && $path !== '') {
 				$filename = basename($path);
-				$siblings = $this->getDirectoryContent(dirname($this->buildPath($path)));
+				$siblings = $this->getDirectoryContent(dirname($path));
 				foreach ($siblings as $sibling) {
 					if ($sibling['name'] === $filename) {
 						return true;
@@ -698,25 +654,25 @@ class SMB extends Common implements INotifyStorage {
 			return true;
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		}
 	}
 
-	public function isReadable($path) {
+	public function isReadable(string $path): bool {
 		try {
 			$info = $this->getFileInfo($path);
 			return $this->showHidden || !$info->isHidden();
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		}
 	}
 
-	public function isUpdatable($path) {
+	public function isUpdatable(string $path): bool {
 		try {
 			$info = $this->getFileInfo($path);
 			// following windows behaviour for read-only folders: they can be written into
@@ -724,18 +680,18 @@ class SMB extends Common implements INotifyStorage {
 			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $info->isDirectory());
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		}
 	}
 
-	public function isDeletable($path) {
+	public function isDeletable(string $path): bool {
 		try {
 			$info = $this->getFileInfo($path);
 			return ($this->showHidden || !$info->isHidden()) && !$info->isReadOnly();
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		}
 	}
@@ -743,19 +699,12 @@ class SMB extends Common implements INotifyStorage {
 	/**
 	 * check if smbclient is installed
 	 */
-	public static function checkDependencies() {
-		return (
-			(bool)\OC_Helper::findBinaryPath('smbclient')
-			|| NativeServer::available(new System())
-		) ? true : ['smbclient'];
+	public static function checkDependencies(): array|bool {
+		$system = \OCP\Server::get(SystemBridge::class);
+		return Server::available($system) || NativeServer::available($system) ?: ['smbclient'];
 	}
 
-	/**
-	 * Test a storage for availability
-	 *
-	 * @return bool
-	 */
-	public function test() {
+	public function test(): bool {
 		try {
 			return parent::test();
 		} catch (StorageAuthException $e) {
@@ -768,7 +717,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
-	public function listen($path, callable $callback) {
+	public function listen(string $path, callable $callback): void {
 		$this->notify($path)->listen(function (IChange $change) use ($callback) {
 			if ($change instanceof IRenameChange) {
 				return $callback($change->getType(), $change->getPath(), $change->getTargetPath());
@@ -778,7 +727,7 @@ class SMB extends Common implements INotifyStorage {
 		});
 	}
 
-	public function notify($path) {
+	public function notify(string $path): SMBNotifyHandler {
 		$path = '/' . ltrim($path, '/');
 		$shareNotifyHandler = $this->share->notify($this->buildPath($path));
 		return new SMBNotifyHandler($shareNotifyHandler, $this->root);

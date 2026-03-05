@@ -3,29 +3,10 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Unit\DAV\Controller;
+namespace OCA\DAV\Tests\unit\DAV\Controller;
 
 use OCA\DAV\Controller\DirectController;
 use OCA\DAV\Db\Direct;
@@ -39,29 +20,18 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
-use OCP\IUrlGenerator;
+use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class DirectControllerTest extends TestCase {
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var DirectMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $directMapper;
-
-	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
-	private $random;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-
-	/** @var IUrlGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $eventDispatcher;
+	private IRootFolder&MockObject $rootFolder;
+	private DirectMapper&MockObject $directMapper;
+	private ISecureRandom&MockObject $random;
+	private ITimeFactory&MockObject $timeFactory;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IEventDispatcher&MockObject $eventDispatcher;
 
 	private DirectController $controller;
 
@@ -72,7 +42,7 @@ class DirectControllerTest extends TestCase {
 		$this->directMapper = $this->createMock(DirectMapper::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->urlGenerator = $this->createMock(IUrlGenerator::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new DirectController(
@@ -155,7 +125,7 @@ class DirectControllerTest extends TestCase {
 
 		$this->urlGenerator->method('getAbsoluteURL')
 			->willReturnCallback(function (string $url) {
-				return 'https://my.nextcloud/'.$url;
+				return 'https://my.nextcloud/' . $url;
 			});
 
 		$result = $this->controller->getUrl(101);

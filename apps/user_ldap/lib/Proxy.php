@@ -1,60 +1,73 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\Server;
 
+/**
+ * @template T
+ */
 abstract class Proxy {
 	/** @var array<string,Access> */
 	private static array $accesses = [];
-	private ILDAPWrapper $ldap;
 	private ?bool $isSingleBackend = null;
 	private ?ICache $cache = null;
-	private AccessFactory $accessFactory;
+
+	/** @var T[] */
+	protected array $backends = [];
+	/** @var ?T */
+	protected $refBackend = null;
+
+	protected bool $isSetUp = false;
 
 	public function __construct(
-		ILDAPWrapper $ldap,
-		AccessFactory $accessFactory
+		private Helper $helper,
+		private ILDAPWrapper $ldap,
+		private AccessFactory $accessFactory,
 	) {
-		$this->ldap = $ldap;
-		$this->accessFactory = $accessFactory;
-		$memcache = \OC::$server->getMemCacheFactory();
+		$memcache = Server::get(ICacheFactory::class);
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
 		}
+	}
+
+	protected function setup(): void {
+		if ($this->isSetUp) {
+			return;
+		}
+
+		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
+		foreach ($serverConfigPrefixes as $configPrefix) {
+			$this->backends[$configPrefix] = $this->newInstance($configPrefix);
+
+			if (is_null($this->refBackend)) {
+				$this->refBackend = $this->backends[$configPrefix];
+			}
+		}
+
+		$this->isSetUp = true;
+	}
+
+	/**
+	 * @return T
+	 */
+	abstract protected function newInstance(string $configPrefix): object;
+
+	/**
+	 * @return T
+	 */
+	public function getBackend(string $configPrefix): object {
+		$this->setup();
+		return $this->backends[$configPrefix];
 	}
 
 	private function addAccess(string $configPrefix): void {

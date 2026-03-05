@@ -1,52 +1,33 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author dartcafe <github@dartcafe.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
-class DateTimeFormatter implements \OCP\IDateTimeFormatter {
-	/** @var \DateTimeZone */
-	protected $defaultTimeZone;
+use OCP\IDateTimeFormatter;
+use OCP\IL10N;
 
-	/** @var \OCP\IL10N */
-	protected $defaultL10N;
-
+class DateTimeFormatter implements IDateTimeFormatter {
 	/**
 	 * Constructor
 	 *
 	 * @param \DateTimeZone $defaultTimeZone Set the timezone for the format
-	 * @param \OCP\IL10N $defaultL10N Set the language for the format
+	 * @param IL10N $defaultL10N Set the language for the format
 	 */
-	public function __construct(\DateTimeZone $defaultTimeZone, \OCP\IL10N $defaultL10N) {
-		$this->defaultTimeZone = $defaultTimeZone;
-		$this->defaultL10N = $defaultL10N;
+	public function __construct(
+		protected \DateTimeZone $defaultTimeZone,
+		protected IL10N $defaultL10N,
+	) {
 	}
 
 	/**
 	 * Get TimeZone to use
 	 *
-	 * @param \DateTimeZone $timeZone	The timezone to use
-	 * @return \DateTimeZone		The timezone to use, falling back to the current user's timezone
+	 * @param \DateTimeZone $timeZone The timezone to use
+	 * @return \DateTimeZone The timezone to use, falling back to the current user's timezone
 	 */
 	protected function getTimeZone($timeZone = null) {
 		if ($timeZone === null) {
@@ -59,8 +40,8 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	/**
 	 * Get \OCP\IL10N to use
 	 *
-	 * @param \OCP\IL10N $l	The locale to use
-	 * @return \OCP\IL10N		The locale to use, falling back to the current user's locale
+	 * @param IL10N $l The locale to use
+	 * @return IL10N The locale to use, falling back to the current user's locale
 	 */
 	protected function getLocale($l = null) {
 		if ($l === null) {
@@ -74,7 +55,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * Generates a DateTime object with the given timestamp and TimeZone
 	 *
 	 * @param mixed $timestamp
-	 * @param \DateTimeZone $timeZone	The timezone to use
+	 * @param \DateTimeZone $timeZone The timezone to use
 	 * @return \DateTime
 	 */
 	protected function getDateTime($timestamp, ?\DateTimeZone $timeZone = null) {
@@ -94,37 +75,37 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	/**
 	 * Formats the date of the given timestamp
 	 *
-	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
-	 * @param string	$format			Either 'full', 'long', 'medium' or 'short'
-	 * 				full:	e.g. 'EEEE, MMMM d, y'	=> 'Wednesday, August 20, 2014'
-	 * 				long:	e.g. 'MMMM d, y'		=> 'August 20, 2014'
-	 * 				medium:	e.g. 'MMM d, y'			=> 'Aug 20, 2014'
-	 * 				short:	e.g. 'M/d/yy'			=> '8/20/14'
-	 * 				The exact format is dependent on the language
-	 * @param \DateTimeZone	$timeZone	The timezone to use
-	 * @param \OCP\IL10N	$l			The locale to use
+	 * @param int|\DateTime $timestamp Either a Unix timestamp or DateTime object
+	 * @param string $format Either 'full', 'long', 'medium' or 'short'
+	 *                       full:	e.g. 'EEEE, MMMM d, y'	=> 'Wednesday, August 20, 2014'
+	 *                       long:	e.g. 'MMMM d, y'		=> 'August 20, 2014'
+	 *                       medium:	e.g. 'MMM d, y'			=> 'Aug 20, 2014'
+	 *                       short:	e.g. 'M/d/yy'			=> '8/20/14'
+	 *                       The exact format is dependent on the language
+	 * @param \DateTimeZone $timeZone The timezone to use
+	 * @param IL10N $l The locale to use
 	 * @return string Formatted date string
 	 */
-	public function formatDate($timestamp, $format = 'long', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
+	public function formatDate($timestamp, $format = 'long', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		return $this->format($timestamp, 'date', $format, $timeZone, $l);
 	}
 
 	/**
 	 * Formats the date of the given timestamp
 	 *
-	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
-	 * @param string	$format			Either 'full', 'long', 'medium' or 'short'
-	 * 				full:	e.g. 'EEEE, MMMM d, y'	=> 'Wednesday, August 20, 2014'
-	 * 				long:	e.g. 'MMMM d, y'		=> 'August 20, 2014'
-	 * 				medium:	e.g. 'MMM d, y'			=> 'Aug 20, 2014'
-	 * 				short:	e.g. 'M/d/yy'			=> '8/20/14'
-	 * 				The exact format is dependent on the language
-	 * 					Uses 'Today', 'Yesterday' and 'Tomorrow' when applicable
-	 * @param \DateTimeZone	$timeZone	The timezone to use
-	 * @param \OCP\IL10N	$l			The locale to use
+	 * @param int|\DateTime $timestamp Either a Unix timestamp or DateTime object
+	 * @param string $format Either 'full', 'long', 'medium' or 'short'
+	 *                       full:	e.g. 'EEEE, MMMM d, y'	=> 'Wednesday, August 20, 2014'
+	 *                       long:	e.g. 'MMMM d, y'		=> 'August 20, 2014'
+	 *                       medium:	e.g. 'MMM d, y'			=> 'Aug 20, 2014'
+	 *                       short:	e.g. 'M/d/yy'			=> '8/20/14'
+	 *                       The exact format is dependent on the language
+	 *                       Uses 'Today', 'Yesterday' and 'Tomorrow' when applicable
+	 * @param \DateTimeZone $timeZone The timezone to use
+	 * @param IL10N $l The locale to use
 	 * @return string Formatted relative date string
 	 */
-	public function formatDateRelativeDay($timestamp, $format = 'long', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
+	public function formatDateRelativeDay($timestamp, $format = 'long', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		if (!str_ends_with($format, '^') && !str_ends_with($format, '*')) {
 			$format .= '^';
 		}
@@ -136,15 +117,15 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * Gives the relative date of the timestamp
 	 * Only works for past dates
 	 *
-	 * @param int|\DateTime	$timestamp		Either a Unix timestamp or DateTime object
-	 * @param int|\DateTime	$baseTimestamp	Timestamp to compare $timestamp against, defaults to current time
-	 * @param \OCP\IL10N $l				The locale to use
+	 * @param int|\DateTime $timestamp Either a Unix timestamp or DateTime object
+	 * @param int|\DateTime $baseTimestamp Timestamp to compare $timestamp against, defaults to current time
+	 * @param IL10N $l The locale to use
 	 * @return string Formatted date span. Dates returned are:
-	 * 				<  1 month	=> Today, Yesterday, n days ago
-	 * 				< 13 month	=> last month, n months ago
-	 * 				>= 13 month	=> last year, n years ago
+	 *                <  1 month	=> Today, Yesterday, n days ago
+	 *                < 13 month	=> last month, n months ago
+	 *                >= 13 month	=> last year, n years ago
 	 */
-	public function formatDateSpan($timestamp, $baseTimestamp = null, ?\OCP\IL10N $l = null) {
+	public function formatDateSpan($timestamp, $baseTimestamp = null, ?IL10N $l = null) {
 		$l = $this->getLocale($l);
 		$timestamp = $this->getDateTime($timestamp);
 		$timestamp->setTime(0, 0, 0);
@@ -199,36 +180,36 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	/**
 	 * Formats the time of the given timestamp
 	 *
-	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
-	 * @param string	$format			Either 'full', 'long', 'medium' or 'short'
-	 * 				full:	e.g. 'h:mm:ss a zzzz'	=> '11:42:13 AM GMT+0:00'
-	 * 				long:	e.g. 'h:mm:ss a z'		=> '11:42:13 AM GMT'
-	 * 				medium:	e.g. 'h:mm:ss a'		=> '11:42:13 AM'
-	 * 				short:	e.g. 'h:mm a'			=> '11:42 AM'
-	 * 				The exact format is dependent on the language
-	 * @param \DateTimeZone	$timeZone	The timezone to use
-	 * @param \OCP\IL10N	$l			The locale to use
+	 * @param int|\DateTime $timestamp Either a Unix timestamp or DateTime object
+	 * @param string $format Either 'full', 'long', 'medium' or 'short'
+	 *                       full:	e.g. 'h:mm:ss a zzzz'	=> '11:42:13 AM GMT+0:00'
+	 *                       long:	e.g. 'h:mm:ss a z'		=> '11:42:13 AM GMT'
+	 *                       medium:	e.g. 'h:mm:ss a'		=> '11:42:13 AM'
+	 *                       short:	e.g. 'h:mm a'			=> '11:42 AM'
+	 *                       The exact format is dependent on the language
+	 * @param \DateTimeZone $timeZone The timezone to use
+	 * @param IL10N $l The locale to use
 	 * @return string Formatted time string
 	 */
-	public function formatTime($timestamp, $format = 'medium', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
+	public function formatTime($timestamp, $format = 'medium', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		return $this->format($timestamp, 'time', $format, $timeZone, $l);
 	}
 
 	/**
 	 * Gives the relative past time of the timestamp
 	 *
-	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
-	 * @param int|\DateTime	$baseTimestamp	Timestamp to compare $timestamp against, defaults to current time
-	 * @param \OCP\IL10N	$l			The locale to use
+	 * @param int|\DateTime $timestamp Either a Unix timestamp or DateTime object
+	 * @param int|\DateTime $baseTimestamp Timestamp to compare $timestamp against, defaults to current time
+	 * @param IL10N $l The locale to use
 	 * @return string Formatted time span. Dates returned are:
-	 * 				< 60 sec	=> seconds ago
-	 * 				<  1 hour	=> n minutes ago
-	 * 				<  1 day	=> n hours ago
-	 * 				<  1 month	=> Yesterday, n days ago
-	 * 				< 13 month	=> last month, n months ago
-	 * 				>= 13 month	=> last year, n years ago
+	 *                < 60 sec	=> seconds ago
+	 *                <  1 hour	=> n minutes ago
+	 *                <  1 day	=> n hours ago
+	 *                <  1 month	=> Yesterday, n days ago
+	 *                < 13 month	=> last month, n months ago
+	 *                >= 13 month	=> last year, n years ago
 	 */
-	public function formatTimeSpan($timestamp, $baseTimestamp = null, ?\OCP\IL10N $l = null) {
+	public function formatTimeSpan($timestamp, $baseTimestamp = null, ?IL10N $l = null) {
 		$l = $this->getLocale($l);
 		$timestamp = $this->getDateTime($timestamp);
 		if ($baseTimestamp === null) {
@@ -264,29 +245,29 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	/**
 	 * Formats the date and time of the given timestamp
 	 *
-	 * @param int|\DateTime $timestamp	Either a Unix timestamp or DateTime object
-	 * @param string		$formatDate		See formatDate() for description
-	 * @param string		$formatTime		See formatTime() for description
-	 * @param \DateTimeZone	$timeZone	The timezone to use
-	 * @param \OCP\IL10N	$l			The locale to use
+	 * @param int|\DateTime $timestamp Either a Unix timestamp or DateTime object
+	 * @param string $formatDate See formatDate() for description
+	 * @param string $formatTime See formatTime() for description
+	 * @param \DateTimeZone $timeZone The timezone to use
+	 * @param IL10N $l The locale to use
 	 * @return string Formatted date and time string
 	 */
-	public function formatDateTime($timestamp, $formatDate = 'long', $formatTime = 'medium', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
+	public function formatDateTime($timestamp, $formatDate = 'long', $formatTime = 'medium', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		return $this->format($timestamp, 'datetime', $formatDate . '|' . $formatTime, $timeZone, $l);
 	}
 
 	/**
 	 * Formats the date and time of the given timestamp
 	 *
-	 * @param int|\DateTime $timestamp	Either a Unix timestamp or DateTime object
-	 * @param string	$formatDate		See formatDate() for description
-	 * 					Uses 'Today', 'Yesterday' and 'Tomorrow' when applicable
-	 * @param string	$formatTime		See formatTime() for description
-	 * @param \DateTimeZone	$timeZone	The timezone to use
-	 * @param \OCP\IL10N	$l			The locale to use
+	 * @param int|\DateTime $timestamp Either a Unix timestamp or DateTime object
+	 * @param string $formatDate See formatDate() for description
+	 *                           Uses 'Today', 'Yesterday' and 'Tomorrow' when applicable
+	 * @param string $formatTime See formatTime() for description
+	 * @param \DateTimeZone $timeZone The timezone to use
+	 * @param IL10N $l The locale to use
 	 * @return string Formatted relative date and time string
 	 */
-	public function formatDateTimeRelativeDay($timestamp, $formatDate = 'long', $formatTime = 'medium', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
+	public function formatDateTimeRelativeDay($timestamp, $formatDate = 'long', $formatTime = 'medium', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		if (!str_ends_with($formatDate, '^') && !str_ends_with($formatDate, '*')) {
 			$formatDate .= '^';
 		}
@@ -297,14 +278,14 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	/**
 	 * Formats the date and time of the given timestamp
 	 *
-	 * @param int|\DateTime $timestamp	Either a Unix timestamp or DateTime object
-	 * @param string		$type		One of 'date', 'datetime' or 'time'
-	 * @param string		$format		Format string
-	 * @param \DateTimeZone	$timeZone	The timezone to use
-	 * @param \OCP\IL10N	$l			The locale to use
+	 * @param int|\DateTime $timestamp Either a Unix timestamp or DateTime object
+	 * @param string $type One of 'date', 'datetime' or 'time'
+	 * @param string $format Format string
+	 * @param \DateTimeZone $timeZone The timezone to use
+	 * @param IL10N $l The locale to use
 	 * @return string Formatted date and time string
 	 */
-	protected function format($timestamp, $type, $format, ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
+	protected function format($timestamp, $type, $format, ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		$l = $this->getLocale($l);
 		$timeZone = $this->getTimeZone($timeZone);
 		$timestamp = $this->getDateTime($timestamp, $timeZone);

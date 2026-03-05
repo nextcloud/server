@@ -1,42 +1,40 @@
 <?php
+
 /**
- * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Repair;
 
 use OC\Repair\OldGroupMembershipShares;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class OldGroupMembershipSharesTest
  *
- * @group DB
  *
  * @package Test\Repair
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class OldGroupMembershipSharesTest extends \Test\TestCase {
-	/** @var OldGroupMembershipShares */
-	protected $repair;
 
-	/** @var \OCP\IDBConnection */
-	protected $connection;
-
-	/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
+	private IDBConnection $connection;
+	private IGroupManager&MockObject $groupManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')
+		$this->groupManager = $this->getMockBuilder(IGroupManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 
 		$this->deleteAllShares();
 	}
@@ -49,10 +47,10 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 
 	protected function deleteAllShares() {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('share')->execute();
+		$qb->delete('share')->executeStatement();
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$repair = new OldGroupMembershipShares(
 			$this->connection,
 			$this->groupManager
@@ -77,8 +75,8 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$result = $query->select('id')
 			->from('share')
 			->orderBy('id', 'ASC')
-			->execute();
-		$rows = $result->fetchAll();
+			->executeQuery();
+		$rows = $result->fetchAllAssociative();
 		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member], ['id' => $notAMember]], $rows);
 		$result->closeCursor();
 
@@ -93,8 +91,8 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$result = $query->select('id')
 			->from('share')
 			->orderBy('id', 'ASC')
-			->execute();
-		$rows = $result->fetchAll();
+			->executeQuery();
+		$rows = $result->fetchAllAssociative();
 		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member]], $rows);
 		$result->closeCursor();
 	}
@@ -128,8 +126,8 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values($shareValues)
-			->execute();
+			->executeStatement();
 
-		return $this->connection->lastInsertId('*PREFIX*share');
+		return $qb->getLastInsertId();
 	}
 }

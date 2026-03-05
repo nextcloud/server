@@ -1,118 +1,127 @@
 <?php
-/**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
- */
 
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\Files\View;
+use OCA\DAV\Connector\LegacyPublicAuth;
+use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCA\DAV\Files\Sharing\FilesDropPlugin;
+use OCA\DAV\Files\Sharing\PublicLinkCheckPlugin;
+use OCA\DAV\Storage\PublicOwnerWrapper;
+use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IPreview;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\ITagManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory as IL10nFactory;
+use OCP\Security\Bruteforce\IThrottler;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 // load needed apps
 $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
+Server::get(IAppManager::class)->loadApps($RUNTIME_APPTYPES);
 
-OC_App::loadApps($RUNTIME_APPTYPES);
-
-OC_Util::obEnd();
-\OC::$server->getSession()->close();
+// Turn off output buffering to prevent memory problems
+while (ob_get_level()) {
+	ob_end_clean();
+}
+Server::get(ISession::class)->close();
 
 // Backends
-$authBackend = new OCA\DAV\Connector\LegacyPublicAuth(
-	\OC::$server->getRequest(),
-	\OC::$server->getShareManager(),
-	\OC::$server->getSession(),
-	\OC::$server->getBruteForceThrottler()
+$authBackend = new LegacyPublicAuth(
+	Server::get(IRequest::class),
+	Server::get(\OCP\Share\IManager::class),
+	Server::get(ISession::class),
+	Server::get(IThrottler::class)
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
 /** @var IEventDispatcher $eventDispatcher */
-$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+$eventDispatcher = Server::get(IEventDispatcher::class);
 
-$serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
-	\OC::$server->getConfig(),
-	\OC::$server->get(LoggerInterface::class),
-	\OC::$server->getDatabaseConnection(),
-	\OC::$server->getUserSession(),
-	\OC::$server->getMountManager(),
-	\OC::$server->getTagManager(),
-	\OC::$server->getRequest(),
-	\OC::$server->getPreviewManager(),
+$serverFactory = new ServerFactory(
+	Server::get(IConfig::class),
+	Server::get(LoggerInterface::class),
+	Server::get(IDBConnection::class),
+	Server::get(IUserSession::class),
+	Server::get(IMountManager::class),
+	Server::get(ITagManager::class),
+	Server::get(IRequest::class),
+	Server::get(IPreview::class),
 	$eventDispatcher,
-	\OC::$server->getL10N('dav')
+	Server::get(IL10nFactory::class)->get('dav')
 );
 
-$requestUri = \OC::$server->getRequest()->getRequestUri();
+$requestUri = Server::get(IRequest::class)->getRequestUri();
 
-$linkCheckPlugin = new \OCA\DAV\Files\Sharing\PublicLinkCheckPlugin();
-$filesDropPlugin = new \OCA\DAV\Files\Sharing\FilesDropPlugin();
+$linkCheckPlugin = new PublicLinkCheckPlugin();
+$filesDropPlugin = new FilesDropPlugin();
 
-$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
-	$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
-	/** @var \OCA\FederatedFileSharing\FederatedShareProvider $shareProvider */
-	$federatedShareProvider = \OC::$server->query(\OCA\FederatedFileSharing\FederatedShareProvider::class);
-	if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
-		// this is what is thrown when trying to access a non-existing share
-		throw new \Sabre\DAV\Exception\NotAuthenticated();
-	}
+/** @var string $baseuri defined in public.php */
+$server = $serverFactory->createServer(
+	true,
+	$baseuri,
+	$requestUri,
+	$authPlugin,
+	function (\Sabre\DAV\Server $server) use (
+		$authBackend,
+		$linkCheckPlugin,
+		$filesDropPlugin
+	) {
+		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
+		/** @var FederatedShareProvider $shareProvider */
+		$federatedShareProvider = Server::get(FederatedShareProvider::class);
+		if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
+			// this is what is thrown when trying to access a non-existing share
+			throw new \Sabre\DAV\Exception\NotAuthenticated();
+		}
 
-	$share = $authBackend->getShare();
-	$owner = $share->getShareOwner();
-	$isReadable = $share->getPermissions() & \OCP\Constants::PERMISSION_READ;
-	$fileId = $share->getNodeId();
+		$share = $authBackend->getShare();
+		$owner = $share->getShareOwner();
+		$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
+		$fileId = $share->getNodeId();
 
-	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
-	$previousLog = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
-	\OC\Files\Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-		return new \OC\Files\Storage\Wrapper\PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE]);
+		// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
+		$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
+		Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
+			return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE]);
+		});
+		Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
+			return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
+		});
+		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
+
+		$rootFolder = Server::get(IRootFolder::class);
+		$userFolder = $rootFolder->getUserFolder($owner);
+		$node = $userFolder->getFirstNodeById($fileId);
+		if (!$node) {
+			throw new \Sabre\DAV\Exception\NotFound();
+		}
+		$linkCheckPlugin->setFileInfo($node);
+
+		// If not readable (files_drop) enable the filesdrop plugin
+		if (!$isReadable) {
+			$filesDropPlugin->enable();
+		}
+		$filesDropPlugin->setShare($share);
+
+		return new View($node->getPath());
 	});
-	\OC\Files\Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
-		return new \OCA\DAV\Storage\PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
-	});
-	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
-
-	OC_Util::tearDownFS();
-	OC_Util::setupFS($owner);
-	$ownerView = new \OC\Files\View('/'. $owner . '/files');
-	$path = $ownerView->getPath($fileId);
-	$fileInfo = $ownerView->getFileInfo($path);
-	$linkCheckPlugin->setFileInfo($fileInfo);
-
-	// If not readable (files_drop) enable the filesdrop plugin
-	if (!$isReadable) {
-		$filesDropPlugin->enable();
-	}
-
-	$view = new \OC\Files\View($ownerView->getAbsolutePath($path));
-	$filesDropPlugin->setView($view);
-
-	return $view;
-});
 
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
@@ -121,4 +130,4 @@ $event = new BeforeSabrePubliclyLoadedEvent($server);
 $eventDispatcher->dispatchTyped($event);
 
 // And off we go!
-$server->exec();
+$server->start();

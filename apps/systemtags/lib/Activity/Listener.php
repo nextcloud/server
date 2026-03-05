@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\SystemTags\Activity;
 
@@ -43,25 +25,6 @@ use OCP\SystemTag\MapperEvent;
 use OCP\SystemTag\TagNotFoundException;
 
 class Listener {
-	/** @var IGroupManager */
-	protected $groupManager;
-	/** @var IManager */
-	protected $activityManager;
-	/** @var IUserSession */
-	protected $session;
-	/** @var IConfig */
-	protected $config;
-	/** @var \OCP\SystemTag\ISystemTagManager */
-	protected $tagManager;
-	/** @var \OCP\App\IAppManager */
-	protected $appManager;
-	/** @var \OCP\Files\Config\IMountProviderCollection */
-	protected $mountCollection;
-	/** @var \OCP\Files\IRootFolder */
-	protected $rootFolder;
-	/** @var IShareHelper */
-	protected $shareHelper;
-
 	/**
 	 * Listener constructor.
 	 *
@@ -75,24 +38,17 @@ class Listener {
 	 * @param IRootFolder $rootFolder
 	 * @param IShareHelper $shareHelper
 	 */
-	public function __construct(IGroupManager $groupManager,
-		IManager $activityManager,
-		IUserSession $session,
-		IConfig $config,
-		ISystemTagManager $tagManager,
-		IAppManager $appManager,
-		IMountProviderCollection $mountCollection,
-		IRootFolder $rootFolder,
-		IShareHelper $shareHelper) {
-		$this->groupManager = $groupManager;
-		$this->activityManager = $activityManager;
-		$this->session = $session;
-		$this->config = $config;
-		$this->tagManager = $tagManager;
-		$this->appManager = $appManager;
-		$this->mountCollection = $mountCollection;
-		$this->rootFolder = $rootFolder;
-		$this->shareHelper = $shareHelper;
+	public function __construct(
+		protected IGroupManager $groupManager,
+		protected IManager $activityManager,
+		protected IUserSession $session,
+		protected IConfig $config,
+		protected ISystemTagManager $tagManager,
+		protected IAppManager $appManager,
+		protected IMountProviderCollection $mountCollection,
+		protected IRootFolder $rootFolder,
+		protected IShareHelper $shareHelper,
+	) {
 	}
 
 	/**
@@ -153,7 +109,7 @@ class Listener {
 		$tagIds = $event->getTags();
 		if ($event->getObjectType() !== 'files' || empty($tagIds)
 			|| !in_array($event->getEvent(), [MapperEvent::EVENT_ASSIGN, MapperEvent::EVENT_UNASSIGN])
-			|| !$this->appManager->isInstalled('activity')) {
+			|| !$this->appManager->isEnabledForAnyone('activity')) {
 			// System tags not for files, no tags, not (un-)assigning or no activity-app enabled (save the energy)
 			return;
 		}
@@ -200,7 +156,7 @@ class Listener {
 		$activity->setApp('systemtags')
 			->setType('systemtags')
 			->setAuthor($actor)
-			->setObject($event->getObjectType(), (int) $event->getObjectId());
+			->setObject($event->getObjectType(), (int)$event->getObjectId());
 
 		foreach ($users as $user => $path) {
 			$user = (string)$user; // numerical ids could be ints which are not accepted everywhere

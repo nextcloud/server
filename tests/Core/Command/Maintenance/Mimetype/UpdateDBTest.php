@@ -1,22 +1,9 @@
 <?php
+
 /**
- * @author Robin McCorkell <rmccorkell@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Maintenance\Mimetype;
@@ -47,20 +34,15 @@ class UpdateDBTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->detector = $this->getMockBuilder(Detection::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->loader = $this->getMockBuilder(Loader::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
+		$this->detector = $this->createMock(Detection::class);
+		$this->loader = $this->createMock(Loader::class);
+		$this->consoleInput = $this->createMock(InputInterface::class);
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
 		$this->command = new UpdateDB($this->detector, $this->loader);
 	}
 
-	public function testNoop() {
+	public function testNoop(): void {
 		$this->consoleInput->method('getOption')
 			->with('repair-filecache')
 			->willReturn(false);
@@ -78,17 +60,21 @@ class UpdateDBTest extends TestCase {
 		$this->loader->expects($this->never())
 			->method('updateFilecache');
 
+		$calls = [
+			'Added 0 new mimetypes',
+			'Updated 0 filecache rows',
+		];
 		$this->consoleOutput->expects($this->exactly(2))
 			->method('writeln')
-			->withConsecutive(
-				['Added 0 new mimetypes'],
-				['Updated 0 filecache rows'],
-			);
+			->willReturnCallback(function ($message) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertStringContainsString($expected, $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testAddMimetype() {
+	public function testAddMimetype(): void {
 		$this->consoleInput->method('getOption')
 			->with('repair-filecache')
 			->willReturn(false);
@@ -117,19 +103,23 @@ class UpdateDBTest extends TestCase {
 			->with('new', 2)
 			->willReturn(3);
 
+		$calls = [
+			'Added mimetype "testing/newmimetype" to database',
+			'Updated 3 filecache rows for mimetype "testing/newmimetype"',
+			'Added 1 new mimetypes',
+			'Updated 3 filecache rows',
+		];
 		$this->consoleOutput->expects($this->exactly(4))
 			->method('writeln')
-			->withConsecutive(
-				['Added mimetype "testing/newmimetype" to database'],
-				['Updated 3 filecache rows for mimetype "testing/newmimetype"'],
-				['Added 1 new mimetypes'],
-				['Updated 3 filecache rows'],
-			);
+			->willReturnCallback(function ($message) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertStringContainsString($expected, $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testSkipComments() {
+	public function testSkipComments(): void {
 		$this->detector->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
@@ -141,7 +131,7 @@ class UpdateDBTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testRepairFilecache() {
+	public function testRepairFilecache(): void {
 		$this->consoleInput->method('getOption')
 			->with('repair-filecache')
 			->willReturn(true);
@@ -167,13 +157,17 @@ class UpdateDBTest extends TestCase {
 			->with('ext', 1)
 			->willReturn(3);
 
+		$calls = [
+			'Updated 3 filecache rows for mimetype "testing/existingmimetype"',
+			'Added 0 new mimetypes',
+			'Updated 3 filecache rows',
+		];
 		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->withConsecutive(
-				['Updated 3 filecache rows for mimetype "testing/existingmimetype"'],
-				['Added 0 new mimetypes'],
-				['Updated 3 filecache rows'],
-			);
+			->willReturnCallback(function ($message) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertStringContainsString($expected, $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

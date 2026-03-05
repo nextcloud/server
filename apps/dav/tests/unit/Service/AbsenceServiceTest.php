@@ -3,28 +3,11 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\dav\tests\unit\Service;
+namespace OCA\DAV\Tests\unit\Service;
 
 use DateTimeImmutable;
 use DateTimeZone;
@@ -41,25 +24,16 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AbsenceServiceTest extends TestCase {
 	private AbsenceService $absenceService;
-
-	/** @var MockObject|AbsenceMapper */
-	private $absenceMapper;
-
-	/** @var MockObject|IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var MockObject|IJobList */
-	private $jobList;
-
-	/** @var MockObject|TimezoneService */
-	private $timezoneService;
-
-	/** @var MockObject|ITimeFactory */
-	private $timeFactory;
+	private AbsenceMapper&MockObject $absenceMapper;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IJobList&MockObject $jobList;
+	private TimezoneService&MockObject $timezoneService;
+	private ITimeFactory&MockObject $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -79,7 +53,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testCreateAbsenceEmitsScheduledEvent() {
+	public function testCreateAbsenceEmitsScheduledEvent(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -134,7 +108,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testUpdateAbsenceEmitsChangedEvent() {
+	public function testUpdateAbsenceEmitsChangedEvent(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -198,7 +172,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testCreateAbsenceSchedulesBothJobs() {
+	public function testCreateAbsenceSchedulesBothJobs(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$startDateString = '2023-01-05';
 		$startDate = new DateTimeImmutable($startDateString, $tz);
@@ -247,7 +221,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testCreateAbsenceSchedulesOnlyEndJob() {
+	public function testCreateAbsenceSchedulesOnlyEndJob(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$endDateString = '2023-01-10';
 		$endDate = new DateTimeImmutable($endDateString, $tz);
@@ -288,7 +262,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testCreateAbsenceSchedulesNoJob() {
+	public function testCreateAbsenceSchedulesNoJob(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -323,7 +297,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testUpdateAbsenceSchedulesBothJobs() {
+	public function testUpdateAbsenceSchedulesBothJobs(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$startDateString = '2023-01-05';
 		$startDate = new DateTimeImmutable($startDateString, $tz);
@@ -379,7 +353,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testUpdateSchedulesOnlyEndJob() {
+	public function testUpdateSchedulesOnlyEndJob(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$endDateString = '2023-01-10';
 		$endDate = new DateTimeImmutable($endDateString, $tz);
@@ -427,7 +401,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testUpdateAbsenceSchedulesNoJob() {
+	public function testUpdateAbsenceSchedulesNoJob(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')

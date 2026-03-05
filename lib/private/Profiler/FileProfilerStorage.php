@@ -2,26 +2,8 @@
 
 declare(strict_types = 1);
 /**
- * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
- *
- * @author Carl Schwan <carl@carlschwan.eu>
- * @author Alexandre Salomé <alexandre.salome@gmail.com>
- *
- * @license AGPL-3.0-or-later AND MIT
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Profiler;
@@ -32,19 +14,28 @@ use OCP\Profiler\IProfile;
  * Storage for profiler using files.
  */
 class FileProfilerStorage {
-	// Folder where profiler data are stored.
-	private string $folder;
+	/** @psalm-suppress UndefinedClass */
+	public const allowedClasses = [
+		\OCA\Profiler\DataCollector\EventLoggerDataProvider::class,
+		\OCA\Profiler\DataCollector\HttpDataCollector::class,
+		\OCA\Profiler\DataCollector\MemoryDataCollector::class,
+		\OCA\User_LDAP\DataCollector\LdapDataCollector::class,
+		\OC\Memcache\ProfilerWrapperCache::class,
+		\OC\Profiler\RoutingDataCollector::class,
+		\OC\DB\DbDataCollector::class,
+	];
 
 	/**
 	 * Constructs the file storage using a "dsn-like" path.
 	 *
 	 * Example : "file:/path/to/the/storage/folder"
 	 *
+	 * @param string $folder Folder where profiler data are stored.
 	 * @throws \RuntimeException
 	 */
-	public function __construct(string $folder) {
-		$this->folder = $folder;
-
+	public function __construct(
+		private string $folder,
+	) {
 		if (!is_dir($this->folder) && @mkdir($this->folder, 0777, true) === false && !is_dir($this->folder)) {
 			throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $this->folder));
 		}
@@ -64,17 +55,19 @@ class FileProfilerStorage {
 		while (\count($result) < $limit && $line = $this->readLineFromFile($file)) {
 			$values = str_getcsv($line);
 			[$csvToken, $csvMethod, $csvUrl, $csvTime, $csvParent, $csvStatusCode] = $values;
-			$csvTime = (int) $csvTime;
+			$csvTime = (int)$csvTime;
 
-			if ($url && !str_contains($csvUrl, $url) || $method && !str_contains($csvMethod, $method) || $statusCode && !str_contains($csvStatusCode, $statusCode)) {
+			if (($url && !str_contains($csvUrl, $url))
+				|| ($method && !str_contains($csvMethod, $method))
+				|| ($statusCode && !str_contains($csvStatusCode, $statusCode))) {
 				continue;
 			}
 
-			if (!empty($start) && $csvTime < $start) {
+			if ($start !== null && $csvTime < $start) {
 				continue;
 			}
 
-			if (!empty($end) && $csvTime > $end) {
+			if ($end !== null && $csvTime > $end) {
 				continue;
 			}
 
@@ -99,11 +92,11 @@ class FileProfilerStorage {
 		$iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::CHILD_FIRST);
 
 		foreach ($iterator as $file) {
-			$file = (string)$file->getPathInfo();
-			if (is_file($file)) {
-				unlink($file);
+			$path = $file->getPathname();
+			if (is_file($path)) {
+				unlink($path);
 			} else {
-				rmdir($file);
+				rmdir($path);
 			}
 		}
 	}
@@ -113,11 +106,21 @@ class FileProfilerStorage {
 			return null;
 		}
 
-		if (\function_exists('gzcompress')) {
-			$file = 'compress.zlib://'.$file;
+		$h = fopen($file, 'r');
+		flock($h, \LOCK_SH);
+		$data = stream_get_contents($h);
+		flock($h, \LOCK_UN);
+		fclose($h);
+
+		if (\function_exists('gzdecode')) {
+			$data = @gzdecode($data) ?: $data;
 		}
 
-		return $this->createProfileFromData($token, unserialize(file_get_contents($file)));
+		if (!$data = unserialize($data, ['allowed_classes' => self::allowedClasses])) {
+			return null;
+		}
+
+		return $this->createProfileFromData($token, $data);
 	}
 
 	/**
@@ -155,14 +158,13 @@ class FileProfilerStorage {
 			'status_code' => $profile->getStatusCode(),
 		];
 
-		$context = stream_context_create();
+		$data = serialize($data);
 
-		if (\function_exists('gzcompress')) {
-			$file = 'compress.zlib://'.$file;
-			stream_context_set_option($context, 'zlib', 'level', 3);
+		if (\function_exists('gzencode')) {
+			$data = gzencode($data, 3);
 		}
 
-		if (file_put_contents($file, serialize($data), 0, $context) === false) {
+		if (file_put_contents($file, $data, \LOCK_EX) === false) {
 			return false;
 		}
 
@@ -172,18 +174,25 @@ class FileProfilerStorage {
 				return false;
 			}
 
-			fputcsv($file, [
+			fputcsv($file, array_map([$this, 'escapeFormulae'], [
 				$profile->getToken(),
 				$profile->getMethod(),
 				$profile->getUrl(),
 				$profile->getTime(),
 				$profile->getParentToken(),
 				$profile->getStatusCode(),
-			]);
+			]), escape: '');
 			fclose($file);
 		}
 
 		return true;
+	}
+
+	protected function escapeFormulae(?string $value): ?string {
+		if ($value !== null && preg_match('/^[=+\-@\t\r]/', $value)) {
+			return "'" . $value;
+		}
+		return $value;
 	}
 
 	/**
@@ -196,7 +205,7 @@ class FileProfilerStorage {
 		$folderA = substr($token, -2, 2);
 		$folderB = substr($token, -4, 2);
 
-		return $this->folder.'/'.$folderA.'/'.$folderB.'/'.$token;
+		return $this->folder . '/' . $folderA . '/' . $folderB . '/' . $token;
 	}
 
 	/**
@@ -205,7 +214,7 @@ class FileProfilerStorage {
 	 * @return string The index filename
 	 */
 	protected function getIndexFilename(): string {
-		return $this->folder.'/index.csv';
+		return $this->folder . '/index.csv';
 	}
 
 	/**
@@ -238,12 +247,12 @@ class FileProfilerStorage {
 			$buffer = fread($file, $chunkSize);
 
 			if (false === ($upTo = strrpos($buffer, "\n"))) {
-				$line = $buffer.$line;
+				$line = $buffer . $line;
 				continue;
 			}
 
 			$position += $upTo;
-			$line = substr($buffer, $upTo + 1).$line;
+			$line = substr($buffer, $upTo + 1) . $line;
 			fseek($file, max(0, $position), \SEEK_SET);
 
 			if ($line !== '') {
@@ -275,11 +284,21 @@ class FileProfilerStorage {
 				continue;
 			}
 
-			if (\function_exists('gzcompress')) {
-				$file = 'compress.zlib://'.$file;
+			$h = fopen($file, 'r');
+			flock($h, \LOCK_SH);
+			$data = stream_get_contents($h);
+			flock($h, \LOCK_UN);
+			fclose($h);
+
+			if (\function_exists('gzdecode')) {
+				$data = @gzdecode($data) ?: $data;
 			}
 
-			$profile->addChild($this->createProfileFromData($token, unserialize(file_get_contents($file)), $profile));
+			if (!$data = unserialize($data, ['allowed_classes' => self::allowedClasses])) {
+				continue;
+			}
+
+			$profile->addChild($this->createProfileFromData($token, $data, $profile));
 		}
 
 		return $profile;

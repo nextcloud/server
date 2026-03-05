@@ -1,29 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license GNU AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OC\Files\ObjectStore;
 
 /**
@@ -37,9 +18,13 @@ trait S3ConfigTrait {
 	/** Maximum number of concurrent multipart uploads */
 	protected int $concurrency;
 
+	/** Timeout, in seconds, for the connection to S3 server, not for the
+	 *  request. */
+	protected float $connectTimeout;
+
 	protected int $timeout;
 
-	protected string $proxy;
+	protected string|false $proxy;
 
 	protected string $storageClass;
 
@@ -53,4 +38,6 @@ trait S3ConfigTrait {
 	private int|float $copySizeLimit;
 
 	private bool $useMultipartCopy = true;
+
+	protected int $retriesMaxAttempts;
 }

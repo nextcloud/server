@@ -1,36 +1,22 @@
 <!--
-	- @copyright 2022 Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
 	<section>
-		<HeaderBar :scope="scope"
+		<HeaderBar
+			:scope="scope"
 			:readable="readable"
 			:input-id="inputId"
 			:is-editable="isEditable"
 			@update:scope="(scope) => $emit('update:scope', scope)" />
 
 		<div v-if="isEditable" class="property">
-			<NcTextArea v-if="multiLine"
+			<NcTextArea
+				v-if="multiLine"
 				:id="inputId"
+				v-model="inputValue"
 				autocapitalize="none"
 				autocomplete="off"
 				:error="hasError || !!helperText"
@@ -39,11 +25,12 @@
 				:placeholder="placeholder"
 				rows="8"
 				spellcheck="false"
-				:success="isSuccess"
-				:value.sync="inputValue" />
-			<NcInputField v-else
+				:success="isSuccess" />
+			<NcInputField
+				v-else
 				:id="inputId"
 				ref="input"
+				v-model="inputValue"
 				autocapitalize="none"
 				:autocomplete="autocomplete"
 				:error="hasError || !!helperText"
@@ -52,8 +39,7 @@
 				:placeholder="placeholder"
 				spellcheck="false"
 				:success="isSuccess"
-				:type="type"
-				:value.sync="inputValue" />
+				:type="type" />
 		</div>
 		<span v-else>
 			{{ value || t('settings', 'No {property} set', { property: readable.toLocaleLowerCase() }) }}
@@ -63,13 +49,11 @@
 
 <script>
 import debounce from 'debounce'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
-
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import HeaderBar from './HeaderBar.vue'
-
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 export default {
 	name: 'AccountPropertySection',
@@ -85,42 +69,52 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		value: {
 			type: String,
 			required: true,
 		},
+
 		scope: {
 			type: String,
 			required: true,
 		},
+
 		readable: {
 			type: String,
 			required: true,
 		},
+
 		placeholder: {
 			type: String,
 			required: true,
 		},
+
 		type: {
 			type: String,
 			default: 'text',
 		},
+
 		isEditable: {
 			type: Boolean,
 			default: true,
 		},
+
 		multiLine: {
 			type: Boolean,
 			default: false,
 		},
+
 		onValidate: {
 			type: Function,
 			default: null,
 		},
+
 		onSave: {
 			type: Function,
 			default: null,
 		},
+
 		autocomplete: {
 			type: String,
 			default: null,
@@ -147,6 +141,7 @@ export default {
 			get() {
 				return this.value
 			},
+
 			set(value) {
 				this.$emit('update:value', value)
 				this.debouncePropertyChange(value.trim())
@@ -165,13 +160,14 @@ export default {
 					return
 				}
 				await this.updateProperty(value)
-			}, 500)
+			}, 1000)
 		},
 	},
 
 	methods: {
 		async updateProperty(value) {
 			try {
+				this.hasError = false
 				const responseData = await savePrimaryAccountProperty(
 					this.name,
 					value,
@@ -195,12 +191,12 @@ export default {
 					this.onSave(value)
 				}
 				this.isSuccess = true
-				setTimeout(() => { this.isSuccess = false }, 2000)
+				setTimeout(() => {
+					this.isSuccess = false
+				}, 2000)
 			} else {
-				this.$emit('update:value', this.initialValue)
 				handleError(error, errorMessage)
 				this.hasError = true
-				setTimeout(() => { this.hasError = false }, 2000)
 			}
 		},
 	},
@@ -224,7 +220,7 @@ section {
 
 			display: flex;
 			gap: 0 2px;
-			margin-right: 5px;
+			margin-inline-end: 5px;
 			margin-bottom: 5px;
 		}
 	}
@@ -235,13 +231,13 @@ section {
 		align-items: center;
 
 		&__icon {
-			margin-right: 8px;
+			margin-inline-end: 8px;
 			align-self: start;
 			margin-top: 4px;
 		}
 
 		&--error {
-			color: var(--color-error);
+			color: var(--color-text-error);
 		}
 	}
 

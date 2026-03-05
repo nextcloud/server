@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--
+ - SPDX-FileCopyrightText: 2015-2017 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+ -->
 <phpunit bootstrap="bootstrap.php"
 		 verbose="true"
 		 timeoutForSmallTests="900"
@@ -22,4 +26,3 @@
 		<log type="coverage-clover" target="./clover.xml"/>
 	</logging>
 </phpunit>
-

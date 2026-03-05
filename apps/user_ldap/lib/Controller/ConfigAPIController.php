@@ -1,75 +1,53 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Controller;
 
-use OC\CapabilitiesManager;
-use OC\Core\Controller\OCSController;
-use OC\Security\IdentityProof\Manager;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
+use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
 use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCSController;
+use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IUserManager;
-use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class ConfigAPIController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		CapabilitiesManager $capabilitiesManager,
-		IUserSession $userSession,
-		IUserManager $userManager,
-		Manager $keyManager,
 		private Helper $ldapHelper,
 		private LoggerInterface $logger,
-		private ConnectionFactory $connectionFactory
+		private ConnectionFactory $connectionFactory,
+		private IL10N $l,
 	) {
-		parent::__construct(
-			$appName,
-			$request,
-			$capabilitiesManager,
-			$userSession,
-			$userManager,
-			$keyManager
-		);
+		parent::__construct($appName, $request);
 	}
 
 	/**
 	 * Create a new (empty) configuration and return the resulting prefix
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @return DataResponse<Http::STATUS_OK, array{configID: string}, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Config created successfully
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/config')]
 	public function create() {
 		try {
 			$configPrefix = $this->ldapHelper->getNextServerConfigurationPrefix();
@@ -86,14 +64,15 @@ class ConfigAPIController extends OCSController {
 	/**
 	 * Delete a LDAP configuration
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID ID of the config
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 * @throws OCSNotFoundException Config not found
 	 *
 	 * 200: Config deleted successfully
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'DELETE', url: '/api/v1/config/{configID}')]
 	public function delete($configID) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -113,16 +92,17 @@ class ConfigAPIController extends OCSController {
 	/**
 	 * Modify a configuration
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID ID of the config
 	 * @param array<string, mixed> $configData New config
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array<string, mixed>, array{}>
 	 * @throws OCSException
 	 * @throws OCSBadRequestException Modifying config is not possible
 	 * @throws OCSNotFoundException Config not found
 	 *
 	 * 200: Config returned
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'PUT', url: '/api/v1/config/{configID}')]
 	public function modify($configID, $configData) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -149,7 +129,7 @@ class ConfigAPIController extends OCSController {
 			throw new OCSException('An issue occurred when modifying the config.');
 		}
 
-		return new DataResponse();
+		return $this->show($configID, false);
 	}
 
 	/**
@@ -218,7 +198,6 @@ class ConfigAPIController extends OCSController {
 	 *   </data>
 	 * </ocs>
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID ID of the config
 	 * @param bool $showPassword Whether to show the password
 	 * @return DataResponse<Http::STATUS_OK, array<string, mixed>, array{}>
@@ -227,6 +206,8 @@ class ConfigAPIController extends OCSController {
 	 *
 	 * 200: Config returned
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'GET', url: '/api/v1/config/{configID}')]
 	public function show($configID, $showPassword = false) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -253,12 +234,109 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
+	 * Test a configuration
+	 *
+	 * @param string $configID ID of the LDAP config
+	 * @return DataResponse<Http::STATUS_OK, array{success:bool,message:string}, array{}>
+	 * @throws OCSException An unexpected error happened
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Test was run and results are returned
+	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/test')]
+	public function testConfiguration(string $configID) {
+		try {
+			$this->ensureConfigIDExists($configID);
+			$connection = $this->connectionFactory->get($configID);
+			$conf = $connection->getConfiguration();
+			if ($conf['ldap_configuration_active'] !== '1') {
+				//needs to be true, otherwise it will also fail with an irritating message
+				$conf['ldap_configuration_active'] = '1';
+			}
+			try {
+				$connection->setConfiguration($conf, throw: true);
+			} catch (ConfigurationIssueException $e) {
+				return new DataResponse([
+					'success' => false,
+					'message' => $this->l->t('Invalid configuration: %s', $e->getHint()),
+				]);
+			}
+			// Configuration is okay
+			if (!$connection->bind()) {
+				return new DataResponse([
+					'success' => false,
+					'message' => $this->l->t('Valid configuration, but binding failed. Please check the server settings and credentials.'),
+				]);
+			}
+			/*
+			* This shiny if block is an ugly hack to find out whether anonymous
+			* bind is possible on AD or not. Because AD happily and constantly
+			* replies with success to any anonymous bind request, we need to
+			* fire up a broken operation. If AD does not allow anonymous bind,
+			* it will end up with LDAP error code 1 which is turned into an
+			* exception by the LDAP wrapper. We catch this. Other cases may
+			* pass (like e.g. expected syntax error).
+			*/
+			try {
+				$ldapWrapper = Server::get(ILDAPWrapper::class);
+				$ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', ['dn']);
+			} catch (\Exception $e) {
+				if ($e->getCode() === 1) {
+					return new DataResponse([
+						'success' => false,
+						'message' => $this->l->t('Invalid configuration: Anonymous binding is not allowed.'),
+					]);
+				}
+			}
+			return new DataResponse([
+				'success' => true,
+				'message' => $this->l->t('Valid configuration, connection established!'),
+			]);
+		} catch (OCSException $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			throw new OCSException('An issue occurred when testing the config.');
+		}
+	}
+
+	/**
+	 * Copy a configuration
+	 *
+	 * @param string $configID ID of the LDAP config
+	 * @return DataResponse<Http::STATUS_OK, array{configID:string}, array{}>
+	 * @throws OCSException An unexpected error happened
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Config was copied, new configID was returned
+	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/copy')]
+	public function copyConfiguration(string $configID) {
+		try {
+			$this->ensureConfigIDExists($configID);
+			$configPrefix = $this->ldapHelper->getNextServerConfigurationPrefix();
+			$newConfig = new Configuration($configPrefix, false);
+			$originalConfig = new Configuration($configID);
+			$newConfig->setConfiguration($originalConfig->getConfiguration());
+			$newConfig->saveConfiguration();
+			return new DataResponse(['configID' => $configPrefix]);
+		} catch (OCSException $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			throw new OCSException('An issue occurred when creating the new config.');
+		}
+	}
+
+	/**
 	 * If the given config ID is not available, an exception is thrown
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @throws OCSNotFoundException
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	private function ensureConfigIDExists($configID): void {
 		$prefixes = $this->ldapHelper->getServerConfigurationPrefixes();
 		if (!in_array($configID, $prefixes, true)) {

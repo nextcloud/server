@@ -1,24 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2020, Nextcloud, GmbH.
- *
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license AGPL-3.0-or-later
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Preview;
@@ -28,8 +12,9 @@ use OCP\Files\File;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IImage;
-
 use OCP\Image;
+
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Imaginary extends ProviderV2 {
@@ -44,9 +29,9 @@ class Imaginary extends ProviderV2 {
 
 	public function __construct(array $config) {
 		parent::__construct($config);
-		$this->config = \OC::$server->get(IConfig::class);
-		$this->service = \OC::$server->get(IClientService::class);
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->config = Server::get(IConfig::class);
+		$this->service = Server::get(IClientService::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	/**
@@ -57,7 +42,7 @@ class Imaginary extends ProviderV2 {
 	}
 
 	public static function supportedMimeTypes(): string {
-		return '/(image\/(bmp|x-bitmap|png|jpeg|gif|heic|heif|svg\+xml|tiff|webp)|application\/(pdf|illustrator))/';
+		return '/(image\/(bmp|x-bitmap|png|jpeg|gif|heic|heif|svg\+xml|tiff|webp)|application\/illustrator)/';
 	}
 
 	public function getCroppedThumbnail(File $file, int $maxX, int $maxY, bool $crop): ?IImage {

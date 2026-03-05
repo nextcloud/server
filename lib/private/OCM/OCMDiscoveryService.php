@@ -3,57 +3,66 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023, Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\OCM;
 
+use Exception;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use JsonException;
+use OC\Core\AppInfo\ConfigLexicon;
+use OC\OCM\Model\OCMProvider;
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\AppFramework\Http;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\Http\Client\IResponse;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IURLGenerator;
+use OCP\OCM\Events\LocalOCMDiscoveryEvent;
+use OCP\OCM\Events\ResourceTypeRegisterEvent;
+use OCP\OCM\Exceptions\OCMCapabilityException;
 use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\Exceptions\OCMRequestException;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCM\IOCMProvider;
+use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\Exceptions\SignatoryException;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureException;
+use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
+use OCP\Security\Signature\IIncomingSignedRequest;
+use OCP\Security\Signature\ISignatureManager;
 use Psr\Log\LoggerInterface;
 
 /**
  * @since 28.0.0
  */
-class OCMDiscoveryService implements IOCMDiscoveryService {
+#[Consumable(since: '28.0.0')]
+final class OCMDiscoveryService implements IOCMDiscoveryService {
 	private ICache $cache;
-	private array $supportedAPIVersion =
-		[
-			'1.0-proposal1',
-			'1.0',
-			'1.1'
-		];
+	public const API_VERSION = '1.1.0';
+	private ?IOCMProvider $localProvider = null;
+	/** @var array<string, IOCMProvider> */
+	private array $remoteProviders = [];
 
 	public function __construct(
 		ICacheFactory $cacheFactory,
 		private IClientService $clientService,
-		private IConfig $config,
-		private IOCMProvider $provider,
+		private IEventDispatcher $eventDispatcher,
+		protected IConfig $config,
+		private IAppConfig $appConfig,
+		private IURLGenerator $urlGenerator,
+		private readonly ISignatureManager $signatureManager,
+		private readonly OCMSignatoryManager $signatoryManager,
 		private LoggerInterface $logger,
 	) {
 		$this->cache = $cacheFactory->createDistributed('ocm-discovery');
@@ -61,77 +70,309 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 
 
 	/**
-	 * @param string $remote
-	 * @param bool $skipCache
+	 * @inheritDoc
+	 *
+	 * @param string $remote address of the remote provider
+	 * @param bool $skipCache ignore cache, refresh data
 	 *
 	 * @return IOCMProvider
-	 * @throws OCMProviderException
+	 * @throws OCMProviderException if no valid discovery data can be returned
+	 * @since 28.0.0
 	 */
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
+		if (!str_starts_with($remote, 'http://') && !str_starts_with($remote, 'https://')) {
+			// if scheme not specified, we test both;
+			try {
+				return $this->discover('https://' . $remote, $skipCache);
+			} catch (OCMProviderException|ConnectException) {
+				return $this->discover('http://' . $remote, $skipCache);
+			}
+		}
+
+		if (array_key_exists($remote, $this->remoteProviders)) {
+			return $this->remoteProviders[$remote];
+		}
+
+		$provider = new OCMProvider();
 
 		if (!$skipCache) {
 			try {
-				$this->provider->import(json_decode($this->cache->get($remote) ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
-				if ($this->supportedAPIVersion($this->provider->getApiVersion())) {
-					return $this->provider; // if cache looks valid, we use it
+				$cached = $this->cache->get($remote);
+				if ($cached === false) {
+					throw new OCMProviderException('Previous discovery failed.');
+				}
+
+				if ($cached !== null) {
+					$provider->import(json_decode($cached, true, 8, JSON_THROW_ON_ERROR) ?? []);
+					$this->remoteProviders[$remote] = $provider;
+					return $provider;
 				}
 			} catch (JsonException|OCMProviderException $e) {
-				// we ignore cache on issues
+				$this->logger->warning('cache issue on ocm discovery', ['exception' => $e]);
 			}
 		}
 
 		$client = $this->clientService->newClient();
 		try {
-			$response = $client->get(
-				$remote . '/ocm-provider/',
-				[
-					'timeout' => 10,
-					'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
-					'connect_timeout' => 10,
-				]
-			);
-
-			if ($response->getStatusCode() === Http::STATUS_OK) {
-				$body = $response->getBody();
-				// update provider with data returned by the request
-				$this->provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
-				$this->cache->set($remote, $body, 60 * 60 * 24);
+			$options = [
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			];
+			if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates') === true) {
+				$options['verify'] = false;
 			}
-		} catch (JsonException|OCMProviderException $e) {
-			throw new OCMProviderException('data returned by remote seems invalid - ' . ($body ?? ''));
+			$urls = [
+				$remote . '/.well-known/ocm',
+				$remote . '/ocm-provider',
+			];
+
+
+			foreach ($urls as $url) {
+				$exception = null;
+				$body = null;
+				$status = null;
+				try {
+					$response = $client->get($url, $options);
+					if ($response->getStatusCode() === Http::STATUS_OK) {
+						$body = $response->getBody();
+						$status = $response->getStatusCode();
+						// update provider with data returned by the request
+						$provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
+						$this->cache->set($remote, $body, 60 * 60 * 24);
+						$this->remoteProviders[$remote] = $provider;
+						return $provider;
+					}
+				} catch (\Exception $e) {
+					$this->logger->debug("Tried unsuccesfully to do discovery at: {$url}", [
+						'exception' => $e,
+						'remote' => $remote
+					]);
+					// We want to throw only the last exception
+					$exception = $e;
+					continue;
+				}
+			}
+			if ($exception) {
+				throw $exception;
+			}
+
+			throw new OCMProviderException('invalid remote ocm endpoint');
+		} catch (JsonException|OCMProviderException) {
+			$this->cache->set($remote, false, 5 * 60);
+			throw new OCMProviderException('data returned by remote seems invalid - status: ' . ($status ?? '') . ' - body: ' . ($body ?? ''));
 		} catch (\Exception $e) {
+			$this->cache->set($remote, false, 5 * 60);
 			$this->logger->warning('error while discovering ocm provider', [
 				'exception' => $e,
 				'remote' => $remote
 			]);
 			throw new OCMProviderException('error while requesting remote ocm provider');
 		}
-
-		if (!$this->supportedAPIVersion($this->provider->getApiVersion())) {
-			throw new OCMProviderException('API version not supported');
-		}
-
-		return $this->provider;
 	}
 
 	/**
-	 * Check the version from remote is supported.
-	 * The minor version of the API will be ignored:
-	 *    1.0.1 is identified as 1.0
+	 * @inheritDoc
 	 *
-	 * @param string $version
+	 * @param bool $fullDetails complete details, including public keys.
+	 *                          Set to FALSE for client (capabilities) purpose.
 	 *
-	 * @return bool
+	 * @return IOCMProvider
+	 * @since 33.0.0
 	 */
-	private function supportedAPIVersion(string $version): bool {
-		$dot1 = strpos($version, '.');
-		$dot2 = strpos($version, '.', $dot1 + 1);
-
-		if ($dot2 > 0) {
-			$version = substr($version, 0, $dot2);
+	public function getLocalOCMProvider(bool $fullDetails = true): IOCMProvider {
+		if ($this->localProvider !== null) {
+			return $this->localProvider;
 		}
 
-		return (in_array($version, $this->supportedAPIVersion));
+		$provider = new OCMProvider('Nextcloud ' . $this->config->getSystemValue('version'));
+		if (!$this->appConfig->getValueBool('core', ConfigLexicon::OCM_DISCOVERY_ENABLED)) {
+			return $provider;
+		}
+
+		$url = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.requesthandlercontroller.addShare');
+		$pos = strrpos($url, '/');
+		if ($pos === false) {
+			$this->logger->debug('generated route should contain a slash character');
+			return $provider;
+		}
+
+		$provider->setEnabled(true);
+		$provider->setApiVersion(self::API_VERSION);
+		$provider->setEndPoint(substr($url, 0, $pos));
+		$provider->setCapabilities(['invite-accepted', 'notifications', 'shares']);
+
+		// The inviteAcceptDialog is available from the contacts app, if this config value is set
+		$inviteAcceptDialog = $this->appConfig->getValueString('core', ConfigLexicon::OCM_INVITE_ACCEPT_DIALOG);
+		if ($inviteAcceptDialog !== '') {
+			$provider->setInviteAcceptDialog($this->urlGenerator->linkToRouteAbsolute($inviteAcceptDialog));
+		}
+
+		$resource = $provider->createNewResourceType();
+		$resource->setName('file')
+			->setShareTypes(['user', 'group'])
+			->setProtocols(['webdav' => '/public.php/webdav/']);
+		$provider->addResourceType($resource);
+
+		if ($fullDetails) {
+			// Adding a public key to the ocm discovery
+			try {
+				if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+					/**
+					 * @experimental 31.0.0
+					 * @psalm-suppress UndefinedInterfaceMethod
+					 */
+					$provider->setSignatory($this->signatoryManager->getLocalSignatory());
+				} else {
+					$this->logger->debug('ocm public key feature disabled');
+				}
+			} catch (SignatoryException|IdentityNotFoundException $e) {
+				$this->logger->warning('cannot generate local signatory', ['exception' => $e]);
+			}
+		}
+
+		$event = new LocalOCMDiscoveryEvent($provider);
+		$this->eventDispatcher->dispatchTyped($event);
+
+		// deprecated since 33.0.0
+		$event = new ResourceTypeRegisterEvent($provider);
+		$this->eventDispatcher->dispatchTyped($event);
+
+		$this->localProvider = $provider;
+		return $provider;
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @return IIncomingSignedRequest|null null if remote does not (and never did) support signed request
+	 * @throws IncomingRequestException
+	 * @since 33.0.0
+	 */
+	public function getIncomingSignedRequest(): ?IIncomingSignedRequest {
+		try {
+			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
+			$this->logger->debug('signed request available', ['signedRequest' => $signedRequest]);
+			return $signedRequest;
+		} catch (SignatureNotFoundException|SignatoryNotFoundException $e) {
+			$this->logger->debug('remote does not support signed request', ['exception' => $e]);
+			// remote does not support signed request.
+			// currently we still accept unsigned request until lazy appconfig
+			// core.enforce_signed_ocm_request is set to true (default: false)
+			if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true)) {
+				$this->logger->notice('ignored unsigned request', ['exception' => $e]);
+				throw new IncomingRequestException('Unsigned request');
+			}
+		} catch (SignatureException $e) {
+			$this->logger->warning('wrongly signed request', ['exception' => $e]);
+			throw new IncomingRequestException('Invalid signature');
+		}
+		return null;
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string|null $capability when not NULL, method will throw
+	 *                                {@see OCMCapabilityException}
+	 *                                if remote does not support the capability
+	 * @param string $remote remote ocm cloud id
+	 * @param string $ocmSubPath path to reach, complementing the ocm endpoint extracted
+	 *                           from remote discovery data
+	 * @param array|null $payload payload attached to the request
+	 * @param string $method method to use ('get', 'post', 'put', 'delete')
+	 * @param IClient|null $client NULL to use default {@see IClient}
+	 * @param array|null $options options related to IClient
+	 * @param bool $signed FALSE to not auth the request
+	 *
+	 * @throws OCMCapabilityException if remote does not support $capability
+	 * @throws OCMProviderException if remote ocm provider is disabled or invalid data returned
+	 * @throws RequestException on network issue or remote returns 4xx and 5xx status code
+	 * @throws OCMRequestException on internal issue
+	 * @since 33.0.0
+	 */
+	public function requestRemoteOcmEndpoint(
+		?string $capability,
+		string $remote,
+		string $ocmSubPath,
+		?array $payload = null,
+		string $method = 'get',
+		?IClient $client = null,
+		?array $options = null,
+		bool $signed = true,
+	): IResponse {
+		$ocmProvider = $this->discover($remote);
+		if (!$ocmProvider->isEnabled()) {
+			throw new OCMProviderException('remote ocm provider is disabled');
+		}
+
+		if ($capability !== null && !$ocmProvider->hasCapability($capability)) {
+			throw new OCMCapabilityException(sprintf('remote does not support %s', $capability));
+		}
+
+		$uri = $ocmProvider->getEndPoint() . '/' . ltrim($ocmSubPath, '/');
+		$client = $client ?? $this->clientService->newClient();
+
+		try {
+			$body = json_encode($payload ?? [], JSON_THROW_ON_ERROR);
+		} catch (JsonException $e) {
+			$this->logger->warning('payload could not be converted to JSON', ['exception' => $e]);
+			throw new OCMRequestException('ocm payload issue');
+		}
+
+		try {
+			$options = $options ?? [];
+			return match (strtolower($method)) {
+				'get' => $client->get($uri, $this->prepareOcmPayload($uri, 'get', $options, $body, $signed)),
+				'post' => $client->post($uri, $this->prepareOcmPayload($uri, 'post', $options, $body, $signed)),
+				'put' => $client->put($uri, $this->prepareOcmPayload($uri, 'put', $options, $body, $signed)),
+				'delete' => $client->delete($uri, $this->prepareOcmPayload($uri, 'delete', $options, $body, $signed)),
+				default => throw new OCMRequestException('unknown method'),
+			};
+		} catch (OCMRequestException|RequestException $e) {
+			throw $e;
+		} catch (Exception $e) {
+			$this->logger->warning('error while requesting remote ocm endpoint', ['exception' => $e]);
+			throw new OCMProviderException('error while requesting remote endpoint');
+		}
+	}
+
+	/**
+	 * add entries to the payload to auth the whole request
+	 *
+	 * @throws OCMProviderException
+	 * @return array
+	 */
+	private function prepareOcmPayload(string $uri, string $method, array $options, string $payload, bool $signed): array {
+		$payload = array_merge($this->generateRequestOptions($options), ['body' => $payload]);
+		if (!$signed) {
+			return $payload;
+		}
+
+		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true)
+			&& $this->signatoryManager->getRemoteSignatory($this->signatureManager->extractIdentityFromUri($uri)) === null) {
+			throw new OCMProviderException('remote endpoint does not support signed request');
+		}
+
+		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			$signedPayload = $this->signatureManager->signOutgoingRequestIClientPayload(
+				$this->signatoryManager,
+				$payload,
+				$method, $uri
+			);
+		}
+
+		return $signedPayload ?? $payload;
+	}
+
+	private function generateRequestOptions(array $options): array {
+		return array_merge(
+			[
+				'headers' => ['content-type' => 'application/json'],
+				'timeout' => 5,
+				'connect_timeout' => 5,
+			],
+			$options
+		);
 	}
 }

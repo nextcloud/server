@@ -1,33 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework;
 
@@ -44,6 +21,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
+use OCP\Server;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -60,7 +38,7 @@ class App {
 	 * namespace tag or uppercasing the appid's first letter
 	 * @param string $appId the app id
 	 * @param string $topNamespace the namespace which should be prepended to
-	 * the transformed app id, defaults to OCA\
+	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
@@ -69,23 +47,12 @@ class App {
 			return $topNamespace . self::$nameSpaceCache[$appId];
 		}
 
-		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($appId);
+		$appInfo = Server::get(IAppManager::class)->getAppInfo($appId);
 		if (isset($appInfo['namespace'])) {
 			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
 		} else {
-			if ($appId !== 'spreed') {
-				// if the tag is not found, fall back to uppercasing the first letter
-				self::$nameSpaceCache[$appId] = ucfirst($appId);
-			} else {
-				// For the Talk app (appid spreed) the above fallback doesn't work.
-				// This leads to a problem when trying to install it freshly,
-				// because the apps namespace is already registered before the
-				// app is downloaded from the appstore, because of the hackish
-				// global route index.php/call/{token} which is registered via
-				// the core/routes.php so it does not have the app namespace.
-				// @ref https://github.com/nextcloud/server/pull/19433
-				self::$nameSpaceCache[$appId] = 'Talk';
-			}
+			// if the tag is not found, fall back to uppercasing the first letter
+			self::$nameSpaceCache[$appId] = ucfirst($appId);
 		}
 
 		return $topNamespace . self::$nameSpaceCache[$appId];
@@ -105,7 +72,6 @@ class App {
 		return null;
 	}
 
-
 	/**
 	 * Shortcut for calling a controller method and printing the result
 	 *
@@ -116,15 +82,20 @@ class App {
 	 * @param array $urlParams list of URL parameters (optional)
 	 * @throws HintException
 	 */
-	public static function main(string $controllerName, string $methodName, DIContainer $container, ?array $urlParams = null) {
+	public static function main(
+		string $controllerName,
+		string $methodName,
+		DIContainer $container,
+		?array $urlParams = null,
+	): void {
 		/** @var IProfiler $profiler */
 		$profiler = $container->get(IProfiler::class);
 		$eventLogger = $container->get(IEventLogger::class);
 		// Disable profiler on the profiler UI
 		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
 		if ($profiler->isEnabled()) {
-			\OC::$server->get(IEventLogger::class)->activate();
-			$profiler->add(new RoutingDataCollector($container['AppName'], $controllerName, $methodName));
+			Server::get(IEventLogger::class)->activate();
+			$profiler->add(new RoutingDataCollector($container['appName'], $controllerName, $methodName));
 		}
 
 		$eventLogger->start('app:controller:params', 'Gather controller parameters');
@@ -138,7 +109,7 @@ class App {
 			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($container['urlParams']);
 		}
-		$appName = $container['AppName'];
+		$appName = $container['appName'];
 
 		$eventLogger->end('app:controller:params');
 
@@ -168,8 +139,7 @@ class App {
 		$eventLogger->start('app:controller:dispatcher', 'Initialize dispatcher and pre-middleware');
 
 		// initialize the dispatcher and run all the middleware before the controller
-		/** @var Dispatcher $dispatcher */
-		$dispatcher = $container['Dispatcher'];
+		$dispatcher = $container->get(Dispatcher::class);
 
 		$eventLogger->end('app:controller:dispatcher');
 
@@ -216,7 +186,7 @@ class App {
 				$expireDate,
 				$container->getServer()->getWebRoot(),
 				null,
-				$container->getServer()->getRequest()->getServerProtocol() === 'https',
+				$container->getServer()->get(IRequest::class)->getServerProtocol() === 'https',
 				true,
 				$sameSite
 			);
@@ -244,26 +214,5 @@ class App {
 				$io->setOutput($output);
 			}
 		}
-	}
-
-	/**
-	 * Shortcut for calling a controller method and printing the result.
-	 * Similar to App:main except that no headers will be sent.
-	 *
-	 * @param string $controllerName the name of the controller under which it is
-	 *                               stored in the DI container
-	 * @param string $methodName the method that you want to call
-	 * @param array $urlParams an array with variables extracted from the routes
-	 * @param DIContainer $container an instance of a pimple container.
-	 */
-	public static function part(string $controllerName, string $methodName, array $urlParams,
-		DIContainer $container) {
-		$container['urlParams'] = $urlParams;
-		$controller = $container[$controllerName];
-
-		$dispatcher = $container['Dispatcher'];
-
-		[, , $output] = $dispatcher->dispatch($controller, $methodName);
-		return $output;
 	}
 }

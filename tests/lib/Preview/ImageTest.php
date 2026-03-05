@@ -1,33 +1,22 @@
 <?php
+
 /**
- * @author Olivier Paroz <owncloud@interfasys.ch>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Preview;
 
+use OC\Preview\JPEG;
+
 /**
  * Class ImageTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ImageTest extends Provider {
 	protected function setUp(): void {
 		parent::setUp();
@@ -36,6 +25,6 @@ class ImageTest extends Provider {
 		$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
 		$this->width = 1680;
 		$this->height = 1050;
-		$this->provider = new \OC\Preview\JPEG();
+		$this->provider = new JPEG();
 	}
 }

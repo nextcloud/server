@@ -1,28 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\ObjectStore;
 
 use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
+use OCP\IConfig;
+use OCP\Server;
 
 class MultiPartUploadS3 extends S3 {
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
@@ -56,10 +44,8 @@ class NonSeekableStream extends Wrapper {
 	}
 }
 
-/**
- * @group PRIMARY-s3
- */
-class S3Test extends ObjectStoreTest {
+#[\PHPUnit\Framework\Attributes\Group('PRIMARY-s3')]
+class S3Test extends ObjectStoreTestCase {
 	public function setUp(): void {
 		parent::setUp();
 		$s3 = $this->getInstance();
@@ -67,7 +53,7 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	protected function getInstance() {
-		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
+		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== S3::class) {
 			$this->markTestSkipped('objectstore not configured for s3');
 		}
@@ -75,7 +61,7 @@ class S3Test extends ObjectStoreTest {
 		return new S3($config['arguments']);
 	}
 
-	public function testUploadNonSeekable() {
+	public function testUploadNonSeekable(): void {
 		$this->cleanupAfter('multiparttest');
 
 		$s3 = $this->getInstance();
@@ -87,7 +73,7 @@ class S3Test extends ObjectStoreTest {
 		$this->assertEquals(file_get_contents(__FILE__), stream_get_contents($result));
 	}
 
-	public function testSeek() {
+	public function testSeek(): void {
 		$this->cleanupAfter('seek');
 
 		$data = file_get_contents(__FILE__);
@@ -106,7 +92,7 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	public function assertNoUpload($objectUrn) {
-		/** @var \OC\Files\ObjectStore\S3 */
+		/** @var S3 */
 		$s3 = $this->getInstance();
 		$s3client = $s3->getConnection();
 		$uploads = $s3client->listMultipartUploads([
@@ -116,11 +102,18 @@ class S3Test extends ObjectStoreTest {
 		$this->assertArrayNotHasKey('Uploads', $uploads, 'Assert is not uploaded');
 	}
 
-	public function testEmptyUpload() {
+	public function testEmptyUpload(): void {
 		$s3 = $this->getInstance();
 
-		$emptyStream = fopen("php://memory", "r");
+		$emptyStream = fopen('php://memory', 'r');
 		fwrite($emptyStream, '');
+
+		$warnings = [];
+		set_error_handler(
+			function (int $errno, string $errstr) use (&$warnings): void {
+				$warnings[] = $errstr;
+			},
+		);
 
 		$s3->writeObject('emptystream', $emptyStream);
 
@@ -138,17 +131,23 @@ class S3Test extends ObjectStoreTest {
 		self::assertTrue($thrown, 'readObject with range requests are not expected to work on empty objects');
 
 		$s3->deleteObject('emptystream');
+		$this->assertOnlyExpectedWarnings($warnings);
+		restore_error_handler();
 	}
 
 	/** File size to upload in bytes */
-	public function dataFileSizes() {
+	public static function dataFileSizes(): array {
 		return [
 			[1000000], [2000000], [5242879], [5242880], [5242881], [10000000]
 		];
 	}
 
-	/** @dataProvider dataFileSizes */
-	public function testFileSizes($size) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileSizes')]
+	public function testFileSizes($size): void {
+		if (str_starts_with(PHP_VERSION, '8.3') && getenv('CI')) {
+			$this->markTestSkipped('Test is unreliable and skipped on 8.3');
+		}
+
 		$this->cleanupAfter('testfilesizes');
 		$s3 = $this->getInstance();
 

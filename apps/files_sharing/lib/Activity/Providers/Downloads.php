@@ -1,25 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Activity\Providers;
 
@@ -41,11 +24,11 @@ class Downloads extends Base {
 	public function parseShortVersion(IEvent $event) {
 		$parsedParameters = $this->getParsedParameters($event);
 
-		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED ||
-			$event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
+		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED
+			|| $event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
 			$subject = $this->l->t('Downloaded via public link');
-		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED ||
-			$event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED
+			|| $event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
 			$subject = $this->l->t('Downloaded by {email}');
 		} else {
 			throw new \InvalidArgumentException();
@@ -71,8 +54,8 @@ class Downloads extends Base {
 	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParsedParameters($event);
 
-		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED ||
-			$event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
+		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED
+			|| $event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
 			if (!isset($parsedParameters['remote-address-hash']['type'])) {
 				$subject = $this->l->t('{file} downloaded via public link');
 				$this->setSubjects($event, $subject, $parsedParameters);
@@ -81,8 +64,8 @@ class Downloads extends Base {
 				$this->setSubjects($event, $subject, $parsedParameters);
 				$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
 			}
-		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED ||
-			$event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED
+			|| $event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
 			$subject = $this->l->t('{email} downloaded {file}');
 			$this->setSubjects($event, $subject, $parsedParameters);
 		} else {

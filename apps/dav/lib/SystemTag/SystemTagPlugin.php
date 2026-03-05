@@ -1,32 +1,18 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\SystemTag;
 
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\Node;
+use OCP\AppFramework\Http;
+use OCP\Constants;
+use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -34,11 +20,14 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
+use OCP\SystemTag\TagCreationForbiddenException;
+use OCP\SystemTag\TagUpdateForbiddenException;
 use OCP\Util;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\UnsupportedMediaType;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\HTTP\RequestInterface;
@@ -55,6 +44,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 	public const ID_PROPERTYNAME = '{http://owncloud.org/ns}id';
 	public const DISPLAYNAME_PROPERTYNAME = '{http://owncloud.org/ns}display-name';
 	public const USERVISIBLE_PROPERTYNAME = '{http://owncloud.org/ns}user-visible';
@@ -63,45 +53,27 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	public const CANASSIGN_PROPERTYNAME = '{http://owncloud.org/ns}can-assign';
 	public const SYSTEM_TAGS_PROPERTYNAME = '{http://nextcloud.org/ns}system-tags';
 	public const NUM_FILES_PROPERTYNAME = '{http://nextcloud.org/ns}files-assigned';
-	public const FILEID_PROPERTYNAME = '{http://nextcloud.org/ns}reference-fileid';
+	public const REFERENCE_FILEID_PROPERTYNAME = '{http://nextcloud.org/ns}reference-fileid';
+	public const OBJECTIDS_PROPERTYNAME = '{http://nextcloud.org/ns}object-ids';
+	public const COLOR_PROPERTYNAME = '{http://nextcloud.org/ns}color';
 
 	/**
 	 * @var \Sabre\DAV\Server $server
 	 */
 	private $server;
 
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var IGroupManager
-	 */
-	protected $groupManager;
-
-	/** @var array<int, string[]> */
+	/** @var array<string, list<string>> */
 	private array $cachedTagMappings = [];
 	/** @var array<string, ISystemTag> */
 	private array $cachedTags = [];
 
-	private ISystemTagObjectMapper $tagMapper;
-
 	public function __construct(
-		ISystemTagManager $tagManager,
-		IGroupManager $groupManager,
-		IUserSession $userSession,
-		ISystemTagObjectMapper $tagMapper,
+		protected ISystemTagManager $tagManager,
+		protected IGroupManager $groupManager,
+		protected IUserSession $userSession,
+		protected IRootFolder $rootFolder,
+		protected ISystemTagObjectMapper $tagMapper,
 	) {
-		$this->tagManager = $tagManager;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->tagMapper = $tagMapper;
 	}
 
 	/**
@@ -117,9 +89,13 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
+		$server->xml->namespaceMap[self::NS_NEXTCLOUD] = 'nc';
+
+		$server->xml->elementMap[self::OBJECTIDS_PROPERTYNAME] = SystemTagsObjectList::class;
 
 		$server->protectedProperties[] = self::ID_PROPERTYNAME;
 
+		$server->on('preloadCollection', $this->preloadCollection(...));
 		$server->on('propFind', [$this, 'handleGetProperties']);
 		$server->on('propPatch', [$this, 'handleUpdateProperties']);
 		$server->on('method:POST', [$this, 'httpPost']);
@@ -159,7 +135,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$response->setHeader('Content-Location', $url . $tag->getId());
 
 			// created
-			$response->setStatus(201);
+			$response->setStatus(Http::STATUS_CREATED);
 			return false;
 		}
 	}
@@ -220,9 +196,45 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			return $tag;
 		} catch (TagAlreadyExistsException $e) {
 			throw new Conflict('Tag already exists', 0, $e);
+		} catch (TagCreationForbiddenException $e) {
+			throw new Forbidden('You don’t have permissions to create tags', 0, $e);
 		}
 	}
 
+	private function preloadCollection(
+		PropFind $propFind,
+		ICollection $collection,
+	): void {
+		if (!$collection instanceof Node) {
+			return;
+		}
+
+		if ($collection instanceof Directory
+			&& !isset($this->cachedTagMappings[(string)$collection->getId()])
+			&& $propFind->getStatus(
+				self::SYSTEM_TAGS_PROPERTYNAME
+			) !== null) {
+			$fileIds = [(string)$collection->getId()];
+
+			// note: pre-fetching only supported for depth <= 1
+			$folderContent = $collection->getChildren();
+			foreach ($folderContent as $info) {
+				if ($info instanceof Node) {
+					$fileIds[] = (string)$info->getId();
+				}
+			}
+
+			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
+
+			$this->cachedTagMappings += $tags;
+			$emptyFileIds = array_diff($fileIds, array_keys($tags));
+
+			// also cache the ones that were not found
+			foreach ($emptyFileIds as $fileId) {
+				$this->cachedTagMappings[(string)$fileId] = [];
+			}
+		}
+	}
 
 	/**
 	 * Retrieves system tag properties
@@ -234,14 +246,14 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $node
+		\Sabre\DAV\INode $node,
 	) {
 		if ($node instanceof Node) {
 			$this->propfindForFile($propFind, $node);
 			return;
 		}
 
-		if (!($node instanceof SystemTagNode) && !($node instanceof SystemTagMappingNode)) {
+		if (!$node instanceof SystemTagNode && !$node instanceof SystemTagMappingNode && !$node instanceof SystemTagObjectType) {
 			return;
 		}
 
@@ -249,6 +261,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		if (preg_match('/^systemtags-assigned\/[0-9]+/', $propFind->getPath())) {
 			$propFind->setPath(str_replace('systemtags-assigned/', 'systemtags/', $propFind->getPath()));
 		}
+
+		$propFind->handle(FilesPlugin::GETETAG_PROPERTYNAME, function () use ($node): string {
+			return '"' . ($node->getSystemTag()->getETag() ?? '') . '"';
+		});
 
 		$propFind->handle(self::ID_PROPERTYNAME, function () use ($node) {
 			return $node->getSystemTag()->getId();
@@ -272,6 +288,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			return $this->tagManager->canUserAssignTag($node->getSystemTag(), $this->userSession->getUser()) ? 'true' : 'false';
 		});
 
+		$propFind->handle(self::COLOR_PROPERTYNAME, function () use ($node) {
+			return $node->getSystemTag()->getColor() ?? '';
+		});
+
 		$propFind->handle(self::GROUPS_PROPERTYNAME, function () use ($node) {
 			if (!$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
 				// property only available for admins
@@ -290,42 +310,32 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				return $node->getNumberOfFiles();
 			});
 
-			$propFind->handle(self::FILEID_PROPERTYNAME, function () use ($node): int {
+			$propFind->handle(self::REFERENCE_FILEID_PROPERTYNAME, function () use ($node): int {
 				return $node->getReferenceFileId();
+			});
+
+			$propFind->handle(self::OBJECTIDS_PROPERTYNAME, function () use ($node): SystemTagsObjectList {
+				$objectTypes = $this->tagMapper->getAvailableObjectTypes();
+				$objects = [];
+				foreach ($objectTypes as $type) {
+					$systemTagObjectType = new SystemTagObjectType($node->getSystemTag(), $type, $this->tagManager, $this->tagMapper);
+					$objects = array_merge($objects, array_fill_keys($systemTagObjectType->getObjectsIds(), $type));
+				}
+				return new SystemTagsObjectList($objects);
+			});
+		}
+
+		if ($node instanceof SystemTagObjectType) {
+			$propFind->handle(self::OBJECTIDS_PROPERTYNAME, function () use ($node): SystemTagsObjectList {
+				return new SystemTagsObjectList(array_fill_keys($node->getObjectsIds(), $node->getName()));
 			});
 		}
 	}
 
 	private function propfindForFile(PropFind $propFind, Node $node): void {
-		if ($node instanceof Directory
-			&& $propFind->getDepth() !== 0
-			&& !is_null($propFind->getStatus(self::SYSTEM_TAGS_PROPERTYNAME))) {
-			$fileIds = [$node->getId()];
-
-			// note: pre-fetching only supported for depth <= 1
-			$folderContent = $node->getChildren();
-			foreach ($folderContent as $info) {
-				if ($info instanceof Node) {
-					$fileIds[] = $info->getId();
-				}
-			}
-
-			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
-
-			$this->cachedTagMappings = $this->cachedTagMappings + $tags;
-			$emptyFileIds = array_diff($fileIds, array_keys($tags));
-
-			// also cache the ones that were not found
-			foreach ($emptyFileIds as $fileId) {
-				$this->cachedTagMappings[$fileId] = [];
-			}
-		}
 
 		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node) {
 			$user = $this->userSession->getUser();
-			if ($user === null) {
-				return;
-			}
 
 			$tags = $this->getTagsForFile($node->getId(), $user);
 			usort($tags, function (ISystemTag $tagA, ISystemTag $tagB): int {
@@ -339,12 +349,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param int $fileId
 	 * @return ISystemTag[]
 	 */
-	private function getTagsForFile(int $fileId, IUser $user): array {
-
-		if (isset($this->cachedTagMappings[$fileId])) {
-			$tagIds = $this->cachedTagMappings[$fileId];
+	private function getTagsForFile(int $fileId, ?IUser $user): array {
+		if (isset($this->cachedTagMappings[(string)$fileId])) {
+			$tagIds = $this->cachedTagMappings[(string)$fileId];
 		} else {
-			$tags = $this->tagMapper->getTagIdsForObjects([$fileId], 'files');
+			$tags = $this->tagMapper->getTagIdsForObjects([(string)$fileId], 'files');
 			$fileTags = current($tags);
 			if ($fileTags) {
 				$tagIds = $fileTags;
@@ -353,13 +362,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 		}
 
-		$tags = array_filter(array_map(function (string $tagId) {
-			return $this->cachedTags[$tagId] ?? null;
-		}, $tagIds));
+		$tags = array_filter(array_map(
+			fn (string $tagId): ?ISystemTag => $this->cachedTags[$tagId] ?? null, $tagIds));
 
-		$uncachedTagIds = array_filter($tagIds, function (string $tagId): bool {
-			return !isset($this->cachedTags[$tagId]);
-		});
+		$uncachedTagIds = array_filter($tagIds, fn (string $tagId): bool => !isset($this->cachedTags[$tagId]));
 
 		if (count($uncachedTagIds)) {
 			$retrievedTags = $this->tagManager->getTagsByIds($uncachedTagIds);
@@ -384,9 +390,67 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleUpdateProperties($path, PropPatch $propPatch) {
 		$node = $this->server->tree->getNodeForPath($path);
-		if (!($node instanceof SystemTagNode)) {
+		if (!$node instanceof SystemTagNode && !$node instanceof SystemTagObjectType) {
 			return;
 		}
+
+		$propPatch->handle([self::OBJECTIDS_PROPERTYNAME], function ($props) use ($node) {
+			if (!$node instanceof SystemTagObjectType) {
+				return false;
+			}
+
+			if (isset($props[self::OBJECTIDS_PROPERTYNAME])) {
+				$user = $this->userSession->getUser();
+				if (!$user) {
+					throw new Forbidden('You don’t have permissions to update tags');
+				}
+
+				$propValue = $props[self::OBJECTIDS_PROPERTYNAME];
+				if (!$propValue instanceof SystemTagsObjectList || count($propValue->getObjects()) === 0) {
+					throw new BadRequest('Invalid object-ids property');
+				}
+
+				$objects = $propValue->getObjects();
+				$objectTypes = array_unique(array_values($objects));
+
+				if (count($objectTypes) !== 1 || $objectTypes[0] !== $node->getName()) {
+					throw new BadRequest('Invalid object-ids property. All object types must be of the same type: ' . $node->getName());
+				}
+
+				// Only files are supported at the moment
+				// Also see SystemTagsRelationsCollection file
+				if ($objectTypes[0] !== 'files') {
+					throw new BadRequest('Invalid object-ids property type. Only files are supported');
+				}
+
+				// Get all current tagged objects
+				$taggedObjects = $this->tagMapper->getObjectIdsForTags([$node->getSystemTag()->getId()], 'files');
+				$toAddObjects = array_map(fn ($value) => (string)$value, array_keys($objects));
+
+				// Compute the tags to add and remove
+				$addedObjects = array_values(array_diff($toAddObjects, $taggedObjects));
+				$removedObjects = array_values(array_diff($taggedObjects, $toAddObjects));
+
+				// Check permissions for each object to be freshly tagged or untagged
+				if (!$this->canUpdateTagForFileIds(array_merge($addedObjects, $removedObjects))) {
+					throw new Forbidden('You don’t have permissions to update tags');
+				}
+
+				$this->tagMapper->setObjectIdsForTag($node->getSystemTag()->getId(), $node->getName(), array_keys($objects));
+			}
+
+			if ($props[self::OBJECTIDS_PROPERTYNAME] === null) {
+				// Check the user have permissions to remove the tag from all currently tagged objects
+				$taggedObjects = $this->tagMapper->getObjectIdsForTags([$node->getSystemTag()->getId()], 'files');
+				if (!$this->canUpdateTagForFileIds($taggedObjects)) {
+					throw new Forbidden('You don’t have permissions to update tags');
+				}
+
+				$this->tagMapper->setObjectIdsForTag($node->getSystemTag()->getId(), $node->getName(), []);
+			}
+
+			return true;
+		});
 
 		$propPatch->handle([
 			self::DISPLAYNAME_PROPERTYNAME,
@@ -394,12 +458,18 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			self::USERASSIGNABLE_PROPERTYNAME,
 			self::GROUPS_PROPERTYNAME,
 			self::NUM_FILES_PROPERTYNAME,
-			self::FILEID_PROPERTYNAME,
+			self::REFERENCE_FILEID_PROPERTYNAME,
+			self::COLOR_PROPERTYNAME,
 		], function ($props) use ($node) {
+			if (!$node instanceof SystemTagNode) {
+				return false;
+			}
+
 			$tag = $node->getSystemTag();
 			$name = $tag->getName();
 			$userVisible = $tag->isUserVisible();
 			$userAssignable = $tag->isUserAssignable();
+			$color = $tag->getColor();
 
 			$updateTag = false;
 
@@ -420,6 +490,15 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$updateTag = true;
 			}
 
+			if (isset($props[self::COLOR_PROPERTYNAME])) {
+				$propValue = $props[self::COLOR_PROPERTYNAME];
+				if ($propValue === '' || $propValue === 'null') {
+					$propValue = null;
+				}
+				$color = $propValue;
+				$updateTag = true;
+			}
+
 			if (isset($props[self::GROUPS_PROPERTYNAME])) {
 				if (!$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
 					// property only available for admins
@@ -431,16 +510,50 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$this->tagManager->setTagGroups($tag, $groupIds);
 			}
 
-			if (isset($props[self::NUM_FILES_PROPERTYNAME]) || isset($props[self::FILEID_PROPERTYNAME])) {
+			if (isset($props[self::NUM_FILES_PROPERTYNAME]) || isset($props[self::REFERENCE_FILEID_PROPERTYNAME])) {
 				// read-only properties
 				throw new Forbidden();
 			}
 
 			if ($updateTag) {
-				$node->update($name, $userVisible, $userAssignable);
+				try {
+					$node->update($name, $userVisible, $userAssignable, $color);
+				} catch (TagUpdateForbiddenException $e) {
+					throw new Forbidden('You don’t have permissions to update tags', 0, $e);
+				}
 			}
 
 			return true;
 		});
+	}
+
+	/**
+	 * Check if the user can update the tag for the given file ids
+	 *
+	 * @param list<string> $fileIds
+	 * @return bool
+	 */
+	private function canUpdateTagForFileIds(array $fileIds): bool {
+		$user = $this->userSession->getUser();
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+
+		foreach ($fileIds as $fileId) {
+			try {
+				$nodes = $userFolder->getById((int)$fileId);
+				if (empty($nodes)) {
+					return false;
+				}
+
+				foreach ($nodes as $node) {
+					if (($node->getPermissions() & Constants::PERMISSION_UPDATE) !== Constants::PERMISSION_UPDATE) {
+						return false;
+					}
+				}
+			} catch (\Exception $e) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

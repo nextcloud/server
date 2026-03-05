@@ -1,36 +1,22 @@
-/**
- * @copyright Copyright (c) 2023 Lucas Azevedo <lhs_azevedo@hotmail.com>
- *
- * @author Lucas Azevedo <lhs_azevedo@hotmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { FileAction, Node } from '@nextcloud/files'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+
+import type { IFileAction } from '@nextcloud/files'
+
 import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
+import { getSidebar } from '@nextcloud/files'
+import { n, t } from '@nextcloud/l10n'
+import logger from '../logger.js'
+import { isUsingActivityIntegration } from '../utils/activity.js'
 
-import logger from '../logger'
-
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'comments-unread',
 
-	title(nodes: Node[]) {
-		const unread = nodes[0].attributes['comments-unread'] as number
-		if (unread >= 0) {
+	title({ nodes }) {
+		const unread = nodes[0]?.attributes['comments-unread'] as number | undefined
+		if (typeof unread === 'number' && unread >= 0) {
 			return n('comments', '1 new comment', '{unread} new comments', unread, { unread })
 		}
 		return t('comments', 'Comment')
@@ -41,15 +27,25 @@ export const action = new FileAction({
 
 	iconSvgInline: () => CommentProcessingSvg,
 
-	enabled(nodes: Node[]) {
-		const unread = nodes[0].attributes['comments-unread'] as number|undefined
+	enabled({ nodes }) {
+		const unread = nodes[0]?.attributes?.['comments-unread'] as number | undefined
 		return typeof unread === 'number' && unread > 0
 	},
 
-	async exec(node: Node) {
+	async exec({ nodes }) {
+		if (nodes.length !== 1 || !nodes[0]) {
+			return false
+		}
+
 		try {
-			window.OCA.Files.Sidebar.setActiveTab('comments')
-			await window.OCA.Files.Sidebar.open(node.path)
+			const sidebar = getSidebar()
+			const sidebarTabId = isUsingActivityIntegration() ? 'activity' : 'comments'
+			if (sidebar.isOpen && sidebar.node?.source === nodes[0].source) {
+				logger.debug('Sidebar already open for this node, just activating comments tab')
+				sidebar.setActiveTab(sidebarTabId)
+				return null
+			}
+			sidebar.open(nodes[0], sidebarTabId)
 			return null
 		} catch (error) {
 			logger.error('Error while opening sidebar', { error })
@@ -60,4 +56,4 @@ export const action = new FileAction({
 	inline: () => true,
 
 	order: -140,
-})
+}

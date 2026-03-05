@@ -1,25 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<div class="predefined-status backup-status"
+	<div
+		class="predefined-status backup-status"
 		tabindex="0"
 		@keyup.enter="select"
 		@keyup.space="select"
@@ -31,19 +16,20 @@
 			{{ message }}
 		</span>
 		<span class="predefined-status__clear-at">
-			{{ $t('user_status', 'Previously set') }}
+			{{ t('user_status', 'Previously set') }}
 		</span>
 
 		<div class="backup-status__reset-button">
 			<NcButton @click="select">
-				{{ $t('user_status', 'Reset status') }}
+				{{ t('user_status', 'Reset status') }}
 			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { t } from '@nextcloud/l10n'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
 	name: 'PreviousStatus',
@@ -57,12 +43,18 @@ export default {
 			type: [String, null],
 			required: true,
 		},
+
 		message: {
 			type: String,
 			required: true,
 		},
 	},
+
+	emits: ['select'],
+
 	methods: {
+		t,
+
 		/**
 		 * Emits an event when the user clicks the row
 		 */
@@ -81,7 +73,8 @@ export default {
 	flex-basis: 100%;
 	border-radius: var(--border-radius);
 	align-items: center;
-	min-height: 44px;
+	min-height: var(--default-clickable-area);
+	padding-inline: var(--default-grid-baseline);
 
 	&:hover,
 	&:focus {
@@ -93,7 +86,7 @@ export default {
 	}
 
 	&__icon {
-		flex-basis: 40px;
+		flex-basis: var(--default-clickable-area);
 		text-align: center;
 	}
 
@@ -110,6 +103,7 @@ export default {
 		}
 	}
 }
+
 .backup-status {
 	&__reset-button {
 		justify-content: flex-end;

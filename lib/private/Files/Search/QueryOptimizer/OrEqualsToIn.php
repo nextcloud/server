@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OC\Files\Search\QueryOptimizer;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -14,8 +18,8 @@ use OCP\Files\Search\ISearchOperator;
 class OrEqualsToIn extends ReplacingOptimizerStep {
 	public function processOperator(ISearchOperator &$operator): bool {
 		if (
-			$operator instanceof ISearchBinaryOperator &&
-			$operator->getType() === ISearchBinaryOperator::OPERATOR_OR
+			$operator instanceof ISearchBinaryOperator
+			&& $operator->getType() === ISearchBinaryOperator::OPERATOR_OR
 		) {
 			$groups = $this->groupEqualsComparisonsByField($operator->getArguments());
 			$newParts = array_map(function (array $group) {
@@ -28,7 +32,7 @@ class OrEqualsToIn extends ReplacingOptimizerStep {
 						$value = $comparison->getValue();
 						return $value;
 					}, $group);
-					$in = new SearchComparison(ISearchComparison::COMPARE_IN, $field, $values);
+					$in = new SearchComparison(ISearchComparison::COMPARE_IN, $field, $values, $group[0]->getExtra());
 					$pathEqHash = array_reduce($group, function ($pathEqHash, ISearchComparison $comparison) {
 						return $comparison->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true) && $pathEqHash;
 					}, true);

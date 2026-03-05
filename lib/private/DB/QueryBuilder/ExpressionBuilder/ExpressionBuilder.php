@@ -1,69 +1,39 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\CompositeExpression;
-use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IFunctionBuilder;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
-use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 class ExpressionBuilder implements IExpressionBuilder {
-	/** @var \Doctrine\DBAL\Query\Expression\ExpressionBuilder */
-	protected $expressionBuilder;
+	protected DoctrineExpressionBuilder $expressionBuilder;
+	protected QuoteHelper $helper;
+	protected IFunctionBuilder $functionBuilder;
 
-	/** @var QuoteHelper */
-	protected $helper;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var FunctionBuilder */
-	protected $functionBuilder;
-
-	/**
-	 * Initializes a new <tt>ExpressionBuilder</tt>.
-	 *
-	 * @param ConnectionAdapter $connection
-	 * @param IQueryBuilder $queryBuilder
-	 */
-	public function __construct(ConnectionAdapter $connection, IQueryBuilder $queryBuilder) {
-		$this->connection = $connection;
+	public function __construct(
+		protected ConnectionAdapter $connection,
+		IQueryBuilder $queryBuilder,
+		protected LoggerInterface $logger,
+	) {
 		$this->helper = new QuoteHelper();
-		$this->expressionBuilder = new DoctrineExpressionBuilder($connection->getInner());
+		$this->expressionBuilder = new DoctrineExpressionBuilder($this->connection->getInner());
 		$this->functionBuilder = $queryBuilder->func();
 	}
 
@@ -77,13 +47,15 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *     $expr->andX('u.type = ?', 'u.role = ?'));
 	 *
 	 * @param mixed ...$x Optional clause. Defaults = null, but requires
-	 *                 at least one defined when converting to string.
+	 *                    at least one defined when converting to string.
 	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
+	 * @return ICompositeExpression
 	 */
 	public function andX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'andX'], $x);
-		return new CompositeExpression($compositeExpression);
+		if (empty($x)) {
+			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+		}
+		return new CompositeExpression(CompositeExpression::TYPE_AND, $x);
 	}
 
 	/**
@@ -96,13 +68,15 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *     $qb->where($qb->expr()->orX('u.type = ?', 'u.role = ?'));
 	 *
 	 * @param mixed ...$x Optional clause. Defaults = null, but requires
-	 *                 at least one defined when converting to string.
+	 *                    at least one defined when converting to string.
 	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
+	 * @return ICompositeExpression
 	 */
 	public function orX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'orX'], $x);
-		return new CompositeExpression($compositeExpression);
+		if (empty($x)) {
+			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+		}
+		return new CompositeExpression(CompositeExpression::TYPE_OR, $x);
 	}
 
 	/**
@@ -112,7 +86,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param string $operator One of the IExpressionBuilder::* constants.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -135,7 +109,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -157,7 +131,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -179,7 +153,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -201,7 +175,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -223,7 +197,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -245,7 +219,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -285,7 +259,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param ILiteral|IParameter|IQueryFunction|string $x Field in string format to be inspected by LIKE() comparison.
 	 * @param mixed $y Argument to be used in LIKE() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -301,7 +275,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param string $x Field in string format to be inspected by ILIKE() comparison.
 	 * @param mixed $y Argument to be used in ILIKE() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -316,7 +290,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param ILiteral|IParameter|IQueryFunction|string $x Field in string format to be inspected by NOT LIKE() comparison.
 	 * @param mixed $y Argument to be used in NOT LIKE() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -332,7 +306,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param ILiteral|IParameter|IQueryFunction|string $x The field in string format to be inspected by IN() comparison.
 	 * @param ILiteral|IParameter|IQueryFunction|string|array $y The placeholder or the array of values to be used by IN() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
@@ -348,7 +322,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param ILiteral|IParameter|IQueryFunction|string $x The field in string format to be inspected by NOT IN() comparison.
 	 * @param ILiteral|IParameter|IQueryFunction|string|array $y The placeholder or the array of values to be used by NOT IN() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */

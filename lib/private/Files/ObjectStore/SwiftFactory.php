@@ -3,32 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
- *
- * @author Adrian Brzezinski <adrian.brzezinski@eo.pl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julien Lutran <julien.lutran@corp.ovh.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Volker <skydiablo@gmx.net>
- * @author William Pain <pain.william@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\ObjectStore;
 
@@ -52,11 +28,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
 class SwiftFactory {
-	private $cache;
-	private $params;
-	/** @var Container|null */
-	private $container = null;
-	private LoggerInterface $logger;
+	private ?Container $container = null;
 
 	public const DEFAULT_OPTIONS = [
 		'autocreate' => false,
@@ -65,19 +37,19 @@ class SwiftFactory {
 		'catalogType' => 'object-store'
 	];
 
-	public function __construct(ICache $cache, array $params, LoggerInterface $logger) {
-		$this->cache = $cache;
-		$this->params = $params;
-		$this->logger = $logger;
+	public function __construct(
+		private ICache $cache,
+		private array $params,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
 	 * Gets currently cached token id
 	 *
-	 * @return string
 	 * @throws StorageAuthException
 	 */
-	public function getCachedTokenId() {
+	public function getCachedTokenId(): string {
 		if (!isset($this->params['cachedToken'])) {
 			throw new StorageAuthException('Unauthenticated ObjectStore connection');
 		}
@@ -121,10 +93,9 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @return OpenStack
 	 * @throws StorageAuthException
 	 */
-	private function getClient() {
+	private function getClient(): OpenStack {
 		if (isset($this->params['bucket'])) {
 			$this->params['container'] = $this->params['bucket'];
 		}
@@ -169,12 +140,9 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @param IdentityV2Service|IdentityV3Service $authService
-	 * @param string $cacheKey
-	 * @return OpenStack
 	 * @throws StorageAuthException
 	 */
-	private function auth($authService, string $cacheKey) {
+	private function auth(IdentityV2Service|IdentityV3Service $authService, string $cacheKey): OpenStack {
 		$this->params['identityService'] = $authService;
 		$this->params['authUrl'] = $this->params['url'];
 
@@ -194,7 +162,7 @@ class SwiftFactory {
 				try {
 					/** @var \OpenStack\Identity\v2\Models\Token $token */
 					$token = $authService->model(\OpenStack\Identity\v2\Models\Token::class, $cachedToken['token']);
-					$now = new \DateTimeImmutable("now");
+					$now = new \DateTimeImmutable('now');
 					if ($token->expires > $now) {
 						$hasValidCachedToken = true;
 						$this->params['v2cachedToken'] = $token;
@@ -218,13 +186,13 @@ class SwiftFactory {
 			} catch (ClientException $e) {
 				$statusCode = $e->getResponse()->getStatusCode();
 				if ($statusCode === 404) {
-					throw new StorageAuthException('Keystone not found, verify the keystone url', $e);
+					throw new StorageAuthException('Keystone not found while connecting to object storage, verify the keystone url', $e);
 				} elseif ($statusCode === 412) {
-					throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
+					throw new StorageAuthException('Precondition failed while connecting to object storage, verify the keystone url', $e);
 				} elseif ($statusCode === 401) {
-					throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
+					throw new StorageAuthException('Authentication failed while connecting to object storage, verify the username, password and possibly tenant', $e);
 				} else {
-					throw new StorageAuthException('Unknown error', $e);
+					throw new StorageAuthException('Unknown error while connecting to object storage', $e);
 				}
 			} catch (RequestException $e) {
 				throw new StorageAuthException('Connection reset while connecting to keystone, verify the keystone url', $e);
@@ -238,11 +206,10 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @return \OpenStack\ObjectStore\v1\Models\Container
 	 * @throws StorageAuthException
 	 * @throws StorageNotAvailableException
 	 */
-	public function getContainer() {
+	public function getContainer(): Container {
 		if (is_null($this->container)) {
 			$this->container = $this->createContainer();
 		}
@@ -251,11 +218,10 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @return \OpenStack\ObjectStore\v1\Models\Container
 	 * @throws StorageAuthException
 	 * @throws StorageNotAvailableException
 	 */
-	private function createContainer() {
+	private function createContainer(): Container {
 		$client = $this->getClient();
 		$objectStoreService = $client->objectStoreV1();
 

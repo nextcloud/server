@@ -1,36 +1,19 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author szaimen <szaimen@e.mail.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
+use OCA\Files_External\Event\StorageUpdatedEvent;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
+use OCP\IGroup;
 
 /**
  * Service class to manage global external storage
@@ -52,7 +35,7 @@ class GlobalStoragesService extends StoragesService {
 			$this->triggerApplicableHooks(
 				$signal,
 				$storage->getMountPoint(),
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+				MountConfig::MOUNT_TYPE_USER,
 				['all']
 			);
 			return;
@@ -61,13 +44,13 @@ class GlobalStoragesService extends StoragesService {
 		$this->triggerApplicableHooks(
 			$signal,
 			$storage->getMountPoint(),
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+			MountConfig::MOUNT_TYPE_USER,
 			$applicableUsers
 		);
 		$this->triggerApplicableHooks(
 			$signal,
 			$storage->getMountPoint(),
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+			MountConfig::MOUNT_TYPE_GROUP,
 			$applicableGroups
 		);
 	}
@@ -83,9 +66,13 @@ class GlobalStoragesService extends StoragesService {
 	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage) {
 		// if mount point changed, it's like a deletion + creation
 		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {
+			$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($oldStorage));
+			$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 			$this->triggerHooks($oldStorage, Filesystem::signal_delete_mount);
 			$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 			return;
+		} else {
+			$this->eventDispatcher->dispatchTyped(new StorageUpdatedEvent($oldStorage, $newStorage));
 		}
 
 		$userAdditions = array_diff($newStorage->getApplicableUsers(), $oldStorage->getApplicableUsers());
@@ -101,7 +88,7 @@ class GlobalStoragesService extends StoragesService {
 			$this->triggerApplicableHooks(
 				Filesystem::signal_delete_mount,
 				$oldStorage->getMountPoint(),
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+				MountConfig::MOUNT_TYPE_USER,
 				['all']
 			);
 		}
@@ -110,7 +97,7 @@ class GlobalStoragesService extends StoragesService {
 		$this->triggerApplicableHooks(
 			Filesystem::signal_delete_mount,
 			$oldStorage->getMountPoint(),
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+			MountConfig::MOUNT_TYPE_USER,
 			$userDeletions
 		);
 
@@ -118,7 +105,7 @@ class GlobalStoragesService extends StoragesService {
 		$this->triggerApplicableHooks(
 			Filesystem::signal_delete_mount,
 			$oldStorage->getMountPoint(),
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+			MountConfig::MOUNT_TYPE_GROUP,
 			$groupDeletions
 		);
 
@@ -126,7 +113,7 @@ class GlobalStoragesService extends StoragesService {
 		$this->triggerApplicableHooks(
 			Filesystem::signal_create_mount,
 			$newStorage->getMountPoint(),
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+			MountConfig::MOUNT_TYPE_USER,
 			$userAdditions
 		);
 
@@ -134,7 +121,7 @@ class GlobalStoragesService extends StoragesService {
 		$this->triggerApplicableHooks(
 			Filesystem::signal_create_mount,
 			$newStorage->getMountPoint(),
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+			MountConfig::MOUNT_TYPE_GROUP,
 			$groupAdditions
 		);
 
@@ -146,7 +133,7 @@ class GlobalStoragesService extends StoragesService {
 			$this->triggerApplicableHooks(
 				Filesystem::signal_create_mount,
 				$newStorage->getMountPoint(),
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+				MountConfig::MOUNT_TYPE_USER,
 				['all']
 			);
 		}
@@ -182,5 +169,32 @@ class GlobalStoragesService extends StoragesService {
 		}, $configs);
 
 		return array_combine($keys, $configs);
+	}
+
+	/**
+	 * Gets all storages for the group, not including any global storages
+	 * @return StorageConfig[]
+	 */
+	public function getAllStoragesForGroup(IGroup $group): array {
+		$mounts = $this->dbConfig->getMountsForGroups([$group->getGID()]);
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn (?StorageConfig $config): bool => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
+	}
+
+	/**
+	 * @return StorageConfig[]
+	 */
+	public function getAllGlobalStorages(): array {
+		$mounts = $this->dbConfig->getGlobalMounts();
+
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn (?StorageConfig $config): bool => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
 	}
 }

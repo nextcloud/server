@@ -1,31 +1,18 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\RichObjectStrings;
 
 use OCP\RichObjectStrings\Definitions;
+use OCP\RichObjectStrings\InvalidObjectExeption;
 use Test\TestCase;
 
 class DefinitionsTest extends TestCase {
-	public function dataGetDefinition() {
+	public static function dataGetDefinition() {
 		$definitions = new Definitions();
 		$testsuite = [];
 		foreach ($definitions->definitions as $type => $definition) {
@@ -34,9 +21,9 @@ class DefinitionsTest extends TestCase {
 		return $testsuite;
 	}
 
-	
-	public function testGetDefinitionNotExisting() {
-		$this->expectException(\OCP\RichObjectStrings\InvalidObjectExeption::class);
+
+	public function testGetDefinitionNotExisting(): void {
+		$this->expectException(InvalidObjectExeption::class);
 		$this->expectExceptionMessage('Object type is undefined');
 
 		$definitions = new Definitions();
@@ -44,11 +31,11 @@ class DefinitionsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetDefinition
 	 * @param string $type
 	 * @param array $expected
 	 */
-	public function testGetDefinition($type, array $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetDefinition')]
+	public function testGetDefinition($type, array $expected): void {
 		$definitions = new Definitions();
 		$definition = $definitions->getDefinition($type);
 

@@ -7,9 +7,6 @@ OC.L10N.register(
     "Error" : "Eraro",
     "Weather status" : "Stato de vetero",
     "Weather status in your dashboard" : "Stato de vetero en via panelo",
-    "Detect location" : "Rekoni lokon",
-    "Set custom address" : "Agordi propran adreson",
-    "Favorites" : "Plej ŝatataj",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} sennuba ĉielo poste hodiaŭ",
     "{temperature} {unit} clear sky" : "{temperature} {unit} sennuba ĉielo",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} nube poste hodiaŭ",
@@ -28,6 +25,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall" : "{temperature} {unit} pluvego",
     "More weather for {adr}" : "Pli da vetero por {adr}",
     "Loading weather" : "Ŝarĝado de vetero",
+    "Set location for weather" : "Agordi lokon por vetero",
     "Remove from favorites" : "Forigi el pliŝataĵoj",
     "Add as favorite" : "Aldoni kiel plej ŝatata",
     "You are not logged in." : "Vi ne estas ensalutita.",
@@ -36,6 +34,8 @@ OC.L10N.register(
     "There was an error setting the location address." : "Estis eraro agordante adreson de la loko.",
     "There was an error setting the location." : "Estis eraro agordante la lokon.",
     "There was an error saving the mode." : "Estis eraro konservante la reĝimon.",
-    "Set location for weather" : "Agordi lokon por vetero"
+    "Detect location" : "Rekoni lokon",
+    "Set custom address" : "Agordi propran adreson",
+    "Favorites" : "Plej ŝatataj"
 },
 "nplurals=2; plural=(n != 1);");

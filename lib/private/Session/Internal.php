@@ -3,39 +3,20 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author cetra3 <peter@parashift.com.au>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author MartB <mart.b@outlook.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Session;
 
 use OC\Authentication\Token\IProvider;
+use OC\Diagnostics\TLogSlowOperation;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use Psr\Log\LoggerInterface;
+use function call_user_func_array;
+use function OCP\Log\logger;
 
 /**
  * Class Internal
@@ -45,13 +26,20 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
  * @package OC\Session
  */
 class Internal extends Session {
+
+	use TLogSlowOperation;
+
 	/**
 	 * @param string $name
 	 * @throws \Exception
 	 */
-	public function __construct(string $name) {
+	public function __construct(
+		string $name,
+		private ?LoggerInterface $logger,
+	) {
 		set_error_handler([$this, 'trapError']);
 		$this->invoke('session_name', [$name]);
+		$this->invoke('session_cache_limiter', ['']);
 		try {
 			$this->startSession();
 		} catch (\Exception $e) {
@@ -149,7 +137,7 @@ class Internal extends Session {
 			$newId = $this->getId();
 
 			/** @var IProvider $tokenProvider */
-			$tokenProvider = \OCP\Server::get(IProvider::class);
+			$tokenProvider = Server::get(IProvider::class);
 
 			try {
 				$tokenProvider->renewSessionToken($oldId, $newId);
@@ -207,11 +195,17 @@ class Internal extends Session {
 	 */
 	private function invoke(string $functionName, array $parameters = [], bool $silence = false) {
 		try {
-			if ($silence) {
-				return @call_user_func_array($functionName, $parameters);
-			} else {
-				return call_user_func_array($functionName, $parameters);
-			}
+			return $this->monitorAndLog(
+				$this->logger ?? logger('core'),
+				$functionName,
+				function () use ($silence, $functionName, $parameters) {
+					if ($silence) {
+						return @call_user_func_array($functionName, $parameters);
+					} else {
+						return call_user_func_array($functionName, $parameters);
+					}
+				}
+			);
 		} catch (\Error $e) {
 			$this->trapError($e->getCode(), $e->getMessage());
 		}

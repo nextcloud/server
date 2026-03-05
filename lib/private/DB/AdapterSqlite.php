@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\DB;
 
@@ -57,8 +38,8 @@ class AdapterSqlite extends Adapter {
 	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
 	 * @param array $input data that should be inserted into the table  (column name => value)
 	 * @param array|null $compare List of values that should be checked for "if not exists"
-	 *				If this is null or an empty array, all keys of $input will be compared
-	 *				Please note: text fields (clob) must not be used in the compare array
+	 *                            If this is null or an empty array, all keys of $input will be compared
+	 *                            Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
 	 * @throws \Doctrine\DBAL\Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
@@ -69,7 +50,7 @@ class AdapterSqlite extends Adapter {
 		}
 		$fieldList = '`' . implode('`,`', array_keys($input)) . '`';
 		$query = "INSERT INTO `$table` ($fieldList) SELECT "
-			. str_repeat('?,', count($input) - 1).'? '
+			. str_repeat('?,', count($input) - 1) . '? '
 			. " WHERE NOT EXISTS (SELECT 1 FROM `$table` WHERE ";
 
 		$inserts = array_values($input);
@@ -94,5 +75,20 @@ class AdapterSqlite extends Adapter {
 			// more discussions about this can be found at https://github.com/nextcloud/server/pull/12315
 			return 0;
 		}
+	}
+
+	public function insertIgnoreConflict(string $table, array $values): int {
+		$builder = $this->conn->getQueryBuilder();
+		$builder->insert($table);
+		$updates = [];
+		foreach ($values as $key => $value) {
+			$builder->setValue($key, $builder->createNamedParameter($value));
+		}
+
+		return $this->conn->executeStatement(
+			$builder->getSQL() . ' ON CONFLICT DO NOTHING',
+			$builder->getParameters(),
+			$builder->getParameterTypes()
+		);
 	}
 }

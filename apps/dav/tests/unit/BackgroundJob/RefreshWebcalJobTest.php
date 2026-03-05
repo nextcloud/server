@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
@@ -39,20 +19,11 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RefreshWebcalJobTest extends TestCase {
-
-	/** @var RefreshWebcalService | MockObject */
-	private $refreshWebcalService;
-
-	/** @var IConfig | MockObject */
-	private $config;
-
+	private RefreshWebcalService&MockObject $refreshWebcalService;
+	private IConfig&MockObject $config;
 	private LoggerInterface $logger;
-
-	/** @var ITimeFactory | MockObject */
-	private $timeFactory;
-
-	/** @var IJobList | MockObject */
-	private $jobList;
+	private ITimeFactory&MockObject $timeFactory;
+	private IJobList&MockObject $jobList;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -70,12 +41,11 @@ class RefreshWebcalJobTest extends TestCase {
 	 * @param int $lastRun
 	 * @param int $time
 	 * @param bool $process
-	 *
-	 * @dataProvider runDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runDataProvider')]
 	public function testRun(int $lastRun, int $time, bool $process): void {
 		$backgroundJob = new RefreshWebcalJob($this->refreshWebcalService, $this->config, $this->logger, $this->timeFactory);
-		$backgroundJob->setId(42);
+		$backgroundJob->setId('42');
 
 		$backgroundJob->setArgument([
 			'principaluri' => 'principals/users/testuser',
@@ -98,7 +68,7 @@ class RefreshWebcalJobTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('dav', 'calendarSubscriptionRefreshRate', 'P1W')
+			->with('dav', 'calendarSubscriptionRefreshRate', 'P1D')
 			->willReturn('P1W');
 
 		$this->timeFactory->method('getTime')
@@ -117,10 +87,7 @@ class RefreshWebcalJobTest extends TestCase {
 		$backgroundJob->start($this->jobList);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function runDataProvider():array {
+	public static function runDataProvider():array {
 		return [
 			[0, 100000, true],
 			[100000, 100000, false]

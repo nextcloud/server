@@ -1,54 +1,38 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Folder, Node } from '@nextcloud/files'
+
+import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 
 // Global definitions
 export type Service = string
-export type FileId = number
+export type FileSource = string
 export type ViewId = string
 
 // Files store
 export type FilesStore = {
-	[fileid: FileId]: Node
+	[source: FileSource]: INode
 }
 
 export type RootsStore = {
-	[service: Service]: Folder
+	[service: Service]: IFolder
 }
 
 export type FilesState = {
-	files: FilesStore,
-	roots: RootsStore,
+	files: FilesStore
+	roots: RootsStore
 }
 
 export interface RootOptions {
-	root: Folder
+	root: IFolder
 	service: Service
 }
 
 // Paths store
 export type PathConfig = {
-	[path: string]: number
+	[path: string]: FileSource
 }
 
 export type ServicesState = {
@@ -62,32 +46,46 @@ export type PathsStore = {
 export interface PathOptions {
 	service: Service
 	path: string
-	fileid: FileId
+	source: FileSource
 }
 
 // User config store
 export interface UserConfig {
-	[key: string]: boolean
+	[key: string]: boolean | string | undefined
+
+	crop_image_previews: boolean
+	default_view: 'files' | 'personal'
+	folder_tree: boolean
+	grid_view: boolean
+	sort_favorites_first: boolean
+	sort_folders_first: boolean
+
+	show_files_extensions: boolean
+	show_hidden: boolean
+	show_mime_column: boolean
+	show_dialog_deletion: boolean
+	show_dialog_file_extension: boolean
 }
+
 export interface UserConfigStore {
 	userConfig: UserConfig
 }
 
 export interface SelectionStore {
-	selected: FileId[]
-	lastSelection: FileId[]
+	selected: FileSource[]
+	lastSelection: FileSource[]
 	lastSelectedIndex: number | null
 }
 
 // Actions menu store
 export type GlobalActions = 'global'
 export interface ActionsMenuStore {
-	opened: GlobalActions|string|null
+	opened: GlobalActions | string | null
 }
 
 // View config store
 export interface ViewConfig {
-	[key: string]: string|boolean
+	[key: string]: string | boolean
 }
 export interface ViewConfigs {
 	[viewId: ViewId]: ViewConfig
@@ -98,7 +96,7 @@ export interface ViewConfigStore {
 
 // Renaming store
 export interface RenamingStore {
-	renamingNode?: Node
+	renamingNode?: INode
 	newName: string
 }
 
@@ -109,8 +107,21 @@ export interface UploaderStore {
 
 // Drag and drop store
 export interface DragAndDropStore {
-	dragging: FileId[]
+	dragging: FileSource[]
 }
+
+// Active node store
+export interface ActiveStore {
+	activeAction: IFileAction | null
+	activeFolder: IFolder | null
+	activeNode: INode | null
+	activeView: IView | null
+}
+
+/**
+ * Search scope for the in-files-search
+ */
+export type SearchScope = 'filter' | 'globally'
 
 export interface TemplateFile {
 	app: string
@@ -121,4 +132,19 @@ export interface TemplateFile {
 	mimetypes: string[]
 	ratio?: number
 	templates?: Record<string, unknown>[]
+}
+
+export type Capabilities = {
+	files: {
+		bigfilechunking: boolean
+		blacklisted_files: string[]
+		forbidden_filename_basenames: string[]
+		forbidden_filename_characters: string[]
+		forbidden_filename_extensions: string[]
+		forbidden_filenames: string[]
+		undelete: boolean
+		version_deletion: boolean
+		version_labeling: boolean
+		versioning: boolean
+	}
 }

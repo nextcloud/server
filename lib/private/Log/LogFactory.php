@@ -1,32 +1,14 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Johannes Ernst <jernst@indiecomputing.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Log;
 
 use OC\Log;
 use OC\SystemConfig;
-use OCP\ILogger;
+use OCP\AppFramework\QueryException;
 use OCP\IServerContainer;
 use OCP\Log\ILogFactory;
 use OCP\Log\IWriter;
@@ -40,7 +22,7 @@ class LogFactory implements ILogFactory {
 	}
 
 	/**
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	public function get(string $type):IWriter {
 		return match (strtolower($type)) {
@@ -50,11 +32,6 @@ class LogFactory implements ILogFactory {
 			'file' => $this->buildLogFile(),
 			default => $this->buildLogFile(),
 		};
-	}
-
-	public function getCustomLogger(string $path): ILogger {
-		$log = $this->buildLogFile($path);
-		return new Log($log, $this->systemConfig);
 	}
 
 	protected function createNewLogger(string $type, string $tag, string $path): IWriter {
@@ -74,7 +51,7 @@ class LogFactory implements ILogFactory {
 	}
 
 	protected function buildLogFile(string $logFile = ''): File {
-		$defaultLogFile = $this->systemConfig->getValue('datadirectory', \OC::$SERVERROOT.'/data').'/nextcloud.log';
+		$defaultLogFile = $this->systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log';
 		if ($logFile === '') {
 			$logFile = $this->systemConfig->getValue('logfile', $defaultLogFile);
 		}

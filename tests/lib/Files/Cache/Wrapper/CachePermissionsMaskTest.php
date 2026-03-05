@@ -1,26 +1,28 @@
 <?php
+
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache\Wrapper;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\Wrapper\CachePermissionsMask;
 use OCP\Constants;
 use Test\Files\Cache\CacheTest;
 
 /**
  * Class CachePermissionsMask
  *
- * @group DB
  *
  * @package Test\Files\Cache\Wrapper
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CachePermissionsMaskTest extends CacheTest {
 	/**
-	 * @var \OC\Files\Cache\Cache $sourceCache
+	 * @var Cache $sourceCache
 	 */
 	protected $sourceCache;
 
@@ -32,10 +34,10 @@ class CachePermissionsMaskTest extends CacheTest {
 	}
 
 	protected function getMaskedCached($mask) {
-		return new \OC\Files\Cache\Wrapper\CachePermissionsMask($this->sourceCache, $mask);
+		return new CachePermissionsMask($this->sourceCache, $mask);
 	}
 
-	public function maskProvider() {
+	public static function maskProvider(): array {
 		return [
 			[Constants::PERMISSION_ALL],
 			[Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE],
@@ -45,10 +47,10 @@ class CachePermissionsMaskTest extends CacheTest {
 	}
 
 	/**
-	 * @dataProvider maskProvider
 	 * @param int $mask
 	 */
-	public function testGetMasked($mask) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('maskProvider')]
+	public function testGetMasked($mask): void {
 		$cache = $this->getMaskedCached($mask);
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'permissions' => Constants::PERMISSION_ALL];
 		$this->sourceCache->put('foo', $data);
@@ -62,10 +64,10 @@ class CachePermissionsMaskTest extends CacheTest {
 	}
 
 	/**
-	 * @dataProvider maskProvider
 	 * @param int $mask
 	 */
-	public function testGetFolderContentMasked($mask) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('maskProvider')]
+	public function testGetFolderContentMasked($mask): void {
 		$this->storage->mkdir('foo');
 		$this->storage->file_put_contents('foo/bar', 'asd');
 		$this->storage->file_put_contents('foo/asd', 'bar');
@@ -81,10 +83,10 @@ class CachePermissionsMaskTest extends CacheTest {
 	}
 
 	/**
-	 * @dataProvider maskProvider
 	 * @param int $mask
 	 */
-	public function testSearchMasked($mask) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('maskProvider')]
+	public function testSearchMasked($mask): void {
 		$this->storage->mkdir('foo');
 		$this->storage->file_put_contents('foo/bar', 'asd');
 		$this->storage->file_put_contents('foo/foobar', 'bar');

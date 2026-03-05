@@ -2,31 +2,16 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2021, Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Core\Command\Background;
 
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\TimedJob;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -59,7 +44,7 @@ class Job extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobId = (int) $input->getArgument('job-id');
+		$jobId = (string)$input->getArgument('job-id');
 
 		$job = $this->jobList->getById($jobId);
 		if ($job === null) {
@@ -84,15 +69,14 @@ class Job extends Command {
 			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
 			return 1;
 		}
-		/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
-		$job->execute($this->jobList);
+		$job->start($this->jobList);
 		$job = $this->jobList->getById($jobId);
 
 		if (($job === null) || ($lastRun !== $job->getLastRun())) {
 			$output->writeln('<info>Job executed!</info>');
 			$output->writeln('');
 
-			if ($job instanceof \OCP\BackgroundJob\TimedJob) {
+			if ($job instanceof TimedJob) {
 				$this->printJobInfo($jobId, $job, $output);
 			}
 		} else {
@@ -103,23 +87,23 @@ class Job extends Command {
 		return 0;
 	}
 
-	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
+	protected function printJobInfo(string $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
-		$lastRun->setTimestamp((int) $row['last_run']);
+		$lastRun->setTimestamp((int)$row['last_run']);
 		$lastChecked = new \DateTime();
-		$lastChecked->setTimestamp((int) $row['last_checked']);
+		$lastChecked->setTimestamp((int)$row['last_checked']);
 		$reservedAt = new \DateTime();
-		$reservedAt->setTimestamp((int) $row['reserved_at']);
+		$reservedAt->setTimestamp((int)$row['reserved_at']);
 
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
 
-		$isTimedJob = $job instanceof \OCP\BackgroundJob\TimedJob;
+		$isTimedJob = $job instanceof TimedJob;
 		if ($isTimedJob) {
 			$output->writeln('Type:                 timed');
-		} elseif ($job instanceof \OCP\BackgroundJob\QueuedJob) {
+		} elseif ($job instanceof QueuedJob) {
 			$output->writeln('Type:                 queued');
 		} else {
 			$output->writeln('Type:                 job');
@@ -127,7 +111,7 @@ class Job extends Command {
 
 		$output->writeln('');
 		$output->writeln('Last checked:         ' . $lastChecked->format(\DateTimeInterface::ATOM));
-		if ((int) $row['reserved_at'] === 0) {
+		if ((int)$row['reserved_at'] === 0) {
 			$output->writeln('Reserved at:          -');
 		} else {
 			$output->writeln('Reserved at:          <comment>' . $reservedAt->format(\DateTimeInterface::ATOM) . '</comment>');

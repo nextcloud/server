@@ -3,73 +3,32 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\TwoFactorBackupCodes\Provider;
 
 use OC\App\AppManager;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCA\TwoFactorBackupCodes\Settings\Personal;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Authentication\TwoFactorAuth\IDeactivatableByAdmin;
 use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
 use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUser;
-use OCP\Template;
+use OCP\Template\ITemplate;
+use OCP\Template\ITemplateManager;
 
 class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSettings {
-
-	/** @var string */
-	private $appName;
-
-	/** @var BackupCodeStorage */
-	private $storage;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var AppManager */
-	private $appManager;
-	/** @var IInitialStateService */
-	private $initialStateService;
-
-	/**
-	 * @param string $appName
-	 * @param BackupCodeStorage $storage
-	 * @param IL10N $l10n
-	 * @param AppManager $appManager
-	 */
-	public function __construct(string $appName,
-		BackupCodeStorage $storage,
-		IL10N $l10n,
-		AppManager $appManager,
-		IInitialStateService $initialStateService) {
-		$this->appName = $appName;
-		$this->l10n = $l10n;
-		$this->storage = $storage;
-		$this->appManager = $appManager;
-		$this->initialStateService = $initialStateService;
+	public function __construct(
+		private string $appName,
+		private BackupCodeStorage $storage,
+		private IL10N $l10n,
+		private AppManager $appManager,
+		private IInitialState $initialState,
+		private ITemplateManager $templateManager,
+	) {
 	}
 
 	/**
@@ -103,10 +62,10 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 * Get the template for rending the 2FA provider view
 	 *
 	 * @param IUser $user
-	 * @return Template
+	 * @return ITemplate
 	 */
-	public function getTemplate(IUser $user): Template {
-		return new Template('twofactor_backupcodes', 'challenge');
+	public function getTemplate(IUser $user): ITemplate {
+		return $this->templateManager->getTemplate('twofactor_backupcodes', 'challenge');
 	}
 
 	/**
@@ -161,11 +120,11 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 */
 	public function getPersonalSettings(IUser $user): IPersonalProviderSettings {
 		$state = $this->storage->getBackupCodesState($user);
-		$this->initialStateService->provideInitialState($this->appName, 'state', $state);
+		$this->initialState->provideInitialState('state', $state);
 		return new Personal();
 	}
 
-	public function disableFor(IUser $user) {
+	public function disableFor(IUser $user): void {
 		$this->storage->deleteCodes($user);
 	}
 }

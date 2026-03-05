@@ -1,34 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings;
 
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\Defaults;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -37,58 +21,40 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 
-class Hooks {
+/**
+ * @template-implements IEventListener<PasswordUpdatedEvent|UserChangedEvent>
+ */
+class Hooks implements IEventListener {
 
-	/** @var IActivityManager */
-	protected $activityManager;
-	/** @var IGroupManager|\OC\Group\Manager */
-	protected $groupManager;
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var IUserSession */
-	protected $userSession;
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-	/** @var IMailer */
-	protected $mailer;
-	/** @var IConfig */
-	protected $config;
-	/** @var IFactory */
-	protected $languageFactory;
-	/** @var Defaults */
-	protected $defaults;
-
-	public function __construct(IActivityManager $activityManager,
-		IGroupManager $groupManager,
-		IUserManager $userManager,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-		IMailer $mailer,
-		IConfig $config,
-		IFactory $languageFactory,
-		Defaults $defaults) {
-		$this->activityManager = $activityManager;
-		$this->groupManager = $groupManager;
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->mailer = $mailer;
-		$this->config = $config;
-		$this->languageFactory = $languageFactory;
-		$this->defaults = $defaults;
+	public function __construct(
+		protected IActivityManager $activityManager,
+		protected IGroupManager $groupManager,
+		protected IUserManager $userManager,
+		protected IUserSession $userSession,
+		protected IURLGenerator $urlGenerator,
+		protected IMailer $mailer,
+		protected IConfig $config,
+		protected IFactory $languageFactory,
+		protected Defaults $defaults,
+	) {
 	}
 
-	/**
-	 * @param string $uid
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 * @throws \Exception
-	 */
-	public function onChangePassword($uid) {
-		$user = $this->userManager->get($uid);
+	public function handle(Event $event): void {
+		if ($event instanceof PasswordUpdatedEvent) {
+			$this->onChangePassword($event);
+		}
+		if ($event instanceof UserChangedEvent) {
+			$this->onChangeEmail($event);
+		}
+	}
 
-		if (!$user instanceof IUser || $user->getLastLogin() === 0) {
+	public function onChangePassword(PasswordUpdatedEvent $handle): void {
+		$user = $handle->getUser();
+
+		if ($user->getLastLogin() === 0) {
 			// User didn't login, so don't create activities and emails.
 			return;
 		}
@@ -135,6 +101,7 @@ class Hooks {
 				'displayname' => $user->getDisplayName(),
 				'emailAddress' => $user->getEMailAddress(),
 				'instanceUrl' => $instanceUrl,
+				'event' => $handle,
 			]);
 
 			$template->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
@@ -151,15 +118,16 @@ class Hooks {
 		}
 	}
 
-	/**
-	 * @param IUser $user
-	 * @param string|null $oldMailAddress
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 */
-	public function onChangeEmail(IUser $user, $oldMailAddress) {
-		if ($oldMailAddress === $user->getEMailAddress() ||
-			$user->getLastLogin() === 0) {
+	public function onChangeEmail(UserChangedEvent $handle): void {
+		if ($handle->getFeature() !== 'eMailAddress') {
+			return;
+		}
+
+		$oldMailAddress = $handle->getOldValue();
+		$user = $handle->getUser();
+
+		if ($oldMailAddress === $user->getEMailAddress()
+			|| $user->getLastLogin() === 0) {
 			// Email didn't really change or user didn't login,
 			// so don't create activities and emails.
 			return;
@@ -170,6 +138,7 @@ class Hooks {
 			->setType('personal_settings')
 			->setAffectedUser($user->getUID());
 
+		$instanceName = $this->defaults->getName();
 		$instanceUrl = $this->urlGenerator->getAbsoluteURL('/');
 		$language = $this->languageFactory->getUserLanguage($user);
 		$l = $this->languageFactory->get('settings', $language);
@@ -206,7 +175,7 @@ class Hooks {
 				'instanceUrl' => $instanceUrl,
 			]);
 
-			$template->setSubject($l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$template->setSubject($l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
 			$template->addHeader();
 			$template->addHeading($l->t('Email address changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator.'));

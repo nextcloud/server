@@ -1,46 +1,38 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Route } from 'vue-router'
+
+import type { Location, Route } from 'vue-router'
 import type VueRouter from 'vue-router'
-import type { Dictionary, Location } from 'vue-router/types/router'
 
 export default class RouterService {
-
-	private _router: VueRouter
+	// typescript compiles this to `#router` to make it private even in JS,
+	// but in TS it needs to be called without the visibility specifier
+	private router: VueRouter
 
 	constructor(router: VueRouter) {
-		this._router = router
+		this.router = router
 	}
 
 	get name(): string | null | undefined {
-		return this._router.currentRoute.name
+		return this.router.currentRoute.name
 	}
 
-	get query(): Dictionary<string | (string | null)[] | null | undefined> {
-		return this._router.currentRoute.query || {}
+	get query(): Record<string, string | (string | null)[] | null | undefined> {
+		return this.router.currentRoute.query || {}
 	}
 
-	get params(): Dictionary<string> {
-		return this._router.currentRoute.params || {}
+	get params(): Record<string, string> {
+		return this.router.currentRoute.params || {}
+	}
+
+	/**
+	 * This is a protected getter only for internal use
+	 *
+	 */
+	get _router() {
+		return this.router
 	}
 
 	/**
@@ -51,7 +43,7 @@ export default class RouterService {
 	 * @see https://router.vuejs.org/guide/essentials/navigation.html#navigate-to-a-different-location
 	 */
 	goTo(path: string, replace = false): Promise<Route> {
-		return this._router.push({
+		return this.router.push({
 			path,
 			replace,
 		})
@@ -60,24 +52,23 @@ export default class RouterService {
 	/**
 	 * Trigger a route change on the files App
 	 *
-	 * @param name the route name
+	 * @param name - The route name or null to keep current route and just update params/query
 	 * @param params the route parameters
 	 * @param query the url query parameters
 	 * @param replace replace the current history
 	 * @see https://router.vuejs.org/guide/essentials/navigation.html#navigate-to-a-different-location
 	 */
 	goToRoute(
-		name?: string,
-		params?: Dictionary<string>,
-		query?: Dictionary<string | (string | null)[] | null | undefined>,
+		name: string | null,
+		params: Record<string, string>,
+		query?: Record<string, string | (string | null)[] | null | undefined>,
 		replace?: boolean,
 	): Promise<Route> {
-		return this._router.push({
-			name,
-			query,
-			params,
-			replace,
-		} as Location)
+		name ??= this.router.currentRoute.name as string
+		const location: Location = { name, query, params }
+		if (replace) {
+			return this._router.replace(location)
+		}
+		return this._router.push(location)
 	}
-
 }

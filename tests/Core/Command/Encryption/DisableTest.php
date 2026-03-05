@@ -1,22 +1,9 @@
 <?php
+
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Encryption;
@@ -47,12 +34,12 @@ class DisableTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\IConfig $config */
+		/** @var IConfig $config */
 		$this->command = new Disable($config);
 	}
 
 
-	public function dataDisable() {
+	public static function dataDisable(): array {
 		return [
 			['yes', true, 'Encryption disabled'],
 			['no', false, 'Encryption is already disabled'],
@@ -60,13 +47,13 @@ class DisableTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDisable
 	 *
 	 * @param string $oldStatus
 	 * @param bool $isUpdating
 	 * @param string $expectedString
 	 */
-	public function testDisable($oldStatus, $isUpdating, $expectedString) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDisable')]
+	public function testDisable($oldStatus, $isUpdating, $expectedString): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('core', 'encryption_enabled', $this->anything())

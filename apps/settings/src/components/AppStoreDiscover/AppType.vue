@@ -1,32 +1,17 @@
 <!--
-  - @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @author Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<AppItem v-if="app"
+	<AppItem
+		v-if="app"
 		:app="app"
 		category="discover"
 		class="app-discover-app"
 		inline
 		:list-view="false" />
-	<a v-else
+	<a
+		v-else
 		class="app-discover-app app-discover-app__skeleton"
 		:href="appStoreLink"
 		target="_blank"
@@ -42,12 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import type { IAppDiscoverApp } from '../../constants/AppDiscoverTypes'
+import type { IAppDiscoverApp } from '../../constants/AppDiscoverTypes.ts'
 
 import { computed } from 'vue'
-import { useAppsStore } from '../../store/apps-store.ts'
-
 import AppItem from '../AppList/AppItem.vue'
+import { useAppsStore } from '../../store/apps-store.ts'
 
 const props = defineProps<{
 	modelValue: IAppDiscoverApp

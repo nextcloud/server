@@ -1,27 +1,10 @@
 <!--
-	- @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-	-
-	- @author John Molakvoæ <skjnldsv@protonmail.com>
-	- @author Ferdinand Thiessen <opensource@fthiessen.de>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
-	-->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<div v-show="dragover"
+	<div
+		v-show="dragover"
 		data-cy-files-drag-drop-area
 		class="files-list__drag-drop-notice"
 		@drop="onDrop">
@@ -44,16 +27,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { Folder, Permission } from '@nextcloud/files'
+import type { Folder } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
 import { showError } from '@nextcloud/dialogs'
+import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { UploadStatus } from '@nextcloud/upload'
-
+import debounce from 'debounce'
+import { defineComponent } from 'vue'
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-
-import logger from '../logger.js'
-import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
+import logger from '../logger.ts'
+import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService.ts'
+import { useActiveStore } from '../store/active.ts'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -64,9 +50,17 @@ export default defineComponent({
 
 	props: {
 		currentFolder: {
-			type: Folder,
+			type: Object as PropType<Folder>,
 			required: true,
 		},
+	},
+
+	setup() {
+		const activeStore = useActiveStore()
+
+		return {
+			activeStore,
+		}
 	},
 
 	data() {
@@ -76,16 +70,13 @@ export default defineComponent({
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		/**
 		 * Check if the current folder has create permissions
 		 */
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+
 		isQuotaExceeded() {
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
 		},
@@ -94,22 +85,33 @@ export default defineComponent({
 			if (this.isQuotaExceeded) {
 				return this.t('files', 'Your have used your space quota and cannot upload files anymore')
 			} else if (!this.canUpload) {
-				return this.t('files', 'You don’t have permission to upload or create files here')
+				return this.t('files', 'You do not have permission to upload or create files here.')
 			}
 			return null
+		},
+
+		/**
+		 * Debounced function to reset the drag over state
+		 * Required as Firefox has a bug where no dragleave is emitted:
+		 * https://bugzilla.mozilla.org/show_bug.cgi?id=656164
+		 */
+		resetDragOver() {
+			return debounce(() => {
+				this.dragover = false
+			}, 3000)
 		},
 	},
 
 	mounted() {
 		// Add events on parent to cover both the table and DragAndDrop notice
-		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
+		const mainContent = window.document.getElementById('app-content-vue') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
 		mainContent.addEventListener('dragleave', this.onDragLeave)
 		mainContent.addEventListener('drop', this.onContentDrop)
 	},
 
-	beforeDestroy() {
-		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
+	beforeUnmount() {
+		const mainContent = window.document.getElementById('app-content-vue') as HTMLElement
 		mainContent.removeEventListener('dragover', this.onDragOver)
 		mainContent.removeEventListener('dragleave', this.onDragLeave)
 		mainContent.removeEventListener('drop', this.onContentDrop)
@@ -124,6 +126,7 @@ export default defineComponent({
 			if (isForeignFile) {
 				// Only handle uploading of outside files (not Nextcloud files)
 				this.dragover = true
+				this.resetDragOver()
 			}
 		},
 
@@ -138,6 +141,7 @@ export default defineComponent({
 
 			if (this.dragover) {
 				this.dragover = false
+				this.resetDragOver.clear()
 			}
 		},
 
@@ -146,6 +150,7 @@ export default defineComponent({
 			event.preventDefault()
 			if (this.dragover) {
 				this.dragover = false
+				this.resetDragOver.clear()
 			}
 		},
 
@@ -164,14 +169,15 @@ export default defineComponent({
 			event.stopPropagation()
 
 			// Caching the selection
-			const items: DataTransferItem[] = [...event.dataTransfer?.items || []]
+			const items: DataTransferItem[] = Array.from(event.dataTransfer?.items || [])
 
 			// We need to process the dataTransfer ASAP before the
 			// browser clears it. This is why we cache the items too.
 			const fileTree = await dataTransferToFileTree(items)
 
 			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(this.currentFolder.path)
+			const controller = new AbortController()
+			const contents = await this.activeStore.activeView?.getContents(this.currentFolder.path, { signal: controller.signal })
 			const folder = contents?.folder
 			if (!folder) {
 				showError(this.t('files', 'Target folder does not exist any more'))
@@ -197,17 +203,23 @@ export default defineComponent({
 				&& upload.source.replace(folder.source, '').split('/').length === 2)
 
 			if (lastUpload !== undefined) {
+				const fileid = String(lastUpload.response!.headers['oc-fileid']).split(/(oc|nc)/, 2)[0]!
 				logger.debug('Scrolling to last upload in current folder', { lastUpload })
 				this.$router.push({
-					...this.$route,
+					name: this.$route.name!,
 					params: {
-						view: this.$route.params?.view ?? 'files',
-						fileid: parseInt(lastUpload.response!.headers['oc-fileid']),
+						// Keep params but change file id
+						...this.$route.params,
+						fileid,
+					},
+					query: {
+						dir: this.$route.query.dir,
 					},
 				})
 			}
 
 			this.dragover = false
+			this.resetDragOver.clear()
 		},
 
 		t,
@@ -222,7 +234,7 @@ export default defineComponent({
 	justify-content: center;
 	width: 100%;
 	// Breadcrumbs height + row thead height
-	min-height: calc(58px + 55px);
+	min-height: calc(58px + 44px);
 	margin: 0;
 	user-select: none;
 	color: var(--color-text-maxcontrast);
@@ -230,7 +242,7 @@ export default defineComponent({
 	border-color: black;
 
 	h3 {
-		margin-left: 16px;
+		margin-inline-start: 16px;
 		color: inherit;
 	}
 

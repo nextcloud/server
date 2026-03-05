@@ -1,25 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017, ownCloud GmbH
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\DB;
 
@@ -63,7 +46,7 @@ class MySqlTools {
 			return false;
 		}
 
-		return str_contains($row, 'maria') && version_compare($row, '10.3', '>=') ||
-			!str_contains($row, 'maria') && version_compare($row, '8.0', '>=');
+		return str_contains($row, 'maria') && version_compare($row, '10.3', '>=')
+			|| !str_contains($row, 'maria') && version_compare($row, '8.0', '>=');
 	}
 }

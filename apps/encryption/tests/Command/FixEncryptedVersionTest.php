@@ -1,22 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @author Sujith Haridasan <sharidasan@owncloud.com>
- *
- * @copyright Copyright (c) 2019, ownCloud GmbH
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2019 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Encryption\Tests\Command;
@@ -24,6 +13,14 @@ namespace OCA\Encryption\Tests\Command;
 use OC\Files\View;
 use OCA\Encryption\Command\FixEncryptedVersion;
 use OCA\Encryption\Util;
+use OCP\Encryption\IManager;
+use OCP\Files\ISetupManager;
+use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\ITempManager;
+use OCP\IUserManager;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
@@ -34,29 +31,26 @@ use Test\Traits\UserTrait;
 /**
  * Class FixEncryptedVersionTest
  *
- * @group DB
  * @package OCA\Encryption\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class FixEncryptedVersionTest extends TestCase {
 	use MountProviderTrait;
 	use EncryptionTrait;
 	use UserTrait;
 
-	private $userId;
+	private string $userId;
 
-	/** @var FixEncryptedVersion */
-	private $fixEncryptedVersion;
+	private FixEncryptedVersion $fixEncryptedVersion;
 
-	/** @var CommandTester */
-	private $commandTester;
+	private CommandTester $commandTester;
 
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
-	protected $util;
+	protected Util&MockObject $util;
 
 	public function setUp(): void {
 		parent::setUp();
 
-		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '1');
+		Server::get(IAppConfig::class)->setValueBool('encryption', 'useMasterKey', true);
 
 		$this->util = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()->getMock();
@@ -64,35 +58,36 @@ class FixEncryptedVersionTest extends TestCase {
 		$this->userId = $this->getUniqueId('user_');
 
 		$this->createUser($this->userId, 'foo12345678');
-		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($this->userId, '\OC\Files\Storage\Local', '/' . $this->userId, ['datadir' => $tmpFolder]);
 		$this->setupForUser($this->userId, 'foo12345678');
 		$this->loginWithEncryption($this->userId);
 
 		$this->fixEncryptedVersion = new FixEncryptedVersion(
-			\OC::$server->getConfig(),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getRootFolder(),
-			\OC::$server->getUserManager(),
+			Server::get(IConfig::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IUserManager::class),
 			$this->util,
-			new View('/')
+			new View('/'),
+			Server::get(ISetupManager::class),
 		);
 		$this->commandTester = new CommandTester($this->fixEncryptedVersion);
 
-		$this->assertTrue(\OC::$server->getEncryptionManager()->isEnabled());
-		$this->assertTrue(\OC::$server->getEncryptionManager()->isReady());
-		$this->assertTrue(\OC::$server->getEncryptionManager()->isReadyForUser($this->userId));
+		$manager = Server::get(IManager::class);
+		$this->assertTrue($manager->isEnabled());
+		$this->assertTrue($manager->isReady());
+		$this->assertTrue($manager->isReadyForUser($this->userId));
 	}
 
 	/**
 	 * In this test the encrypted version of the file is less than the original value
 	 * but greater than zero
 	 */
-	public function testEncryptedVersionLessThanOriginalValue() {
+	public function testEncryptedVersionLessThanOriginalValue(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->touch('hello.txt');
 		$view->touch('world.txt');
@@ -156,11 +151,11 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 	 * In this test the encrypted version of the file is greater than the original value
 	 * but greater than zero
 	 */
-	public function testEncryptedVersionGreaterThanOriginalValue() {
+	public function testEncryptedVersionGreaterThanOriginalValue(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->touch('hello.txt');
 		$view->touch('world.txt');
@@ -215,11 +210,11 @@ The file \"/$this->userId/files/world.txt\" is: OK
 Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 	}
 
-	public function testVersionIsRestoredToOriginalIfNoFixIsFound() {
+	public function testVersionIsRestoredToOriginalIfNoFixIsFound(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->touch('bar.txt');
 		for ($i = 0; $i < 40; $i++) {
@@ -240,16 +235,16 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		]);
 
 		$cacheInfo = $cache->get($fileInfo->getId());
-		$encryptedVersion = $cacheInfo["encryptedVersion"];
+		$encryptedVersion = $cacheInfo['encryptedVersion'];
 
 		$this->assertEquals(15, $encryptedVersion);
 	}
 
-	public function testRepairUnencryptedFileWhenVersionIsSet() {
+	public function testRepairUnencryptedFileWhenVersionIsSet(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		// create a file, it's encrypted and also the version is set in the database
 		$view->touch('hello.txt');
@@ -264,7 +259,7 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		$cacheInfo = ['encryptedVersion' => 1, 'encrypted' => 1];
 		$cache1->put($fileCache1->getPath(), $cacheInfo);
 
-		$absPath = $storage1->getSourcePath('').$fileInfo1->getInternalPath();
+		$absPath = $storage1->getSourcePath('') . $fileInfo1->getInternalPath();
 
 		// create unencrypted file on disk, the version stays
 		file_put_contents($absPath, 'hello contents');
@@ -288,18 +283,18 @@ Fixed the file: \"/$this->userId/files/hello.txt\" with version 0 (unencrypted)"
 	/**
 	 * Test commands with a file path
 	 */
-	public function testExecuteWithFilePathOption() {
+	public function testExecuteWithFilePathOption(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->touch('hello.txt');
 		$view->touch('world.txt');
 
 		$this->commandTester->execute([
 			'user' => $this->userId,
-			'--path' => "/hello.txt"
+			'--path' => '/hello.txt'
 		]);
 
 		$output = $this->commandTester->getDisplay();
@@ -312,11 +307,11 @@ The file \"/$this->userId/files/hello.txt\" is: OK", $output);
 	/**
 	 * Test commands with a directory path
 	 */
-	public function testExecuteWithDirectoryPathOption() {
+	public function testExecuteWithDirectoryPathOption(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->mkdir('sub');
 		$view->touch('sub/hello.txt');
@@ -324,7 +319,7 @@ The file \"/$this->userId/files/hello.txt\" is: OK", $output);
 
 		$this->commandTester->execute([
 			'user' => $this->userId,
-			'--path' => "/sub"
+			'--path' => '/sub'
 		]);
 
 		$output = $this->commandTester->getDisplay();
@@ -334,13 +329,13 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 		$this->assertStringNotContainsString('world.txt', $output);
 	}
 
-	public function testExecuteWithNoUser() {
+	public function testExecuteWithNoUser(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
 		$this->commandTester->execute([
 			'user' => null,
-			'--path' => "/"
+			'--path' => '/'
 		]);
 
 		$output = $this->commandTester->getDisplay();
@@ -348,13 +343,13 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 		$this->assertStringContainsString('Either a user id or --all needs to be provided', $output);
 	}
 
-	public function testExecuteWithBadUser() {
+	public function testExecuteWithBadUser(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
 		$this->commandTester->execute([
 			'user' => 'nonexisting',
-			'--path' => "/"
+			'--path' => '/'
 		]);
 
 		$output = $this->commandTester->getDisplay();
@@ -365,7 +360,7 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 	/**
 	 * Test commands with a directory path
 	 */
-	public function testExecuteWithNonExistentPath() {
+	public function testExecuteWithNonExistentPath(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -382,8 +377,8 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 	/**
 	 * Test commands without master key
 	 */
-	public function testExecuteWithNoMasterKey() {
-		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '0');
+	public function testExecuteWithNoMasterKey(): void {
+		Server::get(IAppConfig::class)->setValueBool('encryption', 'useMasterKey', false);
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(false);
 

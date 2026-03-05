@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitDashboard
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Dashboard\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Dashboard\\' => 
+        'OCA\\Dashboard\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -24,8 +24,8 @@ class ComposerStaticInitDashboard
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Dashboard\\Controller\\DashboardApiController' => __DIR__ . '/..' . '/../lib/Controller/DashboardApiController.php',
         'OCA\\Dashboard\\Controller\\DashboardController' => __DIR__ . '/..' . '/../lib/Controller/DashboardController.php',
-        'OCA\\Dashboard\\Controller\\LayoutApiController' => __DIR__ . '/..' . '/../lib/Controller/LayoutApiController.php',
         'OCA\\Dashboard\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
+        'OCA\\Dashboard\\Service\\DashboardService' => __DIR__ . '/..' . '/../lib/Service/DashboardService.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

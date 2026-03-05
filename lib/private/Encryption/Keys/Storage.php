@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Encryption\Keys;
 
@@ -37,52 +17,26 @@ use OCP\IConfig;
 use OCP\Security\ICrypto;
 
 class Storage implements IStorage {
-	// hidden file which indicate that the folder is a valid key storage
+	/** @var string hidden file which indicate that the folder is a valid key storage */
 	public const KEY_STORAGE_MARKER = '.oc_key_storage';
+	/** @var string base dir where all the file related keys are stored */
+	private string $keys_base_dir;
+	/** @var string root of the key storage default is empty which means that we use the data folder */
+	private string $root_dir;
+	private string $encryption_base_dir;
+	private string $backup_base_dir;
+	private array $keyCache = [];
 
-	/** @var View */
-	private $view;
-
-	/** @var Util */
-	private $util;
-
-	// base dir where all the file related keys are stored
-	/** @var string */
-	private $keys_base_dir;
-
-	// root of the key storage default is empty which means that we use the data folder
-	/** @var string */
-	private $root_dir;
-
-	/** @var string */
-	private $encryption_base_dir;
-
-	/** @var string */
-	private $backup_base_dir;
-
-	/** @var array */
-	private $keyCache = [];
-
-	/** @var ICrypto */
-	private $crypto;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param View $view
-	 * @param Util $util
-	 */
-	public function __construct(View $view, Util $util, ICrypto $crypto, IConfig $config) {
-		$this->view = $view;
-		$this->util = $util;
-
+	public function __construct(
+		private readonly View $view,
+		private readonly Util $util,
+		private readonly ICrypto $crypto,
+		private readonly IConfig $config,
+	) {
 		$this->encryption_base_dir = '/files_encryption';
-		$this->keys_base_dir = $this->encryption_base_dir .'/keys';
-		$this->backup_base_dir = $this->encryption_base_dir .'/backup';
+		$this->keys_base_dir = $this->encryption_base_dir . '/keys';
+		$this->backup_base_dir = $this->encryption_base_dir . '/backup';
 		$this->root_dir = $this->util->getKeyStorageRoot();
-		$this->crypto = $crypto;
-		$this->config = $config;
 	}
 
 	/**
@@ -213,7 +167,7 @@ class Storage implements IStorage {
 				. $encryptionModuleId . '/' . $uid . '.' . $keyId;
 		}
 
-		return \OC\Files\Filesystem::normalizePath($path);
+		return Filesystem::normalizePath($path);
 	}
 
 	/**

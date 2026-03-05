@@ -3,37 +3,24 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
 use OC\Authentication\Token\RemoteWipe;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\IRequest;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 class WipeController extends Controller {
 	public function __construct(
 		string $appName,
@@ -44,21 +31,18 @@ class WipeController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * @AnonRateThrottle(limit=10, period=300)
-	 *
 	 * Check if the device should be wiped
 	 *
 	 * @param string $token App password
 	 *
-	 * @return JSONResponse<Http::STATUS_OK, array{wipe: bool}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, array{wipe: bool}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Device should be wiped
 	 * 404: Device should not be wiped
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/check')]
 	public function checkWipe(string $token): JSONResponse {
 		try {
@@ -76,21 +60,18 @@ class WipeController extends Controller {
 
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * @AnonRateThrottle(limit=10, period=300)
-	 *
 	 * Finish the wipe
 	 *
 	 * @param string $token App password
 	 *
-	 * @return JSONResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return JSONResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Wipe finished successfully
 	 * 404: Device should not be wiped
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/success')]
 	public function wipeDone(string $token): JSONResponse {
 		try {

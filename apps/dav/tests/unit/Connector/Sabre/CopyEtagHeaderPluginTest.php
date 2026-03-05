@@ -1,31 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
- * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
@@ -34,21 +13,13 @@ use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
+use Sabre\HTTP\Request;
+use Sabre\HTTP\Response;
 use Test\TestCase;
 
-/**
- * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
- */
 class CopyEtagHeaderPluginTest extends TestCase {
-
-	/** @var CopyEtagHeaderPlugin */
-	private $plugin;
-
-	/** @var Server */
-	private $server;
+	private CopyEtagHeaderPlugin $plugin;
+	private Server $server;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -58,8 +29,8 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testCopyEtag(): void {
-		$request = new \Sabre\Http\Request('GET', 'dummy.file');
-		$response = new \Sabre\Http\Response();
+		$request = new Request('GET', 'dummy.file');
+		$response = new Response();
 		$response->setHeader('Etag', 'abcd');
 
 		$this->plugin->afterMethod($request, $response);
@@ -68,8 +39,8 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testNoopWhenEmpty(): void {
-		$request = new \Sabre\Http\Request('GET', 'dummy.file');
-		$response = new \Sabre\Http\Response();
+		$request = new Request('GET', 'dummy.file');
+		$response = new Response();
 
 		$this->plugin->afterMethod($request, $response);
 
@@ -90,15 +61,11 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testAfterMove(): void {
-		$node = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->once())
 			->method('getETag')
 			->willReturn('123456');
-		$tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$tree = $this->createMock(Tree::class);
 		$tree->expects($this->once())
 			->method('getNodeForPath')
 			->with('test.txt')

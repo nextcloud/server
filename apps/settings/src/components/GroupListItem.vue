@@ -1,43 +1,30 @@
 <!--
-  - @copyright Copyright (c) 2021 Martin Jänel <spammemore@posteo.de>
-  -
-  - @author Martin Jänel <spammemore@posteo.de>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<Fragment>
-		<NcModal v-if="showRemoveGroupModal"
+		<NcModal
+			v-if="showRemoveGroupModal"
 			@close="showRemoveGroupModal = false">
 			<div class="modal__content">
 				<h2 class="modal__header">
 					{{ t('settings', 'Please confirm the group removal') }}
 				</h2>
-				<NcNoteCard type="warning"
+				<NcNoteCard
+					type="warning"
 					show-alert>
-					{{ t('settings', 'You are about to remove the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
+					{{ t('settings', 'You are about to delete the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
 				</NcNoteCard>
 				<div class="modal__button-row">
-					<NcButton type="secondary"
+					<NcButton
+						variant="secondary"
 						@click="showRemoveGroupModal = false">
 						{{ t('settings', 'Cancel') }}
 					</NcButton>
-					<NcButton type="primary"
+					<NcButton
+						variant="primary"
 						@click="removeGroup">
 						{{ t('settings', 'Confirm') }}
 					</NcButton>
@@ -45,7 +32,9 @@
 			</div>
 		</NcModal>
 
-		<NcAppNavigationItem :key="id"
+		<NcAppNavigationItem
+			:key="id"
+			ref="listItem"
 			:exact="true"
 			:name="name"
 			:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
@@ -56,29 +45,32 @@
 				<AccountGroup :size="20" />
 			</template>
 			<template #counter>
-				<NcCounterBubble v-if="count"
+				<NcCounterBubble
+					v-if="count"
 					:type="active ? 'highlighted' : undefined">
 					{{ count }}
 				</NcCounterBubble>
 			</template>
 			<template #actions>
-				<NcActionInput v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+				<NcActionInput
+					v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
 					ref="displayNameInput"
 					:trailing-button-label="t('settings', 'Submit')"
 					type="text"
-					:value="name"
+					:model-value="name"
 					:label=" t('settings', 'Rename group')"
 					@submit="renameGroup(id)">
 					<template #icon>
 						<Pencil :size="20" />
 					</template>
 				</NcActionInput>
-				<NcActionButton v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+				<NcActionButton
+					v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
 					@click="showRemoveGroupModal = true">
 					<template #icon>
 						<Delete :size="20" />
 					</template>
-					{{ t('settings', 'Remove group') }}
+					{{ t('settings', 'Delete group') }}
 				</NcActionButton>
 			</template>
 		</NcAppNavigationItem>
@@ -86,21 +78,18 @@
 </template>
 
 <script>
-import { Fragment } from 'vue-frag'
-
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-
-import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
-import Pencil from 'vue-material-design-icons/Pencil.vue'
-
 import { showError } from '@nextcloud/dialogs'
+import { Fragment } from 'vue-frag'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import AccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
+import Pencil from 'vue-material-design-icons/PencilOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 
 export default {
 	name: 'GroupListItem',
@@ -117,6 +106,7 @@ export default {
 		NcNoteCard,
 		Pencil,
 	},
+
 	props: {
 		/**
 		 * If this group is currently selected
@@ -125,6 +115,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
 		/**
 		 * Number of members within this group
 		 */
@@ -132,6 +123,7 @@ export default {
 			type: Number,
 			default: null,
 		},
+
 		/**
 		 * Identifier of this group
 		 */
@@ -139,6 +131,7 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		/**
 		 * Name of this group
 		 */
@@ -147,6 +140,7 @@ export default {
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			loadingRenameGroup: false,
@@ -154,15 +148,18 @@ export default {
 			showRemoveGroupModal: false,
 		}
 	},
+
 	computed: {
 		settings() {
 			return this.$store.getters.getServerData
 		},
 	},
+
 	methods: {
 		handleGroupMenuOpen() {
 			this.openGroupMenu = true
 		},
+
 		async renameGroup(gid) {
 			// check if group id is valid
 			if (gid.trim() === '') {
@@ -190,12 +187,13 @@ export default {
 				this.loadingRenameGroup = false
 			}
 		},
+
 		async removeGroup() {
 			try {
 				await this.$store.dispatch('removeGroup', this.id)
 				this.showRemoveGroupModal = false
-			} catch (error) {
-				showError(t('settings', 'Failed to remove group "{group}"', { group: this.name }))
+			} catch {
+				showError(t('settings', 'Failed to delete group "{group}"', { group: this.name }))
 			}
 		},
 	},

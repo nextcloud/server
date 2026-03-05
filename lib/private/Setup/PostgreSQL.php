@@ -1,46 +1,26 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author eduardo <eduardo@vnexu.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Vitor Mattos <vitor@php.rio>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Setup;
 
 use OC\DatabaseException;
+use OC\DatabaseSetupException;
 use OC\DB\Connection;
 use OC\DB\QueryBuilder\Literal;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 
 class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
 	/**
-	 * @param string $username
-	 * @throws \OC\DatabaseSetupException
+	 * @throws DatabaseSetupException
 	 */
-	public function setupDatabase($username) {
+	public function setupDatabase(): void {
 		try {
 			$connection = $this->connect([
 				'dbname' => 'postgres'
@@ -56,7 +36,7 @@ class PostgreSQL extends AbstractDatabase {
 					->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
 
 				try {
-					$result = $query->execute();
+					$result = $query->executeQuery();
 					$canCreateRoles = $result->rowCount() > 0;
 				} catch (DatabaseException $e) {
 					$canCreateRoles = false;
@@ -67,21 +47,11 @@ class PostgreSQL extends AbstractDatabase {
 					//use the admin login data for the new database user
 
 					//add prefix to the postgresql user name to prevent collisions
-					$this->dbUser = 'oc_' . strtolower($username);
+					$this->dbUser = 'oc_admin';
 					//create a new password so we don't need to store the admin config in the config file
-					$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
+					$this->dbPassword = Server::get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
 					$this->createDBUser($connection);
-
-					// Go to the main database and grant create on the public schema
-					// The code below is implemented to make installing possible with PostgreSQL version 15:
-					// https://www.postgresql.org/docs/release/15.0/
-					// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
-					// Therefore we assume that the database is only used by one user/service which is Nextcloud
-					// Additional services should get installed in a separate database in order to stay secure
-					// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
-					$connectionMainDatabase->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
-					$connectionMainDatabase->close();
 				}
 			}
 
@@ -94,6 +64,20 @@ class PostgreSQL extends AbstractDatabase {
 			$this->createDatabase($connection);
 			// the connection to dbname=postgres is not needed anymore
 			$connection->close();
+
+			if ($this->tryCreateDbUser) {
+				if ($canCreateRoles) {
+					// Go to the main database and grant create on the public schema
+					// The code below is implemented to make installing possible with PostgreSQL version 15:
+					// https://www.postgresql.org/docs/release/15.0/
+					// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
+					// Therefore we assume that the database is only used by one user/service which is Nextcloud
+					// Additional services should get installed in a separate database in order to stay secure
+					// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
+					$connectionMainDatabase->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
+					$connectionMainDatabase->close();
+				}
+			}
 		} catch (\Exception $e) {
 			$this->logger->warning('Error trying to connect as "postgres", assuming database is setup and tables need to be created', [
 				'exception' => $e,
@@ -114,26 +98,26 @@ class PostgreSQL extends AbstractDatabase {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
 			]);
-			throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL Login and/or password not valid'),
+			throw new DatabaseSetupException($this->trans->t('PostgreSQL Login and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
 	}
 
-	private function createDatabase(Connection $connection) {
+	private function createDatabase(Connection $connection): void {
 		if (!$this->databaseExists($connection)) {
 			//The database does not exists... let's create it
-			$query = $connection->prepare("CREATE DATABASE " . addslashes($this->dbName) . " OWNER \"" . addslashes($this->dbUser) . '"');
+			$query = $connection->prepare('CREATE DATABASE ' . addslashes($this->dbName) . ' OWNER "' . addslashes($this->dbUser) . '"');
 			try {
-				$query->execute();
+				$query->executeStatement();
 			} catch (DatabaseException $e) {
 				$this->logger->error('Error while trying to create database', [
 					'exception' => $e,
 				]);
 			}
 		} else {
-			$query = $connection->prepare("REVOKE ALL PRIVILEGES ON DATABASE " . addslashes($this->dbName) . " FROM PUBLIC");
+			$query = $connection->prepare('REVOKE ALL PRIVILEGES ON DATABASE ' . addslashes($this->dbName) . ' FROM PUBLIC');
 			try {
-				$query->execute();
+				$query->executeStatement();
 			} catch (DatabaseException $e) {
 				$this->logger->error('Error while trying to restrict database permissions', [
 					'exception' => $e,
@@ -142,27 +126,27 @@ class PostgreSQL extends AbstractDatabase {
 		}
 	}
 
-	private function userExists(Connection $connection) {
+	private function userExists(Connection $connection): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
 		$query = $builder->select('*')
 			->from('pg_roles')
 			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 
-	private function databaseExists(Connection $connection) {
+	private function databaseExists(Connection $connection): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
 		$query = $builder->select('datname')
 			->from('pg_database')
 			->where($builder->expr()->eq('datname', $builder->createNamedParameter($this->dbName)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 
-	private function createDBUser(Connection $connection) {
+	private function createDBUser(Connection $connection): void {
 		$dbUser = $this->dbUser;
 		try {
 			$i = 1;
@@ -172,11 +156,11 @@ class PostgreSQL extends AbstractDatabase {
 			}
 
 			// create the user
-			$query = $connection->prepare("CREATE USER \"" . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
-			$query->execute();
+			$query = $connection->prepare('CREATE USER "' . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
+			$query->executeStatement();
 			if ($this->databaseExists($connection)) {
 				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO "' . addslashes($this->dbUser) . '"');
-				$query->execute();
+				$query->executeStatement();
 			}
 		} catch (DatabaseException $e) {
 			$this->logger->error('Error while trying to create database user', [

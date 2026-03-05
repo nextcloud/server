@@ -1,3 +1,7 @@
+<!--
+ - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="chip">
 		<span class="icon">
@@ -19,16 +23,19 @@ export default {
 	components: {
 		CloseIcon,
 	},
+
 	props: {
 		text: {
 			type: String,
 			required: true,
 		},
+
 		pretext: {
 			type: String,
 			required: true,
 		},
 	},
+
 	methods: {
 		deleteChip() {
 			this.$emit('delete', this.filter)
@@ -50,7 +57,7 @@ export default {
     .icon {
         display: flex;
         align-items: center;
-        padding-right: 5px;
+        padding-inline-end: 5px;
 
         img {
             width: 20px;

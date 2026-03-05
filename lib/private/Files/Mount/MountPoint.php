@@ -1,32 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Mount;
 
@@ -34,71 +11,55 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class MountPoint implements IMountPoint {
-	/**
-	 * @var \OC\Files\Storage\Storage|null $storage
-	 */
+	/** @var IStorage|null $storage */
 	protected $storage = null;
-	protected $class;
-	protected $storageId;
-	protected $numericStorageId = null;
-	protected $rootId = null;
+	/** @var class-string<IStorage> */
+	protected string $class;
+	protected ?string $storageId = null;
+	protected ?int $numericStorageId = null;
+	protected ?int $rootId = null;
 
 	/**
 	 * Configuration options for the storage backend
-	 *
-	 * @var array
 	 */
-	protected $arguments = [];
-	protected $mountPoint;
+	protected array $arguments = [];
+	protected string $mountPoint;
 
 	/**
 	 * Mount specific options
-	 *
-	 * @var array
 	 */
-	protected $mountOptions = [];
-
-	/**
-	 * @var \OC\Files\Storage\StorageFactory $loader
-	 */
-	private $loader;
+	protected array $mountOptions = [];
+	private IStorageFactory $loader;
 
 	/**
 	 * Specified whether the storage is invalid after failing to
 	 * instantiate it.
-	 *
-	 * @var bool
 	 */
-	private $invalidStorage = false;
-
-	/** @var int|null */
-	protected $mountId;
-
-	/** @var string */
-	protected $mountProvider;
+	private bool $invalidStorage = false;
+	protected string $mountProvider;
 
 	/**
-	 * @param string|\OC\Files\Storage\Storage $storage
-	 * @param string $mountpoint
+	 * @param IStorage|class-string<IStorage> $storage
 	 * @param array $arguments (optional) configuration for the storage backend
-	 * @param \OCP\Files\Storage\IStorageFactory $loader
-	 * @param array $mountOptions mount specific options
-	 * @param int|null $mountId
-	 * @param string|null $mountProvider
+	 * @param ?array $mountOptions mount specific options
+	 * @param ?int $mountId
+	 * @param ?string $mountProvider
 	 * @throws \Exception
 	 */
 	public function __construct(
-		$storage,
+		string|IStorage $storage,
 		string $mountpoint,
 		?array $arguments = null,
 		?IStorageFactory $loader = null,
 		?array $mountOptions = null,
-		?int $mountId = null,
-		?string $mountProvider = null
+		protected ?int $mountId = null,
+		?string $mountProvider = null,
 	) {
 		if (is_null($arguments)) {
 			$arguments = [];
@@ -113,9 +74,7 @@ class MountPoint implements IMountPoint {
 			$this->mountOptions = $mountOptions;
 		}
 
-		$mountpoint = $this->formatPath($mountpoint);
-		$this->mountPoint = $mountpoint;
-		$this->mountId = $mountId;
+		$this->mountPoint = $this->formatPath($mountpoint);
 		if ($storage instanceof Storage) {
 			$this->class = get_class($storage);
 			$this->storage = $this->loader->wrap($this, $storage);
@@ -166,6 +125,7 @@ class MountPoint implements IMountPoint {
 				$class = $this->class;
 				// prevent recursion by setting the storage before applying wrappers
 				$this->storage = new $class($this->arguments);
+				/** @psalm-suppress UndefinedInterfaceMethod This is a StorageFactory */
 				$this->storage = $this->loader->wrap($this, $this->storage);
 			} catch (\Exception $exception) {
 				$this->storage = null;
@@ -174,19 +134,18 @@ class MountPoint implements IMountPoint {
 					// the root storage could not be initialized, show the user!
 					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', $exception->getCode(), $exception);
 				} else {
-					\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception]);
+					Server::get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception]);
 				}
 				return;
 			}
 		} else {
-			\OC::$server->get(LoggerInterface::class)->error('Storage backend ' . $this->class . ' not found', ['app' => 'core']);
+			Server::get(LoggerInterface::class)->error('Storage backend ' . $this->class . ' not found', ['app' => 'core']);
 			$this->invalidStorage = true;
-			return;
 		}
 	}
 
 	/**
-	 * @return \OC\Files\Storage\Storage|null
+	 * @return IStorage|null
 	 */
 	public function getStorage() {
 		if (is_null($this->storage)) {
@@ -221,7 +180,7 @@ class MountPoint implements IMountPoint {
 			if (is_null($storage)) {
 				return -1;
 			}
-			$this->numericStorageId = $storage->getStorageCache()->getNumericId();
+			$this->numericStorageId = $storage->getCache()->getNumericStorageId();
 		}
 		return $this->numericStorageId;
 	}
@@ -232,7 +191,7 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getInternalPath($path) {
 		$path = Filesystem::normalizePath($path, true, false, true);
-		if ($this->mountPoint === $path or $this->mountPoint . '/' === $path) {
+		if ($this->mountPoint === $path || $this->mountPoint . '/' === $path) {
 			$internalPath = '';
 		} else {
 			$internalPath = substr($path, strlen($this->mountPoint));

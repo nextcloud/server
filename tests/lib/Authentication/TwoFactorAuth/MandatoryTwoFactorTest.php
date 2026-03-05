@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Authentication\TwoFactorAuth;
@@ -53,7 +36,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->mandatoryTwoFactor = new MandatoryTwoFactor($this->config, $this->groupManager);
 	}
 
-	public function testIsNotEnforced() {
+	public function testIsNotEnforced(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -67,7 +50,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertFalse($state->isEnforced());
 	}
 
-	public function testIsEnforced() {
+	public function testIsEnforced(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -81,7 +64,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertTrue($state->isEnforced());
 	}
 
-	public function testIsNotEnforcedForAnybody() {
+	public function testIsNotEnforcedForAnybody(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
@@ -97,7 +80,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertFalse($isEnforced);
 	}
 
-	public function testIsEnforcedForAGroupMember() {
+	public function testIsEnforcedForAGroupMember(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
@@ -117,7 +100,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertTrue($isEnforced);
 	}
 
-	public function testIsEnforcedForOtherGroups() {
+	public function testIsEnforcedForOtherGroups(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
@@ -135,7 +118,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertFalse($isEnforced);
 	}
 
-	public function testIsEnforcedButMemberOfExcludedGroup() {
+	public function testIsEnforcedButMemberOfExcludedGroup(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
@@ -155,7 +138,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertFalse($isEnforced);
 	}
 
-	public function testSetEnforced() {
+	public function testSetEnforced(): void {
 		$this->config
 			->expects($this->exactly(3))
 			->method('setSystemValue')
@@ -168,7 +151,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->mandatoryTwoFactor->setState(new EnforcementState(true));
 	}
 
-	public function testSetEnforcedForGroups() {
+	public function testSetEnforcedForGroups(): void {
 		$this->config
 			->expects($this->exactly(3))
 			->method('setSystemValue')
@@ -181,7 +164,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->mandatoryTwoFactor->setState(new EnforcementState(true, ['twofactorers'], ['yoloers']));
 	}
 
-	public function testSetNotEnforced() {
+	public function testSetNotEnforced(): void {
 		$this->config
 			->expects($this->exactly(3))
 			->method('setSystemValue')

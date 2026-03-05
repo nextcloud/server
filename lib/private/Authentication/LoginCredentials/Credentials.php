@@ -1,68 +1,36 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\LoginCredentials;
 
 use OCP\Authentication\LoginCredentials\ICredentials;
+use Override;
 
 class Credentials implements ICredentials {
-	/** @var string */
-	private $uid;
-
-	/** @var string */
-	private $loginName;
-
-	/** @var string */
-	private $password;
-
-	/**
-	 * @param string $uid
-	 * @param string $loginName
-	 * @param string $password
-	 */
-	public function __construct($uid, $loginName, $password) {
-		$this->uid = $uid;
-		$this->loginName = $loginName;
-		$this->password = $password;
+	public function __construct(
+		private readonly string $uid,
+		private readonly string $loginName,
+		private readonly ?string $password,
+	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getUID() {
+	#[Override]
+	public function getUID(): string {
 		return $this->uid;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getLoginName() {
+	#[Override]
+	public function getLoginName(): string {
 		return $this->loginName;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPassword() {
+	#[Override]
+	public function getPassword(): ?string {
 		return $this->password;
 	}
 }

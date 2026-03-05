@@ -1,28 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests\Command;
 
@@ -36,33 +18,27 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\IL10N;
-use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Security\ICrypto;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class ListCommandTest extends CommandTest {
-	/**
-	 * @return ListCommand|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private function getInstance() {
-		/** @var GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject $globalService */
+class ListCommandTest extends CommandTestCase {
+	private function getInstance(): ListCommand {
+		/** @var GlobalStoragesService&MockObject $globalService */
 		$globalService = $this->createMock(GlobalStoragesService::class);
-		/** @var UserStoragesService|\PHPUnit\Framework\MockObject\MockObject $userService */
+		/** @var UserStoragesService&MockObject $userService */
 		$userService = $this->createMock(UserStoragesService::class);
-		/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
+		/** @var IUserManager&MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
-		/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
+		/** @var IUserSession&MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 
 		return new ListCommand($globalService, $userService, $userSession, $userManager);
 	}
 
-	public function testListAuthIdentifier() {
+	public function testListAuthIdentifier(): void {
 		$l10n = $this->createMock(IL10N::class);
-		$session = $this->createMock(ISession::class);
-		$crypto = $this->createMock(ICrypto::class);
 		$instance = $this->getInstance();
 		$mount1 = new StorageConfig();
 		$mount1->setAuthMechanism(new Password($l10n));

@@ -3,57 +3,26 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\UserStatus;
 
-use OCP\IServerContainer;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IProvider;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-	/** @var IServerContainer */
-	private $container;
+	/** @var ?class-string */
+	private ?string $providerClass = null;
+	private ?IProvider $provider = null;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var class-string */
-	private $providerClass;
-
-	/** @var IProvider */
-	private $provider;
-
-	/**
-	 * Manager constructor.
-	 *
-	 * @param IServerContainer $container
-	 * @param LoggerInterface $logger
-	 */
-	public function __construct(IServerContainer $container,
-		LoggerInterface $logger) {
-		$this->container = $container;
-		$this->logger = $logger;
+	public function __construct(
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -106,7 +75,7 @@ class Manager implements IManager {
 
 	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false, ?string $customMessage = null): void {
 		$this->setupProvider();
-		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+		if (!$this->provider instanceof ISettableProvider) {
 			return;
 		}
 
@@ -115,7 +84,7 @@ class Manager implements IManager {
 
 	public function revertUserStatus(string $userId, string $messageId, string $status): void {
 		$this->setupProvider();
-		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+		if (!$this->provider instanceof ISettableProvider) {
 			return;
 		}
 		$this->provider->revertUserStatus($userId, $messageId, $status);
@@ -123,7 +92,7 @@ class Manager implements IManager {
 
 	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {
 		$this->setupProvider();
-		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+		if (!$this->provider instanceof ISettableProvider) {
 			return;
 		}
 		$this->provider->revertMultipleUserStatus($userIds, $messageId, $status);

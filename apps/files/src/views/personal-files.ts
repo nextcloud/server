@@ -1,42 +1,36 @@
 /**
- * @copyright Copyright (c) 2024 Eduardo Morales <emoral435@gmail.com>
- *
- * @author Eduardo Morales <emoral435@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t } from '@nextcloud/l10n'
-import { View, getNavigation } from '@nextcloud/files'
 
-import { getContents } from '../services/PersonalFiles'
-import AccountIcon from '@mdi/svg/svg/account.svg?raw'
+import AccountIcon from '@mdi/svg/svg/account-outline.svg?raw'
+import { getNavigation, View } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { getContents } from '../services/PersonalFiles.ts'
+import { defaultView, hasPersonalFilesView } from '../utils/filesViews.ts'
 
-export default () => {
+export const VIEW_ID = 'personal'
+
+/**
+ * Register the personal files view if allowed
+ */
+export function registerPersonalFilesView(): void {
+	if (!hasPersonalFilesView()) {
+		return
+	}
+
 	const Navigation = getNavigation()
 	Navigation.register(new View({
-		id: 'personal',
-		name: t('files', 'Personal Files'),
+		id: VIEW_ID,
+		name: t('files', 'Personal files'),
 		caption: t('files', 'List of your files and folders that are not shared.'),
 
 		emptyTitle: t('files', 'No personal files found'),
 		emptyCaption: t('files', 'Files that are not shared will show up here.'),
 
 		icon: AccountIcon,
-		order: 5,
+		// if this is the default view we set it at the top of the list - otherwise default position of fifth
+		order: defaultView() === VIEW_ID ? 0 : 5,
 
 		getContents,
 	}))

@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security\VerificationToken;
@@ -69,13 +52,13 @@ class VerificationTokenTest extends TestCase {
 		);
 	}
 
-	public function testTokenUserUnknown() {
+	public function testTokenUserUnknown(): void {
 		$this->expectException(InvalidTokenException::class);
 		$this->expectExceptionCode(InvalidTokenException::USER_UNKNOWN);
 		$this->token->check('encryptedToken', null, 'fingerprintToken', 'foobar');
 	}
 
-	public function testTokenUserUnknown2() {
+	public function testTokenUserUnknown2(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('isEnabled')
@@ -86,7 +69,7 @@ class VerificationTokenTest extends TestCase {
 		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
 	}
 
-	public function testTokenNotFound() {
+	public function testTokenNotFound(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('isEnabled')
@@ -102,7 +85,7 @@ class VerificationTokenTest extends TestCase {
 		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
 	}
 
-	public function testTokenDecryptionError() {
+	public function testTokenDecryptionError(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('isEnabled')
@@ -129,7 +112,7 @@ class VerificationTokenTest extends TestCase {
 		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
 	}
 
-	public function testTokenInvalidFormat() {
+	public function testTokenInvalidFormat(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('isEnabled')
@@ -156,7 +139,7 @@ class VerificationTokenTest extends TestCase {
 		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
 	}
 
-	public function testTokenExpired() {
+	public function testTokenExpired(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('isEnabled')
@@ -190,7 +173,7 @@ class VerificationTokenTest extends TestCase {
 		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
 	}
 
-	public function testTokenExpiredByLogin() {
+	public function testTokenExpiredByLogin(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('isEnabled')
@@ -224,7 +207,7 @@ class VerificationTokenTest extends TestCase {
 		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar', true);
 	}
 
-	public function testTokenMismatch() {
+	public function testTokenMismatch(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('isEnabled')
@@ -258,7 +241,7 @@ class VerificationTokenTest extends TestCase {
 		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
 	}
 
-	public function testTokenSuccess() {
+	public function testTokenSuccess(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('isEnabled')
@@ -290,7 +273,7 @@ class VerificationTokenTest extends TestCase {
 		$this->token->check('barfoo', $user, 'fingerprintToken', 'foobar');
 	}
 
-	public function testCreate() {
+	public function testCreate(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')

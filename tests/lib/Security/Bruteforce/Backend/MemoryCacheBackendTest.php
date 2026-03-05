@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security\Bruteforce\Backend;
@@ -53,7 +36,7 @@ class MemoryCacheBackendTest extends TestCase {
 		$this->cacheFactory
 			->expects($this->once())
 			->method('createDistributed')
-			->with('OC\Security\Bruteforce\Backend\MemoryCacheBackend')
+			->with(MemoryCacheBackend::class)
 			->willReturn($this->cache);
 
 		$this->backend = new MemoryCacheBackend(
@@ -72,7 +55,7 @@ class MemoryCacheBackendTest extends TestCase {
 		$this->assertSame(0, $this->backend->getAttempts('10.10.10.10/32', 0));
 	}
 
-	public function dataGetAttempts(): array {
+	public static function dataGetAttempts(): array {
 		return [
 			[0, null, null, 4],
 			[100, null, null, 2],
@@ -84,9 +67,7 @@ class MemoryCacheBackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetAttempts
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAttempts')]
 	public function testGetAttempts(int $maxAge, ?string $action, ?array $metadata, int $expected): void {
 		$this->cache
 			->expects($this->once())

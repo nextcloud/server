@@ -1,27 +1,11 @@
 <?php
 
-/**
- * @copyright Copyright (c) 2021 Nextcloud GmbH
- *
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
- *
- */
+declare(strict_types=1);
 
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OCA\Settings\Service;
 
 use OC\Settings\AuthorizedGroup;
@@ -31,18 +15,17 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
 use OCP\IGroup;
+use Throwable;
 
-class AuthorizedGroupService {
-
-	/** @var AuthorizedGroupMapper $mapper */
-	private $mapper;
-
-	public function __construct(AuthorizedGroupMapper $mapper) {
-		$this->mapper = $mapper;
+readonly class AuthorizedGroupService {
+	public function __construct(
+		private AuthorizedGroupMapper $mapper,
+	) {
 	}
 
 	/**
 	 * @return AuthorizedGroup[]
+	 * @throws Exception
 	 */
 	public function findAll(): array {
 		return $this->mapper->findAll();
@@ -50,35 +33,43 @@ class AuthorizedGroupService {
 
 	/**
 	 * Find AuthorizedGroup by id.
-	 *
-	 * @param int $id
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
 	public function find(int $id): ?AuthorizedGroup {
 		return $this->mapper->find($id);
 	}
 
 	/**
-	 * @param $e
 	 * @throws NotFoundException
+	 * @throws Throwable
 	 */
-	private function handleException(\Exception $e): void {
-		if ($e instanceof DoesNotExistException ||
-			$e instanceof MultipleObjectsReturnedException) {
-			throw new NotFoundException("AuthorizedGroup not found");
-		} else {
-			throw $e;
+	private function handleException(Throwable $e): void {
+		if ($e instanceof DoesNotExistException
+			|| $e instanceof MultipleObjectsReturnedException) {
+			throw new NotFoundException('AuthorizedGroup not found');
 		}
+
+		throw $e;
 	}
 
 	/**
 	 * Create a new AuthorizedGroup
 	 *
-	 * @param string $groupId
-	 * @param string $class
-	 * @return AuthorizedGroup
 	 * @throws Exception
+	 * @throws ConflictException
+	 * @throws MultipleObjectsReturnedException
 	 */
 	public function create(string $groupId, string $class): AuthorizedGroup {
+		// Check if the group is already assigned to this class
+		try {
+			$this->mapper->findByGroupIdAndClass($groupId, $class);
+			throw new ConflictException('Group is already assigned to this class');
+		} catch (DoesNotExistException) {
+			// This is expected when no duplicate exists, continue with creation
+		}
+
 		$authorizedGroup = new AuthorizedGroup();
 		$authorizedGroup->setGroupId($groupId);
 		$authorizedGroup->setClass($class);
@@ -87,30 +78,37 @@ class AuthorizedGroupService {
 
 	/**
 	 * @throws NotFoundException
+	 * @throws Throwable
 	 */
 	public function delete(int $id): void {
 		try {
 			$authorizedGroup = $this->mapper->find($id);
 			$this->mapper->delete($authorizedGroup);
-		} catch (\Exception $e) {
-			$this->handleException($e);
+		} catch (\Exception $exception) {
+			$this->handleException($exception);
 		}
 	}
 
+	/**
+	 * @return list<AuthorizedGroup>
+	 */
 	public function findExistingGroupsForClass(string $class): array {
 		try {
-			$authorizedGroup = $this->mapper->findExistingGroupsForClass($class);
-			return $authorizedGroup;
-		} catch (\Exception $e) {
+			return $this->mapper->findExistingGroupsForClass($class);
+		} catch (\Exception) {
 			return [];
 		}
 	}
 
+	/**
+	 * @throws Throwable
+	 * @throws NotFoundException
+	 */
 	public function removeAuthorizationAssociatedTo(IGroup $group): void {
 		try {
 			$this->mapper->removeGroup($group->getGID());
-		} catch (\Exception $e) {
-			$this->handleException($e);
+		} catch (\Exception $exception) {
+			$this->handleException($exception);
 		}
 	}
 }

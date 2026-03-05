@@ -1,23 +1,8 @@
 <?php
+
 /**
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Core\Controller;
@@ -76,7 +61,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testChangePersonalPasswordWrongPassword() {
+	public function testChangePersonalPasswordWrongPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -98,7 +83,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $actual);
 	}
 
-	public function testChangePersonalPasswordCommonPassword() {
+	public function testChangePersonalPasswordCommonPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -112,7 +97,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$user->expects($this->once())
 			->method('setPassword')
 			->with('new')
-			->will($this->throwException(new HintException('Common password')));
+			->willThrowException(new HintException('Common password'));
 
 		$expects = new JSONResponse([
 			'status' => 'error',
@@ -125,7 +110,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $actual);
 	}
 
-	public function testChangePersonalPasswordNoNewPassword() {
+	public function testChangePersonalPasswordNoNewPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -148,7 +133,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $res->getData());
 	}
 
-	public function testChangePersonalPasswordCantSetPassword() {
+	public function testChangePersonalPasswordCantSetPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -175,7 +160,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $actual);
 	}
 
-	public function testChangePersonalPassword() {
+	public function testChangePersonalPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);

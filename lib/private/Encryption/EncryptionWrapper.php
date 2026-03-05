@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Encryption;
 
@@ -28,9 +11,16 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
+use OCP\Encryption\IFile;
+use OCP\Encryption\Keys\IStorage as EncryptionKeysStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -41,24 +31,14 @@ use Psr\Log\LoggerInterface;
  * @package OC\Encryption
  */
 class EncryptionWrapper {
-	/** @var ArrayCache  */
-	private $arrayCache;
-
-	/** @var  Manager */
-	private $manager;
-
-	private LoggerInterface $logger;
-
 	/**
 	 * EncryptionWrapper constructor.
 	 */
-	public function __construct(ArrayCache $arrayCache,
-		Manager $manager,
-		LoggerInterface $logger
+	public function __construct(
+		private ArrayCache $arrayCache,
+		private Manager $manager,
+		private LoggerInterface $logger,
 	) {
-		$this->arrayCache = $arrayCache;
-		$this->manager = $manager;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -78,26 +58,17 @@ class EncryptionWrapper {
 		];
 
 		if ($force || (!$storage->instanceOfStorage(IDisableEncryptionStorage::class) && $mountPoint !== '/')) {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = Server::get(IUserSession::class)->getUser();
 			$mountManager = Filesystem::getMountManager();
 			$uid = $user ? $user->getUID() : null;
-			$fileHelper = \OC::$server->getEncryptionFilesHelper();
-			$keyStorage = \OC::$server->getEncryptionKeyStorage();
+			$fileHelper = Server::get(IFile::class);
+			$keyStorage = Server::get(EncryptionKeysStorage::class);
 
 			$util = new Util(
 				new View(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getConfig()
-			);
-			$update = new Update(
-				new View(),
-				$util,
-				Filesystem::getMountManager(),
-				$this->manager,
-				$fileHelper,
-				$this->logger,
-				$uid
+				Server::get(IUserManager::class),
+				Server::get(IGroupManager::class),
+				Server::get(IConfig::class)
 			);
 			return new Encryption(
 				$parameters,
@@ -107,7 +78,6 @@ class EncryptionWrapper {
 				$fileHelper,
 				$uid,
 				$keyStorage,
-				$update,
 				$mountManager,
 				$this->arrayCache
 			);

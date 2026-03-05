@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Support\CrashReport;
 
@@ -31,7 +14,7 @@ use Throwable;
 
 /**
  * @since 13.0.0
- * @deprecated used internally only
+ * @deprecated 20.0.0 used internally only
  */
 interface IRegistry {
 	/**
@@ -52,7 +35,7 @@ interface IRegistry {
 	 * @param string $category
 	 * @param array $context
 	 *
-	 * @deprecated used internally only
+	 * @deprecated 20.0.0 used internally only
 	 * @since 15.0.0
 	 */
 	public function delegateBreadcrumb(string $message, string $category, array $context = []): void;
@@ -63,7 +46,7 @@ interface IRegistry {
 	 * @param Exception|Throwable $exception
 	 * @param array $context
 	 *
-	 * @deprecated used internally only
+	 * @deprecated 20.0.0 used internally only
 	 * @since 13.0.0
 	 */
 	public function delegateReport($exception, array $context = []);
@@ -76,7 +59,7 @@ interface IRegistry {
 	 *
 	 * @return void
 	 *
-	 * @deprecated used internally only
+	 * @deprecated 20.0.0 used internally only
 	 * @since 17.0.0
 	 */
 	public function delegateMessage(string $message, array $context = []): void;
@@ -85,7 +68,7 @@ interface IRegistry {
 	 * Check if any reporter has been registered to delegate to
 	 *
 	 * @return bool
-	 * @deprecated use internally only
+	 * @deprecated 20.0.0 use internally only
 	 * @since 26.0.0
 	 */
 	public function hasReporters(): bool;

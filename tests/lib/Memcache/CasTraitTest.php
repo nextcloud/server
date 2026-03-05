@@ -1,38 +1,30 @@
 <?php
+
 /**
- * @author Robin Appelman <icewind@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Memcache;
 
+use OC\Memcache\ArrayCache;
+use OC\Memcache\CasTrait;
 use Test\TestCase;
 
-/**
- * @group Memcache
- */
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
 class CasTraitTest extends TestCase {
 	/**
-	 * @return \OC\Memcache\CasTrait
+	 * @return CasTrait
 	 */
 	private function getCache() {
-		$sourceCache = new \OC\Memcache\ArrayCache();
-		$mock = $this->getMockForTrait('\OC\Memcache\CasTrait');
+		$sourceCache = new ArrayCache();
+		$mock = $this->getMockBuilder(CasTraitTestClass::class)->onlyMethods([
+			'set',
+			'get',
+			'add',
+			'remove',
+		])->getMock();
 
 		$mock->expects($this->any())
 			->method('set')
@@ -60,14 +52,14 @@ class CasTraitTest extends TestCase {
 		return $mock;
 	}
 
-	public function testCasNotChanged() {
+	public function testCasNotChanged(): void {
 		$cache = $this->getCache();
 		$cache->set('foo', 'bar');
 		$this->assertTrue($cache->cas('foo', 'bar', 'asd'));
 		$this->assertEquals('asd', $cache->get('foo'));
 	}
 
-	public function testCasChanged() {
+	public function testCasChanged(): void {
 		$cache = $this->getCache();
 		$cache->set('foo', 'bar1');
 		$this->assertFalse($cache->cas('foo', 'bar', 'asd'));

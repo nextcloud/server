@@ -1,39 +1,19 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Jacob Neplokh <me@jacobneplokh.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CardDAV;
 
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Card;
 use Sabre\VObject\Document;
@@ -42,24 +22,22 @@ use Sabre\VObject\Property\Binary;
 use Sabre\VObject\Reader;
 
 class PhotoCache {
+	private ?IAppData $photoCacheAppData = null;
 
-	/** @var array  */
+	/** @var array */
 	public const ALLOWED_CONTENT_TYPES = [
 		'image/png' => 'png',
 		'image/jpeg' => 'jpg',
 		'image/gif' => 'gif',
 		'image/vnd.microsoft.icon' => 'ico',
+		'image/webp' => 'webp',
+		'image/avif' => 'avif',
 	];
 
-	protected IAppData $appData;
-	protected LoggerInterface $logger;
-
-	/**
-	 * PhotoCache constructor.
-	 */
-	public function __construct(IAppData $appData, LoggerInterface $logger) {
-		$this->appData = $appData;
-		$this->logger = $logger;
+	public function __construct(
+		private IAppDataFactory $appDataFactory,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -133,7 +111,7 @@ class PhotoCache {
 				throw new NotFoundException;
 			}
 
-			$photo = new \OCP\Image();
+			$photo = new Image();
 			/** @var ISimpleFile $file */
 			$file = $folder->getFile('photo.' . $ext);
 			$photo->loadFromData($file->getContent());
@@ -143,7 +121,7 @@ class PhotoCache {
 				$ratio = 1 / $ratio;
 			}
 
-			$size = (int) ($size * $ratio);
+			$size = (int)($size * $ratio);
 			if ($size !== -1) {
 				$photo->resize($size);
 			}
@@ -165,13 +143,12 @@ class PhotoCache {
 	private function getFolder(int $addressBookId, string $cardUri, bool $createIfNotExists = true): ISimpleFolder {
 		$hash = md5($addressBookId . ' ' . $cardUri);
 		try {
-			return $this->appData->getFolder($hash);
+			return $this->getPhotoCacheAppData()->getFolder($hash);
 		} catch (NotFoundException $e) {
 			if ($createIfNotExists) {
-				return $this->appData->newFolder($hash);
-			} else {
-				throw $e;
+				return $this->getPhotoCacheAppData()->newFolder($hash);
 			}
+			throw $e;
 		}
 	}
 
@@ -264,7 +241,7 @@ class PhotoCache {
 		if (isset($params['TYPE']) || isset($params['MEDIATYPE'])) {
 			/** @var Parameter $typeParam */
 			$typeParam = isset($params['TYPE']) ? $params['TYPE'] : $params['MEDIATYPE'];
-			$type = (string) $typeParam->getValue();
+			$type = (string)$typeParam->getValue();
 
 			if (str_starts_with($type, 'image/')) {
 				return $type;
@@ -287,5 +264,12 @@ class PhotoCache {
 		} catch (NotFoundException $e) {
 			// that's OK, nothing to do
 		}
+	}
+
+	private function getPhotoCacheAppData(): IAppData {
+		if ($this->photoCacheAppData === null) {
+			$this->photoCacheAppData = $this->appDataFactory->get('dav-photocache');
+		}
+		return $this->photoCacheAppData;
 	}
 }

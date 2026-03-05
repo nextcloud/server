@@ -1,23 +1,6 @@
 /**
- * @copyright 2022 Louis Chmn <louis@chmn.me>
- *
- * @author Louis Chmn <louis@chmn.me>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 export const ATOMIC_PERMISSIONS = {
@@ -29,12 +12,29 @@ export const ATOMIC_PERMISSIONS = {
 	SHARE: 16,
 }
 
-export const BUNDLED_PERMISSIONS = {
+const BUNDLED_PERMISSIONS = {
 	READ_ONLY: ATOMIC_PERMISSIONS.READ,
 	UPLOAD_AND_UPDATE: ATOMIC_PERMISSIONS.READ | ATOMIC_PERMISSIONS.UPDATE | ATOMIC_PERMISSIONS.CREATE | ATOMIC_PERMISSIONS.DELETE,
 	FILE_DROP: ATOMIC_PERMISSIONS.CREATE,
 	ALL: ATOMIC_PERMISSIONS.UPDATE | ATOMIC_PERMISSIONS.CREATE | ATOMIC_PERMISSIONS.READ | ATOMIC_PERMISSIONS.DELETE | ATOMIC_PERMISSIONS.SHARE,
 	ALL_FILE: ATOMIC_PERMISSIONS.UPDATE | ATOMIC_PERMISSIONS.READ | ATOMIC_PERMISSIONS.SHARE,
+}
+
+/**
+ * Get bundled permissions based on config.
+ *
+ * @param {boolean} excludeShare - Whether to exclude SHARE permission from ALL and ALL_FILE bundles.
+ * @return {object}
+ */
+export function getBundledPermissions(excludeShare = false) {
+	if (excludeShare) {
+		return {
+			...BUNDLED_PERMISSIONS,
+			ALL: BUNDLED_PERMISSIONS.ALL & ~ATOMIC_PERMISSIONS.SHARE,
+			ALL_FILE: BUNDLED_PERMISSIONS.ALL_FILE & ~ATOMIC_PERMISSIONS.SHARE,
+		}
+	}
+	return BUNDLED_PERMISSIONS
 }
 
 /**

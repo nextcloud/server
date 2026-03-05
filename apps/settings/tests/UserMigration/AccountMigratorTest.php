@@ -1,29 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright 2022 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OCA\Settings\Tests\UserMigration;
 
 use OCA\Settings\AppInfo\Application;
@@ -31,7 +12,9 @@ use OCA\Settings\UserMigration\AccountMigrator;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\App;
 use OCP\IAvatarManager;
+use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use PHPUnit\Framework\Constraint\JsonMatches;
@@ -40,25 +23,14 @@ use Sabre\VObject\UUIDUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AccountMigratorTest extends TestCase {
-
 	private IUserManager $userManager;
-
 	private IAvatarManager $avatarManager;
-
 	private AccountMigrator $migrator;
-
-	/** @var IImportSource|MockObject */
-	private $importSource;
-
-	/** @var IExportDestination|MockObject */
-	private $exportDestination;
-
-	/** @var OutputInterface|MockObject */
-	private $output;
+	private IImportSource&MockObject $importSource;
+	private IExportDestination&MockObject $exportDestination;
+	private OutputInterface&MockObject $output;
 
 	private const ASSETS_DIR = __DIR__ . '/assets/';
 
@@ -69,8 +41,11 @@ class AccountMigratorTest extends TestCase {
 	private const REGEX_CONFIG_FILE = '/^' . Application::APP_ID . '\/' . '[a-z]+\.json' . '$/';
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$app = new App(Application::APP_ID);
 		$container = $app->getContainer();
+		$container->get(IConfig::class)->setSystemValue('has_internet_connection', false);
 
 		$this->userManager = $container->get(IUserManager::class);
 		$this->avatarManager = $container->get(IAvatarManager::class);
@@ -81,9 +56,14 @@ class AccountMigratorTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function dataImportExportAccount(): array {
+	protected function tearDown(): void {
+		Server::get(IConfig::class)->setSystemValue('has_internet_connection', true);
+		parent::tearDown();
+	}
+
+	public static function dataImportExportAccount(): array {
 		return array_map(
-			function (string $filename) {
+			static function (string $filename): array {
 				$dataPath = static::ASSETS_DIR . $filename;
 				// For each account json file there is an avatar image and a config json file with the same basename
 				$basename = pathinfo($filename, PATHINFO_FILENAME);
@@ -103,9 +83,7 @@ class AccountMigratorTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataImportExportAccount
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataImportExportAccount')]
 	public function testImportExportAccount(string $userId, array $importData, string $avatarPath, array $importConfig): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 		$avatarExt = pathinfo($avatarPath, PATHINFO_EXTENSION);
@@ -120,17 +98,18 @@ class AccountMigratorTest extends TestCase {
 			->with($this->migrator->getId())
 			->willReturn(1);
 
+		$calls = [
+			[static::REGEX_ACCOUNT_FILE, json_encode($importData)],
+			[static::REGEX_CONFIG_FILE, json_encode($importConfig)],
+		];
 		$this->importSource
 			->expects($this->exactly(2))
 			->method('getFileContents')
-			->withConsecutive(
-				[$this->matchesRegularExpression(static::REGEX_ACCOUNT_FILE)],
-				[$this->matchesRegularExpression(static::REGEX_CONFIG_FILE)],
-			)
-			->willReturnOnConsecutiveCalls(
-				json_encode($importData),
-				json_encode($importConfig),
-			);
+			->willReturnCallback(function ($path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertMatchesRegularExpression($expected[0], $path);
+				return $expected[1];
+			});
 
 		$this->importSource
 			->expects($this->once())
@@ -161,13 +140,18 @@ class AccountMigratorTest extends TestCase {
 			);
 		}
 
+		$calls = [
+			[static::REGEX_ACCOUNT_FILE, new JsonMatches(json_encode($importData))],
+			[static::REGEX_CONFIG_FILE,new JsonMatches(json_encode($importConfig))],
+		];
 		$this->exportDestination
 			->expects($this->exactly(2))
 			->method('addFileContents')
-			->withConsecutive(
-				[$this->matchesRegularExpression(static::REGEX_ACCOUNT_FILE), new JsonMatches(json_encode($exportData))],
-				[$this->matchesRegularExpression(static::REGEX_CONFIG_FILE), new JsonMatches(json_encode($exportConfig))],
-			);
+			->willReturnCallback(function ($path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertMatchesRegularExpression($expected[0], $path);
+				return $expected[1];
+			});
 
 		$this->exportDestination
 			->expects($this->once())

@@ -1,63 +1,49 @@
-/**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { ContentsWithRoot } from '@nextcloud/files'
-import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { Folder, davGetDefaultPropfind, davGetFavoritesReport } from '@nextcloud/files'
+import { getCurrentUser } from '@nextcloud/auth'
+import { Folder, Permission } from '@nextcloud/files'
+import { getFavoriteNodes, getRemoteURL, getRootPath } from '@nextcloud/files/dav'
+import logger from '../logger.ts'
+import { getContents as filesContents } from './Files.ts'
+import { client } from './WebdavClient.ts'
 
-import { getClient } from './WebdavClient'
-import { resultToNode } from './Files'
-
-const client = getClient()
-
-export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
-	const propfindPayload = davGetDefaultPropfind()
-	const reportPayload = davGetFavoritesReport()
-
-	// Get root folder
-	let rootResponse
-	if (path === '/') {
-		rootResponse = await client.stat(path, {
-			details: true,
-			data: propfindPayload,
-		}) as ResponseDataDetailed<FileStat>
+/**
+ * Get the contents for the favorites view
+ *
+ * @param path - The path to get the contents for
+ * @param options - Additional options
+ * @param options.signal - Optional AbortSignal to cancel the request
+ * @return A promise resolving to the contents with root folder
+ */
+export async function getContents(path = '/', options: { signal: AbortSignal }): Promise<ContentsWithRoot> {
+	// We only filter root files for favorites, for subfolders we can simply reuse the files contents
+	if (path && path !== '/') {
+		return filesContents(path, options)
 	}
 
-	const contentsResponse = await client.getDirectoryContents(path, {
-		details: true,
-		// Only filter favorites if we're at the root
-		data: path === '/' ? reportPayload : propfindPayload,
-		headers: {
-			// Patched in WebdavClient.ts
-			method: path === '/' ? 'REPORT' : 'PROPFIND',
-		},
-		includeSelf: true,
-	}) as ResponseDataDetailed<FileStat[]>
-
-	const root = rootResponse?.data || contentsResponse.data[0]
-	const contents = contentsResponse.data.filter(node => node.filename !== path)
-
-	return {
-		folder: resultToNode(root) as Folder,
-		contents: contents.map(resultToNode),
+	try {
+		const contents = await getFavoriteNodes({ client, signal: options.signal })
+		return {
+			contents,
+			folder: new Folder({
+				id: 0,
+				source: `${getRemoteURL()}${getRootPath()}`,
+				root: getRootPath(),
+				owner: getCurrentUser()?.uid || null,
+				permissions: Permission.READ,
+			}),
+		}
+	} catch (error) {
+		if (options.signal.aborted) {
+			logger.debug('Favorite nodes request was aborted')
+			throw new DOMException('Aborted', 'AbortError')
+		}
+		logger.error('Failed to load favorite nodes via WebDAV', { error })
+		throw error
 	}
 }

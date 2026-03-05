@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP;
 
@@ -54,14 +32,14 @@ interface IUserManager {
 	/**
 	 * register a user backend
 	 *
-	 * @param \OCP\UserInterface $backend
 	 * @since 8.0.0
+	 * @return void
 	 */
-	public function registerBackend($backend);
+	public function registerBackend(UserInterface $backend);
 
 	/**
 	 * Get the active backends
-	 * @return \OCP\UserInterface[]
+	 * @return UserInterface[]
 	 * @since 8.0.0
 	 */
 	public function getBackends();
@@ -69,19 +47,23 @@ interface IUserManager {
 	/**
 	 * remove a user backend
 	 *
-	 * @param \OCP\UserInterface $backend
 	 * @since 8.0.0
+	 * @return void
 	 */
-	public function removeBackend($backend);
+	public function removeBackend(UserInterface $backend);
 
 	/**
 	 * remove all user backends
 	 * @since 8.0.0
+	 * @return void
 	 */
-	public function clearBackends() ;
+	public function clearBackends();
 
 	/**
 	 * get a user by user id
+	 *
+	 * If you're already 100% sure that the user exists,
+	 * consider IUserManager::getExistingUser which has less overhead.
 	 *
 	 * @param string $uid
 	 * @return \OCP\IUser|null Either the user or null if the specified user does not exist
@@ -125,6 +107,7 @@ interface IUserManager {
 	 * @param int $offset
 	 * @return \OCP\IUser[]
 	 * @since 8.0.0
+	 * @deprecated 27.0.0, use searchDisplayName instead
 	 */
 	public function search($pattern, $limit = null, $offset = null);
 
@@ -134,7 +117,7 @@ interface IUserManager {
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OCP\IUser[]
+	 * @return list<IUser>
 	 * @since 8.0.0
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null);
@@ -142,8 +125,9 @@ interface IUserManager {
 	/**
 	 * @return IUser[]
 	 * @since 28.0.0
+	 * @since 30.0.0 $search parameter added
 	 */
-	public function getDisabledUsers(?int $limit = null, int $offset = 0): array;
+	public function getDisabledUsers(?int $limit = null, int $offset = 0, string $search = ''): array;
 
 	/**
 	 * Search known users (from phonebook sync) by displayName
@@ -181,8 +165,19 @@ interface IUserManager {
 	 *
 	 * @return array<string, int> an array of backend class name as key and count number as value
 	 * @since 8.0.0
+	 * @since 33.0.0 $onlyMappedUsers parameter
 	 */
-	public function countUsers();
+	public function countUsers(bool $onlyMappedUsers = false);
+
+	/**
+	 * Get how many users exists in total, whithin limit
+	 *
+	 * @param int $limit Limit the count to avoid resource waste. 0 to disable
+	 * @param bool $onlyMappedUsers Count mapped users instead of all users for compatible backends
+	 *
+	 * @since 31.0.0
+	 */
+	public function countUsersTotal(int $limit = 0, bool $onlyMappedUsers = false): int|false;
 
 	/**
 	 * @param \Closure $callback
@@ -231,4 +226,44 @@ interface IUserManager {
 	 * @since 26.0.0
 	 */
 	public function validateUserId(string $uid, bool $checkDataDirectory = false): void;
+
+	/**
+	 * Gets the list of users sorted by lastLogin, from most recent to least recent
+	 *
+	 * @param int|null $limit how many records to fetch
+	 * @param int $offset from which offset to fetch
+	 * @param string $search search users based on search params
+	 * @return list<string> list of user IDs
+	 * @since 30.0.0
+	 */
+	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array;
+
+	/**
+	 * Gets the list of users.
+	 * An iterator is returned allowing the caller to stop the iteration at any time.
+	 * The offset argument allows the caller to continue the iteration at a specific offset.
+	 *
+	 * @since 33.0.0 users are yielded with the user id as key
+	 *
+	 * @param int $offset from which offset to fetch
+	 * @param int|null $limit maximum number of records to fetch
+	 * @return \Iterator<string, IUser> list of IUser object
+	 * @since 32.0.0
+	 */
+	public function getSeenUsers(int $offset = 0, ?int $limit = null): \Iterator;
+
+	/**
+	 * Get a user by user id without validating that the user exists.
+	 *
+	 * This should only be used if you're certain that the provided user id exists in the system.
+	 * Using this to get a user object for a non-existing user will lead to unexpected behavior down the line.
+	 *
+	 * If you're not 100% sure that the user exists, use IUserManager::get instead.
+	 *
+	 * @param string $userId
+	 * @param ?string $displayName If the display name is known in advance you can provide it so it doesn't have to be fetched again
+	 * @return IUser
+	 * @since 33.0.0
+	 */
+	public function getExistingUser(string $userId, ?string $displayName = null): IUser;
 }

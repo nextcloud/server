@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2017 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 Feature: trashbin
 	Background:
 		Given using api version "1"

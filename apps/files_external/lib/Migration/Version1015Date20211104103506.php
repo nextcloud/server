@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_External\Migration;
 
@@ -37,14 +20,10 @@ use Psr\Log\LoggerInterface;
 
 class Version1015Date20211104103506 extends SimpleMigrationStep {
 
-	/** @var IDBConnection */
-	private $connection;
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IDBConnection $connection, LoggerInterface $logger) {
-		$this->connection = $connection;
-		$this->logger = $logger;
+	public function __construct(
+		private IDBConnection $connection,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
@@ -58,7 +37,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 			throw new \Exception('Could not fetch existing mounts for migration');
 		}
 
-		while ($mount = $mounts->fetch()) {
+		while ($mount = $mounts->fetchAssociative()) {
 			$config = $this->getStorageConfig((int)$mount['mount_id']);
 			$hostname = $config['hostname'];
 			$bucket = $config['bucket'];
@@ -68,7 +47,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 			try {
 				$qb->setParameter('oldId', $oldId);
 				$qb->setParameter('newId', $newId);
-				$qb->execute();
+				$qb->executeStatement();
 				$this->logger->info('Migrated s3 storage id for mount with id ' . $mount['mount_id'] . ' to ' . $newId);
 			} catch (Exception $e) {
 				$this->logger->error('Failed to migrate external s3 storage id for mount with id ' . $mount['mount_id'], [
@@ -81,7 +60,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 
 	/**
 	 * @throws Exception
-	 * @return \OCP\DB\IResult|int
+	 * @return IResult|int
 	 */
 	private function getS3Mounts() {
 		$qb = $this->connection->getQueryBuilder();
@@ -91,7 +70,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 			->innerJoin('m', 'external_config', 'c', 'c.mount_id = m.mount_id')
 			->where($qb->expr()->eq('m.storage_backend', $qb->createPositionalParameter('amazons3')))
 			->andWhere($qb->expr()->eq('c.key', $qb->createPositionalParameter('bucket')));
-		return $qb->execute();
+		return $qb->executeQuery();
 	}
 
 	/**
@@ -103,7 +82,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 			->from('external_config')
 			->where($qb->expr()->eq('mount_id', $qb->createPositionalParameter($mountId)));
 		$config = [];
-		foreach ($qb->execute()->fetchAll() as $row) {
+		foreach ($qb->executeQuery()->fetchAllAssociative() as $row) {
 			$config[$row['key']] = $row['value'];
 		}
 		return $config;

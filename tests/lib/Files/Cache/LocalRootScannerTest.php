@@ -2,33 +2,18 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache;
 
 use OC\Files\Storage\LocalRootStorage;
+use OCP\ITempManager;
+use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LocalRootScannerTest extends TestCase {
 	/** @var LocalRootStorage */
 	private $storage;
@@ -36,11 +21,11 @@ class LocalRootScannerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$folder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$folder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->storage = new LocalRootStorage(['datadir' => $folder]);
 	}
 
-	public function testDontScanUsers() {
+	public function testDontScanUsers(): void {
 		$this->storage->mkdir('foo');
 		$this->storage->mkdir('foo/bar');
 
@@ -48,7 +33,7 @@ class LocalRootScannerTest extends TestCase {
 		$this->assertFalse($this->storage->getCache()->inCache('foo'));
 	}
 
-	public function testDoScanAppData() {
+	public function testDoScanAppData(): void {
 		$this->storage->mkdir('appdata_foo');
 		$this->storage->mkdir('appdata_foo/bar');
 

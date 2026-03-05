@@ -1,26 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2017 Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Search\Xml\Request;
 
@@ -29,9 +12,9 @@ use Sabre\Xml\Reader;
 use Test\TestCase;
 
 class CalendarSearchReportTest extends TestCase {
-	private $elementMap = [
-		'{http://nextcloud.com/ns}calendar-search' =>
-			'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport',
+	private array $elementMap = [
+		'{http://nextcloud.com/ns}calendar-search'
+			=> 'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport',
 	];
 
 	public function testFoo(): void {
@@ -131,7 +114,7 @@ XML;
 		);
 	}
 
-	
+
 	public function testRequiresCompFilter(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter given without any {http://nextcloud.com/ns}comp-filter');
@@ -158,7 +141,7 @@ XML;
 		$this->parse($xml);
 	}
 
-	
+
 	public function testRequiresFilter(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('The {http://nextcloud.com/ns}filter element is required for this request');
@@ -176,7 +159,7 @@ XML;
 		$this->parse($xml);
 	}
 
-	
+
 	public function testNoSearchTerm(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('{http://nextcloud.com/ns}search-term is required for this request');
@@ -204,7 +187,7 @@ XML;
 		$this->parse($xml);
 	}
 
-	
+
 	public function testCompOnly(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('At least one{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter is required for this request');
@@ -332,7 +315,7 @@ XML;
 		);
 	}
 
-	private function parse($xml, array $elementMap = []) {
+	private function parse(string $xml, array $elementMap = []): array {
 		$reader = new Reader();
 		$reader->elementMap = array_merge($this->elementMap, $elementMap);
 		$reader->xml($xml);

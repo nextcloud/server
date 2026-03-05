@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="files-list-drag-image">
 		<span class="files-list-drag-image__icon">
@@ -31,12 +14,12 @@
 </template>
 
 <script lang="ts">
-import { FileType, Node, formatFileSize } from '@nextcloud/files'
-import Vue from 'vue'
+import type { Node } from '@nextcloud/files'
 
+import { FileType, formatFileSize } from '@nextcloud/files'
+import Vue from 'vue'
 import FileMultipleIcon from 'vue-material-design-icons/FileMultiple.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
-
 import { getSummaryFor } from '../utils/fileUtils.ts'
 
 export default Vue.extend({
@@ -57,6 +40,7 @@ export default Vue.extend({
 		isSingleNode() {
 			return this.nodes.length === 1
 		},
+
 		isSingleFolder() {
 			return this.isSingleNode
 				&& this.nodes[0].type === FileType.Folder
@@ -68,6 +52,7 @@ export default Vue.extend({
 			}
 			return `${this.summary} – ${this.size}`
 		},
+
 		size() {
 			const totalSize = this.nodes.reduce((total, node) => total + node.size || 0, 0)
 			const size = parseInt(totalSize, 10) || 0
@@ -76,10 +61,11 @@ export default Vue.extend({
 			}
 			return formatFileSize(size, true)
 		},
+
 		summary(): string {
 			if (this.isSingleNode) {
 				const node = this.nodes[0]
-				return node.attributes?.displayName || node.basename
+				return node.attributes?.displayname || node.basename
 			}
 
 			return getSummaryFor(this.nodes)
@@ -92,7 +78,7 @@ export default Vue.extend({
 			this.$refs.previewImg.replaceChildren()
 
 			// Clone icon node from the list
-			nodes.slice(0, 3).forEach(node => {
+			nodes.slice(0, 3).forEach((node) => {
 				const preview = document.querySelector(`[data-cy-files-list-row-fileid="${node.fileid}"] .files-list__row-icon img`)
 				if (preview) {
 					const previewElmt = this.$refs.previewImg as HTMLElement
@@ -109,34 +95,34 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-$size: 32px;
+$size: 28px;
 $stack-shift: 6px;
 
 .files-list-drag-image {
 	position: absolute;
 	top: -9999px;
-	left: -9999px;
+	inset-inline-start: -9999px;
 	display: flex;
 	overflow: hidden;
 	align-items: center;
-	height: 44px;
-	padding: 6px 12px;
+	height: $size + $stack-shift;
+	padding: $stack-shift $stack-shift * 2;
 	background: var(--color-main-background);
 
 	&__icon,
-	.files-list__row-icon {
+	.files-list__row-icon-preview-container {
 		display: flex;
 		overflow: hidden;
 		align-items: center;
 		justify-content: center;
-		width: 32px;
-		height: 32px;
+		width: $size - $stack-shift;
+		height: $size - $stack-shift;;
 		border-radius: var(--border-radius);
 	}
 
 	&__icon {
 		overflow: visible;
-		margin-right: 12px;
+		margin-inline-end: $stack-shift * 2;
 
 		img {
 			max-width: 100%;
@@ -155,13 +141,15 @@ $stack-shift: 6px;
 			display: flex;
 
 			// Stack effect if more than one element
-			.files-list__row-icon + .files-list__row-icon {
+			// Max 3 elements
+			> .files-list__row-icon-preview-container + .files-list__row-icon-preview-container {
 				margin-top: $stack-shift;
-				margin-left: $stack-shift - $size;
-				& + .files-list__row-icon {
+				margin-inline-start: $stack-shift * 2 - $size;
+				& + .files-list__row-icon-preview-container {
 					margin-top: $stack-shift * 2;
 				}
 			}
+
 			// If we have manually clone the preview,
 			// let's hide any fallback icons
 			&:not(:empty) + * {

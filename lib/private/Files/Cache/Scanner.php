@@ -1,50 +1,33 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Ari Selseng <ari@selseng.net>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Jagszent <daniel@jagszent.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Martin Mattel <martin.mattel@diemattels.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Owen Winkler <a_github@midnightcircus.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
+use OC\Files\Filesystem;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Hooks\BasicEmitter;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\Files\StorageInvalidException;
+use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -59,45 +42,24 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Cache
  */
 class Scanner extends BasicEmitter implements IScanner {
-	/**
-	 * @var \OC\Files\Storage\Storage $storage
-	 */
-	protected $storage;
-
-	/**
-	 * @var string $storageId
-	 */
-	protected $storageId;
-
-	/**
-	 * @var \OC\Files\Cache\Cache $cache
-	 */
-	protected $cache;
-
-	/**
-	 * @var boolean $cacheActive If true, perform cache operations, if false, do not affect cache
-	 */
-	protected $cacheActive;
-
-	/**
-	 * @var bool $useTransactions whether to use transactions
-	 */
-	protected $useTransactions = true;
-
-	/**
-	 * @var \OCP\Lock\ILockingProvider
-	 */
-	protected $lockingProvider;
-
+	protected string $storageId;
+	protected ICache $cache;
+	/** @var bool $cacheActive Whether to perform cache operations */
+	protected bool $cacheActive;
+	protected bool $useTransactions = true;
+	protected ILockingProvider $lockingProvider;
 	protected IDBConnection $connection;
 
-	public function __construct(\OC\Files\Storage\Storage $storage) {
-		$this->storage = $storage;
+	public function __construct(
+		protected Storage $storage,
+	) {
 		$this->storageId = $this->storage->getId();
-		$this->cache = $storage->getCache();
-		$this->cacheActive = !\OC::$server->getConfig()->getSystemValueBool('filesystem_cache_readonly', false);
-		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
-		$this->connection = \OC::$server->get(IDBConnection::class);
+		$this->cache = $this->storage->getCache();
+		$config = Server::get(IConfig::class);
+		$this->cacheActive = !$config->getSystemValueBool('filesystem_cache_readonly', false);
+		$this->useTransactions = !$config->getSystemValueBool('filescanner_no_transactions', false);
+		$this->lockingProvider = Server::get(ILockingProvider::class);
+		$this->connection = Server::get(IDBConnection::class);
 	}
 
 	/**
@@ -106,7 +68,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 *
 	 * @param bool $useTransactions
 	 */
-	public function setUseTransactions($useTransactions) {
+	public function setUseTransactions($useTransactions): void {
 		$this->useTransactions = $useTransactions;
 	}
 
@@ -120,7 +82,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	protected function getData($path) {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
-			\OC::$server->get(LoggerInterface::class)->debug("!!! Path '$path' is not accessible or present !!!", ['app' => 'core']);
+			Server::get(LoggerInterface::class)->debug("!!! Path '$path' is not accessible or present !!!", ['app' => 'core']);
 		}
 		return $data;
 	}
@@ -131,11 +93,11 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param string $file
 	 * @param int $reuseExisting
 	 * @param int $parentId
-	 * @param array|null|false $cacheData existing data in the cache for the file to be scanned
+	 * @param array|CacheEntry|null|false $cacheData existing data in the cache for the file to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @param null $data the metadata for the file, as returned by the storage
+	 * @param array|null $data the metadata for the file, as returned by the storage
 	 * @return array|null an array of metadata of the scanned file
-	 * @throws \OCP\Lock\LockedException
+	 * @throws LockedException
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		if ($file !== '') {
@@ -145,138 +107,130 @@ class Scanner extends BasicEmitter implements IScanner {
 				return null;
 			}
 		}
+
 		// only proceed if $file is not a partial file, blacklist is handled by the storage
-		if (!self::isPartialFile($file)) {
-			// acquire a lock
+		if (self::isPartialFile($file)) {
+			return null;
+		}
+
+		// acquire a lock
+		if ($lock) {
+			if ($this->storage->instanceOfStorage(ILockingStorage::class)) {
+				$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			}
+		}
+
+		try {
+			$data = $data ?? $this->getData($file);
+		} catch (ForbiddenException $e) {
 			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-					$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-				}
-			}
-
-			try {
-				$data = $data ?? $this->getData($file);
-			} catch (ForbiddenException $e) {
-				if ($lock) {
-					if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-						$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-					}
-				}
-
-				return null;
-			}
-
-			try {
-				if ($data) {
-					// pre-emit only if it was a file. By that we avoid counting/treating folders as files
-					if ($data['mimetype'] !== 'httpd/unix-directory') {
-						$this->emit('\OC\Files\Cache\Scanner', 'scanFile', [$file, $this->storageId]);
-						\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', ['path' => $file, 'storage' => $this->storageId]);
-					}
-
-					$parent = dirname($file);
-					if ($parent === '.' || $parent === '/') {
-						$parent = '';
-					}
-					if ($parentId === -1) {
-						$parentId = $this->cache->getParentId($file);
-					}
-
-					// scan the parent if it's not in the cache (id -1) and the current file is not the root folder
-					if ($file && $parentId === -1) {
-						$parentData = $this->scanFile($parent);
-						if (!$parentData) {
-							return null;
-						}
-						$parentId = $parentData['fileid'];
-					}
-					if ($parent) {
-						$data['parent'] = $parentId;
-					}
-					if (is_null($cacheData)) {
-						/** @var CacheEntry $cacheData */
-						$cacheData = $this->cache->get($file);
-					}
-					if ($cacheData && $reuseExisting && isset($cacheData['fileid'])) {
-						// prevent empty etag
-						$etag = empty($cacheData['etag']) ? $data['etag'] : $cacheData['etag'];
-						$fileId = $cacheData['fileid'];
-						$data['fileid'] = $fileId;
-						// only reuse data if the file hasn't explicitly changed
-						$mtimeUnchanged = isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime'];
-						// if the folder is marked as unscanned, never reuse etags
-						if ($mtimeUnchanged && $cacheData['size'] !== -1) {
-							$data['mtime'] = $cacheData['mtime'];
-							if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
-								$data['size'] = $cacheData['size'];
-							}
-							if ($reuseExisting & self::REUSE_ETAG && !$this->storage->instanceOfStorage(IReliableEtagStorage::class)) {
-								$data['etag'] = $etag;
-							}
-						}
-
-						// we only updated unencrypted_size if it's already set
-						if ($cacheData['unencrypted_size'] === 0) {
-							unset($data['unencrypted_size']);
-						}
-
-						// Only update metadata that has changed
-						$newData = array_diff_assoc($data, $cacheData->getData());
-
-						// make it known to the caller that etag has been changed and needs propagation
-						if (isset($newData['etag'])) {
-							$data['etag_changed'] = true;
-						}
-					} else {
-						// we only updated unencrypted_size if it's already set
-						unset($data['unencrypted_size']);
-						$newData = $data;
-						$fileId = -1;
-					}
-					if (!empty($newData)) {
-						// Reset the checksum if the data has changed
-						$newData['checksum'] = '';
-						$newData['parent'] = $parentId;
-						$data['fileid'] = $this->addToCache($file, $newData, $fileId);
-					}
-
-					$data['oldSize'] = ($cacheData && isset($cacheData['size'])) ? $cacheData['size'] : 0;
-
-					if ($cacheData && isset($cacheData['encrypted'])) {
-						$data['encrypted'] = $cacheData['encrypted'];
-					}
-
-					// post-emit only if it was a file. By that we avoid counting/treating folders as files
-					if ($data['mimetype'] !== 'httpd/unix-directory') {
-						$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', [$file, $this->storageId]);
-						\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', ['path' => $file, 'storage' => $this->storageId]);
-					}
-				} else {
-					$this->removeFromCache($file);
-				}
-			} catch (\Exception $e) {
-				if ($lock) {
-					if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-						$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-					}
-				}
-				throw $e;
-			}
-
-			// release the acquired lock
-			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($this->storage->instanceOfStorage(ILockingStorage::class)) {
 					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 			}
 
-			if ($data && !isset($data['encrypted'])) {
-				$data['encrypted'] = false;
-			}
-			return $data;
+			return null;
 		}
 
-		return null;
+		try {
+			if ($data === null) {
+				$this->removeFromCache($file);
+			} else {
+				// pre-emit only if it was a file. By that we avoid counting/treating folders as files
+				if ($data['mimetype'] !== 'httpd/unix-directory') {
+					$this->emit('\OC\Files\Cache\Scanner', 'scanFile', [$file, $this->storageId]);
+					\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', ['path' => $file, 'storage' => $this->storageId]);
+				}
+
+				$parent = dirname($file);
+				if ($parent === '.' || $parent === '/') {
+					$parent = '';
+				}
+				if ($parentId === -1) {
+					$parentId = $this->cache->getParentId($file);
+				}
+
+				// scan the parent if it's not in the cache (id -1) and the current file is not the root folder
+				if ($file && $parentId === -1) {
+					$parentData = $this->scanFile($parent);
+					if ($parentData === null) {
+						return null;
+					}
+
+					$parentId = $parentData['fileid'];
+				}
+				if ($parent) {
+					$data['parent'] = $parentId;
+				}
+
+				$cacheData = $cacheData ?? $this->cache->get($file);
+				if ($reuseExisting && $cacheData !== false && isset($cacheData['fileid'])) {
+					// prevent empty etag
+					$etag = empty($cacheData['etag']) ? $data['etag'] : $cacheData['etag'];
+					$fileId = $cacheData['fileid'];
+					$data['fileid'] = $fileId;
+					// only reuse data if the file hasn't explicitly changed
+					$mtimeUnchanged = isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime'];
+					// if the folder is marked as unscanned, never reuse etags
+					if ($mtimeUnchanged && $cacheData['size'] !== -1) {
+						$data['mtime'] = $cacheData['mtime'];
+						if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
+							$data['size'] = $cacheData['size'];
+						}
+						if ($reuseExisting & self::REUSE_ETAG && !$this->storage->instanceOfStorage(IReliableEtagStorage::class)) {
+							$data['etag'] = $etag;
+						}
+					}
+
+					// we only updated unencrypted_size if it's already set
+					if (isset($cacheData['unencrypted_size']) && $cacheData['unencrypted_size'] === 0) {
+						unset($data['unencrypted_size']);
+					}
+
+					/**
+					 * Only update metadata that has changed.
+					 * i.e. get all the values in $data that are not present in the cache already
+					 *
+					 * We need the OC implementation for usage of "getData" method below.
+					 * @var CacheEntry $cacheData
+					 */
+					$newData = $this->array_diff_assoc_multi($data, $cacheData->getData());
+
+					// make it known to the caller that etag has been changed and needs propagation
+					if (isset($newData['etag'])) {
+						$data['etag_changed'] = true;
+					}
+				} else {
+					unset($data['unencrypted_size']);
+					$newData = $data;
+					$fileId = -1;
+				}
+				if (!empty($newData)) {
+					// Reset the checksum if the data has changed
+					$newData['checksum'] = '';
+					$newData['parent'] = $parentId;
+					$data['fileid'] = $this->addToCache($file, $newData, $fileId);
+				}
+
+				if ($cacheData !== false) {
+					$data['oldSize'] = $cacheData['size'] ?? 0;
+					$data['encrypted'] = $cacheData['encrypted'] ?? false;
+				}
+
+				// post-emit only if it was a file. By that we avoid counting/treating folders as files
+				if ($data['mimetype'] !== 'httpd/unix-directory') {
+					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', [$file, $this->storageId]);
+					\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', ['path' => $file, 'storage' => $this->storageId]);
+				}
+			}
+		} finally {
+			// release the acquired lock
+			if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+				$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			}
+		}
+
+		return $data;
 	}
 
 	protected function removeFromCache($path) {
@@ -341,41 +295,81 @@ class Scanner extends BasicEmitter implements IScanner {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
-		if ($lock) {
-			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-				$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
-				$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-			}
+
+		if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+			$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
+			$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 		}
+
 		try {
-			try {
-				$data = $this->scanFile($path, $reuse, -1, null, $lock);
-				if ($data && $data['mimetype'] === 'httpd/unix-directory') {
-					$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data['size']);
-					$data['size'] = $size;
-				}
-			} catch (NotFoundException $e) {
-				$this->removeFromCache($path);
-				return null;
+			$data = $this->scanFile($path, $reuse, -1, lock: $lock);
+			if ($data !== null && $data['mimetype'] === 'httpd/unix-directory') {
+				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data['size']);
+				$data['size'] = $size;
 			}
+		} catch (NotFoundException $e) {
+			$this->removeFromCache($path);
+			return null;
 		} finally {
-			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
-					$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-					$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
-				}
+			if ($lock && $this->storage->instanceOfStorage(ILockingStorage::class)) {
+				$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 			}
 		}
 		return $data;
 	}
 
 	/**
+	 * Compares $array1 against $array2 and returns all the values in $array1 that are not in $array2
+	 * Note this is a one-way check - i.e. we don't care about things that are in $array2 that aren't in $array1
+	 *
+	 * Supports multi-dimensional arrays
+	 * Also checks keys/indexes
+	 * Comparisons are strict just like array_diff_assoc
+	 * Order of keys/values does not matter
+	 *
+	 * @param array $array1
+	 * @param array $array2
+	 * @return array with the differences between $array1 and $array1
+	 * @throws \InvalidArgumentException if $array1 isn't an actual array
+	 *
+	 */
+	protected function array_diff_assoc_multi(array $array1, array $array2) {
+
+		$result = [];
+
+		foreach ($array1 as $key => $value) {
+
+			// if $array2 doesn't have the same key, that's a result
+			if (!array_key_exists($key, $array2)) {
+				$result[$key] = $value;
+				continue;
+			}
+
+			// if $array2's value for the same key is different, that's a result
+			if ($array2[$key] !== $value && !is_array($value)) {
+				$result[$key] = $value;
+				continue;
+			}
+
+			if (is_array($value)) {
+				$nestedDiff = $this->array_diff_assoc_multi($value, $array2[$key]);
+				if (!empty($nestedDiff)) {
+					$result[$key] = $nestedDiff;
+					continue;
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Get the children currently in the cache
 	 *
 	 * @param int $folderId
-	 * @return array[]
+	 * @return array<string, ICacheEntry>
 	 */
-	protected function getExistingChildren($folderId) {
+	protected function getExistingChildren($folderId): array {
 		$existingChildren = [];
 		$children = $this->cache->getFolderContentsById($folderId);
 		foreach ($children as $child) {
@@ -419,7 +413,9 @@ class Scanner extends BasicEmitter implements IScanner {
 		// for encrypted storages, we trigger a regular folder size calculation instead of using the calculated size
 		// to make sure we also updated the unencrypted-size where applicable
 		if ($this->storage->instanceOfStorage(Encryption::class)) {
-			$this->cache->calculateFolderSize($path);
+			/** @var Cache $cache */
+			$cache = $this->cache;
+			$cache->calculateFolderSize($path);
 		} else {
 			if ($this->cacheActive) {
 				$updatedData = [];
@@ -442,7 +438,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param bool|IScanner::SCAN_RECURSIVE_INCOMPLETE $recursive
 	 */
 	private function handleChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float &$size, bool &$etagChanged): array {
-		// we put this in it's own function so it cleans up the memory before we start recursing
+		// we put this in its own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = iterator_to_array($this->storage->getDirectoryContent($path));
 
@@ -464,10 +460,10 @@ class Scanner extends BasicEmitter implements IScanner {
 				continue;
 			}
 			$originalFile = $fileMeta['name'];
-			$file = trim(\OC\Files\Filesystem::normalizePath($originalFile), '/');
+			$file = trim(Filesystem::normalizePath($originalFile), '/');
 			if (trim($originalFile, '/') !== $file) {
 				// encoding mismatch, might require compatibility wrapper
-				\OC::$server->get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "'. $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
+				Server::get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "' . $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
 				$this->emit('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
 				// skip this entry
 				continue;
@@ -502,12 +498,12 @@ class Scanner extends BasicEmitter implements IScanner {
 					$this->connection->rollback();
 					$this->connection->beginTransaction();
 				}
-				\OC::$server->get(LoggerInterface::class)->debug('Exception while scanning file "' . $child . '"', [
+				Server::get(LoggerInterface::class)->debug('Exception while scanning file "' . $child . '"', [
 					'app' => 'core',
 					'exception' => $ex,
 				]);
 				$exceptionOccurred = true;
-			} catch (\OCP\Lock\LockedException $e) {
+			} catch (LockedException $e) {
 				if ($this->useTransactions) {
 					$this->connection->rollback();
 				}
@@ -527,7 +523,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			// inserted mimetypes but those weren't available yet inside the transaction
 			// To make sure to have the updated mime types in such cases,
 			// we reload them here
-			\OC::$server->getMimeTypeLoader()->reset();
+			Server::get(IMimeTypeLoader::class)->reset();
 		}
 		return $childQueue;
 	}
@@ -566,14 +562,14 @@ class Scanner extends BasicEmitter implements IScanner {
 		} else {
 			if (!$this->cache->inCache('')) {
 				// if the storage isn't in the cache yet, just scan the root completely
-				$this->runBackgroundScanJob(function () {
+				$this->runBackgroundScanJob(function (): void {
 					$this->scan('', self::SCAN_RECURSIVE, self::REUSE_ETAG);
 				}, '');
 			} else {
 				$lastPath = null;
 				// find any path marked as unscanned and run the scanner until no more paths are unscanned (or we get stuck)
 				while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
-					$this->runBackgroundScanJob(function () use ($path) {
+					$this->runBackgroundScanJob(function () use ($path): void {
 						$this->scan($path, self::SCAN_RECURSIVE_INCOMPLETE, self::REUSE_ETAG | self::REUSE_SIZE);
 					}, $path);
 					// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
@@ -591,14 +587,8 @@ class Scanner extends BasicEmitter implements IScanner {
 			if ($this->cacheActive && $this->cache instanceof Cache) {
 				$this->cache->correctFolderSize($path, null, true);
 			}
-		} catch (\OCP\Files\StorageInvalidException $e) {
-			// skip unavailable storages
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			// skip unavailable storages
-		} catch (\OCP\Files\ForbiddenException $e) {
-			// skip forbidden storages
-		} catch (\OCP\Lock\LockedException $e) {
-			// skip unavailable storages
+		} catch (StorageInvalidException|StorageNotAvailableException|ForbiddenException|LockedException) {
+			// skip unavailable and forbidden storages
 		}
 	}
 

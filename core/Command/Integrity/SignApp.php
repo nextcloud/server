@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Command\Integrity;
 
@@ -68,7 +51,7 @@ class SignApp extends Command {
 			$documentationUrl = $this->urlGenerator->linkToDocs('developer-code-integrity');
 			$output->writeln('This command requires the --path, --privateKey and --certificate.');
 			$output->writeln('Example: ./occ integrity:sign-app --path="/Users/lukasreschke/Programming/myapp/" --privateKey="/Users/lukasreschke/private/myapp.key" --certificate="/Users/lukasreschke/public/mycert.crt"');
-			$output->writeln('For more information please consult the documentation: '. $documentationUrl);
+			$output->writeln('For more information please consult the documentation: ' . $documentationUrl);
 			return 1;
 		}
 
@@ -92,7 +75,7 @@ class SignApp extends Command {
 		$x509->setPrivateKey($rsa);
 		try {
 			$this->checker->writeAppSignature($path, $x509, $rsa);
-			$output->writeln('Successfully signed "'.$path.'"');
+			$output->writeln('Successfully signed "' . $path . '"');
 		} catch (\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());
 			return 1;

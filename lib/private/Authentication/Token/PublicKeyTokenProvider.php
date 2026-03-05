@@ -1,31 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\Token;
 
@@ -37,7 +15,9 @@ use OC\Authentication\Exceptions\WipeTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Events\TokenInvalidatedEvent;
 use OCP\Authentication\Token\IToken as OCPIToken;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -54,48 +34,23 @@ class PublicKeyTokenProvider implements IProvider {
 
 	use TTransactional;
 
-	/** @var PublicKeyTokenMapper */
-	private $mapper;
-
-	/** @var ICrypto */
-	private $crypto;
-
-	/** @var IConfig */
-	private $config;
-
-	private IDBConnection $db;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ITimeFactory */
-	private $time;
-
 	/** @var ICache */
 	private $cache;
 
-	/** @var IHasher */
-	private $hasher;
-
-	public function __construct(PublicKeyTokenMapper $mapper,
-		ICrypto $crypto,
-		IConfig $config,
-		IDBConnection $db,
-		LoggerInterface $logger,
-		ITimeFactory $time,
-		IHasher $hasher,
-		ICacheFactory $cacheFactory) {
-		$this->mapper = $mapper;
-		$this->crypto = $crypto;
-		$this->config = $config;
-		$this->db = $db;
-		$this->logger = $logger;
-		$this->time = $time;
-
+	public function __construct(
+		private PublicKeyTokenMapper $mapper,
+		private ICrypto $crypto,
+		private IConfig $config,
+		private IDBConnection $db,
+		private LoggerInterface $logger,
+		private ITimeFactory $time,
+		private IHasher $hasher,
+		ICacheFactory $cacheFactory,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		$this->cache = $cacheFactory->isLocalCacheAvailable()
 			? $cacheFactory->createLocal('authtoken_')
 			: $cacheFactory->createInMemory();
-		$this->hasher = $hasher;
 	}
 
 	/**
@@ -107,7 +62,9 @@ class PublicKeyTokenProvider implements IProvider {
 		?string $password,
 		string $name,
 		int $type = OCPIToken::TEMPORARY_TOKEN,
-		int $remember = OCPIToken::DO_NOT_REMEMBER): OCPIToken {
+		int $remember = OCPIToken::DO_NOT_REMEMBER,
+		?array $scope = null,
+	): OCPIToken {
 		if (strlen($token) < self::TOKEN_MIN_LENGTH) {
 			$exception = new InvalidTokenException('Token is too short, minimum of ' . self::TOKEN_MIN_LENGTH . ' characters is required, ' . strlen($token) . ' characters given');
 			$this->logger->error('Invalid token provided when generating new token', ['exception' => $exception]);
@@ -127,6 +84,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 		if ($oldTokenMatches) {
 			$dbToken->setPasswordHash($randomOldToken->getPasswordHash());
+		}
+
+		if ($scope !== null) {
+			$dbToken->setScope($scope);
 		}
 
 		$this->mapper->insert($dbToken);
@@ -178,7 +139,7 @@ class PublicKeyTokenProvider implements IProvider {
 				$this->rotate($token, $tokenId, $tokenId);
 			} catch (DoesNotExistException) {
 				$this->cacheInvalidHash($tokenHash);
-				throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
+				throw new InvalidTokenException('Token does not exist: ' . $ex->getMessage(), 0, $ex);
 			}
 		}
 
@@ -192,11 +153,11 @@ class PublicKeyTokenProvider implements IProvider {
 	 */
 	private function getTokenFromCache(string $tokenHash): ?PublicKeyToken {
 		$serializedToken = $this->cache->get($tokenHash);
-		if ($serializedToken === null) {
-			if ($this->cache->hasKey($tokenHash)) {
-				throw new InvalidTokenException('Token does not exist: ' . $tokenHash);
-			}
+		if ($serializedToken === false) {
+			return null;
+		}
 
+		if ($serializedToken === null) {
 			return null;
 		}
 
@@ -211,9 +172,9 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->set($token->getToken(), serialize($token), self::TOKEN_CACHE_TTL);
 	}
 
-	private function cacheInvalidHash(string $tokenHash) {
+	private function cacheInvalidHash(string $tokenHash): void {
 		// Invalid entries can be kept longer in cache since it’s unlikely to reuse them
-		$this->cache->set($tokenHash, null, self::TOKEN_CACHE_TTL * 2);
+		$this->cache->set($tokenHash, false, self::TOKEN_CACHE_TTL * 2);
 	}
 
 	public function getTokenById(int $tokenId): OCPIToken {
@@ -248,7 +209,7 @@ class PublicKeyTokenProvider implements IProvider {
 			$token = $this->getToken($oldSessionId);
 
 			if (!($token instanceof PublicKeyToken)) {
-				throw new InvalidTokenException("Invalid token type");
+				throw new InvalidTokenException('Invalid token type');
 			}
 
 			$password = null;
@@ -256,6 +217,8 @@ class PublicKeyTokenProvider implements IProvider {
 				$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
 				$password = $this->decryptPassword($token->getPassword(), $privateKey);
 			}
+
+			$scope = $token->getScope() === '' ? null : $token->getScopeAsArray();
 			$newToken = $this->generateToken(
 				$sessionId,
 				$token->getUID(),
@@ -263,7 +226,8 @@ class PublicKeyTokenProvider implements IProvider {
 				$password,
 				$token->getName(),
 				OCPIToken::TEMPORARY_TOKEN,
-				$token->getRemember()
+				$token->getRemember(),
+				$scope,
 			);
 			$this->cacheToken($newToken);
 
@@ -276,9 +240,17 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function invalidateToken(string $token) {
 		$tokenHash = $this->hashToken($token);
+		$tokenEntry = null;
+		try {
+			$tokenEntry = $this->mapper->getToken($tokenHash);
+		} catch (DoesNotExistException) {
+		}
 		$this->mapper->invalidate($this->hashToken($token));
 		$this->mapper->invalidate($this->hashTokenWithEmptySecret($token));
 		$this->cacheInvalidHash($tokenHash);
+		if ($tokenEntry !== null) {
+			$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($tokenEntry));
+		}
 	}
 
 	public function invalidateTokenById(string $uid, int $id) {
@@ -288,16 +260,25 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 		$this->mapper->invalidate($token->getToken());
 		$this->cacheInvalidHash($token->getToken());
-
+		$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($token));
 	}
 
 	public function invalidateOldTokens() {
 		$olderThan = $this->time->getTime() - $this->config->getSystemValueInt('session_lifetime', 60 * 60 * 24);
 		$this->logger->debug('Invalidating session tokens older than ' . date('c', $olderThan), ['app' => 'cron']);
-		$this->mapper->invalidateOld($olderThan, OCPIToken::DO_NOT_REMEMBER);
+		$this->mapper->invalidateOld($olderThan, OCPIToken::TEMPORARY_TOKEN, OCPIToken::DO_NOT_REMEMBER);
+
 		$rememberThreshold = $this->time->getTime() - $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		$this->logger->debug('Invalidating remembered session tokens older than ' . date('c', $rememberThreshold), ['app' => 'cron']);
-		$this->mapper->invalidateOld($rememberThreshold, OCPIToken::REMEMBER);
+		$this->mapper->invalidateOld($rememberThreshold, OCPIToken::TEMPORARY_TOKEN, OCPIToken::REMEMBER);
+
+		$wipeThreshold = $this->time->getTime() - $this->config->getSystemValueInt('token_auth_wipe_token_retention', 60 * 60 * 24 * 60);
+		$this->logger->debug('Invalidating auth tokens marked for remote wipe older than ' . date('c', $wipeThreshold), ['app' => 'cron']);
+		$this->mapper->invalidateOld($wipeThreshold, OCPIToken::WIPE_TOKEN);
+
+		$authTokenThreshold = $this->time->getTime() - $this->config->getSystemValueInt('token_auth_token_retention', 60 * 60 * 24 * 365);
+		$this->logger->debug('Invalidating auth tokens older than ' . date('c', $authTokenThreshold), ['app' => 'cron']);
+		$this->mapper->invalidateOld($authTokenThreshold, OCPIToken::PERMANENT_TOKEN);
 	}
 
 	public function invalidateLastUsedBefore(string $uid, int $before): void {
@@ -306,7 +287,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function updateToken(OCPIToken $token) {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 		$this->mapper->update($token);
 		$this->cacheToken($token);
@@ -314,7 +295,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function updateTokenActivity(OCPIToken $token) {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
 		$activityInterval = $this->config->getSystemValueInt('token_auth_activity_update', 60);
@@ -335,7 +316,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function getPassword(OCPIToken $savedToken, string $tokenId): string {
 		if (!($savedToken instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
 		if ($savedToken->getPassword() === null) {
@@ -351,10 +332,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function setPassword(OCPIToken $token, string $tokenId, string $password) {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
-		$this->atomic(function () use ($password, $token) {
+		$this->atomic(function () use ($password, $token): void {
 			// When changing passwords all temp tokens are deleted
 			$this->mapper->deleteTempToken($token);
 
@@ -376,7 +357,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function rotate(OCPIToken $token, string $oldTokenId, string $newTokenId): OCPIToken {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
 		// Decrypt private key with oldTokenId
@@ -409,7 +390,7 @@ class PublicKeyTokenProvider implements IProvider {
 			} catch (\Exception $ex2) {
 				// Delete the invalid token
 				$this->invalidateToken($token);
-				throw new InvalidTokenException("Could not decrypt token password: " . $ex->getMessage(), 0, $ex2);
+				throw new InvalidTokenException('Could not decrypt token password: ' . $ex->getMessage(), 0, $ex2);
 			}
 		}
 	}
@@ -434,7 +415,7 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	/**
-	 * @deprecated Fallback for instances where the secret might not have been set by accident
+	 * @deprecated 26.0.0 Fallback for instances where the secret might not have been set by accident
 	 */
 	private function hashTokenWithEmptySecret(string $token): string {
 		return hash('sha512', $token);
@@ -494,12 +475,18 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setLastCheck($this->time->getTime());
 		$dbToken->setVersion(PublicKeyToken::VERSION);
 
+		if ($type === OCPIToken::ONETIME_TOKEN) {
+			// Minimum duration is 2 minutes as shown in the UI
+			$expirationDuration = max(120, $this->config->getSystemValueInt('auth_onetime_token_validity', 120));
+			$dbToken->setExpires($this->time->getTime() + $expirationDuration);
+		}
+
 		return $dbToken;
 	}
 
 	public function markPasswordInvalid(OCPIToken $token, string $tokenId) {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
 		$token->setPasswordInvalid(true);
@@ -513,7 +500,7 @@ class PublicKeyTokenProvider implements IProvider {
 			return;
 		}
 
-		$this->atomic(function () use ($password, $uid) {
+		$this->atomic(function () use ($password, $uid): void {
 			// Update the password for all tokens
 			$tokens = $this->mapper->getTokenByUser($uid);
 			$newPasswordHash = null;

@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Stream;
@@ -27,10 +12,8 @@ use OC\Files\Stream\HashWrapper;
 use Test\TestCase;
 
 class HashWrapperTest extends TestCase {
-	/**
-	 * @dataProvider hashProvider
-	 */
-	public function testHashStream($data, string $algo, string $hash) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProvider')]
+	public function testHashStream($data, string $algo, string $hash): void {
 		if (!is_resource($data)) {
 			$tmpData = fopen('php://temp', 'r+');
 			if ($data !== null) {
@@ -40,13 +23,13 @@ class HashWrapperTest extends TestCase {
 			$data = $tmpData;
 		}
 
-		$wrapper = HashWrapper::wrap($data, $algo, function ($result) use ($hash) {
+		$wrapper = HashWrapper::wrap($data, $algo, function ($result) use ($hash): void {
 			$this->assertEquals($hash, $result);
 		});
 		stream_get_contents($wrapper);
 	}
 
-	public function hashProvider() {
+	public static function hashProvider(): array {
 		return [
 			['foo', 'md5', 'acbd18db4cc2f85cedef654fccc4a4d8'],
 			['foo', 'sha1', '0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33'],
