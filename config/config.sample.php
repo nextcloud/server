@@ -2491,8 +2491,8 @@ $CONFIG = [
 	 *
 	 * - If set on a mount, that value overrides this global value for that mount.
 	 * - If unset on a mount, this global value is used as fallback/default.
-	 * 
-	 * Note: If direct storage-side manipulation may occur outside Nextcloud on an 
+	 *
+	 * Note: If direct storage-side manipulation may occur outside Nextcloud on an
 	 * External Storage mount, it's generally more performant to enable it on the
 	 * relevant mount rather than enabling it globally here.
 	 *
