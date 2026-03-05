@@ -178,7 +178,7 @@ class ShareTargetValidatorTest extends TestCase {
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertSame('/foo/bar' . $this->folder, $share->getTarget());
 
-		$this->eventDispatcher->addListener(VerifyMountPointEvent::class, function (VerifyMountPointEvent $event) {
+		$this->eventDispatcher->addListener(VerifyMountPointEvent::class, function (VerifyMountPointEvent $event): void {
 			$event->setCreateParent(true);
 		});
 		$this->targetValidator->verifyMountPoint($this->user2, $share, [], [$share]);

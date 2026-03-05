@@ -69,7 +69,7 @@ class ScanAppDataTest extends TestCase {
 		$this->scanner->method('getScanner')->willReturn($this->internalScanner);
 
 		$this->scanner->method('initTools')
-			->willReturnCallback(function () {});
+			->willReturnCallback(function (): void {});
 		try {
 			$this->rootFolder->get($this->rootFolder->getAppDataDirectoryName() . '/preview')->delete();
 		} catch (NotFoundException) {
@@ -103,7 +103,7 @@ class ScanAppDataTest extends TestCase {
 		}
 
 		$this->input->method('getArgument')->with('folder')->willReturn('');
-		$this->internalScanner->method('scan')->willReturnCallback(function () {
+		$this->internalScanner->method('scan')->willReturnCallback(function (): void {
 			$this->internalScanner->emit('\OC\Files\Utils\Scanner', 'scanFile', ['path42']);
 			$this->internalScanner->emit('\OC\Files\Utils\Scanner', 'scanFolder', ['path42']);
 			$this->internalScanner->emit('\OC\Files\Utils\Scanner', 'scanFolder', ['path42']);

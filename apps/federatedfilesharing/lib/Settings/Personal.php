@@ -16,6 +16,7 @@ use OCP\Defaults;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class Personal implements ISettings {
 	public function __construct(
@@ -42,8 +43,8 @@ class Personal implements ISettings {
 		$this->initialState->provideInitialState('cloudId', $cloudID);
 		$this->initialState->provideInitialState('docUrlFederated', $this->urlGenerator->linkToDocs('user-sharing-federated'));
 
-		\OCP\Util::addStyle(Application::APP_ID, 'settings-personal');
-		\OCP\Util::addScript(Application::APP_ID, 'settings-personal');
+		Util::addStyle(Application::APP_ID, 'settings-personal');
+		Util::addScript(Application::APP_ID, 'settings-personal');
 		return new TemplateResponse(Application::APP_ID, 'settings-personal', renderAs: TemplateResponse::RENDER_AS_BLANK);
 	}
 

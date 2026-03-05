@@ -633,7 +633,7 @@ class SetupManagerTest extends TestCase {
 	}
 
 	private function getAddMountCheckCallback(InvokedCount $invokedCount, $expectations): \Closure {
-		return function (IMountPoint $actualMount) use ($invokedCount, $expectations) {
+		return function (IMountPoint $actualMount) use ($invokedCount, $expectations): void {
 			$expectedMount = $expectations[$invokedCount->numberOfInvocations()] ?? null;
 			$this->assertSame($expectedMount, $actualMount);
 		};

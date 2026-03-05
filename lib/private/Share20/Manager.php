@@ -60,6 +60,7 @@ use OCP\Share\IPartialShareProvider;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use OCP\Share\IShareProviderGetUsers;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
@@ -1591,7 +1592,7 @@ class Manager implements IManager {
 	}
 
 	#[\Override]
-	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false): array {
+	public function getAccessList(Node $path, $recursive = true, $currentAccess = false): array {
 		$owner = $path->getOwner();
 
 		if ($owner === null) {
@@ -1986,7 +1987,7 @@ class Manager implements IManager {
 
 	public function getUsersForShare(IShare $share): iterable {
 		$provider = $this->factory->getProviderForType($share->getShareType());
-		if ($provider instanceof Share\IShareProviderGetUsers) {
+		if ($provider instanceof IShareProviderGetUsers) {
 			return $provider->getUsersForShare($share);
 		} else {
 			return [];

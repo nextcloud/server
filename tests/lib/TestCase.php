@@ -23,6 +23,7 @@ use OC\Files\SetupManager;
 use OC\Files\View;
 use OC\Installer;
 use OC\Updater;
+use OC\User\Session;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
@@ -442,7 +443,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function logout(): void {
 		Server::get(SetupManager::class)->tearDown();
-		$userSession = Server::get(\OC\User\Session::class);
+		$userSession = Server::get(Session::class);
 		$userSession->getSession()->set('user_id', '');
 		// needed for fully logout
 		$userSession->setUser(null);

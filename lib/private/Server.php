@@ -9,6 +9,7 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Accounts\AccountManager;
+use OC\Activity\EventMerger;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -30,6 +31,8 @@ use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\MailByMailPlugin;
 use OC\Collaboration\Collaborators\RemoteGroupPlugin;
 use OC\Collaboration\Collaborators\RemotePlugin;
+use OC\Collaboration\Collaborators\Search;
+use OC\Collaboration\Collaborators\SearchResult;
 use OC\Collaboration\Collaborators\UserByMailPlugin;
 use OC\Collaboration\Collaborators\UserPlugin;
 use OC\Collaboration\Reference\ReferenceManager;
@@ -39,6 +42,7 @@ use OC\Comments\ManagerFactory as CommentsManagerFactory;
 use OC\Config\UserConfig;
 use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Contacts\ContactsMenu\ContactsStore;
+use OC\ContextChat\ContentManager;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\DB\ConnectionFactory;
@@ -123,6 +127,9 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
 use OC\Security\Ip\RemoteAddress;
+use OC\Security\RateLimiting\Backend\DatabaseBackend;
+use OC\Security\RateLimiting\Backend\IBackend;
+use OC\Security\RateLimiting\Backend\MemoryCacheBackend;
 use OC\Security\RateLimiting\Limiter;
 use OC\Security\RemoteHostValidator;
 use OC\Security\SecureRandom;
@@ -159,6 +166,7 @@ use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
+use OCP\Activity\IEventMerger;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -167,13 +175,17 @@ use OCP\Authentication\Token\IProvider as OCPIProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJobList;
+use OCP\Collaboration\Collaborators\ISearch;
+use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Reference\IReferenceManager;
+use OCP\Collaboration\Resources\IProviderManager;
 use OCP\Command\IBus;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\ICommentsManagerFactory;
 use OCP\Config\IUserConfig;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
+use OCP\ContextChat\IContentManager;
 use OCP\Defaults;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Diagnostics\IQueryLogger;
@@ -194,6 +206,7 @@ use OCP\Files\IFilenameValidator;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Lock\ILockManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorageFactory;
@@ -237,7 +250,10 @@ use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
+use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\OCM\IOCMProvider;
+use OCP\OCS\IDiscoveryService;
 use OCP\Preview\IMimeIconProvider;
 use OCP\Profile\IProfileManager;
 use OCP\Profiler\IProfiler;
@@ -247,10 +263,12 @@ use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Route\IRouter;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use OCP\Security\Ip\IRemoteAddress;
+use OCP\Security\IRemoteHostValidator;
 use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
@@ -260,10 +278,12 @@ use OCP\ServerVersion;
 use OCP\Settings\IDeclarativeManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use OCP\Share\IProviderFactory;
+use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShareHelper;
 use OCP\Snowflake\ISnowflakeDecoder;
 use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\SpeechToText\ISpeechToTextManager;
+use OCP\Support\Subscription\IAssertion;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
@@ -313,8 +333,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\Contacts\IManager::class, ContactsManager::class);
 
-		$this->registerAlias(\OCP\ContextChat\IContentManager::class, \OC\ContextChat\ContentManager::class);
-		$this->registerAlias(\OCP\Files\ISetupManager::class, \OC\Files\SetupManager::class);
+		$this->registerAlias(IContentManager::class, ContentManager::class);
+		$this->registerAlias(ISetupManager::class, SetupManager::class);
 
 		$this->registerAlias(\OCP\DirectEditing\IManager::class, \OC\DirectEditing\Manager::class);
 		$this->registerAlias(ITemplateManager::class, TemplateManager::class);
@@ -671,8 +691,8 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
-		$this->registerService(\OCP\Activity\IEventMerger::class, function (Server $c) {
-			return new \OC\Activity\EventMerger(
+		$this->registerService(IEventMerger::class, function (Server $c) {
+			return new EventMerger(
 				$c->getL10N('lib')
 			);
 		});
@@ -695,7 +715,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\Support\CrashReport\IRegistry::class, \OC\Support\CrashReport\Registry::class);
 		$this->registerAlias(\OCP\Support\Subscription\IRegistry::class, \OC\Support\Subscription\Registry::class);
-		$this->registerAlias(\OCP\Support\Subscription\IAssertion::class, Assertion::class);
+		$this->registerAlias(IAssertion::class, Assertion::class);
 
 		/** Only used by the PsrLoggerAdapter should not be used by apps */
 		$this->registerService(Log::class, function (Server $c) {
@@ -726,16 +746,16 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IRouter::class, Router::class);
 
-		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
+		$this->registerService(IBackend::class, function ($c) {
 			$config = $c->get(IConfig::class);
 			if (ltrim($config->getSystemValueString('memcache.distributed', ''), '\\') === Redis::class) {
-				$backend = new \OC\Security\RateLimiting\Backend\MemoryCacheBackend(
+				$backend = new MemoryCacheBackend(
 					$c->get(AllConfig::class),
 					$this->get(ICacheFactory::class),
 					new TimeFactory()
 				);
 			} else {
-				$backend = new \OC\Security\RateLimiting\Backend\DatabaseBackend(
+				$backend = new DatabaseBackend(
 					$c->get(AllConfig::class),
 					$c->get(IDBConnection::class),
 					new TimeFactory()
@@ -746,7 +766,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(ISecureRandom::class, SecureRandom::class);
-		$this->registerAlias(\OCP\Security\IRemoteHostValidator::class, RemoteHostValidator::class);
+		$this->registerAlias(IRemoteHostValidator::class, RemoteHostValidator::class);
 		$this->registerAlias(IVerificationToken::class, VerificationToken::class);
 
 		$this->registerAlias(ICrypto::class, Crypto::class);
@@ -1127,7 +1147,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(SessionStorage::class, function (ContainerInterface $c) {
 			return new SessionStorage($c->get(ISession::class));
 		});
-		$this->registerAlias(\OCP\Security\IContentSecurityPolicyManager::class, ContentSecurityPolicyManager::class);
+		$this->registerAlias(IContentSecurityPolicyManager::class, ContentSecurityPolicyManager::class);
 
 		$this->registerService(IProviderFactory::class, function (ContainerInterface $c) {
 			$config = $c->get(IConfig::class);
@@ -1138,8 +1158,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
 
-		$this->registerService(\OCP\Collaboration\Collaborators\ISearch::class, function (Server $c): \OCP\Collaboration\Collaborators\ISearch {
-			$instance = new \OC\Collaboration\Collaborators\Search($c);
+		$this->registerService(ISearch::class, function (Server $c): ISearch {
+			$instance = new Search($c);
 
 			// register default plugins
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserPlugin::class]);
@@ -1151,11 +1171,11 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return $instance;
 		});
-		$this->registerAlias(\OCP\Collaboration\Collaborators\ISearchResult::class, \OC\Collaboration\Collaborators\SearchResult::class);
+		$this->registerAlias(ISearchResult::class, SearchResult::class);
 
 		$this->registerAlias(\OCP\Collaboration\AutoComplete\IManager::class, \OC\Collaboration\AutoComplete\Manager::class);
 
-		$this->registerAlias(\OCP\Collaboration\Resources\IProviderManager::class, ProviderManager::class);
+		$this->registerAlias(IProviderManager::class, ProviderManager::class);
 		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, \OC\Collaboration\Resources\Manager::class);
 
 		$this->registerAlias(IReferenceManager::class, ReferenceManager::class);
@@ -1176,7 +1196,7 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 		});
 
-		$this->registerService(\OCP\OCS\IDiscoveryService::class, function (ContainerInterface $c): \OCP\OCS\IDiscoveryService {
+		$this->registerService(IDiscoveryService::class, function (ContainerInterface $c): IDiscoveryService {
 			return new DiscoveryService(
 				$c->get(ICacheFactory::class),
 				$c->get(IClientService::class)
@@ -1258,7 +1278,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IBinaryFinder::class, BinaryFinder::class);
 
-		$this->registerAlias(\OCP\Share\IPublicShareTemplateFactory::class, PublicShareTemplateFactory::class);
+		$this->registerAlias(IPublicShareTemplateFactory::class, PublicShareTemplateFactory::class);
 
 		$this->registerAlias(ITranslationManager::class, TranslationManager::class);
 
@@ -1277,8 +1297,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
 
 		// there is no reason for having OCMProvider as a Service (marked as deprecated since 32.0.0)
-		$this->registerDeprecatedAlias(\OCP\OCM\ICapabilityAwareOCMProvider::class, OCMProvider::class);
-		$this->registerDeprecatedAlias(\OCP\OCM\IOCMProvider::class, OCMProvider::class);
+		$this->registerDeprecatedAlias(ICapabilityAwareOCMProvider::class, OCMProvider::class);
+		$this->registerDeprecatedAlias(IOCMProvider::class, OCMProvider::class);
 
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
 
