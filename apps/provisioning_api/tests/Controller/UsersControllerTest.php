@@ -40,11 +40,13 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Test\TestCase;
 
+#[Group(name: 'DB')]
 class UsersControllerTest extends TestCase {
 	protected IUserManager&MockObject $userManager;
 	protected IConfig&MockObject $config;
@@ -805,13 +807,21 @@ class UsersControllerTest extends TestCase {
 			->method('groupExists')
 			->with('ExistingGroup')
 			->willReturn(true);
+		$uid = 'NewUser';
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$user
+			->method('getUID')
+			->willReturn($uid);
+		$user
+			->expects($this->once())
+			->method('getHome')
+			->willReturn($this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid);
 		$this->userManager
 			->expects($this->once())
 			->method('createUser')
-			->with('NewUser', 'PasswordOfTheNewUser')
+			->with($uid, 'PasswordOfTheNewUser')
 			->willReturn($user);
 		$group = $this->getMockBuilder('OCP\IGroup')
 			->disableOriginalConstructor()
@@ -827,8 +837,8 @@ class UsersControllerTest extends TestCase {
 			->willReturn($group);
 
 		$calls = [
-			['Successful addUser call with userid: NewUser', ['app' => 'ocs_api']],
-			['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']],
+			['Successful addUser call with userid: ' . $uid, ['app' => 'ocs_api']],
+			['Added userid ' . $uid . ' to group ExistingGroup', ['app' => 'ocs_api']],
 		];
 		$this->logger
 			->expects($this->exactly(2))
@@ -838,7 +848,7 @@ class UsersControllerTest extends TestCase {
 				$this->assertEquals($expected, func_get_args());
 			});
 
-		$this->assertArrayHasKey('id', $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData());
+		$this->assertArrayHasKey('id', $this->api->addUser($uid, 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData());
 	}
 
 

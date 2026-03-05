@@ -12,6 +12,7 @@ namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Files\Filesystem;
 use OC\Group\Group;
 use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
@@ -549,6 +550,11 @@ class UsersController extends AUserDataOCSController {
 				// If the user is not an instance of IUser, it means the user creation failed
 				$this->logger->error('Failed addUser attempt: User creation failed.', ['app' => 'ocs_api']);
 				throw new OCSException($this->l10n->t('User creation failed'), 111);
+			}
+
+			if ($groups !== []) {
+				// Make sure we init the Filesystem for the user, in case we need to init some group shares.
+				Filesystem::init($newUser, '');
 			}
 
 			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
