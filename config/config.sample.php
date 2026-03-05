@@ -105,12 +105,37 @@ $CONFIG = [
 	'cookie_domain' => '',
 
 	/**
-	 * Where user files are stored. The SQLite database is also stored here, when
-	 * you use SQLite.
+	 * The Nextcloud data directory stores user data, app-managed data, and other
+	 * instance-scoped data.
+	 * 
+	 * In standard local-storage deployments, user and team files are stored here.
 	 *
-	 * Default to ``data/`` in the Nextcloud directory.
+	 * When using object store primary storage, file payloads are stored in object
+	 * storage, while the data directory is still used for instance-scoped data.
+	 *
+	 * Examples of instance-scoped data:
+	 *
+	 * - ``appdata_*`` managed by Nextcloud and apps (e.g., previews, generated assets, file-based app data)
+	 * - Logs by default (e.g., ``nextcloud.log``), unless overridden per log type
+	 * - Updater files when using the built-in Updater to deploy code updates
+	 * - If using SQLite, the SQLite database file
+	 *
+	 * Nextcloud expects a ``.ncdata`` marker file here and writes access-protection
+	 * rules to ``.htaccess`` file (Apache-based setups). Do not remove them.
+	 *
+	 * In clustered deployments, every node in the same instance must use the same
+	 * ``datadirectory`` (shared storage mounted at the same path).
+	 *
+	 * WARNING: Changing this path after deployment requires a controlled migration to avoid
+	 * breakage. If you must change it, see:
+	 * https://docs.nextcloud.com/server/latest/admin_manual/issues/general_troubleshooting.html#moving-the-data-directory-changing-the-datadirectory-path
+	 *
+	 * Must be an absolute filesystem path.
+	 * For added security, place it outside the web server document root.
+	 *
+	 * Defaults to ``data/`` inside the Nextcloud installation root.
 	 */
-	'datadirectory' => '/var/www/nextcloud/data',
+	'datadirectory' => '/var/www/html/data',
 
 	/**
 	 * The current version number of your Nextcloud installation. This is set up
