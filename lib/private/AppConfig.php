@@ -33,23 +33,23 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
- * This class provides an easy way for apps to store config values in the
- * database.
+ * Stores and retrieves per-app configuration values in the database,
+ * with support for type safety and lazy loading.
  *
- * **Note:** since 29.0.0, it supports **lazy loading**
+ * ### Lazy Loading (since 29.0.0)
+ * To minimize (unnecessary) memory usage, only non-lazy configuration values are loaded by default.
+ * Lazy config values are fetched from the database only when specifically requested.
  *
- * ### What is lazy loading ?
- * In order to avoid loading useless config values into memory for each request,
- * only non-lazy values are now loaded.
+ * Warning: When a lazy config value is requested, all lazy config values for that specific app
+ * are loaded into memory.
  *
- * Once a value that is lazy is requested, all lazy values will be loaded.
- *
- * Similarly, some methods from this class are marked with a warning about ignoring
- * lazy loading. Use them wisely and only on parts of the code that are called
- * during specific requests or actions to avoid loading the lazy values all the time.
+ * Note: Some methods (such as `getKeys()` or `getAllValues()`) bypass lazy loading and will 
+ * forcibly load all lazy config values for the app.
+ * Use these methods carefully: they should only be called in code paths that run as part of 
+ * specific actions (like admin pages or background jobs), not on every user request.
  *
  * @since 7.0.0
- * @since 29.0.0 - Supporting types and lazy loading
+ * @since 29.0.0 Added support for type safety and lazy loading.
  */
 class AppConfig implements IAppConfig {
 	private const APP_MAX_LENGTH = 32;
