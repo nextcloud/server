@@ -1327,29 +1327,31 @@ class AppConfig implements IAppConfig {
 	 * @param bool        $lazy Whether to ensure lazy values are loaded
 	 */
 	private function loadConfig(?string $app = null, bool $lazy = false): void {
+		// If the relevant config values (based on $lazy) are already cached in memory,
+		// skip database/cache loading and return immediately for efficiency.
 		if ($this->isLoaded($lazy)) {
 			return;
 		}
 
 		// Emit debug context for the caller that triggered lazy loading.
 		if ($lazy === true && $app !== null) {
-			$exception = new \RuntimeException('The loading of lazy AppConfig values have been triggered by app "' . $app . '"');
-			$this->logger->debug($exception->getMessage(), ['exception' => $exception, 'app' => $app]);
+			$lazyLoadTriggerException = new \RuntimeException('The loading of lazy AppConfig values have been triggered by app "' . $app . '"');
+			$this->logger->debug($lazyLoadTriggerException->getMessage(), ['exception' => $lazyLoadTriggerException, 'app' => $app]);
 		}
 
 		// If non-lazy config is already loaded, a lazy load can query only lazy rows.
-		$loadLazyOnly = $this->isLoaded() && $lazy;
+		$shouldLoadLazyOnly = $this->isLoaded() && $lazy;
 
 		// Prefer local cache when it contains the required data subset.
 		/** @var array<mixed> */
-		$cacheContent = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
-		$includesLazyValues = !empty($cacheContent) && !empty($cacheContent['lazyCache']);
-		if (!empty($cacheContent) && (!$lazy || $includesLazyValues)) {
-			$this->valueTypes = $cacheContent['valueTypes'];
-			$this->fastCache = $cacheContent['fastCache'];
+		$cachedConfig = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
+		$cachedConfigIncludesLazyValues = !empty($cachedConfig) && !empty($cachedConfig['lazyCache']);
+		if (!empty($cachedConfig) && (!$lazy || $cachedConfigIncludesLazyValues)) {
+			$this->valueTypes = $cachedConfig['valueTypes'];
+			$this->fastCache = $cachedConfig['fastCache'];
 			$this->fastLoaded = !empty($this->fastCache);
-			if ($includesLazyValues) {
-				$this->lazyCache = $cacheContent['lazyCache'];
+			if ($cachedConfigIncludesLazyValues) {
+				$this->lazyCache = $cachedConfig['lazyCache'];
 				$this->lazyLoaded = !empty($this->lazyCache);
 			}
 			return;
@@ -1365,26 +1367,26 @@ class AppConfig implements IAppConfig {
 			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		} else {
 			// Lazy load path; restrict to lazy rows if non-lazy is already in memory.
-			if ($loadLazyOnly) {
+			if ($shouldLoadLazyOnly) {
 				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
 			}
 			// Include row laziness so mixed result sets can be routed to the right cache.
 			$qb->addSelect('lazy');
 		}
 
-		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
-		foreach ($rows as $row) {
+		$queryResult = $qb->executeQuery();
+		$configRows = $queryResult->fetchAll();
+		foreach ($configRows as $configRow) {
 			// Route each row to the corresponding in-memory cache.
-			if ($lazy && ((int)$row['lazy']) === 1) {
-				$this->lazyCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
+			if ($lazy && ((int)$configRow['lazy']) === 1) {
+				$this->lazyCache[$configRow['appid']][$configRow['configkey']] = $configRow['configvalue'] ?? '';
 			} else {
-				$this->fastCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
+				$this->fastCache[$configRow['appid']][$configRow['configkey']] = $configRow['configvalue'] ?? '';
 			}
-			$this->valueTypes[$row['appid']][$row['configkey']] = (int)($row['type'] ?? 0);
+			$this->valueTypes[$configRow['appid']][$configRow['configkey']] = (int)($configRow['type'] ?? 0);
 		}
 
-		$result->closeCursor();
+		$queryResult->closeCursor();
 
 		// Persist refreshed in-memory caches to local cache.
 		$this->localCache?->set(
