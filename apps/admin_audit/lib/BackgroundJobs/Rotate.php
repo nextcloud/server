@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\BackgroundJobs;
 
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
@@ -17,6 +18,7 @@ class Rotate extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $time,
+		private IAppConfig $appConfig,
 		private IConfig $config,
 	) {
 		parent::__construct($time);
@@ -26,7 +28,7 @@ class Rotate extends TimedJob {
 
 	protected function run($argument): void {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
-		$this->filePath = $this->config->getAppValue('admin_audit', 'logfile', $default);
+		$this->filePath = $this->appconfig->getAppValueString('logfile', $default);
 
 		if ($this->filePath === '') {
 			// default log file, nothing to do
