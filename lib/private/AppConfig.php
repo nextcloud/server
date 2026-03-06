@@ -1333,31 +1333,17 @@ class AppConfig implements IAppConfig {
 
 		// Log which app triggered lazy loading and include context to help with optimization follow-up.
 		if ($lazy === true && $app !== null) {
-			$lazyLoadTriggerException = new \RuntimeException('The loading of lazy AppConfig values have been triggered by app "' . $app . '"');
+			$lazyLoadTriggerException = new \RuntimeException('The loading of lazy AppConfig values has been triggered by app "' . $app . '"');
 			$this->logger->debug($lazyLoadTriggerException->getMessage(), ['exception' => $lazyLoadTriggerException, 'app' => $app]);
 		}
 
-		// If fast/non-lazy config is already loaded, a lazy load can query only lazy rows.
-		$shouldLoadLazyOnly = $this->isLoaded() && $lazy;
-
 		// Prefer local cache when it contains the required data subset.
-		/** @var array<mixed> */
-		$cachedConfig = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
-		$cachedConfigIncludesLazyValues = !empty($cachedConfig['lazyCache']);
-		$canHydrateFromLocalCache = !empty($cachedConfig) && (!$lazy || $cachedConfigIncludesLazyValues);
-
-		if ($canHydrateFromLocalCache) {
-			$this->valueTypes = $cachedConfig['valueTypes'];
-			$this->fastCache = $cachedConfig['fastCache'];
-			$this->fastLoaded = !empty($this->fastCache);
-
-			if ($cachedConfigIncludesLazyValues) {
-				$this->lazyCache = $cachedConfig['lazyCache'];
-				$this->lazyLoaded = !empty($this->lazyCache);
-			}
-
+		if ($this->tryLoadFromLocalCache($lazy)) {
 			return;
 		}
+	
+		// If fast/non-lazy config is already loaded, a lazy load can query only lazy rows.
+		$shouldLoadLazyOnly = $this->isLoaded() && $lazy;
 
 		// Cache miss (or missing lazy subset): fetch from DB.
 		$qb = $this->connection->getQueryBuilder();
@@ -1407,6 +1393,27 @@ class AppConfig implements IAppConfig {
 
 		$this->fastLoaded = true;
 		$this->lazyLoaded = $lazy;
+	}
+
+	private function tryLoadFromLocalCache(bool $lazy): bool {
+		/** @var array<mixed> $cachedConfig */
+		$cachedConfig = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
+		$cachedConfigIncludesLazyValues = !empty($cachedConfig) && !empty($cachedConfig['lazyCache']);
+
+		if (empty($cachedConfig) || ($lazy && !$cachedConfigIncludesLazyValues)) {
+			return false;
+		}
+
+		$this->valueTypes = $cachedConfig['valueTypes'];
+		$this->fastCache = $cachedConfig['fastCache'];
+		$this->fastLoaded = !empty($this->fastCache);
+
+		if ($cachedConfigIncludesLazyValues) {
+			$this->lazyCache = $cachedConfig['lazyCache'];
+			$this->lazyLoaded = !empty($this->lazyCache);
+		}
+
+		return true;
 	}
 
 	/**
