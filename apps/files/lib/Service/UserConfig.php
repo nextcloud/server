@@ -79,6 +79,13 @@ class UserConfig {
 			'default' => true,
 			'allowed' => [true, false],
 		],
+		[
+			// Maximum number of files to display in the recent section
+			'key' => 'recent_files_limit',
+			'default' => 100,
+			'min' => 1,
+			'max' => 100,
+		],
 	];
 	protected ?IUser $user = null;
 
@@ -118,7 +125,7 @@ class UserConfig {
 	 * Get the default config value for a given key
 	 *
 	 * @param string $key a valid config key
-	 * @return string|bool
+	 * @return string|bool|int
 	 */
 	private function getDefaultConfigValue(string $key) {
 		foreach (self::ALLOWED_CONFIGS as $config) {
@@ -146,7 +153,13 @@ class UserConfig {
 			throw new \InvalidArgumentException('Unknown config key');
 		}
 
-		if (!in_array($value, $this->getAllowedConfigValues($key))) {
+		$config = $this->getConfigDefinition($key);
+
+		if (isset($config['min'], $config['max'])) {
+			if ((int)$value < $config['min'] || (int)$value > $config['max']) {
+				throw new \InvalidArgumentException('Invalid config value');
+			}
+		} elseif (!in_array($value, $this->getAllowedConfigValues($key))) {
 			throw new \InvalidArgumentException('Invalid config value');
 		}
 
@@ -178,5 +191,20 @@ class UserConfig {
 		}, $this->getAllowedConfigKeys());
 
 		return array_combine($this->getAllowedConfigKeys(), $userConfigs);
+	}
+
+	/**
+	 * Get the config definition for a given key
+	 *
+	 * @param string $key
+	 * @return array
+	 */
+	private function getConfigDefinition(string $key): array {
+		foreach (self::ALLOWED_CONFIGS as $config) {
+			if ($config['key'] === $key) {
+				return $config;
+			}
+		}
+		return [];
 	}
 }
