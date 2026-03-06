@@ -1394,9 +1394,12 @@ class AppConfig implements IAppConfig {
 		/** @var array<mixed> $cachedConfig */
 		$cachedConfig = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
 
+		if (empty($cachedConfig)) {
+			return false;
+		}
+
 		if (
-			empty($cachedConfig)
-			|| !isset($cachedConfig['valueTypes'], $cachedConfig['fastCache'])
+			!isset($cachedConfig['valueTypes'], $cachedConfig['fastCache'])
 			|| ($lazy && !isset($cachedConfig['lazyCache']))
 		) {
 			$this->logger->debug('Ignoring malformed local AppConfig cache payload', [
