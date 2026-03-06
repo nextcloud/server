@@ -325,13 +325,12 @@ class Root extends Folder implements IRootFolder {
 
 		if (!$this->userFolderCache->hasKey($userId)) {
 			if ($this->mountManager->getSetupManager()->isSetupComplete($userObject)) {
-				$parent = $this->getOrCreateFolder('/' . $userId, maxRetries: 1);
 				$realFolder = $this->getOrCreateFolder('/' . $userId . '/files', maxRetries: 1);
 				$folder = new UserFolder(
 					$this,
 					$this->view,
 					$realFolder->getPath(),
-					$parent,
+					null,
 					Server::get(IConfig::class),
 					$userObject,
 					$this->cacheFactory,

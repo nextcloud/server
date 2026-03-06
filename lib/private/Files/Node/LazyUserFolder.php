@@ -47,13 +47,12 @@ class LazyUserFolder extends LazyFolder implements IUserFolder {
 			$rootFolder,
 			function () use ($user): UserFolder {
 				$root = $this->getRootFolder();
-				$parent = $root->getOrCreateFolder('/' . $user->getUID(), maxRetries: 1);
 				$realFolder = $root->getOrCreateFolder('/' . $user->getUID() . '/files', maxRetries: 1);
 				return new UserFolder(
 					$root,
 					new View(),
 					$realFolder->getPath(),
-					$parent,
+					null,
 					Server::get(IConfig::class),
 					$user,
 					Server::get(ICacheFactory::class),

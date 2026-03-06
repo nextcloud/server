@@ -25,7 +25,7 @@ class UserFolder extends Folder implements IUserFolder {
 		IRootFolder $root,
 		View $view,
 		string $path,
-		IFolder $parent,
+		?IFolder $parent,
 		protected IConfig $config,
 		protected IUser $user,
 		protected ICacheFactory $cacheFactory,
