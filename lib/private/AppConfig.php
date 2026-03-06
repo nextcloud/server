@@ -1346,22 +1346,7 @@ class AppConfig implements IAppConfig {
 		$shouldLoadLazyOnly = $this->isLoaded() && $lazy;
 
 		// Cache miss (or missing lazy subset): fetch from DB.
-		$qb = $this->connection->getQueryBuilder();
-		$qb->from('appconfig')
-			->select('appid', 'configkey', 'configvalue', 'type');
-
-		if ($lazy === false) {
-			// Non-lazy load path.
-			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
-		// Lazy load paths...
-		} elseif ($shouldLoadLazyOnly) {
-			// Restrict to lazy rows if non-lazy is already in memory.
-			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
-			$qb->addSelect('lazy');
-		} else {
-			// Include laziness, when result set may contain both types, so can be routed to the right cache.
-			$qb->addSelect('lazy');
-		}
+		$qb = $this->buildLoadConfigQuery($lazy, $shouldLoadLazyOnly);
 
 		$queryResult = $qb->executeQuery();
 		$configRows = $queryResult->fetchAll();
@@ -1395,6 +1380,11 @@ class AppConfig implements IAppConfig {
 		$this->lazyLoaded = $lazy;
 	}
 
+	/**
+	 * Hydrate in-memory caches from local cache when it contains the required subset.
+	 *
+	 * @return bool True when hydration succeeded; false when DB load is still required.
+	 */
 	private function tryLoadFromLocalCache(bool $lazy): bool {
 		/** @var array<mixed> $cachedConfig */
 		$cachedConfig = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
@@ -1414,6 +1404,30 @@ class AppConfig implements IAppConfig {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Build the appConfig query for lazy/non-lazy loading mode.
+	 */
+	private function buildLoadConfigQuery(bool $lazy, bool $shouldLoadLazyOnly): IQueryBuilder {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->from('appconfig')
+			->select('appid', 'configkey', 'configvalue', 'type');
+
+		// Non-lazy load path.
+		if ($lazy === false) {
+			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+			return $qb;
+		}
+
+		// Restrict to lazy rows if non-lazy is already in memory.
+		if ($shouldLoadLazyOnly) {
+			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
+		}
+
+		// Include laziness, when result set may contain both types, so can be routed to the right cache.
+		$qb->addSelect('lazy');
+		return $qb;
 	}
 
 	/**
