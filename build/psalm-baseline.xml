@@ -20,11 +20,6 @@
       <code><![CDATA[Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed')]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/admin_audit/lib/AuditLogger.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/admin_audit/lib/BackgroundJobs/Rotate.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
