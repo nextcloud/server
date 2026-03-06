@@ -1343,15 +1343,19 @@ class AppConfig implements IAppConfig {
 		// Prefer local cache when it contains the required data subset.
 		/** @var array<mixed> */
 		$cachedConfig = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
-		$cachedConfigIncludesLazyValues = !empty($cachedConfig) && !empty($cachedConfig['lazyCache']);
-		if (!empty($cachedConfig) && (!$lazy || $cachedConfigIncludesLazyValues)) {
+		$cachedConfigIncludesLazyValues = !empty($cachedConfig['lazyCache']);
+		$canHydrateFromLocalCache = !empty($cachedConfig) && (!$lazy || $cachedConfigIncludesLazyValues);
+
+		if ($canHydrateFromLocalCache) {
 			$this->valueTypes = $cachedConfig['valueTypes'];
 			$this->fastCache = $cachedConfig['fastCache'];
 			$this->fastLoaded = !empty($this->fastCache);
+
 			if ($cachedConfigIncludesLazyValues) {
 				$this->lazyCache = $cachedConfig['lazyCache'];
 				$this->lazyLoaded = !empty($this->lazyCache);
 			}
+
 			return;
 		}
 
@@ -1363,20 +1367,24 @@ class AppConfig implements IAppConfig {
 		if ($lazy === false) {
 			// Non-lazy load path.
 			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+		// Lazy load paths...
+		} elseif ($shouldLoadLazyOnly) {
+			// Restrict to lazy rows if non-lazy is already in memory.
+			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
+			$qb->addSelect('lazy');
 		} else {
-			// Lazy load path; restrict to lazy rows if non-lazy is already in memory.
-			if ($shouldLoadLazyOnly) {
-				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
-			}
 			// Include laziness, when result set may contain both types, so can be routed to the right cache.
 			$qb->addSelect('lazy');
 		}
 
 		$queryResult = $qb->executeQuery();
 		$configRows = $queryResult->fetchAll();
+
 		foreach ($configRows as $configRow) {
-			// Route each row to the corresponding in-memory cache.
-			if ($lazy && ((int)$configRow['lazy']) === 1) {
+			$isLazyRow = $lazy && ((int)$configRow['lazy']) === 1;
+
+			// Route each config row to the corresponding in-memory cache.
+			if ($isLazyRow) {
 				$this->lazyCache[$configRow['appid']][$configRow['configkey']] = $configRow['configvalue'] ?? '';
 			} else {
 				$this->fastCache[$configRow['appid']][$configRow['configkey']] = $configRow['configvalue'] ?? '';
