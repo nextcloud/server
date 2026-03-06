@@ -9,6 +9,7 @@ namespace OCA\FederatedFileSharing;
 
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Share20\Exception\InvalidShare;
+use OCA\DAV\Db\OcmTokenMapMapper;
 use OC\Share20\Share;
 use OCA\DAV\Db\OcmTokenMapMapper;
 use OCP\Authentication\Exceptions\InvalidTokenException;
@@ -741,20 +742,19 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		if ($data === false) {
 			// Token not found as refresh token, try looking it up as access token
 			try {
-				$provider = Server::get(PublicKeyTokenProvider::class);
-				$accessTokenDb = $provider->getToken($token);
-				$refreshToken = $accessTokenDb->getUID();
+				$accessTokenDb = Server::get(PublicKeyTokenProvider::class)->getToken($token);
+				$mapping = Server::get(OcmTokenMapMapper::class)->getByAccessTokenId($accessTokenDb->getId());
 
 				$qb2 = $this->dbConnection->getQueryBuilder();
 				$cursor = $qb2->select('*')
 					->from('share')
 					->where($qb2->expr()->in('share_type', $qb2->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
-					->andWhere($qb2->expr()->eq('token', $qb2->createNamedParameter($refreshToken)))
+					->andWhere($qb2->expr()->eq('token', $qb2->createNamedParameter($mapping->getRefreshToken())))
 					->executeQuery();
 
 				$data = $cursor->fetch();
-			} catch (InvalidTokenException) {
-				// Token is not a valid access token, share not found
+			} catch (InvalidTokenException|\OCP\AppFramework\Db\DoesNotExistException) {
+				// Token is not a valid access token or has no mapping, share not found
 			}
 		}
 		if ($data === false) {
