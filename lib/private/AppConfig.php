@@ -1316,30 +1316,28 @@ class AppConfig implements IAppConfig {
 	/**
 	 * Ensures app config is loaded into in-memory caches.
 	 *
-	 * Reads from local cache when available; otherwise queries the database and refreshes local cache.
+	 * Uses local cache when possible; otherwise reads from DB and refreshes local cache.
 	 *
 	 * Behavior:
-	 * - $lazy = false: loads non-lazy config values.
-	 * - $lazy = true: ensures lazy values are loaded; may load both non-lazy and lazy values
-	 *   if non-lazy values are not loaded yet.
+	 * - $lazy = false: load non-lazy values.
+	 * - $lazy = true: ensure lazy values are loaded; may also load non-lazy values if they're not loaded yet.
 	 *
 	 * @param string|null $app App ID used for debug logging when lazy loading is triggered
 	 * @param bool        $lazy Whether to ensure lazy values are loaded
 	 */
 	private function loadConfig(?string $app = null, bool $lazy = false): void {
-		// If the relevant config values (based on $lazy) are already cached in memory,
-		// skip database/cache loading and return immediately for efficiency.
+		// Already loaded for the requested mode; skip.
 		if ($this->isLoaded($lazy)) {
 			return;
 		}
 
-		// Emit debug context for the caller that triggered lazy loading.
+		// Log which app triggered lazy loading and include context to help with optimization follow-up.
 		if ($lazy === true && $app !== null) {
 			$lazyLoadTriggerException = new \RuntimeException('The loading of lazy AppConfig values have been triggered by app "' . $app . '"');
 			$this->logger->debug($lazyLoadTriggerException->getMessage(), ['exception' => $lazyLoadTriggerException, 'app' => $app]);
 		}
 
-		// If non-lazy config is already loaded, a lazy load can query only lazy rows.
+		// If fast/non-lazy config is already loaded, a lazy load can query only lazy rows.
 		$shouldLoadLazyOnly = $this->isLoaded() && $lazy;
 
 		// Prefer local cache when it contains the required data subset.
@@ -1357,7 +1355,7 @@ class AppConfig implements IAppConfig {
 			return;
 		}
 
-		// Cache miss (or missing lazy subset): fetch the required rows from DB.
+		// Cache miss (or missing lazy subset): fetch from DB.
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('appconfig')
 			->select('appid', 'configkey', 'configvalue', 'type');
@@ -1370,7 +1368,7 @@ class AppConfig implements IAppConfig {
 			if ($shouldLoadLazyOnly) {
 				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
 			}
-			// Include row laziness so mixed result sets can be routed to the right cache.
+			// Include laziness, when result set may contain both types, so can be routed to the right cache.
 			$qb->addSelect('lazy');
 		}
 
