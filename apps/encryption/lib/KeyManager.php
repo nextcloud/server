@@ -131,8 +131,34 @@ class KeyManager {
 		}
 
 		if (!$this->session->isPrivateKeySet()) {
-			$masterKey = $this->getSystemPrivateKey($this->masterKeyId);
-			$decryptedMasterKey = $this->crypt->decryptPrivateKey($masterKey, $this->getMasterKeyPassword(), $this->masterKeyId);
+			// Check APCu cache first to avoid expensive PBKDF2 decryption on every request.
+			// DAV/API clients using HTTP Basic Auth create a new PHP session on every request,
+			// so the session never has the private key set. Without caching, decryptPrivateKey()
+			// would run on EVERY request, calling generatePasswordHash() with 600,000 PBKDF2 iterations.
+			// APCu is safe here: all PHP-FPM workers run as www-data and already have full
+			// read access to all user files. Caching the decrypted master key does not expand
+			// the attack surface.
+			$cacheKey = $this->getMasterKeyCacheKey();
+			$decryptedMasterKey = null;
+
+			if (function_exists('apcu_fetch') && apcu_enabled()) {
+				$cached = apcu_fetch($cacheKey, $success);
+				if ($success) {
+					$decryptedMasterKey = $cached;
+				}
+			}
+
+			if ($decryptedMasterKey === null) {
+				// Cache miss: decrypt the master key (expensive PBKDF2 operation)
+				$masterKey = $this->getSystemPrivateKey($this->masterKeyId);
+				$decryptedMasterKey = $this->crypt->decryptPrivateKey($masterKey, $this->getMasterKeyPassword(), $this->masterKeyId);
+
+				if ($decryptedMasterKey !== false && function_exists('apcu_store') && apcu_enabled()) {
+					// Store in APCu with 1 hour TTL - key rotation would require process restart anyway
+					apcu_store($cacheKey, $decryptedMasterKey, 3600);
+				}
+			}
+
 			if ($decryptedMasterKey === false) {
 				$this->logger->error('A public master key is available but decrypting it failed. This should never happen.');
 			} else {
@@ -662,6 +688,19 @@ class KeyManager {
 	 */
 	public function getMasterKeyId() {
 		return $this->masterKeyId;
+	}
+
+	/**
+	 * Get APCu cache key for decrypted master private key
+	 *
+	 * Cache key is stable per Nextcloud instance, no user data in key.
+	 * Format: nc_enc_mk_{instanceId}_{masterKeyId}
+	 *
+	 * @return string
+	 */
+	private function getMasterKeyCacheKey(): string {
+		$instanceId = $this->config->getSystemValueString('instanceid', '');
+		return 'nc_enc_mk_' . $instanceId . '_' . $this->masterKeyId;
 	}
 
 	/**
