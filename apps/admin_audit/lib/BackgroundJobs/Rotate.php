@@ -28,7 +28,7 @@ class Rotate extends TimedJob {
 
 	protected function run($argument): void {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
-		$this->filePath = $this->appconfig->getAppValueString('logfile', $default);
+		$this->filePath = $this->appConfig->getAppValueString('logfile', $default);
 
 		if ($this->filePath === '') {
 			// default log file, nothing to do
