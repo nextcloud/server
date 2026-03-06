@@ -2505,13 +2505,6 @@ $CONFIG = [
 	'part_file_in_storage' => true,
 
 	/**
-	 * Specify the location of the ``mount.json`` file.
-	 *
-	 * Defaults to ``data/mount.json`` in the Nextcloud directory.
-	 */
-	'mount_file' => '/var/www/nextcloud/data/mount.json',
-
-	/**
 	 * Read-only mode for scan/detection reconciliation writes to filecache.
 	 *
 	 * When true, Nextcloud does not store filecache metadata changes that are
