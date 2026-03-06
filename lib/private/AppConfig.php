@@ -1352,15 +1352,21 @@ class AppConfig implements IAppConfig {
 		$configRows = $queryResult->fetchAll();
 
 		foreach ($configRows as $configRow) {
+			$appId = $configRow['appid'];
+			$configKey = $configRow['configkey'];
+			$configValue = $configRow['configvalue'] ?? '';
+			$valueType = (int)($configRow['type'] ?? 0);
+
 			$isLazyRow = $lazy && ((int)$configRow['lazy']) === 1;
 
 			// Route each config row to the corresponding in-memory cache.
 			if ($isLazyRow) {
-				$this->lazyCache[$configRow['appid']][$configRow['configkey']] = $configRow['configvalue'] ?? '';
+				$this->lazyCache[$appId][$configKey] = $configValue;
 			} else {
-				$this->fastCache[$configRow['appid']][$configRow['configkey']] = $configRow['configvalue'] ?? '';
+				$this->fastCache[$appId][$configKey] = $configValue;
 			}
-			$this->valueTypes[$configRow['appid']][$configRow['configkey']] = (int)($configRow['type'] ?? 0);
+
+			$this->valueTypes[$appId][$configKey] = $valueType;
 		}
 
 		$queryResult->closeCursor();
