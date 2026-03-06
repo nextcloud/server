@@ -53,9 +53,11 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	protected IAppConfig $appConfig;
 	private IShareManager $shareManager;
 	private bool $tokenRefreshed = false;
+	/** Unix timestamp until which the current access token is considered valid (0 = unknown/expired) */
+	private int $tokenExpiresAt = 0;
 
 	/**
-	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
+	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, access_token: ?string, access_token_expires: ?int}|array $options
 	 */
 	public function __construct($options) {
 		$this->memcacheFactory = Server::get(ICacheFactory::class);
@@ -85,9 +87,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$authType = \Sabre\DAV\Client::AUTH_BASIC;
 		}
 
-		// If we have a stored access token (password), use Bearer auth regardless of discovery
-		// This handles the case where the share was created with must-exchange-token
-		if (!empty($options['password'])) {
+		// If we have a stored access token, use Bearer auth regardless of discovery.
+		// This handles the case where the share was created with must-exchange-token.
+		if (!empty($options['access_token'])) {
 			$authType = \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER;
 		}
 
@@ -103,6 +105,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 		$this->mountPoint = $options['mountpoint'];
 		$this->token = $options['token'];
+		$this->tokenExpiresAt = (int)($options['access_token_expires'] ?? 0);
 
 		parent::__construct(
 			[
@@ -112,7 +115,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				'root' => $webDavEndpoint,
 				'user' => $options['token'],
 				'authType' => $authType,
-				'password' => (string)$options['password'],
+				'password' => $authType === \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER
+					? (string)($options['access_token'] ?? '')
+					: (string)($options['password'] ?? ''),
 				'discoveryService' => $discoveryService,
 			]
 		);
@@ -122,20 +127,45 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	 * Refresh the access token by exchanging the refresh token.
 	 * Updates both the in-memory password and the database.
 	 *
-	 * @return bool True if token was refreshed successfully
+	 * Uses expiry timestamps instead of a boolean flag so that concurrent
+	 * processes can detect that another process already obtained a fresh token
+	 * and reuse it rather than performing a redundant exchange.
+	 *
+	 * @return bool True if token was refreshed (or reused from DB) successfully
 	 */
-	protected function refreshAccessToken(): bool {
-		if ($this->tokenRefreshed) {
-			// only try to refresh once per request
+	protected function refreshBearerToken(): bool {
+		$now = time();
+
+		// Fast path: in-memory token is still valid (single-process guard).
+		if ($this->tokenExpiresAt > $now) {
 			return false;
 		}
-		$this->tokenRefreshed = true;
 
+		// Slow path: check DB — a concurrent process may have already refreshed.
+		$share = $this->manager->getShareByToken($this->token);
+		if ($share !== false) {
+			$dbExpiry = $share->getAccessTokenExpires();
+			$dbToken = $share->getAccessToken();
+			if ($dbExpiry !== null && $dbExpiry > $now && $dbToken !== null) {
+				// Another process already refreshed — reuse DB token.
+				$this->password = $dbToken;
+				$this->tokenExpiresAt = $dbExpiry;
+				$this->ready = false;
+				$this->client = null;
+				$this->init();
+				$this->logger->debug('Reused access token refreshed by another process', ['app' => 'files_sharing']);
+				return true;
+			}
+		}
+
+		// No valid token in DB — perform the exchange ourselves.
 		try {
+			$expiresAt = $now + 3600; // access tokens are valid for 1 hour
 			$newAccessToken = $this->exchangeRefreshToken();
 			$this->password = $newAccessToken;
+			$this->tokenExpiresAt = $expiresAt;
 
-			$this->manager->updateAccessToken($this->token, $newAccessToken);
+			$this->manager->updateAccessToken($this->token, $newAccessToken, $expiresAt);
 
 			$this->ready = false;
 			$this->client = null;
