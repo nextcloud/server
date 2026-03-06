@@ -30,6 +30,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\BackgroundJob\\BuildReminderIndexBackgroundJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/BuildReminderIndexBackgroundJob.php',
         'OCA\\DAV\\BackgroundJob\\CalendarRetentionJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/CalendarRetentionJob.php',
         'OCA\\DAV\\BackgroundJob\\CleanupDirectLinksJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupDirectLinksJob.php',
+        'OCA\\DAV\\BackgroundJob\\CleanupExpiredOcmTokensJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupExpiredOcmTokensJob.php',
         'OCA\\DAV\\BackgroundJob\\CleanupInvitationTokenJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupInvitationTokenJob.php',
         'OCA\\DAV\\BackgroundJob\\CleanupOrphanedChildrenJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupOrphanedChildrenJob.php',
         'OCA\\DAV\\BackgroundJob\\DeleteOutdatedSchedulingObjects' => __DIR__ . '/..' . '/../lib/BackgroundJob/DeleteOutdatedSchedulingObjects.php',
