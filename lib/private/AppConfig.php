@@ -1314,23 +1314,33 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
-	 * Load normal config or config set as lazy loaded
+	 * Ensures app config is loaded into in-memory caches.
 	 *
-	 * @param bool $lazy set to TRUE to also load config values set as lazy loaded
+	 * Reads from local cache when available; otherwise queries the database and refreshes local cache.
+	 *
+	 * Behavior:
+	 * - $lazy = false: loads non-lazy config values.
+	 * - $lazy = true: ensures lazy values are loaded; may load both non-lazy and lazy values
+	 *   if non-lazy values are not loaded yet.
+	 *
+	 * @param string|null $app App ID used for debug logging when lazy loading is triggered
+	 * @param bool        $lazy Whether to ensure lazy values are loaded
 	 */
 	private function loadConfig(?string $app = null, bool $lazy = false): void {
 		if ($this->isLoaded($lazy)) {
 			return;
 		}
 
-		// if lazy is null or true, we debug log
+		// Emit debug context for the caller that triggered lazy loading.
 		if ($lazy === true && $app !== null) {
 			$exception = new \RuntimeException('The loading of lazy AppConfig values have been triggered by app "' . $app . '"');
 			$this->logger->debug($exception->getMessage(), ['exception' => $exception, 'app' => $app]);
 		}
 
-		$loadLazyOnly = $lazy && $this->isLoaded();
+		// If non-lazy config is already loaded, a lazy load can query only lazy rows.
+		$loadLazyOnly = $this->isLoaded() && $lazy;
 
+		// Prefer local cache when it contains the required data subset.
 		/** @var array<mixed> */
 		$cacheContent = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
 		$includesLazyValues = !empty($cacheContent) && !empty($cacheContent['lazyCache']);
@@ -1345,24 +1355,27 @@ class AppConfig implements IAppConfig {
 			return;
 		}
 
-		// Otherwise no cache available and we need to fetch from database
+		// Cache miss (or missing lazy subset): fetch the required rows from DB.
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('appconfig')
 			->select('appid', 'configkey', 'configvalue', 'type');
 
 		if ($lazy === false) {
+			// Non-lazy load path.
 			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		} else {
+			// Lazy load path; restrict to lazy rows if non-lazy is already in memory.
 			if ($loadLazyOnly) {
 				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
 			}
+			// Include row laziness so mixed result sets can be routed to the right cache.
 			$qb->addSelect('lazy');
 		}
 
 		$result = $qb->executeQuery();
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
-			// most of the time, 'lazy' is not in the select because its value is already known
+			// Route each row to the corresponding in-memory cache.
 			if ($lazy && ((int)$row['lazy']) === 1) {
 				$this->lazyCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
@@ -1372,6 +1385,8 @@ class AppConfig implements IAppConfig {
 		}
 
 		$result->closeCursor();
+
+		// Persist refreshed in-memory caches to local cache.
 		$this->localCache?->set(
 			self::LOCAL_CACHE_KEY,
 			[
