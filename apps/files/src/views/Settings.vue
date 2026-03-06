@@ -11,6 +11,7 @@ import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
 import FilesAppSettingsAppearance from '../components/FilesAppSettings/FilesAppSettingsAppearance.vue'
 import FilesAppSettingsGeneral from '../components/FilesAppSettings/FilesAppSettingsGeneral.vue'
 import FilesAppSettingsLegacyApi from '../components/FilesAppSettings/FilesAppSettingsLegacyApi.vue'
+import FilesAppSettingsRecent from '../components/FilesAppSettings/FilesAppSettingsRecent.vue'
 import FilesAppSettingsShortcuts from '../components/FilesAppSettings/FilesAppSettingsShortcuts.vue'
 import FilesAppSettingsWarnings from '../components/FilesAppSettings/FilesAppSettingsWarnings.vue'
 import FilesAppSettingsWebDav from '../components/FilesAppSettings/FilesAppSettingsWebDav.vue'
@@ -56,6 +57,7 @@ async function showKeyboardShortcuts() {
 		<FilesAppSettingsLegacyApi />
 		<FilesAppSettingsWarnings />
 		<FilesAppSettingsWebDav />
+		<FilesAppSettingsRecent />
 		<FilesAppSettingsShortcuts />
 	</NcAppSettingsDialog>
 </template>

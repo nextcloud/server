@@ -21,6 +21,7 @@ const initialUserConfig = loadState<UserConfig>('files', 'config', {
 	show_mime_column: true,
 	sort_favorites_first: true,
 	sort_folders_first: true,
+	recent_files_limit: 100,
 
 	show_dialog_deletion: false,
 	show_dialog_file_extension: true,
