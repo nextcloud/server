@@ -40,7 +40,7 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->savedQuotaIncludeExternalStorage = $this->getIncludeExternalStorage();
 
 		Filesystem::tearDown();
-		\OC_User::setUserId($this->user);
+		self::setUserId($this->user);
 		Filesystem::init($this->user, '/' . $this->user . '/files');
 
 		/** @var IMountManager $manager */
@@ -60,7 +60,7 @@ class HelperStorageTest extends \Test\TestCase {
 		}
 		Filesystem::tearDown();
 
-		\OC_User::setUserId('');
+		self::setUserId('');
 		Server::get(IConfig::class)->deleteAllUserValues($this->user);
 
 		parent::tearDown();

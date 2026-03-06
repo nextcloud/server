@@ -25,6 +25,8 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\ISession;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
@@ -239,8 +241,14 @@ class Manager implements IManager {
 		return $result !== 0;
 	}
 
-	public function invokeTokenScope($userId): void {
-		\OC_User::setUserId($userId);
+	public function invokeTokenScope(string $userId): void {
+		$userSession = Server::get(IUserSession::class);
+		$userManager = Server::get(IUserManager::class);
+		if ($user = $userManager->get($userId)) {
+			$userSession->setUser($user);
+		} else {
+			Server::get(ISession::class)->set('user_id', $userId);
+		}
 	}
 
 	public function revertTokenScope(): void {

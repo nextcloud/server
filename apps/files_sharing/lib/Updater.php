@@ -14,8 +14,10 @@ use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Share\IShare;
+use RuntimeException;
 
 class Updater {
 
@@ -139,14 +141,18 @@ class Updater {
 	 * @param string $newPath new path relative to data/user/files
 	 */
 	private static function renameChildren($oldPath, $newPath) {
-		$absNewPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $newPath);
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$user = Server::get(IUserSession::class)->getUser();
+		if ($user === null) {
+			throw new RuntimeException('Unable to find current user');
+		}
+		$absNewPath = Filesystem::normalizePath('/' . $user->getUID() . '/files/' . $newPath);
+		$absOldPath = Filesystem::normalizePath('/' . $user->getUID() . '/files/' . $oldPath);
 
 		$mountManager = Filesystem::getMountManager();
-		$mountedShares = $mountManager->findIn('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$mountedShares = $mountManager->findIn('/' . $user->getUID() . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
 			/** @var MountPoint $mount */
-			if ($mount->getStorage()->instanceOfStorage(ISharedStorage::class)) {
+			if ($mount->getStorage()->instanceOfStorage(\OCP\Files\Storage\ISharedStorage::class)) {
 				$mountPoint = $mount->getMountPoint();
 				$target = str_replace($absOldPath, $absNewPath, $mountPoint);
 				$mount->moveMount($target);

@@ -18,7 +18,9 @@ use OCP\Accounts\IAccountProperty;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
 use OCP\Files\FileInfo;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -36,7 +38,9 @@ use OCP\Util;
 class PersonalInfo implements ISettings {
 
 	public function __construct(
+		private ?string $userId,
 		private IConfig $config,
+		private IUserConfig $userConfig,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private ITeamManager $teamManager,
@@ -47,6 +51,7 @@ class PersonalInfo implements ISettings {
 		private IL10N $l,
 		private IInitialState $initialStateService,
 		private IManager $manager,
+		private ISetupManager $setupManager,
 	) {
 	}
 
@@ -60,12 +65,12 @@ class PersonalInfo implements ISettings {
 			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
 		}
 
-		$uid = \OC_User::getUser();
-		$user = $this->userManager->get($uid);
+
+		$user = $this->userManager->get($this->userId);
 		$account = $this->accountManager->getAccount($user);
 
 		// make sure FS is setup before querying storage related stuff...
-		\OC_Util::setupFS($user->getUID());
+		$this->setupManager->setupForUser($user);
 
 		$storageInfo = \OC_Helper::getStorageInfo('/');
 		if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
@@ -83,7 +88,7 @@ class PersonalInfo implements ISettings {
 		] + $messageParameters;
 
 		$personalInfoParameters = [
-			'userId' => $uid,
+			'userId' => $this->userId,
 			'avatar' => $this->getProperty($account, IAccountManager::PROPERTY_AVATAR),
 			'groups' => $this->getGroups($user),
 			'teams' => $this->getTeamMemberships($user),
@@ -109,8 +114,8 @@ class PersonalInfo implements ISettings {
 			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
-			'firstDayOfWeek' => $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK),
-			'timezone' => $this->config->getUserValue($uid, 'core', 'timezone', ''),
+			'firstDayOfWeek' => $this->userConfig->getValueString($this->userId, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK),
+			'timezone' => $this->userConfig->getValueString($this->userId, 'core', 'timezone'),
 			'pronouns' => $this->getProperty($account, IAccountManager::PROPERTY_PRONOUNS),
 		];
 
@@ -252,7 +257,7 @@ class PersonalInfo implements ISettings {
 
 		$uid = $user->getUID();
 
-		$userConfLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
+		$userConfLang = $this->userConfig->getValueString($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
 		$languages = $this->l10nFactory->getLanguages();
 
 		// associate the user language with the proper array
@@ -284,8 +289,8 @@ class PersonalInfo implements ISettings {
 		}
 
 		$uid = $user->getUID();
-		$userLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
-		$userLocaleString = $this->config->getUserValue($uid, 'core', 'locale', $this->l10nFactory->findLocale($userLang));
+		$userLang = $this->userConfig->getValueString($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
+		$userLocaleString = $this->userConfig->getValueString($uid, 'core', 'locale', $this->l10nFactory->findLocale($userLang));
 		$localeCodes = $this->l10nFactory->findAvailableLocales();
 		$userLocale = array_filter($localeCodes, fn ($value) => $userLocaleString === $value['code']);
 

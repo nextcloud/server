@@ -701,9 +701,9 @@ class TrashbinTest extends \Test\TestCase {
 		}
 
 		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
+		self::setUserId('');
 		Filesystem::tearDown();
-		\OC_User::setUserId($user);
+		self::setUserId($user);
 		\OC_Util::setupFS($user);
 		Server::get(IRootFolder::class)->getUserFolder($user);
 	}

@@ -59,7 +59,7 @@ class FileCacheTest extends TestCache {
 		$this->createUser('test', 'test');
 
 		$this->user = \OC_User::getUser();
-		\OC_User::setUserId('test');
+		self::setUserId('test');
 
 		//clear all proxies and hooks so we can do clean testing
 		\OC_Hook::clear('OC_Filesystem');
@@ -86,7 +86,7 @@ class FileCacheTest extends TestCache {
 			$this->instance->remove('hack', 'hack');
 		}
 
-		\OC_User::setUserId($this->user);
+		self::setUserId($this->user);
 
 		if ($this->instance) {
 			$this->instance->clear();

@@ -18,6 +18,7 @@ use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\MountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -153,8 +154,8 @@ abstract class TestCase extends \Test\TestCase {
 			$group->delete();
 		}
 
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
+		Server::get(ISetupManager::class)->tearDown();
+		self::setUserId('');
 		Filesystem::tearDown();
 
 		// reset backend

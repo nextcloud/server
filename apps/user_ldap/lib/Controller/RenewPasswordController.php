@@ -18,7 +18,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Config\IUserConfig;
 use OCP\HintException;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -32,7 +31,6 @@ class RenewPasswordController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IUserManager $userManager,
-		private IConfig $config,
 		private IUserConfig $userConfig,
 		protected IL10N $l10n,
 		private ISession $session,
@@ -102,17 +100,24 @@ class RenewPasswordController extends Controller {
 		}
 
 		try {
-			if (!is_null($newPassword) && \OC_User::setPassword($user, $newPassword)) {
-				$this->session->set('loginMessages', [
-					[], [$this->l10n->t('Please login with the new password')]
-				]);
-				$this->userConfig->setValueBool($user, 'user_ldap', 'needsPasswordReset', false);
-				return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
-			} else {
-				$this->session->set('renewPasswordMessages', [
-					['internalexception'], []
-				]);
+			if (is_null($newPassword)) {
+				throw new HintException('The new password is null or empty');
 			}
+
+			$userObject = $this->userManager->get($user);
+			if ($userObject === null) {
+				throw new HintException('No user with the given user name exists');
+			}
+
+			if (!$userObject->setPassword($newPassword)) {
+				throw new HintException('Unable to change the password');
+			}
+
+			$this->session->set('loginMessages', [
+				[], [$this->l10n->t('Please login with the new password')]
+			]);
+			$this->userConfig->setValueBool($user, 'user_ldap', 'needsPasswordReset', false);
+			return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 		} catch (HintException $e) {
 			$this->session->set('renewPasswordMessages', [
 				[], [$e->getHint()]

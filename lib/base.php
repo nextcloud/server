@@ -834,7 +834,7 @@ class OC {
 			OC_User::setupBackends();
 		} else {
 			// Run upgrades in incognito mode
-			OC_User::setIncognitoMode(true);
+			Server::get(IUserSession::class)->setIncognitoMode(true);
 		}
 		$eventLogger->end('setup_backends');
 

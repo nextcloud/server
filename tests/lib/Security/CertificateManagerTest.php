@@ -45,7 +45,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->registerMount($this->username, $storage, '/' . $this->username . '/');
 
 		\OC_Util::tearDownFS();
-		\OC_User::setUserId($this->username);
+		self::setUserId($this->username);
 		Filesystem::tearDown();
 		\OC_Util::setupFS($this->username);
 

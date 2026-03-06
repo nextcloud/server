@@ -47,7 +47,8 @@ $authBackend = new LegacyPublicAuth(
 	Server::get(IRequest::class),
 	Server::get(\OCP\Share\IManager::class),
 	Server::get(ISession::class),
-	Server::get(IThrottler::class)
+	Server::get(IThrottler::class),
+	Server::get(IUserSession::class),
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 

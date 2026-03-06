@@ -199,7 +199,7 @@ class AppTest extends \Test\TestCase {
 		$group2->addUser($user2);
 		$group2->addUser($user3);
 
-		\OC_User::setUserId($user);
+		self::setUserId($user);
 
 		$this->setupAppConfigMock()->expects($this->once())
 			->method('searchValues')
@@ -217,7 +217,7 @@ class AppTest extends \Test\TestCase {
 		$apps = \OC_App::getEnabledApps(false, $forceAll);
 
 		$this->restoreAppConfig();
-		\OC_User::setUserId(null);
+		self::setUserId(null);
 
 		$user1->delete();
 		$user2->delete();
@@ -237,7 +237,7 @@ class AppTest extends \Test\TestCase {
 		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
 
-		\OC_User::setUserId(self::TEST_USER1);
+		self::setUserId(self::TEST_USER1);
 
 		$this->setupAppConfigMock()->expects($this->once())
 			->method('searchValues')
@@ -256,7 +256,7 @@ class AppTest extends \Test\TestCase {
 		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'profile', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
 
 		$this->restoreAppConfig();
-		\OC_User::setUserId(null);
+		self::setUserId(null);
 
 		$user1->delete();
 	}

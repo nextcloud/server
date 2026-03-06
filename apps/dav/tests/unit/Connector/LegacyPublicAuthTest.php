@@ -9,9 +9,13 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\LegacyPublicAuth;
+use OCP\Files\ISetupManager;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -26,7 +30,7 @@ class LegacyPublicAuthTest extends TestCase {
 	private IManager&MockObject $shareManager;
 	private IThrottler&MockObject $throttler;
 	private LegacyPublicAuth $auth;
-	private string|false $oldUser;
+	private ?IUser $oldUser;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -40,20 +44,21 @@ class LegacyPublicAuthTest extends TestCase {
 			$this->request,
 			$this->shareManager,
 			$this->session,
-			$this->throttler
+			$this->throttler,
+			$this->createMock(IUserSession::class),
 		);
 
 		// Store current user
-		$this->oldUser = \OC_User::getUser();
+		$this->oldUser = Server::get(IUserSession::class)->getUser() ?? null;
 	}
 
 	protected function tearDown(): void {
-		\OC_User::setIncognitoMode(false);
+		Server::get(IUserSession::class)->setIncognitoMode(false);
 
 		// Set old user
-		\OC_User::setUserId($this->oldUser ?: null);
-		if ($this->oldUser !== false) {
-			\OC_Util::setupFS($this->oldUser);
+		self::setUserId($this->oldUser?->getUID());
+		if ($this->oldUser !== null) {
+			Server::get(ISetupManager::class)->setupForUser($this->oldUser);
 		}
 
 		parent::tearDown();

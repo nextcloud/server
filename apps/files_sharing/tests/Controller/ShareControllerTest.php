@@ -42,6 +42,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -64,6 +65,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private IL10N&MockObject $l10n;
 	private IConfig&MockObject $config;
 	private ISession&MockObject $session;
+	private IUserSession&MockObject $userSession;
 	private Defaults&MockObject $defaults;
 	private IAppConfig&MockObject $appConfig;
 	private Manager&MockObject $shareManager;
@@ -85,6 +87,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->shareManager = $this->createMock(Manager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->session = $this->createMock(ISession::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
@@ -141,6 +144,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->defaults,
 			$this->publicShareTemplateFactory,
+			$this->userSession,
 		);
 
 
@@ -157,7 +161,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
+		self::setUserId('');
 		Filesystem::tearDown();
 		$user = Server::get(IUserManager::class)->get($this->user);
 		if ($user !== null) {
@@ -168,7 +172,7 @@ class ShareControllerTest extends \Test\TestCase {
 		Server::get(ISession::class)->set('public_link_authenticated', '');
 
 		// Set old user
-		\OC_User::setUserId($this->oldUser);
+		self::setUserId($this->oldUser);
 		\OC_Util::setupFS($this->oldUser);
 		parent::tearDown();
 	}

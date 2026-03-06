@@ -572,7 +572,11 @@ class OC_Util {
 	 */
 	public static function checkAdminUser(): void {
 		self::checkLoggedIn();
-		if (!OC_User::isAdminUser(OC_User::getUser())) {
+
+		$user = Server::get(IUserSession::class)->getUser();
+		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
+
+		if (!$isAdmin) {
 			header('Location: ' . Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
