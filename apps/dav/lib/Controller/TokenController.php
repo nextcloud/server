@@ -10,6 +10,8 @@ namespace OCA\DAV\Controller;
 use OC\Authentication\Token\IProvider;
 use OC\OCM\OCMSignatoryManager;
 use OC\Security\Signature\Model\IncomingSignedRequest;
+use OCA\DAV\Db\OcmTokenMap;
+use OCA\DAV\Db\OcmTokenMapMapper;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -47,6 +49,7 @@ class TokenController extends ApiController {
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
 		private readonly IAppConfig $appConfig,
+		private readonly OcmTokenMapMapper $ocmTokenMapMapper,
 	) {
 		parent::__construct('dav', $request);
 	}
@@ -146,7 +149,7 @@ class TokenController extends ApiController {
 
 			$accessToken = $this->tokenProvider->generateToken(
 				$accessTokenString,
-				$refreshToken, // Keep refresh token with access token as UID
+				$token->getUID(),
 				$token->getLoginName(),
 				null, // No password for access tokens
 				IToken::OCM_ACCESS_TOKEN_NAME,
@@ -156,6 +159,12 @@ class TokenController extends ApiController {
 
 			$accessToken->setExpires($expiresAt);
 			$this->tokenProvider->updateToken($accessToken);
+
+			$mapping = new OcmTokenMap();
+			$mapping->setAccessTokenId($accessToken->getId());
+			$mapping->setRefreshToken($refreshToken);
+			$mapping->setExpires($expiresAt);
+			$this->ocmTokenMapMapper->insert($mapping);
 
 			return new DataResponse([
 				'access_token' => $accessTokenString,

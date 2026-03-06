@@ -12,6 +12,7 @@ namespace OCA\DAV\Tests\unit\DAV\Controller;
 use OC\Authentication\Token\IProvider;
 use OC\OCM\OCMSignatoryManager;
 use OCA\DAV\Controller\TokenController;
+use OCA\DAV\Db\OcmTokenMapMapper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -39,6 +40,7 @@ class TokenControllerTest extends TestCase {
 	private ISignatureManager&MockObject $signatureManager;
 	private OCMSignatoryManager&MockObject $signatoryManager;
 	private IAppConfig&MockObject $appConfig;
+	private OcmTokenMapMapper&MockObject $ocmTokenMapMapper;
 
 	private TokenController $controller;
 
@@ -53,6 +55,7 @@ class TokenControllerTest extends TestCase {
 		$this->signatureManager = $this->createMock(ISignatureManager::class);
 		$this->signatoryManager = $this->createMock(OCMSignatoryManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->ocmTokenMapMapper = $this->createMock(OcmTokenMapMapper::class);
 
 		$this->controller = new TokenController(
 			$this->request,
@@ -63,6 +66,7 @@ class TokenControllerTest extends TestCase {
 			$this->signatureManager,
 			$this->signatoryManager,
 			$this->appConfig,
+			$this->ocmTokenMapMapper,
 		);
 	}
 
@@ -74,14 +78,15 @@ class TokenControllerTest extends TestCase {
 			->with($this->signatoryManager)
 			->willReturn($signedRequest);
 
-		$refreshToken = $this->createMock(IToken::class);
-		$refreshToken->method('getType')->willReturn(IToken::PERMANENT_TOKEN);
-		$refreshToken->method('getId')->willReturn(123);
-		$refreshToken->method('getLoginName')->willReturn('testuser');
+		$refreshTokenMock = $this->createMock(IToken::class);
+		$refreshTokenMock->method('getType')->willReturn(IToken::PERMANENT_TOKEN);
+		$refreshTokenMock->method('getId')->willReturn(123);
+		$refreshTokenMock->method('getUID')->willReturn('testuser');
+		$refreshTokenMock->method('getLoginName')->willReturn('testuser');
 
 		$this->tokenProvider->method('getToken')
 			->with('valid-refresh-token')
-			->willReturn($refreshToken);
+			->willReturn($refreshTokenMock);
 
 		$this->random->method('generate')
 			->with(64, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS)
@@ -90,10 +95,11 @@ class TokenControllerTest extends TestCase {
 		$this->timeFactory->method('getTime')->willReturn(1000000);
 
 		$accessToken = $this->createMock(IToken::class);
+		$accessToken->method('getId')->willReturn(456);
 		$this->tokenProvider->method('generateToken')
 			->with(
 				'generated-access-token',
-				'valid-refresh-token',
+				'testuser',
 				'testuser',
 				null,
 				'OCM Access Token',
@@ -109,6 +115,14 @@ class TokenControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with($accessToken);
+
+		$this->ocmTokenMapMapper->expects($this->once())
+			->method('insert')
+			->with($this->callback(function ($mapping) {
+				return $mapping->getAccessTokenId() === 456
+					&& $mapping->getRefreshToken() === 'valid-refresh-token'
+					&& $mapping->getExpires() === 1000000 + 3600;
+			}));
 
 		// Simulate POST body
 		$this->simulatePostBody('grant_type=authorization_code&code=valid-refresh-token');

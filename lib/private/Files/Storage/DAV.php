@@ -308,16 +308,40 @@ class DAV extends Common {
 
 			$response = $client->post($tokenEndpoint, $options);
 
-			$body = $response->getBody();
-			$data = json_decode($body, true);
-
-			if (isset($data['access_token'])) {
-				$this->logger->debug('Successfully exchanged refresh token for access token', ['app' => 'dav']);
-				return $data['access_token'];
-			} else {
-				$this->logger->error('Failed to get access token from response', ['app' => 'dav']);
-				throw new StorageNotAvailableException('Could not obtain access token');
+			$statusCode = $response->getStatusCode();
+			if ($statusCode !== 200) {
+				$this->logger->error('Token exchange returned unexpected HTTP status', [
+					'app' => 'dav',
+					'status' => $statusCode,
+				]);
+				throw new StorageNotAvailableException('Could not obtain access token: unexpected HTTP status ' . $statusCode);
 			}
+
+			$data = json_decode($response->getBody(), true);
+
+			if (!is_array($data)) {
+				$this->logger->error('Token exchange response is not valid JSON', ['app' => 'dav']);
+				throw new StorageNotAvailableException('Could not obtain access token: invalid response format');
+			}
+
+			$accessToken = $data['access_token'] ?? null;
+			$tokenType = $data['token_type'] ?? null;
+
+			if (!is_string($accessToken) || $accessToken === '') {
+				$this->logger->error('Token exchange response missing or invalid access_token', ['app' => 'dav']);
+				throw new StorageNotAvailableException('Could not obtain access token: missing access_token field');
+			}
+
+			if (!is_string($tokenType) || strtolower($tokenType) !== 'bearer') {
+				$this->logger->error('Token exchange response has unexpected token_type', [
+					'app' => 'dav',
+					'token_type' => $tokenType,
+				]);
+				throw new StorageNotAvailableException('Could not obtain access token: unexpected token_type');
+			}
+
+			$this->logger->debug('Successfully exchanged refresh token for access token', ['app' => 'dav']);
+			return $accessToken;
 		} catch (OCMProviderException|OCMArgumentException $e) {
 			$this->logger->error('OCM provider response missing tokenEndPoint', ['app' => 'dav']);
 			throw new StorageNotAvailableException('Could not discover token endpoint');

@@ -8,6 +8,7 @@
 namespace OCA\CloudFederationAPI\Controller;
 
 use OC\Authentication\Token\PublicKeyTokenProvider;
+use OCA\DAV\Db\OcmTokenMapMapper;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
@@ -520,8 +521,8 @@ class RequestHandlerController extends Controller {
 				if ($identity === '') {
 					$tokenProvider = Server::get(PublicKeyTokenProvider::class);
 					$accessTokenDb = $tokenProvider->getToken($sharedSecret);
-					$refreshToken = $accessTokenDb->getUID();
-					$identity = $provider->getFederationIdFromSharedSecret($refreshToken, $notification);
+					$mapping = Server::get(OcmTokenMapMapper::class)->getByAccessTokenId($accessTokenDb->getId());
+					$identity = $provider->getFederationIdFromSharedSecret($mapping->getRefreshToken(), $notification);
 				}
 			} else {
 				$this->logger->debug('cloud federation provider {provider} does not implements ISignedCloudFederationProvider', ['provider' => $provider::class]);

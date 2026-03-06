@@ -777,15 +777,40 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 			$response = $client->post($tokenEndpoint, $options);
 
-			$data = json_decode($response->getBody(), true);
-
-			if (isset($data['access_token'])) {
-				$this->logger->debug('Successfully exchanged token for access token', ['remote' => $remote]);
-				return $data['access_token'];
+			$statusCode = $response->getStatusCode();
+			if ($statusCode !== 200) {
+				$this->logger->warning('Token exchange returned unexpected HTTP status', [
+					'remote' => $remote,
+					'status' => $statusCode,
+				]);
+				return null;
 			}
 
-			$this->logger->warning('Token exchange response missing access_token', ['remote' => $remote, 'response' => $data]);
-			return null;
+			$data = json_decode($response->getBody(), true);
+
+			if (!is_array($data)) {
+				$this->logger->warning('Token exchange response is not valid JSON', ['remote' => $remote]);
+				return null;
+			}
+
+			$accessToken = $data['access_token'] ?? null;
+			$tokenType = $data['token_type'] ?? null;
+
+			if (!is_string($accessToken) || $accessToken === '') {
+				$this->logger->warning('Token exchange response missing or invalid access_token', ['remote' => $remote]);
+				return null;
+			}
+
+			if (!is_string($tokenType) || strtolower($tokenType) !== 'bearer') {
+				$this->logger->warning('Token exchange response has unexpected token_type', [
+					'remote' => $remote,
+					'token_type' => $tokenType,
+				]);
+				return null;
+			}
+
+			$this->logger->debug('Successfully exchanged token for access token', ['remote' => $remote]);
+			return $accessToken;
 		} catch (\Exception $e) {
 			$this->logger->warning('Failed to exchange token', ['remote' => $remote, 'exception' => $e]);
 			return null;
