@@ -2072,6 +2072,7 @@ return array(
     'OC\\Repair\\NC29\\SanitizeAccountProperties' => $baseDir . '/lib/private/Repair/NC29/SanitizeAccountProperties.php',
     'OC\\Repair\\NC29\\SanitizeAccountPropertiesJob' => $baseDir . '/lib/private/Repair/NC29/SanitizeAccountPropertiesJob.php',
     'OC\\Repair\\NC30\\RemoveLegacyDatadirFile' => $baseDir . '/lib/private/Repair/NC30/RemoveLegacyDatadirFile.php',
+    'OC\\Repair\\NC33\\FixDefaultAccountScopesToLocal' => $baseDir . '/lib/private/Repair/NC33/FixDefaultAccountScopesToLocal.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\CleanPreviews' => $baseDir . '/lib/private/Repair/Owncloud/CleanPreviews.php',
     'OC\\Repair\\Owncloud\\CleanPreviewsBackgroundJob' => $baseDir . '/lib/private/Repair/Owncloud/CleanPreviewsBackgroundJob.php',

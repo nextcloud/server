@@ -2113,6 +2113,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Repair\\NC29\\SanitizeAccountProperties' => __DIR__ . '/../../..' . '/lib/private/Repair/NC29/SanitizeAccountProperties.php',
         'OC\\Repair\\NC29\\SanitizeAccountPropertiesJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC29/SanitizeAccountPropertiesJob.php',
         'OC\\Repair\\NC30\\RemoveLegacyDatadirFile' => __DIR__ . '/../../..' . '/lib/private/Repair/NC30/RemoveLegacyDatadirFile.php',
+        'OC\\Repair\\NC33\\FixDefaultAccountScopesToLocal' => __DIR__ . '/../../..' . '/lib/private/Repair/NC33/FixDefaultAccountScopesToLocal.php',
         'OC\\Repair\\OldGroupMembershipShares' => __DIR__ . '/../../..' . '/lib/private/Repair/OldGroupMembershipShares.php',
         'OC\\Repair\\Owncloud\\CleanPreviews' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/CleanPreviews.php',
         'OC\\Repair\\Owncloud\\CleanPreviewsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/CleanPreviewsBackgroundJob.php',
