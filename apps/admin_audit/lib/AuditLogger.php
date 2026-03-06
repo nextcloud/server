@@ -34,7 +34,7 @@ class AuditLogger implements IAuditLogger {
 		if ($auditType === 'file' && !$logFile) {
 			$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
 			// Legacy way was appconfig, now it's paralleled with the normal log config
-			$logFile = $appconfig->getAppValueString('logfile', $default);
+			$logFile = $appConfig->getAppValueString('logfile', $default);
 		}
 
 		$this->parentLogger = $logFactory->getCustomPsrLogger($logFile, $auditType, $auditTag);
