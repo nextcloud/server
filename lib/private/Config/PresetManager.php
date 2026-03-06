@@ -243,11 +243,15 @@ class PresetManager {
 					'disabled' => []],
 			Preset::SHARED
 				=> [
-					'enabled' => ['external','twofactor_backupcodes','twofactor_totp','twofactor_webauthn'],
+					'enabled' => ['external','twofactor_backupcodes','twofactor_totp','twofactor_webauthn', 'user_migration'],
 					'disabled' => ['user_status']],
 			Preset::PRIVATE
 				=> [
-					'enabled' => ['twofactor_backupcodes','twofactor_totp','twofactor_webauthn'],
+					'enabled' => ['twofactor_backupcodes','twofactor_totp','twofactor_webauthn', 'user_migration'],
+					'disabled' => []],
+			Preset::CLUB, Preset::FAMILY, Preset::SCHOOL, Preset::UNIVERSITY,
+				=> [
+					'enabled' => ['user_migration'],
 					'disabled' => []],
 			default => ['enabled' => [], 'disabled' => []],
 		};
