@@ -1350,7 +1350,6 @@ class AppConfig implements IAppConfig {
 
 		$queryResult = $qb->executeQuery();
 		$configRows = $queryResult->fetchAll();
-
 		foreach ($configRows as $configRow) {
 			$appId = $configRow['appid'];
 			$configKey = $configRow['configkey'];
@@ -1394,15 +1393,26 @@ class AppConfig implements IAppConfig {
 	private function tryLoadFromLocalCache(bool $lazy): bool {
 		/** @var array<mixed> $cachedConfig */
 		$cachedConfig = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
-		$cachedConfigIncludesLazyValues = !empty($cachedConfig) && !empty($cachedConfig['lazyCache']);
 
-		if (empty($cachedConfig) || ($lazy && !$cachedConfigIncludesLazyValues)) {
+		if (
+			empty($cachedConfig)
+			|| !isset($cachedConfig['valueTypes'], $cachedConfig['fastCache'])
+			|| ($lazy && !isset($cachedConfig['lazyCache']))
+		) {
+			$this->logger->debug('Ignoring malformed local AppConfig cache payload', [
+				'hasValueTypes' => isset($cachedConfig['valueTypes']),
+				'hasFastCache' => isset($cachedConfig['fastCache']),
+				'hasLazyCache' => isset($cachedConfig['lazyCache']),
+				'lazyRequested' => $lazy,
+			]);
 			return false;
 		}
 
 		$this->valueTypes = $cachedConfig['valueTypes'];
 		$this->fastCache = $cachedConfig['fastCache'];
 		$this->fastLoaded = !empty($this->fastCache);
+
+		$cachedConfigIncludesLazyValues = !empty($cachedConfig['lazyCache']);
 
 		if ($cachedConfigIncludesLazyValues) {
 			$this->lazyCache = $cachedConfig['lazyCache'];
@@ -1413,7 +1423,7 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
-	 * Build the appConfig query for lazy/non-lazy loading mode.
+	 * Build the appconfig query for lazy/non-lazy loading mode.
 	 */
 	private function buildLoadConfigQuery(bool $lazy, bool $shouldLoadLazyOnly): IQueryBuilder {
 		$qb = $this->connection->getQueryBuilder();
@@ -1431,7 +1441,7 @@ class AppConfig implements IAppConfig {
 			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
 		}
 
-		// Include laziness, when result set may contain both types, so can be routed to the right cache.
+		// Include laziness when result set may contain both types, so can be routed to the right cache.
 		$qb->addSelect('lazy');
 		return $qb;
 	}
