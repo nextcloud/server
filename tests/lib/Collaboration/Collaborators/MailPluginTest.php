@@ -970,7 +970,7 @@ class MailPluginTest extends TestCase {
 
 		$this->instantiatePlugin(IShare::TYPE_USER);
 
-		$currentUser = $this->createMock(\OCP\IUser::class);
+		$currentUser = $this->createMock(IUser::class);
 
 		$currentUser->expects($this->any())
 			->method('getUID')

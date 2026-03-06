@@ -17,6 +17,7 @@ use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
@@ -163,7 +164,7 @@ class IMipServiceTest extends TestCase {
 
 	public function testIsSystemUserWhenUserExists(): void {
 		$email = 'user@example.com';
-		$user = $this->createMock(\OCP\IUser::class);
+		$user = $this->createMock(IUser::class);
 
 		$this->userManager->expects(self::once())
 			->method('getByEmail')

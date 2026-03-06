@@ -10,6 +10,7 @@ namespace Test\Preview;
 
 use OC\BinaryFinder;
 use OC\Preview\Postscript;
+use OCP\Server;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 #[\PHPUnit\Framework\Attributes\RequiresPhpExtension('imagick')]
@@ -19,7 +20,7 @@ class PostscriptTest extends Provider {
 		if (\Imagick::queryFormats('EPS') === false || \Imagick::queryFormats('PS') === false) {
 			$this->markTestSkipped('Imagick does not support postscript.');
 		}
-		if (\OCP\Server::get(BinaryFinder::class)->findBinaryPath('gs') === false) {
+		if (Server::get(BinaryFinder::class)->findBinaryPath('gs') === false) {
 			// Imagick forwards postscript rendering to Ghostscript but does not report this in queryFormats
 			$this->markTestSkipped('Ghostscript is not installed.');
 		}

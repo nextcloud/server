@@ -1526,8 +1526,8 @@ class View {
 		$folderId = $data->getId();
 		$contents = $cache->getFolderContentsById($folderId, $mimeTypeFilter);
 
-		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
-		$permissionsMask = ~\OCP\Constants::PERMISSION_SHARE;
+		$sharingDisabled = Util::isSharingDisabledForUser();
+		$permissionsMask = ~Constants::PERMISSION_SHARE;
 
 		$files = [];
 		foreach ($contents as $content) {

@@ -38,6 +38,7 @@ use OC\AppFramework\Services\AppConfig;
 use OC\AppFramework\Services\InitialState;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\CapabilitiesManager;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
@@ -305,7 +306,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 */
 	public function registerCapability($serviceName) {
-		$this->query(\OC\CapabilitiesManager::class)->registerCapability(function () use ($serviceName) {
+		$this->query(CapabilitiesManager::class)->registerCapability(function () use ($serviceName) {
 			return $this->query($serviceName);
 		});
 	}

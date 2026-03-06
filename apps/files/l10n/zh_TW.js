@@ -95,6 +95,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "已存在另一個同名條目。",
     "Invalid filename." : "無效的檔案名稱。",
     "Rename file" : "重新命名檔案",
+    "Recently created" : "最近建立",
     "Folder" : "資料夾",
     "Unknown file type" : "未知檔案類型",
     "{ext} image" : "{ext} 影像",
