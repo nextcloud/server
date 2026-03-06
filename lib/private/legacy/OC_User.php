@@ -330,6 +330,7 @@ class OC_User {
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
 	 *
 	 * Change the password of a user
+	 * @deprecated 34.0.0 Use IUserManager::setPassword instead
 	 */
 	public static function setPassword(string $uid, string $password, ?string $recoveryPassword = null): bool {
 		$user = Server::get(IUserManager::class)->get($uid);

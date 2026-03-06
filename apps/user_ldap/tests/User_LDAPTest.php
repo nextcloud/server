@@ -1238,9 +1238,11 @@ class User_LDAPTest extends TestCase {
 			->method('get')
 			->willReturn($this->createMock(User::class));
 		$backend = new User_LDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
-		Server::get(IUserManager::class)->registerBackend($backend);
-
-		$this->assertTrue(\OC_User::setPassword('roland', 'dt'));
+		$userManager = Server::get(IUserManager::class);
+		$userManager->registerBackend($backend);
+		$user = $userManager->get('roland');
+		$this->assertNotNull($user);
+		$this->assertTrue($user->setPassword('dt'));
 	}
 
 	public function testSetPasswordValid(): void {
@@ -1255,9 +1257,11 @@ class User_LDAPTest extends TestCase {
 			->method('get')
 			->willReturn($this->createMock(User::class));
 
-		Server::get(IUserManager::class)->registerBackend($backend);
-
-		$this->assertTrue(\OC_User::setPassword('roland', 'dt12234$'));
+		$userManager = Server::get(IUserManager::class);
+		$userManager->registerBackend($backend);
+		$user = $userManager->get('roland');
+		$this->assertNotNull($user);
+		$this->assertTrue($user->setPassword('dt12234$'));
 	}
 
 	public function testSetPasswordValidDisabled(): void {
@@ -1267,9 +1271,11 @@ class User_LDAPTest extends TestCase {
 
 		$this->prepareAccessForSetPassword(false);
 		$backend = new User_LDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
-		Server::get(IUserManager::class)->registerBackend($backend);
-
-		$this->assertFalse(\OC_User::setPassword('roland', 'dt12234$'));
+		$userManager = Server::get(IUserManager::class);
+		$userManager->registerBackend($backend);
+		$user = $userManager->get('roland');
+		$this->assertNotNull($user);
+		$this->assertFalse($user->setPassword('dt12234$'));
 	}
 
 
