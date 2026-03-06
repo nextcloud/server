@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit;
 
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IConfig;
 use OCP\Log\ILogFactory;
 use Psr\Log\LoggerInterface;
@@ -20,7 +21,11 @@ class AuditLogger implements IAuditLogger {
 
 	private LoggerInterface $parentLogger;
 
-	public function __construct(ILogFactory $logFactory, IConfig $config) {
+	public function __construct(
+		ILogFactory $logFactory,
+		IAppConfig $appConfig,
+		IConfig $config,
+	) {
 		$auditType = $config->getSystemValueString('log_type_audit', 'file');
 		$defaultTag = $config->getSystemValueString('syslog_tag', 'Nextcloud');
 		$auditTag = $config->getSystemValueString('syslog_tag_audit', $defaultTag);
@@ -29,7 +34,7 @@ class AuditLogger implements IAuditLogger {
 		if ($auditType === 'file' && !$logFile) {
 			$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
 			// Legacy way was appconfig, now it's paralleled with the normal log config
-			$logFile = $config->getAppValue('admin_audit', 'logfile', $default);
+			$logFile = $appconfig->getAppValueString('logfile', $default);
 		}
 
 		$this->parentLogger = $logFactory->getCustomPsrLogger($logFile, $auditType, $auditTag);
