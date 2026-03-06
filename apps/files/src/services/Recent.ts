@@ -41,7 +41,7 @@ export async function getContents(path = '/', options: { signal: AbortSignal }):
 		const contentsResponse = await client.search('/', {
 			signal: options.signal,
 			details: true,
-			data: getRecentSearch(lastTwoWeeksTimestamp),
+			data: getRecentSearch(lastTwoWeeksTimestamp, store.userConfig.recent_files_limit),
 		}) as ResponseDataDetailed<SearchResult>
 
 		const contents = contentsResponse.data.results
