@@ -93,6 +93,7 @@
     "Another entry with the same name already exists." : "另一個同名的條目已經存在。",
     "Invalid filename." : "檔案名稱無效。",
     "Rename file" : "重新命名檔案",
+    "Recently created" : "最近建立",
     "Folder" : "資料夾",
     "Unknown file type" : "檔案類型不詳",
     "{ext} image" : "{ext} 圖像",
