@@ -236,6 +236,7 @@ OC.L10N.register(
     "Failed to check file size: %1$s" : "檢查檔案大小失敗：%1$s",
     "Could not open file: %1$s (%2$d), file does seem to exist" : "無法開啟檔案：%1$s (%2$d)，檔案似乎存在",
     "Could not open file: %1$s (%2$d), file doesn't seem to exist" : "無法開啟檔案：%1$s（%2$d），檔案似乎不存在",
+    "Failed to get size for : %1$s" : "無法取得以下項目的大小：%1$s",
     "Encryption not ready: %1$s" : "尚未準備好加密：%1$s",
     "Failed to open file: %1$s" : "開啟檔案失敗：%1$s",
     "Failed to unlink: %1$s" : "解除連結失敗：%1$s",
