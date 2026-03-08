@@ -334,16 +334,17 @@ $CONFIG = [
 	 */
 
 	/**
-	 * "Remember me" lifetime in seconds.
+	 * Lifetime of logins where the user selected "Remember me", in seconds.
+	 *
+	 * A value >``0`` means "Remember me" is available.
+	 * To make "Remember me" unavailable to users, set to ``0``.
 	 *
 	 * To avoid unexpected expiry, set this higher than ``session_lifetime``.
 	 *
-	 * Despite the key name, this value applies to the whole remember-me mechanism:
+	 * Despite the key name, this value applies to the full remember-me mechanism:
 	 * persisted login state in the browser (remember-login cookies) and server-side
 	 * expiration of remembered login tokens. Therefore, changing or clearing cookies
 	 * alone may not fully reset remembered login state.
-	 *
-	 * To disable "Remember me" outright, set to ``0``.
 	 *
 	 * Defaults to ``60*60*24*15`` seconds (15 days).
 	 */
