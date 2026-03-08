@@ -95,6 +95,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "Aynı adlı bir kayıt zaten var.",
     "Invalid filename." : "Dosya adı geçersiz.",
     "Rename file" : "Dosyayı yeniden adlandır",
+    "Recently created" : "Son oluşturulanlar",
     "Folder" : "Klasör",
     "Unknown file type" : "Dosya türü bilinmiyor",
     "{ext} image" : "{ext} görsel",
