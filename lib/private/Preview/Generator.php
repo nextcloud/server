@@ -543,6 +543,10 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
+		if (!$preview->valid() || $preview->dataMimeType() === null) {
+			throw new \InvalidArgumentException('Preview generation failed: invalid or null MIME type');
+		}
+
 		$previewEntry = new Preview();
 		$previewEntry->generateId();
 		$previewEntry->setFileId($file->getId());
@@ -557,12 +561,13 @@ class Generator {
 		$previewEntry->setMimeType($preview->dataMimeType());
 		$previewEntry->setEtag($file->getEtag());
 		$previewEntry->setMtime((new \DateTime())->getTimestamp());
+
 		if ($cacheResult) {
 			$previewEntry = $this->savePreview($previewEntry, $preview);
 			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper);
-		} else {
-			return new InMemoryFile($previewEntry->getName(), $preview->data());
 		}
+
+		return new InMemoryFile($previewEntry->getName(), $preview->data());
 	}
 
 	/**
