@@ -2310,7 +2310,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC_Defaults' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Defaults.php',
         'OC_Helper' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Helper.php',
         'OC_Hook' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Hook.php',
-        'OC_JSON' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_JSON.php',
         'OC_Template' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Template.php',
         'OC_User' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_User.php',
         'OC_Util' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Util.php',
