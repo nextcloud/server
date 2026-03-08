@@ -15,6 +15,9 @@
 	findUnusedVariablesAndParams="true"
 	phpVersion="8.2"
 >
+	<plugins>
+		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+	</plugins>
 	<projectFiles>
 		<file name="core/BackgroundJobs/ExpirePreviewsJob.php"/>
 		<file name="lib/public/IContainer.php"/>
