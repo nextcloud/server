@@ -12,7 +12,7 @@ namespace OC\Authentication\Login;
  * Orchestrates the WebAuthn (passkeys/security keys) login command chain in a
  * security-sensitive order for interactive authentication.
  *
- * Mirrors the main login-chain {@see Chain} with adaptations to the 
+ * Mirrors the main login-chain {@see Chain} with adaptations to the
  * WebAuthn-specific authentication flow (i.e., no pre-login hook or Flow v2
  * ephemeral-session step).
  */
