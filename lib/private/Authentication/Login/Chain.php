@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\Login;
 
+/**
+ * Orchestrates the login command chain in a security-sensitive order for interactive authentication.
+ */
 class Chain {
 	public function __construct(
 		private PreLoginHookCommand $preLoginHookCommand,
@@ -25,19 +28,36 @@ class Chain {
 	) {
 	}
 
+	/**
+	 * Runs the login pipeline for one login attempt.
+	 *
+	 * Commands share mutable LoginData and may have side effects.
+	 * A command may opt to permit processing to continue or return a final LoginResult early.
+	 *
+	 * If order changes, review login-flow invariants and related tests.
+	 */
 	public function process(LoginData $loginData): LoginResult {
+		// Phase 1: pre-auth hooks and eligibility checks
 		$chain = $this->preLoginHookCommand;
 		$chain
 			->setNext($this->userDisabledCheckCommand)
+
+			// Phase 2: primary authentication and login-state transition
 			->setNext($this->uidLoginCommand)
 			->setNext($this->loggedInCheckCommand)
 			->setNext($this->completeLoginCommand)
-			->setNext($this->flowV2EphemeralSessionsCommand)
+
+			// Phase 3: session strategy and token materialization
+			->setNext($this->flowV2EphemeralSessionsCommand) // must precede standard token creation
 			->setNext($this->createSessionTokenCommand)
+
+			// Phase 4: post-auth maintenance and context updates
 			->setNext($this->clearLostPasswordTokensCommand)
 			->setNext($this->updateLastPasswordConfirmCommand)
 			->setNext($this->setUserTimezoneCommand)
-			->setNext($this->twoFactorCommand)
+
+			// Phase 5: assurance/finalization gates
+			->setNext($this->twoFactorCommand) // before remembered-login finalization
 			->setNext($this->finishRememberedLoginCommand);
 
 		return $chain->process($loginData);
