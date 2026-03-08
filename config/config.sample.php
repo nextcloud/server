@@ -334,10 +334,18 @@ $CONFIG = [
 	 */
 
 	/**
-	 * Lifetime of the remember login cookie. This should be larger than the
-	 * session_lifetime. If it is set to 0, remember me is disabled.
+	 * "Remember me" lifetime in seconds.
 	 *
-	 * Defaults to ``60*60*24*15`` seconds (15 days)
+	 * To avoid unexpected expiry, set this higher than ``session_lifetime``.
+	 *
+	 * Despite the key name, this value applies to the whole remember-me mechanism:
+	 * persisted login state in the browser (remember-login cookies) and server-side
+	 * expiration of remembered login tokens. Therefore, changing or clearing cookies
+	 * alone may not fully reset remembered login state.
+	 *
+	 * To disable "Remember me" outright, set to ``0``.
+	 *
+	 * Defaults to ``60*60*24*15`` seconds (15 days).
 	 */
 	'remember_login_cookie_lifetime' => 60 * 60 * 24 * 15,
 
