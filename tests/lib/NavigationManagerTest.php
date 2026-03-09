@@ -11,6 +11,7 @@ namespace Test;
 use OC\App\AppManager;
 use OC\Group\Manager;
 use OC\NavigationManager;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\SubAdmin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -21,6 +22,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use OCP\Server;
 use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -324,7 +326,7 @@ class NavigationManagerTest extends TestCase {
 			'logout' => [
 				'id' => 'logout',
 				'order' => 99999,
-				'href' => 'https://example.com/logout?requesttoken=' . urlencode(Util::callRegister()),
+				'href' => 'https://example.com/logout?requesttoken=' . urlencode(Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue()),
 				'icon' => '/apps/core/img/actions/logout.svg',
 				'name' => 'Log out',
 				'active' => false,
