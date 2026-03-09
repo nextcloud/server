@@ -493,9 +493,12 @@ class Access extends LDAPUtility {
 		?array $record = null,
 		bool $autoMapping = true,
 	): string|false {
+		// Use a static cache to track DNs already identified as intermediates
+		// within this request, avoiding redundant processing for the same DN.
 		static $intermediates = [];
-		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
-			return false; // is a known intermediate
+		$key = ($isUser ? 'user-' : 'group-') . $fdn;
+		if (isset($intermediates[$key])) {
+			return false; // already known intermediate
 		}
 
 		$newlyMapped = false;
