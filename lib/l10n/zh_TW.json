@@ -283,9 +283,6 @@
     "Login canceled by app" : "應用程式取消了登入",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "未滿足以下依賴關係，無法安裝應用程式「%1$s」：%2$s",
     "a safe home for all your data" : "您所有資料的安全屋",
-    "Application is not enabled" : "應用程式未啟用",
-    "Authentication error" : "認證錯誤",
-    "Token expired. Please reload page." : "代符過期。請重新載入頁面。",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "未安裝資料庫驅動器（sqlite、mysql 或 postgresql）。",
     "Cannot write into \"config\" directory." : "無法寫入「config」目錄。",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "開通網頁伺服器寫入 config 目錄的存取權，通常可以解決這個問題。請見 %s",
@@ -474,6 +471,9 @@
     "Generate headline" : "生成標題",
     "Summarizes text by reducing its length without losing key information." : "寫成摘要，減少文字長度而不丟失關鍵資訊。",
     "Extracts topics from a text and outputs them separated by commas." : "從文字中取出涵蓋的主題並輸出，然後用逗號分隔。",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "不支援 Mac OS X，%s 在此平台上無法正常運作。請自行承擔使用風險！"
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "不支援 Mac OS X，%s 在此平台上無法正常運作。請自行承擔使用風險！",
+    "Application is not enabled" : "應用程式未啟用",
+    "Authentication error" : "認證錯誤",
+    "Token expired. Please reload page." : "代符過期。請重新載入頁面。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -93,6 +93,7 @@
     "Another entry with the same name already exists." : "Tá iontráil eile leis an ainm céanna ann cheana féin.",
     "Invalid filename." : "Ainm comhaid neamhbhailí.",
     "Rename file" : "Athainmnigh an comhad",
+    "Recently created" : "Cruthaithe le déanaí",
     "Folder" : "Fillteán",
     "Unknown file type" : "Cineál comhaid anaithnid",
     "{ext} image" : "íomhá {ext}",

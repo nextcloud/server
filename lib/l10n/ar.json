@@ -275,9 +275,6 @@
     "Login canceled by app" : "تم إلغاء تسجيل الدخول مِن طرف التطبيق",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "التطبيق \"%1$s\" لا يمكن تنصيبه بسبب أن التبعيّات التالية لم تتحقق: %2$s",
     "a safe home for all your data" : "المكان الآمن لجميع بياناتك",
-    "Application is not enabled" : "التطبيق غير مفعّل",
-    "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
-    "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "لا توجد برامج تشغيل لقاعدة البيانات (sqlite أو mysql أو postgresql) مثبتة.",
     "Cannot write into \"config\" directory." : "تعذّرت الكتابة في الدليل 'config\".",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "يمكن إصلاح هذا عادةً بمنح خادم الويب صلاحية الوصول إلى الدليل \"config\". للمزيد، أنظر: %s",
@@ -438,6 +435,9 @@
     "Generate headline" : "توليد العنوان",
     "Summarizes text by reducing its length without losing key information." : "يُلَخِّص النص بتقليل طوله دون فقدان المعنى.",
     "Extracts topics from a text and outputs them separated by commas." : "يستخلص المواضيع من النص و إخراجها مفصولة بفواصل.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "\"Mac OS X\" غير مدعوم؛ و %s سوف لن يعمل بالشكل الصحيح على هذه المنصة. استعمله على مسؤوليتك!"
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "\"Mac OS X\" غير مدعوم؛ و %s سوف لن يعمل بالشكل الصحيح على هذه المنصة. استعمله على مسؤوليتك!",
+    "Application is not enabled" : "التطبيق غير مفعّل",
+    "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
+    "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

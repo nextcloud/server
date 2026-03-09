@@ -187,9 +187,6 @@
     "Login canceled by app" : "Вписването е отказано от приложението",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Приложението „%1$s“ не може да бъде инсталирано, защото следните зависимости не са изпълнени: %2$s",
     "a safe home for all your data" : "безопасен дом за всички ваши данни",
-    "Application is not enabled" : "Приложението не е включено",
-    "Authentication error" : "Грешка при удостоверяването",
-    "Token expired. Please reload page." : "Изтекла сесия. Моля, презареди страницата.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Липсват инсталирани драйвери за бази данни(sqlite, mysql или postgresql).",
     "Cannot write into \"config\" directory." : "Не може да се пише в \"config\" директория.",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Това обикновено може да бъде оправено като, се даде достъп на уеб сървъра да записва в config директорията. Погледнете %s",
@@ -233,6 +230,9 @@
     "Summary" : "Резюме",
     "Translate" : "Превод",
     "Target language" : "Целеви език",
-    "Result" : "Резултат"
+    "Result" : "Резултат",
+    "Application is not enabled" : "Приложението не е включено",
+    "Authentication error" : "Грешка при удостоверяването",
+    "Token expired. Please reload page." : "Изтекла сесия. Моля, презареди страницата."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

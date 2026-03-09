@@ -283,9 +283,6 @@
     "Login canceled by app" : "Cealaíodh logáil isteach ag an aip",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Ní féidir aip \"%1$s\" a shuiteáil toisc nach bhfuil na spleáchais seo a leanas comhlíonta: %2$s",
     "a safe home for all your data" : "baile sábháilte do do shonraí go léir",
-    "Application is not enabled" : "Níl feidhmchlár cumasaithe",
-    "Authentication error" : "Earráid fhíordheimhnithe",
-    "Token expired. Please reload page." : "Token imithe in éag. Athlódáil an leathanach le do thoil.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Níl aon tiománaithe bunachar sonraí (sqlite, mysql, nó postgresql) suiteáilte.",
     "Cannot write into \"config\" directory." : "Ní féidir scríobh san eolaire \"config\".",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Is féidir é seo a shocrú de ghnáth trí rochtain scríofa a thabhairt don fhreastalaí gréasáin ar an eolaire cumraíochta. Féach %s",
@@ -474,6 +471,9 @@
     "Generate headline" : "Gin ceannlíne",
     "Summarizes text by reducing its length without losing key information." : "Déanann sé achoimre ar théacs trína fhad a laghdú gan eochairfhaisnéis a chailliúint.",
     "Extracts topics from a text and outputs them separated by commas." : "Sliocht topaicí as téacs agus aschuir iad scartha le camóga.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Ní thacaítear le Mac OS X agus ní oibreoidh %s i gceart ar an ardán seo. Bain úsáid as ar do phriacal féin!"
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Ní thacaítear le Mac OS X agus ní oibreoidh %s i gceart ar an ardán seo. Bain úsáid as ar do phriacal féin!",
+    "Application is not enabled" : "Níl feidhmchlár cumasaithe",
+    "Authentication error" : "Earráid fhíordheimhnithe",
+    "Token expired. Please reload page." : "Token imithe in éag. Athlódáil an leathanach le do thoil."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

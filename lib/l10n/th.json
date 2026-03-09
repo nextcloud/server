@@ -131,9 +131,6 @@
     "A valid password must be provided" : "ต้องระบุรหัสผ่านที่ถูกต้อง",
     "Login canceled by app" : "การเข้าสู่ระบบถูกยกเลิกโดยแอป",
     "a safe home for all your data" : "บ้านที่ปลอดภัยสำหรับข้อมูลทั้งหมดของคุณ",
-    "Application is not enabled" : "แอปพลิเคชันยังไม่ได้เปิดใช้งาน",
-    "Authentication error" : "ยืนยันตัวตนผิดพลาด",
-    "Token expired. Please reload page." : "รหัสยืนยันความถูกต้องหมดอายุ กรุณาโหลดหน้าเว็บใหม่",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "ไม่มีไดรเวอร์ฐานข้อมูล (sqlite, mysql, or postgresql) ที่ถูกติดตั้ง",
     "PHP module %s not installed." : "โมดูล PHP %s ไม่ได้ถูกติดตั้ง",
     "Please ask your server administrator to install the module." : "โปรดสอบถามผู้ดูแลระบบเซิร์ฟเวอร์ของคุณเพื่อติดตั้งโมดูล",
@@ -151,6 +148,9 @@
     "Storage connection timeout. %s" : "หมดเวลาการเชื่อมต่อพื้นที่จัดเก็บข้อมูล %s",
     "Images" : "รูปภาพ",
     "Text" : "ข้อความ",
-    "Translate" : "แปลภาษา"
+    "Translate" : "แปลภาษา",
+    "Application is not enabled" : "แอปพลิเคชันยังไม่ได้เปิดใช้งาน",
+    "Authentication error" : "ยืนยันตัวตนผิดพลาด",
+    "Token expired. Please reload page." : "รหัสยืนยันความถูกต้องหมดอายุ กรุณาโหลดหน้าเว็บใหม่"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

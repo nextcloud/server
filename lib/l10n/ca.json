@@ -272,9 +272,6 @@
     "Login canceled by app" : "L'aplicació ha cancel·lat l'inici de sessió",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "L'aplicació «%1$s» no es pot instal·lar perquè no es compleixen les dependències següents: %2$s",
     "a safe home for all your data" : "un lloc segur per a totes les vostres dades",
-    "Application is not enabled" : "L'aplicació no està habilitada",
-    "Authentication error" : "Error d'autenticació",
-    "Token expired. Please reload page." : "El testimoni ha caducat. Torneu a carregar la pàgina.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "No s'ha instal·lat cap controlador de bases de dades (sqlite, mysql o postgresql).",
     "Cannot write into \"config\" directory." : "No es pot escriure en la carpeta «config».",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Això normalment es pot solucionar donant al servidor web accés d'escriptura a la carpeta de configuració. Consulteu %s",
@@ -434,6 +431,9 @@
     "Runs an arbitrary prompt through the language model." : "Executa una sol·licitud arbitrària mitjançant el model de llengua.",
     "Generate headline" : "Genera un titular",
     "Summarizes text by reducing its length without losing key information." : "Resumeix el text reduint-ne la longitud sense perdre la informació clau.",
-    "Extracts topics from a text and outputs them separated by commas." : "Extreu els temes d'un text i els retorna separats per comes."
+    "Extracts topics from a text and outputs them separated by commas." : "Extreu els temes d'un text i els retorna separats per comes.",
+    "Application is not enabled" : "L'aplicació no està habilitada",
+    "Authentication error" : "Error d'autenticació",
+    "Token expired. Please reload page." : "El testimoni ha caducat. Torneu a carregar la pàgina."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

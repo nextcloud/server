@@ -125,9 +125,6 @@
     "A valid password must be provided" : "უნდა მიუთითოთ სწორი პაროლი",
     "Login canceled by app" : "აპლიკაციამ ლოგინი უარყო",
     "a safe home for all your data" : "უსაფრთხო სახლი მთელი თქვენი მონაცემებისათვის",
-    "Application is not enabled" : "აპლიკაცია არ არის აქტიური",
-    "Authentication error" : "აუტენტიფიკაციის შეცდომა",
-    "Token expired. Please reload page." : "ტოკენს ვადა გაუვიდა. გთხოვთ განაახლოთ გვერდი.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "მონაცემთა ბაზის დრაივერები (sqlite, mysql, ან postgresql) დაყენებული არაა.",
     "PHP module %s not installed." : "PHP მოდული %s არაა დაყენებული.",
     "Please ask your server administrator to install the module." : "გთხოვთ სთხოვოთ თქვენს სერვერის ადმინისტრატორს დააყენოს მოდული.",
@@ -147,6 +144,9 @@
     "Text" : "ტექსტი",
     "Summary" : "შეჯამება",
     "Translate" : "გადათარგმნეთ",
-    "Result" : "შედეგი"
+    "Result" : "შედეგი",
+    "Application is not enabled" : "აპლიკაცია არ არის აქტიური",
+    "Authentication error" : "აუტენტიფიკაციის შეცდომა",
+    "Token expired. Please reload page." : "ტოკენს ვადა გაუვიდა. გთხოვთ განაახლოთ გვერდი."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }
