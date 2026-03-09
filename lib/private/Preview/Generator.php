@@ -400,7 +400,12 @@ class Generator {
 					$previewEntry->setMax($max);
 					$previewEntry->setCropped($crop);
 					$previewEntry->setEncrypted(false);
-					$previewEntry->setMimetype($preview->dataMimeType());
+					$previewMimeType = $preview->dataMimeType();
+					if ($previewMimeType === null) {
+						$this->logger->warning('Preview provider returned null MIME type for {path}, skipping provider.', ['path' => $file->getPath()]);
+						continue;
+					}
+					$previewEntry->setMimetype($previewMimeType);
 					$previewEntry->setEtag($file->getEtag());
 					$previewEntry->setMtime((new \DateTime())->getTimestamp());
 					return $this->savePreview($previewEntry, $preview);
@@ -554,7 +559,11 @@ class Generator {
 		$previewEntry->setMax(false);
 		$previewEntry->setCropped($crop);
 		$previewEntry->setEncrypted(false);
-		$previewEntry->setMimeType($preview->dataMimeType());
+		$previewMimeType = $preview->dataMimeType();
+		if ($previewMimeType === null) {
+			throw new NotFoundException('Generated preview has no MIME type for file ' . $file->getPath());
+		}
+		$previewEntry->setMimeType($previewMimeType);
 		$previewEntry->setEtag($file->getEtag());
 		$previewEntry->setMtime((new \DateTime())->getTimestamp());
 		if ($cacheResult) {
