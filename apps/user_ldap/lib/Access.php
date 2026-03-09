@@ -471,18 +471,28 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * returns an internal Nextcloud name for the given LDAP DN, false on DN outside of search DN
+	 * Resolves an LDAP DN to an internal Nextcloud user/group ID, optionally creating a new mapping.
 	 *
-	 * @param string $fdn the dn of the user object
-	 * @param string|null $ldapName optional, the display name of the object
-	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
-	 * @param bool|null $newlyMapped
-	 * @param array|null $record
-	 * @param bool $autoMapping Should the group be mapped if not yet mapped
-	 * @return false|string with with the name to use in Nextcloud
-	 * @throws \Exception
+	 * Order: existing DN mapping, UUID mapping (updates DN), then optional auto-mapping (with collision fallback).
+	 *
+	 * @param string $fdn Full LDAP DN to resolve.
+	 * @param string|null $ldapName Optional group display-name candidate (used only if $isUser is false).
+	 * @param bool $isUser Whether the entry is a user (true) or a group (false).
+	 * @param bool|null &$newlyMapped Tracks whether a new mapping gets created in this call.
+	 * @param-out bool $newlyMapped True iff this call created a new mapping; false otherwise.
+	 * @param array|null $record Optional pre-fetched LDAP record; if null, attributes are read from LDAP.
+	 * @param bool $autoMapping If false, only existing mappings are resolved and no new mapping is created.
+	 * @return string|false Internal Nextcloud name, or false if resolution/mapping fails.
+	 * @throws ServerNotAvailableException
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, ?array $record = null, bool $autoMapping = true) {
+	public function dn2ocname(
+		string $fdn,
+		?string = $ldapName = null,
+		bool $isUser = true,
+		?bool &$newlyMapped = null,
+		?array $record = null,
+		bool $autoMapping = true,
+	): string|false {
 		static $intermediates = [];
 		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
 			return false; // is a known intermediate
