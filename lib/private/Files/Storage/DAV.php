@@ -118,7 +118,7 @@ class DAV extends Common {
 			}
 			if ($this->secure === true) {
 				// inject mock for testing
-				$this->certManager = \OC::$server->getCertificateManager();
+				$this->certManager = Server::get(ICertificateManager::class);
 			}
 			$this->root = rawurldecode($parameters['root'] ?? '/');
 			$this->root = '/' . ltrim($this->root, '/');

@@ -30,7 +30,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\IAppConfig;
 use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
 use OCP\Settings\Events\DeclarativeSettingsRegisterFormEvent;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
@@ -67,9 +69,9 @@ class Application extends App implements IBootstrap {
 
 	public function boot(IBootContext $context): void {
 		$server = $context->getServerContainer();
-		$config = $server->getConfig();
-		if ($config->getAppValue(self::APP_ID, 'enable_alt_user_backend', 'no') === 'yes') {
-			$userManager = $server->getUserManager();
+		$config = $server->get(IAppConfig::class);
+		if ($config->getValueBool(self::APP_ID, 'enable_alt_user_backend')) {
+			$userManager = $server->get(IUserManager::class);
 
 			// replace all user backends with this one
 			$userManager->clearBackends();

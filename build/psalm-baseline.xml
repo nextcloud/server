@@ -444,11 +444,6 @@
       <code><![CDATA[$this->principalUri]]></code>
     </InvalidArgument>
   </file>
-  <file src="apps/dav/lib/Command/CreateCalendar.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getL10NFactory]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/Command/SendEventReminders.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -775,11 +770,6 @@
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/dav/lib/Files/RootCollection.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserFolder]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/Listener/CalendarDeletionDefaultUpdaterListener.php">
     <DeprecatedMethod>
       <code><![CDATA[deleteUserValue]]></code>
@@ -830,7 +820,6 @@
   <file src="apps/dav/lib/RootCollection.php">
     <DeprecatedMethod>
       <code><![CDATA[getL10N]]></code>
-      <code><![CDATA[getL10NFactory]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Search/ContactsSearchProvider.php">
@@ -2344,13 +2333,6 @@
     <DeprecatedInterface>
       <code><![CDATA[AlternativeHomeUserBackend]]></code>
     </DeprecatedInterface>
-  </file>
-  <file src="apps/testing/lib/AppInfo/Application.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getConfig]]></code>
-      <code><![CDATA[getUserManager]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/testing/lib/Controller/ConfigController.php">
     <DeprecatedMethod>
@@ -3950,12 +3932,6 @@
     <MoreSpecificReturnType>
       <code><![CDATA[array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="ocs-provider/index.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppManager]]></code>
-      <code><![CDATA[getRequest]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="public.php">
     <DeprecatedMethod>
