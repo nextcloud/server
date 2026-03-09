@@ -16,6 +16,7 @@ use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
@@ -30,6 +31,8 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
 class LocalPreviewStorage implements IPreviewStorage {
+	private const SCAN_BATCH_SIZE = 1000;
+
 	public function __construct(
 		private readonly IConfig $config,
 		private readonly PreviewMapper $previewMapper,
@@ -117,81 +120,178 @@ class LocalPreviewStorage implements IPreviewStorage {
 		if (!file_exists($this->getPreviewRootFolder())) {
 			return 0;
 		}
+
 		$scanner = new RecursiveDirectoryIterator($this->getPreviewRootFolder());
 		$previewsFound = 0;
-		$skipFiles = [];
+
+		/**
+		 * Use an associative array keyed by path for O(1) lookup instead of
+		 * the O(n) in_array() the original code used.
+		 *
+		 * @var array<string, true> $skipPaths
+		 */
+		$skipPaths = [];
+
+		/**
+		 * Pending previews grouped by fileId.  A single original file can have
+		 * many preview variants (different sizes/formats), so we group them to
+		 * issue one filecache lookup per original file rather than one per
+		 * preview variant.
+		 *
+		 * @var array<int, list<array{preview: Preview, filePath: string, realPath: string}>> $pendingByFileId
+		 */
+		$pendingByFileId = [];
+
+		/**
+		 * path_hash => realPath for legacy filecache entries that need to be
+		 * cleaned up. Only populated when $checkForFileCache is true.
+		 *
+		 * @var array<string, string> $pendingPathHashes
+		 */
+		$pendingPathHashes = [];
+		$pendingCount = 0;
+
 		foreach (new RecursiveIteratorIterator($scanner) as $file) {
-			if ($file->isFile() && !in_array((string)$file, $skipFiles, true)) {
-				$preview = Preview::fromPath((string)$file, $this->mimeTypeDetector);
-				if ($preview === false) {
-					$this->logger->error('Unable to parse preview information for ' . $file->getRealPath());
-					continue;
-				}
+			if (!$file->isFile()) {
+				continue;
+			}
+
+			$filePath = $file->getPathname();
+			if (isset($skipPaths[$filePath])) {
+				continue;
+			}
+
+			$preview = Preview::fromPath($filePath, $this->mimeTypeDetector);
+			if ($preview === false) {
+				$this->logger->error('Unable to parse preview information for ' . $file->getRealPath());
+				continue;
+			}
+
+			$preview->setSize($file->getSize());
+			$preview->setMtime($file->getMtime());
+			$preview->setEncrypted(false);
+
+			$realPath = $file->getRealPath();
+			$pendingByFileId[$preview->getFileId()][] = [
+				'preview' => $preview,
+				'filePath' => $filePath,
+				'realPath' => $realPath,
+			];
+			$pendingCount++;
+
+			if ($checkForFileCache) {
+				$relativePath = str_replace($this->getRootFolder() . '/', '', $realPath);
+				$pendingPathHashes[md5($relativePath)] = $realPath;
+			}
+
+			if ($pendingCount >= self::SCAN_BATCH_SIZE) {
+				$this->connection->beginTransaction();
 				try {
-					$preview->setSize($file->getSize());
-					$preview->setMtime($file->getMtime());
-					$preview->setEncrypted(false);
+					$previewsFound += $this->processScanBatch($pendingByFileId, $pendingPathHashes, $checkForFileCache, $skipPaths);
+					$this->connection->commit();
+				} catch (\Exception $e) {
+					$this->connection->rollBack();
+					$this->logger->error($e->getMessage(), ['exception' => $e]);
+					throw $e;
+				}
+				$pendingByFileId = [];
+				$pendingPathHashes = [];
+				$pendingCount = 0;
+			}
+		}
 
-					$qb = $this->connection->getQueryBuilder();
-					$result = $qb->select('storage', 'etag', 'mimetype')
-						->from('filecache')
-						->where($qb->expr()->eq('fileid', $qb->createNamedParameter($preview->getFileId())))
-						->setMaxResults(1)
-						->runAcrossAllShards() // Unavoidable because we can't extract the storage_id from the preview name
-						->executeQuery()
-						->fetchAssociative();
+		if ($pendingCount > 0) {
+			$this->connection->beginTransaction();
+			try {
+				$previewsFound += $this->processScanBatch($pendingByFileId, $pendingPathHashes, $checkForFileCache, $skipPaths);
+				$this->connection->commit();
+			} catch (\Exception $e) {
+				$this->connection->rollBack();
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
+				throw $e;
+			}
+		}
 
-					if ($result === false) {
-						// original file is deleted
-						$this->logger->warning('Original file ' . $preview->getFileId() . ' was not found. Deleting preview at ' . $file->getRealPath());
-						@unlink($file->getRealPath());
-						continue;
+		return $previewsFound;
+	}
+
+	/**
+	 * Process one batch of preview files collected during scan().
+	 *
+	 * @param array<int, list<array{preview: Preview, filePath: string, realPath: string}>> $pendingByFileId
+	 * @param array<string, string> $pendingPathHashes path_hash => realPath
+	 * @param array<string, true> $skipPaths Modified in place: newly-moved paths are added so the outer iterator skips them.
+	 */
+	private function processScanBatch(
+		array $pendingByFileId,
+		array $pendingPathHashes,
+		bool $checkForFileCache,
+		array &$skipPaths,
+	): int {
+		$filecacheByFileId = $this->fetchFilecacheByFileIds(array_keys($pendingByFileId));
+		$legacyByPathHash = [];
+		if ($checkForFileCache && $pendingPathHashes !== []) {
+			$legacyByPathHash = $this->fetchFilecacheByPathHashes(array_keys($pendingPathHashes));
+		}
+
+		$previewsFound = 0;
+		foreach ($pendingByFileId as $fileId => $items) {
+			if (!isset($filecacheByFileId[$fileId])) {
+				// Original file has been deleted – clean up all its previews.
+				foreach ($items as $item) {
+					$this->logger->warning('Original file ' . $fileId . ' was not found. Deleting preview at ' . $item['realPath']);
+					@unlink($item['realPath']);
+				}
+				continue;
+			}
+
+			$filecacheRow = $filecacheByFileId[$fileId];
+			foreach ($items as $item) {
+				$preview = $item['preview'];
+
+				if ($checkForFileCache) {
+					$relativePath = str_replace($this->getRootFolder() . '/', '', $item['realPath']);
+					$pathHash = md5($relativePath);
+					if (isset($legacyByPathHash[$pathHash])) {
+						$legacyRow = $legacyByPathHash[$pathHash];
+						$qb = $this->connection->getTypedQueryBuilder();
+						$qb->delete('filecache')
+							->where($qb->expr()->eq('fileid', $qb->createNamedParameter($legacyRow['fileid'])))
+							->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($legacyRow['storage'])))
+							->executeStatement();
+						$this->deleteParentsFromFileCache((int)$legacyRow['parent'], (int)$legacyRow['storage']);
 					}
+				}
 
-					if ($checkForFileCache) {
-						$relativePath = str_replace($this->getRootFolder() . '/', '', $file->getRealPath());
-						$qb = $this->connection->getQueryBuilder();
-						$result2 = $qb->select('fileid', 'storage', 'etag', 'mimetype', 'parent')
-							->from('filecache')
-							->where($qb->expr()->eq('path_hash', $qb->createNamedParameter(md5($relativePath))))
-							->runAcrossAllShards()
-							->setMaxResults(1)
-							->executeQuery()
-							->fetchAssociative();
+				$preview->setStorageId((int)$filecacheRow['storage']);
+				$preview->setEtag($filecacheRow['etag']);
+				$preview->setSourceMimetype($this->mimeTypeLoader->getMimetypeById((int)$filecacheRow['mimetype']));
+				$preview->generateId();
 
-						if ($result2 !== false) {
-							$qb->delete('filecache')
-								->where($qb->expr()->eq('fileid', $qb->createNamedParameter($result2['fileid'])))
-								->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($result2['storage'])))
-								->executeStatement();
-							$this->deleteParentsFromFileCache((int)$result2['parent'], (int)$result2['storage']);
-						}
-					}
-
-					$preview->setStorageId((int)$result['storage']);
-					$preview->setEtag($result['etag']);
-					$preview->setSourceMimetype($this->mimeTypeLoader->getMimetypeById((int)$result['mimetype']));
-					$preview->generateId();
-					// try to insert, if that fails the preview is already in the DB
+				$this->connection->beginTransaction();
+				try {
 					$this->previewMapper->insert($preview);
-
-					// Move old flat preview to new format
-					$dirName = str_replace($this->getPreviewRootFolder(), '', $file->getPath());
-					if (preg_match('/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9]+/', $dirName) !== 1) {
-						$previewPath = $this->constructPath($preview);
-						$this->createParentFiles($previewPath);
-						$ok = rename($file->getRealPath(), $previewPath);
-						if (!$ok) {
-							throw new LogicException('Failed to move ' . $file->getRealPath() . ' to ' . $previewPath);
-						}
-
-						$skipFiles[] = $previewPath;
-					}
+					$this->connection->commit();
 				} catch (Exception $e) {
+					$this->connection->rollBack();
 					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 						throw $e;
 					}
 				}
+
+				// Move old flat preview to new nested directory format.
+				$dirName = str_replace($this->getPreviewRootFolder(), '', $item['filePath']);
+				if (preg_match('/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9]+/', $dirName) !== 1) {
+					$previewPath = $this->constructPath($preview);
+					$this->createParentFiles($previewPath);
+					$ok = rename($item['realPath'], $previewPath);
+					if (!$ok) {
+						throw new LogicException('Failed to move ' . $item['realPath'] . ' to ' . $previewPath);
+					}
+					// Mark the destination so the outer iterator skips it if it encounters the path later.
+					$skipPaths[$previewPath] = true;
+				}
+
 				$previewsFound++;
 			}
 		}
@@ -200,38 +300,95 @@ class LocalPreviewStorage implements IPreviewStorage {
 	}
 
 	/**
+	 * Bulk-fetch filecache rows for a set of fileIds.
+	 *
+	 * @param int[] $fileIds
+	 */
+	private function fetchFilecacheByFileIds(array $fileIds): array {
+		if (empty($fileIds)) {
+			return [];
+		}
+
+		$result = [];
+		$qb = $this->connection->getTypedQueryBuilder();
+		$qb->selectColumns('fileid', 'storage', 'etag', 'mimetype')
+			->from('filecache');
+		foreach (array_chunk($fileIds, 1000) as $chunk) {
+			$qb->andWhere(
+				$qb->expr()->in('fileid', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY))
+			);
+		}
+		$rows = $qb->runAcrossAllShards()
+			->executeQuery();
+		while ($row = $rows->fetchAssociative()) {
+			$result[(int)$row['fileid']] = $row;
+		}
+		$rows->closeCursor();
+		return $result;
+	}
+
+	/**
+	 * Bulk-fetch filecache rows for a set of path_hashes (legacy migration).
+	 *
+	 * @param string[] $pathHashes
+	 */
+	private function fetchFilecacheByPathHashes(array $pathHashes): array {
+		if (empty($pathHashes)) {
+			return [];
+		}
+
+		$result = [];
+		$qb = $this->connection->getTypedQueryBuilder();
+		$qb->selectColumns('fileid', 'storage', 'etag', 'mimetype', 'parent', 'path_hash')
+			->from('filecache');
+		foreach (array_chunk($pathHashes, 1000) as $chunk) {
+			$qb->andWhere(
+				$qb->expr()->in('path_hash', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY))
+			);
+		}
+		$rows = $qb->runAcrossAllShards()
+			->executeQuery();
+		while ($row = $rows->fetchAssociative()) {
+			$result[$row['path_hash']] = $row;
+		}
+		$rows->closeCursor();
+		return $result;
+	}
+
+	/**
 	 * Recursive method that deletes the folder and its parent folders if it's not
 	 * empty.
 	 */
 	private function deleteParentsFromFileCache(int $folderId, int $storageId): void {
-		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select('fileid', 'path', 'storage', 'parent')
+		$qb = $this->connection->getTypedQueryBuilder();
+		$result = $qb->selectColumns('fileid', 'path', 'storage', 'parent')
 			->from('filecache')
 			->where($qb->expr()->eq('parent', $qb->createNamedParameter($folderId)))
 			->setMaxResults(1)
 			->runAcrossAllShards()
-			->executeQuery()
-			->fetchAssociative();
+			->executeQuery();
+		$row = $result->fetchAssociative();
+		$result->closeCursor();
 
-		if ($result !== false) {
+		if ($row !== false) {
 			// there are other files in the directory, don't delete yet
 			return;
 		}
 
 		// Get new parent
-		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select('fileid', 'path', 'parent')
+		$qb = $this->connection->getTypedQueryBuilder();
+		$result = $qb->selectColumns('fileid', 'path', 'parent')
 			->from('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($folderId)))
 			->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($storageId)))
 			->setMaxResults(1)
-			->executeQuery()
-			->fetchAssociative();
+			->executeQuery();
+		$row = $result->fetchAssociative();
+		$result->closeCursor();
+		if ($row !== false) {
+			$parentFolderId = (int)$row['parent'];
 
-		if ($result !== false) {
-			$parentFolderId = (int)$result['parent'];
-
-			$qb = $this->connection->getQueryBuilder();
+			$qb = $this->connection->getTypedQueryBuilder();
 			$qb->delete('filecache')
 				->where($qb->expr()->eq('fileid', $qb->createNamedParameter($folderId)))
 				->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($storageId)))
