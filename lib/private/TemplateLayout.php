@@ -58,6 +58,7 @@ class TemplateLayout {
 		private INavigationManager $navigationManager,
 		private ITemplateManager $templateManager,
 		private ServerVersion $serverVersion,
+		private IRequest $request,
 	) {
 	}
 
@@ -72,7 +73,8 @@ class TemplateLayout {
 		switch ($renderAs) {
 			case TemplateResponse::RENDER_AS_USER:
 				$page = $this->templateManager->getTemplate('core', 'layout.user');
-				if (in_array(\OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
+				$pathInfo = $this->request->getPathInfo();
+				if ($pathInfo !== false && str_starts_with($pathInfo, '/settings/')) {
 					$page->assign('bodyid', 'body-settings');
 				} else {
 					$page->assign('bodyid', 'body-user');
@@ -254,10 +256,8 @@ class TemplateLayout {
 			$page->append('jsfiles', $web . '/' . $file . $this->getVersionHashSuffix());
 		}
 
-		$request = Server::get(IRequest::class);
-
 		try {
-			$pathInfo = $request->getPathInfo();
+			$pathInfo = $this->request->getPathInfo();
 		} catch (\Exception $e) {
 			$pathInfo = '';
 		}
@@ -298,7 +298,7 @@ class TemplateLayout {
 			}
 		}
 
-		if ($request->isUserAgent([Request::USER_AGENT_CLIENT_IOS, Request::USER_AGENT_SAFARI, Request::USER_AGENT_SAFARI_MOBILE])) {
+		if ($this->request->isUserAgent([Request::USER_AGENT_CLIENT_IOS, Request::USER_AGENT_SAFARI, Request::USER_AGENT_SAFARI_MOBILE])) {
 			// Prevent auto zoom with iOS but still allow user zoom
 			// On chrome (and others) this does not work (will also disable user zoom)
 			$page->assign('viewport_maximum_scale', '1.0');
