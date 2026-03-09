@@ -17,6 +17,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
 
@@ -31,6 +32,7 @@ class InvitationResponseController extends Controller {
 	 * @param IDBConnection $db
 	 * @param ITimeFactory $timeFactory
 	 * @param InvitationResponseServer $responseServer
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(
 		string $appName,
@@ -38,6 +40,7 @@ class InvitationResponseController extends Controller {
 		private IDBConnection $db,
 		private ITimeFactory $timeFactory,
 		private InvitationResponseServer $responseServer,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
 		// Don't run `$server->exec()`, because we just need access to the
@@ -57,14 +60,13 @@ class InvitationResponseController extends Controller {
 			return new TemplateResponse($this->appName, 'schedule-response-error', [], 'guest');
 		}
 
-		$iTipMessage = $this->buildITipResponse($row, 'ACCEPTED');
-		$this->responseServer->handleITipMessage($iTipMessage);
-		if ($iTipMessage->getScheduleStatus() === '1.2') {
-			return new TemplateResponse($this->appName, 'schedule-response-success', [], 'guest');
-		}
-
-		return new TemplateResponse($this->appName, 'schedule-response-error', [
-			'organizer' => $row['organizer'],
+		// Show confirmation page with ACCEPTED preselected.
+		// The actual action is only performed via POST (processMoreOptionsResult),
+		// which prevents email link scanners from triggering accept/decline.
+		return new TemplateResponse($this->appName, 'schedule-response-options', [
+			'token' => $token,
+			'preselect' => 'ACCEPTED',
+			'formAction' => $this->urlGenerator->linkToRoute('dav.invitation_response.processMoreOptionsResult', ['token' => $token]),
 		], 'guest');
 	}
 
@@ -80,15 +82,10 @@ class InvitationResponseController extends Controller {
 			return new TemplateResponse($this->appName, 'schedule-response-error', [], 'guest');
 		}
 
-		$iTipMessage = $this->buildITipResponse($row, 'DECLINED');
-		$this->responseServer->handleITipMessage($iTipMessage);
-
-		if ($iTipMessage->getScheduleStatus() === '1.2') {
-			return new TemplateResponse($this->appName, 'schedule-response-success', [], 'guest');
-		}
-
-		return new TemplateResponse($this->appName, 'schedule-response-error', [
-			'organizer' => $row['organizer'],
+		return new TemplateResponse($this->appName, 'schedule-response-options', [
+			'token' => $token,
+			'preselect' => 'DECLINED',
+			'formAction' => $this->urlGenerator->linkToRoute('dav.invitation_response.processMoreOptionsResult', ['token' => $token]),
 		], 'guest');
 	}
 
@@ -100,7 +97,8 @@ class InvitationResponseController extends Controller {
 	#[NoCSRFRequired]
 	public function options(string $token):TemplateResponse {
 		return new TemplateResponse($this->appName, 'schedule-response-options', [
-			'token' => $token
+			'token' => $token,
+			'formAction' => $this->urlGenerator->linkToRoute('dav.invitation_response.processMoreOptionsResult', ['token' => $token]),
 		], 'guest');
 	}
 
