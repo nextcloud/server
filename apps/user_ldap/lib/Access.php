@@ -600,7 +600,7 @@ class Access extends LDAPUtility {
 		}
 
 		// Map a new user/group only if the candidate ID does not collide with existing users/groups.
-	
+
 		// Disable LDAP cache for this connection instance so conflict-detection existence
 		// checks are evaluated fresh and, more importantly, their results are not cached before mapping.
 		$originalTTL = $this->connection->ldapCacheTTL;
