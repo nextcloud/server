@@ -547,15 +547,18 @@ class Util {
 	 * @param bool $checkGroupMembership Check group membership exclusion
 	 * @return boolean
 	 * @since 7.0.0
+	 * @deprecated 34.0.0 use OCP\Share\IManager's shareApiLinkEnforcePassword directly
 	 */
 	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
 		return \OC_Util::isPublicLinkPasswordRequired($checkGroupMembership);
 	}
 
 	/**
-	 * check if share API enforces a default expire date
+	 * Check if share API enforces a default expire date
+	 *
 	 * @return boolean
 	 * @since 8.0.0
+	 * @deprecated 34.0.0 use OCP\Share\IManager's shareApiLinkDefaultExpireDateEnforced directly
 	 */
 	public static function isDefaultExpireDateEnforced() {
 		return \OC_Util::isDefaultExpireDateEnforced();
