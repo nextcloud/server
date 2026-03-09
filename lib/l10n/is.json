@@ -229,9 +229,6 @@
     "Login canceled by app" : "Forrit hætti við innskráningu",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Ekki var hægt að setja upp \"%1$s\" forritið þar sem eftirfarandi kerfiskröfur eru ekki uppfylltar: %2$s",
     "a safe home for all your data" : "öruggur staður fyrir öll gögnin þín",
-    "Application is not enabled" : "Forrit ekki virkt",
-    "Authentication error" : "Villa við auðkenningu",
-    "Token expired. Please reload page." : "Kenniteikn er útrunnið. Þú ættir að hlaða síðunni aftur inn.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Engir reklar fyrir gagnagrunn eru uppsettir (sqlite, mysql eða postgresql).",
     "Cannot write into \"config\" directory." : "Get ekki skrifað í \"config\" möppuna.",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Þetta er venjulega hægt að laga með því að gefa vefþjóninum skrifréttindi í stillingamöppuna. Skoðaðu %s",
@@ -304,6 +301,9 @@
     "Runs an arbitrary prompt through the language model." : "Keyrir óreglulega kvaðningu (prompt) í gegnum tungumálslíkanið.",
     "Generate headline" : "Útbúa fyrirsögn",
     "Summarizes text by reducing its length without losing key information." : "Tekur saman aðalatriði texta með því að stytta hann án þess að tapa mikilvægustu upplýsingum.",
-    "Extracts topics from a text and outputs them separated by commas." : "Greinir efnisflokka úr texta og aðskilur þá með kommum."
+    "Extracts topics from a text and outputs them separated by commas." : "Greinir efnisflokka úr texta og aðskilur þá með kommum.",
+    "Application is not enabled" : "Forrit ekki virkt",
+    "Authentication error" : "Villa við auðkenningu",
+    "Token expired. Please reload page." : "Kenniteikn er útrunnið. Þú ættir að hlaða síðunni aftur inn."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

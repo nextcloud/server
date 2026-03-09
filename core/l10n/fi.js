@@ -267,6 +267,7 @@ OC.L10N.register(
     "Reset search" : "Tyhjennä haku",
     "Could not load your contacts" : "Yhteystietojasi ei voitu ladata",
     "No contacts found" : "Yhteystietoja ei löytynyt",
+    "Contacts list" : "Yhteystietoluettelo",
     "Show all contacts" : "Näytä kaikki kontaktit",
     "Install the Contacts app" : "Asenna Yhteystiedot-sovellus",
     "Search" : "Etsi",

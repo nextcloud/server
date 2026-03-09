@@ -235,9 +235,6 @@
     "Login canceled by app" : "Innlogging avbrutt av app",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "App \"%1$s\" kan ikke installeres fordi følgende avhengigheter ikke er møtt: %2$s.",
     "a safe home for all your data" : "et sikkert hjem for alle dine data",
-    "Application is not enabled" : "Appen er ikke aktivert",
-    "Authentication error" : "Autentikasjonsfeil",
-    "Token expired. Please reload page." : "Symbol utløpt. Last inn siden på nytt.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Ingen databasedrivere (sqlite, mysql, or postgresql) installert.",
     "Cannot write into \"config\" directory." : "Kan ikke skrive i \"config\"-katalogen.",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Dette kan vanligvis ordnes ved å gi webserveren skrivetilgang til config-katalogen. Se %s.",
@@ -366,6 +363,9 @@
     "Runs an arbitrary prompt through the language model." : "Kjører en vilkårlig ledetekst gjennom språkmodellen.",
     "Generate headline" : "Generer overskrift",
     "Summarizes text by reducing its length without losing key information." : "Oppsummerer tekst ved å redusere lengden uten å miste nøkkelinformasjon.",
-    "Extracts topics from a text and outputs them separated by commas." : "Trekker ut emner fra en tekst og sender dem ut atskilt med komma."
+    "Extracts topics from a text and outputs them separated by commas." : "Trekker ut emner fra en tekst og sender dem ut atskilt med komma.",
+    "Application is not enabled" : "Appen er ikke aktivert",
+    "Authentication error" : "Autentikasjonsfeil",
+    "Token expired. Please reload page." : "Symbol utløpt. Last inn siden på nytt."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

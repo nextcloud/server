@@ -117,9 +117,6 @@
     "A valid password must be provided" : "Duhet dhënë një fjalëkalim i vlefshëm",
     "Login canceled by app" : "Hyrja u anulua nga aplikacioni",
     "a safe home for all your data" : "Një shtëpi e sigurt për të dhënat e tua",
-    "Application is not enabled" : "Aplikacioni s’është aktivizuar",
-    "Authentication error" : "Gabim mirëfilltësimi",
-    "Token expired. Please reload page." : "Token-i ka skaduar. Ju lutem ringarkoni faqen.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "S’ka baza të dhënash (sqlite, mysql, ose postgresql) të instaluara.",
     "PHP module %s not installed." : "Moduli PHP %s s’është i instaluar.",
     "Please ask your server administrator to install the module." : "Ju lutemi, kërkojini përgjegjësit të shërbyesit ta instalojë modulin.",
@@ -139,6 +136,9 @@
     "Text" : "Tekst",
     "Summary" : "Përmbledhje",
     "Translate" : "Përkthe",
-    "Result" : "Rezultatet"
+    "Result" : "Rezultatet",
+    "Application is not enabled" : "Aplikacioni s’është aktivizuar",
+    "Authentication error" : "Gabim mirëfilltësimi",
+    "Token expired. Please reload page." : "Token-i ka skaduar. Ju lutem ringarkoni faqen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

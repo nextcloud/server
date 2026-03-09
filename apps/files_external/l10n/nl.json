@@ -66,7 +66,7 @@
     "SFTP with secret key login" : "SFTP met geheime sleutel inlog",
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Share",
-    "Show hidden files" : "Laat verborgen bestanden zien",
+    "Show hidden files" : "Toon verborgen bestanden",
     "Case sensitive file system" : "Hoofdlettergevoelig bestandssysteem",
     "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "Door dit uit te schakelen kan een hoofdletterongevoelig bestandssysteem worden gebruikt, zij het met verminderde prestaties",
     "Verify ACL access when listing files" : "ACL controleren bij bestandsoverzichten",

@@ -283,9 +283,6 @@
     "Login canceled by app" : "Login cancelado pelo aplicativo",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "O aplicativo \"%1$s\" não pode ser instalado devido à estas dependências: %2$s",
     "a safe home for all your data" : "Um lar seguro para todos os seus dados",
-    "Application is not enabled" : "O aplicativo não está habilitado",
-    "Authentication error" : "Erro de autenticação",
-    "Token expired. Please reload page." : "O token expirou. Por favor recarregue a página.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Nenhum driver  de banco de dados (sqlite, mysql ou postgresql) instalado.",
     "Cannot write into \"config\" directory." : "Não é possível gravar no diretório \"config\".",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Geralmente, isso pode ser corrigido dando ao servidor web acesso de gravação ao diretório de configuração. Consulte %s",
@@ -474,6 +471,9 @@
     "Generate headline" : "Gerar título",
     "Summarizes text by reducing its length without losing key information." : "Resume o texto reduzindo seu comprimento sem perder informações importantes.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrai temas de um texto e os exibe separados por vírgulas.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "O Mac OS X não é compatível e %s não funcionará corretamente nessa plataforma. Use-o por sua própria conta e risco!"
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "O Mac OS X não é compatível e %s não funcionará corretamente nessa plataforma. Use-o por sua própria conta e risco!",
+    "Application is not enabled" : "O aplicativo não está habilitado",
+    "Authentication error" : "Erro de autenticação",
+    "Token expired. Please reload page." : "O token expirou. Por favor recarregue a página."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
