@@ -713,7 +713,7 @@ class AccessTest extends TestCase {
 			->method('__get')
 			->willReturnMap([
 				[ 'ldapUserDisplayName', 'displayName' ],
-				[ 'ldapUserDisplayName2', null],
+				[ 'ldapUserDisplayName2', ''],
 			]);
 
 		$offlineUserMock = $this->createMock(OfflineUser::class);
