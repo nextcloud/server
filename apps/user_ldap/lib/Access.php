@@ -596,40 +596,40 @@ class Access extends LDAPUtility {
 			$intName = $this->sanitizeGroupIDCandidate($ldapName);
 		}
 
-		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
-		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
-		//NOTE: mind, disabling cache affects only this instance! Using it
-		// outside of core user management will still cache the user as non-existing.
+		// Map a new user/group only if the candidate ID does not collide with existing users/groups.
+	
+		// Disable LDAP cache for this connection instance so conflict-detection existence
+		// checks are evaluated fresh and, more importantly, their results are not cached before mapping.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		if ($intName !== ''
-			&& (($isUser && !$this->ncUserManager->userExists($intName))
-				|| (!$isUser && !Server::get(IGroupManager::class)->groupExists($intName))
-			)
-		) {
-			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-			$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
-			if ($newlyMapped) {
-				$this->logger->debug('Mapped {fdn} as {name}', ['fdn' => $fdn,'name' => $intName]);
-				return $intName;
-			}
-		}
 
-		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
-		if (is_string($altName)) {
-			if ($this->mapAndAnnounceIfApplicable($mapper, $fdn, $altName, $uuid, $isUser)) {
-				$this->logger->warning(
-					'Mapped {fdn} as {altName} because of a name collision on {intName}.',
-					[
-						'fdn' => $fdn,
-						'altName' => $altName,
-						'intName' => $intName,
-					]
-				);
-				$newlyMapped = true;
-				return $altName;
+		try {
+			if ($intName !== '') {
+				$noUserConflict = $isUser && !$this->ncUserManager->userExists($intName);
+				$noGroupConflict = !$isUser && !Server::get(IGroupManager::class)->groupExists($intName);
+
+				if ($noUserConflict || $noGroupConflict) {
+					$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
+					if ($newlyMapped) {
+						$this->logger->debug('Mapped {fdn} as {name}', ['fdn' => $fdn, 'name' => $intName]);
+						return $intName;
+					}
+				}
 			}
+
+			$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
+			if (is_string($altName)) {
+				if ($this->mapAndAnnounceIfApplicable($mapper, $fdn, $altName, $uuid, $isUser)) {
+					$this->logger->warning(
+						'Mapped {fdn} as {altName} because of a name collision on {intName}.',
+						['fdn' => $fdn, 'altName' => $altName, 'intName' => $intName]
+					);
+					$newlyMapped = true;
+					return $altName;
+				}
+			}
+		} finally {
+			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 		}
 
 		//if everything else did not help..
