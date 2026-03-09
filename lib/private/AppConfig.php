@@ -43,9 +43,9 @@ use Psr\Log\LoggerInterface;
  * Warning: When a lazy config value is requested, all lazy config values for that specific app
  * are loaded into memory.
  *
- * Note: Some methods (such as `getKeys()` or `getAllValues()`) bypass lazy loading and will 
+ * Note: Some methods (such as `getKeys()` or `getAllValues()`) bypass lazy loading and will
  * forcibly load all lazy config values for the app.
- * Use these methods carefully: they should only be called in code paths that run as part of 
+ * Use these methods carefully: they should only be called in code paths that run as part of
  * specific actions (like admin pages or background jobs), not on every user request.
  *
  * @since 7.0.0
@@ -1323,7 +1323,7 @@ class AppConfig implements IAppConfig {
 	 * - $lazy = true: ensure lazy values are loaded; may also load non-lazy values if they're not loaded yet.
 	 *
 	 * @param string|null $app App ID used for debug logging when lazy loading is triggered
-	 * @param bool        $lazy Whether to ensure lazy values are loaded
+	 * @param bool $lazy Whether to ensure lazy values are loaded
 	 */
 	private function loadConfig(?string $app = null, bool $lazy = false): void {
 		// Already loaded for the requested mode; skip.
@@ -1341,7 +1341,7 @@ class AppConfig implements IAppConfig {
 		if ($this->tryLoadFromLocalCache($lazy)) {
 			return;
 		}
-	
+
 		// If fast/non-lazy config is already loaded, a lazy load can query only lazy rows.
 		$shouldLoadLazyOnly = $this->isLoaded() && $lazy;
 
