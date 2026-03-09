@@ -487,7 +487,7 @@ class Access extends LDAPUtility {
 	 */
 	public function dn2ocname(
 		string $fdn,
-		?string = $ldapName = null,
+		?string $ldapName = null,
 		bool $isUser = true,
 		?bool &$newlyMapped = null,
 		?array $record = null,
