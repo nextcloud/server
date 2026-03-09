@@ -1614,6 +1614,68 @@ class RequestTest extends \Test\TestCase {
 		];
 	}
 
+	public function testGetRawPathInfoWithoutScriptName(): void {
+		$request = new Request(
+			[
+				'server' => [
+					'REQUEST_URI' => '/index.php/apps/files/',
+				]
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('index.php/apps/files/', $request->getRawPathInfo());
+	}
+
+	public function testGetPathInfoWithoutScriptName(): void {
+		$request = new Request(
+			[
+				'server' => [
+					'REQUEST_URI' => '/index.php/apps/files/',
+				]
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('index.php/apps/files/', $request->getPathInfo());
+	}
+
+	public function testGetRawPathInfoWithoutScriptNameRoot(): void {
+		$request = new Request(
+			[
+				'server' => [
+					'REQUEST_URI' => '/',
+				]
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('', $request->getRawPathInfo());
+	}
+
+	public function testGetRawPathInfoWithoutScriptNameOrRequestUri(): void {
+		$request = new Request(
+			[
+				'server' => []
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('', $request->getRawPathInfo());
+	}
+
 	public function testGetRequestUriWithoutOverwrite(): void {
 		$this->config
 			->expects($this->once())
