@@ -535,6 +535,9 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
+		if (!$preview->valid() || $preview->dataMimeType() === null) {
+			throw new \InvalidArgumentException('Preview generation failed: invalid or null MIME type');
+		}
 
 		$path = $this->generatePath($width, $height, $crop, false, $preview->dataMimeType(), $prefix);
 		try {
