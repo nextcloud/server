@@ -439,11 +439,11 @@ class Util {
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
 	 *
-	 * @param string|string[] $value
+	 * @param string|string[]|null $value
 	 * @return ($value is array ? string[] : string) an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
-	public static function sanitizeHTML(string|array $value): string|array {
+	public static function sanitizeHTML(string|array|null $value): string|array {
 		if (is_array($value)) {
 			return array_map(function (string $value): string {
 				return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
