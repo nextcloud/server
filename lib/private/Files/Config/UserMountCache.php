@@ -9,7 +9,6 @@ namespace OC\Files\Config;
 
 use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
-use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -165,25 +164,15 @@ class UserMountCache implements IUserMountCache {
 
 	private function addToCache(ICachedMountInfo $mount) {
 		if ($mount->getStorageId() !== -1) {
-			$qb = $this->connection->getQueryBuilder();
-			$qb
-				->insert('mounts')
-				->values([
-					'storage_id' => $qb->createNamedParameter($mount->getStorageId(), IQueryBuilder::PARAM_INT),
-					'root_id' => $qb->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT),
-					'user_id' => $qb->createNamedParameter($mount->getUser()->getUID()),
-					'mount_point' => $qb->createNamedParameter($mount->getMountPoint()),
-					'mount_point_hash' => $qb->createNamedParameter(hash('xxh128', $mount->getMountPoint())),
-					'mount_id' => $qb->createNamedParameter($mount->getMountId(), IQueryBuilder::PARAM_INT),
-					'mount_provider_class' => $qb->createNamedParameter($mount->getMountProvider()),
-				]);
-			try {
-				$qb->executeStatement();
-			} catch (Exception $e) {
-				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-					throw $e;
-				}
-			}
+			$this->connection->insertIgnoreConflict('mounts', [
+				'storage_id' => $mount->getStorageId(),
+				'root_id' => $mount->getRootId(),
+				'user_id' => $mount->getUser()->getUID(),
+				'mount_point' => $mount->getMountPoint(),
+				'mount_point_hash' => hash('xxh128', $mount->getMountPoint()),
+				'mount_id' => $mount->getMountId(),
+				'mount_provider_class' => $mount->getMountProvider(),
+			]);
 		} else {
 			// in some cases this is legitimate, like orphaned shares
 			$this->logger->debug('Could not get storage info for mount at ' . $mount->getMountPoint());
