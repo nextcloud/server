@@ -236,9 +236,10 @@ class Util {
 	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
+	 * @deprecated 34.0.0 Use IUrlGenerator::getAbsoluteUrl and IUrlGenerator::linkTo
 	 */
 	public static function linkToAbsolute($app, $file, $args = []) {
-		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
+		$urlGenerator = Server::get(IURLGenerator::class);
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
 		);
@@ -246,16 +247,15 @@ class Util {
 
 	/**
 	 * Creates an absolute url for remote use.
+	 *
 	 * @param string $service id
 	 * @return string the url
 	 * @since 4.0.0
+	 * @deprecated 34.0.0 Use IURlGenerator::linkToRemote
 	 */
-	public static function linkToRemote($service) {
-		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
-		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
-		return $urlGenerator->getAbsoluteURL(
-			$remoteBase . (($service[strlen($service) - 1] !== '/') ? '/' : '')
-		);
+	public static function linkToRemote(string $service): string {
+		$urlGenerator = Server::get(IURLGenerator::class);
+		return $urlGenerator->linkToRemote($service);
 	}
 
 	/**
