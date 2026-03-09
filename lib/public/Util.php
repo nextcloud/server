@@ -25,6 +25,10 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
+	private const DECIMAL_LABELS = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB'];
+	private const BINARY_LABELS = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB'];
+	private const MAX_LABEL_INDEX = 5;
+
 	private static ?IManager $shareManager = null;
 
 	private static array $scriptsInit = [];
@@ -326,41 +330,58 @@ class Util {
 	}
 
 	/**
-	 * Make a human file size (2048 to 2 kB)
-	 * @param int|float $bytes file size in bytes
-	 * @return string a human readable file size
+	 * Converts byte values into human-friendly strings using base-1024 logic.
+	 *
+	 * Always divides by 1024, but uses decimal (SI) unit labels (KB, MB) by default (which is
+	 * common in many OSes). Can optionally use more technically accurate IEC binary unit labels
+	 * (KiB, MiB).
+	 *
+	 * - **Rounding:** KB/KiB uses 0 decimals; MB+ uses 1 decimal place.
+	 * - **Transition:** Prevents "1024 KB" by rounding up to "1.0 MB" early.
+	 *
+	 * @example humanFileSize(2048)				// "2 KB" (whole)
+	 * @example humanFileSize(1500000)			// "1.4 MB" (decimal)
+	 * @example humanFileSize(1500000, true)	// "1.4 MiB" (more accurate IEC label)
+	 * @example humanFileSize(1048575)			// "1.0 MB" (edge case: rounds up from 1023.999... KB)
+	 *
+	 * @param int|float $bytes File size in bytes
+	 * @param bool $useBinaryLabel If true, use IEC binary labels (KiB, MiB). If false (default),
+	 *                             use SI decimal labels (KB, MB). Note: Calculation is always
+	 *                             binary (÷1024) regardless of this setting.
+	 * @return string Human-readable file size string, or "?" for negative values
 	 * @since 4.0.0
 	 */
-	public static function humanFileSize(int|float $bytes): string {
+	public static function humanFileSize(int|float $bytes, bool $useBinaryLabel = false): string {
 		if ($bytes < 0) {
 			return '?';
 		}
 		if ($bytes < 1024) {
 			return "$bytes B";
 		}
-		$bytes = round($bytes / 1024, 0);
-		if ($bytes < 1024) {
-			return "$bytes KB";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return "$bytes MB";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return "$bytes GB";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return "$bytes TB";
+
+		$units = $useBinaryLabel ? self::BINARY_LABELS : self::DECIMAL_LABELS;
+
+		// First step: KB/KiB (0 decimals, round immediately)
+		$value = round($bytes / 1024, 0);
+		if ($value < 1024) {
+			return "$value {$units[0]}";
 		}
 
-		$bytes = round($bytes / 1024, 1);
-		return "$bytes PB";
+		// Subsequent steps: larger units (1 decimal, round at each step)
+		for ($unitIndex = 1; $unitIndex <= self::MAX_LABEL_INDEX; $unitIndex++) {
+			$value = round($value / 1024, 1);
+			if ($value < 1024 || $unitIndex === self::MAX_LABEL_INDEX) {
+				/** @var int<0, 5> $unitIndex */
+				return "$value {$units[$unitIndex]}";
+			}
+		}
+
+		// Unreachable, but keeps static analyzer happy
+		return "$value {$units[self::MAX_LABEL_INDEX]}";
 	}
 
 	/**
-	 * Make a computer file size (2 kB to 2048)
+	 * Converts human-readable file size strings into bytes using base-1024 logic.
 	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 *
 	 * @param string $str file size in a fancy format
