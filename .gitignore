@@ -28,6 +28,7 @@ node_modules/
 !/apps/sharebymail
 !/apps/encryption
 !/apps/files_external
+!/apps/files_lock
 !/apps/files_reminders
 !/apps/files_sharing
 !/apps/files_trashbin

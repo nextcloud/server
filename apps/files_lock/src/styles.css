@@ -1,0 +1,10 @@
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* The grid view currently does not properly handle inline actions, we hide them for now */
+.action-item__popper .action.files-list__row-action-lock_inline,
+.files-list--grid .action.files-list__row-action-lock_inline {
+    display: none;
+}
