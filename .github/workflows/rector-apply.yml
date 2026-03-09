@@ -50,6 +50,7 @@ jobs:
         run: |
           composer remove nextcloud/ocp --dev --no-scripts
           composer i
+          git restore lib/composer/composer
 
       - name: Rector
         run: composer run rector
