@@ -50,6 +50,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -109,6 +110,7 @@ class SetupManager implements ISetupManager {
 		private ShareDisableChecker $shareDisableChecker,
 		private IAppManager $appManager,
 		private FileAccess $fileAccess,
+		private IAppConfig $appConfig,
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -166,7 +168,7 @@ class SetupManager implements ISetupManager {
 			return $storage;
 		});
 
-		$reSharingEnabled = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
+		$reSharingEnabled = $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true);
 		$user = $this->userSession->getUser();
 		$sharingEnabledForUser = $user ? !$this->shareDisableChecker->sharingDisabledForUser($user->getUID()) : true;
 		Filesystem::addStorageWrapper(

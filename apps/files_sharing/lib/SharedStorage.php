@@ -37,8 +37,10 @@ use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IAppConfig;
+use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Server;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Util;
 use Override;
@@ -83,12 +85,16 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	private $ownerUserFolder = null;
 
 	private string $sourcePath = '';
+	private IAppConfig $appConfig;
+	private IShareManager $shareManager;
 
 	private static int $initDepth = 0;
 
 	public function __construct(array $parameters) {
 		$this->ownerView = $parameters['ownerView'];
 		$this->logger = Server::get(LoggerInterface::class);
+		$this->appConfig = Server::get(IAppConfig::class);
+		$this->shareManager = Server::get(IShareManager::class);
 
 		$this->superShare = $parameters['superShare'];
 		$this->groupedShares = $parameters['groupedShares'];
@@ -280,8 +286,8 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	}
 
 	public function isSharable(string $path): bool {
-		$appConfig = \OCP\Server::get(IAppConfig::class);
-		if (Util::isSharingDisabledForUser() || !$appConfig->getValueBool('core', 'shareapi_allow_resharing', true)) {
+		if ($this->shareManager->sharingDisabledForUser(Server::get(IUserSession::class)->getUser()?->getUID())
+			|| !$this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true)) {
 			return false;
 		}
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);

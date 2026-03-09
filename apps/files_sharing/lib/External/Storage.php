@@ -30,13 +30,15 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\LocalServerException;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IUserSession;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\Server;
-use OCP\Util;
+use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 
 class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, IReliableEtagStorage {
@@ -48,6 +50,8 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	private bool $updateChecked = false;
 	private ExternalShareManager $manager;
 	private IConfig $config;
+	private IAppConfig $appConfig;
+	private IShareManager $shareManager;
 
 	/**
 	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
@@ -60,6 +64,8 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$this->logger = Server::get(LoggerInterface::class);
 		$discoveryService = Server::get(IOCMDiscoveryService::class);
 		$this->config = Server::get(IConfig::class);
+		$this->appConfig = Server::get(IAppConfig::class);
+		$this->shareManager = Server::get(IShareManager::class);
 
 		// use default path to webdav if not found on discovery
 		try {
@@ -330,7 +336,8 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	}
 
 	public function isSharable(string $path): bool {
-		if (Util::isSharingDisabledForUser() || $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') !== 'yes') {
+		if ($this->shareManager->sharingDisabledForUser(Server::get(IUserSession::class)->getUser()?->getUID())
+			|| !$this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true)) {
 			return false;
 		}
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
