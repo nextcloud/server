@@ -181,9 +181,6 @@
     "Login canceled by app" : "Program onemogoča prijavo",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Programa »%1$s« ni mogoče namestiti zaradi nerešenih odvisnosti: %2$s",
     "a safe home for all your data" : "Varno okolje za vaše podatke!",
-    "Application is not enabled" : "Program ni omogočen",
-    "Authentication error" : "Napaka overjanja",
-    "Token expired. Please reload page." : "Žeton je pretekel. Stran je treba ponovno naložiti.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Ni nameščenih programnikov podatkovnih zbirk (sqlite, mysql oziroma postgresql).",
     "Cannot write into \"config\" directory." : "V mapo »config« ni mogoče zapisovati!",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Napako je mogoče odpraviti z dodelitvijo dovoljenja spletnemu strežniku za pisanje v nastavitveno mapo. Poglejte %s",
@@ -226,6 +223,9 @@
     "Summary" : "Povzetek",
     "Translate" : "Prevedi",
     "Target language" : "Ciljni jezik",
-    "Result" : "Rezultat"
+    "Result" : "Rezultat",
+    "Application is not enabled" : "Program ni omogočen",
+    "Authentication error" : "Napaka overjanja",
+    "Token expired. Please reload page." : "Žeton je pretekel. Stran je treba ponovno naložiti."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

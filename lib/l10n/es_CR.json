@@ -125,9 +125,6 @@
     "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
     "Login canceled by app" : "Inicio de sesión cancelado por la aplicación",
     "a safe home for all your data" : "un lugar seguro para todos tus datos",
-    "Application is not enabled" : "La aplicación está deshabilitada",
-    "Authentication error" : "Error de autenticación",
-    "Token expired. Please reload page." : "La ficha ha expirado. Por favor recarga la página.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "No cuentas con controladores de base de datos (sqlite, mysql o postgresql) instalados. ",
     "PHP module %s not installed." : "El módulo de PHP %s no está instalado. ",
     "Please ask your server administrator to install the module." : "Por favor solicita a tu adminsitrador la instalación del módulo. ",
@@ -148,6 +145,9 @@
     "Text" : "Texto",
     "Summary" : "Resumen",
     "Translate" : "Traducir",
-    "Result" : "Resultado"
+    "Result" : "Resultado",
+    "Application is not enabled" : "La aplicación está deshabilitada",
+    "Authentication error" : "Error de autenticación",
+    "Token expired. Please reload page." : "La ficha ha expirado. Por favor recarga la página."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

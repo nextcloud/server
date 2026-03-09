@@ -129,9 +129,6 @@
     "A valid password must be provided" : "יש לספק ססמה תקנית",
     "Login canceled by app" : "התחברות בוטלה על ידי יישום",
     "a safe home for all your data" : "בית בטוח עבור כל המידע שלך",
-    "Application is not enabled" : "יישומים אינם מופעלים",
-    "Authentication error" : "שגיאת הזדהות",
-    "Token expired. Please reload page." : "פג תוקף. נא לטעון שוב את הדף.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "לא מותקנים דרייברים למסד הנתונים (sqlite, mysql, או postgresql).",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "או, אם עדיף לך לשמור על config.php לקריאה בלבד, ניתן להגדיר את האפשרות „config_is_read_only” לערך true. נא לעיין ב־%s",
     "PHP module %s not installed." : "מודול PHP %s אינו מותקן.",
@@ -156,6 +153,9 @@
     "Text" : "טקסט",
     "Summary" : "תקציר",
     "Translate" : "תרגום",
-    "Result" : "תוצאה"
+    "Result" : "תוצאה",
+    "Application is not enabled" : "יישומים אינם מופעלים",
+    "Authentication error" : "שגיאת הזדהות",
+    "Token expired. Please reload page." : "פג תוקף. נא לטעון שוב את הדף."
 },"pluralForm" :"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;"
 }

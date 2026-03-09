@@ -144,6 +144,7 @@ OC.L10N.register(
     "Warn before deleting a file" : "Varoita ennen tiedoston poistamista",
     "WebDAV URL" : "WebDAV:in URL-osoite",
     "Create an app password" : "Luo sovellussalasana",
+    "How to access files using WebDAV" : "Tiedostojen käyttö WebDAVin avulla",
     "Name" : "Nimi",
     "File type" : "Tiedoston tyyppi",
     "Size" : "Koko",

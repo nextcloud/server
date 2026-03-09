@@ -283,9 +283,6 @@
     "Login canceled by app" : "已通过应用取消登录",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "应用 \"%1$s\" 无法安装，因为不能满足以下依赖： %2$s",
     "a safe home for all your data" : "给您所有数据一个安全的家",
-    "Application is not enabled" : "应用程序未启用",
-    "Authentication error" : "认证出错",
-    "Token expired. Please reload page." : "Token 过期，请刷新页面。",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "没有安装数据库驱动（SQLite、MySQL 或 PostgreSQL）。",
     "Cannot write into \"config\" directory." : "无法写入 \"config\" 目录。",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "通常可以为 Web 服务器授予对 config 目录的写入权限来修复这个问题。查看 %s",
@@ -474,6 +471,9 @@
     "Generate headline" : "生成标题",
     "Summarizes text by reducing its length without losing key information." : "总结一段文本以减少长度而不丢失关键信息",
     "Extracts topics from a text and outputs them separated by commas." : "从文本中摘出主题，输出逗号分隔的结果",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "不支持 Mac OS X，%s 在此平台上无法正常工作。请自行承担使用风险！"
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "不支持 Mac OS X，%s 在此平台上无法正常工作。请自行承担使用风险！",
+    "Application is not enabled" : "应用程序未启用",
+    "Authentication error" : "认证出错",
+    "Token expired. Please reload page." : "Token 过期，请刷新页面。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

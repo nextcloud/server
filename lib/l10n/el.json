@@ -282,9 +282,6 @@
     "Login canceled by app" : "Η είσοδος ακυρώθηκε από την εφαρμογή",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Η εφαρμογή \"%1$s\" δεν μπορεί να εγκατασταθεί επειδή δεν πληρούνται τα προαπαιτούμενα: %2$s",
     "a safe home for all your data" : "ένα ασφαλές μέρος για όλα τα δεδομένα σας",
-    "Application is not enabled" : "Δεν ενεργοποιήθηκε η εφαρμογή",
-    "Authentication error" : "Σφάλμα πιστοποίησης",
-    "Token expired. Please reload page." : "Το αναγνωριστικό έληξε. Παρακαλούμε φορτώστε ξανά την σελίδα.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Δεν βρέθηκαν εγκατεστημένοι οδηγοί βάσεων δεδομένων (sqlite, mysql, or postgresql).",
     "Cannot write into \"config\" directory." : "Δεν είναι δυνατή η εγγραφή στον κατάλογο \"config\".",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Αυτό μπορεί συνήθως να διορθωθεί δίνοντας στον διακομιστή ιστού δικαιώματα εγγραφής στον κατάλογο config. Δείτε το%s",
@@ -468,6 +465,9 @@
     "Generate headline" : "Δημιουργία τίτλου",
     "Summarizes text by reducing its length without losing key information." : "Περιγράφει συνοπτικά το κείμενο μειώνοντας το μήκος του χωρίς να χάνονται βασικές πληροφορίες.",
     "Extracts topics from a text and outputs them separated by commas." : "Εξάγει θέματα από ένα κείμενο και τα εμφανίζει χωρισμένα με κόμματα.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Το Mac OS X δεν υποστηρίζεται και το %s δεν θα λειτουργεί σωστά σε αυτήν την πλατφόρμα. Χρησιμοποιήστε το με δική σας ευθύνη!"
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Το Mac OS X δεν υποστηρίζεται και το %s δεν θα λειτουργεί σωστά σε αυτήν την πλατφόρμα. Χρησιμοποιήστε το με δική σας ευθύνη!",
+    "Application is not enabled" : "Δεν ενεργοποιήθηκε η εφαρμογή",
+    "Authentication error" : "Σφάλμα πιστοποίησης",
+    "Token expired. Please reload page." : "Το αναγνωριστικό έληξε. Παρακαλούμε φορτώστε ξανά την σελίδα."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

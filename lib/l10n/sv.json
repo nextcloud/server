@@ -281,9 +281,6 @@
     "Login canceled by app" : "Inloggningen avbruten av appen",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Appen \"%1$s\" kan inte installeras eftersom följande beroenden inte är uppfyllda: %2$s",
     "a safe home for all your data" : "ett säkert hem för all din data",
-    "Application is not enabled" : "Applikationen är inte aktiverad",
-    "Authentication error" : "Fel vid autentisering",
-    "Token expired. Please reload page." : "Token har löpt ut. Uppdatera sidan.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Inga databasdrivrutiner (sqlite, mysql, eller postgresql) installerade.",
     "Cannot write into \"config\" directory." : "Kan inte skriva i \"config\"-katalogen.",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivåtkomst till config-katalogen. Se %s",
@@ -472,6 +469,9 @@
     "Generate headline" : "Skapa rubrik",
     "Summarizes text by reducing its length without losing key information." : "Sammanfattar text genom att minska dess längd utan att förlora viktig information.",
     "Extracts topics from a text and outputs them separated by commas." : "Extraherar ämnen från en text och matar ut dem separerade med kommatecken.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X stöds inte och %s kommer inte att fungera korrekt på denna plattform. Använd på egen risk!"
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X stöds inte och %s kommer inte att fungera korrekt på denna plattform. Använd på egen risk!",
+    "Application is not enabled" : "Applikationen är inte aktiverad",
+    "Authentication error" : "Fel vid autentisering",
+    "Token expired. Please reload page." : "Token har löpt ut. Uppdatera sidan."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
