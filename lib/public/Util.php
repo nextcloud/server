@@ -48,16 +48,17 @@ class Util {
 			return $subscriptionRegistry->delegateHasExtendedSupport();
 		} catch (ContainerExceptionInterface $e) {
 		}
-		return \OCP\Server::get(IConfig::class)->getSystemValueBool('extendedSupport', false);
+		return Server::get(IConfig::class)->getSystemValueBool('extendedSupport', false);
 	}
 
 	/**
 	 * Set current update channel
 	 * @param string $channel
 	 * @since 8.1.0
+	 * @deprecated 33.0.0 Use \OCP\ServerVersion::setChannel
 	 */
 	public static function setChannel($channel) {
-		\OCP\Server::get(IConfig::class)->setSystemValue('updater.release.channel', $channel);
+		Server::get(IConfig::class)->setSystemValue('updater.release.channel', $channel);
 	}
 
 	/**
@@ -67,7 +68,7 @@ class Util {
 	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getChannel
 	 */
 	public static function getChannel() {
-		return \OCP\Server::get(ServerVersion::class)->getChannel();
+		return Server::get(ServerVersion::class)->getChannel();
 	}
 
 	/**
@@ -162,7 +163,7 @@ class Util {
 	 */
 	public static function getScripts(): array {
 		// Sort scriptDeps into sortedScriptDeps
-		$scriptSort = \OCP\Server::get(AppScriptSort::class);
+		$scriptSort = Server::get(AppScriptSort::class);
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
@@ -200,7 +201,7 @@ class Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OCP\Server::get(IFactory::class)->findLanguage($application);
+			$languageCode = Server::get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -264,7 +265,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getServerHostName() {
-		$host_name = \OCP\Server::get(IRequest::class)->getServerHost();
+		$host_name = Server::get(IRequest::class)->getServerHost();
 		// strip away port number (if existing)
 		$colon_pos = strpos($host_name, ':');
 		if ($colon_pos !== false) {
@@ -290,13 +291,13 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getDefaultEmailAddress(string $user_part): string {
-		$config = \OCP\Server::get(IConfig::class);
+		$config = Server::get(IConfig::class);
 		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part . '@' . $host_name;
 
-		$emailValidator = \OCP\Server::get(IEmailValidator::class);
+		$emailValidator = Server::get(IEmailValidator::class);
 		if ($emailValidator->isValid($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
@@ -429,7 +430,7 @@ class Util {
 	 * @deprecated 32.0.0 directly use CsrfTokenManager instead
 	 */
 	public static function callRegister() {
-		return \OCP\Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
+		return Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
 	}
 
 	/**
@@ -442,8 +443,14 @@ class Util {
 	 * @return ($value is array ? string[] : string) an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
-	public static function sanitizeHTML($value) {
-		return \OC_Util::sanitizeHTML($value);
+	public static function sanitizeHTML(string|array $value): string|array {
+		if (is_array($value)) {
+			return array_map(function (string $value): string {
+				return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+			}, $value);
+		}
+		// Specify encoding for PHP<5.4
+		return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
@@ -457,8 +464,9 @@ class Util {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public static function encodePath($component) {
-		return \OC_Util::encodePath($component);
+	public static function encodePath(string $component): string {
+		$encoded = rawurlencode($component);
+		return str_replace('%2F', '/', $encoded);
 	}
 
 	/**
@@ -574,7 +582,7 @@ class Util {
 	 */
 	public static function needUpgrade() {
 		if (!isset(self::$needUpgradeCache)) {
-			self::$needUpgradeCache = \OC_Util::needUpgrade(\OCP\Server::get(\OC\SystemConfig::class));
+			self::$needUpgradeCache = \OC_Util::needUpgrade(Server::get(\OC\SystemConfig::class));
 		}
 		return self::$needUpgradeCache;
 	}

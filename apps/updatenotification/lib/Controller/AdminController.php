@@ -20,7 +20,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
-use OCP\Util;
+use OCP\ServerVersion;
 use Psr\Log\LoggerInterface;
 
 class AdminController extends Controller {
@@ -35,16 +35,16 @@ class AdminController extends Controller {
 		private ITimeFactory $timeFactory,
 		private IL10N $l10n,
 		private LoggerInterface $logger,
+		private ServerVersion $serverVersion,
 	) {
 		parent::__construct($appName, $request);
 	}
 
 	/**
-	 * @param string $channel
-	 * @return DataResponse
+	 * @param 'beta'|'stable'|'enterprise'|'git' $channel
 	 */
 	public function setChannel(string $channel): DataResponse {
-		Util::setChannel($channel);
+		$this->serverVersion->setChannel($channel);
 		$this->appConfig->setValueInt('core', 'lastupdatedat', 0);
 		return new DataResponse(['status' => 'success', 'data' => ['message' => $this->l10n->t('Channel updated')]]);
 	}

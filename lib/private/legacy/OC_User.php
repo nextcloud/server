@@ -30,7 +30,6 @@ use OCP\User\Backend\ICustomLogout;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\UserInterface;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
