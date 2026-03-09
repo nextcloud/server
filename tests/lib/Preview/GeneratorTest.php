@@ -399,22 +399,67 @@ class GeneratorTest extends TestCase {
 		$this->generator->getPreview($file, 100, 100);
 	}
 
-	private function getMockImage(int $width, int $height, string $data = '') {
+	public function testNullMimeTypePreview(): void {
+		$file = $this->getFile(42, 'image/gif');
+
+		$this->previewManager->method('isMimeSupported')
+			->with($this->equalTo('image/gif'))
+			->willReturn(true);
+
+		$maxPreview = new Preview();
+		$maxPreview->setWidth(2048);
+		$maxPreview->setHeight(2048);
+		$maxPreview->setMax(true);
+		$maxPreview->setSize(1000);
+		$maxPreview->setVersion(null);
+		$maxPreview->setMimeType('image/png');
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => [
+				$maxPreview,
+			]]);
+
+		$image = $this->getMockImage(2048, 2048, 'image data', null);
+		$this->helper->method('getImage')
+			->willReturn($image);
+
+		$this->previewMapper->method('insert')
+			->willReturnCallback(function (Preview $preview): Preview {
+				$this->assertSame('image/png', $preview->getMimeType());
+				return $preview;
+			});
+
+		$this->previewMapper->method('update')
+			->willReturnCallback(fn (Preview $preview): Preview => $preview);
+
+		$this->storageFactory->method('writePreview')
+			->willReturn(1000);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
+
+		$result = $this->generator->getPreview($file, 100, 100);
+		$this->assertSame('256-256.png', $result->getName());
+	}
+
+	private function getMockImage(int $width, int $height, string $data = '', ?string $mimeType = 'image/png') {
 		$image = $this->createMock(IImage::class);
 		$image->method('height')->willReturn($width);
 		$image->method('width')->willReturn($height);
 		$image->method('valid')->willReturn(true);
-		$image->method('dataMimeType')->willReturn('image/png');
+		$image->method('dataMimeType')->willReturn($mimeType);
 		$image->method('data')->willReturn($data);
 
-		$image->method('resizeCopy')->willReturnCallback(function ($size) use ($data) {
-			return $this->getMockImage($size, $size, $data);
+		$image->method('resizeCopy')->willReturnCallback(function ($size) use ($data, $mimeType) {
+			return $this->getMockImage($size, $size, $data, $mimeType);
 		});
-		$image->method('preciseResizeCopy')->willReturnCallback(function ($width, $height) use ($data) {
-			return $this->getMockImage($width, $height, $data);
+		$image->method('preciseResizeCopy')->willReturnCallback(function ($width, $height) use ($data, $mimeType) {
+			return $this->getMockImage($width, $height, $data, $mimeType);
 		});
-		$image->method('cropCopy')->willReturnCallback(function ($x, $y, $width, $height) use ($data) {
-			return $this->getMockImage($width, $height, $data);
+		$image->method('cropCopy')->willReturnCallback(function ($x, $y, $width, $height) use ($data, $mimeType) {
+			return $this->getMockImage($width, $height, $data, $mimeType);
 		});
 
 		return $image;
