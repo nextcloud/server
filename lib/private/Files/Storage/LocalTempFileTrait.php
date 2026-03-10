@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -26,7 +26,7 @@ trait LocalTempFileTrait {
 	/**
 	 * Returns the temporary local file path associated with the specified storage file.
 	 *
-	 * Creates temp file on first use if necessary. Caches for repeated (instance-level) access.
+	 * Creates a temp file on first use if necessary. Caches for repeated (instance-level) access.
 	 *
 	 * @param string $path Storage-internal path
 	 * @return string|false Local temp file path, or false if the source cannot be opened/copied
@@ -55,22 +55,30 @@ trait LocalTempFileTrait {
 	 * @param string $path Storage-internal path
 	 * @return string|false Local temp file path, or false on failure
 	 */
-	protected function toTmpFile(string $path): string|false { //no longer in the storage api, still useful here
+	protected function toTmpFile(string $path): string|false {
 		$source = $this->fopen($path, 'r');
 		if (!$source) {
 			return false;
 		}
-		if ($pos = strrpos($path, '.')) {
-			$extension = substr($path, $pos);
-		} else {
-			$extension = '';
-		}
+
+		$ext = pathinfo($path, PATHINFO_EXTENSION);
+		$extension = $ext !== '' ? '.' . $ext : '';
+
 		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($extension);
 		$target = fopen($tmpFile, 'w');
-		$result = stream_copy_to_stream($source, $target);
-		fclose($target);
-		if ($result === false) {
+		if ($target === false) {
+			fclose($source);
 			return false;
+		}
+
+		try {
+			$result = stream_copy_to_stream($source, $target);
+			if ($result === false) {
+				return false;
+			}
+		} finally {
+			fclose($target);
+			fclose($source);
 		}
 
 		return $tmpFile;
