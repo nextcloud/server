@@ -82,6 +82,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 
 	public function offsetGet(mixed $offset): mixed {
 		return match ($offset) {
+			'path' => $this->getPath(),
 			'type' => $this->getType(),
 			'etag' => $this->getEtag(),
 			'size' => $this->getSize(),
