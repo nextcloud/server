@@ -96,12 +96,15 @@ class View {
 	}
 
 	/**
-	 * @param ?string $path
+	 * Returns an absolute path in Nextcloud's virtual filesystem for this view.
+	 * 
+	 * The returned path is scoped by this view's fake root.
+	 *
 	 * @psalm-template S as string|null
 	 * @psalm-param S $path
 	 * @psalm-return (S is string ? string : null)
 	 */
-	public function getAbsolutePath($path = '/'): ?string {
+	public function getAbsolutePath(?string $path = '/'): ?string {
 		if ($path === null) {
 			return null;
 		}
