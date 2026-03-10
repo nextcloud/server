@@ -95,6 +95,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "Xa existe outra entrada co mesmo nome.",
     "Invalid filename." : "Nome de ficheiro incorrecto.",
     "Rename file" : "Cambiar o nome do ficheiro",
+    "Recently created" : "Creado recentemente",
     "Folder" : "Cartafol",
     "Unknown file type" : "Tipo de ficheiro descoñecido",
     "{ext} image" : "Imaxe {ext}",

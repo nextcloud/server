@@ -30,7 +30,7 @@ OC.L10N.register(
     "Appearance and accessibility" : "外观和辅助功能",
     "PHP Imagick module" : "PHP Imagick 模块",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP 模块“imagick”没有被启用，尽管已启用了主题程序。为了使收藏图标正常生成，您需要安装并启用这个模块。",
-    "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "此实例中的 PHP 模块 \"imagick\" 不支持 SVG。为了更好的兼容性，简易安装此模块。",
+    "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "此实例中的 PHP 模块 \"imagick\" 不支持 SVG。为了更好的兼容性，建议安装此模块。",
     "Dark theme with high contrast mode" : "高对比度深色主题",
     "Enable dark high contrast mode" : "使用高对比度深色模式",
     "Similar to the high contrast mode, but with dark colours." : "类似高对比度模式，但是使用深色色调。",
