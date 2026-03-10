@@ -52,7 +52,7 @@ class Storage {
 	) {
 		$this->storageId = $storage instanceof IStorage ? $storage->getId() : $storage;
 
-        $this->storageId = self::adjustStorageId($this->storageId);
+		$this->storageId = self::adjustStorageId($this->storageId);
 
 		if ($row = self::getStorageById($this->storageId)) {
 			$this->numericId = $row['numeric_id'];
@@ -72,7 +72,7 @@ class Storage {
 				if ($e->getReason() === DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 					$qb = $connection->getQueryBuilder();
 					$result = $qb->select('numeric_id')
-						->from('storage')
+						->from('storages')
 						->where($qb->expr()->eq('id', $qb->createNamedParameter($this->storageId)))
 						->executeQuery();
 					/** @var false|string|int $row */
@@ -90,9 +90,9 @@ class Storage {
 	}
 
 	/**
-     * @return array{id: string, numeric_id: int, available: bool, last_checked: int}|null
-     */
-    public static function getStorageById(string $storageId): ?array {
+	 * @return array{id: string, numeric_id: int, available: bool, last_checked: int}|null
+	 */
+	public static function getStorageById(string $storageId): ?array {
 		return self::getGlobalCache()->getStorageInfo($storageId);
 	}
 
@@ -118,11 +118,11 @@ class Storage {
 	}
 
 	/**
-     * Get the string id for the storage
-     *
-     * @return string|null either the storage id string or null if the numeric id is not known
-     */
-    public static function getStorageId(int $numericId): ?string {
+	 * Get the string id for the storage
+	 *
+	 * @return string|null either the storage id string or null if the numeric id is not known
+	 */
+	public static function getStorageId(int $numericId): ?string {
 		$storage = self::getGlobalCache()->getStorageInfoByNumericId($numericId);
 		return $storage['id'] ?? null;
 	}
@@ -138,10 +138,10 @@ class Storage {
 			];
 		}
 
-        return [
-				'available' => true,
-				'last_checked' => time(),
-			];
+		return [
+			'available' => true,
+			'last_checked' => time(),
+		];
 	}
 
 	/**
