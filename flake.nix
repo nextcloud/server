@@ -1,3 +1,4 @@
+# The flake is compatible with >=stable30, so make sure to backport all changes to stable30 and up.
 {
   nixConfig = {
     extra-substituters = [ "https://fossar.cachix.org" ];
@@ -16,7 +17,10 @@
 	};
     haze = {
       url = "git+https://codeberg.org/icewind/haze.git";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        phps.follows = "phps";
+      };
     };
   };
 
