@@ -122,7 +122,6 @@ use OC\Security\CertificateManager;
 use OC\Security\CredentialsManager;
 use OC\Security\Crypto;
 use OC\Security\CSP\ContentSecurityPolicyManager;
-use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
@@ -201,7 +200,6 @@ use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Conversion\IConversionManager;
 use OCP\Files\Folder;
-use OCP\Files\IAppData;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
@@ -629,7 +627,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
 				$c->get(IConfig::class),
-				$c->getRequest(),
+				$c->get(IRequest::class),
 				$c->get(IUserSession::class),
 				$c->get(ICacheFactory::class),
 				\OC::$SERVERROOT,
@@ -681,7 +679,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
 			$l10n = $this->get(IFactory::class)->get('lib');
 			return new \OC\Activity\Manager(
-				$c->getRequest(),
+				$c->get(IRequest::class),
 				$c->get(IUserSession::class),
 				$c->get(IConfig::class),
 				$c->get(IValidator::class),
@@ -702,8 +700,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new AvatarManager(
 				$c->get(IUserSession::class),
 				$c->get(\OC\User\Manager::class),
-				$c->getAppDataDir('avatar'),
-				$c->getL10N('lib'),
+				$c->get(IAppDataFactory::class)->get('avatar'),
+				$c->get(IFactory::class)->get('lib'),
 				$c->get(LoggerInterface::class),
 				$c->get(IConfig::class),
 				$c->get(IAccountManager::class),
@@ -1066,7 +1064,7 @@ class Server extends ServerContainer implements IServerContainer {
 			if ($classExists
 				&& $c->get(IConfig::class)->getSystemValueBool('installed', false)
 				&& $c->get(IAppManager::class)->isEnabledForAnyone('theming')
-				&& $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+				&& $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->get(IRequest::class)->getInsecureServerHost())) {
 				$backgroundService = new BackgroundService(
 					$c->get(IRootFolder::class),
 					$c->get(IAppDataFactory::class)->get('theming'),
@@ -1111,7 +1109,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService(JSCombiner::class, function (Server $c) {
 			return new JSCombiner(
-				$c->getAppDataDir('js'),
+				$c->get(IAppDataFactory::class)->get('js'),
 				$c->get(IURLGenerator::class),
 				$this->get(ICacheFactory::class),
 				$c->get(IConfig::class),
@@ -1353,62 +1351,6 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return \OCP\Contacts\IManager
-	 * @deprecated 20.0.0
-	 */
-	public function getContactsManager() {
-		return $this->get(\OCP\Contacts\IManager::class);
-	}
-
-	/**
-	 * @deprecated 20.0.0
-	 */
-	public function getEncryptionManager(): \OCP\Encryption\IManager {
-		return $this->get(\OCP\Encryption\IManager::class);
-	}
-
-	/**
-	 * @deprecated 20.0.0
-	 */
-	public function getEncryptionFilesHelper(): IFile {
-		return $this->get(IFile::class);
-	}
-
-	/**
-	 * The current request object holding all information about the request
-	 * currently being processed is returned from this method.
-	 * In case the current execution was not initiated by a web request null is returned
-	 *
-	 * @return IRequest
-	 * @deprecated 20.0.0
-	 */
-	public function getRequest() {
-		return $this->get(IRequest::class);
-	}
-
-	/**
-	 * Returns the root folder of ownCloud's data directory
-	 *
-	 * @return IRootFolder
-	 * @deprecated 20.0.0
-	 */
-	public function getRootFolder() {
-		return $this->get(IRootFolder::class);
-	}
-
-	/**
-	 * Returns the root folder of ownCloud's data directory
-	 * This is the lazy variant so this gets only initialized once it
-	 * is actually used.
-	 *
-	 * @return IRootFolder
-	 * @deprecated 20.0.0
-	 */
-	public function getLazyRootFolder() {
-		return $this->get(IRootFolder::class);
-	}
-
-	/**
 	 * Returns a view to ownCloud's files folder
 	 *
 	 * @param string $userId user ID
@@ -1427,34 +1369,6 @@ class Server extends ServerContainer implements IServerContainer {
 		return $root->getUserFolder($userId);
 	}
 
-	/**
-	 * @deprecated 20.0.0
-	 */
-	public function getUserManager(): IUserManager {
-		return $this->get(IUserManager::class);
-	}
-
-	/**
-	 * @deprecated 20.0.0
-	 */
-	public function getGroupManager(): IGroupManager {
-		return $this->get(IGroupManager::class);
-	}
-
-	/**
-	 * @deprecated 20.0.0
-	 */
-	public function getUserSession(): IUserSession {
-		return $this->get(IUserSession::class);
-	}
-
-	/**
-	 * @deprecated 20.0.0
-	 */
-	public function getSession(): ISession {
-		return $this->get(Session::class)->getSession();
-	}
-
 	public function setSession(ISession $session): void {
 		$this->get(SessionStorage::class)->setSession($session);
 		$this->get(Session::class)->setSession($session);
@@ -1462,24 +1376,13 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
+	 * Get the webroot
+	 *
+	 * @return string
 	 * @deprecated 20.0.0
 	 */
-	public function getConfig(): IConfig {
-		return $this->get(AllConfig::class);
-	}
-
-	/**
-	 * @deprecated 20.0.0
-	 */
-	public function getSystemConfig(): SystemConfig {
-		return $this->get(SystemConfig::class);
-	}
-
-	/**
-	 * @deprecated 20.0.0
-	 */
-	public function getL10NFactory(): IFactory {
-		return $this->get(IFactory::class);
+	public function getWebRoot(): string {
+		return $this->webRoot;
 	}
 
 	/**
@@ -1492,242 +1395,5 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getL10N($app, $lang = null) {
 		return $this->get(IFactory::class)->get($app, $lang);
-	}
-
-	/**
-	 * @return IURLGenerator
-	 * @deprecated 20.0.0
-	 */
-	public function getURLGenerator() {
-		return $this->get(IURLGenerator::class);
-	}
-
-	/**
-	 * Returns an ICache instance. Since 8.1.0 it returns a fake cache. Use
-	 * getMemCacheFactory() instead.
-	 *
-	 * @return ICache
-	 * @deprecated 8.1.0 use getMemCacheFactory to obtain a proper cache
-	 */
-	public function getCache() {
-		return $this->get(ICache::class);
-	}
-
-	/**
-	 * Returns an \OCP\CacheFactory instance
-	 *
-	 * @return ICacheFactory
-	 * @deprecated 20.0.0
-	 */
-	public function getMemCacheFactory() {
-		return $this->get(ICacheFactory::class);
-	}
-
-	/**
-	 * Returns the current session
-	 *
-	 * @return IDBConnection
-	 * @deprecated 20.0.0
-	 */
-	public function getDatabaseConnection() {
-		return $this->get(IDBConnection::class);
-	}
-
-	/**
-	 * Returns the activity manager
-	 *
-	 * @return \OCP\Activity\IManager
-	 * @deprecated 20.0.0
-	 */
-	public function getActivityManager() {
-		return $this->get(\OCP\Activity\IManager::class);
-	}
-
-	/**
-	 * Returns an job list for controlling background jobs
-	 *
-	 * @return IJobList
-	 * @deprecated 20.0.0
-	 */
-	public function getJobList() {
-		return $this->get(IJobList::class);
-	}
-
-	/**
-	 * Returns a SecureRandom instance
-	 *
-	 * @return ISecureRandom
-	 * @deprecated 20.0.0
-	 */
-	public function getSecureRandom() {
-		return $this->get(ISecureRandom::class);
-	}
-
-	/**
-	 * Returns a Crypto instance
-	 *
-	 * @return ICrypto
-	 * @deprecated 20.0.0
-	 */
-	public function getCrypto() {
-		return $this->get(ICrypto::class);
-	}
-
-	/**
-	 * Returns a Hasher instance
-	 *
-	 * @return IHasher
-	 * @deprecated 20.0.0
-	 */
-	public function getHasher() {
-		return $this->get(IHasher::class);
-	}
-
-	/**
-	 * Get the certificate manager
-	 *
-	 * @return ICertificateManager
-	 */
-	public function getCertificateManager() {
-		return $this->get(ICertificateManager::class);
-	}
-
-	/**
-	 * Get the manager for temporary files and folders
-	 *
-	 * @return ITempManager
-	 * @deprecated 20.0.0
-	 */
-	public function getTempManager() {
-		return $this->get(ITempManager::class);
-	}
-
-	/**
-	 * Get the app manager
-	 *
-	 * @return IAppManager
-	 * @deprecated 20.0.0
-	 */
-	public function getAppManager() {
-		return $this->get(IAppManager::class);
-	}
-
-	/**
-	 * Creates a new mailer
-	 *
-	 * @return IMailer
-	 * @deprecated 20.0.0
-	 */
-	public function getMailer() {
-		return $this->get(IMailer::class);
-	}
-
-	/**
-	 * Get the webroot
-	 *
-	 * @return string
-	 * @deprecated 20.0.0
-	 */
-	public function getWebRoot() {
-		return $this->webRoot;
-	}
-
-	/**
-	 * Get the locking provider
-	 *
-	 * @return ILockingProvider
-	 * @since 8.1.0
-	 * @deprecated 20.0.0
-	 */
-	public function getLockingProvider() {
-		return $this->get(ILockingProvider::class);
-	}
-
-	/**
-	 * Get the MimeTypeDetector
-	 *
-	 * @return IMimeTypeDetector
-	 * @deprecated 20.0.0
-	 */
-	public function getMimeTypeDetector() {
-		return $this->get(IMimeTypeDetector::class);
-	}
-
-	/**
-	 * Get the MimeTypeLoader
-	 *
-	 * @return IMimeTypeLoader
-	 * @deprecated 20.0.0
-	 */
-	public function getMimeTypeLoader() {
-		return $this->get(IMimeTypeLoader::class);
-	}
-
-	/**
-	 * Get the Notification Manager
-	 *
-	 * @return \OCP\Notification\IManager
-	 * @since 8.2.0
-	 * @deprecated 20.0.0
-	 */
-	public function getNotificationManager() {
-		return $this->get(\OCP\Notification\IManager::class);
-	}
-
-	/**
-	 * @return ThemingDefaults
-	 * @deprecated 20.0.0
-	 */
-	public function getThemingDefaults() {
-		return $this->get('ThemingDefaults');
-	}
-
-	/**
-	 * @return Checker
-	 * @deprecated 20.0.0
-	 */
-	public function getIntegrityCodeChecker() {
-		return $this->get('IntegrityCodeChecker');
-	}
-
-	/**
-	 * @return CsrfTokenManager
-	 * @deprecated 20.0.0
-	 */
-	public function getCsrfTokenManager() {
-		return $this->get(CsrfTokenManager::class);
-	}
-
-	/**
-	 * @return ContentSecurityPolicyNonceManager
-	 * @deprecated 20.0.0
-	 */
-	public function getContentSecurityPolicyNonceManager() {
-		return $this->get(ContentSecurityPolicyNonceManager::class);
-	}
-
-	/**
-	 * @return \OCP\Settings\IManager
-	 * @deprecated 20.0.0
-	 */
-	public function getSettingsManager() {
-		return $this->get(\OC\Settings\Manager::class);
-	}
-
-	/**
-	 * @return IAppData
-	 * @deprecated 20.0.0 Use get(\OCP\Files\AppData\IAppDataFactory::class)->get($app) instead
-	 */
-	public function getAppDataDir($app) {
-		$factory = $this->get(\OC\Files\AppData\Factory::class);
-		return $factory->get($app);
-	}
-
-	/**
-	 * @return ICloudIdManager
-	 * @deprecated 20.0.0
-	 */
-	public function getCloudIdManager() {
-		return $this->get(ICloudIdManager::class);
 	}
 }

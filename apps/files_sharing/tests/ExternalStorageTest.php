@@ -13,13 +13,15 @@ use OCA\Files_Sharing\External\Storage;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\ICertificateManager;
+use OCP\Server;
 
 /**
  * Tests for the external Storage class for remote shares.
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ExternalStorageTest extends \Test\TestCase {
-	public static function optionsProvider() {
+	public static function optionsProvider(): array {
 		return [
 			[
 				'http://remoteserver:8080/owncloud',
@@ -54,7 +56,7 @@ class ExternalStorageTest extends \Test\TestCase {
 	}
 
 	private function getTestStorage($uri) {
-		$certificateManager = \OC::$server->getCertificateManager();
+		$certificateManager = Server::get(ICertificateManager::class);
 		$httpClientService = $this->createMock(IClientService::class);
 		$manager = $this->createMock(ExternalShareManager::class);
 		$client = $this->createMock(IClient::class);

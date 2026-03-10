@@ -8,6 +8,7 @@
 namespace OCA\DAV\Files;
 
 use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
 use OCP\IUserSession;
 use OCP\Server;
 use Sabre\DAV\INode;
@@ -35,7 +36,7 @@ class RootCollection extends AbstractPrincipalCollection {
 			// in the future this could be considered to be used for accessing shared files
 			return new SimpleCollection($name);
 		}
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($user->getUID());
 		if (!($userFolder instanceof FileInfo)) {
 			throw new \Exception('Home does not exist');
 		}
