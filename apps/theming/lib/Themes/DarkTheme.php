@@ -116,6 +116,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-info-text' => $colorInfoText,
 				'--color-favorite' => '#ffde00',
 				'--color-mark' => '#4d3800',
+				'--color-background-selection' => 'rgb(from var(--color-primary-element) r g b / 0.4)',
 				// deprecated
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
