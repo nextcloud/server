@@ -1649,9 +1649,6 @@ class View {
 						$rootEntry['permissions'] = $rootEntry['permissions'] & ~Constants::PERMISSION_SHARE;
 					}
 
-					// FIXME: $user is null in encrypt:all occ command
-					$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user?->getUID() ?? '') + 2); // full path without /$user/
-
 					$ownerId = $subStorage->getOwner('');
 					if ($ownerId !== false) {
 						$owner = $this->getUserObjectForOwner($ownerId);
