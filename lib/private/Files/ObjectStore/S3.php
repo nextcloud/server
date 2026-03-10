@@ -42,7 +42,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		] + $this->getSSECParameters();
 
 		$result = $this->getConnection()->createMultipartUpload($request);		
-		$uploadId = $upload->get('UploadId');
+		$uploadId = $result->get('UploadId');
 
 		if (!is_string($uploadId) || $uploadId === '') {
 			throw new Exception("Failed to initiate multipart upload for key '{$urn}': missing UploadId");
