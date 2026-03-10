@@ -1642,8 +1642,6 @@ class View {
 						$rootEntry['permissions'] = $permissions & (Constants::PERMISSION_ALL - (Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE));
 					}
 
-					$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
-
 					// if sharing was disabled for the user we remove the share permissions
 					if ($sharingDisabled) {
 						$rootEntry['permissions'] = $rootEntry['permissions'] & ~Constants::PERMISSION_SHARE;
