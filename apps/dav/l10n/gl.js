@@ -236,6 +236,7 @@ OC.L10N.register(
     "Failed to check file size: %1$s" : "Produciuse un erro ao comprobar o tamaño do ficheiro: %1$s",
     "Could not open file: %1$s (%2$d), file does seem to exist" : "Non foi posíbel abrir o ficheiro: %1$s (%2$d), semella o ficheiro existe",
     "Could not open file: %1$s (%2$d), file doesn't seem to exist" : "Non foi posíbel abrir o ficheiro: %1$s (%2$d), semella o ficheiro non existe",
+    "Failed to get size for : %1$s" : "Produciuse un fallo ao obter o tamaño de: %1$s",
     "Encryption not ready: %1$s" : "A cifraxe non está preparada: %1$s",
     "Failed to open file: %1$s" : "Produciuse un erro ao abrir o ficheiro: %1$s",
     "Failed to unlink: %1$s" : "Produciuse un erro ao desligar: %1$s",
