@@ -236,6 +236,7 @@ OC.L10N.register(
     "Failed to check file size: %1$s" : "Kon bestandsomvang niet controleren: %1$s",
     "Could not open file: %1$s (%2$d), file does seem to exist" : "Kon bestand niet openen: %1$s (%2$d), bestand lijkt wel te bestaan",
     "Could not open file: %1$s (%2$d), file doesn't seem to exist" : "Kon bestand niet openen: %1$s (%2$d), bestand lijkt niet te bestaan",
+    "Failed to get size for : %1$s" : "Niet gelukt om grootte te krijgen voor :  %1$s",
     "Encryption not ready: %1$s" : "Versleuteling niet gereed: %1$s",
     "Failed to open file: %1$s" : "Kon het bestand %1$s niet openen",
     "Failed to unlink: %1$s" : "Kon link niet verwijderen: %1$s",
