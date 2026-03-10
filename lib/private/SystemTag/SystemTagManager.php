@@ -150,6 +150,15 @@ class SystemTagManager implements ISystemTagManager {
 		return $this->createSystemTagFromRow($row);
 	}
 
+	#[\Override]
+	public function getGeneratedByAITag(): ISystemTag {
+		try {
+			return $this->getTag(ISystemTag::GENERATED_BY_AI, true, true);
+		} catch (TagNotFoundException) {
+			return $this->createTag(ISystemTag::GENERATED_BY_AI, true, true);
+		}
+	}
+
 	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
 		$user = $this->userSession->getUser();
 		if (!$this->canUserCreateTag($user)) {
