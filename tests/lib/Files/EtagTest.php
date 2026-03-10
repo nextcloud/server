@@ -10,7 +10,6 @@ namespace Test\Files;
 
 use OC\Files\Filesystem;
 use OC\Files\Utils\Scanner;
-use OC\Share\Share;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -43,9 +42,6 @@ class EtagTest extends \Test\TestCase {
 		\OC_Hook::clear('OC_Filesystem', 'setup');
 		// init files sharing
 		new Application();
-
-		Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');
-		Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
 
 		$config = Server::get(IConfig::class);
 		$this->datadir = $config->getSystemValueString('datadirectory');

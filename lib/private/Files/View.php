@@ -44,6 +44,7 @@ use OCP\Files\UnseekableException;
 use OCP\ITempManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -1508,7 +1509,7 @@ class View {
 		}
 
 		$cache = $storage->getCache($internalPath);
-		$user = \OC_User::getUser();
+		$user = Server::get(IUserSession::class)->getUser();
 
 		if (!$directoryInfo) {
 			$data = $this->getCacheEntry($storage, $internalPath, $directory);
@@ -1526,7 +1527,8 @@ class View {
 		$folderId = $data->getId();
 		$contents = $cache->getFolderContentsById($folderId, $mimeTypeFilter);
 
-		$sharingDisabled = Util::isSharingDisabledForUser();
+		$shareManager = Server::get(IManager::class);
+		$sharingDisabled = $shareManager->sharingDisabledForUser($user?->getUID());
 		$permissionsMask = ~Constants::PERMISSION_SHARE;
 
 		$files = [];
@@ -1646,6 +1648,9 @@ class View {
 					if ($sharingDisabled) {
 						$rootEntry['permissions'] = $rootEntry['permissions'] & ~Constants::PERMISSION_SHARE;
 					}
+
+					// FIXME: $user is null in encrypt:all occ command
+					$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user?->getUID() ?? '') + 2); // full path without /$user/
 
 					$ownerId = $subStorage->getOwner('');
 					if ($ownerId !== false) {

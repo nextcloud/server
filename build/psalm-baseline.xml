@@ -1516,9 +1516,6 @@
     <DeprecatedInterface>
       <code><![CDATA[Storage]]></code>
     </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[Util::isSharingDisabledForUser()]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/Helper.php">
     <DeprecatedMethod>
@@ -1599,24 +1596,6 @@
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/files_sharing/lib/ShareBackend/File.php">
-    <InternalClass>
-      <code><![CDATA[new View('/' . $shareWith . '/files')]]></code>
-    </InternalClass>
-    <InternalMethod>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[mkdir]]></code>
-      <code><![CDATA[new View('/' . $shareWith . '/files')]]></code>
-    </InternalMethod>
-    <InvalidArgument>
-      <code><![CDATA[$itemSource]]></code>
-      <code><![CDATA[$itemSource]]></code>
-    </InvalidArgument>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$shareWith]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="apps/files_sharing/lib/SharedMount.php">
     <InvalidReturnType>
       <code><![CDATA[bool]]></code>
@@ -1630,7 +1609,6 @@
       <code><![CDATA[Util::emitHook('\OC\Files\Storage\Shared', 'file_get_contents', $info)]]></code>
       <code><![CDATA[Util::emitHook('\OC\Files\Storage\Shared', 'file_put_contents', $info)]]></code>
       <code><![CDATA[Util::emitHook('\OC\Files\Storage\Shared', 'fopen', $info)]]></code>
-      <code><![CDATA[Util::isSharingDisabledForUser()]]></code>
     </DeprecatedMethod>
     <FalsableReturnStatement>
       <code><![CDATA[$this->sourceRootInfo]]></code>
