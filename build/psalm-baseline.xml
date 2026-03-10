@@ -3480,14 +3480,6 @@
       <code><![CDATA[self::SCAN_RECURSIVE_INCOMPLETE]]></code>
     </InvalidArgument>
   </file>
-  <file src="lib/private/Files/Cache/Storage.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[array]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[self::getGlobalCache()->getStorageInfo($storageId)]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
       <code><![CDATA[$user]]></code>

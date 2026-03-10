@@ -454,29 +454,6 @@ abstract class StoragesService {
 		$this->updateOverwriteHomeFolders();
 	}
 
-	/**
-	 * Construct the storage implementation
-	 *
-	 * @param StorageConfig $storageConfig
-	 * @return int
-	 */
-	private function getStorageId(StorageConfig $storageConfig) {
-		try {
-			$class = $storageConfig->getBackend()->getStorageClass();
-			/** @var \OC\Files\Storage\Storage $storage */
-			$storage = new $class($storageConfig->getBackendOptions());
-
-			// auth mechanism should fire first
-			$storage = $storageConfig->getBackend()->wrapStorage($storage);
-			$storage = $storageConfig->getAuthMechanism()->wrapStorage($storage);
-
-			/** @var \OC\Files\Storage\Storage $storage */
-			return $storage->getStorageCache()->getNumericId();
-		} catch (\Exception $e) {
-			return -1;
-		}
-	}
-
 	public function updateOverwriteHomeFolders(): void {
 		$appIdsList = $this->appConfig->getValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS);
 
