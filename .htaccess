@@ -149,17 +149,15 @@
 ##        - RFC 8555 / ACME HTTP Challenges (acme-challenge) 
 ##        - File-based Validations (pki-validation)
 ##    - XXX: `QSA` seems unnecessary (no-op) here (query string is passed by default when the replacement URI doesn't contain a query string)
-##    - XXX: Sometimes we are using `/index.php` and other times `index.php` as our replacement URI; this may be incorrect
 ##
 
-    RewriteRule ^\.well-known/(?!acme-challenge|pki-validation) /index.php [QSA,L]
+    RewriteRule ^\.well-known/(?!acme-challenge|pki-validation) index.php [QSA,L]
 
 ##
 ## Rule: Map the ocm-provider handling to our main frontend controller (/index.php)
 ##
 ## Context:
 ##    - XXX: `QSA` seems unnecessary (no-op) here (query string is passed by default when the replacement URI doesn't contain a query string)
-##    - XXX: Sometimes we are using `/index.php` and other times `index.php` as our replacement URI; this may be incorrect
 ##
 
     RewriteRule ^ocm-provider/?$ index.php [QSA,L]
