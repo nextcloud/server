@@ -97,7 +97,7 @@ class View {
 
 	/**
 	 * Returns an absolute path in Nextcloud's virtual filesystem for this view.
-	 * 
+	 *
 	 * The returned path is scoped by this view's fake root.
 	 *
 	 * @psalm-template S as string|null
