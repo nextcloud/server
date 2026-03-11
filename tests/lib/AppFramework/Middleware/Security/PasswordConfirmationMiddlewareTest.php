@@ -45,7 +45,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	private Manager $userManager;
 
 	protected function setUp(): void {
-		$this->reflector = new ControllerMethodReflector();
+		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->user = $this->createMock(IUser::class);

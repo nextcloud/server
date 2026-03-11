@@ -30,7 +30,7 @@ class BruteForceMiddlewareTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->reflector = new ControllerMethodReflector();
+		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
