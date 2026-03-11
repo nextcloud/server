@@ -56,4 +56,15 @@ interface IControllerMethodReflector {
 	 * @see https://help.nextcloud.com/t/how-should-we-use-php8-attributes/104278
 	 */
 	public function hasAnnotation(string $name): bool;
+
+	/**
+	 * @template T
+	 *
+	 * Check if a method contains an annotation or an attribute.
+	 * Log a debug line if the annotation is used.
+	 *
+	 * @param class-string<T> $attributeClass
+	 * @since 34.0.0
+	 */
+	public function hasAnnotationOrAttribute(?string $annotationName, string $attributeClass): bool;
 }
