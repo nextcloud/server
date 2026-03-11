@@ -18,7 +18,6 @@ use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
 use OCP\ISession;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
-use ReflectionMethod;
 
 // Will close the session if the user session is ephemeral.
 // Happens when the user logs in via the login flow v2.
@@ -61,12 +60,7 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 			return;
 		}
 
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-		if (!empty($reflectionMethod->getAttributes(PublicPage::class))) {
-			return;
-		}
-
-		if ($this->reflector->hasAnnotation('PublicPage')) {
+		if ($this->reflector->hasAnnotationOrAttribute('PublicPage', PublicPage::class)) {
 			return;
 		}
 
