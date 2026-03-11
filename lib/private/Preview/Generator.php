@@ -418,22 +418,44 @@ class Generator {
 	 * @return int[]
 	 */
 	private function calculateSize(int $width, int $height, bool $crop, string $mode, int $maxWidth, int $maxHeight): array {
+		// Prevent fatal DivisionByZeroError
+		if ($maxWidth === 0 || $maxHeight === 0) {
+			return [0, 0];
+		}
+
+		// Use float variables for JIT optimization to prevent type juggling overhead
+		$calcWidth = (float)$width;
+		$calcHeight = (float)$height;
+
+		// Handle the edge case where both dimensions are -1 (auto).
+		// Prevents cascading negative values in the logic below.
+		if ($width === -1 && $height === -1) {
+			$calcWidth = (float)$maxWidth;
+			$calcHeight = (float)$maxHeight;
+		}
+
 		/*
 		 * If we are not cropping we have to make sure the requested image
 		 * respects the aspect ratio of the original.
 		 */
 		if (!$crop) {
-			$ratio = $maxHeight / $maxWidth;
-
-			if ($width === -1) {
-				$width = $height / $ratio;
+			// If both dimensions are provided and > 0, calculate the ratio from the requested
+			// dimensions to preserve the intended aspect ratio. Fallback to max bounds ratio otherwise.
+			if ($width !== -1 && $height !== -1 && $calcWidth > 0 && $calcHeight > 0) {
+				$ratio = $calcHeight / $calcWidth;
+			} else {
+				$ratio = $maxHeight / $maxWidth;
 			}
-			if ($height === -1) {
-				$height = $width * $ratio;
+
+			// Clean control flow preventing redundant logic and division by zero
+			if ($width === -1 && $height !== -1) {
+				$calcWidth = $calcHeight / $ratio;
+			} elseif ($height === -1 && $width !== -1) {
+				$calcHeight = $calcWidth * $ratio;
 			}
 
-			$ratioH = $height / $maxHeight;
-			$ratioW = $width / $maxWidth;
+			$ratioH = $calcHeight / $maxHeight;
+			$ratioW = $calcWidth / $maxWidth;
 
 			/*
 			 * Fill means that the $height and $width are the max
@@ -441,39 +463,48 @@ class Generator {
 			 */
 			if ($mode === IPreview::MODE_FILL) {
 				if ($ratioH > $ratioW) {
-					$height = $width * $ratio;
+					$calcHeight = $calcWidth * $ratio;
 				} else {
-					$width = $height / $ratio;
+					$calcWidth = $calcHeight / $ratio;
 				}
 			} elseif ($mode === IPreview::MODE_COVER) {
 				if ($ratioH > $ratioW) {
-					$width = $height / $ratio;
+					$calcWidth = $calcHeight / $ratio;
 				} else {
-					$height = $width * $ratio;
+					$calcHeight = $calcWidth * $ratio;
 				}
 			}
 		}
 
-		if ($height !== $maxHeight && $width !== $maxWidth) {
+		/*
+		 * Safe float comparison. Using (int)round() prevents false
+		 * positives caused by float precision issues (e.g. 100.0000001 !== 100.0)
+		 */
+		if ((int)round($calcHeight) !== $maxHeight && ((int)round($calcWidth) !== $maxWidth)) {
+
+			// Protect log() and subsequent divisions against <= 0 values
+			$safeHeight = max(1.0, $calcHeight);
+			$safeWidth = max(1.0, $calcWidth);
+
 			/*
-			 * Scale to the nearest power of four
+			 * Scale to the nearest power of four.
 			 */
-			$pow4height = 4 ** ceil(log($height) / log(4));
-			$pow4width = 4 ** ceil(log($width) / log(4));
+			$pow4height = 4 ** ceil(log($safeHeight, 4));
+			$pow4width = 4 ** ceil(log($safeWidth, 4));
 
 			// Minimum size is 64
-			$pow4height = max($pow4height, 64);
-			$pow4width = max($pow4width, 64);
+			$pow4height = max($pow4height, 64.0);
+			$pow4width = max($pow4width, 64.0);
 
-			$ratioH = $height / $pow4height;
-			$ratioW = $width / $pow4width;
+			$ratioH = $safeHeight / $pow4height;
+			$ratioW = $safeWidth / $pow4width;
 
 			if ($ratioH < $ratioW) {
-				$width = $pow4width;
-				$height /= $ratioW;
+				$calcWidth = $pow4width;
+				$calcHeight /= $ratioW;
 			} else {
-				$height = $pow4height;
-				$width /= $ratioH;
+				$calcHeight = $pow4height;
+				$calcWidth /= $ratioH;
 			}
 		}
 
@@ -481,18 +512,19 @@ class Generator {
 		 * Make sure the requested height and width fall within the max
 		 * of the preview.
 		 */
-		if ($height > $maxHeight) {
-			$ratio = $height / $maxHeight;
-			$height = $maxHeight;
-			$width /= $ratio;
-		}
-		if ($width > $maxWidth) {
-			$ratio = $width / $maxWidth;
-			$width = $maxWidth;
-			$height /= $ratio;
+		if ($calcHeight > $maxHeight) {
+			$ratio = $calcHeight / $maxHeight;
+			$calcHeight = $maxHeight;
+			$calcWidth /= $ratio;
 		}
 
-		return [(int)round($width), (int)round($height)];
+		if ($calcWidth > $maxWidth) {
+			$ratio = $calcWidth / $maxWidth;
+			$calcWidth = $maxWidth;
+			$calcHeight /= $ratio;
+		}
+
+		return [(int)round($calcWidth), (int)round($calcHeight)];
 	}
 
 	/**
@@ -511,8 +543,15 @@ class Generator {
 		bool $cacheResult,
 	): ISimpleFile {
 		$preview = $maxPreview;
-		if (!$preview->valid()) {
-			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
+
+		// Check for valid dimensions to prevent DivisionByZeroError later
+		if (!$preview->valid() || $preview->width() <= 0 || $preview->height() <= 0) {
+			throw new \InvalidArgumentException('Failed to generate preview, invalid image dimensions');
+		}
+
+		// Protection against fatal DivisionByZeroError
+		if ($width <= 0 || $height <= 0) {
+			throw new \InvalidArgumentException('Target preview dimensions must be strictly positive');
 		}
 
 		$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
@@ -520,21 +559,26 @@ class Generator {
 		try {
 			if ($crop) {
 				if ($height !== $preview->height() && $width !== $preview->width()) {
-					//Resize
-					$widthR = $preview->width() / $width;
-					$heightR = $preview->height() / $height;
+					// Resize
+					$widthR = (float)$preview->width() / (float)$width;
+					$heightR = (float)$preview->height() / (float)$height;
 
 					if ($widthR > $heightR) {
-						$scaleH = $height;
-						$scaleW = $maxWidth / $heightR;
+						$scaleH = (float)$height;
+						// Use $preview->width() instead of $maxWidth to calculate proportional scale.
+						$scaleW = (float)$preview->width() / $heightR;
 					} else {
-						$scaleH = $maxHeight / $widthR;
-						$scaleW = $width;
+						// Use $preview->height() instead of $maxHeight
+						$scaleH = (float)$preview->height() / $widthR;
+						$scaleW = (float)$width;
 					}
 					$preview = $preview->preciseResizeCopy((int)round($scaleW), (int)round($scaleH));
 				}
-				$cropX = (int)floor(abs($width - $preview->width()) * 0.5);
-				$cropY = (int)floor(abs($height - $preview->height()) * 0.5);
+
+				// Use max(0, excess) instead of abs() to prevent out-of-bounds
+				// crop if scaled image is slightly smaller than target due to float rounding.
+				$cropX = (int)floor(max(0.0, (float)$preview->width() - (float)$width) * 0.5);
+				$cropY = (int)floor(max(0.0, (float)$preview->height() - (float)$height) * 0.5);
 				$preview = $preview->cropCopy($cropX, $cropY, $width, $height);
 			} else {
 				$preview = $maxPreview->resizeCopy(max($width, $height));
@@ -543,13 +587,19 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
-		if (!$preview->valid() || $preview->dataMimeType() === null) {
-			throw new \InvalidArgumentException('Preview generation failed: invalid or null MIME type');
+		$mime = $preview->dataMimeType();
+		if (!$preview->valid() || empty($mime)) {
+			throw new \InvalidArgumentException('Preview generation failed: invalid or empty MIME type');
+		}
+
+		$fileId = $file->getId();
+		if ($fileId === null) {
+			throw new \InvalidArgumentException('Cannot generate preview for an unpersisted file (null ID)');
 		}
 
 		$previewEntry = new Preview();
 		$previewEntry->generateId();
-		$previewEntry->setFileId($file->getId());
+		$previewEntry->setFileId($fileId);
 		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 		$previewEntry->setWidth($width);
 		$previewEntry->setSourceMimeType($file->getMimeType());
@@ -558,9 +608,10 @@ class Generator {
 		$previewEntry->setMax(false);
 		$previewEntry->setCropped($crop);
 		$previewEntry->setEncrypted(false);
-		$previewEntry->setMimeType($preview->dataMimeType());
+		$previewEntry->setMimeType($mime);
 		$previewEntry->setEtag($file->getEtag());
-		$previewEntry->setMtime((new \DateTime())->getTimestamp());
+
+		$previewEntry->setMtime((new \DateTimeImmutable())->getTimestamp());
 
 		if ($cacheResult) {
 			$previewEntry = $this->savePreview($previewEntry, $preview);
