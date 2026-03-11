@@ -8,6 +8,17 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+namespace Test\Preview;
+
+use OC\Preview\Generator;
+use OCP\Files\File;
+use OCP\IImage;
+use OCP\IPreview;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use Test\TestCase;
+
 #[CoversClass(Generator::class)]
 #[Group('Preview')]
 class PreviewGeneratorTest extends TestCase {
