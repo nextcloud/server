@@ -61,6 +61,14 @@ class SetConfig extends Base {
 		$configValue = $this->castHelper->castValue($input->getOption('value'), $input->getOption('type'));
 		$updateOnly = $input->getOption('update-only');
 
+		// If value is string false or true, cast them too
+		if (is_string($configValue['value'])) {
+			$lowerValue = strtolower($configValue['value']);
+			if ($lowerValue === 'false' || $lowerValue === 'true') {
+				$configValue = $this->castHelper->castValue($input->getOption('value'), 'boolean');
+			}
+		}
+
 		if (count($configNames) > 1) {
 			$existingValue = $this->systemConfig->getValue($configName);
 
