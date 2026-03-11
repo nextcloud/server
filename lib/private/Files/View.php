@@ -1649,9 +1649,6 @@ class View {
 						$rootEntry['permissions'] = $rootEntry['permissions'] & ~Constants::PERMISSION_SHARE;
 					}
 
-					// FIXME: $user is null in encrypt:all occ command
-					$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user?->getUID() ?? '') + 2); // full path without /$user/
-
 					$ownerId = $subStorage->getOwner('');
 					if ($ownerId !== false) {
 						$owner = $this->getUserObjectForOwner($ownerId);
@@ -1765,7 +1762,6 @@ class View {
 				if (substr($mountPoint . $result['path'], 0, $rootLength + 1) === $this->fakeRoot . '/') {
 					$internalPath = $result['path'];
 					$path = $mountPoint . $result['path'];
-					$result['path'] = substr($mountPoint . $result['path'], $rootLength);
 					$ownerId = $storage->getOwner($internalPath);
 					if ($ownerId !== false) {
 						$owner = $userManager->get($ownerId);
@@ -1788,7 +1784,6 @@ class View {
 					if ($results) {
 						foreach ($results as $result) {
 							$internalPath = $result['path'];
-							$result['path'] = rtrim($relativeMountPoint . $result['path'], '/');
 							$path = rtrim($mountPoint . $internalPath, '/');
 							$ownerId = $storage->getOwner($internalPath);
 							if ($ownerId !== false) {
