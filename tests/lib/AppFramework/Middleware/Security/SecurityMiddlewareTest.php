@@ -83,7 +83,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			'test',
 			$this->request
 		);
-		$this->reader = new ControllerMethodReflector();
+		$this->reader = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
@@ -444,6 +444,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$controller = new $controllerClass('test', $this->request);
+		$this->reader->reflect($controller, 'foo');
 
 		try {
 			$this->middleware->beforeController($controller, 'foo');

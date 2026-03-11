@@ -46,7 +46,8 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
-		$this->reflector->method('hasAnnotation')
+		$this->reflector->expects(self::once())
+			->method('hasAnnotation')
 			->with('NoSameSiteCookieRequired')
 			->willReturn(true);
 
@@ -58,7 +59,8 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
-		$this->reflector->method('hasAnnotation')
+		$this->reflector->expects(self::once())
+			->method('hasAnnotation')
 			->with('NoSameSiteCookieRequired')
 			->willReturn(false);
 
@@ -75,7 +77,8 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
-		$this->reflector->method('hasAnnotation')
+		$this->reflector->expects(self::once())
+			->method('hasAnnotation')
 			->with('NoSameSiteCookieRequired')
 			->willReturn(false);
 
