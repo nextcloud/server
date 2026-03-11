@@ -18,6 +18,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -31,6 +32,7 @@ class ExampleContactServiceTest extends TestCase {
 	protected LoggerInterface&MockObject $logger;
 	protected IAppConfig&MockObject $appConfig;
 	protected IAppData&MockObject $appData;
+	protected IL10N&MockObject $l;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,6 +41,7 @@ class ExampleContactServiceTest extends TestCase {
 		$this->appDataFactory = $this->createMock(IAppDataFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->l = $this->createMock((IL10N::class));
 
 		$this->appData = $this->createMock(IAppData::class);
 		$this->appDataFactory->method('get')
@@ -50,6 +53,7 @@ class ExampleContactServiceTest extends TestCase {
 			$this->appConfig,
 			$this->logger,
 			$this->cardDav,
+			$this->l,
 		);
 	}
 
