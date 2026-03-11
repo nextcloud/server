@@ -11,6 +11,7 @@ namespace OC\Kernel;
 
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
+use Psr\Container\ContainerInterface;
 
 interface IKernel {
 	public function boot(): void;
@@ -18,4 +19,6 @@ interface IKernel {
 	public function getServerRoot(): string;
 
 	public function isCli(): bool;
+
+	public function getContainer(): ContainerInterface;
 }

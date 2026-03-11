@@ -16,12 +16,14 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\QueryException;
 use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -87,7 +89,7 @@ class App {
 		string $methodName,
 		DIContainer $container,
 		?array $urlParams = null,
-	): void {
+	): Response {
 		/** @var IProfiler $profiler */
 		$profiler = $container->get(IProfiler::class);
 		$eventLogger = $container->get(IEventLogger::class);
@@ -118,7 +120,7 @@ class App {
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
 			$controller = $container->get($controllerName);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			if (str_contains($controllerName, '\\Controller\\')) {
 				// This is from a global registered app route that is not enabled.
 				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
@@ -131,7 +133,7 @@ class App {
 				$appNameSpace = self::buildAppNamespace($appName);
 			}
 			$controllerName = $appNameSpace . '\\Controller\\' . $controllerName;
-			$controller = $container->query($controllerName);
+			$controller = $container->get($controllerName);
 		}
 
 		$eventLogger->end('app:controller:load');
@@ -145,51 +147,16 @@ class App {
 
 		$eventLogger->start('app:controller:run', 'Run app controller');
 
-		[
-			$httpHeaders,
-			$responseHeaders,
-			$responseCookies,
-			$output,
-			$response
-		] = $dispatcher->dispatch($controller, $methodName);
+		$response = $dispatcher->dispatch($controller, $methodName);
 
 		$eventLogger->end('app:controller:run');
-
-		$io = $container[IOutput::class];
 
 		if ($profiler->isEnabled()) {
 			$eventLogger->end('runtime');
 			$profile = $profiler->collect($container->get(IRequest::class), $response);
 			$profiler->saveProfile($profile);
-			$io->setHeader('X-Debug-Token:' . $profile->getToken());
-			$io->setHeader('Server-Timing: token;desc="' . $profile->getToken() . '"');
-		}
-
-		if (!is_null($httpHeaders)) {
-			$io->setHeader($httpHeaders);
-		}
-
-		foreach ($responseHeaders as $name => $value) {
-			$io->setHeader($name . ': ' . $value);
-		}
-
-		foreach ($responseCookies as $name => $value) {
-			$expireDate = null;
-			if ($value['expireDate'] instanceof \DateTime) {
-				$expireDate = $value['expireDate']->getTimestamp();
-			}
-			$sameSite = $value['sameSite'] ?? 'Lax';
-
-			$io->setCookie(
-				$name,
-				$value['value'],
-				$expireDate,
-				$container->getServer()->getWebRoot(),
-				null,
-				$container->getServer()->get(IRequest::class)->getServerProtocol() === 'https',
-				true,
-				$sameSite
-			);
+			$response->addHeader('X-Debug-Token', $profile->getToken());
+			$response->addHeader('Server-Timing', 'token;desc="' . $profile->getToken() . '"');
 		}
 
 		/*

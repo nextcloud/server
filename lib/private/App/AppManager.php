@@ -11,6 +11,7 @@ use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OC\DB\MigrationService;
+use OC\Kernel\Kernel;
 use OC\Migration\BackgroundRepair;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
@@ -33,6 +34,7 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Settings\IManager as ISettingsManager;
@@ -186,7 +188,7 @@ class AppManager implements IAppManager {
 	public function getAllAppsInAppsFolders(): array {
 		$apps = [];
 
-		foreach (\OC::$APPSROOTS as $apps_dir) {
+		foreach (Kernel::getInstance()->getAppsRoots() as $apps_dir) {
 			if (!is_readable($apps_dir['path'])) {
 				$this->logger->warning('unable to read app folder : ' . $apps_dir['path'], ['app' => 'core']);
 				continue;
@@ -725,7 +727,7 @@ class AppManager implements IAppManager {
 	 */
 	public function getAppWebPath(string $appId): string {
 		if (($dir = $this->findAppInDirectories($appId)) != false) {
-			return \OC::$WEBROOT . $dir['url'] . '/' . $appId;
+			return Kernel::getInstance()->getWebRoot() . $dir['url'] . '/' . $appId;
 		}
 		throw new AppPathNotFoundException('Could not find web path for ' . $appId);
 	}
@@ -751,7 +753,7 @@ class AppManager implements IAppManager {
 		}
 
 		$possibleApps = [];
-		foreach (\OC::$APPSROOTS as $dir) {
+		foreach (Kernel::getInstance()->getAppsRoots() as $dir) {
 			if (file_exists($dir['path'] . '/' . $appId)) {
 				$possibleApps[] = $dir;
 			}
@@ -928,7 +930,7 @@ class AppManager implements IAppManager {
 	 */
 	private function loadShippedJson(): void {
 		if ($this->shippedApps === null) {
-			$shippedJson = \OC::$SERVERROOT . '/core/shipped.json';
+			$shippedJson = Kernel::getInstance()->getServerRoot() . '/core/shipped.json';
 			if (!file_exists($shippedJson)) {
 				throw new \Exception("File not found: $shippedJson");
 			}
@@ -1052,7 +1054,7 @@ class AppManager implements IAppManager {
 		$appPath = $this->getAppPath($appId, true);
 
 		$this->clearAppsCache();
-		$l = \OC::$server->getL10N('core');
+		$l = Server::get(IFactory::class)->get('core');
 		$appData = $this->getAppInfo($appId, false, $l->getLanguageCode());
 		if ($appData === null) {
 			throw new AppPathNotFoundException('Could not find ' . $appId);

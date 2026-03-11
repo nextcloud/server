@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCP;
 
+use OC\Kernel\Kernel;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -33,6 +34,7 @@ final class Server {
 	 * @since 25.0.0
 	 */
 	public static function get(string $serviceName) {
+		return Kernel::getInstance()->getContainer()->get($serviceName);
 		/** @psalm-suppress UndefinedClass */
 		return \OC::$server->get($serviceName);
 	}

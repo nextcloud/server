@@ -13,5 +13,8 @@ use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
 interface IHttpKernel {
+	/**
+	 * Handle the request
+	 */
 	public function handle(IRequest $request, bool $catch = true): Response;
 }

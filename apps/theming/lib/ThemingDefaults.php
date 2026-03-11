@@ -6,6 +6,7 @@
  */
 namespace OCA\Theming;
 
+use OC\Kernel\Kernel;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
 use OCP\App\AppPathNotFoundException;
@@ -395,7 +396,7 @@ class ThemingDefaults extends \OC_Defaults {
 			}
 			$route = $this->urlGenerator->linkToRoute('theming.Theming.getManifest', ['app' => $app ]);
 		}
-		if (str_starts_with($image, 'filetypes/') && file_exists(\OC::$SERVERROOT . '/core/img/' . $image)) {
+		if (str_starts_with($image, 'filetypes/') && file_exists(Kernel::getInstance()->getServerRoot() . '/core/img/' . $image)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);
 		}
 

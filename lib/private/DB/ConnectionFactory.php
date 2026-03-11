@@ -13,6 +13,7 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
+use OC\Kernel\Kernel;
 use OC\SystemConfig;
 use OCP\ICacheFactory;
 use OCP\Server;
@@ -186,7 +187,7 @@ class ConnectionFactory {
 		$name = $this->config->getValue($configPrefix . 'dbname', $this->config->getValue('dbname', self::DEFAULT_DBNAME));
 
 		if ($this->normalizeType($type) === 'sqlite3') {
-			$dataDir = $this->config->getValue('datadirectory', \OC::$SERVERROOT . '/data');
+			$dataDir = $this->config->getValue('datadirectory', Kernel::getInstance()->getServerRoot() . '/data');
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
 			$host = $this->config->getValue($configPrefix . 'dbhost', $this->config->getValue('dbhost', ''));

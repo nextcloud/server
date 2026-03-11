@@ -5,8 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+use OC\Kernel\Kernel;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Util;
@@ -51,7 +54,7 @@ class OC_Defaults {
 		$this->defaultTextColorPrimary = '#ffffff';
 		$this->defaultProductName = 'Nextcloud';
 
-		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
+		$themePath = Kernel::getInstance()->getServerRoot() . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
 			// prevent defaults.php from printing output
 			ob_start();
@@ -214,7 +217,7 @@ class OC_Defaults {
 			return $this->theme->getSlogan($lang);
 		} else {
 			if ($this->defaultSlogan === null) {
-				$l10n = \OC::$server->getL10N('lib', $lang);
+				$l10n = \OCP\Server::get(IFactory::class)->get('lib', $lang);
 				$this->defaultSlogan = $l10n->t('a safe home for all your data');
 			}
 			return $this->defaultSlogan;

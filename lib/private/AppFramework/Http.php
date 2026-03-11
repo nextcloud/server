@@ -15,12 +15,10 @@ class Http extends BaseHttp {
 	protected $headers;
 
 	/**
-	 * @param array $server $_SERVER
 	 * @param string $protocolVersion the http version to use defaults to HTTP/1.1
 	 */
 	public function __construct(
-		private $server,
-		private $protocolVersion = 'HTTP/1.1',
+		private string $protocolVersion = 'HTTP/1.1',
 	) {
 		$this->headers = [
 			self::STATUS_CONTINUE => 'Continue',
@@ -88,12 +86,10 @@ class Http extends BaseHttp {
 
 	/**
 	 * Gets the correct header
-	 * @param int Http::CONSTANT $status the constant from the Http class
-	 * @param \DateTime $lastModified formatted last modified date
-	 * @param string $ETag the etag
+	 * @param Http::STATUS_* $status the constant from the Http class
 	 * @return string
 	 */
-	public function getStatusHeader($status) {
+	public function getStatusHeader(int $status): string {
 		// we have one change currently for the http 1.0 header that differs
 		// from 1.1: STATUS_TEMPORARY_REDIRECT should be STATUS_FOUND
 		// if this differs any more, we want to create childclasses for this

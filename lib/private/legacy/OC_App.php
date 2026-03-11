@@ -12,6 +12,7 @@ use OC\App\DependencyAnalyzer;
 use OC\AppFramework\App;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
+use OC\Kernel\Kernel;
 use OC\NeedsUpdateException;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
@@ -113,17 +114,17 @@ class OC_App {
 
 		// Register on PSR-4 composer autoloader
 		$appNamespace = App::buildAppNamespace($app);
-		\OC::$server->registerNamespace($app, $appNamespace);
+		Kernel::getInstance()->getServer()->registerNamespace($app, $appNamespace);
 
 		if (file_exists($path . '/composer/autoload.php')) {
 			require_once $path . '/composer/autoload.php';
 		} else {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+			Kernel::getInstance()->addPsr4($appNamespace . '\\', $path . '/lib/', true);
 		}
 
 		// Register Test namespace only when testing
 		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
+			Kernel::getInstance()->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
 		}
 	}
 

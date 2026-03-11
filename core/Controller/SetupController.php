@@ -9,6 +9,10 @@ namespace OC\Core\Controller;
 
 use OC\IntegrityCheck\Checker;
 use OC\Setup;
+use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IInitialStateService;
 use OCP\IURLGenerator;
 use OCP\Server;
@@ -31,7 +35,7 @@ class SetupController {
 		$this->autoConfigFile = \OC::$configDir . 'autoconfig.php';
 	}
 
-	public function run(array $post): void {
+	public function run(array $post): Response {
 		// Check for autosetup:
 		$post = $this->loadAutoConfig($post);
 		$opts = $this->setupHelper->getSystemInfo();
@@ -45,8 +49,7 @@ class SetupController {
 		}
 
 		if (!$this->setupHelper->canInstallFileExists()) {
-			$this->displaySetupForbidden();
-			return;
+			return $this->displaySetupForbidden();
 		}
 
 		if (isset($post['install']) && $post['install'] == 'true') {
@@ -56,21 +59,21 @@ class SetupController {
 
 			if (count($e) > 0) {
 				$options = array_merge($opts, $post, $errors);
-				$this->display($options);
+				return $this->display($options);
 			} else {
-				$this->finishSetup();
+				return $this->finishSetup();
 			}
 		} else {
 			$options = array_merge($opts, $post);
-			$this->display($options);
+			return $this->display($options);
 		}
 	}
 
-	private function displaySetupForbidden(): void {
-		$this->templateManager->printGuestPage('', 'installation_forbidden');
+	private function displaySetupForbidden(): TemplateResponse {
+		return new TemplateResponse('', 'installation_forbidden', [], TemplateResponse::RENDER_AS_GUEST);
 	}
 
-	public function display(array $post): void {
+	public function display(array $post): TemplateResponse {
 		$defaults = [
 			'adminlogin' => '',
 			'adminpass' => '',
@@ -103,10 +106,10 @@ class SetupController {
 			'adminDBConfiguration' => $this->urlGenerator->linkToDocs('admin-db-configuration'),
 		]);
 
-		$this->templateManager->printGuestPage('', 'installation');
+		return new TemplateResponse('', 'installation', [], TemplateResponse::RENDER_AS_GUEST);
 	}
 
-	private function finishSetup(): void {
+	private function finishSetup(): RedirectResponse {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
@@ -116,8 +119,7 @@ class SetupController {
 			$this->templateManager->printGuestPage('', 'installation_incomplete');
 		}
 
-		header('Location: ' . Server::get(IURLGenerator::class)->getAbsoluteURL('index.php/core/apps/recommended'));
-		exit();
+		return new RedirectResponse(Server::get(IURLGenerator::class)->getAbsoluteURL('index.php/core/apps/recommended'));
 	}
 
 	/**

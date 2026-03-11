@@ -32,7 +32,6 @@ class Dispatcher {
 	 *                                                   runs the middleware
 	 */
 	public function __construct(
-		private readonly Http $protocol,
 		private readonly MiddlewareDispatcher $middlewareDispatcher,
 		private readonly ControllerMethodReflector $reflector,
 		private readonly IRequest $request,
@@ -50,15 +49,9 @@ class Dispatcher {
 	 * @param Controller $controller the controller which will be called
 	 * @param string $methodName the method name which will be called on
 	 *                           the controller
-	 * @return array{0: string, 1: array, 2: array, 3: string, 4: Response}
-	 *                                                                      $array[0] contains the http status header as a string,
-	 *                                                                      $array[1] contains response headers as an array,
-	 *                                                                      $array[2] contains response cookies as an array,
-	 *                                                                      $array[3] contains the response output as a string,
-	 *                                                                      $array[4] contains the response object
 	 * @throws \Exception
 	 */
-	public function dispatch(Controller $controller, string $methodName): array {
+	public function dispatch(Controller $controller, string $methodName): Response {
 		try {
 			// prefill reflector with everything that's needed for the
 			// middlewares
@@ -112,16 +105,12 @@ class Dispatcher {
 		$response = $this->middlewareDispatcher->afterController(
 			$controller, $methodName, $response);
 
-		// depending on the cache object the headers need to be changed
-		return [
-			$this->protocol->getStatusHeader($response->getStatus()),
-			array_merge($response->getHeaders()),
-			$response->getCookies(),
-			$this->middlewareDispatcher->beforeOutput(
-				$controller, $methodName, $response->render()
-			),
-			$response,
-		];
+		// TODO
+		$this->middlewareDispatcher->beforeOutput(
+			$controller, $methodName, $response->render()
+		);
+
+		return $response;
 	}
 
 

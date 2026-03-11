@@ -309,8 +309,8 @@ class Router implements IRouter {
 	 * @throws \Exception
 	 * @return void
 	 */
-	public function match($url) {
-		$parameters = $this->findMatchingRoute($url);
+	public function match(IRequest $request) {
+		$parameters = $this->findMatchingRoute($request->getPathInfo());
 
 		$this->eventLogger->start('route:run', 'Run route');
 		if (isset($parameters['caller'])) {
@@ -318,7 +318,7 @@ class Router implements IRouter {
 			unset($parameters['caller']);
 			unset($parameters['action']);
 			$application = $this->getApplicationClass($caller[0]);
-			\OC\AppFramework\App::main($caller[1], $caller[2], $application->getContainer(), $parameters);
+			return \OC\AppFramework\App::main($caller[1], $caller[2], $application->getContainer(), $parameters);
 		} elseif (isset($parameters['action'])) {
 			$this->logger->warning('Deprecated action route used', ['parameters' => $parameters]);
 			$this->callLegacyActionRoute($parameters);

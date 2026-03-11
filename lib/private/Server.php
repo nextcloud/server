@@ -83,6 +83,7 @@ use OC\Http\Client\NegativeDnsCache;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
+use OC\Kernel\Kernel;
 use OC\KnownUser\KnownUserService;
 use OC\LDAP\NullLDAPProviderFactory;
 use OC\Lock\DBLockingProvider;
@@ -313,12 +314,13 @@ class Server extends ServerContainer implements IServerContainer {
 	public function __construct(
 		private string $webRoot,
 		Config $config,
+		Kernel $kernel,
 	) {
 		parent::__construct();
 
 		// To find out if we are running from CLI or not
-		$this->registerParameter('isCLI', \OC::$CLI);
-		$this->registerParameter('serverRoot', \OC::$SERVERROOT);
+		$this->registerParameter('isCLI', $kernel->isCli());
+		$this->registerParameter('serverRoot', $kernel->getServerRoot());
 
 		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
@@ -626,13 +628,13 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IUserConfig::class, UserConfig::class);
 		$this->registerAlias(IAppManager::class, AppManager::class);
 
-		$this->registerService(IFactory::class, function (Server $c) {
+		$this->registerService(IFactory::class, function (Server $c) use ($kernel) {
 			return new \OC\L10N\Factory(
 				$c->get(IConfig::class),
-				$c->getRequest(),
+				$c->get(IRequest::class),
 				$c->get(IUserSession::class),
 				$c->get(ICacheFactory::class),
-				\OC::$SERVERROOT,
+				$kernel->getServerRoot(),
 				$c->get(IAppManager::class),
 			);
 		});
@@ -975,7 +977,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$factory = $c->get(ILDAPProviderFactory::class);
 			return $factory->getLDAPProvider();
 		});
-		$this->registerService(ILockingProvider::class, function (ContainerInterface $c) {
+		$this->registerService(ILockingProvider::class, function (ContainerInterface $c) use ($kernel) {
 			$ini = $c->get(IniGetWrapper::class);
 			$config = $c->get(IConfig::class);
 			$ttl = $config->getSystemValueInt('filelocking.ttl', max(3600, (int)($ini->getNumeric('max_execution_time') ?? 0)));
@@ -991,7 +993,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(IDBConnection::class),
 					new TimeFactory(),
 					$ttl,
-					!\OC::$CLI
+					!$kernel->isCli(),
 				);
 			}
 			return new NoopLockingProvider();
@@ -1008,12 +1010,12 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IMountManager::class, \OC\Files\Mount\Manager::class);
 
-		$this->registerService(IMimeTypeDetector::class, function (ContainerInterface $c) {
+		$this->registerService(IMimeTypeDetector::class, function (ContainerInterface $c) use ($kernel) {
 			return new Detection(
 				$c->get(IURLGenerator::class),
 				$c->get(LoggerInterface::class),
-				\OC::$configDir,
-				\OC::$SERVERROOT . '/resources/config/'
+				$kernel->getConfigDir(),
+				$kernel->getServerRoot() . '/resources/config/'
 			);
 		});
 
