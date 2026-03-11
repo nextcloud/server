@@ -38,7 +38,6 @@
     "Role" : "Roll",
     "Additional settings" : "Stummoù ouzhpenn",
     "Set an admin password." : "Lakaat ur ger-tremenn merour.",
-    "Sharing backend for %s not found" : "Rannadenn backend evit %s n'eo ket bet kavet",
     "Sunday" : "Sul",
     "Monday" : "Lun",
     "Wednesday" : "Merc'her",
@@ -73,6 +72,7 @@
     "Summary" : "Diverrañ",
     "Translate" : "Treiñ",
     "Origin text" : "Testenn orin",
+    "Sharing backend for %s not found" : "Rannadenn backend evit %s n'eo ket bet kavet",
     "Application is not enabled" : "N'eo ket aotreet ar meziant",
     "Authentication error" : "Fazi dilesa",
     "Token expired. Please reload page." : "Jedouer re gozh. Adkargit ar bajenn."
