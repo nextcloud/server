@@ -177,6 +177,12 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	}
 
 	#[Override]
+	public function assignGeneratedByAITag(string $objId, string $objectType) {
+		$tag = $this->tagManager->getGeneratedByAITag();
+		$this->assignTags($objId, $objectType, [$tag->getId()]);
+	}
+
+	#[Override]
 	public function unassignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
