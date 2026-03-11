@@ -36,7 +36,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->reflector = new ControllerMethodReflector();
+		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
 		$this->session = $this->createMock(Session::class);
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);

@@ -46,8 +46,9 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
-		$this->reflector->method('hasAnnotation')
-			->with('NoSameSiteCookieRequired')
+		$this->reflector->expects(self::once())
+			->method('hasAnnotationOrAttribute')
+			->with('NoSameSiteCookieRequired', NoSameSiteCookieRequired::class)
 			->willReturn(true);
 
 		$this->middleware->beforeController($this->createMock(Controller::class), 'foo');
@@ -58,8 +59,9 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
-		$this->reflector->method('hasAnnotation')
-			->with('NoSameSiteCookieRequired')
+		$this->reflector->expects(self::once())
+			->method('hasAnnotationOrAttribute')
+			->with('NoSameSiteCookieRequired', NoSameSiteCookieRequired::class)
 			->willReturn(false);
 
 		$this->request->method('passesLaxCookieCheck')
@@ -75,8 +77,9 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
-		$this->reflector->method('hasAnnotation')
-			->with('NoSameSiteCookieRequired')
+		$this->reflector->expects(self::once())
+			->method('hasAnnotationOrAttribute')
+			->with('NoSameSiteCookieRequired', NoSameSiteCookieRequired::class)
 			->willReturn(false);
 
 		$this->request->method('passesLaxCookieCheck')

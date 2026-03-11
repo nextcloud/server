@@ -76,7 +76,7 @@ class RateLimitingMiddlewareTest extends TestCase {
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->reflector = new ControllerMethodReflector();
+		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
 		$this->limiter = $this->createMock(Limiter::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
