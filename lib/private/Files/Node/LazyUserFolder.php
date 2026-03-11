@@ -75,6 +75,7 @@ class LazyUserFolder extends LazyFolder implements IUserFolder {
 		return $mountPoint;
 	}
 
+	#[\Override]
 	public function getUserQuota(bool $useCache = true): array {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}

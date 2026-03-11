@@ -34,6 +34,7 @@ class UserFolder extends Folder implements IUserFolder {
 		parent::__construct($root, $view, $path, parent: $parent);
 	}
 
+	#[\Override]
 	public function getUserQuota(bool $useCache = true): array {
 		// return from cache if requested and we already cached it
 		$memcache = $this->cacheFactory->createLocal('storage_info');
