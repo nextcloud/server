@@ -11,6 +11,7 @@ namespace OCA\Files\Tests\Command;
 use OC\Files\View;
 use OCA\Files\Command\DeleteOrphanedFiles;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -50,7 +51,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 		try {
 			$view = new View('/' . $this->user1 . '/files');
 			$view->unlink('test');
-		} catch (StorageNotAvailableException $e) {
+		} catch (StorageNotAvailableException|NotFoundException $e) {
 		}
 
 		$userManager = Server::get(IUserManager::class);
