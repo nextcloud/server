@@ -21,7 +21,7 @@
     "Could not reload comments" : "Kon reactie niet opnieuw laden",
     "Failed to mark comments as read" : "Kon reacties niet als gelezen markeren",
     "Unable to load the comments list" : "Kan reactielijst niet laden",
-    "No comments yet, start the conversation!" : "Nog geen reacties, start de discussie!",
+    "No comments yet, start the conversation!" : "Nog geen reacties, start het gesprek!",
     "No more messages" : "Geen berichten meer",
     "Retry" : "Opnieuw proberen",
     "_1 new comment_::_{unread} new comments_" : ["1 nieuwe reactie","{unread} nieuwe reacties"],
