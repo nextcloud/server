@@ -54,6 +54,7 @@ class TwoFactorMiddleware extends Middleware {
 			return;
 		}
 
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($controller instanceof TwoFactorChallengeController
 			&& $this->userSession->getUser() !== null
 			&& !$this->reflector->hasAnnotation('TwoFactorSetUpDoneRequired')) {
