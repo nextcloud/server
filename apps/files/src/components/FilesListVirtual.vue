@@ -17,9 +17,8 @@
 		}"
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
-		<template #filters>
-			<FileListFilters />
-		</template>
+		<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -- no space allowed as otherwise `:empty` css selector does not trigger! -->
+		<template #filters><FileListFilterToSearch /><FileListFilterChips /></template>
 
 		<template v-if="!isNoneSelected" #header-overlay>
 			<span class="files-list__selected">
@@ -45,7 +44,6 @@
 			<!-- Table header and sort buttons -->
 			<FilesListTableHeader
 				ref="thead"
-				:files-list-width="fileListWidth"
 				:is-mime-available="isMimeAvailable"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
@@ -61,7 +59,6 @@
 		<template #footer>
 			<FilesListTableFooter
 				:current-view="currentView"
-				:files-list-width="fileListWidth"
 				:is-mime-available="isMimeAvailable"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
@@ -72,36 +69,39 @@
 </template>
 
 <script lang="ts">
-import type { Node as NcNode } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { UserConfig } from '../types.ts'
 
 import { showError } from '@nextcloud/dialogs'
-import { FileType, Folder, getFileActions, getSidebar, Permission, View } from '@nextcloud/files'
+import { FileType, Folder, getSidebar, Permission, View } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
-import FileListFilters from './FileListFilters.vue'
+import FileListFilterChips from './FileListFilter/FileListFilterChips.vue'
+import FileListFilterToSearch from './FileListFilter/FileListFilterToSearch.vue'
 import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import VirtualList from './VirtualList.vue'
+import { useEnabledFileActions } from '../composables/useFileActions.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
 import { useActiveStore } from '../store/active.ts'
-import { useSelectionStore } from '../store/selection.js'
+import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
 
 	components: {
-		FileListFilters,
+		FileListFilterChips,
+		FileListFilterToSearch,
 		FilesListHeader,
 		FilesListTableFooter,
 		FilesListTableHeader,
@@ -121,7 +121,7 @@ export default defineComponent({
 		},
 
 		nodes: {
-			type: Array as PropType<NcNode[]>,
+			type: Array as PropType<INode[]>,
 			required: true,
 		},
 
@@ -131,19 +131,48 @@ export default defineComponent({
 		},
 	},
 
-	setup() {
+	setup(props) {
 		const sidebar = getSidebar()
 		const activeStore = useActiveStore()
 		const selectionStore = useSelectionStore()
 		const userConfigStore = useUserConfigStore()
 
-		const fileListWidth = useFileListWidth()
+		const { isNarrow, isWide } = useFileListWidth()
 		const { fileId, openDetails, openFile } = useRouteParameters()
+
+		const isMimeAvailable = computed(() => {
+			if (!userConfigStore.userConfig.show_mime_column) {
+				return false
+			}
+			if (!isWide.value) {
+				return false // only show on wide screens
+			}
+			return props.nodes
+				.some((node: INode) => node.mime !== undefined || node.mime !== 'application/octet-stream')
+		})
+
+		const isMtimeAvailable = computed(() => {
+			// Hide mtime column on narrow screens
+			if (isNarrow.value) {
+				return false // hide on narrow screens
+			}
+			return props.nodes.some((node: INode) => node.mtime !== undefined)
+		})
+
+		const isSizeAvailable = computed(() => {
+			// Hide size column on narrow screens
+			if (isNarrow.value) {
+				return false // hide on narrow screens
+			}
+			return props.nodes.some((node: INode) => node.size !== undefined)
+		})
 
 		return {
 			fileId,
-			fileListWidth,
 			headers: useFileListHeaders(),
+			isSizeAvailable,
+			isMtimeAvailable,
+			isMimeAvailable,
 			openDetails,
 			openFile,
 
@@ -168,33 +197,6 @@ export default defineComponent({
 	computed: {
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
-		},
-
-		isMimeAvailable() {
-			if (!this.userConfig.show_mime_column) {
-				return false
-			}
-			// Hide mime column on narrow screens
-			if (this.fileListWidth < 1024) {
-				return false
-			}
-			return this.nodes.some((node) => node.mime !== undefined || node.mime !== 'application/octet-stream')
-		},
-
-		isMtimeAvailable() {
-			// Hide mtime column on narrow screens
-			if (this.fileListWidth < 768) {
-				return false
-			}
-			return this.nodes.some((node) => node.mtime !== undefined)
-		},
-
-		isSizeAvailable() {
-			// Hide size column on narrow screens
-			if (this.fileListWidth < 768) {
-				return false
-			}
-			return this.nodes.some((node) => node.size !== undefined)
 		},
 
 		cantUpload() {
@@ -312,7 +314,7 @@ export default defineComponent({
 		openSidebarForFile(fileId) {
 			// Open the sidebar for the given URL fileid
 			// iif we just loaded the app.
-			const node = this.nodes.find((n) => n.fileid === fileId) as NcNode
+			const node = this.nodes.find((n) => n.fileid === fileId) as INode
 			if (node && this.sidebar.available) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
 				this.sidebar.open(node)
@@ -355,27 +357,19 @@ export default defineComponent({
 		 * @param fileId File to open
 		 */
 		async handleOpenFile(fileId: number) {
-			const node = this.nodes.find((n) => n.fileid === fileId) as NcNode
+			const node = this.nodes.find((n) => n.fileid === fileId) as INode
 			if (node === undefined) {
 				return
 			}
 
 			if (node.type === FileType.File) {
-				const defaultAction = getFileActions()
-					// Get only default actions (visible and hidden)
-					.filter((action) => !!action?.default)
-					// Find actions that are either always enabled or enabled for the current node
-					.filter((action) => (!action.enabled || action.enabled({
-						nodes: [node],
-						view: this.currentView,
-						folder: this.currentFolder,
-						contents: this.nodes,
-					})))
-					.filter((action) => action.id !== 'download')
-					// Sort enabled default actions by order
-					.sort((a, b) => (a.order || 0) - (b.order || 0))
-					// Get the first one
-					.at(0)
+				const actions = useEnabledFileActions({
+					nodes: [node],
+					view: this.currentView,
+					folder: this.currentFolder,
+					contents: this.nodes,
+				})
+				const defaultAction = actions.value.find((action) => action.id !== 'download' && !!action.default)
 
 				// Some file types do not have a default action (e.g. they can only be downloaded)
 				// So if there is an enabled default action, so execute it
@@ -445,7 +439,7 @@ export default defineComponent({
 				const index = event.key === 'ArrowUp' || event.key === 'ArrowLeft'
 					? this.nodes.length - 1
 					: 0
-				this.setActiveNode(this.nodes[index] as NcNode & { fileid: number })
+				this.setActiveNode(this.nodes[index] as INode & { fileid: number })
 			}
 
 			const index = this.nodes.findIndex((node) => node.fileid === this.fileId) ?? 0
@@ -481,7 +475,7 @@ export default defineComponent({
 			}
 		},
 
-		async setActiveNode(node: NcNode & { fileid: number }) {
+		async setActiveNode(node: INode & { fileid: number }) {
 			logger.debug('Navigating to file ' + node.path, { node, fileid: node.fileid })
 			this.scrollToFile(node.fileid)
 
@@ -511,15 +505,15 @@ export default defineComponent({
 	--clickable-area: var(--default-clickable-area);
 	--icon-preview-size: 24px;
 
-	--fixed-block-start-position: var(--default-clickable-area);
+	--fixed-block-start-position: calc(var(--clickable-area-small) + var(--default-grid-baseline, 4px));
 	display: flex;
 	flex-direction: column;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
 
-	&:has(.file-list-filters__active) {
-		--fixed-block-start-position: calc(var(--default-clickable-area) + var(--default-grid-baseline) + var(--clickable-area-small));
+	&:has(&__filters:empty) {
+		--fixed-block-start-position: 0px;
 	}
 
 	& :deep() {
@@ -572,6 +566,10 @@ export default defineComponent({
 		}
 
 		.files-list__filters {
+			display: flex;
+			gap: var(--default-grid-baseline);
+			box-sizing: border-box;
+
 			// Pinned on top when scrolling above table header
 			position: sticky;
 			top: 0;
@@ -582,6 +580,10 @@ export default defineComponent({
 			padding-inline: var(--row-height) var(--default-grid-baseline, 4px);
 			height: var(--fixed-block-start-position);
 			width: 100%;
+
+			&:not(:empty) {
+				padding-block: calc(var(--default-grid-baseline, 4px) / 2);
+			}
 		}
 
 		.files-list__thead-overlay {
@@ -741,7 +743,7 @@ export default defineComponent({
 			& > span {
 				justify-content: flex-start;
 
-				&:not(.files-list__row-icon-favorite) svg {
+				&:not(.files-list__row-icon-favorite):not(.files-list__row-icon-recently-created) svg {
 					width: var(--icon-preview-size);
 					height: var(--icon-preview-size);
 				}
@@ -789,7 +791,8 @@ export default defineComponent({
 				}
 			}
 
-			&-favorite {
+			&-favorite,
+			&-recently-created {
 				position: absolute;
 				top: 0px;
 				inset-inline-end: -10px;
@@ -991,8 +994,9 @@ export default defineComponent({
 		}
 	}
 
-	// Star icon in the top right
-	.files-list__row-icon-favorite {
+	// Icon in the top right
+	.files-list__row-icon-favorite,
+	.files-list__row-icon-recently-created {
 		position: absolute;
 		top: 0;
 		inset-inline-end: 0;

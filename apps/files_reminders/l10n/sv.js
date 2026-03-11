@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Ställ in påminnelse för denna helg",
     "Next week" : "Nästa vecka",
     "Set reminder for next week" : "Ställ in påminnelse för nästa vecka",
-    "This files_reminder can work properly." : "Den här filpåminnelsen kan fungera korrekt.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Appen files_reminder behöver notification appen för att fungera korrekt. Du bör antingen aktivera aviseringar eller inaktivera files_reminder.",
-    "Set reminder for \"{fileName}\"" : "Ställ in påminnelse för \"{fileName}\"",
-    "Set reminder at custom date & time" : "Ställ in påminnelse vid anpassat datum och tid",
-    "Set custom reminder" : "Ställ in anpassad påminnelse"
+    "Set reminder for \"{fileName}\"" : "Ställ in påminnelse för \"{fileName}\""
 },
 "nplurals=2; plural=(n != 1);");

@@ -2,6 +2,8 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Профил",
+    "Not found" : "Не е намерен",
+    "Insert" : "Вмъкване",
     "You have not added any info yet" : "Все още не сте добавили никаква информация",
     "{user} has not added any info yet" : "{user} все още не е добавил никаква информация",
     "Error opening the user status modal, try hard refreshing the page" : "Грешка при отваряне на модалния статус на потребителя, опитайте настоятелно да опресните страницата",

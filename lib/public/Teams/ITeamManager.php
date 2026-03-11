@@ -48,4 +48,31 @@ interface ITeamManager {
 	 * @since 33.0.0
 	 */
 	public function getSharedWithList(array $teams, string $userId): array;
+
+	/**
+	 * Returns all teams that a given user is a member of
+	 *
+	 * @return list<Team>
+	 * @since 33.0.0
+	 */
+	public function getTeamsForUser(string $userId): array;
+
+	/**
+	 * Returns a mapping of user ID to display name for all members of a given team.
+	 *
+	 * @param string $teamId ID of the team whose members are being queried
+	 * @param string $userId ID of the user from whose point of view the members are being queried
+	 *
+	 * @return array<string, string> userId => displayName
+	 * @since 34.0.0
+	 */
+	public function getMembersOfTeam(string $teamId, string $userId): array;
+
+	/**
+	 * Returns whether the Teams backend is available
+	 *
+	 * @return bool
+	 * @since 34.0.0
+	 */
+	public function hasTeamSupport(): bool;
 }

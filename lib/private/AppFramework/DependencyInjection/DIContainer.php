@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\DependencyInjection;
 
+use OC\AppFramework\App;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
@@ -17,6 +19,7 @@ use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
 use OC\AppFramework\Middleware\CompressionMiddleware;
 use OC\AppFramework\Middleware\FlowV2EphemeralSessionsMiddleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
+use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\NotModifiedMiddleware;
 use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware;
@@ -31,12 +34,17 @@ use OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\ScopedPsrLogger;
+use OC\AppFramework\Services\AppConfig;
+use OC\AppFramework\Services\InitialState;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\CapabilitiesManager;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
+use OC\User\Session;
 use OCA\WorkflowEngine\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\IOutput;
@@ -44,10 +52,10 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
+use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -59,19 +67,23 @@ use OCP\IServerContainer;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\Ip\IRemoteAddress;
+use OCP\Server;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
-	protected string $appName;
 	private array $middleWares = [];
 	private ServerContainer $server;
 
-	public function __construct(string $appName, array $urlParams = [], ?ServerContainer $server = null) {
+	public function __construct(
+		protected string $appName,
+		array $urlParams = [],
+		?ServerContainer $server = null,
+	) {
 		parent::__construct();
-		$this->appName = $appName;
-		$this->registerParameter('appName', $appName);
+		$this->registerParameter('appName', $this->appName);
 		$this->registerParameter('urlParams', $urlParams);
 
 		/** @deprecated 32.0.0 */
@@ -81,7 +93,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$server = \OC::$server;
 		}
 		$this->server = $server;
-		$this->server->registerAppContainer($appName, $this);
+		$this->server->registerAppContainer($this->appName, $this);
 
 		// aliases
 		/** @deprecated 26.0.0 inject $appName */
@@ -98,7 +110,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService(IOutput::class, fn (ContainerInterface $c): IOutput => new Output($c->get('webRoot')));
 
 		$this->registerService(Folder::class, function () {
-			return $this->getServer()->getUserFolder();
+			$user = $this->get(IUserSession::class)->getUser();
+			if ($user === null) {
+				return null;
+			}
+			return $this->getServer()->get(IRootFolder::class)->getUserFolder($user->getUID());
 		});
 
 		$this->registerService(IAppData::class, function (ContainerInterface $c): IAppData {
@@ -106,7 +122,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService(IL10N::class, function (ContainerInterface $c) {
-			return $this->getServer()->getL10N($c->get('appName'));
+			return $this->getServer()->get(IFactory::class)->get($c->get('appName'));
 		});
 
 		// Log wrappers
@@ -155,7 +171,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return new Dispatcher(
 				$c->get(Http::class),
 				$c->get(MiddlewareDispatcher::class),
-				$c->get(IControllerMethodReflector::class),
+				$c->get(ControllerMethodReflector::class),
 				$c->get(IRequest::class),
 				$c->get(IConfig::class),
 				$c->get(IDBConnection::class),
@@ -193,16 +209,16 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),
-				$c->get(IControllerMethodReflector::class),
+				$c->get(MiddlewareUtils::class),
 				$c->get(INavigationManager::class),
 				$c->get(IURLGenerator::class),
 				$c->get(LoggerInterface::class),
 				$c->get('appName'),
-				$server->getUserSession()->isLoggedIn(),
+				$server->get(IUserSession::class)->isLoggedIn(),
 				$c->get(IGroupManager::class),
 				$c->get(ISubAdmin::class),
 				$c->get(IAppManager::class),
-				$server->getL10N('lib'),
+				$server->get(IFactory::class)->get('lib'),
 				$c->get(AuthorizedGroupMapper::class),
 				$c->get(IUserSession::class),
 				$c->get(IRemoteAddress::class),
@@ -217,7 +233,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c->get(PublicShareMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(AdditionalScriptsMiddleware::class));
 
-			$coordinator = $c->get(\OC\AppFramework\Bootstrap\Coordinator::class);
+			$coordinator = $c->get(Coordinator::class);
 			$registrationContext = $coordinator->getRegistrationContext();
 			if ($registrationContext !== null) {
 				$appId = $this->get('appName');
@@ -236,14 +252,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $dispatcher;
 		});
 
-		$this->registerAlias(IAppConfig::class, \OC\AppFramework\Services\AppConfig::class);
-		$this->registerAlias(IInitialState::class, \OC\AppFramework\Services\InitialState::class);
+		$this->registerAlias(IAppConfig::class, AppConfig::class);
+		$this->registerAlias(IInitialState::class, InitialState::class);
 	}
 
-	/**
-	 * @return \OCP\IServerContainer
-	 */
-	public function getServer() {
+	public function getServer(): ServerContainer {
 		return $this->server;
 	}
 
@@ -271,7 +284,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return boolean
 	 */
 	public function isLoggedIn() {
-		return \OC::$server->getUserSession()->isLoggedIn();
+		return Server::get(IUserSession::class)->isLoggedIn();
 	}
 
 	/**
@@ -284,7 +297,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	private function getUserId(): string {
-		return $this->getServer()->getSession()->get('user_id');
+		return $this->getServer()->get(Session::class)->getSession()->get('user_id');
 	}
 
 	/**
@@ -293,7 +306,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 */
 	public function registerCapability($serviceName) {
-		$this->query('OC\CapabilitiesManager')->registerCapability(function () use ($serviceName) {
+		$this->query(CapabilitiesManager::class)->registerCapability(function () use ($serviceName) {
 			return $this->query($serviceName);
 		});
 	}
@@ -314,7 +327,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @inheritDoc
 	 * @param list<class-string> $chain
 	 */
-	public function query(string $name, bool $autoload = true, array $chain = []) {
+	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}
@@ -356,7 +369,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return parent::query($name, chain: $chain);
 		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name, chain: $chain);
-		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
+		} elseif (str_starts_with($name, App::buildAppNamespace($this->appName) . '\\')) {
 			return parent::query($name, chain: $chain);
 		} elseif (
 			str_starts_with($name, 'OC\\AppFramework\\Services\\')

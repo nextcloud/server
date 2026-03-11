@@ -18,11 +18,9 @@ use function array_map;
 class ProviderUserAssignmentDao {
 	public const TABLE_NAME = 'twofactor_providers';
 
-	/** @var IDBConnection */
-	private $conn;
-
-	public function __construct(IDBConnection $dbConn) {
-		$this->conn = $dbConn;
+	public function __construct(
+		private IDBConnection $conn,
+	) {
 	}
 
 	/**
@@ -91,13 +89,13 @@ class ProviderUserAssignmentDao {
 			->where($qb2->expr()->eq('uid', $qb2->createNamedParameter($uid)));
 		$deleteQuery->executeStatement();
 
-		return array_values(array_map(function (array $row) {
+		return array_map(function (array $row) {
 			return [
 				'provider_id' => (string)$row['provider_id'],
 				'uid' => (string)$row['uid'],
 				'enabled' => ((int)$row['enabled']) === 1,
 			];
-		}, $rows));
+		}, $rows);
 	}
 
 	public function deleteAll(string $providerId): void {

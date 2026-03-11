@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
     "Collaborative tags …" : "Kollaborative Schlagworte …",
     "Loading …" : "Lade …",
-    "File tags modification canceled" : "Änderung der Datei-Schlagwörter abgebrochen",
-    "Select or create tags to apply to all selected files" : "Schlagwort auswählen oder erstellen, die auf alle ausgewählten Dateien angewendet werden sollen",
-    "Select tags to apply to all selected files" : "Schlagworte auswählen, die auf alle ausgewählten Dateien angewendet werden sollen",
-    "Apply changes" : "Änderungen anwenden",
     "Loading collaborative tags …" : "Kollaborative Schlagworte laden …"
 },
 "nplurals=2; plural=(n != 1);");

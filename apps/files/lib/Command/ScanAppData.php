@@ -53,6 +53,16 @@ class ScanAppData extends Base {
 		$this->addArgument('folder', InputArgument::OPTIONAL, 'The appdata subfolder to scan', '');
 	}
 
+	protected function getScanner(OutputInterface $output): Scanner {
+		$connection = $this->reconnectToDatabase($output);
+		return new Scanner(
+			null,
+			new ConnectionAdapter($connection),
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+		);
+	}
+
 	protected function scanFiles(OutputInterface $output, string $folder): int {
 		if ($folder === 'preview' || $folder === '') {
 			$this->previewsCounter = $this->previewStorage->scan();
@@ -79,13 +89,7 @@ class ScanAppData extends Base {
 			}
 		}
 
-		$connection = $this->reconnectToDatabase($output);
-		$scanner = new Scanner(
-			null,
-			new ConnectionAdapter($connection),
-			Server::get(IEventDispatcher::class),
-			Server::get(LoggerInterface::class)
-		);
+		$scanner = $this->getScanner($output);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output): void {
@@ -142,6 +146,9 @@ class ScanAppData extends Base {
 
 		$folder = $input->getArgument('folder');
 
+		// Start the timer
+		$this->execTime = -microtime(true);
+
 		$this->initTools();
 
 		$exitCode = $this->scanFiles($output, $folder);
@@ -155,8 +162,6 @@ class ScanAppData extends Base {
 	 * Initialises some useful tools for the Command
 	 */
 	protected function initTools(): void {
-		// Start the timer
-		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
 		set_error_handler([$this, 'exceptionErrorHandler'], E_ALL);
 	}
@@ -210,6 +215,11 @@ class ScanAppData extends Base {
 			$rows[] = $this->filesCounter;
 			$rows[] = $niceDate;
 		}
+
+		$this->displayTable($output, $headers, $rows);
+	}
+
+	protected function displayTable($output, $headers, $rows): void {
 		$table = new Table($output);
 		$table
 			->setHeaders($headers)
@@ -250,9 +260,9 @@ class ScanAppData extends Base {
 	 * @throws NotFoundException
 	 */
 	private function getAppDataFolder(): Node {
-		$instanceId = $this->config->getSystemValue('instanceid', null);
+		$instanceId = $this->config->getSystemValueString('instanceid', '');
 
-		if ($instanceId === null) {
+		if ($instanceId === '') {
 			throw new NotFoundException();
 		}
 

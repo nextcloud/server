@@ -9,8 +9,12 @@ declare(strict_types=1);
  */
 namespace OC\Command;
 
+use OCA\Files_Trashbin\Command\Expire;
 use OCP\Command\IBus;
 use OCP\Command\ICommand;
+use Test\Command\FilesystemCommand;
+use Test\Command\SimpleCommand;
+use Test\Command\StateFullCommand;
 
 class QueueBus implements IBus {
 	/**
@@ -38,10 +42,10 @@ class QueueBus implements IBus {
 			throw new \InvalidArgumentException('Trying to push a command which serialized form can not be stored in the database (>4000 character)');
 		}
 		$unserialized = unserialize($serialized, ['allowed_classes' => [
-			\Test\Command\SimpleCommand::class,
-			\Test\Command\StateFullCommand::class,
-			\Test\Command\FilesystemCommand::class,
-			\OCA\Files_Trashbin\Command\Expire::class,
+			SimpleCommand::class,
+			StateFullCommand::class,
+			FilesystemCommand::class,
+			Expire::class,
 			\OCA\Files_Versions\Command\Expire::class,
 		]]);
 		$unserialized->handle();

@@ -14,14 +14,12 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\UserDeletedEvent;
 
 /**
- * @template-implements IEventListener<\OCP\User\Events\UserDeletedEvent>
+ * @template-implements IEventListener<UserDeletedEvent>
  */
 class UserDeletedStoreCleanupListener implements IEventListener {
-	/** @var Registry */
-	private $registry;
-
-	public function __construct(Registry $registry) {
-		$this->registry = $registry;
+	public function __construct(
+		private Registry $registry,
+	) {
 	}
 
 	public function handle(Event $event): void {

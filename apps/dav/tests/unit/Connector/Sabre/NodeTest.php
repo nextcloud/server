@@ -94,6 +94,10 @@ class NodeTest extends \Test\TestCase {
 		$info->method('getStorage')
 			->willReturn($storage);
 		$view = $this->createMock(View::class);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$node = new  File($view, $info);
 		$this->assertEquals($expected, $node->getDavPermissions());
@@ -169,6 +173,10 @@ class NodeTest extends \Test\TestCase {
 		$info->method('getPermissions')->willReturn($permissions);
 
 		$view = $this->createMock(View::class);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
@@ -204,6 +212,10 @@ class NodeTest extends \Test\TestCase {
 
 		/** @var View&MockObject $view */
 		$view = $this->createMock(View::class);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
@@ -225,6 +237,10 @@ class NodeTest extends \Test\TestCase {
 
 		/** @var View&MockObject */
 		$view = $this->createMock(View::class);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
@@ -243,6 +259,10 @@ class NodeTest extends \Test\TestCase {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -263,6 +283,11 @@ class NodeTest extends \Test\TestCase {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$view = $this->createMock(View::class);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
+
 		$info = $this->createMock(FileInfo::class);
 
 		$node = new File($view, $info);

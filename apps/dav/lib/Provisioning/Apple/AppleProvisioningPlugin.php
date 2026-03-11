@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -23,22 +25,16 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	protected $server;
 
 	/**
-	 * @var \OC_Defaults
-	 */
-	protected $themingDefaults;
-
-	/**
 	 * AppleProvisioningPlugin constructor.
 	 */
 	public function __construct(
 		protected IUserSession $userSession,
 		protected IURLGenerator $urlGenerator,
-		\OC_Defaults $themingDefaults,
+		protected \OC_Defaults $themingDefaults,
 		protected IRequest $request,
 		protected IL10N $l10n,
 		protected \Closure $uuidClosure,
 	) {
-		$this->themingDefaults = $themingDefaults;
 	}
 
 	/**

@@ -104,7 +104,7 @@ class CacheJail extends CacheWrapper {
 	 * @return ICacheEntry|false
 	 */
 	public function get($file) {
-		if (is_string($file) || $file == '') {
+		if (is_string($file) || $file === '') {
 			$file = $this->getSourcePath($file);
 		}
 		return parent::get($file);
@@ -280,11 +280,10 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * Note that this should make sure the entries are removed from the source cache
 	 *
-	 * @param \OCP\Files\Cache\ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 */
-	public function moveFromCache(\OCP\Files\Cache\ICache $sourceCache, $sourcePath, $targetPath) {
+	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		if ($sourceCache === $this) {
 			return $this->move($sourcePath, $targetPath);
 		}

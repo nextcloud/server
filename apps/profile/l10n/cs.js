@@ -1,9 +1,16 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile picker" : "Výběr profilu",
     "Profile" : "Profil",
     "This application provides the profile" : "Tato aplikace poskytuje profil",
     "Provides a customisable user profile interface." : "Poskytuje přizpůsobitelné rozhraní uživatelského profilu.",
+    "Searching …" : "Hledání …",
+    "Not found" : "Nenalezeno",
+    "Search for a user profile" : "Hledat uživatelský profil",
+    "Search for a user profile. Start typing" : "Hledejte uživatelský profil. Začněte psát",
+    "Insert selected user profile link" : "Vložte odkaz na profil vybraného uživatele",
+    "Insert" : "Vložit",
     "You have not added any info yet" : "Zatím jste nezadali žádné informace",
     "{user} has not added any info yet" : "{user} uživatel zatím nezadal žádné informace",
     "Error opening the user status modal, try hard refreshing the page" : "Chyba při otevírání dialogu stavu uživatele, pokus o opětovné načtení stránky",

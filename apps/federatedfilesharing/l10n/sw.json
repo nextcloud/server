@@ -65,9 +65,6 @@
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Je, ungependa kuongeza ushiriki wa mbali {name} tangu {owner}@{remote}?",
     "Remote share password" : "Nenosiri la kushiriki kwa mbali",
     "Incoming share could not be processed" : "Ushiriki unaoingia haukuweza kuchakatwa",
-    "Cloud ID copied to the clipboard" : "Kitambulisho cha Cloud kimenakiliwa kwenye ubao wa kunakili",
-    "Copy to clipboard" : "Nakili kwenye ubao wa kunakili",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Unaweza kushiriki na mtu yeyote anayetumia seva ya Nextcloud au seva na huduma zingine zinazooana na Open Cloud Mesh (OCM)! Weka tu Kitambulisho chao cha Wingu Shirikishi kwenye kidirisha cha kushiriki. Inaonekana kama person@cloud.example.com",
     "X (formerly Twitter)" : "X (zamani Twitter)",
     "formerly Twitter" : "zamani Twitter"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

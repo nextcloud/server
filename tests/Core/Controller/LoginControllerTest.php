@@ -218,6 +218,7 @@ class LoginControllerTest extends TestCase {
 
 		$expected = new RedirectResponse('/login');
 		$expected->addHeader('Clear-Site-Data', '"cache", "storage"');
+		$expected->addHeader('X-User-Id', 'JohnDoe');
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
@@ -515,7 +516,7 @@ class LoginControllerTest extends TestCase {
 			$rememberme,
 			'/apps/files'
 		);
-		$loginResult = LoginResult::failure($loginData, LoginController::LOGIN_MSG_INVALIDPASSWORD);
+		$loginResult = LoginResult::failure(LoginController::LOGIN_MSG_INVALIDPASSWORD);
 		$loginChain->expects($this->once())
 			->method('process')
 			->with($this->equalTo($loginData))
@@ -553,7 +554,7 @@ class LoginControllerTest extends TestCase {
 			$password,
 			$rememberme,
 		);
-		$loginResult = LoginResult::success($loginData);
+		$loginResult = LoginResult::success();
 		$loginChain->expects($this->once())
 			->method('process')
 			->with($this->equalTo($loginData))
@@ -658,7 +659,7 @@ class LoginControllerTest extends TestCase {
 			$rememberme,
 			'/apps/mail'
 		);
-		$loginResult = LoginResult::success($loginData);
+		$loginResult = LoginResult::success();
 		$loginChain->expects($this->once())
 			->method('process')
 			->with($this->equalTo($loginData))
@@ -694,7 +695,7 @@ class LoginControllerTest extends TestCase {
 			$rememberme,
 			'/apps/files'
 		);
-		$loginResult = LoginResult::failure($loginData, LoginController::LOGIN_MSG_INVALIDPASSWORD);
+		$loginResult = LoginResult::failure(LoginController::LOGIN_MSG_INVALIDPASSWORD);
 		$loginChain->expects($this->once())
 			->method('process')
 			->with($this->equalTo($loginData))

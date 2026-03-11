@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Theip ar scriosadh an chlib don chomhad",
     "Collaborative tags …" : "Clibeanna comhoibríocha…",
     "Loading …" : "Á lódáil…",
-    "File tags modification canceled" : "Cealaíodh modhnú clibeanna comhaid",
-    "Select or create tags to apply to all selected files" : "Roghnaigh nó cruthaigh clibeanna le cur i bhfeidhm ar gach comhad roghnaithe",
-    "Select tags to apply to all selected files" : "Roghnaigh clibeanna le cur i bhfeidhm ar gach comhad roghnaithe",
-    "Apply changes" : "Cuir athruithe i bhfeidhm",
     "Loading collaborative tags …" : "Clibeanna comhoibritheacha á lódáil…"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

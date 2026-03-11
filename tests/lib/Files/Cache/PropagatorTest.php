@@ -15,8 +15,7 @@ use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class PropagatorTest extends TestCase {
-	/** @var IStorage */
-	private $storage;
+	private IStorage $storage;
 
 	protected function setUp(): void {
 		parent::setUp();

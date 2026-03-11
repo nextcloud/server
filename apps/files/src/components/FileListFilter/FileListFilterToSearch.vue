@@ -4,44 +4,26 @@
 -->
 
 <template>
-	<NcButton v-show="isVisible" @click="onClick">
+	<NcButton v-if="isVisible" size="small" @click="onClick">
 		{{ t('files', 'Search everywhere') }}
 	</NcButton>
 </template>
 
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
-import { ref } from 'vue'
+import { computed } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import { getPinia } from '../../store/index.ts'
 import { useSearchStore } from '../../store/search.ts'
 
-const isVisible = ref(false)
+const searchStore = useSearchStore(getPinia())
 
-defineExpose({
-	hideButton,
-	showButton,
-})
-
-/**
- * Hide the button - called by the filter class
- */
-function hideButton() {
-	isVisible.value = false
-}
-
-/**
- * Show the button - called by the filter class
- */
-function showButton() {
-	isVisible.value = true
-}
+const isVisible = computed(() => searchStore.query.length >= 3 && searchStore.scope === 'filter')
 
 /**
  * Button click handler to make the filtering a global search.
  */
 function onClick() {
-	const searchStore = useSearchStore(getPinia())
 	searchStore.scope = 'globally'
 }
 </script>

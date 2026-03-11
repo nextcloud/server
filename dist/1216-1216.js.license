@@ -48,7 +48,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.35.0
+	- version: 8.36.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.3.0
@@ -57,7 +57,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.12.2
+	- version: 1.13.5
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -75,13 +75,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 7.6.6
+	- version: 7.8.0
 	- license: MIT
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause
 - marked
-	- version: 17.0.1
+	- version: 17.0.3
 	- license: MIT
 - buffer
 	- version: 6.0.3
@@ -93,7 +93,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.3.0
+	- version: 6.4.0
 	- license: MIT
 - vue-demi
 	- version: 0.14.10

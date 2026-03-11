@@ -18,7 +18,8 @@ use OCP\Files\Folder;
 use OCP\IDBConnection;
 use OCP\ITags;
 use OCP\IUserSession;
-use OCP\Share_Backend;
+use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Tags implements ITags {
@@ -29,21 +30,10 @@ class Tags implements ITags {
 	private array $tags = [];
 
 	/**
-	 * Are we including tags for shared items?
-	 */
-	private bool $includeShared = false;
-
-	/**
 	 * The current user, plus any owners of the items shared with the current
 	 * user, if $this->includeShared === true.
 	 */
 	private array $owners = [];
-
-	/**
-	 * The sharing backend for objects of $this->type. Required if
-	 * $this->includeShared === true to determine ownership of items.
-	 */
-	private ?Share_Backend $backend = null;
 
 	public const TAG_TABLE = 'vcategory';
 	public const RELATION_TABLE = 'vcategory_to_object';
@@ -212,7 +202,7 @@ class Tags implements ITags {
 		}
 
 		if ($tagId === false) {
-			$l10n = \OCP\Util::getL10N('core');
+			$l10n = Util::getL10N('core');
 			throw new \Exception(
 				$l10n->t('Could not find category "%s"', [$tag])
 			);
@@ -461,7 +451,7 @@ class Tags implements ITags {
 		try {
 			return $this->getIdsForTag(ITags::TAG_FAVORITE);
 		} catch (\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				$e->getMessage(),
 				[
 					'app' => 'core',
@@ -522,7 +512,7 @@ class Tags implements ITags {
 		try {
 			$qb->executeStatement();
 		} catch (\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), [
+			Server::get(LoggerInterface::class)->error($e->getMessage(), [
 				'app' => 'core',
 				'exception' => $e,
 			]);

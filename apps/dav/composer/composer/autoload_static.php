@@ -92,6 +92,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarFactory' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarFactory.php',
         'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarImpl' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarImpl.php',
         'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarMapper' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarMapper.php',
+        'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarObject' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarObject.php',
         'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarSyncService' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarSyncService.php',
         'OCA\\DAV\\CalDAV\\Federation\\FederationSharingService' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederationSharingService.php',
         'OCA\\DAV\\CalDAV\\Federation\\Protocol\\CalendarFederationProtocolV1' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/Protocol/CalendarFederationProtocolV1.php',

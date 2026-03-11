@@ -52,7 +52,7 @@ interface ICache {
 	public function getNumericStorageId();
 
 	/**
-	 * get the stored metadata of a file or folder
+	 * Get the stored metadata of a file or folder.
 	 *
 	 * @param string | int $file either the path of a file or folder or the file id for a file or folder
 	 * @return ICacheEntry|false the cache entry or false if the file is not found in the cache
@@ -61,30 +61,34 @@ interface ICache {
 	public function get($file);
 
 	/**
-	 * get the metadata of all files stored in $folder
+	 * Get the metadata of all files stored in $folder.
 	 *
-	 * Only returns files one level deep, no recursion
+	 * @note This only returns files one level deep with no recursion.
 	 *
 	 * @param string $folder
+	 * @param ?non-empty-string $mimeTypeFilter The mimetype or mimepart for which the content should be filtered
 	 * @return ICacheEntry[]
 	 * @since 9.0.0
 	 */
-	public function getFolderContents($folder);
+	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null);
 
 	/**
-	 * get the metadata of all files stored in $folder
+	 * Get the metadata of all files stored in $folder.
 	 *
-	 * Only returns files one level deep, no recursion
+	 * @note This only returns files one level deep with no recursion.
 	 *
 	 * @param int $fileId the file id of the folder
+	 * @param ?non-empty-string $mimeTypeFilter The mimetype or mimepart for which the content should be filtered
 	 * @return ICacheEntry[]
 	 * @since 9.0.0
+	 * @since 34.0.0 The $mimetypeFilter was added.
 	 */
-	public function getFolderContentsById($fileId);
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null);
 
 	/**
-	 * store meta data for a file or folder
-	 * This will automatically call either insert or update depending on if the file exists
+	 * Store meta data for a file or folder.
+	 *
+	 * This will automatically call either insert or update depending on if the file exists.
 	 *
 	 * @param string $file
 	 * @param array $data

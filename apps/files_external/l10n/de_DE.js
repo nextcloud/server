@@ -169,13 +169,8 @@ OC.L10N.register(
     "Unauthorized" : "Nicht autorisiert",
     "Network error" : "Netzwerkfehler",
     "Grant access" : "Zugriff gestatten",
-    "Error configuring OAuth1" : "Fehler beim Konfigurieren von OAuth1",
-    "Please provide a valid app key and secret." : "Bitte einen gültigen Anwendungsschlüssel (App-Key) mit Sicherheitsschlüssel (Secret) eingeben.",
     "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "App-Schlüssel",
-    "App secret" : "Geheime Zeichenkette der App",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client-ID",
     "Client secret" : "Geheime Zeichenkette des Clients",
@@ -190,7 +185,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Unbekanntes Backend: {backendName}",
     "Admin defined" : "Von der Administration festgelegt",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Die automatische Statusprüfung ist aufgrund der großen Anzahl konfigurierter Speicher deaktiviert, klicken Sie hier, um den Status zu prüfen",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Möchten Sie diesen externen Speicher wirklich trennen? Der Speicher ist danach in der Nextcloud nicht mehr verfügbar, was zu einer Löschung dieser Dateien und Ordner auf allen Sync-Clients, die verbunden sind, führt. Auf dem externen Speicher selbst werden keine Dateien und Ordner gelöscht.",
+    "Are you sure you want to disconnect this external storage?" : "Soll dieser externer Speicher wirklich getrennt werden?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Der Speicher ist danach in {instanceName} nicht mehr verfügbar und die Dateien und Ordner werden auf jedem aktuell verbundenen Synchronisierungsclient gelöscht. Auf dem externen Speicher selbst werden jedoch keine Dateien und Ordner gelöscht.",
     "Delete storage?" : "Speicher löschen?",
     "Click to recheck the configuration" : "Hier klicken, um die Konfiguration erneut zu prüfen",
     "Saving …" : "Speichere …",
@@ -202,8 +198,6 @@ OC.L10N.register(
     "Configuration" : "Konfiguration",
     "Available for" : "Verfügbar für",
     "All people" : "Alle Personen",
-    "Advanced settings" : "Erweiterte Einstellungen",
-    "Are you sure you want to disconnect this external storage?" : "Soll dieser externer Speicher wirklich getrennt werden?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Der Speicher ist danach in {instanceName} nicht mehr verfügbar und die Dateien und Ordner werden auf jedem aktuell verbundenen Synchronisierungsclient gelöscht. Auf dem externen Speicher selbst werden jedoch keine Dateien und Ordner gelöscht."
+    "Advanced settings" : "Erweiterte Einstellungen"
 },
 "nplurals=2; plural=(n != 1);");

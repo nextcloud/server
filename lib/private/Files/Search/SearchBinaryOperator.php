@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,10 +12,6 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchOperator;
 
 class SearchBinaryOperator implements ISearchBinaryOperator {
-	/** @var string */
-	private $type;
-	/** @var (SearchBinaryOperator|SearchComparison)[] */
-	private $arguments;
 	private $hints = [];
 
 	/**
@@ -22,9 +20,10 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 	 * @param string $type
 	 * @param (SearchBinaryOperator|SearchComparison)[] $arguments
 	 */
-	public function __construct($type, array $arguments) {
-		$this->type = $type;
-		$this->arguments = $arguments;
+	public function __construct(
+		private $type,
+		private array $arguments,
+	) {
 	}
 
 	/**

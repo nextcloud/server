@@ -132,7 +132,7 @@ async function processSharesToConfirm() {
  * @param {string} share.name name of the shared folder
  * @param {string} share.token authentication token
  * @param {boolean} passwordProtected true if the share is password protected
- * @param {Function} callback the callback
+ * @param {(status: boolean, share: Record<string, unknown> & { password?: string }) => void} callback the callback
  */
 function showAddExternalDialog(share, passwordProtected, callback) {
 	const owner = share.ownerDisplayName || share.owner

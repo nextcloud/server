@@ -22,7 +22,6 @@
     "No deleted files" : "No hay archivos eliminados",
     "Files and folders you have deleted will show up here" : "Los archivos y carpetas que ha eliminado aparecerán aquí",
     "All files have been permanently deleted" : "Todos los archivos han sido eliminados de forma permanente",
-    "Failed to empty deleted files" : "Fallo al vaciar los archivos eliminados",
-    "Deletion cancelled" : "Eliminación cancelada"
+    "Failed to empty deleted files" : "Fallo al vaciar los archivos eliminados"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

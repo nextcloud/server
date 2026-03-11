@@ -351,7 +351,7 @@ export default defineComponent({
 
 	&__list {
 		display: grid;
-		grid-gap: calc(var(--margin) * 2);
+		gap: calc(var(--margin) * 2);
 		grid-auto-columns: 1fr;
 		// We want maximum 5 columns. Putting 6 as we don't count the grid gap. So it will always be lower than 6
 		max-width: calc(var(--fullwidth) * 6);

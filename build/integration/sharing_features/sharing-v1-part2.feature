@@ -43,7 +43,7 @@ Feature: sharing
       | item_type              | file |
       | mimetype               | text/plain |
       | storage_id             | shared::/textfile0 (2).txt |
-      | file_target            | /textfile0.txt |
+      | file_target            | /textfile0 (2).txt |
       | share_with             | user2 |
       | share_with_displayname | user2 |
 
@@ -84,7 +84,7 @@ Feature: sharing
       | item_type              | file |
       | mimetype               | text/plain |
       | storage_id             | shared::/textfile0 (2).txt |
-      | file_target            | /textfile0.txt |
+      | file_target            | /textfile0 (2).txt |
       | share_with             | user2 |
       | share_with_displayname | user2 |
 
@@ -120,7 +120,7 @@ Feature: sharing
       | share_type | 0 |
       | share_with | user1 |
       | file_source | A_NUMBER |
-      | file_target | /textfile0.txt |
+      | file_target | /textfile0 (2).txt |
       | path | /textfile0.txt |
       | permissions | 19 |
       | stime | A_NUMBER |
@@ -401,7 +401,7 @@ Feature: sharing
       | item_type              | file |
       | mimetype               | text/plain |
       | storage_id             | shared::/FOLDER/textfile0.txt |
-      | file_target            | /textfile0.txt |
+      | file_target            | /textfile0 (2).txt |
       | share_with             | user2 |
       | share_with_displayname | user2 |
 
@@ -440,7 +440,7 @@ Feature: sharing
       | item_type              | file |
       | mimetype               | text/plain |
       | storage_id             | shared::/FOLDER/textfile0 (2).txt |
-      | file_target            | /textfile0.txt |
+      | file_target            | /textfile0 (2).txt |
       | share_with             | user2 |
       | share_with_displayname | user2 |
 
@@ -887,7 +887,7 @@ Feature: sharing
       | share_type | 0 |
       | share_with | user2 |
       | file_source | A_NUMBER |
-      | file_target | /textfile0.txt |
+      | file_target | /textfile0 (2).txt |
       | path | /textfile0 (2).txt |
       | permissions | 19 |
       | stime | A_NUMBER |

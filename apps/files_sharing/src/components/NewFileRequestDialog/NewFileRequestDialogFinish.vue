@@ -112,7 +112,8 @@ export default defineComponent({
 
 	setup() {
 		return {
-			n, t,
+			n,
+			t,
 		}
 	},
 

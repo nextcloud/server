@@ -96,13 +96,13 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
 			$component = $this->getPrimaryComponent($taskRow['calendardata'], self::$componentType);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled task'));
-			$subline = $this->generateSubline($component);
 
 			if ($taskRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {
 				$calendar = $calendarsById[$taskRow['calendarid']];
 			} else {
 				$calendar = $subscriptionsById[$taskRow['calendarid']];
 			}
+			$subline = $this->generateSubline($component, $calendar);
 			$resourceUrl = $this->getDeepLinkToTasksApp($calendar['uri'], $taskRow['uri']);
 
 			return new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-checkmark', false);
@@ -128,25 +128,29 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		);
 	}
 
-	protected function generateSubline(Component $taskComponent): string {
+	protected function generateSubline(Component $taskComponent, array $calendarInfo): string {
 		if ($taskComponent->COMPLETED) {
 			$completedDateTime = new \DateTime($taskComponent->COMPLETED->getDateTime()->format(\DateTimeInterface::ATOM));
 			$formattedDate = $this->l10n->l('date', $completedDateTime, ['width' => 'medium']);
-			return $this->l10n->t('Completed on %s', [$formattedDate]);
-		}
-
-		if ($taskComponent->DUE) {
+			$formattedSubline = $this->l10n->t('Completed on %s', [$formattedDate]);
+		} elseif ($taskComponent->DUE) {
 			$dueDateTime = new \DateTime($taskComponent->DUE->getDateTime()->format(\DateTimeInterface::ATOM));
 			$formattedDate = $this->l10n->l('date', $dueDateTime, ['width' => 'medium']);
 
 			if ($taskComponent->DUE->hasTime()) {
 				$formattedTime = $this->l10n->l('time', $dueDateTime, ['width' => 'short']);
-				return $this->l10n->t('Due on %s by %s', [$formattedDate, $formattedTime]);
+				$formattedSubline = $this->l10n->t('Due on %s by %s', [$formattedDate, $formattedTime]);
+			} else {
+				$formattedSubline = $this->l10n->t('Due on %s', [$formattedDate]);
 			}
-
-			return $this->l10n->t('Due on %s', [$formattedDate]);
+		} else {
+			$formattedSubline = '';
 		}
 
-		return '';
+		if (isset($calendarInfo['{DAV:}displayname']) && !empty($calendarInfo['{DAV:}displayname'])) {
+			$formattedSubline = $formattedSubline . (!empty($formattedSubline) ? ' ' : '') . "({$calendarInfo['{DAV:}displayname']})";
+		}
+
+		return $formattedSubline;
 	}
 }

@@ -26,13 +26,15 @@
     "Friday" : "Juma",
     "Saturday" : "Shanba",
     "January" : "January",
-    "Authentication error" : "Authentication error",
+    "ID \"%1$s\" already used by cloud federation provider \"%2$s\"" : "\"%2$s\" Jamg'armaning bulut provayderi tomonidan allaqachon \"%1$s\" identifikatori ishlatilgan",
+    "Cloud Federation Provider with ID: \"%s\" does not exist." : "\"%s\" identifikatoriga ega Jamg'armaning bulut provayderi mavjud emas.",
     "Storage is temporarily not available" : "Storage is temporarily not available",
     "Images" : "Tasvirlar",
     "Generated response" : "Yaratilgan javob",
     "Confirmation" : "Tasdiqlash",
     "Prompt" : "Tezkor",
     "Text" : "Matn",
-    "Translate" : "Tarjima"
+    "Translate" : "Tarjima",
+    "Authentication error" : "Authentication error"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

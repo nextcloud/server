@@ -11,10 +11,10 @@ namespace OCA\Encryption\Command;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Files\FileInfo;
-use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files\ISetupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
@@ -27,7 +27,7 @@ class DropLegacyFileKey extends Command {
 	public function __construct(
 		private readonly IUserManager $userManager,
 		private readonly KeyManager $keyManager,
-		private readonly SetupManager $setupManager,
+		private readonly ISetupManager $setupManager,
 	) {
 		parent::__construct();
 

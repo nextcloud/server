@@ -1,0 +1,11 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/dialogs
+	- version: 7.3.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.5.0
+	- license: AGPL-3.0-or-later

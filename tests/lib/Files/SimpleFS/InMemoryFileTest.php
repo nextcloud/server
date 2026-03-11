@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\File\SimpleFS;
@@ -14,7 +14,7 @@ use OCP\Files\SimpleFS\InMemoryFile;
 use Test\TestCase;
 
 /**
- * This class provide test casesf or the InMemoryFile.
+ * This class provide test cases for the InMemoryFile.
  *
  * @package Test\File\SimpleFS
  */
@@ -106,13 +106,13 @@ class InMemoryFileTest extends TestCase {
 
 
 	/**
-	 * Asserts that read() raises an NotPermittedException.
-	 *
-	 * @return void
+	 * Ensure that read() returns a stream with the same contents than the original file.
 	 */
 	public function testRead(): void {
-		self::expectException(NotPermittedException::class);
-		$this->testPdf->read();
+		self::assertEquals(
+			file_get_contents(__DIR__ . '/../../../data/test.pdf'),
+			stream_get_contents($this->testPdf->read()),
+		);
 	}
 
 	/**

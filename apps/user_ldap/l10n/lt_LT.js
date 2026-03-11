@@ -109,7 +109,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Režimo pakeitimas įjungs automatines LDAP užklausas. Priklausomai nuo LDAP dydžio tai gali užtrukti. Ar tikrai norite pakeisti režimą?",
     "Confirm" : "Patvirtinti",
     "Failed to delete the server configuration" : "Nepavyko pašalinti serverio konfigūracijos",
-    "Invalid configuration. Please have a look at the logs for further details." : "Neteisinga konfigūracija. Išsamesnei informacijai, žiūrėkite žurnalus.",
     "No action specified" : "Nenurodytas veiksmas",
     "No configuration specified" : "Nenurodyta jokia konfigūracija",
     "No data specified" : "Nepateikta duomenų",

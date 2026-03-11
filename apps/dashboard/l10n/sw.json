@@ -21,7 +21,6 @@
     "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Kwa faragha yako, data ya hali ya hewa inaombwa na seva yako ya {productName} kwa niaba yako ili huduma ya hali ya hewa isipokee taarifa za kibinafsi.",
     "Weather data from Met.no" : "Data za hali ya hewa kutoka Met.no",
     "geocoding with Nominatim" : "geocoding na Nominatim",
-    "elevation data from OpenTopoData" : "data ya mwinuko kutoka OpenTopoData",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Kwa faragha yako, data ya hali ya hewa inaombwa na seva yako ya Nextcloud kwa niaba yako ili huduma ya hali ya hewa isipokee taarifa za kibinafsi."
+    "elevation data from OpenTopoData" : "data ya mwinuko kutoka OpenTopoData"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -20,11 +20,9 @@ class CompressionMiddleware extends Middleware {
 	/** @var bool */
 	private $useGZip;
 
-	/** @var IRequest */
-	private $request;
-
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(
+		private IRequest $request,
+	) {
 		$this->useGZip = false;
 	}
 

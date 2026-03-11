@@ -6,24 +6,24 @@
 	<div v-if="node" class="versions-tab__container">
 		<VirtualScrolling
 			:sections="sections"
-			:header-height="0">
+			:headerHeight="0">
 			<template #default="{ visibleSections }">
 				<ul :aria-label="t('files_versions', 'File versions')" data-files-versions-versions-list>
 					<template v-if="visibleSections.length === 1">
 						<VersionEntry
 							v-for="(row) of visibleSections[0].rows"
 							:key="row.items[0].version.mtime"
-							:can-view="canView"
-							:can-compare="canCompare"
-							:load-preview="isActive"
+							:canView="canView"
+							:canCompare="canCompare"
+							:loadPreview="active"
 							:version="row.items[0].version"
 							:node="node"
-							:is-current="row.items[0].version.mtime === currentVersionMtime"
-							:is-first-version="row.items[0].version.mtime === initialVersionMtime"
+							:isCurrent="row.items[0].version.mtime === currentVersionMtime"
+							:isFirstVersion="row.items[0].version.mtime === initialVersionMtime"
 							@click="openVersion"
 							@compare="compareVersion"
 							@restore="handleRestore"
-							@label-update-request="handleLabelUpdateRequest(row.items[0].version)"
+							@labelUpdateRequest="handleLabelUpdateRequest(row.items[0].version)"
 							@delete="handleDelete" />
 					</template>
 				</ul>
@@ -57,15 +57,16 @@ import logger from '../utils/logger.ts'
 import { deleteVersion, fetchVersions, restoreVersion, setVersionLabel } from '../utils/versions.ts'
 
 const props = defineProps<{
-	node?: INode
-	folder?: IFolder
-	view?: IView
+	active: boolean
+	node: INode
+
+	// eslint-disable-next-line vue/no-unused-properties -- required by SidebarTab but we do not need it
+	folder: IFolder
+	// eslint-disable-next-line vue/no-unused-properties -- required by SidebarTab but we do not need it
+	view: IView
 }>()
 
-defineExpose({ setActive })
-
 const isMobile = useIsMobile()
-const isActive = ref<boolean>(false)
 const versions = ref<Version[]>([])
 const loading = ref(false)
 const showVersionLabelForm = ref(false)
@@ -137,15 +138,6 @@ const canCompare = computed(() => {
 	return !isMobile.value
 		&& window.OCA.Viewer?.mimetypesCompare?.includes(props.node?.mime)
 })
-
-/**
- * This method is called by the files app if the sidebar tab state changes.
- *
- * @param active - The new active state
- */
-function setActive(active: boolean) {
-	isActive.value = active
-}
 
 /**
  * Handle restored event from Version.vue
@@ -242,10 +234,9 @@ async function handleDelete(version: Version) {
 }
 
 /**
- * @param payload - The event payload
- * @param payload.version - The version to open
+ * @param version - The version to open
  */
-function openVersion({ version }: { version: Version }) {
+function openVersion(version: Version) {
 	if (props.node === null) {
 		return
 	}
@@ -269,10 +260,9 @@ function openVersion({ version }: { version: Version }) {
 }
 
 /**
- * @param payload - The event payload
- * @param payload.version - The version to compare
+ * @param version - The version to compare
  */
-function compareVersion({ version }: { version: Version }) {
+function compareVersion(version: Version) {
 	const _versions = versions.value.map((version) => ({ ...version, previewUrl: undefined }))
 
 	window.OCA.Viewer.compare(

@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ActionContext, ActionContextSingle } from '@nextcloud/files'
+import type { ActionContext, ActionContextSingle, IFileAction } from '@nextcloud/files'
 
 import TagMultipleSvg from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
-import { FileAction, Permission } from '@nextcloud/files'
+import { Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
@@ -19,17 +19,17 @@ import { defineAsyncComponent } from 'vue'
  * @param context.nodes - Nodes to modify tags for
  */
 async function execBatch({ nodes }: ActionContext | ActionContextSingle): Promise<(null | boolean)[]> {
-	const response = await new Promise<null | boolean>((resolve) => {
-		spawnDialog(defineAsyncComponent(() => import('../components/SystemTagPicker.vue')), {
+	const response = await spawnDialog(
+		defineAsyncComponent(() => import('../components/SystemTagPicker.vue')),
+		{
 			nodes,
-		}, (status) => {
-			resolve(status as null | boolean)
-		})
-	})
-	return Array(nodes.length).fill(response)
+		},
+	)
+	return Array(nodes.length)
+		.fill(response)
 }
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'systemtags:bulk',
 	displayName: () => t('systemtags', 'Manage tags'),
 	iconSvgInline: () => TagMultipleSvg,
@@ -55,7 +55,7 @@ export const action = new FileAction({
 
 	async exec(context: ActionContextSingle) {
 		const [result] = await execBatch(context)
-		return result
+		return result!
 	},
 
 	execBatch,
@@ -64,4 +64,4 @@ export const action = new FileAction({
 		description: t('systemtags', 'Manage tags'),
 		key: 't',
 	},
-})
+}

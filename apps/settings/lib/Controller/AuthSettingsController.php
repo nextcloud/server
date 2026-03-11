@@ -36,7 +36,6 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
-
 	public function __construct(
 		string $appName,
 		IRequest $request,

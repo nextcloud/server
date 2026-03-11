@@ -14,16 +14,13 @@ use OCP\UserInterface;
 
 class LazyUser implements IUser {
 	private ?IUser $user = null;
-	private string $uid;
-	private ?string $displayName;
-	private IUserManager $userManager;
-	private ?UserInterface $backend;
 
-	public function __construct(string $uid, IUserManager $userManager, ?string $displayName = null, ?UserInterface $backend = null) {
-		$this->uid = $uid;
-		$this->userManager = $userManager;
-		$this->displayName = $displayName;
-		$this->backend = $backend;
+	public function __construct(
+		private string $uid,
+		private IUserManager $userManager,
+		private ?string $displayName = null,
+		private ?UserInterface $backend = null,
+	) {
 	}
 
 	private function getUser(): IUser {
@@ -44,7 +41,7 @@ class LazyUser implements IUser {
 		return $this->user;
 	}
 
-	public function getUID() {
+	public function getUID(): string {
 		return $this->uid;
 	}
 
@@ -100,20 +97,24 @@ class LazyUser implements IUser {
 		return $this->getUser()->getBackend();
 	}
 
-	public function canChangeAvatar() {
+	public function canChangeAvatar(): bool {
 		return $this->getUser()->canChangeAvatar();
 	}
 
-	public function canChangePassword() {
+	public function canChangePassword(): bool {
 		return $this->getUser()->canChangePassword();
 	}
 
-	public function canChangeDisplayName() {
+	public function canChangeDisplayName(): bool {
 		return $this->getUser()->canChangeDisplayName();
 	}
 
 	public function canChangeEmail(): bool {
 		return $this->getUser()->canChangeEmail();
+	}
+
+	public function canEditProperty(string $property): bool {
+		return $this->getUser()->canEditProperty($property);
 	}
 
 	public function isEnabled() {

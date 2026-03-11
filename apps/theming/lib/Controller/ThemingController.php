@@ -17,6 +17,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -61,13 +63,10 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @param string $setting
-	 * @param string $value
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	public function updateStylesheet($setting, $value) {
+	public function updateStylesheet(string $setting, string $value): DataResponse {
 		$value = trim($value);
 		$error = null;
 		$saved = false;
@@ -167,13 +166,10 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @param string $setting
-	 * @param mixed $value
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	public function updateAppMenu($setting, $value) {
+	public function updateAppMenu(string $setting, mixed $value): DataResponse {
 		$error = null;
 		switch ($setting) {
 			case 'defaultApps':
@@ -218,7 +214,6 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
@@ -366,6 +361,7 @@ class ThemingController extends Controller {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getImage(string $key, bool $useSvg = true) {
 		try {
+			$useSvg = $useSvg && $this->imageManager->canConvert('SVG');
 			$file = $this->imageManager->getImage($key, $useSvg);
 		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
@@ -376,20 +372,12 @@ class ThemingController extends Controller {
 		$csp->allowInlineStyle();
 		$response->setContentSecurityPolicy($csp);
 		$response->cacheFor(3600);
-		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
+		$response->addHeader('Content-Type', $file->getMimeType());
 		$response->addHeader('Content-Disposition', 'attachment; filename="' . $key . '"');
-		if (!$useSvg) {
-			$response->addHeader('Content-Type', 'image/png');
-		} else {
-			$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
-		}
 		return $response;
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 * @NoTwoFactorRequired
-	 *
 	 * Get the CSS stylesheet for a theme
 	 *
 	 * @param string $themeId ID of the theme
@@ -402,7 +390,9 @@ class ThemingController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[NoTwoFactorRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[NoSameSiteCookieRequired]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
 		if (!in_array($themeId, array_keys($themes))) {

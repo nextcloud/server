@@ -2,6 +2,9 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Profil",
+    "Searching …" : "Keresés…",
+    "Not found" : "Nem található",
+    "Insert" : "Beillesztés",
     "You have not added any info yet" : "Még nem adott meg semmilyen információt",
     "{user} has not added any info yet" : "{user} még nem adott meg semmilyen információt",
     "Error opening the user status modal, try hard refreshing the page" : "Hiba a felhasználói állapot párbeszédablak megnyitásakor, próbálja meg az oldal kényszerített újratöltését",

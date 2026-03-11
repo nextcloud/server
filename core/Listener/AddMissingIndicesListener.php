@@ -100,14 +100,6 @@ class AddMissingIndicesListener implements IEventListener {
 		);
 
 		$event->addMissingIndex(
-			'whats_new',
-			'version',
-			['version'],
-			[],
-			true
-		);
-
-		$event->addMissingIndex(
 			'cards',
 			'cards_abiduri',
 			['addressbookid', 'uri'],

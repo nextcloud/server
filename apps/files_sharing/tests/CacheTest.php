@@ -9,7 +9,6 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Filesystem;
-use OC\Files\SetupManager;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
@@ -18,6 +17,7 @@ use OCA\Files_Sharing\SharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\IWatcher;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\IUserManager;
 use OCP\Server;
@@ -230,14 +230,14 @@ class CacheTest extends TestCase {
 			[
 				[
 					'name' => 'shareddir',
-					'path' => 'files/shareddir',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shareddir',
 					'mimetype' => 'httpd/unix-directory',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'shared single file.txt',
-					'path' => 'files/shared single file.txt',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shared single file.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
@@ -254,21 +254,21 @@ class CacheTest extends TestCase {
 			[
 				[
 					'name' => 'bar.txt',
-					'path' => 'bar.txt',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shareddir/bar.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'emptydir',
-					'path' => 'emptydir',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shareddir/emptydir',
 					'mimetype' => 'httpd/unix-directory',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'subdir',
-					'path' => 'subdir',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shareddir/subdir',
 					'mimetype' => 'httpd/unix-directory',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
@@ -336,21 +336,21 @@ class CacheTest extends TestCase {
 			[
 				[
 					'name' => 'another too.txt',
-					'path' => 'another too.txt',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER3 . '/files/subdir/another too.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'another.txt',
-					'path' => 'another.txt',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER3 . '/files/subdir/another.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'not a text file.xml',
-					'path' => 'not a text file.xml',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER3 . '/files/subdir/not a text file.xml',
 					'mimetype' => 'application/xml',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
@@ -412,7 +412,7 @@ class CacheTest extends TestCase {
 		$share = $this->shareManager->createShare($share);
 		$share->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share);
-		Server::get(SetupManager::class)->tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue(Filesystem::file_exists('/test.txt'));
@@ -443,7 +443,7 @@ class CacheTest extends TestCase {
 		$share = $this->shareManager->createShare($share);
 		$share->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share);
-		Server::get(SetupManager::class)->tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue(Filesystem::file_exists('/foo'));
@@ -471,7 +471,7 @@ class CacheTest extends TestCase {
 		$share = $this->shareManager->createShare($share);
 		$share->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share);
-		Server::get(SetupManager::class)->tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		[$sourceStorage] = Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo');
 
@@ -508,7 +508,7 @@ class CacheTest extends TestCase {
 		$share = $this->shareManager->createShare($share);
 		$share->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share);
-		Server::get(SetupManager::class)->tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertEquals('foo', Filesystem::file_get_contents('/sub/foo.txt'));
@@ -547,7 +547,7 @@ class CacheTest extends TestCase {
 		$share = $this->shareManager->createShare($share);
 		$share->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share);
-		Server::get(SetupManager::class)->tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
@@ -582,7 +582,7 @@ class CacheTest extends TestCase {
 		$share = $this->shareManager->createShare($share);
 		$share->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share);
-		Server::get(SetupManager::class)->tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 

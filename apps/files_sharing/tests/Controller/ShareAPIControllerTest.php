@@ -125,6 +125,8 @@ class ShareAPIControllerTest extends TestCase {
 				return $fileInfo->getMimeType() === 'mimeWithPreview';
 			});
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
+		$this->dateTimeZone->method('getTimeZone')
+			->willReturn(new \DateTimeZone('UTC'));
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->factory = $this->createMock(IProviderFactory::class);
 		$this->mailer = $this->createMock(IMailer::class);
@@ -158,10 +160,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	}
 
-	/**
-	 * @return ShareAPIController&MockObject
-	 */
-	private function mockFormatShare() {
+	private function mockFormatShare(): ShareAPIController&MockObject {
 		return $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
 				$this->appName,
@@ -592,7 +591,7 @@ class ShareAPIControllerTest extends TestCase {
 	*/
 
 	public function createShare(
-		int $id,
+		string $id,
 		int $shareType,
 		?string $sharedWith,
 		string $sharedBy,
@@ -658,7 +657,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		// File shared with user
 		$share = [
-			100,
+			'100',
 			IShare::TYPE_USER,
 			'userId',
 			'initiatorId',
@@ -677,7 +676,7 @@ class ShareAPIControllerTest extends TestCase {
 			[],
 		];
 		$expected = [
-			'id' => 100,
+			'id' => '100',
 			'share_type' => IShare::TYPE_USER,
 			'share_with' => 'userId',
 			'share_with_displayname' => 'userDisplay',
@@ -717,7 +716,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		// Folder shared with group
 		$share = [
-			101,
+			'101',
 			IShare::TYPE_GROUP,
 			'groupId',
 			'initiatorId',
@@ -736,7 +735,7 @@ class ShareAPIControllerTest extends TestCase {
 			[],
 		];
 		$expected = [
-			'id' => 101,
+			'id' => '101',
 			'share_type' => IShare::TYPE_GROUP,
 			'share_with' => 'groupId',
 			'share_with_displayname' => 'groupId',
@@ -774,9 +773,9 @@ class ShareAPIControllerTest extends TestCase {
 		$data['Folder shared with group'] = [$share, $expected, true];
 
 		// File shared by link with Expire
-		$expire = \DateTime::createFromFormat('Y-m-d h:i:s', '2000-01-02 01:02:03');
+		$expire = \DateTime::createFromFormat('Y-m-d H:i:s', '2000-01-02 23:59:59');
 		$share = [
-			101,
+			'101',
 			IShare::TYPE_LINK,
 			null,
 			'initiatorId',
@@ -794,7 +793,7 @@ class ShareAPIControllerTest extends TestCase {
 			'first link share'
 		];
 		$expected = [
-			'id' => 101,
+			'id' => '101',
 			'share_type' => IShare::TYPE_LINK,
 			'password' => 'password',
 			'share_with' => 'password',
@@ -808,7 +807,7 @@ class ShareAPIControllerTest extends TestCase {
 			'file_target' => 'target',
 			'file_parent' => 3,
 			'token' => 'token',
-			'expiration' => '2000-01-02 00:00:00',
+			'expiration' => '2000-01-02 23:59:59',
 			'permissions' => 4,
 			'attributes' => null,
 			'stime' => 5,
@@ -4505,7 +4504,7 @@ class ShareAPIControllerTest extends TestCase {
 				'permissions' => 1,
 				'stime' => 946684862,
 				'parent' => null,
-				'expiration' => '2001-02-03 00:00:00',
+				'expiration' => '2001-02-03 04:05:06',
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
@@ -4555,7 +4554,7 @@ class ShareAPIControllerTest extends TestCase {
 				'permissions' => 1,
 				'stime' => 946684862,
 				'parent' => null,
-				'expiration' => '2001-02-03 00:00:00',
+				'expiration' => '2001-02-03 04:05:06',
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',

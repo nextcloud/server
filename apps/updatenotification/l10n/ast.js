@@ -53,9 +53,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "La canal d'anovamientu seleicionada nun sofita los anovamientos del sirvidor.",
     "Changelog for app {app}" : "Rexistru de cambeos pa la versión «{app}»",
     "What's new in {app} version {version}" : "Novedaes na aplicación «{app}» versión «{version}»",
-    "{version} is available. Get more information on how to update." : "{version} ta disponible. Consigui más información tocante a cómo anovar.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Toles</strong> aplicaciones tienen disponible una versión compatible con esta versión de Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicación nun tienen disponible nenguna versión compatble con esta versión de Nextcloud.","<strong>%n</strong> aplicaciones nun tienen disponible nenguna versión compatble con esta versión de Nextcloud."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Pa usu empresarial. Forne siempres los parches más nuevos mas nun va anovase inmediatamente a la versión mayor siguiente. Esti anovamientu produzse cuando Nextcloud GmbH fexo les pruebes y ameyores adicionales pa implementaciones crítiques y a escala grande. Esta canal namás ta disponible pa los veceros y forne'l paquete Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "{version} ta disponible. Consigui más información tocante a cómo anovar."
 },
 "nplurals=2; plural=(n != 1);");

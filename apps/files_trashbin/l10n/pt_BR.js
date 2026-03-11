@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Nenhum arquivo excluído",
     "Files and folders you have deleted will show up here" : "Arquivos e pastas que você excluiu aparecerão aqui",
     "All files have been permanently deleted" : "Todos os arquivos foram excluídos permanentemente",
-    "Failed to empty deleted files" : "Falha ao esvaziar arquivos excluídos",
-    "Deletion cancelled" : "Operação de exclusão cancelada"
+    "Failed to empty deleted files" : "Falha ao esvaziar arquivos excluídos"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

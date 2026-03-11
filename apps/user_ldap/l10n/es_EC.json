@@ -147,7 +147,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Cambiar la modalidad habilitará las consultas automaticas de LDAP. Dependiendo del tamaño de su LDAP esto puede tomar algun tiempo. ¿Aún desea cambiar la modalidad?",
     "Confirm" : "Confirmar",
     "Failed to delete the server configuration" : "Se presentó una falla al borrar la configuración del servidor",
-    "Invalid configuration. Please have a look at the logs for further details." : "Configuración inválida. Por favor verifica las bitácoras para más detalles.",
     "No action specified" : "No se ha especificado alguna acción",
     "No configuration specified" : "No se ha especificado una configuración",
     "No data specified" : "No se han especificado datos",

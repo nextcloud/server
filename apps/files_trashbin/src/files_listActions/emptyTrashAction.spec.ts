@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { IFolder, Node } from '@nextcloud/files'
 
 import * as ncDialogs from '@nextcloud/dialogs'
 import * as ncEventBus from '@nextcloud/event-bus'
@@ -34,7 +34,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 	})
 
 	it('has display name set', () => {
-		expect(emptyTrashAction.displayName({ view: trashbinView })).toBe('Empty deleted files')
+		expect(emptyTrashAction.displayName({ view: trashbinView, folder: {} as IFolder, contents: [] })).toBe('Empty deleted files')
 	})
 
 	it('has order set', () => {

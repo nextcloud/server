@@ -16,13 +16,9 @@ use OC\DB\Exceptions\DbalException;
  * handled by the database abstraction layer.
  */
 class Adapter {
-	/**
-	 * @var \OC\DB\Connection $conn
-	 */
-	protected $conn;
-
-	public function __construct($conn) {
-		$this->conn = $conn;
+	public function __construct(
+		protected readonly Connection $conn,
+	) {
 	}
 
 	/**

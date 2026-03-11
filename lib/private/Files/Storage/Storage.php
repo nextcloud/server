@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 namespace OC\Files\Storage;
 
 use OCP\Files\Cache\ICache;
@@ -34,6 +35,9 @@ interface Storage extends IStorage, ILockingStorage {
 
 	public function getStorageCache(): \OC\Files\Cache\Storage;
 
+	/**
+	 * @return ?array<string, mixed>
+	 */
 	public function getMetaData(string $path): ?array;
 
 	/**
@@ -48,6 +52,8 @@ interface Storage extends IStorage, ILockingStorage {
 	 * - etag
 	 * - storage_mtime
 	 * - permissions
+	 *
+	 * @return \Traversable<array<string, mixed>>
 	 */
 	public function getDirectoryContent(string $directory): \Traversable;
 }

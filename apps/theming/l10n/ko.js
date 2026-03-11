@@ -83,7 +83,6 @@ OC.L10N.register(
     "User settings" : "사용자 설정",
     "Upload new logo" : "새 로고 업로드",
     "Advanced options" : "고급 설정",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "보편적 접근성은 매우 중요합니다. 저희는 웹 표준을 준수하며, 마우스 혹은 스크린리더와 같은 보조 소프트웨어 없이도 정상적인 사용이 가능한지에 대해 확인하고 있습니다. 또한, {guidelines}웹 콘텐츠 접근성 가이드라인{linkend} 2.1을 AA 수준 및 AAA 수준의 고대비 테마에서 준수하기 위해 노력하고 있습니다. ",
     "No background has been selected" : "'배경화면 없음'이 선택됨",
     "Upload" : "업로드"
 },

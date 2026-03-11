@@ -27,6 +27,7 @@ describe('files_sharing: sidebar tab', () => {
 	it('correctly lists shares by label with special characters', () => {
 		createLinkShare({ user: alice }, 'test')
 		openLinkShareDetails(0)
+		cy.findByRole('button', { name: /advanced settings/i }).click()
 		cy.findByRole('textbox', { name: /share label/i })
 			.should('be.visible')
 			.type('Alice\' share')

@@ -194,7 +194,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "ھالەتنى ئالماشتۇرغاندا ئاپتوماتىك LDAP سوئاللىرىنى قوزغىتىدۇ. LDAP چوڭلۇقىڭىزغا ئاساسەن ئۇلار بىر ئاز ۋاقىت كېتىشى مۇمكىن. سىز يەنىلا ھالەتنى ئالماشتۇرامسىز؟",
     "Confirm" : "جەزملەشتۈرۈڭ",
     "Failed to delete the server configuration" : "مۇلازىمېتىر سەپلىمىسىنى ئۆچۈرەلمىدى",
-    "Invalid configuration. Please have a look at the logs for further details." : "سەپلىمە ئىناۋەتسىز. تېخىمۇ كۆپ تەپسىلاتلار ئۈچۈن خاتىرىلەرنى كۆرۈپ بېقىڭ.",
     "No action specified" : "ھېچقانداق ھەرىكەت بەلگىلەنمىدى",
     "No configuration specified" : "سەپلىمىسى ئېنىق ئەمەس",
     "No data specified" : "ھېچقانداق سانلىق مەلۇمات كۆرسىتىلمىدى",

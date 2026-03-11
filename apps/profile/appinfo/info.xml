@@ -9,13 +9,13 @@
 	<name>Profile</name>
 	<summary>This application provides the profile</summary>
 	<description>Provides a customisable user profile interface.</description>
-	<version>1.2.0</version>
+	<version>1.3.0</version>
 	<licence>agpl</licence>
 	<author>Nextcloud GmbH</author>
 	<namespace>Profile</namespace>
 	<category>social</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="33" max-version="33"/>
+		<nextcloud min-version="34" max-version="34"/>
 	</dependencies>
 </info>

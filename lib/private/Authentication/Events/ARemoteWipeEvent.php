@@ -12,12 +12,10 @@ use OC\Authentication\Token\IToken;
 use OCP\EventDispatcher\Event;
 
 abstract class ARemoteWipeEvent extends Event {
-	/** @var IToken */
-	private $token;
-
-	public function __construct(IToken $token) {
+	public function __construct(
+		private IToken $token,
+	) {
 		parent::__construct();
-		$this->token = $token;
 	}
 
 	public function getToken(): IToken {

@@ -25,7 +25,7 @@ watch(() => props.configuration, () => {
 				: ''
 		}
 	}
-})
+}, { immediate: true })
 </script>
 
 <template>
@@ -39,8 +39,8 @@ watch(() => props.configuration, () => {
 			v-show="!(configOption.flags & ConfigurationFlag.Hidden)"
 			:key="configOption.value"
 			v-model="modelValue[configKey]!"
-			:config-key="configKey"
-			:config-option="configOption" />
+			:configKey="configKey"
+			:configOption="configOption" />
 	</fieldset>
 </template>
 

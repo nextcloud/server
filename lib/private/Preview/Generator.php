@@ -6,10 +6,12 @@
  */
 namespace OC\Preview;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\PreviewFile;
 use OC\Preview\Storage\StorageFactory;
+use OCP\DB\Exception as DBException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
@@ -17,8 +19,10 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IImage;
+use OCP\Image;
 use OCP\IPreview;
 use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
@@ -30,13 +34,15 @@ class Generator {
 	public const SEMAPHORE_ID_NEW = 0x07ea;
 
 	public function __construct(
-		private IConfig $config,
-		private IPreview $previewManager,
-		private GeneratorHelper $helper,
-		private IEventDispatcher $eventDispatcher,
-		private LoggerInterface $logger,
-		private PreviewMapper $previewMapper,
-		private StorageFactory $storageFactory,
+		private readonly IConfig $config,
+		private readonly IAppConfig $appConfig,
+		private readonly IPreview $previewManager,
+		private readonly GeneratorHelper $helper,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly LoggerInterface $logger,
+		private readonly PreviewMapper $previewMapper,
+		private readonly StorageFactory $storageFactory,
+		private readonly PreviewMigrationService $migrationService,
 	) {
 	}
 
@@ -107,6 +113,10 @@ class Generator {
 		}
 
 		[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
+
+		if (empty($previews) && $this->appConfig->getValueBool('core', ConfigLexicon::ON_DEMAND_PREVIEW_MIGRATION)) {
+			$previews = $this->migrateOldPreviews($file->getId());
+		}
 
 		$previewVersion = null;
 		if ($file instanceof IVersionedPreviewFile) {
@@ -186,11 +196,26 @@ class Generator {
 
 		// Free memory being used by the embedded image resource.  Without this the image is kept in memory indefinitely.
 		// Garbage Collection does NOT free this memory.  We have to do it ourselves.
-		if ($maxPreviewImage instanceof \OCP\Image) {
+		if ($maxPreviewImage instanceof Image) {
 			$maxPreviewImage->destroy();
 		}
 
 		return $previewFile;
+	}
+
+	/**
+	 * @return Preview[]
+	 */
+	private function migrateOldPreviews(int $fileId): array {
+		if ($this->appConfig->getValueBool('core', 'previewMovedDone')) {
+			return [];
+		}
+
+		$previews = $this->migrationService->migrateFileId($fileId, flatPath: false);
+		if (empty($previews)) {
+			$previews = $this->migrationService->migrateFileId($fileId, flatPath: true);
+		}
+		return $previews;
 	}
 
 	/**
@@ -307,9 +332,26 @@ class Generator {
 		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
 		$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
 
-		return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
+		try {
+			return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
+		} catch (DBException $e) {
+			if ($e->getReason() === DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				// Fetch again, likely two HTTP requests for the same file were done around the same time
+				[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
+				foreach ($previews as $preview) {
+					if ($preview->isMax() && ($version === $preview->getVersion())) {
+						return $preview;
+					}
+				}
+			}
+			throw $e;
+		}
 	}
 
+	/**
+	 * @throws DBException
+	 * @throws NotFoundException
+	 */
 	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
@@ -501,6 +543,10 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
+		if (!$preview->valid() || $preview->dataMimeType() === null) {
+			throw new \InvalidArgumentException('Preview generation failed: invalid or null MIME type');
+		}
+
 		$previewEntry = new Preview();
 		$previewEntry->generateId();
 		$previewEntry->setFileId($file->getId());
@@ -515,19 +561,20 @@ class Generator {
 		$previewEntry->setMimeType($preview->dataMimeType());
 		$previewEntry->setEtag($file->getEtag());
 		$previewEntry->setMtime((new \DateTime())->getTimestamp());
+
 		if ($cacheResult) {
 			$previewEntry = $this->savePreview($previewEntry, $preview);
 			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper);
-		} else {
-			return new InMemoryFile($previewEntry->getName(), $preview->data());
 		}
+
+		return new InMemoryFile($previewEntry->getName(), $preview->data());
 	}
 
 	/**
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
-	 * @throws \OCP\DB\Exception
+	 * @throws DBException
 	 */
 	public function savePreview(Preview $previewEntry, IImage $preview): Preview {
 		// we need to save to DB first

@@ -264,7 +264,7 @@ async function pickFile() {
 		width: 168px;
 		margin: var(--default-grid-baseline);
 		text-align: center;
-		word-wrap: break-word;
+		overflow-wrap: break-word;
 		hyphens: auto;
 		border: 2px solid var(--color-main-background);
 		border-radius: var(--border-radius-large);

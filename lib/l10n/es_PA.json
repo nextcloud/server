@@ -67,9 +67,6 @@
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Al parecer esta instancia %s está corriendo en un ambiente PHP de 32-bits y el open_basedir ha sido configurado en el archivo php.ini. Esto generará problemas con archivos de más de 4GB de tamaño y es altamente desalentado. ",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor elimina el ajuste open_basedir de tu archivo php.ini o cambia a PHP de 64 bits. ",
     "Set an admin password." : "Establecer la contraseña del administrador.",
-    "Sharing backend %s must implement the interface OCP\\Share_Backend" : "El backend %s que comparte debe implementar la interface OCP\\Share_Backend",
-    "Sharing backend %s not found" : "No fue encontrado el Backend que comparte %s ",
-    "Sharing backend for %s not found" : "No fue encontrado el Backend que comparte para %s",
     "Unknown share type" : "Tipo de elemento compartido desconocido",
     "You are not allowed to share %s" : "No tienes permitido compartir %s",
     "Cannot increase permissions of %s" : "No se pueden incrementar los permisos de %s",
@@ -124,9 +121,6 @@
     "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
     "Login canceled by app" : "Inicio de sesión cancelado por la aplicación",
     "a safe home for all your data" : "un lugar seguro para todos tus datos",
-    "Application is not enabled" : "La aplicación está deshabilitada",
-    "Authentication error" : "Error de autenticación",
-    "Token expired. Please reload page." : "La ficha ha expirado. Por favor recarga la página.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "No cuentas con controladores de base de datos (sqlite, mysql o postgresql) instalados. ",
     "PHP module %s not installed." : "El módulo de PHP %s no está instalado. ",
     "Please ask your server administrator to install the module." : "Por favor solicita a tu adminsitrador la instalación del módulo. ",
@@ -146,6 +140,12 @@
     "Text" : "Texto",
     "Summary" : "Resumen",
     "Translate" : "Traducir",
-    "Result" : "Resultado"
+    "Result" : "Resultado",
+    "Sharing backend %s must implement the interface OCP\\Share_Backend" : "El backend %s que comparte debe implementar la interface OCP\\Share_Backend",
+    "Sharing backend %s not found" : "No fue encontrado el Backend que comparte %s ",
+    "Sharing backend for %s not found" : "No fue encontrado el Backend que comparte para %s",
+    "Application is not enabled" : "La aplicación está deshabilitada",
+    "Authentication error" : "Error de autenticación",
+    "Token expired. Please reload page." : "La ficha ha expirado. Por favor recarga la página."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

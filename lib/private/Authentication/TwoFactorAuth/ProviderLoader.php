@@ -14,6 +14,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
+use OCP\Server;
 
 class ProviderLoader {
 	public const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
@@ -30,8 +31,12 @@ class ProviderLoader {
 	 * @return IProvider[]
 	 * @throws Exception
 	 */
-	public function getProviders(IUser $user): array {
-		$allApps = $this->appManager->getEnabledAppsForUser($user);
+	public function getProviders(?IUser $user = null): array {
+		if ($user === null) {
+			$allApps = $this->appManager->getEnabledApps();
+		} else {
+			$allApps = $this->appManager->getEnabledAppsForUser($user);
+		}
 		$providers = [];
 
 		foreach ($allApps as $appId) {
@@ -42,7 +47,7 @@ class ProviderLoader {
 				foreach ($providerClasses as $class) {
 					try {
 						$this->loadTwoFactorApp($appId);
-						$provider = \OCP\Server::get($class);
+						$provider = Server::get($class);
 						$providers[$provider->getId()] = $provider;
 					} catch (QueryException $exc) {
 						// Provider class can not be resolved
@@ -56,7 +61,7 @@ class ProviderLoader {
 		foreach ($registeredProviders as $provider) {
 			try {
 				$this->loadTwoFactorApp($provider->getAppId());
-				$providerInstance = \OCP\Server::get($provider->getService());
+				$providerInstance = Server::get($provider->getService());
 				$providers[$providerInstance->getId()] = $providerInstance;
 			} catch (QueryException $exc) {
 				// Provider class can not be resolved

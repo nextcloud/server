@@ -15,6 +15,7 @@ use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -26,6 +27,7 @@ class ExampleContactService {
 		private readonly IAppConfig $appConfig,
 		private readonly LoggerInterface $logger,
 		private readonly CardDavBackend $cardDav,
+		private readonly IL10N $l,
 	) {
 		$this->appData = $appDataFactory->get(Application::APP_ID);
 	}
@@ -130,6 +132,9 @@ class ExampleContactService {
 			$vcard->REV->setValue($newRev);
 		} else {
 			$vcard->add('REV', $newRev);
+		}
+		if (!$vcard->Note) {
+			$vcard->add('note', $this->l->t('This is an example contact'));
 		}
 
 		// Level 3 means that the document is invalid

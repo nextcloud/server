@@ -29,8 +29,8 @@ class CacheQueryBuilder extends ExtendedQueryBuilder {
 	public function selectTagUsage(): self {
 		$this
 			->select('systemtag.name', 'systemtag.id', 'systemtag.visibility', 'systemtag.editable', 'systemtag.etag', 'systemtag.color')
-			->selectAlias($this->createFunction('COUNT(filecache.fileid)'), 'number_files')
-			->selectAlias($this->createFunction('MAX(filecache.fileid)'), 'ref_file_id')
+			->selectAlias($this->func()->count('filecache.fileid'), 'number_files')
+			->selectAlias($this->func()->max('filecache.fileid'), 'ref_file_id')
 			->from('filecache', 'filecache')
 			->leftJoin('filecache', 'systemtag_object_mapping', 'systemtagmap', $this->expr()->andX(
 				$this->expr()->eq('filecache.fileid', $this->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),

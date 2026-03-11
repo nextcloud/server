@@ -21,7 +21,6 @@
     "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Για το απόρρητό σας, τα δεδομένα καιρού ζητούνται από τον διακομιστή {productName} εκ μέρους σας, ώστε η υπηρεσία καιρού να μην λαμβάνει προσωπικές πληροφορίες.",
     "Weather data from Met.no" : "Δεδομένα καιρού από το Met.no",
     "geocoding with Nominatim" : "γεωκωδικοποίηση με Nominatim",
-    "elevation data from OpenTopoData" : "δεδομένα υψομέτρου από OpenTopoData",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Για το απόρρητό σας, τα δεδομένα καιρού ζητούνται από τον διακομιστή Nextcloud για λογαριασμό σας, ώστε η υπηρεσία καιρού να μην λαμβάνει προσωπικά στοιχεία."
+    "elevation data from OpenTopoData" : "δεδομένα υψομέτρου από OpenTopoData"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

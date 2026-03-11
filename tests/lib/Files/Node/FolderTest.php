@@ -29,6 +29,7 @@ use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
@@ -538,6 +539,8 @@ class FolderTest extends NodeTestCase {
 			->with('/bar/foo')
 			->willReturn([]);
 
+		$manager->method('getMountFromMountInfo')
+			->willReturn($mount);
 		$manager->method('getMountsByMountProvider')
 			->willReturn([$mount]);
 
@@ -583,6 +586,8 @@ class FolderTest extends NodeTestCase {
 			->with(1)
 			->willReturn($fileInfo);
 
+		$manager->method('getMountFromMountInfo')
+			->willReturn($mount);
 		$manager->method('getMountsByMountProvider')
 			->willReturn([$mount]);
 
@@ -628,6 +633,8 @@ class FolderTest extends NodeTestCase {
 			->with(1)
 			->willReturn($fileInfo);
 
+		$manager->method('getMountFromMountInfo')
+			->willReturn($mount);
 		$manager->method('getMountsByMountProvider')
 			->willReturn([$mount]);
 
@@ -668,12 +675,31 @@ class FolderTest extends NodeTestCase {
 					1,
 					''
 				),
+				new CachedMountInfo(
+					$this->user,
+					1,
+					0,
+					'/bar/foo/asd/',
+					'test',
+					1,
+					''
+				),
 			]);
 
 		$cache->method('get')
 			->with(1)
 			->willReturn($fileInfo);
 
+		$manager->method('getMountFromMountInfo')
+			->willReturnCallback(function (ICachedMountInfo $mountInfo) use ($mount1, $mount2) {
+				if ($mountInfo->getMountPoint() === $mount1->getMountPoint()) {
+					return $mount1;
+				}
+				if ($mountInfo->getMountPoint() === $mount2->getMountPoint()) {
+					return $mount2;
+				}
+				return null;
+			});
 		$manager->method('getMountsByMountProvider')
 			->willReturn([$mount1, $mount2]);
 
@@ -722,7 +748,7 @@ class FolderTest extends NodeTestCase {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\Node\Root $root */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Root $root */
 		$root = $this->getMockBuilder(Root::class)
 			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
@@ -791,7 +817,7 @@ class FolderTest extends NodeTestCase {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\Node\Root $root */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Root $root */
 		$root = $this->getMockBuilder(Root::class)
 			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
@@ -858,7 +884,7 @@ class FolderTest extends NodeTestCase {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\Node\Root $root */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Root $root */
 		$root = $this->getMockBuilder(Root::class)
 			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])

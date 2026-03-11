@@ -29,6 +29,7 @@ use OCP\IConfig;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Profiler\IProfiler;
 use OCP\Server;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -242,7 +243,11 @@ class AccessTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dnInputDataProvider')]
 	public function testStringResemblesDNLDAPmod(string $input, array|bool $interResult, bool $expectedResult): void {
 		[, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		$lw = new LDAP();
+		$lw = new LDAP(
+			$this->createMock(IProfiler::class),
+			$this->createMock(IConfig::class),
+			$this->createMock(LoggerInterface::class),
+		);
 		$access = new Access($lw, $con, $um, $helper, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
 
 		if (!function_exists('ldap_explode_dn')) {

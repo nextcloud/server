@@ -72,8 +72,8 @@
     "Dec." : "Des.",
     "A valid password must be provided" : "Du må oppgje eit gyldig passord",
     "Login canceled by app" : "Innlogging avbroten av app",
-    "Authentication error" : "Feil i autentisering",
     "Images" : "Bilete",
-    "Summary" : "Oppsumering"
+    "Summary" : "Oppsumering",
+    "Authentication error" : "Feil i autentisering"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

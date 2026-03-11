@@ -17,7 +17,6 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
-use OCP\AppFramework\QueryException;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -27,6 +26,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager as IShareManager;
+use Psr\Container\ContainerExceptionInterface;
 use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
@@ -42,9 +42,6 @@ class Principal implements BackendInterface {
 	/** @var bool */
 	private $hasCircles;
 
-	/** @var KnownUserService */
-	private $knownUserService;
-
 	public function __construct(
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
@@ -53,14 +50,13 @@ class Principal implements BackendInterface {
 		private IUserSession $userSession,
 		private IAppManager $appManager,
 		private ProxyMapper $proxyMapper,
-		KnownUserService $knownUserService,
+		private KnownUserService $knownUserService,
 		private IConfig $config,
 		private IFactory $languageFactory,
 		string $principalPrefix = 'principals/users/',
 	) {
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
-		$this->knownUserService = $knownUserService;
 	}
 
 	use PrincipalProxyTrait {
@@ -539,7 +535,7 @@ class Principal implements BackendInterface {
 
 		try {
 			$circle = Circles::detailsCircle($circleUniqueId, true);
-		} catch (QueryException $ex) {
+		} catch (ContainerExceptionInterface $ex) {
 			return null;
 		} catch (CircleNotFoundException $ex) {
 			return null;
@@ -563,7 +559,7 @@ class Principal implements BackendInterface {
 	 * @param string $principal
 	 * @return array
 	 * @throws Exception
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function getCircleMembership($principal):array {

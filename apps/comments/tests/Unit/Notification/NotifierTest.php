@@ -86,9 +86,9 @@ class NotifierTest extends TestCase {
 			->with('you')
 			->willReturn($userFolder);
 		$userFolder->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with('678')
-			->willReturn([$node]);
+			->willReturn($node);
 
 		$this->notification->expects($this->exactly(2))
 			->method('getUser')
@@ -202,9 +202,9 @@ class NotifierTest extends TestCase {
 			->with('you')
 			->willReturn($userFolder);
 		$userFolder->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with('678')
-			->willReturn([$node]);
+			->willReturn($node);
 
 		$this->notification->expects($this->exactly(2))
 			->method('getUser')
@@ -301,7 +301,7 @@ class NotifierTest extends TestCase {
 
 		$this->folder
 			->expects($this->never())
-			->method('getById');
+			->method('getFirstNodeById');
 
 		$this->notification
 			->expects($this->once())
@@ -338,7 +338,7 @@ class NotifierTest extends TestCase {
 
 		$this->folder
 			->expects($this->never())
-			->method('getById');
+			->method('getFirstNodeById');
 
 		$this->notification
 			->expects($this->once())
@@ -378,7 +378,7 @@ class NotifierTest extends TestCase {
 
 		$this->folder
 			->expects($this->never())
-			->method('getById');
+			->method('getFirstNodeById');
 
 		$this->notification
 			->expects($this->once())
@@ -435,7 +435,7 @@ class NotifierTest extends TestCase {
 
 		$this->folder
 			->expects($this->never())
-			->method('getById');
+			->method('getFirstNodeById');
 
 		$this->notification
 			->expects($this->once())
@@ -497,9 +497,9 @@ class NotifierTest extends TestCase {
 			->with('you')
 			->willReturn($userFolder);
 		$userFolder->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with('678')
-			->willReturn([]);
+			->willReturn(null);
 
 		$this->notification->expects($this->once())
 			->method('getUser')

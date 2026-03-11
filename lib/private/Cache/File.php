@@ -9,8 +9,13 @@ namespace OC\Cache;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OC\ForbiddenException;
+use OC\User\NoUserException;
+use OCP\Files\LockNotAcquiredException;
 use OCP\ICache;
+use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -22,9 +27,9 @@ class File implements ICache {
 	/**
 	 * Returns the cache storage for the logged in user
 	 *
-	 * @return \OC\Files\View cache storage
-	 * @throws \OC\ForbiddenException
-	 * @throws \OC\User\NoUserException
+	 * @return View cache storage
+	 * @throws ForbiddenException
+	 * @throws NoUserException
 	 */
 	protected function getStorage() {
 		if ($this->storage !== null) {
@@ -42,14 +47,14 @@ class File implements ICache {
 			return $this->storage;
 		} else {
 			Server::get(LoggerInterface::class)->error('Can\'t get cache storage, user not logged in', ['app' => 'core']);
-			throw new \OC\ForbiddenException('Can\t get cache storage, user not logged in');
+			throw new ForbiddenException('Can\t get cache storage, user not logged in');
 		}
 	}
 
 	/**
 	 * @param string $key
 	 * @return mixed|null
-	 * @throws \OC\ForbiddenException
+	 * @throws ForbiddenException
 	 */
 	public function get($key) {
 		$result = null;
@@ -80,7 +85,7 @@ class File implements ICache {
 	 * @param mixed $value
 	 * @param int $ttl
 	 * @return bool|mixed
-	 * @throws \OC\ForbiddenException
+	 * @throws ForbiddenException
 	 */
 	public function set($key, $value, $ttl = 0) {
 		$storage = $this->getStorage();
@@ -107,7 +112,7 @@ class File implements ICache {
 	/**
 	 * @param string $key
 	 * @return bool
-	 * @throws \OC\ForbiddenException
+	 * @throws ForbiddenException
 	 */
 	public function hasKey($key) {
 		$storage = $this->getStorage();
@@ -120,7 +125,7 @@ class File implements ICache {
 	/**
 	 * @param string $key
 	 * @return bool|mixed
-	 * @throws \OC\ForbiddenException
+	 * @throws ForbiddenException
 	 */
 	public function remove($key) {
 		$storage = $this->getStorage();
@@ -133,7 +138,7 @@ class File implements ICache {
 	/**
 	 * @param string $prefix
 	 * @return bool
-	 * @throws \OC\ForbiddenException
+	 * @throws ForbiddenException
 	 */
 	public function clear($prefix = '') {
 		$storage = $this->getStorage();
@@ -152,12 +157,12 @@ class File implements ICache {
 
 	/**
 	 * Runs GC
-	 * @throws \OC\ForbiddenException
+	 * @throws ForbiddenException
 	 */
 	public function gc() {
 		$storage = $this->getStorage();
 		if ($storage) {
-			$ttl = \OC::$server->getConfig()->getSystemValueInt('cache_chunk_gc_ttl', 60 * 60 * 24);
+			$ttl = Server::get(IConfig::class)->getSystemValueInt('cache_chunk_gc_ttl', 60 * 60 * 24);
 			$now = time() - $ttl;
 
 			$dh = $storage->opendir('/');
@@ -171,12 +176,12 @@ class File implements ICache {
 						if ($mtime < $now) {
 							$storage->unlink('/' . $file);
 						}
-					} catch (\OCP\Lock\LockedException $e) {
+					} catch (LockedException $e) {
 						// ignore locked chunks
 						Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\ForbiddenException $e) {
 						Server::get(LoggerInterface::class)->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
-					} catch (\OCP\Files\LockNotAcquiredException $e) {
+					} catch (LockNotAcquiredException $e) {
 						Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					}
 				}

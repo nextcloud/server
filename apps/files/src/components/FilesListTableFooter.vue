@@ -48,111 +48,69 @@
 	</tr>
 </template>
 
-<script lang="ts">
-import type { Node } from '@nextcloud/files'
-import type { PropType } from 'vue'
+<script setup lang="ts">
+import type { IColumn, INode, IView } from '@nextcloud/files'
 
-import { formatFileSize, View } from '@nextcloud/files'
-import { translate } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import { useFilesStore } from '../store/files.ts'
-import { usePathsStore } from '../store/paths.ts'
+import { formatFileSize } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useActiveStore } from '../store/active.ts'
 
-export default defineComponent({
-	name: 'FilesListTableFooter',
+const props = defineProps<{
+	/** The current view */
+	currentView: IView
 
-	props: {
-		currentView: {
-			type: View,
-			required: true,
-		},
+	/** Whether the mime column is available */
+	isMimeAvailable: boolean
 
-		isMimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
+	/** Whether the mtime column is available */
+	isMtimeAvailable: boolean
 
-		isMtimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
+	/** Whether the size column is available */
+	isSizeAvailable: boolean
 
-		isSizeAvailable: {
-			type: Boolean,
-			default: false,
-		},
+	/** The nodes to summarize */
+	nodes: INode[]
 
-		nodes: {
-			type: Array as PropType<Node[]>,
-			required: true,
-		},
+	/** Summary text */
+	summary: string
+}>()
 
-		summary: {
-			type: String,
-			default: '',
-		},
+const activeStore = useActiveStore()
+const { isNarrow } = useFileListWidth()
 
-		filesListWidth: {
-			type: Number,
-			default: 0,
-		},
-	},
+const currentFolder = computed(() => activeStore.activeFolder)
 
-	setup() {
-		const pathsStore = usePathsStore()
-		const filesStore = useFilesStore()
-		const { directory } = useRouteParameters()
-		return {
-			filesStore,
-			pathsStore,
-			directory,
-		}
-	},
-
-	computed: {
-		currentFolder() {
-			if (!this.currentView?.id) {
-				return
-			}
-
-			if (this.directory === '/') {
-				return this.filesStore.getRoot(this.currentView.id)
-			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.directory)!
-			return this.filesStore.getNode(fileId)
-		},
-
-		columns() {
-			// Hide columns if the list is too small
-			if (this.filesListWidth < 512) {
-				return []
-			}
-			return this.currentView?.columns || []
-		},
-
-		totalSize() {
-			// If we have the size already, let's use it
-			if (this.currentFolder?.size) {
-				return formatFileSize(this.currentFolder.size, true)
-			}
-
-			// Otherwise let's compute it
-			return formatFileSize(this.nodes.reduce((total, node) => total + (node.size ?? 0), 0), true)
-		},
-	},
-
-	methods: {
-		classForColumn(column) {
-			return {
-				'files-list__row-column-custom': true,
-				[`files-list__row-${this.currentView.id}-${column.id}`]: true,
-			}
-		},
-
-		t: translate,
-	},
+const columns = computed(() => {
+	// Hide columns if the list is too small
+	if (isNarrow.value) {
+		return []
+	}
+	return props.currentView?.columns || []
 })
+
+const totalSize = computed(() => {
+	// If we have the size already, let's use it
+	if (currentFolder.value?.size) {
+		return formatFileSize(currentFolder.value.size, true)
+	}
+
+	// Otherwise let's compute it
+	return formatFileSize(props.nodes.reduce((total, node) => total + (node.size ?? 0), 0), true)
+})
+
+/**
+ * Get the CSS classes for a custom column
+ *
+ * @param column - The column
+ */
+function classForColumn(column: IColumn) {
+	return {
+		'files-list__row-column-custom': true,
+		[`files-list__row-${props.currentView.id}-${column.id}`]: true,
+	}
+}
 </script>
 
 <style scoped lang="scss">

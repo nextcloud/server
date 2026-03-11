@@ -109,7 +109,7 @@ function openStatusModal() {
 </script>
 
 <template>
-	<NcContent app-name="profile">
+	<NcContent appName="profile">
 		<NcAppContent>
 			<div class="profile__header">
 				<div class="profile__header__container">
@@ -146,9 +146,9 @@ function openStatusModal() {
 							:class="{ interactive: isCurrentUser }"
 							:user="profileParameters.userId"
 							:size="180"
-							:disable-menu="true"
-							:disable-tooltip="true"
-							:is-no-user="!profileParameters.isUserAvatarVisible"
+							:disableMenu="true"
+							:disableTooltip="true"
+							:isNoUser="!profileParameters.isUserAvatarVisible"
 							@click.prevent.stop="openStatusModal" />
 
 						<div class="user-actions">
@@ -170,7 +170,7 @@ function openStatusModal() {
 								<NcActionLink
 									v-for="action in otherActions"
 									:key="action.id"
-									:close-after-click="true"
+									:closeAfterClick="true"
 									:href="action.target"
 									:target="action.id === 'phone' ? '_self' : '_blank'">
 									<template #icon>
@@ -201,14 +201,14 @@ function openStatusModal() {
 							<h3 v-if="profileParameters.headline" class="profile__blocks-headline">
 								{{ profileParameters.headline }}
 							</h3>
-							<NcRichText v-if="profileParameters.biography" :text="profileParameters.biography" use-extended-markdown />
+							<NcRichText v-if="profileParameters.biography" :text="profileParameters.biography" useExtendedMarkdown />
 
 							<!-- additional entries, use it with cautious -->
 							<ProfileSection
 								v-for="section in sortedSections"
 								:key="section.id"
 								:section="section"
-								:user-id="profileParameters.userId" />
+								:userId="profileParameters.userId" />
 						</template>
 						<NcEmptyContent
 							v-else

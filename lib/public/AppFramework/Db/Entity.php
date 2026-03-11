@@ -21,8 +21,9 @@ use function substr;
 abstract class Entity {
 	/** @var int $id */
 	public $id;
+	/** @var array<string, true> $_updatedFields */
 	private array $_updatedFields = [];
-	/** @psalm-param $_fieldTypes array<string, Types::*> */
+	/** @var array<string, Types::*> $_fieldTypes */
 	protected array $_fieldTypes = ['id' => 'integer'];
 
 	/**
@@ -251,7 +252,7 @@ abstract class Entity {
 
 
 	/**
-	 * @return array array of updated fields for update query
+	 * @return array<string, true> array of updated fields for update query
 	 * @since 7.0.0
 	 */
 	public function getUpdatedFields(): array {

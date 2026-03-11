@@ -13,7 +13,6 @@ OC.L10N.register(
     "You" : "You",
     "List of files that have been deleted." : "Danh sách các tập tin đã bị xóa.",
     "No deleted files" : "Không có tập tin bị xóa",
-    "Files and folders you have deleted will show up here" : "Các tập tin và thư mục bạn đã xóa sẽ hiển thị ở đây",
-    "Deletion cancelled" : "Thao tác xóa bị hủy"
+    "Files and folders you have deleted will show up here" : "Các tập tin và thư mục bạn đã xóa sẽ hiển thị ở đây"
 },
 "nplurals=1; plural=0;");

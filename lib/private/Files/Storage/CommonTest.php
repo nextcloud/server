@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,15 +9,14 @@
  */
 namespace OC\Files\Storage;
 
-class CommonTest extends \OC\Files\Storage\Common {
+class CommonTest extends Common {
 	/**
-	 * underlying local storage used for missing functions
-	 * @var \OC\Files\Storage\Local
+	 * Underlying local storage used for missing functions
 	 */
-	private $storage;
+	private Local $storage;
 
 	public function __construct(array $parameters) {
-		$this->storage = new \OC\Files\Storage\Local($parameters);
+		$this->storage = new Local($parameters);
 	}
 
 	public function getId(): string {

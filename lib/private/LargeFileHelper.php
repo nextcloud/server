@@ -8,6 +8,8 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OCP\Server;
+use OCP\Util;
 
 /**
  * Helper class for large files on 32-bit platforms.
@@ -96,7 +98,7 @@ class LargeFileHelper {
 	 *                        null on failure.
 	 */
 	public function getFileSizeViaCurl(string $fileName): null|int|float {
-		if (\OC::$server->get(IniGetWrapper::class)->getString('open_basedir') === '') {
+		if (Server::get(IniGetWrapper::class)->getString('open_basedir') === '') {
 			$encodedFileName = rawurlencode($fileName);
 			$ch = curl_init("file:///$encodedFileName");
 			curl_setopt($ch, CURLOPT_NOBODY, true);
@@ -124,7 +126,7 @@ class LargeFileHelper {
 	 *                        null on failure.
 	 */
 	public function getFileSizeViaExec(string $filename): null|int|float {
-		if (\OCP\Util::isFunctionEnabled('exec')) {
+		if (Util::isFunctionEnabled('exec')) {
 			$os = strtolower(php_uname('s'));
 			$arg = escapeshellarg($filename);
 			$result = null;
@@ -169,7 +171,7 @@ class LargeFileHelper {
 			$result = - 1;
 		}
 		if ($result < 0) {
-			if (\OCP\Util::isFunctionEnabled('exec')) {
+			if (Util::isFunctionEnabled('exec')) {
 				$os = strtolower(php_uname('s'));
 				if (str_contains($os, 'linux')) {
 					return (int)($this->exec('stat -c %Y ' . escapeshellarg($fullPath)) ?? -1);

@@ -79,6 +79,7 @@ Feature: provisioning
       | role |
       | headline |
       | biography |
+      | birthdate |
       | profile_enabled |
       | pronouns |
     Given As an "brand-new-user"
@@ -96,6 +97,7 @@ Feature: provisioning
       | role |
       | headline |
       | biography |
+      | birthdate |
       | profile_enabled |
       | pronouns |
     Then user "self" has editable fields
@@ -112,6 +114,7 @@ Feature: provisioning
       | role |
       | headline |
       | biography |
+      | birthdate |
       | profile_enabled |
       | pronouns |
 

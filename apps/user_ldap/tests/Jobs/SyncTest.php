@@ -76,8 +76,6 @@ class SyncTest extends TestCase {
 			$this->connectionFactory,
 			$this->accessFactory,
 		);
-
-		$this->sync->overwritePropertiesForTest($this->ldapWrapper);
 	}
 
 	public static function intervalDataProvider(): array {

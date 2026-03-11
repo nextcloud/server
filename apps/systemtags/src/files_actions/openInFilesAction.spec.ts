@@ -3,21 +3,21 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { IView } from '@nextcloud/files'
 
-import { DefaultType, File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { DefaultType, File, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test, vi } from 'vitest'
 import { action } from './openInFilesAction.ts'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const systemTagsView = {
 	id: 'tags',
 	name: 'tags',
-} as View
+} as IView
 
 const validNode = new Folder({
 	id: 1,
@@ -43,7 +43,6 @@ const validTag = new Folder({
 
 describe('Open in files action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('systemtags:open-in-files')
 		expect(action.displayName({
 			nodes: [],

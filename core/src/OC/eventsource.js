@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import $ from 'jquery'
 import { getRequestToken } from './requesttoken.ts'
 
 /**
@@ -42,16 +41,18 @@ function OCEventSource(src, data) {
 	} else {
 		const iframeId = 'oc_eventsource_iframe_' + OCEventSource.iframeCount
 		OCEventSource.fallBackSources[OCEventSource.iframeCount] = this
-		this.iframe = $('<iframe></iframe>')
-		this.iframe.attr('id', iframeId)
-		this.iframe.hide()
+		const iframe = document.createElement('iframe')
+		iframe.id = iframeId
+		iframe.style.display = 'none'
 
 		joinChar = '&'
 		if (src.indexOf('?') === -1) {
 			joinChar = '?'
 		}
-		this.iframe.attr('src', src + joinChar + 'fallback=true&fallback_id=' + OCEventSource.iframeCount + '&' + dataStr)
-		$('body').append(this.iframe)
+		iframe.src = src + joinChar + 'fallback=true&fallback_id=' + OCEventSource.iframeCount + '&' + dataStr
+
+		this.iframe = iframe
+		document.body.appendChild(this.iframe)
 		this.useFallBack = true
 		OCEventSource.iframeCount++
 	}

@@ -6,10 +6,10 @@
 <template>
 	<div class="example-event-settings">
 		<NcCheckboxRadioSwitch
-			:model-value="createExampleEvent"
+			:modelValue="createExampleEvent"
 			:disabled="savingConfig"
 			type="switch"
-			@update:model-value="updateCreateExampleEvent">
+			@update:modelValue="updateCreateExampleEvent">
 			{{ t('dav', "Add example event to user's calendar when they first log in") }}
 		</NcCheckboxRadioSwitch>
 		<div

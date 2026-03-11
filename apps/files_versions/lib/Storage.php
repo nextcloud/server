@@ -433,7 +433,10 @@ class Storage {
 						$target = $storage2->fopen($internalPath2, 'w');
 						$result = $target !== false;
 						if ($result) {
-							[, $result] = Files::streamCopy($source, $target, true);
+							$result = stream_copy_to_stream($source, $target);
+							if ($result !== false) {
+								$result = true;
+							}
 						}
 						// explicit check as S3 library closes streams already
 						if (is_resource($target)) {

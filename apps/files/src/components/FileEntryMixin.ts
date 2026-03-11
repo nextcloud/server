@@ -3,28 +3,27 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileAction } from '@nextcloud/files'
+import type { IFileAction } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { showError } from '@nextcloud/dialogs'
-import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
+import { openConflictPicker } from '@nextcloud/dialogs'
+import { FileType, Folder, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { getConflicts, getUploader } from '@nextcloud/upload'
 import { vOnClickOutside } from '@vueuse/components'
 import { extname } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import logger from '../logger.ts'
-import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
+import { onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isDownloadable } from '../utils/permissions.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
-
-const actions = getFileActions()
 
 export default defineComponent({
 	props: {
@@ -35,10 +34,6 @@ export default defineComponent({
 		nodes: {
 			type: Array as PropType<Node[]>,
 			required: true,
-		},
-		filesListWidth: {
-			type: Number,
-			default: 0,
 		},
 		isMtimeAvailable: {
 			type: Boolean,
@@ -119,7 +114,7 @@ export default defineComponent({
 			return this.renamingStore.renamingNode === this.source
 		},
 		isRenamingSmallScreen() {
-			return this.isRenaming && this.filesListWidth < 512
+			return this.isRenaming && this.isNarrow
 		},
 
 		isActive() {
@@ -237,8 +232,8 @@ export default defineComponent({
 				return []
 			}
 
-			return actions
-				.filter((action: FileAction) => {
+			return this.actions
+				.filter((action: IFileAction) => {
 					if (!action.enabled) {
 						return true
 					}
@@ -261,7 +256,7 @@ export default defineComponent({
 		},
 
 		defaultFileAction() {
-			return this.enabledFileActions.find((action: FileAction) => action.default !== undefined)
+			return this.enabledFileActions.find((action: IFileAction) => action.default !== undefined)
 		},
 	},
 
@@ -482,42 +477,69 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 
-			// Caching the selection
-			const selection = this.draggingFiles
-			const items = [...event.dataTransfer?.items || []] as DataTransferItem[]
-
-			// We need to process the dataTransfer ASAP before the
-			// browser clears it. This is why we cache the items too.
-			const fileTree = await dataTransferToFileTree(items)
-
-			// We might not have the target directory fetched yet
-			const contents = await this.activeView?.getContents(this.source.path)
-			const folder = contents?.folder
-			if (!folder) {
-				showError(this.t('files', 'Target folder does not exist any more'))
-				return
-			}
-
 			// If another button is pressed, cancel it. This
 			// allows cancelling the drag with the right click.
 			if (!this.canDrop || event.button) {
 				return
 			}
 
-			const isCopy = event.ctrlKey
-			this.dragover = false
+			// Caching the selection
+			const selection = this.draggingFiles
+			const items = Array.from(event.dataTransfer?.items || [])
 
-			logger.debug('Dropped', { event, folder, selection, fileTree })
+			if (selection.length === 0 && items.some((item) => item.kind === 'file')) {
+				const uploader = getUploader()
+				await uploader.batchUpload(
+					this.source.path,
+					items.filter((item) => item.kind === 'file')
+						.map((item) => 'webkitGetAsEntry' in item ? item.webkitGetAsEntry() : item.getAsFile())
+						.filter(Boolean) as (FileSystemEntry | File)[],
+					async (nodes, path) => {
+						try {
+							const { contents, folder } = await this.activeView!.getContents(path)
+							const conflicts = getConflicts(nodes, contents)
+							if (conflicts.length === 0) {
+								return nodes
+							}
 
-			// Check whether we're uploading files
-			if (selection.length === 0 && fileTree.contents.length > 0) {
-				await onDropExternalFiles(fileTree, folder, contents.contents)
+							const result = await openConflictPicker(
+								folder.displayname,
+								conflicts,
+								(contents as Node[]).filter((node) => conflicts.some((conflict) => conflict.name === node.basename)),
+								{
+									recursive: true,
+								},
+							)
+							if (result === null) {
+								return false
+							}
+							return [
+								...nodes.filter((node) => !conflicts.some((conflict) => conflict.name === node.name)),
+								...result.selected,
+								...result.renamed,
+							]
+						} catch {
+							return nodes
+						}
+					},
+				)
+				this.dragover = false
 				return
 			}
 
-			// Else we're moving/copying files
+			// We might not have the target directory fetched yet
+			const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
+			const contents = cachedContents.length === 0
+				? (await this.activeView!.getContents(this.source.path)).contents
+				: cachedContents
+
+			const isCopy = event.ctrlKey
+			this.dragover = false
+
+			logger.debug('Dropped', { event, folder: this.source, selection, fileTree })
+
 			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
-			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
+			await onDropInternalFiles(nodes, this.source, contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection

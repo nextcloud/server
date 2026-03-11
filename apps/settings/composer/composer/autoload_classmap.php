@@ -140,6 +140,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\TaskProcessingSuccessRate' => $baseDir . '/../lib/SetupChecks/TaskProcessingSuccessRate.php',
     'OCA\\Settings\\SetupChecks\\TempSpaceAvailable' => $baseDir . '/../lib/SetupChecks/TempSpaceAvailable.php',
     'OCA\\Settings\\SetupChecks\\TransactionIsolation' => $baseDir . '/../lib/SetupChecks/TransactionIsolation.php',
+    'OCA\\Settings\\SetupChecks\\TwoFactorConfiguration' => $baseDir . '/../lib/SetupChecks/TwoFactorConfiguration.php',
     'OCA\\Settings\\SetupChecks\\WellKnownUrls' => $baseDir . '/../lib/SetupChecks/WellKnownUrls.php',
     'OCA\\Settings\\SetupChecks\\Woff2Loading' => $baseDir . '/../lib/SetupChecks/Woff2Loading.php',
     'OCA\\Settings\\UserMigration\\AccountMigrator' => $baseDir . '/../lib/UserMigration/AccountMigrator.php',

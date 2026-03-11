@@ -11,15 +11,11 @@ namespace OC\L10N;
 use OCP\IL10N;
 
 class LazyL10N implements IL10N {
-	/** @var IL10N */
-	private $l;
+	private ?IL10N $l = null;
 
-	/** @var \Closure */
-	private $factory;
-
-
-	public function __construct(\Closure $factory) {
-		$this->factory = $factory;
+	public function __construct(
+		private \Closure $factory,
+	) {
 	}
 
 	private function getL(): IL10N {

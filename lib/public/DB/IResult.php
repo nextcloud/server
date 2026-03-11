@@ -27,6 +27,7 @@ use Traversable;
  * }
  * ```
  *
+ * @template-covariant S of string
  * @since 21.0.0
  */
 #[Consumable(since: '21.0.0')]
@@ -39,9 +40,9 @@ interface IResult {
 	public function closeCursor(): bool;
 
 	/**
-	 * @param int $fetchMode
+	 * @param PDO::FETCH_* $fetchMode
 	 *
-	 * @return mixed
+	 * @return ($fetchMode is PDO::FETCH_ASSOC ? array<S, mixed> : ($fetchMode is PDO::FETCH_NUM ? list<mixed> : mixed))|false
 	 *
 	 * @since 21.0.0
 	 * @note Since 33.0.0, prefer using fetchAssociative/fetchNumeric/fetchOne or iterateAssociate/iterateNumeric instead.
@@ -51,7 +52,7 @@ interface IResult {
 	/**
 	 * Returns the next row of the result as an associative array or FALSE if there are no more rows.
 	 *
-	 * @return array<string, mixed>|false
+	 * @return array<S, mixed>|false
 	 *
 	 * @since 33.0.0
 	 */
@@ -76,9 +77,9 @@ interface IResult {
 	public function fetchOne();
 
 	/**
-	 * @param int $fetchMode (one of PDO::FETCH_ASSOC, PDO::FETCH_NUM or PDO::FETCH_COLUMN (2, 3 or 7)
+	 * @param PDO::FETCH_* $fetchMode
 	 *
-	 * @return mixed[]
+	 * @return list<($fetchMode is PDO::FETCH_ASSOC ? array<S, mixed> : ($fetchMode is PDO::FETCH_NUM ? list<mixed> : mixed))>
 	 *
 	 * @since 21.0.0
 	 * @note Since 33.0.0, prefer using fetchAllAssociative/fetchAllNumeric/fetchFirstColumn or iterateAssociate/iterateNumeric instead.
@@ -88,7 +89,7 @@ interface IResult {
 	/**
 	 * Returns an array containing all the result rows represented as associative arrays.
 	 *
-	 * @return list<array<string,mixed>>
+	 * @return list<array<S, mixed>>
 	 * @since 33.0.0
 	 */
 	public function fetchAllAssociative(): array;
@@ -136,7 +137,7 @@ interface IResult {
 	/**
 	 * Returns an iterator over rows represented as associative arrays.
 	 *
-	 * @return Traversable<array<string,mixed>>
+	 * @return Traversable<array<S, mixed>>
 	 *
 	 * @since 33.0.0
 	 */

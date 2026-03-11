@@ -19,8 +19,8 @@ use OCP\Template\ITemplateManager;
  * Response for a normal template
  * @since 6.0.0
  *
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class TemplateResponse extends Response {
@@ -74,12 +74,12 @@ class TemplateResponse extends Response {
 	protected $appName;
 
 	/**
-	 * constructor of TemplateResponse
 	 * @param string $appName the name of the app to load the template from
 	 * @param string $templateName the name of the template
 	 * @param array $params an array of parameters which should be passed to the
 	 *                      template
 	 * @param string $renderAs how the page should be rendered, defaults to user
+	 * @psalm-param TemplateResponse::RENDER_AS_* $renderAs
 	 * @param S $status
 	 * @param H $headers
 	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0

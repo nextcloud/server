@@ -16,17 +16,14 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\Server;
 
 class CacheWrapper extends Cache {
-	/**
-	 * @var ?ICache
-	 */
-	protected $cache;
-
-	public function __construct(?ICache $cache, ?CacheDependencies $dependencies = null) {
-		$this->cache = $cache;
-		if (!$dependencies && $cache instanceof Cache) {
-			$this->mimetypeLoader = $cache->mimetypeLoader;
-			$this->connection = $cache->connection;
-			$this->querySearchHelper = $cache->querySearchHelper;
+	public function __construct(
+		protected ?ICache $cache,
+		?CacheDependencies $dependencies = null,
+	) {
+		if (!$dependencies && $this->cache instanceof Cache) {
+			$this->mimetypeLoader = $this->cache->mimetypeLoader;
+			$this->connection = $this->cache->connection;
+			$this->querySearchHelper = $this->cache->querySearchHelper;
 		} else {
 			if (!$dependencies) {
 				$dependencies = Server::get(CacheDependencies::class);
@@ -92,22 +89,22 @@ class CacheWrapper extends Cache {
 	 * @param string $folder
 	 * @return ICacheEntry[]
 	 */
-	public function getFolderContents($folder) {
+	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null): array {
 		// can't do a simple $this->getCache()->.... call here since getFolderContentsById needs to be called on this
 		// and not the wrapped cache
 		$fileId = $this->getId($folder);
-		return $this->getFolderContentsById($fileId);
+		return $this->getFolderContentsById($fileId, $mimeTypeFilter);
 	}
 
 	/**
-	 * get the metadata of all files stored in $folder
+	 * Get the metadata of all files stored in given folder
 	 *
 	 * @param int $fileId the file id of the folder
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
-	public function getFolderContentsById($fileId) {
-		$results = $this->getCache()->getFolderContentsById($fileId);
-		return array_map([$this, 'formatCacheEntry'], $results);
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null) {
+		$results = $this->getCache()->getFolderContentsById($fileId, $mimeTypeFilter);
+		return array_filter(array_map($this->formatCacheEntry(...), $results));
 	}
 
 	/**

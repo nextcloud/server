@@ -13,30 +13,25 @@ use OCP\Authentication\Exceptions\PasswordUnavailableException;
  */
 interface ICredentials {
 	/**
-	 * Get the user UID
+	 * Get the user UID.
 	 *
-	 * @since 12
-	 *
-	 * @return string
+	 * @since 12.0.0
 	 */
-	public function getUID();
+	public function getUID(): string;
 
 	/**
-	 * Get the login name the users used to login
+	 * Get the login name the users used to log in.
 	 *
-	 * @since 12
-	 *
-	 * @return string
+	 * @since 12.0.0
 	 */
-	public function getLoginName();
+	public function getLoginName(): string;
 
 	/**
-	 * Get the password
+	 * Get the password.
 	 *
-	 * @since 12
+	 * @since 12.0.0
 	 *
-	 * @return string|null
 	 * @throws PasswordUnavailableException
 	 */
-	public function getPassword();
+	public function getPassword(): ?string;
 }

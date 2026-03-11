@@ -38,9 +38,6 @@ OC.L10N.register(
     "Add remote share" : "افزودن هم‌رسانی دوردست",
     "Remote share" : "هم‌رسانی دوردست",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "می‌خواهید هم‌رسانی دوردست {name} را از ‪{owner}@{remote}‬ بیفزایید؟",
-    "Remote share password" : "گذرواژهٔ هم‌رسانی دوردست",
-    "Cloud ID copied to the clipboard" : "Cloud ID در کلیپ بورد کپی شد",
-    "Copy to clipboard" : "رونوشت به تخته‌گیره",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "می‌توانید با هر کسی که از سرور Nextcloud یا سایر سرورها و سرویس‌های سازگار با Open Cloud Mesh (OCM) استفاده می‌کند، اشتراک‌گذاری کنید! فقط شناسه ابری فدرال آنها را در گفتگوی اشتراک گذاری قرار دهید. به نظر می رسد person@cloud.example.com"
+    "Remote share password" : "گذرواژهٔ هم‌رسانی دوردست"
 },
 "nplurals=2; plural=(n > 1);");

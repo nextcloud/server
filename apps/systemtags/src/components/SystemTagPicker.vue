@@ -6,20 +6,20 @@
 <template>
 	<NcDialog
 		data-cy-systemtags-picker
-		:no-close="status === Status.LOADING"
+		:noClose="status === Status.LOADING"
 		:name="t('systemtags', 'Manage tags')"
 		:open="opened"
 		:class="'systemtags-picker--' + status"
 		class="systemtags-picker"
-		close-on-click-outside
-		out-transition
+		closeOnClickOutside
+		outTransition
 		@update:open="onCancel">
 		<NcEmptyContent
 			v-if="status === Status.LOADING || status === Status.DONE"
 			:name="t('systemtags', 'Applying tags changes…')">
 			<template #icon>
 				<NcLoadingIcon v-if="status === Status.LOADING" />
-				<CheckIcon v-else fill-color="var(--color-border-success)" />
+				<CheckIcon v-else fillColor="var(--color-border-success)" />
 			</template>
 		</NcEmptyContent>
 
@@ -41,11 +41,12 @@
 				<li
 					v-for="tag in filteredTags"
 					:key="tag.id"
+					ref="tags"
 					:data-cy-systemtags-picker-tag="tag.id"
 					:style="tagListStyle(tag)"
 					class="systemtags-picker__tag">
 					<NcCheckboxRadioSwitch
-						:model-value="isChecked(tag)"
+						:modelValue="isChecked(tag)"
 						:disabled="!tag.canAssign"
 						:indeterminate="isIndeterminate(tag)"
 						:label="tag.displayName"
@@ -58,23 +59,22 @@
 					<NcColorPicker
 						v-if="canEditOrCreateTag"
 						:data-cy-systemtags-picker-tag-color="tag.id"
-						:model-value="`#${tag.color || '000000'}`"
+						:modelValue="`#${tag.color || '000000'}`"
 						:shown="openedPicker === tag.id"
 						class="systemtags-picker__tag-color"
-						@update:value="onColorChange(tag, $event)"
 						@update:shown="openedPicker = $event ? tag.id : false"
-						@submit="openedPicker = false">
+						@submit="onColorChange(tag, $event)">
 						<NcButton :aria-label="t('systemtags', 'Change tag color')" variant="tertiary">
 							<template #icon>
 								<CircleIcon
 									v-if="tag.color"
 									:size="24"
-									fill-color="var(--color-circle-icon)"
+									fillColor="var(--color-circle-icon)"
 									class="button-color-circle" />
 								<CircleOutlineIcon
 									v-else
 									:size="24"
-									fill-color="var(--color-circle-icon)"
+									fillColor="var(--color-circle-icon)"
 									class="button-color-empty" />
 								<PencilIcon class="button-color-pencil" />
 							</template>
@@ -108,6 +108,7 @@
 					{{ t('systemtags', 'Choose tags for the selected files') }}
 				</NcNoteCard>
 				<NcNoteCard v-else type="info">
+					<!-- eslint-disable-next-line vue/no-v-html -- we use this to format the message with chips -->
 					<span v-html="statusMessage" />
 				</NcNoteCard>
 			</div>
@@ -134,8 +135,8 @@
 			<NcChip
 				ref="chip"
 				text="%s"
-				variant="primary"
-				no-close />
+				noClose
+				variant="primary" />
 		</div>
 	</NcDialog>
 </template>
@@ -221,7 +222,11 @@ export default defineComponent({
 		},
 	},
 
-	emits: ['close'],
+	emits: {
+		close(status: null | boolean) {
+			return status === null || typeof status === 'boolean'
+		},
+	},
 
 	setup() {
 		return {
@@ -399,7 +404,7 @@ export default defineComponent({
 	methods: {
 		// Format & sanitize a tag chip for v-html tag rendering
 		formatTagChip(tag: TagWithId): string {
-			const chip = this.$refs.chip as NcChip
+			const chip = this.$refs.chip as InstanceType<typeof NcChip>
 			const chipCloneEl = chip.$el.cloneNode(true) as HTMLElement
 			if (tag.color) {
 				const style = this.tagListStyle(tag)
@@ -476,12 +481,15 @@ export default defineComponent({
 
 				// Scroll to the newly created tag
 				await this.$nextTick()
-				const newTagEl = this.$el.querySelector(`input[type="checkbox"][label="${tag.displayName}"]`)
-				newTagEl?.scrollIntoView({
-					behavior: 'instant',
-					block: 'center',
-					inline: 'center',
-				})
+				if (Array.isArray(this.$refs.tags)) {
+					const newTagEl = this.$refs.tags
+						.find((el: HTMLElement) => el.dataset.cySystemtagsPickerTag === id.toString())
+					newTagEl?.scrollIntoView({
+						behavior: 'instant',
+						block: 'center',
+						inline: 'center',
+					})
+				}
 			} catch (error) {
 				showError((error as Error)?.message || t('systemtags', 'Failed to create tag'))
 			} finally {

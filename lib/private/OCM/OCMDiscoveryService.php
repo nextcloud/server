@@ -11,6 +11,7 @@ namespace OC\OCM;
 
 use Exception;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use JsonException;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\OCM\Model\OCMProvider;
@@ -286,6 +287,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 *
 	 * @throws OCMCapabilityException if remote does not support $capability
 	 * @throws OCMProviderException if remote ocm provider is disabled or invalid data returned
+	 * @throws RequestException on network issue or remote returns 4xx and 5xx status code
 	 * @throws OCMRequestException on internal issue
 	 * @since 33.0.0
 	 */
@@ -327,7 +329,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 				'delete' => $client->delete($uri, $this->prepareOcmPayload($uri, 'delete', $options, $body, $signed)),
 				default => throw new OCMRequestException('unknown method'),
 			};
-		} catch (OCMRequestException $e) {
+		} catch (OCMRequestException|RequestException $e) {
 			throw $e;
 		} catch (Exception $e) {
 			$this->logger->warning('error while requesting remote ocm endpoint', ['exception' => $e]);

@@ -46,5 +46,10 @@
 		"personal-section": []
 	},
 	"two-factor-providers": [],
-	"types": []
+	"types": [],
+	"openmetrics": {
+		"exporter": [
+			"OC\\OpenMetrics\\Exporters\\ActiveUsers"
+		]
+	}
 }

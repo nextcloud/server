@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Security\Normalizer;
 
 use OCP\IConfig;
+use OCP\Server;
 
 /**
  * Class IpAddress is used for normalizing IPv4 and IPv6 addresses in security
@@ -40,7 +41,7 @@ class IpAddress {
 			$ip = substr($ip, 0, $pos);
 		}
 
-		$config = \OCP\Server::get(IConfig::class);
+		$config = Server::get(IConfig::class);
 		$maskSize = min(64, max(32, $config->getSystemValueInt('security.ipv6_normalized_subnet_size', 56)));
 
 		$binary = inet_pton($ip);

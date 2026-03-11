@@ -158,9 +158,6 @@
     "Set an admin Login." : "Definiu un inici de sessió per a l'administrador.",
     "Set an admin password." : "Definiu una contrasenya per a l'administrador.",
     "Cannot create or write into the data directory %s" : "No es pot crear la carpeta de dades %s ni escriure-hi",
-    "Sharing backend %s must implement the interface OCP\\Share_Backend" : "El rerefons d'ús compartit %s ha d'implementar la interfície OCP\\Share_Backend",
-    "Sharing backend %s not found" : "No s'ha trobat el rerefons d'ús compartit %s",
-    "Sharing backend for %s not found" : "No s'ha trobat el rerefons d'ús compartit per a %s",
     "%1$s shared %2$s with you" : "%1$s ha compartit %2$s amb tu",
     "Open %s" : "Obre %s",
     "%1$s via %2$s" : "%1$s mitjançant %2$s",
@@ -272,9 +269,6 @@
     "Login canceled by app" : "L'aplicació ha cancel·lat l'inici de sessió",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "L'aplicació «%1$s» no es pot instal·lar perquè no es compleixen les dependències següents: %2$s",
     "a safe home for all your data" : "un lloc segur per a totes les vostres dades",
-    "Application is not enabled" : "L'aplicació no està habilitada",
-    "Authentication error" : "Error d'autenticació",
-    "Token expired. Please reload page." : "El testimoni ha caducat. Torneu a carregar la pàgina.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "No s'ha instal·lat cap controlador de bases de dades (sqlite, mysql o postgresql).",
     "Cannot write into \"config\" directory." : "No es pot escriure en la carpeta «config».",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Això normalment es pot solucionar donant al servidor web accés d'escriptura a la carpeta de configuració. Consulteu %s",
@@ -435,10 +429,11 @@
     "Generate headline" : "Genera un titular",
     "Summarizes text by reducing its length without losing key information." : "Resumeix el text reduint-ne la longitud sense perdre la informació clau.",
     "Extracts topics from a text and outputs them separated by commas." : "Extreu els temes d'un text i els retorna separats per comes.",
-    "Organisation" : "Organització",
-    "Cannot write into \"apps\" directory." : "No es pot escriure en la carpeta «apps».",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Això normalment pot solucionar donant al servidor web accés d'escriptura a la carpeta d'aplicacions o inhabilitant la botiga d'aplicacions en el fitxer de configuració.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> té el valor <code>%s</code> en comptes del valor esperat <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Per a resoldre aquest problema, establiu <code>mbstring.func_overload</code> en <code>0</code> en el fitxer php.ini."
+    "Sharing backend %s must implement the interface OCP\\Share_Backend" : "El rerefons d'ús compartit %s ha d'implementar la interfície OCP\\Share_Backend",
+    "Sharing backend %s not found" : "No s'ha trobat el rerefons d'ús compartit %s",
+    "Sharing backend for %s not found" : "No s'ha trobat el rerefons d'ús compartit per a %s",
+    "Application is not enabled" : "L'aplicació no està habilitada",
+    "Authentication error" : "Error d'autenticació",
+    "Token expired. Please reload page." : "El testimoni ha caducat. Torneu a carregar la pàgina."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

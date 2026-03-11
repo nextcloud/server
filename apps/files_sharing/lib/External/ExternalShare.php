@@ -112,6 +112,7 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 			'permissions' => null,
 			'mtime' => null,
 			'type' => null,
+			'item_size' => null,
 		];
 	}
 

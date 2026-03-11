@@ -30,7 +30,7 @@ OC.L10N.register(
     "Appearance and accessibility" : "外观和辅助功能",
     "PHP Imagick module" : "PHP Imagick 模块",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP 模块“imagick”没有被启用，尽管已启用了主题程序。为了使收藏图标正常生成，您需要安装并启用这个模块。",
-    "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "此实例中的 PHP 模块 \"imagick\" 不支持 SVG。为了更好的兼容性，简易安装此模块。",
+    "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "此实例中的 PHP 模块 \"imagick\" 不支持 SVG。为了更好的兼容性，建议安装此模块。",
     "Dark theme with high contrast mode" : "高对比度深色主题",
     "Enable dark high contrast mode" : "使用高对比度深色模式",
     "Similar to the high contrast mode, but with dark colours." : "类似高对比度模式，但是使用深色色调。",
@@ -129,8 +129,6 @@ OC.L10N.register(
     "Background and login image" : "登录界面与背景图片",
     "Advanced options" : "高级选项",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 ImageMagick，以根据上传的 logo 和颜色自动生成图标。",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "通用访问对我们非常重要。我们遵循网络标准，并进行检查以确保所有内容都可以在没有鼠标或辅助软件（例如屏幕阅读器）的情况下使用。我们的目标是达到 {guidelines}Web 内容可访问性指南 {linkend} 2.1 中的 AA 级别，并另外通过高对比度主题达到 AAA 级别。",
-    ". Unable to apply the setting." : "。无法应用此设置。",
     "No background has been selected" : "未选择背景",
     "Select a custom color" : "自定义颜色",
     "Upload" : "上传"

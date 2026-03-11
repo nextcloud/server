@@ -191,7 +191,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Пребацивање режима укључиће аутоматске LDAP упите. Зависно од LDAP величине то може потрајати. Заиста желите да промените режим?",
     "Confirm" : "Потврди",
     "Failed to delete the server configuration" : "Неуспело брисање конфигурације сервера",
-    "Invalid configuration. Please have a look at the logs for further details." : "Неисправна конфигурација. Погледајте дневник за више детаља.",
     "No action specified" : "Није наведена радња",
     "No configuration specified" : "Није наведена постава",
     "No data specified" : "Нису наведени подаци",

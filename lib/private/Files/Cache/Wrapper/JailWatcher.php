@@ -10,12 +10,10 @@ namespace OC\Files\Cache\Wrapper;
 use OC\Files\Cache\Watcher;
 
 class JailWatcher extends Watcher {
-	private string $root;
-	private Watcher $watcher;
-
-	public function __construct(Watcher $watcher, string $root) {
-		$this->watcher = $watcher;
-		$this->root = $root;
+	public function __construct(
+		private Watcher $watcher,
+		private string $root,
+	) {
 	}
 
 	protected function getRoot(): string {

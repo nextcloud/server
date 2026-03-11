@@ -1,11 +1,11 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { IView } from '@nextcloud/files'
 
-import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { File, Folder, Permission } from '@nextcloud/files'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import logger from '../logger.ts'
 import { action } from './sidebarAction.ts'
@@ -32,7 +32,6 @@ beforeEach(() => {
 
 describe('Open sidebar action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('details')
 		expect(action.displayName({
 			nodes: [],

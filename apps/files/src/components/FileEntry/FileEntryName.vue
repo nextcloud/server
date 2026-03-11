@@ -15,9 +15,9 @@
 			ref="renameInput"
 			v-model="newName"
 			:label="renameLabel"
-			:autofocus="true"
+			autofocus
+			required
 			:minlength="1"
-			:required="true"
 			enterkeyhint="done"
 			@keyup.esc="stopRenaming" />
 	</form>
@@ -39,12 +39,13 @@
 </template>
 
 <script lang="ts">
-import type { FileAction, Node } from '@nextcloud/files'
+import type { IFileAction, Node, TFileType } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { basename } from '@nextcloud/paths'
 import { defineComponent, inject } from 'vue'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
@@ -78,36 +79,26 @@ export default defineComponent({
 			required: true,
 		},
 
-		nodes: {
-			type: Array as PropType<Node[]>,
-			required: true,
-		},
-
 		source: {
 			type: Object as PropType<Node>,
 			required: true,
-		},
-
-		gridMode: {
-			type: Boolean,
-			default: false,
 		},
 	},
 
 	setup() {
 		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
-		const filesListWidth = useFileListWidth()
+		const { isNarrow } = useFileListWidth()
 		const renamingStore = useRenamingStore()
 		const userConfigStore = useUserConfigStore()
 		const { activeFolder, activeView } = useActiveStore()
 
-		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
+		const defaultFileAction = inject<IFileAction | undefined>('defaultFileAction')
 
 		return {
 			activeFolder,
 			activeView,
 			defaultFileAction,
-			filesListWidth,
+			isNarrow,
 			renamingStore,
 			userConfigStore,
 		}
@@ -119,7 +110,7 @@ export default defineComponent({
 		},
 
 		isRenamingSmallScreen() {
-			return this.isRenaming && this.filesListWidth < 512
+			return this.isRenaming && this.isNarrow
 		},
 
 		newName: {
@@ -133,7 +124,7 @@ export default defineComponent({
 		},
 
 		renameLabel() {
-			const matchLabel: Record<FileType, string> = {
+			const matchLabel: Record<TFileType, string> = {
 				[FileType.File]: t('files', 'Filename'),
 				[FileType.Folder]: t('files', 'Folder name'),
 			}
@@ -153,8 +144,8 @@ export default defineComponent({
 			if (this.defaultFileAction) {
 				const displayName = this.defaultFileAction.displayName({
 					nodes: [this.source],
-					view: this.activeView,
-					folder: this.activeFolder,
+					view: this.activeView!,
+					folder: this.activeFolder!,
 					contents: [],
 				})
 				return {
@@ -215,7 +206,8 @@ export default defineComponent({
 
 	methods: {
 		checkIfNodeExists(name: string) {
-			return this.nodes.find((node) => node.basename === name && node !== this.source)
+			const sources: string[] = (this.activeFolder as { _children?: string[] })?._children || []
+			return sources.some((sourceName) => basename(sourceName) === name)
 		},
 
 		startRenaming() {
@@ -262,7 +254,6 @@ export default defineComponent({
 			try {
 				const status = await this.renamingStore.rename()
 				if (status) {
-					showSuccess(t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName: this.source.basename }))
 					this.$nextTick(() => {
 						const nameContainer = this.$refs.basename as HTMLElement | undefined
 						nameContainer?.focus()

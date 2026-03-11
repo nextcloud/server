@@ -132,6 +132,14 @@ describe('files: Drag and Drop', { testIsolation: true }, () => {
 		cy.get('[data-cy-upload-picker] progress').should('not.be.visible')
 		cy.get('@uploadFile.all').should('have.length', 2)
 
+		// see the warning
+		cy.get('.toast-warning').should('exist')
+
+		// close all toasts
+		cy.get('.toastify')
+			.findAllByRole('button', { name: 'Close' })
+			.click({ multiple: true })
+
 		getRowForFile('first.txt').should('be.visible')
 		getRowForFile('second.txt').should('be.visible')
 		getRowForFile('Foo').should('not.exist')

@@ -9,41 +9,41 @@
 		</legend>
 
 		<NcCheckboxRadioSwitch
-			:model-value="ldapConfigProxy.ldapLoginFilterUsername === '1'"
+			:modelValue="ldapConfigProxy.ldapLoginFilterUsername === '1'"
 			:description="t('user_ldap', 'Allows login against the LDAP/AD username, which is either \'uid\' or \'sAMAccountName\' and will be detected.')"
-			@update:model-value="ldapConfigProxy.ldapLoginFilterUsername = $event ? '1' : '0'">
+			@update:modelValue="ldapConfigProxy.ldapLoginFilterUsername = $event ? '1' : '0'">
 			{{ t('user_ldap', 'LDAP/AD Username:') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch
-			:model-value="ldapConfigProxy.ldapLoginFilterEmail === '1'"
+			:modelValue="ldapConfigProxy.ldapLoginFilterEmail === '1'"
 			:description="t('user_ldap', 'Allows login against an email attribute. \'mail\' and \'mailPrimaryAddress\' allowed.')"
-			@update:model-value="ldapConfigProxy.ldapLoginFilterEmail = $event ? '1' : '0'">
+			@update:modelValue="ldapConfigProxy.ldapLoginFilterEmail = $event ? '1' : '0'">
 			{{ t('user_ldap', 'LDAP/AD Email Address:') }}
 		</NcCheckboxRadioSwitch>
 
 		<div class="ldap-wizard__login__line ldap-wizard__login__login-attributes">
 			<NcSelect
 				v-model="ldapLoginFilterAttributes"
-				keep-open
+				keepOpen
 				:disabled="ldapLoginFilterMode"
 				:options="filteredLoginFilterOptions"
-				:input-label="t('user_ldap', 'Other Attributes:')"
+				:inputLabel="t('user_ldap', 'Other Attributes:')"
 				:multiple="true" />
 		</div>
 
 		<div class="ldap-wizard__login__line ldap-wizard__login__user-login-filter">
 			<NcCheckboxRadioSwitch
-				:model-value="ldapLoginFilterMode"
-				@update:model-value="toggleFilterMode">
+				:modelValue="ldapLoginFilterMode"
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
 			<NcTextArea
 				v-if="ldapLoginFilterMode"
-				:model-value="ldapConfigProxy.ldapLoginFilter"
+				:modelValue="ldapConfigProxy.ldapLoginFilter"
 				:placeholder="t('user_ldap', 'Edit LDAP Query')"
-				:helper-text="t('user_ldap', 'Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`')"
+				:helperText="t('user_ldap', 'Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`')"
 				@change="(event) => ldapConfigProxy.ldapLoginFilter = event.target.value" />
 			<div v-else>
 				<span>{{ t('user_ldap', 'LDAP Filter:') }}</span>
@@ -54,7 +54,7 @@
 		<div class="ldap-wizard__login__line">
 			<NcTextField
 				v-model="testUsername"
-				:helper-text="t('user_ldap', 'Attempts to receive a DN for the given login name and the current login filter')"
+				:helperText="t('user_ldap', 'Attempts to receive a DN for the given login name and the current login filter')"
 				:label="t('user_ldap', 'Test Login name')"
 				autocomplete="off" />
 
@@ -73,7 +73,7 @@ import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { NcButton, NcCheckboxRadioSwitch, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService.ts'
 import { useLDAPConfigsStore } from '../../store/configs.ts'
 
@@ -99,18 +99,18 @@ const ldapLoginFilterAttributes = computed({
 const ldapLoginFilterMode = computed(() => ldapConfigProxy.value.ldapLoginFilterMode === '1')
 const filteredLoginFilterOptions = computed(() => loginFilterOptions.value.filter((option) => !ldapLoginFilterAttributes.value.includes(option)))
 
+onBeforeMount(init)
+
 /**
- *
+ * Initialize login filter options
  */
 async function init() {
 	const response = await callWizard('determineAttributes', props.configId)
 	loginFilterOptions.value = response.options?.ldap_loginfilter_attributes ?? []
 }
 
-init()
-
 /**
- *
+ * Get user login filter
  */
 async function getUserLoginFilter() {
 	if (ldapConfigProxy.value.ldapLoginFilterMode === '0') {
@@ -121,7 +121,7 @@ async function getUserLoginFilter() {
 }
 
 /**
- *
+ * Verify login name
  */
 async function verifyLoginName() {
 	try {
@@ -155,8 +155,9 @@ async function verifyLoginName() {
 }
 
 /**
+ * Toggle filter mode
  *
- * @param value
+ * @param value - new value
  */
 async function toggleFilterMode(value: boolean) {
 	if (value) {

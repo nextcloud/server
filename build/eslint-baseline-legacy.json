@@ -60,14 +60,6 @@
       "count": 1
     }
   },
-  "core/src/OC/dialogs.js": {
-    "camelcase": {
-      "count": 33
-    },
-    "no-undef": {
-      "count": 1
-    }
-  },
   "core/src/views/Login.vue": {
     "vue/multi-word-component-names": {
       "count": 1

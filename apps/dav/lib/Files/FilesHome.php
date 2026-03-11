@@ -32,12 +32,12 @@ class FilesHome extends Directory {
 		throw new Forbidden('Permission denied to delete home folder');
 	}
 
-	public function getName() {
+	public function getName(): string {
 		[,$name] = \Sabre\Uri\split($this->principalInfo['uri']);
 		return $name;
 	}
 
-	public function setName($name) {
+	public function setName($name): void {
 		throw new Forbidden('Permission denied to rename this folder');
 	}
 }

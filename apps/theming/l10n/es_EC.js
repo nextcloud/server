@@ -80,7 +80,6 @@ OC.L10N.register(
     "Background and login image" : "Imagen de fondo y de inicio de sesión",
     "Advanced options" : "Opciones avanzadas",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión de PHP ImageMagick con soporte para imágenes SVG para generar automáticamente los favicons basados en el logotipo y color cargados.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "El acceso universal es muy importante para nosotros. Seguimos los estándares web y verificamos que todo sea utilizable también sin mouse y software de asistencia, como lectores de pantalla. Nuestro objetivo es cumplir con las {guidelines} Directrices de accesibilidad al contenido web {linkend} 2.1 en el nivel AA, con el tema de alto contraste incluso en el nivel AAA.",
     "Select a custom color" : "Seleccionar un color personalizado",
     "Upload" : "Cargar"
 },

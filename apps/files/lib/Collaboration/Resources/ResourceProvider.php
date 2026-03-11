@@ -20,8 +20,8 @@ use OCP\IUser;
 class ResourceProvider implements IProvider {
 	public const RESOURCE_TYPE = 'file';
 
-	/** @var array */
-	protected $nodes = [];
+	/** @var array<int, Node> $nodes */
+	protected array $nodes = [];
 
 	public function __construct(
 		protected IRootFolder $rootFolder,
@@ -87,9 +87,9 @@ class ResourceProvider implements IProvider {
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$node = $userFolder->getById((int)$resource->getId());
+		$node = $userFolder->getFirstNodeById((int)$resource->getId());
 
-		if ($node) {
+		if ($node !== null) {
 			$this->nodes[(int)$resource->getId()] = $node;
 			return true;
 		}

@@ -16,7 +16,6 @@ use OC\AppScriptSort;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IEmailValidator;
-use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
@@ -25,8 +24,6 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
-	private static ?IManager $shareManager = null;
-
 	private static array $scriptsInit = [];
 	private static array $scripts = [];
 	private static array $scriptDeps = [];
@@ -71,23 +68,6 @@ class Util {
 	 */
 	public static function getChannel() {
 		return \OCP\Server::get(ServerVersion::class)->getChannel();
-	}
-
-	/**
-	 * check if sharing is disabled for the current user
-	 *
-	 * @return boolean
-	 * @since 7.0.0
-	 * @deprecated 9.1.0 Use Server::get(\OCP\Share\IManager::class)->sharingDisabledForUser
-	 */
-	public static function isSharingDisabledForUser() {
-		if (self::$shareManager === null) {
-			self::$shareManager = Server::get(IManager::class);
-		}
-
-		$user = Server::get(\OCP\IUserSession::class)->getUser();
-
-		return self::$shareManager->sharingDisabledForUser($user?->getUID());
 	}
 
 	/**

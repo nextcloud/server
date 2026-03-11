@@ -21,8 +21,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Постави потсетник за овој викенд",
     "Next week" : "Следна недела",
     "Set reminder for next week" : "Постави потсетник за наредната недела",
-    "Set reminder for \"{fileName}\"" : "Постави потсетник за \"{fileName}\"",
-    "Set reminder at custom date & time" : "Постави потсетник на прилагоден датум & време",
-    "Set custom reminder" : "Постави прилагоден потсетник"
+    "Set reminder for \"{fileName}\"" : "Постави потсетник за \"{fileName}\""
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

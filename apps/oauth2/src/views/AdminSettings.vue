@@ -77,7 +77,7 @@ async function addClient() {
 	<NcSettingsSection
 		:name="t('oauth2', 'OAuth 2.0 clients')"
 		:description="t('oauth2', 'OAuth 2.0 allows external services to request access to {instanceName}.', { instanceName })"
-		:doc-url="oauthDocLink">
+		:docUrl="oauthDocLink">
 		<table v-if="clients.length > 0" :class="[$style.oauthApp__table, { [$style.oauthApp__table_withSecret]: showSecretWarning }]">
 			<thead>
 				<tr>
@@ -160,7 +160,7 @@ async function addClient() {
 		overflow: hidden;
 		padding: var(--default-grid-baseline);
 		text-wrap: wrap;
-		word-wrap: break-word;
+		overflow-wrap: break-word;
 	}
 
 	tbody tr {

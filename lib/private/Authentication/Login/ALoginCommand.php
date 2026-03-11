@@ -21,7 +21,7 @@ abstract class ALoginCommand {
 		if ($this->next !== null) {
 			return $this->next->process($loginData);
 		} else {
-			return LoginResult::success($loginData);
+			return LoginResult::success();
 		}
 	}
 

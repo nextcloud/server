@@ -10,10 +10,12 @@ namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
 use OCP\Command\IBus;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,14 +23,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Size extends Base {
 	public function __construct(
-		private IConfig $config,
-		private IUserManager $userManager,
-		private IBus $commandBus,
+		private readonly IAppConfig $appConfig,
+		private readonly IConfig $config,
+		private readonly IUserManager $userManager,
+		private readonly IBus $commandBus,
 	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	#[Override]
+	protected function configure(): void {
 		parent::configure();
 		$this
 			->setName('trashbin:size')
@@ -41,6 +45,7 @@ class Size extends Base {
 			);
 	}
 
+	#[Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getOption('user');
 		$size = $input->getArgument('size');
@@ -55,7 +60,7 @@ class Size extends Base {
 				$this->config->setUserValue($user, 'files_trashbin', 'trashbin_size', (string)$parsedSize);
 				$this->commandBus->push(new Expire($user));
 			} else {
-				$this->config->setAppValue('files_trashbin', 'trashbin_size', (string)$parsedSize);
+				$this->appConfig->setValueInt('files_trashbin', 'trashbin_size', $parsedSize);
 				$output->writeln('<info>Warning: changing the default trashbin size will automatically trigger cleanup of existing trashbins,</info>');
 				$output->writeln('<info>a users trashbin can exceed the configured size until they move a new file to the trashbin.</info>');
 			}
@@ -66,8 +71,8 @@ class Size extends Base {
 		return 0;
 	}
 
-	private function printTrashbinSize(InputInterface $input, OutputInterface $output, ?string $user) {
-		$globalSize = (int)$this->config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+	private function printTrashbinSize(InputInterface $input, OutputInterface $output, ?string $user): void {
+		$globalSize = $this->appConfig->getValueInt('files_trashbin', 'trashbin_size', -1);
 		if ($globalSize < 0) {
 			$globalHumanSize = 'default (50% of available space)';
 		} else {

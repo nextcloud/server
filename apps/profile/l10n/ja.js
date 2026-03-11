@@ -2,6 +2,9 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "プロフィール",
+    "Searching …" : "検索しています…",
+    "Not found" : "見つかりませんでした",
+    "Insert" : "挿入する",
     "You have not added any info yet" : "まだ情報が追加されていません",
     "{user} has not added any info yet" : "{user}が、まだ情報を追加していません",
     "Error opening the user status modal, try hard refreshing the page" : "ユーザーステータスモーダルを開くときにエラーが発生しました。ページを更新してみてください",

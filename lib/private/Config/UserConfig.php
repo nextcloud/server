@@ -27,6 +27,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Server;
 use OCP\User\Events\UserConfigChangedEvent;
 use Psr\Log\LoggerInterface;
 
@@ -1715,6 +1716,7 @@ class UserConfig implements IUserConfig {
 	 * @param bool $allowEmptyUser
 	 * @param bool $allowEmptyApp $app can be empty string
 	 * @param ValueType|null $valueType assert value type is only one type
+	 * @throws InvalidArgumentException if userId, app, or prefKey is invalid (too long, or empty string)
 	 */
 	private function assertParams(
 		string $userId = '',
@@ -2053,7 +2055,7 @@ class UserConfig implements IUserConfig {
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {
 			$entries = $aliases = [];
-			$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
+			$bootstrapCoordinator = Server::get(Coordinator::class);
 			$configLexicon = $bootstrapCoordinator->getRegistrationContext()?->getConfigLexicon($appId);
 			foreach ($configLexicon?->getUserConfigs() ?? [] as $configEntry) {
 				$entries[$configEntry->getKey()] = $configEntry;

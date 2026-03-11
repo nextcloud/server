@@ -8,54 +8,36 @@ declare(strict_types=1);
  */
 namespace OC\Support\Subscription;
 
-use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Registry implements IRegistry {
-	/** @var ISubscription */
-	private $subscription = null;
+	private ?ISubscription $subscription = null;
+	private ?string $subscriptionService = null;
 
-	/** @var string */
-	private $subscriptionService = null;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IServerContainer */
-	private $container;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IConfig $config,
-		IServerContainer $container,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		LoggerInterface $logger) {
-		$this->config = $config;
-		$this->container = $container;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private ContainerInterface $container,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	private function getSubscription(): ?ISubscription {
 		if ($this->subscription === null && $this->subscriptionService !== null) {
 			try {
-				$this->subscription = $this->container->query($this->subscriptionService);
-			} catch (QueryException $e) {
+				$this->subscription = $this->container->get($this->subscriptionService);
+			} catch (ContainerExceptionInterface) {
 				// Ignore this
 			}
 		}
@@ -67,7 +49,6 @@ class Registry implements IRegistry {
 	 * Register a subscription instance. In case it is called multiple times the
 	 * first one is used.
 	 *
-	 * @param ISubscription $subscription
 	 * @throws AlreadyRegisteredException
 	 *
 	 * @since 17.0.0

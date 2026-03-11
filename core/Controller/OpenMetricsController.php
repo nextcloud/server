@@ -15,6 +15,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StreamTraversableResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\OpenMetrics\IMetricFamily;
@@ -44,12 +46,12 @@ class OpenMetricsController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/metrics')]
-	public function export(): Http\Response {
+	public function export(): Response {
 		if (!$this->isRemoteAddressAllowed()) {
-			return new Http\Response(Http::STATUS_FORBIDDEN);
+			return new Response(Http::STATUS_FORBIDDEN);
 		}
 
-		return new Http\StreamTraversableResponse(
+		return new StreamTraversableResponse(
 			$this->generate(),
 			Http::STATUS_OK,
 			[
@@ -83,11 +85,10 @@ class OpenMetricsController extends Controller {
 
 		$elapsed = (string)(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
 		yield <<<SUMMARY
-			# TYPE nextcloud_exporter_duration gauge
-			# UNIT nextcloud_exporter_duration seconds
-			# HELP nextcloud_exporter_duration Exporter run time
-			nextcloud_exporter_duration $elapsed
-
+			# TYPE nextcloud_exporter_run_seconds gauge
+			# UNIT nextcloud_exporter_run_seconds seconds
+			# HELP nextcloud_exporter_run_seconds Exporter run time
+			nextcloud_exporter_run_seconds $elapsed
 			# EOF
 
 			SUMMARY;
@@ -112,7 +113,6 @@ class OpenMetricsController extends Controller {
 			}
 			$output .= "\n";
 		}
-		$output .= "\n";
 
 		return $output;
 	}

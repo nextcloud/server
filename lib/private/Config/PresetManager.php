@@ -233,8 +233,22 @@ class PresetManager {
 	 */
 	private function getPresetApps(Preset $preset): array {
 		return match ($preset) {
-			Preset::CLUB, Preset::FAMILY, Preset::SCHOOL, Preset::UNIVERSITY, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => ['enabled' => ['user_status', 'guests'], 'disabled' => []],
-			Preset::SHARED => ['enabled' => ['external'], 'disabled' => ['user_status']],
+			Preset::CLUB, Preset::FAMILY, Preset::SCHOOL, Preset::SMALL, Preset::MEDIUM
+				=> [
+					'enabled' => ['user_status','guests','twofactor_backupcodes','twofactor_totp','twofactor_webauthn'],
+					'disabled' => []],
+			Preset::UNIVERSITY, Preset::LARGE
+				=> [
+					'enabled' => ['user_status','guests'],
+					'disabled' => []],
+			Preset::SHARED
+				=> [
+					'enabled' => ['external','twofactor_backupcodes','twofactor_totp','twofactor_webauthn'],
+					'disabled' => ['user_status']],
+			Preset::PRIVATE
+				=> [
+					'enabled' => ['twofactor_backupcodes','twofactor_totp','twofactor_webauthn'],
+					'disabled' => []],
 			default => ['enabled' => [], 'disabled' => []],
 		};
 	}

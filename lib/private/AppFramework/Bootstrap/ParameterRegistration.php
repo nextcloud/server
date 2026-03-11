@@ -12,18 +12,15 @@ namespace OC\AppFramework\Bootstrap;
  * @psalm-immutable
  */
 final class ParameterRegistration extends ARegistration {
-	/** @var string */
-	private $name;
-
-	/** @var mixed */
-	private $value;
-
-	public function __construct(string $appId,
-		string $name,
-		$value) {
+	/**
+	 * @param mixed $value
+	 */
+	public function __construct(
+		string $appId,
+		private string $name,
+		private $value,
+	) {
 		parent::__construct($appId);
-		$this->name = $name;
-		$this->value = $value;
 	}
 
 	public function getName(): string {

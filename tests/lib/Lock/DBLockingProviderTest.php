@@ -23,7 +23,7 @@ use OCP\Server;
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class DBLockingProviderTest extends LockingProvider {
 	/**
-	 * @var \OC\Lock\DBLockingProvider
+	 * @var DBLockingProvider
 	 */
 	protected $instance;
 

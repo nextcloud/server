@@ -54,6 +54,24 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals([$mount1, $mount3], $this->manager->findByStorageId($id));
 	}
 
+	public function testBinarySearch(): void {
+		$sortedArray = [
+			'a' => false,
+			'aa' => false,
+			'b' => false,
+			'bb' => false,
+			'bba' => true,
+			'bbb' => true,
+			'bdc' => false,
+		];
+		$sortedKey = array_keys($sortedArray);
+		$result = $this->invokePrivate($this->manager, 'binarySearch', [$sortedArray, $sortedKey, 'bb']);
+		$this->assertEquals(2, count($result));
+		foreach ($result as $entry) {
+			$this->assertTrue($entry);
+		}
+	}
+
 	public function testLong(): void {
 		$storage = new LongId([]);
 		$mount = new MountPoint($storage, '/foo');

@@ -3,9 +3,10 @@
  * SPDX-FileCopyrightText: 2011 Jan-Christoph Borchardt, http://jancborchardt.net
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-@use 'variables';
+
 @use 'sass:math';
-@use 'functions';
+@use 'variables.scss';
+@use 'functions.scss';
 
 input {
 	&#openid, &#webdav {
@@ -16,27 +17,6 @@ input {
 /* PERSONAL */
 .clear {
 	clear: both;
-}
-
-/* icons for sidebar */
-.nav-icon-personal-settings {
-	@include functions.icon-color('personal', 'settings', variables.$color-black);
-}
-
-.nav-icon-security {
-	@include functions.icon-color('toggle-filelist', 'settings', variables.$color-black);
-}
-
-.nav-icon-clientsbox {
-	@include functions.icon-color('change', 'settings', variables.$color-black);
-}
-
-.nav-icon-federated-cloud {
-	@include functions.icon-color('share', 'settings', variables.$color-black);
-}
-
-.nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
-	@include functions.icon-color('password', 'settings', variables.$color-black);
 }
 
 #personal-settings-avatar-container {
@@ -92,7 +72,7 @@ select {
 	padding: 20px;
 	max-width: 1700px;
 	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-	grid-column-gap: 10px;
+	column-gap: 10px;
 
 	.section {
 		padding: 10px 10px;
@@ -324,20 +304,6 @@ table.nostyle {
 	}
 }
 
-li.active {
-	.delete,
-	.rename {
-		display: block;
-	}
-}
-
-.app-navigation-entry-utils {
-	.delete,
-	.rename {
-		display: none;
-	}
-}
-
 #usersearchform {
 	position: absolute;
 	top: 2px;
@@ -421,26 +387,6 @@ td, th {
 
 span.usersLastLoginTooltip {
 	white-space: nowrap;
-}
-
-/* SETTINGS NAVIGATION */
-#app-navigation {
-	/* Navigation icons */
-	img {
-		margin-bottom: -3px;
-		margin-inline-end: 6px;
-		width: 16px;
-	}
-
-	li span.no-icon {
-		padding-inline-start: 32px;
-	}
-
-	ul li.active > span.utils {
-		.delete, .rename {
-			display: block;
-		}
-	}
 }
 
 /* SETTINGS SECTIONS */

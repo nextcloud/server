@@ -12,6 +12,7 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Config;
 use OC\Server;
 use OCP\Comments\ICommentsManager;
+use OCP\IConfig;
 
 /**
  * Class Server
@@ -49,17 +50,12 @@ class ServerTest extends \Test\TestCase {
 	 * @param string $instanceOf
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestQuery')]
-	public function testQuery($serviceName, $instanceOf): void {
+	public function testQuery(string $serviceName, string $instanceOf): void {
 		$this->assertInstanceOf($instanceOf, $this->server->query($serviceName), 'Service "' . $serviceName . '"" did not return the right class');
 	}
 
-	public function testGetCertificateManager(): void {
-		$this->assertInstanceOf('\OC\Security\CertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
-		$this->assertInstanceOf('\OCP\ICertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
-	}
-
 	public function testOverwriteDefaultCommentsManager(): void {
-		$config = $this->server->getConfig();
+		$config = $this->server->get(IConfig::class);
 		$defaultManagerFactory = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
 
 		$config->setSystemValue('comments.managerFactory', '\Test\Comments\FakeFactory');

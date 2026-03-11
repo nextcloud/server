@@ -15,21 +15,17 @@ use OCP\ITempManager;
 use OCP\Server;
 
 class DummyUser extends User {
-	/**
-	 * @param string $uid
-	 * @param string $home
-	 */
 	public function __construct(
-		private $uid,
-		private $home,
+		private readonly string $uid,
+		private readonly string $home,
 	) {
 	}
 
-	public function getHome() {
+	public function getHome(): string {
 		return $this->home;
 	}
 
-	public function getUID() {
+	public function getUID(): string {
 		return $this->uid;
 	}
 }

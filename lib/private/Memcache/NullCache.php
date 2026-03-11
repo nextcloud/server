@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,7 +9,9 @@
  */
 namespace OC\Memcache;
 
-class NullCache extends Cache implements \OCP\IMemcache {
+use OCP\IMemcache;
+
+class NullCache extends Cache implements IMemcache {
 	public function get($key) {
 		return null;
 	}

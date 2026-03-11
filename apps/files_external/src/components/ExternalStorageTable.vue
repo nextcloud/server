@@ -56,7 +56,7 @@ const storages = computed(() => {
 			<ExternalStorageTableRow
 				v-for="storage in storages"
 				:key="storage.id"
-				:is-admin
+				:isAdmin
 				:storage="storage" />
 		</tbody>
 	</table>

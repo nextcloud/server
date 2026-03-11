@@ -17,11 +17,9 @@ use OCP\Authentication\Token\IToken as OCPIToken;
 use OCP\DB\Exception;
 
 class Manager implements IProvider, OCPIProvider {
-	/** @var PublicKeyTokenProvider */
-	private $publicKeyTokenProvider;
-
-	public function __construct(PublicKeyTokenProvider $publicKeyTokenProvider) {
-		$this->publicKeyTokenProvider = $publicKeyTokenProvider;
+	public function __construct(
+		private PublicKeyTokenProvider $publicKeyTokenProvider,
+	) {
 	}
 
 	/**

@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { IFileAction } from '@nextcloud/files'
 import type { IStorage } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showConfirmation } from '@nextcloud/dialogs'
-import { DefaultType, FileAction } from '@nextcloud/files'
+import { DefaultType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { StorageStatus } from '../types.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'open-in-files-external-storage',
 	displayName: ({ nodes }) => {
 		const config = nodes?.[0]?.attributes?.config as IStorage || { status: StorageStatus.Indeterminate }
@@ -54,4 +55,4 @@ export const action = new FileAction({
 	// Before openFolderAction
 	order: -1000,
 	default: DefaultType.HIDDEN,
-})
+}

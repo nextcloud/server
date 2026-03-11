@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,11 +12,12 @@ namespace OC\DB\QueryBuilder;
 use OCP\DB\QueryBuilder\IParameter;
 
 class Parameter implements IParameter {
-	/** @var mixed */
-	protected $name;
-
-	public function __construct($name) {
-		$this->name = $name;
+	/**
+	 * @param mixed $name
+	 */
+	public function __construct(
+		protected $name,
+	) {
 	}
 
 	public function __toString(): string {

@@ -15,6 +15,8 @@ use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeRemotePropfindEvent;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IMimeTypeDetector;
@@ -24,6 +26,8 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\ITempManager;
+use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
@@ -50,6 +54,7 @@ class DAV extends Common {
 	protected $host;
 	/** @var bool */
 	protected $secure;
+	protected bool $verify;
 	/** @var string */
 	protected $root;
 	/** @var string */
@@ -104,17 +109,19 @@ class DAV extends Common {
 				$this->authType = $parameters['authType'];
 			}
 			if (isset($parameters['secure'])) {
+				$this->verify = $parameters['verify'] ?? true;
 				if (is_string($parameters['secure'])) {
 					$this->secure = ($parameters['secure'] === 'true');
 				} else {
 					$this->secure = (bool)$parameters['secure'];
 				}
 			} else {
+				$this->verify = false;
 				$this->secure = false;
 			}
 			if ($this->secure === true) {
 				// inject mock for testing
-				$this->certManager = \OC::$server->getCertificateManager();
+				$this->certManager = Server::get(ICertificateManager::class);
 			}
 			$this->root = rawurldecode($parameters['root'] ?? '/');
 			$this->root = '/' . ltrim($this->root, '/');
@@ -126,7 +133,7 @@ class DAV extends Common {
 		$this->eventLogger = Server::get(IEventLogger::class);
 		// This timeout value will be used for the download and upload of files
 		$this->timeout = Server::get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT);
-		$this->mimeTypeDetector = \OC::$server->getMimeTypeDetector();
+		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
 	}
 
 	protected function init(): void {
@@ -153,6 +160,9 @@ class DAV extends Common {
 		$this->client->setThrowExceptions(true);
 
 		if ($this->secure === true) {
+			if ($this->verify === false) {
+				$this->client->addCurlSetting(CURLOPT_SSL_VERIFYPEER, false);
+			}
 			$certPath = $this->certManager->getAbsoluteBundlePath();
 			if (file_exists($certPath)) {
 				$this->certPath = $certPath;
@@ -163,12 +173,12 @@ class DAV extends Common {
 		}
 
 		$lastRequestStart = 0;
-		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart): void {
 			$this->logger->debug('sending dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl(), ['app' => 'dav']);
 			$lastRequestStart = microtime(true);
 			$this->eventLogger->start('fs:storage:dav:request', 'Sending dav request to external storage');
 		});
-		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart): void {
 			$elapsed = microtime(true) - $lastRequestStart;
 			$this->logger->debug('dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
 			$this->eventLogger->end('fs:storage:dav:request');
@@ -233,6 +243,34 @@ class DAV extends Common {
 	}
 
 	/**
+	 * @return array<string>
+	 */
+	protected function getPropfindProperties(): array {
+		$event = new BeforeRemotePropfindEvent(self::PROPFIND_PROPS);
+		Server::get(IEventDispatcher::class)->dispatchTyped($event);
+		return $event->getProperties();
+	}
+
+	/**
+	 *  Get property value from cached PROPFIND response.
+	 *  For accessing app-specific properties not included in getMetaData().
+	 *
+	 * @param string $path
+	 * @param string $propertyName
+	 * @return mixed
+	 */
+	public function getPropfindPropertyValue(string $path, string $propertyName): mixed {
+		$path = $this->cleanPath($path);
+		$propfindResponse = $this->statCache->get($path);
+
+		if (!is_array($propfindResponse)) {
+			return null;
+		}
+
+		return $propfindResponse[$propertyName] ?? null;
+	}
+
+	/**
 	 * Propfind call with cache handling.
 	 *
 	 * First checks if information is cached.
@@ -254,7 +292,7 @@ class DAV extends Common {
 			try {
 				$response = $this->client->propFind(
 					$this->encodePath($path),
-					self::PROPFIND_PROPS
+					$this->getPropfindProperties()
 				);
 				$this->statCache->set($path, $response);
 			} catch (ClientHttpException $e) {
@@ -284,7 +322,7 @@ class DAV extends Common {
 				/** @var ResourceType[] $response */
 				$responseType = $response['{DAV:}resourcetype']->getValue();
 			}
-			return (count($responseType) > 0 && $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
+			return (count($responseType) > 0 && $responseType[0] === '{DAV:}collection') ? 'dir' : 'file';
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
 		}
@@ -331,7 +369,8 @@ class DAV extends Common {
 							'auth' => [$this->user, $this->password],
 							'stream' => true,
 							// set download timeout for users with slow connections or large files
-							'timeout' => $this->timeout
+							'timeout' => $this->timeout,
+							'verify' => $this->verify,
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -344,7 +383,7 @@ class DAV extends Common {
 
 				if ($response->getStatusCode() !== Http::STATUS_OK) {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
-						throw new \OCP\Lock\LockedException($path);
+						throw new LockedException($path);
 					} else {
 						$this->logger->error('Guzzle get returned status code ' . $response->getStatusCode(), ['app' => 'webdav client']);
 					}
@@ -370,7 +409,7 @@ class DAV extends Common {
 			case 'c':
 			case 'c+':
 				//emulate these
-				$tempManager = \OC::$server->getTempManager();
+				$tempManager = Server::get(ITempManager::class);
 				if (strrpos($path, '.') !== false) {
 					$ext = substr($path, strrpos($path, '.'));
 				} else {
@@ -392,7 +431,7 @@ class DAV extends Common {
 					$tmpFile = $tempManager->getTemporaryFile($ext);
 				}
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
 		}
@@ -481,7 +520,8 @@ class DAV extends Common {
 				'body' => $source,
 				'auth' => [$this->user, $this->password],
 				// set upload timeout for users with slow connections or large files
-				'timeout' => $this->timeout
+				'timeout' => $this->timeout,
+				'verify' => $this->verify,
 			]);
 
 		$this->removeCachedFile($target);
@@ -572,7 +612,7 @@ class DAV extends Common {
 			/** @var ResourceType[] $response */
 			$responseType = $response['{DAV:}resourcetype']->getValue();
 		}
-		$type = (count($responseType) > 0 && $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
+		$type = (count($responseType) > 0 && $responseType[0] === '{DAV:}collection') ? 'dir' : 'file';
 		if ($type === 'dir') {
 			$mimeType = 'httpd/unix-directory';
 		} elseif (isset($response['{DAV:}getcontenttype'])) {
@@ -648,7 +688,7 @@ class DAV extends Common {
 		$path = $this->cleanPath($path);
 		try {
 			$response = $this->client->request($method, $this->encodePath($path), $body);
-			return $response['statusCode'] == $expected;
+			return $response['statusCode'] === $expected;
 		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 404 && $method === 'DELETE') {
 				$this->statCache->clear($path . '/');
@@ -784,7 +824,7 @@ class DAV extends Common {
 		$this->logger->debug($e->getMessage(), ['app' => 'files_external', 'exception' => $e]);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
-				throw new \OCP\Lock\LockedException($path);
+				throw new LockedException($path);
 			}
 			if ($e->getHttpStatus() === Http::STATUS_UNAUTHORIZED) {
 				// either password was changed or was invalid all along
@@ -818,7 +858,7 @@ class DAV extends Common {
 		try {
 			$responses = $this->client->propFind(
 				$this->encodePath($directory),
-				self::PROPFIND_PROPS,
+				$this->getPropfindProperties(),
 				1
 			);
 

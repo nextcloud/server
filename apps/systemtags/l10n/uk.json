@@ -110,10 +110,6 @@
     "Failed to delete tag for file" : "Не вдалося вилучить мітку для файлу",
     "Collaborative tags …" : "Спільні мітки...",
     "Loading …" : "Завантаження …",
-    "File tags modification canceled" : "Скасовано зміни до міток файлів",
-    "Select or create tags to apply to all selected files" : "Застосувати до всіх вибраних файлів шукати або створити мітки",
-    "Select tags to apply to all selected files" : "Виберіть теги, які потрібно застосувати до всіх вибраних файлів",
-    "Apply changes" : "Застосувати зміни",
     "Loading collaborative tags …" : "Завантажую спільні мітки ..."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

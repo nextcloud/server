@@ -18,6 +18,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IFilesMetadata;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,7 +43,7 @@ class MetadataQuery implements IMetadataQuery {
 			 *
 			 * FIXME: remove support for IFilesMetadata
 			 */
-			$logger = \OCP\Server::get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->debug('It is deprecated to use IFilesMetadata as second parameter when calling MetadataQuery::__construct()');
 		}
 	}

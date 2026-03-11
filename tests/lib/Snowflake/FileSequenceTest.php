@@ -30,6 +30,5 @@ class FileSequenceTest extends ISequenceBase {
 		foreach (glob($lockDirectory . '/*') as $file) {
 			unlink($file);
 		}
-		rmdir($lockDirectory);
 	}
 }

@@ -13,6 +13,7 @@ use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use Override;
 
 /**
  * Service class to read global storages applicable to the user
@@ -33,20 +34,8 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		$this->userSession = $userSession;
 	}
 
-	/**
-	 * Replace config hash ID with real IDs, for migrating legacy storages
-	 *
-	 * @param StorageConfig[] $storages Storages with real IDs
-	 * @param StorageConfig[] $storagesWithConfigHash Storages with config hash IDs
-	 */
-	protected function setRealStorageIds(array &$storages, array $storagesWithConfigHash) {
-		// as a read-only view, storage IDs don't need to be real
-		foreach ($storagesWithConfigHash as $storage) {
-			$storages[$storage->getId()] = $storage;
-		}
-	}
-
-	protected function readDBConfig() {
+	#[Override]
+	protected function readDBConfig(): array {
 		$userMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
 		$globalMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 		$groups = $this->groupManager->getUserGroupIds($this->getUser());
@@ -58,18 +47,18 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		return array_merge($userMounts, $groupMounts, $globalMounts);
 	}
 
-	public function addStorage(StorageConfig $newStorage) {
+	#[Override]
+	public function addStorage(StorageConfig $newStorage): never {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
-	public function updateStorage(StorageConfig $updatedStorage) {
+	#[Override]
+	public function updateStorage(StorageConfig $updatedStorage): never {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
-	/**
-	 * @param integer $id
-	 */
-	public function removeStorage($id) {
+	#[Override]
+	public function removeStorage(int $id): never {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
@@ -79,7 +68,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 	 *
 	 * @return StorageConfig[]
 	 */
-	public function getUniqueStorages() {
+	public function getUniqueStorages(): array {
 		$storages = $this->getStorages();
 
 		$storagesByMountpoint = [];
@@ -116,20 +105,17 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 	 * @param StorageConfig $storage
 	 * @return int
 	 */
-	protected function getPriorityType(StorageConfig $storage) {
+	protected function getPriorityType(StorageConfig $storage): int {
 		$applicableUsers = $storage->getApplicableUsers();
 		$applicableGroups = $storage->getApplicableGroups();
 
 		if ($applicableUsers && $applicableUsers[0] !== 'all') {
 			return 2;
 		}
-		if ($applicableGroups) {
-			return 1;
-		}
-		return 0;
+		return $applicableGroups ? 1 : 0;
 	}
 
-	protected function isApplicable(StorageConfig $config) {
+	protected function isApplicable(StorageConfig $config): bool {
 		$applicableUsers = $config->getApplicableUsers();
 		$applicableGroups = $config->getApplicableGroups();
 
@@ -155,7 +141,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 	 * @param IUser|null $user user to get the storages for, if not set the currently logged in user will be used
 	 * @return StorageConfig[] array of storage configs
 	 */
-	public function getAllStoragesForUser(?IUser $user = null) {
+	public function getAllStoragesForUser(?IUser $user = null): array {
 		if (is_null($user)) {
 			$user = $this->getUser();
 		}
@@ -164,16 +150,33 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		}
 		$groupIds = $this->groupManager->getUserGroupIds($user);
 		$mounts = $this->dbConfig->getMountsForUser($user->getUID(), $groupIds);
-		$configs = array_map([$this, 'getStorageConfigFromDBMount'], $mounts);
-		$configs = array_filter($configs, function ($config) {
-			return $config instanceof StorageConfig;
-		});
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn ($config) => $config instanceof StorageConfig);
 
-		$keys = array_map(function (StorageConfig $config) {
-			return $config->getId();
-		}, $configs);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
 
 		$storages = array_combine($keys, $configs);
-		return array_filter($storages, [$this, 'validateStorage']);
+		return array_filter($storages, $this->validateStorage(...));
+	}
+
+
+	/**
+	 * @return StorageConfig[]
+	 */
+	public function getAllStoragesForUserWithPath(string $path, bool $forChildren): array {
+		$user = $this->getUser();
+
+		if (is_null($user)) {
+			return [];
+		}
+
+		$groupIds = $this->groupManager->getUserGroupIds($user);
+		$mounts = $this->dbConfig->getMountsForUserAndPath($user->getUID(), $groupIds, $path, $forChildren);
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn ($config) => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
 	}
 }

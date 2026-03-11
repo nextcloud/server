@@ -6,17 +6,18 @@
 	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions
 			ref="actionsMenu"
+			:open.sync="openedMenu"
 			container="#app-content-vue"
 			:boundaries-element="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
 			:inline="enabledInlineActions.length"
-			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : null"
-			:open.sync="openedMenu"
+			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : undefined"
 			@close="openedSubmenu = null">
 			<!-- Default actions list-->
 			<NcActionButton
-				v-for="action in enabledMenuActions"
+				v-for="(action, idx) in enabledMenuActions"
+				:id="idx === 0 ? FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID : undefined"
 				:key="action.id"
 				:ref="`action-batch-${action.id}`"
 				:class="{
@@ -70,19 +71,22 @@
 </template>
 
 <script lang="ts">
-import type { ActionContext, FileAction, Node, View } from '@nextcloud/files'
+import type { ActionContext, IFileAction, Node, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { DefaultType, getFileActions, NodeStatus } from '@nextcloud/files'
+import { DefaultType, NodeStatus } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import { FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID } from './FilesListTableHeader.vue'
+import { useFileActions } from '../composables/useFileActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import logger from '../logger.ts'
 import actionsMixins from '../mixins/actionsMixin.ts'
@@ -91,8 +95,7 @@ import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 
-// The registered actions list
-const actions = getFileActions()
+export const FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID = 'files-list-head-first-batch-action'
 
 export default defineComponent({
 	name: 'FilesListTableHeaderActions',
@@ -101,6 +104,7 @@ export default defineComponent({
 		ArrowLeftIcon,
 		NcActions,
 		NcActionButton,
+		NcActionSeparator,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 	},
@@ -124,18 +128,33 @@ export default defineComponent({
 		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
-		const fileListWidth = useFileListWidth()
+		const { isMedium, isNarrow } = useFileListWidth()
 
-		const boundariesElement = document.getElementById('app-content-vue')
+		const boundariesElement = document.getElementById('app-content-vue') as HTMLElement
+
+		const inlineActions = computed(() => {
+			if (isNarrow.value) {
+				return 0
+			}
+			if (isMedium.value) {
+				return 1
+			}
+			return 3
+		})
+
+		const actions = useFileActions()
 
 		return {
+			actions,
 			actionsMenuStore,
 			activeFolder,
-			fileListWidth,
 			filesStore,
 			selectionStore,
 
 			boundariesElement,
+			inlineActions,
+
+			FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID,
 		}
 	},
 
@@ -146,8 +165,8 @@ export default defineComponent({
 	},
 
 	computed: {
-		enabledFileActions(): FileAction[] {
-			return actions
+		enabledFileActions(): IFileAction[] {
+			return this.actions
 				// We don't handle renderInline actions in this component
 				.filter((action) => !action.renderInline)
 				// We don't handle actions that are not visible
@@ -166,7 +185,7 @@ export default defineComponent({
 		 * This means that they are not within a menu, nor
 		 * being the parent of submenu actions.
 		 */
-		enabledInlineActions(): FileAction[] {
+		enabledInlineActions(): IFileAction[] {
 			return this.enabledFileActions
 				// Remove all actions that are not top-level actions
 				.filter((action) => action.parent === undefined)
@@ -182,7 +201,7 @@ export default defineComponent({
 		 * Return the rest of enabled actions that are not
 		 * rendered inlined.
 		 */
-		enabledMenuActions(): FileAction[] {
+		enabledMenuActions(): IFileAction[] {
 			// If we're in a submenu, only render the inline
 			// actions before the filtered submenu
 			if (this.openedSubmenu) {
@@ -254,19 +273,17 @@ export default defineComponent({
 				this.actionsMenuStore.opened = opened ? 'global' : null
 			},
 		},
+	},
 
-		inlineActions() {
-			if (this.fileListWidth < 512) {
-				return 0
-			}
-			if (this.fileListWidth < 768) {
-				return 1
-			}
-			if (this.fileListWidth < 1024) {
-				return 2
-			}
-			return 3
-		},
+	mounted() {
+		const firstActionId = this.enabledMenuActions.at(0)?.id
+		const firstButton = this.$refs.actionsMenu?.$refs?.[`action-batch-${firstActionId}`]
+		if (firstButton) {
+			firstButton.$el.focus()
+			logger.debug('Focusing first batch action button')
+
+			firstButton.$el.addEventListener('focusout', this.onFirstButtonFocusOut)
+		}
 	},
 
 	methods: {
@@ -288,7 +305,7 @@ export default defineComponent({
 
 			let displayName = action.id
 			try {
-				displayName = action.displayName(this.nodes, this.currentView)
+				displayName = action.displayName(this.actionContext)
 			} catch (error) {
 				logger.error('Error while getting action display name', { action, error })
 			}
@@ -341,6 +358,20 @@ export default defineComponent({
 					this.$set(node, 'status', undefined)
 				})
 			}
+		},
+
+		// When focusing out the first button outside the header actions
+		// we can return back to the select all checkbox
+		onFirstButtonFocusOut(event: FocusEvent) {
+			// If the focus is still within this component, do nothing
+			if (this.$el.contains(event.relatedTarget)) {
+				return
+			}
+
+			event.preventDefault()
+			event.stopPropagation()
+			document.getElementById(FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID)?.focus()
+			logger.debug('Focusing select all checkbox again')
 		},
 
 		t: translate,

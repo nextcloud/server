@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\DAV\Migration;
 
 use Closure;
-use OCP\DB\ISchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Migration\Attributes\DataCleansing;
@@ -25,11 +24,6 @@ class Version1034Date20250813093701 extends SimpleMigrationStep {
 	) {
 	}
 
-	/**
-	 * @param IOutput $output
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 * @param array $options
-	 */
 	#[Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		$qb = $this->db->getQueryBuilder();

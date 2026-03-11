@@ -12,23 +12,22 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\Watcher;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\IScanner;
 use OCP\Files\Cache\IWatcher;
 use OCP\Files\Storage\IStorage;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
+use Test\TestCase;
 
-/**
- * Class WatcherTest
- *
- *
- * @package Test\Files\Cache
- */
-#[\PHPUnit\Framework\Attributes\Medium]
-#[\PHPUnit\Framework\Attributes\Group('DB')]
-class WatcherTest extends \Test\TestCase {
+#[Medium]
+#[Group(name: 'DB')]
+class WatcherTest extends TestCase {
 	/**
 	 * @var Storage[] $storages
 	 */
-	private $storages = [];
+	private array $storages = [];
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -175,11 +174,7 @@ class WatcherTest extends \Test\TestCase {
 		$this->assertTrue($updater->checkUpdate('foo.txt'));
 	}
 
-	/**
-	 * @param bool $scan
-	 * @return Storage
-	 */
-	private function getTestStorage($scan = true) {
+	private function getTestStorage(bool $scan = true): IStorage {
 		$storage = new Temporary([]);
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
@@ -217,11 +212,15 @@ class WatcherTest extends \Test\TestCase {
 		];
 	}
 
-	#[DataProvider('checkFilterProvider')]
-	public function testCheckFilter($filter, $paths) {
+	#[DataProvider(methodName: 'checkFilterProvider')]
+	public function testCheckFilter(?string $filter, array $paths): void {
 		$storage = $this->createMock(IStorage::class);
 		$storage->method('hasUpdated')
 			->willReturn(true);
+		$storage->method('getCache')
+			->willReturn($this->createMock(ICache::class));
+		$storage->method('getScanner')
+			->willReturn($this->createMock(IScanner::class));
 		$watcher = new Watcher($storage);
 		$watcher->setPolicy(IWatcher::CHECK_ALWAYS);
 

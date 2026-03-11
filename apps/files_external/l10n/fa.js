@@ -141,13 +141,8 @@ OC.L10N.register(
     "Unauthorized" : "غیرمجاز",
     "Network error" : "خطای شبکه",
     "Grant access" : " مجوز اعطا دسترسی",
-    "Error configuring OAuth1" : "خطا پیکربندی OAuth1",
-    "Please provide a valid app key and secret." : "لطفا یک کلید و رمز معتبر برای برنامه فرآهم کنید.",
     "Error configuring OAuth2" : "خطا پیکربندی OAuth2",
     "%s" : " %s ",
-    "OAuth1" : "OAuth1",
-    "App key" : "کلید برنامه",
-    "App secret" : "کد برنامه",
     "OAuth2" : "OAuth2",
     "Client ID" : "شناسه مشتری",
     "Client secret" : "رمز مشتری",
@@ -162,7 +157,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "بک‌اند ناشناخته: {backendName}",
     "Admin defined" : "مدیر تعریف شده",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatic status checking is disabled due to the large number of configured storages, click to check status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.",
+    "Are you sure you want to disconnect this external storage?" : "آیا مطمئن هستید که می‌خواهید اتصال این حافظه خارجی را قطع کنید؟",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "این کار باعث می‌شود فضای ذخیره‌سازی در {instanceName} از دسترس خارج شود و منجر به حذف این فایل‌ها و پوشه‌ها در هر کلاینت همگام‌سازی که در حال حاضر متصل است، می‌شود، اما هیچ فایل و پوشه‌ای را در خود فضای ذخیره‌سازی خارجی حذف نمی‌کند.",
     "Delete storage?" : "فضای ذخیره سازی را حذف می کنید؟",
     "Click to recheck the configuration" : "برای بررسی مجدد پیکربندی کلیک کنید.",
     "Saving …" : "ذخیره کردن …",
@@ -174,8 +170,6 @@ OC.L10N.register(
     "Configuration" : "پیکربندی",
     "Available for" : "در دسترس برای",
     "All people" : "همه مردم",
-    "Advanced settings" : "تنظیمات پیشرفته",
-    "Are you sure you want to disconnect this external storage?" : "آیا مطمئن هستید که می‌خواهید اتصال این حافظه خارجی را قطع کنید؟",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "این کار باعث می‌شود فضای ذخیره‌سازی در {instanceName} از دسترس خارج شود و منجر به حذف این فایل‌ها و پوشه‌ها در هر کلاینت همگام‌سازی که در حال حاضر متصل است، می‌شود، اما هیچ فایل و پوشه‌ای را در خود فضای ذخیره‌سازی خارجی حذف نمی‌کند."
+    "Advanced settings" : "تنظیمات پیشرفته"
 },
 "nplurals=2; plural=(n > 1);");

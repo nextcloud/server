@@ -42,8 +42,6 @@
 				ref="name"
 				:basename="basename"
 				:extension="extension"
-				:grid-mode="true"
-				:nodes="nodes"
 				:source="source"
 				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
@@ -79,6 +77,7 @@ import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
+import { useFileActions } from '../composables/useFileActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -113,7 +112,7 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
-		const filesListWidth = useFileListWidth()
+		const { isNarrow } = useFileListWidth()
 		const {
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
@@ -124,14 +123,17 @@ export default defineComponent({
 			activeView,
 		} = useActiveStore()
 
+		const actions = useFileActions()
+
 		return {
+			actions,
 			actionsMenuStore,
 			activeFolder,
 			activeNode,
 			activeView,
 			currentRouteFileId,
 			draggingStore,
-			filesListWidth,
+			isNarrow,
 			filesStore,
 			renamingStore,
 			selectionStore,

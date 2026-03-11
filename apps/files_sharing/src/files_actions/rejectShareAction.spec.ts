@@ -1,13 +1,13 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { IView } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
-import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { File, Folder, Permission } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { action } from './rejectShareAction.ts'
@@ -19,12 +19,12 @@ vi.mock('@nextcloud/axios')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const pendingShareView = {
 	id: 'pendingshares',
 	name: 'Pending shares',
-} as View
+} as IView
 
 // Mock webroot variable
 beforeAll(() => {
@@ -42,7 +42,6 @@ describe('Reject share action conditions tests', () => {
 			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('reject-share')
 		expect(action.displayName({
 			nodes: [file],
@@ -189,13 +188,12 @@ describe('Reject share action execute tests', () => {
 		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
-			id: 1,
+			id: '123',
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				share_type: ShareType.User,
 			},
 			root: '/files/admin',
@@ -221,13 +219,12 @@ describe('Reject share action execute tests', () => {
 		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
-			id: 1,
+			id: '123',
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				remote: 3,
 				share_type: ShareType.User,
 			},
@@ -254,26 +251,24 @@ describe('Reject share action execute tests', () => {
 		vi.spyOn(eventBus, 'emit')
 
 		const file1 = new File({
-			id: 1,
+			id: '123',
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				share_type: ShareType.User,
 			},
 			root: '/files/admin',
 		})
 
 		const file2 = new File({
-			id: 2,
+			id: '456',
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 456,
 				share_type: ShareType.User,
 			},
 			root: '/files/admin',
@@ -302,13 +297,12 @@ describe('Reject share action execute tests', () => {
 		})
 
 		const file = new File({
-			id: 1,
+			id: 123,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				share_type: ShareType.User,
 			},
 			root: '/files/admin',

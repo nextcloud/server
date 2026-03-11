@@ -133,6 +133,24 @@ class TeamManager implements ITeamManager {
 	}
 
 	/**
+	 * Returns a mapping of user id to display name for all members of a given team.
+	 *
+	 * @return array<string, string> userId => displayName
+	 */
+	public function getMembersOfTeam(string $teamId, string $userId): array {
+		$team = $this->getTeam($teamId, $userId);
+		if ($team === null) {
+			return [];
+		}
+		$members = $team->getInheritedMembers();
+		$result = [];
+		foreach ($members as $member) {
+			$result[$member->getUserId()] = $member->getDisplayName();
+		}
+		return $result;
+	}
+
+	/**
 	 * @return Circle[]
 	 */
 	private function getTeams(array $teams, string $userId): array {
@@ -143,5 +161,24 @@ class TeamManager implements ITeamManager {
 		$federatedUser = $this->circlesManager->getFederatedUser($userId, Member::TYPE_USER);
 		$this->circlesManager->startSession($federatedUser);
 		return $this->circlesManager->getCirclesByIds($teams);
+	}
+
+	public function getTeamsForUser(string $userId): array {
+		if (!$this->hasTeamSupport()) {
+			return [];
+		}
+
+		$federatedUser = $this->circlesManager->getFederatedUser($userId, Member::TYPE_USER);
+		$this->circlesManager->startSession($federatedUser);
+		$teams = [];
+		foreach ($this->circlesManager->probeCircles() as $team) {
+			$teams[] = new Team(
+				$team->getSingleId(),
+				$team->getDisplayName(),
+				$this->urlGenerator->linkToRouteAbsolute('contacts.contacts.directcircle', ['singleId' => $team->getSingleId()]),
+			);
+		}
+
+		return $teams;
 	}
 }

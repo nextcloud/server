@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { INode, IView } from '@nextcloud/files'
+import type { IFileAction, INode, IView } from '@nextcloud/files'
 
 import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction, Permission } from '@nextcloud/files'
+import { Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
@@ -18,63 +18,11 @@ import PQueue from 'p-queue'
 import Vue from 'vue'
 import logger from '../logger.ts'
 
-export const ACTION_FAVORITE = 'favorite'
-
 const queue = new PQueue({ concurrency: 5 })
 
-/**
- * If any of the nodes is not favorited, we display the favorite action.
- *
- * @param nodes - The nodes to check
- */
-function shouldFavorite(nodes: INode[]): boolean {
-	return nodes.some((node) => node.attributes.favorite !== 1)
-}
+export const ACTION_FAVORITE = 'favorite'
 
-/**
- * Favorite or unfavorite a node
- *
- * @param node - The node to favorite/unfavorite
- * @param view - The current view
- * @param willFavorite - Whether to favorite or unfavorite the node
- */
-export async function favoriteNode(node: INode, view: IView, willFavorite: boolean): Promise<boolean> {
-	try {
-		// TODO: migrate to webdav tags plugin
-		const url = generateUrl('/apps/files/api/v1/files') + encodePath(node.path)
-		await axios.post(url, {
-			tags: willFavorite
-				? [window.OC.TAG_FAVORITE]
-				: [],
-		})
-
-		// Let's delete if we are in the favourites view
-		// AND if it is removed from the user favorites
-		// AND it's in the root of the favorites view
-		if (view.id === 'favorites' && !willFavorite && node.dirname === '/') {
-			emit('files:node:deleted', node)
-		}
-
-		// Update the node webdav attribute
-		Vue.set(node.attributes, 'favorite', willFavorite ? 1 : 0)
-		emit('files:node:updated', node)
-
-		// Dispatch event to whoever is interested
-		if (willFavorite) {
-			emit('files:favorites:added', node)
-		} else {
-			emit('files:favorites:removed', node)
-		}
-
-		return true
-	} catch (error) {
-		const action = willFavorite ? 'adding a file to favourites' : 'removing a file from favourites'
-		logger.error('Error while ' + action, { error, source: node.source, node })
-		return false
-	}
-}
-
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: ACTION_FAVORITE,
 	displayName({ nodes }) {
 		return shouldFavorite(nodes)
@@ -132,4 +80,56 @@ export const action = new FileAction({
 		description: t('files', 'Add or remove favorite'),
 		key: 'S',
 	},
-})
+}
+
+/**
+ * Favorite or unfavorite a node
+ *
+ * @param node - The node to favorite/unfavorite
+ * @param view - The current view
+ * @param willFavorite - Whether to favorite or unfavorite the node
+ */
+export async function favoriteNode(node: INode, view: IView, willFavorite: boolean): Promise<boolean> {
+	try {
+		// TODO: migrate to webdav tags plugin
+		const url = generateUrl('/apps/files/api/v1/files') + encodePath(node.path)
+		await axios.post(url, {
+			tags: willFavorite
+				? [window.OC.TAG_FAVORITE]
+				: [],
+		})
+
+		// Let's delete if we are in the favourites view
+		// AND if it is removed from the user favorites
+		// AND it's in the root of the favorites view
+		if (view.id === 'favorites' && !willFavorite && node.dirname === '/') {
+			emit('files:node:deleted', node)
+		}
+
+		// Update the node webdav attribute
+		Vue.set(node.attributes, 'favorite', willFavorite ? 1 : 0)
+		emit('files:node:updated', node)
+
+		// Dispatch event to whoever is interested
+		if (willFavorite) {
+			emit('files:favorites:added', node)
+		} else {
+			emit('files:favorites:removed', node)
+		}
+
+		return true
+	} catch (error) {
+		const action = willFavorite ? 'adding a file to favourites' : 'removing a file from favourites'
+		logger.error('Error while ' + action, { error, source: node.source, node })
+		return false
+	}
+}
+
+/**
+ * If any of the nodes is not favored, we display the favorite action.
+ *
+ * @param nodes - The nodes to check
+ */
+function shouldFavorite(nodes: INode[]): boolean {
+	return nodes.some((node) => node.attributes.favorite !== 1)
+}

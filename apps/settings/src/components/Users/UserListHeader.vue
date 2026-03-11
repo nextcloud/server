@@ -155,7 +155,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@use './shared/styles';
+@use './shared/styles.scss';
 
 .header {
 	border-bottom: 1px solid var(--color-border);

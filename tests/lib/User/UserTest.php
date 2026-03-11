@@ -23,20 +23,14 @@ use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use OCP\Server;
-use OCP\UserInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * Class UserTest
- *
- *
- * @package Test\User
- */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group('DB')]
 class UserTest extends TestCase {
-	/** @var IEventDispatcher|MockObject */
-	protected $dispatcher;
+	protected IEventDispatcher $dispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -44,9 +38,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testDisplayName(): void {
-		/**
-		 * @var \OC\User\Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\OC\User\Backend::class);
 		$backend->expects($this->once())
 			->method('getDisplayName')
@@ -66,9 +57,6 @@ class UserTest extends TestCase {
 	 * if the display name contain whitespaces only, we expect the uid as result
 	 */
 	public function testDisplayNameEmpty(): void {
-		/**
-		 * @var \OC\User\Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\OC\User\Backend::class);
 		$backend->expects($this->once())
 			->method('getDisplayName')
@@ -85,9 +73,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testDisplayNameNotSupported(): void {
-		/**
-		 * @var \OC\User\Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\OC\User\Backend::class);
 		$backend->expects($this->never())
 			->method('getDisplayName');
@@ -102,32 +87,22 @@ class UserTest extends TestCase {
 	}
 
 	public function testSetPassword(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 		$backend->expects($this->once())
 			->method('setPassword')
-			->with($this->equalTo('foo'), $this->equalTo('bar'));
+			->with($this->equalTo('foo'), $this->equalTo('bar'))
+			->willReturn(true);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\User\Backend::SET_PASSWORD) {
-					return true;
-				} else {
-					return false;
-				}
-			});
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_PASSWORD);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertTrue($user->setPassword('bar', ''));
 	}
 
 	public function testSetPasswordNotSupported(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->never())
 			->method('setPassword');
@@ -141,9 +116,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testChangeAvatarSupportedYes(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(AvatarUserDummy::class);
 		$backend->expects($this->once())
 			->method('canChangeAvatar')
@@ -165,9 +137,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testChangeAvatarSupportedNo(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(AvatarUserDummy::class);
 		$backend->expects($this->once())
 			->method('canChangeAvatar')
@@ -189,9 +158,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testChangeAvatarNotSupported(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(AvatarUserDummy::class);
 		$backend->expects($this->never())
 			->method('canChangeAvatar');
@@ -205,20 +171,18 @@ class UserTest extends TestCase {
 	}
 
 	public function testDelete(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 		$backend->expects($this->once())
 			->method('deleteUser')
-			->with($this->equalTo('foo'));
+			->with($this->equalTo('foo'))
+			->willReturn(true);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertTrue($user->delete());
 	}
 
 	public function testDeleteWithDifferentHome(): void {
-		/** @var ObjectHomeMountProvider $homeProvider */
 		$homeProvider = Server::get(ObjectHomeMountProvider::class);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -227,20 +191,12 @@ class UserTest extends TestCase {
 			$this->markTestSkipped('Skipping test for non local home storage');
 		}
 
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 
 		$backend->expects($this->once())
 			->method('implementsActions')
-			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\User\Backend::GET_HOME) {
-					return true;
-				} else {
-					return false;
-				}
-			});
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::GET_HOME);
 
 		// important: getHome MUST be called before deleteUser because
 		// once the user is deleted, getHome implementations might not
@@ -252,16 +208,14 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->once())
 			->method('deleteUser')
-			->with($this->equalTo('foo'));
+			->with($this->equalTo('foo'))
+			->willReturn(true);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertTrue($user->delete());
 	}
 
 	public function testGetHome(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('getHome')
@@ -270,13 +224,7 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\User\Backend::GET_HOME) {
-					return true;
-				} else {
-					return false;
-				}
-			});
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::GET_HOME);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertEquals('/home/foo', $user->getHome());
@@ -290,9 +238,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testGetHomeNotSupported(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->never())
 			->method('getHome');
@@ -317,29 +262,17 @@ class UserTest extends TestCase {
 	}
 
 	public function testCanChangePassword(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\User\Backend::SET_PASSWORD) {
-					return true;
-				} else {
-					return false;
-				}
-			});
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_PASSWORD);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertTrue($user->canChangePassword());
 	}
 
 	public function testCanChangePasswordNotSupported(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$backend->expects($this->any())
@@ -351,20 +284,11 @@ class UserTest extends TestCase {
 	}
 
 	public function testCanChangeDisplayName(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\User\Backend::SET_DISPLAYNAME) {
-					return true;
-				} else {
-					return false;
-				}
-			});
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_DISPLAYNAME);
 
 		$config = $this->createMock(IConfig::class);
 		$config->method('getSystemValueBool')
@@ -376,9 +300,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testCanChangeDisplayNameNotSupported(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$backend->expects($this->any())
@@ -390,20 +311,11 @@ class UserTest extends TestCase {
 	}
 
 	public function testSetDisplayNameSupported(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(Database::class);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\User\Backend::SET_DISPLAYNAME) {
-					return true;
-				} else {
-					return false;
-				}
-			});
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_DISPLAYNAME);
 
 		$backend->expects($this->once())
 			->method('setDisplayName')
@@ -419,20 +331,11 @@ class UserTest extends TestCase {
 	 * don't allow display names containing whitespaces only
 	 */
 	public function testSetDisplayNameEmpty(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(Database::class);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\User\Backend::SET_DISPLAYNAME) {
-					return true;
-				} else {
-					return false;
-				}
-			});
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_DISPLAYNAME);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertFalse($user->setDisplayName(' '));
@@ -440,9 +343,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testSetDisplayNameNotSupported(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(Database::class);
 
 		$backend->expects($this->any())
@@ -461,18 +361,13 @@ class UserTest extends TestCase {
 		$hooksCalled = 0;
 		$test = $this;
 
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 		$backend->expects($this->once())
-			->method('setPassword');
+			->method('setPassword')
+			->willReturn(true);
 
-		/**
-		 * @param User $user
-		 * @param string $password
-		 */
-		$hook = function ($user, $password) use ($test, &$hooksCalled): void {
+		$hook = function (IUser $user, string $password) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('foo', $user->getUID());
 			$test->assertEquals('bar', $password);
@@ -484,13 +379,7 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\User\Backend::SET_PASSWORD) {
-					return true;
-				} else {
-					return false;
-				}
-			});
+			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_PASSWORD);
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter);
 
@@ -505,19 +394,13 @@ class UserTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param bool $result
-	 * @param int $expectedHooks
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataDeleteHooks')]
-	public function testDeleteHooks($result, $expectedHooks): void {
+	#[DataProvider('dataDeleteHooks')]
+	public function testDeleteHooks(bool $result, int $expectedHooks): void {
 		$hooksCalled = 0;
 		$test = $this;
 
-		/**
-		 * @var UserInterface&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 		$backend->expects($this->once())
 			->method('deleteUser')
 			->willReturn($result);
@@ -535,10 +418,7 @@ class UserTest extends TestCase {
 		$emitter = new PublicEmitter();
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
 
-		/**
-		 * @param User $user
-		 */
-		$hook = function ($user) use ($test, &$hooksCalled): void {
+		$hook = function (IUser $user) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('foo', $user->getUID());
 		};
@@ -601,6 +481,7 @@ class UserTest extends TestCase {
 
 	public function testDeleteRecoverState() {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 		$backend->expects($this->once())
 			->method('deleteUser')
 			->willReturn(true);
@@ -659,9 +540,8 @@ class UserTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCloudId')]
+	#[DataProvider('dataGetCloudId')]
 	public function testGetCloudId(string $absoluteUrl, string $cloudId): void {
-		/** @var Backend|MockObject $backend */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		$urlGenerator->method('getAbsoluteURL')
@@ -672,20 +552,13 @@ class UserTest extends TestCase {
 	}
 
 	public function testSetEMailAddressEmpty(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 
 		$test = $this;
 		$hooksCalled = 0;
 
-		/**
-		 * @param IUser $user
-		 * @param string $feature
-		 * @param string $value
-		 */
-		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled): void {
+		$hook = function (IUser $user, string $feature, string $value) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('eMailAddress', $feature);
 			$test->assertEquals('', $value);
@@ -704,24 +577,17 @@ class UserTest extends TestCase {
 			);
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
-		$user->setEMailAddress('');
+		$user->setSystemEMailAddress('');
 	}
 
 	public function testSetEMailAddress(): void {
-		/**
-		 * @var UserInterface | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 
 		$test = $this;
 		$hooksCalled = 0;
 
-		/**
-		 * @param IUser $user
-		 * @param string $feature
-		 * @param string $value
-		 */
-		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled): void {
+		$hook = function (IUser $user, string $feature, string $value) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('eMailAddress', $feature);
 			$test->assertEquals('foo@bar.com', $value);
@@ -741,16 +607,13 @@ class UserTest extends TestCase {
 			);
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
-		$user->setEMailAddress('foo@bar.com');
+		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
 	public function testSetEMailAddressNoChange(): void {
-		/**
-		 * @var UserInterface | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 
-		/** @var PublicEmitter|MockObject $emitter */
 		$emitter = $this->createMock(PublicEmitter::class);
 		$emitter->expects($this->never())
 			->method('emit');
@@ -767,24 +630,17 @@ class UserTest extends TestCase {
 			->method('setUserValue');
 
 		$user = new User('foo', $backend, $dispatcher, $emitter, $config);
-		$user->setEMailAddress('foo@bar.com');
+		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
 	public function testSetQuota(): void {
-		/**
-		 * @var UserInterface | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 
 		$test = $this;
 		$hooksCalled = 0;
 
-		/**
-		 * @param IUser $user
-		 * @param string $feature
-		 * @param string $value
-		 */
-		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled): void {
+		$hook = function (IUser $user, string $feature, string $value) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('quota', $feature);
 			$test->assertEquals('23 TB', $value);
@@ -808,10 +664,8 @@ class UserTest extends TestCase {
 	}
 
 	public function testGetDefaultUnlimitedQuota(): void {
-		/**
-		 * @var UserInterface | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 
 		/** @var PublicEmitter|MockObject $emitter */
 		$emitter = $this->createMock(PublicEmitter::class);
@@ -839,9 +693,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testGetDefaultUnlimitedQuotaForbidden(): void {
-		/**
-		 * @var UserInterface | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		/** @var PublicEmitter|MockObject $emitter */
@@ -873,9 +724,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testSetQuotaAddressNoChange(): void {
-		/**
-		 * @var UserInterface | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		/** @var PublicEmitter|MockObject $emitter */
@@ -895,9 +743,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testGetLastLogin(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$config = $this->createMock(IConfig::class);
@@ -915,10 +760,8 @@ class UserTest extends TestCase {
 	}
 
 	public function testSetEnabled(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
 
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->once())
@@ -941,9 +784,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testSetDisabled(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$config = $this->createMock(IConfig::class);
@@ -981,9 +821,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testSetDisabledAlreadyDisabled(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$config = $this->createMock(IConfig::class);
@@ -1011,9 +848,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testGetEMailAddress(): void {
-		/**
-		 * @var Backend | MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
 		$config = $this->createMock(IConfig::class);

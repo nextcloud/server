@@ -16,7 +16,7 @@ use OCP\ISession;
 class SessionStorageTest extends \Test\TestCase {
 	/** @var ISession */
 	private $session;
-	/** @var \OC\Security\CSRF\TokenStorage\SessionStorage */
+	/** @var SessionStorage */
 	private $sessionStorage;
 
 	protected function setUp(): void {

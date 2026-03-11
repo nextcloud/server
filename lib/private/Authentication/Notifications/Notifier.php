@@ -14,11 +14,9 @@ use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
-	/** @var IL10nFactory */
-	private $factory;
-
-	public function __construct(IL10nFactory $l10nFactory) {
-		$this->factory = $l10nFactory;
+	public function __construct(
+		private IL10nFactory $factory,
+	) {
 	}
 
 	/**

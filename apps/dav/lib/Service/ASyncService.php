@@ -191,4 +191,70 @@ abstract class ASyncService {
 			rtrim($responseUri, '/'),
 		);
 	}
+
+	/**
+	 * Push data to the remote server via HTTP PUT.
+	 * Used for creating or updating CalDAV/CardDAV objects.
+	 *
+	 * @param string $url The absolute URL to PUT to
+	 * @param string $username The username for authentication
+	 * @param string $token The authentication token/password
+	 * @param string $data The data to upload
+	 * @param string $contentType The Content-Type header (e.g., 'text/calendar' or 'text/vcard')
+	 *
+	 * @return string The ETag returned by the server
+	 */
+	protected function requestPut(
+		string $url,
+		string $username,
+		string $token,
+		string $data,
+		string $contentType = 'text/calendar; charset=utf-8',
+	): string {
+		$client = $this->getClient();
+
+		$options = [
+			'auth' => [$username, $token],
+			'body' => $data,
+			'headers' => [
+				'Content-Type' => $contentType,
+			],
+			'verify' => !$this->config->getSystemValue(
+				'sharing.federation.allowSelfSignedCertificates',
+				false,
+			),
+		];
+
+		$response = $client->put($url, $options);
+
+		// Extract and return the ETag from the response
+		$etag = $response->getHeader('ETag');
+		return $etag;
+	}
+
+	/**
+	 * Delete a resource from the remote server via HTTP DELETE.
+	 * Used for deleting CalDAV/CardDAV objects.
+	 *
+	 * @param string $url The absolute URL to DELETE
+	 * @param string $username The username for authentication
+	 * @param string $token The authentication token/password
+	 */
+	protected function requestDelete(
+		string $url,
+		string $username,
+		string $token,
+	): void {
+		$client = $this->getClient();
+
+		$options = [
+			'auth' => [$username, $token],
+			'verify' => !$this->config->getSystemValue(
+				'sharing.federation.allowSelfSignedCertificates',
+				false,
+			),
+		];
+
+		$client->delete($url, $options);
+	}
 }

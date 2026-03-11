@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace OC\Core\Command\Background;
 
 use OC\Core\Command\InterruptedException;
-use OC\Files\SetupManager;
 use OCP\BackgroundJob\IJobList;
+use OCP\Files\ISetupManager;
 use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,7 +24,7 @@ class JobWorker extends JobBase {
 		protected IJobList $jobList,
 		protected LoggerInterface $logger,
 		private ITempManager $tempManager,
-		private SetupManager $setupManager,
+		private ISetupManager $setupManager,
 	) {
 		parent::__construct($jobList, $logger);
 	}

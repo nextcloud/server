@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts">
-import type { FileAction, Folder, Node, View } from '@nextcloud/files'
+import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-type RenderFunction = typeof FileAction.prototype.renderInline
+type RenderFunction = IFileAction['renderInline']
 
 /**
  * This component is used to render custom
@@ -22,17 +22,17 @@ export default {
 	name: 'CustomElementRender',
 	props: {
 		source: {
-			type: Object as PropType<Node>,
+			type: Object as PropType<INode>,
 			required: true,
 		},
 
 		activeView: {
-			type: Object as PropType<View>,
+			type: Object as PropType<IView>,
 			required: true,
 		},
 
 		activeFolder: {
-			type: Object as PropType<Folder>,
+			type: Object as PropType<IFolder>,
 			required: true,
 		},
 

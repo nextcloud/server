@@ -10,11 +10,11 @@ declare(strict_types=1);
 
 namespace OCA\Encryption\Tests\Command;
 
-use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\Command\FixEncryptedVersion;
 use OCA\Encryption\Util;
 use OCP\Encryption\IManager;
+use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\ITempManager;
@@ -69,7 +69,7 @@ class FixEncryptedVersionTest extends TestCase {
 			Server::get(IUserManager::class),
 			$this->util,
 			new View('/'),
-			Server::get(SetupManager::class),
+			Server::get(ISetupManager::class),
 		);
 		$this->commandTester = new CommandTester($this->fixEncryptedVersion);
 

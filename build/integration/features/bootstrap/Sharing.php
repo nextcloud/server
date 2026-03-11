@@ -310,7 +310,7 @@ trait Sharing {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration') {
 			if (!empty($contentExpected)) {
-				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
+				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 23:59:59';
 			}
 		}
 		if (count($data->element) > 0) {
@@ -611,7 +611,7 @@ trait Sharing {
 		}
 
 		if ($field === 'expiration' && !empty($contentExpected)) {
-			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
+			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 23:59:59';
 		}
 
 		if ($contentExpected === 'A_NUMBER') {
@@ -619,9 +619,9 @@ trait Sharing {
 		} elseif ($contentExpected === 'A_TOKEN') {
 			// A token is composed by 15 characters from
 			// ISecureRandom::CHAR_HUMAN_READABLE.
-			Assert::assertRegExp('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
+			Assert::assertMatchesRegularExpression('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
 		} elseif (strpos($contentExpected, 'REGEXP ') === 0) {
-			Assert::assertRegExp(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
+			Assert::assertMatchesRegularExpression(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
 		} else {
 			Assert::assertEquals($contentExpected, (string)$returnedShare->$field, "Field '$field' does not match");
 		}

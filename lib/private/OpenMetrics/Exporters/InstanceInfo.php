@@ -52,8 +52,8 @@ class InstanceInfo implements IMetricFamily {
 		yield new Metric(
 			1,
 			[
-				'full version' => $this->serverVersion->getHumanVersion(),
-				'major version' => (string)$this->serverVersion->getVersion()[0],
+				'full_version' => $this->serverVersion->getHumanVersion(),
+				'major_version' => (string)$this->serverVersion->getVersion()[0],
 				'build' => $this->serverVersion->getBuild(),
 				'installed' => $this->systemConfig->getValue('installed', false) ? '1' : '0',
 			],

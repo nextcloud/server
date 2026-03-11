@@ -12,7 +12,7 @@
 				:disabled="ldapConfigProxy.ldapUserFilterMode === '1'"
 				class="ldap-wizard__users__user-filter-object-class__select"
 				:options="userObjectClasses"
-				:input-label="t('user_ldap', 'Only these object classes:')"
+				:inputLabel="t('user_ldap', 'Only these object classes:')"
 				:multiple="true" />
 			{{ t('user_ldap', 'The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.') }}
 		</div>
@@ -23,14 +23,14 @@
 				class="ldap-wizard__users__user-filter-groups__select"
 				:disabled="ldapConfigProxy.ldapUserFilterMode === '1'"
 				:options="userGroups"
-				:input-label="t('user_ldap', 'Only from these groups:')"
+				:inputLabel="t('user_ldap', 'Only from these groups:')"
 				:multiple="true" />
 		</div>
 
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter">
 			<NcCheckboxRadioSwitch
-				:model-value="ldapConfigProxy.ldapUserFilterMode === '1'"
-				@update:model-value="toggleFilterMode">
+				:modelValue="ldapConfigProxy.ldapUserFilterMode === '1'"
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
@@ -38,7 +38,7 @@
 				<NcTextArea
 					v-model="ldapConfigProxy.ldapUserFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
-					:helper-text="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName })" />
+					:helperText="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName })" />
 			</div>
 			<div v-else>
 				<label>{{ t('user_ldap', 'LDAP Filter:') }}</label>
@@ -62,7 +62,7 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import { t } from '@nextcloud/l10n'
 import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect, NcTextArea } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService.ts'
 import { useLDAPConfigsStore } from '../../store/configs.ts'
 
@@ -92,8 +92,10 @@ const ldapUserFilterGroups = computed({
 	set(value) { ldapConfigProxy.value.ldapUserFilterGroups = value.join(';') },
 })
 
+onBeforeMount(init)
+
 /**
- *
+ * Initialize user filter options
  */
 async function init() {
 	const response1 = await callWizard('determineUserObjectClasses', props.configId)
@@ -107,10 +109,8 @@ async function init() {
 	ldapConfigs.value[props.configId]!.ldapUserFilterGroups = (response2.changes?.ldap_userfilter_groups as string[] | undefined)?.join(';') ?? ''
 }
 
-init()
-
 /**
- *
+ * Reload filters
  */
 async function reloadFilters() {
 	if (ldapConfigProxy.value.ldapUserFilterMode === '0') {
@@ -125,7 +125,7 @@ async function reloadFilters() {
 }
 
 /**
- *
+ * Count users
  */
 async function countUsers() {
 	try {
@@ -138,8 +138,9 @@ async function countUsers() {
 }
 
 /**
+ * Toggle filter mode
  *
- * @param value
+ * @param value - new value
  */
 async function toggleFilterMode(value: boolean) {
 	if (value) {

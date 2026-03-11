@@ -18,7 +18,6 @@ use OCP\FilesMetadata\Model\IMetadataValueWrapper;
  * @since 28.0.0
  */
 class MetadataValueWrapper implements IMetadataValueWrapper {
-	private string $type;
 	/** @var string|int|float|bool|array|string[]|int[] */
 	private mixed $value = null;
 	private string $etag = '';
@@ -38,8 +37,9 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 * @see self::TYPE_STRING
 	 * @since 28.0.0
 	 */
-	public function __construct(string $type = '') {
-		$this->type = $type;
+	public function __construct(
+		private string $type = '',
+	) {
 	}
 
 	/**

@@ -65,9 +65,6 @@
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soovid lisada kaugjagamise {name} asukohast {owner}@{remote}?",
     "Remote share password" : "Kaugjagamise salasõna",
     "Incoming share could not be processed" : "Sissetulevat kausta ei saanud töödelda",
-    "Cloud ID copied to the clipboard" : "Kasutajatunnus liitpilves on kopeeritud lõikelauale",
-    "Copy to clipboard" : "Kopeeri lõikelauale",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Saad jagada kõigiga, kes kasutavad Nextcloudi serverit või muid Open Cloud Meshi (OCM) ühilduvaid servereid ja teenuseid! Lihtsalt sisesta nende kasutajatunnus liitpilves jagamise vaates. See näeb välja nagu isiksus@pilv.toreserver.com",
     "X (formerly Twitter)" : "X (varasemalt Twitter)",
     "formerly Twitter" : "varasemalt Twitter"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -47,7 +47,7 @@ const buttons = computed<INcDialogButtons>(() => [
 <template>
 	<NcDialog
 		:buttons="buttons"
-		:is-form="passwordRequired"
+		:isForm="passwordRequired"
 		:name="t('federatedfilesharing', 'Remote share')"
 		@submit="emit('close', true, password)">
 		<p>

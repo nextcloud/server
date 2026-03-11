@@ -195,6 +195,7 @@ describe('files_sharing: Public share - downloading files', { testIsolation: tru
 			triggerActionForFile('test', 'details')
 
 			openLinkShareDetails(0)
+			cy.findByRole('button', { name: /advanced settings/i }).click()
 
 			cy.intercept('PUT', '**/ocs/v2.php/apps/files_sharing/api/v1/shares/*').as('update')
 
@@ -210,12 +211,14 @@ describe('files_sharing: Public share - downloading files', { testIsolation: tru
 			cy.wait('@update')
 
 			openLinkShareDetails(0)
+			cy.findByRole('button', { name: /advanced settings/i }).click()
 			cy.findByRole('checkbox', { name: /hide download/i })
 				.should('be.checked')
 
 			cy.reload()
 
 			openLinkShareDetails(0)
+			cy.findByRole('button', { name: /advanced settings/i }).click()
 			cy.findByRole('checkbox', { name: /hide download/i })
 				.should('be.checked')
 		})

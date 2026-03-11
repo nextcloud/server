@@ -170,4 +170,10 @@ interface IFunctionBuilder {
 	 * @since 18.0.0
 	 */
 	public function least($x, $y): IQueryFunction;
+
+	/**
+	 * Get the current date and time as a UNIX timestamp.
+	 * @since 34.0.0
+	 */
+	public function now(): IQueryFunction;
 }

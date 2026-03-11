@@ -28,15 +28,18 @@ describe('Settings: Ensure only administrator can see the administration setting
 			.click()
 		cy.url().should('match', /\/settings\/user$/)
 
-		cy.get('#app-navigation').should('be.visible').within(() => {
-			// I see the personal section is NOT shown
-			cy.get('#app-navigation-caption-personal').should('not.exist')
-			// I see the admin section is NOT shown
-			cy.get('#app-navigation-caption-administration').should('not.exist')
+		cy.findAllByRole('navigation')
+			.filter('#app-navigation-vue')
+			.as('appNavigation')
+			.findByRole('list', { name: 'Personal' })
+			.should('be.visible')
+			.findByRole('link', { name: /Personal info/i })
+			.should('be.visible')
+			.and('have.attr', 'aria-current', 'page')
 
-			// I see that the "Personal info" entry in the settings panel is shown
-			cy.get('[data-section-id="personal-info"]').should('exist').and('be.visible')
-		})
+		cy.get('@appNavigation')
+			.findByRole('list', { name: 'Administration' })
+			.should('not.exist')
 	})
 
 	it('Admin users can see admin-level items on the Settings page', () => {
@@ -52,14 +55,19 @@ describe('Settings: Ensure only administrator can see the administration setting
 			.click()
 		cy.url().should('match', /\/settings\/user$/)
 
-		cy.get('#app-navigation').should('be.visible').within(() => {
-			// I see the personal section is shown
-			cy.get('#app-navigation-caption-personal').should('be.visible')
-			// I see the admin section is shown
-			cy.get('#app-navigation-caption-administration').should('be.visible')
+		cy.findAllByRole('navigation')
+			.filter('#app-navigation-vue')
+			.as('appNavigation')
+			.findByRole('list', { name: 'Personal' })
+			.should('be.visible')
+			.findByRole('link', { name: /Personal info/i })
+			.should('be.visible')
+			.and('have.attr', 'aria-current', 'page')
 
-			// I see that the "Personal info" entry in the settings panel is shown
-			cy.get('[data-section-id="personal-info"]').should('exist').and('be.visible')
-		})
+		cy.get('@appNavigation')
+			.findByRole('list', { name: 'Administration' })
+			.should('be.visible')
+			.findByRole('link', { name: /Overview/i })
+			.should('be.visible')
 	})
 })

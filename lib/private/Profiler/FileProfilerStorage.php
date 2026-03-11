@@ -8,24 +8,27 @@ declare(strict_types = 1);
 
 namespace OC\Profiler;
 
+use OC\DB\DbDataCollector;
+use OC\Memcache\ProfilerWrapperCache;
+use OCA\Profiler\DataCollector\EventLoggerDataProvider;
+use OCA\Profiler\DataCollector\HttpDataCollector;
+use OCA\Profiler\DataCollector\MemoryDataCollector;
+use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCP\Profiler\IProfile;
 
 /**
  * Storage for profiler using files.
  */
 class FileProfilerStorage {
-	// Folder where profiler data are stored.
-	private string $folder;
-
 	/** @psalm-suppress UndefinedClass */
 	public const allowedClasses = [
-		\OCA\Profiler\DataCollector\EventLoggerDataProvider::class,
-		\OCA\Profiler\DataCollector\HttpDataCollector::class,
-		\OCA\Profiler\DataCollector\MemoryDataCollector::class,
-		\OCA\User_LDAP\DataCollector\LdapDataCollector::class,
-		\OC\Memcache\ProfilerWrapperCache::class,
-		\OC\Profiler\RoutingDataCollector::class,
-		\OC\DB\DbDataCollector::class,
+		EventLoggerDataProvider::class,
+		HttpDataCollector::class,
+		MemoryDataCollector::class,
+		LdapDataCollector::class,
+		ProfilerWrapperCache::class,
+		RoutingDataCollector::class,
+		DbDataCollector::class,
 	];
 
 	/**
@@ -33,11 +36,12 @@ class FileProfilerStorage {
 	 *
 	 * Example : "file:/path/to/the/storage/folder"
 	 *
+	 * @param string $folder Folder where profiler data are stored.
 	 * @throws \RuntimeException
 	 */
-	public function __construct(string $folder) {
-		$this->folder = $folder;
-
+	public function __construct(
+		private string $folder,
+	) {
 		if (!is_dir($this->folder) && @mkdir($this->folder, 0777, true) === false && !is_dir($this->folder)) {
 			throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $this->folder));
 		}
