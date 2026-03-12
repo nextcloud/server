@@ -104,7 +104,7 @@ jobs:
           curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
 
       - name: PHPUnit
-        run: composer run test:db
+        run: composer run test:db -- --log-junit junit.xml
 
       - name: S3 logs
         if: always()
