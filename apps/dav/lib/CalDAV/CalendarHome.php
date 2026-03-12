@@ -2,6 +2,7 @@
 
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -215,6 +216,36 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		}
 
 		throw new NotFound('Node with name \'' . $name . '\' could not be found');
+	}
+
+	/**
+	 * @inheritdoc
+	 *
+	 * Extends the default ACL to grant proxy principals access to list this
+	 * calendar home. Individual Calendar objects already have their own proxy
+	 * ACL entries; this entry allows the PROPFIND on the home collection itself.
+	 *
+	 * @return array
+	 */
+	public function getACL(): array {
+		$acl = parent::getACL();
+		$ownerPrincipal = $this->principalInfo['uri'];
+
+		// Write-proxy delegates may list and read the calendar home so they can
+		// discover which calendars are available.
+		$acl[] = [
+			'privilege' => '{DAV:}read',
+			'principal' => $ownerPrincipal . '/calendar-proxy-write',
+			'protected' => true,
+		];
+		// Read-proxy delegates may also list the calendar home.
+		$acl[] = [
+			'privilege' => '{DAV:}read',
+			'principal' => $ownerPrincipal . '/calendar-proxy-read',
+			'protected' => true,
+		];
+
+		return $acl;
 	}
 
 	/**

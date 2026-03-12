@@ -430,4 +430,38 @@ class CalendarHomeTest extends TestCase {
 		$this->assertInstanceOf(FederatedCalendar::class, $actual[3]);
 		$this->assertInstanceOf(FederatedCalendar::class, $actual[4]);
 	}
+
+	public function testGetAclContainsProxyWritePrincipal(): void {
+		$acl = $this->calendarHome->getACL();
+
+		$principals = array_column($acl, 'principal');
+		$this->assertContains('user-principal-123/calendar-proxy-write', $principals);
+
+		// Find the specific entry and verify all fields
+		foreach ($acl as $entry) {
+			if ($entry['principal'] === 'user-principal-123/calendar-proxy-write') {
+				$this->assertSame('{DAV:}read', $entry['privilege']);
+				$this->assertTrue($entry['protected']);
+				return;
+			}
+		}
+		$this->fail('ACL entry for calendar-proxy-write not found');
+	}
+
+	public function testGetAclContainsProxyReadPrincipal(): void {
+		$acl = $this->calendarHome->getACL();
+
+		$principals = array_column($acl, 'principal');
+		$this->assertContains('user-principal-123/calendar-proxy-read', $principals);
+
+		// Find the specific entry and verify all fields
+		foreach ($acl as $entry) {
+			if ($entry['principal'] === 'user-principal-123/calendar-proxy-read') {
+				$this->assertSame('{DAV:}read', $entry['privilege']);
+				$this->assertTrue($entry['protected']);
+				return;
+			}
+		}
+		$this->fail('ACL entry for calendar-proxy-read not found');
+	}
 }

@@ -43,6 +43,7 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\SystemTag\ISystemTagManager;
@@ -76,7 +77,9 @@ class RootCollection extends SimpleCollection {
 			$proxyMapper,
 			Server::get(KnownUserService::class),
 			Server::get(IConfig::class),
-			Server::get(IFactory::class)
+			Server::get(IFactory::class),
+			Server::get(IMailer::class),
+			$logger
 		);
 
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $config);

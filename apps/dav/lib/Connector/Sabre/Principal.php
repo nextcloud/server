@@ -2,6 +2,7 @@
 
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -25,8 +26,10 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use OCP\Share\IManager as IShareManager;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
@@ -53,6 +56,8 @@ class Principal implements BackendInterface {
 		private KnownUserService $knownUserService,
 		private IConfig $config,
 		private IFactory $languageFactory,
+		private IMailer $mailer,
+		private LoggerInterface $logger,
 		string $principalPrefix = 'principals/users/',
 	) {
 		$this->principalPrefix = trim($principalPrefix, '/');
@@ -61,6 +66,7 @@ class Principal implements BackendInterface {
 
 	use PrincipalProxyTrait {
 		getGroupMembership as protected traitGetGroupMembership;
+		setGroupMemberSet as protected traitSetGroupMemberSet;
 	}
 
 	/**
@@ -126,6 +132,20 @@ class Principal implements BackendInterface {
 				if ($user !== null) {
 					return [
 						'uri' => 'principals/users/' . $user->getUID() . '/' . $name,
+						// Only the principal owner may modify their own proxy group.
+						// Any authenticated user may read it (needed by Sabre internals).
+						'{DAV:}acl' => [
+							[
+								'privilege' => '{DAV:}read',
+								'principal' => '{DAV:}authenticated',
+								'protected' => true,
+							],
+							[
+								'privilege' => '{DAV:}write',
+								'principal' => 'principals/users/' . $user->getUID(),
+								'protected' => true,
+							],
+						],
 					];
 				}
 				return null;
@@ -224,6 +244,89 @@ class Principal implements BackendInterface {
 	public function updatePrincipal($path, PropPatch $propPatch) {
 		// Updating schedule-default-calendar-URL is handled in CustomPropertiesBackend
 		return 0;
+	}
+
+	/**
+	 * Updates the list of group members for a group principal.
+	 *
+	 * Overrides the trait implementation to send email notifications when new
+	 * write-proxy delegates are added.
+	 *
+	 * @param string $principal
+	 * @param string[] $members
+	 */
+	public function setGroupMemberSet($principal, array $members): void {
+		[$principalUri, $target] = \Sabre\Uri\split($principal);
+
+		// Snapshot the current write-proxy members before applying changes so
+		// we can diff and notify only the newly added ones.
+		$oldMemberUids = [];
+		if ($target === 'calendar-proxy-write') {
+			$oldProxies = $this->proxyMapper->getProxiesOf($principalUri);
+			foreach ($oldProxies as $proxy) {
+				if ($proxy->getPermissions() === (ProxyMapper::PERMISSION_READ | ProxyMapper::PERMISSION_WRITE)) {
+					$oldMemberUids[] = $proxy->getProxyId();
+				}
+			}
+		}
+
+		// Apply the new member set via the trait implementation.
+		$this->traitSetGroupMemberSet($principal, $members);
+
+		// Notify newly added write-proxy delegates.
+		if ($target === 'calendar-proxy-write') {
+			[, $ownerUid] = \Sabre\Uri\split($principalUri);
+			$addedMembers = array_diff($members, $oldMemberUids);
+			foreach ($addedMembers as $memberUri) {
+				[, $delegateUid] = \Sabre\Uri\split($memberUri);
+				$this->sendDelegationNotification($ownerUid, $delegateUid);
+			}
+		}
+	}
+
+	/**
+	 * Send an email to a newly added delegate informing them of the delegation.
+	 *
+	 * @param string $ownerUid  User ID of the calendar owner who granted access
+	 * @param string $delegateUid User ID of the user who was just granted access
+	 */
+	private function sendDelegationNotification(string $ownerUid, string $delegateUid): void {
+		$delegateUser = $this->userManager->get($delegateUid);
+		$ownerUser = $this->userManager->get($ownerUid);
+
+		if ($delegateUser === null || $ownerUser === null) {
+			return;
+		}
+
+		$delegateEmail = $delegateUser->getEMailAddress();
+		if ($delegateEmail === null || $delegateEmail === '') {
+			return; // No email address on file — skip silently.
+		}
+
+		$l = $this->languageFactory->get('dav');
+
+		$ownerDisplayName = $ownerUser->getDisplayName() ?: $ownerUid;
+		$delegateDisplayName = $delegateUser->getDisplayName() ?: $delegateUid;
+
+		$subject = $l->t('%s has granted you access to their calendars', [$ownerDisplayName]);
+		$bodyText = $l->t(
+			"Hello %1\$s,\n\n%2\$s has added you as a calendar delegate. You can now view and manage their\ncalendars in the Nextcloud Calendar app under the \"Delegated\" section.\n\nTo remove yourself as a delegate, ask %2\$s to revoke your access in their\nCalendar settings.",
+			[$delegateDisplayName, $ownerDisplayName]
+		);
+
+		try {
+			$message = $this->mailer->createMessage();
+			$message->setTo([$delegateEmail => $delegateDisplayName]);
+			$message->setSubject($subject);
+			$message->setPlainBody($bodyText);
+			$this->mailer->send($message);
+		} catch (\Exception $e) {
+			// Notification failure must never block the PROPPATCH response.
+			$this->logger->warning(
+				'Could not send delegation notification email',
+				['owner' => $ownerUid, 'delegate' => $delegateUid, 'error' => $e->getMessage()]
+			);
+		}
 	}
 
 	/**

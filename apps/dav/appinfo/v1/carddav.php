@@ -31,6 +31,7 @@ use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory as IL10nFactory;
+use OCP\Mail\IMailer;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -55,6 +56,8 @@ $principalBackend = new Principal(
 	Server::get(KnownUserService::class),
 	Server::get(IConfig::class),
 	Server::get(IL10nFactory::class),
+	Server::get(IMailer::class),
+	Server::get(LoggerInterface::class),
 	'principals/'
 );
 $db = Server::get(IDBConnection::class);

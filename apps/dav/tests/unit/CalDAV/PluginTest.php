@@ -33,6 +33,17 @@ class PluginTest extends TestCase {
 				'principals/calendar-rooms/Room-ABC',
 				'system-calendars/calendar-rooms/Room-ABC',
 			],
+			// calendar-proxy-write and calendar-proxy-read group principals must
+			// resolve to the owner's calendar home so that delegates can discover
+			// the delegated calendar home via PROPFIND on the proxy group principal.
+			[
+				'principals/users/alice/calendar-proxy-write',
+				'calendars/alice',
+			],
+			[
+				'principals/users/alice/calendar-proxy-read',
+				'calendars/alice',
+			],
 		];
 	}
 

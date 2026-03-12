@@ -25,8 +25,11 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
+use OCP\Mail\IMessage;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
@@ -42,6 +45,8 @@ class PrincipalTest extends TestCase {
 	private KnownUserService&MockObject $knownUserService;
 	private IConfig&MockObject $config;
 	private IFactory&MockObject $languageFactory;
+	private IMailer&MockObject $mailer;
+	private LoggerInterface&MockObject $logger;
 	private Principal $connector;
 
 	protected function setUp(): void {
@@ -57,6 +62,8 @@ class PrincipalTest extends TestCase {
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->languageFactory = $this->createMock(IFactory::class);
+		$this->mailer = $this->createMock(IMailer::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->connector = new Principal(
 			$this->userManager,
@@ -68,7 +75,9 @@ class PrincipalTest extends TestCase {
 			$this->proxyMapper,
 			$this->knownUserService,
 			$this->config,
-			$this->languageFactory
+			$this->languageFactory,
+			$this->mailer,
+			$this->logger
 		);
 	}
 
@@ -933,5 +942,245 @@ class PrincipalTest extends TestCase {
 		];
 		$actual = $this->connector->getEmailAddressesOfPrincipal($principal);
 		$this->assertEquals($expected, $actual);
+	}
+
+	public function testGetProxyPrincipalHasAcl(): void {
+		$aliceUser = $this->createMock(IUser::class);
+		$aliceUser->method('getUID')->willReturn('alice');
+
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('alice')
+			->willReturn($aliceUser);
+
+		$result = $this->connector->getPrincipalByPath('principals/users/alice/calendar-proxy-write');
+
+		$this->assertNotNull($result);
+		$this->assertArrayHasKey('{DAV:}acl', $result);
+
+		$acl = $result['{DAV:}acl'];
+		$this->assertCount(2, $acl);
+
+		// First entry: any authenticated user may read
+		$this->assertSame('{DAV:}read', $acl[0]['privilege']);
+		$this->assertSame('{DAV:}authenticated', $acl[0]['principal']);
+		$this->assertTrue($acl[0]['protected']);
+
+		// Second entry: only the owner may write
+		$this->assertSame('{DAV:}write', $acl[1]['privilege']);
+		$this->assertSame('principals/users/alice', $acl[1]['principal']);
+		$this->assertTrue($acl[1]['protected']);
+	}
+
+	public function testGetProxyReadPrincipalHasAcl(): void {
+		$aliceUser = $this->createMock(IUser::class);
+		$aliceUser->method('getUID')->willReturn('alice');
+
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('alice')
+			->willReturn($aliceUser);
+
+		$result = $this->connector->getPrincipalByPath('principals/users/alice/calendar-proxy-read');
+
+		$this->assertNotNull($result);
+		$this->assertArrayHasKey('{DAV:}acl', $result);
+		$this->assertCount(2, $result['{DAV:}acl']);
+	}
+
+	public function testDelegationNotificationEmailIsSentToNewDelegate(): void {
+		$ownerUser = $this->createMock(IUser::class);
+		$ownerUser->method('getUID')->willReturn('alice');
+		$ownerUser->method('getDisplayName')->willReturn('Alice');
+
+		$delegateUser = $this->createMock(IUser::class);
+		$delegateUser->method('getUID')->willReturn('bob');
+		$delegateUser->method('getDisplayName')->willReturn('Bob');
+		$delegateUser->method('getEMailAddress')->willReturn('bob@example.com');
+
+		$this->userManager->method('get')
+			->willReturnMap([
+				['alice', $ownerUser],
+				['bob', $delegateUser],
+			]);
+
+		// accountManager is called during userToPrincipal for both alice and bob
+		$accountPropertyCollection = $this->createMock(IAccountPropertyCollection::class);
+		$accountPropertyCollection->method('getProperties')->willReturn([]);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')->willReturn($accountPropertyCollection);
+		$this->accountManager->method('getAccount')->willReturn($account);
+
+		// No existing proxies for alice
+		$this->proxyMapper->method('getProxiesOf')
+			->with('principals/users/alice')
+			->willReturn([]);
+
+		$this->proxyMapper->method('insert')->willReturnArgument(0);
+
+		$l10n = $this->createMock(\OCP\IL10N::class);
+		$l10n->method('t')->willReturnCallback(function (string $text, array $params = []) {
+			return vsprintf($text, $params);
+		});
+		$this->languageFactory->method('get')->with('dav')->willReturn($l10n);
+
+		$message = $this->createMock(IMessage::class);
+		$message->method('setTo')->willReturnSelf();
+		$message->method('setSubject')->willReturnSelf();
+		$message->method('setPlainBody')->willReturnSelf();
+
+		$this->mailer->expects($this->once())
+			->method('createMessage')
+			->willReturn($message);
+
+		$this->mailer->expects($this->once())
+			->method('send')
+			->with($message);
+
+		$this->connector->setGroupMemberSet(
+			'principals/users/alice/calendar-proxy-write',
+			['principals/users/bob']
+		);
+	}
+
+	public function testDelegationNotificationNotSentForExistingDelegate(): void {
+		$ownerUser = $this->createMock(IUser::class);
+		$ownerUser->method('getUID')->willReturn('alice');
+		$ownerUser->method('getDisplayName')->willReturn('Alice');
+
+		$delegateUser = $this->createMock(IUser::class);
+		$delegateUser->method('getUID')->willReturn('bob');
+		$delegateUser->method('getDisplayName')->willReturn('Bob');
+		$delegateUser->method('getEMailAddress')->willReturn('bob@example.com');
+
+		$this->userManager->method('get')
+			->willReturnMap([
+				['alice', $ownerUser],
+				['bob', $delegateUser],
+			]);
+
+		// accountManager is called during userToPrincipal
+		$accountPropertyCollection = $this->createMock(IAccountPropertyCollection::class);
+		$accountPropertyCollection->method('getProperties')->willReturn([]);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')->willReturn($accountPropertyCollection);
+		$this->accountManager->method('getAccount')->willReturn($account);
+
+		// Bob is already a write proxy for alice
+		$existingProxy = new Proxy();
+		$existingProxy->setOwnerId('principals/users/alice');
+		$existingProxy->setProxyId('principals/users/bob');
+		$existingProxy->setPermissions(ProxyMapper::PERMISSION_READ | ProxyMapper::PERMISSION_WRITE);
+
+		$this->proxyMapper->method('getProxiesOf')
+			->with('principals/users/alice')
+			->willReturn([$existingProxy]);
+
+		$this->proxyMapper->method('update')->willReturnArgument(0);
+
+		// No email should be sent since bob is already a delegate
+		$this->mailer->expects($this->never())->method('createMessage');
+		$this->mailer->expects($this->never())->method('send');
+
+		$this->connector->setGroupMemberSet(
+			'principals/users/alice/calendar-proxy-write',
+			['principals/users/bob']
+		);
+	}
+
+	public function testDelegationNotificationSkippedWhenNoEmail(): void {
+		$ownerUser = $this->createMock(IUser::class);
+		$ownerUser->method('getUID')->willReturn('alice');
+		$ownerUser->method('getDisplayName')->willReturn('Alice');
+
+		$delegateUser = $this->createMock(IUser::class);
+		$delegateUser->method('getUID')->willReturn('bob');
+		$delegateUser->method('getDisplayName')->willReturn('Bob');
+		$delegateUser->method('getEMailAddress')->willReturn(null);
+
+		$this->userManager->method('get')
+			->willReturnMap([
+				['alice', $ownerUser],
+				['bob', $delegateUser],
+			]);
+
+		// accountManager is called during userToPrincipal
+		$accountPropertyCollection = $this->createMock(IAccountPropertyCollection::class);
+		$accountPropertyCollection->method('getProperties')->willReturn([]);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')->willReturn($accountPropertyCollection);
+		$this->accountManager->method('getAccount')->willReturn($account);
+
+		$this->proxyMapper->method('getProxiesOf')
+			->with('principals/users/alice')
+			->willReturn([]);
+
+		$this->proxyMapper->method('insert')->willReturnArgument(0);
+
+		// No email should be sent since bob has no email address
+		$this->mailer->expects($this->never())->method('createMessage');
+		$this->mailer->expects($this->never())->method('send');
+
+		$this->connector->setGroupMemberSet(
+			'principals/users/alice/calendar-proxy-write',
+			['principals/users/bob']
+		);
+	}
+
+	public function testDelegationNotificationFailureDoesNotBlockProppatch(): void {
+		$ownerUser = $this->createMock(IUser::class);
+		$ownerUser->method('getUID')->willReturn('alice');
+		$ownerUser->method('getDisplayName')->willReturn('Alice');
+
+		$delegateUser = $this->createMock(IUser::class);
+		$delegateUser->method('getUID')->willReturn('bob');
+		$delegateUser->method('getDisplayName')->willReturn('Bob');
+		$delegateUser->method('getEMailAddress')->willReturn('bob@example.com');
+
+		$this->userManager->method('get')
+			->willReturnMap([
+				['alice', $ownerUser],
+				['bob', $delegateUser],
+			]);
+
+		// accountManager is called during userToPrincipal
+		$accountPropertyCollection = $this->createMock(IAccountPropertyCollection::class);
+		$accountPropertyCollection->method('getProperties')->willReturn([]);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')->willReturn($accountPropertyCollection);
+		$this->accountManager->method('getAccount')->willReturn($account);
+
+		$this->proxyMapper->method('getProxiesOf')
+			->with('principals/users/alice')
+			->willReturn([]);
+
+		$this->proxyMapper->expects($this->once())
+			->method('insert');
+
+		$l10n = $this->createMock(\OCP\IL10N::class);
+		$l10n->method('t')->willReturnCallback(function (string $text, array $params = []) {
+			return vsprintf($text, $params);
+		});
+		$this->languageFactory->method('get')->with('dav')->willReturn($l10n);
+
+		$message = $this->createMock(IMessage::class);
+		$message->method('setTo')->willReturnSelf();
+		$message->method('setSubject')->willReturnSelf();
+		$message->method('setPlainBody')->willReturnSelf();
+
+		$this->mailer->method('createMessage')->willReturn($message);
+		$this->mailer->method('send')->willThrowException(new \RuntimeException('SMTP error'));
+
+		// Logger should record the warning
+		$this->logger->expects($this->once())
+			->method('warning');
+
+		// Must not throw — delegation itself should succeed
+		$this->connector->setGroupMemberSet(
+			'principals/users/alice/calendar-proxy-write',
+			['principals/users/bob']
+		);
 	}
 }
