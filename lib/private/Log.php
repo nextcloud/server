@@ -159,7 +159,9 @@ class Log implements ILogger, IDataLogger {
 			return; // no crash reporter, no listeners, we can stop for lower log level
 		}
 
-		$context = array_map($this->normalizer->format(...), $context);
+		foreach ($context as $val) {
+			$this->normalizer->format($val);
+		}
 
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
@@ -341,7 +343,9 @@ class Log implements ILogger, IDataLogger {
 			return;
 		}
 
-		$context = array_map($this->normalizer->format(...), $context);
+		foreach ($context as $val) {
+			$this->normalizer->format($val);
+		}
 		$data = $context;
 		unset($data['app'], $data['level']);
 
@@ -372,7 +376,9 @@ class Log implements ILogger, IDataLogger {
 		$level = $context['level'] ?? ILogger::ERROR;
 
 		$minLevel = $this->getLogLevel($context, $message);
-		$data = array_map($this->normalizer->format(...), $data);
+		foreach ($data as $val) {
+			$this->normalizer->format($val);
+		}
 
 		try {
 			if ($level >= $minLevel) {
