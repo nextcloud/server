@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendarIsEnabled;
+use OCP\Calendar\ICalendarIsPublic;
 use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
@@ -27,7 +28,7 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarIsEnabled {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarIsEnabled, ICalendarIsPublic {
 	public function __construct(
 		private Calendar $calendar,
 		/** @var array<string, mixed> */
@@ -163,6 +164,13 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 */
 	public function isShared(): bool {
 		return $this->calendar->isShared();
+	}
+
+	/**
+	 * @since 33.0.1, 32.0.7, 31.0.14.1, 30.0.17.8
+	 */
+	public function getPublicToken(): ?string {
+		return $this->calendar->getPublishStatus() ?: null;
 	}
 
 	/**
