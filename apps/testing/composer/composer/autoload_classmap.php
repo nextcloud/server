@@ -9,6 +9,7 @@ return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Testing\\AlternativeHomeUserBackend' => $baseDir . '/../lib/AlternativeHomeUserBackend.php',
     'OCA\\Testing\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\Testing\\Command\\StaticHunt' => $baseDir . '/../lib/Command/StaticHunt.php',
     'OCA\\Testing\\Controller\\ConfigController' => $baseDir . '/../lib/Controller/ConfigController.php',
     'OCA\\Testing\\Controller\\LockingController' => $baseDir . '/../lib/Controller/LockingController.php',
     'OCA\\Testing\\Controller\\RateLimitTestController' => $baseDir . '/../lib/Controller/RateLimitTestController.php',
