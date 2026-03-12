@@ -36,9 +36,6 @@ OC.L10N.register(
     "Only notifications for app updates are available." : "Налични са само известия за актуализации на приложенията.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Избрания канал за актуализации прави известията за този сървър остарели.",
     "The selected update channel does not support updates of the server." : "Избрания канал за актуализации не поддържа сървърни актуализации.",
-    "{version} is available. Get more information on how to update." : "{version} е налична. Намерете допълнителна информация за това как да актуализирате.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Всички</strong>  приложения имат налична съвместима версия за тази версия на Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> приложения нямат налична съвместима версия за тази версия на Nextcloud.","<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За професионална употреба. Осигурява винаги най-новото ниво на корекция, но няма да се актуализира веднага до следващото голямо издание. Тази актуализация се случва, след като Nextcloud GmbH направи допълнително подсилване и тестване за широкомащабни и критични за мисията внедрявания. Този канал е достъпен само за клиенти и доставчици на пакета Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "{version} е налична. Намерете допълнителна информация за това как да актуализирате."
 },
 "nplurals=2; plural=(n != 1);");

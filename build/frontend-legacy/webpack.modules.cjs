@@ -12,8 +12,6 @@ module.exports = {
 	},
 	core: {
 		'ajax-cron': path.join(__dirname, 'core/src', 'ajax-cron.ts'),
-		files_client: path.join(__dirname, 'core/src', 'files/client.js'),
-		files_fileinfo: path.join(__dirname, 'core/src', 'files/fileinfo.js'),
 		install: path.join(__dirname, 'core/src', 'install.ts'),
 		login: path.join(__dirname, 'core/src', 'login.js'),
 		login_flow: path.join(__dirname, 'core/src', 'login-flow.ts'),
@@ -46,7 +44,7 @@ module.exports = {
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),
-		files_sharing_tab: path.join(__dirname, 'apps/files_sharing/src', 'files_sharing_tab.js'),
+		files_sharing_tab: path.join(__dirname, 'apps/files_sharing/src', 'files-sidebar.ts'),
 		init: path.join(__dirname, 'apps/files_sharing/src', 'init.ts'),
 		'init-public': path.join(__dirname, 'apps/files_sharing/src', 'init-public.ts'),
 		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
@@ -54,6 +52,7 @@ module.exports = {
 		'public-nickname-handler': path.join(__dirname, 'apps/files_sharing/src', 'public-nickname-handler.ts'),
 	},
 	settings: {
+		main: path.join(__dirname, 'apps/settings/src', 'main-settings.ts'),
 		'vue-settings-admin-overview': path.join(__dirname, 'apps/settings/src', 'main-admin-overview.ts'),
 		'vue-settings-admin-basic-settings': path.join(__dirname, 'apps/settings/src', 'main-admin-basic-settings.js'),
 		'vue-settings-admin-ai': path.join(__dirname, 'apps/settings/src', 'main-admin-ai.js'),
@@ -69,10 +68,6 @@ module.exports = {
 		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),
-	},
-	systemtags: {
-		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
-		admin: path.join(__dirname, 'apps/systemtags/src', 'admin.ts'),
 	},
 	updatenotification: {
 		init: path.join(__dirname, 'apps/updatenotification/src', 'init.ts'),

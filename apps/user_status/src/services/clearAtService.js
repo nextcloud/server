@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { formatRelativeTime, t } from '@nextcloud/l10n'
+import { formatRelativeTime, getFirstDay, t } from '@nextcloud/l10n'
 import { dateFactory } from './dateService.js'
 
 /**
@@ -94,6 +94,6 @@ function getEndOfDay(date) {
  */
 function getEndOfWeek(date) {
 	const endOfWeek = getEndOfDay(date)
-	endOfWeek.setDate(date.getDate() + ((endOfWeek.getFirstDay() - 1 - endOfWeek.getDay() + 7) % 7))
+	endOfWeek.setDate(date.getDate() + ((getFirstDay() - 1 - endOfWeek.getDay() + 7) % 7))
 	return endOfWeek
 }

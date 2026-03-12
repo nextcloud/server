@@ -20,7 +20,6 @@ use OCP\IUserManager;
 
 class RetryJob extends Job {
 	private string $lookupServer;
-	private Signer $signer;
 	protected int $retries = 0;
 	protected bool $retainJob = false;
 
@@ -38,10 +37,9 @@ class RetryJob extends Job {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IAccountManager $accountManager,
-		Signer $signer,
+		private Signer $signer,
 	) {
 		parent::__construct($time);
-		$this->signer = $signer;
 
 		$this->lookupServer = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		if (!empty($this->lookupServer)) {

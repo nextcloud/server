@@ -3,34 +3,38 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { IView } from '@nextcloud/files'
+
 import { getNavigation } from '@nextcloud/files'
-import { createSharedComposable } from '@vueuse/core'
-import { onUnmounted, shallowRef, triggerRef } from 'vue'
+import { computed, shallowRef } from 'vue'
+
+const allViews = shallowRef<IView[]>([])
+const visibleViews = computed(() => allViews.value?.filter((view) => !view.hidden) ?? [])
+
+let initialized = false
 
 /**
- * Composable to get the currently available views
+ * Get all currently registered views.
+ * Unline `Navigation.views` this is reactive and will update when new views are added or existing views are removed.
  */
-export const useViews = createSharedComposable(useInternalViews)
+export function useViews() {
+	if (!initialized) {
+		const navigation = getNavigation()
+		navigation.addEventListener('update', () => {
+			allViews.value = [...navigation.views]
+		})
 
-/**
- * Composable to get the currently available views
- */
-export function useInternalViews() {
-	const navigation = getNavigation()
-	const views = shallowRef(navigation.views)
-
-	/**
-	 * Event listener to update all registered views
-	 */
-	function onUpdateViews() {
-		views.value = navigation.views
-		triggerRef(views)
+		allViews.value = [...navigation.views]
+		initialized = true
 	}
 
-	navigation.addEventListener('update', onUpdateViews)
-	onUnmounted(() => {
-		navigation.removeEventListener('update', onUpdateViews)
-	})
+	return allViews
+}
 
-	return views
+/**
+ * Get all non-hidden views.
+ */
+export function useVisibleViews() {
+	useViews()
+	return visibleViews
 }

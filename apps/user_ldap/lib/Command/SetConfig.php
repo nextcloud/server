@@ -10,14 +10,19 @@ namespace OCA\User_LDAP\Command;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
-use OCP\Server;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SetConfig extends Command {
+	public function __construct(
+		private readonly Helper $helper,
+		private readonly ConnectionFactory $connectionFactory,
+	) {
+		parent::__construct();
+	}
+
 	protected function configure(): void {
 		$this
 			->setName('ldap:set-config')
@@ -41,8 +46,7 @@ class SetConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$helper = Server::get(Helper::class);
-		$availableConfigs = $helper->getServerConfigurationPrefixes();
+		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {
 			$output->writeln('Invalid configID');
@@ -65,7 +69,6 @@ class SetConfig extends Command {
 		$configHolder->$key = $value;
 		$configHolder->saveConfiguration();
 
-		$connectionFactory = new ConnectionFactory(new LDAP());
-		$connectionFactory->get($configID)->clearCache();
+		$this->connectionFactory->get($configID)->clearCache();
 	}
 }

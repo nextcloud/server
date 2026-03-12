@@ -1,33 +1,32 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { IFolder, IView } from '@nextcloud/files'
 
-import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { File, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test } from 'vitest'
 import { action } from './bulkSystemTagsAction.ts'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 describe('Manage tags action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('systemtags:bulk')
 		expect(action.displayName({
 			nodes: [],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Manage tags')
 		expect(action.iconSvgInline({
 			nodes: [],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
@@ -60,19 +59,19 @@ describe('Manage tags action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file1, file2],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 		expect(action.enabled!({
 			nodes: [file1],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 		expect(action.enabled!({
 			nodes: [file2],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -91,7 +90,7 @@ describe('Manage tags action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})

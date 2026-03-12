@@ -35,14 +35,15 @@ jobs:
           exit 1
 
       - name: Checkout server before PR
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           submodules: true
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # v2.35.5
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
@@ -62,7 +63,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Run before measurements
-        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
+        uses: nextcloud/profiler@6a74c915048285b35b8e1cd96c0835a635945044
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
@@ -84,7 +85,7 @@ jobs:
 
       - name: Run after measurements
         id: compare
-        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
+        uses: nextcloud/profiler@6a74c915048285b35b8e1cd96c0835a635945044
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
@@ -98,7 +99,7 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           name: profiles
           path: |

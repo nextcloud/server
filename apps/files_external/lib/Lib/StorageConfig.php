@@ -76,10 +76,8 @@ class StorageConfig implements \JsonSerializable {
 
 	/**
 	 * Priority
-	 *
-	 * @var int
 	 */
-	private $priority;
+	private int $priority = 100;
 
 	/**
 	 * List of users who have access to this storage
@@ -242,7 +240,7 @@ class StorageConfig implements \JsonSerializable {
 	 *
 	 * @return int priority
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return $this->priority;
 	}
 
@@ -251,7 +249,7 @@ class StorageConfig implements \JsonSerializable {
 	 *
 	 * @param int $priority priority
 	 */
-	public function setPriority($priority) {
+	public function setPriority(int $priority): void {
 		$this->priority = $priority;
 	}
 
@@ -260,7 +258,7 @@ class StorageConfig implements \JsonSerializable {
 	 *
 	 * @return list<string> applicable users
 	 */
-	public function getApplicableUsers() {
+	public function getApplicableUsers(): array {
 		return $this->applicableUsers;
 	}
 
@@ -399,9 +397,7 @@ class StorageConfig implements \JsonSerializable {
 		$result['backend'] = $this->backend->getIdentifier();
 		$result['authMechanism'] = $this->authMechanism->getIdentifier();
 		$result['backendOptions'] = $this->backendOptions;
-		if (!is_null($this->priority)) {
-			$result['priority'] = $this->priority;
-		}
+		$result['priority'] = $this->priority;
 		if (!empty($this->applicableUsers)) {
 			$result['applicableUsers'] = $this->applicableUsers;
 		}

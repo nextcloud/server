@@ -13,7 +13,7 @@
 				<div class="details__groups-info">
 					<p>{{ t('settings', 'You are a member of the following groups:') }}</p>
 					<p class="details__groups-list">
-						{{ groups.join(', ') }}
+						{{ [...groups, ...teams].join(', ') }}
 					</p>
 				</div>
 			</div>
@@ -43,7 +43,7 @@ import HeaderBar from './shared/HeaderBar.vue'
 /** SYNC to be kept in sync with `lib/public/Files/FileInfo.php` */
 const SPACE_UNLIMITED = -3
 
-const { groups, quota, totalSpace, usage, usageRelative } = loadState('settings', 'personalInfoParameters', {})
+const { groups, teams, quota, totalSpace, usage, usageRelative } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
 	name: 'DetailsSection',
@@ -58,6 +58,7 @@ export default {
 	data() {
 		return {
 			groups,
+			teams,
 			usageRelative,
 		}
 	},

@@ -2,6 +2,9 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Profila",
+    "Searching …" : "Bilatzen …",
+    "Not found" : "Ez da aurkitu",
+    "Insert" : "Txertatu",
     "You have not added any info yet" : "Oraindik ez duzu informaziorik gehitu",
     "{user} has not added any info yet" : "{user}-(e)k ez du oraindik informaziorik gehitu",
     "Error opening the user status modal, try hard refreshing the page" : "Errorea erabiltzailen egoera leihoa irekitzean, saiatu orria guztiz freskatzen",

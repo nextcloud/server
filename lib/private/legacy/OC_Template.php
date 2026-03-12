@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+use OC\Template\Template;
 use OCP\Server;
 use OCP\Template\ITemplateManager;
 
@@ -12,7 +13,7 @@ use OCP\Template\ITemplateManager;
  * This class provides the templates for ownCloud.
  * @deprecated 32.0.0 Use \OCP\Template\ITemplateManager instead
  */
-class OC_Template extends \OC\Template\Template {
+class OC_Template extends Template {
 	/**
 	 * Shortcut to print a simple page for guests
 	 * @param string $application The application we render the template for

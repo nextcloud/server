@@ -8,33 +8,29 @@ declare(strict_types=1);
  */
 namespace OC\AppFramework\Bootstrap;
 
+use OC\AppFramework\Utility\SimpleContainer;
+
 /**
  * @psalm-immutable
  */
 class ServiceFactoryRegistration extends ARegistration {
 	/**
-	 * @var string
-	 * @psalm-var string|class-string
-	 */
-	private $name;
-
-	/**
 	 * @var callable
-	 * @psalm-var callable(\Psr\Container\ContainerInterface): mixed
+	 * @psalm-var callable(SimpleContainer): mixed
 	 */
 	private $factory;
 
-	/** @var bool */
-	private $shared;
-
-	public function __construct(string $appId,
-		string $alias,
+	/**
+	 * @param class-string $name
+	 */
+	public function __construct(
+		string $appId,
+		private string $name,
 		callable $target,
-		bool $shared) {
+		private bool $shared,
+	) {
 		parent::__construct($appId);
-		$this->name = $alias;
 		$this->factory = $target;
-		$this->shared = $shared;
 	}
 
 	public function getName(): string {
@@ -42,7 +38,7 @@ class ServiceFactoryRegistration extends ARegistration {
 	}
 
 	/**
-	 * @psalm-return callable(\Psr\Container\ContainerInterface): mixed
+	 * @psalm-return callable(SimpleContainer): mixed
 	 */
 	public function getFactory(): callable {
 		return $this->factory;

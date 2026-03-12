@@ -18,45 +18,6 @@ const files = [
 	'file5.txt',
 ]
 
-function resetTags() {
-	tags = {}
-	for (let i = 0; i < 5; i++) {
-		tags[randomBytes(8).toString('base64').slice(0, 6)] = 0
-	}
-
-	// delete any existing tags
-	cy.runOccCommand('tag:list --output=json').then((output) => {
-		Object.keys(JSON.parse(output.stdout)).forEach((id) => {
-			cy.runOccCommand(`tag:delete ${id}`)
-		})
-	})
-
-	// create tags
-	Object.keys(tags).forEach((tag) => {
-		cy.runOccCommand(`tag:add ${tag} public --output=json`).then((output) => {
-			tags[tag] = JSON.parse(output.stdout).id as number
-		})
-	})
-	cy.log('Using tags', tags)
-}
-
-function expectInlineTagForFile(file: string, tags: string[]) {
-	getRowForFile(file)
-		.find('[data-systemtags-fileid]')
-		.findAllByRole('listitem')
-		.should('have.length', tags.length)
-		.each((tag) => {
-			expect(tag.text()).to.be.oneOf(tags)
-		})
-}
-
-function triggerTagManagementDialogAction() {
-	cy.intercept('PROPFIND', '/remote.php/dav/systemtags/').as('getTagsList')
-	triggerSelectionAction('systemtags:bulk')
-	cy.wait('@getTagsList')
-	cy.get('[data-cy-systemtags-picker]').should('be.visible')
-}
-
 describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
 	let user1: User
 	let user2: User
@@ -98,7 +59,7 @@ describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
 		cy.intercept('PROPFIND', '/remote.php/dav/systemtags/*/files').as('getTagData')
 		cy.intercept('PROPPATCH', '/remote.php/dav/systemtags/*/files').as('assignTagData')
 
-		const tag = Object.keys(tags)[3]
+		const tag = Object.keys(tags)[3]!
 		cy.get(`[data-cy-systemtags-picker-tag=${tags[tag]}]`).should('be.visible')
 			.findByRole('checkbox').click({ force: true })
 		cy.get('[data-cy-systemtags-picker-button-submit]').click()
@@ -127,9 +88,9 @@ describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
 		cy.intercept('PROPFIND', '/remote.php/dav/systemtags/*/files').as('getTagData')
 		cy.intercept('PROPPATCH', '/remote.php/dav/systemtags/*/files').as('assignTagData')
 
-		const prevTag = Object.keys(tags)[3]
-		const tag1 = Object.keys(tags)[1]
-		const tag2 = Object.keys(tags)[2]
+		const prevTag = Object.keys(tags)[3]!
+		const tag1 = Object.keys(tags)[1]!
+		const tag2 = Object.keys(tags)[2]!
 		cy.get(`[data-cy-systemtags-picker-tag=${tags[tag1]}]`).should('be.visible')
 			.findByRole('checkbox').click({ force: true })
 		cy.get(`[data-cy-systemtags-picker-tag=${tags[tag2]}]`).should('be.visible')
@@ -166,9 +127,9 @@ describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
 		cy.intercept('PROPFIND', '/remote.php/dav/systemtags/*/files').as('getTagData')
 		cy.intercept('PROPPATCH', '/remote.php/dav/systemtags/*/files').as('assignTagData')
 
-		const firstTag = Object.keys(tags)[3]
-		const tag1 = Object.keys(tags)[1]
-		const tag2 = Object.keys(tags)[2]
+		const firstTag = Object.keys(tags)[3]!
+		const tag1 = Object.keys(tags)[1]!
+		const tag2 = Object.keys(tags)[2]!
 		cy.get(`[data-cy-systemtags-picker-tag=${tags[tag2]}]`).should('be.visible')
 			.findByRole('checkbox').click({ force: true })
 		cy.get('[data-cy-systemtags-picker-button-submit]').click()
@@ -247,8 +208,8 @@ describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
 		cy.intercept('PROPFIND', '/remote.php/dav/systemtags/*/files').as('getTagData1')
 		cy.intercept('PROPPATCH', '/remote.php/dav/systemtags/*/files').as('assignTagData1')
 
-		const tag1 = Object.keys(tags)[0]
-		const tag2 = Object.keys(tags)[3]
+		const tag1 = Object.keys(tags)[0]!
+		const tag2 = Object.keys(tags)[3]!
 		cy.get(`[data-cy-systemtags-picker-tag=${tags[tag1]}]`).should('be.visible')
 			.findByRole('checkbox').click({ force: true })
 		cy.get(`[data-cy-systemtags-picker-tag=${tags[tag2]}]`).should('be.visible')
@@ -466,3 +427,42 @@ describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
 		})
 	})
 })
+
+function resetTags() {
+	tags = {}
+	for (let i = 0; i < 5; i++) {
+		tags[randomBytes(8).toString('base64').slice(0, 6)] = 0
+	}
+
+	// delete any existing tags
+	cy.runOccCommand('tag:list --output=json').then((output) => {
+		Object.keys(JSON.parse(output.stdout)).forEach((id) => {
+			cy.runOccCommand(`tag:delete ${id}`)
+		})
+	})
+
+	// create tags
+	Object.keys(tags).forEach((tag) => {
+		cy.runOccCommand(`tag:add ${tag} public --output=json`).then((output) => {
+			tags[tag] = JSON.parse(output.stdout).id as number
+		})
+	})
+	cy.log('Using tags', tags)
+}
+
+function expectInlineTagForFile(file: string, tags: string[]) {
+	getRowForFile(file)
+		.find('[data-systemtags-fileid]')
+		.findAllByRole('listitem')
+		.should('have.length', tags.length)
+		.each((tag) => {
+			expect(tag.text()).to.be.oneOf(tags)
+		})
+}
+
+function triggerTagManagementDialogAction() {
+	cy.intercept('PROPFIND', '/remote.php/dav/systemtags/').as('getTagsList')
+	triggerSelectionAction('systemtags:bulk')
+	cy.wait('@getTagsList')
+	cy.get('[data-cy-systemtags-picker]').should('be.visible')
+}

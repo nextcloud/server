@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 namespace OC\DB\QueryBuilder;
 
 use OCP\DB\QueryBuilder\ICompositeExpression;
+use Override;
 
 class CompositeExpression implements ICompositeExpression, \Countable {
 	public const TYPE_AND = 'AND';
@@ -20,13 +22,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	) {
 	}
 
-	/**
-	 * Adds multiple parts to composite expression.
-	 *
-	 * @param array $parts
-	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
-	 */
+	#[Override]
 	public function addMultiple(array $parts = []): ICompositeExpression {
 		foreach ($parts as $part) {
 			$this->add($part);
@@ -35,13 +31,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 		return $this;
 	}
 
-	/**
-	 * Adds an expression to composite expression.
-	 *
-	 * @param mixed $part
-	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
-	 */
+	#[Override]
 	public function add($part): ICompositeExpression {
 		if ($part === null) {
 			return $this;

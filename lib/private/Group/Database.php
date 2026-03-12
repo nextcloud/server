@@ -25,6 +25,7 @@ use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use OCP\Server;
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
@@ -60,7 +61,7 @@ class Database extends ABackend implements
 	 */
 	private function fixDI() {
 		if ($this->dbConn === null) {
-			$this->dbConn = \OC::$server->getDatabaseConnection();
+			$this->dbConn = Server::get(IDBConnection::class);
 		}
 	}
 
@@ -411,7 +412,7 @@ class Database extends ABackend implements
 		$result = $query->executeQuery();
 
 		$users = [];
-		$userManager = \OCP\Server::get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		while ($row = $result->fetch()) {
 			$users[$row['uid']] = new LazyUser($row['uid'], $userManager, $row['displayname'] ?? null);
 		}

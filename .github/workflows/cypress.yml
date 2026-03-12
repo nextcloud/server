@@ -48,7 +48,7 @@ jobs:
           exit 1
 
       - name: Checkout server
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           # We need to checkout submodules for 3rdparty
@@ -72,7 +72,7 @@ jobs:
           fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -107,7 +107,7 @@ jobs:
     services:
       mysql:
         # Only start mysql if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-mysql-8.4:latest' || ''}}
+        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-mysql-8.4:latest' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '3306/tcp'
         env:
@@ -119,7 +119,7 @@ jobs:
 
       mariadb:
         # Only start mariadb if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'mariadb:11.4' || ''}}
+        image: ${{matrix.containers == 'setup' && 'mariadb:11.4' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '3306/tcp'
         env:
@@ -131,7 +131,7 @@ jobs:
 
       postgres:
         # Only start postgres if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-postgres-17:latest' || ''}}
+        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-postgres-17:latest' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '5432/tcp'
         env:
@@ -142,7 +142,7 @@ jobs:
 
       oracle:
         # Only start oracle if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/gvenzl/oracle-free:23' || ''}}
+        image: ${{matrix.containers == 'setup' && 'ghcr.io/gvenzl/oracle-free:23' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '1521'
         env:
@@ -160,7 +160,7 @@ jobs:
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
@@ -171,7 +171,7 @@ jobs:
         run: ./node_modules/cypress/bin/cypress install
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@7ef72e250a9e564efb4ed4c2433971ada4cc38b4 # v6.10.4
+        uses: cypress-io/github-action@bc22e01685c56e89e7813fd8e26f33dc47f87e15 # v7.1.5
         with:
           # We already installed the dependencies in the init job
           install: false
@@ -195,7 +195,7 @@ jobs:
           SETUP_TESTING: ${{ matrix.containers == 'setup' && 'true' || '' }}
 
       - name: Upload snapshots and videos
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
           name: snapshots_${{ matrix.containers }}
@@ -218,7 +218,7 @@ jobs:
         run: docker exec nextcloud-e2e-test-server_${{ env.APP_NAME }} tar -cvjf - data > data.tar
 
       - name: Upload data archive
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}

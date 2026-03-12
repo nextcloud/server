@@ -13,6 +13,7 @@ use OC\Installer;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Security\ISecureRandom;
@@ -28,6 +29,7 @@ class SetupTest extends \Test\TestCase {
 	protected LoggerInterface $logger;
 	protected ISecureRandom $random;
 	protected Installer $installer;
+	protected IEventDispatcher $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,9 +44,10 @@ class SetupTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->installer = $this->createMock(Installer::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->setupClass = $this->getMockBuilder(Setup::class)
 			->onlyMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
-			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10nFactory, $this->defaults, $this->logger, $this->random, $this->installer])
+			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10nFactory, $this->defaults, $this->logger, $this->random, $this->installer, $this->eventDispatcher])
 			->getMock();
 	}
 

@@ -11,10 +11,10 @@
 		<PredefinedStatus
 			v-for="status in predefinedStatuses"
 			:key="status.id"
-			:message-id="status.id"
+			:messageId="status.id"
 			:icon="status.icon"
 			:message="status.message"
-			:clear-at="status.clearAt"
+			:clearAt="status.clearAt"
 			:selected="lastSelected === status.id"
 			@select="selectStatus(status)" />
 	</ul>

@@ -13,10 +13,10 @@ use OCP\Files\NotFoundException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 
+/**
+ * @property Storage $storage
+ */
 class Scanner extends \OC\Files\Cache\Scanner {
-	/** @var Storage */
-	protected $storage;
-
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
 		// Disable locking for federated shares
 		parent::scan($path, $recursive, $reuse, false);

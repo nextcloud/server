@@ -16,11 +16,9 @@ use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 
 class CredentialRepository implements PublicKeyCredentialSourceRepository {
-	/** @var PublicKeyCredentialMapper */
-	private $credentialMapper;
-
-	public function __construct(PublicKeyCredentialMapper $credentialMapper) {
-		$this->credentialMapper = $credentialMapper;
+	public function __construct(
+		private PublicKeyCredentialMapper $credentialMapper,
+	) {
 	}
 
 	public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource {

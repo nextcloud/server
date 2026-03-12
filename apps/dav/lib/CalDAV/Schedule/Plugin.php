@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
+use OCA\DAV\CalDAV\Federation\FederatedCalendar;
 use OCA\DAV\CalDAV\TipBroker;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
@@ -165,6 +166,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
 			// Do not generate iTip and iMip messages if scheduling is disabled for this message
 			if ($request->getHeader('x-nc-scheduling') === 'false') {
+				$this->logger->debug('Skipping scheduling messages for calendar object change because x-nc-scheduling header is set to false');
 				return;
 			}
 
@@ -172,8 +174,15 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 				return;
 			}
 
-			/** @var Calendar $calendarNode */
+			/** @var Calendar&ICalendar $calendarNode */
 			$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
+
+			// abort if calendar is federated
+			if ($calendarNode instanceof FederatedCalendar) {
+				$this->logger->debug('Not processing scheduling for federated calendar at path: ' . $calendarPath);
+				return;
+			}
+
 			// extract addresses for owner
 			$addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
 			// determine if request is from a sharee
@@ -212,6 +221,13 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @inheritDoc
 	 */
 	public function beforeUnbind($path): void {
+
+		// Do not generate iTip and iMip messages if scheduling is disabled for this message
+		if ($this->server->httpRequest->getHeader('x-nc-scheduling') === 'false') {
+			$this->logger->debug('Skipping scheduling messages for calendar object delete because x-nc-scheduling header is set to false');
+			return;
+		}
+
 		try {
 			parent::beforeUnbind($path);
 		} catch (SameOrganizerForAllComponentsException $e) {

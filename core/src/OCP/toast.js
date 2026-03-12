@@ -5,7 +5,8 @@
 
 import {
 	showError,
-	showInfo, showMessage,
+	showInfo,
+	showMessage,
 	showSuccess,
 	showWarning,
 } from '@nextcloud/dialogs'

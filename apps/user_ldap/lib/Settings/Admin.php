@@ -15,6 +15,7 @@ use OCP\IL10N;
 use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Template\ITemplateManager;
+use OCP\Util;
 
 class Admin implements IDelegatedSettings {
 	public function __construct(
@@ -60,8 +61,8 @@ class Admin implements IDelegatedSettings {
 		$this->initialState->provideInitialState('ldapConfigs', $ldapConfigs);
 		$this->initialState->provideInitialState('ldapModuleInstalled', function_exists('ldap_connect'));
 
-		\OCP\Util::addStyle(Application::APP_ID, 'settings-admin');
-		\OCP\Util::addScript(Application::APP_ID, 'settings-admin');
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
 		return new TemplateResponse(Application::APP_ID, 'settings', $parameters);
 	}
 

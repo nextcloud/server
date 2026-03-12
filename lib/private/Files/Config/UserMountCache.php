@@ -7,10 +7,8 @@
  */
 namespace OC\Files\Config;
 
-use OC\DB\Exceptions\DbalException;
 use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
-use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -154,9 +152,9 @@ class UserMountCache implements IUserMountCache {
 			if (isset($newMounts[$key])) {
 				$newMount = $newMounts[$key];
 				if (
-					$newMount->getStorageId() !== $cachedMount->getStorageId()
-					|| $newMount->getMountId() !== $cachedMount->getMountId()
+					$newMount->getMountId() !== $cachedMount->getMountId()
 					|| $newMount->getMountProvider() !== $cachedMount->getMountProvider()
+					|| $newMount->getStorageId() !== $cachedMount->getStorageId()
 				) {
 					$changed[] = [$cachedMount, $newMount];
 				}
@@ -167,25 +165,15 @@ class UserMountCache implements IUserMountCache {
 
 	private function addToCache(ICachedMountInfo $mount) {
 		if ($mount->getStorageId() !== -1) {
-			$qb = $this->connection->getQueryBuilder();
-			$qb
-				->insert('mounts')
-				->values([
-					'storage_id' => $qb->createNamedParameter($mount->getStorageId(), IQueryBuilder::PARAM_INT),
-					'root_id' => $qb->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT),
-					'user_id' => $qb->createNamedParameter($mount->getUser()->getUID()),
-					'mount_point' => $qb->createNamedParameter($mount->getMountPoint()),
-					'mount_point_hash' => $qb->createNamedParameter(hash('xxh128', $mount->getMountPoint())),
-					'mount_id' => $qb->createNamedParameter($mount->getMountId(), IQueryBuilder::PARAM_INT),
-					'mount_provider_class' => $qb->createNamedParameter($mount->getMountProvider()),
-				]);
-			try {
-				$qb->executeStatement();
-			} catch (Exception $e) {
-				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-					throw $e;
-				}
-			}
+			$this->connection->insertIgnoreConflict('mounts', [
+				'storage_id' => $mount->getStorageId(),
+				'root_id' => $mount->getRootId(),
+				'user_id' => $mount->getUser()->getUID(),
+				'mount_point' => $mount->getMountPoint(),
+				'mount_point_hash' => hash('xxh128', $mount->getMountPoint()),
+				'mount_id' => $mount->getMountId(),
+				'mount_provider_class' => $mount->getMountProvider(),
+			]);
 		} else {
 			// in some cases this is legitimate, like orphaned shares
 			$this->logger->debug('Could not get storage info for mount at ' . $mount->getMountPoint());
@@ -194,15 +182,15 @@ class UserMountCache implements IUserMountCache {
 
 	private function updateCachedMount(ICachedMountInfo $mount) {
 		$builder = $this->connection->getQueryBuilder();
+		$hash = hash('xxh128', $mount->getMountPoint());
 
 		$query = $builder->update('mounts')
 			->set('storage_id', $builder->createNamedParameter($mount->getStorageId()))
-			->set('mount_point', $builder->createNamedParameter($mount->getMountPoint()))
-			->set('mount_point_hash', $builder->createNamedParameter(hash('xxh128', $mount->getMountPoint())))
 			->set('mount_id', $builder->createNamedParameter($mount->getMountId(), IQueryBuilder::PARAM_INT))
 			->set('mount_provider_class', $builder->createNamedParameter($mount->getMountProvider()))
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
-			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)));
+			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($builder->expr()->eq('mount_point_hash', $builder->createNamedParameter($hash)));
 
 		$query->executeStatement();
 	}
@@ -339,7 +327,7 @@ class UserMountCache implements IUserMountCache {
 	/**
 	 * @param $fileId
 	 * @return array{int, string, int}
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
 	private function getCacheInfoFromFileId($fileId): array {
 		if (!isset($this->cacheInfoCache[$fileId])) {
@@ -382,7 +370,8 @@ class UserMountCache implements IUserMountCache {
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
 			->from('mounts', 'm')
 			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
-			->where($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+			->where($builder->expr()->eq('m.storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+			->andWhere($builder->expr()->eq('f.storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere(
 				$builder->expr()->orX(
 					$builder->expr()->eq('f.fileid', $builder->createNamedParameter($fileId)),
@@ -538,24 +527,23 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	public function addMount(IUser $user, string $mountPoint, ICacheEntry $rootCacheEntry, string $mountProvider, ?int $mountId = null): void {
-		$query = $this->connection->getQueryBuilder();
-		$query->insert('mounts')
-			->values([
-				'storage_id' => $query->createNamedParameter($rootCacheEntry->getStorageId()),
-				'root_id' => $query->createNamedParameter($rootCacheEntry->getId()),
-				'user_id' => $query->createNamedParameter($user->getUID()),
-				'mount_point' => $query->createNamedParameter($mountPoint),
-				'mount_point_hash' => $query->createNamedParameter(hash('xxh128', $mountPoint)),
-				'mount_id' => $query->createNamedParameter($mountId),
-				'mount_provider_class' => $query->createNamedParameter($mountProvider)
-			]);
+		$this->connection->insertIgnoreConflict('mounts', [
+			'storage_id' => $rootCacheEntry->getStorageId(),
+			'root_id' => $rootCacheEntry->getId(),
+			'user_id' => $user->getUID(),
+			'mount_point' => $mountPoint,
+			'mount_point_hash' => hash('xxh128', $mountPoint),
+			'mount_id' => $mountId,
+			'mount_provider_class' => $mountProvider
+		]);
+	}
 
-		try {
-			$query->executeStatement();
-		} catch (DbalException $e) {
-			if ($e->getReason() !== DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-				throw $e;
-			}
-		}
+	/**
+	 * Clear the internal in-memory caches
+	 */
+	public function flush(): void {
+		$this->cacheInfoCache = new CappedMemoryCache();
+		$this->internalPathCache = new CappedMemoryCache();
+		$this->mountsForUsers = new CappedMemoryCache();
 	}
 }

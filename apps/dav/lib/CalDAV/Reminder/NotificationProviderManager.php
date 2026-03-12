@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException;
-use OCP\AppFramework\QueryException;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Class NotificationProviderManager
@@ -55,7 +55,7 @@ class NotificationProviderManager {
 	 * Registers a new provider
 	 *
 	 * @param string $providerClassName
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	public function registerProvider(string $providerClassName):void {
 		$provider = Server::get($providerClassName);

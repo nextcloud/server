@@ -43,5 +43,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "./../styles/operation" as *;
+@use "./../styles/operation.scss" as *;
 </style>

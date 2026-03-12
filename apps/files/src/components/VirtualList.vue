@@ -131,7 +131,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const fileListWidth = useFileListWidth()
+		const { width: fileListWidth } = useFileListWidth()
 
 		return {
 			fileListWidth,
@@ -336,6 +336,13 @@ export default defineComponent({
 				return
 			}
 
+			// Skip scrolling if the target index is already visible
+			const lastVisibleIndex = this.index + (this.visibleRows * this.columnCount) - 1
+			if (index >= this.index && index <= lastVisibleIndex) {
+				logger.debug('VirtualList: Skip scrolling, index already visible', { index })
+				return
+			}
+
 			// Check if the content is smaller (not equal! keep the footer in mind) than the viewport
 			// meaning there is no scrollbar
 			if (this.totalRowCount < this.visibleRows) {
@@ -383,7 +390,12 @@ export default defineComponent({
 			this.$nextTick(() => {
 				this.$el.scrollTop = scrollTop
 				logger.debug(`VirtualList: scrolling to index ${index}`, {
-					clampedIndex, scrollTop, columnCount: this.columnCount, total: this.totalRowCount, visibleRows: this.visibleRows, beforeHeight: this.beforeHeight,
+					clampedIndex,
+					scrollTop,
+					columnCount: this.columnCount,
+					total: this.totalRowCount,
+					visibleRows: this.visibleRows,
+					beforeHeight: this.beforeHeight,
 				})
 			})
 		},

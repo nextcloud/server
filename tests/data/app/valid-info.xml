@@ -35,4 +35,9 @@
 		<owncloud min-version="7.0.1" max-version="8" />
 		<backend>caldav</backend>
 	</dependencies>
+
+	<openmetrics>
+		<exporter>OC\OpenMetrics\Exporters\ActiveSessions</exporter>
+		<exporter>OC\OpenMetrics\Exporters\ActiveUsers</exporter>
+	</openmetrics>
 </info>

@@ -27,7 +27,7 @@ class AppsCount implements IMetricFamily {
 
 	#[Override]
 	public function name(): string {
-		return 'apps_count';
+		return 'installed_applications';
 	}
 
 	#[Override]
@@ -42,7 +42,7 @@ class AppsCount implements IMetricFamily {
 
 	#[Override]
 	public function help(): string {
-		return 'Number of apps in Nextcloud';
+		return 'Number of applications installed in Nextcloud';
 	}
 
 	#[Override]

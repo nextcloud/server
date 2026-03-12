@@ -8,11 +8,8 @@
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Group_Proxy;
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
 use OCP\IConfig;
-use OCP\Server;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -82,10 +79,6 @@ class Search extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$helper = Server::get(Helper::class);
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
-		$ldapWrapper = new LDAP();
-
 		$offset = (int)$input->getOption('offset');
 		$limit = (int)$input->getOption('limit');
 		$this->validateOffsetAndLimit($offset, $limit);

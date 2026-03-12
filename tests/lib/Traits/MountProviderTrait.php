@@ -25,7 +25,7 @@ trait MountProviderTrait {
 	protected $mountProvider;
 
 	/**
-	 * @var \OC\Files\Storage\StorageFactory
+	 * @var StorageFactory
 	 */
 	protected $storageFactory;
 

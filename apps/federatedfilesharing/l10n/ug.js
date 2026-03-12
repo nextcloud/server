@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{remote} @ {owner} دىن يىراقتىن ئورتاقلىشىش {name} add نى قوشماقچىمۇ؟",
     "Remote share password" : "يىراقتىن ئورتاقلىشىش پارولى",
     "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ",
-    "Cloud ID copied to the clipboard" : "بۇلۇت كىملىكى چاپلاش تاختىسىغا كۆچۈرۈلدى",
-    "Copy to clipboard" : "چاپلاش تاختىسىغا كۆچۈرۈڭ",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud مۇلازىمېتىرى ياكى باشقا ئوچۇق Cloud Mesh (OCM) ماس كېلىدىغان مۇلازىمېتىر ۋە مۇلازىمەتلەرنى ئىشلەتكەنلەر بىلەن ئورتاقلىشالايسىز! ئۇلارنىڭ فېدېراتسىيە بۇلۇت كىملىكىنى ئورتاقلىشىش دىئالوگىغا قويۇڭ. ئۇ person@cloud.example.com غا ئوخشايدۇ",
     "X (formerly Twitter)" : "X (ئىلگىرىكى Twitter)",
     "formerly Twitter" : "ئىلگىرى Twitter"
 },

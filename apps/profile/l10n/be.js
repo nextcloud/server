@@ -2,6 +2,9 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Профіль",
+    "Searching …" : "Пошук …",
+    "Not found" : "Не знойдзена",
+    "Insert" : "Уставіць",
     "You have not added any info yet" : "Вы пакуль не дадалі ніякай інфармацыі",
     "{user} has not added any info yet" : "{user} пакуль не дадаў(-ла) ніякай інфармацыі",
     "Error opening the user status modal, try hard refreshing the page" : "Памылка пры адкрыцці статусу карыстальніка, паспрабуйце абнавіць старонку",

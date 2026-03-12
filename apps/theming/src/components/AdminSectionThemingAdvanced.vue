@@ -72,7 +72,7 @@ async function toggleBackground(value: boolean) {
 			<ColorPickerField
 				name="primaryColor"
 				:label="t('theming', 'Primary color')"
-				default-value="#00679e"
+				defaultValue="#00679e"
 				@updated="refreshStyles">
 				<template #description>
 					{{ t('theming', 'Set the default primary color, used to highlight important elements.') }}
@@ -83,7 +83,7 @@ async function toggleBackground(value: boolean) {
 			<ColorPickerField
 				name="backgroundColor"
 				:label="t('theming', 'Background color')"
-				:default-value="defaultBackgroundColor"
+				:defaultValue="defaultBackgroundColor"
 				@updated="refreshStyles">
 				<template #description>
 					{{ t('theming', 'When no background image is set the background color will be used.') }}

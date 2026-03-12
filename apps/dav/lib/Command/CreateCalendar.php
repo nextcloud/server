@@ -22,6 +22,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -66,7 +67,7 @@ class CreateCalendar extends Command {
 			Server::get(ProxyMapper::class),
 			Server::get(KnownUserService::class),
 			Server::get(IConfig::class),
-			\OC::$server->getL10NFactory(),
+			Server::get(IFactory::class),
 		);
 		$random = Server::get(ISecureRandom::class);
 		$logger = Server::get(LoggerInterface::class);

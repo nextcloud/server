@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,35 +23,43 @@ use OCP\IDBConnection;
  * @package OC\Files\Cache
  */
 class StorageGlobal {
-	/** @var array<string, array> */
-	private $cache = [];
-	/** @var array<int, array> */
-	private $numericIdCache = [];
+	/** @var array<string, array{id: string, numeric_id: int, available: bool, last_checked: int}> */
+	private array $cache = [];
+
+	/** @var array<int, array{id: string, numeric_id: int, available: bool, last_checked: int}> */
+	private array $numericIdCache = [];
 
 	public function __construct(
-		private IDBConnection $connection,
+		private readonly IDBConnection $connection,
 	) {
 	}
 
 	/**
 	 * @param string[] $storageIds
 	 */
-	public function loadForStorageIds(array $storageIds) {
+	public function loadForStorageIds(array $storageIds): void {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['id', 'numeric_id', 'available', 'last_checked'])
 			->from('storages')
 			->where($builder->expr()->in('id', $builder->createNamedParameter(array_values($storageIds), IQueryBuilder::PARAM_STR_ARRAY)));
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
-			$this->cache[$row['id']] = $row;
+		while (($row = $result->fetch()) !== false) {
+			$normalizedRow = [
+				'id' => (string)$row['id'],
+				'numeric_id' => (int)$row['numeric_id'],
+				'available' => (bool)$row['available'],
+				'last_checked' => (int)$row['last_checked'],
+			];
+
+			$this->cache[$normalizedRow['id']] = $normalizedRow;
 		}
+
 		$result->closeCursor();
 	}
 
 	/**
-	 * @param string $storageId
-	 * @return array|null
+	 * @return array{id: string, numeric_id: int, available: bool, last_checked: int}|null
 	 */
 	public function getStorageInfo(string $storageId): ?array {
 		if (!isset($this->cache[$storageId])) {
@@ -62,17 +72,24 @@ class StorageGlobal {
 			$row = $result->fetch();
 			$result->closeCursor();
 
-			if ($row) {
-				$this->cache[$storageId] = $row;
-				$this->numericIdCache[(int)$row['numeric_id']] = $row;
+			if ($row !== false) {
+				$normalizedRow = [
+					'id' => (string)$row['id'],
+					'numeric_id' => (int)$row['numeric_id'],
+					'available' => (bool)$row['available'],
+					'last_checked' => (int)$row['last_checked'],
+				];
+
+				$this->cache[$storageId] = $normalizedRow;
+				$this->numericIdCache[$normalizedRow['numeric_id']] = $normalizedRow;
 			}
 		}
+
 		return $this->cache[$storageId] ?? null;
 	}
 
 	/**
-	 * @param int $numericId
-	 * @return array|null
+	 * @return array{id: string, numeric_id: int, available: bool, last_checked: int}|null
 	 */
 	public function getStorageInfoByNumericId(int $numericId): ?array {
 		if (!isset($this->numericIdCache[$numericId])) {
@@ -85,15 +102,23 @@ class StorageGlobal {
 			$row = $result->fetch();
 			$result->closeCursor();
 
-			if ($row) {
-				$this->numericIdCache[$numericId] = $row;
-				$this->cache[$row['id']] = $row;
+			if ($row !== false) {
+				$normalizedRow = [
+					'id' => (string)$row['id'],
+					'numeric_id' => (int)$row['numeric_id'],
+					'available' => (bool)$row['available'],
+					'last_checked' => (int)$row['last_checked'],
+				];
+
+				$this->numericIdCache[$numericId] = $normalizedRow;
+				$this->cache[$normalizedRow['id']] = $normalizedRow;
 			}
 		}
+
 		return $this->numericIdCache[$numericId] ?? null;
 	}
 
-	public function clearCache() {
+	public function clearCache(): void {
 		$this->cache = [];
 	}
 }

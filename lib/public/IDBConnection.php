@@ -17,6 +17,7 @@ use OCP\DB\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\ITypedQueryBuilder;
 
 /**
  * Interface IDBConnection
@@ -54,8 +55,16 @@ interface IDBConnection {
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
 	 * @since 8.2.0
+	 * @note Since 34.0.0 prefer using {@see self::getTypedQueryBuilder()} instead.
 	 */
 	public function getQueryBuilder();
+
+	/**
+	 * Gets the ITypedQueryBuilder for the connection.
+	 *
+	 * @since 34.0.0
+	 */
+	public function getTypedQueryBuilder(): ITypedQueryBuilder;
 
 	/**
 	 * Used to abstract the Nextcloud database access away

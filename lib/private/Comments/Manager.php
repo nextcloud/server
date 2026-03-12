@@ -798,7 +798,7 @@ class Manager implements ICommentsManager {
 
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('actor_id')
-			->selectAlias($query->createFunction('MAX(' . $query->getColumnName('creation_timestamp') . ')'), 'last_comment')
+			->selectAlias($query->func()->max('creation_timestamp'), 'last_comment')
 			->from('comments')
 			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
 			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
@@ -1325,7 +1325,7 @@ class Manager implements ICommentsManager {
 	/**
 	 * deletes the read markers for the specified user
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
 	 * @return bool
 	 * @since 9.0.0
 	 */
@@ -1512,7 +1512,7 @@ class Manager implements ICommentsManager {
 	/**
 	 * returns valid, registered entities
 	 *
-	 * @return \OCP\Comments\ICommentsEventHandler[]
+	 * @return ICommentsEventHandler[]
 	 */
 	private function getEventHandlers() {
 		if (!empty($this->eventHandlers)) {

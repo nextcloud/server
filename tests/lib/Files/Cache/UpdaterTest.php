@@ -9,6 +9,7 @@
 namespace Test\Files\Cache;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\ObjectStore\StorageObjectStore;
@@ -41,7 +42,7 @@ class UpdaterTest extends \Test\TestCase {
 	protected $view;
 
 	/**
-	 * @var \OC\Files\Cache\Updater
+	 * @var Updater
 	 */
 	protected $updater;
 

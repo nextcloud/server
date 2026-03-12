@@ -200,7 +200,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "切换模式将启用自动 LDAP 查询。根据您的 LDAP 规模，可能需要一段时间。是否继续切换模式？",
     "Confirm" : "确认",
     "Failed to delete the server configuration" : "删除服务器配置失败",
-    "Invalid configuration. Please have a look at the logs for further details." : "配置无效。更多细节请查看日志。",
     "No action specified" : "未指定操作",
     "No configuration specified" : "未指定配置文件",
     "No data specified" : "未指定数据",

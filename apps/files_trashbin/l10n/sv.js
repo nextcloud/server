@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Inga borttagna filer",
     "Files and folders you have deleted will show up here" : "Filer och mappar som du har tagit bort kommer att visas här",
     "All files have been permanently deleted" : "Alla filer har raderats permanent",
-    "Failed to empty deleted files" : "Kunde inte tömma raderade filer",
-    "Deletion cancelled" : "Radering avbruten"
+    "Failed to empty deleted files" : "Kunde inte tömma raderade filer"
 },
 "nplurals=2; plural=(n != 1);");

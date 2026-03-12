@@ -3,44 +3,40 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Navigation, View } from '@nextcloud/files'
+import type { View } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
 import axios from '@nextcloud/axios'
-import { Folder, getNavigation } from '@nextcloud/files'
+import { getNavigation } from '@nextcloud/files'
 import * as ncInitialState from '@nextcloud/initial-state'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import registerSharingViews from './shares.ts'
 
 import '../main.ts'
 
-declare global {
-	interface Window {
-		_nc_navigation?: Navigation
+const navigation = getNavigation()
+beforeEach(() => {
+	vi.resetAllMocks()
+
+	const views = [...navigation.views]
+	for (const view of views) {
+		navigation.remove(view.id)
 	}
-}
+	expect(navigation.views).toHaveLength(0)
+})
 
 describe('Sharing views definition', () => {
-	let Navigation
-	beforeEach(() => {
-		delete window._nc_navigation
-		Navigation = getNavigation()
-		expect(window._nc_navigation).toBeDefined()
-	})
-
 	test('Default values', () => {
-		vi.spyOn(Navigation, 'register')
-
-		expect(Navigation.views.length).toBe(0)
+		vi.spyOn(navigation, 'register')
 
 		registerSharingViews()
-		const shareOverviewView = Navigation.views.find((view) => view.id === 'shareoverview') as View
-		const sharesChildViews = Navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
+		const shareOverviewView = navigation.views.find((view) => view.id === 'shareoverview') as View
+		const sharesChildViews = navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
 
-		expect(Navigation.register).toHaveBeenCalledTimes(7)
+		expect(navigation.register).toHaveBeenCalledTimes(7)
 
 		// one main view and no children
-		expect(Navigation.views.length).toBe(7)
+		expect(navigation.views.length).toBe(7)
 		expect(shareOverviewView).toBeDefined()
 		expect(sharesChildViews.length).toBe(6)
 
@@ -76,35 +72,28 @@ describe('Sharing views definition', () => {
 	})
 
 	test('Shared with others view is not registered if user has no storage quota', () => {
-		vi.spyOn(Navigation, 'register')
+		vi.spyOn(navigation, 'register')
 		const spy = vi.spyOn(ncInitialState, 'loadState').mockImplementationOnce(() => ({ quota: 0 }))
 
-		expect(Navigation.views.length).toBe(0)
+		expect(navigation.views.length).toBe(0)
 		registerSharingViews()
-		expect(Navigation.register).toHaveBeenCalledTimes(6)
-		expect(Navigation.views.length).toBe(6)
+		expect(navigation.register).toHaveBeenCalledTimes(6)
+		expect(navigation.views.length).toBe(6)
 
-		const shareOverviewView = Navigation.views.find((view) => view.id === 'shareoverview') as View
-		const sharesChildViews = Navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
+		const shareOverviewView = navigation.views.find((view) => view.id === 'shareoverview') as View
+		const sharesChildViews = navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
 		expect(shareOverviewView).toBeDefined()
 		expect(sharesChildViews.length).toBe(5)
 
 		expect(spy).toHaveBeenCalled()
 		expect(spy).toHaveBeenCalledWith('files', 'storageStats', { quota: -1 })
 
-		const sharedWithOthersView = Navigation.views.find((view) => view.id === 'sharingout')
+		const sharedWithOthersView = navigation.views.find((view) => view.id === 'sharingout')
 		expect(sharedWithOthersView).toBeUndefined()
 	})
 })
 
 describe('Sharing views contents', () => {
-	let Navigation
-	beforeEach(() => {
-		delete window._nc_navigation
-		Navigation = getNavigation()
-		expect(window._nc_navigation).toBeDefined()
-	})
-
 	test('Sharing overview get contents', async () => {
 		vi.spyOn(axios, 'get').mockImplementation(async (): Promise<any> => {
 			return {
@@ -122,11 +111,11 @@ describe('Sharing views contents', () => {
 		})
 
 		registerSharingViews()
-		expect(Navigation.views.length).toBe(7)
-		Navigation.views.forEach(async (view: View) => {
-			const content = await view.getContents('/')
+		expect(navigation.views.length).toBe(7)
+		for (const view of navigation.views) {
+			const content = await view.getContents('/', { signal: new AbortController().signal })
 			expect(content.contents).toStrictEqual([])
-			expect(content.folder).toBeInstanceOf(Folder)
-		})
+			expect(content.folder).toBeTypeOf('object')
+		}
 	})
 })

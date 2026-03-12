@@ -20,7 +20,7 @@ use OCP\DB\Exception;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Cache\CacheEntryRemovedEvent;
+use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Node;
@@ -203,14 +203,28 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	public function deleteMetadata(int $fileId): void {
 		try {
 			$this->metadataRequestService->dropMetadata($fileId);
-		} catch (Exception $e) {
+		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileId' => $fileId]);
 		}
 
 		try {
 			$this->indexRequestService->dropIndex($fileId);
-		} catch (Exception $e) {
+		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileId' => $fileId]);
+		}
+	}
+
+	public function deleteMetadataForFiles(int $storage, array $fileIds): void {
+		try {
+			$this->metadataRequestService->dropMetadataForFiles($storage, $fileIds);
+		} catch (DBException $e) {
+			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileIds' => $fileIds]);
+		}
+
+		try {
+			$this->indexRequestService->dropIndexForFiles($fileIds);
+		} catch (DBException $e) {
+			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileIds' => $fileIds]);
 		}
 	}
 
@@ -301,6 +315,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 */
 	public static function loadListeners(IEventDispatcher $eventDispatcher): void {
 		$eventDispatcher->addServiceListener(NodeWrittenEvent::class, MetadataUpdate::class);
-		$eventDispatcher->addServiceListener(CacheEntryRemovedEvent::class, MetadataDelete::class);
+		$eventDispatcher->addServiceListener(CacheEntriesRemovedEvent::class, MetadataDelete::class);
 	}
 }

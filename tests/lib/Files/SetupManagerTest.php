@@ -23,6 +23,7 @@ use OCP\Files\Config\MountProviderArgs;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -111,6 +112,7 @@ class SetupManagerTest extends TestCase {
 			$shareDisableChecker,
 			$appManager,
 			$this->fileAccess,
+			$this->createMock(IAppConfig::class),
 		);
 	}
 
@@ -633,7 +635,7 @@ class SetupManagerTest extends TestCase {
 	}
 
 	private function getAddMountCheckCallback(InvokedCount $invokedCount, $expectations): \Closure {
-		return function (IMountPoint $actualMount) use ($invokedCount, $expectations) {
+		return function (IMountPoint $actualMount) use ($invokedCount, $expectations): void {
 			$expectedMount = $expectations[$invokedCount->numberOfInvocations()] ?? null;
 			$this->assertSame($expectedMount, $actualMount);
 		};

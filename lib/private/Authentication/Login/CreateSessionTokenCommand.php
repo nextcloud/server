@@ -13,16 +13,10 @@ use OC\User\Session;
 use OCP\IConfig;
 
 class CreateSessionTokenCommand extends ALoginCommand {
-	/** @var IConfig */
-	private $config;
-
-	/** @var Session */
-	private $userSession;
-
-	public function __construct(IConfig $config,
-		Session $userSession) {
-		$this->config = $config;
-		$this->userSession = $userSession;
+	public function __construct(
+		private IConfig $config,
+		private Session $userSession,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {

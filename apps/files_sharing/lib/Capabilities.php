@@ -8,6 +8,7 @@
 namespace OCA\Files_Sharing;
 
 use OC\Core\AppInfo\ConfigLexicon;
+use OCA\Files_Sharing\Config\ConfigLexicon as SharingConfigLexicon;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\Constants;
@@ -77,6 +78,7 @@ class Capabilities implements ICapability {
 	 *             },
 	 *         },
 	 *         default_permissions?: int,
+	 *         exclude_reshare_from_edit?: bool,
 	 *         federation: array{
 	 *             outgoing: bool,
 	 *             incoming: bool,
@@ -159,6 +161,7 @@ class Capabilities implements ICapability {
 			$res['group']['enabled'] = $this->shareManager->allowGroupSharing();
 			$res['group']['expire_date']['enabled'] = true;
 			$res['default_permissions'] = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+			$res['exclude_reshare_from_edit'] = $this->appConfig->getValueBool('files_sharing', SharingConfigLexicon::EXCLUDE_RESHARE_FROM_EDIT);
 		}
 
 		//Federated sharing

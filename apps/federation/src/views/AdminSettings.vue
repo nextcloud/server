@@ -41,7 +41,7 @@ function onDelete(server: ITrustedServer) {
 <template>
 	<NcSettingsSection
 		:name="t('federation', 'Trusted servers')"
-		:doc-url="adminSettings.docUrl"
+		:docUrl="adminSettings.docUrl"
 		:description="t('federation', 'Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share.')">
 		<NcNoteCard
 			v-if="showPendingServerInfo"
@@ -52,10 +52,10 @@ function onDelete(server: ITrustedServer) {
 			:class="$style.federationAdminSettings__trustedServersList"
 			:aria-label="t('federation', 'Trusted servers')"
 			tag="ul"
-			:enter-from-class="$style.transition_hidden"
-			:enter-active-class="$style.transition_active"
-			:leave-active-class="$style.transition_active"
-			:leave-to-class="$style.transition_hidden">
+			:enterFromClass="$style.transition_hidden"
+			:enterActiveClass="$style.transition_active"
+			:leaveActiveClass="$style.transition_active"
+			:leaveToClass="$style.transition_hidden">
 			<TrustedServer
 				v-for="server in trustedServers"
 				:key="server.id"

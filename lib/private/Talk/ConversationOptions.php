@@ -12,10 +12,9 @@ namespace OC\Talk;
 use OCP\Talk\IConversationOptions;
 
 class ConversationOptions implements IConversationOptions {
-	private bool $isPublic;
-
-	private function __construct(bool $isPublic) {
-		$this->isPublic = $isPublic;
+	private function __construct(
+		private bool $isPublic,
+	) {
 	}
 
 	public static function default(): self {

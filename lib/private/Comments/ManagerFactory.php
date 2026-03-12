@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,19 +15,16 @@ use OCP\IServerContainer;
 
 class ManagerFactory implements ICommentsManagerFactory {
 	/**
-	 * Server container
-	 *
-	 * @var IServerContainer
-	 */
-	private $serverContainer;
-
-	/**
 	 * Constructor for the comments manager factory
 	 *
 	 * @param IServerContainer $serverContainer server container
 	 */
-	public function __construct(IServerContainer $serverContainer) {
-		$this->serverContainer = $serverContainer;
+	public function __construct(
+		/**
+		 * Server container
+		 */
+		private IServerContainer $serverContainer,
+	) {
 	}
 
 	/**

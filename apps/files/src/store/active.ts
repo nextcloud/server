@@ -1,26 +1,34 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileAction, IFolder, INode, IView } from '@nextcloud/files'
+import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
 
+import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe } from '@nextcloud/event-bus'
-import { getNavigation } from '@nextcloud/files'
+import { Folder, getNavigation, Permission } from '@nextcloud/files'
+import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
 import logger from '../logger.ts'
+
+// Temporary fake folder to use until we have the first valid folder
+// fetched and cached. This allow us to mount the FilesListVirtual
+// at all time and avoid unmount/mount and undesired rendering issues.
+const dummyFolder = new Folder({
+	id: 0,
+	source: getRemoteURL() + getRootPath(),
+	root: getRootPath(),
+	owner: getCurrentUser()?.uid || null,
+	permissions: Permission.NONE,
+})
 
 export const useActiveStore = defineStore('active', () => {
 	/**
 	 * The currently active action
 	 */
-	const activeAction = ref<FileAction>()
-
-	/**
-	 * The currently active folder
-	 */
-	const activeFolder = ref<IFolder>()
+	const activeAction = shallowRef<IFileAction>()
 
 	/**
 	 * The current active node within the folder
@@ -30,7 +38,27 @@ export const useActiveStore = defineStore('active', () => {
 	/**
 	 * The current active view
 	 */
-	const activeView = ref<IView>()
+	const activeView = shallowRef<IView>()
+
+	/**
+	 * The currently active folder
+	 */
+	const activeFolder = ref<IFolder>(dummyFolder)
+
+	// Set the active node on the router params
+	watch(activeNode, () => {
+		if (typeof activeNode.value?.fileid !== 'number' || activeNode.value.fileid === activeFolder.value?.fileid) {
+			return
+		}
+
+		logger.debug('Updating active fileid in URL query', { fileid: activeNode.value.fileid })
+		window.OCP.Files.Router.goToRoute(
+			null,
+			{ ...window.OCP.Files.Router.params, fileid: String(activeNode.value.fileid) },
+			{ ...window.OCP.Files.Router.query },
+			true,
+		)
+	})
 
 	initialize()
 
@@ -62,12 +90,10 @@ export const useActiveStore = defineStore('active', () => {
 	 */
 	function initialize() {
 		const navigation = getNavigation()
+		onChangedView(navigation.active)
 
 		// Make sure we only register the listeners once
 		subscribe('files:node:deleted', onDeletedNode)
-
-		onChangedView(navigation.active)
-
 		// Or you can react to changes of the current active view
 		navigation.addEventListener('updateActive', (event) => {
 			onChangedView(event.detail)

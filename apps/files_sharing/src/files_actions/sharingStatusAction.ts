@@ -1,16 +1,16 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { INode } from '@nextcloud/files'
+import type { IFileAction, INode } from '@nextcloud/files'
 
 import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { FileAction, getSidebar, Permission, registerFileAction } from '@nextcloud/files'
+import { getSidebar, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { isPublicShare } from '@nextcloud/sharing/public'
@@ -29,7 +29,7 @@ function isExternal(node: INode) {
 }
 
 export const ACTION_SHARING_STATUS = 'sharing-status'
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: ACTION_SHARING_STATUS,
 	displayName({ nodes }) {
 		const node = nodes[0]!
@@ -153,6 +153,4 @@ export const action = new FileAction({
 
 	inline: () => true,
 
-})
-
-registerFileAction(action)
+}

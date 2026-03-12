@@ -8,6 +8,8 @@
 namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
+use OCP\ITempManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class ZIP extends Archive {
@@ -16,17 +18,13 @@ class ZIP extends Archive {
 	 */
 	private $zip;
 
-	/**
-	 * @var string
-	 */
-	private $path;
-
-	public function __construct(string $source) {
-		$this->path = $source;
+	public function __construct(
+		private string $path,
+	) {
 		$this->zip = new \ZipArchive();
-		if ($this->zip->open($source, \ZipArchive::CREATE)) {
+		if ($this->zip->open($this->path, \ZipArchive::CREATE)) {
 		} else {
-			\OC::$server->get(LoggerInterface::class)->warning('Error while opening archive ' . $source, ['app' => 'files_archive']);
+			Server::get(LoggerInterface::class)->warning('Error while opening archive ' . $this->path, ['app' => 'files_archive']);
 		}
 	}
 
@@ -92,7 +90,7 @@ class ZIP extends Archive {
 		$folderContent = [];
 		$pathLength = strlen($path);
 		foreach ($files as $file) {
-			if (substr($file, 0, $pathLength) == $path && $file != $path) {
+			if (substr($file, 0, $pathLength) === $path && $file !== $path) {
 				if (strrpos(substr($file, 0, -1), '/') <= $pathLength) {
 					$folderContent[] = substr($file, $pathLength);
 				}
@@ -200,12 +198,12 @@ class ZIP extends Archive {
 			} else {
 				$ext = '';
 			}
-			$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+			$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
 			if ($this->fileExists($path)) {
 				$this->extractFile($path, $tmpFile);
 			}
 			$handle = fopen($tmpFile, $mode);
-			return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+			return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 				$this->writeBack($tmpFile, $path);
 			});
 		}
@@ -220,7 +218,7 @@ class ZIP extends Archive {
 	}
 
 	private function stripPath(string $path): string {
-		if (!$path || $path[0] == '/') {
+		if (!$path || $path[0] === '/') {
 			return substr($path, 1);
 		} else {
 			return $path;

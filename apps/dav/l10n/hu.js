@@ -267,7 +267,6 @@ OC.L10N.register(
     "Tentative" : "Feltételes",
     "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
     "No results." : "Nincs eredmény.",
-    "Start typing." : "Kezdjen gépelni.",
-    "Time zone:" : "Időzóna:"
+    "Start typing." : "Kezdjen gépelni."
 },
 "nplurals=2; plural=(n != 1);");

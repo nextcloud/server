@@ -23,6 +23,7 @@ use OCP\Config\ValueType;
 class ConfigLexicon implements ILexicon {
 	public const SHOW_FEDERATED_AS_INTERNAL = 'show_federated_shares_as_internal';
 	public const SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL = 'show_federated_shares_to_trusted_servers_as_internal';
+	public const EXCLUDE_RESHARE_FROM_EDIT = 'shareapi_exclude_reshare_from_edit';
 
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
@@ -32,6 +33,7 @@ class ConfigLexicon implements ILexicon {
 		return [
 			new Entry(self::SHOW_FEDERATED_AS_INTERNAL, ValueType::BOOL, false, 'shows federated shares as internal shares', true),
 			new Entry(self::SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL, ValueType::BOOL, false, 'shows federated shares to trusted servers as internal shares', true),
+			new Entry(self::EXCLUDE_RESHARE_FROM_EDIT, ValueType::BOOL, false, 'Exclude reshare permission from "Allow editing" bundled permissions'),
 		];
 	}
 

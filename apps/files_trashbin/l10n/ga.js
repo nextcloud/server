@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Níl aon chomhaid scriosta",
     "Files and folders you have deleted will show up here" : "Taispeánfar na comhaid agus na fillteáin atá scriosta agat anseo",
     "All files have been permanently deleted" : "Scriosadh na comhaid go léir go buan",
-    "Failed to empty deleted files" : "Theip ar na comhaid scriosta a fholmhú",
-    "Deletion cancelled" : "Scriosadh cealaithe"
+    "Failed to empty deleted files" : "Theip ar na comhaid scriosta a fholmhú"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

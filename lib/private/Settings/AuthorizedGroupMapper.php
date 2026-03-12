@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Settings;
 
-use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -14,6 +17,7 @@ use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Server;
 
 /**
  * @template-extends QBMapper<AuthorizedGroup>
@@ -29,48 +33,40 @@ class AuthorizedGroupMapper extends QBMapper {
 	public function findAllClassesForUser(IUser $user): array {
 		$qb = $this->db->getQueryBuilder();
 
-		/** @var IGroupManager $groupManager */
-		$groupManager = \OC::$server->get(IGroupManager::class);
+		$groupManager = Server::get(IGroupManager::class);
 		$groups = $groupManager->getUserGroups($user);
 		if (count($groups) === 0) {
 			return [];
 		}
 
-		$result = $qb->select('class')
+		/** @var list<string> $rows */
+		$rows = $qb->select('class')
 			->from($this->getTableName(), 'auth')
-			->where($qb->expr()->in('group_id', array_map(function (IGroup $group) use ($qb) {
-				return $qb->createNamedParameter($group->getGID());
-			}, $groups), IQueryBuilder::PARAM_STR))
-			->executeQuery();
+			->where($qb->expr()->in('group_id', array_map(static fn (IGroup $group) => $qb->createNamedParameter($group->getGID()), $groups), IQueryBuilder::PARAM_STR))
+			->executeQuery()
+			->fetchFirstColumn();
 
-		$classes = [];
-		while ($row = $result->fetch()) {
-			$classes[] = $row['class'];
-		}
-		$result->closeCursor();
-		return $classes;
+		return $rows;
 	}
 
 	/**
-	 * @throws \OCP\AppFramework\Db\DoesNotExistException
-	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
-	 * @throws \OCP\DB\Exception
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 * @throws Exception
 	 */
 	public function find(int $id): AuthorizedGroup {
 		$queryBuilder = $this->db->getQueryBuilder();
 		$queryBuilder->select('*')
 			->from($this->getTableName())
 			->where($queryBuilder->expr()->eq('id', $queryBuilder->createNamedParameter($id)));
-		/** @var AuthorizedGroup $authorizedGroup */
-		$authorizedGroup = $this->findEntity($queryBuilder);
-		return $authorizedGroup;
+		return $this->findEntity($queryBuilder);
 	}
 
 	/**
 	 * Get all the authorizations stored in the database.
 	 *
 	 * @return AuthorizedGroup[]
-	 * @throws \OCP\DB\Exception
+	 * @throws Exception
 	 */
 	public function findAll(): array {
 		$qb = $this->db->getQueryBuilder();
@@ -78,7 +74,12 @@ class AuthorizedGroupMapper extends QBMapper {
 		return $this->findEntities($qb);
 	}
 
-	public function findByGroupIdAndClass(string $groupId, string $class) {
+	/**
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function findByGroupIdAndClass(string $groupId, string $class): AuthorizedGroup {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->getTableName())
@@ -88,8 +89,8 @@ class AuthorizedGroupMapper extends QBMapper {
 	}
 
 	/**
-	 * @return Entity[]
-	 * @throws \OCP\DB\Exception
+	 * @return list<AuthorizedGroup>
+	 * @throws Exception
 	 */
 	public function findExistingGroupsForClass(string $class): array {
 		$qb = $this->db->getQueryBuilder();
@@ -102,7 +103,7 @@ class AuthorizedGroupMapper extends QBMapper {
 	/**
 	 * @throws Exception
 	 */
-	public function removeGroup(string $gid) {
+	public function removeGroup(string $gid): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->getTableName())
 			->where($qb->expr()->eq('group_id', $qb->createNamedParameter($gid)))

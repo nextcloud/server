@@ -13,10 +13,9 @@ use OCP\AppFramework\Http;
  * A generic DataResponse class that is used to return generic data responses
  * for responders to transform
  * @since 8.0.0
- * @psalm-type DataResponseType = array|int|float|string|bool|object|null|\stdClass|\JsonSerializable
- * @template S of Http::STATUS_*
- * @template-covariant T of DataResponseType
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant T of mixed
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class DataResponse extends Response {

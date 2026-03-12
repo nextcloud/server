@@ -15,6 +15,7 @@ use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
+use OCP\User\Backend\IPropertyPermissionBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
@@ -22,7 +23,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @template-extends Proxy<User_LDAP>
  */
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend, IGetDisplayNameBackend {
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend, IGetDisplayNameBackend, IPropertyPermissionBackend {
 	public function __construct(
 		private Helper $helper,
 		ILDAPWrapper $ldap,
@@ -431,5 +432,9 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 				$limit
 			)
 		);
+	}
+
+	public function canEditProperty(string $uid, string $property): bool {
+		return $this->handleRequest($uid, 'canEditProperty', [$uid, $property]);
 	}
 }

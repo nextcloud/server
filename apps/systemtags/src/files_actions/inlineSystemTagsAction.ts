@@ -1,13 +1,12 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { IFileAction, INode } from '@nextcloud/files'
 import type { TagWithId } from '../types.ts'
 
 import { subscribe } from '@nextcloud/event-bus'
-import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import logger from '../logger.ts'
 import { fetchTags } from '../services/api.ts'
@@ -19,7 +18,7 @@ import '../css/fileEntryInlineSystemTags.scss'
 // Init tag cache
 const cache: TagWithId[] = []
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'system-tags',
 	displayName: () => '',
 	iconSvgInline: () => '',
@@ -44,12 +43,7 @@ export const action = new FileAction({
 	},
 
 	order: 0,
-
-	hotkey: {
-		description: t('files', 'Manage tags'),
-		key: 'T',
-	},
-})
+}
 
 // Subscribe to the events
 subscribe('systemtags:node:updated', updateSystemTagsHtml)
@@ -62,7 +56,7 @@ subscribe('systemtags:tag:updated', updateTag)
  *
  * @param node - The updated node
  */
-function updateSystemTagsHtml(node: Node) {
+function updateSystemTagsHtml(node: INode) {
 	renderInline(node).then((systemTagsHtml) => {
 		document.querySelectorAll(`[data-systemtags-fileid="${node.fileid}"]`).forEach((element) => {
 			element.replaceWith(systemTagsHtml)
@@ -113,9 +107,10 @@ function updateSystemTagsColorAttribute(tag: TagWithId) {
 }
 
 /**
+ * Render a single tag element
  *
- * @param tag
- * @param isMore
+ * @param tag - The tag to render
+ * @param isMore - Whether this is a "more" tag
  */
 function renderTag(tag: string, isMore = false): HTMLElement {
 	const tagElement = document.createElement('li')
@@ -143,10 +138,11 @@ function renderTag(tag: string, isMore = false): HTMLElement {
 }
 
 /**
+ * Render the inline system tags for a node
  *
- * @param node
+ * @param node - The node to render the tags for
  */
-async function renderInline(node: Node): Promise<HTMLElement> {
+async function renderInline(node: INode): Promise<HTMLElement> {
 	// Ensure we have the system tags as an array
 	const tags = getNodeSystemTags(node)
 
@@ -170,11 +166,11 @@ async function renderInline(node: Node): Promise<HTMLElement> {
 		}
 	}
 
-	systemTagsElement.append(renderTag(tags[0]))
+	systemTagsElement.append(renderTag(tags[0]!))
 	if (tags.length === 2) {
 		// Special case only two tags:
 		// the overflow fake tag would take the same space as this, so render it
-		systemTagsElement.append(renderTag(tags[1]))
+		systemTagsElement.append(renderTag(tags[1]!))
 	} else if (tags.length > 1) {
 		// More tags than the one we're showing
 		// So we add a overflow element indicating there are more tags

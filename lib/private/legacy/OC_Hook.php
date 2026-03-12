@@ -5,7 +5,9 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
+use OC\ServerNotAvailableException;
+use OCP\HintException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class OC_Hook {
@@ -61,8 +63,8 @@ class OC_Hook {
 	 * @param string $signalName name of signal
 	 * @param mixed $params default: array() array with additional data
 	 * @return bool true if slots exists or false if not
-	 * @throws \OCP\HintException
-	 * @throws \OC\ServerNotAvailableException Emits a signal. To get data from the slot use references!
+	 * @throws HintException
+	 * @throws ServerNotAvailableException Emits a signal. To get data from the slot use references!
 	 *
 	 * TODO: write example
 	 */
@@ -85,11 +87,11 @@ class OC_Hook {
 				call_user_func([ $i['class'], $i['name'] ], $params);
 			} catch (Exception $e) {
 				self::$thrownExceptions[] = $e;
-				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
-				if ($e instanceof \OCP\HintException) {
+				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+				if ($e instanceof HintException) {
 					throw $e;
 				}
-				if ($e instanceof \OC\ServerNotAvailableException) {
+				if ($e instanceof ServerNotAvailableException) {
 					throw $e;
 				}
 			}

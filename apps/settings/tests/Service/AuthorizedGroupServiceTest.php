@@ -88,7 +88,7 @@ class AuthorizedGroupServiceTest extends TestCase {
 		// Mock that no duplicate exists for group1
 		$this->mapper->expects($this->exactly(2))
 			->method('findByGroupIdAndClass')
-			->willReturnCallback(function ($groupId, $classArg) use ($groupId1, $groupId2, $class) {
+			->willReturnCallback(function ($groupId, $classArg) use ($groupId1, $groupId2, $class): void {
 				$this->assertContains($groupId, [$groupId1, $groupId2]);
 				$this->assertEquals($class, $classArg);
 				throw new DoesNotExistException('Not found');
@@ -126,7 +126,7 @@ class AuthorizedGroupServiceTest extends TestCase {
 		// Mock that no duplicate exists for either class
 		$this->mapper->expects($this->exactly(2))
 			->method('findByGroupIdAndClass')
-			->willReturnCallback(function ($groupIdArg, $class) use ($groupId, $class1, $class2) {
+			->willReturnCallback(function ($groupIdArg, $class) use ($groupId, $class1, $class2): void {
 				$this->assertEquals($groupId, $groupIdArg);
 				$this->assertContains($class, [$class1, $class2]);
 				throw new DoesNotExistException('Not found');

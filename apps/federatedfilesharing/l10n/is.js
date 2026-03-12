@@ -55,9 +55,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Viltu bæta við fjartengdri sameign {name} frá {owner}@{remote}?",
     "Remote share password" : "Lykilorð fjartengdrar sameignar",
     "Incoming share could not be processed" : "Ekki var hægt að vinna með innkomandi sameign",
-    "Cloud ID copied to the clipboard" : "Skýjasambandsauðkenni afritað á klippispjald",
-    "Copy to clipboard" : "Afrita á klippispjald",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud-þjóna eða öðrum Open Cloud Mesh (OCM) samhæfðum þjónum og þjónustum! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is",
     "X (formerly Twitter)" : "X (fyrrum Twitter)",
     "formerly Twitter" : "fyrrum Twitter"
 },

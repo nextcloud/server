@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Snowflake;
 
+use OC_Util;
 use OCP\ITempManager;
 use Override;
 
@@ -27,12 +28,15 @@ class FileSequence implements ISequence {
 	public function __construct(
 		ITempManager $tempManager,
 	) {
-		$this->workDir = $tempManager->getTempBaseDir() . '/' . self::LOCK_FILE_DIRECTORY;
+		$this->workDir = $tempManager->getTempBaseDir() . '/' . self::LOCK_FILE_DIRECTORY . '_' . OC_Util::getInstanceId();
 		$this->ensureWorkdirExists();
 	}
 
 	private function ensureWorkdirExists(): void {
 		if (is_dir($this->workDir)) {
+			if (!is_writable($this->workDir)) {
+				throw new \Exception('File sequence directory exists but is not writable');
+			}
 			return;
 		}
 
@@ -104,6 +108,6 @@ class FileSequence implements ISequence {
 	}
 
 	private function getFilePath(int $fileId): string {
-		return $this->workDir . sprintf(self::LOCK_FILE_FORMAT, $fileId);
+		return $this->workDir . '/' . sprintf(self::LOCK_FILE_FORMAT, $fileId);
 	}
 }

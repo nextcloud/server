@@ -22,7 +22,7 @@
 		<label for="replacement-search-input">{{ t('dav', 'Out of office replacement (optional)') }}</label>
 		<NcSelectUsers
 			v-model="replacementUser"
-			input-id="replacement-search-input"
+			inputId="replacement-search-input"
 			:loading="searchLoading"
 			:placeholder="t('dav', 'Name of the replacement')"
 			:options="options"

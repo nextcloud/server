@@ -29,11 +29,12 @@ class DisplayNameCache implements IEventListener {
 
 	private array $cache = [];
 	private ICache $memCache;
-	private IUserManager $userManager;
 
-	public function __construct(ICacheFactory $cacheFactory, IUserManager $userManager) {
+	public function __construct(
+		ICacheFactory $cacheFactory,
+		private IUserManager $userManager,
+	) {
 		$this->memCache = $cacheFactory->createDistributed('displayNameMappingCache');
-		$this->userManager = $userManager;
 	}
 
 	public function getDisplayName(string $userId): ?string {

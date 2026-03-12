@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Vybraný kanál aktualizací nepodporuje aktualizace serveru.",
     "Changelog for app {app}" : "Soupis změn v aplikaci {app}",
     "What's new in {app} version {version}" : "Co je nového v {app} verze {version}",
-    "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte si informace o tom, jak aktualizovat.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Všechny</strong> aplikace mají k dispozici kompatibilní verzi s verzí tohoto Nextcloud serveru.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikace nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong>aplikací nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Pro podnikové nasazení. Poskytuje vždy nejnovější opravy, ale nebude hned aktualizováno na další hlavní vydání. K tomu dochází až když Nextcloud GmbH dokončí další zodolnění a testování pro rozsáhlá a kritická nasazení. Tento kanál je k dispozici pouze zákazníkům a poskytuje balíček Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte si informace o tom, jak aktualizovat."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

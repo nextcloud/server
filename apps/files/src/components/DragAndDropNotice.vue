@@ -29,7 +29,6 @@
 <script lang="ts">
 import type { Folder } from '@nextcloud/files'
 import type { PropType } from 'vue'
-import type { RawLocation } from 'vue-router'
 
 import { showError } from '@nextcloud/dialogs'
 import { Permission } from '@nextcloud/files'
@@ -111,7 +110,7 @@ export default defineComponent({
 		mainContent.addEventListener('drop', this.onContentDrop)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		const mainContent = window.document.getElementById('app-content-vue') as HTMLElement
 		mainContent.removeEventListener('dragover', this.onDragOver)
 		mainContent.removeEventListener('dragleave', this.onDragLeave)
@@ -204,16 +203,19 @@ export default defineComponent({
 				&& upload.source.replace(folder.source, '').split('/').length === 2)
 
 			if (lastUpload !== undefined) {
+				const fileid = String(lastUpload.response!.headers['oc-fileid']).split(/(oc|nc)/, 2)[0]!
 				logger.debug('Scrolling to last upload in current folder', { lastUpload })
-				const location: RawLocation = {
-					path: this.$route.path,
-					// Keep params but change file id
+				this.$router.push({
+					name: this.$route.name!,
 					params: {
+						// Keep params but change file id
 						...this.$route.params,
-						fileid: String(lastUpload.response!.headers['oc-fileid']),
+						fileid,
 					},
-				}
-				this.$router.push(location)
+					query: {
+						dir: this.$route.query.dir,
+					},
+				})
 			}
 
 			this.dragover = false

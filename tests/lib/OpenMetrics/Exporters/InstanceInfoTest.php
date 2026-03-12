@@ -33,8 +33,8 @@ class InstanceInfoTest extends ExporterTestCase {
 		$this->assertCount(1, $this->metrics);
 		$metric = array_pop($this->metrics);
 		$this->assertSame([
-			'full version' => '33.13.17 Gold',
-			'major version' => '33',
+			'full_version' => '33.13.17 Gold',
+			'major_version' => '33',
 			'build' => 'dev',
 			'installed' => '0',
 		], $metric->labels);

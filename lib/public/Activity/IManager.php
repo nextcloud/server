@@ -132,10 +132,11 @@ interface IManager {
 
 	/**
 	 * @param string $type
-	 * @param int $id
+	 * @param int|numeric-string $id
 	 * @since 8.2.0
+	 * @since 33.0.0 $id can also be a string
 	 */
-	public function setFormattingObject(string $type, int $id): void;
+	public function setFormattingObject(string $type, int|string $id): void;
 
 	/**
 	 * @return bool

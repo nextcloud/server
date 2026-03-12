@@ -76,6 +76,7 @@ describe('files_sharing: Public share - setting the default view mode', () => {
 					.findByRole('button', { name: /Actions/i })
 					.click()
 				cy.findByRole('menuitem', { name: /Customize link/i }).click()
+				cy.findByRole('button', { name: /Advanced settings/i }).click()
 				cy.findByRole('checkbox', { name: /Show files in grid view/i })
 					.scrollIntoView()
 				cy.findByRole('checkbox', { name: /Show files in grid view/i })

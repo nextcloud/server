@@ -37,6 +37,10 @@ export function humanizeWebDAVError(error: unknown) {
 				return t('files', 'Storage is temporarily not available')
 			}
 		}
+		// We don't need to show abortion error to the user as those are expected.
+		if (error.name === 'AbortError') {
+			return null
+		}
 		return t('files', 'Unexpected error: {error}', { error: error.message })
 	}
 

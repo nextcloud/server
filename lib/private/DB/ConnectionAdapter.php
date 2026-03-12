@@ -17,21 +17,24 @@ use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\ITypedQueryBuilder;
 use OCP\IDBConnection;
 
 /**
  * Adapts the public API to our internal DBAL connection wrapper
  */
 class ConnectionAdapter implements IDBConnection {
-	/** @var Connection */
-	private $inner;
-
-	public function __construct(Connection $inner) {
-		$this->inner = $inner;
+	public function __construct(
+		private Connection $inner,
+	) {
 	}
 
 	public function getQueryBuilder(): IQueryBuilder {
 		return $this->inner->getQueryBuilder();
+	}
+
+	public function getTypedQueryBuilder(): ITypedQueryBuilder {
+		return $this->inner->getTypedQueryBuilder();
 	}
 
 	public function prepare($sql, $limit = null, $offset = null): IPreparedStatement {

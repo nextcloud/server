@@ -16,14 +16,12 @@ use OC\Security\CSRF\TokenStorage\SessionStorage;
  * @package OC\Security\CSRF
  */
 class CsrfTokenManager {
-	private SessionStorage $sessionStorage;
 	private ?CsrfToken $csrfToken = null;
 
 	public function __construct(
 		private CsrfTokenGenerator $tokenGenerator,
-		SessionStorage $storageInterface,
+		private SessionStorage $sessionStorage,
 	) {
-		$this->sessionStorage = $storageInterface;
 	}
 
 	/**

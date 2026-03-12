@@ -43,9 +43,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "The selected update channel does not support updates of the server.",
     "Changelog for app {app}" : "گزارش تغییرات برای برنامهٔ {app}",
     "What's new in {app} version {version}" : "تازه‌های {app} در نسخهٔ {version}",
-    "{version} is available. Get more information on how to update." : "{version} آماده است. برای چگونگی بروزرسانی اطلاعات بیشتر را دریافت نمایید.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>همهٔ</strong> برنامه‌ها دارای نسخهٔ سازگار با این نسخهٔ دردسترس نکست‌کلود هستند.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> برنامه فاقد نسخهٔ سازگار با این نسخهٔ دردسترس نکست‌کلود است.","<strong>%n</strong>  برنامه فاقد نسخهٔ سازگار با این نسخهٔ دردسترس نکست‌کلود هستند."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package."
+    "{version} is available. Get more information on how to update." : "{version} آماده است. برای چگونگی بروزرسانی اطلاعات بیشتر را دریافت نمایید."
 },
 "nplurals=2; plural=(n > 1);");

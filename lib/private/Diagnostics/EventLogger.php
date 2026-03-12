@@ -15,27 +15,18 @@ use Psr\Log\LoggerInterface;
 
 class EventLogger implements IEventLogger {
 	/** @var Event[] */
-	private $events = [];
-
-	/** @var SystemConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var Log */
-	private $internalLogger;
+	private array $events = [];
 
 	/**
 	 * @var bool - Module needs to be activated by some app
 	 */
-	private $activated = false;
+	private bool $activated = false;
 
-	public function __construct(SystemConfig $config, LoggerInterface $logger, Log $internalLogger) {
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->internalLogger = $internalLogger;
-
+	public function __construct(
+		private SystemConfig $config,
+		private LoggerInterface $logger,
+		private Log $internalLogger,
+	) {
 		if ($this->isLoggingActivated()) {
 			$this->activate();
 		}

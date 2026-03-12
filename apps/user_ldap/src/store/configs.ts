@@ -17,9 +17,10 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 	const updatingConfig = ref(0)
 
 	/**
+	 * Get a proxy for the LDAP configuration that automatically updates the backend on property set
 	 *
-	 * @param configId
-	 * @param postSetHooks
+	 * @param configId - ID of the configuration
+	 * @param postSetHooks - Optional hooks to call after a property has been set
 	 */
 	function getConfigProxy<J>(configId: string, postSetHooks: Partial<Record<keyof LDAPConfig, (value: J) => void>> = {}) {
 		if (ldapConfigs.value[configId] === undefined) {
@@ -49,7 +50,7 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 	}
 
 	/**
-	 *
+	 * Create a new LDAP configuration
 	 */
 	async function create() {
 		const configId = await createConfig()
@@ -59,8 +60,9 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 	}
 
 	/**
+	 * Copy an existing LDAP configuration
 	 *
-	 * @param fromConfigId
+	 * @param fromConfigId - ID of the configuration to copy
 	 */
 	async function _copyConfig(fromConfigId: string) {
 		if (ldapConfigs.value[fromConfigId] === undefined) {
@@ -75,8 +77,9 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 	}
 
 	/**
+	 * Delete an LDAP configuration
 	 *
-	 * @param configId
+	 * @param configId - ID of the configuration to delete
 	 */
 	async function removeConfig(configId: string) {
 		const result = await deleteConfig(configId)

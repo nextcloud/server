@@ -11,15 +11,10 @@ namespace OC\Repair\Events;
 use OCP\EventDispatcher\Event;
 
 class RepairStartEvent extends Event {
-	private int $max;
-	private string $current;
-
 	public function __construct(
-		int $max,
-		string $current,
+		private int $max,
+		private string $current,
 	) {
-		$this->max = $max;
-		$this->current = $current;
 	}
 
 	public function getMaxStep(): int {

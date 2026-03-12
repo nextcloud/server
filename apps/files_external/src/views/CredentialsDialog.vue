@@ -29,11 +29,11 @@ const dialogButtons: InstanceType<typeof NcDialog>['buttons'] = [{
 	<NcDialog
 		:buttons="dialogButtons"
 		class="external-storage-auth"
-		close-on-click-outside
+		closeOnClickOutside
 		data-cy-external-storage-auth
-		is-form
+		isForm
 		:name="t('files_external', 'Storage credentials')"
-		out-transition
+		outTransition
 		@submit="$emit('close', { login, password })"
 		@update:open="$emit('close')">
 		<!-- Header -->

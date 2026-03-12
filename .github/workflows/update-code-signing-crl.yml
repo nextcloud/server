@@ -17,12 +17,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ['master', 'stable32', 'stable31', 'stable30', 'stable29',  'stable28',  'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
+        branches: ['master', 'stable33', 'stable32', 'stable31', 'stable30', 'stable29',  'stable28',  'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
 
     name: update-code-signing-crl-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           ref: ${{ matrix.branches }}
@@ -35,7 +35,7 @@ jobs:
         run: openssl crl -verify -in resources/codesigning/root.crl -CAfile resources/codesigning/root.crt -noout
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412
+        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: 'fix(security): Update code signing revocation list'

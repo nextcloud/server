@@ -19,4 +19,8 @@
 	<dependencies>
 		<nextcloud min-version="16" max-version="16"/>
 	</dependencies>
+
+	<openmetrics>
+		<exporter>OC\OpenMetrics\Exporters\ActiveUsers</exporter>
+	</openmetrics>
 </info>

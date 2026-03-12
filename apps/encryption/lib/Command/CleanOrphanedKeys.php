@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace OCA\Encryption\Command;
 
 use OC\Encryption\Util;
-use OC\Files\SetupManager;
 use OCA\Encryption\Crypto\Encryption;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IUser;
@@ -34,7 +34,7 @@ class CleanOrphanedKeys extends Command {
 		protected QuestionHelper $questionHelper,
 		private IUserManager $userManager,
 		private Util $encryptionUtil,
-		private SetupManager $setupManager,
+		private ISetupManager $setupManager,
 		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 	) {

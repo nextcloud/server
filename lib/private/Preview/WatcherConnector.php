@@ -13,8 +13,11 @@ use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Server;
 
 class WatcherConnector {
+	private ?Watcher $watcher = null;
+
 	public function __construct(
 		private IRootFolder $root,
 		private SystemConfig $config,
@@ -23,17 +26,21 @@ class WatcherConnector {
 	}
 
 	private function getWatcher(): Watcher {
-		return \OCP\Server::get(Watcher::class);
+		if ($this->watcher !== null) {
+			return $this->watcher;
+		}
+		$this->watcher = Server::get(Watcher::class);
+		return $this->watcher;
 	}
 
 	public function connectWatcher(): void {
 		// Do not connect if we are not setup yet!
 		if ($this->config->getValue('instanceid', null) !== null) {
-			$this->root->listen('\OC\Files', 'postWrite', function (Node $node) {
+			$this->root->listen('\OC\Files', 'postWrite', function (Node $node): void {
 				$this->getWatcher()->postWrite($node);
 			});
 
-			$this->dispatcher->addListener(VersionRestoredEvent::class, function (VersionRestoredEvent $event) {
+			$this->dispatcher->addListener(VersionRestoredEvent::class, function (VersionRestoredEvent $event): void {
 				$this->getWatcher()->versionRollback(['node' => $event->getVersion()->getSourceFile()]);
 			});
 		}

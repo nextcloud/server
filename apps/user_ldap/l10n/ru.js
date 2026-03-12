@@ -193,7 +193,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Переключение режима задействует автоматические запросы LDAP. В зависимости от размера LDAP это может занять много времени. Вы все еще желаете переключить режим?",
     "Confirm" : "Подтвердить",
     "Failed to delete the server configuration" : "Не удалось удалить конфигурацию сервера",
-    "Invalid configuration. Please have a look at the logs for further details." : "Неверная конфигурация. Просмотрите журналы для получения дополнительных сведений.",
     "No action specified" : "Действие не указано",
     "No configuration specified" : "Конфигурация не указана",
     "No data specified" : "Нет данных",

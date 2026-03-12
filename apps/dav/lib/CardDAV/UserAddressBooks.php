@@ -15,7 +15,6 @@ use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\DAV\ConfigLexicon;
 use OCA\Federation\TrustedServers;
-use OCP\AppFramework\QueryException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -83,7 +82,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 				try {
 					$trustedServers = Server::get(TrustedServers::class);
 					$request = Server::get(IRequest::class);
-				} catch (QueryException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+				} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
 					// nothing to do, the request / trusted servers don't exist
 				}
 				if ($addressBook['principaluri'] === 'principals/system/system') {

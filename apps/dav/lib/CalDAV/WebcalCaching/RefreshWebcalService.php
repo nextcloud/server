@@ -78,7 +78,8 @@ class RefreshWebcalService {
 				/** @var Component\VCalendar $vObject */
 				$vBase = $vObject->getBaseComponent();
 
-				if (!$vBase->UID) {
+				// Skip if no base component found
+				if (!isset($vBase->UID)) {
 					continue;
 				}
 

@@ -49,7 +49,7 @@
 		<NcSettingsSection
 			:name="t('settings', 'Machine translation')"
 			:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
-			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
+			<VueDraggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
 				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
 					<DragVerticalIcon /> <span class="draggable__number">{{ i + 1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}
 					<NcButton aria-label="Move up" variant="tertiary" @click="moveUp(i)">
@@ -63,7 +63,7 @@
 						</template>
 					</NcButton>
 				</div>
-			</draggable>
+			</VueDraggable>
 		</NcSettingsSection>
 		<NcSettingsSection
 			:name="t('settings', 'Image generation')"
@@ -124,7 +124,7 @@ import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { nextTick } from 'vue'
-import draggable from 'vuedraggable'
+import VueDraggable from 'vuedraggable'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
@@ -141,7 +141,7 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
 		NcSelect,
-		draggable,
+		VueDraggable,
 		DragVerticalIcon,
 		ArrowDownIcon,
 		ArrowUpIcon,

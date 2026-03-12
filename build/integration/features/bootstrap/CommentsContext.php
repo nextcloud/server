@@ -8,8 +8,6 @@
 require __DIR__ . '/autoload.php';
 
 class CommentsContext implements \Behat\Behat\Context\Context {
-	/** @var string */
-	private $baseUrl;
 	/** @var array */
 	private $response;
 	/** @var int */
@@ -20,9 +18,9 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @param string $baseUrl
 	 */
-	public function __construct($baseUrl) {
-		$this->baseUrl = $baseUrl;
-
+	public function __construct(
+		private $baseUrl,
+	) {
 		// in case of ci deployment we take the server url from the environment
 		$testServerUrl = getenv('TEST_SERVER_URL');
 		if ($testServerUrl !== false) {

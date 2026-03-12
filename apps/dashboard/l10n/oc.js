@@ -18,7 +18,6 @@ OC.L10N.register(
     "Get more widgets from the App Store" : "Obténer mai de widgets sus l’App Store",
     "Weather service" : "Servici de metèo",
     "Weather data from Met.no" : "Donadas meteorologica de Met.no",
-    "geocoding with Nominatim" : "geocoding amb Nominatim",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Per vòstre confidencialitat, las donadas de metèo son demandadas per vòstre servidor Nextcloud per vos per que lo servici de metèo aja pas cap de vòstras donadas personalas."
+    "geocoding with Nominatim" : "geocoding amb Nominatim"
 },
 "nplurals=2; plural=(n > 1);");

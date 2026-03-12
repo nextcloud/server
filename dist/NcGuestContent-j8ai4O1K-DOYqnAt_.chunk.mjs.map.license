@@ -3,5 +3,5 @@ SPDX-FileCopyrightText: Rich Harris
 
 This file is generated from multiple sources. Included packages:
 - rollup
-	- version: 4.52.5
+	- version: 4.59.0
 	- license: MIT

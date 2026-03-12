@@ -13,6 +13,7 @@ use OCP\App\IAppManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -89,7 +90,7 @@ class Factory implements IFactory {
 	 * @param string $app
 	 * @param string|null $lang
 	 * @param string|null $locale
-	 * @return \OCP\IL10N
+	 * @return IL10N
 	 */
 	public function get($app, $lang = null, $locale = null) {
 		return new LazyL10N(function () use ($app, $lang, $locale) {
@@ -144,7 +145,7 @@ class Factory implements IFactory {
 		if ($lang === null) {
 			return null;
 		}
-		$lang = preg_replace('/[^a-zA-Z0-9.;,=-]/', '', $lang);
+		$lang = preg_replace('/[^a-zA-Z0-9.;,=_-]/', '', $lang);
 		return str_replace('..', '', $lang);
 	}
 

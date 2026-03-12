@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Κανένα διαγεγραμμένο αρχείο",
     "Files and folders you have deleted will show up here" : "Τα αρχεία και οι φάκελοι που έχετε διαγράψει θα εμφανιστούν εδώ",
     "All files have been permanently deleted" : "Όλα τα αρχεία έχουν διαγραφεί μόνιμα",
-    "Failed to empty deleted files" : "Αποτυχία αδειάσματος των διαγραμμένων αρχείων",
-    "Deletion cancelled" : "Η διαγραφή ακυρώθηκε"
+    "Failed to empty deleted files" : "Αποτυχία αδειάσματος των διαγραμμένων αρχείων"
 },
 "nplurals=2; plural=(n != 1);");

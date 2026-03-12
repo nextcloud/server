@@ -32,12 +32,17 @@ class BeforeZipCreatedListener implements IEventListener {
 			return;
 		}
 
+		/** @psalm-suppress DeprecatedMethod should be migrated to getFolder but for now it would just duplicate code */
 		$dir = $event->getDirectory();
 		$files = $event->getFiles();
 
-		$pathsToCheck = [];
-		foreach ($files as $file) {
-			$pathsToCheck[] = $dir . '/' . $file;
+		if (empty($files)) {
+			$pathsToCheck = [$dir];
+		} else {
+			$pathsToCheck = [];
+			foreach ($files as $file) {
+				$pathsToCheck[] = $dir . '/' . $file;
+			}
 		}
 
 		// Check only for user/group shares. Don't restrict e.g. share links

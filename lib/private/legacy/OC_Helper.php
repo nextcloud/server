@@ -8,10 +8,19 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Home;
+use OC\Files\Storage\Wrapper\Quota;
+use OC\SystemConfig;
+use OCA\Files_Sharing\External\Storage;
+use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\IBinaryFinder;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -58,7 +67,7 @@ class OC_Helper {
 				}
 			}
 		} else {
-			$validator = \OCP\Server::get(FilenameValidator::class);
+			$validator = Server::get(FilenameValidator::class);
 			if (!$validator->isForbidden($src)) {
 				copy($src, $dest);
 			}
@@ -86,7 +95,7 @@ class OC_Helper {
 		// Default check will be done with $path directories :
 		$dirs = explode(PATH_SEPARATOR, (string)$path);
 		// WARNING : We have to check if open_basedir is enabled :
-		$obd = OC::$server->get(IniGetWrapper::class)->getString('open_basedir');
+		$obd = Server::get(IniGetWrapper::class)->getString('open_basedir');
 		if ($obd != 'none') {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
 			if (count($obd_values) > 0 && $obd_values[0]) {
@@ -130,12 +139,12 @@ class OC_Helper {
 	 * already !
 	 *
 	 * @param string $path
-	 * @param \OCP\Files\FileInfo $rootInfo (optional)
+	 * @param FileInfo $rootInfo (optional)
 	 * @param bool $includeMountPoints whether to include mount points in the size calculation
 	 * @param bool $useCache whether to use the cached quota values
 	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
 	 * @return StorageInfo
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
 	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
 		if (!self::$cacheFactory) {
@@ -145,12 +154,12 @@ class OC_Helper {
 
 		// return storage info without adding mount points
 		if (self::$quotaIncludeExternalStorage === null) {
-			self::$quotaIncludeExternalStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
+			self::$quotaIncludeExternalStorage = Server::get(SystemConfig::class)->getValue('quota_include_external_storage', false);
 		}
 
 		$view = Filesystem::getView();
 		if (!$view) {
-			throw new \OCP\Files\NotFoundException();
+			throw new NotFoundException();
 		}
 		$fullPath = Filesystem::normalizePath($view->getAbsolutePath($path));
 
@@ -163,17 +172,17 @@ class OC_Helper {
 		}
 
 		if (!$rootInfo) {
-			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, self::$quotaIncludeExternalStorage ? 'ext' : false);
+			$rootInfo = Filesystem::getFileInfo($path, self::$quotaIncludeExternalStorage ? 'ext' : false);
 		}
-		if (!$rootInfo instanceof \OCP\Files\FileInfo) {
-			throw new \OCP\Files\NotFoundException('The root directory of the user\'s files is missing');
+		if (!$rootInfo instanceof FileInfo) {
+			throw new NotFoundException('The root directory of the user\'s files is missing');
 		}
 		$used = $rootInfo->getSize($includeMountPoints);
 		if ($used < 0) {
 			$used = 0.0;
 		}
 		/** @var int|float $quota */
-		$quota = \OCP\Files\FileInfo::SPACE_UNLIMITED;
+		$quota = FileInfo::SPACE_UNLIMITED;
 		$mount = $rootInfo->getMountPoint();
 		$storage = $mount->getStorage();
 		$sourceStorage = $storage;
@@ -184,13 +193,13 @@ class OC_Helper {
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
 				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
 			) {
-				/** @var \OC\Files\Storage\Home $storage */
+				/** @var Home $storage */
 				$user = $storage->getUser();
 			} else {
-				$user = \OC::$server->getUserSession()->getUser();
+				$user = Server::get(IUserSession::class)->getUser();
 			}
-			$quota = $user?->getQuotaBytes() ?? \OCP\Files\FileInfo::SPACE_UNKNOWN;
-			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+			$quota = $user?->getQuotaBytes() ?? FileInfo::SPACE_UNKNOWN;
+			if ($quota !== FileInfo::SPACE_UNLIMITED) {
 				// always get free space / total space from root + mount points
 				return self::getGlobalStorageInfo($quota, $user, $mount);
 			}
@@ -198,7 +207,7 @@ class OC_Helper {
 
 		// TODO: need a better way to get total space from storage
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
-			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
+			/** @var Quota $storage */
 			$quota = $sourceStorage->getQuota();
 		}
 		try {
@@ -211,7 +220,7 @@ class OC_Helper {
 				throw $e;
 			}
 			/** @var LoggerInterface $logger */
-			$logger = \OC::$server->get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->warning('Error while getting quota info, using root quota', ['exception' => $e]);
 			$rootInfo = self::getStorageInfo('');
 			$memcache->set($cacheKey, $rootInfo, 5 * 60);
@@ -236,13 +245,13 @@ class OC_Helper {
 		 * \OCA\Files_Sharing\External\Storage returns the cloud ID as the owner for the storage.
 		 * It is unnecessary to query the user manager for the display name, as it won't have this information.
 		 */
-		$isRemoteShare = $storage->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class);
+		$isRemoteShare = $storage->instanceOfStorage(Storage::class);
 
 		$ownerId = $storage->getOwner($path);
 		$ownerDisplayName = '';
 
 		if ($isRemoteShare === false && $ownerId !== false) {
-			$ownerDisplayName = \OC::$server->getUserManager()->getDisplayName($ownerId) ?? '';
+			$ownerDisplayName = Server::get(IUserManager::class)->getDisplayName($ownerId) ?? '';
 		}
 
 		if (substr_count($mount->getMountPoint(), '/') < 3) {
@@ -265,7 +274,7 @@ class OC_Helper {
 
 		if ($isRemoteShare === false && $ownerId !== false && $path === '/') {
 			// If path is root, store this as last known quota usage for this user
-			\OCP\Server::get(\OCP\IConfig::class)->setUserValue($ownerId, 'files', 'lastSeenQuotaUsage', (string)$relative);
+			Server::get(IConfig::class)->setUserValue($ownerId, 'files', 'lastSeenQuotaUsage', (string)$relative);
 		}
 
 		$memcache->set($cacheKey, $info, 5 * 60);
@@ -280,7 +289,7 @@ class OC_Helper {
 	 * @return StorageInfo
 	 */
 	private static function getGlobalStorageInfo(int|float $quota, IUser $user, IMountPoint $mount): array {
-		$rootInfo = \OC\Files\Filesystem::getFileInfo('', 'ext');
+		$rootInfo = Filesystem::getFileInfo('', 'ext');
 		/** @var int|float $used */
 		$used = $rootInfo['size'];
 		if ($used < 0) {
@@ -322,7 +331,7 @@ class OC_Helper {
 
 	public static function clearStorageInfo(string $absolutePath): void {
 		/** @var ICacheFactory $cacheFactory */
-		$cacheFactory = \OC::$server->get(ICacheFactory::class);
+		$cacheFactory = Server::get(ICacheFactory::class);
 		$memcache = $cacheFactory->createLocal('storage_info');
 		$cacheKeyPrefix = Filesystem::normalizePath($absolutePath) . '::';
 		$memcache->remove($cacheKeyPrefix . 'include');
@@ -335,6 +344,6 @@ class OC_Helper {
 	 * @deprecated 32.0.0 use the `config_is_read_only` system config directly
 	 */
 	public static function isReadOnlyConfigEnabled() {
-		return \OC::$server->getConfig()->getSystemValueBool('config_is_read_only', false);
+		return Server::get(IConfig::class)->getSystemValueBool('config_is_read_only', false);
 	}
 }

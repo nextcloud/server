@@ -38,9 +38,9 @@
 		<h3>{{ t('theming', 'Misc accessibility options') }}</h3>
 		<NcCheckboxRadioSwitch
 			type="checkbox"
-			:model-value="enableBlurFilter === 'yes'"
+			:modelValue="enableBlurFilter === 'yes'"
 			:indeterminate="enableBlurFilter === ''"
-			@update:model-value="changeEnableBlurFilter">
+			@update:modelValue="changeEnableBlurFilter">
 			{{ t('theming', 'Enable blur background filter (may increase GPU load)') }}
 		</NcCheckboxRadioSwitch>
 	</NcSettingsSection>
@@ -50,8 +50,8 @@
 	</NcNoteCard>
 
 	<template v-else>
-		<UserSectionPrimaryColor ref="primaryColor" @refresh-styles="refreshGlobalStyles" />
-		<UserSectionBackground @refresh-styles="refreshGlobalStyles" />
+		<UserSectionPrimaryColor ref="primaryColor" @refreshStyles="refreshGlobalStyles" />
+		<UserSectionBackground @refreshStyles="refreshGlobalStyles" />
 	</template>
 
 	<UserSectionHotkeys />

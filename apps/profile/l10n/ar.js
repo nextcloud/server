@@ -4,6 +4,8 @@ OC.L10N.register(
     "Profile" : "لمحة تعريفية",
     "This application provides the profile" : "هذا التطبيق يوفر اللمحة التعريفية",
     "Provides a customisable user profile interface." : "يُوفِّر واجهة مخصصة للمحة التعريفية عن المستخدِم",
+    "Not found" : "غير موجود",
+    "Insert" : "إدخال",
     "You have not added any info yet" : "لم تقم بإضافة أي معلومات حتى الآن",
     "{user} has not added any info yet" : "لم يقم المستخدم {user} بإضافة أي معلومات بعد",
     "Error opening the user status modal, try hard refreshing the page" : "خطأ في فتح حالة المستخدم ، حاول تحديث الصفحة",

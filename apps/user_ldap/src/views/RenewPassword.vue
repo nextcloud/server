@@ -58,7 +58,7 @@ function onSubmit() {
 				autocomplete="off"
 				autocapitalize="off"
 				:error="hasInvalidPassword"
-				:helper-text="hasInvalidPassword ? t('user_ldap', 'Wrong password.') : ''"
+				:helperText="hasInvalidPassword ? t('user_ldap', 'Wrong password.') : ''"
 				:label="t('user_ldap', 'Current password')"
 				required
 				spellcheck="false"

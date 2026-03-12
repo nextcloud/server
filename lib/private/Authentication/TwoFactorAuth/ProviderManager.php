@@ -16,15 +16,10 @@ use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IUser;
 
 class ProviderManager {
-	/** @var ProviderLoader */
-	private $providerLoader;
-
-	/** @var IRegistry */
-	private $providerRegistry;
-
-	public function __construct(ProviderLoader $providerLoader, IRegistry $providerRegistry) {
-		$this->providerLoader = $providerLoader;
-		$this->providerRegistry = $providerRegistry;
+	public function __construct(
+		private ProviderLoader $providerLoader,
+		private IRegistry $providerRegistry,
+	) {
 	}
 
 	private function getProvider(string $providerId, IUser $user): IProvider {

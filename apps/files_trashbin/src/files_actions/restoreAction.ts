@@ -2,19 +2,22 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import svgHistory from '@mdi/svg/svg/history.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction, Permission } from '@nextcloud/files'
+import { Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { TRASHBIN_VIEW_ID } from '../files_views/trashbinView.ts'
 import { logger } from '../logger.ts'
 
-export const restoreAction = new FileAction({
+export const restoreAction: IFileAction = {
 	id: 'restore',
 
 	displayName() {
@@ -68,4 +71,4 @@ export const restoreAction = new FileAction({
 	order: 1,
 
 	inline: () => true,
-})
+}

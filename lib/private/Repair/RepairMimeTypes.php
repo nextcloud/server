@@ -19,14 +19,12 @@ use OCP\Migration\IRepairStep;
 class RepairMimeTypes implements IRepairStep {
 	private bool $dryRun = false;
 	private int $changeCount = 0;
-
-	/** @var int */
 	protected int $folderMimeTypeId;
 
 	public function __construct(
-		protected IConfig $config,
-		protected IAppConfig $appConfig,
-		protected IDBConnection $connection,
+		protected readonly IConfig $config,
+		protected readonly IAppConfig $appConfig,
+		protected readonly IDBConnection $connection,
 	) {
 	}
 
@@ -362,7 +360,18 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
+	/**
+	 * @throws Exception
+	 * @since 33.0.0
+	 */
+	private function introduceTomlAndOvpnType(): IResult|int|null {
+		$updatedMimetypes = [
+			'ovpn' => 'application/x-openvpn-profile',
+			'toml' => 'application/toml',
+		];
 
+		return $this->updateMimetypes($updatedMimetypes);
+	}
 
 	/**
 	 * Check if there are any migrations available
@@ -480,6 +489,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($mimeTypeVersion, '32.0.0.0', '<') && $this->introduceTextType()) {
 			$output->info('Fixed text mime type');
+		}
+
+		if (version_compare($mimeTypeVersion, '33.0.0.0', '<') && $this->introduceTomlAndOvpnType()) {
+			$output->info('Fixed toml and ovpn mime type');
 		}
 
 		if (!$this->dryRun) {

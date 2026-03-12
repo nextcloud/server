@@ -34,10 +34,10 @@ SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.3
+	- version: 1.7.4
 	- license: MIT
 - @floating-ui/dom
-	- version: 1.7.4
+	- version: 1.7.5
 	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.10
@@ -79,7 +79,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.35.0
+	- version: 8.36.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.3.0
@@ -91,7 +91,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.12.2
+	- version: 1.13.5
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -115,7 +115,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 7.6.6
+	- version: 7.8.0
 	- license: MIT
 - ieee754
 	- version: 1.2.1
@@ -142,7 +142,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.3.0
+	- version: 6.4.0
 	- license: MIT
 - unist-builder
 	- version: 4.0.0
@@ -154,7 +154,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.1
 	- license: MIT
 - unist-util-visit
-	- version: 5.0.0
+	- version: 5.1.0
 	- license: MIT
 - vue-demi
 	- version: 0.14.10
@@ -172,7 +172,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.24.3
 	- license: MIT
 - webpack
-	- version: 5.104.1
+	- version: 5.105.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

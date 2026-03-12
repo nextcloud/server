@@ -191,8 +191,14 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 				if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true) && $contentLength < self::MAX_CONTENT_LENGTH) {
 					$stream = Utils::streamFor($response->getBody());
 					$bodyStream = new LimitStream($stream, self::MAX_CONTENT_LENGTH, 0);
+					$content = $bodyStream->getContents();
+
+					if ($contentType === 'image/svg+xml' && stripos(html_entity_decode($content, ENT_XML1), 'XSL/Transform') !== false) {
+						return;
+					}
+
 					$reference->setImageContentType($contentType);
-					$folder->newFile(md5($reference->getId()), $bodyStream->getContents());
+					$folder->newFile(md5($reference->getId()), $content);
 					$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
 				}
 			} catch (\Exception $e) {

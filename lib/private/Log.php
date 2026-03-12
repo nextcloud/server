@@ -20,6 +20,7 @@ use OCP\Log\BeforeMessageLoggedEvent;
 use OCP\Log\IDataLogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
+use OCP\Server;
 use OCP\Support\CrashReport\IRegistry;
 use Throwable;
 use function array_merge;
@@ -231,7 +232,7 @@ class Log implements ILogger, IDataLogger {
 
 				// check for user
 				if (isset($logCondition['users'])) {
-					$user = \OCP\Server::get(IUserSession::class)->getUser();
+					$user = Server::get(IUserSession::class)->getUser();
 
 					if ($user === null) {
 						// User is not known for this request yet
@@ -253,7 +254,7 @@ class Log implements ILogger, IDataLogger {
 		}
 
 		if ($userId === false && isset($logCondition['matches'])) {
-			$user = \OCP\Server::get(IUserSession::class)->getUser();
+			$user = Server::get(IUserSession::class)->getUser();
 			$userId = $user === null ? false : $user->getUID();
 		}
 
@@ -268,20 +269,9 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
-		if (!isset($logCondition['matches'])) {
-			$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
-			if (is_numeric($configLogLevel)) {
-				$this->nestingLevel--;
-				return min((int)$configLogLevel, ILogger::FATAL);
-			}
+		$logConditionMatches = $logCondition['matches'] ?? [];
 
-			// Invalid configuration, warn the user and fall back to default level of WARN
-			error_log('Nextcloud configuration: "loglevel" is not a valid integer');
-			$this->nestingLevel--;
-			return ILogger::WARN;
-		}
-
-		foreach ($logCondition['matches'] as $option) {
+		foreach ($logConditionMatches as $option) {
 			if (
 				(!isset($option['shared_secret']) || $this->checkLogSecret($option['shared_secret']))
 				&& (!isset($option['users']) || in_array($userId, $option['users'], true))
@@ -299,12 +289,20 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
+		$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
+		if (is_numeric($configLogLevel)) {
+			$this->nestingLevel--;
+			return min((int)$configLogLevel, ILogger::FATAL);
+		}
+
+		// Invalid configuration, warn the user and fall back to default level of WARN
+		error_log('Nextcloud configuration: "loglevel" is not a valid integer');
 		$this->nestingLevel--;
 		return ILogger::WARN;
 	}
 
 	protected function checkLogSecret(string $conditionSecret): bool {
-		$request = \OCP\Server::get(IRequest::class);
+		$request = Server::get(IRequest::class);
 
 		if ($request->getMethod() === 'PUT'
 			&& !str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded')
@@ -433,7 +431,7 @@ class Log implements ILogger, IDataLogger {
 		$serializer = new ExceptionSerializer($this->config);
 		try {
 			/** @var Coordinator $coordinator */
-			$coordinator = \OCP\Server::get(Coordinator::class);
+			$coordinator = Server::get(Coordinator::class);
 			foreach ($coordinator->getRegistrationContext()->getSensitiveMethods() as $registration) {
 				$serializer->enlistSensitiveMethods($registration->getName(), $registration->getValue());
 			}

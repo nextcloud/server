@@ -1,9 +1,9 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node, View } from '@nextcloud/files'
+import type { INode, IView } from '@nextcloud/files'
 import type { Capabilities } from '../types.ts'
 
 import axios from '@nextcloud/axios'
@@ -17,10 +17,9 @@ import { useUserConfigStore } from '../store/userconfig.ts'
 export const isTrashbinEnabled = () => (getCapabilities() as Capabilities)?.files?.undelete === true
 
 /**
- *
  * @param nodes
  */
-export function canUnshareOnly(nodes: Node[]) {
+export function canUnshareOnly(nodes: INode[]) {
 	return nodes.every((node) => node.attributes['is-mount-root'] === true
 		&& node.attributes['mount-type'] === 'shared')
 }
@@ -29,7 +28,7 @@ export function canUnshareOnly(nodes: Node[]) {
  *
  * @param nodes
  */
-export function canDisconnectOnly(nodes: Node[]) {
+export function canDisconnectOnly(nodes: INode[]) {
 	return nodes.every((node) => node.attributes['is-mount-root'] === true
 		&& node.attributes['mount-type'] === 'external')
 }
@@ -38,7 +37,7 @@ export function canDisconnectOnly(nodes: Node[]) {
  *
  * @param nodes
  */
-export function isMixedUnshareAndDelete(nodes: Node[]) {
+export function isMixedUnshareAndDelete(nodes: INode[]) {
 	if (nodes.length === 1) {
 		return false
 	}
@@ -52,7 +51,7 @@ export function isMixedUnshareAndDelete(nodes: Node[]) {
  *
  * @param nodes
  */
-export function isAllFiles(nodes: Node[]) {
+export function isAllFiles(nodes: INode[]) {
 	return !nodes.some((node) => node.type !== FileType.File)
 }
 
@@ -60,17 +59,18 @@ export function isAllFiles(nodes: Node[]) {
  *
  * @param nodes
  */
-export function isAllFolders(nodes: Node[]) {
+export function isAllFolders(nodes: INode[]) {
 	return !nodes.some((node) => node.type !== FileType.Folder)
 }
 
 /**
+ * Get the display name for the delete action
  *
- * @param root0
- * @param root0.nodes
- * @param root0.view
+ * @param context - The context
+ * @param context.nodes - The nodes to delete
+ * @param context.view - The current view
  */
-export function displayName({ nodes, view }: { nodes: Node[], view: View }) {
+export function displayName({ nodes, view }: { nodes: INode[], view: IView }) {
 	/**
 	 * If those nodes are all the root node of a
 	 * share, we can only unshare them.
@@ -143,7 +143,7 @@ export function shouldAskForConfirmation() {
  * @param nodes
  * @param view
  */
-export async function askConfirmation(nodes: Node[], view: View) {
+export async function askConfirmation(nodes: INode[], view: IView) {
 	const message = view.id === 'trashbin' || !isTrashbinEnabled()
 		? n('files', 'You are about to permanently delete {count} item', 'You are about to permanently delete {count} items', nodes.length, { count: nodes.length })
 		: n('files', 'You are about to delete {count} item', 'You are about to delete {count} items', nodes.length, { count: nodes.length })
@@ -170,7 +170,7 @@ export async function askConfirmation(nodes: Node[], view: View) {
  *
  * @param node
  */
-export async function deleteNode(node: Node) {
+export async function deleteNode(node: INode) {
 	await axios.delete(node.encodedSource)
 
 	// Let's delete even if it's moved to the trashbin

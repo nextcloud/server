@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -28,8 +30,9 @@ class Admin implements ISettings {
 		$restrictSystemTagsCreationToAdmin = $this->appConfig->getValueBool(Application::APP_ID, 'restrict_creation_to_admin', false);
 		$this->initialStateService->provideInitialState('restrictSystemTagsCreationToAdmin', $restrictSystemTagsCreationToAdmin);
 
-		Util::addScript('systemtags', 'admin');
-		return new TemplateResponse('systemtags', 'admin', [], '');
+		Util::addStyle(Application::APP_ID, 'admin');
+		Util::addScript(Application::APP_ID, 'admin');
+		return new TemplateResponse(Application::APP_ID, 'admin', [], '');
 	}
 
 	/**

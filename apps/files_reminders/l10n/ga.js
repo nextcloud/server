@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Socraigh meabhrúchán don deireadh seachtaine seo",
     "Next week" : "An tseachtain seo chugainn",
     "Set reminder for next week" : "Socraigh meabhrúchán don tseachtain seo chugainn",
-    "This files_reminder can work properly." : "Is féidir leis an gcomhad_reminder seo oibriú i gceart.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Teastaíonn an aip fógraí ón aip files_reminder chun oibriú i gceart. Ba cheart duit fógraí a chumasú nó comhaid_reminder a dhíchumasú.",
-    "Set reminder for \"{fileName}\"" : "Socraigh meabhrúchán do \"{fileName}\"",
-    "Set reminder at custom date & time" : "Socraigh meabhrúchán ar dháta agus am saincheaptha",
-    "Set custom reminder" : "Socraigh meabhrúchán saincheaptha"
+    "Set reminder for \"{fileName}\"" : "Socraigh meabhrúchán do \"{fileName}\""
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

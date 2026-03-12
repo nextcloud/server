@@ -48,6 +48,14 @@ interface ISystemTagManager {
 	public function getTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag;
 
 	/**
+	 * Returns the tag object to mark AI generated content with
+	 *
+	 * @return ISystemTag system tag
+	 * @since 34.0.0
+	 */
+	public function getGeneratedByAITag(): ISystemTag;
+
+	/**
 	 * Creates the tag object using the given attributes.
 	 *
 	 * @param string $tagName tag name

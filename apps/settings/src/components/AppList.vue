@@ -5,6 +5,11 @@
 
 <template>
 	<div id="app-content-inner">
+		<OfficeSuiteSwitcher
+			v-if="category === 'office'"
+			:installed-apps="allApps"
+			@suite-selected="onSuiteSelected" />
+
 		<div
 			id="apps-list"
 			class="apps-list"
@@ -150,6 +155,8 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import AppItem from './AppList/AppItem.vue'
+import OfficeSuiteSwitcher from './AppList/OfficeSuiteSwitcher.vue'
+import { getOfficeSuiteById, OFFICE_SUITES } from '../constants/OfficeSuites.js'
 import logger from '../logger.ts'
 import AppManagement from '../mixins/AppManagement.js'
 import { useAppApiStore } from '../store/app-api-store.ts'
@@ -160,6 +167,7 @@ export default {
 	components: {
 		AppItem,
 		NcButton,
+		OfficeSuiteSwitcher,
 	},
 
 	mixins: [AppManagement],
@@ -205,6 +213,11 @@ export default {
 
 		showUpdateAll() {
 			return this.hasPendingUpdate && this.useListView
+		},
+
+		allApps() {
+			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
+			return [...this.$store.getters.getAllApps, ...exApps]
 		},
 
 		apps() {
@@ -308,7 +321,7 @@ export default {
 		},
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('nextcloud:unified-search.search', this.setSearch)
 		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
 	},
@@ -325,6 +338,40 @@ export default {
 
 		resetSearch() {
 			this.search = ''
+		},
+
+		async disableOfficeSuites(suites) {
+			const disablePromises = suites.map((suite) => this.$store.dispatch('disableApp', { appId: suite.appId }).catch(() => {}))
+			await Promise.all(disablePromises)
+		},
+
+		async onSuiteSelected(suiteId) {
+			logger.info('Office suite selected:', suiteId)
+
+			try {
+				if (suiteId === null) {
+					await this.disableOfficeSuites(OFFICE_SUITES)
+					OC.Notification.showTemporary(t('settings', 'All office suites disabled'))
+					return
+				}
+
+				const selectedSuite = getOfficeSuiteById(suiteId)
+				if (!selectedSuite) {
+					logger.error('Unknown office suite selected:', suiteId)
+					return
+				}
+
+				await this.$store.dispatch('enableApp', { appId: selectedSuite.appId, groups: [] })
+				OC.Notification.showTemporary(t('settings', '{name} enabled', { name: selectedSuite.name }))
+
+				const otherSuites = OFFICE_SUITES.filter((suite) => suite.id !== suiteId)
+				await this.disableOfficeSuites(otherSuites)
+			} catch (error) {
+				logger.error('Error switching office suite:', error)
+				if (error?.message) {
+					OC.Notification.showTemporary(error.message)
+				}
+			}
 		},
 
 		toggleBundle(id) {

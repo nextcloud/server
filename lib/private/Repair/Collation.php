@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,40 +17,22 @@ use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 
 class Collation implements IRepairStep {
-	/** @var IConfig */
-	protected $config;
-
-	protected LoggerInterface $logger;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var bool */
-	protected $ignoreFailures;
-
-	/**
-	 * @param bool $ignoreFailures
-	 */
 	public function __construct(
-		IConfig $config,
-		LoggerInterface $logger,
-		IDBConnection $connection,
-		$ignoreFailures,
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+		protected IDBConnection $connection,
+		protected bool $ignoreFailures,
 	) {
-		$this->connection = $connection;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->ignoreFailures = $ignoreFailures;
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Repair MySQL collation';
 	}
 
 	/**
 	 * Fix mime types
 	 */
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
 			$output->info('Not a mysql database -> nothing to do');
 			return;
@@ -88,10 +72,9 @@ class Collation implements IRepairStep {
 	}
 
 	/**
-	 * @param IDBConnection $connection
 	 * @return string[]
 	 */
-	protected function getAllNonUTF8BinTables(IDBConnection $connection) {
+	protected function getAllNonUTF8BinTables(IDBConnection $connection): array {
 		$dbName = $this->config->getSystemValueString('dbname');
 		$characterSet = $this->config->getSystemValueBool('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 

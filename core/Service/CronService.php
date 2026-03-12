@@ -13,13 +13,13 @@ namespace OC\Core\Service;
 
 use OC;
 use OC\Authentication\LoginCredentials\Store;
-use OC\Files\SetupManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Session\CryptoWrapper;
 use OC\Session\Memory;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\BackgroundJob\IJobList;
+use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -44,7 +44,7 @@ class CronService {
 		private readonly ITempManager $tempManager,
 		private readonly IAppConfig $appConfig,
 		private readonly IJobList $jobList,
-		private readonly SetupManager $setupManager,
+		private readonly ISetupManager $setupManager,
 		private readonly bool $isCLI,
 	) {
 	}
@@ -226,7 +226,7 @@ class CronService {
 	private function runWeb(string $appMode): void {
 		if ($appMode === 'cron') {
 			// Cron is cron :-P
-			throw new \RuntimeException('Backgroundjobs are using system cron!');
+			$this->logger->info('WebCron accessed even though backgroundjobs_mode is set to use system cron.', ['app' => 'cron']);
 		} else {
 			// Work and success :-)
 			$job = $this->jobList->getNext();

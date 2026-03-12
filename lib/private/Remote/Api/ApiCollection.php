@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,17 +14,11 @@ use OCP\Remote\ICredentials;
 use OCP\Remote\IInstance;
 
 class ApiCollection implements IApiCollection {
-	/** @var IInstance */
-	private $instance;
-	/** @var ICredentials */
-	private $credentials;
-	/** @var IClientService */
-	private $clientService;
-
-	public function __construct(IInstance $instance, ICredentials $credentials, IClientService $clientService) {
-		$this->instance = $instance;
-		$this->credentials = $credentials;
-		$this->clientService = $clientService;
+	public function __construct(
+		private IInstance $instance,
+		private ICredentials $credentials,
+		private IClientService $clientService,
+	) {
 	}
 
 	public function getCapabilitiesApi() {

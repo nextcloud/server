@@ -51,7 +51,7 @@ async function getFileList() {
 		template: '<div data-testid="component" style="width: 100%;background: white;">{{ fileListWidth }}</div>',
 		setup() {
 			return {
-				fileListWidth: useFileListWidth(),
+				fileListWidth: useFileListWidth().width,
 			}
 		},
 	})

@@ -47,9 +47,6 @@ OC.L10N.register(
     "Remote share" : "Compartición remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Quies amestar la compartición remota «{name}» de {owner}@{remote}?",
     "Remote share password" : "Contraseña de la compartición remota",
-    "Cloud ID copied to the clipboard" : "La ID de la nube copióse nel cartafueyu",
-    "Copy to clipboard" : "Copiar nel cartafueyu",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Pues compartir conteníu con cualesquier persona qu'use un sirvidor de Nextcloud o otros sirvidores y servicios compatibles con Open Cloud Mesh (OCM). Namás indica la ID de na nube federada nel cuadru de diálogu d'usu compartíu. Aseméyase a persona@nube.exemplu.com",
     "X (formerly Twitter)" : "X (anteriormente Twitter)"
 },
 "nplurals=2; plural=(n != 1);");

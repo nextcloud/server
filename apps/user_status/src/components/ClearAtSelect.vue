@@ -9,13 +9,13 @@
 			{{ t('user_status', 'Clear status after') }}
 		</label>
 		<NcSelect
-			input-id="clearStatus"
+			inputId="clearStatus"
 			class="clear-at-select__select"
 			:options="options"
-			:model-value="option"
+			:modelValue="option"
 			:clearable="false"
 			placement="top"
-			label-outside
+			labelOutside
 			@option:selected="select" />
 	</div>
 </template>

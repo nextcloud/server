@@ -2,7 +2,8 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node } from '@nextcloud/files'
+
+import type { INode } from '@nextcloud/files'
 import type { ShareAttribute } from '../../../files_sharing/src/sharing.ts'
 
 import { Permission } from '@nextcloud/files'
@@ -13,7 +14,7 @@ import { Permission } from '@nextcloud/files'
  * @param node The node to check
  * @return True if downloadable, false otherwise
  */
-export function isDownloadable(node: Node): boolean {
+export function isDownloadable(node: INode): boolean {
 	if ((node.permissions & Permission.READ) === 0) {
 		return false
 	}
@@ -43,7 +44,7 @@ export function isDownloadable(node: Node): boolean {
  * @param node The node to check
  * @return True if syncable, false otherwise
  */
-export function isSyncable(node: Node): boolean {
+export function isSyncable(node: INode): boolean {
 	if (!node.isDavResource) {
 		return false
 	}

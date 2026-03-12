@@ -45,11 +45,11 @@ class ImportCalendar extends Command {
 		$this->setName('calendar:import')
 			->setDescription('Import calendar data to supported calendars from disk or stdin')
 			->addArgument('uid', InputArgument::REQUIRED, 'Id of system user')
-			->addArgument('uri', InputArgument::REQUIRED, 'Uri of calendar')
+			->addArgument('uri', InputArgument::REQUIRED, 'URI of calendar')
 			->addArgument('location', InputArgument::OPTIONAL, 'Location to read the input from, defaults to stdin.')
 			->addOption('format', null, InputOption::VALUE_REQUIRED, 'Format of input (ical, jcal, xcal) defaults to ical', 'ical')
-			->addOption('errors', null, InputOption::VALUE_REQUIRED, 'how to handel item errors (0 - continue, 1 - fail)')
-			->addOption('validation', null, InputOption::VALUE_REQUIRED, 'how to handel item validation (0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue)')
+			->addOption('errors', null, InputOption::VALUE_REQUIRED, 'how to handle item errors (0 - continue, 1 - fail)')
+			->addOption('validation', null, InputOption::VALUE_REQUIRED, 'how to handle item validation (0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue)')
 			->addOption('supersede', null, InputOption::VALUE_NONE, 'override/replace existing items')
 			->addOption('show-created', null, InputOption::VALUE_NONE, 'show all created items after processing')
 			->addOption('show-updated', null, InputOption::VALUE_NONE, 'show all updated items after processing')
@@ -103,7 +103,7 @@ class ImportCalendar extends Command {
 		if ($location !== null) {
 			$input = fopen($location, 'r');
 			if ($input === false) {
-				throw new InvalidArgumentException("Location <$location> is not valid. Can not open location for read operation.");
+				throw new InvalidArgumentException("Location <$location> is not valid. Cannot open location for read operation.");
 			}
 			try {
 				$outcome = $this->importService->import($input, $calendar, $options);
@@ -113,7 +113,7 @@ class ImportCalendar extends Command {
 		} else {
 			$input = fopen('php://stdin', 'r');
 			if ($input === false) {
-				throw new InvalidArgumentException('Can not open stdin for read operation.');
+				throw new InvalidArgumentException('Cannot open stdin for read operation.');
 			}
 			try {
 				$tempPath = $this->tempManager->getTemporaryFile();

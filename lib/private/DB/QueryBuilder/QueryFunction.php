@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,14 +12,12 @@ namespace OC\DB\QueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class QueryFunction implements IQueryFunction {
-	/** @var string */
-	protected $function;
-
-	public function __construct($function) {
-		$this->function = $function;
+	public function __construct(
+		protected string $function,
+	) {
 	}
 
 	public function __toString(): string {
-		return (string)$this->function;
+		return $this->function;
 	}
 }

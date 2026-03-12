@@ -97,6 +97,7 @@ class ViewOnlyPluginTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesDataForCanGet')]
 	public function testCanGet(bool $isVersion, ?bool $attrEnabled, bool $expectCanDownloadFile, bool $allowViewWithoutDownload): void {
 		$nodeInfo = $this->createMock(File::class);
+		$nodeInfo->method('getId')->willReturn(42);
 		if ($isVersion) {
 			$davPath = 'versions/alice/versions/117/123456';
 			$version = $this->createMock(IVersion::class);
@@ -122,8 +123,9 @@ class ViewOnlyPluginTest extends TestCase {
 				->method('getUID')
 				->willReturn('bob');
 			$this->userFolder->expects($this->once())
-				->method('getById')
-				->willReturn([$nodeInfo]);
+				->method('getFirstNodeById')
+				->with(42)
+				->willReturn($nodeInfo);
 			$this->userFolder->expects($this->once())
 				->method('getOwner')
 				->willReturn($owner);

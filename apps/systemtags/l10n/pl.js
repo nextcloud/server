@@ -56,6 +56,7 @@ OC.L10N.register(
     "Failed to delete tag" : "Błąd usuwania etykiety",
     "Create or edit tags" : "Utwórz lub edytuj etykietę:",
     "Search for a tag to edit" : "Wyszukaj etykietę do edycji",
+    "Collaborative tags …" : "Tagi współdzielone …",
     "No tags to select" : "Brak etykiet do zaznaczenia",
     "Tag name" : "Nazwa etykiety",
     "Tag level" : "Poziom etykiety",
@@ -86,6 +87,7 @@ OC.L10N.register(
     "Failed to load tags" : "Nie udało się załadować etykiet",
     "Failed to select tag" : "Nie udało się wybrać tagu",
     "System admin disabled tag creation. You can only use existing ones." : "Administrator systemu wyłączył tworzenie tagów. Można używać tylko istniejących tagów.",
+    "Loading collaborative tags …" : "Wczytywanie tagów współdzielonych …",
     "Search or create collaborative tags" : "Wyszukaj lub utwórz wspólne tagi",
     "No tags to select, type to create a new tag" : "Brak tagów do wyboru, wpisz, aby utworzyć nowy tag",
     "Unable to update setting" : "Nie udało się zaktualizować ustawienia",
@@ -110,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Nie udało się usunąć tagu z pliku",
     "Collaborative tags …" : "Etykiety wspólne…",
     "Loading …" : "Wczytywanie…",
-    "File tags modification canceled" : "Modyfikacja tagów pliku została anulowana",
-    "Select or create tags to apply to all selected files" : "Wybierz lub utwórz etykiety do zastosowania do wszystkich zaznaczonych plików",
-    "Select tags to apply to all selected files" : "Wybierz tagi do zastosowania do wszystkich zaznaczonych plików",
-    "Apply changes" : "Zastosuj zmiany",
     "Loading collaborative tags …" : "Wczytywanie wspólnych etykiet…"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

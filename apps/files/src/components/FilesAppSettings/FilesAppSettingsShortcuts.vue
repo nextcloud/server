@@ -6,20 +6,22 @@
 <script setup lang="ts">
 import type { IHotkeyConfig } from '@nextcloud/files'
 
-import { getFileActions } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
 import NcAppSettingsShortcutsSection from '@nextcloud/vue/components/NcAppSettingsShortcutsSection'
 import NcHotkey from '@nextcloud/vue/components/NcHotkey'
 import NcHotkeyList from '@nextcloud/vue/components/NcHotkeyList'
+import { useFileActions } from '../../composables/useFileActions.ts'
 
-const actionHotkeys = getFileActions()
+const actions = useFileActions()
+const actionHotkeys = computed(() => actions.value
 	.filter((action) => !!action.hotkey)
 	.sort((a, b) => (a.order || 0) - (b.order || 0))
 	.map((action) => ({
 		id: action.id,
 		label: action.hotkey!.description,
 		hotkey: hotkeyToString(action.hotkey!),
-	}))
+	})))
 
 /**
  * Convert a hotkey configuration to a hotkey string.
@@ -37,7 +39,11 @@ function hotkeyToString(hotkey: IHotkeyConfig): string {
 	if (hotkey.shift) {
 		parts.push('Shift')
 	}
-	parts.push(hotkey.key)
+	if (hotkey.key.match(/^[a-z]$/)) {
+		parts.push(hotkey.key.toUpperCase())
+	} else {
+		parts.push(hotkey.key)
+	}
 	return parts.join(' ')
 }
 </script>
@@ -71,7 +77,6 @@ function hotkeyToString(hotkey: IHotkeyConfig): string {
 
 		<NcHotkeyList :label="t('files', 'View')">
 			<NcHotkey :label="t('files', 'Toggle grid view')" hotkey="V" />
-			<NcHotkey :label="t('files', 'Open file sidebar')" hotkey="D" />
 			<NcHotkey :label="t('files', 'Show those shortcuts')" hotkey="?" />
 		</NcHotkeyList>
 	</NcAppSettingsShortcutsSection>

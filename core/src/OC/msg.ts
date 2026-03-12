@@ -97,6 +97,7 @@ export default {
 				return
 			}
 
+			// eslint-disable-next-line @stylistic/exp-list-style
 			const animation = el.animate?.(
 				[
 					{ opacity: 1 },

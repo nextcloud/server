@@ -114,9 +114,9 @@ function onInput(): void {
 	<NcDialog
 		v-if="opened"
 		:name="t('files_reminders', `Set reminder for '{fileName}'`, { fileName: node.displayname })"
-		out-transition
+		outTransition
 		size="small"
-		close-on-click-outside
+		closeOnClickOutside
 		@closing="onClose">
 		<form
 			id="set-custom-reminder-form"

@@ -166,8 +166,13 @@ class Manager {
 	 * @param string $id the Nextcloud username
 	 */
 	public function isDeletedUser(string $id): bool {
-		return $this->userConfig->getValueBool(
-			$id, 'user_ldap', 'isDeleted');
+		try {
+			return $this->userConfig->getValueBool($id, 'user_ldap', 'isDeleted');
+		} catch (\InvalidArgumentException $e) {
+			// Most likely the string is too long to be a valid user id
+			$this->logger->debug('Invalid id given to isDeletedUser', ['exception' => $e]);
+			return false;
+		}
 	}
 
 	/**

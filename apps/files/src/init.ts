@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { addNewFileMenuEntry, registerFileAction } from '@nextcloud/files'
+import { addNewFileMenuEntry, getNewFileMenu, registerFileAction } from '@nextcloud/files'
 import { registerDavProperty } from '@nextcloud/files/dav'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { registerConvertActions } from './actions/convertAction.ts'
@@ -21,7 +21,6 @@ import { action as viewInFolderAction } from './actions/viewInFolderAction.ts'
 import { registerFilenameFilter } from './filters/FilenameFilter.ts'
 import { registerHiddenFilesFilter } from './filters/HiddenFilesFilter.ts'
 import { registerModifiedFilter } from './filters/ModifiedFilter.ts'
-import { registerFilterToSearchToggle } from './filters/SearchFilter.ts'
 import { registerTypeFilter } from './filters/TypeFilter.ts'
 import { entry as newFolderEntry } from './newMenu/newFolder.ts'
 import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
@@ -68,7 +67,6 @@ registerHiddenFilesFilter()
 registerTypeFilter()
 registerModifiedFilter()
 registerFilenameFilter()
-registerFilterToSearchToggle()
 
 // Register sidebar action
 registerSidebarFavoriteAction()
@@ -81,3 +79,14 @@ registerDavProperty('nc:is-mount-root', { nc: 'http://nextcloud.org/ns' })
 registerDavProperty('nc:metadata-blurhash', { nc: 'http://nextcloud.org/ns' })
 
 initLivePhotos()
+
+// TODO: REMOVE THIS ONCE THE UPLOAD LIBRARY IS MIGRATED TO THE NEW FILES LIBRARY
+window._nc_newfilemenu = new Proxy(getNewFileMenu(), {
+	get(target, prop) {
+		return target[prop as keyof typeof target]
+	},
+	set(target, prop, value) {
+		target[prop as keyof typeof target] = value
+		return true
+	},
+})

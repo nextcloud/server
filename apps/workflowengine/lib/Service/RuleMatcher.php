@@ -11,6 +11,7 @@ namespace OCA\WorkflowEngine\Service;
 use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCA\WorkflowEngine\ResponseDefinitions;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\IUserSession;
@@ -26,7 +27,7 @@ use Psr\Container\ContainerInterface;
 use RuntimeException;
 
 /**
- * @psalm-import-type Check from Manager
+ * @psalm-import-type WorkflowEngineCheck from ResponseDefinitions
  */
 class RuleMatcher implements IRuleMatcher {
 
@@ -179,7 +180,7 @@ class RuleMatcher implements IRuleMatcher {
 	}
 
 	/**
-	 * @param Check $check
+	 * @param WorkflowEngineCheck $check
 	 * @return bool
 	 */
 	public function check(array $check): bool {

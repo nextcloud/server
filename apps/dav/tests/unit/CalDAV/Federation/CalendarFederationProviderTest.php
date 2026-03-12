@@ -92,11 +92,12 @@ class CalendarFederationProviderTest extends TestCase {
 			->willReturn(true);
 
 		$this->federatedCalendarMapper->expects(self::once())
-			->method('deleteByUri')
+			->method('findByUri')
 			->with(
 				'principals/users/sharee1',
 				'ae4b8ab904076fff2b955ea21b1a0d92',
-			);
+			)
+			->willReturn(null);
 
 		$this->federatedCalendarMapper->expects(self::once())
 			->method('insert')
@@ -113,6 +114,68 @@ class CalendarFederationProviderTest extends TestCase {
 				$this->assertEquals('VEVENT,VTODO', $calendar->getComponents());
 
 				$calendar->setId(10);
+				return $calendar;
+			});
+
+		$this->jobList->expects(self::once())
+			->method('add')
+			->with(FederatedCalendarSyncJob::class, ['id' => 10]);
+
+		$this->assertEquals(10, $this->calendarFederationProvider->shareReceived($share));
+	}
+
+	public function testShareReceivedWithExistingCalendar(): void {
+		$share = $this->createMock(ICloudFederationShare::class);
+		$share->method('getShareType')
+			->willReturn('user');
+		$share->method('getProtocol')
+			->willReturn([
+				'version' => 'v1',
+				'url' => 'https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1',
+				'displayName' => 'Calendar 1',
+				'color' => '#ff0000',
+				'access' => 3,
+				'components' => 'VEVENT,VTODO',
+			]);
+		$share->method('getShareWith')
+			->willReturn('sharee1');
+		$share->method('getShareSecret')
+			->willReturn('new-token');
+		$share->method('getSharedBy')
+			->willReturn('user1@nextcloud.remote');
+		$share->method('getSharedByDisplayName')
+			->willReturn('User 1');
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isFederationEnabled')
+			->willReturn(true);
+
+		$existingCalendar = new FederatedCalendarEntity();
+		$existingCalendar->setId(10);
+		$existingCalendar->setPrincipaluri('principals/users/sharee1');
+		$existingCalendar->setUri('ae4b8ab904076fff2b955ea21b1a0d92');
+		$existingCalendar->setRemoteUrl('https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1');
+		$existingCalendar->setToken('old-token');
+		$existingCalendar->setPermissions(1);
+		$existingCalendar->setComponents('VEVENT');
+
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByUri')
+			->with(
+				'principals/users/sharee1',
+				'ae4b8ab904076fff2b955ea21b1a0d92',
+			)
+			->willReturn($existingCalendar);
+
+		$this->federatedCalendarMapper->expects(self::never())
+			->method('insert');
+
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('update')
+			->willReturnCallback(function (FederatedCalendarEntity $calendar) {
+				$this->assertEquals('new-token', $calendar->getToken());
+				$this->assertEquals(1, $calendar->getPermissions());
+				$this->assertEquals('VEVENT,VTODO', $calendar->getComponents());
 				return $calendar;
 			});
 
@@ -270,7 +333,7 @@ class CalendarFederationProviderTest extends TestCase {
 		$this->calendarFederationProvider->shareReceived($share);
 	}
 
-	public function testShareReceivedWithUnsupportedAccess(): void {
+	public function testShareReceivedWithReadWriteAccess(): void {
 		$share = $this->createMock(ICloudFederationShare::class);
 		$share->method('getShareType')
 			->willReturn('user');
@@ -281,6 +344,65 @@ class CalendarFederationProviderTest extends TestCase {
 				'displayName' => 'Calendar 1',
 				'color' => '#ff0000',
 				'access' => 2, // Backend::ACCESS_READ_WRITE
+				'components' => 'VEVENT,VTODO',
+			]);
+		$share->method('getShareWith')
+			->willReturn('sharee1');
+		$share->method('getShareSecret')
+			->willReturn('token');
+		$share->method('getSharedBy')
+			->willReturn('user1@nextcloud.remote');
+		$share->method('getSharedByDisplayName')
+			->willReturn('User 1');
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isFederationEnabled')
+			->willReturn(true);
+
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByUri')
+			->with(
+				'principals/users/sharee1',
+				'ae4b8ab904076fff2b955ea21b1a0d92',
+			)
+			->willReturn(null);
+
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('insert')
+			->willReturnCallback(function (FederatedCalendarEntity $calendar) {
+				$this->assertEquals('principals/users/sharee1', $calendar->getPrincipaluri());
+				$this->assertEquals('ae4b8ab904076fff2b955ea21b1a0d92', $calendar->getUri());
+				$this->assertEquals('https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1', $calendar->getRemoteUrl());
+				$this->assertEquals('Calendar 1', $calendar->getDisplayName());
+				$this->assertEquals('#ff0000', $calendar->getColor());
+				$this->assertEquals('token', $calendar->getToken());
+				$this->assertEquals('user1@nextcloud.remote', $calendar->getSharedBy());
+				$this->assertEquals('User 1', $calendar->getSharedByDisplayName());
+				$this->assertEquals(15, $calendar->getPermissions()); // READ | CREATE | UPDATE | DELETE
+				$this->assertEquals('VEVENT,VTODO', $calendar->getComponents());
+
+				$calendar->setId(10);
+				return $calendar;
+			});
+
+		$this->jobList->expects(self::once())
+			->method('add')
+			->with(FederatedCalendarSyncJob::class, ['id' => 10]);
+
+		$this->assertEquals(10, $this->calendarFederationProvider->shareReceived($share));
+	}
+
+	public function testShareReceivedWithUnsupportedAccess(): void {
+		$share = $this->createMock(ICloudFederationShare::class);
+		$share->method('getShareType')
+			->willReturn('user');
+		$share->method('getProtocol')
+			->willReturn([
+				'version' => 'v1',
+				'url' => 'https://nextcloud.remote/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user1',
+				'displayName' => 'Calendar 1',
+				'color' => '#ff0000',
+				'access' => 999, // Invalid access value
 				'components' => 'VEVENT,VTODO',
 			]);
 		$share->method('getShareWith')

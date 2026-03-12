@@ -11,48 +11,28 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 
 /**
- * @psalm-import-type DataResponseType from DataResponse
- * @template S of Http::STATUS_*
- * @template-covariant T of DataResponseType
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant T of mixed
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 abstract class BaseResponse extends Response {
 	/** @var array */
 	protected $data;
 
-	/** @var string */
-	protected $format;
-
-	/** @var ?string */
-	protected $statusMessage;
-
-	/** @var ?int */
-	protected $itemsCount;
-
-	/** @var ?int */
-	protected $itemsPerPage;
-
 	/**
 	 * BaseResponse constructor.
 	 *
 	 * @param DataResponse<S, T, H> $dataResponse
-	 * @param string $format
-	 * @param string|null $statusMessage
-	 * @param int|null $itemsCount
-	 * @param int|null $itemsPerPage
 	 */
-	public function __construct(DataResponse $dataResponse,
-		$format = 'xml',
-		$statusMessage = null,
-		$itemsCount = null,
-		$itemsPerPage = null) {
+	public function __construct(
+		DataResponse $dataResponse,
+		protected string $format = 'xml',
+		protected ?string $statusMessage = null,
+		protected ?int $itemsCount = null,
+		protected ?int $itemsPerPage = null,
+	) {
 		parent::__construct();
-
-		$this->format = $format;
-		$this->statusMessage = $statusMessage;
-		$this->itemsCount = $itemsCount;
-		$this->itemsPerPage = $itemsPerPage;
 
 		$this->data = $dataResponse->getData();
 
@@ -67,7 +47,7 @@ abstract class BaseResponse extends Response {
 			$this->throttle($throttleMetadata);
 		}
 
-		if ($format === 'json') {
+		if ($this->format === 'json') {
 			$this->addHeader(
 				'Content-Type', 'application/json; charset=utf-8'
 			);

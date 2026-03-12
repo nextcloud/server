@@ -248,7 +248,7 @@ class DecryptAllTest extends TestCase {
 			->method('getDirectoryContent')
 			->willReturnMap([
 				[
-					'/user1/files', '', null,
+					'/user1/files', null, null,
 					[
 						new FileInfo('path', $storage, 'intPath', ['name' => 'foo', 'type' => 'dir'], null),
 						new FileInfo('path', $storage, 'intPath', ['name' => 'bar', 'type' => 'file', 'encrypted' => true], null),
@@ -256,7 +256,7 @@ class DecryptAllTest extends TestCase {
 					],
 				],
 				[
-					'/user1/files/foo', '', null,
+					'/user1/files/foo', null, null,
 					[
 						new FileInfo('path', $storage, 'intPath', ['name' => 'subfile', 'type' => 'file', 'encrypted' => true], null)
 					],

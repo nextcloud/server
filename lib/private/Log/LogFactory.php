@@ -8,6 +8,7 @@ namespace OC\Log;
 
 use OC\Log;
 use OC\SystemConfig;
+use OCP\AppFramework\QueryException;
 use OCP\IServerContainer;
 use OCP\Log\ILogFactory;
 use OCP\Log\IWriter;
@@ -21,7 +22,7 @@ class LogFactory implements ILogFactory {
 	}
 
 	/**
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	public function get(string $type):IWriter {
 		return match (strtolower($type)) {

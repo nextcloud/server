@@ -1,11 +1,11 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Folder, View } from '@nextcloud/files'
+import type { IFolder, IView } from '@nextcloud/files'
 
-import { File, FileAction, Permission } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { describe, expect, test, vi } from 'vitest'
 import logger from '../logger.js'
 import { action } from './inlineUnreadCommentsAction.ts'
@@ -13,7 +13,7 @@ import { action } from './inlineUnreadCommentsAction.ts'
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 describe('Inline unread comments action display name tests', () => {
 	test('Default values', () => {
@@ -29,36 +29,35 @@ describe('Inline unread comments action display name tests', () => {
 			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('comments-unread')
 		expect(action.displayName({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('')
 		expect(action.title!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('1 new comment')
 		expect(action.iconSvgInline({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 		expect(action.inline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 		expect(action.default).toBeUndefined()
@@ -81,13 +80,13 @@ describe('Inline unread comments action display name tests', () => {
 		expect(action.displayName({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('')
 		expect(action.title!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('2 new comments')
 	})
@@ -108,7 +107,7 @@ describe('Inline unread comments action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -129,7 +128,7 @@ describe('Inline unread comments action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -150,7 +149,7 @@ describe('Inline unread comments action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -171,7 +170,7 @@ describe('Inline unread comments action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -204,7 +203,7 @@ describe('Inline unread comments action execute tests', () => {
 		const result = await action.exec!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -241,7 +240,7 @@ describe('Inline unread comments action execute tests', () => {
 		const result = await action.exec!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 

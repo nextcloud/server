@@ -71,7 +71,6 @@ Feature: autocomplete
     Then get autocomplete for "autocomplete@example.com"
       | id | source |
       | autocomplete | users |
-      | autocomplete | users |
 
   Scenario: getting autocomplete from address book without enumeration
     Given As an "admin"
@@ -95,7 +94,6 @@ Feature: autocomplete
       | id | source |
     Then get autocomplete for "autocomplete@example.com"
       | id | source |
-      | autocomplete | users |
       | autocomplete | users |
 
   Scenario: getting autocomplete emails from address book with enumeration

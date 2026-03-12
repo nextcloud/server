@@ -37,28 +37,12 @@ use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 
 class Manager {
-	/** @var CredentialRepository */
-	private $repository;
-
-	/** @var PublicKeyCredentialMapper */
-	private $credentialMapper;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IConfig */
-	private $config;
-
 	public function __construct(
-		CredentialRepository $repository,
-		PublicKeyCredentialMapper $credentialMapper,
-		LoggerInterface $logger,
-		IConfig $config,
+		private CredentialRepository $repository,
+		private PublicKeyCredentialMapper $credentialMapper,
+		private LoggerInterface $logger,
+		private IConfig $config,
 	) {
-		$this->repository = $repository;
-		$this->credentialMapper = $credentialMapper;
-		$this->logger = $logger;
-		$this->config = $config;
 	}
 
 	public function startRegistration(IUser $user, string $serverHost): PublicKeyCredentialCreationOptions {

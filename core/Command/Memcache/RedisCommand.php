@@ -44,7 +44,9 @@ class RedisCommand extends Base {
 			return 1;
 		}
 
-		$redis->setOption(\Redis::OPT_REPLY_LITERAL, true);
+		if ($redis instanceof \Redis) {
+			$redis->setOption(\Redis::OPT_REPLY_LITERAL, true);
+		}
 		$result = $redis->rawCommand(...$command);
 		if ($result === false) {
 			$output->writeln('<error>Redis command failed</error>');
