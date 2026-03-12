@@ -47,7 +47,7 @@ class ShareRecipientUpdater {
 		$mountsChanged = count($shares) !== count($shareMounts);
 		foreach ($shares as $share) {
 			[$parentShare, $groupedShares] = $share;
-			$mountPoint = '/' . $user->getUID() . '/files/' . trim($parentShare->getTarget(), '/') . '/';
+			$mountPoint = $this->getMountPointFromTarget($user, $parentShare->getTarget());
 			$mountKey = $parentShare->getNodeId() . '::' . $mountPoint;
 			if (!isset($cachedMounts[$mountKey])) {
 				$mountsChanged = true;
@@ -72,17 +72,34 @@ class ShareRecipientUpdater {
 		$mountsByPath = array_combine($mountPoints, $cachedMounts);
 
 		$target = $this->shareTargetValidator->verifyMountPoint($user, $share, $mountsByPath, [$share]);
-		$mountPoint = '/' . $user->getUID() . '/files/' . trim($target, '/') . '/';
+		$mountPoint = $this->getMountPointFromTarget($user, $target);
 
 		$this->userMountCache->addMount($user, $mountPoint, $share->getNode()->getData(), MountProvider::class);
+	}
+
+	private function getMountPointFromTarget(IUser $user, string $target): string {
+		return '/' . $user->getUID() . '/files/' . trim($target, '/') . '/';
 	}
 
 	/**
 	 * Process a single deleted share for a user
 	 */
 	public function updateForDeletedShare(IUser $user, IShare $share): void {
-		$mountPoint = '/' . $user->getUID() . '/files/' . trim($share->getTarget(), '/') . '/';
+		$this->userMountCache->removeMount($this->getMountPointFromTarget($user, $share->getTarget()));
+	}
 
-		$this->userMountCache->removeMount($mountPoint);
+	/**
+	 * Process a single moved share for a user
+	 */
+	public function updateForMovedShare(IUser $user, IShare $share): void {
+		$originalTarget = $share->getOriginalTarget();
+		if ($originalTarget != null) {
+			$newMountPoint = $this->getMountPointFromTarget($user, $share->getTarget());
+			$oldMountPoint = $this->getMountPointFromTarget($user, $originalTarget);
+			$this->userMountCache->removeMount($oldMountPoint);
+			$this->userMountCache->addMount($user, $newMountPoint, $share->getNode()->getData(), MountProvider::class);
+		} else {
+			$this->updateForUser($user);
+		}
 	}
 }

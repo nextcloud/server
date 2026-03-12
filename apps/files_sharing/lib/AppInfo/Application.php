@@ -60,6 +60,7 @@ use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -128,6 +129,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeGroupDeletedEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(UserShareAccessUpdatedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(ShareMovedEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(UserHomeSetupEvent::class, UserHomeSetupListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);

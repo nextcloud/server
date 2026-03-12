@@ -414,3 +414,15 @@ Scenario: User added/removed to group share with marking
 		| /user0/files/textfile0 (2).txt/ |
 	When Connecting to dav endpoint
 	Then Share mounts for "user0" are empty
+
+  Scenario: Share moved without marking
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" of user "user1" is shared with user "user0"
+    And As an "user0"
+    Then Share mounts for "user0" match
+      | /user0/files/textfile0 (2).txt/ |
+    When User "user0" moves file "/textfile0 (2).txt" to "/target.txt"
+    Then Share mounts for "user0" match
+      | /user0/files/target.txt/ |
