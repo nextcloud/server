@@ -3165,8 +3165,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			'etag' => md5($calendarData),
 			'size' => strlen($calendarData),
 			'componentType' => $componentType,
-			'firstOccurence' => is_null($firstOccurrence) ? null : max(0, $firstOccurrence),
-			'lastOccurence' => is_null($lastOccurrence) ? null : max(0, $lastOccurrence),
+			'firstOccurence' => $firstOccurrence,
+			'lastOccurence' => $lastOccurrence,
 			'uid' => $uid,
 			'classification' => $classification
 		];
