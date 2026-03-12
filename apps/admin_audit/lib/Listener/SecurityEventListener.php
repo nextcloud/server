@@ -75,8 +75,8 @@ class SecurityEventListener extends Action implements IEventListener {
 			],
 			[
 				'provider',
-				'uid',
 				'displayName',
+				'uid',
 			]
 		);
 	}
