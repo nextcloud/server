@@ -114,6 +114,7 @@ class OC_Hook {
 			}
 		} else {
 			self::$registered = [];
+			self::$thrownExceptions = [];
 		}
 	}
 
