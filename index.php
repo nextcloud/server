@@ -23,12 +23,24 @@ require_once __DIR__ . '/lib/OC.php';
 
 \OC::boot();
 
+function cleanupStaticCrap() {
+	// FIXME needed because these use a static var
+	\OC_Hook::clear();
+	\OC_Util::$styles = [];
+	\OC_Util::$headers = [];
+	\OC_User::setIncognitoMode(false);
+	\OC_User::$_setupedBackends = [];
+	\OC_App::reset();
+	\OC_Helper::reset();
+}
+
 $handler = static function () {
 	try {
 		// In worker mode, script name is empty in FrankenPHP
 		if ($_SERVER['SCRIPT_NAME'] === '') {
 			$_SERVER['SCRIPT_NAME'] = $_SERVER['PHP_SELF'];
 		}
+		cleanupStaticCrap();
 		OC::init();
 		OC::handleRequest();
 	} catch (ServiceUnavailableException $ex) {
