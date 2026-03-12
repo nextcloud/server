@@ -547,22 +547,17 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			 */
 			if (!$exists) {
 				$this->getCache()->remove($uploadPath);
-				$this->logger->error(
-					'Could not create object ' . $urn . ' for ' . $path,
-					[
-						'app' => 'objectstore',
-						'exception' => $ex,
-					]
-				);
-			} else {
-				$this->logger->error(
-					'Could not update object ' . $urn . ' for ' . $path,
-					[
-						'app' => 'objectstore',
-						'exception' => $ex,
-					]
-				);
 			}
+
+			$operation = $exists ? 'update' : 'create';
+			$this->logger->error(
+				sprintf('Could not %s object %s for %s', $operation, $urn, $path),,
+				[
+					'app' => 'objectstore',
+					'exception' => $ex,
+				]
+			);
+	
 			throw new GenericFileException('Error while writing stream to object store', 0, $ex);
 		}
 
