@@ -382,7 +382,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 	 * @throws ShareNotFound
 	 */
 	protected function executeDeclineShare(IShare $share): void {
-		$this->federatedShareProvider->removeShareFromTable($share);
+		$this->federatedShareProvider->removeShareFromTable($share->getId());
 
 		$user = $this->getCorrectUser($share);
 
@@ -420,7 +420,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		$share = $this->federatedShareProvider->getShareById($id);
 
 		$this->verifyShare($share, $token);
-		$this->federatedShareProvider->removeShareFromTable($share);
+		$this->federatedShareProvider->removeShareFromTable($share->getId());
 		return [];
 	}
 
