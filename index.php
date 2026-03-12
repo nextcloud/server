@@ -19,7 +19,9 @@ use OCP\Server;
 use OCP\Template\ITemplateManager;
 use Psr\Log\LoggerInterface;
 
-require_once __DIR__ . '/lib/base.php';
+require_once __DIR__ . '/lib/OC.php';
+
+\OC::boot();
 
 $handler = static function () {
 	try {

@@ -31,7 +31,6 @@ if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 }
 
 require_once '../../lib/base.php';
-OC::init();
 
 /** @var IL10N $l */
 $l = Server::get(IFactory::class)->get('core');

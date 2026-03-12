@@ -28,8 +28,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-OC::init();
-
 if (Util::needUpgrade()
 	|| Server::get(IConfig::class)->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
