@@ -23,6 +23,7 @@ use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
 use Psr\Clock\ClockInterface;
@@ -31,7 +32,7 @@ use Psr\Clock\ClockInterface;
  * Listen to various events that can change what shares a user has access to
  *
  * @psalm-type GroupEvents = UserAddedEvent|UserRemovedEvent|GroupDeletedEvent|BeforeGroupDeletedEvent
- * @template-implements IEventListener<GroupEvents|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent>
+ * @template-implements IEventListener<GroupEvents|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent|ShareMovedEvent>
  */
 class SharesUpdatedListener implements IEventListener {
 	/**
@@ -86,6 +87,14 @@ class SharesUpdatedListener implements IEventListener {
 					// Share target validation might have changed the target, restore it for the next user
 					$share->setTarget($shareTarget);
 				}
+			}
+		}
+		if ($event instanceof ShareMovedEvent) {
+			$share = $event->getShare();
+			foreach ($this->shareManager->getUsersForShare($share) as $user) {
+				$this->markOrRun($user, function () use ($user, $share) {
+					$this->shareUpdater->updateForMovedShare($user, $share);
+				});
 			}
 		}
 		if ($event instanceof BeforeShareDeletedEvent) {
