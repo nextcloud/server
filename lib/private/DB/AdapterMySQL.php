@@ -15,11 +15,11 @@ class AdapterMySQL extends Adapter {
 	 * @param string $tableName
 	 */
 	public function lockTable($tableName) {
-		$this->conn->executeUpdate('LOCK TABLES `' . $tableName . '` WRITE');
+		$this->conn->executeStatement('LOCK TABLES `' . $tableName . '` WRITE');
 	}
 
 	public function unlockTable() {
-		$this->conn->executeUpdate('UNLOCK TABLES');
+		$this->conn->executeStatement('UNLOCK TABLES');
 	}
 
 	public function fixupStatement($statement) {

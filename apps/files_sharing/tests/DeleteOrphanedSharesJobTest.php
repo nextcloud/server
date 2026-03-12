@@ -70,7 +70,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		$this->connection = Server::get(IDBConnection::class);
 		// clear occasional leftover shares from other tests
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$this->connection->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
@@ -85,7 +85,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$this->connection->getQueryBuilder()->delete('share')->executeStatement();
 
 		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);
@@ -104,7 +104,10 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 	private function getShares() {
 		$shares = [];
-		$result = $this->connection->executeQuery('SELECT * FROM `*PREFIX*share`');
+		$result = $this->connection->getQueryBuilder()
+			->select('*')
+			->from('share')
+			->executeQuery();
 		while ($row = $result->fetchAssociative()) {
 			$shares[] = $row;
 		}

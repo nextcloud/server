@@ -87,7 +87,7 @@ class Collation implements IRepairStep {
 			. "	AND TABLE_NAME LIKE '*PREFIX*%'",
 			[$dbName]
 		);
-		$rows = $statement->fetchAll();
+		$rows = $statement->fetchAllAssociative();
 		$result = [];
 		foreach ($rows as $row) {
 			$result[$row['table']] = true;
@@ -102,7 +102,7 @@ class Collation implements IRepairStep {
 			. "	AND TABLE_NAME LIKE '*PREFIX*%'",
 			[$dbName]
 		);
-		$rows = $statement->fetchAll();
+		$rows = $statement->fetchAllAssociative();
 		foreach ($rows as $row) {
 			$result[$row['table']] = true;
 		}

@@ -275,7 +275,7 @@ abstract class QBMapper {
 	protected function findOneQuery(IQueryBuilder $query): array {
 		$result = $query->executeQuery();
 
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		if ($row === false) {
 			$result->closeCursor();
 			$msg = $this->buildDebugMessage(
@@ -284,7 +284,7 @@ abstract class QBMapper {
 			throw new DoesNotExistException($msg);
 		}
 
-		$row2 = $result->fetch();
+		$row2 = $result->fetchAssociative();
 		$result->closeCursor();
 		if ($row2 !== false) {
 			$msg = $this->buildDebugMessage(
@@ -336,7 +336,7 @@ abstract class QBMapper {
 		$result = $query->executeQuery();
 		try {
 			$entities = [];
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$entities[] = $this->mapRowToEntity($row);
 			}
 			return $entities;
@@ -357,7 +357,7 @@ abstract class QBMapper {
 	protected function yieldEntities(IQueryBuilder $query): Generator {
 		$result = $query->executeQuery();
 		try {
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				yield $this->mapRowToEntity($row);
 			}
 		} finally {

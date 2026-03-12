@@ -32,6 +32,6 @@ class AdapterPgSql extends Adapter {
 			$builder->setValue($key, $builder->createNamedParameter($value));
 		}
 		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
-		return $this->conn->executeUpdate($queryString, $builder->getParameters(), $builder->getParameterTypes());
+		return $this->conn->executeStatement($queryString, $builder->getParameters(), $builder->getParameterTypes());
 	}
 }

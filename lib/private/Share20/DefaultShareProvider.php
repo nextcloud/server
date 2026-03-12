@@ -340,7 +340,7 @@ class DefaultShareProvider implements
 				->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
 				->executeQuery();
 
-			$data = $stmt->fetch();
+			$data = $stmt->fetchAssociative();
 			$stmt->closeCursor();
 
 			/*
@@ -392,7 +392,7 @@ class DefaultShareProvider implements
 			->orderBy('id');
 
 		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$children[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
@@ -454,7 +454,7 @@ class DefaultShareProvider implements
 				->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
 				->executeQuery();
 
-			$data = $stmt->fetch();
+			$data = $stmt->fetchAssociative();
 
 			/*
 			 * Check if there already is a user specific group share.
@@ -533,7 +533,7 @@ class DefaultShareProvider implements
 				$qb->expr()->eq('id', $qb->createNamedParameter($share->getId()))
 			);
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetch();
+		$data = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		$originalPermission = $data['permissions'];
@@ -577,7 +577,7 @@ class DefaultShareProvider implements
 				->setMaxResults(1)
 				->executeQuery();
 
-			$data = $stmt->fetch();
+			$data = $stmt->fetchAssociative();
 			$stmt->closeCursor();
 
 			$shareAttributes = $this->formatShareAttributes(
@@ -687,7 +687,7 @@ class DefaultShareProvider implements
 		foreach ($chunks as $chunk) {
 			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$cursor = $qb->executeQuery();
-			while ($data = $cursor->fetch()) {
+			while ($data = $cursor->fetchAssociative()) {
 				$shares[$data['fileid']][] = $this->createShare($data);
 			}
 			$cursor->closeCursor();
@@ -736,7 +736,7 @@ class DefaultShareProvider implements
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
@@ -766,7 +766,7 @@ class DefaultShareProvider implements
 			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
 
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetch();
+		$data = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		if ($data === false) {
@@ -805,7 +805,7 @@ class DefaultShareProvider implements
 			->executeQuery();
 
 		$shares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
@@ -927,7 +927,7 @@ class DefaultShareProvider implements
 
 			$cursor = $qb->executeQuery();
 
-			while ($data = $cursor->fetch()) {
+			while ($data = $cursor->fetchAssociative()) {
 				if ($data['fileid'] && $data['path'] === null) {
 					$data['path'] = (string)$data['path'];
 					$data['name'] = (string)$data['name'];
@@ -1018,7 +1018,7 @@ class DefaultShareProvider implements
 					->andWhere($qb->expr()->in('s.item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
 
 				$cursor = $qb->executeQuery();
-				while ($data = $cursor->fetch()) {
+				while ($data = $cursor->fetchAssociative()) {
 					if ($offset > 0) {
 						$offset--;
 						continue;
@@ -1061,7 +1061,7 @@ class DefaultShareProvider implements
 			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
 			->executeQuery();
 
-		$data = $cursor->fetch();
+		$data = $cursor->fetchAssociative();
 
 		if ($data === false) {
 			throw new ShareNotFound();
@@ -1176,7 +1176,7 @@ class DefaultShareProvider implements
 
 		$stmt = $query->executeQuery();
 
-		while ($data = $stmt->fetch()) {
+		while ($data = $stmt->fetchAssociative()) {
 			if (array_key_exists($data['parent'], $shareMap)) {
 				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
 				$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
@@ -1272,7 +1272,7 @@ class DefaultShareProvider implements
 
 		$cursor = $qb->executeQuery();
 		$ids = [];
-		while ($row = $cursor->fetch()) {
+		while ($row = $cursor->fetchAssociative()) {
 			$ids[] = (int)$row['id'];
 		}
 		$cursor->closeCursor();
@@ -1320,7 +1320,7 @@ class DefaultShareProvider implements
 
 		$cursor = $qb->executeQuery();
 		$ids = [];
-		while ($row = $cursor->fetch()) {
+		while ($row = $cursor->fetchAssociative()) {
 			$ids[] = (int)$row['id'];
 		}
 		$cursor->closeCursor();
@@ -1423,7 +1423,7 @@ class DefaultShareProvider implements
 
 		$users = [];
 		$link = false;
-		while ($row = $cursor->fetch()) {
+		while ($row = $cursor->fetchAssociative()) {
 			$type = (int)$row['share_type'];
 			if ($type === IShare::TYPE_USER) {
 				$uid = $row['share_with'];
@@ -1726,7 +1726,7 @@ class DefaultShareProvider implements
 			->where($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK], IQueryBuilder::PARAM_INT_ARRAY)));
 
 		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			try {
 				$share = $this->createShare($data);
 			} catch (InvalidShare $e) {

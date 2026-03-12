@@ -651,7 +651,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$query = $queryBuilder->executeQuery();
 		$result = [];
 
-		while ($row = $query->fetch()) {
+		while ($row = $query->fetchAssociative()) {
 			$result[] = $row['userid'];
 		}
 
@@ -774,7 +774,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 
 		/** @var list<string> */
-		$list = $queryBuilder->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		$list = $queryBuilder->executeQuery()->fetchFirstColumn();
 
 		return $list;
 	}

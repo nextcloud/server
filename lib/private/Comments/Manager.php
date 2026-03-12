@@ -180,7 +180,7 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $id);
 
 		$resultStatement = $query->executeQuery();
-		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
+		$data = $resultStatement->fetchNumeric();
 		$resultStatement->closeCursor();
 		$children = (int)$data[0];
 
@@ -255,7 +255,7 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $id, IQueryBuilder::PARAM_INT)
 			->executeQuery();
 
-		$data = $resultStatement->fetch();
+		$data = $resultStatement->fetchAssociative();
 		$resultStatement->closeCursor();
 		if (!$data) {
 			throw new NotFoundException();
@@ -290,7 +290,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$resultStatement = $query->executeQuery();
-		while ($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetchAssociative()) {
 			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$tree['replies'][] = [
@@ -349,7 +349,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$resultStatement = $query->executeQuery();
-		while ($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetchAssociative()) {
 			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
@@ -511,7 +511,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$resultStatement = $query->executeQuery();
-		while ($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetchAssociative()) {
 			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
@@ -537,7 +537,7 @@ class Manager implements ICommentsManager {
 			->andWhere($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {
@@ -609,7 +609,7 @@ class Manager implements ICommentsManager {
 
 		$comments = [];
 		$result = $query->executeQuery();
-		while ($data = $result->fetch()) {
+		while ($data = $result->fetchAssociative()) {
 			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
@@ -653,7 +653,7 @@ class Manager implements ICommentsManager {
 		$query->groupBy('object_id');
 		$comments = array_fill_keys($objectIds, 0);
 		$resultStatement = $query->executeQuery();
-		while ($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetchAssociative()) {
 			$comments[$data['object_id']] = (int)$data['num_comments'];
 		}
 		$resultStatement->closeCursor();
@@ -697,7 +697,7 @@ class Manager implements ICommentsManager {
 			$query->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 
 			$result = $query->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$unreadComments[$row['object_id']] = (int)$row['num_comments'];
 			}
 			$result->closeCursor();
@@ -743,7 +743,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$result = $query->executeQuery();
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return (int)($data['num_messages'] ?? 0);
@@ -771,7 +771,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$result = $query->executeQuery();
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return (int)($data['id'] ?? 0);
@@ -808,7 +808,7 @@ class Manager implements ICommentsManager {
 			->groupBy('actor_id');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$lastComments[$row['actor_id']] = $this->timeFactory->getDateTime($row['last_comment']);
 		}
 		$result->closeCursor();
@@ -976,7 +976,7 @@ class Manager implements ICommentsManager {
 			->executeQuery();
 
 		$commentIds = [];
-		while ($data = $result->fetch()) {
+		while ($data = $result->fetchAssociative()) {
 			$commentIds[] = $data['message_id'];
 		}
 
@@ -1006,7 +1006,7 @@ class Manager implements ICommentsManager {
 			->executeQuery();
 
 		$commentIds = [];
-		while ($data = $result->fetch()) {
+		while ($data = $result->fetchAssociative()) {
 			$commentIds[] = $data['message_id'];
 		}
 		$comments = [];
@@ -1063,7 +1063,7 @@ class Manager implements ICommentsManager {
 			$query->setParameter('ids', $ids, IQueryBuilder::PARAM_STR_ARRAY);
 
 			$result = $query->executeQuery();
-			while ($data = $result->fetch()) {
+			while ($data = $result->fetchAssociative()) {
 				$comment = $this->getCommentFromData($data);
 				$this->cache($comment);
 				$comments[] = $comment;
@@ -1415,7 +1415,7 @@ class Manager implements ICommentsManager {
 			->setParameter('object_id', $objectId, IQueryBuilder::PARAM_STR)
 			->executeQuery();
 
-		$data = $resultStatement->fetch();
+		$data = $resultStatement->fetchAssociative();
 		$resultStatement->closeCursor();
 		if (!$data || is_null($data['marker_datetime'])) {
 			return null;

@@ -131,7 +131,7 @@ class Loader implements IMimeTypeLoader {
 			->from('mimetypes');
 
 		$result = $qb->executeQuery();
-		$results = $result->fetchAll();
+		$results = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		foreach ($results as $row) {

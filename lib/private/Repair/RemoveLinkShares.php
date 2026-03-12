@@ -87,7 +87,7 @@ class RemoveLinkShares implements IRepairStep {
 			->where($query->expr()->in('id', $query->createFunction($subQuery->getSQL())));
 
 		$result = $query->executeQuery();
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return (int)$data['total'];
@@ -166,7 +166,7 @@ class RemoveLinkShares implements IRepairStep {
 		$output->startProgress($total);
 
 		$shareResult = $this->getShares();
-		while ($data = $shareResult->fetch()) {
+		while ($data = $shareResult->fetchAssociative()) {
 			$this->processShare($data);
 			$output->advance();
 		}

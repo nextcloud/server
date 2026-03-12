@@ -46,7 +46,7 @@ class Manager implements IManager {
 			->from(self::TABLE_COLLECTIONS)
 			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (!$row) {
@@ -75,7 +75,7 @@ class Manager implements IManager {
 			)
 			->where($query->expr()->eq('c.id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (!$row) {
@@ -120,7 +120,7 @@ class Manager implements IManager {
 		$collections = [];
 
 		$foundResults = 0;
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$foundResults++;
 			$access = $row['access'] === null ? null : (bool)$row['access'];
 			$collection = new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
@@ -179,7 +179,7 @@ class Manager implements IManager {
 			->where($query->expr()->eq('r.resource_type', $query->createNamedParameter($type, IQueryBuilder::PARAM_STR)))
 			->andWhere($query->expr()->eq('r.resource_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_STR)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (!$row) {
@@ -216,7 +216,7 @@ class Manager implements IManager {
 
 		$resources = [];
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$access = $row['access'] === null ? null : (bool)$row['access'];
 			$resources[] = new Resource($this, $this->connection, $row['resource_type'], $row['resource_id'], $user, $access);
 		}
@@ -310,7 +310,7 @@ class Manager implements IManager {
 
 		$hasAccess = null;
 		$result = $query->executeQuery();
-		if ($row = $result->fetch()) {
+		if ($row = $result->fetchAssociative()) {
 			$hasAccess = (bool)$row['access'];
 		}
 		$result->closeCursor();
@@ -330,7 +330,7 @@ class Manager implements IManager {
 
 		$hasAccess = null;
 		$result = $query->executeQuery();
-		if ($row = $result->fetch()) {
+		if ($row = $result->fetchAssociative()) {
 			$hasAccess = (bool)$row['access'];
 		}
 		$result->closeCursor();

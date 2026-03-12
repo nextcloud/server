@@ -37,7 +37,7 @@ class ProviderUserAssignmentDao {
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
 		$result = $query->executeQuery();
 		$providers = [];
-		foreach ($result->fetchAll() as $row) {
+		foreach ($result->fetchAllAssociative() as $row) {
 			$providers[(string)$row['provider_id']] = (int)$row['enabled'] === 1;
 		}
 		$result->closeCursor();
@@ -80,7 +80,7 @@ class ProviderUserAssignmentDao {
 			->from(self::TABLE_NAME)
 			->where($qb1->expr()->eq('uid', $qb1->createNamedParameter($uid)));
 		$selectResult = $selectQuery->executeQuery();
-		$rows = $selectResult->fetchAll();
+		$rows = $selectResult->fetchAllAssociative();
 		$selectResult->closeCursor();
 
 		$qb2 = $this->conn->getQueryBuilder();

@@ -110,9 +110,9 @@ class RepairDavSharesTest extends TestCase {
 
 		$shareResults = $this->createMock(IResult::class);
 		$shareResults->expects($this->any())
-			->method('fetch')
+			->method('fetchAssociative')
 			->willReturnCallback(function () use (&$shareResultData) {
-				return array_pop($shareResultData);
+				return array_pop($shareResultData) ?? false;
 			});
 
 		$expressionBuilder = $this->createMock(IExpressionBuilder::class);

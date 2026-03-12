@@ -59,7 +59,7 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
 		try {
-			return $this->inner->executeUpdate($sql, $params, $types);
+			return $this->inner->executeStatement($sql, $params, $types);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e, '', $sql);
 		}

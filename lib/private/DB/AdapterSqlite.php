@@ -14,11 +14,11 @@ class AdapterSqlite extends Adapter {
 	 * @param string $tableName
 	 */
 	public function lockTable($tableName) {
-		$this->conn->executeUpdate('BEGIN EXCLUSIVE TRANSACTION');
+		$this->conn->executeStatement('BEGIN EXCLUSIVE TRANSACTION');
 	}
 
 	public function unlockTable() {
-		$this->conn->executeUpdate('COMMIT TRANSACTION');
+		$this->conn->executeStatement('COMMIT TRANSACTION');
 	}
 
 	public function fixupStatement($statement) {
@@ -67,7 +67,7 @@ class AdapterSqlite extends Adapter {
 		$query .= ')';
 
 		try {
-			return $this->conn->executeUpdate($query, $inserts);
+			return $this->conn->executeStatement($query, $inserts);
 		} catch (UniqueConstraintViolationException $e) {
 			// if this is thrown then a concurrent insert happened between the insert and the sub-select in the insert, that should have avoided it
 			// it's fine to ignore this then

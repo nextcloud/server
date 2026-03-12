@@ -173,7 +173,7 @@ class MigrationService {
 			->orderBy('version');
 
 		$result = $qb->executeQuery();
-		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$rows = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		usort($rows, $this->sortMigrations(...));

@@ -56,7 +56,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		foreach ($chunks as $chunk) {
 			$query->setParameter('objectids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $query->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$objectId = $row['objectid'];
 				$mapping[$objectId][] = (string)$row['systemtagid'];
 			}
@@ -99,7 +99,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$objectIds = [];
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$objectIds[] = $row['objectid'];
 		}
 		$result->closeCursor();
@@ -123,7 +123,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)))
 			->andWhere($query->expr()->eq('objectid', $query->createNamedParameter($objId)));
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$existingTags = [];
 		foreach ($rows as $row) {
 			$existingTags[] = $row['systemtagid'];
@@ -259,7 +259,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->setParameter('objecttype', $objectType);
 
 		$result = $query->executeQuery();
-		$row = $result->fetch(\PDO::FETCH_NUM);
+		$row = $result->fetchNumeric();
 		$result->closeCursor();
 
 		if ($all) {
@@ -376,7 +376,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 
 		$result = $query->executeQuery();
 		$objectTypes = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$objectTypes[] = $row['objecttype'];
 		}
 		$result->closeCursor();

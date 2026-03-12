@@ -1069,7 +1069,7 @@ class Manager implements IManager {
 		$cursor = $qb->executeQuery();
 		/** @var array<string, list<array{IShare::TYPE_*, Node}>> $rawShare */
 		$rawShares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			if (!isset($rawShares[$data['uid_initiator']])) {
 				$rawShares[$data['uid_initiator']] = [];
 			}

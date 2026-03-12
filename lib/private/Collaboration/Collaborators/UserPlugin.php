@@ -130,7 +130,7 @@ readonly class UserPlugin implements ISearchPlugin {
 					->where($qb->expr()->eq($qb->func()->lower('value'), $qb->createNamedParameter($lowerSearch)))
 					->andWhere($qb->expr()->in('name', $qb->createNamedParameter(['email', 'additional_mail'], IQueryBuilder::PARAM_STR_ARRAY)));
 				$result = $qb->executeQuery();
-				while ($row = $result->fetch()) {
+				while ($row = $result->fetchAssociative()) {
 					$uid = $row['uid'];
 					$email = $row['value'];
 					$isAdditional = $row['name'] === 'additional_mail';

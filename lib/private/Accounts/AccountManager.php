@@ -197,7 +197,7 @@ class AccountManager implements IAccountManager {
 			->where($query->expr()->eq('uid', $query->createParameter('uid')))
 			->setParameter('uid', $uid);
 		$result = $query->executeQuery();
-		$accountData = $result->fetchAll();
+		$accountData = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		if (empty($accountData)) {
@@ -233,7 +233,7 @@ class AccountManager implements IAccountManager {
 			$query->setParameter('values', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $query->executeQuery();
 
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$matches[$row['uid']] = $row['value'];
 			}
 			$result->closeCursor();

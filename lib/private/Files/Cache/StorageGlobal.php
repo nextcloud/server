@@ -44,7 +44,7 @@ class StorageGlobal {
 			->where($builder->expr()->in('id', $builder->createNamedParameter(array_values($storageIds), IQueryBuilder::PARAM_STR_ARRAY)));
 
 		$result = $query->executeQuery();
-		while (($row = $result->fetch()) !== false) {
+		while (($row = $result->fetchAssociative()) !== false) {
 			$normalizedRow = [
 				'id' => (string)$row['id'],
 				'numeric_id' => (int)$row['numeric_id'],
@@ -69,7 +69,7 @@ class StorageGlobal {
 				->where($builder->expr()->eq('id', $builder->createNamedParameter($storageId)));
 
 			$result = $query->executeQuery();
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$result->closeCursor();
 
 			if ($row !== false) {
@@ -99,7 +99,7 @@ class StorageGlobal {
 				->where($builder->expr()->eq('numeric_id', $builder->createNamedParameter($numericId)));
 
 			$result = $query->executeQuery();
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$result->closeCursor();
 
 			if ($row !== false) {

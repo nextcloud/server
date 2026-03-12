@@ -72,7 +72,7 @@ class RepairInvalidShares implements IRepairStep {
 		while ($deletedInLastChunk === self::CHUNK_SIZE) {
 			$deletedInLastChunk = 0;
 			$result = $query->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$deletedInLastChunk++;
 				$deletedEntries += $deleteQuery->setParameter('parent', (int)$row['parent'])
 					->executeStatement();

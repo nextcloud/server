@@ -51,7 +51,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 
 		// Clear occasional leftover shares from other tests
-		$this->db->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$this->db->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
@@ -78,7 +78,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->db->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$this->db->getQueryBuilder()->delete('share')->executeStatement();
 
 		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);

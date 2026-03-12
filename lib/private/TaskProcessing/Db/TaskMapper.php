@@ -276,7 +276,7 @@ class TaskMapper extends QBMapper {
 		$qb->andWhere($qb->expr()->eq('status', $qb->createNamedParameter(\OCP\TaskProcessing\Task::STATUS_RUNNING, IQueryBuilder::PARAM_INT)));
 		$qb->setMaxResults(1);
 		$result = $qb->executeQuery();
-		$hasRunningTasks = $result->fetch() !== false;
+		$hasRunningTasks = $result->fetchAssociative() !== false;
 		$result->closeCursor();
 		return $hasRunningTasks;
 	}

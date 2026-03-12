@@ -159,7 +159,7 @@ class Tags implements ITags {
 				$qb->setParameter('type', $this->type, IQueryBuilder::PARAM_STR);
 				$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$result = $qb->executeQuery();
-				while ($row = $result->fetch()) {
+				while ($row = $result->fetchAssociative()) {
 					$objId = (int)$row['objid'];
 					if (!isset($entries[$objId])) {
 						$entries[$objId] = [];
@@ -223,7 +223,7 @@ class Tags implements ITags {
 			return false;
 		}
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$ids[] = (int)$row['objid'];
 		}
 		$result->closeCursor();

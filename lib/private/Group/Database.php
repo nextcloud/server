@@ -146,7 +146,7 @@ class Database extends ABackend implements
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->executeQuery();
 
-		$result = $cursor->fetch();
+		$result = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		return $result ? true : false;
@@ -221,7 +221,7 @@ class Database extends ABackend implements
 			->executeQuery();
 
 		$groups = [];
-		while ($row = $cursor->fetch()) {
+		while ($row = $cursor->fetchAssociative()) {
 			$groups[] = $row['gid'];
 			$this->groupCache[$row['gid']] = [
 				'gid' => $row['gid'],
@@ -268,7 +268,7 @@ class Database extends ABackend implements
 		$result = $query->executeQuery();
 
 		$groups = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$this->groupCache[$row['gid']] = [
 				'displayname' => $row['displayname'],
 				'gid' => $row['gid'],
@@ -298,7 +298,7 @@ class Database extends ABackend implements
 			->from('groups')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
 			->executeQuery();
-		$result = $cursor->fetch();
+		$result = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		if ($result !== false) {
@@ -335,7 +335,7 @@ class Database extends ABackend implements
 		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
 			$qb->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $qb->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$this->groupCache[(string)$row['gid']] = [
 					'displayname' => (string)$row['displayname'],
 					'gid' => (string)$row['gid'],
@@ -413,7 +413,7 @@ class Database extends ABackend implements
 
 		$users = [];
 		$userManager = Server::get(IUserManager::class);
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$users[$row['uid']] = new LazyUser($row['uid'], $userManager, $row['displayname'] ?? null);
 		}
 		$result->closeCursor();
@@ -544,7 +544,7 @@ class Database extends ABackend implements
 				->where($query->expr()->in('gid', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
 
 			$result = $query->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$details[(string)$row['gid']] = ['displayName' => (string)$row['displayname']];
 				$this->groupCache[(string)$row['gid']] = [
 					'displayname' => (string)$row['displayname'],
