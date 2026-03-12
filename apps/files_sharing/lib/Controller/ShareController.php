@@ -7,7 +7,6 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
@@ -92,15 +91,7 @@ class ShareController extends AuthPublicShareController {
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
-		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
-		if ($this->share->getSendPasswordByTalk()) {
-			$csp = new ContentSecurityPolicy();
-			$csp->addAllowedConnectDomain('*');
-			$csp->addAllowedMediaDomain('blob:');
-			$response->setContentSecurityPolicy($csp);
-		}
-
-		return $response;
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
 	}
 
 	/**
@@ -111,15 +102,7 @@ class ShareController extends AuthPublicShareController {
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
-		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
-		if ($this->share->getSendPasswordByTalk()) {
-			$csp = new ContentSecurityPolicy();
-			$csp->addAllowedConnectDomain('*');
-			$csp->addAllowedMediaDomain('blob:');
-			$response->setContentSecurityPolicy($csp);
-		}
-
-		return $response;
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
 	}
 
 	/**
@@ -130,15 +113,7 @@ class ShareController extends AuthPublicShareController {
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
-		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
-		if ($this->share->getSendPasswordByTalk()) {
-			$csp = new ContentSecurityPolicy();
-			$csp->addAllowedConnectDomain('*');
-			$csp->addAllowedMediaDomain('blob:');
-			$response->setContentSecurityPolicy($csp);
-		}
-
-		return $response;
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
 	}
 
 	/**
