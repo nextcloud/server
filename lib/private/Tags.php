@@ -17,7 +17,7 @@ use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Files\Folder;
 use OCP\IDBConnection;
 use OCP\ITags;
-use OCP\IUserSession;
+use OCP\IUserManager;
 use OCP\Share_Backend;
 use Psr\Log\LoggerInterface;
 
@@ -65,7 +65,7 @@ class Tags implements ITags {
 		private LoggerInterface $logger,
 		private IDBConnection $db,
 		private IEventDispatcher $dispatcher,
-		private IUserSession $userSession,
+		private IUserManager $userManager,
 		private Folder $userFolder,
 		array $defaultTags = [],
 	) {
@@ -538,7 +538,7 @@ class Tags implements ITags {
 				}
 			}
 
-			$this->dispatcher->dispatchTyped(new NodeAddedToFavorite($this->userSession->getUser(), $objid, $path));
+			$this->dispatcher->dispatchTyped(new NodeAddedToFavorite($this->userManager->getExistingUser($this->user), $objid, $path));
 		}
 		return true;
 	}
@@ -583,7 +583,7 @@ class Tags implements ITags {
 				}
 			}
 
-			$this->dispatcher->dispatchTyped(new NodeRemovedFromFavorite($this->userSession->getUser(), $objid, $path));
+			$this->dispatcher->dispatchTyped(new NodeRemovedFromFavorite($this->userManager->getExistingUser($this->user), $objid, $path));
 		}
 		return true;
 	}
