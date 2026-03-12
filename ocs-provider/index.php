@@ -11,7 +11,6 @@ use OCP\IRequest;
 use OCP\Server;
 
 require_once __DIR__ . '/../lib/base.php';
-OC::init();
 
 header('Content-Type: application/json');
 
