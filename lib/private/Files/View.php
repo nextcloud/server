@@ -96,12 +96,15 @@ class View {
 	}
 
 	/**
-	 * @param ?string $path
+	 * Returns an absolute path in Nextcloud's virtual filesystem for this view.
+	 *
+	 * The returned path is scoped by this view's fake root.
+	 *
 	 * @psalm-template S as string|null
 	 * @psalm-param S $path
 	 * @psalm-return (S is string ? string : null)
 	 */
-	public function getAbsolutePath($path = '/'): ?string {
+	public function getAbsolutePath(?string $path = '/'): ?string {
 		if ($path === null) {
 			return null;
 		}
@@ -185,33 +188,42 @@ class View {
 	}
 
 	/**
-	 * Resolve a path to a storage and internal path
+	 * Resolve a path to a storage and internal path.
 	 *
-	 * @param string $path
-	 * @return array{?IStorage, string} an array consisting of the storage and the internal path
+	 * Accepts both:
+	 * - relative paths (interpreted relative to this view root), and
+	 * - absolute paths in Nextcloud's virtual filesystem (leading '/').
+	 *
+	 * @param string $path Relative path, or absolute virtual filesystem path
+	 * @return array{?IStorage, string} An array containing [storage, internalPath]
 	 */
-	public function resolvePath($path): array {
-		$a = $this->getAbsolutePath($path);
-		$p = Filesystem::normalizePath($a);
-		return Filesystem::resolvePath($p);
+	public function resolvePath(string $path): array {
+		$absolutePath = $this->getAbsolutePath($path);
+		$normalizedPath = Filesystem::normalizePath($absolutePath);
+		return Filesystem::resolvePath($normalizedPath);
 	}
 
 	/**
-	 * Return the path to a local version of the file
-	 * we need this because we can't know if a file is stored local or not from
-	 * outside the filestorage and for some purposes a local file is needed
+	 * Return the path to a local representation of a file.
 	 *
-	 * @param string $path
+	 * For local storages this is usually the real on-disk path.
+	 * For non-local storages this may be a temporary local file.
+	 *
+	 * @param string $path Path relative to this view, or absolute virtual filesystem path
+	 * @return string|false Local file path, or false if unavailable
 	 */
-	public function getLocalFile($path): string|false {
-		$parent = substr($path, 0, strrpos($path, '/') ?: 0);
-		$path = $this->getAbsolutePath($path);
-		[$storage, $internalPath] = Filesystem::resolvePath($path);
-		if (Filesystem::isValidPath($parent) && $storage) {
-			return $storage->getLocalFile($internalPath);
-		} else {
+	public function getLocalFile(string $path): string|false {
+		$parentPath = dirname($path);
+		if (!Filesystem::isValidPath($parentPath)) {
 			return false;
 		}
+
+		[$storage, $internalPath] = $this->resolvePath($path);
+		if (!$storage) {
+			return false;
+		}
+
+		return $storage->getLocalFile($internalPath);
 	}
 
 	/**
