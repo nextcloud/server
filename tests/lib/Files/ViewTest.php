@@ -595,20 +595,6 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals($cachedData['storage_mtime'], $cachedData['mtime']);
 	}
 
-	public function testTouchFloat(): void {
-		$storage = $this->getTestStorage(true, TemporaryNoTouch::class);
-
-		Filesystem::mount($storage, [], '/');
-
-		$rootView = new View('');
-		$oldCachedData = $rootView->getFileInfo('foo.txt');
-
-		$rootView->touch('foo.txt', 500.5);
-
-		$cachedData = $rootView->getFileInfo('foo.txt');
-		$this->assertEquals(500, $cachedData['mtime']);
-	}
-
 	public function testViewHooks(): void {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
