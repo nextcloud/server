@@ -457,6 +457,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	}
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
+		// If caller didn't provide size, try to infer it from the input stream metadata.
 		if ($size === null) {
 			$stats = fstat($stream);
 			if (is_array($stats) && isset($stats['size'])) {
@@ -464,19 +465,22 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			}
 		}
 
+		// Load current file metadata from cache. If not found, initialize stat for a new file.
 		$stat = $this->stat($path);
 		if (empty($stat)) {
-			// create new file
 			$stat = [
+				// New files cannot create children; mirror existing behavior for object store entries.
 				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
 			];
 		}
-		// update stat with new data
+
+		// Refresh mutable metadata for this write.
 		$mTime = time();
 		$stat['size'] = (int)$size;
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
 
+		// Derive mimetype from path and prepare object-store metadata payload.
 		$mimetypeDetector = Server::get(IMimeTypeDetector::class);
 		$mimetype = $mimetypeDetector->detectPath($path);
 		$metadata = [
@@ -484,7 +488,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			'original-storage' => $this->getId(),
 			'original-path' => $path,
 		];
-		if ($size) {
+		if ($size !== null) {
 			$metadata['size'] = $size;
 		}
 
@@ -492,25 +496,30 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 		$stat['etag'] = $this->getETag($path);
 		$stat['checksum'] = '';
 
+		// Existing files are updated in place.
+		// New files are first written under "<path>.part" and moved into place after successful upload.
 		$exists = $this->getCache()->inCache($path);
 		$uploadPath = $exists ? $path : $path . '.part';
 
 		if ($exists) {
 			$fileId = $stat['fileid'];
 		} else {
+			// For new files, ensure parent exists and is a directory before creating cache entry.
 			$parent = $this->normalizePath(dirname($path));
 			if (!$this->is_dir($parent)) {
-				throw new \InvalidArgumentException("trying to upload a file ($path) inside a non-directory ($parent)");
+				throw new \InvalidArgumentException(
+					sprintf('Cannot write "%s": parent path "%s" is not a directory', $path, $parent)
+				);
 			}
 			$fileId = $this->getCache()->put($uploadPath, $stat);
 		}
 
 		$urn = $this->getURN($fileId);
 		try {
-			//upload to object storage
-
+			// Upload stream to object storage while counting bytes actually written.
 			$totalWritten = 0;
 			$countStream = CountWrapper::wrap($stream, function ($writtenSize) use ($fileId, $size, $exists, &$totalWritten): void {
+				// If total size is unknown and this is a new file, update cached size progressively.
 				if (is_null($size) && !$exists) {
 					$this->getCache()->update($fileId, [
 						'size' => $writtenSize,
@@ -519,6 +528,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				$totalWritten = $writtenSize;
 			});
 
+			// Prefer metadata-aware writes when supported by the backend; otherwise fall back to the legacy write API
 			if ($this->objectStore instanceof IObjectStoreMetaData) {
 				$this->objectStore->writeObjectWithMetaData($urn, $countStream, $metadata);
 			} else {
@@ -528,13 +538,14 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				fclose($countStream);
 			}
 
+			// Trust counted bytes as the authoritative written size.
 			$stat['size'] = $totalWritten;
 		} catch (\Exception $ex) {
+			/*
+			 * Only remove cache entry for new files.
+			 * For existing files, removing would drop visibility of the prior valid file entry.
+			 */
 			if (!$exists) {
-				/*
-				 * Only remove the entry if we are dealing with a new file.
-				 * Else people lose access to existing files
-				 */
 				$this->getCache()->remove($uploadPath);
 				$this->logger->error(
 					'Could not create object ' . $urn . ' for ' . $path,
@@ -556,10 +567,12 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 		}
 
 		if ($exists) {
-			// Always update the unencrypted size, for encryption the Encryption wrapper will update this afterwards anyways
+			// Keep unencrypted_size in sync for existing files.
+			// (Encryption wrapper may adjust this afterwards when applicable.)
 			$stat['unencrypted_size'] = $stat['size'];
 			$this->getCache()->update($fileId, $stat);
 		} else {
+			// For new files, publish temp entry only after write validation (if enabled).
 			if (!$this->validateWrites || $this->objectStore->objectExists($urn)) {
 				$this->getCache()->move($uploadPath, $path);
 			} else {
