@@ -40,8 +40,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	private string $objectPrefix = 'urn:oid:';
 
 	private LoggerInterface $logger;
-
-	private bool $handleCopiesAsOwned;
 	protected bool $validateWrites = true;
 	private bool $preserveCacheItemsOnDelete = false;
 	private ?int $totalSizeLimit = null;
@@ -67,7 +65,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (isset($parameters['validateWrites'])) {
 			$this->validateWrites = (bool)$parameters['validateWrites'];
 		}
-		$this->handleCopiesAsOwned = (bool)($parameters['handleCopiesAsOwned'] ?? false);
 		if (isset($parameters['totalSizeLimit'])) {
 			$this->totalSizeLimit = $parameters['totalSizeLimit'];
 		}
@@ -730,10 +727,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		try {
 			$this->objectStore->copyObject($sourceUrn, $targetUrn);
-			if ($this->handleCopiesAsOwned) {
-				// Copied the file thus we gain all permissions as we are the owner now ! warning while this aligns with local storage it should not be used and instead fix local storage !
-				$cache->update($targetId, ['permissions' => \OCP\Constants::PERMISSION_ALL]);
-			}
 		} catch (\Exception $e) {
 			$cache->remove($to);
 
