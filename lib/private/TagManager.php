@@ -17,6 +17,7 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\ITagManager;
 use OCP\ITags;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\User\Events\UserDeletedEvent;
 use Psr\Log\LoggerInterface;
@@ -29,6 +30,7 @@ class TagManager implements ITagManager, IEventListener {
 	public function __construct(
 		private TagMapper $mapper,
 		private IUserSession $userSession,
+		private IUserManager $userManager,
 		private IDBConnection $connection,
 		private LoggerInterface $logger,
 		private IEventDispatcher $dispatcher,
@@ -59,7 +61,7 @@ class TagManager implements ITagManager, IEventListener {
 			$userId = $this->userSession->getUser()->getUId();
 		}
 		$userFolder = $this->rootFolder->getUserFolder($userId);
-		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $this->dispatcher, $this->userSession, $userFolder, $defaultTags);
+		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $this->dispatcher, $this->userManager, $userFolder, $defaultTags);
 	}
 
 	/**
