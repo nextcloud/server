@@ -344,7 +344,7 @@ class ResourcesRoomsUpdater {
 			->from($table)
 			->where($query->expr()->eq($foreignKey, $query->createNamedParameter($id)));
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$metadata = [];
@@ -370,7 +370,7 @@ class ResourcesRoomsUpdater {
 			->from($tableName)
 			->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)));
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return array_map(function ($row): string {

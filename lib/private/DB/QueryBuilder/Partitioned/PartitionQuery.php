@@ -49,7 +49,7 @@ class PartitionQuery {
 		$this->query->andWhere($this->query->expr()->in($this->joinToColumn, $this->query->createNamedParameter($joinFromValues, IQueryBuilder::PARAM_STR_ARRAY, ':' . uniqid())));
 
 		$s = $this->query->getSQL();
-		$partitionedRows = $this->query->executeQuery()->fetchAll();
+		$partitionedRows = $this->query->executeQuery()->fetchAllAssociative();
 
 		$columns = $this->query->getOutputColumns();
 		$nullResult = array_combine($columns, array_fill(0, count($columns), null));

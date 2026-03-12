@@ -64,7 +64,7 @@ class CredentialsManager implements ICredentialsManager {
 		}
 
 		$qResult = $qb->executeQuery();
-		$result = $qResult->fetch();
+		$result = $qResult->fetchAssociative();
 		$qResult->closeCursor();
 
 		if (!$result) {

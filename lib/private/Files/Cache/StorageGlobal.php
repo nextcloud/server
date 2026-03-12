@@ -73,7 +73,7 @@ class StorageGlobal {
 				->where($builder->expr()->eq('id', $builder->createNamedParameter($storageId)));
 
 			$result = $query->executeQuery();
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$result->closeCursor();
 
 			if ($row !== false) {
@@ -103,7 +103,7 @@ class StorageGlobal {
 				->where($builder->expr()->eq('numeric_id', $builder->createNamedParameter($numericId)));
 
 			$result = $query->executeQuery();
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$result->closeCursor();
 
 			if ($row !== false) {

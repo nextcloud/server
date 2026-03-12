@@ -1420,7 +1420,7 @@ class AppConfig implements IAppConfig {
 			return;
 		}
 
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
 			if ($this->migrationCompleted && $lazy && ((int)$row['lazy']) === 1) {

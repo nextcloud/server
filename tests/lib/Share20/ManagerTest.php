@@ -520,7 +520,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($result);
 		$this->connection->method('getQueryBuilder')
 			->willReturn($qb);
-		$result->method('fetch')
+		$result->method('fetchAssociative')
 			->willReturnOnConsecutiveCalls(
 				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
 				false,
@@ -616,7 +616,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($result);
 		$this->connection->method('getQueryBuilder')
 			->willReturn($qb);
-		$result->method('fetch')
+		$result->method('fetchAssociative')
 			->willReturnOnConsecutiveCalls(
 				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 41],
 				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
@@ -673,7 +673,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($result);
 		$this->connection->method('getQueryBuilder')
 			->willReturn($qb);
-		$result->method('fetch')
+		$result->method('fetchAssociative')
 			->willReturnOnConsecutiveCalls(
 				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
 				false,
@@ -767,7 +767,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($result);
 		$this->connection->method('getQueryBuilder')
 			->willReturn($qb);
-		$result->method('fetch')
+		$result->method('fetchAssociative')
 			->willReturnOnConsecutiveCalls(
 				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
 				['uid_initiator' => 'userC', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],

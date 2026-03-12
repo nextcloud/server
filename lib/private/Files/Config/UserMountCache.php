@@ -263,7 +263,7 @@ class UserMountCache implements IUserMountCache {
 				->where($builder->expr()->eq('user_id', $builder->createNamedParameter($userUID)));
 
 			$result = $query->executeQuery();
-			$rows = $result->fetchAll();
+			$rows = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			/** @var array<string, ICachedMountInfo> $mounts */
@@ -309,7 +309,7 @@ class UserMountCache implements IUserMountCache {
 		}
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
@@ -328,7 +328,7 @@ class UserMountCache implements IUserMountCache {
 			->where($builder->expr()->eq('root_id', $builder->createNamedParameter($rootFileId, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
@@ -347,7 +347,7 @@ class UserMountCache implements IUserMountCache {
 				->where($builder->expr()->eq('fileid', $builder->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 
 			$result = $query->executeQuery();
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$result->closeCursor();
 
 			if (is_array($row)) {
@@ -407,7 +407,7 @@ class UserMountCache implements IUserMountCache {
 		$result = $query->executeQuery();
 
 		$mounts = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			if ($user === null && !$this->userManager->userExists($row['user_id'])) {
 				continue;
 			}
@@ -484,7 +484,7 @@ class UserMountCache implements IUserMountCache {
 		$result = $query->executeQuery();
 
 		$results = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$results[$row['user_id']] = $row['size'];
 		}
 		$result->closeCursor();

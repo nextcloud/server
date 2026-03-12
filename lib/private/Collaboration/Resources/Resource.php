@@ -109,7 +109,7 @@ class Resource implements IResource {
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($this->getId())));
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$collections[] = $this->manager->getCollection((int)$row['collection_id']);
 		}
 		$result->closeCursor();

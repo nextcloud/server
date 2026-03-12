@@ -17,12 +17,12 @@ class AdapterMySQL extends Adapter {
 	 */
 	#[\Override]
 	public function lockTable($tableName) {
-		$this->conn->executeUpdate('LOCK TABLES `' . $tableName . '` WRITE');
+		$this->conn->executeStatement('LOCK TABLES `' . $tableName . '` WRITE');
 	}
 
 	#[\Override]
 	public function unlockTable() {
-		$this->conn->executeUpdate('UNLOCK TABLES');
+		$this->conn->executeStatement('UNLOCK TABLES');
 	}
 
 	#[\Override]

@@ -113,7 +113,7 @@ class UserConfig implements IUserConfig {
 		}
 
 		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$userIds = [];
 		foreach ($rows as $row) {
 			$userIds[] = $row['userid'];
@@ -395,7 +395,7 @@ class UserConfig implements IUserConfig {
 		// this nested function will execute current Query and store result within $values.
 		$executeAndStoreValue = function (IQueryBuilder $qb) use (&$values, $typedAs): IResult {
 			$result = $qb->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$value = $row['configvalue'];
 				try {
 					$value = $this->convertTypedValue($value, $typedAs ?? ValueType::from((int)$row['type']));
@@ -559,7 +559,7 @@ class UserConfig implements IUserConfig {
 
 		$qb->andWhere($where);
 		$result = $qb->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			yield $row['userid'];
 		}
 	}
@@ -1848,7 +1848,7 @@ class UserConfig implements IUserConfig {
 			return;
 		}
 
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		foreach ($rows as $row) {
 			if ($this->migrationCompleted && (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1)) {
 				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
