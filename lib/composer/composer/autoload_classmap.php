@@ -164,6 +164,7 @@ return array(
     'OCP\\Calendar\\Exceptions\\CalendarException' => $baseDir . '/lib/public/Calendar/Exceptions/CalendarException.php',
     'OCP\\Calendar\\ICalendar' => $baseDir . '/lib/public/Calendar/ICalendar.php',
     'OCP\\Calendar\\ICalendarIsEnabled' => $baseDir . '/lib/public/Calendar/ICalendarIsEnabled.php',
+    'OCP\\Calendar\\ICalendarIsPublic' => $baseDir . '/lib/public/Calendar/ICalendarIsPublic.php',
     'OCP\\Calendar\\ICalendarProvider' => $baseDir . '/lib/public/Calendar/ICalendarProvider.php',
     'OCP\\Calendar\\ICalendarQuery' => $baseDir . '/lib/public/Calendar/ICalendarQuery.php',
     'OCP\\Calendar\\ICreateFromString' => $baseDir . '/lib/public/Calendar/ICreateFromString.php',
