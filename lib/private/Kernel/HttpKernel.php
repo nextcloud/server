@@ -467,6 +467,8 @@ class HttpKernel extends Kernel {
 		}
 
 		// Output
+		//FIXME middleware are skipped
+		$io->setOutput($response->render());
 
 		// Cookies
 		foreach ($response->getCookies() as $name => $value) {

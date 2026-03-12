@@ -15,9 +15,7 @@ use OC\Profiler\RoutingDataCollector;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
-use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\QueryException;
 use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
 use OCP\IRequest;
@@ -159,6 +157,8 @@ class App {
 			$response->addHeader('Server-Timing', 'token;desc="' . $profile->getToken() . '"');
 		}
 
+		return $response;
+		//FIXME dead code below, should be migrated
 		/*
 		 * Status 204 does not have a body and no Content Length
 		 * Status 304 does not have a body and does not need a Content Length

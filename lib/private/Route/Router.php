@@ -308,7 +308,6 @@ class Router implements IRouter {
 	 *
 	 * @param string $url The url to find
 	 * @throws \Exception
-	 * @return void
 	 */
 	public function match(IRequest $request): Response {
 		$parameters = $this->findMatchingRoute($request->getPathInfo());
@@ -329,6 +328,7 @@ class Router implements IRouter {
 		} else {
 			throw new \Exception('no action available');
 		}
+		//FIXME what about action and file, should we return a callback response?
 		$this->eventLogger->end('route:run');
 	}
 
