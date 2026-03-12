@@ -204,6 +204,7 @@ OC.L10N.register(
     "Search people" : "Etsi ihmisiä",
     "People" : "Ihmiset",
     "Filter in current view" : "Suodata nykyisessä näkymässä",
+    "Search connected services" : "Etsi liitetyistä palveluista",
     "Results" : "Tulokset",
     "Load more results" : "Lataa lisää tuloksia",
     "Search in" : "Etsi kohteesta",

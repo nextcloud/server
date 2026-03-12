@@ -4,7 +4,7 @@ OC.L10N.register(
     "Profile" : "Profil",
     "This application provides the profile" : "Denne applikation leverer profilen",
     "Provides a customisable user profile interface." : "Leverer en brugerdefinerbar brugerprofil grænseflade.",
-    "Searching …" : "Søger ...",
+    "Searching …" : "Søger …",
     "Not found" : "Ikke fundet",
     "Insert" : "Indsæt",
     "You have not added any info yet" : "Du har ikke tilføjet nogen information endnu",
