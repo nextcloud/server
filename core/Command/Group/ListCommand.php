@@ -9,7 +9,6 @@ namespace OC\Core\Command\Group;
 use OC\Core\Command\Base;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,7 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ListCommand extends Base {
 	public function __construct(
 		protected IGroupManager $groupManager,
-		protected IUserManager $userManager,
 	) {
 		parent::__construct();
 	}
@@ -70,10 +68,9 @@ class ListCommand extends Base {
 	 * @return string[]
 	 */
 	public function usersForGroup(IGroup $group, bool $addInfo = false): array {
-		$users = array_keys($group->getUsers());
-		return array_map(function ($userId) use ($addInfo) {
-			$user = $addInfo ? $this->userManager->get($userId) : null;
-			return (string)$userId . ($user ? ': ' . $user->getDisplayName() : '');
+		$users = array_values($group->getUsers());
+		return array_map(function ($user) use ($addInfo) {
+			return $user->getUID() . ($addInfo ? ': ' . $user->getDisplayName() : '');
 		}, $users);
 	}
 
