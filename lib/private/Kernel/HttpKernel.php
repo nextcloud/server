@@ -9,33 +9,132 @@ declare(strict_types=1);
 
 namespace OC\Kernel;
 
+use Error;
 use Exception;
 use OC\AppFramework\Http;
 use OC\Core\Controller\SetupController;
+use OC\ServiceUnavailableException;
 use OC\SystemConfig;
 use OC\User\DisabledUserException;
+use OC\User\LoginException;
 use OC_User;
 use OC_Util;
 use OCA\AppAPI\Service\AppAPIService;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http\ErrorTemplateResponse;
 use OCP\AppFramework\Http\IOutput;
+use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Diagnostics\IEventLogger;
+use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\Bruteforce\MaxDelayReached;
 use OCP\Server;
 use OCP\Template\ITemplateManager;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Throwable;
 use function OCP\Log\logger;
 
-class HttpKernel extends Kernel implements IHttpKernel {
-	public function handle(IRequest $request, bool $catch = true): Response {
+class HttpKernel extends Kernel {
+	public function handle(IRequest $request): Response {
+		try {
+			return $this->doHandle($request);
+		} catch (ServiceUnavailableException $ex) {
+			Server::get(LoggerInterface::class)->error($ex->getMessage(), [
+				'app' => 'index',
+				'exception' => $ex,
+			]);
+
+			//show the user a detailed error page
+			Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 503);
+		} catch (HintException $ex) {
+			try {
+				Server::get(ITemplateManager::class)->printErrorPage($ex->getMessage(), $ex->getHint(), 503);
+			} catch (Exception $ex2) {
+				try {
+					Server::get(LoggerInterface::class)->error($ex->getMessage(), [
+						'app' => 'index',
+						'exception' => $ex,
+					]);
+					Server::get(LoggerInterface::class)->error($ex2->getMessage(), [
+						'app' => 'index',
+						'exception' => $ex2,
+					]);
+				} catch (Throwable $e) {
+					// no way to log it properly - but to avoid a white page of death we try harder and ignore this one here
+				}
+
+				//show the user a detailed error page
+				Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
+			}
+		} catch (LoginException $ex) {
+			$request = Server::get(IRequest::class);
+			/**
+			 * Routes with the @CORS annotation and other API endpoints should
+			 * not return a webpage, so we only print the error page when html is accepted,
+			 * otherwise we reply with a JSON array like the SecurityMiddleware would do.
+			 */
+			if (stripos($request->getHeader('Accept'), 'html') === false) {
+				http_response_code(401);
+				header('Content-Type: application/json; charset=utf-8');
+				echo json_encode(['message' => $ex->getMessage()]);
+				exit();
+			}
+			Server::get(ITemplateManager::class)->printErrorPage($ex->getMessage(), $ex->getMessage(), 401);
+		} catch (MaxDelayReached $ex) {
+			$request = Server::get(IRequest::class);
+			/**
+			 * Routes with the @CORS annotation and other API endpoints should
+			 * not return a webpage, so we only print the error page when html is accepted,
+			 * otherwise we reply with a JSON array like the BruteForceMiddleware would do.
+			 */
+			if (stripos($request->getHeader('Accept'), 'html') === false) {
+				http_response_code(429);
+				header('Content-Type: application/json; charset=utf-8');
+				echo json_encode(['message' => $ex->getMessage()]);
+				exit();
+			}
+			http_response_code(429);
+			Server::get(ITemplateManager::class)->printGuestPage('core', '429');
+		} catch (Exception $ex) {
+			Server::get(LoggerInterface::class)->error($ex->getMessage(), [
+				'app' => 'index',
+				'exception' => $ex,
+			]);
+
+			//show the user a detailed error page
+			Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
+		} catch (Error $ex) {
+			try {
+				Server::get(LoggerInterface::class)->error($ex->getMessage(), [
+					'app' => 'index',
+					'exception' => $ex,
+				]);
+			} catch (Error $e) {
+				http_response_code(500);
+				header('Content-Type: text/plain; charset=utf-8');
+				print("Internal Server Error\n\n");
+				print("The server encountered an internal error and was unable to complete your request.\n");
+				print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+				print("More details can be found in the webserver log.\n");
+
+				throw $ex;
+			}
+			Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
+		}
+	}
+
+	public function doHandle(IRequest $request): Response {
 		$this->getContainer()->get(IEventLogger::class)
 			->start('handle_request', 'Handle request');
 
@@ -112,13 +211,11 @@ class HttpKernel extends Kernel implements IHttpKernel {
 				$appManager->loadApps(['filesystem', 'logging']);
 				$appManager->loadApps();
 			}
-			Server::get(\OC\Route\Router::class)->match($request);
-			return;
+			return Server::get(\OC\Route\Router::class)->match($request);
 		} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 			//header('HTTP/1.0 404 Not Found');
 		} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
-			http_response_code(405);
-			return;
+			return new ErrorTemplateResponse('', '', status: 405);
 		}
 
 		// Handle WebDAV
@@ -126,15 +223,13 @@ class HttpKernel extends Kernel implements IHttpKernel {
 			// not allowed anymore to prevent people
 			// mounting this root directly.
 			// Users need to mount remote.php/webdav instead.
-			http_response_code(405);
-			return;
+			return new ErrorTemplateResponse('', '', status: 405);
 		}
 
 		// Handle requests for JSON or XML
 		$acceptHeader = $request->getHeader('Accept');
 		if (in_array($acceptHeader, ['application/json', 'application/xml'], true)) {
-			http_response_code(404);
-			return;
+			return new NotFoundResponse();
 		}
 
 		// Handle resources that can't be found
@@ -142,8 +237,7 @@ class HttpKernel extends Kernel implements IHttpKernel {
 		// attempting to parse HTML as CSS and similar.
 		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
 		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
-			http_response_code(404);
-			return;
+			return new NotFoundResponse();
 		}
 
 		// Redirect to the default app or login only as an entry point
@@ -151,27 +245,22 @@ class HttpKernel extends Kernel implements IHttpKernel {
 			// Someone is logged in
 			$userSession = Server::get(IUserSession::class);
 			if ($userSession->isLoggedIn()) {
-				header('X-User-Id: ' . $userSession->getUser()?->getUID());
-				header('Location: ' . Server::get(IURLGenerator::class)->linkToDefaultPageUrl());
+				$response = new RedirectResponse(Server::get(IURLGenerator::class)->linkToDefaultPageUrl());
+				$response->addHeader('X-User-Id', $userSession->getUser()?->getUID());
+				return $response;
 			} else {
 				// Not handled and not logged in
-				header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute('core.login.showLoginForm'));
+				return new RedirectResponse(Server::get(IURLGenerator::class)->linkToRouteAbsolute('core.login.showLoginForm'));
 			}
-			return;
 		}
 
 		try {
 			return Server::get(\OC\Route\Router::class)->match('/error/404');
 		} catch (\Exception $e) {
 			if (!$e instanceof MethodNotAllowedException) {
-				$this->logger('core')->emergency($e->getMessage(), ['exception' => $e]);
+				logger('core')->emergency($e->getMessage(), ['exception' => $e]);
 			}
-			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-			Server::get(ITemplateManager::class)->printErrorPage(
-				'404',
-				$l->t('The page could not be found on the server.'),
-				404
-			);
+			return new NotFoundResponse();
 		}
 	}
 
@@ -190,7 +279,7 @@ class HttpKernel extends Kernel implements IHttpKernel {
 		return $response;
 	}
 
-	public function boot(): void {
+	public function boot(): self {
 		$this->handleAuthHeaders();
 		parent::boot();
 
@@ -221,15 +310,16 @@ class HttpKernel extends Kernel implements IHttpKernel {
 			}
 
 			try {
-				$config->setAppValue('core', 'cronErrors', json_encode($staticErrors));
+				$this->server->get(IAppConfig::class)->setValueArray('core', 'cronErrors', $staticErrors);
 			} catch (\Exception $e) {
 				echo('Writing to database failed');
 			}
 			exit(1);
-		} elseif ($this->isCli() && $config->getSystemValueBool('installed', false)) {
-			$config->deleteAppValue('core', 'cronErrors');
+		} elseif ($this->isCli() && $this->systemConfig->getValue('installed', false)) {
+			$this->server->get(IAppConfig::class)->deleteKey('core', 'cronErrors');
 		}
-		$eventLogger->end('check_server');
+		$this->eventLogger->end('check_server');
+		return $this;
 	}
 
 	protected function setupSession(IRequest $request, IEventLogger $eventLogger): void {
@@ -245,7 +335,7 @@ class HttpKernel extends Kernel implements IHttpKernel {
 		$this->checkInstalled($systemConfig);
 
 		$this->addSecurityHeaders();
-		$this->performSameSiteCookieProtection($request, $systemConfig);
+		$this->performSameSiteCookieProtection($request, $this->server->get(IConfig::class));
 	}
 
 	public function initSession(IRequest $request): void {
@@ -268,7 +358,7 @@ class HttpKernel extends Kernel implements IHttpKernel {
 		ini_set('session.cookie_httponly', 'true');
 
 		// set the cookie path to the Nextcloud directory
-		$cookie_path = OC::$WEBROOT ? : '/';
+		$cookie_path = $this->webRoot ? : '/';
 		ini_set('session.cookie_path', $cookie_path);
 
 		// set the cookie domain to the Nextcloud domain
@@ -302,7 +392,7 @@ class HttpKernel extends Kernel implements IHttpKernel {
 
 			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);
 			$session = $cryptoWrapper->wrapSession($session);
-			self::$server->setSession($session);
+			$this->server->setSession($session);
 
 			// if session can't be started break with http 500 error
 		} catch (Exception $e) {
@@ -318,7 +408,7 @@ class HttpKernel extends Kernel implements IHttpKernel {
 		// session timeout
 		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
 			if (isset($_COOKIE[session_name()])) {
-				setcookie(session_name(), '', -1, self::$WEBROOT ? : '/');
+				setcookie(session_name(), '', -1, $this->webRoot ? : '/');
 			}
 			Server::get(IUserSession::class)->logout();
 		}
@@ -366,7 +456,7 @@ class HttpKernel extends Kernel implements IHttpKernel {
 	/**
 	 * Craft the response output based on the given Response object.
 	 */
-	private function outputResponse(IRequest $request, Response $response, IOutput $io): void {
+	public function deliverResponse(IRequest $request, Response $response, IOutput $io): void {
 		/** @var Http $protocol */
 		$protocol = $this->getContainer()->get(Http::class);
 		$protocol->getStatusHeader($response->getStatus());

@@ -13,6 +13,7 @@ use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\Attribute\Route as RouteAttribute;
+use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -309,7 +310,7 @@ class Router implements IRouter {
 	 * @throws \Exception
 	 * @return void
 	 */
-	public function match(IRequest $request) {
+	public function match(IRequest $request): Response {
 		$parameters = $this->findMatchingRoute($request->getPathInfo());
 
 		$this->eventLogger->start('route:run', 'Run route');

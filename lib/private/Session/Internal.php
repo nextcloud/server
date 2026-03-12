@@ -12,6 +12,7 @@ namespace OC\Session;
 use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\IConfig;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
@@ -213,7 +214,7 @@ class Internal extends Session {
 
 	private function startSession(bool $silence = false, bool $readAndClose = true) {
 		$sessionParams = ['cookie_samesite' => 'Lax'];
-		if (\OC::hasSessionRelaxedExpiry()) {
+		if (Server::get(IConfig::class)->getSystemValueBool('session_relaxed_expiry', false)) {
 			$sessionParams['read_and_close'] = $readAndClose;
 		}
 		$this->invoke('session_start', [$sessionParams], $silence);
