@@ -1881,4 +1881,43 @@ EOD;
 		);
 
 	}
+
+	public function testDefaultAlarmProperty(): void {
+		$calendarId = $this->createTestCalendar();
+
+		// Test setting default alarm property to 15 minutes before (-900 seconds)
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}default-alarm' => -900
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		// Verify the property was set
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $calendars);
+		$this->assertEquals(-900, $calendars[0]['{http://nextcloud.com/ns}default-alarm']);
+
+		// Test updating to a different value (1 day before = -86400 seconds)
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}default-alarm' => -86400
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(-86400, $calendars[0]['{http://nextcloud.com/ns}default-alarm']);
+
+		// Test setting to "none"
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}default-alarm' => null
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(null, $calendars[0]['{http://nextcloud.com/ns}default-alarm']);
+
+		// Clean up
+		$this->backend->deleteCalendar($calendars[0]['id'], true);
+	}
 }
