@@ -669,10 +669,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(ICacheFactory::class, Factory::class);
 
-		$this->registerService('RedisFactory', function (Server $c) {
-			$systemConfig = $c->get(SystemConfig::class);
-			return new RedisFactory($systemConfig, $c->get(IEventLogger::class));
-		});
+		$this->registerDeprecatedAlias('RedisFactory', RedisFactory::class);
 
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
 			$l10n = $this->get(IFactory::class)->get('lib');
