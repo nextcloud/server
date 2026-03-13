@@ -7,6 +7,7 @@
 namespace OCA\DAV\Provisioning\Apple;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Constants;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
@@ -58,7 +59,7 @@ class AppleProvisioningNode implements INode, IProperties {
 
 		return [
 			'{DAV:}getcontentlength' => 42,
-			'{DAV:}getlastmodified' => $datetime->format(\DateTimeInterface::RFC7231),
+			'{DAV:}getlastmodified' => $datetime->format(Constants::DATE_RFC7231),
 		];
 	}
 
