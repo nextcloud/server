@@ -76,6 +76,8 @@ return array(
     'OCA\\DAV\\CalDAV\\Outbox' => $baseDir . '/../lib/CalDAV/Outbox.php',
     'OCA\\DAV\\CalDAV\\Plugin' => $baseDir . '/../lib/CalDAV/Plugin.php',
     'OCA\\DAV\\CalDAV\\Principal\\Collection' => $baseDir . '/../lib/CalDAV/Principal/Collection.php',
+    'OCA\\DAV\\CalDAV\\Principal\\ProxyRead' => $baseDir . '/../lib/CalDAV/Principal/ProxyRead.php',
+    'OCA\\DAV\\CalDAV\\Principal\\ProxyWrite' => $baseDir . '/../lib/CalDAV/Principal/ProxyWrite.php',
     'OCA\\DAV\\CalDAV\\Principal\\User' => $baseDir . '/../lib/CalDAV/Principal/User.php',
     'OCA\\DAV\\CalDAV\\Proxy\\Proxy' => $baseDir . '/../lib/CalDAV/Proxy/Proxy.php',
     'OCA\\DAV\\CalDAV\\Proxy\\ProxyMapper' => $baseDir . '/../lib/CalDAV/Proxy/ProxyMapper.php',
