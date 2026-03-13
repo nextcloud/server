@@ -4,6 +4,7 @@
 
 # Global exclude
 .editorconfig
+.envrc
 .git
 .git-blame-ignore-revs
 .gitattributes
@@ -11,12 +12,44 @@
 .gitignore
 .gitmodules
 .idea
+.jshint
+.jshintrc
 .l10nignore
+.mailmap
 .nextcloudignore
 .noopenapi
+.npmignore
+.php-cs-fixer*
+.pre-commit-config.yaml
+.tag
 .tx
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+COPYING-README
+DESIGN.md
+Makefile
+README.md
+SECURITY.md
+codecov.yml
+cs-fixer
+csfixer
+custom.d.ts
 cypress
+cypress.config.ts
+eslint.config.js
+flake.lock
+flake.nix
+openapi-extractor
+phpunit
+psalm
+psalm*.xml
+rector
+stylelint.config.js
 tests
+tsconfig.json
+vite.config.ts
+vitest.config.ts
+window.d.ts
 
 # Server specific
 /.devcontainer
@@ -27,3 +60,5 @@ tests
 /config/config.php
 /contribute
 /data
+/openapi.json
+/vendor-bin
