@@ -76,12 +76,12 @@ class Task extends Entity {
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'allow_cleanup', 'user_facing_error_message', 'include_watermark'];
+	public const array COLUMNS = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'allow_cleanup', 'user_facing_error_message', 'include_watermark'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup', 'userFacingErrorMessage', 'includeWatermark'];
+	public const array FIELDS = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup', 'userFacingErrorMessage', 'includeWatermark'];
 
 
 	public function __construct() {
@@ -109,9 +109,9 @@ class Task extends Entity {
 	}
 
 	public function toRow(): array {
-		return array_combine(self::$columns, array_map(function ($field) {
+		return array_combine(self::COLUMNS, array_map(function ($field) {
 			return $this->{'get' . ucfirst($field)}();
-		}, self::$fields));
+		}, self::FIELDS));
 	}
 
 	public static function fromPublicTask(OCPTask $task): self {
