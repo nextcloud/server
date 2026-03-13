@@ -109,6 +109,7 @@ OC.L10N.register(
     "Last 30 days" : "Siku 30 zilizopita",
     "This year ({year})" : "Mwaka huu ({year})",
     "Last year ({year})" : "Mwaka uliopita ({year})",
+    "Custom range" : "Custom range",
     "Custom date range" : "Safu ya tarehe maalum",
     "Search everywhere" : "Tafuta kila mahali",
     "Documents" : "Nyaraka",
