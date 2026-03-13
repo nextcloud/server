@@ -1252,6 +1252,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Memcache\\DistributedDelete' => __DIR__ . '/../../..' . '/core/Command/Memcache/DistributedDelete.php',
         'OC\\Core\\Command\\Memcache\\DistributedGet' => __DIR__ . '/../../..' . '/core/Command/Memcache/DistributedGet.php',
         'OC\\Core\\Command\\Memcache\\DistributedSet' => __DIR__ . '/../../..' . '/core/Command/Memcache/DistributedSet.php',
+        'OC\\Core\\Command\\Preview\\Cleanup' => __DIR__ . '/../../..' . '/core/Command/Preview/Cleanup.php',
         'OC\\Core\\Command\\Preview\\Generate' => __DIR__ . '/../../..' . '/core/Command/Preview/Generate.php',
         'OC\\Core\\Command\\Preview\\Repair' => __DIR__ . '/../../..' . '/core/Command/Preview/Repair.php',
         'OC\\Core\\Command\\Preview\\ResetRenderedTexts' => __DIR__ . '/../../..' . '/core/Command/Preview/ResetRenderedTexts.php',

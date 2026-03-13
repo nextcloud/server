@@ -1219,6 +1219,7 @@ return array(
     'OC\\Core\\Command\\Memcache\\DistributedDelete' => $baseDir . '/core/Command/Memcache/DistributedDelete.php',
     'OC\\Core\\Command\\Memcache\\DistributedGet' => $baseDir . '/core/Command/Memcache/DistributedGet.php',
     'OC\\Core\\Command\\Memcache\\DistributedSet' => $baseDir . '/core/Command/Memcache/DistributedSet.php',
+    'OC\\Core\\Command\\Preview\\Cleanup' => $baseDir . '/core/Command/Preview/Cleanup.php',
     'OC\\Core\\Command\\Preview\\Generate' => $baseDir . '/core/Command/Preview/Generate.php',
     'OC\\Core\\Command\\Preview\\Repair' => $baseDir . '/core/Command/Preview/Repair.php',
     'OC\\Core\\Command\\Preview\\ResetRenderedTexts' => $baseDir . '/core/Command/Preview/ResetRenderedTexts.php',
