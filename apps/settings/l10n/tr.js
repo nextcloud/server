@@ -720,7 +720,7 @@ OC.L10N.register(
     "Hosting company" : "Barındırma hizmeti sağlayıcı",
     "University" : "Üniversite",
     "School" : "Okul",
-    "Club or association" : "Klüp ya da dernek",
+    "Club or association" : "Kulüp ya da dernek",
     "Family" : "Aile",
     "Personal use" : "Kişisel kullanım",
     "Setup errors" : "Kurulum hataları",
