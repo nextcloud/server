@@ -44,6 +44,8 @@ class Local extends Common {
 
 	protected bool $caseInsensitive = false;
 
+	protected bool $allowSymlinks = false;
+
 	public function __construct(array $parameters) {
 		if (!isset($parameters['datadir']) || !is_string($parameters['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
@@ -64,6 +66,7 @@ class Local extends Common {
 		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
 		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
 		$this->caseInsensitive = $this->config->getSystemValueBool('localstorage.case_insensitive', false);
+		$this->allowSymlinks = $this->config->getSystemValueBool('localstorage.allowsymlinks', false);
 
 		// support Write-Once-Read-Many file systems
 		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
@@ -480,6 +483,11 @@ class Local extends Common {
 			$relativePath = $dir . '/' . $item;
 			$physicalItem = $physicalDir . '/' . $item;
 
+			// Enforce no-symlink policy during search traversal as well.
+			if (!$this->allowSymlinks && is_link($physicalItem)) {
+				continue;
+			}
+
 			if (strstr(strtolower($item), $queryLower) !== false) {
 				$files[] = $relativePath;
 			}
@@ -510,8 +518,7 @@ class Local extends Common {
 
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
-		$allowSymlinks = $this->config->getSystemValueBool('localstorage.allowsymlinks', false);
-		if ($allowSymlinks || $currentPath === '') {
+		if ($this->allowSymlinks || $currentPath === '') {
 			return $fullPath;
 		}
 		$pathToResolve = $fullPath;
