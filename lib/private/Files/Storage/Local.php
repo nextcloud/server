@@ -456,21 +456,38 @@ class Local extends Common {
 
 	protected function searchInDir(string $query, string $dir = ''): array {
 		$files = [];
+		$this->searchInDirRecursive($query, $dir, $files);
+		return $files;
+	}
+
+	/**
+	 * @param list<string> $files
+	 */
+	private function searchInDirRecursive(string $query, string $dir, array &$files): void {
 		$physicalDir = $this->getSourcePath($dir);
-		foreach (scandir($physicalDir) as $item) {
+		$items = scandir($physicalDir);
+		if (!is_array($items)) {
+			return;
+		}
+
+		$queryLower = strtolower($query);
+
+		foreach ($items as $item) {
 			if (Filesystem::isIgnoredDir($item)) {
 				continue;
 			}
+
+			$relativePath = $dir . '/' . $item;
 			$physicalItem = $physicalDir . '/' . $item;
 
-			if (strstr(strtolower($item), strtolower($query)) !== false) {
-				$files[] = $dir . '/' . $item;
+			if (strstr(strtolower($item), $queryLower) !== false) {
+				$files[] = $relativePath;
 			}
+
 			if (is_dir($physicalItem)) {
-				$files = array_merge($files, $this->searchInDir($query, $dir . '/' . $item));
+				$this->searchInDirRecursive($query, $relativePath, $files);
 			}
 		}
-		return $files;
 	}
 
 	public function hasUpdated(string $path, int $time): bool {
