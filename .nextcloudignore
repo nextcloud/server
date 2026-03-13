@@ -13,6 +13,7 @@
 .gitmodules
 .idea
 .jshint
+.jshintrc
 .l10nignore
 .mailmap
 .nextcloudignore
@@ -32,7 +33,9 @@ SECURITY.md
 codecov.yml
 cs-fixer
 csfixer
+custom.d.ts
 cypress
+cypress.config.ts
 eslint.config.js
 flake.lock
 flake.nix
@@ -44,6 +47,7 @@ rector
 stylelint.config.js
 tests
 tsconfig.json
+vite.config.ts
 vitest.config.ts
 window.d.ts
 
@@ -56,3 +60,5 @@ window.d.ts
 /config/config.php
 /contribute
 /data
+/openapi.json
+/vendor-bin
