@@ -12,6 +12,7 @@ use OC\AppFramework\Middleware\NotModifiedMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
+use OCP\Constants;
 use OCP\IRequest;
 
 class NotModifiedMiddlewareTest extends \Test\TestCase {
@@ -44,13 +45,13 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 			[null, '"etag"', null, '', false],
 			['etag', '"etag"', null, '', true],
 
-			[null, '', $now, $now->format(\DateTimeInterface::RFC7231), true],
+			[null, '', $now, $now->format(Constants::DATE_RFC7231), true],
 			[null, '', $now, $now->format(\DateTimeInterface::ATOM), false],
-			[null, '', null, $now->format(\DateTimeInterface::RFC7231), false],
+			[null, '', null, $now->format(Constants::DATE_RFC7231), false],
 			[null, '', $now, '', false],
 
 			['etag', '"etag"', $now, $now->format(\DateTimeInterface::ATOM), true],
-			['etag', '"etag"', $now, $now->format(\DateTimeInterface::RFC7231), true],
+			['etag', '"etag"', $now, $now->format(Constants::DATE_RFC7231), true],
 		];
 	}
 
