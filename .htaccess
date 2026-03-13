@@ -103,6 +103,22 @@
     RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 ##
+## Rule: Prevent access to various non-public files
+##
+
+    RewriteRule ^(?:build/.*|tests/.*|config/.*|lib/.*|3rdparty/.*|templates/.*)$ - [R=404,L]
+    RewriteRule ^(?:autotest.*|occ.*|issue.*|indie.*|db_.*|console.*)$ - [R=404,L]
+
+##
+## Rule: Prevent access to hidden files except `.well-known`
+##
+## Context:
+##    - XXX It may make sense to merge some of these with the others (i.e. the ones that don't need to be last)
+##
+
+    RewriteRule ^(?:\.(?!well-known)).* - [R=404,L]
+
+##
 ## Rule: Workaround for WebDAV with MS DavClnt
 ##
 ## Context: 
@@ -126,6 +142,27 @@
     RewriteRule ^\.well-known/caldav /remote.php/dav/ [R=301,L]
 
 ##
+## Rule: Maps most RFC 8615 compliant well-known URIs to our main frontend controller (/index.php) by default
+##
+## Context:
+##    - Intentionally excludes URIs used for HTTPS certificate verifications
+##        - RFC 8555 / ACME HTTP Challenges (acme-challenge) 
+##        - File-based Validations (pki-validation)
+##    - XXX: `QSA` seems unnecessary (no-op) here (query string is passed by default when the replacement URI doesn't contain a query string)
+##
+
+    RewriteRule ^\.well-known/(?!acme-challenge|pki-validation) index.php [QSA,L]
+
+##
+## Rule: Map the ocm-provider handling to our main frontend controller (/index.php)
+##
+## Context:
+##    - XXX: `QSA` seems unnecessary (no-op) here (query string is passed by default when the replacement URI doesn't contain a query string)
+##
+
+    RewriteRule ^ocm-provider/?$ index.php [QSA,L]
+
+##
 ## Rule: Map /remote* --> /remote.php* including the query string
 ##
 ## Context:
@@ -134,44 +171,6 @@
 ##
 
     RewriteRule ^remote/(.*) remote.php [QSA,L]
-
-##
-## Rule: Prevent access to non-public files
-##
-
-    RewriteRule ^(?:build|tests|config|lib|3rdparty|templates)/.* - [R=404,L]
-
-##
-## Rule: Maps most RFC 8615 compliant well-known URIs to our main frontend controller (/index.php) by default
-##
-## Context:
-##    - Intentionally excludes URIs used for HTTPS certificate verifications
-##        - RFC 8555 / ACME HTTP Challenges (acme-challenge) 
-##        - File-based Validations (pki-validation)
-##    - XXX: `QSA` seems unnecessary (no-op) here (query string is passed by default when the replacement URI doesn't contain a query string)
-##    - XXX: Sometimes we are using `/index.php` and other times `index.php` as our replacement URI; this may be incorrect
-##
-
-    RewriteRule ^\.well-known/(?!acme-challenge|pki-validation) /index.php [QSA,L]
-
-##
-## Rule: Map the ocm-provider handling to our main frontend controller (/index.php)
-##
-## Context:
-##    - XXX: `QSA` seems unnecessary (no-op) here (query string is passed by default when the replacement URI doesn't contain a query string)
-##    - XXX: Sometimes we are using `/index.php` and other times `index.php` as our replacement URI; this may be incorrect
-##
-
-    RewriteRule ^ocm-provider/?$ index.php [QSA,L]
-
-##
-## Rule: Prevent access to more non-public files
-##
-## Context:
-##    - XXX It may make sense to merge some of these with the others (i.e. the ones that don't need to be last)
-##
-
-    RewriteRule ^(?:\.(?!well-known)|autotest|occ|issue|indie|db_|console).* - [R=404,L]
 
 </IfModule>
 
