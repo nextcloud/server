@@ -8,8 +8,8 @@
 
 namespace OC\Accounts;
 
-use Exception;
 use InvalidArgumentException;
+use JsonException;
 use OC\Profile\TProfileHelper;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
@@ -37,11 +37,12 @@ use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use Throwable;
+
 use function array_flip;
 use function iterator_to_array;
 use function json_decode;
 use function json_encode;
-use function json_last_error;
 
 /**
  * Class AccountManager
@@ -53,17 +54,13 @@ use function json_last_error;
  */
 class AccountManager implements IAccountManager {
 	use TAccountsHelper;
-
 	use TProfileHelper;
 
-	private string $table = 'accounts';
-	private string $dataTable = 'accounts_data';
+	private readonly string $table;
+	private readonly string $dataTable;
 	private ?IL10N $l10n = null;
-	private CappedMemoryCache $internalCache;
+	private readonly CappedMemoryCache $internalCache;
 
-	/**
-	 * The list of default scopes for each property.
-	 */
 	public const DEFAULT_SCOPES = [
 		self::PROPERTY_ADDRESS => self::SCOPE_LOCAL,
 		self::PROPERTY_AVATAR => self::SCOPE_FEDERATED,
@@ -83,20 +80,22 @@ class AccountManager implements IAccountManager {
 	];
 
 	public function __construct(
-		private IDBConnection $connection,
-		private IConfig $config,
-		private IEventDispatcher $dispatcher,
-		private IJobList $jobList,
-		private LoggerInterface $logger,
-		private IVerificationToken $verificationToken,
-		private IMailer $mailer,
-		private Defaults $defaults,
-		private IFactory $l10nFactory,
-		private IURLGenerator $urlGenerator,
-		private ICrypto $crypto,
-		private IPhoneNumberUtil $phoneNumberUtil,
-		private IClientService $clientService,
+		private readonly IDBConnection $connection,
+		private readonly IConfig $config,
+		private readonly IEventDispatcher $dispatcher,
+		private readonly IJobList $jobList,
+		private readonly LoggerInterface $logger,
+		private readonly IVerificationToken $verificationToken,
+		private readonly IMailer $mailer,
+		private readonly Defaults $defaults,
+		private readonly IFactory $l10nFactory,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly ICrypto $crypto,
+		private readonly IPhoneNumberUtil $phoneNumberUtil,
+		private readonly IClientService $clientService,
 	) {
+		$this->table = 'accounts';
+		$this->dataTable = 'accounts_data';
 		$this->internalCache = new CappedMemoryCache();
 	}
 
@@ -108,9 +107,8 @@ class AccountManager implements IAccountManager {
 			if (strlen($property->getValue()) > 2048) {
 				if ($throwOnData) {
 					throw new InvalidArgumentException($property->getName());
-				} else {
-					$property->setValue('');
 				}
+				$property->setValue('');
 			}
 		}
 	}
@@ -127,10 +125,9 @@ class AccountManager implements IAccountManager {
 			if ($throwOnData) {
 				// v2-private is not available for these fields
 				throw new InvalidArgumentException('scope');
-			} else {
-				// default to local
-				$property->setScope(self::SCOPE_LOCAL);
 			}
+			// default to local
+			$property->setScope(self::SCOPE_LOCAL);
 		} else {
 			// migrate scope values to the new format
 			// invalid scopes are mapped to a default value
@@ -139,10 +136,7 @@ class AccountManager implements IAccountManager {
 	}
 
 	protected function updateUser(IUser $user, array $data, ?array $oldUserData, bool $throwOnData = false): array {
-		if ($oldUserData === null) {
-			$oldUserData = $this->getUser($user, false);
-		}
-
+		$oldUserData ??= $this->getUser($user, false);
 		$updated = true;
 
 		if ($oldUserData !== $data) {
@@ -153,18 +147,12 @@ class AccountManager implements IAccountManager {
 		}
 
 		if ($updated) {
-			$this->dispatcher->dispatchTyped(new UserUpdatedEvent(
-				$user,
-				$data,
-			));
+			$this->dispatcher->dispatchTyped(new UserUpdatedEvent($user, $data));
 		}
 
 		return $data;
 	}
 
-	/**
-	 * delete user from accounts table
-	 */
 	public function deleteUser(IUser $user): void {
 		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
@@ -175,9 +163,6 @@ class AccountManager implements IAccountManager {
 		$this->deleteUserData($user);
 	}
 
-	/**
-	 * delete user from accounts table
-	 */
 	public function deleteUserData(IUser $user): void {
 		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
@@ -186,9 +171,6 @@ class AccountManager implements IAccountManager {
 			->executeStatement();
 	}
 
-	/**
-	 * get stored data from a given user
-	 */
 	protected function getUser(IUser $user, bool $insertIfNotExists = true): array {
 		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
@@ -196,6 +178,7 @@ class AccountManager implements IAccountManager {
 			->from($this->table)
 			->where($query->expr()->eq('uid', $query->createParameter('uid')))
 			->setParameter('uid', $uid);
+
 		$result = $query->executeQuery();
 		$accountData = $result->fetchAll();
 		$result->closeCursor();
@@ -209,7 +192,7 @@ class AccountManager implements IAccountManager {
 		}
 
 		$userDataArray = $this->importFromJson($accountData[0]['data'], $uid);
-		if ($userDataArray === null || $userDataArray === []) {
+		if (empty($userDataArray)) {
 			return $this->buildDefaultUserRecord($user);
 		}
 
@@ -218,10 +201,9 @@ class AccountManager implements IAccountManager {
 
 	public function searchUsers(string $property, array $values): array {
 		// the value col is limited to 255 bytes. It is used for searches only.
-		$values = array_map(function (string $value) {
-			return Util::shortenMultibyteString($value, 255);
-		}, $values);
+		$values = array_map(fn (string $value) => Util::shortenMultibyteString($value, 255), $values);
 		$chunks = array_chunk($values, 500);
+
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from($this->dataTable)
@@ -251,13 +233,10 @@ class AccountManager implements IAccountManager {
 		};
 	}
 
-	/**
-	 * check if we need to ask the server for email verification, if yes we create a cronjob
-	 */
 	protected function checkEmailVerification(IAccount $updatedAccount, array $oldData): void {
 		try {
 			$property = $updatedAccount->getProperty(self::PROPERTY_EMAIL);
-		} catch (PropertyDoesNotExistException $e) {
+		} catch (PropertyDoesNotExistException) {
 			return;
 		}
 
@@ -307,13 +286,11 @@ class AccountManager implements IAccountManager {
 			]
 		);
 
+		$this->l10n ??= $this->l10nFactory->get('core');
+
 		$emailTemplate = $this->mailer->createEMailTemplate('core.EmailVerification', [
 			'link' => $link,
 		]);
-
-		if (!$this->l10n) {
-			$this->l10n = $this->l10nFactory->get('core');
-		}
 
 		$emailTemplate->setSubject($this->l10n->t('%s email verification', [$this->defaults->getName()]));
 		$emailTemplate->addHeader();
@@ -337,8 +314,7 @@ class AccountManager implements IAccountManager {
 			$message->setFrom([Util::getDefaultEmailAddress('verification-noreply') => $this->defaults->getName()]);
 			$message->useTemplate($emailTemplate);
 			$this->mailer->send($message);
-		} catch (Exception $e) {
-			// Log the exception and continue
+		} catch (Throwable $e) {
 			$this->logger->info('Failed to send verification mail', [
 				'app' => 'core',
 				'exception' => $e
@@ -348,9 +324,6 @@ class AccountManager implements IAccountManager {
 		return true;
 	}
 
-	/**
-	 * Make sure that all expected data are set
-	 */
 	protected function addMissingDefaultValues(array $userData, array $defaultUserData): array {
 		foreach ($defaultUserData as $defaultDataItem) {
 			// If property does not exist, initialize it
@@ -359,11 +332,9 @@ class AccountManager implements IAccountManager {
 				$userData[] = $defaultDataItem;
 				continue;
 			}
-
 			// Merge and extend default missing values
 			$userData[$userDataIndex] = array_merge($defaultDataItem, $userData[$userDataIndex]);
 		}
-
 		return $userData;
 	}
 
@@ -378,37 +349,29 @@ class AccountManager implements IAccountManager {
 		foreach ($propertiesVerifiableByLookupServer as $propertyName) {
 			try {
 				$property = $updatedAccount->getProperty($propertyName);
-			} catch (PropertyDoesNotExistException $e) {
+			} catch (PropertyDoesNotExistException) {
 				continue;
 			}
-			$wasVerified = isset($oldData[$propertyName])
-				&& isset($oldData[$propertyName]['verified'])
-				&& $oldData[$propertyName]['verified'] === self::VERIFIED;
-			if ((!isset($oldData[$propertyName])
-					|| !isset($oldData[$propertyName]['value'])
-					|| $property->getValue() !== $oldData[$propertyName]['value'])
-				&& ($property->getVerified() !== self::NOT_VERIFIED
-					|| $wasVerified)
+
+			$wasVerified = isset($oldData[$propertyName]['verified']) && $oldData[$propertyName]['verified'] === self::VERIFIED;
+
+			if ((!isset($oldData[$propertyName]['value']) || $property->getValue() !== $oldData[$propertyName]['value'])
+				&& ($property->getVerified() !== self::NOT_VERIFIED || $wasVerified)
 			) {
 				$property->setVerified(self::NOT_VERIFIED);
 			}
 		}
 	}
 
-	/**
-	 * add new user to accounts table
-	 */
 	protected function insertNewUser(IUser $user, array $data): void {
 		$uid = $user->getUID();
 		$jsonEncodedData = $this->prepareJson($data);
 		$query = $this->connection->getQueryBuilder();
 		$query->insert($this->table)
-			->values(
-				[
-					'uid' => $query->createNamedParameter($uid),
-					'data' => $query->createNamedParameter($jsonEncodedData),
-				]
-			)
+			->values([
+				'uid' => $query->createNamedParameter($uid),
+				'data' => $query->createNamedParameter($jsonEncodedData),
+			])
 			->executeStatement();
 
 		$this->deleteUserData($user);
@@ -430,28 +393,28 @@ class AccountManager implements IAccountManager {
 				$preparedData[$propertyName] = $dataRow;
 				continue;
 			}
-			if (!isset($preparedData[$propertyName])) {
-				$preparedData[$propertyName] = [];
-			}
+
+			$preparedData[$propertyName] ??= [];
 			$preparedData[$propertyName][] = $dataRow;
 		}
-		return json_encode($preparedData);
+		return json_encode($preparedData, JSON_THROW_ON_ERROR);
 	}
 
 	protected function importFromJson(string $json, string $userId): ?array {
 		$result = [];
-		$jsonArray = json_decode($json, true);
-		$jsonError = json_last_error();
-		if ($jsonError !== JSON_ERROR_NONE) {
+		try {
+			$jsonArray = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+		} catch (JsonException $e) {
 			$this->logger->critical(
 				'User data of {uid} contained invalid JSON (error {json_error}), hence falling back to a default user record',
 				[
 					'uid' => $userId,
-					'json_error' => $jsonError
+					'json_error' => $e->getMessage()
 				]
 			);
 			return null;
 		}
+
 		foreach ($jsonArray as $propertyName => $row) {
 			if (!$this->isCollection($propertyName)) {
 				$result[] = array_merge($row, ['name' => $propertyName]);
@@ -464,12 +427,10 @@ class AccountManager implements IAccountManager {
 		return $result;
 	}
 
-	/**
-	 * Update existing user in accounts table
-	 */
 	protected function updateExistingUser(IUser $user, array $data, array $oldData): void {
 		$uid = $user->getUID();
 		$jsonEncodedData = $this->prepareJson($data);
+
 		$query = $this->connection->getQueryBuilder();
 		$query->update($this->table)
 			->set('data', $query->createNamedParameter($jsonEncodedData))
@@ -483,13 +444,12 @@ class AccountManager implements IAccountManager {
 	protected function writeUserData(IUser $user, array $data): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert($this->dataTable)
-			->values(
-				[
-					'uid' => $query->createNamedParameter($user->getUID()),
-					'name' => $query->createParameter('name'),
-					'value' => $query->createParameter('value'),
-				]
-			);
+			->values([
+				'uid' => $query->createNamedParameter($user->getUID()),
+				'name' => $query->createParameter('name'),
+				'value' => $query->createParameter('value'),
+			]);
+
 		$this->writeUserDataProperties($query, $data);
 	}
 
@@ -501,20 +461,18 @@ class AccountManager implements IAccountManager {
 
 			// the value col is limited to 255 bytes. It is used for searches only.
 			$value = $property['value'] ? Util::shortenMultibyteString($property['value'], 255) : '';
-
 			$query->setParameter('name', $property['name'])
-				->setParameter('value', $value);
-			$query->executeStatement();
+				->setParameter('value', $value)
+				->executeStatement();
 		}
 	}
 
-	/**
-	 * build default user record in case not data set exists yet
-	 */
 	protected function buildDefaultUserRecord(IUser $user): array {
-		$scopes = array_merge(self::DEFAULT_SCOPES, array_filter($this->config->getSystemValue('account_manager.default_property_scope', []), static function (string $scope, string $property) {
-			return in_array($property, self::ALLOWED_PROPERTIES, true) && in_array($scope, self::ALLOWED_SCOPES, true);
-		}, ARRAY_FILTER_USE_BOTH));
+		$scopes = array_merge(self::DEFAULT_SCOPES, array_filter(
+			$this->config->getSystemValue('account_manager.default_property_scope', []),
+			static fn (string $scope, string $property) => in_array($property, self::ALLOWED_PROPERTIES, true) && in_array($scope, self::ALLOWED_SCOPES, true),
+			ARRAY_FILTER_USE_BOTH
+		));
 
 		return [
 			[
@@ -524,101 +482,85 @@ class AccountManager implements IAccountManager {
 				'scope' => $scopes[self::PROPERTY_DISPLAYNAME] === self::SCOPE_PRIVATE ? self::SCOPE_LOCAL : $scopes[self::PROPERTY_DISPLAYNAME],
 				'verified' => self::NOT_VERIFIED,
 			],
-
 			[
 				'name' => self::PROPERTY_ADDRESS,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_ADDRESS],
-				'verified' => self::NOT_VERIFIED,
+				'verified' => self::NOT_VERIFIED
 			],
-
 			[
 				'name' => self::PROPERTY_WEBSITE,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_WEBSITE],
-				'verified' => self::NOT_VERIFIED,
+				'verified' => self::NOT_VERIFIED
 			],
-
 			[
 				'name' => self::PROPERTY_EMAIL,
 				'value' => $user->getEMailAddress(),
-				// Email must be at least SCOPE_LOCAL
 				'scope' => $scopes[self::PROPERTY_EMAIL] === self::SCOPE_PRIVATE ? self::SCOPE_LOCAL : $scopes[self::PROPERTY_EMAIL],
-				'verified' => self::NOT_VERIFIED,
+				'verified' => self::NOT_VERIFIED
 			],
-
 			[
 				'name' => self::PROPERTY_AVATAR,
-				'scope' => $scopes[self::PROPERTY_AVATAR],
+				'scope' => $scopes[self::PROPERTY_AVATAR]
 			],
-
 			[
 				'name' => self::PROPERTY_PHONE,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_PHONE],
-				'verified' => self::NOT_VERIFIED,
+				'verified' => self::NOT_VERIFIED
 			],
-
 			[
 				'name' => self::PROPERTY_TWITTER,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_TWITTER],
-				'verified' => self::NOT_VERIFIED,
+				'verified' => self::NOT_VERIFIED
 			],
-
 			[
 				'name' => self::PROPERTY_BLUESKY,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_BLUESKY],
-				'verified' => self::NOT_VERIFIED,
+				'verified' => self::NOT_VERIFIED
 			],
-
 			[
 				'name' => self::PROPERTY_FEDIVERSE,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_FEDIVERSE],
-				'verified' => self::NOT_VERIFIED,
+				'verified' => self::NOT_VERIFIED
 			],
-
 			[
 				'name' => self::PROPERTY_ORGANISATION,
 				'value' => '',
-				'scope' => $scopes[self::PROPERTY_ORGANISATION],
+				'scope' => $scopes[self::PROPERTY_ORGANISATION]
 			],
-
 			[
 				'name' => self::PROPERTY_ROLE,
 				'value' => '',
-				'scope' => $scopes[self::PROPERTY_ROLE],
+				'scope' => $scopes[self::PROPERTY_ROLE]
 			],
-
 			[
 				'name' => self::PROPERTY_HEADLINE,
 				'value' => '',
-				'scope' => $scopes[self::PROPERTY_HEADLINE],
+				'scope' => $scopes[self::PROPERTY_HEADLINE]
 			],
-
 			[
 				'name' => self::PROPERTY_BIOGRAPHY,
 				'value' => '',
-				'scope' => $scopes[self::PROPERTY_BIOGRAPHY],
+				'scope' => $scopes[self::PROPERTY_BIOGRAPHY]
 			],
-
 			[
 				'name' => self::PROPERTY_BIRTHDATE,
 				'value' => '',
-				'scope' => $scopes[self::PROPERTY_BIRTHDATE],
+				'scope' => $scopes[self::PROPERTY_BIRTHDATE]
 			],
-
 			[
 				'name' => self::PROPERTY_PROFILE_ENABLED,
-				'value' => $this->isProfileEnabledByDefault($this->config) ? '1' : '0',
+				'value' => $this->isProfileEnabledByDefault($this->config) ? '1' : '0'
 			],
-
 			[
 				'name' => self::PROPERTY_PRONOUNS,
 				'value' => '',
-				'scope' => $scopes[self::PROPERTY_PRONOUNS],
+				'scope' => $scopes[self::PROPERTY_PRONOUNS]
 			],
 		];
 	}
@@ -660,28 +602,24 @@ class AccountManager implements IAccountManager {
 		if ($cached !== null) {
 			return $cached;
 		}
+
 		$account = $this->parseAccountData($user, $this->getUser($user));
 		if ($user->getBackend() instanceof IGetDisplayNameBackend) {
 			$property = $account->getProperty(self::PROPERTY_DISPLAYNAME);
 			$account->setProperty(self::PROPERTY_DISPLAYNAME, $user->getDisplayName(), $property->getScope(), $property->getVerified());
 		}
+
 		$this->internalCache->set($user->getUID(), $account);
 		return $account;
 	}
 
-	/**
-	 * Converts value (phone number) in E.164 format when it was a valid number
-	 * @throws InvalidArgumentException When the phone number was invalid or no default region is set and the number doesn't start with a country code
-	 */
 	protected function sanitizePropertyPhoneNumber(IAccountProperty $property): void {
 		$defaultRegion = $this->config->getSystemValueString('default_phone_region', '');
 
 		if ($defaultRegion === '') {
-			// When no default region is set, only +49… numbers are valid
 			if (!str_starts_with($property->getValue(), '+')) {
 				throw new InvalidArgumentException(self::PROPERTY_PHONE);
 			}
-
 			$defaultRegion = 'EN';
 		}
 
@@ -692,34 +630,23 @@ class AccountManager implements IAccountManager {
 		$property->setValue($phoneNumber);
 	}
 
-	/**
-	 * @throws InvalidArgumentException When the website did not have http(s) as protocol or the host name was empty
-	 */
 	private function sanitizePropertyWebsite(IAccountProperty $property): void {
 		$parts = parse_url($property->getValue());
-		if (!isset($parts['scheme']) || ($parts['scheme'] !== 'https' && $parts['scheme'] !== 'http')) {
+		if (!isset($parts['scheme']) || !in_array($parts['scheme'], ['https', 'http'], true)) {
 			throw new InvalidArgumentException(self::PROPERTY_WEBSITE);
 		}
 
-		if (!isset($parts['host']) || $parts['host'] === '') {
+		if (empty($parts['host'])) {
 			throw new InvalidArgumentException(self::PROPERTY_WEBSITE);
 		}
 	}
 
-	/**
-	 * @throws InvalidArgumentException If the property value is not a valid user handle according to X's rules
-	 */
 	private function sanitizePropertyTwitter(IAccountProperty $property): void {
 		if ($property->getName() === self::PROPERTY_TWITTER) {
-			$matches = [];
-			// twitter handles only contain alpha numeric characters and the underscore and must not be longer than 15 characters
 			if (preg_match('/^@?([a-zA-Z0-9_]{2,15})$/', $property->getValue(), $matches) !== 1) {
 				throw new InvalidArgumentException(self::PROPERTY_TWITTER);
 			}
-
-			// drop the leading @ if any to make it the valid handle
 			$property->setValue($matches[1]);
-
 		}
 	}
 
@@ -731,52 +658,38 @@ class AccountManager implements IAccountManager {
 		$lowerText = strtolower($text);
 
 		if ($lowerText === 'bsky.social') {
-			// "bsky.social" itself is not a valid handle
 			return false;
 		}
 
 		if (str_ends_with($lowerText, '.bsky.social')) {
 			$parts = explode('.', $lowerText);
-
-			// Must be exactly: username.bsky.social → 3 parts
 			if (count($parts) !== 3 || $parts[1] !== 'bsky' || $parts[2] !== 'social') {
 				return false;
 			}
-
-			$username = $parts[0];
-
-			// Must be 3–18 chars, alphanumeric/hyphen, no start/end hyphen
-			return preg_match('/^[a-z0-9][a-z0-9-]{2,17}$/', $username) === 1;
+			return preg_match('/^[a-z0-9][a-z0-9-]{2,17}$/', $parts[0]) === 1;
 		}
 
-		// Allow custom domains (Bluesky handle via personal domain)
 		return filter_var($text, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) !== false;
 	}
 
-
 	private function sanitizePropertyBluesky(IAccountProperty $property): void {
 		if ($property->getName() === self::PROPERTY_BLUESKY) {
-			if (!$this->validateBlueSkyHandle($property->getValue())) {
+			$cleanValue = ltrim(trim($property->getValue()), '@');
+			if (!$this->validateBlueSkyHandle($cleanValue)) {
 				throw new InvalidArgumentException(self::PROPERTY_BLUESKY);
 			}
-
-			$property->setValue($property->getValue());
+			$property->setValue($cleanValue);
 		}
 	}
 
-	/**
-	 * @throws InvalidArgumentException If the property value is not a valid fediverse handle (username@instance where instance is a valid domain)
-	 */
 	private function sanitizePropertyFediverse(IAccountProperty $property): void {
 		if ($property->getName() === self::PROPERTY_FEDIVERSE) {
-			$matches = [];
-			if (preg_match('/^@?([^@\s\/\\\]+)@([^\s\/\\\]+)$/', trim($property->getValue()), $matches) !== 1) {
+			if (preg_match('/^@?([^@\s\/\\\\]+)@([^\s\/\\\\]+)$/', trim($property->getValue()), $matches) !== 1) {
 				throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
 			}
 
 			[, $username, $instance] = $matches;
-			$validated = filter_var($instance, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
-			if ($validated !== $instance) {
+			if (filter_var($instance, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) !== $instance) {
 				throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
 			}
 
@@ -784,28 +697,25 @@ class AccountManager implements IAccountManager {
 				$client = $this->clientService->newClient();
 
 				try {
-					// try the public account lookup API of mastodon
 					$response = $client->get("https://{$instance}/.well-known/webfinger?resource=acct:{$username}@{$instance}");
-					// should be a json response with account information
 					$data = $response->getBody();
 					if (is_resource($data)) {
 						$data = stream_get_contents($data);
 					}
-					$decoded = json_decode($data, true);
-					// ensure the username is the same the user passed
-					// in this case we can assume this is a valid fediverse server and account
+
+					$decoded = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+
 					if (!is_array($decoded) || ($decoded['subject'] ?? '') !== "acct:{$username}@{$instance}") {
 						throw new InvalidArgumentException();
 					}
-					// check for activitypub link
-					if (is_array($decoded['links']) && isset($decoded['links'])) {
+
+					if (isset($decoded['links']) && is_array($decoded['links'])) {
 						$found = false;
 						foreach ($decoded['links'] as $link) {
-							// have application/activity+json or application/ld+json
-							if (isset($link['type']) && (
-								$link['type'] === 'application/activity+json'
-								|| $link['type'] === 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'
-							)) {
+							if (isset($link['type']) && in_array($link['type'], [
+								'application/activity+json',
+								'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'
+							], true)) {
 								$found = true;
 								break;
 							}
@@ -816,7 +726,7 @@ class AccountManager implements IAccountManager {
 					}
 				} catch (InvalidArgumentException) {
 					throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
-				} catch (\Exception $error) {
+				} catch (Throwable $error) {
 					$this->logger->error('Could not verify fediverse account', ['exception' => $error, 'instance' => $instance]);
 					throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
 				}
@@ -828,49 +738,23 @@ class AccountManager implements IAccountManager {
 
 	public function updateAccount(IAccount $account): void {
 		$this->testValueLengths(iterator_to_array($account->getAllProperties()), true);
-		try {
-			$property = $account->getProperty(self::PROPERTY_PHONE);
-			if ($property->getValue() !== '') {
-				$this->sanitizePropertyPhoneNumber($property);
-			}
-		} catch (PropertyDoesNotExistException $e) {
-			//  valid case, nothing to do
-		}
 
-		try {
-			$property = $account->getProperty(self::PROPERTY_WEBSITE);
-			if ($property->getValue() !== '') {
-				$this->sanitizePropertyWebsite($property);
-			}
-		} catch (PropertyDoesNotExistException $e) {
-			//  valid case, nothing to do
-		}
+		$sanitizers = [
+			self::PROPERTY_PHONE => $this->sanitizePropertyPhoneNumber(...),
+			self::PROPERTY_WEBSITE => $this->sanitizePropertyWebsite(...),
+			self::PROPERTY_TWITTER => $this->sanitizePropertyTwitter(...),
+			self::PROPERTY_BLUESKY => $this->sanitizePropertyBluesky(...),
+			self::PROPERTY_FEDIVERSE => $this->sanitizePropertyFediverse(...),
+		];
 
-		try {
-			$property = $account->getProperty(self::PROPERTY_TWITTER);
-			if ($property->getValue() !== '') {
-				$this->sanitizePropertyTwitter($property);
+		foreach ($sanitizers as $propertyName => $sanitizer) {
+			try {
+				$property = $account->getProperty($propertyName);
+				if ($property->getValue() !== '') {
+					$sanitizer($property);
+				}
+			} catch (PropertyDoesNotExistException) {
 			}
-		} catch (PropertyDoesNotExistException $e) {
-			//  valid case, nothing to do
-		}
-
-		try {
-			$property = $account->getProperty(self::PROPERTY_BLUESKY);
-			if ($property->getValue() !== '') {
-				$this->sanitizePropertyBluesky($property);
-			}
-		} catch (PropertyDoesNotExistException $e) {
-			//  valid case, nothing to do
-		}
-
-		try {
-			$property = $account->getProperty(self::PROPERTY_FEDIVERSE);
-			if ($property->getValue() !== '') {
-				$this->sanitizePropertyFediverse($property);
-			}
-		} catch (PropertyDoesNotExistException $e) {
-			//  valid case, nothing to do
 		}
 
 		foreach ($account->getAllProperties() as $property) {
@@ -884,7 +768,6 @@ class AccountManager implements IAccountManager {
 
 		$data = [];
 		foreach ($account->getAllProperties() as $property) {
-			/** @var IAccountProperty $property */
 			$data[] = [
 				'name' => $property->getName(),
 				'value' => $property->getValue(),
