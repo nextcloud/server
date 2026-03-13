@@ -250,17 +250,31 @@ class Local extends Common {
 	}
 
 	public function file_exists(string $path): bool {
-		if ($this->caseInsensitive) {
-			$fullPath = $this->getSourcePath($path);
-			$parentPath = dirname($fullPath);
-			if (!is_dir($parentPath)) {
-				return false;
-			}
-			$content = scandir($parentPath, SCANDIR_SORT_NONE);
-			return is_array($content) && array_search(basename($fullPath), $content, true) !== false;
-		} else {
-			return file_exists($this->getSourcePath($path));
+		$fullPath = $this->getSourcePath($path);
+
+		// Standard (default) path
+		if (!$this->caseInsensitive) {
+			return file_exists($fullPath);
 		}
+
+		// Operational heuristic for case-only rename validation on
+		// case-insensitive filesystems (bypassed by default) - expensive!
+		$parentPath = dirname($fullPath);
+		if (!is_dir($parentPath)) {
+			return false;
+		}
+
+		$baseName = basename($fullPath);
+		$content = scandir($parentPath, SCANDIR_SORT_NONE);		
+		// When `localstorage.case_insensitive` is enabled, we intentionally do an exact
+		// basename lookup in the parent directory (instead of trusting file_exists()
+		// alone). Why: On case-insensitive filesystems, path lookup can succeed even
+		// if the on-disk/canonical filename casing is not what was requested. We need
+		// this best-effort check so case-only renames (e.g. "Foo" -> "foo") are
+		// reflected with the expected casing, avoiding cache/client/sync inconsistencies.
+		// Filesystem behavior varies (incl. Unicode normalization), so this is a
+		// pragmatic guard, not a strict invariant.
+		return is_array($content) && array_search($baseName, $content, true) !== false;
 	}
 
 	public function filemtime(string $path): int|false {
