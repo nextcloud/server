@@ -571,7 +571,7 @@ class Configuration {
 	 */
 	public function getConfigTranslationArray(): array {
 		//TODO: merge them into one representation
-		static $array = [
+		return [
 			'ldap_host' => 'ldapHost',
 			'ldap_port' => 'ldapPort',
 			'ldap_backup_host' => 'ldapBackupHost',
@@ -644,7 +644,6 @@ class Configuration {
 			'ldap_attr_anniversarydate' => 'ldapAttributeAnniversaryDate',
 			'ldap_attr_pronouns' => 'ldapAttributePronouns',
 		];
-		return $array;
 	}
 
 	/**
