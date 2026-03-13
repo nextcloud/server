@@ -1191,17 +1191,31 @@ class View {
 	}
 
 	/**
-	 * abstraction layer for basic filesystem functions: wrapper for \OC\Files\Storage\Storage
+	 * Execute a low-level filesystem operation on the resolved storage (\OC\Files\Storage\Storage) backend.
 	 *
-	 * @param mixed $extraParam (optional)
-	 * @return mixed
-	 * @throws LockedException
+	 * Flow:
+	 * 1) Validate/sanitize the view-relative path.
+	 * 2) Resolve to concrete storage + internal path.
+	 * 3) Run pre-hooks (which may veto execution).
+	 * 4) Acquire/upgrade locks based on hook intent (read/write/delete).
+	 * 5) Delegate the operation to the storage implementation.
+	 * 6) Apply write/delete/touch cache/update bookkeeping.
+	 * 7) Run post-hooks (except for fopen; stream may still be open).
 	 *
-	 * This method takes requests for basic filesystem functions (e.g. reading & writing
-	 * files), processes hooks and proxies, sanitises paths, and finally passes them on to
-	 * \OC\Files\Storage\Storage for delegation to a storage backend for execution
+	 * @param non-empty-string $operation Storage method name to call dynamically on the resolved Storage.
+	 * @param string $path View-relative path.
+	 * @param list<'read'|'write'|'delete'|'touch'|'create'|string> $hooks
+	 *        Hook tags controlling locking, hook execution, and update behavior.
+	 * @param mixed $extraParam Optional second argument forwarded to the storage operation.
+	 *
+	 * @return mixed Storage operation result.
+	 *               - `null` when execution is skipped (e.g. invalid/blacklisted path, hook veto, unresolved storage)
+	 *               - otherwise backend-defined return value (often `false` on operation failure)
+	 *
+	 * @throws LockedException If lock acquisition/upgrade fails.
+	 * @throws \Exception Re-thrown from the delegated storage operation.
 	 */
-	private function basicOperation(string $operation, string $path, array $hooks = [], $extraParam = null) {
+	private function basicOperation(string $operation, string $path, array $hooks = [], $extraParam = null): mixed {
 		// Preserve trailing slash semantics when resolving storage paths.
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 
