@@ -60,7 +60,6 @@ use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
 use OC\Files\Conversion\ConversionManager;
 use OC\Files\FilenameValidator;
-use OC\Files\Filesystem;
 use OC\Files\Lock\LockManager;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
@@ -440,12 +439,11 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IFileAccess::class, FileAccess::class);
 		$this->registerService('RootFolder', function (ContainerInterface $c) {
-			$manager = Filesystem::getMountManager();
 			$view = new View();
 			/** @var IUserSession $userSession */
 			$userSession = $c->get(IUserSession::class);
 			$root = new Root(
-				$manager,
+				$c->get(\OC\Files\Mount\Manager::class),
 				$view,
 				$userSession->getUser(),
 				$c->get(IUserMountCache::class),
