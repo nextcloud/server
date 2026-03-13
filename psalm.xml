@@ -18,6 +18,7 @@
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
 		<plugin filename="build/psalm/AttributeNamedParameters.php" />
 		<plugin filename="build/psalm/LogicalOperatorChecker.php" />
+		<plugin filename="build/psalm/StaticVarsChecker.php" />
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
