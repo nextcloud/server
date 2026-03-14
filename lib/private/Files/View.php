@@ -1438,7 +1438,7 @@ class View {
 	 *     the partial-file fallback path.
 	 */
 	public function getFileInfo(string $path, bool|string $includeMountPoints = true): FileInfo|false {
-		// Enforce path length limits early (security / DB constraints / backend constraints)
+		// Enforce path length limits early (security / backend constraints)
 		$this->assertPathLength($path);
 
 		// Reject invalid user-provided paths before normalization/mount resolution
@@ -1452,62 +1452,58 @@ class View {
 		// Build normalized absolute path inside the view's fake root
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 
-		// Resolve the mount/storage responsible for this path
+		// Resolve mount + storage context for the path
 		$mount = Filesystem::getMountManager()->find($path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($path);
 
-		if ($storage) {
-			// Fetch cache metadata for this storage/path
-			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
-
-			// If no cache entry: allow partial-upload files to resolve via specialized handling
-			if (!$data instanceof ICacheEntry) {
-				if (Scanner::isPartialFile($relativePath)) {
-					return $this->getPartFileInfo($relativePath);
-				}
-
-				// Not found in cache and not a known partial file => treat as non-existent
-				return false;
-			}
-
-			// Mount root of a moveable mount should be deletable by design
-			if ($mount instanceof MoveableMount && $internalPath === '') {
-				$data['permissions'] |= Constants::PERMISSION_DELETE;
-			}
-
-			// For mount root entries, overwrite cached name with current basename of resolved path
-			if ($internalPath === '' && $data['name']) {
-				$data['name'] = basename($path);
-			}
-
-			// Resolve owner object (may be null/false for token-based access without FS owner context)
-			$ownerId = $storage->getOwner($internalPath);
-			$owner = null;
-			if ($ownerId !== false) {
-				// ownerId might be null if files are accessed with an access token without file system access
-				$owner = $this->getUserObjectForOwner($ownerId);
-			}
-
-			// Build final FileInfo object from resolved storage/cache/mount data
-			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
-
-			// Optionally include sizes from sub-mounts when this entry is a directory
-			if (isset($data['fileid'])) {
-				if ($includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
-					// add the sizes of other mount points to the folder
-					$extOnly = ($includeMountPoints === 'ext');
-					$this->addSubMounts($info, $extOnly);
-				}
-			}
-
-			return $info;
-		} else {
+		if (!$storage) {
 			// Mount exists but storage is unavailable/invalid
 			$this->logger->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint(), ['app' => 'core']);
+			return false;
+		}
+		
+		// Fetch cache metadata for the resolved storage/path
+		$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
+
+		// Allow partial-upload files to resolve via specialized handling; otherwise path is considered missing
+		if (!$data instanceof ICacheEntry) {
+			if (Scanner::isPartialFile($relativePath)) {
+				return $this->getPartFileInfo($relativePath);
+			}
+			// Not found in cache and not a known partial file => treat as non-existent
+			return false;
 		}
 
-		return false;
+		// Ensure delete permission on moveable mount roots
+		if ($mount instanceof MoveableMount && $internalPath === '') {
+			$data['permissions'] |= Constants::PERMISSION_DELETE;
+		}
+
+		// Ensure mount root entries use current basename rather than stale cache name
+		if ($internalPath === '' && $data['name']) {
+			$data['name'] = basename($path);
+		}
+
+		// Resolve owner object (may remain null for token-only access contexts)
+		$ownerId = $storage->getOwner($internalPath);
+		$owner = null;
+		if ($ownerId !== false) {
+			// ownerId might be null if files are accessed with an access token without file system access
+			$owner = $this->getUserObjectForOwner($ownerId);
+		}
+
+		// Build final FileInfo object from resolved storage/cache/mount data
+		$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
+
+		// Optionally include sizes from sub-mounts when this entry is a directory
+		if (isset($data['fileid']) && $includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
+			// add the sizes of other mount points to the folder
+			$extOnly = ($includeMountPoints === 'ext');
+			$this->addSubMounts($info, $extOnly);
+		}
+
+		return $info;
 	}
 
 	/**
