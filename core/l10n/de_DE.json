@@ -276,7 +276,7 @@
     "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versendet werden. Bitte kontaktieren Sie Ihre Administration.",
     "Password cannot be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte kontaktieren Sie Ihre Administration.",
     "New password" : "Neues Passwort",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Ihre Dateien sind verschlüsselt. Es gibt keine Möglichkeit, Ihre Dateien nach dem Zurücksetzen des Passwortes wiederherzustellen. Falls Sie sich nicht sicher sind, kontaktieren Sie zunächst Ihre Administration. Möchten Sie wirklich fortfahren?",
+    "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Ihre Dateien sind verschlüsselt. Es gibt keine Möglichkeit, Ihre Dateien nach dem Zurücksetzen des Passwortes wiederherzustellen. Falls Sie sich nicht sicher sind, kontaktieren Sie zunächst Ihre Administration. Möchten Sie fortfahren?",
     "I know what I'm doing" : "Ich weiß, was ich mache",
     "Resetting password" : "Setze Passwort zurück",
     "Schedule work & meetings, synced with all your devices." : "Planen Sie Arbeit und Besprechungen, synchronisiert mit all Ihren Geräten.",

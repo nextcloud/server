@@ -95,6 +95,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "同じ名前の別のエントリがすでに存在しています。",
     "Invalid filename." : "無効なファイル名。",
     "Rename file" : "ファイル名の変更",
+    "Recently created" : "最近作成された",
     "Folder" : "フォルダー",
     "Unknown file type" : "不明なファイルタイプ",
     "{ext} image" : "{ext}画像",
