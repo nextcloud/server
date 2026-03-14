@@ -1241,104 +1241,101 @@ class View {
 			return false;
 		}
 
-		// Pre-hook phase: acquire a shared lock so hooks can safely read metadata/content.
-		if ($needsLock) {
-			$this->lockFile($path, ILockingProvider::LOCK_SHARED);
-		}
-
-		// Run pre-hooks; hooks can veto execution by returning false.
-		$run = $this->runHooks($hooks, $path);
-
-		/** @var Storage $storage */
-		// Resolve absolute path to storage backend + internal path.
-		[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
-
-		// Guard clause: pre-hooks vetoed or storage unresolved.
-		if (!$run || !$storage) {
-			// NOTE: preserves original behavior (unconditional unlock in this branch).
-			$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-			return null;
-		}
-
-		// For mutating operations, upgrade shared lock to exclusive before actual write/delete.
-		if ($isWrite || $isDelete) {
-			try {
-				$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
-			} catch (LockedException $e) {
-				// If lock upgrade fails, release previously acquired shared lock.
-				$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-				throw $e;
-			}
-		}
+		/** @var null|int $lockState null means no lock currently held */
+		$lockState = null;
+		$unlockLater = false; // true only for successful fopen stream wrapper path
 
 		try {
+			// Pre-hook phase: acquire a shared lock so hooks can safely read metadata/content.
+			if ($needsLock) {
+				$this->lockFile($path, ILockingProvider::LOCK_SHARED);
+				$lockState = ILockingProvider::LOCK_SHARED;
+			}
+
+			// Run pre-hooks; hooks can veto execution by returning false.
+			$run = $this->runHooks($hooks, $path);
+
+			// Resolve absolute path to storage backend + internal path.
+			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
+
+			// Guard clause: pre-hooks vetoed or storage unresolved.
+			/** @var Storage $storage */
+			if (!$run || !$storage) {
+				return null;
+			}
+
+			// For mutating operations, upgrade shared lock to exclusive before actual write/delete.
+			if ($isWrite || $isDelete) {
+				$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+				$lockState = ILockingProvider::LOCK_EXCLUSIVE;
+			}
+
 			// Delegate operation to storage backend, with optional extra parameter.
 			$result = !is_null($extraParam)
 				? $storage->$operation($internalPath, $extraParam)
 				: $storage->$operation($internalPath);
-		} catch (\Exception $e) {
-			// On backend error, release whichever lock this branch currently owns.
-			if ($isWrite || $isDelete) {
-				$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-			} elseif ($isRead) {
-				$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+
+			// Update delete bookkeeping only on successful delete-like operation.
+			if ($result !== false && $isDelete) {
+				$this->removeUpdate($storage, $internalPath);
 			}
-			throw $e;
+
+			// Update write bookkeeping for successful write-like operations except stream/touch special cases.
+			if ($result !== false && $isWrite && $operation !== 'fopen' && $operation !== 'touch') {
+				$isCreateOperation = $operation === 'mkdir' || ($operation === 'file_put_contents' && $isCreateHook);
+				$sizeDifference = $operation === 'mkdir' ? 0 : $result;
+				$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
+			}
+
+			// touch has dedicated bookkeeping behavior.
+			if ($result !== false && $isTouch) {
+				$this->writeUpdate($storage, $internalPath, $extraParam, 0);
+			}
+
+			// For mutating operations, downgrade the lock from exclusive to shared after the write/delete step.
+			// Keep it exclusive for successful fopen; it will be unlocked later when the stream closes.
+			if (($isWrite || $isDelete)
+				&& ($operation !== 'fopen' || $result === false)
+				&& $lockState === ILockingProvider::LOCK_EXCLUSIVE
+			) {
+				$this->changeLock($path, ILockingProvider::LOCK_SHARED);
+				$lockState = ILockingProvider::LOCK_SHARED;
+			}
+
+			if ($this->lockingEnabled && $operation === 'fopen' && is_resource($result)) {
+				$unlockLater = true;
+				// Ensure unlock callback still runs even if client disconnects.
+				ignore_user_abort(true);
+
+				// Defer unlock until stream close.
+				$result = CallbackWrapper::wrap($result, null, null, function () use ($isWrite, $isRead, $path): void {
+					if ($isWrite) {
+						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+					} elseif ($isRead) {
+						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+					}
+				});
+			}
+
+			// Emit post-hooks on success, except for fopen (stream still open at this point).
+			if ($this->shouldEmitHooks($path) && $result !== false && $operation !== 'fopen') {
+				$this->runHooks($hooks, $path, true);
+			}
+		
+			return $result;
+		} finally {
+			// In successful fopen stream path, callback owns unlock responsibility.
+			if ($unlockLater) {
+				return;
+			}
+
+			// Normal as well as failsafe unlock path (when lock ownership was not transferred to stream close callback).
+			if ($lockState !== null) {
+				$this->unlockFile($path, $lockState);
+			}
 		}
-
-		// Update delete bookkeeping only on successful delete-like operation.
-		if ($result !== false && $isDelete) {
-			$this->removeUpdate($storage, $internalPath);
-		}
-
-		// Update write bookkeeping for successful write-like operations except stream/touch special cases.
-		if ($result !== false && $isWrite && $operation !== 'fopen' && $operation !== 'touch') {
-			$isCreateOperation = $operation === 'mkdir' || ($operation === 'file_put_contents' && $isCreateHook);
-			$sizeDifference = $operation === 'mkdir' ? 0 : $result;
-			$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
-		}
-
-		// touch has dedicated bookkeeping behavior.
-		if ($result !== false && $isTouch) {
-			$this->writeUpdate($storage, $internalPath, $extraParam, 0);
-		}
-
-		// For mutating operations, downgrade the lock from exclusive to shared after the write/delete step.
-		// Keep it exclusive for successful fopen; it will be unlocked later when the stream closes.
-		if (($isWrite || $isDelete) && ($operation !== 'fopen' || $result === false)) {
-			$this->changeLock($path, ILockingProvider::LOCK_SHARED);
-		}
-
-		$unlockLater = false;
-		if ($this->lockingEnabled && $operation === 'fopen' && is_resource($result)) {
-			$unlockLater = true;
-
-			// Ensure unlock callback still runs even if client disconnects.
-			ignore_user_abort(true);
-
-			// Defer unlock until stream close.
-			$result = CallbackWrapper::wrap($result, null, null, function () use ($isWrite, $isRead, $path): void {
-				if ($isWrite)) {
-					$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-				} elseif ($isRead) {
-					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-				}
-			});
-		}
-
-		// Emit post-hooks on success, except for fopen (stream still open at this point).
-		if ($this->shouldEmitHooks($path) && $result !== false) && $operation !== 'fopen') {
-			$this->runHooks($hooks, $path, true);
-		}
-
-		// Normal unlock path when lock ownership was not transferred to stream close callback.
-		if (!$unlockLater && $needsLock) {
-			$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-		}
-
-		return $result;
 	}
-
+	
 	/**
 	 * get the path relative to the default root for hook usage
 	 *
