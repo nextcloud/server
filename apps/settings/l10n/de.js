@@ -603,7 +603,7 @@ OC.L10N.register(
     "{app}'s declarative setting field: {name}" : "Deklaratives Einstellungsfeld von {app}: {name}",
     "Unable to update server side encryption config" : "Die Serverseitige Verschlüsselungskonfiguration kann nicht aktualisiert werden.",
     "Server-side encryption" : "Serverseitige Verschlüsselung",
-    "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Serverseitige Verschlüsselung ermöglicht es, die auf diesen Server hochgeladenen Dateien zu verschlüsseln. Dies führt allerdings auch zu Nachteilen, wie z. B. einem Geschwindigkeitsverlust. Sie sollte deshalb nur eingeschaltet werden, wenn sie wirklich benötigt wird.",
+    "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Serverseitige Verschlüsselung ermöglicht es, die auf diesen Server hochgeladenen Dateien zu verschlüsseln. Dies führt allerdings auch zu Nachteilen, wie z. B. einem Geschwindigkeitsverlust. Sie sollte deshalb nur eingeschaltet werden, wenn sie benötigt wird.",
     "To encrypt all existing files run this OCC command:" : "Um alle vorhandenen Dateien zu verschlüsseln, folgenden diesen occ-Befehl ausführen:",
     "Enable server-side encryption" : "Serverseitige Verschlüsselung aktivieren",
     "Disabling server side encryption is only possible using OCC, please refer to the documentation." : "Das Deaktivieren der serverseitigen Verschlüsselung ist nur mit OCC möglich, bitte die Dokumentation beachten.",
