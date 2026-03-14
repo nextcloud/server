@@ -21,7 +21,7 @@ class BeforePreferenceListener implements IEventListener {
 	/**
 	 * @var string[]
 	 */
-	private const ALLOWED_KEYS = ['force_enable_blur_filter', 'shortcuts_disabled', 'primary_color'];
+	private const ALLOWED_KEYS = ['force_enable_blur_filter', 'show_header_datetime', 'shortcuts_disabled', 'primary_color'];
 
 	public function __construct(
 		private IAppManager $appManager,
@@ -52,6 +52,7 @@ class BeforePreferenceListener implements IEventListener {
 		if ($event instanceof BeforePreferenceSetEvent) {
 			switch ($event->getConfigKey()) {
 				case 'force_enable_blur_filter':
+				case 'show_header_datetime':
 					$event->setValid($event->getConfigValue() === 'yes' || $event->getConfigValue() === 'no');
 					break;
 				case 'shortcuts_disabled':
