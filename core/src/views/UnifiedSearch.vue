@@ -4,15 +4,16 @@
 -->
 <template>
 	<div class="unified-search-menu">
-		<NcHeaderButton
-			v-show="!showLocalSearch"
-			id="unified-search"
-			:aria-label="t('core', 'Unified search')"
-			@click="toggleUnifiedSearch">
-			<template #icon>
-				<NcIconSvgWrapper :path="mdiMagnify" />
-			</template>
-		</NcHeaderButton>
+		<div v-show="!showLocalSearch" class="unified-search-menu__trigger">
+			<NcHeaderButton
+				id="unified-search"
+				:aria-label="t('core', 'Unified search')"
+				@click="toggleUnifiedSearch">
+				<template #icon>
+					<NcIconSvgWrapper :path="mdiMagnify" />
+				</template>
+			</NcHeaderButton>
+		</div>
 		<UnifiedSearchLocalSearchBar
 			v-if="supportsLocalSearch"
 			:open.sync="showLocalSearch"
@@ -183,5 +184,10 @@ export default defineComponent({
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	&__trigger {
+		display: flex;
+		align-items: center;
+	}
 }
 </style>

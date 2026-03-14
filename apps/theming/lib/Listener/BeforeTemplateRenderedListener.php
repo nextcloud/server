@@ -49,6 +49,15 @@ class BeforeTemplateRenderedListener implements IEventListener {
 				}
 				return false;
 			});
+
+			$this->initialState->provideLazyInitialState('showHeaderDateTime', function () {
+				if ($this->userSession->getUser()) {
+					$uid = $this->userSession->getUser()->getUID();
+					return $this->config->getUserValue($uid, Application::APP_ID, 'show_header_datetime', 'no');
+				}
+
+				return 'no';
+			});
 		}
 
 		$this->themeInjectionService->injectHeaders();

@@ -43,6 +43,14 @@
 			@update:modelValue="changeEnableBlurFilter">
 			{{ t('theming', 'Enable blur background filter (may increase GPU load)') }}
 		</NcCheckboxRadioSwitch>
+
+		<h3>{{ t('theming', 'Visibility options') }}</h3>
+		<NcCheckboxRadioSwitch
+			type="checkbox"
+			:modelValue="showHeaderDateTime === 'yes'"
+			@update:modelValue="changeShowHeaderDateTime">
+			{{ t('theming', 'Show date and time in top bar') }}
+		</NcCheckboxRadioSwitch>
 	</NcSettingsSection>
 
 	<NcNoteCard v-if="isUserThemingDisabled" type="info">
@@ -63,6 +71,7 @@ import type { ITheme } from '../components/ThemePreviewItem.vue'
 
 import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -82,6 +91,7 @@ const enforceTheme = loadState('theming', 'enforceTheme', '')
 const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
 
 const enableBlurFilter = ref(loadState('theming', 'enableBlurFilter', ''))
+const showHeaderDateTime = ref(loadState('theming', 'showHeaderDateTime', 'no'))
 
 const availableThemes = loadState<ITheme[]>('theming', 'themes', [])
 const themes = ref(availableThemes.filter((theme) => theme.type === 1))
@@ -177,6 +187,35 @@ async function changeEnableBlurFilter() {
 	})
 	// Refresh the styles
 	refreshStyles()
+}
+
+/**
+ * Handle top bar date/time visibility change
+ *
+ * @param visible - Whether the date/time should be visible
+ */
+async function changeShowHeaderDateTime(visible: boolean) {
+	const previousValue = showHeaderDateTime.value
+	showHeaderDateTime.value = visible ? 'yes' : 'no'
+
+	try {
+		await axios({
+			url: generateOcsUrl('apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
+				appId: 'theming',
+				configKey: 'show_header_datetime',
+			}),
+			data: {
+				configValue: showHeaderDateTime.value,
+			},
+			method: 'POST',
+		})
+
+		emit('theming:show-header-datetime:changed', { enabled: visible })
+	} catch (error) {
+		showHeaderDateTime.value = previousValue
+		logger.error('theming: Unable to update header date and time visibility.', { error })
+		showError(t('theming', 'Unable to apply the setting.'))
+	}
 }
 
 /**

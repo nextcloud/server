@@ -3,46 +3,49 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcHeaderMenu
-		id="user-menu"
-		class="account-menu"
-		is-nav
-		:aria-label="t('core', 'Settings menu')"
-		:description="avatarDescription">
-		<template #trigger>
-			<!-- The `key` is a hack as NcAvatar does not handle updating the preloaded status on show status change -->
-			<NcAvatar
-				:key="String(showUserStatus)"
-				class="account-menu__avatar"
-				disable-menu
-				disable-tooltip
-				:hide-user-status="!showUserStatus"
-				:user="currentUserId"
-				:preloaded-user-status="userStatus" />
-		</template>
-		<ul class="account-menu__list">
-			<AccountMenuProfileEntry
-				:id="profileEntry.id"
-				:name="profileEntry.name"
-				:href="profileEntry.href"
-				:active="profileEntry.active" />
-			<AccountMenuEntry
-				v-for="entry in otherEntries"
-				:id="entry.id"
-				:key="entry.id"
-				:name="entry.name"
-				:href="entry.href"
-				:active="entry.active"
-				:icon="entry.icon" />
-		</ul>
-	</NcHeaderMenu>
+	<div class="account-menu-wrapper">
+		<HeaderDateTime :enabled="showHeaderDateTime" />
+		<NcHeaderMenu
+			id="user-menu"
+			class="account-menu"
+			is-nav
+			:aria-label="t('core', 'Settings menu')"
+			:description="avatarDescription">
+			<template #trigger>
+				<!-- The `key` is a hack as NcAvatar does not handle updating the preloaded status on show status change -->
+				<NcAvatar
+					:key="String(showUserStatus)"
+					class="account-menu__avatar"
+					disable-menu
+					disable-tooltip
+					:hide-user-status="!showUserStatus"
+					:user="currentUserId"
+					:preloaded-user-status="userStatus" />
+			</template>
+			<ul class="account-menu__list">
+				<AccountMenuProfileEntry
+					:id="profileEntry.id"
+					:name="profileEntry.name"
+					:href="profileEntry.href"
+					:active="profileEntry.active" />
+				<AccountMenuEntry
+					v-for="entry in otherEntries"
+					:id="entry.id"
+					:key="entry.id"
+					:name="entry.name"
+					:href="entry.href"
+					:active="entry.active"
+					:icon="entry.icon" />
+			</ul>
+		</NcHeaderMenu>
+	</div>
 </template>
 
 <script lang="ts">
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
-import { emit, subscribe } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -51,6 +54,7 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
 import AccountMenuProfileEntry from '../components/AccountMenu/AccountMenuProfileEntry.vue'
+import HeaderDateTime from '../components/HeaderDateTime.vue'
 import logger from '../logger.js'
 
 interface ISettingsNavigationEntry {
@@ -120,6 +124,7 @@ export default defineComponent({
 	components: {
 		AccountMenuEntry,
 		AccountMenuProfileEntry,
+		HeaderDateTime,
 		NcAvatar,
 		NcHeaderMenu,
 	},
@@ -142,6 +147,7 @@ export default defineComponent({
 	data() {
 		return {
 			showUserStatus: false,
+			showHeaderDateTime: loadState('theming', 'showHeaderDateTime', 'no') === 'yes',
 			userStatus: {
 				status: null,
 				icon: null,
@@ -185,7 +191,13 @@ export default defineComponent({
 
 	mounted() {
 		subscribe('user_status:status.updated', this.handleUserStatusUpdated)
+		subscribe('theming:show-header-datetime:changed', this.handleShowHeaderDateTimeChanged)
 		emit('core:user-menu:mounted')
+	},
+
+	beforeDestroy() {
+		unsubscribe('user_status:status.updated', this.handleUserStatusUpdated)
+		unsubscribe('theming:show-header-datetime:changed', this.handleShowHeaderDateTimeChanged)
 	},
 
 	methods: {
@@ -197,6 +209,10 @@ export default defineComponent({
 					message: state.message,
 				}
 			}
+		},
+
+		handleShowHeaderDateTimeChanged(state: { enabled?: boolean }) {
+			this.showHeaderDateTime = state.enabled === true
 		},
 
 		translateStatus(status) {
@@ -213,6 +229,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 :deep(#header-menu-user-menu) {
 	padding: 0 !important;
+}
+
+.account-menu-wrapper {
+	display: flex;
+	align-items: center;
 }
 
 .account-menu {
