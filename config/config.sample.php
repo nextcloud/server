@@ -2830,9 +2830,23 @@ $CONFIG = [
 	'diagnostics.logging.threshold' => 0,
 
 	/**
-	 * Enable profiling globally.
+	 * Toggle availability of user profiles.
 	 *
-	 * Defaults to ``true``
+	 * User profile pages contain information that can be shared with other users,
+	 * such as full name, phone number, organization, role, and similar fields.
+	 *
+	 * Profiles are enabled by default, and profile data may be used by other
+	 * features (for example, the system address book).
+	 *
+	 * Profile visibility is layered: what is shared depends on a combination of
+	 * system-wide and account-level privacy controls, and each field's visibility
+	 * can be configured.
+	 *
+	 * When set to false, profile functionality is disabled instance-wide.
+	 *
+	 * Note: This affects user account profiles, not the developer performance profiler.
+	 *
+	 * Defaults to `true`
 	 */
 	'profile.enabled' => true,
 
