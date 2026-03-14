@@ -7,7 +7,7 @@ OC.L10N.register(
     "Your browser does not support audio." : "Ihr Browser unterstützt kein Audio.",
     "Error loading {name}" : "Fehler beim Laden von {name}",
     "You are about to overwrite the original file. Are you sure you want to continue?" : "Sie sind im Begriff, die Originaldatei zu überschreiben. Möchten Sie fortfahren?",
-    "A file with this name already exists. Do you want to overwrite it?" : "Eine Datei mit diesem Namen existiert bereits. Soll diese wirklich überschrieben werden?",
+    "A file with this name already exists. Do you want to overwrite it?" : "Eine Datei mit diesem Namen existiert bereits. Soll diese überschrieben werden?",
     "Confirm overwrite" : "Überschreiben bestätigen",
     "Cancel" : "Abbrechen",
     "Overwrite" : "Überschreiben",
