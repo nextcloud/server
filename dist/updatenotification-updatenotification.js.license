@@ -39,13 +39,13 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.4
-	- license: MIT
-- @floating-ui/dom
 	- version: 1.7.5
 	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.6
+	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.10
+	- version: 0.2.11
 	- license: MIT
 - @nextcloud/auth
 	- version: 2.5.3
@@ -165,7 +165,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.3.2
+	- version: 3.3.3
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3

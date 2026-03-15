@@ -43,10 +43,10 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.4
+	- version: 1.7.5
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.10
+	- version: 0.2.11
 	- license: MIT
 - @linusborg/vue-simple-portal
 	- version: 0.1.5
@@ -115,28 +115,46 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.3
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 9.2.0
+	- version: 9.6.0
 	- license: AGPL-3.0-or-later
+- @vue/devtools-shared
+	- version: 8.1.0
+	- license: MIT
 - @vue/reactivity
-	- version: 3.5.24
+	- version: 3.5.30
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.24
+	- version: 3.5.30
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.24
+	- version: 3.5.30
 	- license: MIT
 - @vue/shared
-	- version: 3.5.24
+	- version: 3.5.30
+	- license: MIT
+- @vueuse/core
+	- version: 14.2.1
+	- license: MIT
+- @vueuse/shared
+	- version: 14.2.1
+	- license: MIT
+- perfect-debounce
+	- version: 2.1.0
+	- license: MIT
+- @vue/devtools-api
+	- version: 8.1.0
+	- license: MIT
+- @vue/devtools-kit
+	- version: 8.1.0
 	- license: MIT
 - vue-router
-	- version: 4.6.3
+	- version: 5.0.3
 	- license: MIT
 - vue
-	- version: 3.5.24
+	- version: 3.5.30
 	- license: MIT
 - @nextcloud/password-confirmation
-	- version: 6.0.2
+	- version: 6.0.3
 	- license: MIT
 - @nextcloud/paths
 	- version: 3.0.0
@@ -178,16 +196,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.3.2
+	- version: 3.3.3
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
 	- license: MIT
 - events
 	- version: 3.3.0
-	- license: MIT
-- focus-trap
-	- version: 7.8.0
 	- license: MIT
 - hookable
 	- version: 5.5.3
