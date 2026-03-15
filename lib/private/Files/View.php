@@ -1205,7 +1205,7 @@ class View {
 	 * @param non-empty-string $operation Storage method name to call dynamically on the resolved Storage.
 	 * @param string $path View-relative path.
 	 * @param list<'read'|'write'|'delete'|'touch'|'create'|string> $hooks
-	 *        Hook tags controlling locking, hook execution, and update behavior.
+	 *                                                                     Hook tags controlling locking, hook execution, and update behavior.
 	 * @param mixed $extraParam Optional second argument forwarded to the storage operation.
 	 *
 	 * @return mixed Storage operation result.
@@ -1321,12 +1321,11 @@ class View {
 			if ($this->shouldEmitHooks($path) && $result !== false && $operation !== 'fopen') {
 				$this->runHooks($hooks, $path, true);
 			}
-		
-			return $result;
+
 		} finally {
 			// In successful fopen stream path, callback owns unlock responsibility.
 			if ($unlockLater) {
-				return;
+				return null;
 			}
 
 			// Normal as well as failsafe unlock path (when lock ownership was not transferred to stream close callback).
@@ -1334,6 +1333,8 @@ class View {
 				$this->unlockFile($path, $lockState);
 			}
 		}
+
+		return $result;
 	}
 	
 	/**
