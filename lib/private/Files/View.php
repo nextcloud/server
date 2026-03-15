@@ -1483,8 +1483,8 @@ class View {
 		}
 
 		// Ensure mount root entries use current basename rather than stale cache name
-		if ($internalPath === '' && $data['name']) {
-			$data['name'] = basename($path);
+		if ($internalPath === '' && $data['name'] !== '' && $data['name'] !== null) {
+			$data['name'] = basename($fullPath);
 		}
 
 		// Resolve owner object (may remain null for token-only access contexts)
@@ -1496,7 +1496,7 @@ class View {
 		}
 
 		// Build final FileInfo object from resolved storage/cache/mount data
-		$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
+		$info = new FileInfo($fullPath, $storage, $internalPath, $data, $mount, $owner);
 
 		// Optionally include sizes from sub-mounts when this entry is a directory
 		if (isset($data['fileid']) && $includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
