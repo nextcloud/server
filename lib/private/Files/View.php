@@ -1446,23 +1446,25 @@ class View {
 			return false;
 		}
 
-		// Keep the original (caller-relative) path for cache lookup and partial-file handling
+		// Use the original (caller-relative) path for cache lookup and partial-file handling
 		$relativePath = $path;
-
 		// Build normalized absolute path inside the view's fake root
-		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
+		$fullPath = Filesystem::normalizePath($this->fakeRoot . '/' . $relativePath);
 
 		// Resolve mount + storage context for the path
-		$mount = Filesystem::getMountManager()->find($path);
+		$mount = Filesystem::getMountManager()->find($fullPath);
+		if (!$mount) {
+        	$this->logger->warning('No mount found for path', ['app' => 'core', 'path' => $fullPath]);
+        	return false;
+    	}
 		$storage = $mount->getStorage();
-		$internalPath = $mount->getInternalPath($path);
-
 		if (!$storage) {
 			// Mount exists but storage is unavailable/invalid
-			$this->logger->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint(), ['app' => 'core']);
+			$this->logger->warning('Storage not valid for mountpoint', ['mountpoint' => $mount->getMountPoint(), 'path' => $fullPath, 'app' => 'core']);
 			return false;
 		}
-		
+		$internalPath = $mount->getInternalPath($fullPath);
+
 		// Fetch cache metadata for the resolved storage/path
 		$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
 
@@ -1498,7 +1500,7 @@ class View {
 
 		// Optionally include sizes from sub-mounts when this entry is a directory
 		if (isset($data['fileid']) && $includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
-			// add the sizes of other mount points to the folder
+			// add the sizes of other mount points to the folder (expensive?)
 			$extOnly = ($includeMountPoints === 'ext');
 			$this->addSubMounts($info, $extOnly);
 		}
