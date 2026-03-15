@@ -1486,13 +1486,11 @@ class View {
 			$data['name'] = basename($fullPath);
 		}
 
-		// Resolve owner object (may remain null for token-only access contexts)
+		// Resolve owner object if storage can provide an owner id
 		$ownerId = $storage->getOwner($internalPath);
-		$owner = null;
-		if ($ownerId !== false) {
-			// ownerId might be null if files are accessed with an access token without file system access
-			$owner = $this->getUserObjectForOwner($ownerId);
-		}
+		$owner = ($ownerId !== false)
+			? $this->getUserObjectForOwner($ownerId)
+			: null;
 
 		// Build final FileInfo object from resolved storage/cache/mount data
 		$info = new FileInfo($fullPath, $storage, $internalPath, $data, $mount, $owner);
