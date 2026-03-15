@@ -20,8 +20,7 @@
   "baseBranchPatterns": [
     "master",
     "stable33",
-    "stable32",
-    "stable31"
+    "stable32"
   ],
   "enabledManagers": [
     "npm"
@@ -68,8 +67,7 @@
       ],
       "matchBaseBranches": [
         "stable33",
-        "stable32",
-        "stable31"
+        "stable32"
       ],
       "enabled": false
     },
