@@ -1438,69 +1438,59 @@ class View {
 	 *     the partial-file fallback path.
 	 */
 	public function getFileInfo(string $path, bool|string $includeMountPoints = true): FileInfo|false {
-		// Enforce path length limits early (security / backend constraints)
 		$this->assertPathLength($path);
 
-		// Reject invalid user-provided paths before normalization/mount resolution
 		if (!Filesystem::isValidPath($path)) {
 			return false;
 		}
 
-		// Use the original (caller-relative) path for cache lookup and partial-file handling
 		$relativePath = $path;
-		// Build normalized absolute path inside the view's fake root
 		$fullPath = Filesystem::normalizePath($this->fakeRoot . '/' . $relativePath);
 
-		// Resolve mount + storage context for the path
 		$mount = Filesystem::getMountManager()->find($fullPath);
 		if (!$mount) {
         	$this->logger->warning('No mount found for path', ['app' => 'core', 'path' => $fullPath]);
         	return false;
     	}
+
 		$storage = $mount->getStorage();
 		if (!$storage) {
-			// Mount exists but storage is unavailable/invalid
-			$this->logger->warning('Storage not valid for mountpoint', ['mountpoint' => $mount->getMountPoint(), 'path' => $fullPath, 'app' => 'core']);
+			$this->logger->warning('Storage not valid for mountpoint', ['app' => 'core', 'mountpoint' => $mount->getMountPoint(), 'path' => $fullPath]);
 			return false;
 		}
-		$internalPath = $mount->getInternalPath($fullPath);
 
-		// Fetch cache metadata for the resolved storage/path
+		$internalPath = $mount->getInternalPath($fullPath);
 		$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
-		if ($data === false) {
+
+		if ($data === false) { // cache miss
 			if (!Scanner::isPartialFile($relativePath)) {
-				// Not found in cache and not a known partial file => truly non-existent
 				return false;
 			}
-			// Partial (upload) files get a second chance
+			// Partial uploads can exist without a regular cache entry.
 			return $this->getPartFileInfo($relativePath);
 		}
 
-		// Ensure moveable mount roots get delete permission 
+		// Moveable mount roots must remain deletable.
 		if ($internalPath === '' && $mount instanceof MoveableMount) {
 			$data['permissions'] |= Constants::PERMISSION_DELETE;
 		}
 
-		// Ensure mount roots use current basename rather than stale cache name
+		// Root cache names can be stale; derive from the resolved full path.
 		if ($internalPath === '' && ($data['name'] ?? '') !== '') {
 			$data['name'] = basename($fullPath);
 		}
 
-		// Resolve owner object if storage can provide an owner id
 		// @todo: lazy load owner resolution in FileInfo instead?
 		$ownerId = $storage->getOwner($internalPath);
 		$owner = ($ownerId !== false)
 			? $this->getUserObjectForOwner($ownerId)
 			: null;
 
-		// Build final FileInfo object from resolved storage/cache/mount data
 		$info = new FileInfo($fullPath, $storage, $internalPath, $data, $mount, $owner);
 
-		// Optionally include sizes from sub-mounts when this entry is a directory
-		if (isset($data['fileid']) && $includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
-			// add the sizes of other mount points to the folder (expensive?)
+		if ($includeMountPoints && $data['mimetype'] === 'httpd/unix-directory' && isset($data['fileid'])) {
 			$extOnly = ($includeMountPoints === 'ext');
-			$this->addSubMounts($info, $extOnly);
+			$this->addSubMounts($info, $extOnly); // expensive?
 		}
 
 		return $info;
