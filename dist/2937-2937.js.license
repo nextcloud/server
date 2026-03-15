@@ -8,15 +8,19 @@ SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: Victor Felder <victor@draft.li> (https://draft.li)
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Richie Bendall
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
+SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
@@ -33,19 +37,20 @@ SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Andrea Giammarchi
 
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.4
-	- license: MIT
-- @floating-ui/dom
 	- version: 1.7.5
 	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.6
+	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.10
+	- version: 0.2.11
 	- license: MIT
 - unist-util-is
 	- version: 3.0.0
@@ -89,20 +94,17 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.4.0
+	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.26.0
 	- license: MIT
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
-- @nextcloud/initial-state
-	- version: 3.0.0
-	- license: GPL-3.0-or-later
-- @nextcloud/sharing
-	- version: 0.3.0
-	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.36.0
+	- version: 8.37.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.3.0
@@ -122,6 +124,9 @@ This file is generated from multiple sources. Included packages:
 - base64-js
 	- version: 1.5.1
 	- license: MIT
+- char-regex
+	- version: 2.0.2
+	- license: MIT
 - charenc
 	- version: 0.0.2
 	- license: BSD-3-Clause
@@ -134,6 +139,9 @@ This file is generated from multiple sources. Included packages:
 - css-loader
 	- version: 7.1.2
 	- license: MIT
+- debounce
+	- version: 2.2.0
+	- license: MIT
 - decode-named-character-reference
 	- version: 1.2.0
 	- license: MIT
@@ -143,6 +151,9 @@ This file is generated from multiple sources. Included packages:
 - dompurify
 	- version: 3.3.3
 	- license: (MPL-2.0 OR Apache-2.0)
+- emoji-mart-vue-fast
+	- version: 15.0.5
+	- license: BSD-3-Clause
 - escape-html
 	- version: 1.0.3
 	- license: MIT
@@ -176,6 +187,12 @@ This file is generated from multiple sources. Included packages:
 - is-buffer
 	- version: 1.1.6
 	- license: MIT
+- jquery
+	- version: 3.7.1
+	- license: MIT
+- longest-streak
+	- version: 3.1.0
+	- license: MIT
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
@@ -194,8 +211,14 @@ This file is generated from multiple sources. Included packages:
 - mdast-util-newline-to-break
 	- version: 2.0.0
 	- license: MIT
+- mdast-util-phrasing
+	- version: 4.1.0
+	- license: MIT
 - mdast-util-to-hast
 	- version: 13.2.1
+	- license: MIT
+- mdast-util-to-markdown
+	- version: 2.1.2
 	- license: MIT
 - mdast-util-to-string
 	- version: 4.0.0
@@ -281,6 +304,9 @@ This file is generated from multiple sources. Included packages:
 - remark-rehype
 	- version: 11.1.2
 	- license: MIT
+- remark-stringify
+	- version: 11.0.0
+	- license: MIT
 - remark-unlink-protocols
 	- version: 1.0.0
 	- license: MIT
@@ -340,4 +366,7 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - web-namespaces
 	- version: 2.0.1
+	- license: MIT
+- zwitch
+	- version: 2.0.4
 	- license: MIT

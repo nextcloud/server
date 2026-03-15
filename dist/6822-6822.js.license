@@ -47,13 +47,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.3
 	- license: MIT
 - @floating-ui/core
-	- version: 1.7.4
-	- license: MIT
-- @floating-ui/dom
 	- version: 1.7.5
 	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.6
+	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.10
+	- version: 0.2.11
 	- license: MIT
 - @mdi/js
 	- version: 7.4.47
