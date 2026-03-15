@@ -150,7 +150,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.36.0
 	- license: AGPL-3.0-or-later
 - @simplewebauthn/browser
-	- version: 13.2.2
+	- version: 13.3.0
 	- license: MIT
 - @vue/reactivity
 	- version: 3.5.28
