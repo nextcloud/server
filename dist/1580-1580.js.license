@@ -41,10 +41,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.3
 	- license: MIT
 - @floating-ui/core
-	- version: 1.7.4
+	- version: 1.7.5
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.10
+	- version: 0.2.11
 	- license: MIT
 - @nextcloud/auth
 	- version: 2.5.3
