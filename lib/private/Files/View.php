@@ -1467,14 +1467,13 @@ class View {
 
 		// Fetch cache metadata for the resolved storage/path
 		$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
-
-		// Allow partial-upload files to resolve via specialized handling; otherwise path is considered missing
-		if (!$data instanceof ICacheEntry) {
-			if (Scanner::isPartialFile($relativePath)) {
-				return $this->getPartFileInfo($relativePath);
+		if ($data === false) {
+			if (!Scanner::isPartialFile($relativePath)) {
+				// Not found in cache and not a known partial file => truly non-existent
+				return false;
 			}
-			// Not found in cache and not a known partial file => treat as non-existent
-			return false;
+			// Partial (upload) files get a second chance
+			return $this->getPartFileInfo($relativePath);
 		}
 
 		// Ensure delete permission on moveable mount roots
