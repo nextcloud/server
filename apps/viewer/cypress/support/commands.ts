@@ -80,7 +80,11 @@ Cypress.Commands.add('getFile', fileName => {
 })
 
 Cypress.Commands.add('openFile', fileName => {
-	cy.getFile(fileName).click()
+	cy.getFile(fileName)
+		.find('button')
+		.first()
+		.should('be.visible')
+		.click()
 	// eslint-disable-next-line
 	cy.wait(250)
 })

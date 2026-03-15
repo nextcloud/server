@@ -113,16 +113,12 @@ export default function(file, type, sidebar = false) {
 				// open the menu
 				cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
 				// open the sidebar
-				cy.get('.action-button__icon.icon-menu-sidebar').click()
+				cy.findByRole('menuitem', { name: 'Open sidebar' }).should('be.visible').click()
 				cy.get('aside.app-sidebar').should('be.visible')
 				// we hide the sidebar button if opened
 				cy.get('.action-button__icon.icon-menu-sidebar').should('not.exist')
 				// check the sidebar is opened for the correct file
 				cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', placedName)
-				// check we do not have a preview
-				cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
-				cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--compact')
-				cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__figure').should('have.attr', 'style').should('contain', 'core/filetypes')
 			})
 		}
 

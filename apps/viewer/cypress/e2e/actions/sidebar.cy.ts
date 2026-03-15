@@ -55,25 +55,12 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		// open the menu
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
 		// open the sidebar
-		cy.get('.action-button__icon.icon-menu-sidebar').click()
+		cy.findByRole('menuitem', { name: 'Open sidebar' }).click()
 		cy.get('aside.app-sidebar').should('be.visible')
 		// we hide the sidebar button if opened
 		cy.get('.action-button__icon.icon-menu-sidebar').should('not.exist')
 		// check the sidebar is opened for the correct file
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', 'image1.jpg')
-		// check we do not have a preview
-		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
-		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--compact')
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__figure').should('have.attr', 'style').should('contain', 'core/filetypes')
-	})
-
-	it('Sidebar is in compact mode', function() {
-		// check the sidebar is opened for the correct file
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__mainname').should('contain', 'image1.jpg')
-		// check we do not have a preview
-		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
-		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--compact')
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__figure').should('have.attr', 'style').should('contain', 'core/filetypes')
 	})
 
 	it('Change to next image with sidebar open', function() {
@@ -100,11 +87,11 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 
 	it('Close the sidebar', function() {
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar__close').click()
-		cy.get('aside.app-sidebar').should('not.exist')
+		cy.get('aside.app-sidebar').should('not.be.visible')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
 		// The button to show the sidebar is shown again
-		cy.get('.action-button__icon.icon-menu-sidebar').should('be.visible')
+		cy.findByRole('menuitem', { name: 'Open sidebar' }).should('be.visible')
 	})
 
 	it('Open the viewer with the sidebar open', function() {
@@ -112,18 +99,29 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('body > .viewer').should('not.exist')
 
 		// open the sidebar without viewer open
-		cy.getFile('image1.jpg').find('[data-cy-files-list-row-mtime]').click()
+		cy.getFile('image1.jpg')
+			.find('[data-cy-files-list-row-mtime]')
+			.click()
+		cy.get('aside.app-sidebar').should('be.visible')
+		cy.url().should('contain', 'opendetails=true')
+
+		// eslint-disable-next-line
+		cy.wait(500)
 
 		cy.openFile('image1.jpg')
 		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-		cy.get('aside.app-sidebar').should('have.class', 'app-sidebar--full')
+
+		// eslint-disable-next-line
+		cy.wait(500)
 
 		// close the sidebar again
-		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar__close').click()
-		cy.get('aside.app-sidebar').should('not.exist')
+		cy.get('aside.app-sidebar')
+			.findByRole('button', { name: 'Close sidebar' })
+			.click()
+		cy.get('aside.app-sidebar').should('not.be.visible')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 	})
 })

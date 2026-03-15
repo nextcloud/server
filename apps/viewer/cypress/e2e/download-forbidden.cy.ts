@@ -49,6 +49,8 @@ describe('Disable download button if forbidden', { testIsolation: true }, () => 
 
 	it('See the title on the viewer header but not the Download nor the menu button', () => {
 		cy.getFile('image1.jpg').should('be.visible')
+		// eslint-disable-next-line
+		cy.wait(250)
 		cy.openFile('image1.jpg')
 		cy.get('body > .viewer .modal-header__name').should('contain', 'image1.jpg')
 

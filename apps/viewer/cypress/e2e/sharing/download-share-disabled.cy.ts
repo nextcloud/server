@@ -34,18 +34,14 @@ describe(`Download ${fileName} in viewer`, function() {
 	})
 
 	it('Share the Photos folder with a share link, disable download and access the share link', function() {
-		cy.on('uncaught:exception', (err) => {
-			// This can happen because of blink engine handling animation, its not a bug just engine related.
-			if (err.message.includes('ResizeObserver loop limit exceeded')) {
-			  return false
-			}
-		})
-
 		cy.createLinkShare('/Photos').then((token: string) => {
 			cy.intercept('GET', '**/apps/files_sharing/api/v1/shares*').as('sharingAPI')
 
 			// Open the sidebar from the breadcrumbs
-			cy.get('[data-cy-files-content-breadcrumbs] .files-list__header-share-button').click()
+			cy.findByRole('navigation', { name: 'Current directory path' })
+				.findByRole('button', { name: 'Photos' })
+				.click()
+			cy.findByRole('menuitem', { name: 'Share' }).click()
 			cy.get('aside.app-sidebar').should('be.visible')
 
 			// Wait for the sidebar to be done loading
@@ -54,6 +50,8 @@ describe(`Download ${fileName} in viewer`, function() {
 			// Open the share menu
 			cy.get('.sharing-link-list > .sharing-entry button[aria-label*="Actions for "]').click()
 			cy.get('.action-button:contains(\'Customize link\')').click()
+			cy.findByRole('button', { name: 'Advanced settings' }).click()
+
 			cy.get('.checkbox-radio-switch-checkbox').contains('Hide download').as('hideDownloadBtn')
 			// click the label
 			cy.get('@hideDownloadBtn').get('span').contains('Hide download').click()
