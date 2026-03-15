@@ -123,7 +123,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.36.0
+	- version: 8.37.0
 	- license: AGPL-3.0-or-later
 - @vue/reactivity
 	- version: 3.5.28
