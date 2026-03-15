@@ -1487,6 +1487,7 @@ class View {
 		}
 
 		// Resolve owner object if storage can provide an owner id
+		// @todo: lazy load owner resolution in FileInfo instead?
 		$ownerId = $storage->getOwner($internalPath);
 		$owner = ($ownerId !== false)
 			? $this->getUserObjectForOwner($ownerId)
