@@ -1476,13 +1476,13 @@ class View {
 			return $this->getPartFileInfo($relativePath);
 		}
 
-		// Ensure delete permission on moveable mount roots
-		if ($mount instanceof MoveableMount && $internalPath === '') {
+		// Ensure moveable mount roots get delete permission 
+		if ($internalPath === '' && $mount instanceof MoveableMount) {
 			$data['permissions'] |= Constants::PERMISSION_DELETE;
 		}
 
-		// Ensure mount root entries use current basename rather than stale cache name
-		if ($internalPath === '' && $data['name'] !== '' && $data['name'] !== null) {
+		// Ensure mount roots use current basename rather than stale cache name
+		if ($internalPath === '' && ($data['name'] ?? '') !== '') {
 			$data['name'] = basename($fullPath);
 		}
 
