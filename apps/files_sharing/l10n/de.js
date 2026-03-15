@@ -149,7 +149,7 @@ OC.L10N.register(
     "Select" : "Auswählen",
     "What are you requesting?" : "Was fragst du an?",
     "Request subject" : "Betreff der Anfrage",
-    "Birthday party photos, History assignment…" : "Fotos von Geburtstagsfeiern, Geschichtsaufgaben…",
+    "Birthday party photos, History assignment…" : "Fotos von Geburtstagsfeiern, Geschichtsaufgaben …",
     "Where should these files go?" : "Wo sollen diese Dateien gespeichert werden?",
     "Upload destination" : "Ziel für das Hochladen",
     "Revert to default" : "Auf Standard zurücksetzen",
