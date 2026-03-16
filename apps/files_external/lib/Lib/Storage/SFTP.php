@@ -333,7 +333,10 @@ class SFTP extends Common {
 					$fh = fopen('sftpwrite://' . trim($absPath, '/'), 'w', false, $context);
 					if ($fh) {
 						$fh = CallbackWrapper::wrap($fh, null, null, function () use ($path): void {
-							$this->knownMTimes->set($path, time());
+							$mtime = time();
+							$this->knownMTimes->set($path, $mtime);
+							$this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
+							$this->getConnection()->clearStatCache();
 						});
 					}
 					return $fh;
@@ -429,6 +432,11 @@ class SFTP extends Common {
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $data);
+		$mtime = time();
+		$this->knownMTimes->set($path, $mtime);
+		$this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
+		$this->getConnection()->clearStatCache();
+
 		if ($result) {
 			return strlen($data);
 		} else {
@@ -448,6 +456,11 @@ class SFTP extends Common {
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $stream);
 		fclose($stream);
+		$mtime = time();
+		$this->knownMTimes->set($path, $mtime);
+		$this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
+		$this->getConnection()->clearStatCache();
+
 		if ($result) {
 			if ($size === null) {
 				throw new \Exception('Failed to get written size from sftp storage wrapper');
