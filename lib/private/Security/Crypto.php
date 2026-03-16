@@ -159,7 +159,7 @@ class Crypto implements ICrypto {
 			}
 		} else {
 			if (!hash_equals($this->calculateHMAC($parts[0] . $parts[1], $hmacKey), $hmac)) {
-				throw new Exception('HMAC does not match.');
+				throw new \RuntimeException('HMAC does not match.');
 			}
 		}
 
