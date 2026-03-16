@@ -144,6 +144,7 @@ class LookupPluginTest extends TestCase {
 			->willReturnMap([
 				['gs.enabled', false, true],
 				['has_internet_connection', true, true],
+				['gss.selfsigned.allow', false, false],
 			]);
 
 		$this->config->expects($this->once())
@@ -206,6 +207,7 @@ class LookupPluginTest extends TestCase {
 				->willReturnMap([
 					['gs.enabled', false, $GSEnabled],
 					['has_internet_connection', true, true],
+					['gss.selfsigned.allow', false, false],
 				]);
 			$this->config->expects($this->once())
 				->method('getSystemValueString')
