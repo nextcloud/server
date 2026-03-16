@@ -12,10 +12,10 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Settings\Admin;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -27,7 +27,7 @@ class AdminTest extends TestCase {
 	private GlobalAuth&MockObject $globalAuth;
 	private IInitialState&MockObject $initialState;
 	private IURLGenerator&MockObject $urlGenerator;
-	private IAppManager&MockObject $appManager;
+	private IL10N&MockObject $l10n;
 	private Admin $admin;
 
 	protected function setUp(): void {
@@ -38,7 +38,10 @@ class AdminTest extends TestCase {
 		$this->globalAuth = $this->createMock(GlobalAuth::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->appManager = $this->createMock(IAppManager::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10n->method('t')->willReturnCallback(function ($text) {
+			return $text;
+		});
 
 		$this->admin = new Admin(
 			$this->encryptionManager,
@@ -47,7 +50,7 @@ class AdminTest extends TestCase {
 			$this->globalAuth,
 			$this->initialState,
 			$this->urlGenerator,
-			$this->appManager,
+			$this->l10n,
 		);
 	}
 
