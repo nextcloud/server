@@ -54,11 +54,16 @@ class LookupPlugin implements ISearchPlugin {
 
 		try {
 			$client = $this->clientService->newClient();
+			/**
+			 * @psalm-suppress TypeDoesNotContainType - $isGlobalScaleEnabled always true at this point
+			 * @psalm-suppress RedundantCondition - guard rail in case we re-activate LUS out of GlobalScale
+			 */
 			$response = $client->get(
 				$lookupServerUrl . '/users?search=' . urlencode($search),
 				[
 					'timeout' => 10,
 					'connect_timeout' => 3,
+					'verify' => !($isGlobalScaleEnabled && $this->config->getSystemValueBool('gss.selfsigned.allow', false) === true)
 				]
 			);
 
