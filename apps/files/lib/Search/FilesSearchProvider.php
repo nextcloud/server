@@ -24,6 +24,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
 use OCP\IPreview;
+use OCP\ITags;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\FilterDefinition;
@@ -130,10 +131,26 @@ class FilesSearchProvider implements IFilteringProvider {
 				);
 				$searchResultEntry->addAttribute('fileId', (string)$result->getId());
 				$searchResultEntry->addAttribute('path', $path);
+				$searchResultEntry->addAttribute('favorite', $this->isFavorite((string)$result->getId()) ? "true" : "false");
 				return $searchResultEntry;
 			}, $userFolder->search($fileQuery)),
 			$query->getCursor() + $query->getLimit()
 		);
+	}
+
+	private function isFavorite(string $fileId): bool {
+		$tagManager = \OCP\Server::get(\OCP\ITagManager::class);
+		$tagger = $tagManager->load('files');
+		if ($tagger === null) {
+			return false;
+		}
+		$tags = $tagger->getTagsForObjects([$fileId]);
+
+		if ($tags === false || empty($tags)) {
+			return false;
+		}
+
+		return array_search(ITags::TAG_FAVORITE, current($tags)) !== false;
 	}
 
 	private function buildSearchQuery(ISearchQuery $query, IUser $user): SearchQuery {
