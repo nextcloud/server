@@ -8,7 +8,7 @@
 	</div>
 </template>
 <script>
-import { showError, showSuccess, DialogBuilder } from '@nextcloud/dialogs'
+import { showConfirmation, showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { Node } from '@nextcloud/files'
 import { linkTo } from '@nextcloud/router'
@@ -256,29 +256,12 @@ export default {
 						? t('viewer', 'You are about to overwrite the original file. Are you sure you want to continue?')
 						: t('viewer', 'A file with this name already exists. Do you want to overwrite it?')
 
-					let confirmed = false
-					const dialog = (new DialogBuilder())
-						.setName(t('viewer', 'Confirm overwrite'))
-						.setText(message)
-						.setButtons([
-							{
-								label: t('viewer', 'Cancel'),
-								type: 'secondary',
-								callback: () => {
-									confirmed = false
-								},
-							},
-							{
-								label: t('viewer', 'Overwrite'),
-								type: 'error',
-								callback: () => {
-									confirmed = true
-								},
-							},
-						])
-						.build()
-
-					await dialog.show()
+					const confirmed = await showConfirmation({
+						name: t('viewer', 'Confirm overwrite'),
+						text: message,
+						labelConfirm: t('viewer', 'Overwrite'),
+						labelReject: t('viewer', 'Cancel'),
+					})
 
 					if (!confirmed) {
 						logger.debug('User cancelled overwrite')
