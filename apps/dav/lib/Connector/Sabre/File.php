@@ -333,7 +333,17 @@ class File extends Node implements IFile {
 				}
 			}
 
-			// since we skipped the view we need to scan and emit the hooks ourselves
+			// allow sync clients to send the mtime along in a header
+			$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+			$mtime = ($mtimeHeader !== '') ? $this->sanitizeMtime($mtimeHeader) : null;
+
+			// Apply mtime to storage before the scanner picks it up
+			$nativeTouchSucceeded = false;
+			if ($mtime !== null) {
+				$nativeTouchSucceeded = $storage->touch($internalPath, $mtime);
+			}
+	
+			// Since we skipped the view we need to scan and emit the hooks ourselves
 			$storage->getUpdater()->update($internalPath);
 
 			try {
@@ -342,18 +352,17 @@ class File extends Node implements IFile {
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
 
-			// allow sync clients to send the mtime along in a header
-			$mtimeHeader = $this->request->getHeader('x-oc-mtime');
-			if ($mtimeHeader !== '') {
-				$mtime = $this->sanitizeMtime($mtimeHeader);
-				if ($this->fileView->touch($this->path, $mtime)) {
+			$fileInfoUpdate = [
+				'upload_time' => time(),
+			];
+
+			if ($mtime !== null) {
+				if (!$nativeTouchSucceeded) {
+					// Native touch unsupported — write mtime directly to cache
+					$fileInfoUpdate['mtime'] = $mtime;
 					$this->header('X-OC-MTime: accepted');
 				}
 			}
-
-			$fileInfoUpdate = [
-				'upload_time' => time()
-			];
 
 			// allow sync clients to send the creation time along in a header
 			$ctimeHeader = $this->request->getHeader('x-oc-ctime');
