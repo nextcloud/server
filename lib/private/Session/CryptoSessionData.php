@@ -58,6 +58,15 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 					512,
 					JSON_THROW_ON_ERROR,
 				);
+			} catch (\RuntimeException $e) {
+				// Even though this might be critical in general, we are automatically trying again and will likely succeed.
+				// We only log to info to not spam the logs with a well-known problem the admin cannot do anything about.
+				// See https://github.com/nextcloud/server/issues/42157
+				logger('core')->info('Could not decrypt or decode encrypted session data', [
+					'exception' => $e,
+				]);
+				$this->sessionValues = [];
+				$this->regenerateId(true, false);
 			} catch (\Exception $e) {
 				logger('core')->critical('Could not decrypt or decode encrypted session data', [
 					'exception' => $e,
