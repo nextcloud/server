@@ -105,33 +105,36 @@ $CONFIG = [
 	'cookie_domain' => '',
 
 	/**
-	 * The Nextcloud data directory stores user data, app-managed data, and other
-	 * instance-scoped data.
+	 * The Nextcloud data directory is the default storage point for all user files,
+	 * app-managed file-based data, and other instance-scoped data.
 	 *
-	 * In standard local-storage deployments, user and team files are stored here.
+	 * In local-storage deployments, user files and app-managed data are stored here.
 	 *
-	 * When using object store primary storage, file payloads are stored in object
-	 * storage, while the data directory is still used for instance-scoped data.
+	 * In object store (primary storage) deployments, user files and app-managed data
+	 * are stored only in the object store. However, the data directory is still
+	 * required for instance validation and backwards compatibility, even if it is
+	 * rarely written to.
 	 *
 	 * Examples of instance-scoped data:
 	 *
-	 * - ``appdata_*`` managed by Nextcloud and apps (e.g., previews, generated assets, file-based app data)
-	 * - Logs by default (e.g., ``nextcloud.log``), unless overridden per log type
-	 * - Updater files when using the built-in Updater to deploy code updates
-	 * - If using SQLite, the SQLite database file
+	 * - ``.ncdata``: Marker file for instance validation (created by Nextcloud).
+	 * - ``.htaccess`` and ``index.html``: Access protection (created by Nextcloud).
+	 * - Logs: Default location unless overridden via ``logfile`` (and similar settings).
+	 * - Updater: Files used by the built-in Updater, unless overridden via ``updatedirectory``.
+	 * - Database: If using SQLite.
 	 *
-	 * Nextcloud expects a ``.ncdata`` marker file here and writes access-protection
-	 * rules to ``.htaccess`` file (Apache-based setups). Do not remove them.
+	 * Nextcloud validates the contents of this directory during server checks: Do
+	 * not remove ``.ncdata`` or ``.htaccess``, regardless of your storage backend.
 	 *
-	 * In clustered deployments, every node in the same instance must use the same
-	 * ``datadirectory`` (shared storage mounted at the same path).
+	 * In clustered deployments not utilizing object storage, every node must mount
+	 * the same shared storage at this exact path.
 	 *
-	 * WARNING: Changing this path after deployment requires a controlled migration to avoid
-	 * breakage. If you must change it, see:
+	 * WARNING: Changing this path after installation requires a controlled migration to avoid
+	 * breakage. See:
 	 * https://docs.nextcloud.com/server/latest/admin_manual/issues/general_troubleshooting.html#moving-the-data-directory-changing-the-datadirectory-path
 	 *
-	 * Must be an absolute filesystem path.
-	 * For added security, place it outside the web server document root.
+	 * Must be an absolute filesystem path. For added security, place it outside
+	 * the web server document root.
 	 *
 	 * Defaults to ``data/`` inside the Nextcloud installation root.
 	 */
