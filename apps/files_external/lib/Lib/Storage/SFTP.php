@@ -408,6 +408,11 @@ class SFTP extends Common {
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $data);
+		$mtime = time();
+		$this->knownMTimes->set($path, $mtime);
+		$this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
+		$this->getConnection()->clearStatCache();
+
 		if ($result) {
 			return strlen($data);
 		} else {
@@ -427,6 +432,11 @@ class SFTP extends Common {
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $stream);
 		fclose($stream);
+		$mtime = time();
+		$this->knownMTimes->set($path, $mtime);
+		$this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
+		$this->getConnection()->clearStatCache();
+
 		if ($result) {
 			if ($size === null) {
 				throw new \Exception('Failed to get written size from sftp storage wrapper');
