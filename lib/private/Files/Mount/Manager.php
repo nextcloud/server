@@ -59,8 +59,10 @@ class Manager implements IMountManager {
 	}
 
 	public function moveMount(string $mountPoint, string $target): void {
-		$this->mounts[$target] = $this->mounts[$mountPoint];
-		unset($this->mounts[$mountPoint]);
+		if (isset($this->mounts[$mountPoint])) {
+			$this->mounts[$target] = $this->mounts[$mountPoint];
+			unset($this->mounts[$mountPoint]);
+		}
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
 		$this->areMountsSorted = false;
