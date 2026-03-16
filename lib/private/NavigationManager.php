@@ -47,7 +47,7 @@ class NavigationManager implements INavigationManager {
 	/** @var IConfig */
 	private $config;
 	/** User defined app order (cached for the `add` function) */
-	private array $customAppOrder;
+	private ?array $customAppOrder = null;
 	private LoggerInterface $logger;
 
 	public function __construct(
@@ -209,6 +209,15 @@ class NavigationManager implements INavigationManager {
 	}
 
 	private function init(bool $resolveClosures = true): void {
+		if ($this->customAppOrder === null) {
+			if ($this->userSession->isLoggedIn()) {
+				$user = $this->userSession->getUser();
+				$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
+			} else {
+				$this->customAppOrder = [];
+			}
+		}
+
 		if ($resolveClosures) {
 			while ($c = array_pop($this->closureEntries)) {
 				$this->add($c());
@@ -329,10 +338,8 @@ class NavigationManager implements INavigationManager {
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
-			$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
 			$apps = $this->appManager->getEnabledApps();
-			$this->customAppOrder = [];
 		}
 
 		foreach ($apps as $app) {
