@@ -12,6 +12,7 @@ use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\Capabilities\IPublicCapability;
+use OCP\IConfig;
 use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
@@ -56,11 +57,15 @@ class CapabilitiesManager {
 						// that we would otherwise inject to every page load
 						continue;
 					}
+
 					$startTime = microtime(true);
 					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
 					$endTime = microtime(true);
+
+					// Only check execution time if debug mode is enabled
+					$debugMode = \OCP\Server::get(IConfig::class)->getSystemValueBool('debug', false);
 					$timeSpent = $endTime - $startTime;
-					if ($timeSpent > self::ACCEPTABLE_LOADING_TIME) {
+					if ($debugMode && $timeSpent > self::ACCEPTABLE_LOADING_TIME) {
 						$logLevel = match (true) {
 							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 16 => ILogger::FATAL,
 							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 8 => ILogger::ERROR,
