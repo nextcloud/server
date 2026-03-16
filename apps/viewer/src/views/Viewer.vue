@@ -1432,6 +1432,7 @@ body:has(#viewer) {
 	}
 
 	#app-content-vue:first-child:has(~ #app-sidebar-vue:not([style*="display: none"])),
+	.app-navigation--close ~ #app-content-vue:has(~ #app-sidebar-vue:not([style*="display: none"])),
 	.app-navigation--closed ~ #app-content-vue:has(~ #app-sidebar-vue:not([style*="display: none"])) {
 		flex-basis: calc(100% - clamp(300px, 27vw, 500px));
 	}
