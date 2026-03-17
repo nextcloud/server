@@ -90,6 +90,7 @@ use OC\Core\Command\SystemTag\Edit;
 use OC\Core\Command\TaskProcessing\EnabledCommand;
 use OC\Core\Command\TaskProcessing\GetCommand;
 use OC\Core\Command\TaskProcessing\Statistics;
+use OC\Core\Command\TaskProcessing\WorkerCommand;
 use OC\Core\Command\TwoFactorAuth\Cleanup;
 use OC\Core\Command\TwoFactorAuth\Enforce;
 use OC\Core\Command\TwoFactorAuth\State;
@@ -254,6 +255,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
 	$application->add(Server::get(Statistics::class));
 	$application->add(Server::get(Command\TaskProcessing\Cleanup::class));
+	$application->add(Server::get(WorkerCommand::class));
 
 	$application->add(Server::get(RedisCommand::class));
 	$application->add(Server::get(DistributedClear::class));
