@@ -50,6 +50,12 @@ class WorkerCommand extends Base {
 				null,
 				InputOption::VALUE_NONE,
 				'Process at most one task then exit'
+			)
+			->addOption(
+				'taskTypes',
+				null,
+				InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+				'Only process tasks of the given task type IDs (can be specified multiple times)'
 			);
 		parent::configure();
 	}
@@ -59,6 +65,8 @@ class WorkerCommand extends Base {
 		$timeout = (int)$input->getOption('timeout');
 		$interval = (int)$input->getOption('interval');
 		$once = $input->getOption('once') === true;
+		/** @var list<string> $taskTypes */
+		$taskTypes = $input->getOption('taskTypes');
 
 		if ($timeout > 0) {
 			$output->writeln('<info>Task processing worker will stop after ' . $timeout . ' seconds</info>');
@@ -79,7 +87,7 @@ class WorkerCommand extends Base {
 				break;
 			}
 
-			$processedTask = $this->processNextTask($output);
+			$processedTask = $this->processNextTask($output, $taskTypes);
 
 			if ($once) {
 				break;
@@ -97,9 +105,10 @@ class WorkerCommand extends Base {
 	/**
 	 * Attempt to process one task across all preferred synchronous providers.
 	 *
+	 * @param list<string> $taskTypes When non-empty, only providers for these task type IDs are considered.
 	 * @return bool True if a task was processed, false if no task was found
 	 */
-	private function processNextTask(OutputInterface $output): bool {
+	private function processNextTask(OutputInterface $output, array $taskTypes = []): bool {
 		$providers = $this->taskProcessingManager->getProviders();
 
 		foreach ($providers as $provider) {
@@ -108,6 +117,11 @@ class WorkerCommand extends Base {
 			}
 
 			$taskTypeId = $provider->getTaskTypeId();
+
+			// If a task type whitelist was provided, skip providers not in the list
+			if (!empty($taskTypes) && !in_array($taskTypeId, $taskTypes, true)) {
+				continue;
+			}
 
 			// Only use this provider if it is the preferred one for the task type
 			try {
