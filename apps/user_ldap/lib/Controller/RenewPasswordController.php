@@ -133,13 +133,15 @@ class RenewPasswordController extends Controller {
 		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
-		$args = !is_null($user) ? ['user' => $user] : [];
+		$args = ['user' => $user];
 		$loginResult = $this->userManager->checkPassword($user, $oldPassword);
 		if ($loginResult === false) {
 			$this->session->set('renewPasswordMessages', [
 				['invalidpassword'], []
 			]);
-			return new RedirectResponse($this->urlGenerator->linkToRoute('user_ldap.renewPassword.showRenewPasswordForm', $args));
+			$response = new RedirectResponse($this->urlGenerator->linkToRoute('user_ldap.renewPassword.showRenewPasswordForm', $args));
+			$response->throttle(['user' => $user]);
+			return $response;
 		}
 
 		try {
