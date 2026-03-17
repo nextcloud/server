@@ -444,13 +444,9 @@ class Configuration {
 	}
 
 	protected function getValue(string $varName): string {
-		static $defaults;
-		if (is_null($defaults)) {
-			$defaults = $this->getDefaults();
-		}
 		return Server::get(IConfig::class)->getAppValue('user_ldap',
 			$this->configPrefix . $varName,
-			$defaults[$varName]);
+			$this->getDefaults()[$varName]);
 	}
 
 	/**
