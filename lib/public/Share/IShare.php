@@ -652,6 +652,15 @@ interface IShare {
 	 * Check if the current user can see this share files contents.
 	 * This will check the download permissions as well as the global
 	 * admin setting to allow viewing files without downloading.
+	 *
+	 * @since 32.0.0
 	 */
 	public function canSeeContent(): bool;
+
+	/**
+	 * Check if it is allowed to download this share.
+	 *
+	 * @since 32.0.7
+	 */
+	public function canDownload(): bool;
 }
