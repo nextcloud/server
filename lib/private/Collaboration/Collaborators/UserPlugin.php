@@ -103,7 +103,7 @@ readonly class UserPlugin implements ISearchPlugin {
 		// Even if normal sharee enumeration is not allowed, full matches are still allowed.
 		$shareeEnumerationFullMatch = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 		if ($shareeEnumerationFullMatch && $search !== '') {
-			$shareeEnumerationFullMatchUserId = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
+			$shareeEnumerationFullMatchUserId = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
 			$shareeEnumerationFullMatchEmail = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 			$shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
 
