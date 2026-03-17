@@ -72,7 +72,7 @@ class Setup {
 		$this->l10n = $l10nFactory->get('lib');
 	}
 
-	private const array DB_SETUP_CLASSES = [
+	private const DB_SETUP_CLASSES = [
 		'mysql' => MySQL::class,
 		'pgsql' => PostgreSQL::class,
 		'oci' => OCI::class,

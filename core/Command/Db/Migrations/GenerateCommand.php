@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class GenerateCommand extends Command implements CompletionAwareInterface {
-	private const string TEMPLATE
+	private const TEMPLATE
 		= '<?php
 
 declare(strict_types=1);
