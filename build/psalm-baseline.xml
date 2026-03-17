@@ -569,7 +569,6 @@
       <code><![CDATA[resolvePath]]></code>
       <code><![CDATA[resolvePath]]></code>
       <code><![CDATA[resolvePath]]></code>
-      <code><![CDATA[touch]]></code>
       <code><![CDATA[unlink]]></code>
     </InternalMethod>
     <LessSpecificReturnStatement>
