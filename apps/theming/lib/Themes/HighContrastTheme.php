@@ -99,6 +99,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 
 				'--color-favorite' => '#936B06',
 				'--color-background-selection' => 'var(--color-primary-element)',
+				'--color-text-selection' => 'var(--color-primary-element-text)',
 
 				'--color-scrollbar' => 'auto transparent',
 
@@ -131,9 +132,6 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 			}
 			#app-navigation {
 				border-right: 1px solid var(--color-border);
-			}
-			::selection {
-				color: var(--color-primary-element-text);
 			}
 		";
 	}
