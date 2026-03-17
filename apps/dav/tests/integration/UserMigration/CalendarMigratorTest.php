@@ -238,14 +238,14 @@ class CalendarMigratorTest extends TestCase {
 			$exportedData = null;
 
 			$exportDestination->method('addFileContents')
-				->willReturnCallback(function (string $path, string $content) use (&$exportedCalendarsJson) {
+				->willReturnCallback(function (string $path, string $content) use (&$exportedCalendarsJson): void {
 					if ($path === 'dav/calendars/calendars.json') {
 						$exportedCalendarsJson = json_decode($content, true);
 					}
 				});
 
 			$exportDestination->method('addFileAsStream')
-				->willReturnCallback(function (string $path, $stream) use (&$exportedData) {
+				->willReturnCallback(function (string $path, $stream) use (&$exportedData): void {
 					if (str_ends_with($path, '.data')) {
 						$exportedData = stream_get_contents($stream);
 					}
@@ -296,11 +296,11 @@ class CalendarMigratorTest extends TestCase {
 
 			$exportDestination = $this->createMock(IExportDestination::class);
 			$exportDestination->method('addFileContents')
-				->willReturnCallback(function (string $path, string $content) use (&$exportedFiles) {
+				->willReturnCallback(function (string $path, string $content) use (&$exportedFiles): void {
 					$exportedFiles[$path] = $content;
 				});
 			$exportDestination->method('addFileAsStream')
-				->willReturnCallback(function (string $path, $stream) use (&$exportedFiles) {
+				->willReturnCallback(function (string $path, $stream) use (&$exportedFiles): void {
 					$exportedFiles[$path] = stream_get_contents($stream);
 				});
 
@@ -469,7 +469,7 @@ class CalendarMigratorTest extends TestCase {
 			$exportedSubscriptionsJson = null;
 
 			$exportDestination->method('addFileContents')
-				->willReturnCallback(function (string $path, string $content) use (&$exportedSubscriptionsJson) {
+				->willReturnCallback(function (string $path, string $content) use (&$exportedSubscriptionsJson): void {
 					if ($path === 'dav/calendars/subscriptions.json') {
 						$exportedSubscriptionsJson = json_decode($content, true);
 					}
@@ -578,7 +578,7 @@ class CalendarMigratorTest extends TestCase {
 
 			$exportDestination = $this->createMock(IExportDestination::class);
 			$exportDestination->method('addFileContents')
-				->willReturnCallback(function (string $path, string $content) use (&$exportedFiles) {
+				->willReturnCallback(function (string $path, string $content) use (&$exportedFiles): void {
 					$exportedFiles[$path] = $content;
 				});
 

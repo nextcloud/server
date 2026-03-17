@@ -468,7 +468,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	 */
 	public function unshareStorage(): bool {
 		foreach ($this->groupedShares as $share) {
-			Server::get(\OCP\Share\IManager::class)->deleteFromSelf($share, $this->user);
+			Server::get(IShareManager::class)->deleteFromSelf($share, $this->user);
 		}
 		return true;
 	}
