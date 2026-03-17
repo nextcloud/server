@@ -342,7 +342,7 @@ class File extends Node implements IFile {
 			if ($mtime !== null) {
 				$nativeTouchSucceeded = $storage->touch($internalPath, $mtime);
 			}
-	
+
 			// Since we skipped the view we need to scan and emit the hooks ourselves
 			$storage->getUpdater()->update($internalPath);
 
