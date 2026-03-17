@@ -74,6 +74,7 @@ $expectedFiles = [
 	'openapi.json',
 	'package-lock.json',
 	'package.json',
+	'playwright.config.ts',
 	'psalm-ncu.xml',
 	'psalm-ocp.xml',
 	'psalm-strict.xml',
