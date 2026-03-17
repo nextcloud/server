@@ -60,7 +60,7 @@ class Storage {
 
 	private static $sourcePathAndUser = [];
 
-	private static $max_versions_per_interval = [
+	private const MAX_VERSIONS_PER_INTERVAL = [
 		//first 10sec, one version every 2sec
 		1 => ['intervalEndsAfter' => 10,      'step' => 2],
 		//next minute, one version every 10sec
@@ -763,11 +763,11 @@ class Storage {
 		$toDelete = [];  // versions we want to delete
 
 		$interval = 1;
-		$step = Storage::$max_versions_per_interval[$interval]['step'];
-		if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] === -1) {
+		$step = Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
+		if (Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] === -1) {
 			$nextInterval = -1;
 		} else {
-			$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+			$nextInterval = $time - Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
 		}
 
 		$firstVersion = reset($versions);
@@ -797,12 +797,12 @@ class Storage {
 					$newInterval = false; // version checked so we can move to the next one
 				} else { // time to move on to the next interval
 					$interval++;
-					$step = Storage::$max_versions_per_interval[$interval]['step'];
+					$step = Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
 					$nextVersion = $prevTimestamp - $step;
-					if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] === -1) {
+					if (Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] === -1) {
 						$nextInterval = -1;
 					} else {
-						$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+						$nextInterval = $time - Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
 					}
 					$newInterval = true; // we changed the interval -> check same version with new interval
 				}

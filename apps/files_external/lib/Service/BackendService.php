@@ -54,7 +54,8 @@ class BackendService {
 	/** @var callable[] */
 	private $configHandlerLoaders = [];
 
-	private $configHandlers = [];
+	private array $configHandlers = [];
+	private bool $eventSent = false;
 
 	public function __construct(
 		protected readonly IAppConfig $appConfig,
@@ -71,14 +72,14 @@ class BackendService {
 		$this->backendProviders[] = $provider;
 	}
 
-	private function callForRegistrations() {
-		static $eventSent = false;
-		if (!$eventSent) {
+	private function callForRegistrations(): void {
+		$instance = Server::get(self::class);
+		if (!$instance->eventSent) {
 			Server::get(IEventDispatcher::class)->dispatch(
 				'OCA\\Files_External::loadAdditionalBackends',
 				new GenericEvent()
 			);
-			$eventSent = true;
+			$instance->eventSent = true;
 		}
 	}
 
