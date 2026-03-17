@@ -85,6 +85,10 @@ select, .button span, label {
 	cursor: pointer;
 }
 
+mark {
+	background-color: var(--color-mark);
+}
+
 ul {
 	list-style: none;
 }
