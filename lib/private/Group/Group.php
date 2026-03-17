@@ -75,11 +75,12 @@ class Group implements IGroup {
 		$displayName = trim($displayName);
 		if ($displayName !== '') {
 			$this->dispatcher->dispatchTyped(new BeforeGroupChangedEvent($this, 'displayName', $displayName, $this->displayName));
+			$oldDisplayName = $this->displayName;
 			foreach ($this->backends as $backend) {
 				if (($backend instanceof ISetDisplayNameBackend)
 					&& $backend->setDisplayName($this->gid, $displayName)) {
 					$this->displayName = $displayName;
-					$this->dispatcher->dispatchTyped(new GroupChangedEvent($this, 'displayName', $displayName, ''));
+					$this->dispatcher->dispatchTyped(new GroupChangedEvent($this, 'displayName', $displayName, $oldDisplayName));
 					return true;
 				}
 			}
