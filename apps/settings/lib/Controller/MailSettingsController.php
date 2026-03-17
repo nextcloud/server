@@ -6,7 +6,7 @@
  */
 namespace OCA\Settings\Controller;
 
-use OCA\Settings\Settings\Admin\Overview;
+use OCA\Settings\Settings\Admin\Mail;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
@@ -47,7 +47,7 @@ class MailSettingsController extends Controller {
 	/**
 	 * Sets the email settings
 	 */
-	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[AuthorizedAdminSetting(settings: Mail::class)]
 	#[PasswordConfirmationRequired]
 	public function setMailSettings(
 		string $mail_domain,
@@ -95,7 +95,7 @@ class MailSettingsController extends Controller {
 	 * @param string $mail_smtppassword
 	 * @return DataResponse
 	 */
-	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[AuthorizedAdminSetting(settings: Mail::class)]
 	#[PasswordConfirmationRequired]
 	public function storeCredentials($mail_smtpname, $mail_smtppassword) {
 		if ($mail_smtppassword === '********') {
@@ -116,7 +116,7 @@ class MailSettingsController extends Controller {
 	 * Send a mail to test the settings
 	 * @return DataResponse
 	 */
-	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[AuthorizedAdminSetting(settings: Mail::class)]
 	public function sendTestMail() {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
 		if (!empty($email)) {
