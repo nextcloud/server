@@ -660,7 +660,7 @@ interface IShare {
 	/**
 	 * Check if it is allowed to download this share.
 	 *
-	 * @since 34.0.0
+	 * @since 32.0.7
 	 */
 	public function canDownload(): bool;
 }
