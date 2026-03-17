@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2017 Roger Szabo <roger.szabo@web.de>
  *
@@ -24,6 +25,7 @@
 namespace OCA\User_LDAP\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -129,23 +131,26 @@ class RenewPasswordController extends Controller {
 	 *
 	 * @return RedirectResponse
 	 */
+	#[BruteForceProtection(action: 'login')]
 	public function tryRenewPassword($user, $oldPassword, $newPassword) {
 		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
-		$args = !is_null($user) ? ['user' => $user] : [];
+		$args = ['user' => $user];
 		$loginResult = $this->userManager->checkPassword($user, $oldPassword);
 		if ($loginResult === false) {
 			$this->session->set('renewPasswordMessages', [
 				['invalidpassword'], []
 			]);
-			return new RedirectResponse($this->urlGenerator->linkToRoute('user_ldap.renewPassword.showRenewPasswordForm', $args));
+			$response = new RedirectResponse($this->urlGenerator->linkToRoute('user_ldap.renewPassword.showRenewPasswordForm', $args));
+			$response->throttle(['user' => $user]);
+			return $response;
 		}
 
 		try {
 			if (!is_null($newPassword) && \OC_User::setPassword($user, $newPassword)) {
 				$this->session->set('loginMessages', [
-					[], [$this->l10n->t("Please login with the new password")]
+					[], [$this->l10n->t('Please login with the new password')]
 				]);
 				$this->config->setUserValue($user, 'user_ldap', 'needsPasswordReset', 'false');
 				return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
