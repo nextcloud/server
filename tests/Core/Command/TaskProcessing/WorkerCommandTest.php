@@ -45,11 +45,11 @@ class WorkerCommandTest extends TestCase {
 	}
 
 	/**
-	 * Helper to create a Task mock with an id.
+	 * Helper to create a real Task with a given id.
 	 */
-	private function createTask(int $id): Task&MockObject {
-		$task = $this->createMock(Task::class);
-		$task->method('getId')->willReturn($id);
+	private function createTask(int $id): Task {
+		$task = new Task('test_task_type', [], 'testapp', null);
+		$task->setId($id);
 		return $task;
 	}
 

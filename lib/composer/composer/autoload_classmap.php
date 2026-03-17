@@ -1368,6 +1368,7 @@ return array(
     'OC\\Core\\Command\\TaskProcessing\\GetCommand' => $baseDir . '/core/Command/TaskProcessing/GetCommand.php',
     'OC\\Core\\Command\\TaskProcessing\\ListCommand' => $baseDir . '/core/Command/TaskProcessing/ListCommand.php',
     'OC\\Core\\Command\\TaskProcessing\\Statistics' => $baseDir . '/core/Command/TaskProcessing/Statistics.php',
+    'OC\\Core\\Command\\TaskProcessing\\WorkerCommand' => $baseDir . '/core/Command/TaskProcessing/WorkerCommand.php',
     'OC\\Core\\Command\\TwoFactorAuth\\Base' => $baseDir . '/core/Command/TwoFactorAuth/Base.php',
     'OC\\Core\\Command\\TwoFactorAuth\\Cleanup' => $baseDir . '/core/Command/TwoFactorAuth/Cleanup.php',
     'OC\\Core\\Command\\TwoFactorAuth\\Disable' => $baseDir . '/core/Command/TwoFactorAuth/Disable.php',
