@@ -93,6 +93,7 @@
     "Another entry with the same name already exists." : "Інший запис з таким же ім'ям вже присутній",
     "Invalid filename." : "Недійсне ім'я файлу.",
     "Rename file" : "Перейменувати файл",
+    "Recently created" : "Нещодавно створено",
     "Folder" : "Каталог",
     "Unknown file type" : "Невідомий тип файлу",
     "{ext} image" : "{ext} зображення",
