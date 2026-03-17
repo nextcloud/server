@@ -190,7 +190,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	];
 
 	/** @var array parameters to index */
-	public static array $indexParameters = [
+	private const INDEXED_PARAMETERS = [
 		'ATTENDEE' => ['CN'],
 		'ORGANIZER' => ['CN'],
 	];
@@ -3386,9 +3386,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						$query->executeStatement();
 					}
 
-					if (array_key_exists($property->name, self::$indexParameters)) {
+					if (array_key_exists($property->name, self::INDEXED_PARAMETERS)) {
 						$parameters = $property->parameters();
-						$indexedParametersForProperty = self::$indexParameters[$property->name];
+						$indexedParametersForProperty = self::INDEXED_PARAMETERS[$property->name];
 
 						foreach ($parameters as $key => $value) {
 							if (in_array($key, $indexedParametersForProperty)) {
