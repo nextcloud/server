@@ -261,4 +261,95 @@ class WorkerCommandTest extends TestCase {
 
 		$this->assertSame(0, $result);
 	}
+
+	public function testTaskTypesWhitelistFiltersProviders(): void {
+		$taskTypeId1 = 'type_a';
+		$taskTypeId2 = 'type_b';
+
+		$provider1 = $this->createProvider('provider_a', $taskTypeId1);
+		$provider2 = $this->createProvider('provider_b', $taskTypeId2);
+		$task = $this->createTask(99);
+
+		$this->manager->expects($this->once())
+			->method('getProviders')
+			->willReturn([$provider1, $provider2]);
+
+		// Only type_b is whitelisted, so provider_a (type_a) must be skipped entirely
+		$this->manager->expects($this->once())
+			->method('getPreferredProvider')
+			->with($taskTypeId2)
+			->willReturn($provider2);
+
+		$this->manager->expects($this->once())
+			->method('getNextScheduledTask')
+			->with([$taskTypeId2])
+			->willReturn($task);
+
+		$this->manager->expects($this->once())
+			->method('processTask')
+			->with($task, $provider2)
+			->willReturn(true);
+
+		$input = new ArrayInput(['--once' => true, '--taskTypes' => [$taskTypeId2]], $this->command->getDefinition());
+		$output = new NullOutput();
+
+		$result = $this->command->run($input, $output);
+
+		$this->assertSame(0, $result);
+	}
+
+	public function testTaskTypesWhitelistWithNoMatchingProviders(): void {
+		$provider = $this->createProvider('provider_a', 'type_a');
+
+		$this->manager->expects($this->once())
+			->method('getProviders')
+			->willReturn([$provider]);
+
+		// Whitelist does not include type_a so nothing should be processed
+		$this->manager->expects($this->never())
+			->method('getPreferredProvider');
+
+		$this->manager->expects($this->never())
+			->method('getNextScheduledTask');
+
+		$input = new ArrayInput(['--once' => true, '--taskTypes' => ['type_b']], $this->command->getDefinition());
+		$output = new NullOutput();
+
+		$result = $this->command->run($input, $output);
+
+		$this->assertSame(0, $result);
+	}
+
+	public function testEmptyTaskTypesAllowsAllProviders(): void {
+		$taskTypeId = 'type_a';
+		$provider = $this->createProvider('provider_a', $taskTypeId);
+		$task = $this->createTask(5);
+
+		$this->manager->expects($this->once())
+			->method('getProviders')
+			->willReturn([$provider]);
+
+		$this->manager->expects($this->once())
+			->method('getPreferredProvider')
+			->with($taskTypeId)
+			->willReturn($provider);
+
+		$this->manager->expects($this->once())
+			->method('getNextScheduledTask')
+			->with([$taskTypeId])
+			->willReturn($task);
+
+		$this->manager->expects($this->once())
+			->method('processTask')
+			->with($task, $provider)
+			->willReturn(true);
+
+		// No --taskTypes option provided
+		$input = new ArrayInput(['--once' => true], $this->command->getDefinition());
+		$output = new NullOutput();
+
+		$result = $this->command->run($input, $output);
+
+		$this->assertSame(0, $result);
+	}
 }
