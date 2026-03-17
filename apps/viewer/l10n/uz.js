@@ -1,8 +1,8 @@
 OC.L10N.register(
     "viewer",
     {
-    "Cancel" : "Bekor qilish",
     "Overwrite" : "ustiga yozish",
+    "Cancel" : "Bekor qilish",
     "Edit" : "Tahrirlash",
     "Download" : "Yuklab olish",
     "Delete" : "O'chirish",
