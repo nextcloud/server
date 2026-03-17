@@ -47,7 +47,7 @@ class Manager implements IManager {
 	/**
 	 * @var array<class-string, string>
 	 */
-	private const array COMPATIBLE_TASK_TYPES = [
+	private const COMPATIBLE_TASK_TYPES = [
 		FreePromptTaskType::class => TextToText::ID,
 		HeadlineTaskType::class => TextToTextHeadline::ID,
 		SummaryTaskType::class => TextToTextSummary::ID,

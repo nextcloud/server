@@ -49,12 +49,12 @@ class Task extends Entity {
 	/**
 	 * @var string[]
 	 */
-	public const array COLUMNS = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier', 'number_of_images', 'completion_expected_at'];
+	public const COLUMNS = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier', 'number_of_images', 'completion_expected_at'];
 
 	/**
 	 * @var string[]
 	 */
-	public const array FIELDS = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier', 'numberOfImages', 'completionExpectedAt'];
+	public const FIELDS = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier', 'numberOfImages', 'completionExpectedAt'];
 
 
 	public function __construct() {
