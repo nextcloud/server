@@ -17,8 +17,6 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Exceptions\AbortedEventException;
 use OCP\Files\Folder;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\IUserSession;
 
 /**
