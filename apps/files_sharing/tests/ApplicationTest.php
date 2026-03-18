@@ -82,6 +82,7 @@ class ApplicationTest extends TestCase {
 
 		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('get')->willReturn($file);
+		$userFolder->method('getPath')->willReturn($path);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
@@ -94,7 +95,7 @@ class ApplicationTest extends TestCase {
 		$listener = new BeforeDirectFileDownloadListener(
 			$this->userSession,
 			$this->rootFolder,
-			new ViewOnly(),
+			new ViewOnly($userFolder),
 		);
 		$listener->handle($event);
 
@@ -140,6 +141,7 @@ class ApplicationTest extends TestCase {
 		$secureSharedStorage->method('getShare')->willReturn($secureReceiverFileShare);
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getPath')->willReturn($dir);
 		if ($folderStorage === 'nonSharedStorage') {
 			$folder->method('getStorage')->willReturn($nonSharedStorage);
 		} elseif ($folderStorage === 'secureSharedStorage') {
@@ -163,10 +165,18 @@ class ApplicationTest extends TestCase {
 				$directoryListing
 			);
 			$folder->method('getDirectoryListing')->willReturn($directoryListing);
+			$callCount = 0;
+			$folder->method('get')->willReturnCallback(function (string $path) use (&$callCount, $directoryListing) {
+				if (isset($directoryListing[$callCount])) {
+					return $directoryListing[$callCount++];
+				}
+
+				throw new \Exception('Unknown path ' . $path);
+			});
 		}
-		
+
 		// If the folder contains any secure-shared files, make it appear as a secure-shared folder
-		// so that ViewOnly::isNodeCanBeDownloaded() will return false
+		// so that ViewOnly::isDownloadable() will return false
 		$containsSecureSharedFiles = in_array('secureSharedStorage', $directoryListing);
 		if ($containsSecureSharedFiles && $folderStorage === 'nonSharedStorage') {
 			$folder->method('getStorage')->willReturn($secureSharedStorage);
@@ -177,7 +187,7 @@ class ApplicationTest extends TestCase {
 		$rootFolder->method('getDirectoryListing')->willReturn([$folder]);
 
 		$userFolder = $this->createMock(IUserFolder::class);
-		$userFolder->method('get')->willReturn($rootFolder);
+		$userFolder->method('get')->willReturn($folder);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
@@ -186,12 +196,12 @@ class ApplicationTest extends TestCase {
 
 		$this->rootFolder->method('getUserFolder')->with('test')->willReturn($userFolder);
 
-		// Simulate zip download of folder folder
-		$event = new BeforeZipCreatedEvent($folder, $files, $directoryListing);
+		// Simulate zip download of folder
+		$event = new BeforeZipCreatedEvent($folder, $files);
 
 		$listener = new BeforeZipCreatedListener(
 			$this->userSession,
-			new ViewOnly(),
+			$this->rootFolder,
 		);
 		$listener->handle($event);
 
@@ -203,10 +213,10 @@ class ApplicationTest extends TestCase {
 		$this->userSession->method('isLoggedIn')->willReturn(false);
 
 		// Simulate zip download of folder folder
-		$event = new BeforeZipCreatedEvent('/test', ['test.txt'], []);
+		$event = new BeforeZipCreatedEvent('/test', ['test.txt']);
 		$listener = new BeforeZipCreatedListener(
 			$this->userSession,
-			new ViewOnly(),
+			$this->rootFolder,
 		);
 		$listener->handle($event);
 
