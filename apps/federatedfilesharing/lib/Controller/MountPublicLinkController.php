@@ -17,7 +17,6 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
@@ -107,9 +106,9 @@ class MountPublicLinkController extends Controller {
 			return $response;
 		}
 
-		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+		if (!$share->canDownload()) {
 			$response = new JSONResponse(
-				['message' => 'Mounting file drop not supported'],
+				['message' => 'Mounting download restricted share is not allowed'],
 				Http::STATUS_BAD_REQUEST
 			);
 			$response->throttle();

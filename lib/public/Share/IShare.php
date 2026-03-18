@@ -633,4 +633,11 @@ interface IShare {
 	 * @since 31.0.0
 	 */
 	public function getReminderSent(): bool;
+
+	/**
+	 * Check if it is allowed to download this share.
+	 *
+	 * @since 31.0.15
+	 */
+	public function canDownload(): bool;
 }

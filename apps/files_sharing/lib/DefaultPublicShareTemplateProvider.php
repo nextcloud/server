@@ -155,7 +155,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 
 		// Create the header action menu
 		$headerActions = [];
-		if ($view !== 'public-file-drop' && !$share->getHideDownload()) {
+		if ($share->canDownload() && !$share->getHideDownload()) {
 			// The download URL is used for the "download" header action as well as in some cases for the direct link
 			$downloadUrl = $this->urlGenerator->getAbsoluteURL('/public.php/dav/files/' . $token . '/?accept=zip');
 
