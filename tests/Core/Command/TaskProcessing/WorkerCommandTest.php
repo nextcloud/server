@@ -45,10 +45,10 @@ class WorkerCommandTest extends TestCase {
 	}
 
 	/**
-	 * Helper to create a real Task with a given id.
+	 * Helper to create a real Task with a given id and optional task type.
 	 */
-	private function createTask(int $id): Task {
-		$task = new Task('test_task_type', [], 'testapp', null);
+	private function createTask(int $id, string $type = 'test_task_type'): Task {
+		$task = new Task($type, [], 'testapp', null);
 		$task->setId($id);
 		return $task;
 	}
@@ -227,31 +227,76 @@ class WorkerCommandTest extends TestCase {
 		$this->assertLessThanOrEqual(5, $elapsed);
 	}
 
-	public function testProcessesFirstMatchingProvider(): void {
+	public function testProcessesCorrectProviderForReturnedTaskType(): void {
 		$taskTypeId1 = 'type_a';
 		$taskTypeId2 = 'type_b';
 
 		$provider1 = $this->createProvider('provider_a', $taskTypeId1);
 		$provider2 = $this->createProvider('provider_b', $taskTypeId2);
-		$task = $this->createTask(7);
+		// Task has type_a, so provider1 must be chosen to process it
+		$task = $this->createTask(7, $taskTypeId1);
 
 		$this->manager->expects($this->once())
 			->method('getProviders')
 			->willReturn([$provider1, $provider2]);
 
-		$this->manager->expects($this->once())
+		// Both providers are eligible, so getPreferredProvider is called for each
+		$this->manager->expects($this->exactly(2))
 			->method('getPreferredProvider')
-			->with($taskTypeId1)
-			->willReturn($provider1);
+			->willReturnMap([
+				[$taskTypeId1, $provider1],
+				[$taskTypeId2, $provider2],
+			]);
 
+		// All eligible task types are passed in a single query
 		$this->manager->expects($this->once())
 			->method('getNextScheduledTask')
-			->with([$taskTypeId1])
+			->with($this->equalTo([$taskTypeId1, $taskTypeId2]))
 			->willReturn($task);
 
 		$this->manager->expects($this->once())
 			->method('processTask')
 			->with($task, $provider1)
+			->willReturn(true);
+
+		$input = new ArrayInput(['--once' => true], $this->command->getDefinition());
+		$output = new NullOutput();
+
+		$result = $this->command->run($input, $output);
+
+		$this->assertSame(0, $result);
+	}
+
+	public function testPicksOldestTaskAcrossMultipleEligibleProviders(): void {
+		$taskTypeId1 = 'type_a';
+		$taskTypeId2 = 'type_b';
+
+		$provider1 = $this->createProvider('provider_a', $taskTypeId1);
+		$provider2 = $this->createProvider('provider_b', $taskTypeId2);
+		// getNextScheduledTask returns a type_b task (the globally oldest one)
+		$task = $this->createTask(3, $taskTypeId2);
+
+		$this->manager->expects($this->once())
+			->method('getProviders')
+			->willReturn([$provider1, $provider2]);
+
+		$this->manager->expects($this->exactly(2))
+			->method('getPreferredProvider')
+			->willReturnMap([
+				[$taskTypeId1, $provider1],
+				[$taskTypeId2, $provider2],
+			]);
+
+		// Both eligible types are queried together to prevent starvation
+		$this->manager->expects($this->once())
+			->method('getNextScheduledTask')
+			->with($this->equalTo([$taskTypeId1, $taskTypeId2]))
+			->willReturn($task);
+
+		// provider2 must handle the task because the task has type_b
+		$this->manager->expects($this->once())
+			->method('processTask')
+			->with($task, $provider2)
 			->willReturn(true);
 
 		$input = new ArrayInput(['--once' => true], $this->command->getDefinition());
@@ -268,7 +313,7 @@ class WorkerCommandTest extends TestCase {
 
 		$provider1 = $this->createProvider('provider_a', $taskTypeId1);
 		$provider2 = $this->createProvider('provider_b', $taskTypeId2);
-		$task = $this->createTask(99);
+		$task = $this->createTask(99, $taskTypeId2);
 
 		$this->manager->expects($this->once())
 			->method('getProviders')
@@ -323,7 +368,7 @@ class WorkerCommandTest extends TestCase {
 	public function testEmptyTaskTypesAllowsAllProviders(): void {
 		$taskTypeId = 'type_a';
 		$provider = $this->createProvider('provider_a', $taskTypeId);
-		$task = $this->createTask(5);
+		$task = $this->createTask(5, $taskTypeId);
 
 		$this->manager->expects($this->once())
 			->method('getProviders')
