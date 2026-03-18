@@ -2,11 +2,15 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 import { getRowForFile } from './FilesUtils.ts'
 
 describe('files: Drag and Drop', { testIsolation: true }, () => {
+	let currentUser: User
+
 	beforeEach(() => {
 		cy.createRandomUser().then((user) => {
+			currentUser = user
 			cy.login(user)
 		})
 		cy.visit('/apps/files')
@@ -144,5 +148,55 @@ describe('files: Drag and Drop', { testIsolation: true }, () => {
 		getRowForFile('second.txt').should('be.visible')
 		getRowForFile('Foo').should('not.exist')
 		getRowForFile('Bar').should('not.exist')
+	})
+
+	it('can drop a file on empty space in the file list (uploads to current folder)', () => {
+		const dataTransfer = new DataTransfer()
+		dataTransfer.items.add(new File([], 'dropped-on-space.txt'))
+
+		cy.intercept('PUT', /\/remote.php\/dav\/files\//).as('uploadFile')
+
+		// Trigger the drag over notice
+		cy.get('main.app-content').trigger('dragover', { dataTransfer })
+		cy.get('[data-cy-files-drag-drop-area]').should('be.visible')
+
+		// Drop on the main app-content area (not the notice, just empty space)
+		cy.get('main.app-content').selectFile({
+			fileName: 'dropped-on-space.txt',
+			contents: ['hello world'],
+		}, { action: 'drag-drop' })
+
+		cy.wait('@uploadFile')
+
+		cy.get('[data-cy-files-drag-drop-area]').should('not.be.visible')
+		cy.get('[data-cy-upload-picker] progress').should('not.be.visible')
+		getRowForFile('dropped-on-space.txt').should('be.visible')
+	})
+
+	it('can drop a file on an existing file row (uploads to current folder)', () => {
+		cy.uploadContent(currentUser, new Blob(['existing content']), 'text/plain', '/existing.txt')
+		cy.reload()
+
+		cy.intercept('PUT', /\/remote.php\/dav\/files\//).as('uploadFile')
+
+		// Ensure the existing file is visible
+		getRowForFile('existing.txt').should('be.visible')
+
+		// Drag over to trigger the notice
+		const dataTransfer = new DataTransfer()
+		dataTransfer.items.add(new File([], 'new-file.txt'))
+		cy.get('main.app-content').trigger('dragover', { dataTransfer })
+
+		// Drop directly on the existing file row
+		getRowForFile('existing.txt').selectFile({
+			fileName: 'new-file.txt',
+			contents: ['new content'],
+		}, { action: 'drag-drop' })
+
+		cy.wait('@uploadFile')
+
+		cy.get('[data-cy-upload-picker] progress').should('not.be.visible')
+		// New file should appear in current folder (not inside existing.txt)
+		getRowForFile('new-file.txt').should('be.visible')
 	})
 })

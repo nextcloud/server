@@ -145,12 +145,18 @@ export default defineComponent({
 			}
 		},
 
-		onContentDrop(event: DragEvent) {
-			logger.debug('Drag and drop cancelled, dropped on empty space', { event })
+		async onContentDrop(event: DragEvent) {
+			logger.debug('Dropped on app content area', { event })
 			event.preventDefault()
 			if (this.dragover) {
 				this.dragover = false
 				this.resetDragOver.clear()
+			}
+			// If external files are dropped anywhere in the file list area
+			// (not handled by a folder row), upload them to the current folder.
+			const isForeignFile = event.dataTransfer?.types.includes('Files')
+			if (isForeignFile) {
+				await this.onDrop(event)
 			}
 		},
 

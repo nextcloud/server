@@ -474,6 +474,13 @@ export default defineComponent({
 				return
 			}
 
+			// For external (non-Nextcloud) files dropped on a non-folder target,
+			// let the event bubble up so the parent handler can upload to the current folder.
+			const isExternalFileDrop = this.draggingFiles.length === 0
+			if (!this.canDrop && isExternalFileDrop) {
+				return
+			}
+
 			event.preventDefault()
 			event.stopPropagation()
 
