@@ -14,14 +14,17 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { parseMountOptions } from '../../store/storages.ts'
 import { MountOptionsCheckFilesystem } from '../../types.ts'
 
 const mountOptions = defineModel<Partial<IMountOptions>>({ required: true })
 watchEffect(() => {
 	if (Object.keys(mountOptions.value).length === 0) {
-		// parse and initialize with defaults if needed
-		mountOptions.value = parseMountOptions(mountOptions.value)
+		mountOptions.value.encrypt = true
+		mountOptions.value.previews = true
+		mountOptions.value.enable_sharing = false
+		mountOptions.value.filesystem_check_changes = MountOptionsCheckFilesystem.OncePerRequest
+		mountOptions.value.encoding_compatibility = false
+		mountOptions.value.readonly = false
 	}
 })
 

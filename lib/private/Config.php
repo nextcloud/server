@@ -269,6 +269,24 @@ class Config {
 
 		// Create a php file ...
 		$content = "<?php\n";
+		$content .= "
+/*
+ * WARNING
+ *
+ * This file gets modified by automatic processes and all lines that are not
+ * active code (ie. comments) are lost during that process.
+ *
+ * If you want to document things with comments or use constants add your settings
+ * in a '<NAME>.config.php' file which will be included and rendered into this file.
+ *
+ * Example:
+ *   <?php
+ *   \$CONFIG = [];
+ *
+ * See also: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-merged-configuration-files
+ */
+
+";
 		$content .= '$CONFIG = ';
 		$content .= var_export(self::trustSystemConfig($this->cache), true);
 		$content .= ";\n";
