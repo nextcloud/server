@@ -8,6 +8,7 @@
 namespace OCA\DAV;
 
 use OC\Files\Filesystem;
+use OC\L10N\L10N;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -87,12 +88,14 @@ use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Profiler\IProfiler;
@@ -242,6 +245,7 @@ class Server {
 			\OCP\Server::get(IUserSession::class)
 		));
 
+		$config = \OCP\Server::get(IConfig::class);
 		// performance improvement plugins
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OCP\Server::get(IRequest::class)));
@@ -254,6 +258,8 @@ class Server {
 			$logger,
 			$eventDispatcher,
 			\OCP\Server::get(IDateTimeZone::class),
+			$config,
+			\OCP\Server::get(IFactory::class),
 		));
 		$this->server->addPlugin(\OCP\Server::get(PaginatePlugin::class));
 		$this->server->addPlugin(new PropFindPreloadNotifyPlugin());

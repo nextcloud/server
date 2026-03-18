@@ -41,9 +41,9 @@ class BeforeDirectFileDownloadListener implements IEventListener {
 		}
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$node = $userFolder->get($event->getPath());
-		if (!$this->viewOnly->isNodeCanBeDownloaded($node)) {
+		if (!$this->viewOnly->isDownloadable($node)) {
 			$event->setSuccessful(false);
-			$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
+			$event->setErrorMessage('Access to this resource has been denied.');
 		}
 	}
 }

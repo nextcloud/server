@@ -163,9 +163,9 @@ class ApplicationTest extends TestCase {
 			);
 			$folder->method('getDirectoryListing')->willReturn($directoryListing);
 		}
-		
+
 		// If the folder contains any secure-shared files, make it appear as a secure-shared folder
-		// so that ViewOnly::isNodeCanBeDownloaded() will return false
+		// so that ViewOnly::isDownloadable() will return false
 		$containsSecureSharedFiles = in_array('secureSharedStorage', $directoryListing);
 		if ($containsSecureSharedFiles && $folderStorage === 'nonSharedStorage') {
 			$folder->method('getStorage')->willReturn($secureSharedStorage);
@@ -185,12 +185,12 @@ class ApplicationTest extends TestCase {
 
 		$this->rootFolder->method('getUserFolder')->with('test')->willReturn($userFolder);
 
-		// Simulate zip download of folder folder
-		$event = new BeforeZipCreatedEvent($folder, $files, $directoryListing);
+		// Simulate zip download of folder
+		$event = new BeforeZipCreatedEvent($folder, $files);
 
 		$listener = new BeforeZipCreatedListener(
 			$this->userSession,
-			new ViewOnly(),
+			$this->rootFolder,
 		);
 		$listener->handle($event);
 
@@ -205,7 +205,7 @@ class ApplicationTest extends TestCase {
 		$event = new BeforeZipCreatedEvent('/test', ['test.txt'], []);
 		$listener = new BeforeZipCreatedListener(
 			$this->userSession,
-			new ViewOnly(),
+			$this->rootFolder,
 		);
 		$listener->handle($event);
 
