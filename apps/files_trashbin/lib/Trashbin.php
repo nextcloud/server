@@ -515,7 +515,11 @@ class Trashbin implements IEventListener {
 		$run = true;
 		$event = new BeforeNodeRestoredEvent($sourceNode, $targetNode, $run);
 		$dispatcher = Server::get(IEventDispatcher::class);
-		$dispatcher->dispatchTyped($event);
+		try {
+			$dispatcher->dispatchTyped($event);
+		} catch (AbortedEventException) {
+			$run = false;
+		}
 
 		if (!$run) {
 			return false;
