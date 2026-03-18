@@ -51,7 +51,7 @@ export interface PathOptions {
 
 // User config store
 export interface UserConfig {
-	[key: string]: boolean | string | undefined
+	[key: string]: boolean | string | string[] | number | undefined
 
 	crop_image_previews: boolean
 	default_view: 'files' | 'personal'
@@ -59,6 +59,9 @@ export interface UserConfig {
 	grid_view: boolean
 	sort_favorites_first: boolean
 	sort_folders_first: boolean
+	group_recent_files_images: boolean
+	recent_files_group_mimetypes: string[] | string
+	recent_files_group_timespan_minutes: number
 
 	show_files_extensions: boolean
 	show_hidden: boolean

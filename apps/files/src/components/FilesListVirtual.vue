@@ -2,20 +2,23 @@
   - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
 <template>
 	<VirtualList
 		ref="table"
-		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
+		:data-component="FileEntryWrapper"
 		data-key="source"
-		:data-sources="nodes"
-		:grid-mode="userConfig.grid_view"
-		:extra-props="{
+		:data-sources="groupedNodes"
+		:gridMode="userConfig.grid_view"
+		:extraProps="{
+			gridMode: userConfig.grid_view,
 			isMimeAvailable,
 			isMtimeAvailable,
 			isSizeAvailable,
 			nodes,
+			onToggleGroup: toggleGroup,
 		}"
-		:scroll-to-index="scrollToIndex"
+		:scrollToIndex="scrollToIndex"
 		:caption="caption">
 		<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -- no space allowed as otherwise `:empty` css selector does not trigger! -->
 		<template #filters><FileListFilterToSearch /><FileListFilterChips /></template>
@@ -25,8 +28,8 @@
 				{{ n('files', '{count} selected', '{count} selected', selectedNodes.length, { count: selectedNodes.length }) }}
 			</span>
 			<FilesListTableHeaderActions
-				:current-view="currentView"
-				:selected-nodes="selectedNodes" />
+				:currentView="currentView"
+				:selectedNodes="selectedNodes" />
 		</template>
 
 		<template #before>
@@ -34,8 +37,8 @@
 			<FilesListHeader
 				v-for="header in headers"
 				:key="header.id"
-				:current-folder="currentFolder"
-				:current-view="currentView"
+				:currentFolder="currentFolder"
+				:currentView="currentView"
 				:header="header" />
 		</template>
 
@@ -44,9 +47,9 @@
 			<!-- Table header and sort buttons -->
 			<FilesListTableHeader
 				ref="thead"
-				:is-mime-available="isMimeAvailable"
-				:is-mtime-available="isMtimeAvailable"
-				:is-size-available="isSizeAvailable"
+				:isMimeAvailable="isMimeAvailable"
+				:isMtimeAvailable="isMtimeAvailable"
+				:isSizeAvailable="isSizeAvailable"
 				:nodes="nodes" />
 		</template>
 
@@ -58,10 +61,10 @@
 		<!-- Tfoot-->
 		<template #footer>
 			<FilesListTableFooter
-				:current-view="currentView"
-				:is-mime-available="isMimeAvailable"
-				:is-mtime-available="isMtimeAvailable"
-				:is-size-available="isSizeAvailable"
+				:currentView="currentView"
+				:isMimeAvailable="isMimeAvailable"
+				:isMtimeAvailable="isMtimeAvailable"
+				:isSizeAvailable="isSizeAvailable"
 				:nodes="nodes"
 				:summary="summary" />
 		</template>
@@ -77,9 +80,10 @@ import { showError } from '@nextcloud/dialogs'
 import { FileType, Folder, getSidebar, Permission, View } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, shallowRef } from 'vue'
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
+import FileEntryWrapper from './FileEntryWrapper.vue'
 import FileListFilterChips from './FileListFilter/FileListFilterChips.vue'
 import FileListFilterToSearch from './FileListFilter/FileListFilterToSearch.vue'
 import FilesListHeader from './FilesListHeader.vue'
@@ -90,6 +94,8 @@ import VirtualList from './VirtualList.vue'
 import { useEnabledFileActions } from '../composables/useFileActions.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
+// eslint-disable-next-line perfectionist/sort-named-imports
+import { type ImageGroupingConfig, useImageGrouping } from '../composables/useImageGrouping.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
 import { useActiveStore } from '../store/active.ts'
@@ -167,6 +173,42 @@ export default defineComponent({
 			return props.nodes.some((node: INode) => node.size !== undefined)
 		})
 
+		const expandedGroups = shallowRef(new Set<string>())
+
+		const groupingConfig = computed<ImageGroupingConfig>(() => {
+			const isRecentView = props.currentView.id === 'recent'
+			const isGroupingEnabled = userConfigStore.userConfig.group_recent_files_images === true
+			const configuredMimetypes = userConfigStore.userConfig.recent_files_group_mimetypes
+
+			const mimetypes = isRecentView && isGroupingEnabled && Array.isArray(configuredMimetypes)
+				? configuredMimetypes
+				: []
+
+			return {
+				mimetypes,
+				timespanMinutes: Number(userConfigStore.userConfig.recent_files_group_timespan_minutes) || 2,
+			}
+		})
+
+		const groupedNodes = useImageGrouping(
+			computed(() => props.nodes),
+			expandedGroups,
+			groupingConfig,
+		)
+
+		/**
+		 *
+		 * @param groupKey
+		 */
+		function toggleGroup(groupKey: string) {
+			if (expandedGroups.value.has(groupKey)) {
+				expandedGroups.value.delete(groupKey)
+			} else {
+				expandedGroups.value.add(groupKey)
+			}
+			expandedGroups.value = new Set(expandedGroups.value)
+		}
+
 		return {
 			fileId,
 			headers: useFileListHeaders(),
@@ -183,6 +225,10 @@ export default defineComponent({
 
 			n,
 			t,
+
+			groupedNodes,
+			toggleGroup,
+			FileEntryWrapper,
 		}
 	},
 
@@ -535,6 +581,10 @@ export default defineComponent({
 					background-color: var(--color-background-dark);
 				}
 			}
+		}
+
+		.files-list__row--group-child {
+			padding-inline-start: 12px;
 		}
 
 		// Before table and thead
