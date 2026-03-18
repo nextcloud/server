@@ -10,12 +10,14 @@ namespace OC\Repair;
 
 use OC\Core\BackgroundJobs\BackgroundCleanupUpdaterBackupsJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class AddCleanupUpdaterBackupsJob implements IRepairStep {
 	public function __construct(
 		protected readonly IJobList $jobList,
+		protected readonly IConfig $config,
 	) {
 	}
 
@@ -24,6 +26,8 @@ class AddCleanupUpdaterBackupsJob implements IRepairStep {
 	}
 
 	public function run(IOutput $output): void {
-		$this->jobList->add(BackgroundCleanupUpdaterBackupsJob::class);
+		if ($this->config->getSystemValueBool('updater.cleanup_backups', true)) {
+			$this->jobList->add(BackgroundCleanupUpdaterBackupsJob::class);
+		}
 	}
 }

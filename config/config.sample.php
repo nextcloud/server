@@ -983,6 +983,14 @@ $CONFIG = [
 	'updater.release.channel' => 'stable',
 
 	/**
+	 * Does Nextcloud needs to cleanup old backups after an update has been
+	 * performed?
+	 *
+	 * Defaults to ``true``
+	 */
+	'updater.cleanup_backups' => true,
+
+	/**
 	 * Is Nextcloud connected to the Internet or running in a closed network?
 	 *
 	 * Defaults to ``true``
