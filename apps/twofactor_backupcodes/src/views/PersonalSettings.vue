@@ -60,8 +60,6 @@ import { print } from '../service/PrintService.js'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 export default {
 	name: 'PersonalSettings',
 	components: {

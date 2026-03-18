@@ -10,8 +10,6 @@ import axios from '@nextcloud/axios'
 
 import { SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.ts'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 /**
  * Save the primary account property value for the user
  *

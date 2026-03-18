@@ -73,8 +73,6 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 const lastCron = loadState('settings', 'lastCron')
 const cronMaxAge = loadState('settings', 'cronMaxAge', '')
 const backgroundJobsMode = loadState('settings', 'backgroundJobsMode', 'cron')
