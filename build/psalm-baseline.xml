@@ -2605,16 +2605,10 @@
     <DeprecatedInterface>
       <code><![CDATA[User_LDAP]]></code>
     </DeprecatedInterface>
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[string|false]]></code>
-    </ImplementedReturnTypeMismatch>
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$limit]]></code>
       <code><![CDATA[$offset]]></code>
     </MoreSpecificImplementedParamType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
     <RedundantCondition>
       <code><![CDATA[$displayName && (count($displayName) > 0)]]></code>
       <code><![CDATA[is_string($dn)]]></code>
