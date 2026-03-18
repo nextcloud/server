@@ -139,7 +139,7 @@
     "@vue/tsconfig": "^0.5.1",
     "@zip.js/zip.js": "^2.8.23",
     "babel-loader-exclude-node-modules-except": "^1.2.4",
-    "babel-plugin-module-resolver": "^5.0.2",
+    "babel-plugin-module-resolver": "^5.0.3",
     "colord": "^2.9.3",
     "cypress": "^13.17.0",
     "cypress-axe": "^1.7.0",
