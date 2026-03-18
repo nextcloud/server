@@ -8,15 +8,84 @@
 
 namespace OCA\Files_Sharing;
 
+use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 
 /**
  * Handles restricting for download of files
  */
 class ViewOnly {
-	public function isNodeCanBeDownloaded(Node $node): bool {
+
+	public function __construct(
+		private Folder $userFolder,
+	) {
+	}
+
+	/**
+	 * @param string[] $pathsToCheck paths to check, relative to the user folder
+	 * @return bool
+	 */
+	public function check(array $pathsToCheck): bool {
+		// If any of elements cannot be downloaded, prevent whole download
+		foreach ($pathsToCheck as $file) {
+			try {
+				$info = $this->userFolder->get($file);
+				if ($info instanceof File) {
+					// access to filecache is expensive in the loop
+					if (!$this->isDownloadable($info)) {
+						return false;
+					}
+				} elseif ($info instanceof Folder) {
+					// get directory content is rather cheap query
+					if (!$this->dirRecursiveCheck($info)) {
+						return false;
+					}
+				}
+			} catch (NotFoundException) {
+				continue;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param Folder $dirInfo
+	 * @return bool
+	 * @throws NotFoundException
+	 */
+	private function dirRecursiveCheck(Folder $dirInfo): bool {
+		if (!$this->isDownloadable($dirInfo)) {
+			return false;
+		}
+		// If any of elements cannot be downloaded, prevent whole download
+		$files = $dirInfo->getDirectoryListing();
+		foreach ($files as $file) {
+			if ($file instanceof File) {
+				if (!$this->isDownloadable($file)) {
+					return false;
+				}
+			} elseif ($file instanceof Folder) {
+				return $this->dirRecursiveCheck($file);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param Node $fileInfo
+	 * @return bool
+	 */
+	public function isDownloadable(Node $fileInfo): bool {
 		// Restrict view-only to nodes which are shared
-		$storage = $node->getStorage();
+		try {
+			$storage = $fileInfo->getStorage();
+		} catch (NotFoundException) {
+			return true;
+		}
+
 		if (!$storage->instanceOfStorage(SharedStorage::class)) {
 			return true;
 		}
