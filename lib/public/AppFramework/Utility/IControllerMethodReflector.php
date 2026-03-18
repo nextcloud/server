@@ -11,22 +11,13 @@ namespace OCP\AppFramework\Utility;
 /**
  * Interface ControllerMethodReflector
  *
- * Reads and parses annotations from doc comments
+ * You can inject this interface in your Middleware, and it will be prefilled with information related to the called controller method
+ *
+ * Reads and parses annotations from doc comments (deprecated) and PHP attributes
  *
  * @since 8.0.0
- * @deprecated 22.0.0 will be obsolete with native attributes in PHP8
- * @see https://help.nextcloud.com/t/how-should-we-use-php8-attributes/104278
  */
 interface IControllerMethodReflector {
-	/**
-	 * @param object $object an object or classname
-	 * @param string $method the method which we want to inspect
-	 * @return void
-	 * @since 8.0.0
-	 * @deprecated 17.0.0 Reflect should not be called multiple times and only be used internally. This will be removed in Nextcloud 18
-	 */
-	public function reflect($object, string $method);
-
 	/**
 	 * Inspects the PHPDoc parameters for types
 	 *
@@ -56,4 +47,15 @@ interface IControllerMethodReflector {
 	 * @see https://help.nextcloud.com/t/how-should-we-use-php8-attributes/104278
 	 */
 	public function hasAnnotation(string $name): bool;
+
+	/**
+	 * @template T
+	 *
+	 * Check if a method contains an annotation or an attribute.
+	 * Log a debug line if the annotation is used.
+	 *
+	 * @param class-string<T> $attributeClass
+	 * @since 34.0.0
+	 */
+	public function hasAnnotationOrAttribute(?string $annotationName, string $attributeClass): bool;
 }
