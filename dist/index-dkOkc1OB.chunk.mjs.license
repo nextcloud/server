@@ -3,5 +3,5 @@ SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/password-confirmation
-	- version: 6.0.3
+	- version: 6.1.0
 	- license: MIT
