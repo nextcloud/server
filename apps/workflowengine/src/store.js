@@ -10,8 +10,6 @@ import { confirmPassword } from '@nextcloud/password-confirmation'
 import { loadState } from '@nextcloud/initial-state'
 import { getApiUrl } from './helpers/api.js'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 Vue.use(Vuex)
 
 const store = new Store({

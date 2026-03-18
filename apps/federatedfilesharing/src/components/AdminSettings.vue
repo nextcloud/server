@@ -73,8 +73,6 @@ import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 export default {
 	name: 'AdminSettings',
 
