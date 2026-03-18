@@ -706,7 +706,7 @@ class Access extends LDAPUtility {
 						continue;
 					}
 					$sndName = $ldapObject[$sndAttribute][0] ?? '';
-					$this->cacheUserDisplayName($ncName, $nameByLDAP, $sndName);
+					$this->applyUserDisplayName($ncName, $nameByLDAP, $sndName);
 				} elseif ($nameByLDAP !== null) {
 					$this->cacheGroupDisplayName($ncName, $nameByLDAP);
 				}
@@ -754,20 +754,16 @@ class Access extends LDAPUtility {
 		$this->connection->writeToCache('groupExists' . $gid, true);
 	}
 
-	/**
-	 * caches the user display name
-	 *
-	 * @param string $ocName the internal Nextcloud username
-	 * @param string $displayName the display name
-	 * @param string $displayName2 the second display name
-	 * @throws \Exception
-	 */
-	public function cacheUserDisplayName(string $ocName, string $displayName, string $displayName2 = ''): void {
-		$user = $this->userManager->get($ocName);
+	public function applyUserDisplayName(string $uid, string $displayName, string $displayName2 = ''): void {
+		$user = $this->userManager->get($uid);
 		if ($user === null) {
 			return;
 		}
-		$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+		$composedDisplayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+		$this->cacheUserDisplayName($uid, $composedDisplayName);
+	}
+
+	public function cacheUserDisplayName(string $ocName, string $displayName): void {
 		$cacheKeyTrunk = 'getDisplayName';
 		$this->connection->writeToCache($cacheKeyTrunk . $ocName, $displayName);
 	}
