@@ -110,6 +110,10 @@ class WorkerCommand extends Base {
 	 */
 	private function processNextTask(OutputInterface $output, array $taskTypes = []): bool {
 		$providers = $this->taskProcessingManager->getProviders();
+		// Shuffle providers to avoid starvation: if providers are always iterated
+		// in the same order, a provider with a constant stream of tasks would
+		// prevent all subsequent providers from ever being processed.
+		shuffle($providers);
 
 		foreach ($providers as $provider) {
 			if (!$provider instanceof ISynchronousProvider) {
