@@ -129,7 +129,8 @@ class User {
 		$attr = strtolower($this->connection->ldapEmailAttribute);
 		if (isset($ldapEntry[$attr])) {
 			$mailValue = 0;
-			for ($x = 0; $x < count($ldapEntry[$attr]); $x++) {
+			$emailValues = count($ldapEntry[$attr]);
+			for ($x = 0; $x < $emailValues; $x++) {
 				if (filter_var($ldapEntry[$attr][$x], FILTER_VALIDATE_EMAIL)) {
 					$mailValue = $x;
 					break;
