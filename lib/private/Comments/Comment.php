@@ -198,7 +198,7 @@ class Comment implements IComment {
 		$message = $this->getMessage();
 		if ($supportMarkdown) {
 			// Strip fenced code blocks and inline code so mentions inside them are ignored
-			$message = preg_replace('/^```.*?^```|^~~~.*?^~~~/sm', '', $message);
+			$message = preg_replace('/^```.*?(^```|\z)|^~~~.*?(^~~~|\z)/sm', '', $message);
 			$message = preg_replace('/`[^`\n]*`/', '', $message);
 		}
 

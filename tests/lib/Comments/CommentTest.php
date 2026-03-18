@@ -240,6 +240,18 @@ class CommentTest extends TestCase {
 				null,
 				false,
 			],
+			[
+				'Mention @alice and `also @bob as end of text only applies to code blocks',
+				[['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
+			],
+			[
+				"Mention @alice but not in unclosed fenced code block\n```\n@bob\n@charlie",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				"Mention @alice but not in unclosed tilde code block\n~~~\n@bob",
+				[['type' => 'user', 'id' => 'alice']],
+			],
 		];
 	}
 
