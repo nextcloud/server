@@ -77,20 +77,20 @@ class Manager {
 	private $config;
 
 	public function __construct(
-		IDBConnection                   $connection,
-		\OC\Files\Mount\Manager         $mountManager,
-		IStorageFactory                 $storageLoader,
-		IClientService                  $clientService,
-		IManager                        $notificationManager,
-		IDiscoveryService               $discoveryService,
+		IDBConnection $connection,
+		\OC\Files\Mount\Manager $mountManager,
+		IStorageFactory $storageLoader,
+		IClientService $clientService,
+		IManager $notificationManager,
+		IDiscoveryService $discoveryService,
 		ICloudFederationProviderManager $cloudFederationProviderManager,
-		ICloudFederationFactory         $cloudFederationFactory,
-		IGroupManager                   $groupManager,
-		IUserManager                    $userManager,
-		IUserSession                    $userSession,
-		IEventDispatcher                $eventDispatcher,
-		LoggerInterface                 $logger,
-		IConfig							$config,
+		ICloudFederationFactory $cloudFederationFactory,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IEventDispatcher $eventDispatcher,
+		LoggerInterface $logger,
+		IConfig $config,
 	) {
 		$user = $userSession->getUser();
 		$this->connection = $connection;
