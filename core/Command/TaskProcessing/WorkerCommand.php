@@ -35,7 +35,7 @@ class WorkerCommand extends Base {
 				'timeout',
 				't',
 				InputOption::VALUE_OPTIONAL,
-				'Duration in seconds after which the worker exits (0 = run indefinitely)',
+				'Duration in seconds after which the worker exits (0 = run indefinitely). You should regularly (e.g. every 5 minutes) restart this worker by using this option to make sure it picks up configuration changes.',
 				0
 			)
 			->addOption(

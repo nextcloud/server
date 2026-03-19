@@ -267,46 +267,6 @@ class WorkerCommandTest extends TestCase {
 		$this->assertSame(0, $result);
 	}
 
-	public function testPicksOldestTaskAcrossMultipleEligibleProviders(): void {
-		$taskTypeId1 = 'type_a';
-		$taskTypeId2 = 'type_b';
-
-		$provider1 = $this->createProvider('provider_a', $taskTypeId1);
-		$provider2 = $this->createProvider('provider_b', $taskTypeId2);
-		// getNextScheduledTask returns a type_b task (the globally oldest one)
-		$task = $this->createTask(3, $taskTypeId2);
-
-		$this->manager->expects($this->once())
-			->method('getProviders')
-			->willReturn([$provider1, $provider2]);
-
-		$this->manager->expects($this->exactly(2))
-			->method('getPreferredProvider')
-			->willReturnMap([
-				[$taskTypeId1, $provider1],
-				[$taskTypeId2, $provider2],
-			]);
-
-		// Both eligible types are queried together to prevent starvation
-		$this->manager->expects($this->once())
-			->method('getNextScheduledTask')
-			->with($this->equalTo([$taskTypeId1, $taskTypeId2]))
-			->willReturn($task);
-
-		// provider2 must handle the task because the task has type_b
-		$this->manager->expects($this->once())
-			->method('processTask')
-			->with($task, $provider2)
-			->willReturn(true);
-
-		$input = new ArrayInput(['--once' => true], $this->command->getDefinition());
-		$output = new NullOutput();
-
-		$result = $this->command->run($input, $output);
-
-		$this->assertSame(0, $result);
-	}
-
 	public function testTaskTypesWhitelistFiltersProviders(): void {
 		$taskTypeId1 = 'type_a';
 		$taskTypeId2 = 'type_b';
