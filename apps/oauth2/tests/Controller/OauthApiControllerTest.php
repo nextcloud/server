@@ -97,7 +97,7 @@ class OauthApiControllerTest extends TestCase {
 		$expected = new JSONResponse([
 			'error' => 'invalid_request',
 		], Http::STATUS_BAD_REQUEST);
-		$expected->throttle(['invalid_request' => 'token not found', 'code' => 'invalidcode']);
+		$expected->throttle(['invalid_request' => 'token not found']);
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('invalidcode')
@@ -193,7 +193,7 @@ class OauthApiControllerTest extends TestCase {
 		$expected = new JSONResponse([
 			'error' => 'invalid_request',
 		], Http::STATUS_BAD_REQUEST);
-		$expected->throttle(['invalid_request' => 'token not found', 'code' => 'invalidrefresh']);
+		$expected->throttle(['invalid_request' => 'token not found']);
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('invalidrefresh')
