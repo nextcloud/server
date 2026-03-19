@@ -742,6 +742,15 @@ export default defineComponent({
 			this.handlerId = handler.id
 
 			this.currentFile = new File(fileInfo, mime, handler.component)
+
+			// if openFile() couldn’t derive a name from the path (e.g. "/" for single-file shares),
+			// fall back to the displayname to set the title
+			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
+			if (title && !title.dataset.old && this.currentFile.displayname) {
+				title.dataset.old = document.title
+				this.updateTitle(this.currentFile.displayname)
+			}
+
 			this.comparisonFile = null
 			this.updatePreviousNext()
 
