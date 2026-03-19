@@ -8,12 +8,21 @@
 /** @var array $_ */
 /** @var \OCP\Defaults $theme */
 
+$baseUrl = $theme->getBaseUrl();
+$versionLabel = $_['version'] ?? '';
 ?>
 
 <div id="vue-admin-settings-setup-checks"></div>
 
 <div id="version" class="section">
 	<!-- should be the last part, so Updater can follow if enabled (it has no heading therefore). -->
-	<h2><?php p($l->t('Version'));?></h2>
-	<p><strong><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer noopener" target="_blank">Nextcloud Hub 26 Winter</a> (<?php p($_['version']) ?>)</strong></p>
+	<h2><?php p($l->t('Version')); ?></h2>
+	<p>
+		<strong>
+			<a href="<?php print_unescaped($baseUrl); ?>" rel="noreferrer noopener" target="_blank">
+				Nextcloud Hub 26 Winter
+			</a>
+			(<?php p($versionLabel); ?>)
+		</strong>
+	</p>
 </div>
