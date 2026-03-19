@@ -105,10 +105,6 @@
     "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer",
     "Collaborative tags …" : "Etiquetes col·laboratives…",
     "Loading …" : "S'està carregant…",
-    "File tags modification canceled" : "S'ha cancel·lat la modificació de les etiquetes del fitxer",
-    "Select or create tags to apply to all selected files" : "Seleccioneu o creeu etiquetes per aplicar-les a tots els fitxers seleccionats",
-    "Select tags to apply to all selected files" : "Seleccioneu les etiquetes per aplicar a tots els fitxers seleccionats",
-    "Apply changes" : "Aplica els canvis",
     "Loading collaborative tags …" : "S'estan carregant les etiquetes col·laboratives…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

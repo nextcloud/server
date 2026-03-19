@@ -414,8 +414,8 @@ class ViewTest extends \Test\TestCase {
 		foreach ($results as $result) {
 			$paths[] = $result['path'];
 		}
-		$this->assertContains('/anotherstorage/folder/bar.txt', $paths);
-		$this->assertContains('/bar.txt', $paths);
+		$this->assertContains('/folder/anotherstorage/folder/bar.txt', $paths);
+		$this->assertContains('/folder/bar.txt', $paths);
 
 		$results = $folderView->search('foo');
 		$this->assertCount(2, $results);
@@ -423,8 +423,8 @@ class ViewTest extends \Test\TestCase {
 		foreach ($results as $result) {
 			$paths[] = $result['path'];
 		}
-		$this->assertContains('/anotherstorage/foo.txt', $paths);
-		$this->assertContains('/anotherstorage/foo.png', $paths);
+		$this->assertContains('/folder/anotherstorage/foo.txt', $paths);
+		$this->assertContains('/folder/anotherstorage/foo.png', $paths);
 
 		$this->assertCount(6, $rootView->searchByMime('text'));
 		$this->assertCount(3, $folderView->searchByMime('text'));
@@ -593,20 +593,6 @@ class ViewTest extends \Test\TestCase {
 		$cachedData = $rootView->getFileInfo('foo.txt');
 		$this->assertGreaterThanOrEqual($oldCachedData['mtime'], $cachedData['mtime']);
 		$this->assertEquals($cachedData['storage_mtime'], $cachedData['mtime']);
-	}
-
-	public function testTouchFloat(): void {
-		$storage = $this->getTestStorage(true, TemporaryNoTouch::class);
-
-		Filesystem::mount($storage, [], '/');
-
-		$rootView = new View('');
-		$oldCachedData = $rootView->getFileInfo('foo.txt');
-
-		$rootView->touch('foo.txt', 500.5);
-
-		$cachedData = $rootView->getFileInfo('foo.txt');
-		$this->assertEquals(500, $cachedData['mtime']);
 	}
 
 	public function testViewHooks(): void {

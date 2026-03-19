@@ -109,6 +109,7 @@ OC.L10N.register(
     "Reset primary color" : "Vrátit nastavení primární barvy na výchozí hodnotu",
     "Reset to default" : "Vrátit zpět na výchozí hodnoty",
     "Non image file selected" : "Nevybrán žádný soubor s obrázekem",
+    "Failed to upload image" : "Nepodařilo se nahrát obrázek",
     "Preview of the selected image" : "Náhled vybraného obrázku",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Přístupnost pro všechny je pro nás velmi důležitá. Splňujeme webové standardy a zajišťujeme, aby všechno bylo použitelné i bez myši a s asistenčním softwarem, jako například čtečkami obrazovky. Máme za cíl být v souladu s doporučeními {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 na úrovni AA, při použití motivu vzhledu s vysokým kontrastem dokonce na úrovni AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Pokud naleznete jakékoli problémy, neváhejte s jejich nahlášením do {issuetracker}našeho systému pro správu hlášení{linkend}. A pokud se chcete zapojit, přidejte se k {designteam}týmu našich designérů{linkend}!",
@@ -129,8 +130,6 @@ OC.L10N.register(
     "Background and login image" : "Obrázek na pozadí a přihlašovací obrazovce",
     "Advanced options" : "Pokročilé předvolby",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření ImageMagick PHP s podporou SVG obrázků, které automaticky vytváří favicon na základě nahraného loga a barvy.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Přístupnost pro všechny je pro nás velmi důležitá. Splňujeme webové standardy a zajišťujeme, aby všechno bylo použitelné i bez myši a s asistenčním software, jako například čtečkami obrazovky. Máme za cíl být v souladu s doporučeními {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 na úrovni AA, při použití motivu vzhledu s vysokým kontrastem dokonce na úrovni AAA.",
-    ". Unable to apply the setting." : ". Nastavení nebylo možné uplatnit.",
     "No background has been selected" : "Nevybráno žádné pozadí",
     "Select a custom color" : "Vybrat uživatelsky určenou barvu",
     "Upload" : "Nahrát"

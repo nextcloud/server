@@ -224,8 +224,6 @@ OC.L10N.register(
     "Strong password" : "Contraseña fuerte",
     "Group list is empty" : "La lista de grupos esta vacía",
     "Unable to retrieve the group list" : "No fue posible recuperar la lista del gurpo",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro.",
     "Sending…" : "Enviando...",
     "Email sent" : "Correo electrónico enviado",
     "SSL" : "SSL",

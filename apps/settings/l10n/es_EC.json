@@ -445,22 +445,14 @@
     "Strong password" : "Contraseña fuerte",
     "Group list is empty" : "La lista de grupos esta vacía",
     "Unable to retrieve the group list" : "No fue posible recuperar la lista del gurpo",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro.",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "En caso de pérdida del dispositivo o salida de la organización, esto puede borrar de forma remota los datos de Nextcloud de todos los dispositivos asociados con {userid}. Solo funciona si los dispositivos están conectados a Internet.",
     "Adding your device …" : "Agregando tu dispositivo ...",
     "Sending…" : "Enviando...",
     "Email sent" : "Correo electrónico enviado",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Esta aplicación no está marcada como compatible con tu versión de Nextcloud. Si continúas, aún podrás instalar la aplicación. Ten en cuenta que es posible que la aplicación no funcione como se espera.",
     "None/STARTTLS" : "Ninguno/STARTTLS",
     "SSL" : "SSL",
     "Credentials" : "Credenciales",
     "SMTP Password" : "Contraseña SMTP",
     "Save" : "Guardar",
-    "Test and verify email settings" : "Probar y verificar la configuración del correo electrónico",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Es importante para la seguridad y el rendimiento de tu instancia que todo esté configurado correctamente. Para ayudarte con eso, realizamos algunas comprobaciones automáticas. Consulta la documentación enlazada para obtener más información.",
-    "Checking for system and security issues." : "Comprobando problemas del sistema y de seguridad.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Por favor, revisa las <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">guías de instalación ↗</a> y verifica si hay errores o advertencias en el <a href=\"%2$s\">registro</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Verifica la seguridad de tu Nextcloud con nuestro <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">escáner de seguridad ↗</a>."
+    "Test and verify email settings" : "Probar y verificar la configuración del correo electrónico"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

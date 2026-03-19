@@ -47,7 +47,7 @@ export const action: IFileAction = {
 
 		let config: IStorage | undefined
 		try {
-			const { data } = await getStatus(node.attributes.id, node.attributes.scope === 'system')
+			const { data } = await getStatus(node.id, node.attributes.scope === 'system')
 			config = data
 			node.attributes.config = config
 			emit('files:node:updated', node)

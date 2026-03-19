@@ -673,6 +673,10 @@ class FileTest extends TestCase {
 		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		$view->expects($this->once())
 			->method('unlink')
@@ -697,6 +701,10 @@ class FileTest extends TestCase {
 		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => 0,
@@ -717,6 +725,10 @@ class FileTest extends TestCase {
 		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		// but fails
 		$view->expects($this->once())
@@ -742,6 +754,10 @@ class FileTest extends TestCase {
 		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		// but fails
 		$view->expects($this->once())

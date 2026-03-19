@@ -261,6 +261,7 @@ class OC_App {
 
 	/**
 	 * get the id of loaded app
+	 * @deprecated 34.0.0 Don’t do that
 	 */
 	public static function getCurrentApp(): string {
 		if (\OC::$CLI) {

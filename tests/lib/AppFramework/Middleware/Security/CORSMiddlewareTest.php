@@ -33,7 +33,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->reflector = new ControllerMethodReflector();
+		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
 		$this->session = $this->createMock(Session::class);
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -79,6 +79,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
+		$this->reflector->reflect($this->controller, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, new MiddlewareUtils($this->reflector, $this->logger), $this->session, $this->throttler);
 
 		$response = $middleware->afterController($this->controller, __FUNCTION__, new Response());
@@ -300,6 +301,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
+		$this->reflector->reflect($this->controller, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, new MiddlewareUtils($this->reflector, $this->logger), $this->session, $this->throttler);
 		$response = $middleware->afterException($this->controller, __FUNCTION__, new SecurityException('A security exception'));
 
@@ -316,6 +318,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
+		$this->reflector->reflect($this->controller, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, new MiddlewareUtils($this->reflector, $this->logger), $this->session, $this->throttler);
 		$response = $middleware->afterException($this->controller, __FUNCTION__, new SecurityException('A security exception', 501));
 
@@ -335,6 +338,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		);
+		$this->reflector->reflect($this->controller, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, new MiddlewareUtils($this->reflector, $this->logger), $this->session, $this->throttler);
 		$middleware->afterException($this->controller, __FUNCTION__, new \Exception('A regular exception'));
 	}

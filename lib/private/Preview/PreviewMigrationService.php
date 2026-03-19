@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -66,11 +65,11 @@ class PreviewMigrationService {
 			$path = $fileId . '/' . $previewFile->getName();
 			/** @var SimpleFile $previewFile */
 			$preview = Preview::fromPath($path, $this->mimeTypeDetector);
-			$preview->generateId();
-			if (!$preview) {
+			if ($preview === false) {
 				$this->logger->error('Unable to import old preview at path.');
 				continue;
 			}
+			$preview->generateId();
 			$preview->setSize($previewFile->getSize());
 			$preview->setMtime($previewFile->getMtime());
 			$preview->setOldFileId($previewFile->getId());
@@ -93,17 +92,17 @@ class PreviewMigrationService {
 			->setMaxResults(1);
 
 		$result = $qb->executeQuery();
-		$result = $result->fetchAllAssociative();
+		$result = $result->fetchAssociative();
 
-		if (count($result) > 0) {
+		if ($result !== false) {
 			foreach ($previewFiles as $previewFile) {
 				/** @var Preview $preview */
 				$preview = $previewFile['preview'];
 				/** @var SimpleFile $file */
 				$file = $previewFile['file'];
-				$preview->setStorageId($result[0]['storage']);
-				$preview->setEtag($result[0]['etag']);
-				$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result[0]['mimetype']));
+				$preview->setStorageId($result['storage']);
+				$preview->setEtag($result['etag']);
+				$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result['mimetype']));
 				$preview->generateId();
 				try {
 					$preview = $this->previewMapper->insert($preview);
@@ -161,12 +160,16 @@ class PreviewMigrationService {
 	private function deleteFolder(string $path): void {
 		$current = $path;
 
+		$rootFolderId = $this->rootFolder->getMountPoint()->getNumericStorageId();
 		while (true) {
 			$appDataPath = $this->previewRootPath . $current;
 			$qb = $this->connection->getQueryBuilder();
 			$qb->delete('filecache')
 				->where($qb->expr()->eq('path_hash', $qb->createNamedParameter(md5($appDataPath))))
-				->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
+				->andWhere($qb->expr()->eq(
+					'storage',
+					$qb->createNamedParameter($rootFolderId),
+				))
 				->executeStatement();
 
 			$current = dirname($current);

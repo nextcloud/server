@@ -24,8 +24,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Emlékeztető beállítása erre a hétvégére",
     "Next week" : "Következő hét",
     "Set reminder for next week" : "Emlékeztető beállítása a következő hétre",
-    "Set reminder for \"{fileName}\"" : "Emlékeztető beállítása a következőhöz: „{fileName}”",
-    "Set reminder at custom date & time" : "Emlékeztető beállítása tetszőleges időpontra",
-    "Set custom reminder" : "Egyéni emlékeztető beállítása"
+    "Set reminder for \"{fileName}\"" : "Emlékeztető beállítása a következőhöz: „{fileName}”"
 },
 "nplurals=2; plural=(n != 1);");

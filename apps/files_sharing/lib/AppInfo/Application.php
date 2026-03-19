@@ -8,7 +8,6 @@
 namespace OCA\Files_Sharing\AppInfo;
 
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
-use OC\Share\Share;
 use OC\User\DisplayNameCache;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
@@ -34,8 +33,6 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
-use OCA\Files_Sharing\ShareBackend\File;
-use OCA\Files_Sharing\ShareBackend\Folder;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -48,15 +45,16 @@ use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
-use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareTransferredEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
@@ -77,7 +75,8 @@ class Application extends App implements IBootstrap {
 				function () use ($c) {
 					return $c->get(Manager::class);
 				},
-				$c->get(ICloudIdManager::class)
+				$c->get(ICloudIdManager::class),
+				$c->get(IConfig::class),
 			);
 		});
 
@@ -117,10 +116,10 @@ class Application extends App implements IBootstrap {
 		// Update mounts
 		$context->registerEventListener(ShareCreatedEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(BeforeShareDeletedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(ShareTransferredEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(UserAddedEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(UserRemovedEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(UserShareAccessUpdatedEvent::class, SharesUpdatedListener::class);
-		$context->registerEventListener(FilesystemTornDownEvent::class, SharesUpdatedListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
@@ -130,9 +129,6 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([$this, 'registerEventsScripts']);
 
 		Helper::registerHooks();
-
-		Share::registerBackend('file', File::class);
-		Share::registerBackend('folder', Folder::class, 'file');
 	}
 
 

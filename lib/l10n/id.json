@@ -165,9 +165,6 @@
     "Set an admin Login." : "Tetapkan login admin.",
     "Set an admin password." : "Tetapkan kata sandi admin.",
     "Cannot create or write into the data directory %s" : "Tidak dapat membuat atau menulis ke direktori data %s",
-    "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Backend berbagi %s harus mengimplementasi antarmuka OCP\\Share_Backend",
-    "Sharing backend %s not found" : "Backend berbagi %s tidak ditemukan",
-    "Sharing backend for %s not found" : "Backend berbagi untuk %s tidak ditemukan",
     "%1$s shared %2$s with you" : "%1$s membagikan %2$s kepada Anda",
     "Open %s" : "Buka %s",
     "%1$s via %2$s" : "%1$s melalui %2$s",
@@ -281,9 +278,6 @@
     "Login canceled by app" : "Log masuk dibatalkan oleh aplikasi",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Aplikasi \"%1$s\" tidak dapat diinstal karena dependensi berikut tidak terpenuhi: %2$s",
     "a safe home for all your data" : "rumah yang aman untuk semua data Anda",
-    "Application is not enabled" : "Aplikasi tidak diaktifkan",
-    "Authentication error" : "Galat saat otentikasi",
-    "Token expired. Please reload page." : "Token sudah kedaluwarsa. Silakan muat ulang halaman.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Tidak ada driver (sqlite, mysql, or postgresql) yang terinstal.",
     "Cannot write into \"config\" directory." : "Tidak dapat menulis ke direktori \"config\".",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Hal ini biasanya dapat diperbaiki dengan memberikan akses tulis kepada server web ke direktori config. Lihat %s",
@@ -472,12 +466,12 @@
     "Generate headline" : "Buat judul",
     "Summarizes text by reducing its length without losing key information." : "Meringkas teks dengan mengurangi panjangnya tanpa kehilangan informasi kunci.",
     "Extracts topics from a text and outputs them separated by commas." : "Mengekstrak topik dari teks dan mengeluarkannya dipisahkan dengan koma.",
-    "Organisation" : "Organisasi",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X tidak didukung dan %s tidak akan bekerja dengan baik pada platform ini. Gunakan dengan risiko Anda sendiri!",
-    "Login is too long" : "Login terlalu panjang",
-    "Cannot write into \"apps\" directory." : "Tidak dapat menulis ke direktori \"apps\".",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Hal ini biasanya dapat diperbaiki dengan memberikan akses tulis kepada server web ke direktori apps atau menonaktifkan App Store di file konfigurasi.",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> diatur ke <code>%s</code> alih-alih nilai yang diharapkan <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Untuk memperbaiki masalah ini, atur <code>mbstring.func_overload</code> menjadi <code>0</code> di php.ini Anda."
+    "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Backend berbagi %s harus mengimplementasi antarmuka OCP\\Share_Backend",
+    "Sharing backend %s not found" : "Backend berbagi %s tidak ditemukan",
+    "Sharing backend for %s not found" : "Backend berbagi untuk %s tidak ditemukan",
+    "Application is not enabled" : "Aplikasi tidak diaktifkan",
+    "Authentication error" : "Galat saat otentikasi",
+    "Token expired. Please reload page." : "Token sudah kedaluwarsa. Silakan muat ulang halaman."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

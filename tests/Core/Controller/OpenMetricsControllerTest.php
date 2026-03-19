@@ -59,7 +59,7 @@ class OpenMetricsControllerTest extends TestCase {
 		$output = $this->createMock(IOutput::class);
 		$fullOutput = '';
 		$output->method('setOutput')
-			->willReturnCallback(function ($output) use (&$fullOutput) {
+			->willReturnCallback(function ($output) use (&$fullOutput): void {
 				$fullOutput .= $output;
 			});
 		$this->config->expects($this->once())

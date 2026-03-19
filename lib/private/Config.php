@@ -276,8 +276,9 @@ class Config {
 		touch($this->configFilePath);
 		$filePointer = fopen($this->configFilePath, 'r+');
 
-		// Prevent others not to read the config
-		chmod($this->configFilePath, 0640);
+		// Apply permissions for config.php, defaulting to user read-write and group read
+		$permissions = $this->cache['configfilemode'] ?? 0640;
+		chmod($this->configFilePath, $permissions);
 
 		// File does not exist, this can happen when doing a fresh install
 		if (!is_resource($filePointer)) {

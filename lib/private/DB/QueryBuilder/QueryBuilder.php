@@ -19,6 +19,7 @@ use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
 use OC\SystemConfig;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\ConflictResolutionMode;
 use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
@@ -27,9 +28,11 @@ use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
+use Override;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
-class QueryBuilder implements IQueryBuilder {
+class QueryBuilder extends TypedQueryBuilder {
 	private \Doctrine\DBAL\Query\QueryBuilder $queryBuilder;
 	private QuoteHelper $helper;
 	private bool $automaticTablePrefix = true;
@@ -240,7 +243,7 @@ class QueryBuilder implements IQueryBuilder {
 
 	public function executeQuery(?IDBConnection $connection = null): IResult {
 		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new \RuntimeException('Invalid query type, expected SELECT query');
+			throw new RuntimeException('Invalid query type, expected SELECT query');
 		}
 
 		$this->prepareForExecute();
@@ -257,7 +260,7 @@ class QueryBuilder implements IQueryBuilder {
 
 	public function executeStatement(?IDBConnection $connection = null): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
+			throw new RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
 		$this->prepareForExecute();
@@ -474,7 +477,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function selectAlias($select, $alias) {
+	public function selectAlias($select, $alias): self {
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
 		);
@@ -522,18 +525,18 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed ...$selects The selection expression.
+	 * @param mixed ...$select The selection expression.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function addSelect(...$selects) {
-		if (count($selects) === 1 && is_array($selects[0])) {
-			$selects = $selects[0];
+	public function addSelect(...$select) {
+		if (count($select) === 1 && is_array($select[0])) {
+			$select = $select[0];
 		}
-		$this->addOutputColumns($selects);
+		$this->addOutputColumns($select);
 
 		$this->queryBuilder->addSelect(
-			$this->helper->quoteColumnNames($selects)
+			$this->helper->quoteColumnNames($select)
 		);
 
 		return $this;
@@ -1364,4 +1367,12 @@ class QueryBuilder implements IQueryBuilder {
 		return $this;
 	}
 
+	#[Override]
+	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self {
+		match ($conflictResolutionMode) {
+			ConflictResolutionMode::Ordinary => $this->queryBuilder->forUpdate(),
+			ConflictResolutionMode::SkipLocked => $this->queryBuilder->forUpdate(\Doctrine\DBAL\Query\ForUpdate\ConflictResolutionMode::SKIP_LOCKED),
+		};
+		return $this;
+	}
 }

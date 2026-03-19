@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +9,7 @@
  */
 namespace OC\Files\Cache;
 
+use OC\DB\Exceptions\DbalException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
@@ -25,55 +28,71 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Cache
  */
 class Storage {
-	/** @var StorageGlobal|null */
-	private static $globalCache = null;
-	private $storageId;
-	private $numericId;
+	private static ?StorageGlobal $globalCache = null;
 
-	/**
-	 * @return StorageGlobal
-	 */
-	public static function getGlobalCache() {
+	private string $storageId;
+
+	private int $numericId;
+
+	public static function getGlobalCache(): StorageGlobal {
 		if (is_null(self::$globalCache)) {
 			self::$globalCache = new StorageGlobal(Server::get(IDBConnection::class));
 		}
+
 		return self::$globalCache;
 	}
 
 	/**
-	 * @param \OC\Files\Storage\Storage|string $storage
-	 * @param bool $isAvailable
 	 * @throws \RuntimeException
 	 */
-	public function __construct($storage, $isAvailable, IDBConnection $connection) {
-		if ($storage instanceof IStorage) {
-			$this->storageId = $storage->getId();
-		} else {
-			$this->storageId = $storage;
-		}
+	public function __construct(
+		IStorage|string $storage,
+		bool $isAvailable,
+		IDBConnection $connection,
+	) {
+		$this->storageId = $storage instanceof IStorage ? $storage->getId() : $storage;
+
 		$this->storageId = self::adjustStorageId($this->storageId);
 
 		if ($row = self::getStorageById($this->storageId)) {
-			$this->numericId = (int)$row['numeric_id'];
+			$this->numericId = $row['numeric_id'];
 		} else {
 			$available = $isAvailable ? 1 : 0;
-			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
-			} else {
-				if ($row = self::getStorageById($this->storageId)) {
-					$this->numericId = (int)$row['numeric_id'];
-				} else {
-					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId);
+
+			try {
+				$qb = $connection->getQueryBuilder();
+				$qb->insert('storages')
+					->values([
+						'id' => $qb->createNamedParameter($this->storageId),
+						'available' => $qb->createNamedParameter($available),
+					])
+					->executeStatement();
+				$this->numericId = $qb->getLastInsertId();
+			} catch (DbalException $e) {
+				if ($e->getReason() === DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					$qb = $connection->getQueryBuilder();
+					$result = $qb->select('numeric_id')
+						->from('storages')
+						->where($qb->expr()->eq('id', $qb->createNamedParameter($this->storageId)))
+						->executeQuery();
+					/** @var false|string|int $row */
+					$row = $result->fetchOne();
+					if ($row === false) {
+						throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId, $e->getCode(), $e);
+					}
+
+					$this->numericId = (int)$row;
 				}
+
+				throw $e;
 			}
 		}
 	}
 
 	/**
-	 * @param string $storageId
-	 * @return array
+	 * @return array{id: string, numeric_id: int, available: bool, last_checked: int}|null
 	 */
-	public static function getStorageById($storageId) {
+	public static function getStorageById(string $storageId): ?array {
 		return self::getGlobalCache()->getStorageInfo($storageId);
 	}
 
@@ -83,26 +102,24 @@ class Storage {
 	 * @return string unchanged $storageId if its length is less than 64 characters,
 	 *                else returns the md5 of $storageId
 	 */
-	public static function adjustStorageId($storageId) {
+	public static function adjustStorageId(string $storageId): string {
 		if (strlen($storageId) > 64) {
 			return md5($storageId);
 		}
+
 		return $storageId;
 	}
 
 	/**
 	 * Get the numeric id for the storage
-	 *
-	 * @return int
 	 */
-	public function getNumericId() {
+	public function getNumericId(): int {
 		return $this->numericId;
 	}
 
 	/**
 	 * Get the string id for the storage
 	 *
-	 * @param int $numericId
 	 * @return string|null either the storage id string or null if the numeric id is not known
 	 */
 	public static function getStorageId(int $numericId): ?string {
@@ -111,43 +128,26 @@ class Storage {
 	}
 
 	/**
-	 * Get the numeric of the storage with the provided string id
-	 *
-	 * @param $storageId
-	 * @return int|null either the numeric storage id or null if the storage id is not known
-	 */
-	public static function getNumericStorageId($storageId) {
-		$storageId = self::adjustStorageId($storageId);
-
-		if ($row = self::getStorageById($storageId)) {
-			return (int)$row['numeric_id'];
-		} else {
-			return null;
-		}
-	}
-
-	/**
 	 * @return array{available: bool, last_checked: int}
 	 */
-	public function getAvailability() {
+	public function getAvailability(): array {
 		if ($row = self::getStorageById($this->storageId)) {
 			return [
 				'available' => (int)$row['available'] === 1,
 				'last_checked' => $row['last_checked']
 			];
-		} else {
-			return [
-				'available' => true,
-				'last_checked' => time(),
-			];
 		}
+
+		return [
+			'available' => true,
+			'last_checked' => time(),
+		];
 	}
 
 	/**
-	 * @param bool $isAvailable
 	 * @param int $delay amount of seconds to delay reconsidering that storage further
 	 */
-	public function setAvailability($isAvailable, int $delay = 0) {
+	public function setAvailability(bool $isAvailable, int $delay = 0): void {
 		$available = $isAvailable ? 1 : 0;
 		if (!$isAvailable) {
 			Server::get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
@@ -162,43 +162,9 @@ class Storage {
 	}
 
 	/**
-	 * Check if a string storage id is known
-	 *
-	 * @param string $storageId
-	 * @return bool
+	 * Remove the entry for the storage by the mount id.
 	 */
-	public static function exists($storageId) {
-		return !is_null(self::getNumericStorageId($storageId));
-	}
-
-	/**
-	 * remove the entry for the storage
-	 *
-	 * @param string $storageId
-	 */
-	public static function remove($storageId) {
-		$storageId = self::adjustStorageId($storageId);
-		$numericId = self::getNumericStorageId($storageId);
-
-		$query = Server::get(IDBConnection::class)->getQueryBuilder();
-		$query->delete('storages')
-			->where($query->expr()->eq('id', $query->createNamedParameter($storageId)));
-		$query->executeStatement();
-
-		if (!is_null($numericId)) {
-			$query = Server::get(IDBConnection::class)->getQueryBuilder();
-			$query->delete('filecache')
-				->where($query->expr()->eq('storage', $query->createNamedParameter($numericId)));
-			$query->executeStatement();
-		}
-	}
-
-	/**
-	 * remove the entry for the storage by the mount id
-	 *
-	 * @param int $mountId
-	 */
-	public static function cleanByMountId(int $mountId) {
+	public static function cleanByMountId(int $mountId): void {
 		$db = Server::get(IDBConnection::class);
 
 		try {
@@ -213,24 +179,24 @@ class Storage {
 
 			$query = $db->getQueryBuilder();
 			$query->delete('filecache')
-				->where($query->expr()->in('storage', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)));
-			$query->runAcrossAllShards();
-			$query->executeStatement();
+				->where($query->expr()->in('storage', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->runAcrossAllShards()
+				->executeStatement();
 
 			$query = $db->getQueryBuilder();
 			$query->delete('storages')
-				->where($query->expr()->in('numeric_id', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)));
-			$query->executeStatement();
+				->where($query->expr()->in('numeric_id', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->executeStatement();
 
 			$query = $db->getQueryBuilder();
 			$query->delete('mounts')
-				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-			$query->executeStatement();
+				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
+				->executeStatement();
 
 			$db->commit();
-		} catch (\Exception $e) {
+		} catch (\Exception $exception) {
 			$db->rollBack();
-			throw $e;
+			throw $exception;
 		}
 	}
 }

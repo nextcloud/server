@@ -331,7 +331,7 @@ class EncryptAllTest extends TestCase {
 			->willReturnMap([
 				[
 					'/user1/files',
-					'',
+					null,
 					null,
 					[
 						$this->createFileInfoMock(FileInfo::TYPE_FOLDER, 'foo'),
@@ -340,7 +340,7 @@ class EncryptAllTest extends TestCase {
 				],
 				[
 					'/user1/files/foo',
-					'',
+					null,
 					null,
 					[
 						$this->createFileInfoMock(FileInfo::TYPE_FILE, 'subfile'),

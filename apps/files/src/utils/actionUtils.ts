@@ -48,7 +48,7 @@ export async function executeAction(action: IFileAction) {
 
 	let displayName = action.id
 	try {
-		displayName = action.displayName(context)
+		displayName = action.displayName(context) || displayName
 	} catch (error) {
 		logger.error('Error while getting action display name', { action, error })
 	}

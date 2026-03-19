@@ -5,7 +5,7 @@
 
 import type { IFileAction } from '@nextcloud/files'
 
-import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
+import FolderEyeSvg from '@mdi/svg/svg/folder-eye-outline.svg?raw'
 import { FileType, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { isPublicShare } from '@nextcloud/sharing/public'
@@ -15,7 +15,7 @@ export const action: IFileAction = {
 	displayName() {
 		return t('files', 'View in folder')
 	},
-	iconSvgInline: () => FolderMoveSvg,
+	iconSvgInline: () => FolderEyeSvg,
 
 	enabled({ nodes, view }) {
 		// Not enabled for public shares
@@ -63,5 +63,5 @@ export const action: IFileAction = {
 		return null
 	},
 
-	order: 80,
+	order: 10,
 }

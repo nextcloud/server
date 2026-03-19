@@ -133,7 +133,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
 			->setExpirationDate($expirationDate)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 
@@ -215,7 +216,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 
@@ -268,7 +270,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 
@@ -359,7 +362,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 
@@ -431,7 +435,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
 			->setExpirationDate(new \DateTime('2019-02-01T01:02:03'))
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 		$this->addressHandler->expects($this->any())->method('generateRemoteURL')
@@ -450,11 +455,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$sharedBy . '@http://localhost'
 			)->willReturn(true);
 
-		if ($owner === $sharedBy) {
-			$this->provider->expects($this->never())->method('sendPermissionUpdate');
-		} else {
-			$this->provider->expects($this->once())->method('sendPermissionUpdate');
-		}
+		$this->provider->expects($this->never())->method('sendPermissionUpdate');
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
@@ -508,7 +509,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 		$this->provider->create($share);
 
 		$share2 = $this->shareManager->newShare();
@@ -517,7 +519,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 		$this->provider->create($share2);
 
 		$shares = $this->provider->getSharesBy('sharedBy', IShare::TYPE_REMOTE, null, false, -1, 0);
@@ -552,7 +555,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 		$this->provider->create($share);
 
 		$node2 = $this->getMockBuilder(File::class)->getMock();
@@ -565,7 +569,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node2);
+			->setNode($node2)
+			->setTarget('');
 		$this->provider->create($share2);
 
 		$shares = $this->provider->getSharesBy('sharedBy', IShare::TYPE_REMOTE, $node2, false, -1, 0);
@@ -599,7 +604,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 		$this->provider->create($share);
 
 		$share2 = $this->shareManager->newShare();
@@ -608,7 +614,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 		$this->provider->create($share2);
 
 		$shares = $this->provider->getSharesBy('shareOwner', IShare::TYPE_REMOTE, null, true, -1, 0);
@@ -649,7 +656,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 		$this->provider->create($share);
 
 		$share2 = $this->shareManager->newShare();
@@ -658,7 +666,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($node);
+			->setNode($node)
+			->setTarget('');
 		$this->provider->create($share2);
 
 		$shares = $this->provider->getSharesBy('shareOwner', IShare::TYPE_REMOTE, null, true, 1, 1);
@@ -839,7 +848,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner($u1->getUID())
 			->setPermissions(Constants::PERMISSION_READ)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($file1);
+			->setNode($file1)
+			->setTarget('');
 		$this->provider->create($share1);
 
 		$share2 = $this->shareManager->newShare();
@@ -848,7 +858,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner($u1->getUID())
 			->setPermissions(Constants::PERMISSION_READ)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($file2);
+			->setNode($file2)
+			->setTarget('');
 		$this->provider->create($share2);
 
 		$result = $this->provider->getSharesInFolder($u1->getUID(), $folder1, false);
@@ -899,7 +910,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner($u1->getUID())
 			->setPermissions(Constants::PERMISSION_READ)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($file1);
+			->setNode($file1)
+			->setTarget('');
 		$this->provider->create($share1);
 
 		$share2 = $this->shareManager->newShare();
@@ -908,7 +920,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner($u1->getUID())
 			->setPermissions(Constants::PERMISSION_READ)
 			->setShareType(IShare::TYPE_REMOTE)
-			->setNode($file1);
+			->setNode($file1)
+			->setTarget('');
 		$this->provider->create($share2);
 
 		$result = $this->provider->getAccessList([$file1], true);

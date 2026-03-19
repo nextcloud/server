@@ -199,14 +199,19 @@ class Repair implements IOutput {
 	 * @return list<IRepairStep>
 	 */
 	public static function getExpensiveRepairSteps(): array {
-		return [
+		$expensiveSteps = [
 			Server::get(OldGroupMembershipShares::class),
 			Server::get(RemoveBrokenProperties::class),
 			Server::get(RepairMimeTypes::class),
 			Server::get(DeleteSchedulingObjects::class),
 			Server::get(RemoveObjectProperties::class),
-			Server::get(CleanupShareTarget::class),
 		];
+
+		if (class_exists(CleanupShareTarget::class)) {
+			$expensiveSteps[] = Server::get(CleanupShareTarget::class);
+		}
+
+		return $expensiveSteps;
 	}
 
 	/**

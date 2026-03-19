@@ -167,8 +167,8 @@
     "Could not check that your web server is properly set up to allow file synchronization over WebDAV. Please check manually." : "Nun se pudo comprobar que'l sirvidor web se configurare afayadizamente pa permitir la configuración de ficheros per WebDAV. Compruébalo manualmente.",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "El sirividor web nun ta configuráu afayadizamente pa permitir la sincronización de ficheros porque la interfaz WebDAV paez tar estropiada.",
     "Your web server is properly set up to allow file synchronization over WebDAV." : "El sirvidor web ta configuráu afayadizamente pa permitir la sincronización de ficheros per WebDAV.",
-    "Migrated calendar (%1$s)" : "Calendariu migráu (%1$s)",
     "Calendars including events, details and attendees" : "Calendarios qu'inclúin eventos, detalles y asistentes",
+    "Migrated calendar (%1$s)" : "Calendariu migráu (%1$s)",
     "Contacts and groups" : "Contautos y grupos",
     "WebDAV" : "WebDAV",
     "Absence saved" : "Guardóse l'ausencia",
@@ -216,7 +216,6 @@
     "Please contact the organizer directly." : "Ponte en contautu direutamente cola organización.",
     "Are you accepting the invitation?" : "¿Aceptes la invitación?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "La to asistencia anovóse correutamente.",
-    "Time zone:" : "Fusu horariu:"
+    "Your attendance was updated successfully." : "La to asistencia anovóse correutamente."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

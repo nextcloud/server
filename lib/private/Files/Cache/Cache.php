@@ -16,6 +16,7 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\SystemConfig;
+use OCP\Constants;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -27,6 +28,7 @@ use OCP\Files\Cache\CacheInsertEvent;
 use OCP\Files\Cache\CacheUpdateEvent;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchComparison;
@@ -37,6 +39,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Util;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -201,24 +204,14 @@ class Cache implements ICache {
 		return new CacheEntry($normalized);
 	}
 
-	/**
-	 * get the metadata of all files stored in $folder
-	 *
-	 * @param string $folder
-	 * @return ICacheEntry[]
-	 */
-	public function getFolderContents($folder) {
+	#[Override]
+	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null) {
 		$fileId = $this->getId($folder);
-		return $this->getFolderContentsById($fileId);
+		return $this->getFolderContentsById($fileId, $mimeTypeFilter);
 	}
 
-	/**
-	 * get the metadata of all files stored in $folder
-	 *
-	 * @param int $fileId the file id of the folder
-	 * @return ICacheEntry[]
-	 */
-	public function getFolderContentsById($fileId) {
+	#[Override]
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null) {
 		if ($fileId > -1) {
 			$query = $this->getQueryBuilder();
 			$query->selectFileCache()
@@ -226,13 +219,22 @@ class Cache implements ICache {
 				->whereStorageId($this->getNumericStorageId())
 				->orderBy('name', 'ASC');
 
+			if ($mimeTypeFilter !== null) {
+				$mimetype = $this->mimetypeLoader->getId($mimeTypeFilter);
+				if (str_contains($mimeTypeFilter, '/')) {
+					$query->andWhere($query->expr()->eq('mimetype', $query->createNamedParameter($mimetype)));
+				} else {
+					$query->andWhere($query->expr()->eq('mimepart', $query->createNamedParameter($mimetype)));
+				}
+			}
+
 			$metadataQuery = $query->selectMetadata();
 
 			$result = $query->executeQuery();
 			$files = $result->fetchAll();
 			$result->closeCursor();
 
-			return array_map(function (array $data) use ($metadataQuery) {
+			return array_map(function (array $data) use ($metadataQuery): ICacheEntry {
 				$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
 				return self::cacheEntryFromData($data, $this->mimetypeLoader);
 			}, $files);
@@ -250,6 +252,12 @@ class Cache implements ICache {
 	 * @throws \RuntimeException
 	 */
 	public function put($file, array $data) {
+		// do not carry over creation_time to file versions, as each new version would otherwise
+		// create a filecache_extended entry with the same creation_time as the original file
+		if (str_starts_with($file, 'files_versions/')) {
+			unset($data['creation_time']);
+		}
+
 		if (($id = $this->getId($file)) > -1) {
 			$this->update($id, $data);
 			return $id;
@@ -825,7 +833,7 @@ class Cache implements ICache {
 			$this->connection->commit();
 
 			if ($sourceCache->getNumericStorageId() !== $this->getNumericStorageId()) {
-				\OCP\Server::get(\OCP\Files\Config\IUserMountCache::class)->clear();
+				Server::get(IUserMountCache::class)->clear();
 
 				$event = new CacheEntryRemovedEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId());
 				$this->eventDispatcher->dispatchTyped($event);
@@ -1217,6 +1225,12 @@ class Cache implements ICache {
 			throw new \RuntimeException('Invalid source cache entry on copyFromCache');
 		}
 		$data = $this->cacheEntryToArray($sourceEntry);
+		// since we are essentially creating a new file, we don't have to obey the source permissions
+		if ($sourceEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
+			$data['permissions'] = Constants::PERMISSION_ALL;
+		} else {
+			$data['permissions'] = Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+		}
 
 		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
 		if ($sourceCache instanceof Cache

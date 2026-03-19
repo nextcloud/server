@@ -20,6 +20,7 @@ use OCP\Files\NotFoundException;
 class Manager implements IMountManager {
 	/** @var array<string, IMountPoint> */
 	private array $mounts = [];
+	private array $mountsByProvider = [];
 	private bool $areMountsSorted = false;
 	/** @var list<string>|null $mountKeys */
 	private ?array $mountKeys = null;
@@ -36,7 +37,11 @@ class Manager implements IMountManager {
 	}
 
 	public function addMount(IMountPoint $mount): void {
-		$this->mounts[$mount->getMountPoint()] = $mount;
+		$mountPoint = $mount->getMountPoint();
+		$mountProvider = $mount->getMountProvider();
+		$this->mounts[$mountPoint] = $mount;
+		$this->mountsByProvider[$mountProvider] ??= [];
+		$this->mountsByProvider[$mountProvider][$mountPoint] = $mount;
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
 		$this->areMountsSorted = false;
@@ -167,6 +172,7 @@ class Manager implements IMountManager {
 
 	public function clear(): void {
 		$this->mounts = [];
+		$this->mountsByProvider = [];
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
 	}
@@ -236,15 +242,18 @@ class Manager implements IMountManager {
 	 * @param string[] $mountProviders
 	 * @return array<string, IMountPoint>
 	 */
-	public function getMountsByMountProvider(string $path, array $mountProviders) {
+	public function getMountsByMountProvider(string $path, array $mountProviders): array {
 		$this->getSetupManager()->setupForProvider($path, $mountProviders);
-		if (in_array('', $mountProviders)) {
+		if (\in_array('', $mountProviders)) {
 			return $this->mounts;
-		} else {
-			return array_filter($this->mounts, function ($mount) use ($mountProviders) {
-				return in_array($mount->getMountProvider(), $mountProviders);
-			});
 		}
+
+		$mounts = [];
+		foreach ($mountProviders as $mountProvider) {
+			$mounts[] = $this->mountsByProvider[$mountProvider] ?? [];
+		}
+
+		return array_merge(...$mounts);
 	}
 
 	/**

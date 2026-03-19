@@ -14,6 +14,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\ExAppRequiredException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
+use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
@@ -280,6 +281,9 @@ class SecurityMiddleware extends Middleware {
 				}
 			}
 
+			if ($exception instanceof NotConfirmedException) {
+				$response->addHeader('X-NC-Auth-NotConfirmed', 'true');
+			}
 			$this->logger->debug($exception->getMessage(), [
 				'exception' => $exception,
 			]);

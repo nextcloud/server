@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada",
     "Collaborative tags …" : "Ühistegevuslikud sildid…",
     "Loading …" : "Laadimine ...",
-    "File tags modification canceled" : "Failide siltide muutmine on katkestatud",
-    "Select or create tags to apply to all selected files" : "Vali või loo sildid kõikide valitud failide jaoks",
-    "Select tags to apply to all selected files" : "Vali sildid kõikide valitud failide jaoks",
-    "Apply changes" : "Rakenda muudatused",
     "Loading collaborative tags …" : "Laadin ühistegevuslikke silte…"
 },
 "nplurals=2; plural=(n != 1);");

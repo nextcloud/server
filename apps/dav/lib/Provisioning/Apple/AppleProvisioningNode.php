@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,6 +9,7 @@
 namespace OCA\DAV\Provisioning\Apple;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Constants;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
@@ -58,7 +61,7 @@ class AppleProvisioningNode implements INode, IProperties {
 
 		return [
 			'{DAV:}getcontentlength' => 42,
-			'{DAV:}getlastmodified' => $datetime->format(\DateTimeInterface::RFC7231),
+			'{DAV:}getlastmodified' => $datetime->format(Constants::DATE_RFC7231),
 		];
 	}
 

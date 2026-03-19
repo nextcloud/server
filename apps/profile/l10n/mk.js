@@ -2,6 +2,8 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Профил",
+    "Searching …" : "Пребарување …",
+    "Not found" : "Не е пронајдено",
     "You have not added any info yet" : "Сè уште немате додадено никакви информации",
     "{user} has not added any info yet" : "{user} нема додадено никакви информации",
     "Edit Profile" : "Уреди профил",

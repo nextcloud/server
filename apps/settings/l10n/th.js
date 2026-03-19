@@ -260,20 +260,12 @@ OC.L10N.register(
     "Strong password" : "รหัสผ่านระดับดีมาก",
     "Group list is empty" : "รายชื่อกลุ่มว่างอยู่",
     "Unable to retrieve the group list" : "ไม่สามารถดึงรายชื่อกลุ่ม",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "แอปนี้ไม่ได้ระบุรุ่นขั้นต่ำของ Nextcloud ซึ่งอาจเป็นปัญหาในอนาคตได้",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "แอปนี้ไม่ได้ระบุรุ่นสูงสุดของ Nextcloud ซึ่งอาจเป็นปัญหาในอนาคตได้",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "ในกรณีที่อุปกรณ์สูญหายหรือออกจากองค์กร ตัวเลือกนี้สามารถล้างข้อมูล Nextcloud จากทุกอุปกรณ์ที่เชื่อมโยงกับ {userid} จากระยะไกล การล้างข้อมูลจะทำงานเฉพาะเมื่ออุปกรณ์เชื่อมต่อกับอินเทอร์เน็ตเท่านั้น",
     "Adding your device …" : "กำลังเพิ่มอุปกรณ์ …",
     "Sending…" : "กำลังส่ง....",
     "Email sent" : "ส่งอีเมลแล้ว",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "แอปนี้ยังไม่ถูกระบุว่ารองรับกับรุ่น Nextcloud ของคุณ หากคุณดำเนินการต่อ คุณจะสามารถติดตั้งแอปได้ แต่แอปอาจไม่ทำงานอย่างที่คาดหวังไว้",
     "SSL" : "SSL",
     "Credentials" : "ข้อมูลส่วนตัวสำหรับเข้าระบบ",
     "SMTP Password" : "รหัสผ่าน SMTP",
-    "Save" : "บันทึก",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "การกำหนดค่าทุกอย่างให้ถูกต้องเป็นสิ่งสำคัญสำหรับความปลอดภัยและประสิทธิภาพของเซิร์ฟเวอร์ของคุณ เพื่อช่วยคุณในเรื่องนี้ เรากำลังทำการตรวจสอบอัตโนมัติ โปรดดูเอกสารประกอบที่ลิงก์มาสำหรับข้อมูลเพิ่มเติม",
-    "Checking for system and security issues." : "กำลังตรวจสอบปัญหาระบบและความปลอดภัย",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "โปรดตรวจสอบ<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">คู่มือการติดตั้ง ↗</a>ซ้ำ และตรวจสอบข้อผิดพลาดหรือคำเตือนใน<a href=\"%2$s\">บันทึก</a>",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "ตรวจสอบความปลอดภัยของ Nextcloud ของคุณผ่าน<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">การสแกนความปลอดภัยของเรา ↗</a>"
+    "Save" : "บันทึก"
 },
 "nplurals=1; plural=0;");

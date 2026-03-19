@@ -150,13 +150,13 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById): SearchResultEntry {
 			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::$componentType);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
-			$subline = $this->generateSubline($component);
 
 			if ($eventRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {
 				$calendar = $calendarsById[$eventRow['calendarid']];
 			} else {
 				$calendar = $subscriptionsById[$eventRow['calendarid']];
 			}
+			$subline = $this->generateSubline($component, $calendar);
 			$resourceUrl = $this->getDeepLinkToCalendarApp($calendar['principaluri'], $calendar['uri'], $eventRow['uri']);
 			$result = new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
 
@@ -204,7 +204,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 			. $calendarObjectUri;
 	}
 
-	protected function generateSubline(Component $eventComponent): string {
+	protected function generateSubline(Component $eventComponent, array $calendarInfo): string {
 		$dtStart = $eventComponent->DTSTART;
 		$dtEnd = $this->getDTEndForEvent($eventComponent);
 		$isAllDayEvent = $dtStart instanceof Property\ICalendar\Date;
@@ -214,24 +214,31 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		if ($isAllDayEvent) {
 			$endDateTime->modify('-1 day');
 			if ($this->isDayEqual($startDateTime, $endDateTime)) {
-				return $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
+				$formattedSubline = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
+			} else {
+				$formattedStart = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
+				$formattedEnd = $this->l10n->l('date', $endDateTime, ['width' => 'medium']);
+				$formattedSubline = "$formattedStart - $formattedEnd";
 			}
+		} else {
+			$formattedStartDate = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
+			$formattedEndDate = $this->l10n->l('date', $endDateTime, ['width' => 'medium']);
+			$formattedStartTime = $this->l10n->l('time', $startDateTime, ['width' => 'short']);
+			$formattedEndTime = $this->l10n->l('time', $endDateTime, ['width' => 'short']);
 
-			$formattedStart = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
-			$formattedEnd = $this->l10n->l('date', $endDateTime, ['width' => 'medium']);
-			return "$formattedStart - $formattedEnd";
+			if ($this->isDayEqual($startDateTime, $endDateTime)) {
+				$formattedSubline = "$formattedStartDate $formattedStartTime - $formattedEndTime";
+			} else {
+				$formattedSubline = "$formattedStartDate $formattedStartTime - $formattedEndDate $formattedEndTime";
+			}
 		}
 
-		$formattedStartDate = $this->l10n->l('date', $startDateTime, ['width' => 'medium']);
-		$formattedEndDate = $this->l10n->l('date', $endDateTime, ['width' => 'medium']);
-		$formattedStartTime = $this->l10n->l('time', $startDateTime, ['width' => 'short']);
-		$formattedEndTime = $this->l10n->l('time', $endDateTime, ['width' => 'short']);
-
-		if ($this->isDayEqual($startDateTime, $endDateTime)) {
-			return "$formattedStartDate $formattedStartTime - $formattedEndTime";
+		if (isset($calendarInfo['{DAV:}displayname']) && !empty($calendarInfo['{DAV:}displayname'])) {
+			$formattedSubline = $formattedSubline . " ({$calendarInfo['{DAV:}displayname']})";
 		}
 
-		return "$formattedStartDate $formattedStartTime - $formattedEndDate $formattedEndTime";
+		// string cast is just to make psalm happy
+		return (string)$formattedSubline;
 	}
 
 	protected function getDTEndForEvent(Component $eventComponent):Property {

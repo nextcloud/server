@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Нема избришани датотеки",
     "Files and folders you have deleted will show up here" : "Датотеките и папките кои ги имате избришано ќе се појават тука",
     "All files have been permanently deleted" : "Сите датотеки и папки се избришани",
-    "Failed to empty deleted files" : "Неуспешно бришење на сите датотеки од корпата",
-    "Deletion cancelled" : "Бришењето е откажано"
+    "Failed to empty deleted files" : "Неуспешно бришење на сите датотеки од корпата"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -102,9 +102,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Boga·nche sa cunfiguratzione open_basedir in su php.ini tuo o càmbia a su PHP a 64-bit.",
     "Set an admin password." : "Cunfigura una crae de amministratzione.",
     "Cannot create or write into the data directory %s" : "No faghet a creare o a iscriere a intro de sa cartella de datos %s",
-    "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Su motore de cumpartzidura %s depet cumpletare s'interfache OCP\\Share_Backend",
-    "Sharing backend %s not found" : "Motore de cumpartzidura%s no agatadu",
-    "Sharing backend for %s not found" : "Motore de cumpartzidura pro %s no agatadu",
     "%1$s via %2$s" : "%1$s cun %2$s",
     "Unknown share type" : "Genia de cumpartzidura disconnota",
     "Shared path must be either a file or a folder" : "Su percursu cumpartzidu depet èssere un'archìviu o una cartella",
@@ -166,9 +163,6 @@
     "Login canceled by app" : "Atzessu annulladu dae s'aplicatzione",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Non faghet a installare s'aplicatzione %1$s ca is dipendèntzias in fatu non sunt  satisfatos:%2$s",
     "a safe home for all your data" : "unu logu seguru pro totu is datos tuos",
-    "Application is not enabled" : "S'aplicatzione no est ativada",
-    "Authentication error" : "Errore de autenticatzione",
-    "Token expired. Please reload page." : "Token iscadidu. Torra a carrigare sa pàgina.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Perunu driver de base de datos (sqlite, mysql, or postgresql) installadu.",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Ma si preferis mantènnere s'archìviu config.php comente de letura isceti, cunfigura s'optzione \"config_is_read_only\" comente \"true\". Càstia %s",
     "PHP module %s not installed." : "Su mòdulu PHP %s no est installadu.",
@@ -202,6 +196,11 @@
     "Translate" : "Borta",
     "Result" : "Resurtadu",
     "Generate headline" : "Gènera unu tìtulu",
-    "Organisation" : "Organizatzione"
+    "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Su motore de cumpartzidura %s depet cumpletare s'interfache OCP\\Share_Backend",
+    "Sharing backend %s not found" : "Motore de cumpartzidura%s no agatadu",
+    "Sharing backend for %s not found" : "Motore de cumpartzidura pro %s no agatadu",
+    "Application is not enabled" : "S'aplicatzione no est ativada",
+    "Authentication error" : "Errore de autenticatzione",
+    "Token expired. Please reload page." : "Token iscadidu. Torra a carrigare sa pàgina."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -167,13 +167,8 @@
     "Unauthorized" : "Neamhúdaraithe",
     "Network error" : "Earráid líonra",
     "Grant access" : "Deonaigh rochtain",
-    "Error configuring OAuth1" : "Earráid agus OAuth1 á chumrú",
-    "Please provide a valid app key and secret." : "Tabhair eochair feidhmchláir agus rún bailí le do thoil.",
     "Error configuring OAuth2" : "Earráid agus OAuth2 á chumrú",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Eochair aip",
-    "App secret" : "Rúnda aip",
     "OAuth2" : "OAuth2",
     "Client ID" : "Aitheantas Cliant",
     "Client secret" : "Rún an chliaint",
@@ -188,7 +183,8 @@
     "Unknown backend: {backendName}" : "Inneall anaithnid: {backendName}",
     "Admin defined" : "Riarachán sainithe",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Tá seiceáil stádais uathoibríoch díchumasaithe mar gheall ar an líon mór stórais cumraithe, cliceáil chun stádas a sheiceáil",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "An bhfuil tú cinnte gur mhaith leat an stóras seachtrach seo a dhínascadh? Fágfaidh sé nach mbeidh an stóráil ar fáil in Nextcloud agus scriosfar na comhaid agus na fillteáin seo ar aon chliant sioncronaithe atá ceangailte faoi láthair ach ní scriosfaidh sé aon chomhaid agus fillteáin ar an stóráil sheachtrach féin.",
+    "Are you sure you want to disconnect this external storage?" : "An bhfuil tú cinnte gur mian leat an stóráil sheachtrach seo a dhícheangal?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Cuirfidh sé seo deireadh leis an stóráil i {instanceName} agus scriosfar na comhaid agus na fillteáin seo ar aon chliant sioncrónaithe atá ceangailte faoi láthair ach ní scriosfar aon chomhaid ná fillteáin ar an stóráil sheachtrach féin.",
     "Delete storage?" : "An bhfuil fonn ort an stóras a scriosadh?",
     "Click to recheck the configuration" : "Cliceáil chun an chumraíocht a athsheiceáil",
     "Saving …" : "Shábháil …",
@@ -200,8 +196,6 @@
     "Configuration" : "Cumraíocht",
     "Available for" : "Ar fáil le haghaidh",
     "All people" : "Gach duine",
-    "Advanced settings" : "Ardsocruithe",
-    "Are you sure you want to disconnect this external storage?" : "An bhfuil tú cinnte gur mian leat an stóráil sheachtrach seo a dhícheangal?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Cuirfidh sé seo deireadh leis an stóráil i {instanceName} agus scriosfar na comhaid agus na fillteáin seo ar aon chliant sioncrónaithe atá ceangailte faoi láthair ach ní scriosfar aon chomhaid ná fillteáin ar an stóráil sheachtrach féin."
+    "Advanced settings" : "Ardsocruithe"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

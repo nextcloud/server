@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Geen verwijderde bestanden",
     "Files and folders you have deleted will show up here" : "Bestanden en mappen die je verwijderd hebt worden hier getoond",
     "All files have been permanently deleted" : "Alle bestanden zijn permanent verwijderd",
-    "Failed to empty deleted files" : "Mislukt om de verwijderde bestanden leeg te maken",
-    "Deletion cancelled" : "Verwijdering geannuleerd"
+    "Failed to empty deleted files" : "Mislukt om de verwijderde bestanden leeg te maken"
 },
 "nplurals=2; plural=(n != 1);");

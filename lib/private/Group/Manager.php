@@ -63,14 +63,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 	) {
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 
-		$this->listen('\OC\Group', 'postDelete', function (IGroup $group): void {
+		$this->listen('\OC\Group', 'preDelete', function (IGroup $group): void {
 			unset($this->cachedGroups[$group->getGID()]);
 			$this->cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postAddUser', function (IGroup $group): void {
+		$this->listen('\OC\Group', 'preAddUser', function (IGroup $group): void {
 			$this->cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postRemoveUser', function (IGroup $group): void {
+		$this->listen('\OC\Group', 'preRemoveUser', function (IGroup $group): void {
 			$this->cachedUserGroups = [];
 		});
 	}
@@ -391,15 +391,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}, $this->getUserGroups($user));
 	}
 
-	/**
-	 * get a list of all display names in a group
-	 *
-	 * @param string $gid
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array an array of display names (value) and user ids (key)
-	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = $this->get($gid);
 		if (is_null($group)) {

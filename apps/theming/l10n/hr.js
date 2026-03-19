@@ -109,6 +109,7 @@ OC.L10N.register(
     "Reset primary color" : "Vrati primarnu boju",
     "Reset to default" : "Vrati na zadanu postavku",
     "Non image file selected" : "Odabrana je datoteka koja nije slika",
+    "Failed to upload image" : "Otpremanje slike nije uspjelo",
     "Preview of the selected image" : "Pregled odabrane slike",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Univerzalna pristupačnost nam je vrlo važna. Slijedimo web-standarde i provjeravamo da je sve upotrebljivo i bez miša te uz pomoć asistivnog softvera, poput čitača zaslona. Nastojimo biti usklađeni sa smjernicama {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 na razini AA, a s temom visokog kontrasta čak i na razini AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ako primijetite probleme, slobodno ih prijavite u {issuetracker}našem sustavu za prijavu problema{linkend}. A ako se želite uključiti, pridružite se {designteam}našem dizajnerskom timu{linkend}!",
@@ -129,8 +130,6 @@ OC.L10N.register(
     "Background and login image" : "Pozadina i slika za prijavu",
     "Advanced options" : "Napredne opcije",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalirajte PHP proširenje ImageMagick s podrškom za SVG slike kako bi se favicona automatski generirala na temelju prenesenog logotipa i boje.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Nama je vrlo važno osigurati univerzalan pristup. Pratimo sve internetske i mrežne standarde i provjeravamo je li sustav upotrebljiv bez miša i pomoćnog softvera, kao što je čitač zaslona. Naš je cilj postići sukladnost sa {guidelines}Smjernicama pristupačnosti web-sadržaja{linkend} 2.1 na razini AA s temom jakog kontrasta na razini AAA.",
-    ". Unable to apply the setting." : ". Nije moguće primijeniti postavku.",
     "No background has been selected" : "Nije odabrana nijedna pozadina",
     "Select a custom color" : "Odaberite prilagođenu boju",
     "Upload" : "Otpremi"

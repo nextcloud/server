@@ -73,7 +73,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0-rc.1
+	- version: 4.0.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -88,7 +88,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.3.5
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 3.0.0
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
@@ -139,7 +139,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.4
 	- license: MIT
 - dompurify
-	- version: 3.3.1
+	- version: 3.3.3
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
@@ -159,8 +159,11 @@ This file is generated from multiple sources. Included packages:
 - events
 	- version: 3.3.0
 	- license: MIT
+- fast-xml-builder
+	- version: 1.1.4
+	- license: MIT
 - fast-xml-parser
-	- version: 5.3.4
+	- version: 5.5.6
 	- license: MIT
 - for-each
 	- version: 0.3.5
@@ -246,6 +249,9 @@ This file is generated from multiple sources. Included packages:
 - object-inspect
 	- version: 1.13.4
 	- license: MIT
+- path-expression-matcher
+	- version: 1.1.3
+	- license: MIT
 - path-posix
 	- version: 1.0.0
 	- license: ISC
@@ -262,7 +268,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.1
+	- version: 6.14.2
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
@@ -340,13 +346,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.1
 	- license: BSD-2-Clause
 - minimatch
-	- version: 9.0.5
+	- version: 9.0.9
 	- license: ISC
 - webdav
 	- version: 5.9.0
 	- license: MIT
 - webpack
-	- version: 5.105.0
+	- version: 5.105.3
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19

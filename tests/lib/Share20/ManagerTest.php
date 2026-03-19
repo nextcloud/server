@@ -18,6 +18,9 @@ use OC\Share20\Manager;
 use OC\Share20\Share;
 use OC\Share20\ShareDisableChecker;
 use OCP\Constants;
+use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -33,6 +36,7 @@ use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -59,6 +63,7 @@ use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Util;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -75,7 +80,7 @@ class DummyShareManagerListener {
  *
  * @package Test\Share20
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group(name: 'DB')]
 class ManagerTest extends \Test\TestCase {
 	protected Manager $manager;
 	protected LoggerInterface&MockObject $logger;
@@ -97,6 +102,7 @@ class ManagerTest extends \Test\TestCase {
 	private DateTimeZone $timezone;
 	protected IDateTimeZone&MockObject $dateTimeZone;
 	protected IAppConfig&MockObject $appConfig;
+	protected IDBConnection&MockObject $connection;
 
 	protected function setUp(): void {
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -110,6 +116,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
+		$this->connection = $this->createMock(IDBConnection::class);
 
 		$this->shareDisabledChecker = new ShareDisableChecker($this->config, $this->userManager, $this->groupManager);
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
@@ -157,6 +164,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->shareDisabledChecker,
 			$this->dateTimeZone,
 			$this->appConfig,
+			$this->connection,
 		);
 	}
 
@@ -182,6 +190,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->shareDisabledChecker,
 				$this->dateTimeZone,
 				$this->appConfig,
+				$this->connection,
 			]);
 	}
 
@@ -458,6 +467,7 @@ class ManagerTest extends \Test\TestCase {
 			->getMock();
 
 		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(42);
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
@@ -485,6 +495,33 @@ class ManagerTest extends \Test\TestCase {
 		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
 
 		$manager->expects($this->exactly(1))->method('updateShare')->with($reShare)->willReturn($reShare);
+
+		$this->userManager->method('userExists')->willReturn(true);
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
+		$userFolder->method('getFirstNodeById')
+			->with(42)
+			->willReturn($file);
+
+		$qb = $this->createMock(IQueryBuilder::class);
+		$result = $this->createMock(IResult::class);
+		$qb->method('select')
+			->willReturn($qb);
+		$qb->method('from')
+			->willReturn($qb);
+		$qb->method('andWhere')
+			->willReturn($qb);
+		$qb->method('expr')
+			->willReturn($this->createMock(IExpressionBuilder::class));
+		$qb->method('executeQuery')
+			->willReturn($result);
+		$this->connection->method('getQueryBuilder')
+			->willReturn($qb);
+		$result->method('fetch')
+			->willReturnOnConsecutiveCalls(
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
+				false,
+			);
 
 		self::invokePrivate($manager, 'promoteReshares', [$share]);
 	}
@@ -523,14 +560,18 @@ class ManagerTest extends \Test\TestCase {
 		$reShareInOtherFolder->method('getNode')->willReturn($otherFolder);
 
 		$this->defaultProvider->method('getSharesBy')
-			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($reShare, $reShareInSubFolder, $reShareInOtherFolder) {
+			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($folder, $subFolder, $reShare, $reShareInSubFolder, $reShareInOtherFolder) {
 				if ($shareType === IShare::TYPE_USER) {
-					return match($userId) {
-						'userB' => [$reShare,$reShareInSubFolder,$reShareInOtherFolder],
-					};
-				} else {
-					return [];
+					if ($userId === 'userB') {
+						if ($node === $folder) {
+							return [$reShare];
+						}
+						if ($node === $subFolder) {
+							return [$reShareInSubFolder];
+						}
+					}
 				}
+				$this->fail();
 			});
 		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
 
@@ -545,6 +586,40 @@ class ManagerTest extends \Test\TestCase {
 				$this->assertEquals($expected, $share);
 				return $expected;
 			});
+
+		$this->userManager->method('userExists')->willReturn(true);
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
+		$userFolder->method('getFirstNodeById')
+			->willReturnCallback(function ($id) use ($subFolder, $otherFolder, $folder) {
+				return match ($id) {
+					41 => $subFolder,
+					42 => $otherFolder,
+					43 => $folder,
+				};
+			});
+
+		$qb = $this->createMock(IQueryBuilder::class);
+		$result = $this->createMock(IResult::class);
+		$qb->method('select')
+			->willReturn($qb);
+		$qb->method('from')
+			->willReturn($qb);
+		$qb->method('andWhere')
+			->willReturn($qb);
+		$qb->method('expr')
+			->willReturn($this->createMock(IExpressionBuilder::class));
+		$qb->method('executeQuery')
+			->willReturn($result);
+		$this->connection->method('getQueryBuilder')
+			->willReturn($qb);
+		$result->method('fetch')
+			->willReturnOnConsecutiveCalls(
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 41],
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 43],
+				false,
+			);
 
 		self::invokePrivate($manager, 'promoteReshares', [$share]);
 	}
@@ -573,6 +648,33 @@ class ManagerTest extends \Test\TestCase {
 
 		/* No share is promoted because generalCreateChecks does not throw */
 		$manager->expects($this->never())->method('updateShare');
+
+		$this->userManager->method('userExists')->willReturn(true);
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
+		$userFolder->method('getFirstNodeById')
+			->with(42)
+			->willReturn($folder);
+
+		$qb = $this->createMock(IQueryBuilder::class);
+		$result = $this->createMock(IResult::class);
+		$qb->method('select')
+			->willReturn($qb);
+		$qb->method('from')
+			->willReturn($qb);
+		$qb->method('andWhere')
+			->willReturn($qb);
+		$qb->method('expr')
+			->willReturn($this->createMock(IExpressionBuilder::class));
+		$qb->method('executeQuery')
+			->willReturn($result);
+		$this->connection->method('getQueryBuilder')
+			->willReturn($qb);
+		$result->method('fetch')
+			->willReturnOnConsecutiveCalls(
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
+				false,
+			);
 
 		self::invokePrivate($manager, 'promoteReshares', [$share]);
 	}
@@ -629,6 +731,13 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->method('getSharedWith')->willReturn([]);
 
+		$this->userManager->method('userExists')->willReturn(true);
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
+		$userFolder->method('getFirstNodeById')
+			->with(42)
+			->willReturn($folder);
+
 		$calls = [
 			$reShare1,
 			$reShare2,
@@ -640,6 +749,27 @@ class ManagerTest extends \Test\TestCase {
 				$this->assertEquals($expected, $share);
 				return $expected;
 			});
+
+		$qb = $this->createMock(IQueryBuilder::class);
+		$result = $this->createMock(IResult::class);
+		$qb->method('select')
+			->willReturn($qb);
+		$qb->method('from')
+			->willReturn($qb);
+		$qb->method('andWhere')
+			->willReturn($qb);
+		$qb->method('expr')
+			->willReturn($this->createMock(IExpressionBuilder::class));
+		$qb->method('executeQuery')
+			->willReturn($result);
+		$this->connection->method('getQueryBuilder')
+			->willReturn($qb);
+		$result->method('fetch')
+			->willReturnOnConsecutiveCalls(
+				['uid_initiator' => 'userB', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
+				['uid_initiator' => 'userC', 'share_type' => IShare::TYPE_USER, 'uid_owner' => 'userA', 'file_source' => 42],
+				false,
+			);
 
 		self::invokePrivate($manager, 'promoteReshares', [$share]);
 	}
@@ -1199,7 +1329,7 @@ class ManagerTest extends \Test\TestCase {
 		}
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P3D'));
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
@@ -1232,7 +1362,7 @@ class ManagerTest extends \Test\TestCase {
 		}
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P1D'));
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
@@ -1279,7 +1409,7 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1319,7 +1449,7 @@ class ManagerTest extends \Test\TestCase {
 		$date->setTime(1, 2, 3);
 
 		$expected = clone $date;
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1359,7 +1489,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setShareType($shareType);
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P3D'));
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
@@ -1397,7 +1527,7 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1434,7 +1564,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testValidateExpirationDateInternalHookModification($shareType): void {
 		$nextWeek = new \DateTime('now', $this->timezone);
 		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(0, 0, 0);
+		$nextWeek->setTime(23, 59, 59);
 
 		$save = clone $nextWeek;
 
@@ -1461,7 +1591,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$nextWeek = new \DateTime();
 		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(0, 0, 0);
+		$nextWeek->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1562,7 +1692,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P3D'));
 
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
@@ -1587,7 +1717,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$expected = new \DateTime('now', $this->timezone);
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->add(new \DateInterval('P1D'));
 
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
@@ -1626,7 +1756,7 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($future);
@@ -1659,7 +1789,7 @@ class ManagerTest extends \Test\TestCase {
 		$date->setTime(1, 2, 3);
 
 		$expected = clone $date;
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1696,7 +1826,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$expected = new \DateTime('now', $this->timezone);
 		$expected->add(new \DateInterval('P3D'));
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$this->config->method('getAppValue')
@@ -1728,7 +1858,7 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1764,7 +1894,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$expected = clone $future;
 		$expected->setTimezone($this->timezone);
-		$expected->setTime(0, 0);
+		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1798,7 +1928,7 @@ class ManagerTest extends \Test\TestCase {
 		$nextWeek->add(new \DateInterval('P7D'));
 
 		$save = clone $nextWeek;
-		$save->setTime(0, 0);
+		$save->setTime(23, 59, 59);
 		$save->sub(new \DateInterval('P2D'));
 		$save->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
@@ -1822,7 +1952,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$nextWeek = new \DateTime();
 		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(0, 0, 0);
+		$nextWeek->setTime(23, 59, 59);
 
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($nextWeek);
@@ -2486,7 +2616,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testCreateShareUser(): void {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->createManagerMock()
-			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks'])
+			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -2521,6 +2651,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
+		$manager->expects($this->once())
+			->method('validateExpirationDateInternal')
+			->with($share)
+			->willReturnArgument(0);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -2540,7 +2674,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testCreateShareGroup(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['canShare', 'generalCreateChecks', 'groupCreateChecks', 'pathCreateChecks'])
+			->onlyMethods(['canShare', 'generalCreateChecks', 'groupCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -2575,6 +2709,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
+		$manager->expects($this->once())
+			->method('validateExpirationDateInternal')
+			->with($share)
+			->willReturnArgument(0);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -2806,6 +2944,7 @@ class ManagerTest extends \Test\TestCase {
 				'generalCreateChecks',
 				'userCreateChecks',
 				'pathCreateChecks',
+				'validateExpirationDateInternal',
 			])
 			->getMock();
 
@@ -2841,6 +2980,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
+		$manager->expects($this->once())
+			->method('validateExpirationDateInternal')
+			->with($share)
+			->willReturnArgument(0);
 
 		$share->expects($this->once())
 			->method('setShareOwner')
@@ -2865,7 +3008,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testCreateShareOfIncomingFederatedShare(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks'])
+			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -2919,6 +3062,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
+		$manager->expects($this->once())
+			->method('validateExpirationDateInternal')
+			->with($share)
+			->willReturnArgument(0);
 
 		$this->defaultProvider
 			->expects($this->once())

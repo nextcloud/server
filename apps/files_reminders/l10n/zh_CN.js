@@ -24,8 +24,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "本周末提醒",
     "Next week" : "下周",
     "Set reminder for next week" : "下周提醒",
-    "Set reminder for \"{fileName}\"" : "设置文件 “{fileName}” 的提醒",
-    "Set reminder at custom date & time" : "设置自定义日期&时间提醒",
-    "Set custom reminder" : "设置自定义提醒"
+    "Set reminder for \"{fileName}\"" : "设置文件 “{fileName}” 的提醒"
 },
 "nplurals=1; plural=0;");

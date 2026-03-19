@@ -51,8 +51,6 @@
     "The selected update channel does not support updates of the server." : "Valda uppfærslurásin styður ekki uppfærslur fyrir vefþjóninn.",
     "Changelog for app {app}" : "Breytingaskrá fyrir forritið {app}",
     "What's new in {app} version {version}" : "Það sem er nýtt í {app} útgáfu {version}",
-    "{version} is available. Get more information on how to update." : "{version} er í boði. Fáðu frekari upplýsingar um hvernig á að uppfæra.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Öll</strong> forrit eru með tiltækar uppfærslur fyrir þessa útgáfu Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> forrit er með tiltæka uppfærslu fyrir þessa útgáfu Nextcloud.","<strong>%n</strong> forrit eru ekki með neina tiltæka uppfærslu fyrir þessa útgáfu Nextcloud."]
+    "{version} is available. Get more information on how to update." : "{version} er í boði. Fáðu frekari upplýsingar um hvernig á að uppfæra."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

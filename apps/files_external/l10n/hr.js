@@ -169,13 +169,8 @@ OC.L10N.register(
     "Unauthorized" : "Neovlašteno",
     "Network error" : "Pogreška mreže",
     "Grant access" : "Dodijeli pristup",
-    "Error configuring OAuth1" : "Pogreška pri konfiguriranju OAuth1",
-    "Please provide a valid app key and secret." : "Unesite važeći ključ aplikacije i tajnu.",
     "Error configuring OAuth2" : "Pogreška pri konfiguriranju OAuth2",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Ključ aplikacije",
-    "App secret" : "Tajna aplikacije",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID klijenta",
     "Client secret" : "Tajni ključ klijenta",
@@ -190,7 +185,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Nepoznat pozadinski sustav: {backendName}",
     "Admin defined" : "Definira administrator",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatska provjera statusa onemogućena je zbog velikog broja konfiguriranih pohrana, kliknite za provjeru statusa",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Jeste li sigurni da želite odspojiti ovu vanjsku pohranu? Time će pohrana postati nedostupna u Nextcloudu i uzrokovat će brisanje tih datoteka i mapa na svim sinkronizacijskim klijentima koji su trenutačno povezani, ali neće izbrisati nijednu datoteku ni mapu na samoj vanjskoj pohrani.",
+    "Are you sure you want to disconnect this external storage?" : "Jeste li sigurni da želite odspojiti ovu vanjsku pohranu?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Time će pohrana postati nedostupna u {instanceName} i dovest će do brisanja tih datoteka i mapa na svim sinkronizacijskim klijentima koji su trenutačno povezani, ali neće izbrisati nijednu datoteku ni mapu na samoj vanjskoj pohrani.",
     "Delete storage?" : "Želite li izbrisati pohranu?",
     "Click to recheck the configuration" : "Kliknite za ponovnu provjeru konfiguracije",
     "Saving …" : "Spremanje...",
@@ -202,8 +198,6 @@ OC.L10N.register(
     "Configuration" : "Konfiguracija",
     "Available for" : "Dostupno za",
     "All people" : "Svi korisnici",
-    "Advanced settings" : "Napredne postavke",
-    "Are you sure you want to disconnect this external storage?" : "Jeste li sigurni da želite odspojiti ovu vanjsku pohranu?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Time će pohrana postati nedostupna u {instanceName} i dovest će do brisanja tih datoteka i mapa na svim sinkronizacijskim klijentima koji su trenutačno povezani, ali neće izbrisati nijednu datoteku ni mapu na samoj vanjskoj pohrani."
+    "Advanced settings" : "Napredne postavke"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

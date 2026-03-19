@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 use OC\Profiler\BuiltInProfiler;
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Share20\GroupDeletedListener;
 use OC\Share20\Hooks;
 use OC\Share20\UserDeletedListener;
@@ -22,6 +23,7 @@ use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
@@ -298,7 +300,7 @@ class OC {
 		Util::addScript('core', 'update');
 
 		$initialState = Server::get(IInitialStateService::class);
-		$serverVersion = \OCP\Server::get(\OCP\ServerVersion::class);
+		$serverVersion = Server::get(\OCP\ServerVersion::class);
 		if ($disableWebUpdater || ($tooBig && !$ignoreTooBigWarning)) {
 			// send http status 503
 			http_response_code(503);
@@ -621,7 +623,7 @@ class OC {
 		 * @see \OCP\AppFramework\Http\Response::getHeaders
 		 */
 		$policy = 'default-src \'self\'; '
-			. 'script-src \'self\' \'nonce-' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '\'; '
+			. 'script-src \'self\' \'nonce-' . Server::get(ContentSecurityPolicyNonceManager::class)->getNonce() . '\'; '
 			. 'style-src \'self\' \'unsafe-inline\'; '
 			. 'frame-src *; '
 			. 'img-src * data: blob:; '
@@ -727,7 +729,7 @@ class OC {
 		$config = Server::get(IConfig::class);
 		if (!defined('PHPUNIT_RUN')) {
 			$errorHandler = new OC\Log\ErrorHandler(
-				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
+				Server::get(\Psr\Log\LoggerInterface::class),
 			);
 			$exceptionHandler = [$errorHandler, 'onException'];
 			if ($config->getSystemValueBool('debug', false)) {
@@ -766,9 +768,10 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled($systemConfig);
 
-		self::addSecurityHeaders();
-
-		self::performSameSiteCookieProtection($config);
+		if (!self::$CLI) {
+			self::addSecurityHeaders();
+			self::performSameSiteCookieProtection($config);
+		}
 
 		if (!defined('OC_CONSOLE')) {
 			$eventLogger->start('check_server', 'Run a few configuration checks');
@@ -811,7 +814,7 @@ class OC {
 
 		// User and Groups
 		if (!$systemConfig->getValue('installed', false)) {
-			self::$server->getSession()->set('user_id', '');
+			Server::get(ISession::class)->set('user_id', '');
 		}
 
 		$eventLogger->start('setup_backends', 'Setup group and user backends');
@@ -1075,7 +1078,7 @@ class OC {
 
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
-			\OC::$server->getSession()->clear();
+			Server::get(ISession::class)->clear();
 			$controller = Server::get(\OC\Core\Controller\SetupController::class);
 			$controller->run($_POST);
 			exit();
@@ -1190,7 +1193,9 @@ class OC {
 		// Redirect to the default app or login only as an entry point
 		if ($requestPath === '') {
 			// Someone is logged in
-			if (Server::get(IUserSession::class)->isLoggedIn()) {
+			$userSession = Server::get(IUserSession::class);
+			if ($userSession->isLoggedIn()) {
+				header('X-User-Id: ' . $userSession->getUser()?->getUID());
 				header('Location: ' . Server::get(IURLGenerator::class)->linkToDefaultPageUrl());
 			} else {
 				// Not handled and not logged in

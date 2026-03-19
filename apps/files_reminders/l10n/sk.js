@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Nastaviť pripomienku na tento víkend",
     "Next week" : "Nasledujúci týždeň",
     "Set reminder for next week" : "Nastaviť pripomienku na budúci týždeň",
-    "This files_reminder can work properly." : "Tento files_reminder môže správne fungovať.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Aplikácia files_reminder potrebuje aplikáciu na oznámenia na správne fungovanie. Mali by ste buď povoliť oznámenia, alebo vypnúť files_reminder.",
-    "Set reminder for \"{fileName}\"" : "Nastaviť pripomienku pre \"{fileName}\"",
-    "Set reminder at custom date & time" : "Nastaviť pripomienku na vlastn dátum a čas",
-    "Set custom reminder" : "Nastaviť vlastnú pripomienku"
+    "Set reminder for \"{fileName}\"" : "Nastaviť pripomienku pre \"{fileName}\""
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

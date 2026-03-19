@@ -44,6 +44,7 @@ use OCP\Files\UnseekableException;
 use OCP\ITempManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -95,12 +96,15 @@ class View {
 	}
 
 	/**
-	 * @param ?string $path
+	 * Returns an absolute path in Nextcloud's virtual filesystem for this view.
+	 *
+	 * The returned path is scoped by this view's fake root.
+	 *
 	 * @psalm-template S as string|null
 	 * @psalm-param S $path
 	 * @psalm-return (S is string ? string : null)
 	 */
-	public function getAbsolutePath($path = '/'): ?string {
+	public function getAbsolutePath(?string $path = '/'): ?string {
 		if ($path === null) {
 			return null;
 		}
@@ -184,33 +188,42 @@ class View {
 	}
 
 	/**
-	 * Resolve a path to a storage and internal path
+	 * Resolve a path to a storage and internal path.
 	 *
-	 * @param string $path
-	 * @return array{?IStorage, string} an array consisting of the storage and the internal path
+	 * Accepts both:
+	 * - relative paths (interpreted relative to this view root), and
+	 * - absolute paths in Nextcloud's virtual filesystem (leading '/').
+	 *
+	 * @param string $path Relative path, or absolute virtual filesystem path
+	 * @return array{?IStorage, string} An array containing [storage, internalPath]
 	 */
-	public function resolvePath($path): array {
-		$a = $this->getAbsolutePath($path);
-		$p = Filesystem::normalizePath($a);
-		return Filesystem::resolvePath($p);
+	public function resolvePath(string $path): array {
+		$absolutePath = $this->getAbsolutePath($path);
+		$normalizedPath = Filesystem::normalizePath($absolutePath);
+		return Filesystem::resolvePath($normalizedPath);
 	}
 
 	/**
-	 * Return the path to a local version of the file
-	 * we need this because we can't know if a file is stored local or not from
-	 * outside the filestorage and for some purposes a local file is needed
+	 * Return the path to a local representation of a file.
 	 *
-	 * @param string $path
+	 * For local storages this is usually the real on-disk path.
+	 * For non-local storages this may be a temporary local file.
+	 *
+	 * @param string $path Path relative to this view, or absolute virtual filesystem path
+	 * @return string|false Local file path, or false if unavailable
 	 */
-	public function getLocalFile($path): string|false {
-		$parent = substr($path, 0, strrpos($path, '/') ?: 0);
-		$path = $this->getAbsolutePath($path);
-		[$storage, $internalPath] = Filesystem::resolvePath($path);
-		if (Filesystem::isValidPath($parent) && $storage) {
-			return $storage->getLocalFile($internalPath);
-		} else {
+	public function getLocalFile(string $path): string|false {
+		$parentPath = dirname($path);
+		if (!Filesystem::isValidPath($parentPath)) {
 			return false;
 		}
+
+		[$storage, $internalPath] = $this->resolvePath($path);
+		if (!$storage) {
+			return false;
+		}
+
+		return $storage->getLocalFile($internalPath);
 	}
 
 	/**
@@ -639,7 +652,10 @@ class View {
 				[$storage, $internalPath] = $this->resolvePath($path);
 				$target = $storage->fopen($internalPath, 'w');
 				if ($target) {
-					[, $result] = Files::streamCopy($data, $target, true);
+					$result = stream_copy_to_stream($data, $target);
+					if ($result !== false) {
+						$result = true;
+					}
 					fclose($target);
 					fclose($data);
 
@@ -947,7 +963,7 @@ class View {
 
 			try {
 				$exists = $this->file_exists($target);
-				if ($this->shouldEmitHooks($target)) {
+				if ($this->shouldEmitHooks($source) && $this->shouldEmitHooks($target)) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_copy,
@@ -987,7 +1003,7 @@ class View {
 					$this->changeLock($target, ILockingProvider::LOCK_SHARED);
 					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
-					if ($this->shouldEmitHooks($target) && $result !== false) {
+					if ($this->shouldEmitHooks($source) && $this->shouldEmitHooks($target) && $result !== false) {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
 							Filesystem::signal_post_copy,
@@ -1481,13 +1497,18 @@ class View {
 	 * get the content of a directory
 	 *
 	 * @param string $directory path under datadirectory
-	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
+	 * @param ?non-empty-string $mimeTypeFilter limit returned content to this mimetype or mimepart
 	 * @return FileInfo[]
 	 */
-	public function getDirectoryContent($directory, $mimetype_filter = '', ?\OCP\Files\FileInfo $directoryInfo = null) {
+	public function getDirectoryContent(string $directory, ?string $mimeTypeFilter = null, ?\OCP\Files\FileInfo $directoryInfo = null) {
 		$this->assertPathLength($directory);
 		if (!Filesystem::isValidPath($directory)) {
 			return [];
+		}
+
+		/** @psalm-suppress TypeDoesNotContainType For legacy compatibility */
+		if ($mimeTypeFilter === '') {
+			$mimeTypeFilter = null;
 		}
 
 		$path = $this->getAbsolutePath($directory);
@@ -1500,7 +1521,7 @@ class View {
 		}
 
 		$cache = $storage->getCache($internalPath);
-		$user = \OC_User::getUser();
+		$user = Server::get(IUserSession::class)->getUser();
 
 		if (!$directoryInfo) {
 			$data = $this->getCacheEntry($storage, $internalPath, $directory);
@@ -1516,10 +1537,11 @@ class View {
 		}
 
 		$folderId = $data->getId();
-		$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+		$contents = $cache->getFolderContentsById($folderId, $mimeTypeFilter);
 
-		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
-		$permissionsMask = ~\OCP\Constants::PERMISSION_SHARE;
+		$shareManager = Server::get(IManager::class);
+		$sharingDisabled = $shareManager->sharingDisabledForUser($user?->getUID());
+		$permissionsMask = ~Constants::PERMISSION_SHARE;
 
 		$files = [];
 		foreach ($contents as $content) {
@@ -1577,79 +1599,77 @@ class View {
 					$rootEntry = $subCache->get('');
 				}
 
-				if ($rootEntry && ($rootEntry->getPermissions() & Constants::PERMISSION_READ)) {
-					$relativePath = trim(substr($mountPoint, $dirLength), '/');
-					if ($pos = strpos($relativePath, '/')) {
-						//mountpoint inside subfolder add size to the correct folder
-						$entryName = substr($relativePath, 0, $pos);
+				if (!$rootEntry || !($rootEntry->getPermissions() & Constants::PERMISSION_READ)) {
+					continue;
+				}
 
-						// Create parent folders if the mountpoint is inside a subfolder that doesn't exist yet
-						if (!isset($files[$entryName])) {
-							try {
-								[$storage, ] = $this->resolvePath($path . '/' . $entryName);
-								// make sure we can create the mountpoint folder, even if the user has a quota of 0
-								if ($storage->instanceOfStorage(Quota::class)) {
-									$storage->enableQuota(false);
-								}
-
-								if ($this->mkdir($path . '/' . $entryName) !== false) {
-									$info = $this->getFileInfo($path . '/' . $entryName);
-									if ($info !== false) {
-										$files[$entryName] = $info;
-									}
-								}
-
-								if ($storage->instanceOfStorage(Quota::class)) {
-									$storage->enableQuota(true);
-								}
-							} catch (\Exception $e) {
-								// Creating the parent folder might not be possible, for example due to a lack of permissions.
-								$this->logger->debug('Failed to create non-existent parent', ['exception' => $e, 'path' => $path . '/' . $entryName]);
-							}
-						}
-
-						if (isset($files[$entryName])) {
-							$files[$entryName]->addSubEntry($rootEntry, $mountPoint);
-						}
-					} else { //mountpoint in this folder, add an entry for it
-						$rootEntry['name'] = $relativePath;
-						$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
-						$permissions = $rootEntry['permissions'];
-						// do not allow renaming/deleting the mount point if they are not shared files/folders
-						// for shared files/folders we use the permissions given by the owner
-						if ($mount instanceof MoveableMount) {
-							$rootEntry['permissions'] = $permissions | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
-						} else {
-							$rootEntry['permissions'] = $permissions & (Constants::PERMISSION_ALL - (Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE));
-						}
-
-						$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
-
-						// if sharing was disabled for the user we remove the share permissions
-						if ($sharingDisabled) {
-							$rootEntry['permissions'] = $rootEntry['permissions'] & ~Constants::PERMISSION_SHARE;
-						}
-
-						$ownerId = $subStorage->getOwner('');
-						if ($ownerId !== false) {
-							$owner = $this->getUserObjectForOwner($ownerId);
-						} else {
-							$owner = null;
-						}
-						$files[$rootEntry->getName()] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
+				if ($mimeTypeFilter !== null) {
+					if (strpos($mimeTypeFilter, '/') !== false && $rootEntry['mimetype'] !== $mimeTypeFilter) {
+						continue;
+					} elseif (strpos($mimeTypeFilter, '/') === false && $rootEntry['mimepart'] !== $mimeTypeFilter) {
+						continue;
 					}
 				}
-			}
-		}
 
-		if ($mimetype_filter) {
-			$files = array_filter($files, function (FileInfo $file) use ($mimetype_filter) {
-				if (strpos($mimetype_filter, '/')) {
-					return $file->getMimetype() === $mimetype_filter;
-				} else {
-					return $file->getMimePart() === $mimetype_filter;
+				$relativePath = trim(substr($mountPoint, $dirLength), '/');
+				if ($pos = strpos($relativePath, '/')) {
+					//mountpoint inside subfolder add size to the correct folder
+					$entryName = substr($relativePath, 0, $pos);
+
+					// Create parent folders if the mountpoint is inside a subfolder that doesn't exist yet
+					if (!isset($files[$entryName])) {
+						try {
+							[$storage, ] = $this->resolvePath($path . '/' . $entryName);
+							// make sure we can create the mountpoint folder, even if the user has a quota of 0
+							if ($storage->instanceOfStorage(Quota::class)) {
+								$storage->enableQuota(false);
+							}
+
+							if ($this->mkdir($path . '/' . $entryName) !== false) {
+								$info = $this->getFileInfo($path . '/' . $entryName);
+								if ($info !== false) {
+									$files[$entryName] = $info;
+								}
+							}
+
+							if ($storage->instanceOfStorage(Quota::class)) {
+								$storage->enableQuota(true);
+							}
+						} catch (\Exception $e) {
+							// Creating the parent folder might not be possible, for example due to a lack of permissions.
+							$this->logger->debug('Failed to create non-existent parent', ['exception' => $e, 'path' => $path . '/' . $entryName]);
+						}
+					}
+
+					if (isset($files[$entryName])) {
+						$files[$entryName]->addSubEntry($rootEntry, $mountPoint);
+					}
+				} else { //mountpoint in this folder, add an entry for it
+					$rootEntry['name'] = $relativePath;
+					$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
+					$permissions = $rootEntry['permissions'];
+					// do not allow renaming/deleting the mount point if they are not shared files/folders
+					// for shared files/folders we use the permissions given by the owner
+					if ($mount instanceof MoveableMount) {
+						$rootEntry['permissions'] = $permissions | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
+					} else {
+						$rootEntry['permissions'] = $permissions & (Constants::PERMISSION_ALL - (Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE));
+					}
+
+					// if sharing was disabled for the user we remove the share permissions
+					if ($sharingDisabled) {
+						$rootEntry['permissions'] = $rootEntry['permissions'] & ~Constants::PERMISSION_SHARE;
+					}
+
+					$ownerId = $subStorage->getOwner('');
+					if ($ownerId !== false) {
+						$owner = $this->getUserObjectForOwner($ownerId);
+					} else {
+						$owner = null;
+					}
+					$files[$rootEntry->getName()] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
 				}
-			});
+			}
 		}
 
 		return array_values($files);
@@ -1754,7 +1774,6 @@ class View {
 				if (substr($mountPoint . $result['path'], 0, $rootLength + 1) === $this->fakeRoot . '/') {
 					$internalPath = $result['path'];
 					$path = $mountPoint . $result['path'];
-					$result['path'] = substr($mountPoint . $result['path'], $rootLength);
 					$ownerId = $storage->getOwner($internalPath);
 					if ($ownerId !== false) {
 						$owner = $userManager->get($ownerId);
@@ -1777,7 +1796,6 @@ class View {
 					if ($results) {
 						foreach ($results as $result) {
 							$internalPath = $result['path'];
-							$result['path'] = rtrim($relativeMountPoint . $result['path'], '/');
 							$path = rtrim($mountPoint . $internalPath, '/');
 							$ownerId = $storage->getOwner($internalPath);
 							if ($ownerId !== false) {

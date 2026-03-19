@@ -47,6 +47,7 @@ use OCP\Share\IShareProviderWithNotification;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use function str_starts_with;
+use function strlen;
 
 /**
  * Class DefaultShareProvider
@@ -869,7 +870,10 @@ class DefaultShareProvider implements
 
 		$nonChildPath = '/';
 		if ($path !== null) {
-			$path = str_replace('/' . $userId . '/files', '', $path);
+			$prefix = '/' . $userId . '/files';
+			if (str_starts_with($path, $prefix)) {
+				$path = substr($path, strlen($prefix));
+			}
 			$path = rtrim($path, '/');
 
 			if ($path !== '') {
@@ -1075,11 +1079,10 @@ class DefaultShareProvider implements
 	/**
 	 * Create a share object from a database row
 	 *
-	 * @param mixed[] $data
-	 * @return IShare
+	 * @param array<string, mixed> $data
 	 * @throws InvalidShare
 	 */
-	private function createShare($data) {
+	private function createShare($data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId($data['id'])
 			->setShareType((int)$data['share_type'])

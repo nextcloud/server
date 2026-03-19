@@ -11,7 +11,7 @@
     "{actor} unshared {file} from {email} by mail" : "{actor} скасував доступ до {file} з {email} поштою",
     "Password to access {file} was sent to {email}" : "Пароль для доступу до {file} надіслано на адресу {email}",
     "Password to access {file} was sent to you" : "Вам надіслано пароль для доступу до {file}",
-    "Share by mail" : "Надати у спільний доступ за допомогою ел. пошти",
+    "Share by mail" : "Поділитися за допомогою ел. пошти",
     "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Не вдалося надати %1$s у спільний доступ, оскільки цей ресурс вже у спільному доступі з користувачем %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ми не можемо надіслати вам автоматично згенерований пароль. Укажіть дійсну адресу електронної пошти в особистих налаштуваннях і повторіть спробу.",
     "Failed to send share by email. Got an invalid email address" : "Не вдалося надіслати спільний доступ електронною поштою. Отримав недійсну електронну адресу",
@@ -39,6 +39,6 @@
     "Unable to update share by mail config" : "Не вдається оновити конфігурацію спільного доступу за допомогою пошти",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Дозволяє користувачам надавати персоналізоване посилання на файл або каталог шляхом додавання адреси ел. пошти.",
     "Send password by mail" : "Надіслати пароль поштою",
-    "Reply to initiator" : "Відповідь ініціатору"
+    "Reply to initiator" : "Відповісти ініціатору"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

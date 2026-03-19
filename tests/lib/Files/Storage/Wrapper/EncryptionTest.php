@@ -958,7 +958,7 @@ class EncryptionTest extends Storage {
 		$wrapper = $this->getMockBuilder(Encryption::class)
 			->setConstructorArgs(
 				[
-					['mountPoint' => '', 'mount' => $mount, 'storage' => ''],
+					['mountPoint' => '', 'mount' => $mount, 'storage' => null],
 					$encryptionManager,
 					$util,
 					$this->logger,

@@ -18,23 +18,21 @@ use Psr\Log\LoggerInterface;
 
 class LDAP implements ILDAPWrapper {
 	protected array $curArgs = [];
-	protected LoggerInterface $logger;
-	protected IConfig $config;
 
 	private ?LdapDataCollector $dataCollector = null;
 
+	protected string $logFile = '';
+
 	public function __construct(
-		protected string $logFile = '',
+		IProfiler $profiler,
+		protected IConfig $config,
+		protected LoggerInterface $logger,
 	) {
-		/** @var IProfiler $profiler */
-		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
 			$this->dataCollector = new LdapDataCollector();
 			$profiler->add($this->dataCollector);
 		}
-
-		$this->logger = Server::get(LoggerInterface::class);
-		$this->config = Server::get(IConfig::class);
+		$this->logFile = $this->config->getSystemValueString('ldap_log_file');
 	}
 
 	/**

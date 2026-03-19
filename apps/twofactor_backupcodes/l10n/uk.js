@@ -16,7 +16,7 @@ OC.L10N.register(
     "Regenerate backup codes" : "Перестворити резервні коди",
     "Print backup codes" : "Друк резервних кодів",
     "Save backup codes" : "Зберегти резервні коди",
-    "If you regenerate backup codes, you automatically invalidate old codes." : "У разі повторного створення резервних кодів попередні стануть недійсними,",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "У разі повторного створення резервних кодів попередні стануть недійсними.",
     "{name} backup codes" : "Резервні коди {name}",
     "Unable to open a new tab for printing" : "Не вдалося відкрити нову вкладку для друку",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Скористайтеся одним з резервних кодів, які ви зберегли під час встановлення двофакторної авторизації.",

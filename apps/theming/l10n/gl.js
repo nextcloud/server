@@ -109,6 +109,7 @@ OC.L10N.register(
     "Reset primary color" : "Restabelecer a cor principal",
     "Reset to default" : "Restabelecer os valores predeterminados",
     "Non image file selected" : "Non foi seleccionado ningún ficheiro de imaxe",
+    "Failed to upload image" : "Produciuse un fallo ao enviar a imaxe.",
     "Preview of the selected image" : "Vista previa da imaxe seleccionada",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Para nós o acceso universal é moi importante. Seguimos os estándares web e comprobamos que todo poida ser utilizado sen rato e software de axuda como os lectores de pantalla. O noso obxectivo é ter cumprir ás {linkstart}Directrices de accesibilidade ao contido web{linkend}  2.1 a nivel AA, co tema de alto contraste incluso a nivel AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Se atopa algúnha incidencia, non dubide en informalo no {issuetracker}noso seguidor de incidencias{linkend} E se quere involucrarse, únase ao {designteam}noso equipo de deseño {linkend}!",
@@ -129,8 +130,6 @@ OC.L10N.register(
     "Background and login image" : "Imaxe de fondo e acceso",
     "Advanced options" : "Opcións avanzadas",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalar a extensión PHP ImageMagick con compatibilidade con imaxes SVG para xerar automaticamente favicons baseados no logotipo e na cor enviados.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Para nós o acceso universal é moi importante. Seguimos os estándares web e comprobamos que todo poida ser utilizado sen rato e software de axuda como os lectores de pantalla. O noso obxectivo é ter cumprir ás {guidelines}Directrices de accesibilidade ao contido web{linkend}  2.1 a nivel AA, co tema de alto contraste incluso a nivel AAA.",
-    ". Unable to apply the setting." : ". Non é posíbel aplicar o axuste.",
     "No background has been selected" : "Non foi seleccionado ningún fondo",
     "Select a custom color" : "Seleccione unha cor personalizada",
     "Upload" : "Enviar"

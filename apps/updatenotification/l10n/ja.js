@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "選択したチャンネルでは、サーバーのアップデートをサポートしていません。",
     "Changelog for app {app}" : "アプリケーション{app}の変更ログ",
     "What's new in {app} version {version}" : "{app}バージョン{version}の新機能",
-    "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>全て</strong>のアプリが、このNextcloudのバージョンに対応しています。 ",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>アプリが、このNextcloudバージョンと互換性があるバージョンではありません。"],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "法人向けです。 常に最新のパッチレベルを提供しますが、すぐに次のメジャーリリースにアップデートはしません。このアップデートはNextcloud GmbHが大規模でミッションクリティカルな開発のための追加の強化とテストを行った後に行われます。 このチャンネルは顧客だけが利用でき、Nextcloud Enterpriseパッケージを提供します。"
+    "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。"
 },
 "nplurals=1; plural=0;");

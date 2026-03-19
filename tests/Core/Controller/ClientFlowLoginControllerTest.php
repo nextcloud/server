@@ -161,7 +161,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$initialState = [];
 		$this->initialState->expects($this->exactly(2))
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$initialState) {
+			->willReturnCallback(function () use (&$initialState): void {
 				$initialState[] = func_get_args();
 			});
 
@@ -240,7 +240,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$initialState = [];
 		$this->initialState->expects($this->exactly(2))
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$initialState) {
+			->willReturnCallback(function () use (&$initialState): void {
 				$initialState[] = func_get_args();
 			});
 

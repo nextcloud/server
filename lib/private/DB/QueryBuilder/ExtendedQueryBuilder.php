@@ -9,13 +9,14 @@ declare(strict_types=1);
 namespace OC\DB\QueryBuilder;
 
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\ConflictResolutionMode;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
  * Base class for creating classes that extend the builtin query builder
  */
-abstract class ExtendedQueryBuilder implements IQueryBuilder {
+abstract class ExtendedQueryBuilder extends TypedQueryBuilder {
 	public function __construct(
 		protected IQueryBuilder $builder,
 	) {
@@ -99,7 +100,7 @@ abstract class ExtendedQueryBuilder implements IQueryBuilder {
 		return $this;
 	}
 
-	public function selectAlias($select, $alias) {
+	public function selectAlias($select, $alias): self {
 		$this->builder->selectAlias($select, $alias);
 		return $this;
 	}
@@ -289,5 +290,10 @@ abstract class ExtendedQueryBuilder implements IQueryBuilder {
 
 	public function prefixTableName(string $table): string {
 		return $this->builder->prefixTableName($table);
+	}
+
+	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self {
+		$this->builder->forUpdate($conflictResolutionMode);
+		return $this;
 	}
 }

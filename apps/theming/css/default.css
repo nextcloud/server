@@ -42,6 +42,7 @@
   --color-info-hover: #b5e6f6;
   --color-info-text: #0066AC;
   --color-favorite: #A37200;
+  --color-mark: #fff0c7;
   /** @deprecated use css color functions */
   --color-error-rgb: 255,231,231;
   /** @deprecated use css color functions */

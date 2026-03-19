@@ -258,8 +258,8 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 
 		if ($length > $freeSpace) {
 			$msg = $isDir
-				? "Insufficient space in $normalizedPath. $freeSpace available. Cannot create directory"
-				: "Insufficient space in $normalizedPath, $length required, $freeSpace available";
+				? "Insufficient space in $normalizedPath. Cannot create directory"
+				: "Insufficient space in $normalizedPath";
 			throw new InsufficientStorage($msg);
 		}
 

@@ -115,8 +115,6 @@
     "Background and login image" : "Picha ya mandharinyuma na kuingia",
     "Advanced options" : "Chaguzi za juu",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Sakinisha kiendelezi cha PHP cha ImageMagick kwa usaidizi wa picha za SVG ili kutengeneza favikoni kiotomatiki kulingana na nembo na rangi iliyopakiwa.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Ufikiaji wa wote ni muhimu sana kwetu. Tunafuata viwango vya wavuti na kuhakikisha kila kitu kinatumika hata bila kipanya, pamoja na programu saidizi kama wasomaji skrini. Tunakusudia kuzingatia kiwango cha AA cha 1 {guidelines}Web Content Accessibility Guidelines 2{linkend} 2.1, na kwa mandhari ya kontrasti ya juu kufikia hata kiwango cha AAA.",
-    ". Unable to apply the setting." : ". Haiwezi kutumia mpangilio.",
     "No background has been selected" : "Hakuna mandharinyuma ambayo imechaguliwa",
     "Select a custom color" : "Chagua rangi maalum",
     "Upload" : "Pakia"

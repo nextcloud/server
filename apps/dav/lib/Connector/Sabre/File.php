@@ -236,7 +236,13 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
-				[$count, $result] = Files::streamCopy($data, $target, true);
+				$count = stream_copy_to_stream($data, $target);
+				if ($count === false) {
+					$result = false;
+					$count = 0;
+				} else {
+					$result = true;
+				}
 				fclose($target);
 			}
 			if ($result === false && $expected !== null) {
@@ -474,11 +480,16 @@ class File extends Node implements IFile {
 				}
 			}
 
+			$logger = Server::get(LoggerInterface::class);
 			// comparing current file size with the one in DB
 			// if different, fix DB and refresh cache.
-			if ($this->getSize() !== $this->fileView->filesize($this->getPath())) {
-				$logger = Server::get(LoggerInterface::class);
-				$logger->warning('fixing cached size of file id=' . $this->getId());
+			//
+			$fsSize = $this->fileView->filesize($this->getPath());
+			if ($fsSize === false) {
+				$logger->warning('file not found on storage after successfully opening it');
+				throw new ServiceUnavailable($this->l10n->t('Failed to get size for : %1$s', [$this->getPath()]));
+			} elseif ($this->getSize() !== $fsSize) {
+				$logger->warning('fixing cached size of file id=' . $this->getId() . ', cached size was ' . $this->getSize() . ', but the filesystem reported a size of ' . $fsSize);
 
 				$this->getFileInfo()->getStorage()->getUpdater()->update($this->getFileInfo()->getInternalPath());
 				$this->refreshInfo();

@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "No deleted files",
     "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",
     "All files have been permanently deleted" : "All files have been permanently deleted",
-    "Failed to empty deleted files" : "Failed to empty deleted files",
-    "Deletion cancelled" : "Deletion cancelled"
+    "Failed to empty deleted files" : "Failed to empty deleted files"
 },
 "nplurals=2; plural=(n != 1);");

@@ -28,6 +28,7 @@
     "User is not a sub-admin of this group" : "Користувач не є другорядним адміністратором цієї групи",
     "Email address not available" : "Ел. адреса недоступна",
     "Sending email failed" : "Не вдалося надіслати ел. лист",
+    "Logged in account is not mail address owner" : "Залоґований користувач не є власником адреси ел. пошти",
     "Email confirmation" : "Підтвердження електронною поштою",
     "To enable the email address %s please click the button below." : "Щоб увімкнути адресу електронної пошти %s, натисніть кнопку нижче.",
     "Confirm" : "Підтвердити",

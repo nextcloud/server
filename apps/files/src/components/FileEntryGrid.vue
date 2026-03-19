@@ -77,6 +77,7 @@ import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
+import { useFileActions } from '../composables/useFileActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -122,7 +123,10 @@ export default defineComponent({
 			activeView,
 		} = useActiveStore()
 
+		const actions = useFileActions()
+
 		return {
+			actions,
 			actionsMenuStore,
 			activeFolder,
 			activeNode,

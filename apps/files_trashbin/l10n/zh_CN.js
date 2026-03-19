@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "无已删除文件",
     "Files and folders you have deleted will show up here" : "此处将显示您删除的文件和文件夹",
     "All files have been permanently deleted" : "所有文件已被永久删除",
-    "Failed to empty deleted files" : "无法清空回收站",
-    "Deletion cancelled" : "删除已取消"
+    "Failed to empty deleted files" : "无法清空回收站"
 },
 "nplurals=1; plural=0;");

@@ -11,7 +11,6 @@ namespace OC\Core\Middleware;
 
 use Exception;
 use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\Authentication\Exceptions\TwoFactorAuthRequiredException;
 use OC\Authentication\Exceptions\UserAlreadyLoggedInException;
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -23,6 +22,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
 use OCP\IRequest;
 use OCP\ISession;
@@ -36,7 +36,7 @@ class TwoFactorMiddleware extends Middleware {
 		private Session $userSession,
 		private ISession $session,
 		private IURLGenerator $urlGenerator,
-		private MiddlewareUtils $middlewareUtils,
+		private IControllerMethodReflector $reflector,
 		private IRequest $request,
 	) {
 	}
@@ -46,9 +46,7 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param string $methodName
 	 */
 	public function beforeController($controller, $methodName) {
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-
-		if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoTwoFactorRequired', NoTwoFactorRequired::class)) {
+		if ($this->reflector->hasAnnotationOrAttribute('NoTwoFactorRequired', NoTwoFactorRequired::class)) {
 			// Route handler explicitly marked to work without finished 2FA are
 			// not blocked
 			return;
@@ -59,6 +57,7 @@ class TwoFactorMiddleware extends Middleware {
 			return;
 		}
 
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($controller instanceof TwoFactorChallengeController
 			&& $this->userSession->getUser() !== null
 			&& !$reflectionMethod->getAttributes(TwoFactorSetUpDoneRequired::class)) {

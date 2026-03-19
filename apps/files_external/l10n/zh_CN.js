@@ -169,13 +169,8 @@ OC.L10N.register(
     "Unauthorized" : "未经授权",
     "Network error" : "网络错误",
     "Grant access" : "授权",
-    "Error configuring OAuth1" : "OAuth1 配置错误",
-    "Please provide a valid app key and secret." : "请提供有效的 app key 和密钥。",
     "Error configuring OAuth2" : "OAuth2 配置错误",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "App key",
-    "App secret" : "应用程序 secret",
     "OAuth2" : "OAuth2",
     "Client ID" : "客户端 ID",
     "Client secret" : "客户端 secret",
@@ -190,7 +185,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "未知后端：{backendName}",
     "Admin defined" : "管理员定义",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "因为配置的存储数量过多，自动状态检查已停用，点击以检查状态。",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您确定要断开这个外部存储空间吗？这将会导致该存储空间在 Nextcloud 中不可用，并将会在当前连接的任何同步客户端上删除文件和文件夹，但不会删除外部存储空间本身的任何文件和文件夹。",
+    "Are you sure you want to disconnect this external storage?" : "是否确定要断开此外部存储的连接？",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "这将使 {instanceName} 中的存储不可用，并导致删除当前连接的任何同步客户端上的这些文件和文件夹，但不会删除外部存储本身上的任何文件和文件夹。",
     "Delete storage?" : "删除存储？",
     "Click to recheck the configuration" : "点击以再次检查配置",
     "Saving …" : "正在保存 …",
@@ -202,8 +198,6 @@ OC.L10N.register(
     "Configuration" : "配置",
     "Available for" : "可用于",
     "All people" : "所有用户",
-    "Advanced settings" : "高级选项",
-    "Are you sure you want to disconnect this external storage?" : "是否确定要断开此外部存储的连接？",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "这将使 {instanceName} 中的存储不可用，并导致删除当前连接的任何同步客户端上的这些文件和文件夹，但不会删除外部存储本身上的任何文件和文件夹。"
+    "Advanced settings" : "高级选项"
 },
 "nplurals=1; plural=0;");

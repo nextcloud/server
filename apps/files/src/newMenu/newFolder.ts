@@ -1,8 +1,9 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { NewMenuEntry, Node } from '@nextcloud/files'
+
+import type { IFolder, INode, NewMenuEntry } from '@nextcloud/files'
 
 import FolderPlusSvg from '@mdi/svg/svg/folder-plus-outline.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -10,48 +11,24 @@ import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { Folder, Permission } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { basename } from 'path'
 import logger from '../logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 
-type createFolderResponse = {
-	fileid: number
-	source: string
-}
-
-/**
- *
- * @param root
- * @param name
- */
-async function createNewFolder(root: Folder, name: string): Promise<createFolderResponse> {
-	const source = root.source + '/' + name
-	const encodedSource = root.encodedSource + '/' + encodeURIComponent(name)
-
-	const response = await axios({
-		method: 'MKCOL',
-		url: encodedSource,
-		headers: {
-			Overwrite: 'F',
-		},
-	})
-	return {
-		fileid: parseInt(response.headers['oc-fileid']),
-		source,
-	}
-}
-
 export const entry: NewMenuEntry = {
 	id: 'newFolder',
+	order: 0,
 	displayName: t('files', 'New folder'),
-	enabled: (context: Folder) => Boolean(context.permissions & Permission.CREATE) && Boolean(context.permissions & Permission.READ),
-
 	// Make the svg icon color match the primary element color
 	iconSvgInline: FolderPlusSvg.replace(/viewBox/gi, 'style="color: var(--color-primary-element)" viewBox'),
-	order: 0,
 
-	async handler(context: Folder, content: Node[]) {
+	enabled(context) {
+		return Boolean(context.permissions & Permission.CREATE)
+			&& Boolean(context.permissions & Permission.READ)
+	},
+
+	async handler(context: IFolder, content: INode[]) {
 		const name = await newNodeName(t('files', 'New folder'), content)
 		if (name === null) {
 			return
@@ -91,4 +68,32 @@ export const entry: NewMenuEntry = {
 			showError('Creating new folder failed')
 		}
 	},
+}
+
+type createFolderResponse = {
+	fileid: number
+	source: string
+}
+
+/**
+ * Create a new folder in the given root with the given name
+ *
+ * @param root - The folder in which the new folder should be created
+ * @param name - The name of the new folder
+ */
+async function createNewFolder(root: IFolder, name: string): Promise<createFolderResponse> {
+	const source = root.source + '/' + name
+	const encodedSource = root.encodedSource + '/' + encodeURIComponent(name)
+
+	const response = await axios({
+		method: 'MKCOL',
+		url: encodedSource,
+		headers: {
+			Overwrite: 'F',
+		},
+	})
+	return {
+		fileid: parseInt(response.headers['oc-fileid']),
+		source,
+	}
 }

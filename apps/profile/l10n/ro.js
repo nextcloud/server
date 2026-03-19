@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "Not found" : "Nu a fost găsit",
     "You have not added any info yet" : "Nu ați adăugat nicio informație",
     "{user} has not added any info yet" : "{user} nu a adăugat nicio informație",
     "Error opening the user status modal, try hard refreshing the page" : "Eroare la deschiderea status utilizator, încercați refresh",

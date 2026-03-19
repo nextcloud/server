@@ -20,7 +20,6 @@ use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
 use OC\ServerNotAvailableException;
-use OC\Share\Share;
 use OC\Share20\ShareDisableChecker;
 use OC_Hook;
 use OCA\Files_External\Config\ExternalMountPoint;
@@ -51,6 +50,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -72,6 +72,8 @@ class SetupManager implements ISetupManager {
 	private array $setupUsers = [];
 	// List of users for which all mounts are setup
 	private array $setupUsersComplete = [];
+	// List of users for which we've already refreshed the non-authoritative mounts
+	private array $usersMountsUpdated = [];
 	/**
 	 * An array of provider classes that have been set up, indexed by UserUID.
 	 *
@@ -108,6 +110,7 @@ class SetupManager implements ISetupManager {
 		private ShareDisableChecker $shareDisableChecker,
 		private IAppManager $appManager,
 		private FileAccess $fileAccess,
+		private IAppConfig $appConfig,
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -165,7 +168,7 @@ class SetupManager implements ISetupManager {
 			return $storage;
 		});
 
-		$reSharingEnabled = Share::isResharingAllowed();
+		$reSharingEnabled = $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true);
 		$user = $this->userSession->getUser();
 		$sharingEnabledForUser = $user ? !$this->shareDisableChecker->sharingDisabledForUser($user->getUID()) : true;
 		Filesystem::addStorageWrapper(
@@ -237,6 +240,10 @@ class SetupManager implements ISetupManager {
 	 * Update the cached mounts for all non-authoritative mount providers for a user.
 	 */
 	private function updateNonAuthoritativeProviders(IUser $user): void {
+		if (isset($this->usersMountsUpdated[$user->getUID()])) {
+			return;
+		}
+
 		// prevent recursion loop from when getting mounts from providers ends up setting up the filesystem
 		static $updatingProviders = false;
 		if ($updatingProviders) {
@@ -257,6 +264,7 @@ class SetupManager implements ISetupManager {
 		$mount = $this->mountProviderCollection->getUserMountsForProviderClasses($user, $providerNames);
 		$this->userMountCache->registerMounts($user, $mount, $providerNames);
 
+		$this->usersMountsUpdated[$user->getUID()] = true;
 		$updatingProviders = false;
 	}
 
@@ -629,7 +637,7 @@ class SetupManager implements ISetupManager {
 				$this->registerMounts($user, $fullProviderMounts, $currentProviders);
 			}
 
-			$this->setupForUserWith($user, function () use ($fullProviderMounts, $authoritativeMounts) {
+			$this->setupForUserWith($user, function () use ($fullProviderMounts, $authoritativeMounts): void {
 				$allMounts = [...$fullProviderMounts, ...$authoritativeMounts];
 				array_walk($allMounts, $this->mountManager->addMount(...));
 			});
@@ -680,8 +688,13 @@ class SetupManager implements ISetupManager {
 		}
 
 		if (!$providersAreAuthoritative && $this->fullSetupRequired($user)) {
-			$this->setupForUser($user);
-			return;
+			if ($this->optimizeAuthoritativeProviders) {
+				$this->updateNonAuthoritativeProviders($user);
+				$this->markUserMountsCached($user);
+			} else {
+				$this->setupForUser($user);
+				return;
+			}
 		}
 
 		$this->eventLogger->start('fs:setup:user:providers', 'Setup filesystem for ' . implode(', ', $providers));
@@ -726,6 +739,7 @@ class SetupManager implements ISetupManager {
 		$this->setupUserMountProviders = [];
 		$this->setupMountProviderPaths = [];
 		$this->fullSetupRequired = [];
+		$this->usersMountsUpdated = [];
 		$this->rootSetup = false;
 		$this->mountManager->clear();
 		$this->userMountCache->clear();
@@ -765,7 +779,7 @@ class SetupManager implements ISetupManager {
 		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event): void {
 			$this->cache->remove($event->getShare()->getSharedWith());
 		});
-		$this->eventDispatcher->addListener(BeforeNodeRenamedEvent::class, function (BeforeNodeRenamedEvent $event) {
+		$this->eventDispatcher->addListener(BeforeNodeRenamedEvent::class, function (BeforeNodeRenamedEvent $event): void {
 			// update cache information that is cached by mount point
 			$from = rtrim($event->getSource()->getPath(), '/') . '/';
 			$to = rtrim($event->getTarget()->getPath(), '/') . '/';

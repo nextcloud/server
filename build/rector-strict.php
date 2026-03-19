@@ -10,7 +10,20 @@ $nextcloudDir = dirname(__DIR__);
 return (require __DIR__ . '/rector-shared.php')
 	->withPaths([
 		$nextcloudDir . '/build/rector-strict.php',
-		// TODO: Add more files. The entry above is just there to stop rector from complaining about the fact that it ran without checking any files.
+		$nextcloudDir . '/core/BackgroundJobs/ExpirePreviewsJob.php',
+		$nextcloudDir . '/lib/public/IContainer.php',
+		$nextcloudDir . '/apps/dav/lib/Connector/Sabre/Node.php',
+		$nextcloudDir . '/apps/files_versions/lib/Versions/IMetadataVersion.php',
+		$nextcloudDir . '/lib/private/Settings/AuthorizedGroup.php',
+		$nextcloudDir . '/lib/private/Settings/AuthorizedGroupMapper.php',
+		$nextcloudDir . '/apps/settings/lib/Service/AuthorizedGroupService.php',
+		$nextcloudDir . '/lib/private/Files/Storage/Storage.php',
+		$nextcloudDir . '/lib/private/Files/Cache/Storage.php',
+		$nextcloudDir . '/lib/private/Files/Cache/StorageGlobal.php',
+		$nextcloudDir . '/lib/private/Files/Storage/Wrapper/Wrapper.php',
+		$nextcloudDir . '/build/psalm/ITypedQueryBuilderTest.php',
+		$nextcloudDir . '/lib/private/DB/QueryBuilder/TypedQueryBuilder.php',
+		$nextcloudDir . '/lib/public/DB/QueryBuilder/ITypedQueryBuilder.php',
 	])
 	->withPreparedSets(
 		deadCode: true,

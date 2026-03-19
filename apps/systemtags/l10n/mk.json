@@ -110,10 +110,6 @@
     "Failed to delete tag for file" : "Неуспешно бришење ознака за датотека",
     "Collaborative tags …" : "Колаборативни ознаки ...",
     "Loading …" : "Се вчитува…",
-    "File tags modification canceled" : "Откажано е уредување на ознаки на датотека",
-    "Select or create tags to apply to all selected files" : "Избери или креирајте ознаки што ќе се применат на сите избрани датотеки",
-    "Select tags to apply to all selected files" : "Избери ознаки што ќе се применат на сите избрани датотеки",
-    "Apply changes" : "Примени ги промените",
     "Loading collaborative tags …" : "Вчитување на колаборативни ознаки"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

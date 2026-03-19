@@ -26,6 +26,13 @@ class OracleConnection extends Connection {
 		return $return;
 	}
 
+	public function truncateTable(string $table, bool $cascade) {
+		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
+			$table = $this->quoteIdentifier($table);
+		}
+		return parent::truncateTable($table, $cascade);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

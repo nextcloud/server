@@ -5,6 +5,7 @@
 
 <template>
 	<NcModal
+		id="user_status-dialog"
 		size="normal"
 		labelId="user_status-set-dialog"
 		dark

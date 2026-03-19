@@ -26,9 +26,7 @@ class Version33000Date20251023120529 extends SimpleMigrationStep {
 	) {
 	}
 
-	/**
-	 * @param Closure(): ISchemaWrapper $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -41,6 +39,7 @@ class Version33000Date20251023120529 extends SimpleMigrationStep {
 		return $schema;
 	}
 
+	#[\Override]
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		// This shouldn't run on a production instance, only daily
 		$qb = $this->connection->getQueryBuilder();

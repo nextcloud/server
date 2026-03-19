@@ -32,30 +32,23 @@ class AmazonS3 extends Common {
 
 	private LoggerInterface $logger;
 
-	public function needsPartFile(): bool {
-		return false;
-	}
-
 	/** @var CappedMemoryCache<array|false> */
 	private CappedMemoryCache $objectCache;
-
 	/** @var CappedMemoryCache<bool> */
 	private CappedMemoryCache $directoryCache;
-
 	/** @var CappedMemoryCache<array> */
 	private CappedMemoryCache $filesCache;
 
 	private IMimeTypeDetector $mimeDetector;
-	private ?bool $versioningEnabled = null;
 	private ICache $memCache;
+	private ?bool $versioningEnabled = null;
 
 	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
+		// @todo: using `key` here may be problematic with different authentication methods and/or key rotation...
 		$this->id = 'amazon::external::' . md5($this->params['hostname'] . ':' . $this->params['bucket'] . ':' . $this->params['key']);
-		$this->objectCache = new CappedMemoryCache();
-		$this->directoryCache = new CappedMemoryCache();
-		$this->filesCache = new CappedMemoryCache();
+		$this->initCaches();
 		$this->mimeDetector = Server::get(IMimeTypeDetector::class);
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = Server::get(ICacheFactory::class);
@@ -66,7 +59,7 @@ class AmazonS3 extends Common {
 	private function normalizePath(string $path): string {
 		$path = trim($path, '/');
 
-		if (!$path) {
+		if ($path === '') {
 			$path = '.';
 		}
 
@@ -84,10 +77,16 @@ class AmazonS3 extends Common {
 		return $path;
 	}
 
-	private function clearCache(): void {
-		$this->objectCache = new CappedMemoryCache();
-		$this->directoryCache = new CappedMemoryCache();
-		$this->filesCache = new CappedMemoryCache();
+	private function initCaches(): void {
+		$this->objectCache = new CappedMemoryCache(2048);
+		$this->directoryCache = new CappedMemoryCache(8192);
+		$this->filesCache = new CappedMemoryCache(4096);
+	}
+
+	private function clearCaches(): void {
+		$this->objectCache->clear();
+		$this->directoryCache->clear();
+		$this->filesCache->clear();
 	}
 
 	private function invalidateCache(string $key): void {
@@ -246,7 +245,7 @@ class AmazonS3 extends Common {
 	}
 
 	protected function clearBucket(): bool {
-		$this->clearCache();
+		$this->clearCaches();
 		return $this->batchDelete();
 	}
 
@@ -270,8 +269,8 @@ class AmazonS3 extends Common {
 					$connection->deleteObjects([
 						'Bucket' => $this->bucket,
 						'Delete' => [
+							'Quiet' => true,
 							'Objects' => array_map(fn (array $object) => [
-								'ETag' => $object['ETag'],
 								'Key' => $object['Key'],
 							], $objects['Contents'])
 						]
@@ -321,50 +320,8 @@ class AmazonS3 extends Common {
 		return $stat;
 	}
 
-	/**
-	 * Return content length for object
-	 *
-	 * When the information is already present (e.g. opendir has been called before)
-	 * this value is return. Otherwise a headObject is emitted.
-	 */
-	private function getContentLength(string $path): int {
-		if (isset($this->filesCache[$path])) {
-			return (int)$this->filesCache[$path]['ContentLength'];
-		}
-
-		$result = $this->headObject($path);
-		if (isset($result['ContentLength'])) {
-			return (int)$result['ContentLength'];
-		}
-
-		return 0;
-	}
-
-	/**
-	 * Return last modified for object
-	 *
-	 * When the information is already present (e.g. opendir has been called before)
-	 * this value is return. Otherwise a headObject is emitted.
-	 */
-	private function getLastModified(string $path): string {
-		if (isset($this->filesCache[$path])) {
-			return $this->filesCache[$path]['LastModified'];
-		}
-
-		$result = $this->headObject($path);
-		if (isset($result['LastModified'])) {
-			return $result['LastModified'];
-		}
-
-		return 'now';
-	}
-
 	public function is_dir(string $path): bool {
 		$path = $this->normalizePath($path);
-
-		if (isset($this->filesCache[$path])) {
-			return false;
-		}
 
 		try {
 			return $this->doesDirectoryExist($path);
@@ -388,7 +345,7 @@ class AmazonS3 extends Common {
 			if (isset($this->directoryCache[$path]) && $this->directoryCache[$path]) {
 				return 'dir';
 			}
-			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
+			if ($this->headObject($path)) {
 				return 'file';
 			}
 			if ($this->doesDirectoryExist($path)) {
@@ -740,6 +697,11 @@ class AmazonS3 extends Common {
 			// and have the scanner figure out if anything has actually changed
 			return true;
 		}
+	}
+
+	public function needsPartFile(): bool {
+		// handled natively by the S3 backend/client integration
+		return false;
 	}
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {

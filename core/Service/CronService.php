@@ -226,7 +226,7 @@ class CronService {
 	private function runWeb(string $appMode): void {
 		if ($appMode === 'cron') {
 			// Cron is cron :-P
-			throw new \RuntimeException('Backgroundjobs are using system cron!');
+			$this->logger->info('WebCron accessed even though backgroundjobs_mode is set to use system cron.', ['app' => 'cron']);
 		} else {
 			// Work and success :-)
 			$job = $this->jobList->getNext();

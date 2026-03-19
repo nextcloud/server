@@ -828,6 +828,17 @@ $CONFIG = [
 	'allow_local_remote_servers' => true,
 
 	/**
+	 * Add the URL of the Nextcloud server in User-Agent headers HTTP calls.
+	 *
+	 * This helps service providers identifying calls from your server,
+	 * which can be helpful for them, but can be a privacy issue on small
+	 * Nextcloud servers.
+	 *
+	 * Defaults to ``false``
+	 */
+	'http_client_add_user_agent_url' => false,
+
+	/**
 	 * Deleted Items (trash bin)
 	 *
 	 * These parameters control the Deleted files app.
@@ -1748,6 +1759,16 @@ $CONFIG = [
 	'memcache.distributed' => '\\OC\\Memcache\\Memcached',
 
 	/**
+	 * Cache Key Prefix for Redis or Memcached
+	 *
+	 * * Used for avoiding collisions in the cache system
+	 * * May be used for ACL restrictions in Redis
+	 *
+	 * Defaults to ``''`` (empty string)
+	 */
+	'memcache_customprefix' => 'mycustomprefix',
+
+	/**
 	 * Connection details for Redis to use for memory caching in a single server configuration.
 	 *
 	 * For enhanced security, it is recommended to configure Redis
@@ -2382,9 +2403,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.1.50``
+	 * Defaults to ``3.1.81``
 	 */
-	'minimum.supported.desktop.version' => '3.1.50',
+	'minimum.supported.desktop.version' => '3.1.81',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this
@@ -2462,27 +2483,53 @@ $CONFIG = [
 	'filesystem_check_changes' => 0,
 
 	/**
-	 * Store part files created during upload in the same storage as the upload
-	 * target. Setting this to false stores part files in the root of the user's
-	 * folder, which may be necessary for external storage with limited rename
-	 * capabilities.
+	 * Control where temporary ".part" files are written during direct (non-chunked)
+	 * uploads.
 	 *
-	 * Defaults to ``true``
+	 * While an upload is in progress, Nextcloud writes data to a temporary ".part"
+	 * file and renames it to the final filename when the upload completes.
+	 *
+	 * - true: create the temporary ".part" file in the destination storage/path.
+	 *   This typically avoids cross-storage moves and can improve reliability and
+	 *   performance on backends where rename within the same storage is cheap/atomic.
+	 * - false: create the temporary ".part" file in the user's root folder first.
+	 *   This may help with some external storages that have limited rename/move
+	 *   behavior, but can add extra copy/move overhead.
+	 *
+	 * Note: This setting applies to direct (non-chunked) uploads only. Chunked/
+	 * resumable uploads use a separate uploads staging mechanism and are not
+	 * controlled by this option.
+	 *
+	 * Defaults to ``true``.
 	 */
 	'part_file_in_storage' => true,
 
 	/**
-	 * Specify the location of the ``mount.json`` file.
+	 * Read-only mode for scan/detection reconciliation writes to filecache.
 	 *
-	 * Defaults to ``data/mount.json`` in the Nextcloud directory.
-	 */
-	'mount_file' => '/var/www/nextcloud/data/mount.json',
-
-	/**
-	 * Prevent Nextcloud from updating the cache due to filesystem changes for all
-	 * storage.
+	 * When true, Nextcloud does not store filecache metadata changes that are
+	 * identified through scanner/change-detection reconciliation paths (global:
+	 * all storages).
 	 *
-	 * Defaults to ``false``
+	 * Scope note:
+	 *
+	 * - Nextcloud-originated operations (UI/WebDAV/clients) are generally
+	 *   handled through normal application write paths and thus will still
+	 *   update filecache even when this is set to true.
+	 * - Reconciliation/refresh paths are prevented from writing back discovered
+	 *   metadata deltas while this is enabled.
+	 *
+	 * Practical effect:
+	 *
+	 * - Changes made directly on storage outside Nextcloud are generally not
+	 *   reflected while enabled.
+	 * - Some metadata-dependent behavior can appear stale until this parameter
+	 *   is disabled (permitting reconciliation writes again).
+	 *
+	 * Warning: This is an expert/global setting for specialized environments and
+	 * is intentionally not default-safe for general deployments.
+	 *
+	 * Defaults to ``false``.
 	 */
 	'filesystem_cache_readonly' => false,
 
@@ -2612,6 +2659,13 @@ $CONFIG = [
 	 * Defaults to ``''`` (empty string)
 	 */
 	'data-fingerprint' => '',
+
+	/**
+	 * config.php file mode in octal notation.
+	 *
+	 * Defaults to ``0640`` (writable by user, readable by group).
+	 */
+	'configfilemode' => 0640,
 
 	/**
 	 * This entry serves as a warning if the sample configuration was copied.
@@ -2917,4 +2971,12 @@ $CONFIG = [
 		'fe80::/10',
 		'10.0.0.1',
 	],
+
+	/**
+	 * Delete previews older than a certain number of days to reduce storage usage.
+	 * Less than one day is not allowed, so set it to 0 to disable the deletion.
+	 *
+	 * Defaults to ``0``.
+	 */
+	'preview_expiration_days' => 0,
 ];

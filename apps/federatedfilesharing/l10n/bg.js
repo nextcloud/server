@@ -40,9 +40,6 @@ OC.L10N.register(
     "Remote share" : "Отдалечено споделяне",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Искате ли да добавите отдалечено споделяне {name} от {owner}@{remote}?",
     "Remote share password" : "Парола за отдалечено споделяне",
-    "Cloud ID copied to the clipboard" : "Cloud идентификатора е копиран в клипборда",
-    "Copy to clipboard" : "Копиране в клипборда",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете да споделяте с всеки, който използва сървър Nextcloud или други сървъри и услуги, съвместими с Open Cloud Mesh (OCM)! Просто поставете техния идентификатор за Федериран облак в диалоговия прозорец за споделяне. Изглежда като person@cloud.example.com",
     "X (formerly Twitter)" : "X (преди Twitter)"
 },
 "nplurals=2; plural=(n != 1);");

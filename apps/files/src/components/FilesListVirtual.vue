@@ -74,7 +74,7 @@ import type { ComponentPublicInstance, PropType } from 'vue'
 import type { UserConfig } from '../types.ts'
 
 import { showError } from '@nextcloud/dialogs'
-import { FileType, Folder, getFileActions, getSidebar, Permission, View } from '@nextcloud/files'
+import { FileType, Folder, getSidebar, Permission, View } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { computed, defineComponent } from 'vue'
@@ -87,6 +87,7 @@ import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import VirtualList from './VirtualList.vue'
+import { useEnabledFileActions } from '../composables/useFileActions.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
@@ -362,21 +363,13 @@ export default defineComponent({
 			}
 
 			if (node.type === FileType.File) {
-				const defaultAction = getFileActions()
-					// Get only default actions (visible and hidden)
-					.filter((action) => !!action?.default)
-					// Find actions that are either always enabled or enabled for the current node
-					.filter((action) => (!action.enabled || action.enabled({
-						nodes: [node],
-						view: this.currentView,
-						folder: this.currentFolder,
-						contents: this.nodes,
-					})))
-					.filter((action) => action.id !== 'download')
-					// Sort enabled default actions by order
-					.sort((a, b) => (a.order || 0) - (b.order || 0))
-					// Get the first one
-					.at(0)
+				const actions = useEnabledFileActions({
+					nodes: [node],
+					view: this.currentView,
+					folder: this.currentFolder,
+					contents: this.nodes,
+				})
+				const defaultAction = actions.value.find((action) => action.id !== 'download' && !!action.default)
 
 				// Some file types do not have a default action (e.g. they can only be downloaded)
 				// So if there is an enabled default action, so execute it
@@ -750,7 +743,7 @@ export default defineComponent({
 			& > span {
 				justify-content: flex-start;
 
-				&:not(.files-list__row-icon-favorite) svg {
+				&:not(.files-list__row-icon-favorite):not(.files-list__row-icon-recently-created) svg {
 					width: var(--icon-preview-size);
 					height: var(--icon-preview-size);
 				}
@@ -798,7 +791,8 @@ export default defineComponent({
 				}
 			}
 
-			&-favorite {
+			&-favorite,
+			&-recently-created {
 				position: absolute;
 				top: 0px;
 				inset-inline-end: -10px;
@@ -1000,8 +994,9 @@ export default defineComponent({
 		}
 	}
 
-	// Star icon in the top right
-	.files-list__row-icon-favorite {
+	// Icon in the top right
+	.files-list__row-icon-favorite,
+	.files-list__row-icon-recently-created {
 		position: absolute;
 		top: 0;
 		inset-inline-end: 0;

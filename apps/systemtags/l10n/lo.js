@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Failed to delete tag for file",
     "Collaborative tags …" : "Collaborative tags …",
     "Loading …" : "ກຳລັງໂຫຼດ…",
-    "File tags modification canceled" : "File tags modification canceled",
-    "Select or create tags to apply to all selected files" : "Select or create tags to apply to all selected files",
-    "Select tags to apply to all selected files" : "Select tags to apply to all selected files",
-    "Apply changes" : "Apply changes",
     "Loading collaborative tags …" : "Loading collaborative tags …"
 },
 "nplurals=1; plural=0;");

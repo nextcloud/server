@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du at tilføje det eksterne drev  {name} fra {owner}@{remote}?",
     "Remote share password" : "Fjerndrev adgangskode",
     "Incoming share could not be processed" : "Indgående deling kunne ikke behandles",
-    "Cloud ID copied to the clipboard" : "Cloud ID er kopieret til udklipsholderen.",
-    "Copy to clipboard" : "Kopier til udklipsholder",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle, der bruger en Nextcloud-server eller andre Open Cloud Mesh (OCM)-kompatible servere og tjenester! Indsæt blot deres Sammenkoblings Cloud ID i delingsdialogen. Det ligner person@cloud.example.com",
     "X (formerly Twitter)" : "X (tidligere Twitter)",
     "formerly Twitter" : "tidligere Twitter"
 },

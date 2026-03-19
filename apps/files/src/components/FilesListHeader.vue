@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import type { Folder, Header, View } from '@nextcloud/files'
+import type { Folder, IFileListHeader, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import PQueue from 'p-queue'
@@ -25,7 +25,7 @@ export default {
 	name: 'FilesListHeader',
 	props: {
 		header: {
-			type: Object as PropType<Header>,
+			type: Object as PropType<IFileListHeader>,
 			required: true,
 		},
 

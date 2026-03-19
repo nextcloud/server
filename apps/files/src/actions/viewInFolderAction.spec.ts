@@ -35,7 +35,7 @@ describe('View in folder action conditions tests', () => {
 			contents: [],
 		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
-		expect(action.order).toBe(80)
+		expect(action.order).toBe(10)
 		expect(action.enabled).toBeDefined()
 	})
 })

@@ -31,10 +31,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "設定本週末的提醒",
     "Next week" : "下星期",
     "Set reminder for next week" : "設定下星期的提醒",
-    "This files_reminder can work properly." : "此 files_reminder 可以正常運作。",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "files_reminder 應用程式需要通知應用程式才能正常運作。您應該啟用通知或停用 files_reminder。",
-    "Set reminder for \"{fileName}\"" : "設定「{fileName}」的提醒",
-    "Set reminder at custom date & time" : "設定自訂日期與時間的提醒",
-    "Set custom reminder" : "設定自訂提醒"
+    "Set reminder for \"{fileName}\"" : "設定「{fileName}」的提醒"
 },
 "nplurals=1; plural=0;");

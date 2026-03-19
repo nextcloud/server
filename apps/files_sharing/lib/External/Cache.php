@@ -41,8 +41,8 @@ class Cache extends \OC\Files\Cache\Cache {
 		return $result;
 	}
 
-	public function getFolderContentsById($fileId) {
-		$results = parent::getFolderContentsById($fileId);
+	public function getFolderContentsById($fileId, ?string $mimeTypeFilter = null): array {
+		$results = parent::getFolderContentsById($fileId, $mimeTypeFilter);
 		foreach ($results as &$file) {
 			$file['displayname_owner'] = $this->cloudId->getDisplayId();
 		}

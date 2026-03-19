@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -41,7 +43,7 @@ class PublicLinkCheckPlugin extends ServerPlugin {
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
-		// verify that the owner didn't have their share permissions revoked
+		// verify that the initiator didn't have their share permissions revoked
 		if ($this->fileInfo && !$this->fileInfo->isShareable()) {
 			throw new NotFound();
 		}

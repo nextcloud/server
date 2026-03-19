@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Non hai ficheiros eliminados",
     "Files and folders you have deleted will show up here" : "Os ficheiros e cartafoles que eliminou amosaranse aquí",
     "All files have been permanently deleted" : "Todos os ficheiros foron eliminados definitivamente",
-    "Failed to empty deleted files" : "Produciuse un fallo ao baleirar os ficheiros borrados",
-    "Deletion cancelled" : "Foi cancelada a eliminación"
+    "Failed to empty deleted files" : "Produciuse un fallo ao baleirar os ficheiros borrados"
 },
 "nplurals=2; plural=(n != 1);");

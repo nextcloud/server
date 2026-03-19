@@ -1,6 +1,9 @@
 OC.L10N.register(
     "profile",
     {
+    "Searching …" : "Leita …",
+    "Not found" : "Fannst ekki",
+    "Insert" : "Setja inn",
     "You have not added any info yet" : "Þú hefur ekki bætt við neinum upplýsingum ennþá",
     "{user} has not added any info yet" : "{user} hefur ekki bætt við neinum upplýsingum ennþá",
     "Error opening the user status modal, try hard refreshing the page" : "Villa við að opna stöðuglugga notandans, prófaðu að þvinga endurlestur síðunnar",

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -28,7 +30,7 @@ class ShareesContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_email');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn');
-		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_userid');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_user_id');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_group');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_phone');
 	}

@@ -111,10 +111,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Nem sikerült a fájl címkéjének törlése",
     "Collaborative tags …" : "Együttműködési címkék…",
     "Loading …" : "Betöltés…",
-    "File tags modification canceled" : "Fájlcímkék megváltoztatása megszakítva",
-    "Select or create tags to apply to all selected files" : "Válassza ki vagy hozza létre az összes fájlra alkalmazandó címkéket",
-    "Select tags to apply to all selected files" : "Válassza ki az összes fájlra alkalmazandó címkéket",
-    "Apply changes" : "Változtatások alkalmazása",
     "Loading collaborative tags …" : "Együttműködési címkék betöltése…"
 },
 "nplurals=2; plural=(n != 1);");

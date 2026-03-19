@@ -140,13 +140,8 @@ OC.L10N.register(
     "Unauthorized" : "Baimenik gabe",
     "Network error" : "Sare errorea",
     "Grant access" : "Baimendu sarrera",
-    "Error configuring OAuth1" : "Errorea OAuth1 konfiguratzean",
-    "Please provide a valid app key and secret." : "Eman baliozko aplikazio-gakoa eta sekretua.",
     "Error configuring OAuth2" : "Errorea OAuth2 konfiguratzean",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Aplikazio-gakoa",
-    "App secret" : "Aplikazio-sekretua",
     "OAuth2" : "OAuth2",
     "Client ID" : "Bezero ID",
     "Client secret" : "Bezeroaren sekretua",
@@ -161,7 +156,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Backend ezezaguna: {backendName}",
     "Admin defined" : "Administratzaileak definitua",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Egoeraren egiaztatze automatikoa desgaituta dago konfiguratutako biltegiratze kopuru handia dela eta, egin klik egoera egiaztatzeko",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ziur kanpoko biltegiratze hau deskonektatu nahi duzula? Biltegiratzea ez da erabilgarri egongo Nextclouden eta fitxategi eta karpeta hauek ezabatuko ditu une honetan konektatuta dagoen edozein sinkronizazio-bezerotan, baina ez du fitxategi edo karpetarik ezabatuko kanpoko biltegian.",
+    "Are you sure you want to disconnect this external storage?" : "Ziur zaude kanpoko biltegia deskonektatu nahi duzula?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ezingo da gorde {instanceName} instantzian, eta fitxategi eta karpeta horiek ezabatuko dira gaur egun konektatuta dagoen edozein bezero sinkronikotik baina kanpoko biltegitik ez dira ezabatuko.",
     "Delete storage?" : "Biltegiratzea ezabatu?",
     "Click to recheck the configuration" : "Egin klik konfigurazioa berriro egiaztatzeko",
     "Saving …" : "Gordetzen …",
@@ -173,8 +169,6 @@ OC.L10N.register(
     "Configuration" : "Konfigurazioa",
     "Available for" : "Hauentzat eskuragarri",
     "All people" : "Pertsona guztiak",
-    "Advanced settings" : "Ezarpen aurreratuak",
-    "Are you sure you want to disconnect this external storage?" : "Ziur zaude kanpoko biltegia deskonektatu nahi duzula?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ezingo da gorde {instanceName} instantzian, eta fitxategi eta karpeta horiek ezabatuko dira gaur egun konektatuta dagoen edozein bezero sinkronikotik baina kanpoko biltegitik ez dira ezabatuko."
+    "Advanced settings" : "Ezarpen aurreratuak"
 },
 "nplurals=2; plural=(n != 1);");

@@ -14,8 +14,8 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * Class FileDisplayResponse
  *
  * @since 11.0.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class FileDisplayResponse extends Response implements ICallbackResponse {

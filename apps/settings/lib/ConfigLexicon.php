@@ -35,7 +35,7 @@ class ConfigLexicon implements ILexicon {
 
 	public function getAppConfigs(): array {
 		return [
-			new Entry(key: self::LOGIN_QRCODE_ONETIME, type: ValueType::BOOL, defaultRaw: false, definition: 'Use onetime QR codes for app passwords', note: 'Limits compatibility for mobile apps to versions released in 2026 or later'),
+			new Entry(key: self::LOGIN_QRCODE_ONETIME, type: ValueType::BOOL, defaultRaw: true, definition: 'Use onetime QR codes for app passwords', note: 'Limits compatibility for mobile apps to versions released in 2026 or later'),
 		];
 	}
 

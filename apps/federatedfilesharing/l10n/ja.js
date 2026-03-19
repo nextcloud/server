@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} からのリモート共有 {name} を追加してもよろしいですか？",
     "Remote share password" : "リモート共有のパスワード",
     "Incoming share could not be processed" : "受信した共有を処理できませんでした",
-    "Cloud ID copied to the clipboard" : "クリップボードにクラウドIDをコピーしました",
-    "Copy to clipboard" : "クリップボードにコピー",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud サーバーまたはその他の Open Cloud Mesh (OCM) 互換のサーバーとサービスを使用しているユーザーであれば、共有ダイアログに Federated Cloud ID を入力するだけで誰とでも共有できます。例: person@cloud.example.com",
     "X (formerly Twitter)" : "X (旧 Twitter)",
     "formerly Twitter" : " 旧 Twitter"
 },

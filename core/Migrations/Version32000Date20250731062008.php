@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
 use OCP\Migration\Attributes\DataCleansing;
 use OCP\Migration\IOutput;
@@ -26,15 +25,10 @@ use Override;
 #[DataCleansing(table: 'vcategory_to_object', description: 'Update object references')]
 class Version32000Date20250731062008 extends SimpleMigrationStep {
 	public function __construct(
-		private IDBConnection $connection,
+		private readonly IDBConnection $connection,
 	) {
 	}
 
-	/**
-	 * @param IOutput $output
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 * @param array $options
-	 */
 	#[Override]
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		// Clean up duplicate categories before adding unique constraint

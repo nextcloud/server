@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,28 +14,27 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Share\IManager;
 use OCP\Share\IShareHelper;
+use Override;
 
 class ShareHelper implements IShareHelper {
 	public function __construct(
-		private IManager $shareManager,
+		private readonly IManager $shareManager,
 	) {
 	}
 
-	/**
-	 * @param Node $node
-	 * @return array [ users => [Mapping $uid => $pathForUser], remotes => [Mapping $cloudId => $pathToMountRoot]]
-	 */
-	public function getPathsForAccessList(Node $node) {
+	#[Override]
+	public function getPathsForAccessList(Node $node): array {
 		$result = [
 			'users' => [],
 			'remotes' => [],
 		];
 
 		$accessList = $this->shareManager->getAccessList($node, true, true);
-		if (!empty($accessList['users'])) {
+		if (isset($accessList['users']) && $accessList['users'] !== []) {
 			$result['users'] = $this->getPathsForUsers($node, $accessList['users']);
 		}
-		if (!empty($accessList['remote'])) {
+
+		if (isset($accessList['remote']) && $accessList['remote'] !== []) {
 			$result['remotes'] = $this->getPathsForRemotes($node, $accessList['remote']);
 		}
 
@@ -60,20 +61,20 @@ class ShareHelper implements IShareHelper {
 	 *   'test3' => '/cat',
 	 * ],
 	 *
-	 * @param Node $node
-	 * @param array[] $users
-	 * @return array
+	 * @param non-empty-array<string, array{node_id: int, node_path: string}> $users
+	 * @return array<string, string>
 	 */
-	protected function getPathsForUsers(Node $node, array $users) {
-		/** @var array[] $byId */
+	protected function getPathsForUsers(Node $node, array $users): array {
+		/** @var array<int, array<string, string>> $byId */
 		$byId = [];
-		/** @var array[] $results */
+		/** @var array<string, string> $results */
 		$results = [];
 
 		foreach ($users as $uid => $info) {
 			if (!isset($byId[$info['node_id']])) {
 				$byId[$info['node_id']] = [];
 			}
+
 			$byId[$info['node_id']][$uid] = $info['node_path'];
 		}
 
@@ -82,15 +83,14 @@ class ShareHelper implements IShareHelper {
 				foreach ($byId[$node->getId()] as $uid => $path) {
 					$results[$uid] = $path;
 				}
+
 				unset($byId[$node->getId()]);
 			}
-		} catch (NotFoundException $e) {
-			return $results;
-		} catch (InvalidPathException $e) {
+		} catch (NotFoundException|InvalidPathException) {
 			return $results;
 		}
 
-		if (empty($byId)) {
+		if ($byId === []) {
 			return $results;
 		}
 
@@ -98,22 +98,18 @@ class ShareHelper implements IShareHelper {
 		$appendix = '/' . $node->getName();
 		while (!empty($byId)) {
 			try {
-				/** @var Node $item */
 				$item = $item->getParent();
 
-				if (!empty($byId[$item->getId()])) {
+				if ($byId[$item->getId()] !== []) {
 					foreach ($byId[$item->getId()] as $uid => $path) {
 						$results[$uid] = $path . $appendix;
 					}
+
 					unset($byId[$item->getId()]);
 				}
 
 				$appendix = '/' . $item->getName() . $appendix;
-			} catch (NotFoundException $e) {
-				return $results;
-			} catch (InvalidPathException $e) {
-				return $results;
-			} catch (NotPermittedException $e) {
+			} catch (NotFoundException|InvalidPathException|NotPermittedException) {
 				return $results;
 			}
 		}
@@ -141,27 +137,27 @@ class ShareHelper implements IShareHelper {
 	 *   'test3' => ['token' => 't3', 'node_path' => '/SixTeen/TwentyThree/FortyTwo'],
 	 * ],
 	 *
-	 * @param Node $node
-	 * @param array[] $remotes
-	 * @return array
+	 * @param non-empty-array<string, array{node_id: int, token: string}> $remotes
+	 * @return array<string, array{token: string, node_path: string}>
 	 */
-	protected function getPathsForRemotes(Node $node, array $remotes) {
-		/** @var array[] $byId */
+	protected function getPathsForRemotes(Node $node, array $remotes): array {
+		/** @var array<int, array<string, string>> $byId */
 		$byId = [];
-		/** @var array[] $results */
+		/** @var array<string, array{token: string, node_path: string}> $results */
 		$results = [];
 
 		foreach ($remotes as $cloudId => $info) {
 			if (!isset($byId[$info['node_id']])) {
 				$byId[$info['node_id']] = [];
 			}
+
 			$byId[$info['node_id']][$cloudId] = $info['token'];
 		}
 
 		$item = $node;
 		while (!empty($byId)) {
 			try {
-				if (!empty($byId[$item->getId()])) {
+				if ($byId[$item->getId()] !== []) {
 					$path = $this->getMountedPath($item);
 					foreach ($byId[$item->getId()] as $uid => $token) {
 						$results[$uid] = [
@@ -169,16 +165,12 @@ class ShareHelper implements IShareHelper {
 							'token' => $token,
 						];
 					}
+
 					unset($byId[$item->getId()]);
 				}
 
-				/** @var Node $item */
 				$item = $item->getParent();
-			} catch (NotFoundException $e) {
-				return $results;
-			} catch (InvalidPathException $e) {
-				return $results;
-			} catch (NotPermittedException $e) {
+			} catch (NotFoundException|InvalidPathException|NotPermittedException) {
 				return $results;
 			}
 		}
@@ -186,11 +178,7 @@ class ShareHelper implements IShareHelper {
 		return $results;
 	}
 
-	/**
-	 * @param Node $node
-	 * @return string
-	 */
-	protected function getMountedPath(Node $node) {
+	protected function getMountedPath(Node $node): string {
 		$path = $node->getPath();
 		$sections = explode('/', $path, 4);
 		return '/' . $sections[3];

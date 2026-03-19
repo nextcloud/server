@@ -4,7 +4,7 @@
 -->
 <template>
 	<div class="custom-input" role="group">
-		<NcEmojiPicker container=".custom-input" @select="setIcon">
+		<NcEmojiPicker container="#user_status-dialog" @select="setIcon">
 			<NcButton
 				variant="tertiary"
 				:aria-label="t('user_status', 'Emoji for your status message')">

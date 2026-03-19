@@ -15,6 +15,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StreamTraversableResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\OpenMetrics\IMetricFamily;
@@ -44,12 +46,12 @@ class OpenMetricsController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/metrics')]
-	public function export(): Http\Response {
+	public function export(): Response {
 		if (!$this->isRemoteAddressAllowed()) {
-			return new Http\Response(Http::STATUS_FORBIDDEN);
+			return new Response(Http::STATUS_FORBIDDEN);
 		}
 
-		return new Http\StreamTraversableResponse(
+		return new StreamTraversableResponse(
 			$this->generate(),
 			Http::STATUS_OK,
 			[

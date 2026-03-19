@@ -115,6 +115,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
 				'--color-info-text' => $colorInfoText,
 				'--color-favorite' => '#ffde00',
+				'--color-mark' => '#4d3800',
 				// deprecated
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),

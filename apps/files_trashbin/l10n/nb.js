@@ -20,7 +20,6 @@ OC.L10N.register(
     "You" : "Du",
     "List of files that have been deleted." : "Liste over filer som har blitt slettet.",
     "No deleted files" : "Ingen slettede filer",
-    "Files and folders you have deleted will show up here" : "Filer og mapper du har slettet vil dukke opp her",
-    "Deletion cancelled" : "Sletting avbrutt"
+    "Files and folders you have deleted will show up here" : "Filer og mapper du har slettet vil dukke opp her"
 },
 "nplurals=2; plural=(n != 1);");

@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Saluran pembaruan yang dipilih tidak mendukung pembaruan server.",
     "Changelog for app {app}" : "Catatan perubahan untuk aplikasi {app}",
     "What's new in {app} version {version}" : "Apa yang baru di {app} versi {version}",
-    "{version} is available. Get more information on how to update." : "{version} tersedia. Dapatkan informasi lebih lanjut tentang cara memperbarui.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Semua</strong> aplikasi memiliki versi yang kompatibel untuk versi Nextcloud ini.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikasi tidak memiliki versi yang kompatibel untuk versi Nextcloud ini."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Untuk penggunaan enterprise. Selalu menyediakan tingkat patch terbaru, tetapi tidak akan langsung memperbarui ke rilis mayor berikutnya. Pembaruan tersebut terjadi setelah Nextcloud GmbH melakukan pengerasan tambahan dan pengujian untuk penerapan berskala besar dan yang sangat kritis bagi misi. Saluran ini hanya tersedia untuk pelanggan dan menyediakan paket Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "{version} tersedia. Dapatkan informasi lebih lanjut tentang cara memperbarui."
 },
 "nplurals=1; plural=0;");

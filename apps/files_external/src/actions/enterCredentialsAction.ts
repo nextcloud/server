@@ -35,7 +35,7 @@ addPasswordConfirmationInterceptors(axios)
 async function setCredentials(node: INode, login: string, password: string): Promise<null | true> {
 	const configResponse = await axios.request({
 		method: 'PUT',
-		url: generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.attributes.id }),
+		url: generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.id }),
 		confirmPassword: PwdConfirmationMode.Strict,
 		data: {
 			backendOptions: { user: login, password },

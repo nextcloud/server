@@ -57,7 +57,7 @@ class Scanner extends PublicEmitter {
 	protected int $entriesToCommit = 0;
 
 	public function __construct(
-		private string $user,
+		private ?string $user,
 		protected ?IDBConnection $db,
 		private IEventDispatcher $dispatcher,
 		protected LoggerInterface $logger,

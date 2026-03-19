@@ -53,9 +53,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Избраниот канал за ажурирање не поддржува ажурирање за серверот.",
     "Changelog for app {app}" : "Дневник на промени за апликацијата {app}",
     "What's new in {app} version {version}" : "Што е ново во {app} верзија {version}",
-    "{version} is available. Get more information on how to update." : "Достапна е нова верзија {version}. Видете ги информациите како да ја ажурирате.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Сите</strong> апликации се компатибилни за оваа верзија",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1 апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За професионална употреба. Овозможува секогаш најново ниво на ажурирање, но нема веднаш да се ажурира на следното големо издание. Ова ажурирање се случува откако Nextcloud GmbH ќе направи дополнително тестирање за големи и критични сервери. Овој канал е достапен само за клиентите и го имаат пакетот Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "Достапна е нова верзија {version}. Видете ги информациите како да ја ажурирате."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

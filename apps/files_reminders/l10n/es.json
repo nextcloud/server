@@ -28,10 +28,6 @@
     "Set reminder for this weekend" : "Establecer recordatorio para este fin de semana",
     "Next week" : "Próxima semana",
     "Set reminder for next week" : "Establecer recordatorio para la próxima semana",
-    "This files_reminder can work properly." : "Este files_reminder puede trabajar de forma apropiada.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "La app \"files_reminders\" requiere la app de notificaciones para trabajar de forma apropiada. Debería o bien habilitar las notificaciones o deshabilitar files_reminder.",
-    "Set reminder for \"{fileName}\"" : "Establecer recordatorio para \"{fileName}\"",
-    "Set reminder at custom date & time" : "Establecer recordatorio a una fecha y hora personalizada",
-    "Set custom reminder" : "Establecer recordatorio personalizado"
+    "Set reminder for \"{fileName}\"" : "Establecer recordatorio para \"{fileName}\""
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
