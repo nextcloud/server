@@ -33,7 +33,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->backend = $this->createMock(CalDavBackend::class);
 		$this->calendar = $this->createMock(Calendar::class);
 		$this->calendarInfo = [
-			'id' => 'fancy_id_123',
+			'id' => 123,
 			'{DAV:}displayname' => 'user readable name 123',
 			'{http://apple.com/ns/ical/}calendar-color' => '#AABBCC',
 			'uri' => '/this/is/a/uri',
@@ -62,7 +62,7 @@ class CalendarImplTest extends \Test\TestCase {
 
 
 	public function testGetKey(): void {
-		$this->assertEquals($this->calendarImpl->getKey(), 'fancy_id_123');
+		$this->assertEquals($this->calendarImpl->getKey(), '123');
 	}
 
 	public function testGetDisplayname(): void {
@@ -71,6 +71,18 @@ class CalendarImplTest extends \Test\TestCase {
 
 	public function testGetDisplayColor(): void {
 		$this->assertEquals($this->calendarImpl->getDisplayColor(), '#AABBCC');
+	}
+
+	public function testGetPublicToken(): void {
+		$publicToken = $this->calendar->setPublishStatus(true);
+
+		$this->assertEquals($this->calendarImpl->getPublicToken(), $publicToken);
+	}
+
+	public function testGetPublicTokenWithPrivateCalendar(): void {
+		$this->calendar->setPublishStatus(false);
+
+		$this->assertNull($this->calendarImpl->getPublicToken());
 	}
 
 	public function testSearch(): void {
@@ -266,5 +278,4 @@ class CalendarImplTest extends \Test\TestCase {
 
 		$calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
 	}
-
 }
