@@ -371,13 +371,13 @@ function execute_tests {
 	fi
 	GROUP=''
 	if [ "$TEST_SELECTION" == "QUICKDB" ]; then
-		GROUP='--group DB --exclude-group=SLOWDB'
+		GROUP='--group DB --exclude-group SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "DB" ]; then
-		GROUP='--group DB,SLOWDB'
+		GROUP='--group DB --group SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "NODB" ]; then
-		GROUP='--exclude-group DB,SLOWDB'
+		GROUP='--exclude-group DB --exclude-group SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "PRIMARY-s3" ]; then
 		GROUP='--group PRIMARY-s3'
