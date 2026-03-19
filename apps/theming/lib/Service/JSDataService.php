@@ -12,7 +12,7 @@ use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 
 /**
- * @deprecated since Nextcloud 32 — all properties are now exposed via Capabilities
+ * @deprecated since Nextcloud 34 — all properties are now exposed via Capabilities
  */
 class JSDataService implements \JsonSerializable {
 
