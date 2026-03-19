@@ -37,7 +37,6 @@
 		<file name="lib/public/Share/IShareHelper.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
-			<directory name="apps/**/tests"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
