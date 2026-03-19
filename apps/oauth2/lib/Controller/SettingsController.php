@@ -35,6 +35,7 @@ use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCP\IL10N;
@@ -62,6 +63,7 @@ class SettingsController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
+	#[PasswordConfirmationRequired(strict: true)]
 	public function addClient(string $name,
 		string $redirectUri): JSONResponse {
 		if (filter_var($redirectUri, FILTER_VALIDATE_URL) === false) {
@@ -88,6 +90,7 @@ class SettingsController extends Controller {
 		return new JSONResponse($result);
 	}
 
+	#[PasswordConfirmationRequired]
 	public function deleteClient(int $id): JSONResponse {
 		$client = $this->clientMapper->getByUid($id);
 
