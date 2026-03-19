@@ -9,8 +9,14 @@
 
 ?>
 
-<?php foreach ($_['forms'] as $form) {
-	if (isset($form['form'])) {?>
-		<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
-	<?php }
-	} ?>
+<?php foreach ($_['forms'] as $form): ?>
+	<?php
+	$formHtml = $form['form'] ?? null;
+	if ($formHtml === null) {
+		continue;
+	}
+
+	$anchor = $form['anchor'] ?? '';
+	?>
+	<div id="<?php p($anchor); ?>"><?php print_unescaped($formHtml); ?></div>
+<?php endforeach; ?>
