@@ -84,7 +84,7 @@ class ThemingDefaults extends \OC_Defaults {
 		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_NAME, $this->entity));
 	}
 
-	public function getProductName() {
+	public function getProductName(): string {
 		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::PRODUCT_NAME, $this->productName));
 	}
 
