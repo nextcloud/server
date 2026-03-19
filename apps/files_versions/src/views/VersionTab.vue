@@ -156,7 +156,7 @@ export default {
 		 */
 		handleNodeUpdated(node) {
 			// Reload if this is the currently open file
-			if (this.fileInfo && node.fileid === this.fileInfo.id) {
+			if (this.fileInfo && node.fileid === this.fileInfo.id && this.isActive && !this.loading) {
 				// Delay to let the server create the new version
 				setTimeout(() => {
 					this.fetchVersions()
@@ -189,6 +189,9 @@ export default {
 			try {
 				this.loading = true
 				this.versions = await fetchVersions(this.fileInfo)
+			} catch (error) {
+				// Silently fail if we can't fetch versions (e.g., during user switch or permission issues)
+				// The versions will be loaded when the tab is properly opened
 			} finally {
 				this.loading = false
 			}
