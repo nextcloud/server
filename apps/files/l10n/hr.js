@@ -95,6 +95,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "Već postoji drugi upis s istim nazivom.",
     "Invalid filename." : "Nevažeći naziv datoteke.",
     "Rename file" : "Preimenuj datoteku",
+    "Recently created" : "Nedavno stvoreno",
     "Folder" : "Mapa",
     "Unknown file type" : "Nepoznata vrsta datoteke",
     "{ext} image" : "{ext} slika",
