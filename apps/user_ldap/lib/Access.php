@@ -1572,8 +1572,8 @@ class Access extends LDAPUtility {
 		if ($term === '') {
 			$result = '*';
 		} elseif ($allowEnum) {
-			$activeDirectoryCompat = $this->appConfig->getValueBool('user_ldap', 'partial_search_active_directory_compatibility', false);
-			if ($activeDirectoryCompat) {
+			$usePrefixWildcard = $this->appConfig->getValueBool('user_ldap', 'partial_search_with_prefix_wildcard', false);
+			if ($usePrefixWildcard) {
 				$result = '*' . $term . '*';
 			} else {
 				$result = $term . '*';
