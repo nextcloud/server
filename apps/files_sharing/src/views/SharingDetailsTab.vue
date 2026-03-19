@@ -901,7 +901,10 @@ export default {
 			if (this.isNewShare) {
 				if ((this.config.enableLinkPasswordByDefault || this.isPasswordEnforced) && this.isPublicShare) {
 					this.passwordProtectedState = true
-					this.$set(this.share, 'newPassword', await GeneratePassword(true))
+					const generatedPassword = await GeneratePassword(true)
+					if (!this.share.newPassword) {
+						this.$set(this.share, 'newPassword', generatedPassword)
+					}
 					this.advancedSectionAccordionExpanded = true
 				}
 				/* Set default expiration dates if configured */
