@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -165,7 +166,7 @@ class Application extends App implements IBootstrap {
 	public function registerDownloadEvents(
 		IEventDispatcher $dispatcher,
 		IUserSession $userSession,
-		IRootFolder $rootFolder
+		IRootFolder $rootFolder,
 	): void {
 
 		$dispatcher->addListener(

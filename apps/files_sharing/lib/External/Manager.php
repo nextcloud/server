@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -103,20 +104,20 @@ class Manager {
 	private $config;
 
 	public function __construct(
-		IDBConnection                   $connection,
-		\OC\Files\Mount\Manager         $mountManager,
-		IStorageFactory                 $storageLoader,
-		IClientService                  $clientService,
-		IManager                        $notificationManager,
-		IDiscoveryService               $discoveryService,
+		IDBConnection $connection,
+		\OC\Files\Mount\Manager $mountManager,
+		IStorageFactory $storageLoader,
+		IClientService $clientService,
+		IManager $notificationManager,
+		IDiscoveryService $discoveryService,
 		ICloudFederationProviderManager $cloudFederationProviderManager,
-		ICloudFederationFactory         $cloudFederationFactory,
-		IGroupManager                   $groupManager,
-		IUserManager                    $userManager,
-		IUserSession                    $userSession,
-		IEventDispatcher                $eventDispatcher,
-		LoggerInterface                 $logger,
-		IConfig							$config,
+		ICloudFederationFactory $cloudFederationFactory,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IEventDispatcher $eventDispatcher,
+		LoggerInterface $logger,
+		IConfig $config,
 	) {
 		$user = $userSession->getUser();
 		$this->connection = $connection;
@@ -740,12 +741,12 @@ class Manager {
 			$qb = $this->connection->getQueryBuilder();
 			// delete group share entry and matching sub-entries
 			$qb->delete('share_external')
-			   ->where(
-			   	$qb->expr()->orX(
-			   		$qb->expr()->eq('id', $qb->createParameter('share_id')),
-			   		$qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
-			   	)
-			   );
+				->where(
+					$qb->expr()->orX(
+						$qb->expr()->eq('id', $qb->createParameter('share_id')),
+						$qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
+					)
+				);
 
 			foreach ($shares as $share) {
 				$qb->setParameter('share_id', $share['id']);
