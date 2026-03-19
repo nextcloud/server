@@ -166,6 +166,8 @@ class DefaultTheme implements ITheme {
 			'--color-info-text' => $colorInfoText,
 			'--color-favorite' => '#A37200',
 			'--color-mark' => '#fff0c7',
+			'--color-background-selection' => 'rgb(from var(--color-primary-element) r g b / 0.2)',
+			'--color-text-selection' => 'var(--color-main-text)',
 			// deprecated
 			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),

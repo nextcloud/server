@@ -98,6 +98,8 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 				'--color-success-text' => $this->util->darken($colorSuccess, 70),
 
 				'--color-favorite' => '#936B06',
+				'--color-background-selection' => 'var(--color-primary-element)',
+				'--color-text-selection' => 'var(--color-primary-element-text)',
 
 				'--color-scrollbar' => 'auto transparent',
 

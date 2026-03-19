@@ -43,6 +43,8 @@
   --color-info-text: #0066AC;
   --color-favorite: #A37200;
   --color-mark: #fff0c7;
+  --color-background-selection: rgb(from var(--color-primary-element) r g b / 0.2);
+  --color-text-selection: var(--color-main-text);
   /** @deprecated use css color functions */
   --color-error-rgb: 255,231,231;
   /** @deprecated use css color functions */
