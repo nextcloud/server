@@ -106,7 +106,7 @@ class LoginRedirectorController extends Controller {
 
 		if ($response_type !== 'code') {
 			//Fail
-			$url = $client->getRedirectUri() . '?error=unsupported_response_type&state=' . $state;
+			$url = $client->getRedirectUri() . '?error=unsupported_response_type&state=' . \urlencode($state);
 			return new RedirectResponse($url);
 		}
 
