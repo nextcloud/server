@@ -30,6 +30,7 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICacheFactory;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -71,6 +72,7 @@ class ManagerTest extends TestCase {
 	protected SetupManager&MockObject $setupManager;
 	protected ICertificateManager&MockObject $certificateManager;
 	private ExternalShareMapper $externalShareMapper;
+	private IConfig $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -81,6 +83,7 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -119,7 +122,7 @@ class ManagerTest extends TestCase {
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->userManager,
-		));
+		), $this->config);
 
 		$this->group1 = $this->createMock(IGroup::class);
 		$this->group1->expects($this->any())->method('getGID')->willReturn('group1');
@@ -169,6 +172,7 @@ class ManagerTest extends TestCase {
 					$this->setupManager,
 					$this->certificateManager,
 					$this->externalShareMapper,
+					$this->config,
 				]
 			)->onlyMethods(['tryOCMEndPoint'])->getMock();
 	}
