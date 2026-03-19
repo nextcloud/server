@@ -1,13 +1,26 @@
 <?php
 /**
- * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 style('settings', 'settings');
+
+$activeSectionId = $_['activeSectionId'] ?? '';
+$activeSectionType = $_['activeSectionType'] ?? '';
+
+$mainAttributes = '';
+
+if (!empty($activeSectionId)) {
+	$mainAttributes .= ' data-active-section-id="' . $activeSectionId . '"';
+}
+
+if (!empty($activeSectionType)) {
+	$mainAttributes .= ' data-active-section-type="' . $activeSectionType . '"';
+}
 ?>
 
 <div id="app-navigation"></div>
-<main id="app-content" <?php if (!empty($_['activeSectionId'])) { ?> data-active-section-id="<?php print_unescaped($_['activeSectionId']) ?>" <?php } if (!empty($_['activeSectionType'])) { ?> data-active-section-type="<?php print_unescaped($_['activeSectionType']) ?>" <?php } ?>>
+<main id="app-content"<?php print_unescaped($mainAttributes); ?>>
 	<?php print_unescaped($_['content']); ?>
 </main>
