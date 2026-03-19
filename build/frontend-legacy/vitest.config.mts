@@ -48,7 +48,6 @@ export default defineConfig({
 	},
 	test: {
 		include: ['./{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
-		passWithNoTests: true,
 		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {
