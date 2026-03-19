@@ -44,7 +44,7 @@ $socialLinks = [
 		'label' => $l->t('Check out our blog'),
 	],
 	[
-		'href' => 'https://newsletter.nextcloud.com/?p=subscribe&amp;id=1',
+		'href' => 'https://newsletter.nextcloud.com/?p=subscribe&id=1',
 		'icon' => image_path('core', 'mail.svg'),
 		'label' => $l->t('Subscribe to our newsletter'),
 	],
