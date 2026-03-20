@@ -8,7 +8,7 @@
 
 $knowledgebaseEmbedded = ($_['knowledgebaseEmbedded'] ?? false) === true;
 $mode = $_['mode'] ?? '';
-$isAdmin = (bool) ($_['admin'] ?? false);
+$isAdmin = (bool)($_['admin'] ?? false);
 
 $url = $_['url'] ?? '';
 $urlUserDocs = $_['urlUserDocs'] ?? '';
@@ -79,7 +79,7 @@ $resources = [
 
 				$isCurrent = isset($resource['embeddedMode']) && $resource['embeddedMode'] === $mode;
 				$linkClass = 'help-list__link ' . $resource['embeddedIcon'] . ($isCurrent ? ' active' : '');
-				$isExternal = (bool) ($resource['external'] ?? false);
+				$isExternal = $resource['external'] ?? false;
 				?>
 				<li>
 					<a
@@ -108,7 +108,9 @@ $resources = [
 				</h2>
 				<div class="help-content__body">
 					<?php foreach ($resources as $resource): ?>
-						<?php if (!$resource['show']) { continue; } ?>
+						<?php if (!$resource['show']) { 
+							continue;
+						} ?>
 						<a
 							class="button"
 							target="_blank"
