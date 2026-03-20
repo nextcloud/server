@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Sharing\Tests\Repair;
 
+use OC\Files\Filesystem;
 use OC\Migration\NullOutput;
 use OCA\Files_Sharing\Repair\CleanupShareTarget;
 use OCA\Files_Sharing\Tests\TestCase;
@@ -49,6 +50,7 @@ class CleanupShareTargetTest extends TestCase {
 
 		$share->setTarget($target);
 		$this->shareManager->moveShare($share, self::TEST_FILES_SHARING_API_USER2);
+		Filesystem::getMountManager()->moveMount('/' . self::TEST_FILES_SHARING_API_USER2 . '/files' . self::TEST_FOLDER_NAME . '/', '/' . self::TEST_FILES_SHARING_API_USER2 . '/files' . $target . '/');
 
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertEquals($target, $share->getTarget());

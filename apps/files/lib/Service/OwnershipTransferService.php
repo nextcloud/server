@@ -19,6 +19,7 @@ use OCA\Files\Exception\TransferOwnershipException;
 use OCA\Files_External\Config\ConfigAdapter;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Encryption\IManager as IEncryptionManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
@@ -31,6 +32,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -53,6 +55,7 @@ class OwnershipTransferService {
 		private IUserManager $userManager,
 		private IFactory $l10nFactory,
 		private IRootFolder $rootFolder,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -567,20 +570,23 @@ class OwnershipTransferService {
 			} catch (\Throwable $e) {
 				$output->writeln('<error>Could not restore share with id ' . $share->getId() . ':' . $e->getMessage() . ' : ' . $e->getTraceAsString() . '</error>');
 			}
+			$this->eventDispatcher->dispatchTyped(new ShareTransferredEvent($share));
 			$progress->advance();
 		}
 		$progress->finish();
 		$output->writeln('');
 	}
 
-	private function transferIncomingShares(string $sourceUid,
+	private function transferIncomingShares(
+		string $sourceUid,
 		string $destinationUid,
 		array $sourceShares,
 		array $destinationShares,
 		OutputInterface $output,
 		string $path,
 		string $finalTarget,
-		bool $move): void {
+		bool $move,
+	): void {
 		$output->writeln('Restoring incoming shares ...');
 		$progress = new ProgressBar($output, count($sourceShares));
 		$prefix = "$destinationUid/files";
@@ -619,8 +625,11 @@ class OwnershipTransferService {
 						if ($move) {
 							continue;
 						}
+						$oldMountPoint = $this->getShareMountPoint($destinationUid, $share->getTarget());
+						$newMountPoint = $this->getShareMountPoint($destinationUid, $shareTarget);
 						$share->setTarget($shareTarget);
 						$this->shareManager->moveShare($share, $destinationUid);
+						$this->mountManager->moveMount($oldMountPoint, $newMountPoint);
 						continue;
 					}
 					$this->shareManager->deleteShare($share);
@@ -638,8 +647,11 @@ class OwnershipTransferService {
 					if ($move) {
 						continue;
 					}
+					$oldMountPoint = $this->getShareMountPoint($destinationUid, $share->getTarget());
+					$newMountPoint = $this->getShareMountPoint($destinationUid, $shareTarget);
 					$share->setTarget($shareTarget);
 					$this->shareManager->moveShare($share, $destinationUid);
+					$this->mountManager->moveMount($oldMountPoint, $newMountPoint);
 					continue;
 				}
 			} catch (NotFoundException $e) {
@@ -651,5 +663,9 @@ class OwnershipTransferService {
 		}
 		$progress->finish();
 		$output->writeln('');
+	}
+
+	private function getShareMountPoint(string $uid, string $target): string {
+		return '/' . $uid . '/files/' . trim($target, '/') . '/';
 	}
 }
