@@ -4225,6 +4225,8 @@
                             "name",
                             "productName",
                             "url",
+                            "imprintUrl",
+                            "privacyUrl",
                             "slogan",
                             "color",
                             "color-text",
@@ -4237,7 +4239,14 @@
                             "background-plain",
                             "background-default",
                             "logoheader",
-                            "favicon"
+                            "favicon",
+                            "primaryColor",
+                            "backgroundColor",
+                            "defaultPrimaryColor",
+                            "defaultBackgroundColor",
+                            "inverted",
+                            "cacheBuster",
+                            "enabledThemes"
                         ],
                         "properties": {
                             "name": {
@@ -4247,6 +4256,12 @@
                                 "type": "string"
                             },
                             "url": {
+                                "type": "string"
+                            },
+                            "imprintUrl": {
+                                "type": "string"
+                            },
+                            "privacyUrl": {
                                 "type": "string"
                             },
                             "slogan": {
@@ -4287,6 +4302,30 @@
                             },
                             "favicon": {
                                 "type": "string"
+                            },
+                            "primaryColor": {
+                                "type": "string"
+                            },
+                            "backgroundColor": {
+                                "type": "string"
+                            },
+                            "defaultPrimaryColor": {
+                                "type": "string"
+                            },
+                            "defaultBackgroundColor": {
+                                "type": "string"
+                            },
+                            "inverted": {
+                                "type": "boolean"
+                            },
+                            "cacheBuster": {
+                                "type": "string"
+                            },
+                            "enabledThemes": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }
