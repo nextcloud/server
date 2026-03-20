@@ -103,6 +103,21 @@ class PostgreSQL extends AbstractDatabase {
 		}
 	}
 
+	/**
+	 * Find a role name starting from $base that doesn't already exist.
+	 */
+	private function findAvailableUsername(Connection $connection, string $base): string {
+		$candidate = $base;
+
+		$i = 1;
+		while ($this->userExists($connection, $candidate)) {
+			$i++;
+			$candidate = $base . $i;
+		}
+
+		return $candidate;
+	}
+
 	private function createDatabase(Connection $connection): void {
 		if (!$this->databaseExists($connection)) {
 			//The database does not exists... let's create it
@@ -126,12 +141,15 @@ class PostgreSQL extends AbstractDatabase {
 		}
 	}
 
-	private function userExists(Connection $connection): bool {
+	/**
+	 * Check whether a PostgreSQL role already exists.
+	 */
+	private function userExists(Connection $connection, string $username): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
-		$query = $builder->select('*')
+		$query = $builder->select('rolname')
 			->from('pg_roles')
-			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
+			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($username)));
 		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
@@ -147,14 +165,8 @@ class PostgreSQL extends AbstractDatabase {
 	}
 
 	private function createDBUser(Connection $connection): void {
-		$dbUser = $this->dbUser;
+		$this->dbUser = $this->findAvailableUsername($connection, $this->dbUser);
 		try {
-			$i = 1;
-			while ($this->userExists($connection)) {
-				$i++;
-				$this->dbUser = $dbUser . $i;
-			}
-
 			// create the user
 			$query = $connection->prepare('CREATE USER "' . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			$query->executeStatement();
