@@ -53,10 +53,14 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		);
 
 		$this->reflector->method('hasAnnotation')
-			->willReturnCallback(function ($annotation) use ($subadminRequired, $hasSettingAuthorizationAnnotation) {
+			->willReturnCallback(function ($annotation) use ($subadminRequired) {
 				if ($annotation === 'NoSubAdminRequired') {
 					return !$subadminRequired;
 				}
+				return false;
+			});
+		$this->reflector->method('hasAnnotationOrAttribute')
+			->willReturnCallback(function ($annotation, $attribute) use ($hasSettingAuthorizationAnnotation) {
 				if ($annotation === 'AuthorizedAdminSetting') {
 					return $hasSettingAuthorizationAnnotation;
 				}
