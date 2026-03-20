@@ -46,9 +46,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @throws NotConfirmedException
 	 */
 	public function beforeController(Controller $controller, string $methodName) {
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-
-		if (!$this->needsPasswordConfirmation($reflectionMethod)) {
+		if (!$this->needsPasswordConfirmation()) {
 			return;
 		}
 
@@ -79,6 +77,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 			return;
 		}
 
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
 			$authHeader = $this->request->getHeader('Authorization');
 			if (!str_starts_with(strtolower($authHeader), 'basic ')) {
@@ -101,18 +100,8 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 	}
 
-	private function needsPasswordConfirmation(ReflectionMethod $reflectionMethod): bool {
-		$attributes = $reflectionMethod->getAttributes(PasswordConfirmationRequired::class);
-		if (!empty($attributes)) {
-			return true;
-		}
-
-		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
-			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . 'PasswordConfirmationRequired' . ' annotation and should use the #[PasswordConfirmationRequired] attribute instead');
-			return true;
-		}
-
-		return false;
+	private function needsPasswordConfirmation(): bool {
+		return $this->reflector->hasAnnotationOrAttribute('PasswordConfirmationRequired', PasswordConfirmationRequired::class);
 	}
 
 	private function isPasswordConfirmationStrict(ReflectionMethod $reflectionMethod): bool {

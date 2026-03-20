@@ -14,6 +14,7 @@ use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\Group\ISubAdmin;
@@ -48,7 +49,7 @@ class SubadminMiddleware extends Middleware {
 	 * @throws \Exception
 	 */
 	public function beforeController($controller, $methodName) {
-		if (!$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->reflector->hasAnnotation('AuthorizedAdminSetting')) {
+		if (!$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->reflector->hasAnnotationOrAttribute('AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
 			if (!$this->isSubAdmin()) {
 				throw new NotAdminException($this->l10n->t('Logged in account must be a sub admin'));
 			}
