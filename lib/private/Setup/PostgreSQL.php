@@ -27,22 +27,7 @@ class PostgreSQL extends AbstractDatabase {
 			]);
 			if ($this->tryCreateDbUser) {
 				//check for roles creation rights in postgresql
-				$builder = $connection->getQueryBuilder();
-				$builder->automaticTablePrefix(false);
-				$query = $builder
-					->select('rolname')
-					->from('pg_roles')
-					->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
-					->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
-
-				try {
-					$result = $query->executeQuery();
-					$canCreateRoles = $result->rowCount() > 0;
-				} catch (DatabaseException $e) {
-					$canCreateRoles = false;
-				}
-
-				if ($canCreateRoles) {
+				if ($this->canCreateUsers($connection)) {
 					$connectionMainDatabase = $this->connect();
 					//use the admin login data for the new database user
 
@@ -52,21 +37,12 @@ class PostgreSQL extends AbstractDatabase {
 					$this->dbPassword = Server::get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
 					$this->createDBUser($connection);
-				}
-			}
 
-			$this->config->setValues([
-				'dbuser' => $this->dbUser,
-				'dbpassword' => $this->dbPassword,
-			]);
+					//create the database
+					$this->createDatabase($connection);
+					// the connection to dbname=postgres is not needed anymore
+					$connection->close();
 
-			//create the database
-			$this->createDatabase($connection);
-			// the connection to dbname=postgres is not needed anymore
-			$connection->close();
-
-			if ($this->tryCreateDbUser) {
-				if ($canCreateRoles) {
 					// Go to the main database and grant create on the public schema
 					// The code below is implemented to make installing possible with PostgreSQL version 15:
 					// https://www.postgresql.org/docs/release/15.0/
@@ -76,10 +52,26 @@ class PostgreSQL extends AbstractDatabase {
 					// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
 					$connectionMainDatabase->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
 					$connectionMainDatabase->close();
+				} else {
+					//create the database
+					$this->createDatabase($connection);
+					// the connection to dbname=postgres is not needed anymore
+					$connection->close();
 				}
+			} else {
+				//create the database
+				$this->createDatabase($connection);
+				// the connection to dbname=postgres is not needed anymore
+				$connection->close();
 			}
+
+			$this->config->setValues([
+				'dbuser' => $this->dbUser,
+				'dbpassword' => $this->dbPassword,
+			]);
 		} catch (\Exception $e) {
-			$this->logger->warning('Error trying to connect as "postgres", assuming database is setup and tables need to be created', [
+			$this->logger->warning(
+				'Error trying to connect as "postgres", assuming database is setup and tables need to be created', [
 				'exception' => $e,
 			]);
 			$this->config->setValues([
@@ -152,6 +144,26 @@ class PostgreSQL extends AbstractDatabase {
 			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($username)));
 		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
+	}
+
+	/**
+	 * Check whether the current connection user has the CREATEROLE privilege.
+	 */
+	private function canCreateUsers(Connection $connection): bool {
+		$builder = $connection->getQueryBuilder();
+		$builder->automaticTablePrefix(false);
+		$query = $builder
+			->select('rolname')
+			->from('pg_roles')
+			->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
+			->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
+
+		try {
+			$result = $query->executeQuery();
+			return $result->rowCount() > 0;
+		} catch (DatabaseException $e) {
+			return false;
+		}
 	}
 
 	private function databaseExists(Connection $connection): bool {
