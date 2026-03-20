@@ -330,6 +330,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			}
 		}
 
+		$limit = $limit === 0 ? null : $limit;
 		return array_slice($users, $offset, $limit);
 	}
 
