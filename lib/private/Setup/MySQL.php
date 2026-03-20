@@ -32,7 +32,7 @@ class MySQL extends AbstractDatabase {
 			$connection = $this->connect(['dbname' => null]);
 		}
 
-		if ($this->tryCreateDbUser) {
+		if ($this->tryCreateDbUser && $this->canCreateUsers($connection)) {
 			$this->createSpecificUser('oc_admin', new ConnectionAdapter($connection));
 		}
 
@@ -73,6 +73,24 @@ class MySQL extends AbstractDatabase {
 		$result->closeCursor();
 		return $exists;
 	}
+
+	/**
+	 * Check whether the current connection user has rights to create other users.
+	 *
+	 * In MySQL, the ability to SELECT from mysql.user is a sufficient proxy
+	 * for administrative privileges — unprivileged users cannot read it.
+	 * The actual createDBUser() call will fail with a clear error if the
+	 * privilege assumption is wrong.
+	 */
+	private function canCreateUsers(IDBConnection $connection): bool {
+		try {
+			$connection->executeQuery('SELECT COUNT(*) FROM mysql.user LIMIT 1');
+			return true;
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+
 
 	/**
 	 * Find a username starting from $base that doesn't already exist,
