@@ -26,6 +26,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -56,6 +57,7 @@ class Manager {
 		private SetupManager $setupManager,
 		private ICertificateManager $certificateManager,
 		private ExternalShareMapper $externalShareMapper,
+		private IConfig $config,
 	) {
 		$this->user = $userSession->getUser();
 	}
@@ -113,6 +115,7 @@ class Manager {
 			'password' => $externalShare->getPassword(),
 			'mountpoint' => $externalShare->getMountpoint(),
 			'owner' => $externalShare->getOwner(),
+			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
 		];
 		return $this->mountShare($options, $user);
 	}

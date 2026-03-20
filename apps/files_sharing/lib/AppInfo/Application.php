@@ -49,6 +49,7 @@ use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -72,7 +73,8 @@ class Application extends App implements IBootstrap {
 				function () use ($c) {
 					return $c->get(Manager::class);
 				},
-				$c->get(ICloudIdManager::class)
+				$c->get(ICloudIdManager::class),
+				$c->get(IConfig::class),
 			);
 		});
 

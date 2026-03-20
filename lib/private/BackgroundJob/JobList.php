@@ -26,6 +26,8 @@ use function min;
 use function strlen;
 
 class JobList implements IJobList {
+	public const MAX_ARGUMENT_JSON_LENGTH = 32000;
+
 	/** @var array<string, string> */
 	protected array $alreadyVisitedParallelBlocked = [];
 
@@ -47,8 +49,8 @@ class JobList implements IJobList {
 		$class = ($job instanceof IJob) ? get_class($job) : $job;
 
 		$argumentJson = json_encode($argument);
-		if (strlen($argumentJson) > 4000) {
-			throw new \InvalidArgumentException('Background job arguments can\'t exceed 4000 characters (json encoded)');
+		if (strlen($argumentJson) > self::MAX_ARGUMENT_JSON_LENGTH) {
+			throw new \InvalidArgumentException('Background job arguments can\'t exceed ' . self::MAX_ARGUMENT_JSON_LENGTH . ' characters (json encoded)');
 		}
 
 		$query = $this->connection->getQueryBuilder();
