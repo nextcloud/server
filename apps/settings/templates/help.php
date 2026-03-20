@@ -108,7 +108,7 @@ $resources = [
 				</h2>
 				<div class="help-content__body">
 					<?php foreach ($resources as $resource): ?>
-						<?php if (!$resource['show']) { 
+						<?php if (!$resource['show']) {
 							continue;
 						} ?>
 						<a
