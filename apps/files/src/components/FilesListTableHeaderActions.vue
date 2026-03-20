@@ -14,7 +14,8 @@
 			:open.sync="openedMenu"
 			@close="openedSubmenu = null">
 			<!-- Default actions list-->
-			<NcActionButton v-for="action in enabledMenuActions"
+			<NcActionButton v-for="(action, idx) in enabledMenuActions"
+				:id="idx === 0 ? FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID : undefined"
 				:key="action.id"
 				:ref="`action-batch-${action.id}`"
 				:class="{
@@ -82,16 +83,19 @@ import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID } from './FilesListTableHeader.vue'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useFilesStore } from '../store/files.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import actionsMixins from '../mixins/actionsMixin.ts'
 import logger from '../logger.ts'
 
 // The registered actions list
 const actions = getFileActions()
+
+export const FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID = 'files-list-head-first-batch-action'
 
 export default defineComponent({
 	name: 'FilesListTableHeaderActions',
@@ -135,6 +139,7 @@ export default defineComponent({
 			selectionStore,
 
 			boundariesElement,
+			FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID,
 		}
 	},
 
@@ -258,6 +263,17 @@ export default defineComponent({
 		},
 	},
 
+	mounted() {
+		const firstActionId = this.enabledMenuActions.at(0)?.id
+		const firstButton = this.$refs.actionsMenu?.$refs?.[`action-batch-${firstActionId}`]
+		if (firstButton) {
+			firstButton.$el.focus()
+			logger.debug('Focusing first batch action button')
+
+			firstButton.$el.addEventListener('focusout', this.onFirstButtonFocusOut)
+		}
+	},
+
 	methods: {
 		/**
 		 * Get a cached note from the store
@@ -330,6 +346,20 @@ export default defineComponent({
 					this.$set(node, 'status', undefined)
 				})
 			}
+		},
+
+		// When focusing out the first button outside the header actions
+		// we can return back to the select all checkbox
+		onFirstButtonFocusOut(event: FocusEvent) {
+			// If the focus is still within this component, do nothing
+			if (this.$el.contains(event.relatedTarget)) {
+				return
+			}
+
+			event.preventDefault()
+			event.stopPropagation()
+			document.getElementById(FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID)?.focus()
+			logger.debug('Focusing select all checkbox again')
 		},
 
 		t: translate,

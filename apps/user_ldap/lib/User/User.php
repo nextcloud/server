@@ -114,12 +114,8 @@ class User {
 			$displayName2 = (string)$ldapEntry[$attr][0];
 		}
 		if ($displayName !== '') {
-			$this->composeAndStoreDisplayName($displayName, $displayName2);
-			$this->access->cacheUserDisplayName(
-				$this->getUsername(),
-				$displayName,
-				$displayName2
-			);
+			$composedDisplayName = $this->composeAndStoreDisplayName($displayName, $displayName2);
+			$this->access->cacheUserDisplayName($this->getUsername(), $composedDisplayName);
 		}
 		unset($attr);
 
@@ -129,7 +125,8 @@ class User {
 		$attr = strtolower($this->connection->ldapEmailAttribute);
 		if (isset($ldapEntry[$attr])) {
 			$mailValue = 0;
-			for ($x = 0; $x < count($ldapEntry[$attr]); $x++) {
+			$emailValues = count($ldapEntry[$attr]);
+			for ($x = 0; $x < $emailValues; $x++) {
 				if (filter_var($ldapEntry[$attr][$x], FILTER_VALIDATE_EMAIL)) {
 					$mailValue = $x;
 					break;
@@ -450,6 +447,10 @@ class User {
 			}
 		}
 		return $displayName;
+	}
+
+	public function fetchStoredDisplayName(): string {
+		return $this->config->getUserValue($this->uid, 'user_ldap', 'displayName', '');
 	}
 
 	/**

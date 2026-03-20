@@ -111,6 +111,24 @@ class JobListTest extends TestCase {
 		$this->assertEquals($existingJobs, $jobs);
 	}
 
+	public function testAddAcceptsArgumentUnderMaxLength(): void {
+		$argument = str_repeat('a', $this->instance::MAX_ARGUMENT_JSON_LENGTH - 100);
+		$job = new TestJob();
+		$this->assertFalse($this->instance->has($job, $argument));
+		$this->instance->add($job, $argument);
+
+		$this->assertTrue($this->instance->has($job, $argument));
+	}
+
+	public function testAddRejectsArgumentAboveMaxLength(): void {
+		$argument = str_repeat('a', $this->instance::MAX_ARGUMENT_JSON_LENGTH + 100);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Background job arguments can\'t exceed ' . $this->instance::MAX_ARGUMENT_JSON_LENGTH . ' characters (json encoded)');
+
+		$this->instance->add(new TestJob(), $argument);
+	}
+
 	/**
 	 * @param $argument
 	 */

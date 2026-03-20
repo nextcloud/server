@@ -22,6 +22,7 @@ use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -55,6 +56,7 @@ class Manager {
 		IUserSession $userSession,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
+		private IConfig $config,
 	) {
 		$user = $userSession->getUser();
 		$this->uid = $user ? $user->getUID() : null;
@@ -124,7 +126,8 @@ class Manager {
 			'token' => $token,
 			'password' => $password,
 			'mountpoint' => $mountPoint,
-			'owner' => $owner
+			'owner' => $owner,
+			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
 		];
 		return $this->mountShare($options, $user);
 	}
