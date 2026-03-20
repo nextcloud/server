@@ -10,8 +10,8 @@
 
 \OCP\Util::addScript('settings', 'vue-settings-personal-info');
 
-$isFairUseOfFreePushService = (bool) ($_['isFairUseOfFreePushService'] ?? true);
-$profileEnabledGlobally = (bool) ($_['profileEnabledGlobally'] ?? false);
+$isFairUseOfFreePushService = (bool)($_['isFairUseOfFreePushService'] ?? true);
+$profileEnabledGlobally = (bool)($_['profileEnabledGlobally'] ?? false);
 
 $settingSections = [
 	['id' => 'vue-displayname-section'],
@@ -69,7 +69,7 @@ $renderSettingBox = static function (string $sectionId, string $boxClass = 'pers
 
 	<?php foreach ($settingSections as $section): ?>
 		<?php
-		$isProfileOnly = (bool) ($section['profileOnly'] ?? false);
+		$isProfileOnly = $section['profileOnly'] ?? false;
 		if ($isProfileOnly && !$profileEnabledGlobally) {
 			continue;
 		}
