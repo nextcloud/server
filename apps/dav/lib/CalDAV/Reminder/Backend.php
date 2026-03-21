@@ -58,7 +58,7 @@ class Backend {
 
 		$stmt = $query->executeQuery();
 		$rows = $stmt->fetchAllAssociative();
-		$stmt->free();
+		$stmt->closeCursor();
 
 		return array_map([$this, 'fixRowTyping'], $rows);
 	}
@@ -74,7 +74,7 @@ class Backend {
 
 		$stmt = $query->executeQuery();
 		$rows = $stmt->fetchAllAssociative();
-		$stmt->free();
+		$stmt->closeCursor();
 
 		return array_map([$this, 'fixRowTyping'], $rows);
 	}
