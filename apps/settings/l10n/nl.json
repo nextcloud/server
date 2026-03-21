@@ -208,7 +208,7 @@
     "_No scheduled tasks in the last day._::_No scheduled tasks in the last %n days._" : ["Geen geplande taken de afgelopen dag.","Geen geplande taken in de afgelopen %n dagen."],
     "Temporary space available" : "Tijdelijke ruimte beschikbaar",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Je database draait niet met \"READ COMMITTED\" transactie-isolatie niveau. Dit kan problemen opleveren als er meerdere acties tegelijkertijd worden uitgevoerd.",
-    "Second factor configuration" : "Twee factor configuratie",
+    "Second factor configuration" : "Tweede factor configuratie",
     "This instance has no second factor provider available." : "Deze instantie heeft geen twee factor provider beschikbaar.",
     "Font file loading" : "Font bestand laden",
     "Profile information" : "Profiel informatie",
