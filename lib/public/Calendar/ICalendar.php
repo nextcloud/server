@@ -18,6 +18,7 @@ use DateTimeInterface;
  * @psalm-type CalendarSearchOptions = array{
  *     timerange?: array{start?: DateTimeInterface, end?: DateTimeInterface},
  *     uid?: string,
+ *     uri?: string,
  *     types?: string[],
  * }
  */
@@ -60,6 +61,7 @@ interface ICalendar {
 	 * @param array $options Optional parameters for the search:
 	 *                       - 'timerange' element that can have 'start' (DateTimeInterface), 'end' (DateTimeInterface), or both.
 	 *                       - 'uid' element to look for events with a given uid.
+	 *                       - 'uri' element to look for events with a given uri.
 	 *                       - 'types' element to only return events for a given type (e.g. VEVENT or VTODO)
 	 * @psalm-param CalendarSearchOptions $options
 	 * @param int|null $limit Limit the number of search results.
