@@ -93,6 +93,20 @@ async function onStartUpdate() {
 
 	isUpdateRunning.value = true
 	const eventSource = new OCEventSource(generateFilePath('core', '', 'ajax/update.php'))
+
+	// Disable auto-reconnect -- update.php is non-idempotent
+	eventSource.source.onerror = function() {
+		eventSource.source.close()
+		if (!isUpdateDone.value) {
+			messages.value.push({
+				message: t('core', 'Update connection lost. The update may still be running. Please reload this page to check the current status.'),
+				type: 'warning',
+			})
+			isUpdateRunning.value = false
+			isUpdateDone.value = true
+		}
+	}
+	
 	eventSource.listen('success', (message) => {
 		messages.value.push({ message, type: 'success' })
 	})
