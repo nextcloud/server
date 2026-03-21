@@ -106,7 +106,7 @@ async function onStartUpdate() {
 			isUpdateDone.value = true
 		}
 	}
-	
+
 	eventSource.listen('success', (message) => {
 		messages.value.push({ message, type: 'success' })
 	})
