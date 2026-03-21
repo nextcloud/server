@@ -43,16 +43,10 @@ class EventSource implements IEventSource {
 	}
 
 	/**
-	 * send a message to the client
-	 *
-	 * @param string $type
-	 * @param mixed $data
-	 *
 	 * @throws \BadMethodCallException
-	 *                                 if only one parameter is given, a typeless message will be send with that parameter as data
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public function send($type, $data = null) {
+	public function send(string $type, mixed $data = null): void {
 		if ($data && !preg_match('/^[A-Za-z0-9_]+$/', $type)) {
 			throw new \BadMethodCallException('Type needs to be alphanumeric (' . $type . ')');
 		}
@@ -69,10 +63,7 @@ class EventSource implements IEventSource {
 		flush();
 	}
 
-	/**
-	 * close the connection of the event source
-	 */
-	public function close() {
+	public function close(): void {
 		$this->send('__internal__', 'close'); //server side closing can be an issue, let the client do it
 	}
 }
