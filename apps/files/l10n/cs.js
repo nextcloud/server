@@ -95,6 +95,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "Už existuje jiná položka se stejným názvem.",
     "Invalid filename." : "Neplatný název souboru.",
     "Rename file" : "Přejmenovat soubor",
+    "Recently created" : "Nedávno vytvořeno",
     "Folder" : "Složka",
     "Unknown file type" : "Neznámý typ souboru",
     "{ext} image" : "{ext}obrázek",

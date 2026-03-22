@@ -232,7 +232,7 @@
     "Changing the file extension from \"{old}\" to \"{new}\" may render the file unreadable." : "Заміна розширення файлу з \"{old}\" на \"{new}\" може зробити файл недоступним.",
     "Removing the file extension \"{old}\" may render the file unreadable." : "Вилучення розширення файлу \"{old}\" може зробити файл недоступним.",
     "Adding the file extension \"{new}\" may render the file unreadable." : "Додавання розширення до файлу \"{new}\" може зробити файл недоступним.",
-    "Do not show this dialog again." : "Не показувати цей діялог подалі.",
+    "Do not show this dialog again." : "Більше не заптувати",
     "Rename file to hidden" : "Перейменувати файл у прихований",
     "Prefixing a filename with a dot may render the file hidden." : "Якщо додати крапку перед ім'ям файлу зробить файл прихованим.",
     "Are you sure you want to rename the file to \"{filename}\"?" : "Дійсно перейменувати файл у \"{filename}\"?",
