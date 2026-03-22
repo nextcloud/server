@@ -33,7 +33,7 @@ class DownloadResponseTest extends \Test\TestCase {
 		$headers = $response->getHeaders();
 
 		$this->assertStringContainsString('attachment', $headers['Content-Disposition']);
-		$this->assertStringContainsString($expected, $headers['Content-Disposition'])
+		$this->assertStringContainsString($expected, $headers['Content-Disposition']);
 	}
 
 	public static function filenameEncodingProvider() : array {
