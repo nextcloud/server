@@ -7,6 +7,7 @@
  */
 namespace OCP\AppFramework\Http;
 
+use OC\Http\ContentDisposition;
 use OCP\AppFramework\Http;
 
 /**
@@ -29,9 +30,7 @@ class DownloadResponse extends Response {
 	public function __construct(string $filename, string $contentType, int $status = Http::STATUS_OK, array $headers = []) {
 		parent::__construct($status, $headers);
 
-		$filename = strtr($filename, ['"' => '\\"', '\\' => '\\\\']);
-
-		$this->addHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+		$this->addHeader('Content-Disposition', ContentDisposition::make('attachment', $filename));
 		$this->addHeader('Content-Type', $contentType);
 	}
 }
