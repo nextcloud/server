@@ -1902,6 +1902,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Http\\Client\\GuzzlePromiseAdapter' => __DIR__ . '/../../..' . '/lib/private/Http/Client/GuzzlePromiseAdapter.php',
         'OC\\Http\\Client\\NegativeDnsCache' => __DIR__ . '/../../..' . '/lib/private/Http/Client/NegativeDnsCache.php',
         'OC\\Http\\Client\\Response' => __DIR__ . '/../../..' . '/lib/private/Http/Client/Response.php',
+		'OC\\Http\\ContentDisposition' => __DIR__ . '/../../..' . '/lib/private/Http/ContentDisposition.php',
         'OC\\Http\\CookieHelper' => __DIR__ . '/../../..' . '/lib/private/Http/CookieHelper.php',
         'OC\\Http\\WellKnown\\RequestManager' => __DIR__ . '/../../..' . '/lib/private/Http/WellKnown/RequestManager.php',
         'OC\\Image' => __DIR__ . '/../../..' . '/lib/private/Image.php',
