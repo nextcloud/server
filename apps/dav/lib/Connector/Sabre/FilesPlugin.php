@@ -7,8 +7,8 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
+use OC\Http\ContentDisposition;
 use OC\User\NoUserException;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
@@ -257,18 +257,7 @@ class FilesPlugin extends ServerPlugin {
 		// header has been set before
 		if ($this->downloadAttachment
 			&& $response->getHeader('Content-Disposition') === null) {
-			$filename = $node->getName();
-			if ($this->request->isUserAgent(
-				[
-					Request::USER_AGENT_IE,
-					Request::USER_AGENT_ANDROID_MOBILE_CHROME,
-					Request::USER_AGENT_FREEBOX,
-				])) {
-				$response->addHeader('Content-Disposition', 'attachment; filename="' . rawurlencode($filename) . '"');
-			} else {
-				$response->addHeader('Content-Disposition', 'attachment; filename*=UTF-8\'\'' . rawurlencode($filename)
-													 . '; filename="' . rawurlencode($filename) . '"');
-			}
+			$response->addHeader('Content-Disposition', ContentDisposition::make('attachment', $node->getName()));
 		}
 
 		if ($node instanceof File) {
