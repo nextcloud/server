@@ -47,7 +47,7 @@ class AddExtraHeadersPluginTest extends TestCase {
 		$this->server->expects($this->once())
 			->method('on')
 			->willReturnCallback(
-				function ($method, $callback) use (&$afterPut) {
+				function ($method, $callback) use (&$afterPut): void {
 					$this->assertSame('afterMethod:PUT', $method);
 					$afterPut = $callback;
 				});
@@ -70,7 +70,7 @@ class AddExtraHeadersPluginTest extends TestCase {
 		$this->server->expects($this->once())
 			->method('on')
 			->willReturnCallback(
-				function ($method, $callback) use (&$afterPut) {
+				function ($method, $callback) use (&$afterPut): void {
 					$this->assertSame('afterMethod:PUT', $method);
 					$afterPut = $callback;
 				});
@@ -92,7 +92,7 @@ class AddExtraHeadersPluginTest extends TestCase {
 				$expectPermissionsHeader,
 				$expectOwnerIdHeader,
 				$matcher,
-				$ownerId, $permissions) {
+				$ownerId, $permissions): void {
 				$invocationNumber = $matcher->numberOfInvocations();
 				if ($invocationNumber === 0) {
 					throw new LogicException('No invocations were expected');

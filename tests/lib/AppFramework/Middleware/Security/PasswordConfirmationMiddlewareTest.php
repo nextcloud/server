@@ -18,6 +18,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
@@ -45,7 +46,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	private Manager $userManager;
 
 	protected function setUp(): void {
-		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->user = $this->createMock(IUser::class);

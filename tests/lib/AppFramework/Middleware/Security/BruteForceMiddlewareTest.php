@@ -12,6 +12,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\BruteForceMiddlewareController;
 use Test\TestCase;
@@ -30,7 +31,7 @@ class BruteForceMiddlewareTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->logger = $this->createMock(LoggerInterface::class);

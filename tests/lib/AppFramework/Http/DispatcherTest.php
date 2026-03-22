@@ -123,7 +123,7 @@ class DispatcherTest extends \Test\TestCase {
 
 		$this->request = $this->createMock(Request::class);
 
-		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 
 		$this->dispatcher = new Dispatcher(
 			$this->http,
