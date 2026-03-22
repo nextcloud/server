@@ -6,6 +6,7 @@
  */
 namespace OCP\AppFramework\Http;
 
+use OC\Http\ContentDisposition;
 use OCP\AppFramework\Http;
 use OCP\Files\File;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -33,7 +34,7 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 		parent::__construct($statusCode, $headers);
 
 		$this->file = $file;
-		$this->addHeader('Content-Disposition', 'inline; filename="' . rawurldecode($file->getName()) . '"');
+		$this->addHeader('Content-Disposition', ContentDisposition::make('inline', $file->getName()));
 
 		$this->setETag($file->getEtag());
 		$lastModified = new \DateTime();
