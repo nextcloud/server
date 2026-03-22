@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CardDAV;
 
+use OC\Http\ContentDisposition;
 use OCP\AppFramework\Http;
 use Sabre\DAV;
 use Sabre\DAV\Server;
@@ -63,7 +64,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 
 		// Build and override the response
 		$filename = 'vcfexport-' . date('Y-m-d') . '.vcf';
-		$response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+		$response->setHeader('Content-Disposition', ContentDisposition::make('attachment', $filename));
 		$response->setHeader('Content-Type', 'text/vcard');
 
 		$response->setStatus(Http::STATUS_OK);
