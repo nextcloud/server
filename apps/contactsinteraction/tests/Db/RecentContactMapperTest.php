@@ -27,6 +27,7 @@ class RecentContactMapperTest extends TestCase {
 
 		$this->recentContactMapper = Server::get(RecentContactMapper::class);
 		$this->time = Server::get(ITimeFactory::class);
+		$this->recentContactMapper->deleteByUserId('admin');
 	}
 
 	protected function tearDown(): void {
