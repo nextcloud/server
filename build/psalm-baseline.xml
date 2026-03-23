@@ -831,12 +831,6 @@
     <InvalidOperand>
       <code><![CDATA[$query->getCursor()]]></code>
     </InvalidOperand>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[[
-		'ATTENDEE' => ['CN'],
-		'ORGANIZER' => ['CN'],
-	]]]></code>
-    </InvalidPropertyAssignmentValue>
     <UndefinedMethod>
       <code><![CDATA[getDateTime]]></code>
       <code><![CDATA[getDateTime]]></code>
