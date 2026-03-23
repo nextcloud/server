@@ -412,6 +412,10 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return (int) $this->data['upload_time'];
 	}
 
+	public function getLastActivity(): int {
+		return max($this->getUploadTime(), $this->getMTime());
+	}
+
 	public function getParentId(): int {
 		return $this->data['parent'] ?? -1;
 	}
