@@ -59,9 +59,7 @@ class SearchOrder implements ISearchOrder {
 			case 'permissions':
 				return $a->getPermissions() <=> $b->getPermissions();
 			case 'last_activity':
-				$timeA = max($a->getUploadTime(), $a->getMtime());
-				$timeB = max($b->getUploadTime(), $b->getMtime());
-				return $timeA <=> $timeB;
+				return $a->getLastActivity() <=> $b->getLastActivity();
 			default:
 				return 0;
 		}

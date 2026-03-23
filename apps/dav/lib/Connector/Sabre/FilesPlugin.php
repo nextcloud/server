@@ -446,8 +446,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::LAST_ACTIVITY_PROPERTYNAME, function () use ($node) {
-				$fileInfo = $node->getFileInfo();
-				return max($fileInfo->getUploadTime(), $fileInfo->getMTime());
+				return $node->getFileInfo()->getLastActivity();
 			});
 
 			foreach ($node->getFileInfo()->getMetadata() as $metadataKey => $metadataValue) {
