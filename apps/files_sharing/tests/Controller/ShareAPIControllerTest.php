@@ -1305,6 +1305,8 @@ class ShareAPIControllerTest extends TestCase {
 					$file1EmailShareOwnerExpected,
 					$file1CircleShareOwnerExpected,
 					$file1RoomShareOwnerExpected,
+					$file1RemoteShareOwnerExpected,
+					$file1RemoteGroupShareOwnerExpected,
 				]
 			],
 			[
@@ -1475,6 +1477,8 @@ class ShareAPIControllerTest extends TestCase {
 					$file1EmailShareOwnerExpected,
 					$file1CircleShareOwnerExpected,
 					$file1RoomShareOwnerExpected,
+					$file1RemoteShareOwnerExpected,
+					$file1RemoteGroupShareOwnerExpected,
 				]
 			],
 			[
@@ -1646,14 +1650,6 @@ class ShareAPIControllerTest extends TestCase {
 					return $shares[$node->getName()][$shareType];
 				}
 			);
-
-		$this->shareManager
-			->method('outgoingServer2ServerSharesAllowed')
-			->willReturn($extraShareTypes[ISHARE::TYPE_REMOTE] ?? false);
-
-		$this->shareManager
-			->method('outgoingServer2ServerGroupSharesAllowed')
-			->willReturn($extraShareTypes[ISHARE::TYPE_REMOTE_GROUP] ?? false);
 
 		$this->groupManager
 			->method('isInGroup')
@@ -2167,6 +2163,68 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn(false);
 
 		$this->ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_GROUP, 'invalidGroup');
+	}
+
+	public function testGetFederatedShareWhenOutgoingFederationDisabled(): void {
+		$share = $this->createMock(IShare::class);
+		$share->method('getId')->willReturn('42');
+		$share->method('getShareType')->willReturn(IShare::TYPE_REMOTE);
+
+		/** @var ShareAPIController&MockObject $ocs */
+		$ocs = $this->getMockBuilder(ShareAPIController::class)
+			->setConstructorArgs([
+				$this->appName,
+				$this->request,
+				$this->shareManager,
+				$this->groupManager,
+				$this->userManager,
+				$this->rootFolder,
+				$this->urlGenerator,
+				$this->l,
+				$this->config,
+				$this->appConfig,
+				$this->appManager,
+				$this->serverContainer,
+				$this->userStatusManager,
+				$this->previewManager,
+				$this->dateTimeZone,
+				$this->logger,
+				$this->factory,
+				$this->mailer,
+				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
+				$this->trustedServers,
+				$this->currentUser,
+			])
+			->onlyMethods(['canAccessShare', 'formatShare'])
+			->getMock();
+
+		$ocs->method('canAccessShare')->willReturn(true);
+		$ocs->method('formatShare')->with($share)->willReturn([
+			'id' => '42',
+			'share_type' => IShare::TYPE_REMOTE,
+		]);
+
+		// Simulate outgoing federation being disabled: the share should still be listable
+		$this->shareManager->method('outgoingServer2ServerSharesAllowed')->willReturn(false);
+
+		$this->shareManager
+			->method('getShareById')
+			->willReturnCallback(function (string $id, string $recipient) use ($share) {
+				$this->assertSame($this->currentUser, $recipient);
+				if ($id === 'ocFederatedSharing:42') {
+					return $share;
+				}
+
+				throw new ShareNotFound();
+			});
+
+		$this->assertSame([
+			[
+				'id' => '42',
+				'share_type' => IShare::TYPE_REMOTE,
+			],
+		], $ocs->getShare('42')->getData());
 	}
 
 
