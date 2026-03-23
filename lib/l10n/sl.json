@@ -129,6 +129,8 @@
     "Sharing is only allowed with group members" : "Souporaba je dovoljena le med člani skupine",
     "The requested share does not exist anymore" : "Podano mesto souporabe ne obstaja več",
     "Could not find category \"%s\"" : "Kategorije »%s« ni mogoče najti.",
+    "Cannot generate more than 12 images" : "Ne morem izdelati več kot 12 slik",
+    "Cannot generate less than 1 image" : "Ne morem izdelati manj kot 1 sliko",
     "Sunday" : "nedelja",
     "Monday" : "ponedeljek",
     "Tuesday" : "torek",
