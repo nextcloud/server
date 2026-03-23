@@ -6,6 +6,7 @@
 import axios from '@nextcloud/axios'
 import { showError, showInfo } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import Vue from 'vue'
 import logger from '../logger.ts'
@@ -180,81 +181,82 @@ const actions = {
 		} else {
 			apps = [appId]
 		}
-		return api.requireAdmin().then(() => {
-			context.commit('startLoading', apps)
-			context.commit('startLoading', 'install')
+		context.commit('startLoading', apps)
+		context.commit('startLoading', 'install')
 
-			const previousState = {}
-			apps.forEach((_appId) => {
-				const app = context.state.apps.find((app) => app.id === _appId)
-				if (app) {
-					previousState[_appId] = {
-						active: app.active,
-						groups: [...(app.groups || [])],
-					}
-					context.commit('enableApp', { appId: _appId, groups })
+		const previousState = {}
+		apps.forEach((_appId) => {
+			const app = context.state.apps.find((app) => app.id === _appId)
+			if (app) {
+				previousState[_appId] = {
+					active: app.active,
+					groups: [...(app.groups || [])],
 				}
-			})
+				context.commit('enableApp', { appId: _appId, groups })
+			}
+		})
 
-			return api.post(generateUrl('settings/apps/enable'), { appIds: apps, groups })
-				.then((response) => {
-					context.commit('stopLoading', apps)
-					context.commit('stopLoading', 'install')
+		return api.post(generateUrl('settings/apps/enable'), { appIds: apps, groups }, { confirmPassword: PwdConfirmationMode.Strict })
+			.then((response) => {
+				context.commit('stopLoading', apps)
+				context.commit('stopLoading', 'install')
 
-					// check for server health
-					return axios.get(generateUrl('apps/files/'))
-						.then(() => {
-							if (response.data.update_required) {
-								showInfo(
-									t(
-										'settings',
-										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.',
-									),
-									{
-										onClick: () => window.location.reload(),
-										close: false,
+				// check for server health
+				return axios.get(generateUrl('apps/files/'))
+					.then(() => {
+						if (response.data.update_required) {
+							showInfo(
+								t(
+									'settings',
+									'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.',
+								),
+								{
+									onClick: () => window.location.reload(),
+									close: false,
 
-									},
-								)
-								setTimeout(function() {
-									location.reload()
-								}, 5000)
-							}
-						})
-						.catch(() => {
-							if (!Array.isArray(appId)) {
-								showError(t('settings', 'Error: This app cannot be enabled because it makes the server unstable'))
-								context.commit('setError', {
-									appId: apps,
-									error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
-								})
-								context.dispatch('disableApp', { appId })
-							}
-						})
-				})
-				.catch((error) => {
-					context.commit('stopLoading', apps)
-					context.commit('stopLoading', 'install')
-
-					apps.forEach((_appId) => {
-						if (previousState[_appId]) {
-							context.commit('enableApp', {
-								appId: _appId,
-								groups: previousState[_appId].groups,
-							})
-							if (!previousState[_appId].active) {
-								context.commit('disableApp', _appId)
-							}
+								},
+							)
+							setTimeout(function() {
+								location.reload()
+							}, 5000)
 						}
 					})
+					.catch(() => {
+						if (!Array.isArray(appId)) {
+							showError(t('settings', 'Error: This app cannot be enabled because it makes the server unstable'))
+							context.commit('setError', {
+								appId: apps,
+								error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
+							})
+							context.dispatch('disableApp', { appId })
+						}
+					})
+			})
+			.catch((error) => {
+				context.commit('stopLoading', apps)
+				context.commit('stopLoading', 'install')
 
+				apps.forEach((_appId) => {
+					if (previousState[_appId]) {
+						context.commit('enableApp', {
+							appId: _appId,
+							groups: previousState[_appId].groups,
+						})
+						if (!previousState[_appId].active) {
+							context.commit('disableApp', _appId)
+						}
+					}
+				})
+
+				const message = error.response?.data?.data?.message
+				if (message) {
 					context.commit('setError', {
 						appId: apps,
-						error: error.response.data.data.message,
+						error: message,
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
-				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
+				}
+			})
 	},
 	forceEnableApp(context, { appId }) {
 		let apps
