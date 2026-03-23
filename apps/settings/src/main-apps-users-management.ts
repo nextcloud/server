@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import axios from '@nextcloud/axios'
+import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VTooltipPlugin from 'v-tooltip'
@@ -14,6 +16,8 @@ import router from './router/index.ts'
 import { useStore } from './store/index.js'
 import { getCSPNonce } from '@nextcloud/auth'
 import { PiniaVuePlugin, createPinia } from 'pinia'
+
+addPasswordConfirmationInterceptors(axios)
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line camelcase
