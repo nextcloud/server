@@ -24,8 +24,10 @@
 			</span>
 
 			<span class="files-list__row-image-group-chevron">
-				<ChevronRightIcon v-if="!source.expanded" :size="20" />
-				<ChevronDownIcon v-else :size="20" />
+				<NcIconSvgWrapper
+					:path="mdiChevronDown"
+					:size="20"
+					:class="{ 'files-list__row-image-group-chevron--expanded': source.expanded }" />
 			</span>
 
 			<span class="files-list__row-name-text">
@@ -43,11 +45,11 @@
 import type { PropType } from 'vue'
 import type { ImageGroupNode } from '../composables/useImageGrouping.ts'
 
+import { mdiChevronDown } from '@mdi/js'
 import { n, t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import ImageMultipleIcon from 'vue-material-design-icons/ImageMultiple.vue'
 import { useSelectionStore } from '../store/selection.ts'
 
@@ -55,10 +57,9 @@ export default defineComponent({
 	name: 'FileEntryImageGroup',
 
 	components: {
-		ChevronDownIcon,
-		ChevronRightIcon,
 		ImageMultipleIcon,
 		NcCheckboxRadioSwitch,
+		NcIconSvgWrapper,
 	},
 
 	props: {
@@ -87,7 +88,7 @@ export default defineComponent({
 
 	setup() {
 		const selectionStore = useSelectionStore()
-		return { selectionStore, n, t }
+		return { selectionStore, n, t, mdiChevronDown }
 	},
 
 	computed: {
@@ -132,11 +133,14 @@ export default defineComponent({
         }
     }
 
-    .files-list__row-image-group-chevron {
-        display: flex;
-        align-items: center;
-        color: var(--color-text-maxcontrast);
-    }
+	.files-list__row-image-group-chevron {
+		display: flex;
+		align-items: center;
+		color: var(--color-text-maxcontrast);
+		&--expanded {
+			transform: rotate(180deg);
+		}
+	}
 
     .files-list__row-name-text {
         color: var(--color-main-text);

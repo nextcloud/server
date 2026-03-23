@@ -74,6 +74,7 @@
 <script lang="ts">
 import type { INode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
+import type { ImageGroupingConfig } from '../composables/useImageGrouping.ts'
 import type { UserConfig } from '../types.ts'
 
 import { showError } from '@nextcloud/dialogs'
@@ -94,8 +95,7 @@ import VirtualList from './VirtualList.vue'
 import { useEnabledFileActions } from '../composables/useFileActions.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-// eslint-disable-next-line perfectionist/sort-named-imports
-import { type ImageGroupingConfig, useImageGrouping } from '../composables/useImageGrouping.ts'
+import { useImageGrouping } from '../composables/useImageGrouping.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
 import { useActiveStore } from '../store/active.ts'
