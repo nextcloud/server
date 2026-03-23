@@ -22,12 +22,16 @@
  *
  */
 
+import axios from '@nextcloud/axios'
 import Vue from 'vue'
 import App from './App.vue'
 import { loadState } from '@nextcloud/initial-state'
+import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 
 Vue.prototype.t = t
 Vue.prototype.OC = OC
+
+addPasswordConfirmationInterceptors(axios)
 
 const clients = loadState('oauth2', 'clients')
 

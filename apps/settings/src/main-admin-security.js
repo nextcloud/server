@@ -22,12 +22,16 @@
  *
  */
 
+import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
+import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 import Vue from 'vue'
 
 import AdminTwoFactor from './components/AdminTwoFactor.vue'
 import EncryptionSettings from './components/Encryption/EncryptionSettings.vue'
 import store from './store/admin-security.js'
+
+addPasswordConfirmationInterceptors(axios)
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(OC.requestToken)

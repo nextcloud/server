@@ -20,8 +20,12 @@
  *
  */
 
+import axios from '@nextcloud/axios'
+import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 import Vue from 'vue'
 import App from './components/AdminDelegating.vue'
+
+addPasswordConfirmationInterceptors(axios)
 
 // bind to window
 Vue.prototype.OC = OC

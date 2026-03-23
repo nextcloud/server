@@ -90,6 +90,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import { loadState } from '@nextcloud/initial-state'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 
 export default {
 	name: 'App',
@@ -140,6 +141,7 @@ export default {
 					name: this.newClient.name,
 					redirectUri: this.newClient.redirectUri,
 				},
+				{ confirmPassword: PwdConfirmationMode.Strict },
 			).then(response => {
 				// eslint-disable-next-line vue/no-mutating-props
 				this.clients.push(response.data)
