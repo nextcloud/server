@@ -159,6 +159,8 @@ class UserConfig {
 			if ((int)$value < $config['min'] || (int)$value > $config['max']) {
 				throw new \InvalidArgumentException('Invalid config value');
 			}
+		} elseif (isset($config['min']) || isset($config['max'])) {
+			throw new \InvalidArgumentException('Invalid config definition: min and max must both be defined');
 		} elseif (!in_array($value, $this->getAllowedConfigValues($key))) {
 			throw new \InvalidArgumentException('Invalid config value');
 		}
