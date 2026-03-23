@@ -1729,8 +1729,8 @@ class ShareAPIController extends OCSController {
 			'deck' => IShare::TYPE_DECK,
 		];
 
-		// Add federated sharing as a provider only if it's allowed
-		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
+		// Include federated sharing whenever the provider is available for the user.
+		if ($this->shareManager->shareProviderExists(IShare::TYPE_REMOTE)) {
 			$providers['ocFederatedSharing'] = null; // No type check needed
 		}
 
@@ -1854,14 +1854,14 @@ class ShareAPIController extends OCSController {
 			$shares = array_merge($shares, $providerShares);
 		}
 
-		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
+		if ($this->shareManager->shareProviderExists(IShare::TYPE_REMOTE)) {
 			$federatedShares = $this->shareManager->getSharesBy(
 				$this->userId, IShare::TYPE_REMOTE, $node, $reShares, -1, 0
 			);
 			$shares = array_merge($shares, $federatedShares);
 		}
 
-		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
+		if ($this->shareManager->shareProviderExists(IShare::TYPE_REMOTE_GROUP)) {
 			$federatedShares = $this->shareManager->getSharesBy(
 				$this->userId, IShare::TYPE_REMOTE_GROUP, $node, $reShares, -1, 0
 			);
@@ -1996,12 +1996,12 @@ class ShareAPIController extends OCSController {
 		$deckShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_DECK, $path, $reshares, -1, 0);
 
 		// FEDERATION
-		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
+		if ($this->shareManager->shareProviderExists(IShare::TYPE_REMOTE)) {
 			$federatedShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE, $path, $reshares, -1, 0);
 		} else {
 			$federatedShares = [];
 		}
-		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
+		if ($this->shareManager->shareProviderExists(IShare::TYPE_REMOTE_GROUP)) {
 			$federatedGroupShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
 		} else {
 			$federatedGroupShares = [];
