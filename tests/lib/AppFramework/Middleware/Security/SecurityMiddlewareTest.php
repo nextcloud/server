@@ -38,6 +38,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\NormalController;
@@ -72,7 +73,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			'test',
 			$this->request
 		);
-		$this->reader = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
+		$this->reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);

@@ -22,6 +22,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\RateLimitingMiddlewareController;
@@ -45,7 +46,7 @@ class RateLimitingMiddlewareTest extends TestCase {
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->limiter = $this->createMock(Limiter::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);

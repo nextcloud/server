@@ -20,6 +20,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\CORSMiddlewareController;
@@ -33,7 +34,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->session = $this->createMock(Session::class);
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
