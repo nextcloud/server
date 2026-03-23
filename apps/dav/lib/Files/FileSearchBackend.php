@@ -306,7 +306,7 @@ class FileSearchBackend implements ISearchBackend {
 			case '{http://nextcloud.org/ns}upload_time':
 				return $node->getNode()->getUploadTime();
 			case '{http://nextcloud.org/ns}last_activity':
-				return max($node->getNode()->getUploadTime(), $node->getNode()->getMTime());
+				return $node->getNode()->getLastActivity();
 			case FilesPlugin::SIZE_PROPERTYNAME:
 				return $node->getSize();
 			case FilesPlugin::INTERNAL_FILEID_PROPERTYNAME:

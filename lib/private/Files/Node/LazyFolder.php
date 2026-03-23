@@ -546,6 +546,13 @@ class LazyFolder implements Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function getLastActivity(): int {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
 	public function getRelativePath($path) {
 		return PathHelper::getRelativePath($this->getPath(), $path);
 	}
