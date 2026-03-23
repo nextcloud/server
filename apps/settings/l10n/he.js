@@ -285,6 +285,7 @@ OC.L10N.register(
     "About" : "על אודות",
     "Full name" : "שם מלא",
     "Phone number" : "מספר טלפון",
+    "Role" : "תפקיד",
     "Website" : "אתר",
     "Locale" : "הגדרות אזוריות",
     "Private" : "פרטי",
