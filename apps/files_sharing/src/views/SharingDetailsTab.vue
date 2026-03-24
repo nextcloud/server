@@ -974,7 +974,11 @@ export default {
 		async initializeAttributes() {
 			if (this.isNewShare) {
 				if ((this.config.enableLinkPasswordByDefault || this.isPasswordEnforced) && this.isPublicShare) {
-					this.$set(this.share, 'newPassword', await GeneratePassword(true))
+					this.passwordProtectedState = true
+					const generatedPassword = await GeneratePassword(true)
+					if (!this.share.newPassword) {
+						this.$set(this.share, 'newPassword', generatedPassword)
+					}
 					this.advancedSectionAccordionExpanded = true
 				}
 				/* Set default expiration dates if configured */
@@ -1087,8 +1091,9 @@ export default {
 				this.share.note = ''
 			}
 			if (this.isPasswordProtected) {
-				if (this.isPasswordEnforced && this.isNewShare && !this.isValidShareAttribute(this.share.newPassword)) {
+				if (this.isNewShare && !this.isValidShareAttribute(this.share.newPassword)) {
 					this.passwordError = true
+					return
 				}
 			} else {
 				this.share.password = ''
