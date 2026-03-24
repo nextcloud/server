@@ -12,6 +12,7 @@ use InvalidArgumentException;
 use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IAuthoritativeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Mount\IMountManager;
@@ -27,7 +28,7 @@ use Psr\Log\LoggerInterface;
 
 use function count;
 
-class MountProvider implements IMountProvider, IPartialMountProvider {
+class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPartialMountProvider {
 
 	/**
 	 * @param IConfig $config
@@ -53,6 +54,15 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+		return array_values($this->getMountsFromSuperShares($user, $this->getSuperSharesForUser($user), $loader));
+	}
+
+	/**
+	 * @param IUser $user
+	 * @param list<IShare> $excludeShares
+	 * @return list<array{IShare, array<IShare>}> Tuple of [superShare, groupedShares]
+	 */
+	public function getSuperSharesForUser(IUser $user, array $excludeShares = []): array {
 		$userId = $user->getUID();
 		$shares = $this->mergeIterables(
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_USER, null, -1),
@@ -62,17 +72,9 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_DECK, null, -1),
 		);
 
-		$shares = $this->filterShares($shares, $userId);
-		$superShares = $this->buildSuperShares($shares, $user);
-
-		return array_values(
-			$this->getMountsFromSuperShares(
-				$userId,
-				$superShares,
-				$loader,
-				$user,
-			),
-		);
+		$excludeShareIds = array_map(fn (IShare $share) => $share->getFullId(), $excludeShares);
+		$shares = $this->filterShares($shares, $userId, $excludeShareIds);
+		return $this->buildSuperShares($shares, $user);
 	}
 
 	/**
@@ -254,18 +256,18 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	}
 	/**
 	 * @param string $userId
-	 * @param array $superShares
+	 * @param list<array{IShare, array<IShare>}> $superShares
 	 * @param IStorageFactory $loader
 	 * @param IUser $user
 	 * @return array IMountPoint indexed by mount point
 	 * @throws Exception
 	 */
-	private function getMountsFromSuperShares(
-		string $userId,
+	public function getMountsFromSuperShares(
+		IUser $user,
 		array $superShares,
 		IStorageFactory $loader,
-		IUser $user,
 	): array {
+		$userId = $user->getUID();
 		$allMounts = $this->mountManager->getAll();
 		$mounts = [];
 		$view = new View('/' . $userId . '/files');
@@ -293,12 +295,6 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 				}
 
 				$shareId = (int)$parentShare->getId();
-				$absMountPoint = '/' . $user->getUID() . '/files/' . trim($parentShare->getTarget(), '/') . '/';
-
-				// after the mountpoint is verified for the first time, only new mountpoints (e.g. groupfolders can overwrite the target)
-				if ($shareId > $maxValidatedShare || isset($allMounts[$absMountPoint])) {
-					$this->shareTargetValidator->verifyMountPoint($user, $parentShare, $allMounts, $groupedShares);
-				}
 
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
@@ -312,7 +308,6 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
 					$loader,
-					$view,
 					$this->eventDispatcher,
 					$user,
 				);
@@ -349,14 +344,16 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	 * user has no permissions.
 	 *
 	 * @param iterable<IShare> $shares
+	 * @param list<string> $excludeShareIds
 	 * @return iterable<IShare>
 	 */
-	private function filterShares(iterable $shares, string $userId): iterable {
+	private function filterShares(iterable $shares, string $userId, array $excludeShareIds = []): iterable {
 		foreach ($shares as $share) {
 			if (
 				$share->getPermissions() > 0
 				&& $share->getShareOwner() !== $userId
 				&& $share->getSharedBy() !== $userId
+				&& !in_array($share->getFullId(), $excludeShareIds)
 			) {
 				yield $share;
 			}
@@ -399,7 +396,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		$shares = $this->filterShares($shares, $userId);
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		return $this->getMountsFromSuperShares($userId, $superShares, $loader, $user);
+		return $this->getMountsFromSuperShares($user, $superShares, $loader);
 	}
 
 	/**
