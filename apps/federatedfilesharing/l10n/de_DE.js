@@ -64,7 +64,7 @@ OC.L10N.register(
     "Cancel" : "Abbrechen",
     "Add remote share" : "Externe Freigabe hinzufügen",
     "Remote share" : "Externe Freigabe",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Möchten Sie die externe Freigabe {name} von {owner}@{remote} hinzufügen?",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soll die externe Freigabe {name} von {owner}@{remote} hinzufügt werden?",
     "Remote share password" : "Passwort für die externe Freigabe",
     "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden",
     "X (formerly Twitter)" : "X (früher Twitter)",
