@@ -1,0 +1,37 @@
+/* twofactor-icons.scss*/
+.two-factor-icon-light { display: inline; }
+.two-factor-icon-dark { display: none; }
+
+body[data-themes~="dark"] .two-factor-icon-light {
+  display: none !important;
+}
+
+body[data-themes~="dark"] .two-factor-icon-dark{
+  display: inline !important;
+}
+
+body[data-themes~="light"] .two-factor-icon-light {
+  display: inline !important;
+}
+
+body[data-themes~="light"] .two-factor-icon-dark {
+  display: none !important;
+}
+
+@media (prefers-color-scheme: light) {
+  body[data-themes~="default"] .two-factor-icon-light {
+    display: inline !important;
+  }
+  body[data-themes~="default"] .two-factor-icon-dark {
+    display: none !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body[data-themes~="default"] .two-factor-icon-light {
+    display: none !important;
+  }
+  body[data-themes~="default"] .two-factor-icon-dark {
+    display: inline !important;
+  }
+}
