@@ -23,14 +23,14 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
 class ContactsSearchProvider implements IFilteringProvider {
-	private static array $searchPropertiesRestricted = [
+	private const SEARCH_PROPERTIES_RESTRICTED = [
 		'N',
 		'FN',
 		'NICKNAME',
 		'EMAIL',
 	];
 
-	private static array $searchProperties = [
+	private const SEARCH_PROPERTIES = [
 		'N',
 		'FN',
 		'NICKNAME',
@@ -87,7 +87,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 		$searchResults = $this->backend->searchPrincipalUri(
 			$principalUri,
 			$query->getFilter('term')?->get() ?? '',
-			$query->getFilter('title-only')?->get() ? self::$searchPropertiesRestricted : self::$searchProperties,
+			$query->getFilter('title-only')?->get() ? self::SEARCH_PROPERTIES_RESTRICTED : self::SEARCH_PROPERTIES,
 			[
 				'limit' => $query->getLimit(),
 				'offset' => $query->getCursor(),

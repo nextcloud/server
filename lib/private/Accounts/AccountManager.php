@@ -368,7 +368,7 @@ class AccountManager implements IAccountManager {
 	}
 
 	protected function updateVerificationStatus(IAccount $updatedAccount, array $oldData): void {
-		static $propertiesVerifiableByLookupServer = [
+		$propertiesVerifiableByLookupServer = [
 			self::PROPERTY_TWITTER,
 			self::PROPERTY_FEDIVERSE,
 			self::PROPERTY_WEBSITE,

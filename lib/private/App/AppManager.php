@@ -54,6 +54,9 @@ class AppManager implements IAppManager {
 	/** @var string[] $appId => $enabled */
 	private array $enabledAppsCache = [];
 
+	/** @var array<string, array{path: string, url: string}> $appId => approot information */
+	private array $appsDirCache = [];
+
 	/** @var string[]|null */
 	private ?array $shippedApps = null;
 
@@ -743,11 +746,9 @@ class AppManager implements IAppManager {
 		if ($sanitizedAppId !== $appId) {
 			return false;
 		}
-		// FIXME replace by a property or a cache
-		static $app_dir = [];
 
-		if (isset($app_dir[$appId]) && !$ignoreCache) {
-			return $app_dir[$appId];
+		if (isset($this->appsDirCache[$appId]) && !$ignoreCache) {
+			return $this->appsDirCache[$appId];
 		}
 
 		$possibleApps = [];
@@ -761,7 +762,7 @@ class AppManager implements IAppManager {
 			return false;
 		} elseif (count($possibleApps) === 1) {
 			$dir = array_shift($possibleApps);
-			$app_dir[$appId] = $dir;
+			$this->appsDirCache[$appId] = $dir;
 			return $dir;
 		} else {
 			$versionToLoad = [];
@@ -778,7 +779,7 @@ class AppManager implements IAppManager {
 			if (!isset($versionToLoad['dir'])) {
 				return false;
 			}
-			$app_dir[$appId] = $versionToLoad['dir'];
+			$this->appsDirCache[$appId] = $versionToLoad['dir'];
 			return $versionToLoad['dir'];
 		}
 	}
