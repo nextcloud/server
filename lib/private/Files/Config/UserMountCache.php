@@ -524,12 +524,6 @@ class UserMountCache implements IUserMountCache {
 		$query->delete('mounts')
 			->where($query->expr()->eq('mount_point', $query->createNamedParameter($mountPoint)));
 		$query->executeStatement();
-
-		$parts = explode('/', $mountPoint);
-		if (count($parts) > 3) {
-			[, $userId] = $parts;
-			unset($this->mountsForUsers[$userId]);
-		}
 	}
 
 	public function addMount(IUser $user, string $mountPoint, ICacheEntry $rootCacheEntry, string $mountProvider, ?int $mountId = null): void {
@@ -542,15 +536,5 @@ class UserMountCache implements IUserMountCache {
 			'mount_id' => $mountId,
 			'mount_provider_class' => $mountProvider
 		]);
-		unset($this->mountsForUsers[$user->getUID()]);
-	}
-
-	/**
-	 * Clear the internal in-memory caches
-	 */
-	public function flush(): void {
-		$this->cacheInfoCache = new CappedMemoryCache();
-		$this->internalPathCache = new CappedMemoryCache();
-		$this->mountsForUsers = new CappedMemoryCache();
 	}
 }

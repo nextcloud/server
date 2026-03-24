@@ -11,9 +11,8 @@ namespace OCA\Files_Sharing\Repair;
 use OC\Files\SetupManager;
 use OCA\Files_Sharing\ShareTargetValidator;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\Files\Config\ICachedMountInfo;
-use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
@@ -43,7 +42,7 @@ class CleanupShareTarget implements IRepairStep {
 		private readonly ShareTargetValidator $shareTargetValidator,
 		private readonly IUserManager $userManager,
 		private readonly SetupManager $setupManager,
-		private readonly IUserMountCache $userMountCache,
+		private readonly IMountManager $mountManager,
 		private readonly IRootFolder $rootFolder,
 		private readonly LoggerInterface $logger,
 		private readonly ICacheFactory $cacheFactory,
@@ -86,9 +85,7 @@ class CleanupShareTarget implements IRepairStep {
 
 				$this->setupManager->tearDown();
 				$this->setupManager->setupForUser($recipient);
-				$mounts = $this->userMountCache->getMountsForUser($recipient);
-				$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $mounts);
-				$userMounts = array_combine($mountPoints, $mounts);
+				$userMounts = $this->mountManager->getAll();
 				$userFolder = $this->rootFolder->getUserFolder($recipient->getUID());
 			}
 

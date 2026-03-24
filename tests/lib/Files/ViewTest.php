@@ -1550,9 +1550,6 @@ class ViewTest extends \Test\TestCase {
 			$storage->method('getStorageCache')->willReturnCallback(function () use ($storage) {
 				return new \OC\Files\Cache\Storage($storage, true, Server::get(IDBConnection::class));
 			});
-			$storage->method('getCache')->willReturnCallback(function () use ($storage) {
-				return new \OC\Files\Cache\Cache($storage);
-			});
 
 			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
 				->onlyMethods(['moveMount'])
@@ -1653,10 +1650,7 @@ class ViewTest extends \Test\TestCase {
 
 		$mount2->expects($this->once())
 			->method('moveMount')
-			->willReturnCallback(function ($target) use ($mount2) {
-				$mount2->setMountPoint($target);
-				return true;
-			});
+			->willReturn(true);
 
 		$view = new View('/' . $this->user . '/files/');
 		$view->mkdir('shareddir');

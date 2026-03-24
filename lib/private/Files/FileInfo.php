@@ -7,8 +7,8 @@
  */
 namespace OC\Files;
 
-use OC\Files\Cache\CacheEntry;
 use OC\Files\Mount\HomeMountPoint;
+use OCA\Files_Sharing\External\Mount;
 use OCA\Files_Sharing\ISharedMountPoint;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
@@ -223,12 +223,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return $this->data['type'];
 	}
 
-	public function getData(): ICacheEntry {
-		if ($this->data instanceof ICacheEntry) {
-			return $this->data;
-		} else {
-			return new CacheEntry($this->data);
-		}
+	public function getData() {
+		return $this->data;
 	}
 
 	/**
