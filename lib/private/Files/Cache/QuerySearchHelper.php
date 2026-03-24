@@ -159,7 +159,7 @@ class QuerySearchHelper {
 			|| in_array('upload_time', $requestedFields)
 			|| in_array('last_activity', $orderFields);
 
-		$query = $builder->selectFileCache('file', true);
+		$query = $builder->selectFileCache('file', $joinExtendedCache);
 
 		if (in_array('systemtag', $requestedFields)) {
 			$this->equipQueryForSystemTags($query, $this->requireUser($searchQuery));
