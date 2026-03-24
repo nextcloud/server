@@ -7,8 +7,10 @@ declare(strict_types=1);
  */
 style('twofactor_backupcodes', 'style');
 ?>
+<link rel="stylesheet" href="/core/css/twofactor-icons.css">
 
-<img class="two-factor-icon" src="<?php p(image_path('core', 'actions/more-white.svg')) ?>" alt="" />
+<img class="two-factor-icon two-factor-icon-light" src="<?php p(image_path('core', 'actions/more.svg')) ?>" alt="" />
+<img class="two-factor-icon two-factor-icon-dark" src="<?php p(image_path('core', 'actions/more-white.svg')) ?>" alt="" />
 
 <p><?php p($l->t('Use one of the backup codes you saved when setting up two-factor authentication.')) ?></p>
 
