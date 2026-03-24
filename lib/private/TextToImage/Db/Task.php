@@ -49,12 +49,12 @@ class Task extends Entity {
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier', 'number_of_images', 'completion_expected_at'];
+	public const array COLUMNS = ['id', 'last_updated', 'input', 'status', 'user_id', 'app_id', 'identifier', 'number_of_images', 'completion_expected_at'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier', 'numberOfImages', 'completionExpectedAt'];
+	public const array FIELDS = ['id', 'lastUpdated', 'input', 'status', 'userId', 'appId', 'identifier', 'numberOfImages', 'completionExpectedAt'];
 
 
 	public function __construct() {
@@ -71,9 +71,9 @@ class Task extends Entity {
 	}
 
 	public function toRow(): array {
-		return array_combine(self::$columns, array_map(function ($field) {
+		return array_combine(self::COLUMNS, array_map(function ($field) {
 			return $this->{'get' . ucfirst($field)}();
-		}, self::$fields));
+		}, self::FIELDS));
 	}
 
 	public static function fromPublicTask(OCPTask $task): Task {

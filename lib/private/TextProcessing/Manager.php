@@ -44,7 +44,10 @@ class Manager implements IManager {
 	/** @var ?IProvider[] */
 	private ?array $providers = null;
 
-	private static array $taskProcessingCompatibleTaskTypes = [
+	/**
+	 * @var array<class-string, string>
+	 */
+	private const array COMPATIBLE_TASK_TYPES = [
 		FreePromptTaskType::class => TextToText::ID,
 		HeadlineTaskType::class => TextToTextHeadline::ID,
 		SummaryTaskType::class => TextToTextSummary::ID,
@@ -91,7 +94,7 @@ class Manager implements IManager {
 	public function hasProviders(): bool {
 		// check if task processing equivalent types are available
 		$taskTaskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
-		foreach (self::$taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
+		foreach (self::COMPATIBLE_TASK_TYPES as $textTaskTypeClass => $taskTaskTypeId) {
 			if (isset($taskTaskTypes[$taskTaskTypeId])) {
 				return true;
 			}
@@ -115,7 +118,7 @@ class Manager implements IManager {
 
 		// check if task processing equivalent types are available
 		$taskTaskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
-		foreach (self::$taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
+		foreach (self::COMPATIBLE_TASK_TYPES as $textTaskTypeClass => $taskTaskTypeId) {
 			if (isset($taskTaskTypes[$taskTaskTypeId])) {
 				$tasks[$textTaskTypeClass] = true;
 			}
@@ -134,9 +137,9 @@ class Manager implements IManager {
 	public function runTask(OCPTask $task): string {
 		// try to run a task processing task if possible
 		$taskTypeClass = $task->getType();
-		if (isset(self::$taskProcessingCompatibleTaskTypes[$taskTypeClass]) && isset($this->taskProcessingManager->getAvailableTaskTypes()[self::$taskProcessingCompatibleTaskTypes[$taskTypeClass]])) {
+		if (isset(self::COMPATIBLE_TASK_TYPES[$taskTypeClass]) && isset($this->taskProcessingManager->getAvailableTaskTypes()[self::COMPATIBLE_TASK_TYPES[$taskTypeClass]])) {
 			try {
-				$taskProcessingTaskTypeId = self::$taskProcessingCompatibleTaskTypes[$taskTypeClass];
+				$taskProcessingTaskTypeId = self::COMPATIBLE_TASK_TYPES[$taskTypeClass];
 				$taskProcessingTask = new \OCP\TaskProcessing\Task(
 					$taskProcessingTaskTypeId,
 					['input' => $task->getInput()],
@@ -222,8 +225,8 @@ class Manager implements IManager {
 		$task->setStatus(OCPTask::STATUS_SCHEDULED);
 		$providers = $this->getPreferredProviders($task);
 		$equivalentTaskProcessingTypeAvailable = (
-			isset(self::$taskProcessingCompatibleTaskTypes[$task->getType()])
-			&& isset($this->taskProcessingManager->getAvailableTaskTypes()[self::$taskProcessingCompatibleTaskTypes[$task->getType()]])
+			isset(self::COMPATIBLE_TASK_TYPES[$task->getType()])
+			&& isset($this->taskProcessingManager->getAvailableTaskTypes()[self::COMPATIBLE_TASK_TYPES[$task->getType()]])
 		);
 		if (count($providers) === 0 && !$equivalentTaskProcessingTypeAvailable) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');

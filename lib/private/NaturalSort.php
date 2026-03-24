@@ -11,7 +11,6 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class NaturalSort {
-	private static $instance;
 	private $collator;
 	private $cache = [];
 
@@ -113,10 +112,7 @@ class NaturalSort {
 	 * Returns a singleton
 	 * @return NaturalSort instance
 	 */
-	public static function getInstance() {
-		if (!isset(self::$instance)) {
-			self::$instance = new NaturalSort();
-		}
-		return self::$instance;
+	public static function getInstance(): NaturalSort {
+		return \OCP\Server::get(NaturalSort::class);
 	}
 }

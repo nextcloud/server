@@ -24,6 +24,7 @@ class ComposerStaticInitTesting
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Testing\\AlternativeHomeUserBackend' => __DIR__ . '/..' . '/../lib/AlternativeHomeUserBackend.php',
         'OCA\\Testing\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\Testing\\Command\\StaticHunt' => __DIR__ . '/..' . '/../lib/Command/StaticHunt.php',
         'OCA\\Testing\\Controller\\ConfigController' => __DIR__ . '/..' . '/../lib/Controller/ConfigController.php',
         'OCA\\Testing\\Controller\\LockingController' => __DIR__ . '/..' . '/../lib/Controller/LockingController.php',
         'OCA\\Testing\\Controller\\RateLimitTestController' => __DIR__ . '/..' . '/../lib/Controller/RateLimitTestController.php',

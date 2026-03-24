@@ -28,18 +28,12 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Cache
  */
 class Storage {
-	private static ?StorageGlobal $globalCache = null;
-
 	private string $storageId;
 
 	private int $numericId;
 
 	public static function getGlobalCache(): StorageGlobal {
-		if (is_null(self::$globalCache)) {
-			self::$globalCache = new StorageGlobal(Server::get(IDBConnection::class));
-		}
-
-		return self::$globalCache;
+		return Server::get(StorageGlobal::class);
 	}
 
 	/**

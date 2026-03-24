@@ -65,6 +65,9 @@ class Manager implements IManager {
 	/** @var CappedMemoryCache<int[]> */
 	protected CappedMemoryCache $operationsByScope;
 
+	/** @var array<class-string<IOperation>, ScopeContext[]> $scopesByOperation */
+	private array $scopesByOperation = [];
+
 	public function __construct(
 		protected readonly IDBConnection $connection,
 		protected readonly ContainerInterface $container,
@@ -128,10 +131,8 @@ class Manager implements IManager {
 	 * @return ScopeContext[]
 	 */
 	public function getAllConfiguredScopesForOperation(string $operationClass): array {
-		/** @var array<class-string<IOperation>, ScopeContext[]> $scopesByOperation */
-		static $scopesByOperation = [];
-		if (isset($scopesByOperation[$operationClass])) {
-			return $scopesByOperation[$operationClass];
+		if (isset($this->scopesByOperation[$operationClass])) {
+			return $this->scopesByOperation[$operationClass];
 		}
 
 		try {
@@ -152,7 +153,7 @@ class Manager implements IManager {
 		$query->setParameters(['operationClass' => $operationClass]);
 		$result = $query->executeQuery();
 
-		$scopesByOperation[$operationClass] = [];
+		$this->scopesByOperation[$operationClass] = [];
 		while ($row = $result->fetchAssociative()) {
 			$scope = new ScopeContext($row['type'], $row['value']);
 
@@ -160,10 +161,10 @@ class Manager implements IManager {
 				continue;
 			}
 
-			$scopesByOperation[$operationClass][$scope->getHash()] = $scope;
+			$this->scopesByOperation[$operationClass][$scope->getHash()] = $scope;
 		}
 
-		return $scopesByOperation[$operationClass];
+		return $this->scopesByOperation[$operationClass];
 	}
 
 	public function getAllOperations(ScopeContext $scopeContext): array {

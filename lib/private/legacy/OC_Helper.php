@@ -45,6 +45,14 @@ class OC_Helper {
 	private static ?bool $quotaIncludeExternalStorage = null;
 
 	/**
+	 * @internal
+	 */
+	public static function reset(): void {
+		self::$cacheFactory = null;
+		self::$quotaIncludeExternalStorage = null;
+	}
+
+	/**
 	 * Recursive copying of folders
 	 * @param string $src source folder
 	 * @param string $dest target folder

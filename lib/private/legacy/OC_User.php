@@ -51,7 +51,7 @@ use Psr\Log\LoggerInterface;
  *   logout()
  */
 class OC_User {
-	private static $_setupedBackends = [];
+	public static $_setupedBackends = [];
 
 	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
 	private static $incognitoMode = false;

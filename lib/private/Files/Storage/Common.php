@@ -74,6 +74,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	private ?LoggerInterface $logger = null;
 	private ?IFilenameValidator $filenameValidator = null;
 
+	private ?CacheDependencies $cacheDependencies = null;
+
 	public function __construct(array $parameters) {
 	}
 
@@ -304,11 +306,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	}
 
 	protected function getCacheDependencies(): CacheDependencies {
-		static $dependencies = null;
-		if (!$dependencies) {
-			$dependencies = Server::get(CacheDependencies::class);
+		if ($this->cacheDependencies === null) {
+			$this->cacheDependencies = Server::get(CacheDependencies::class);
 		}
-		return $dependencies;
+		return $this->cacheDependencies;
 	}
 
 	public function getCache(string $path = '', ?IStorage $storage = null): ICache {

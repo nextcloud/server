@@ -7,6 +7,7 @@
  */
 namespace OC\Memcache;
 
+use OC\RedisFactory;
 use OCP\IMemcacheTTL;
 use OCP\Server;
 
@@ -37,24 +38,18 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
 
-	/**
-	 * @var \Redis|\RedisCluster $cache
-	 */
-	private static $cache = null;
+	private \Redis|\RedisCluster $cache;
 
 	public function __construct($prefix = '', string $logFile = '') {
 		parent::__construct($prefix);
+		$this->cache = \OCP\Server::get(RedisFactory::class)->getInstance();
 	}
 
 	/**
-	 * @return \Redis|\RedisCluster|null
 	 * @throws \Exception
 	 */
-	public function getCache() {
-		if (is_null(self::$cache)) {
-			self::$cache = Server::get('RedisFactory')->getInstance();
-		}
-		return self::$cache;
+	public function getCache(): \Redis|\RedisCluster {
+		return $this->cache;
 	}
 
 	public function get($key) {
