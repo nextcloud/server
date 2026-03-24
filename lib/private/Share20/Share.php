@@ -64,8 +64,6 @@ class Share implements IShare {
 	private ?int $parent = null;
 	/** @var string */
 	private $target;
-	/** @var string */
-	private ?string $originalTarget = null;
 	/** @var \DateTime */
 	private $shareTime;
 	/** @var bool */
@@ -541,19 +539,8 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	public function setTarget($target) {
-		// if the target is changed, save the original target
-		if ($this->target && !$this->originalTarget) {
-			$this->originalTarget = $this->target;
-		}
 		$this->target = $target;
 		return $this;
-	}
-
-	/**
-	 * Return the original target, if this share was moved
-	 */
-	public function getOriginalTarget(): ?string {
-		return $this->originalTarget;
 	}
 
 	/**

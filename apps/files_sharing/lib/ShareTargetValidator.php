@@ -13,7 +13,6 @@ use OC\Files\SetupManager;
 use OC\Files\View;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
@@ -47,7 +46,7 @@ class ShareTargetValidator {
 	/**
 	 * check if the parent folder exists otherwise move the mount point up
 	 *
-	 * @param array<string, ICachedMountInfo> $allCachedMounts Other mounts for the user, indexed by path
+	 * @param array<string, IMountPoint> $allCachedMounts Other mounts for the user, indexed by path
 	 * @param IShare[] $childShares
 	 * @return string
 	 */
@@ -106,7 +105,7 @@ class ShareTargetValidator {
 
 
 	/**
-	 * @param ICachedMountInfo[] $allCachedMounts
+	 * @param IMountPoint[] $allCachedMounts
 	 */
 	public function generateUniqueTarget(
 		int $shareNodeId,
@@ -132,7 +131,7 @@ class ShareTargetValidator {
 	}
 
 	/**
-	 * @param ICachedMountInfo[] $allCachedMounts
+	 * @param IMountPoint[] $allCachedMounts
 	 */
 	private function hasConflictingMount(int $shareNodeId, array $allCachedMounts, string $absolutePath): bool {
 		if (!isset($allCachedMounts[$absolutePath . '/'])) {
@@ -140,7 +139,7 @@ class ShareTargetValidator {
 		}
 
 		$mount = $allCachedMounts[$absolutePath . '/'];
-		if ($mount->getMountProvider() === MountProvider::class && $mount->getRootId() === $shareNodeId) {
+		if ($mount instanceof SharedMount && $mount->getShare()->getNodeId() === $shareNodeId) {
 			// "conflicting" mount is a mount for the current share
 			return false;
 		}

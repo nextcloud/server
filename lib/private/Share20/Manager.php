@@ -47,7 +47,6 @@ use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
-use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -1192,11 +1191,7 @@ class Manager implements IManager {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		$result = $provider->move($share, $recipientId);
-
-		$this->dispatchEvent(new ShareMovedEvent($share), 'share moved');
-
-		return $result;
+		return $provider->move($share, $recipientId);
 	}
 
 	#[Override]
