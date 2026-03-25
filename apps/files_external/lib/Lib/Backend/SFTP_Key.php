@@ -19,7 +19,7 @@ class SFTP_Key extends Backend {
 		$this
 			->setIdentifier('\OC\Files\Storage\SFTP_Key')
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SFTP')
-			->setText($l->t('SFTP with secret key login'))
+			->setText($l->t('SFTP with public key authentication'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
