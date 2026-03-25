@@ -152,12 +152,12 @@ class UsersController extends AUserDataOCSController {
 			$subAdminOfGroups[$key] = $group->getGID();
 		}
 
-			$users = [];
-			foreach ($subAdminOfGroups as $group) {
-				$users += $this->groupManager->displayNamesInGroup($group, $search, $limit, $offset);
-			}
+		$users = [];
+		foreach ($subAdminOfGroups as $group) {
+			$users += $this->groupManager->displayNamesInGroup($group, $search, $limit, $offset);
 		}
 
+		$users = array_keys($users);
 		$this->cache->set($uid . '_' . $search, $users, 10);
 		return new DataResponse([
 			'users' => $users
