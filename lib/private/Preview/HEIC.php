@@ -65,6 +65,9 @@ class HEIC extends ProviderV2 {
 					'app' => 'core',
 				]
 			);
+			if (defined('PHPUNIT_COMPOSER_INSTALL') || defined('__PHPUNIT_PHAR__')) {
+				throw $e;
+			}
 			return null;
 		}
 
@@ -96,16 +99,15 @@ class HEIC extends ProviderV2 {
 	private function getResizedPreview($tmpPath, $maxX, $maxY) {
 		$bp = new \Imagick();
 
-		// Some HEIC files just contain (or at least are identified as) other formats
-		// like JPEG. We just need to check if the image is safe to process.
-		$bp->pingImage($tmpPath . '[0]');
+		// Force Imagick to only accept HEIC or HEIF images
+		$bp->pingImage('heic:' . $tmpPath . '[0]');
 		$mimeType = $bp->getImageMimeType();
-		if (!preg_match('/^image\/(x-)?(png|jpeg|gif|bmp|tiff|webp|hei(f|c)|avif)$/', $mimeType)) {
+		if (!preg_match('/^image\/(x-)?hei(f|c)$/', $mimeType)) {
 			throw new \Exception('File mime type does not match the preview provider: ' . $mimeType);
 		}
 
 		// Layer 0 contains either the bitmap or a flat representation of all vector layers
-		$bp->readImage($tmpPath . '[0]');
+		$bp->readImage('heic:' . $tmpPath . '[0]');
 
 		// Fix orientation from EXIF
 		$bp->autoOrient();
