@@ -42,39 +42,82 @@ trait S3ObjectTrait {
 	 */
 	public function readObject($urn) {
 		$fh = SeekableHttpStream::open(function ($range) use ($urn) {
-			$command = $this->getConnection()->getCommand('GetObject', [
-				'Bucket' => $this->bucket,
-				'Key' => $urn,
-				'Range' => 'bytes=' . $range,
-			] + $this->getSSECParameters());
-			$request = \Aws\serialize($command);
-			$headers = [];
-			foreach ($request->getHeaders() as $key => $values) {
-				foreach ($values as $value) {
-					$headers[] = "$key: $value";
-				}
-			}
-			$opts = [
-				'http' => [
-					'protocol_version' => $request->getProtocolVersion(),
-					'header' => $headers,
-				]
-			];
-			$bundle = $this->getCertificateBundlePath();
-			if ($bundle) {
-				$opts['ssl'] = [
-					'cafile' => $bundle
-				];
-			}
+    		$command = $this->getConnection()->getCommand('GetObject', [
+        		'Bucket' => $this->bucket,
+        		'Key' => $urn,
+        		'Range' => 'bytes=' . $range,
+    		] + $this->getSSECParameters());
+    		$request = \Aws\serialize($command);
+    		$headers = [];
+    		foreach ($request->getHeaders() as $key => $values) {
+        		foreach ($values as $value) {
+            		$headers[] = "$key: $value";
+        		}
+    		}
+    		$opts = [
+        		'http' => [
+            		'protocol_version' => $request->getProtocolVersion(),
+            		'header' => $headers,
+            		'ignore_errors' => true, // prevent fopen from failing on 4xx/5xx
+        		]
+    		];
 
-			if ($this->getProxy()) {
-				$opts['http']['proxy'] = $this->getProxy();
-				$opts['http']['request_fulluri'] = true;
-			}
+		    $bundle = $this->getCertificateBundlePath();
+    		if ($bundle) {
+        		$opts['ssl'] = [
+            		'cafile' => $bundle
+        		];
+    		}
 
-			$context = stream_context_create($opts);
-			return fopen($request->getUri(), 'r', false, $context);
+	    	if ($this->getProxy()) {
+    	    	$opts['http']['proxy'] = $this->getProxy();
+        		$opts['http']['request_fulluri'] = true;
+    		}
+
+    		$context = stream_context_create($opts);
+
+    		$maxAttempts = $this->retriesMaxAttempts;
+   			for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+        		$result = @fopen($request->getUri(), 'r', false, $context);
+
+        		if ($result !== false) {
+            		$meta = stream_get_meta_data($result);
+            		$statusLine = $meta['wrapper_data'][0] ?? '';
+            		if (preg_match('#^HTTP/\S+\s+(\d{3})#', $statusLine, $matches)) {
+                		$statusCode = (int)$matches[1];
+
+                		if ($statusCode < 400) {
+                    		return $result;
+                		}
+
+                		fclose($result);
+
+                		// Only retry on server errors or throttling
+                		if ($statusCode === 429 || $statusCode >= 500) {
+                    		if ($attempt < $maxAttempts) {
+                        		usleep(min(1000000, 100000 * (2 ** ($attempt - 1))));
+                        		continue;
+                    		}
+                		}
+
+                		// 4xx (except 429) — don't retry, fail immediately
+                		return false;
+            		}
+
+            		// Couldn't parse status but got a stream — use it
+            		return $result;
+        		}
+
+        		// fopen returned false — connection-level failure (DNS, timeout, etc.)
+        		// These are retryable
+        		if ($attempt < $maxAttempts) {
+            		usleep(min(1000000, 100000 * (2 ** ($attempt - 1))));
+        		}
+    		}
+
+    		return false;
 		});
+
 		if (!$fh) {
 			throw new \Exception("Failed to read object $urn");
 		}
