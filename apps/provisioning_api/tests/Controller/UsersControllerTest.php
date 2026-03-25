@@ -26,6 +26,8 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
@@ -65,6 +67,8 @@ class UsersControllerTest extends TestCase {
 	private IRootFolder $rootFolder;
 	private IPhoneNumberUtil $phoneNumberUtil;
 	private IAppManager $appManager;
+	private ICache&MockObject $cache;
+	private ICacheFactory&MockObject $cacheFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -87,6 +91,9 @@ class UsersControllerTest extends TestCase {
 		$this->phoneNumberUtil = new PhoneNumberUtil();
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->cache = $this->createMock(ICache::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory->method('createDistributed')->willReturn($this->cache);
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnCallback(fn (string $txt, array $replacement = []) => sprintf($txt, ...$replacement));
@@ -113,6 +120,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->cacheFactory,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -4381,6 +4389,137 @@ class UsersControllerTest extends TestCase {
 
 		$expectedResp = new DataResponse($expected);
 		$this->assertEquals($expectedResp, $this->api->getEditableFields('userId'));
+	}
+
+	public function testGetUserDataReturnsCachedDataOnCacheHit(): void {
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($loggedInUser);
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->with('admin')->willReturn(false);
+
+		$cachedData = ['id' => 'UID', 'displayname' => 'Test User', 'email' => 'test@example.com'];
+		$this->cache
+			->method('get')
+			->with('user_data_UID_admin')
+			->willReturn($cachedData);
+
+		// With a cache hit the database must not be consulted at all
+		$this->userManager->expects($this->never())->method('get');
+		$this->accountManager->expects($this->never())->method('getAccount');
+
+		$result = $this->api->getUser('UID');
+		$this->assertSame($cachedData, $result->getData());
+	}
+
+	public function testGetUserDataPopulatesCacheOnMiss(): void {
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($loggedInUser);
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->with('admin')->willReturn(false);
+
+		// Cache miss
+		$this->cache->method('get')->willReturn(null);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('UID');
+		$targetUser->method('getSystemEMailAddress')->willReturn('test@example.com');
+		$targetUser->method('getPrimaryEMailAddress')->willReturn('test@example.com');
+		$targetUser->method('getDisplayName')->willReturn('Test User');
+		$targetUser->method('getLastLogin')->willReturn(0);
+		$targetUser->method('getFirstLogin')->willReturn(0);
+		$targetUser->method('getBackendClassName')->willReturn('Database');
+		$targetUser->method('getBackend')->willReturn($this->createMock(\OCP\UserInterface::class));
+		$targetUser->method('getHome')->willReturn('/home/UID');
+		$targetUser->method('getManagerUids')->willReturn([]);
+		$targetUser->method('getQuota')->willReturn('none');
+		$this->userManager->method('get')->with('UID')->willReturn($targetUser);
+
+		$subAdminManager = $this->createMock(\OC\SubAdmin::class);
+		$subAdminManager->method('getSubAdminsGroups')->willReturn([]);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdminManager);
+		$this->groupManager->method('getUserGroups')->willReturn([]);
+
+		$this->mockAccount($targetUser, [
+			IAccountManager::PROPERTY_ADDRESS => ['value' => ''],
+			IAccountManager::PROPERTY_PHONE => ['value' => ''],
+			IAccountManager::PROPERTY_TWITTER => ['value' => ''],
+			IAccountManager::PROPERTY_BLUESKY => ['value' => ''],
+			IAccountManager::PROPERTY_FEDIVERSE => ['value' => ''],
+			IAccountManager::PROPERTY_WEBSITE => ['value' => ''],
+			IAccountManager::PROPERTY_ORGANISATION => ['value' => ''],
+			IAccountManager::PROPERTY_ROLE => ['value' => ''],
+			IAccountManager::PROPERTY_HEADLINE => ['value' => ''],
+			IAccountManager::PROPERTY_BIOGRAPHY => ['value' => ''],
+			IAccountManager::PROPERTY_PROFILE_ENABLED => ['value' => '0'],
+			IAccountManager::PROPERTY_PRONOUNS => ['value' => ''],
+		]);
+		$emailCollection = $this->createMock(\OCP\Accounts\IAccountPropertyCollection::class);
+		$emailCollection->method('getProperties')->willReturn([]);
+		$account = $this->accountManager->getAccount($targetUser);
+		$this->accountManager->method('getAccount')->with($targetUser)->willReturnCallback(function () use ($targetUser, $emailCollection) {
+			$account = $this->createMock(\OCP\Accounts\IAccount::class);
+			$account->method('getPropertyCollection')->willReturn($emailCollection);
+			$account->method('getProperty')->willReturnCallback(function (string $name) {
+				$prop = $this->createMock(IAccountProperty::class);
+				$prop->method('getValue')->willReturn('');
+				$prop->method('getScope')->willReturn('');
+				return $prop;
+			});
+			return $account;
+		});
+		$this->config->method('getUserValue')->willReturn('true');
+		$this->l10nFactory->method('getUserLanguage')->willReturn('en');
+		$this->api->method('fillStorageInfo')->willReturn(['used' => 0, 'quota' => -3, 'free' => -3, 'total' => -3, 'relative' => 0]);
+
+		// The computed data must be stored in the cache with the 5-minute TTL
+		$this->cache
+			->expects($this->once())
+			->method('set')
+			->with('user_data_UID_admin', $this->isArray(), 300);
+
+		$this->api->getUser('UID');
+	}
+
+	public function testGetUserDataUsesAdminCacheKey(): void {
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($loggedInUser);
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->with('admin')->willReturn(false);
+
+		$this->cache
+			->expects($this->once())
+			->method('get')
+			->with($this->stringContains('_admin'))
+			->willReturn(['id' => 'UID']);
+
+		$this->api->getUser('UID');
+	}
+
+	public function testGetUserDataUsesNonAdminCacheKey(): void {
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser->method('getUID')->willReturn('subadmin');
+		$this->userSession->method('getUser')->willReturn($loggedInUser);
+		$this->groupManager->method('isAdmin')->with('subadmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->with('subadmin')->willReturn(false);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('UID');
+		$this->userManager->method('get')->with('UID')->willReturn($targetUser);
+
+		$subAdminManager = $this->createMock(\OC\SubAdmin::class);
+		$subAdminManager->method('isUserAccessible')->with($loggedInUser, $targetUser)->willReturn(true);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdminManager);
+
+		$this->cache
+			->expects($this->once())
+			->method('get')
+			->with($this->stringContains('_noadmin'))
+			->willReturn(['id' => 'UID']);
+
+		$this->api->getUser('UID');
 	}
 
 	private function mockAccount($targetUser, $accountProperties) {

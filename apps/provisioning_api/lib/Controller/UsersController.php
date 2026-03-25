@@ -99,6 +99,7 @@ class UsersController extends AUserDataOCSController {
 			$subAdminManager,
 			$l10nFactory,
 			$rootFolder,
+			$cacheFactory,
 		);
 
 		$this->l10n = $l10nFactory->get($appName);
@@ -151,9 +152,9 @@ class UsersController extends AUserDataOCSController {
 			$subAdminOfGroups[$key] = $group->getGID();
 		}
 
-		foreach ($subAdminOfGroups as $group) {
-			foreach ($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset) as $uid => $user) {
-				$users[] = $uid;
+			$users = [];
+			foreach ($subAdminOfGroups as $group) {
+				$users += $this->groupManager->displayNamesInGroup($group, $search, $limit, $offset);
 			}
 		}
 
@@ -234,25 +235,21 @@ class UsersController extends AUserDataOCSController {
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
 
-			$users = [];
+			$usersSet = [];
 			/* We have to handle offset ourselve for correctness */
 			$tempLimit = ($limit === null ? null : $limit + $offset);
 			foreach ($subAdminOfGroups as $group) {
-				$users = array_unique(array_merge(
-					$users,
-					array_map(
-						fn (IUser $user): string => $user->getUID(),
-						array_filter(
-							$group->searchUsers($search),
-							fn (IUser $user): bool => !$user->isEnabled()
-						)
-					)
-				));
-				if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+				foreach (array_filter(
+					$group->searchUsers($search),
+					fn (IUser $user): bool => !$user->isEnabled()
+				) as $user) {
+					$usersSet[$user->getUID()] = true;
+				}
+				if (($tempLimit !== null) && (count($usersSet) >= $tempLimit)) {
 					break;
 				}
 			}
-			$users = array_slice($users, $offset, $limit);
+			$users = array_slice(array_keys($usersSet), $offset, $limit);
 		}
 
 		$usersDetails = [];

@@ -14,6 +14,8 @@ use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IRequest;
@@ -38,6 +40,8 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected GroupsController&MockObject $api;
 
 	private IRootFolder $rootFolder;
+	private ICache&MockObject $cache;
+	private ICacheFactory&MockObject $cacheFactory;
 
 
 	protected function setUp(): void {
@@ -53,6 +57,9 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->cache = $this->createMock(ICache::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory->method('createDistributed')->willReturn($this->cache);
 
 		$this->groupManager
 			->method('getSubAdmin')
@@ -70,7 +77,8 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->subAdminManager,
 				$this->l10nFactory,
 				$this->rootFolder,
-				$this->logger
+				$this->logger,
+				$this->cacheFactory,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();

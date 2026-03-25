@@ -23,6 +23,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -51,6 +52,7 @@ class GroupsController extends AUserDataOCSController {
 		IFactory $l10nFactory,
 		IRootFolder $rootFolder,
 		private LoggerInterface $logger,
+		ICacheFactory $cacheFactory,
 	) {
 		parent::__construct($appName,
 			$request,
@@ -62,6 +64,7 @@ class GroupsController extends AUserDataOCSController {
 			$subAdminManager,
 			$l10nFactory,
 			$rootFolder,
+			$cacheFactory,
 		);
 	}
 
