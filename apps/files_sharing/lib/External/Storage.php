@@ -83,10 +83,6 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$webDavEndpoint = $ocmProvider->extractProtocolEntry('file', 'webdav');
 			$remote = $ocmProvider->getEndPoint();
 			$authType = \Sabre\DAV\Client::AUTH_BASIC;
-			$capabilities = $ocmProvider->getCapabilities();
-			if (in_array('exchange-token', $capabilities)) {
-				$authType = \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER;
-			}
 		} catch (OCMProviderException|OCMArgumentException $e) {
 			$this->logger->notice('exception while retrieving webdav endpoint', ['exception' => $e]);
 			$webDavEndpoint = '/public.php/webdav';
@@ -94,14 +90,22 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$authType = \Sabre\DAV\Client::AUTH_BASIC;
 		}
 
-		// If we have a stored access token, use Bearer auth regardless of discovery.
-		// This handles the case where the share was created with must-exchange-token.
+		// Only use Bearer auth when an access token is already stored.
+		// Shares created before the exchange-token capability was introduced have no
+		// stored token and must keep using basic auth for backwards compatibility.
 		if (!empty($options['access_token'])) {
 			$authType = \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER;
 		}
 
 		$host = parse_url($remote, PHP_URL_HOST);
+		// If host extraction fails (e.g., endpoint has no scheme), fall back to cloudId's remote
+		if ($host === null) {
+			$host = parse_url($this->cloudId->getRemote(), PHP_URL_HOST);
+		}
 		$port = parse_url($remote, PHP_URL_PORT);
+		if ($port === null) {
+			$port = parse_url($this->cloudId->getRemote(), PHP_URL_PORT);
+		}
 		$host .= ($port === null) ? '' : ':' . $port; // we add port if available
 
 		// in case remote NC is on a sub folder and using deprecated ocm provider
@@ -114,9 +118,12 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$this->token = $options['token'];
 		$this->tokenExpiresAt = (int)($options['access_token_expires'] ?? 0);
 
+		// Determine scheme - fall back to cloudId's remote if $remote has no scheme
+		$scheme = parse_url($remote, PHP_URL_SCHEME) ?? parse_url($this->cloudId->getRemote(), PHP_URL_SCHEME) ?? 'https';
+
 		parent::__construct(
 			[
-				'secure' => ((parse_url($remote, PHP_URL_SCHEME) ?? 'https') === 'https'),
+				'secure' => ($scheme === 'https'),
 				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 				'host' => $host,
 				'root' => $webDavEndpoint,

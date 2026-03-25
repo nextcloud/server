@@ -131,6 +131,7 @@ class DAV extends Common {
 		'{DAV:}getcontenttype',
 		'{http://owncloud.org/ns}permissions',
 		'{http://open-collaboration-services.org/ns}share-permissions',
+		'{http://open-cloud-mesh.org/ns}share-permissions',
 		'{DAV:}resourcetype',
 		'{DAV:}getetag',
 		'{DAV:}quota-available-bytes',

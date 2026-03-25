@@ -60,7 +60,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('id', 'remote', 'share_token', 'password', 'mountpoint', 'owner')
+		$qb->select('id', 'remote', 'share_token', 'password', 'access_token', 'access_token_expires', 'mountpoint', 'owner')
 			->from('share_external')
 			->where($qb->expr()->eq('user', $qb->createNamedParameter($user->getUID())))
 			->andWhere($qb->expr()->eq('accepted', $qb->createNamedParameter(IShare::STATUS_ACCEPTED, IQueryBuilder::PARAM_INT)));
@@ -101,7 +101,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		}
 
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('id', 'remote', 'share_token', 'password', 'mountpoint', 'owner')
+		$qb->select('id', 'remote', 'share_token', 'password', 'access_token', 'access_token_expires', 'mountpoint', 'owner')
 			->from('share_external')
 			->where($qb->expr()->eq('user', $qb->createNamedParameter($user->getUID())))
 			->andWhere($qb->expr()->eq('accepted', $qb->createNamedParameter(IShare::STATUS_ACCEPTED, IQueryBuilder::PARAM_INT)));

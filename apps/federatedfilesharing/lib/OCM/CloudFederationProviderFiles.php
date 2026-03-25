@@ -182,7 +182,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			$externalShare->setRemote($remote);
 			$externalShare->setRemoteId($remoteId);
 			$externalShare->setShareToken($token);  // refresh token (sharedSecret)
-			$externalShare->setPassword($accessToken);  // access token (empty if no token exchange)
+			$externalShare->setAccessToken($accessToken ?: null);
 			$externalShare->setName($name);
 			$externalShare->setOwner($owner);
 			$externalShare->setShareType($shareType);
