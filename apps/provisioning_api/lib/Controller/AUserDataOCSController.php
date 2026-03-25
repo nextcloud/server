@@ -87,6 +87,12 @@ abstract class AUserDataOCSController extends OCSController {
 		$currentLoggedInUser = $this->userSession->getUser();
 		assert($currentLoggedInUser !== null, 'No user logged in');
 
+		// Check if the target user exists
+		$targetUserObject = $this->userManager->get($userId);
+		if ($targetUserObject === null) {
+			throw new OCSNotFoundException('User does not exist');
+		}
+
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 
@@ -98,12 +104,6 @@ abstract class AUserDataOCSController extends OCSController {
 		}
 
 		$data = [];
-
-		// Check if the target user exists
-		$targetUserObject = $this->userManager->get($userId);
-		if ($targetUserObject === null) {
-			throw new OCSNotFoundException('User does not exist');
-		}
 		if ($isAdmin
 			|| $isDelegatedAdmin
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {

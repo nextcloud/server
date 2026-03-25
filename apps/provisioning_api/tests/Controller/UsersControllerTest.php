@@ -510,6 +510,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->cacheFactory,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -3850,6 +3851,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->cacheFactory,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -3944,6 +3946,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->cacheFactory,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
