@@ -91,7 +91,7 @@ abstract class AUserDataOCSController extends OCSController {
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 
 		$cacheKey = 'user_data_' . $userId . '_' . ($isAdmin || $isDelegatedAdmin ? 'admin' : 'noadmin') . ($includeScopes ? '_scoped' : '');
-		/** @var array<string,mixed>|null $cached */
+		/** @var Provisioning_APIUserDetails|null $cached */
 		$cached = $this->cache->get($cacheKey);
 		if ($cached !== null) {
 			return $cached;
