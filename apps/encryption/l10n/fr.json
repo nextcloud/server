@@ -39,6 +39,7 @@
     "Enable recovery key" : "Activer la clé de récupération",
     "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "La clé de récupération est une clé de chiffrement supplémentaire utilisée pour chiffrer les fichiers. Elle est utilisée pour récupérer les fichiers d'un compte si le mot de passe a été oublié.",
     "Recovery key password" : "Mot de passe de la clé de récupération",
+    "Passwords fields do not match" : "Les deux mots de passe ne correspondent pas",
     "Repeat recovery key password" : "Répétez le mot de passe de la clé de récupération",
     "Old recovery key password" : "Ancien mot de passe de la clé de récupération",
     "New recovery key password" : "Nouveau mot de passe de la clé de récupération",
