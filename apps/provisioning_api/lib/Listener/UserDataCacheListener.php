@@ -10,8 +10,8 @@ namespace OCA\Provisioning_API\Listener;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\ICacheFactory;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
