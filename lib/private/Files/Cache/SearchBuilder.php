@@ -372,6 +372,10 @@ class SearchBuilder {
 					if ($field === 'mtime') {
 						$field = $query->func()->add($field, $query->createNamedParameter(0));
 					}
+
+					if ($field === 'last_activity') {
+						$field = $query->func()->greatest('file.mtime', $query->createFunction('COALESCE(fe.upload_time, 0)'));
+					}
 			}
 			$query->addOrderBy($field, $order->getDirection());
 		}

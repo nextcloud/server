@@ -31,7 +31,8 @@
                         "required": [
                             "chunking",
                             "search_supports_creation_time",
-                            "search_supports_upload_time"
+                            "search_supports_upload_time",
+                            "search_supports_last_activity"
                         ],
                         "properties": {
                             "chunking": {
@@ -41,6 +42,9 @@
                                 "type": "boolean"
                             },
                             "search_supports_upload_time": {
+                                "type": "boolean"
+                            },
+                            "search_supports_last_activity": {
                                 "type": "boolean"
                             },
                             "bulkupload": {

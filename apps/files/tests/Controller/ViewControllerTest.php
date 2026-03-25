@@ -41,6 +41,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -82,6 +83,8 @@ class ViewControllerTest extends TestCase {
 	private $userSession;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $appConfig;
 	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
@@ -108,6 +111,7 @@ class ViewControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->initialState = $this->createMock(IInitialState::class);
@@ -166,6 +170,7 @@ class ViewControllerTest extends TestCase {
 				$this->templateManager,
 				$this->userConfig,
 				$this->viewConfig,
+				$this->appConfig,
 			])
 		->setMethods([
 			'getStorageInfo',
