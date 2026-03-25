@@ -29,6 +29,7 @@ use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Exceptions\AbortedEventException;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -515,7 +516,11 @@ class Trashbin implements IEventListener {
 		$run = true;
 		$event = new BeforeNodeRestoredEvent($sourceNode, $targetNode, $run);
 		$dispatcher = Server::get(IEventDispatcher::class);
-		$dispatcher->dispatchTyped($event);
+		try {
+			$dispatcher->dispatchTyped($event);
+		} catch (AbortedEventException) {
+			$run = false;
+		}
 
 		if (!$run) {
 			return false;
