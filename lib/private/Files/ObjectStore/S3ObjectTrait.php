@@ -41,87 +41,186 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	public function readObject($urn) {
-		$fh = SeekableHttpStream::open(function ($range) use ($urn) {
-    		$command = $this->getConnection()->getCommand('GetObject', [
-        		'Bucket' => $this->bucket,
-        		'Key' => $urn,
-        		'Range' => 'bytes=' . $range,
-    		] + $this->getSSECParameters());
-    		$request = \Aws\serialize($command);
-    		$headers = [];
-    		foreach ($request->getHeaders() as $key => $values) {
-        		foreach ($values as $value) {
-            		$headers[] = "$key: $value";
-        		}
-    		}
-    		$opts = [
-        		'http' => [
-            		'protocol_version' => $request->getProtocolVersion(),
-            		'header' => $headers,
-            		'ignore_errors' => true, // prevent fopen from failing on 4xx/5xx
-        		]
-    		];
+		$maxAttempts = max(1, $this->retriesMaxAttempts);
+		$lastError = 'unknown error';
 
-		    $bundle = $this->getCertificateBundlePath();
-    		if ($bundle) {
-        		$opts['ssl'] = [
-            		'cafile' => $bundle
-        		];
-    		}
+		$fh = SeekableHttpStream::open(function ($range) use ($urn, $maxAttempts, &$lastError) {
+			$command = $this->getConnection()->getCommand('GetObject', [
+				'Bucket' => $this->bucket,
+				'Key' => $urn,
+				'Range' => 'bytes=' . $range,
+			] + $this->getSSECParameters());
 
-	    	if ($this->getProxy()) {
-    	    	$opts['http']['proxy'] = $this->getProxy();
-        		$opts['http']['request_fulluri'] = true;
-    		}
+			$request = \Aws\serialize($command);
+			$requestUri = (string)$request->getUri();
 
-    		$context = stream_context_create($opts);
+			$headers = [];
+			foreach ($request->getHeaders() as $key => $values) {
+				foreach ($values as $value) {
+					$headers[] = "$key: $value";
+				}
+			}
 
-    		$maxAttempts = $this->retriesMaxAttempts;
-   			for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
-        		$result = @fopen($request->getUri(), 'r', false, $context);
+			$opts = [
+				'http' => [
+					'protocol_version' => $request->getProtocolVersion(),
+					'header' => $headers,
+					'ignore_errors' => true,
+				],
+			];
 
-        		if ($result !== false) {
-            		$meta = stream_get_meta_data($result);
-            		$statusLine = $meta['wrapper_data'][0] ?? '';
-            		if (preg_match('#^HTTP/\S+\s+(\d{3})#', $statusLine, $matches)) {
-                		$statusCode = (int)$matches[1];
+			$bundle = $this->getCertificateBundlePath();
+			if ($bundle) {
+				$opts['ssl'] = [
+					'cafile' => $bundle,
+				];
+			}
 
-                		if ($statusCode < 400) {
-                    		return $result;
-                		}
+			if ($this->getProxy()) {
+				$opts['http']['proxy'] = $this->getProxy();
+				$opts['http']['request_fulluri'] = true;
+			}
 
-                		fclose($result);
+			$context = stream_context_create($opts);
 
-                		// Only retry on server errors or throttling
-                		if ($statusCode === 429 || $statusCode >= 500) {
-                    		if ($attempt < $maxAttempts) {
-                        		usleep(min(1000000, 100000 * (2 ** ($attempt - 1))));
-                        		continue;
-                    		}
-                		}
+			for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+				$result = @fopen($requestUri, 'r', false, $context);
 
-                		// 4xx (except 429) — don't retry, fail immediately
-                		return false;
-            		}
+				if ($result !== false) {
+					$meta = stream_get_meta_data($result);
+					$responseHead = is_array($meta['wrapper_data'] ?? null) ? $meta['wrapper_data'] : [];
+					$statusCode = $this->parseHttpStatusCode($responseHead);
 
-            		// Couldn't parse status but got a stream — use it
-            		return $result;
-        		}
+					if ($statusCode !== null && $statusCode < 400) {
+						return $result;
+					}
 
-        		// fopen returned false — connection-level failure (DNS, timeout, etc.)
-        		// These are retryable
-        		if ($attempt < $maxAttempts) {
-            		usleep(min(1000000, 100000 * (2 ** ($attempt - 1))));
-        		}
-    		}
+					$errorBody = stream_get_contents($result);
+					fclose($result);
 
-    		return false;
+					$errorInfo = $this->parseS3ErrorResponse($errorBody, $responseHead);
+					$lastError = $this->formatS3ReadError($urn, $range, $statusCode, $errorInfo, $attempt, $maxAttempts);
+
+					if ($this->isRetryableHttpStatus($statusCode) && $attempt < $maxAttempts) {
+						$this->sleepBeforeRetry($attempt);
+						continue;
+					}
+
+					return false;
+				}
+
+				$lastError = "connection failure while reading object $urn range $range on attempt $attempt/$maxAttempts";
+
+				if ($attempt < $maxAttempts) {
+					$this->sleepBeforeRetry($attempt);
+				}
+			}
+
+			return false;
 		});
 
 		if (!$fh) {
-			throw new \Exception("Failed to read object $urn");
+			throw new \Exception("Failed to read object $urn after $maxAttempts attempts: $lastError");
 		}
+
 		return $fh;
+	}
+
+	/**
+	 * Parse the effective HTTP status code from stream wrapper metadata.
+	 *
+	 * wrapper_data can contain multiple status lines, for example due to redirects,
+	 * proxy responses, or interim 100 responses. We want the last HTTP status line.
+	 *
+	 * @param array|string $responseHead The wrapper_data from stream_get_meta_data
+	 */
+	private function parseHttpStatusCode(array|string $responseHead): ?int {
+		$lines = is_array($responseHead) ? $responseHead : [$responseHead];
+
+		foreach (array_reverse($lines) as $line) {
+			if (is_string($line) && preg_match('#^HTTP/\S+\s+(\d{3})#', $line, $matches)) {
+				return (int)$matches[1];
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Parse S3 error response XML and response headers into a structured array.
+	 *
+	 * @param string|false $body The response body
+	 * @param array $responseHead The wrapper_data from stream_get_meta_data
+	 * @return array{code: string, message: string, requestId: string, extendedRequestId: string}
+	 */
+	private function parseS3ErrorResponse(string|false $body, array $responseHead): array {
+		$errorCode = 'Unknown';
+		$errorMessage = '';
+		$requestId = '';
+		$extendedRequestId = '';
+
+		if ($body) {
+			$xml = @simplexml_load_string($body);
+			if ($xml !== false) {
+				$errorCode = (string)($xml->Code ?? 'Unknown');
+				$errorMessage = (string)($xml->Message ?? '');
+				$requestId = (string)($xml->RequestId ?? '');
+			}
+		}
+
+		foreach ($responseHead as $header) {
+			if (!is_string($header)) {
+				continue;
+			}
+
+			if (stripos($header, 'x-amz-request-id:') === 0) {
+				$requestId = trim(substr($header, strlen('x-amz-request-id:')));
+			} elseif (stripos($header, 'x-amz-id-2:') === 0) {
+				$extendedRequestId = trim(substr($header, strlen('x-amz-id-2:')));
+			}
+		}
+
+		return [
+			'code' => $errorCode,
+			'message' => $errorMessage,
+			'requestId' => $requestId,
+			'extendedRequestId' => $extendedRequestId,
+		];
+	}
+
+	/**
+	 * @param array{code: string, message: string, requestId: string, extendedRequestId: string} $errorInfo
+	 */
+	private function formatS3ReadError(
+		string $urn,
+		string $range,
+		?int $statusCode,
+		array $errorInfo,
+		int $attempt,
+		int $maxAttempts,
+	): string {
+		return sprintf(
+			'HTTP %s reading object %s range %s on attempt %d/%d: %s - %s (RequestId: %s, ExtendedRequestId: %s)',
+			$statusCode !== null ? (string)$statusCode : 'unknown',
+			$urn,
+			$range,
+			$attempt,
+			$maxAttempts,
+			$errorInfo['code'],
+			$errorInfo['message'],
+			$errorInfo['requestId'],
+			$errorInfo['extendedRequestId'],
+		);
+	}
+
+	private function isRetryableHttpStatus(?int $statusCode): bool {
+		return $statusCode === 429 || ($statusCode !== null && $statusCode >= 500);
+	}
+
+	private function sleepBeforeRetry(int $attempt): void {
+		$delay = min(1000000, 100000 * (2 ** ($attempt - 1)));
+		$delay += random_int(0, 100000);
+		usleep($delay);
 	}
 
 	private function buildS3Metadata(array $metadata): array {
