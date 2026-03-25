@@ -44,7 +44,11 @@ trait S3ObjectTrait {
 		$maxAttempts = max(1, $this->retriesMaxAttempts);
 		$lastError = 'unknown error';
 
-		$fh = SeekableHttpStream::open(function ($range) use ($urn, $maxAttempts, &$lastError) {
+		// TODO: consider unifying logger access across S3ConnectionTrait and S3ObjectTrait
+		// via an abstract method (e.g. getLogger()) rather than inline container lookups
+		$logger = \OCP\Server::get(\Psr\Log\LoggerInterface::class);
+
+		$fh = SeekableHttpStream::open(function ($range) use ($urn, $maxAttempts, &$lastError, $logger) {
 			$command = $this->getConnection()->getCommand('GetObject', [
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
@@ -102,14 +106,21 @@ trait S3ObjectTrait {
 					$lastError = $this->formatS3ReadError($urn, $range, $statusCode, $errorInfo, $attempt, $maxAttempts);
 
 					if ($this->isRetryableHttpStatus($statusCode) && $attempt < $maxAttempts) {
+						// gives operators visibility into transient S3 issues even when retries succeed by logging
+						$logger->warning($lastError, ['app' => 'objectstore']);
 						$this->sleepBeforeRetry($attempt);
 						continue;
 					}
 
+					// for non-retryable HTTP errors or exhausted retries, log the final failure with full S3 error context
+					$logger->error($lastError, ['app' => 'objectstore']);
 					return false;
 				}
 
+				// fopen returned false - i.e. connection-level failure (DNS, timeout, TLS, etc.)
+				// log occurences for operator visibility even if retried
 				$lastError = "connection failure while reading object $urn range $range on attempt $attempt/$maxAttempts";
+				$logger->warning($lastError, ['app' => 'objectstore']);
 
 				if ($attempt < $maxAttempts) {
 					$this->sleepBeforeRetry($attempt);
@@ -129,8 +140,8 @@ trait S3ObjectTrait {
 	/**
 	 * Parse the effective HTTP status code from stream wrapper metadata.
 	 *
-	 * wrapper_data can contain multiple status lines, for example due to redirects,
-	 * proxy responses, or interim 100 responses. We want the last HTTP status line.
+	 * wrapper_data can contain multiple status lines (e.g. 100 Continue,
+	 * redirects, proxy responses). We want the last HTTP status line.
 	 *
 	 * @param array|string $responseHead The wrapper_data from stream_get_meta_data
 	 */
