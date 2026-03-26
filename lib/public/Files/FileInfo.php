@@ -287,7 +287,7 @@ interface FileInfo {
 	 * Last activity is the more recent of the upload time and the modification time
 	 *
 	 * @return int
-	 * @since 34.0.0
+	 * @since 30.0.17
 	 */
 	public function getLastActivity(): int;
 
