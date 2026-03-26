@@ -1305,8 +1305,6 @@ class ShareAPIControllerTest extends TestCase {
 					$file1EmailShareOwnerExpected,
 					$file1CircleShareOwnerExpected,
 					$file1RoomShareOwnerExpected,
-					$file1RemoteShareOwnerExpected,
-					$file1RemoteGroupShareOwnerExpected,
 				]
 			],
 			[
@@ -1477,8 +1475,6 @@ class ShareAPIControllerTest extends TestCase {
 					$file1EmailShareOwnerExpected,
 					$file1CircleShareOwnerExpected,
 					$file1RoomShareOwnerExpected,
-					$file1RemoteShareOwnerExpected,
-					$file1RemoteGroupShareOwnerExpected,
 				]
 			],
 			[

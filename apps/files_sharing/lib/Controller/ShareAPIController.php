@@ -1729,8 +1729,8 @@ class ShareAPIController extends OCSController {
 			'deck' => IShare::TYPE_DECK,
 		];
 
-		// Include federated sharing whenever the provider is available for the user.
-		if ($this->shareManager->shareProviderExists(IShare::TYPE_REMOTE)) {
+		// Add federated sharing as a provider only if it's allowed
+		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
 			$providers['ocFederatedSharing'] = null; // No type check needed
 		}
 
@@ -1996,12 +1996,12 @@ class ShareAPIController extends OCSController {
 		$deckShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_DECK, $path, $reshares, -1, 0);
 
 		// FEDERATION
-		if ($this->shareManager->shareProviderExists(IShare::TYPE_REMOTE)) {
+		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
 			$federatedShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE, $path, $reshares, -1, 0);
 		} else {
 			$federatedShares = [];
 		}
-		if ($this->shareManager->shareProviderExists(IShare::TYPE_REMOTE_GROUP)) {
+		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
 			$federatedGroupShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
 		} else {
 			$federatedGroupShares = [];
