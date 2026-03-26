@@ -310,6 +310,7 @@ OC.L10N.register(
     "Reset search" : "Ресетирај пребарување",
     "Could not load your contacts" : "Неможат да се вчитаат вашите контакти",
     "No contacts found" : "Не се пронајдени контакти",
+    "Contacts list" : "Листа со контакти",
     "Show all contacts" : "Прикажи ги сите контакти",
     "Install the Contacts app" : "Инсталирај апликација за контакти",
     "Search" : "Барај",

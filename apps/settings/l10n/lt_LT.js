@@ -327,6 +327,7 @@ OC.L10N.register(
     "Language" : "Kalba",
     "Set default language" : "Nustatyti numatytąją kalbą",
     "Add new account" : "Pridėti naują paskyrą",
+    "Total rows summary" : "Bendras eilučių skaičius",
     "Avatar" : "Avataras",
     "Account name" : "Paskyros pavadinimas",
     "Group admin for" : "Grupės administratorius",
