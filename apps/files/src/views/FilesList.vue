@@ -259,7 +259,7 @@ export default defineComponent({
 		const currentView = computed(() => activeStore.activeView)
 		const currentFolder = computed(() => activeStore.activeFolder)
 		const dirContents = computed<INode[]>(() => {
-			const sources = (currentFolder.value as { _children?: string[] })?._children ?? []
+			const sources = (currentFolder.value as { attributes?: { _children?: string[] } })?.attributes?._children ?? []
 			return sources.map(filesStore.getNode)
 				.filter(Boolean) as INode[]
 		})
@@ -580,7 +580,7 @@ export default defineComponent({
 
 				// Define current directory children
 				// TODO: make it more official
-				this.$set(folder, '_children', contents.map((node) => node.source))
+				this.$set(folder.attributes, '_children', contents.map((node) => node.source))
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {

@@ -206,7 +206,7 @@ export default defineComponent({
 
 	methods: {
 		checkIfNodeExists(name: string) {
-			const sources: string[] = (this.activeFolder as { _children?: string[] })?._children || []
+			const sources: string[] = this.activeFolder.attributes._children || []
 			return sources.some((sourceName) => basename(sourceName) === name)
 		},
 

@@ -13,7 +13,7 @@ import { usePathsStore } from './paths.ts'
 describe('Path store', () => {
 	let store: ReturnType<typeof usePathsStore>
 	let files: ReturnType<typeof useFilesStore>
-	let root: Folder & { _children?: string[] }
+	let root: Folder
 
 	beforeEach(() => {
 		setActivePinia(createPinia())
@@ -47,7 +47,7 @@ describe('Path store', () => {
 		expect(store.paths).toEqual({ files: { [node.path]: node.source } })
 
 		// see that the node is added
-		expect(root._children).toEqual([node.source])
+		expect(root.attributes._children).toEqual([node.source])
 	})
 
 	test('File is created', () => {
@@ -68,7 +68,7 @@ describe('Path store', () => {
 		expect(store.paths).toEqual({})
 
 		// see that the node is added
-		expect(root._children).toEqual([node.source])
+		expect(root.attributes._children).toEqual([node.source])
 	})
 
 	test('Existing file is created', () => {
@@ -89,7 +89,7 @@ describe('Path store', () => {
 		expect(store.paths).toEqual({})
 
 		// see that the node is added
-		expect(root._children).toEqual([node1.source])
+		expect(root.attributes._children).toEqual([node1.source])
 
 		// create the same named file again
 		const node2 = new File({
@@ -103,7 +103,7 @@ describe('Path store', () => {
 
 		// see that there are still no paths and the children are not duplicated
 		expect(store.paths).toEqual({})
-		expect(root._children).toEqual([node1.source])
+		expect(root.attributes._children).toEqual([node1.source])
 	})
 
 	test('Existing folder is created', () => {
@@ -123,7 +123,7 @@ describe('Path store', () => {
 		expect(store.paths).toEqual({ files: { [node1.path]: node1.source } })
 
 		// see that the node is added
-		expect(root._children).toEqual([node1.source])
+		expect(root.attributes._children).toEqual([node1.source])
 
 		// create the same named file again
 		const node2 = new Folder({
@@ -136,7 +136,7 @@ describe('Path store', () => {
 
 		// see that there is still only one paths and the children are not duplicated
 		expect(store.paths).toEqual({ files: { [node1.path]: node1.source } })
-		expect(root._children).toEqual([node1.source])
+		expect(root.attributes._children).toEqual([node1.source])
 	})
 
 	test('Folder is deleted', () => {
@@ -149,13 +149,13 @@ describe('Path store', () => {
 		emit('files:node:created', node)
 		// see that the path is added and the children are set-up
 		expect(store.paths).toEqual({ files: { [node.path]: node.source } })
-		expect(root._children).toEqual([node.source])
+		expect(root.attributes._children).toEqual([node.source])
 
 		emit('files:node:deleted', node)
 		// See the path is removed
 		expect(store.paths).toEqual({ files: {} })
 		// See the child is removed
-		expect(root._children).toEqual([])
+		expect(root.attributes._children).toEqual([])
 	})
 
 	test('File is deleted', () => {
@@ -168,11 +168,11 @@ describe('Path store', () => {
 		})
 		emit('files:node:created', node)
 		// see that the children are set-up
-		expect(root._children).toEqual([node.source])
+		expect(root.attributes._children).toEqual([node.source])
 
 		emit('files:node:deleted', node)
 		// See the child is removed
-		expect(root._children).toEqual([])
+		expect(root.attributes._children).toEqual([])
 	})
 
 	test('Folder is moved', () => {
@@ -185,7 +185,7 @@ describe('Path store', () => {
 		emit('files:node:created', node)
 		// see that the path is added and the children are set-up
 		expect(store.paths).toEqual({ files: { [node.path]: node.source } })
-		expect(root._children).toEqual([node.source])
+		expect(root.attributes._children).toEqual([node.source])
 
 		const renamedNode = node.clone()
 		renamedNode.rename('new-folder')
@@ -199,7 +199,7 @@ describe('Path store', () => {
 			files: { [renamedNode.path]: renamedNode.source },
 		})
 		// See the child is updated
-		expect(root._children).toEqual([renamedNode.source])
+		expect(root.attributes._children).toEqual([renamedNode.source])
 	})
 
 	test('File is moved', () => {
@@ -212,7 +212,7 @@ describe('Path store', () => {
 		})
 		emit('files:node:created', node)
 		// see that the children are set-up
-		expect(root._children).toEqual([node.source])
+		expect(root.attributes._children).toEqual([node.source])
 		expect(store.paths).toEqual({})
 
 		const renamedNode = node.clone()
@@ -220,7 +220,7 @@ describe('Path store', () => {
 
 		emit('files:node:moved', { node: renamedNode, oldSource: node.source })
 		// See the child is updated
-		expect(root._children).toEqual([renamedNode.source])
+		expect(root.attributes._children).toEqual([renamedNode.source])
 		expect(store.paths).toEqual({})
 	})
 })

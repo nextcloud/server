@@ -32,8 +32,7 @@ export async function executeAction(action: IFileAction) {
 		return
 	}
 
-	// @ts-expect-error _children is private
-	const contents = currentFolder?._children || []
+	const contents = currentFolder.attributes?._children || []
 	const context = {
 		nodes: [currentNode],
 		view: currentView,

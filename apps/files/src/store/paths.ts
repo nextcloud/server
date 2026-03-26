@@ -127,13 +127,13 @@ export function usePathsStore(...args) {
 
 				// Update children of a root folder
 				const parentSource = dirname(node.source)
-				const folder = (node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource)) as Folder & { _children?: string[] }
+				const folder = (node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource)) as Folder
 				if (folder) {
 					// ensure sources are unique
-					const children = new Set(folder._children ?? [])
+					const children = new Set(folder.attributes._children ?? [])
 					children.delete(node.source)
-					Vue.set(folder, '_children', [...children.values()])
-					logger.debug('Children updated', { parent: folder, node, children: folder._children })
+					Vue.set(folder.attributes, '_children', [...children.values()])
+					logger.debug('Children updated', { parent: folder, node, children: folder.attributes._children })
 					return
 				}
 
@@ -145,13 +145,13 @@ export function usePathsStore(...args) {
 
 				// Update children of a root folder
 				const parentSource = dirname(node.source)
-				const folder = (node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource)) as Folder & { _children?: string[] }
+				const folder = (node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource)) as Folder
 				if (folder) {
 					// ensure sources are unique
-					const children = new Set(folder._children ?? [])
+					const children = new Set(folder.attributes._children ?? [])
 					children.add(node.source)
-					Vue.set(folder, '_children', [...children.values()])
-					logger.debug('Children updated', { parent: folder, node, children: folder._children })
+					Vue.set(folder.attributes, '_children', [...children.values()])
+					logger.debug('Children updated', { parent: folder, node, children: folder.attributes._children })
 					return
 				}
 
@@ -170,8 +170,9 @@ export function usePathsStore(...args) {
 
 		// Restore from browser storage
 		if (browserStorage.getItem('paths')) {
+			let data
 			try {
-				const data = browserStorage.getItem('paths')
+				data = browserStorage.getItem('paths')
 				if (!data) {
 					throw new Error('No data found in browser storage for paths')
 				}
@@ -180,7 +181,7 @@ export function usePathsStore(...args) {
 				pathsStore.$state.paths = storedPaths || {}
 				logger.info('Restored paths store from browser storage', { storedPaths })
 			} catch (e) {
-				logger.info('Failed to restore paths store from browser storage', { error: e })
+				logger.info('Failed to restore paths store from browser storage', { error: e, data })
 			}
 		}
 
