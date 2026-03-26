@@ -11,12 +11,12 @@ use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Teams\ITeamManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
@@ -24,7 +24,7 @@ use OCP\UserStatus\IUserStatus;
 
 readonly class UserPlugin implements ISearchPlugin {
 	public function __construct(
-		private IAppConfig $appConfig,
+		private IManager $shareManager,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private ITeamManager $teamManager,
@@ -38,17 +38,16 @@ readonly class UserPlugin implements ISearchPlugin {
 		/** @var IUser $currentUser */
 		$currentUser = $this->userSession->getUser();
 
-		$shareWithGroupOnlyExcludeGroupsList = json_decode($this->appConfig->getValueString('core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]'), true, 512, JSON_THROW_ON_ERROR) ?? [];
+		$shareWithGroupOnlyExcludeGroupsList = $this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList();
 		$allowedGroups = array_diff($this->groupManager->getUserGroupIds($currentUser), $shareWithGroupOnlyExcludeGroupsList);
 
 		/** @var array<string, array{0: 'wide'|'exact', 1: IUser}> $users */
 		$users = [];
 		$lowerSearch = mb_strtolower($search);
 
-		$shareeEnumeration = $this->appConfig->getValueString('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		if ($shareeEnumeration) {
-			$shareeEnumerationRestrictToGroup = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-			$shareeEnumerationRestrictToPhone = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		if ($this->shareManager->allowEnumeration()) {
+			$shareeEnumerationRestrictToGroup = $this->shareManager->limitEnumerationToGroups();
+			$shareeEnumerationRestrictToPhone = $this->shareManager->limitEnumerationToPhone();
 
 			if (!$shareeEnumerationRestrictToGroup && !$shareeEnumerationRestrictToPhone) {
 				// No restrictions, search everything.
@@ -101,28 +100,23 @@ readonly class UserPlugin implements ISearchPlugin {
 		}
 
 		// Even if normal sharee enumeration is not allowed, full matches are still allowed.
-		$shareeEnumerationFullMatch = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
-		if ($shareeEnumerationFullMatch && $search !== '') {
-			$shareeEnumerationFullMatchUserId = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
-			$shareeEnumerationFullMatchEmail = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
-			$shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
-
+		if ($search !== '' && $this->shareManager->allowEnumerationFullMatch()) {
 			// Re-use the results from earlier if possible
 			$usersByDisplayName ??= $this->userManager->searchDisplayName($search, $limit, $offset);
 			foreach ($usersByDisplayName as $user) {
-				if ($user->isEnabled() && (mb_strtolower($user->getDisplayName()) === $lowerSearch || ($shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(mb_strtolower(preg_replace('/ \(.*\)$/', '', $user->getDisplayName()))) === $lowerSearch))) {
+				if ($user->isEnabled() && (mb_strtolower($user->getDisplayName()) === $lowerSearch || ($this->shareManager->ignoreSecondDisplayName() && trim(mb_strtolower(preg_replace('/ \(.*\)$/', '', $user->getDisplayName()))) === $lowerSearch))) {
 					$users[$user->getUID()] = ['exact', $user];
 				}
 			}
 
-			if ($shareeEnumerationFullMatchUserId) {
+			if ($this->shareManager->matchUserId()) {
 				$user = $this->userManager->get($search);
 				if ($user !== null) {
 					$users[$user->getUID()] = ['exact', $user];
 				}
 			}
 
-			if ($shareeEnumerationFullMatchEmail) {
+			if ($this->shareManager->matchEmail()) {
 				$qb = $this->connection->getQueryBuilder();
 				$qb
 					->select('uid', 'value', 'name')
@@ -146,8 +140,7 @@ readonly class UserPlugin implements ISearchPlugin {
 			unset($users[$currentUser->getUID()]);
 		}
 
-		$shareWithGroupOnly = $this->appConfig->getValueString('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
-		if ($shareWithGroupOnly) {
+		if ($this->shareManager->shareWithGroupMembersOnly()) {
 			$users = array_filter($users, fn (array $match) => array_intersect($allowedGroups, $this->groupManager->getUserGroupIds($match[1])) !== []);
 		}
 

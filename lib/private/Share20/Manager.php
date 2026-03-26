@@ -1794,7 +1794,7 @@ class Manager implements IManager {
 			return [];
 		}
 		$excludeGroups = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
-		return json_decode($excludeGroups, true) ?? [];
+		return json_decode($excludeGroups, true, 512, JSON_THROW_ON_ERROR) ?? [];
 	}
 
 	#[Override]
