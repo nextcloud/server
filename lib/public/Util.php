@@ -27,6 +27,7 @@ class Util {
 	private static array $scriptsInit = [];
 	private static array $scripts = [];
 	private static array $scriptDeps = [];
+	private static ?bool $needUpgradeCache = null;
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -561,8 +562,6 @@ class Util {
 		return \OC_Util::isDefaultExpireDateEnforced();
 	}
 
-	protected static $needUpgradeCache = null;
-
 	/**
 	 * Checks whether the current version needs upgrade.
 	 *
@@ -570,7 +569,7 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function needUpgrade() {
-		if (!isset(self::$needUpgradeCache)) {
+		if (self::$needUpgradeCache === null) {
 			self::$needUpgradeCache = \OC_Util::needUpgrade(\OCP\Server::get(\OC\SystemConfig::class));
 		}
 		return self::$needUpgradeCache;
