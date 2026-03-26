@@ -24,7 +24,7 @@ package.json                                  @nextcloud/server-dependabot @next
 package-lock.json                             @nextcloud/server-dependabot
 
 # App maintainers
-/apps/admin_audit/appinfo/info.xml            @luka-nextcloud @blizzz
+/apps/admin_audit/appinfo/info.xml            @luka-nextcloud @samin-z
 /apps/cloud_federation_api/appinfo/info.xml   @nfebe @mejo-
 /apps/comments/appinfo/info.xml               @edward-ly @sorbaugh
 /apps/contactsinteraction/appinfo/info.xml    @kesselb @SebastianKrupinski
@@ -46,12 +46,12 @@ package-lock.json                             @nextcloud/server-dependabot
 /apps/files_versions/appinfo/info.xml         @artonge @icewind1991
 /apps/oauth2/appinfo/info.xml                 @julien-nc @ChristophWurst
 /apps/provisioning_api/appinfo/info.xml       @provokateurin @nickvergessen
-/apps/settings/appinfo/info.xml               @JuliaKirschenheuter @sorbaugh
+/apps/settings/appinfo/info.xml               @hweihwang @sorbaugh
 /apps/sharebymail/appinfo/info.xml            @Altahrim @skjnldsv
 /apps/systemtags/appinfo/info.xml             @Antreesy @marcelklehr
 /apps/theming/appinfo/info.xml                @skjnldsv @juliusknorr
 /apps/twofactor_backupcodes/appinfo/info.xml  @miaulalala @ChristophWurst
-/apps/updatenotification/appinfo/info.xml     @JuliaKirschenheuter @sorbaugh
+/apps/updatenotification/appinfo/info.xml     @enjeck @sorbaugh
 /apps/user_ldap/appinfo/info.xml              @come-nc @blizzz
 /apps/user_status/appinfo/info.xml            @Antreesy @nickvergessen
 /apps/weather_status/appinfo/info.xml         @julien-nc @juliusknorr
