@@ -44,15 +44,20 @@ class AISettingsController extends Controller {
 				continue;
 			}
 			try {
-				$value = json_encode($settings[$key], flags: \JSON_THROW_ON_ERROR);
+				$settings[$key] = json_encode($settings[$key], flags: \JSON_THROW_ON_ERROR);
 			} catch (\JsonException) {
 				return new DataResponse(['error' => "Setting value for '$key' must be JSON-compatible"], Http::STATUS_BAD_REQUEST);
 			}
-			$changed = $this->appConfig->setValueString('core', $key, $value, lazy: in_array($key, \OC\TaskProcessing\Manager::LAZY_CONFIG_KEYS, true));
+		}
+		foreach ($keys as $key) {
+			if (!isset($settings[$key])) {
+				continue;
+			}
+			$changed = $this->appConfig->setValueString('core', $key, $settings[$key], lazy: in_array($key, \OC\TaskProcessing\Manager::LAZY_CONFIG_KEYS, true));
 			if ($changed) {
 				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
 					'AI configuration was changed by user %s: %s was set to %s',
-					[$this->userId, $key, $value]
+					[$this->userId, $key, $settings[$key]]
 				));
 			}
 		}
