@@ -108,25 +108,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * Check if this node can be renamed
 	 */
 	public function canRename(): bool {
-		// the root of a movable mountpoint can be renamed regardless of the file permissions
-		if ($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === '') {
-			return true;
-		}
-
-		// we allow renaming the file if either the file has update permissions
-		if ($this->info->isUpdateable()) {
-			return true;
-		}
-
-		// or the file can be deleted and the parent has create permissions
-		[$parentPath,] = \Sabre\Uri\split($this->path);
-		if ($parentPath === null) {
-			// can't rename the users home
-			return false;
-		}
-
-		$parent = $this->node->getParent();
-		return $this->info->isDeletable() && $parent->isCreatable();
+		return DavUtil::canRename($this->node, $this->node->getParent());
 	}
 
 	/**
@@ -354,11 +336,8 @@ abstract class Node implements \Sabre\DAV\INode {
 		return null;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDavPermissions() {
-		return DavUtil::getDavPermissions($this->info);
+	public function getDavPermissions(): string {
+		return DavUtil::getDavPermissions($this->info, $this->node->getParent());
 	}
 
 	public function getOwner() {
