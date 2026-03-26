@@ -49,7 +49,7 @@ class RepairDavShares implements IRepairStep {
 			->where($updateQuery->expr()->eq('id', $updateQuery->createParameter('shareId')));
 
 		$statement = $qb->executeQuery();
-		while ($share = $statement->fetch()) {
+		while ($share = $statement->fetchAssociative()) {
 			$gid = substr($share['principaluri'], strlen(self::GROUP_PRINCIPAL_PREFIX));
 			$decodedGid = urldecode($gid);
 			$encodedGid = urlencode($gid);

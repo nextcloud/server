@@ -144,7 +144,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		// clear trash table
 		$connection = Server::get(IDBConnection::class);
-		$connection->executeUpdate('DELETE FROM `*PREFIX*files_trash`');
+		$connection->getQueryBuilder()->delete('files_trash')->executeStatement();
 
 		parent::tearDown();
 	}

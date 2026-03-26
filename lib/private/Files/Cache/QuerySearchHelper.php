@@ -91,7 +91,7 @@ class QuerySearchHelper {
 
 		$result = $query->executeQuery();
 		/** @var list<array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}> $tags */
-		$tags = $result->fetchAll();
+		$tags = $result->fetchAllAssociative();
 		$result->closeCursor();
 		return $tags;
 	}
@@ -176,7 +176,7 @@ class QuerySearchHelper {
 		$this->applySearchConstraints($query, $searchQuery, $caches, $metadataQuery);
 
 		$result = $query->executeQuery();
-		$files = $result->fetchAll();
+		$files = $result->fetchAllAssociative();
 
 		$rawEntries = array_map(function (array $data) use ($metadataQuery) {
 			$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();

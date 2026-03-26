@@ -136,7 +136,7 @@ class Cache implements ICache {
 		$query->whereStorageId($this->getNumericStorageId());
 
 		$result = $query->executeQuery();
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($data !== false) {
@@ -231,7 +231,7 @@ class Cache implements ICache {
 			$metadataQuery = $query->selectMetadata();
 
 			$result = $query->executeQuery();
-			$files = $result->fetchAll();
+			$files = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			return array_map(function (array $data) use ($metadataQuery): ICacheEntry {
@@ -858,7 +858,7 @@ class Cache implements ICache {
 			->from('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($path) . '/%')));
-		return $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		return $query->executeQuery()->fetchFirstColumn();
 	}
 
 	/**
@@ -1038,7 +1038,7 @@ class Cache implements ICache {
 			}
 
 			$result = $query->executeQuery();
-			$rows = $result->fetchAll();
+			$rows = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			if ($rows) {
@@ -1112,7 +1112,7 @@ class Cache implements ICache {
 			->whereStorageId($this->getNumericStorageId());
 
 		$result = $query->executeQuery();
-		$files = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$files = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		return array_map(function ($id) {
@@ -1185,7 +1185,7 @@ class Cache implements ICache {
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {

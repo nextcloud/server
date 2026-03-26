@@ -10,6 +10,7 @@ namespace Test;
 
 use OC\Tagging\TagMapper;
 use OC\TagManager;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -28,15 +29,11 @@ use Psr\Log\LoggerInterface;
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class TagsTest extends \Test\TestCase {
 	protected $objectType;
-	/** @var IUser */
-	protected $user;
-	/** @var IUserSession */
-	protected $userSession;
+	protected IUser $user;
+	protected IUserSession $userSession;
 	protected $backupGlobals = false;
-	/** @var TagMapper */
-	protected $tagMapper;
-	/** @var ITagManager */
-	protected $tagMgr;
+	protected TagMapper $tagMapper;
+	protected ITagManager $tagMgr;
 	protected IRootFolder $rootFolder;
 
 	protected function setUp(): void {
@@ -75,8 +72,8 @@ class TagsTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		$conn = Server::get(IDBConnection::class);
-		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory_to_object`');
-		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory`');
+		$conn->getQueryBuilder()->delete('vcategory_to_object')->executeStatement();
+		$conn->getQueryBuilder()->delete('vcategory')->executeStatement();
 
 		parent::tearDown();
 	}
@@ -214,16 +211,18 @@ class TagsTest extends \Test\TestCase {
 		$tagType = $tagData[0]['type'];
 
 		$conn = Server::get(IDBConnection::class);
-		$statement = $conn->prepare(
-			'INSERT INTO `*PREFIX*vcategory_to_object` '
-			. '(`objid`, `categoryid`, `type`) VALUES '
-			. '(?, ?, ?)'
-		);
 
 		// insert lots of entries
 		$idsArray = [];
 		for ($i = 1; $i <= 1500; $i++) {
-			$statement->execute([$i, $tagId, $tagType]);
+			$qb = $conn->getQueryBuilder();
+			$qb->insert('vcategory_to_object')
+				->values([
+					'objid' => $qb->createNamedParameter($i, IQueryBuilder::PARAM_INT),
+					'categoryid' => $qb->createNamedParameter($tagId, IQueryBuilder::PARAM_INT),
+					'type' => $qb->createNamedParameter($tagType),
+				])
+				->executeStatement();
 			$idsArray[] = $i;
 		}
 

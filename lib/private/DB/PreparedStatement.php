@@ -42,11 +42,21 @@ class PreparedStatement implements IPreparedStatement {
 	}
 
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC) {
-		return $this->getResult()->fetch($fetchMode);
+		return match ($fetchMode) {
+			PDO::FETCH_ASSOC => $this->getResult()->fetchAssociative(),
+			PDO::FETCH_NUM => $this->getResult()->fetchNumeric(),
+			PDO::FETCH_COLUMN => $this->getResult()->fetchOne(),
+			default => $this->getResult()->fetch($fetchMode),
+		};
 	}
 
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array {
-		return $this->getResult()->fetchAll($fetchMode);
+		return match ($fetchMode) {
+			PDO::FETCH_ASSOC => $this->getResult()->fetchAllAssociative(),
+			PDO::FETCH_NUM => $this->getResult()->fetchAllNumeric(),
+			PDO::FETCH_COLUMN => $this->getResult()->fetchFirstColumn(),
+			default => $this->getResult()->fetchAll($fetchMode),
+		};
 	}
 
 	public function fetchColumn() {
@@ -66,7 +76,7 @@ class PreparedStatement implements IPreparedStatement {
 	}
 
 	public function execute($params = null): IResult {
-		return ($this->result = new ResultAdapter($this->statement->execute($params)));
+		return ($this->result = new ResultAdapter($this->statement->execute($params ?? [])));
 	}
 
 	public function rowCount(): int {

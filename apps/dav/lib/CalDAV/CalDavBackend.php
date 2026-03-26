@@ -1571,8 +1571,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 
 			if ($forceDeletePermanently || $this->config->getAppValue(Application::APP_ID, RetentionService::RETENTION_CONFIG_KEY) === '0') {
-				$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ? AND `uri` = ? AND `calendartype` = ?');
-				$stmt->execute([$calendarId, $objectUri, $calendarType]);
+				$qb = $this->db->getQueryBuilder();
+				$qb->delete('calendarobjects')
+					->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
+					->andWhere($qb->expr()->eq('uri', $qb->createNamedParameter($objectUri)))
+					->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
+					->executeStatement();
 
 				$this->purgeProperties($calendarId, $data['id']);
 

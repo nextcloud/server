@@ -65,42 +65,35 @@ class ArrayResult implements IResult {
 
 	#[Override]
 	public function fetchOne() {
-		$row = $this->fetch();
-		if ($row) {
-			return current($row);
-		}
-
-		return false;
+		$row = array_shift($this->rows);
+		return $row !== null ? current($row) : false;
 	}
 
 	#[Override]
 	public function fetchAssociative(): array|false {
-		$row = $this->fetch();
-		if ($row) {
-			return $row;
-		}
-
-		return false;
+		$row = array_shift($this->rows);
+		return $row !== null ? $row : false;
 	}
 
 	#[Override]
 	public function fetchNumeric(): array|false {
-		return $this->fetch(PDO::FETCH_NUM);
+		$row = array_shift($this->rows);
+		return $row !== null ? array_values($row) : false;
 	}
 
 	#[Override]
 	public function fetchAllNumeric(): array {
-		return $this->fetchAll(PDO::FETCH_NUM);
+		return array_map(static fn (array $row): array => array_values($row), $this->rows);
 	}
 
 	#[Override]
 	public function fetchAllAssociative(): array {
-		return $this->fetchAll();
+		return $this->rows;
 	}
 
 	#[Override]
 	public function fetchFirstColumn(): array {
-		return $this->fetchAll(PDO::FETCH_COLUMN);
+		return array_map(static fn (array $row): mixed => current($row), $this->rows);
 	}
 
 	#[Override]

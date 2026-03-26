@@ -83,7 +83,7 @@ class BackgroundCleanupJob extends TimedJob {
 		}
 
 		$cursor = $qb->executeQuery();
-		while ($row = $cursor->fetch()) {
+		while ($row = $cursor->fetchAssociative()) {
 			yield (int)$row['file_id'];
 		}
 		$cursor->closeCursor();
@@ -101,7 +101,7 @@ class BackgroundCleanupJob extends TimedJob {
 				$qb->expr()->in('fileid', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)),
 				$qb->expr()->eq('storage', $qb->createNamedParameter($storage, IQueryBuilder::PARAM_INT)),
 			));
-		$found = $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		$found = $qb->executeQuery()->fetchFirstColumn();
 		return array_diff($ids, $found);
 	}
 }

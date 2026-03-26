@@ -104,7 +104,7 @@ class ShardQueryRunner {
 			foreach ($shards as $shard) {
 				$shardConnection = $this->shardConnectionManager->getConnection($this->shardDefinition, $shard);
 				$subResult = $query->executeQuery($shardConnection);
-				$results = array_merge($results, $subResult->fetchAll());
+				$results = array_merge($results, $subResult->fetchAllAssociative());
 				$subResult->closeCursor();
 			}
 		} else {
@@ -118,7 +118,7 @@ class ShardQueryRunner {
 			foreach ($shards as $shard) {
 				$shardConnection = $this->shardConnectionManager->getConnection($this->shardDefinition, $shard);
 				$subResult = $query->executeQuery($shardConnection);
-				$rows = $subResult->fetchAll();
+				$rows = $subResult->fetchAllAssociative();
 				$results = array_merge($results, $rows);
 				$subResult->closeCursor();
 

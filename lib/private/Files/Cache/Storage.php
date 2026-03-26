@@ -168,7 +168,7 @@ class Storage {
 			$query->select('storage_id')
 				->from('mounts')
 				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-			$storageIds = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			$storageIds = $query->executeQuery()->fetchFirstColumn();
 			$storageIds = array_unique($storageIds);
 
 			$query = $db->getQueryBuilder();

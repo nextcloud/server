@@ -8,7 +8,6 @@
 namespace OCA\User_LDAP\Mapping;
 
 use Doctrine\DBAL\Exception;
-use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
 use OCP\ICache;
@@ -154,23 +153,6 @@ abstract class AbstractMapping {
 		}
 	}
 
-	/**
-	 * Performs a DELETE or UPDATE query to the database.
-	 *
-	 * @param IPreparedStatement $statement
-	 * @param array $parameters
-	 * @return bool true if at least one row was modified, false otherwise
-	 */
-	protected function modify(IPreparedStatement $statement, $parameters) {
-		try {
-			$result = $statement->execute($parameters);
-			$updated = $result->rowCount() > 0;
-			$result->closeCursor();
-			return $updated;
-		} catch (Exception $e) {
-			return false;
-		}
-	}
 
 	/**
 	 * Gets the LDAP DN based on the provided name.
@@ -199,13 +181,16 @@ abstract class AbstractMapping {
 	 */
 	public function setDNbyUUID($fdn, $uuid) {
 		$oldDn = $this->getDnByUUID($uuid);
-		$statement = $this->dbc->prepare('
-			UPDATE `' . $this->getTableName() . '`
-			SET `ldap_dn_hash` = ?, `ldap_dn` = ?
-			WHERE `directory_uuid` = ?
-		');
-
-		$r = $this->modify($statement, [$this->getDNHash($fdn), $fdn, $uuid]);
+		$qb = $this->dbc->getQueryBuilder();
+		try {
+			$r = $qb->update($this->getTableName(false))
+				->set('ldap_dn_hash', $qb->createNamedParameter($this->getDNHash($fdn)))
+				->set('ldap_dn', $qb->createNamedParameter($fdn))
+				->where($qb->expr()->eq('directory_uuid', $qb->createNamedParameter($uuid)))
+				->executeStatement() > 0;
+		} catch (Exception $e) {
+			$r = false;
+		}
 		if ($r) {
 			if (is_string($oldDn) && isset($this->cache[$oldDn])) {
 				$userId = $this->cache[$oldDn];
@@ -231,15 +216,17 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function setUUIDbyDN($uuid, $fdn): bool {
-		$statement = $this->dbc->prepare('
-			UPDATE `' . $this->getTableName() . '`
-			SET `directory_uuid` = ?
-			WHERE `ldap_dn_hash` = ?
-		');
-
 		unset($this->cache[$fdn]);
 
-		return $this->modify($statement, [$uuid, $this->getDNHash($fdn)]);
+		$qb = $this->dbc->getQueryBuilder();
+		try {
+			return $qb->update($this->getTableName(false))
+				->set('directory_uuid', $qb->createNamedParameter($uuid))
+				->where($qb->expr()->eq('ldap_dn_hash', $qb->createNamedParameter($this->getDNHash($fdn))))
+				->executeStatement() > 0;
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -333,14 +320,14 @@ abstract class AbstractMapping {
 	 * @return string[]
 	 */
 	public function getNamesBySearch(string $search, string $prefixMatch = '', string $postfixMatch = ''): array {
-		$statement = $this->dbc->prepare('
-			SELECT `owncloud_name`
-			FROM `' . $this->getTableName() . '`
-			WHERE `owncloud_name` LIKE ?
-		');
-
+		$qb = $this->dbc->getQueryBuilder();
 		try {
-			$res = $statement->execute([$prefixMatch . $this->dbc->escapeLikeParameter($search) . $postfixMatch]);
+			$res = $qb->select('owncloud_name')
+				->from($this->getTableName(false))
+				->where($qb->expr()->like('owncloud_name', $qb->createNamedParameter(
+					$prefixMatch . $this->dbc->escapeLikeParameter($search) . $postfixMatch
+				)))
+				->executeQuery();
 		} catch (Exception $e) {
 			return [];
 		}
@@ -348,6 +335,7 @@ abstract class AbstractMapping {
 		while ($row = $res->fetchAssociative()) {
 			$names[] = $row['owncloud_name'];
 		}
+		$res->closeCursor();
 		return $names;
 	}
 
@@ -443,17 +431,20 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function unmap($name) {
-		$statement = $this->dbc->prepare('
-			DELETE FROM `' . $this->getTableName() . '`
-			WHERE `owncloud_name` = ?');
-
 		$dn = array_search($name, $this->cache, true);
 		if ($dn !== false) {
 			unset($this->cache[$dn]);
 		}
 		$this->localNameToDnCache?->remove($name);
 
-		return $this->modify($statement, [$name]);
+		$qb = $this->dbc->getQueryBuilder();
+		try {
+			return $qb->delete($this->getTableName(false))
+				->where($qb->expr()->eq('owncloud_name', $qb->createNamedParameter($name)))
+				->executeStatement() > 0;
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	/**

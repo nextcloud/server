@@ -75,7 +75,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->executeQuery();
 
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 		if ($data === false) {
 			throw new DoesNotExistException('token does not exist');
@@ -97,7 +97,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->executeQuery();
 
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 		if ($data === false) {
 			throw new DoesNotExistException('token does not exist');
@@ -123,7 +123,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1000);
 		$result = $qb->executeQuery();
-		$data = $result->fetchAll();
+		$data = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$entities = array_map(function ($row) {
@@ -178,7 +178,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->setMaxResults(1);
 
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		return count($data) === 1;
@@ -242,7 +242,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->orderBy('id');
 		$result = $qb->executeQuery();
 
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 		if ($data === false) {
 			return null;

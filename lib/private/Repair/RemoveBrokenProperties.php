@@ -35,7 +35,7 @@ class RemoveBrokenProperties implements IRepairStep {
 		$result = $qb->executeQuery();
 		// find broken object properties
 		$brokenIds = [];
-		while ($entry = $result->fetch()) {
+		while ($entry = $result->fetchAssociative()) {
 			if (!empty($entry['propertyvalue'])) {
 				$object = @unserialize(str_replace('\x00', chr(0), $entry['propertyvalue']));
 				if ($object === false) {

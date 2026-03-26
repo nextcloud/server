@@ -104,7 +104,10 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$this->assertEquals(1, $this->getMountsCount($numericStorageId), 'Asserts that mount is still available');
 
 
-		$deletedRows = $this->connection->executeUpdate('DELETE FROM `*PREFIX*storages` WHERE `id` = ?', [$storageId]);
+		$qb = $this->connection->getQueryBuilder();
+		$deletedRows = $qb->delete('storages')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($storageId)))
+			->executeStatement();
 		$this->assertNotNull($deletedRows, 'Asserts that storage got deleted');
 		$this->assertSame(1, $deletedRows, 'Asserts that storage got deleted');
 

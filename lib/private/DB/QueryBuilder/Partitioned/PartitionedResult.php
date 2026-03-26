@@ -43,6 +43,36 @@ class PartitionedResult extends ArrayResult {
 		return parent::fetchAll($fetchMode);
 	}
 
+	public function fetchAssociative(): array|false {
+		$this->fetchRows();
+		return parent::fetchAssociative();
+	}
+
+	public function fetchNumeric(): array|false {
+		$this->fetchRows();
+		return parent::fetchNumeric();
+	}
+
+	public function fetchOne(): mixed {
+		$this->fetchRows();
+		return parent::fetchOne();
+	}
+
+	public function fetchAllAssociative(): array {
+		$this->fetchRows();
+		return parent::fetchAllAssociative();
+	}
+
+	public function fetchAllNumeric(): array {
+		$this->fetchRows();
+		return parent::fetchAllNumeric();
+	}
+
+	public function fetchFirstColumn(): array {
+		$this->fetchRows();
+		return parent::fetchFirstColumn();
+	}
+
 	public function rowCount(): int {
 		$this->fetchRows();
 		return parent::rowCount();
@@ -51,7 +81,7 @@ class PartitionedResult extends ArrayResult {
 	private function fetchRows(): void {
 		if (!$this->fetched) {
 			$this->fetched = true;
-			$this->rows = $this->result->fetchAll();
+			$this->rows = $this->result->fetchAllAssociative();
 			foreach ($this->splitOfParts as $part) {
 				$this->rows = $part->mergeWith($this->rows);
 			}

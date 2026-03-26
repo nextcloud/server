@@ -269,7 +269,7 @@ class OC {
 				$result = $qb->select($qb->func()->count('*', 'user_count'))
 					->from('ldap_user_mapping')
 					->executeQuery();
-				$row = $result->fetch();
+				$row = $result->fetchAssociative();
 				$result->closeCursor();
 
 				$tooBig = ($row['user_count'] > 50);
@@ -280,7 +280,7 @@ class OC {
 				$result = $qb->select($qb->func()->count('*', 'user_count'))
 					->from('user_saml_users')
 					->executeQuery();
-				$row = $result->fetch();
+				$row = $result->fetchAssociative();
 				$result->closeCursor();
 
 				$tooBig = ($row['user_count'] > 50);

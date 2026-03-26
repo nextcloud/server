@@ -66,7 +66,7 @@ class PreviewService {
 
 			$found = false;
 			// Previews next to each others in the database are likely in the same storage, so group them
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$found = true;
 				if ($lastStorageId !== (int)$row['storage_id']) {
 					if ($lastStorageId !== -1) {
