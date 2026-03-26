@@ -85,6 +85,7 @@ OC.L10N.register(
     "Saving …" : "Įrašoma…",
     "Save" : "Įrašyti",
     "New configuration successfully saved" : "Nauja konfigūracija sėkmingai įrašyta",
+    "Open in Files" : "Atidaryti programėlėje Files",
     "External mount error" : "Išorinio prijungimo klaida",
     "Ignore" : "Nepaisyti",
     "Storage type" : "Saugyklos tipas",

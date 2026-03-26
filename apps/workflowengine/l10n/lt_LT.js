@@ -51,6 +51,7 @@ OC.L10N.register(
     "Images" : "Paveikslai",
     "Office documents" : "Raštinės dokumentai",
     "PDF documents" : "PDF dokumentai",
+    "Video" : "Vaizdo įrašas",
     "Custom MIME type" : "Tinkintas MIME tipas",
     "Select a file type" : "Pasirinkite failo tipą",
     "e.g. httpd/unix-directory" : "pvz., httpd/unix-directory",
