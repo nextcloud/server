@@ -341,9 +341,13 @@ class SFTP extends Common {
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
-		try {
+		
+		$result = $this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
+
+		if ($result) {
+			$this->getConnection()->clearStatCache($this->absPath($path));
 			if (!is_null($mtime)) {
-				return false;
+				$this->knownMTimes->set($path, $mtime);
 			}
 			if (!$this->file_exists($path)) {
 				$this->getConnection()->put($this->absPath($path), '');
@@ -408,10 +412,8 @@ class SFTP extends Common {
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $data);
-		$mtime = time();
-		$this->knownMTimes->set($path, $mtime);
-		$this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
-		$this->getConnection()->clearStatCache();
+
+		$this->touch($path, time());
 
 		if ($result) {
 			return strlen($data);
@@ -432,10 +434,8 @@ class SFTP extends Common {
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $stream);
 		fclose($stream);
-		$mtime = time();
-		$this->knownMTimes->set($path, $mtime);
-		$this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
-		$this->getConnection()->clearStatCache();
+
+		$this->touch($path, time());
 
 		if ($result) {
 			if ($size === null) {
