@@ -10,6 +10,7 @@ namespace OCA\Settings\Controller;
 
 use OCA\Settings\Settings\Admin\ArtificialIntelligence;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -30,7 +31,7 @@ class AISettingsController extends Controller {
 	}
 
 	/**
-	 * Sets the email settings
+	 * Sets the AI settings
 	 *
 	 * @param array $settings
 	 * @return DataResponse
@@ -42,11 +43,16 @@ class AISettingsController extends Controller {
 			if (!isset($settings[$key])) {
 				continue;
 			}
-			$changed = $this->appConfig->setValueString('core', $key, json_encode($settings[$key]), lazy: in_array($key, \OC\TaskProcessing\Manager::LAZY_CONFIG_KEYS, true));
+			try {
+				$value = json_encode($settings[$key], flags: \JSON_THROW_ON_ERROR);
+			} catch (\JsonException) {
+				return new DataResponse(['error' => "Setting value for '$key' must be JSON-compatible"], Http::STATUS_BAD_REQUEST);
+			}
+			$changed = $this->appConfig->setValueString('core', $key, $value, lazy: in_array($key, \OC\TaskProcessing\Manager::LAZY_CONFIG_KEYS, true));
 			if ($changed) {
 				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
 					'AI configuration was changed by user %s: %s was set to %s',
-					[$this->userId, $key, json_encode($settings[$key])]
+					[$this->userId, $key, $value]
 				));
 			}
 		}
