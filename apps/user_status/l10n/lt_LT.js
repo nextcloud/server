@@ -12,6 +12,7 @@ OC.L10N.register(
     "In a call" : "Dalyvauju skambutyje",
     "User status" : "Naudotojo būsena",
     "Clear status after" : "Išvalyti būseną po",
+    "Emoji for your status message" : "Jaustukai jūsų būsenos pranešimui",
     "What is your status?" : "Kokia jūsų būsena?",
     "Predefined statuses" : "Iš anksto apibrėžtos būsenos",
     "There was an error saving the status" : "Įrašant būseną, įvyko klaida",
