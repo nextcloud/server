@@ -8,12 +8,14 @@ import type { ResponseDataDetailed, SearchResult } from 'webdav'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission } from '@nextcloud/files'
 import { getRecentSearch, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
+import { loadState } from '@nextcloud/initial-state'
 import logger from '../logger.ts'
 import { getPinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { client } from './WebdavClient.ts'
 
 const lastTwoWeeksTimestamp = Math.round((Date.now() / 1000) - (60 * 60 * 24 * 14))
+const recentLimit = loadState<number>('files', 'recent_limit', 100)
 
 /**
  * Get recently changed nodes
@@ -41,7 +43,7 @@ export async function getContents(path = '/', options: { signal: AbortSignal }):
 		const contentsResponse = await client.search('/', {
 			signal: options.signal,
 			details: true,
-			data: getRecentSearch(lastTwoWeeksTimestamp),
+			data: getRecentSearch(lastTwoWeeksTimestamp, recentLimit),
 		}) as ResponseDataDetailed<SearchResult>
 
 		const contents = contentsResponse.data.results
