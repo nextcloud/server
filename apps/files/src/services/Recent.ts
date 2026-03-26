@@ -7,6 +7,7 @@ import type { FileStat, ResponseDataDetailed, SearchResult } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission, davGetRecentSearch, davRootPath, davRemoteURL, davResultToNode } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import { CancelablePromise } from 'cancelable-promise'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { getPinia } from '../store/index.ts'
@@ -14,6 +15,7 @@ import { client } from './WebdavClient.ts'
 import { getBaseUrl } from '@nextcloud/router'
 
 const lastTwoWeeksTimestamp = Math.round((Date.now() / 1000) - (60 * 60 * 24 * 14))
+const recentLimit = loadState<number>('files', 'recent_limit', 100)
 
 /**
  * Helper to map a WebDAV result to a Nextcloud node
@@ -48,7 +50,7 @@ export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => 
 		const contentsResponse = await client.search('/', {
 			signal: controller.signal,
 			details: true,
-			data: davGetRecentSearch(lastTwoWeeksTimestamp),
+			data: davGetRecentSearch(lastTwoWeeksTimestamp, recentLimit),
 		}) as ResponseDataDetailed<SearchResult>
 
 		const contents = contentsResponse.data.results

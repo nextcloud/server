@@ -57,6 +57,8 @@ class SearchOrder implements ISearchOrder {
 				return $a->getId() <=> $b->getId();
 			case 'permissions':
 				return $a->getPermissions() <=> $b->getPermissions();
+			case 'last_activity':
+				return $a->getLastActivity() <=> $b->getLastActivity();
 			default:
 				return 0;
 		}

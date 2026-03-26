@@ -475,6 +475,10 @@ class Node implements INode {
 		return $this->getFileInfo()->getUploadTime();
 	}
 
+	public function getLastActivity(): int {
+		return $this->getFileInfo()->getLastActivity();
+	}
+
 	public function getParentId(): int {
 		return $this->fileInfo->getParentId();
 	}

@@ -281,6 +281,16 @@ interface FileInfo {
 	public function getUploadTime(): int;
 
 	/**
+	 * Get the last activity date as unix timestamp
+	 *
+	 * Last activity is the more recent of the upload time and the modification time
+	 *
+	 * @return int
+	 * @since 31.0.14
+	 */
+	public function getLastActivity(): int;
+
+	/**
 	 * Get the fileid or the parent folder
 	 * or -1 if this item has no parent folder (because it is the root)
 	 *
