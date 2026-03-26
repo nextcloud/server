@@ -74,11 +74,19 @@ class ReminderService {
 			return null;
 		}
 		if ($cachedReminder instanceof Reminder) {
+			if ($cachedReminder->getDueDate() < new DateTime()) {
+				return null;
+			}
 			return new RichReminder($cachedReminder, $this->root);
 		}
 
 		try {
 			$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
+			// If reminder is in the past, do not return it and do not cache it.
+			if ($reminder->getDueDate() < new DateTime()) {
+				return null;
+			}
+
 			$this->cache->set("{$user->getUID()}-$fileId", $reminder);
 			return new RichReminder($reminder, $this->root);
 		} catch (DoesNotExistException $e) {
