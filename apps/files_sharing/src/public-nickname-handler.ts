@@ -57,14 +57,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	const options = {
 		nickname,
-		notice: t('files_sharing', 'To upload files to {folder}, you need to provide your name first.', { folder }),
+		notice: t('files_sharing', 'To upload files to {folder}, you need to provide your name first.', { folder }, { escape: false }),
 		subtitle: undefined as string | undefined,
-		title: t('files_sharing', 'Upload files to {folder}', { folder }),
+		title: t('files_sharing', 'Upload files to {folder}', { folder }, { escape: false }),
 	}
 
 	// If the guest already has a nickname, we just make them double check
 	if (nickname) {
-		options.notice = t('files_sharing', 'Please confirm your name to upload files to {folder}', { folder })
+		options.notice = t('files_sharing', 'Please confirm your name to upload files to {folder}', { folder }, { escape: false })
 	}
 
 	// If the account owner set their name as public,
