@@ -33,7 +33,10 @@ export const action: IFileAction = {
 
 		const node = nodes.at(0)!
 		const dueDate = node.attributes['reminder-due-date']
-		return Boolean(dueDate)
+		const now = new Date()
+
+		// Do not show if the reminder is in the past
+		return Boolean(dueDate) && new Date(dueDate) > now
 	},
 
 	async exec({ nodes }) {
