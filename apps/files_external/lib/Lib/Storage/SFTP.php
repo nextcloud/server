@@ -357,11 +357,11 @@ class SFTP extends Common {
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
-		
+
 		$result = $this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
 
 		if ($result) {
-			$this->getConnection()->clearStatCache($this->absPath($path));
+			$this->getConnection()->clearStatCache();
 			if (!is_null($mtime)) {
 				$this->knownMTimes->set($path, $mtime);
 			}
