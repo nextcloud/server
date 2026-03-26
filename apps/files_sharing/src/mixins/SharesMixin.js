@@ -179,7 +179,10 @@ export default {
 			async set(enabled) {
 				if (enabled) {
 					this.passwordProtectedState = true
-					this.$set(this.share, 'newPassword', await GeneratePassword(true))
+					const generatedPassword = await GeneratePassword(true)
+					if (!this.share.newPassword) {
+						this.$set(this.share, 'newPassword', generatedPassword)
+					}
 				} else {
 					this.passwordProtectedState = false
 					this.$set(this.share, 'newPassword', '')
