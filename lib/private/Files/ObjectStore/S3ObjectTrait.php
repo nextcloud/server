@@ -92,7 +92,7 @@ trait S3ObjectTrait {
 
 				if ($result !== false) {
 					$meta = stream_get_meta_data($result);
-					$responseHead = is_array($meta['wrapper_data'] ?? null) ? $meta['wrapper_data'] : [];
+					$responseHead = $meta['wrapper_data'] ?? [];
 					$statusCode = $this->parseHttpStatusCode($responseHead);
 
 					if ($statusCode !== null && $statusCode < 400) {
@@ -102,7 +102,10 @@ trait S3ObjectTrait {
 					$errorBody = stream_get_contents($result);
 					fclose($result);
 
-					$errorInfo = $this->parseS3ErrorResponse($errorBody, $responseHead);
+					$errorInfo = $this->parseS3ErrorResponse(
+						$errorBody,
+						is_array($responseHead) ? $responseHead : [$responseHead]
+					);
 					$lastError = $this->formatS3ReadError($urn, $range, $statusCode, $errorInfo, $attempt, $maxAttempts);
 
 					if ($this->isRetryableHttpStatus($statusCode) && $attempt < $maxAttempts) {
