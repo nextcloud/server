@@ -39,7 +39,7 @@ class AmazonS3 extends Backend {
 				(new DefinitionParameter('use_ssl', $l->t('Use HTTPS')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setDefaultValue(true),
-				(new DefinitionParameter('use_path_style', $l->t('Use Path Style (https://domain.com/bucket)')))
+				(new DefinitionParameter('use_path_style', $l->t('Use Path Style (https://example.com/bucket)')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
 				(new DefinitionParameter('legacy_auth', $l->t('Use Legacy S3 signing (v2)')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
