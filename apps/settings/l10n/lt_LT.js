@@ -409,6 +409,8 @@ OC.L10N.register(
     "Organisation" : "Organizacija",
     "Phone number" : "Telefono numeris",
     "Role" : "Vaidmuo",
+    "X (formerly Twitter)" : "X (anksčiau „Twitter“)",
+    "Bluesky" : "\"Bluesky\"",
     "Website" : "Svetainė",
     "Profile visibility" : "Profilio matomumas",
     "Locale" : "Lokalė",
