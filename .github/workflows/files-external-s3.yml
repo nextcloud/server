@@ -127,7 +127,7 @@ jobs:
         env:
           SERVICES: s3
           DEBUG: 1
-        image: localstack/localstack
+        image: localstack/localstack@sha256:9d4253786e0effe974d77fe3c390358391a56090a4fff83b4600d8a64404d95d # v4.5.0
         ports:
           - "4566:4566"
 
