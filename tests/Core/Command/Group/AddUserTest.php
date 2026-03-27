@@ -76,7 +76,7 @@ class AddUserTest extends TestCase {
 
 		$this->output->expects($this->once())
 			->method('writeln')
-			->with('<error>user not found</error>');
+			->with('<error>user myUser not found</error>');
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
@@ -95,6 +95,86 @@ class AddUserTest extends TestCase {
 		$group->expects($this->once())
 			->method('addUser')
 			->with($user);
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+
+	public function testAddMultiple(): void {
+		$this->input->method('getArgument')
+			->willReturnCallback(function ($arg) {
+				if ($arg === 'group') {
+					return 'myGroup';
+				}
+				if ($arg === 'user') {
+					return ['myUser', 'myOtherUser'];
+				}
+				throw new \Exception();
+			});
+
+		$group = $this->createMock(IGroup::class);
+		$this->groupManager->method('get')
+			->with('myGroup')
+			->willReturn($group);
+
+		$user1 = $this->createMock(IUser::class);
+		$user2 = $this->createMock(IUser::class);
+		$this->userManager->method('get')
+			->willReturnMap([
+				['myUser', $user1],
+				['myOtherUser', $user2],
+			]);
+
+		$group->expects($this->exactly(2))
+			->method('addUser')
+			->with($this->callback(static fn(IUser $user): bool => in_array($user, [$user1, $user2], true)));
+
+		$this->output->expects($this->exactly(2))
+			->method('writeln')
+			->with($this->callback(static fn (string $message): bool => in_array($message,
+				[
+					'<info>user myUser added</info>',
+					'<info>user myOtherUser added</info>',
+				], true)));
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+
+	public function testAddMultiplePartialSuccess(): void {
+		$this->input->method('getArgument')
+			->willReturnCallback(function ($arg) {
+				if ($arg === 'group') {
+					return 'myGroup';
+				}
+				if ($arg === 'user') {
+					return ['myUser', 'myOtherUser'];
+				}
+				throw new \Exception();
+			});
+
+		$group = $this->createMock(IGroup::class);
+		$this->groupManager->method('get')
+			->with('myGroup')
+			->willReturn($group);
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager->method('get')
+			->willReturnMap([
+				['myUser', $user],
+				['myOtherUser', null],
+			]);
+
+		$group->expects($this->once())
+			->method('addUser')
+			->with($user);
+
+		$this->output->expects($this->exactly(3))
+			->method('writeln')
+			->with($this->callback(static fn (string $message): bool => in_array($message,
+				[
+					'<info>user myUser added</info>',
+					'<error>user myOtherUser not found</error>',
+					'<error>Some users were not found, all others where added to the group.</error>',
+				], true)));
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
