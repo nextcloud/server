@@ -88,6 +88,12 @@ trait S3ObjectTrait {
 
 			$context = stream_context_create($opts);
 
+			// Retries here are per ranged HTTP fetch, not per high-level readObject() call.
+			// A single read may therefore trigger multiple retry sequences across seeks/reopens.
+			// sleepBeforeRetry() deliberately caps backoff to limit per-range delay.
+			// If this ever becomes an issue we might:
+			// - use a smaller retry count for read ranges than for write operations, or
+			// - cap total sleep time more aggressively.
 			for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
 				$result = @fopen($requestUri, 'r', false, $context);
 
