@@ -122,19 +122,22 @@ class PublicPreviewController extends PublicShareController {
 		try {
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
-				$file = $node->get($file);
+				if ($file === '') {
+					return new DataResponse([], Http::STATUS_BAD_REQUEST);
+				}
+				$fileNode = $node->get($file);
 			} else {
-				$file = $node;
+				$fileNode = $node;
 			}
 
-			$f = $this->previewManager->getPreview($file, $x, $y, !$a);
+			$f = $this->previewManager->getPreview($fileNode, $x, $y, !$a);
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 			$response->cacheFor($cacheForSeconds);
 			return $response;
 		} catch (NotFoundException $e) {
 			// If we have no preview enabled, we can redirect to the mime icon if any
-			if ($mimeFallback) {
-				if ($url = $this->mimeIconProvider->getMimeIconUrl($file->getMimeType())) {
+			if ($mimeFallback && isset($fileNode) && !($fileNode instanceof Folder)) {
+				if ($url = $this->mimeIconProvider->getMimeIconUrl($fileNode->getMimeType())) {
 					return new RedirectResponse($url);
 				}
 			}
