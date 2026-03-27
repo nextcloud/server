@@ -43,7 +43,7 @@ class ConfigLexicon implements ILexicon {
 
 	public function getUserConfigs(): array {
 		return [
-			new Entry(self::USER_NEEDS_SHARE_REFRESH, ValueType::BOOL, false, 'whether a user needs to have the receiving share data refreshed for possible changes'),
+			new Entry(self::USER_NEEDS_SHARE_REFRESH, ValueType::BOOL, true, 'whether a user needs to have the receiving share data refreshed for possible changes'),
 		];
 	}
 }
