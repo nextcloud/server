@@ -222,6 +222,11 @@ trait S3ObjectTrait {
 		int $attempt,
 		int $maxAttempts,
 	): string {
+		$errorCode = $errorInfo['code'] !== '' ? $errorInfo['code'] : 'Unknown';
+		$errorMessage = $errorInfo['message'] !== '' ? $errorInfo['message'] : 'No error message';
+		$requestId = $errorInfo['requestId'] !== '' ? $errorInfo['requestId'] : 'n/a';
+		$extendedRequestId = $errorInfo['extendedRequestId'] !== '' ? $errorInfo['extendedRequestId'] : 'n/a';
+
 		if ($statusCode === 416) {
 			return sprintf(
 				'HTTP 416 reading object %s range %s on attempt %d/%d: requested range not satisfiable',
@@ -229,10 +234,10 @@ trait S3ObjectTrait {
 				$range,
 				$attempt,
 				$maxAttempts,
-				$errorInfo['code'],
-				$errorInfo['message'],
-				$errorInfo['requestId'],
-				$errorInfo['extendedRequestId'],
+				$errorCode,
+				$errorMessage,
+				$requestId,
+				$extendedRequestId,
 			);
 		}
 		return sprintf(
@@ -242,10 +247,10 @@ trait S3ObjectTrait {
 			$range,
 			$attempt,
 			$maxAttempts,
-			$errorInfo['code'],
-			$errorInfo['message'],
-			$errorInfo['requestId'],
-			$errorInfo['extendedRequestId'],
+			$errorCode,
+			$errorMessage,
+			$requestId,
+			$extendedRequestId,
 		);
 	}
 
