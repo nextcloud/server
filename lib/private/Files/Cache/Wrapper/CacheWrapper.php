@@ -198,7 +198,7 @@ class CacheWrapper extends Cache {
 	}
 
 	protected function getMoveInfo($path) {
-		/** @var Cache $cache */
+		/** @var Cache|CacheJail $cache */
 		$cache = $this->getCache();
 		return $cache->getMoveInfo($path);
 	}
