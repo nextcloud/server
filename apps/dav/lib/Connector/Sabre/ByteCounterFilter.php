@@ -12,6 +12,7 @@ namespace OCA\DAV\Connector\Sabre;
  * A stream filter to track how many bytes have been streamed from a stream.
  */
 class ByteCounterFilter extends \php_user_filter {
+	/** @psalm-suppress NonInvariantPropertyType PHP crashes without string type */
 	public string $filtername = 'ByteCounter';
 
 	public function filter($in, $out, &$consumed, bool $closing): int {

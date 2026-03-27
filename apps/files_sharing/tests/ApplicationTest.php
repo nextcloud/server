@@ -82,6 +82,7 @@ class ApplicationTest extends TestCase {
 
 		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('get')->willReturn($file);
+		$userFolder->method('getPath')->willReturn($path);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
@@ -94,7 +95,7 @@ class ApplicationTest extends TestCase {
 		$listener = new BeforeDirectFileDownloadListener(
 			$this->userSession,
 			$this->rootFolder,
-			new ViewOnly(),
+			new ViewOnly($userFolder),
 		);
 		$listener->handle($event);
 
@@ -140,6 +141,7 @@ class ApplicationTest extends TestCase {
 		$secureSharedStorage->method('getShare')->willReturn($secureReceiverFileShare);
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getPath')->willReturn($dir);
 		if ($folderStorage === 'nonSharedStorage') {
 			$folder->method('getStorage')->willReturn($nonSharedStorage);
 		} elseif ($folderStorage === 'secureSharedStorage') {
@@ -203,7 +205,7 @@ class ApplicationTest extends TestCase {
 		$this->userSession->method('isLoggedIn')->willReturn(false);
 
 		// Simulate zip download of folder folder
-		$event = new BeforeZipCreatedEvent('/test', ['test.txt'], []);
+		$event = new BeforeZipCreatedEvent('/test', ['test.txt']);
 		$listener = new BeforeZipCreatedListener(
 			$this->userSession,
 			$this->rootFolder,

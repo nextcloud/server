@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use Exception;
-use OC\L10N\L10N;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Node;

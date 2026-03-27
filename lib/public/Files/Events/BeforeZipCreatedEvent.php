@@ -46,7 +46,7 @@ class BeforeZipCreatedEvent extends Event {
 	public function __construct(
 		string|Folder $directory,
 		private array $files,
-		public ?bool $allowPartialArchive = true,
+		public ?bool $allowPartialArchive = false,
 	) {
 		parent::__construct();
 		if ($directory instanceof Folder) {
@@ -124,8 +124,8 @@ class BeforeZipCreatedEvent extends Event {
 
 	/**
 	 * @param callable(Node): array{0: bool, 1: ?string} $filter filter that
-	 * receives a Node and returns an array with a bool telling if the file is
-	 * to be included in the archive and an optional reason string.
+	 *                                                           receives a Node and returns an array with a bool telling if the file is
+	 *                                                           to be included in the archive and an optional reason string.
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class BeforeZipCreatedEvent extends Event {
 	 *
 	 * @return iterable<string, array{0: ?Node, 1: ?string}>
 	 */
-	public function getNodes(): iterable {
+	public function getNodes(string $rootPath): iterable {
 		if (!isset($this->nodesIterable)) {
 			throw new \LogicException('No nodes iterable set');
 		}
@@ -150,10 +150,12 @@ class BeforeZipCreatedEvent extends Event {
 			return;
 		}
 
-		$directory = $this->getDirectory();
 		foreach ($this->nodesIterable as $node) {
-			$relativePath = $directory . '/' . $node->getName();
-			if (!empty($this->files) && !in_array($node->getName(), $this->files)) {
+			$relativePath = trim(str_replace($rootPath, '', $node->getPath()), '/');
+			$parent = rtrim(substr($relativePath, 0, strpos($relativePath, '/', 1) ?: 0), '/');
+			// we need to filter by file name or first parent folder
+			$filterName = $parent === '' ? $node->getName() : $parent;
+			if (!empty($this->files) && !in_array($filterName, $this->files)) {
 				// the node is supposed to be filtered out
 				continue;
 			}
