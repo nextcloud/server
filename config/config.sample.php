@@ -2798,7 +2798,7 @@ $CONFIG = [
 /**
  * Maximum number of chunks uploaded in parallel during chunked uploads. Higher
  * counts increase throughput but consume more server resources, with diminishing
- * returns.
+ * returns. Value must be a positive integer.
  *
  * Defaults to ``5``
  */
