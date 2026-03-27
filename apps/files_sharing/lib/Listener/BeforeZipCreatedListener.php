@@ -47,18 +47,20 @@ class BeforeZipCreatedListener implements IEventListener {
 			}
 		}
 
-		// Check only for user/group shares. Don't restrict e.g. share links
 		$user = $this->userSession->getUser();
-		if (!$user) {
+		$folder = $event->getFolder();
+		if ($user === null && $event->getFolder() === null) {
+			// there is no way to know if the file is downloadable or not, allow it
 			$event->setSuccessful(true);
 			return;
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$viewOnlyHandler = new ViewOnly($userFolder);
+		// in link-shares there may be no user, in that case we check that the share folder is downloadable
+		$userFolder = $user ? $this->rootFolder->getUserFolder($user->getUID()) : null;
+		$folderToCheck = $userFolder ? $userFolder->get($dir) : $folder;
 
-		$node = $userFolder->get($dir);
-		$isRootDownloadable = $viewOnlyHandler->isDownloadable($node);
+		$viewOnlyHandler = new ViewOnly($userFolder);
+		$isRootDownloadable = $viewOnlyHandler->isDownloadable($folderToCheck);
 
 		if (!$isRootDownloadable) {
 			$message = $event->allowPartialArchive ? 'Access to this resource and its children has been denied.' : 'Access to this resource or one of its sub-items has been denied.';

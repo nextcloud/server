@@ -19,7 +19,7 @@ use OCP\Files\NotFoundException;
 class ViewOnly {
 
 	public function __construct(
-		private Folder $userFolder,
+		private ?Folder $userFolder,
 	) {
 	}
 
@@ -28,6 +28,10 @@ class ViewOnly {
 	 * @return bool
 	 */
 	public function check(array $pathsToCheck): bool {
+		if ($this->userFolder === null) {
+			throw new \LogicException('The user folder is not set but this check requires it.');
+		}
+
 		// If any of elements cannot be downloaded, prevent whole download
 		foreach ($pathsToCheck as $file) {
 			try {

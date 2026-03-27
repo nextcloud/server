@@ -63,7 +63,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 			'partial archive disabled, no filtering, 1 blocked 1 non-blocked file => should fail event' => [
 				'folderPath' => $rootFromFolder,
 				'rootDownloadable' => true,
-				'files' => ["blocked.txt" => false, "allowed.txt" => true],
+				'files' => ['blocked.txt' => false, 'allowed.txt' => true],
 				'filesFilter' => [],
 				'allowPartialArchive' => false,
 				'expectedSuccess' => false,
@@ -186,15 +186,16 @@ class BeforeZipCreatedListenerTest extends TestCase {
 	): void {
 		$fileNodes = [];
 		$fileNodesByName = [];
+		$folderPathFromUserRoot = "/user/files{$folderPath}";
 		foreach ($files as $relativePath => $downloadable) {
-			$pathWithFolder = "{$folderPath}/{$relativePath}";
+			$pathWithFolder = "{$folderPathFromUserRoot}/{$relativePath}";
 			$file = $this->createSharedFile($downloadable, $pathWithFolder);
-			$fileNodesByName[$pathWithFolder] = $file;
+			$fileNodesByName[$relativePath] = $file;
 			$fileNodes[] = $file;
 		}
-		$folderPathFromUserRoot = "/user/files{$folderPath}";
 		$folder = $this->createSharedFolder($rootDownloadable, $folderPathFromUserRoot, $fileNodes);
 		$this->userFolder->method('get')->willReturnCallback(function (string $path) use ($folderPath, $fileNodesByName, $folder) {
+			$path = str_replace($folderPath . '/', '', $path);
 			return match (true) {
 				$path === $folderPath => $folder,
 				isset($fileNodesByName[$path]) => $fileNodesByName[$path],
@@ -209,10 +210,10 @@ class BeforeZipCreatedListenerTest extends TestCase {
 		$this->assertSame($expectedMessage, $event->getErrorMessage());
 
 		$event->setNodesIterable($fileNodes);
-		$actualNodes = iterator_to_array($event->getNodes());
+		$actualNodes = iterator_to_array($event->getNodes($folderPathFromUserRoot));
 		$this->assertCount(count($expectedNodeList), $actualNodes);
 		foreach ($expectedNodeList as $relativePath => $expectedValue) {
-			$path = "{$folderPath}/{$relativePath}";
+			$path = "$relativePath";
 			if ($expectedValue === null) {
 				// cannot reference the node in the data provider, add it here
 				$node = $fileNodesByName[$path] ?? null;
@@ -220,7 +221,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				$expectedValue = [$node, null];
 			}
 
-			$this->assertEquals($expectedValue, $actualNodes[$path]);
+			$this->assertEquals($expectedValue, $actualNodes[$path] ?? []);
 		}
 	}
 

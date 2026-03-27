@@ -8,7 +8,6 @@
 namespace OCA\DAV;
 
 use OC\Files\Filesystem;
-use OC\L10N\L10N;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -90,7 +89,6 @@ use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;

@@ -38,8 +38,8 @@ class BeforeDirectFileDownloadListener implements IEventListener {
 		// Check only for user/group shares. Don't restrict e.g. share links
 		if (!$user) {
 			return;
-
 		}
+
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$node = $userFolder->get($event->getPath());
 		if (!$this->viewOnly->isDownloadable($node)) {
