@@ -129,7 +129,7 @@ trait S3ObjectTrait {
 
 				// fopen returned false - i.e. connection-level failure (DNS, timeout, TLS, etc.)
 				// log occurences for operator visibility even if retried
-				$lastError = "connection failure while reading object $urn range $range on attempt $attempt/$maxAttempts";
+				$lastError = "connection failure while reading object $urn range $range on attempt $attempt/$maxAttempts (no HTTP response received)";
 				$logger->warning($lastError, ['app' => 'objectstore']);
 
 				if ($attempt < $maxAttempts) {
