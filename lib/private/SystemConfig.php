@@ -44,6 +44,7 @@ class SystemConfig {
 		'proxyuserpwd' => true,
 		'sentry.dsn' => true,
 		'sentry.public-dsn' => true,
+	    'sentry.csp-report-url' => true,
 		'zammad.download.secret' => true,
 		'zammad.portal.secret' => true,
 		'zammad.secret' => true,
