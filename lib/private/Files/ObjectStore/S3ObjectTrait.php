@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\ObjectStore;
@@ -49,7 +49,7 @@ trait S3ObjectTrait {
 		// via an abstract method (e.g. getLogger()) rather than inline container lookups
 		$logger = \OCP\Server::get(\Psr\Log\LoggerInterface::class);
 
-		$fh = SeekableHttpStream::open(function ($range) use ($urn, $maxAttempts, &$lastError, $logger) {
+		$fh = SeekableHttpStream::open(function ($range) use ($urn, $maxAttempts, &$lastError, &$firstError, $logger) {
 			$command = $this->getConnection()->getCommand('GetObject', [
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
@@ -134,8 +134,14 @@ trait S3ObjectTrait {
 				}
 
 				// fopen returned false - i.e. connection-level failure (DNS, timeout, TLS, etc.)
-				// log occurences for operator visibility even if retried
-				$lastError = "connection failure while reading object $urn range $range on attempt $attempt/$maxAttempts (no HTTP response received)";
+				// log occurrences for operator visibility even if retried
+				$currentError = "connection failure while reading object $urn range $range on attempt $attempt/$maxAttempts (no HTTP response received)";
+				if ($firstError === 'unknown error') {
+					$firstError = $currentError;
+				} else {
+					$lastError = $currentError;
+				}
+
 				$logger->warning($lastError, ['app' => 'objectstore']);
 
 				if ($attempt < $maxAttempts) {
@@ -235,7 +241,7 @@ trait S3ObjectTrait {
 
 		if ($statusCode === 416) {
 			return sprintf(
-				'HTTP 416 reading object %s range %s on attempt %d/%d: requested range not satisfiable',
+				'HTTP 416 reading object %s range %s on attempt %d/%d: requested range not satisfiable [%s - %s (RequestId: %s, ExtendedRequestId: %s)]',
 				$urn,
 				$range,
 				$attempt,
