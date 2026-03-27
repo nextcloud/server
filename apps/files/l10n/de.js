@@ -400,7 +400,7 @@ OC.L10N.register(
     "Clear filter" : "Filter zurücksetzen",
     "Open file sidebar" : "Datei-Seitenleiste öffnen",
     "Search everywhere …" : "Überall suchen  …",
-    "Search here …" : "Hier suchen …",
+    "Search here …" : "Hier suchen …",
     "Preparing …" : "Bereite vor …",
     "Submitting fields …" : "Felder werden übermittelt …",
     "Shared by link" : "Über einen Link geteilt",
