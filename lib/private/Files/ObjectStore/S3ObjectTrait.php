@@ -110,7 +110,7 @@ trait S3ObjectTrait {
 
 					if ($this->isRetryableHttpStatus($statusCode) && $attempt < $maxAttempts) {
 						// gives operators visibility into transient S3 issues even when retries succeed by logging
-						$logger->warning($lastError, ['app' => 'objectstore']);
+						$logger->info($lastError, ['app' => 'objectstore']);
 						$this->sleepBeforeRetry($attempt);
 						continue;
 					}
@@ -213,6 +213,19 @@ trait S3ObjectTrait {
 		int $attempt,
 		int $maxAttempts,
 	): string {
+		if ($statusCode === 416) {
+			return sprintf(
+				'HTTP 416 reading object %s range %s on attempt %d/%d: requested range not satisfiable',
+				$urn,
+				$range,
+				$attempt,
+				$maxAttempts,
+				$errorInfo['code'],
+				$errorInfo['message'],
+				$errorInfo['requestId'],
+				$errorInfo['extendedRequestId'],
+			);
+		}
 		return sprintf(
 			'HTTP %s reading object %s range %s on attempt %d/%d: %s - %s (RequestId: %s, ExtendedRequestId: %s)',
 			$statusCode !== null ? (string)$statusCode : 'unknown',
