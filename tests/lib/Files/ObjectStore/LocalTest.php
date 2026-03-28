@@ -10,7 +10,6 @@ namespace Test\Files\ObjectStore;
 
 use OC\Files\Storage\Temporary;
 use OCP\Files\ObjectStore\IObjectStore;
-use Test\Files\ObjectStore\StorageBackedObjectStore;
 
 class LocalTest extends ObjectStoreTestCase {
 	/**
