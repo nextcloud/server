@@ -42,8 +42,8 @@ trait S3ObjectTrait {
 	 */
 	public function readObject($urn) {
 		$maxAttempts = max(1, $this->retriesMaxAttempts);
-		$lastError = 'unknown error';
-		$firstError = 'unknown error';
+		$lastError = null;
+		$firstError = null;
 
 		// TODO: consider unifying logger access across S3ConnectionTrait and S3ObjectTrait
 		// via an abstract method (e.g. getLogger()) rather than inline container lookups
@@ -115,8 +115,9 @@ trait S3ObjectTrait {
 					);
 					$currentError = $this->formatS3ReadError($urn, $range, $statusCode, $errorInfo, $attempt, $maxAttempts);
 					// on retries, the last or the first failure can be most informative, but can't know which so track both
-					if ($firstError === 'unknown error') {
+					if ($firstError === null) {
 						$firstError = $currentError;
+						$lastError = $currentError;
 					} else {
 						$lastError = $currentError;
 					}
@@ -136,19 +137,24 @@ trait S3ObjectTrait {
 				// fopen returned false - i.e. connection-level failure (DNS, timeout, TLS, etc.)
 				// log occurrences for operator visibility even if retried
 				$currentError = "connection failure while reading object $urn range $range on attempt $attempt/$maxAttempts (no HTTP response received)";
-				if ($firstError === 'unknown error') {
+				if ($firstError === null) {
 					$firstError = $currentError;
+					$lastError = $currentError;
 				} else {
 					$lastError = $currentError;
 				}
 
-				$logger->warning($lastError, ['app' => 'objectstore']);
+				$logger->warning($currentError, ['app' => 'objectstore']);
 
 				if ($attempt < $maxAttempts) {
 					$this->sleepBeforeRetry($attempt);
 				}
 			}
 
+			$logger->error(
+				"Failed to read object $urn after $maxAttempts attempts. First failure: $firstError. Last failure: $lastError".
+				['app' => 'objectstore'],
+			);
 			return false;
 		});
 
