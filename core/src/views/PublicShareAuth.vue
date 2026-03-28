@@ -21,7 +21,7 @@ import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 const publicShareAuth = loadState<{
 	canResendPassword: boolean
 	shareType: ShareType
-	identityOk?: boolean | null
+	showPasswordReset?: boolean
 	invalidPassword?: boolean
 }>('core', 'publicShareAuth')
 
@@ -29,8 +29,8 @@ const requestToken = getRequestToken()
 const sharingToken = getSharingToken()
 const { shareType, invalidPassword, canResendPassword } = publicShareAuth
 
-const hasIdentityCheck = typeof publicShareAuth.identityOk === 'boolean'
-const showIdentityCheck = ref(typeof publicShareAuth.identityOk === 'boolean')
+const isPasswordResetProcessed = !!publicShareAuth.showPasswordReset
+const showPasswordReset = ref(publicShareAuth.showPasswordReset ?? false)
 const password = ref('')
 const email = ref('')
 
@@ -48,7 +48,7 @@ onMounted(() => {
 	<NcGuestContent :class="$style.publicShareAuth">
 		<h2>{{ t('core', 'This share is password-protected') }}</h2>
 		<form
-			v-show="!showIdentityCheck"
+			v-show="!showPasswordReset"
 			:class="$style.publicShareAuth__form"
 			method="POST">
 			<NcNoteCard v-if="invalidPassword" type="error">
@@ -74,15 +74,14 @@ onMounted(() => {
 		</form>
 
 		<form
-			v-if="showIdentityCheck"
+			v-if="showPasswordReset"
 			:class="$style.publicShareAuth__form"
 			method="POST">
-			<NcNoteCard v-if="!hasIdentityCheck" type="info">
-				{{ t('core', 'Please type in your email address to request a temporary password') }}
-			</NcNoteCard>
-
-			<NcNoteCard v-else :type="publicShareAuth.identityOk ? 'success' : 'error'">
-				{{ publicShareAuth.identityOk ? t('core', 'Password sent!') : t('core', 'You are not authorized to request a password for this share') }}
+			<NcNoteCard type="info">
+				{{ isPasswordResetProcessed
+					? t('core', 'If the email address was correct then you will receive an email with the password.')
+					: t('core', 'Please type in your email address to request a temporary password')
+				}}
 			</NcNoteCard>
 
 			<NcTextField
@@ -96,7 +95,7 @@ onMounted(() => {
 			<input type="hidden" name="passwordRequest" value="">
 
 			<NcFormBox row>
-				<NcButton wide @click="showIdentityCheck = false">
+				<NcButton wide @click="showPasswordReset = false">
 					{{ t('core', 'Back') }}
 				</NcButton>
 				<NcButton type="submit" variant="primary" wide>
@@ -107,10 +106,10 @@ onMounted(() => {
 
 		<!-- request password button -->
 		<NcButton
-			v-if="canResendPassword && !showIdentityCheck"
+			v-if="canResendPassword && !showPasswordReset"
 			:class="$style.publicShareAuth__forgotPasswordButton"
 			wide
-			@click="showIdentityCheck = true">
+			@click="showPasswordReset = true">
 			{{ t('core', 'Forgot password') }}
 		</NcButton>
 	</NcGuestContent>
