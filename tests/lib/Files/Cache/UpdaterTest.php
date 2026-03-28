@@ -12,11 +12,11 @@ use OC\Files\Cache\Cache;
 use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\ObjectStoreStorage;
-use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCP\Files\Storage\IStorage;
+use Test\Files\ObjectStore\StorageBackedObjectStore;
 
 /**
  * Class UpdaterTest
@@ -313,7 +313,7 @@ class UpdaterTest extends \Test\TestCase {
 	public static function changeExtensionProvider(): array {
 		return [
 			[new Temporary()],
-			[new ObjectStoreStorage(['objectstore' => new StorageObjectStore(new Temporary())])]
+			[new ObjectStoreStorage(['objectstore' => new StorageBackedObjectStore(new Temporary())])]
 		];
 	}
 
