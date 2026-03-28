@@ -63,8 +63,7 @@ describe('files_external settings', () => {
 					.click()
 				cy.root().closest('body')
 					.findByRole('option', { name: 'WebDAV' })
-					.should('be.visible')
-					.click()
+					.click({ force: true }) // forced due to ordering + `position: fixed` usage
 
 				getComboBox(/Authentication/)
 					.should('be.visible')
