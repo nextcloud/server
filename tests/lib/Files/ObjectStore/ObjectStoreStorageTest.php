@@ -8,11 +8,11 @@
 
 namespace Test\Files\ObjectStore;
 
-use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Constants;
 use OCP\Files\ObjectStore\IObjectStore;
+use Test\Files\ObjectStore\StorageBackedObjectStore;
 use Test\Files\Storage\Storage;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
