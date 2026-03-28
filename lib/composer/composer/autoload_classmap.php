@@ -1783,7 +1783,6 @@ return array(
     'OC\\Files\\ObjectStore\\S3ConnectionTrait' => $baseDir . '/lib/private/Files/ObjectStore/S3ConnectionTrait.php',
     'OC\\Files\\ObjectStore\\S3ObjectTrait' => $baseDir . '/lib/private/Files/ObjectStore/S3ObjectTrait.php',
     'OC\\Files\\ObjectStore\\S3Signature' => $baseDir . '/lib/private/Files/ObjectStore/S3Signature.php',
-    'OC\\Files\\ObjectStore\\StorageObjectStore' => $baseDir . '/lib/private/Files/ObjectStore/StorageObjectStore.php',
     'OC\\Files\\ObjectStore\\Swift' => $baseDir . '/lib/private/Files/ObjectStore/Swift.php',
     'OC\\Files\\ObjectStore\\SwiftFactory' => $baseDir . '/lib/private/Files/ObjectStore/SwiftFactory.php',
     'OC\\Files\\ObjectStore\\SwiftV2CachingAuthService' => $baseDir . '/lib/private/Files/ObjectStore/SwiftV2CachingAuthService.php',
