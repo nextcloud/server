@@ -13,8 +13,8 @@ use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
-use Test\TestCase;
 use Test\Files\ObjectStore\StorageBackedObjectStore;
+use Test\TestCase;
 
 class PrimaryObjectStoreConfigTest extends TestCase {
 	private array $systemConfig = [];
