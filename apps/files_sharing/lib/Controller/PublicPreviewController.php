@@ -59,12 +59,14 @@ class PublicPreviewController extends PublicShareController {
 		return $this->share->getPassword() !== null;
 	}
 
-
 	/**
-	 * Get a preview for a shared file
+	 * Get a preview for a public share.
+	 *
+	 * For shares pointing to a single file, the $file parameter is ignored and may be empty.
+	 * For folder shares, $file must be the relative path to a file inside the shared folder.
 	 *
 	 * @param string $token Token of the share
-	 * @param string $file File in the share
+	 * @param string $file Relative path to a file inside a shared folder; ignored for single-file shares
 	 * @param int $x Width of the preview
 	 * @param int $y Height of the preview
 	 * @param bool $a Whether to not crop the preview
