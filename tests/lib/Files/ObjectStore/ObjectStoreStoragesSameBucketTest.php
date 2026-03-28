@@ -9,10 +9,10 @@ declare(strict_types=1);
  */
 namespace Test\Files\ObjectStore;
 
-use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
 use OCP\Files\ObjectStore\IObjectStore;
 use Test\Files\Storage\StoragesTestCase;
+use Test\Files\ObjectStore\StorageBackedObjectStore;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class ObjectStoreStoragesSameBucketTest extends StoragesTestCase {
@@ -25,7 +25,7 @@ class ObjectStoreStoragesSameBucketTest extends StoragesTestCase {
 		parent::setUp();
 
 		$baseStorage = new Temporary();
-		$this->objectStore = new StorageObjectStore($baseStorage);
+		$this->objectStore = new StorageBackedObjectStore($baseStorage);
 		$config['objectstore'] = $this->objectStore;
 		// storage1 and storage2 share the same object store.
 		$this->storage1 = new ObjectStoreStorageOverwrite($config);
