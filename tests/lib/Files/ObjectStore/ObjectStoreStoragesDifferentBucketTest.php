@@ -12,7 +12,6 @@ namespace Test\Files\ObjectStore;
 use OC\Files\Storage\Temporary;
 use OCP\Files\ObjectStore\IObjectStore;
 use Test\Files\Storage\StoragesTestCase;
-use Test\Files\ObjectStore\StorageBackedObjectStore;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class ObjectStoreStoragesDifferentBucketTest extends StoragesTestCase {
