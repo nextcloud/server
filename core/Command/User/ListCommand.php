@@ -35,7 +35,7 @@ class ListCommand extends Base {
 				'limit',
 				'l',
 				InputOption::VALUE_OPTIONAL,
-				'Number of users to retrieve',
+				'Number of users to retrieve (0 for unlimited)',
 				'500'
 			)->addOption(
 				'offset',
@@ -58,10 +58,16 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$limit = (int)$input->getOption('limit');
+		$offset = (int)$input->getOption('offset');
+
+		// Allow --limit 0 to mean unlimited
+		$actualLimit = ($limit === 0) ? null : $limit;
+
 		if ($input->getOption('disabled')) {
-			$users = $this->userManager->getDisabledUsers((int)$input->getOption('limit'), (int)$input->getOption('offset'));
+			$users = $this->userManager->getDisabledUsers($actualLimit, $offset);
 		} else {
-			$users = $this->userManager->searchDisplayName('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
+			$users = $this->userManager->searchDisplayName('', $actualLimit, $offset);
 		}
 
 		$this->writeArrayInOutputFormat($input, $output, $this->formatUsers($users, (bool)$input->getOption('info')));
