@@ -133,17 +133,21 @@ const readDirectory = (directory: FileSystemDirectoryEntry): Promise<FileSystemE
 }
 
 /**
- * @param path - The path relative to the dav root
+ * @param path - The path relative to the destination root
+ * @param destination - The destination folder. When provided, directories are created relative
+ *   to its source URL instead of the default user root. This is needed for uploads into
+ *   non-default locations like team folders.
  */
-export async function createDirectoryIfNotExists(path: string) {
-	const davUrl = join(defaultRemoteURL, defaultRootPath)
+export async function createDirectoryIfNotExists(path: string, destination?: IFolder) {
+	const davUrl = destination?.source ?? join(defaultRemoteURL, defaultRootPath)
+	const davRoot = destination?.root ?? defaultRootPath
 	const davClient = getClient(davUrl)
 	const dirExists = await davClient.exists(path)
 	if (!dirExists) {
-		logger.debug('Directory does not exist, creating it', { path })
+		logger.debug('Directory does not exist, creating it', { path, davUrl })
 		await davClient.createDirectory(path, { recursive: true })
 		const stat = await davClient.stat(path, { details: true, data: getDefaultPropfind() }) as ResponseDataDetailed<FileStat>
-		emit('files:node:created', resultToNode(stat.data, defaultRootPath, davUrl))
+		emit('files:node:created', resultToNode(stat.data, davRoot, davUrl))
 	}
 }
 
