@@ -32,6 +32,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar gelöscht",
     "An error occurred while trying to delete the comment" : "Es ist ein Fehler beim Löschen des Kommentars aufgetreten",
     "An error occurred while trying to create the comment" : "Es ist ein Fehler beim Erstellen des Kommentars aufgetreten",
-    "Write a comment …" : "Schreiben Sie einen Kommentar …"
+    "Write a comment …" : "Einen Kommentar schreiben …"
 },
 "nplurals=2; plural=(n != 1);");
