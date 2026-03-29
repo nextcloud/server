@@ -156,7 +156,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$preview->method('getMimeType')
 			->willReturn('myMime');
 
-		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$res = $this->controller->getPreview('token', 'file', 10, 10, true, false);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
 		$expected->cacheFor(15 * 60);
 		$this->assertEquals($expected, $res);
@@ -192,7 +192,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$preview->method('getMimeType')
 			->willReturn('myMime');
 
-		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$res = $this->controller->getPreview('token', 'file', 10, 10, true, false);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
 		$expected->cacheFor(3600 * 24);
 		$this->assertEquals($expected, $res);
@@ -224,7 +224,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$preview->method('getMimeType')
 			->willReturn('myMime');
 
-		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$res = $this->controller->getPreview('token', 'file', 10, 10, true, false);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
 		$expected->cacheFor(3600 * 24);
 		$this->assertEquals($expected, $res);
@@ -250,7 +250,7 @@ class PublicPreviewControllerTest extends TestCase {
 			->with($this->equalTo('file'))
 			->willThrowException(new NotFoundException());
 
-		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$res = $this->controller->getPreview('token', 'file', 10, 10, true, false);
 		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
 		$this->assertEquals($expected, $res);
 	}
@@ -271,7 +271,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$share->method('canSeeContent')
 			->willReturn(true);
 
-		$res = $this->controller->getPreview('token', '', 10, 10, true);
+		$res = $this->controller->getPreview('token', '', 10, 10, false, false);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expected, $res);
 	}
@@ -299,7 +299,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->mimeIconProvider->expects($this->never())
 			->method('getMimeIconUrl');
 
-		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$res = $this->controller->getPreview('token', 'file', 10, 10, false, true);
 		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
 		$this->assertEquals($expected, $res);
 	}
@@ -336,7 +336,7 @@ class PublicPreviewControllerTest extends TestCase {
 			->with('text/plain')
 			->willReturn('/icon-url');
 
-		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$res = $this->controller->getPreview('token', 'file', 10, 10, false, true);
 		$expected = new RedirectResponse('/icon-url');
 		$this->assertEquals($expected, $res);
 	}
@@ -372,7 +372,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$preview->method('getMimeType')
 			->willReturn('myMime');
 
-		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$res = $this->controller->getPreview('token', 'file', 10, 10, true, false);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
 		$expected->cacheFor(3600 * 24);
 		$this->assertEquals($expected, $res);
