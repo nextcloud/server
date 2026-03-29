@@ -10,6 +10,7 @@ use OCA\Files_Sharing\Controller\PublicPreviewController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\Files\File;
@@ -32,6 +33,7 @@ class PublicPreviewControllerTest extends TestCase {
 	private IManager&MockObject $shareManager;
 	private ITimeFactory&MockObject $timeFactory;
 	private IRequest&MockObject $request;
+	private IMimeIconProvider&MockObject $mimeIconProvider;
 
 	private PublicPreviewController $controller;
 
@@ -42,6 +44,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->mimeIconProvider = $this->createMock(IMimeIconProvider::class);
 
 		$this->timeFactory->method('getTime')
 			->willReturn(1337);
@@ -54,7 +57,7 @@ class PublicPreviewControllerTest extends TestCase {
 			$this->shareManager,
 			$this->createMock(ISession::class),
 			$this->previewManager,
-			$this->createMock(IMimeIconProvider::class),
+			$this->mimeIconProvider,
 		);
 	}
 
@@ -252,6 +255,91 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
+	public function testPreviewFolderEmptyFileReturnsBadRequest(): void {
+		$share = $this->createMock(IShare::class);
+		$this->shareManager->method('getShareByToken')
+			->with($this->equalTo('token'))
+			->willReturn($share);
+
+		$share->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+
+		$folder = $this->createMock(Folder::class);
+		$share->method('getNode')
+			->willReturn($folder);
+
+		$share->method('canSeeContent')
+			->willReturn(true);
+
+		$res = $this->controller->getPreview('token', '', 10, 10, true);
+		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expected, $res);
+	}
+
+	public function testPreviewFolderInvalidFileWithMimeFallbackReturnsNotFound(): void {
+		$share = $this->createMock(IShare::class);
+		$this->shareManager->method('getShareByToken')
+			->with($this->equalTo('token'))
+			->willReturn($share);
+
+		$share->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+
+		$folder = $this->createMock(Folder::class);
+		$share->method('getNode')
+			->willReturn($folder);
+
+		$share->method('canSeeContent')
+			->willReturn(true);
+
+		$folder->method('get')
+			->with($this->equalTo('file'))
+			->willThrowException(new NotFoundException());
+
+		$this->mimeIconProvider->expects($this->never())
+			->method('getMimeIconUrl');
+
+		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
+		$this->assertEquals($expected, $res);
+	}
+
+	public function testPreviewFolderValidFileMimeFallbackRedirectsWhenPreviewMissing(): void {
+		$share = $this->createMock(IShare::class);
+		$this->shareManager->method('getShareByToken')
+			->with($this->equalTo('token'))
+			->willReturn($share);
+
+		$share->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+
+		$folder = $this->createMock(Folder::class);
+		$share->method('getNode')
+			->willReturn($folder);
+
+		$share->method('canSeeContent')
+			->willReturn(true);
+
+		$file = $this->createMock(File::class);
+		$folder->method('get')
+			->with($this->equalTo('file'))
+			->willReturn($file);
+
+		$file->method('getMimeType')
+			->willReturn('text/plain');
+
+		$this->previewManager->method('getPreview')
+			->with($this->equalTo($file), 10, 10, false)
+			->willThrowException(new NotFoundException());
+
+		$this->mimeIconProvider->method('getMimeIconUrl')
+			->with('text/plain')
+			->willReturn('/icon-url');
+
+		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$expected = new RedirectResponse('/icon-url');
+		$this->assertEquals($expected, $res);
+	}
 
 	public function testPreviewFolderValidFile(): void {
 		$share = $this->createMock(IShare::class);
