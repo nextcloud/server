@@ -399,10 +399,10 @@ OC.L10N.register(
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" in \"{newName}\" umbenannt",
     "Clear filter" : "Filter zurücksetzen",
     "Open file sidebar" : "Datei-Seitenleiste öffnen",
-    "Search everywhere …" : "Überall suchen  …",
+    "Search everywhere …" : "Überall suchen …",
     "Search here …" : "Hier suchen …",
-    "Preparing …" : "Bereite vor …",
-    "Submitting fields …" : "Felder werden übermittelt …",
+    "Preparing …" : "Bereite vor …",
+    "Submitting fields …" : "Felder werden übermittelt …",
     "Shared by link" : "Über einen Link geteilt",
     "Shared" : "Geteilt",
     "You" : "Du",
@@ -410,8 +410,8 @@ OC.L10N.register(
     "Unable to change the favorite state of the file" : "Der Favoriten-Status der Datei kann nicht geändert werden",
     "Error while loading the file data" : "Fehler beim Laden der Datei-Daten",
     "Tags" : "Schlagworte",
-    "Save as …" : "Speichern als …",
-    "Converting files …" : "Dateien werden konvertiert …",
-    "Converting file …" : "Datei wird konvertiert …"
+    "Save as …" : "Speichern als …",
+    "Converting files …" : "Dateien werden konvertiert …",
+    "Converting file …" : "Datei wird konvertiert …"
 },
 "nplurals=2; plural=(n != 1);");
