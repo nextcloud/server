@@ -124,7 +124,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 			if (file instanceof Directory) {
 				try {
 					logger.debug('Processing directory', { relativePath })
-					await createDirectoryIfNotExists(relativePath)
+					await createDirectoryIfNotExists(relativePath, destination)
 					await uploadDirectoryContents(file, relativePath)
 				} catch (error) {
 					showError(t('files', 'Unable to create the directory {directory}', { directory: file.name }))
