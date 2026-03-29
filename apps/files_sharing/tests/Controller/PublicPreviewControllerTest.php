@@ -329,7 +329,7 @@ class PublicPreviewControllerTest extends TestCase {
 			->willReturn('text/plain');
 
 		$this->previewManager->method('getPreview')
-			->with($this->equalTo($file), 10, 10, false)
+			->with($this->equalTo($file), 10, 10, true)
 			->willThrowException(new NotFoundException());
 
 		$this->mimeIconProvider->method('getMimeIconUrl')
