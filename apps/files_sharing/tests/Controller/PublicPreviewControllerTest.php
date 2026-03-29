@@ -10,6 +10,7 @@ use OCA\Files_Sharing\Controller\PublicPreviewController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\Files\File;
@@ -32,6 +33,7 @@ class PublicPreviewControllerTest extends TestCase {
 	private IManager&MockObject $shareManager;
 	private ITimeFactory&MockObject $timeFactory;
 	private IRequest&MockObject $request;
+	private IMimeIconProvider&MockObject $mimeIconProvider;
 
 	private PublicPreviewController $controller;
 
@@ -42,6 +44,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->mimeIconProvider = $this->createMock(IMimeIconProvider::class);
 
 		$this->timeFactory->method('getTime')
 			->willReturn(1337);
@@ -54,7 +57,7 @@ class PublicPreviewControllerTest extends TestCase {
 			$this->shareManager,
 			$this->createMock(ISession::class),
 			$this->previewManager,
-			$this->createMock(IMimeIconProvider::class),
+			$this->mimeIconProvider,
 		);
 	}
 
