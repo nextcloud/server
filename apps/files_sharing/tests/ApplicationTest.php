@@ -165,6 +165,14 @@ class ApplicationTest extends TestCase {
 				$directoryListing
 			);
 			$folder->method('getDirectoryListing')->willReturn($directoryListing);
+			$callCount = 0;
+			$folder->method('get')->willReturnCallback(function (string $path) use (&$callCount, $directoryListing) {
+				if (isset($directoryListing[$callCount])) {
+					return $directoryListing[$callCount++];
+				}
+
+				throw new \Exception('Unknown path ' . $path);
+			});
 		}
 
 		// If the folder contains any secure-shared files, make it appear as a secure-shared folder
@@ -179,7 +187,7 @@ class ApplicationTest extends TestCase {
 		$rootFolder->method('getDirectoryListing')->willReturn([$folder]);
 
 		$userFolder = $this->createMock(IUserFolder::class);
-		$userFolder->method('get')->willReturn($rootFolder);
+		$userFolder->method('get')->willReturn($folder);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');

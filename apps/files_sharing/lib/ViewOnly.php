@@ -19,23 +19,27 @@ use OCP\Files\NotFoundException;
 class ViewOnly {
 
 	public function __construct(
-		private ?Folder $userFolder,
+		private ?Folder $folder,
 	) {
 	}
 
 	/**
-	 * @param string[] $pathsToCheck paths to check, relative to the user folder
+	 * @param string[] $pathsToCheck paths to check, relative to the given folder
 	 * @return bool
 	 */
 	public function check(array $pathsToCheck): bool {
-		if ($this->userFolder === null) {
-			throw new \LogicException('The user folder is not set but this check requires it.');
+		if ($this->folder === null) {
+			throw new \LogicException('Folder is not set but this check requires it.');
+		}
+
+		if (empty($pathsToCheck)) {
+			return $this->dirRecursiveCheck($this->folder);
 		}
 
 		// If any of elements cannot be downloaded, prevent whole download
 		foreach ($pathsToCheck as $file) {
 			try {
-				$info = $this->userFolder->get($file);
+				$info = $this->folder->get($file);
 				if ($info instanceof File) {
 					// access to filecache is expensive in the loop
 					if (!$this->isDownloadable($info)) {
