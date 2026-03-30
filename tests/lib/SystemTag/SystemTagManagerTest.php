@@ -296,22 +296,22 @@ class SystemTagManagerTest extends TestCase {
 		return [
 			[
 				// update name
-				['one', true, true, '0082c9'],
+				['one', true, true],
 				['two', true, true, '0082c9']
 			],
 			[
 				// update one flag
-				['one', false, true, null],
+				['one', false, true],
 				['one', true, true, '0082c9']
 			],
 			[
 				// update all flags
-				['one', false, false, '0082c9'],
+				['one', false, false],
 				['one', true, true, null]
 			],
 			[
 				// update all
-				['one', false, false, '0082c9'],
+				['one', false, false],
 				['two', true, true, '0082c9']
 			],
 		];
@@ -323,7 +323,6 @@ class SystemTagManagerTest extends TestCase {
 			$tagCreate[0],
 			$tagCreate[1],
 			$tagCreate[2],
-			$tagCreate[3],
 		);
 		$this->tagManager->updateTag(
 			$tag1->getId(),
@@ -336,7 +335,6 @@ class SystemTagManagerTest extends TestCase {
 			$tagUpdated[0],
 			$tagUpdated[1],
 			$tagUpdated[2],
-			$tagUpdated[3],
 		);
 
 		$this->assertEquals($tag2->getId(), $tag1->getId());
