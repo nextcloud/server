@@ -126,4 +126,22 @@ class AdminTest extends TestCase {
 	public function testGetPriority(): void {
 		$this->assertSame(40, $this->admin->getPriority());
 	}
+
+	public function testGetName(): void {
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with('External storage')
+			->willReturn('External storage');
+
+		$this->assertSame('External storage', $this->admin->getName());
+	}
+
+	public function testGetAuthorizedAppConfig(): void {
+		$this->assertSame([], $this->admin->getAuthorizedAppConfig());
+	}
+
+	public function testImplementsIDelegatedSettings(): void {
+		$this->assertInstanceOf(\OCP\Settings\IDelegatedSettings::class, $this->admin);
+		$this->assertInstanceOf(\OCP\Settings\ISettings::class, $this->admin);
+	}
 }
