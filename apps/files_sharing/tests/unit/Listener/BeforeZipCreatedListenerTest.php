@@ -46,9 +46,6 @@ class BeforeZipCreatedListenerTest extends TestCase {
 
 	public static function dataHandle(): array {
 		$rootFromFolder = '/folder';
-		// files are relative to $folderPath
-		// filesFilter are relative to $folderPath but without leading /
-		// expectedNodeList are ...
 		return [
 			'partial archive disabled, no filtering, 1 blocked file => should fail event' => [
 				'folderPath' => $rootFromFolder,
@@ -194,10 +191,10 @@ class BeforeZipCreatedListenerTest extends TestCase {
 			$fileNodes[] = $file;
 		}
 		$folder = $this->createSharedFolder($rootDownloadable, $folderPathFromUserRoot, $fileNodes);
-		$this->userFolder->method('get')->willReturnCallback(function (string $path) use ($folderPath, $fileNodesByName, $folder) {
+		$this->userFolder->method('get')->willReturn($folder);
+		$folder->method('get')->willReturnCallback(function (string $path) use ($folderPath, $fileNodesByName, $folder) {
 			$path = str_replace($folderPath . '/', '', $path);
 			return match (true) {
-				$path === $folderPath => $folder,
 				isset($fileNodesByName[$path]) => $fileNodesByName[$path],
 				default => throw new \RuntimeException("Mock node not set for {$path}"),
 			};
