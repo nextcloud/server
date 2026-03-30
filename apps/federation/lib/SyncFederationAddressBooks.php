@@ -24,7 +24,7 @@ class SyncFederationAddressBooks {
 	/**
 	 * @param \Closure $callback
 	 */
-	public function syncThemAll(\Closure $callback) {
+	public function syncThemAll(\Closure $callback, bool $full = false) {
 		$trustedServers = $this->dbHandler->getAllServer();
 		foreach ($trustedServers as $trustedServer) {
 			$url = $trustedServer['url'];
@@ -55,7 +55,7 @@ class SyncFederationAddressBooks {
 						$cardDavUser,
 						$addressBookUrl,
 						$sharedSecret,
-						$syncToken,
+						$full ? null : $syncToken,
 						$targetBookId,
 						$targetPrincipal,
 						$targetBookProperties
