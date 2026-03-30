@@ -49,7 +49,7 @@ class BeforeZipCreatedListener implements IEventListener {
 
 		$user = $this->userSession->getUser();
 		$folder = $event->getFolder();
-		if ($user === null && $event->getFolder() === null) {
+		if ($user === null && $folder === null) {
 			// there is no way to know if the file is downloadable or not, allow it
 			$event->setSuccessful(true);
 			return;
@@ -57,7 +57,12 @@ class BeforeZipCreatedListener implements IEventListener {
 
 		// in link-shares there may be no user, in that case we check that the share folder is downloadable
 		$userFolder = $user ? $this->rootFolder->getUserFolder($user->getUID()) : null;
-		$folderToCheck = $userFolder ? $userFolder->get($dir) : $folder;
+
+		$folderToCheck = $folder;
+		if ($userFolder !== null) {
+			// if we have a user, use their user folder
+			$folderToCheck = $userFolder->getPath() === $dir ? $userFolder : $userFolder->get($dir);
+		}
 
 		$viewOnlyHandler = new ViewOnly($folderToCheck);
 		$isRootDownloadable = $viewOnlyHandler->isDownloadable($folderToCheck);
