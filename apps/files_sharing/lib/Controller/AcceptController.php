@@ -51,7 +51,7 @@ class AcceptController extends Controller {
 		try {
 			$share = $this->shareManager->acceptShare($share, $user->getUID());
 		} catch (\Exception $e) {
-			// Just ignore
+			return new NotFoundResponse();
 		}
 
 		$url = $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]);
