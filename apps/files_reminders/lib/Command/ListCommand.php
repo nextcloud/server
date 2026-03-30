@@ -82,7 +82,7 @@ class ListCommand extends Base {
 				}
 
 				$io->table(
-					['User Id', 'File Id', 'Path', 'Due Date', 'Updated At', 'Created At', 'Notified'],
+					['User Id', 'File Id', 'Path', 'Due Date (UTC)', 'Updated At (UTC)', 'Created At (UTC)', 'Notified'],
 					array_map(
 						fn (RichReminder $reminder) => [
 							$reminder->getUserId(),
