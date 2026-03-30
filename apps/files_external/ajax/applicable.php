@@ -12,7 +12,21 @@ use OCP\Server;
 \OC_JSON::checkAppEnabled('files_external');
 \OC_JSON::callCheck();
 
-\OC_JSON::checkAdminUser();
+// Replaces \OC_JSON::checkAdminUser() to also allow delegated admins access.
+$currentUser = \OC::$server->getUserSession()->getUser();
+if ($currentUser === null) {
+	\OC_JSON::error(['message' => 'Not logged in']);
+	exit();
+}
+$groupManager = \OC::$server->getGroupManager();
+$authorizedGroupMapper = \OC::$server->get(\OC\Settings\AuthorizedGroupMapper::class);
+$isAdmin = $groupManager->isAdmin($currentUser->getUID());
+// A delegated admin is granted access when their group is authorized for the files_external Admin settings class.
+$isDelegated = in_array(\OCA\Files_External\Settings\Admin::class, $authorizedGroupMapper->findAllClassesForUser($currentUser), true);
+if (!$isAdmin && !$isDelegated) {
+	\OC_JSON::error(['message' => 'Not authorized']);
+	exit();
+}
 
 $pattern = '';
 $limit = null;
