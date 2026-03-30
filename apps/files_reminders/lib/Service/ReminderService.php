@@ -75,6 +75,7 @@ class ReminderService {
 		}
 		if ($cachedReminder instanceof Reminder) {
 			if ($cachedReminder->getDueDate() < new DateTime()) {
+				$this->cache->remove("{$user->getUID()}-$fileId");
 				return null;
 			}
 			return new RichReminder($cachedReminder, $this->root);
