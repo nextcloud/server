@@ -25,6 +25,6 @@ class ChunkedUploadConfig {
 	}
 
 	public static function getMaxParallelCount(): int {
-		return Server::get(IConfig::class)->getSystemValueInt(self::KEY_MAX_PARALLEL_COUNT, 5);
+		return max(1, Server::get(IConfig::class)->getSystemValueInt(self::KEY_MAX_PARALLEL_COUNT, 5));
 	}
 }
