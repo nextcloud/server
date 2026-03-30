@@ -232,7 +232,8 @@ class SystemAddressbook extends AddressBook {
 			return $changed;
 		}
 
-		$added = $modified = $deleted = [];
+		$added = $modified = [];
+		$deleted = array_values($changed['deleted']);
 		foreach ($changed['added'] as $uri) {
 			try {
 				$this->getChild($uri);
