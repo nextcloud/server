@@ -7,8 +7,10 @@
  */
 namespace OCA\Files_External\Controller;
 
+use OC\Settings\AuthorizedGroupMapper;
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
+use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -36,6 +38,7 @@ class AjaxController extends Controller {
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private IL10N $l10n,
+		private AuthorizedGroupMapper $authorizedGroupMapper,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -87,9 +90,10 @@ class AjaxController extends Controller {
 		}
 
 		// Non-admins can only edit their own credentials
-		// Admin can edit global credentials
+		// Admin or delegated admin can edit global credentials
 		$allowedToEdit = $uid === ''
 			? $this->groupManager->isAdmin($currentUser->getUID())
+				|| in_array(Admin::class, $this->authorizedGroupMapper->findAllClassesForUser($currentUser), true)
 			: $currentUser->getUID() === $uid;
 
 		if ($allowedToEdit) {
