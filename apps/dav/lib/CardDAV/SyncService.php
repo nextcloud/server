@@ -66,6 +66,7 @@ class SyncService {
 			throw $ex;
 		}
 
+		$received = [];
 		// 3. apply changes
 		// TODO: use multi-get for download
 		foreach ($response['response'] as $resource => $status) {
@@ -82,6 +83,15 @@ class SyncService {
 				}, $this->dbConnection);
 			} else {
 				$this->backend->deleteCard($addressBookId, $cardUri);
+			}
+		}
+
+		// when doing a full sync, remove any items in the local address book that aren't in the remote one
+		if (!$syncToken) {
+			$existingCards = $this->backend->getCards($addressBookId);
+			$removedCards = array_filter($existingCards, fn (array $card) => !in_array($card['uri'], $received));
+			foreach ($removedCards as $removedCard) {
+				$this->backend->deleteCard($addressBookId, $removedCard['uri']);
 			}
 		}
 
