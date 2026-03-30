@@ -41,7 +41,7 @@ class AmazonS3 extends Backend {
 					->setDefaultValue(true),
 				(new DefinitionParameter('use_path_style', $l->t('Enable Path Style')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
-				(new DefinitionParameter('legacy_auth', $l->t('Legacy (v2) authentication')))
+				(new DefinitionParameter('legacy_auth', $l->t('Use Legacy S3 signing (v2)')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
 				(new DefinitionParameter('useMultipartCopy', $l->t('Enable multipart copy')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
