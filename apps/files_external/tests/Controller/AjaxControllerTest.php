@@ -7,9 +7,11 @@ declare(strict_types=1);
  */
 namespace OCA\Files_External\Tests\Controller;
 
+use OC\Settings\AuthorizedGroupMapper;
 use OCA\Files_External\Controller\AjaxController;
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
+use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -28,6 +30,7 @@ class AjaxControllerTest extends TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private IUserManager&MockObject $userManager;
 	private IL10N&MockObject $l10n;
+	private AuthorizedGroupMapper&MockObject $authorizedGroupMapper;
 	private AjaxController $ajaxController;
 
 	protected function setUp(): void {
@@ -38,6 +41,7 @@ class AjaxControllerTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->authorizedGroupMapper = $this->createMock(AuthorizedGroupMapper::class);
 
 		$this->ajaxController = new AjaxController(
 			'files_external',
@@ -48,6 +52,7 @@ class AjaxControllerTest extends TestCase {
 			$this->groupManager,
 			$this->userManager,
 			$this->l10n,
+			$this->authorizedGroupMapper,
 		);
 
 		$this->l10n->expects($this->any())
@@ -151,6 +156,93 @@ class AjaxControllerTest extends TestCase {
 
 		$response = $this->ajaxController->saveGlobalCredentials('AnotherUserUid', 'test', 'password');
 		$this->assertSame($response->getStatus(), 403);
+		$this->assertSame('Permission denied', $response->getData()['message']);
+	}
+
+	public function testSaveGlobalCredentialsAsAdminForGlobal(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('MyAdminUid');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('MyAdminUid')
+			->willReturn(true);
+		$this->authorizedGroupMapper
+			->expects($this->never())
+			->method('findAllClassesForUser');
+		$this->globalAuth
+			->expects($this->once())
+			->method('saveAuth')
+			->with('', 'test', 'password');
+
+		$response = $this->ajaxController->saveGlobalCredentials('', 'test', 'password');
+		$this->assertSame(200, $response->getStatus());
+	}
+
+	public function testSaveGlobalCredentialsAsDelegatedAdminForGlobal(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('DelegatedUid');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('DelegatedUid')
+			->willReturn(false);
+		$this->authorizedGroupMapper
+			->expects($this->once())
+			->method('findAllClassesForUser')
+			->with($user)
+			->willReturn([Admin::class]);
+		$this->globalAuth
+			->expects($this->once())
+			->method('saveAuth')
+			->with('', 'test', 'password');
+
+		$response = $this->ajaxController->saveGlobalCredentials('', 'test', 'password');
+		$this->assertSame(200, $response->getStatus());
+	}
+
+	public function testSaveGlobalCredentialsAsDelegatedAdminForAnotherUser(): void {
+		// Delegated admins may only set global (uid='') credentials, not impersonate other users.
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('DelegatedUid');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->groupManager
+			->expects($this->never())
+			->method('isAdmin');
+		$this->authorizedGroupMapper
+			->expects($this->never())
+			->method('findAllClassesForUser');
+		$this->globalAuth
+			->expects($this->never())
+			->method('saveAuth');
+
+		$response = $this->ajaxController->saveGlobalCredentials('OtherUserUid', 'test', 'password');
+		$this->assertSame(403, $response->getStatus());
+		$this->assertSame('Permission denied', $response->getData()['message']);
+	}
+
+	public function testSaveGlobalCredentialsAsNormalUserForGlobal(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('NormalUid');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('NormalUid')
+			->willReturn(false);
+		$this->authorizedGroupMapper
+			->expects($this->once())
+			->method('findAllClassesForUser')
+			->with($user)
+			->willReturn([]);
+		$this->globalAuth
+			->expects($this->never())
+			->method('saveAuth');
+
+		$response = $this->ajaxController->saveGlobalCredentials('', 'test', 'password');
+		$this->assertSame(403, $response->getStatus());
 		$this->assertSame('Permission denied', $response->getData()['message']);
 	}
 }
