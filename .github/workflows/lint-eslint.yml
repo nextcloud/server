@@ -19,38 +19,13 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
-    permissions:
-      contents: read
-      pull-requests: read
-
-    outputs:
-      src: ${{ steps.changes.outputs.src}}
-
-    steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/**'
-              - '**/src/**'
-              - '**/appinfo/info.xml'
-              - 'package.json'
-              - 'package-lock.json'
-              - 'tsconfig.json'
-              - '.eslintrc.*'
-              - '.eslintignore'
-              - '**.js'
-              - '**.ts'
-              - '**.vue'
+    uses: ./.github/workflows/detect-changes.yml
 
   lint:
     runs-on: ubuntu-latest
 
     needs: changes
-    if: needs.changes.outputs.src != 'false'
+    if: needs.changes.outputs.js != 'false'
 
     name: NPM lint
 
@@ -97,4 +72,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.lint.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.changes.outputs.js != 'false' && needs.lint.result != 'success' }}; then exit 1; fi
