@@ -246,6 +246,16 @@ class Util {
 		return $result;
 	}
 
+	public function isCollectiveMountPoint(string $path, string $uid) {
+		$mount = Filesystem::getMountManager()->find('/' . $uid . $path);
+		if (!$mount) {
+			return false;
+		}
+
+		// We use class name to avoid hard dependency on collectives app
+		return strpos(get_class($mount), 'CollectiveMountPoint') !== false;
+	}
+
 	/**
 	 * check if the file is stored on a system wide mount point
 	 * @param string $path relative to /data/user with leading '/'
@@ -357,6 +367,23 @@ class Util {
 		$root = $this->getKeyStorageRoot();
 
 		// in case of system-wide mount points the keys are stored directly in the data directory
+		if ($this->isCollectiveMountPoint($filename, $owner)) {
+			$fileId === null;
+			try {
+				$fileInfo = $this->rootView->getFileInfo($path);
+				if ($fileInfo) {
+					$fileId = $fileInfo['fileid'] ?? null;
+				}
+			} catch (\Exception) {
+				// continue
+			}
+
+			if ($fileId !== null) {
+				$keyPath = $root . '/files_encryption/keys_by_fileId/' . $fileId . '/';
+				return Filesystem::normalizePath($keyPath . $encryptionModuleId . '/', false);
+			}
+		}
+
 		if ($this->isSystemWideMountPoint($filename, $owner)) {
 			$keyPath = $root . '/' . '/files_encryption/keys' . $filename . '/';
 		} else {
