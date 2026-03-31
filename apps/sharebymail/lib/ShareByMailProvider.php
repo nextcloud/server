@@ -359,7 +359,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$emailTemplate->addBodyButton(
-			$this->l->t('Open %s', [$filename]),
+			$this->l->t('Open shared item'),
 			$link
 		);
 
@@ -533,7 +533,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
 			['token' => $share->getToken()]);
 		$emailTemplate->addBodyButton(
-			$this->l->t('Open %s', [$filename]),
+			$this->l->t('Open shared item'),
 			$link
 		);
 
