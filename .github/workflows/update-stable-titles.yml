@@ -31,7 +31,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Wait for potential title edits
+      - name: Delay to avoid racing with follow-up title edits
         run: sleep 15
 
       - name: Get PR details and update title
@@ -43,9 +43,8 @@ jobs:
             const baseBranch = pr.base.ref;
             const currentTitle = pr.title;
 
-            // Check if this is a stable branch
-            // Should not happen as we only trigger on stable* branches 🤷‍♀️
             if (!baseBranch.startsWith('stable')) {
+              // Should never happen as we only trigger on stable* branches 🤷‍♀️
               console.log(`Not a stable branch: ${baseBranch}`);
               return;
             }
