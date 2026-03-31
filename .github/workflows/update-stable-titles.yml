@@ -39,12 +39,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: pr } = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number,
-            });
-
+            const pr = context.payload.pull_request;
             const baseBranch = pr.base.ref;
             const currentTitle = pr.title;
 
