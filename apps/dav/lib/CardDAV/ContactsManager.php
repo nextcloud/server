@@ -48,11 +48,8 @@ class ContactsManager {
 	 */
 	public function setupSystemContactsProvider(IManager $cm, ?string $userId, IURLGenerator $urlGenerator) {
 		$systemAddressBookExposed = $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED);
-		if (!$systemAddressBookExposed) {
-			return;
-		}
-
-		$addressBooks = $this->backend->getAddressBooksForUser('principals/system/system');
+		// when system addressBook is not exposed only fetch remore system addressbooks
+		$addressBooks = $this->backend->getAddressBooksForUser('principals/system/system', !$systemAddressBookExposed);
 		$this->register($cm, $addressBooks, $urlGenerator, $userId);
 	}
 

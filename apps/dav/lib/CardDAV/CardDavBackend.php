@@ -97,16 +97,21 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *   {http://calendarserver.org/ns/}getctag
 	 *
 	 * @param string $principalUri
+	 * @param bool $onlyFederated get only remote addressbooks
 	 * @return array
 	 */
-	public function getAddressBooksForUser($principalUri) {
-		return $this->atomic(function () use ($principalUri) {
+	public function getAddressBooksForUser($principalUri, bool $onlyFederated = false) {
+		return $this->atomic(function () use ($principalUri, $onlyFederated) {
 			$principalUriOriginal = $principalUri;
 			$principalUri = $this->convertPrincipal($principalUri, true);
 			$select = $this->db->getQueryBuilder();
 			$select->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
 				->from('addressbooks')
 				->where($select->expr()->eq('principaluri', $select->createNamedParameter($principalUri)));
+
+			if ($onlyFederated) {
+				$select->andWhere($select->expr()->eq('isFederated', $select->createNamedParameter(true, IQueryBuilder::PARAM_BOOL)));
+			}
 
 			$addressBooks = [];
 
@@ -136,7 +141,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$subSelect->select('id')
 				->from('dav_shares', 'd')
-				->where($subSelect->expr()->eq('d.access', $select->createNamedParameter(\OCA\DAV\CardDAV\Sharing\Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
+				->where($subSelect->expr()->eq('d.access', $select->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 				->andWhere($subSelect->expr()->in('d.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY));
 
 
