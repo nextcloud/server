@@ -47,10 +47,10 @@ class AppsInfo implements IMetricFamily {
 
 	#[Override]
 	public function metrics(): Generator {
-		yield new Metric(
-			1,
-			$this->appManager->getAppInstalledVersions(true),
-			time()
-		);
+		$apps = [];
+		foreach ($this->appManager->getAppInstalledVersions(true) as $appId => $version) {
+			$apps[str_replace('-', '_', $appId)] = $version;
+		}
+		yield new Metric(1, $apps, time());
 	}
 }
