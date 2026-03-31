@@ -11,8 +11,8 @@ import SettingsModel from './models/Setting.ts'
 import router from './router/router.ts'
 import RouterService from './services/RouterService.ts'
 import SettingsService from './services/Settings.js'
-import { getPinia } from './store/index.ts'
 import registerUploadBeforeUnload from './services/UploadBeforeUnload.ts'
+import { getPinia } from './store/index.ts'
 
 __webpack_nonce__ = getCSPNonce()
 registerUploadBeforeUnload()
