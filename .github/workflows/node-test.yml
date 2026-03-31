@@ -83,9 +83,6 @@ jobs:
         run: |
           npm ci
 
-#      - name: Test
-#        run: npm run test --if-present
-
       - name: Test and process coverage
         run: npm run test:coverage
 

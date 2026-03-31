@@ -73,7 +73,7 @@ jobs:
       - name: Set up sftpd
         run: |
           sudo mkdir /tmp/sftp
-          sudo chown -R 0777 /tmp/sftp
+          sudo chmod -R 0777 /tmp/sftp
           if [[ '${{ matrix.sftpd }}' == 'openssh' ]]; then docker run -p 2222:22 --name sftp -d -v /tmp/sftp:/home/test atmoz/sftp 'test:test:::data'; fi
 
       - name: Set up php ${{ matrix.php-versions }}

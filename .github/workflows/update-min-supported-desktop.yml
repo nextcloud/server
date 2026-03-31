@@ -115,7 +115,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
-          branch: "automated/noid/${{ matrix.branches }}-update-min-supported-desktop-version"
+          branch: "automated/noid/update-min-supported-desktop-version"
           title: "chore: Update minimum supported desktop version to ${{ steps.extract-version.outputs.VERSION }}"
           base: "master"
           body: |

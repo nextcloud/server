@@ -74,6 +74,9 @@ jobs:
   autocheckers:
     runs-on: ubuntu-latest-low
 
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+
     strategy:
       matrix:
         php-versions: ['8.2']
@@ -125,4 +128,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.autocheckers.result != 'success' || (needs.changes.outputs.src != 'false' && needs.autoloader.result != 'success') }}; then exit 1; fi
+        run: if ${{ needs.changes.outputs.src != 'false' && (needs.autocheckers.result != 'success' || needs.autoloader.result != 'success') }}; then exit 1; fi
