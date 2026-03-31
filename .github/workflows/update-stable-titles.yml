@@ -1,5 +1,16 @@
 # SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: MIT
+#
+# Automatically normalizes pull request titles for `stable*` branches.
+#
+# On PR open/edit, this workflow checks the target branch and ensures the title
+# starts with the matching prefix (for example `[stable31]`). Any existing
+# stable-branch tags are removed before the correct one is added.
+#
+# This is intended to keep backport and stable-branch PR titles consistent.
+# It runs automatically and does not need manual input. If stable branch naming
+# or title conventions change, update the branch filter and regex logic below.
+
 name: Update PRs titles on stable branches
 
 on:
