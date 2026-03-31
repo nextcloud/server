@@ -19,35 +19,27 @@ concurrency:
 
 jobs:
   changes:
+    uses: ./.github/workflows/detect-changes.yml
+
+  extra-changes:
     runs-on: ubuntu-latest-low
-
     outputs:
-      src: ${{ steps.changes.outputs.src}}
-
+      integration: ${{ steps.changes.outputs.integration }}
     steps:
       - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: changes
         continue-on-error: true
         with:
           filters: |
-            src:
-              - '.github/workflows/**'
-              - '3rdparty/**'
-              - '**/*.php'
-              - '**/lib/**'
-              - '**/tests/**'
-              - '**/vendor-bin/**'
+            integration:
               - 'build/integration/**'
-              - '.php-cs-fixer.dist.php'
-              - 'composer.json'
-              - 'composer.lock'
               - 'core/shipped.json'
 
   integration-sqlite:
     runs-on: ubuntu-latest
 
-    needs: changes
-    if: needs.changes.outputs.src != 'false'
+    needs: [changes, extra-changes]
+    if: needs.changes.outputs.php != 'false' || needs.extra-changes.outputs.integration != 'false'
 
     strategy:
       fail-fast: false
@@ -173,7 +165,7 @@ jobs:
     permissions:
       contents: none
     runs-on: ubuntu-latest-low
-    needs: [changes, integration-sqlite]
+    needs: [changes, extra-changes, integration-sqlite]
 
     if: always()
 
@@ -181,4 +173,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.integration-sqlite.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.changes.outputs.php != 'false' && needs.extra-changes.outputs.integration && needs.integration-sqlite.result != 'success' }}; then exit 1; fi
