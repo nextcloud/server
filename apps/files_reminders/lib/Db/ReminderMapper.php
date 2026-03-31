@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2023-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -12,6 +12,7 @@ namespace OCA\FilesReminders\Db;
 use DateTime;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Folder;
 use OCP\Files\Node;
@@ -25,12 +26,11 @@ use OCP\IUser;
 class ReminderMapper extends QBMapper {
 	public const TABLE_NAME = 'files_reminders';
 
-	public function __construct(IDBConnection $db) {
-		parent::__construct(
-			$db,
-			static::TABLE_NAME,
-			Reminder::class,
-		);
+	public function __construct(
+		IDBConnection $db,
+		private ITimeFactory $timeFactory,
+	) {
+		parent::__construct($db, self::TABLE_NAME, Reminder::class);
 	}
 
 	public function markNotified(Reminder $reminder): Reminder {
@@ -108,9 +108,18 @@ class ReminderMapper extends QBMapper {
 	public function findOverdue() {
 		$qb = $this->db->getQueryBuilder();
 
+		$now = $this->timeFactory->getDateTime();
+		$now->setTimezone(new \DateTimeZone('UTC'));
+		
 		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
-			->where($qb->expr()->lt('due_date', $qb->createFunction('NOW()')))
+			->where(
+				$qb->expr()->lt(
+					'due_date',
+					$qb->createNamedParameter($now, IQueryBuilder::PARAM_DATETIME_MUTABLE),
+					IQueryBuilder::PARAM_DATETIME_MUTABLE,
+				)
+			)
 			->andWhere($qb->expr()->eq('notified', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)))
 			->orderBy('due_date', 'ASC');
 
