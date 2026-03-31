@@ -44,6 +44,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
 
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+
     name: php-cs
 
     steps:
