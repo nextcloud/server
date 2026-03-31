@@ -21,10 +21,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src }}
+
+    steps:
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**/lib/**'
+              - '**/templates/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+
   static-code-analysis:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -56,7 +81,8 @@ jobs:
   static-code-analysis-security:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh' }}
 
     permissions:
       security-events: write
@@ -95,7 +121,8 @@ jobs:
   static-code-analysis-ocp:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -127,7 +154,8 @@ jobs:
   static-code-analysis-ncu:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -155,7 +183,8 @@ jobs:
   static-code-analysis-strict:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -178,3 +207,28 @@ jobs:
 
       - name: Psalm
         run: composer run psalm:strict -- --threads=1 --monochrome --no-progress --output-format=github
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, static-code-analysis, static-code-analysis-security, static-code-analysis-ocp, static-code-analysis-ncu, static-code-analysis-strict]
+
+    if: always()
+
+    name: static-code-analysis-summary
+
+    steps:
+      - name: Summary status
+        run: |
+          if ${{ needs.changes.outputs.src != 'false' && (
+            needs.static-code-analysis-security.result != 'success' ||
+            (github.event_name != 'push' && (
+              needs.static-code-analysis.result != 'success' ||
+              needs.static-code-analysis-ocp.result != 'success' ||
+              needs.static-code-analysis-ncu.result != 'success' ||
+              needs.static-code-analysis-strict.result != 'success'
+            ))
+          ) }}; then
+            exit 1
+          fi
