@@ -40,6 +40,25 @@ class DashboardServiceTest extends TestCase {
 		);
 	}
 
+	public function testGetLayoutRemovesEmptyAndDuplicateEntries(): void {
+		$this->appConfig->method('getAppValueString')
+			->with('layout', 'recommendations,spreed,mail,calendar')
+			->willReturn('recommendations,spreed,mail,calendar');
+		$this->userConfig->method('getValueString')
+			->with('alice', 'dashboard', 'layout', 'recommendations,spreed,mail,calendar')
+			->willReturn('spreed,,mail,mail,calendar,spreed');
+
+		$layout = $this->service->getLayout();
+
+		$this->assertSame(['spreed', 'mail', 'calendar'], $layout);
+	}
+
+	public function testSanitizeLayoutRemovesEmptyAndDuplicateEntries(): void {
+		$layout = $this->service->sanitizeLayout(['files', 'calendar', 'files', '', 'mail', 'calendar']);
+
+		$this->assertSame(['files', 'calendar', 'mail'], $layout);
+	}
+
 	public function testGetBirthdate(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userManager->method('get')
