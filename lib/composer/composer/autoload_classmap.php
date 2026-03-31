@@ -1613,6 +1613,8 @@ return array(
     'OC\\DB\\ConnectionFactory' => $baseDir . '/lib/private/DB/ConnectionFactory.php',
     'OC\\DB\\DbDataCollector' => $baseDir . '/lib/private/DB/DbDataCollector.php',
     'OC\\DB\\Exceptions\\DbalException' => $baseDir . '/lib/private/DB/Exceptions/DbalException.php',
+    'OC\\DB\\Middleware\\UtcTimezoneMiddleware' => $baseDir . '/lib/private/DB/Middleware/UtcTimezoneMiddleware.php',
+    'OC\\DB\\Middleware\\UtcTimezoneMiddlewareDriver' => $baseDir . '/lib/private/DB/Middleware/UtcTimezoneMiddlewareDriver.php',
     'OC\\DB\\MigrationException' => $baseDir . '/lib/private/DB/MigrationException.php',
     'OC\\DB\\MigrationService' => $baseDir . '/lib/private/DB/MigrationService.php',
     'OC\\DB\\Migrator' => $baseDir . '/lib/private/DB/Migrator.php',
