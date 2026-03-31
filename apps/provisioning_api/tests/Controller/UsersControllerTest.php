@@ -21,6 +21,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 use OCP\App\IAppManager;
+use OCP\IAppConfig;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
@@ -68,6 +69,7 @@ class UsersControllerTest extends TestCase {
 	private IRootFolder $rootFolder;
 	private IPhoneNumberUtil $phoneNumberUtil;
 	private IAppManager $appManager;
+	private IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -89,6 +91,7 @@ class UsersControllerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$l10n = $this->createMock(IL10N::class);
@@ -116,6 +119,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -505,6 +509,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -2571,6 +2576,7 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->createMock(IUser::class);
 		$targetUser->method('getUID')->willReturn('targetuser');
 		$targetUser->method('canChangeDisplayName')->willReturn(true);
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
 		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
 
 		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
@@ -2580,14 +2586,7 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
 
 		$targetUser->expects($this->once())->method('setDisplayName')->with('New Name')->willReturn(true);
-
-		$account = $this->createMock(\OCP\Accounts\IAccount::class);
-		$emailProp = $this->createMock(IAccountProperty::class);
-		// Current email is empty — ensures the update path is triggered (not skipped as unchanged)
-		$emailProp->method('getValue')->willReturn('');
-		$account->method('getProperty')->willReturn($emailProp);
-		$this->accountManager->method('getAccount')->willReturn($account);
-		$this->accountManager->expects($this->once())->method('updateAccount')->with($account);
+		$targetUser->expects($this->once())->method('setSystemEMailAddress')->with('new@example.com');
 
 		$result = $this->api->editUserMultiField('targetuser', displayName: 'New Name', email: 'new@example.com');
 
@@ -2628,6 +2627,7 @@ class UsersControllerTest extends TestCase {
 
 		$targetUser = $this->createMock(IUser::class);
 		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
 		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
 
 		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
@@ -2684,6 +2684,7 @@ class UsersControllerTest extends TestCase {
 
 		$targetUser = $this->createMock(IUser::class);
 		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
 		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
 
 		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
@@ -2697,6 +2698,7 @@ class UsersControllerTest extends TestCase {
 		$newGroup->method('getGID')->willReturn('newgroup');
 
 		$this->groupManager->method('getUserGroups')->willReturn([$oldGroup]);
+		$this->groupManager->method('groupExists')->willReturn(true);
 		$this->groupManager->method('get')->willReturnMap([
 			['newgroup', $newGroup],
 			['oldgroup', $oldGroup],
@@ -3994,6 +3996,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -4088,6 +4091,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
