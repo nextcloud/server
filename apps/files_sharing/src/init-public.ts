@@ -15,10 +15,12 @@ import registerPublicFileShareView from './files_views/publicFileShare.ts'
 import registerPublicShareView from './files_views/publicShare.ts'
 import router from './router/index.ts'
 import logger from './services/logger.ts'
+import registerUploadBeforeUnload from '../../files/src/services/UploadBeforeUnload.ts'
 
 registerFileDropView()
 registerPublicShareView()
 registerPublicFileShareView()
+registerUploadBeforeUnload()
 
 // Get the current view from state and set it active
 const view = loadState<string>('files_sharing', 'view')
