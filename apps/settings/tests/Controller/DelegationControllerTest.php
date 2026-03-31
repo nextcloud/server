@@ -6,7 +6,6 @@
  */
 namespace OCA\Settings\Tests\Controller\Admin;
 
-use OC\Settings\AuthorizedGroup;
 use OCA\Settings\Controller\AuthorizedGroupController;
 use OCA\Settings\Service\AuthorizedGroupService;
 use OCP\IRequest;
@@ -28,26 +27,14 @@ class DelegationControllerTest extends TestCase {
 	}
 
 	public function testSaveSettings(): void {
-		$setting = 'MySecretSetting';
-		$oldGroups = [];
-		$oldGroups[] = AuthorizedGroup::fromParams(['groupId' => 'hello', 'class' => $setting]);
-		$goodbye = AuthorizedGroup::fromParams(['groupId' => 'goodbye', 'class' => $setting, 'id' => 42]);
-		$oldGroups[] = $goodbye;
-		$this->service->expects($this->once())
-			->method('findExistingGroupsForClass')
-			->with('MySecretSetting')
-			->willReturn($oldGroups);
+		$newGroups = [['gid' => 'hello'], ['gid' => 'world']];
 
+		// The controller delegates the entire diff-and-apply to the service.
 		$this->service->expects($this->once())
-			->method('delete')
-			->with(42);
+			->method('saveSettings')
+			->with($newGroups, 'MySecretSetting');
 
-		$this->service->expects($this->once())
-			->method('create')
-			->with('world', 'MySecretSetting')
-			->willReturn(AuthorizedGroup::fromParams(['groupId' => 'world', 'class' => $setting]));
-
-		$result = $this->controller->saveSettings([['gid' => 'hello'], ['gid' => 'world']], 'MySecretSetting');
+		$result = $this->controller->saveSettings($newGroups, 'MySecretSetting');
 
 		$this->assertEquals(['valid' => true], $result->getData());
 	}

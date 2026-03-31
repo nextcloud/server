@@ -6,7 +6,6 @@
  */
 namespace OCA\Settings\Controller;
 
-use OC\Settings\AuthorizedGroup;
 use OCA\Settings\Service\AuthorizedGroupService;
 use OCA\Settings\Service\NotFoundException;
 use OCP\AppFramework\Controller;
@@ -26,37 +25,13 @@ class AuthorizedGroupController extends Controller {
 	/**
 	 * @throws NotFoundException
 	 * @throws Exception
+	 * @throws \Throwable
 	 */
 	public function saveSettings(array $newGroups, string $class): DataResponse {
-		$currentGroups = $this->authorizedGroupService->findExistingGroupsForClass($class);
-
-		foreach ($currentGroups as $group) {
-			/** @var AuthorizedGroup $group */
-			$removed = true;
-			foreach ($newGroups as $groupData) {
-				if ($groupData['gid'] === $group->getGroupId()) {
-					$removed = false;
-					break;
-				}
-			}
-			if ($removed) {
-				$this->authorizedGroupService->delete($group->getId());
-			}
-		}
-
-		foreach ($newGroups as $groupData) {
-			$added = true;
-			foreach ($currentGroups as $group) {
-				/** @var AuthorizedGroup $group */
-				if ($groupData['gid'] === $group->getGroupId()) {
-					$added = false;
-					break;
-				}
-			}
-			if ($added) {
-				$this->authorizedGroupService->create($groupData['gid'], $class);
-			}
-		}
+		// Delegate the diff-and-apply logic to the service so that the cache
+		// is flushed exactly once after all mutations, regardless of how many
+		// groups were added or removed.
+		$this->authorizedGroupService->saveSettings($newGroups, $class);
 
 		return new DataResponse(['valid' => true]);
 	}

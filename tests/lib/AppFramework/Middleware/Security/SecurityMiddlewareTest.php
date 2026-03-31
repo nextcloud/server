@@ -410,12 +410,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @param string $controllerClass
-	 * @param bool $hasOcsApiHeader
-	 * @param bool $hasBearerAuth
-	 * @param bool $exception
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataCsrfOcsController')]
 	public function testCsrfOcsController(string $controllerClass, bool $hasOcsApiHeader, bool $hasBearerAuth, bool $exception): void {
 		$this->request
@@ -621,9 +615,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @param SecurityException $exception
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('exceptionProvider')]
 	public function testAfterExceptionReturnsTemplateResponse(SecurityException $exception): void {
 		$this->request = new Request(
@@ -688,5 +679,67 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$this->expectException(ExAppRequiredException::class);
 		$middleware->beforeController($this->controller, $method);
+	}
+
+	public function testFindAllClassesForUserIsCalledOnceWhenAuthorizedAdminSettingIsEvaluated(): void {
+		$middleware = $this->getMiddleware(
+			isLoggedIn: true,
+			isAdminUser: false,
+			isSubAdmin: false,
+		);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('delegated_user');
+		$this->userSession->method('getUser')->willReturn($user);
+
+		// Key assertion: even if beforeController() is called twice on the
+		// same instance, findAllClassesForUser() must fire only once.
+		$this->authorizedGroupMapper
+			->expects($this->once())
+			->method('findAllClassesForUser')
+			->with($user)
+			->willReturn(['OCA\Settings\Admin\Security']);
+
+		$this->reader->reflect($this->controller, 'testAttributeAuthorizedAdminSetting');
+		$middleware->beforeController($this->controller, 'testAttributeAuthorizedAdminSetting');
+		// Second call on the same instance
+		$middleware->beforeController($this->controller, 'testAttributeAuthorizedAdminSetting');
+	}
+
+	public function testFindAllClassesForUserIsNotCalledWhenUserIsNull(): void {
+		$middleware = $this->getMiddleware(
+			isLoggedIn: false,
+			isAdminUser: false,
+			isSubAdmin: false,
+		);
+
+		$this->authorizedGroupMapper
+			->expects($this->never())
+			->method('findAllClassesForUser');
+
+		$this->expectException(NotLoggedInException::class);
+		$this->reader->reflect($this->controller, 'testAttributeAuthorizedAdminSetting');
+		$middleware->beforeController($this->controller, 'testAttributeAuthorizedAdminSetting');
+	}
+
+	/**
+	 * An admin user takes the isAdminUser() early-return path and must never
+	 * reach findAllClassesForUser().
+	 */
+	public function testFindAllClassesForUserIsNotCalledWhenUserIsAlreadyAdmin(): void {
+		$middleware = $this->getMiddleware(
+			isLoggedIn: true,
+			isAdminUser: true,
+			isSubAdmin: false,
+		);
+
+		$this->authorizedGroupMapper
+			->expects($this->never())
+			->method('findAllClassesForUser');
+
+		// Should not throw as admin is authorized unconditionally.
+		$this->reader->reflect($this->controller, 'testAttributeAuthorizedAdminSetting');
+		$middleware->beforeController($this->controller, 'testAttributeAuthorizedAdminSetting');
+		$this->addToAssertionCount(1);
 	}
 }

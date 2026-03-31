@@ -60,6 +60,14 @@ class SecurityMiddleware extends Middleware {
 	private ?bool $isAdminUser = null;
 	private ?bool $isSubAdmin = null;
 
+	/**
+	 * Lazily-resolved list of authorized admin-setting classes for the current
+	 * user. Null means not yet resolved; an empty array means resolved but empty.
+	 *
+	 * @var list<string>|null
+	 */
+	private ?array $authorizedClassesCache = null;
+
 	public function __construct(
 		private readonly IRequest $request,
 		private readonly MiddlewareUtils $middlewareUtils,
@@ -92,6 +100,25 @@ class SecurityMiddleware extends Middleware {
 			$this->isSubAdmin = $user && $this->subAdminManager->isSubAdmin($user);
 		}
 		return $this->isSubAdmin;
+	}
+
+	/**
+	 * Returns the setting classes the current user is delegated access to,
+	 * memoizing the result for the lifetime of this middleware instance
+	 * (i.e., the current request).
+	 *
+	 * @return list<string>
+	 * @since 34.0.0
+	 * @internal
+	 */
+	private function getAuthorizedClasses(): array {
+		if ($this->authorizedClassesCache === null) {
+			$user = $this->userSession->getUser();
+			$this->authorizedClassesCache = $user !== null
+				? $this->groupAuthorizationMapper->findAllClassesForUser($user)
+				: [];
+		}
+		return $this->authorizedClassesCache;
 	}
 
 	/**
@@ -146,7 +173,7 @@ class SecurityMiddleware extends Middleware {
 
 				if (!$authorized) {
 					$settingClasses = $this->middlewareUtils->getAuthorizedAdminSettingClasses($reflectionMethod);
-					$authorizedClasses = $this->groupAuthorizationMapper->findAllClassesForUser($this->userSession->getUser());
+					$authorizedClasses = $this->getAuthorizedClasses();
 					foreach ($settingClasses as $settingClass) {
 						$authorized = in_array($settingClass, $authorizedClasses, true);
 
