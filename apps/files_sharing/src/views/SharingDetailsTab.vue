@@ -1008,7 +1008,6 @@ export default {
 			if (this.isPasswordProtected) {
 				if (this.isNewShare && !this.isValidShareAttribute(this.share.newPassword)) {
 					this.passwordError = true
-					return
 				}
 			} else {
 				this.share.password = ''
