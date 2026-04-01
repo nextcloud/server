@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace OC\Core\BackgroundJobs;
 
-use OC\Files\Mount\MoveableMount;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMovableMount;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
@@ -84,7 +84,7 @@ class GenerateMetadataJob extends TimedJob {
 
 	private function scanFolder(Folder $folder): void {
 		// Do not scan share and other moveable mounts.
-		if ($folder->getMountPoint() instanceof MoveableMount) {
+		if ($folder->getMountPoint() instanceof IMovableMount) {
 			return;
 		}
 

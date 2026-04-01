@@ -1757,7 +1757,6 @@ return array(
     'OC\\Files\\Mount\\LocalHomeMountProvider' => $baseDir . '/lib/private/Files/Mount/LocalHomeMountProvider.php',
     'OC\\Files\\Mount\\Manager' => $baseDir . '/lib/private/Files/Mount/Manager.php',
     'OC\\Files\\Mount\\MountPoint' => $baseDir . '/lib/private/Files/Mount/MountPoint.php',
-    'OC\\Files\\Mount\\MoveableMount' => $baseDir . '/lib/private/Files/Mount/MoveableMount.php',
     'OC\\Files\\Mount\\ObjectHomeMountProvider' => $baseDir . '/lib/private/Files/Mount/ObjectHomeMountProvider.php',
     'OC\\Files\\Mount\\RootMountProvider' => $baseDir . '/lib/private/Files/Mount/RootMountProvider.php',
     'OC\\Files\\Node\\File' => $baseDir . '/lib/private/Files/Node/File.php',

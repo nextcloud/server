@@ -8,7 +8,6 @@
 namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OCP\Constants;
@@ -17,6 +16,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -433,7 +433,7 @@ class Node implements INode {
 				$parent->isCreatable()
 				|| (
 					$parent->getInternalPath() === ''
-					&& ($parent->getMountPoint() instanceof MoveableMount)
+					&& ($parent->getMountPoint() instanceof IMovableMount)
 				)
 			)
 		) {

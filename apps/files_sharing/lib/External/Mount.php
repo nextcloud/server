@@ -8,13 +8,13 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Mount\MountPoint;
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\ISharedMountPoint;
+use OCP\Files\Mount\IMovableMount;
 use Override;
 
-class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
+class Mount extends MountPoint implements IMovableMount, ISharedMountPoint {
 	public function __construct(
 		string|Storage $storage,
 		string $mountpoint,
@@ -25,21 +25,15 @@ class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 		parent::__construct($storage, $mountpoint, $options, $loader, null, null, MountProvider::class);
 	}
 
-	/**
-	 * Move the mount point to $target
-	 *
-	 * @param string $target the target mount point
-	 */
-	public function moveMount($target): bool {
+	#[Override]
+	public function moveMount(string $target): bool {
 		$result = $this->manager->setMountPoint($this->mountPoint, $target);
 		$this->setMountPoint($target);
 
 		return $result;
 	}
 
-	/**
-	 * Remove the mount points
-	 */
+	#[Override]
 	public function removeMount(): bool {
 		return $this->manager->removeShare($this->mountPoint);
 	}

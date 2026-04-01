@@ -7,16 +7,17 @@
  */
 namespace OCA\Files_External\Lib;
 
-use OC\Files\Mount\MoveableMount;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
+use Override;
 
 /**
  * Person mount points can be moved by the user
  */
-class PersonalMount extends ExternalMountPoint implements MoveableMount {
+class PersonalMount extends ExternalMountPoint implements IMovableMount {
 	/**
 	 * @param UserStoragesService $storagesService
 	 * @param int $storageId
@@ -42,13 +43,8 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 		parent::__construct($storageConfig, $storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId);
 	}
 
-	/**
-	 * Move the mount point to $target
-	 *
-	 * @param string $target the target mount point
-	 * @return bool
-	 */
-	public function moveMount($target) {
+	#[Override]
+	public function moveMount(string $target): bool {
 		$storage = $this->storagesService->getStorage($this->numericExternalStorageId);
 		// remove "/$user/files" prefix
 		$targetParts = explode('/', trim($target, '/'), 3);
@@ -58,12 +54,8 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 		return true;
 	}
 
-	/**
-	 * Remove the mount points
-	 *
-	 * @return bool
-	 */
-	public function removeMount() {
+	#[Override]
+	public function removeMount(): bool {
 		$this->storagesService->removeStorage($this->numericExternalStorageId);
 		return true;
 	}

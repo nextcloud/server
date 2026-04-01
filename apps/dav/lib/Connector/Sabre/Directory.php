@@ -7,7 +7,6 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
@@ -22,6 +21,7 @@ use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
@@ -410,7 +410,7 @@ class Directory extends Node implements
 		$isMovableMount = false;
 		$sourceMount = Server::get(IMountManager::class)->find($this->fileView->getAbsolutePath($sourcePath));
 		$internalPath = $sourceMount->getInternalPath($this->fileView->getAbsolutePath($sourcePath));
-		if ($sourceMount instanceof MoveableMount && $internalPath === '') {
+		if ($sourceMount instanceof IMovableMount && $internalPath === '') {
 			$isMovableMount = true;
 		}
 

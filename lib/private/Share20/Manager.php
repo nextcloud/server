@@ -10,7 +10,6 @@ namespace OC\Share20;
 use ArrayIterator;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Filesystem;
-use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share\Constants as ShareConstants;
 use OC\Share20\Exception\ProviderException;
@@ -26,6 +25,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -241,7 +241,7 @@ class Manager implements IManager {
 		$permissions = 0;
 		$nodesForUser = $userFolder->getById($share->getNodeId());
 		foreach ($nodesForUser as $node) {
-			if ($node->getInternalPath() === '' && !$node->getMountPoint() instanceof MoveableMount) {
+			if ($node->getInternalPath() === '' && !$node->getMountPoint() instanceof IMovableMount) {
 				// for the root of non-movable mount, the permissions we see if limited by the mount itself,
 				// so we instead use the "raw" permissions from the storage
 				$permissions |= $node->getStorage()->getPermissions('');
