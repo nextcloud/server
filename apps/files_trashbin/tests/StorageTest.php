@@ -4,16 +4,20 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\Tests;
 
+use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
+use OC\Files\Storage\Local;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCA\Files_Trashbin\Trashbin;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
@@ -142,6 +146,62 @@ class StorageTest extends \Test\TestCase {
 
 		[$trashStorage, $trashInternalPath] = $this->rootView->resolvePath('/' . $this->user . '/files_trashbin/files/' . $name);
 		$this->assertTrue($trashStorage->getCache()->inCache($trashInternalPath));
+	}
+
+	public function testTrashEntryNotCreatedWhenDeleteFailed(): void {
+		$storage2 = $this->getMockBuilder(Temporary::class)
+			->setConstructorArgs([])
+			->onlyMethods(['unlink', 'instanceOfStorage'])
+			->getMock();
+		$storage2->method('unlink')
+			->willReturn(false);
+
+		// disable same-storage move optimization
+		$storage2->method('instanceOfStorage')
+			->willReturnCallback(fn (string $class) => ($class !== Local::class) && (new Temporary([]))->instanceOfStorage($class));
+
+
+		Filesystem::mount($storage2, [], $this->user . '/files/substorage');
+		$this->userView->file_put_contents('substorage/test.txt', 'foo');
+
+		$this->assertFalse($this->userView->unlink('substorage/test.txt'));
+
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
+		$this->assertEmpty($results);
+
+		$trashData = Trashbin::getExtraData($this->user);
+		$this->assertEmpty($trashData);
+	}
+
+	public function testTrashEntryNotCreatedWhenCacheRowFailed(): void {
+		$trashStorage = $this->getMockBuilder(Temporary::class)
+			->setConstructorArgs([])
+			->onlyMethods(['getUpdater'])
+			->getMock();
+		$updater = $this->getMockBuilder(Updater::class)
+			->setConstructorArgs([$trashStorage])
+			->onlyMethods(['renameFromStorage'])
+			->getMock();
+		$trashStorage->method('getUpdater')
+			->willReturn($updater);
+		$updater->method('renameFromStorage')
+			->willThrowException(new \Exception());
+
+		Filesystem::mount($trashStorage, [], $this->user . '/files_trashbin');
+		$this->userView->file_put_contents('test.txt', 'foo');
+
+		try {
+			$this->assertFalse($this->userView->unlink('test.txt'));
+			$this->fail();
+		} catch (\Exception) {
+			// expected
+		}
+
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
+		$this->assertEmpty($results);
+
+		$trashData = Trashbin::getExtraData($this->user);
+		$this->assertEmpty($trashData);
 	}
 
 	/**
