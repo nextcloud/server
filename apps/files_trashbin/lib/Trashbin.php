@@ -344,6 +344,8 @@ class Trashbin implements IEventListener {
 				$sizeDifference = $sourceInfo->getSize();
 				if ($sizeDifference < 0) {
 					$sizeDifference = null;
+				} else {
+					$sizeDifference = (int)$sizeDifference;
 				}
 				$trashStorage->getUpdater()->update($trashInternalPath, null, $sizeDifference);
 			}
