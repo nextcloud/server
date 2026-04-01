@@ -20,26 +20,8 @@
 		</td>
 
 		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
-			<template v-if="editing && user.backendCapabilities.setDisplayName">
-				<NcTextField
-					ref="displayNameField"
-					v-model="editedDisplayName"
-					class="user-row-text-field"
-					data-cy-user-list-input-displayname
-					:data-loading="loading.displayName || undefined"
-					:trailing-button-label="t('settings', 'Submit')"
-					:class="{ 'icon-loading-small': loading.displayName }"
-					:show-trailing-button="true"
-					:disabled="loading.displayName || isLoadingField"
-					:label="t('settings', 'Change display name')"
-					trailing-button-icon="arrowEnd"
-					autocapitalize="off"
-					autocomplete="off"
-					spellcheck="false"
-					@trailing-button-click="updateDisplayName" />
-			</template>
 			<strong
-				v-else-if="!isObfuscated"
+				v-if="!isObfuscated"
 				:title="user.displayname?.length > 20 ? user.displayname : null">
 				{{ user.displayname }}
 			</strong>
@@ -50,61 +32,16 @@
 		</td>
 
 		<td class="row__cell" data-cy-user-list-cell-email>
-			<template v-if="editing">
-				<NcTextField
-					v-model="editedMail"
-					class="user-row-text-field"
-					:class="{ 'icon-loading-small': loading.mailAddress }"
-					data-cy-user-list-input-email
-					:data-loading="loading.mailAddress || undefined"
-					:show-trailing-button="true"
-					:trailing-button-label="t('settings', 'Submit')"
-					:label="t('settings', 'Set new email address')"
-					:disabled="loading.mailAddress || isLoadingField"
-					trailing-button-icon="arrowEnd"
-					autocapitalize="off"
-					autocomplete="email"
-					spellcheck="false"
-					type="email"
-					@trailing-button-click="updateEmail" />
-			</template>
 			<span
-				v-else-if="!isObfuscated"
+				v-if="!isObfuscated"
 				:title="user.email?.length > 20 ? user.email : null">
 				{{ user.email }}
 			</span>
 		</td>
 
 		<td class="row__cell row__cell--groups row__cell--multiline" data-cy-user-list-cell-groups>
-			<template v-if="editing">
-				<label
-					class="hidden-visually"
-					:for="'groups' + uniqueId">
-					{{ t('settings', 'Add account to group') }}
-				</label>
-				<NcSelect
-					data-cy-user-list-input-groups
-					:data-loading="loading.groups || undefined"
-					:input-id="'groups' + uniqueId"
-					keep-open
-					:disabled="isLoadingField || loading.groupsDetails"
-					:loading="loading.groups"
-					:multiple="true"
-					:append-to-body="false"
-					:options="availableGroups"
-					:placeholder="t('settings', 'Add account to group')"
-					:taggable="settings.isAdmin || settings.isDelegatedAdmin"
-					:model-value="userGroups"
-					label="name"
-					:no-wrap="true"
-					:create-option="(value) => ({ id: value, name: value, isCreating: true })"
-					@search="searchGroups"
-					@option:created="createGroup"
-					@option:selected="options => addUserGroup(options.at(-1))"
-					@option:deselected="removeUserGroup" />
-			</template>
 			<span
-				v-else-if="!isObfuscated"
+				v-if="!isObfuscated"
 				:title="userGroupsLabels?.length > 40 ? userGroupsLabels : null">
 				{{ userGroupsLabels }}
 			</span>
@@ -114,60 +51,15 @@
 			v-if="settings.isAdmin || settings.isDelegatedAdmin"
 			data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
-			<template v-if="editing && (settings.isAdmin || settings.isDelegatedAdmin)">
-				<label
-					class="hidden-visually"
-					:for="'subadmins' + uniqueId">
-					{{ t('settings', 'Set account as admin for') }}
-				</label>
-				<NcSelect
-					data-cy-user-list-input-subadmins
-					:data-loading="loading.subadmins || undefined"
-					:input-id="'subadmins' + uniqueId"
-					keep-open
-					:disabled="isLoadingField || loading.subAdminGroupsDetails"
-					:loading="loading.subadmins"
-					label="name"
-					:append-to-body="false"
-					:multiple="true"
-					:no-wrap="true"
-					:options="availableSubAdminGroups"
-					:placeholder="t('settings', 'Set account as admin for')"
-					:model-value="userSubAdminGroups"
-					@search="searchGroups"
-					@option:deselected="removeUserSubAdmin"
-					@option:selected="options => addUserSubAdmin(options.at(-1))" />
-			</template>
 			<span
-				v-else-if="!isObfuscated"
+				v-if="!isObfuscated"
 				:title="userSubAdminGroupsLabels?.length > 40 ? userSubAdminGroupsLabels : null">
 				{{ userSubAdminGroupsLabels }}
 			</span>
 		</td>
 
 		<td class="row__cell" data-cy-user-list-cell-quota>
-			<template v-if="editing">
-				<label
-					class="hidden-visually"
-					:for="'quota' + uniqueId">
-					{{ t('settings', 'Select account quota') }}
-				</label>
-				<NcSelect
-					v-model="editedUserQuota"
-					:create-option="validateQuota"
-					data-cy-user-list-input-quota
-					:data-loading="loading.quota || undefined"
-					:disabled="isLoadingField"
-					:loading="loading.quota"
-					:append-to-body="false"
-					:clearable="false"
-					:input-id="'quota' + uniqueId"
-					:options="quotaOptions"
-					:placeholder="t('settings', 'Select account quota')"
-					:taggable="true"
-					@option:selected="setUserQuota" />
-			</template>
-			<template v-else-if="!isObfuscated">
+			<template v-if="!isObfuscated">
 				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
 				<NcProgressBar
 					:aria-labelledby="'quota-progress' + uniqueId"
@@ -183,28 +75,7 @@
 			v-if="showConfig.showLanguages"
 			class="row__cell row__cell--large"
 			data-cy-user-list-cell-language>
-			<template v-if="editing">
-				<label
-					class="hidden-visually"
-					:for="'language' + uniqueId">
-					{{ t('settings', 'Set the language') }}
-				</label>
-				<NcSelect
-					:id="'language' + uniqueId"
-					data-cy-user-list-input-language
-					:data-loading="loading.languages || undefined"
-					:allow-empty="false"
-					:disabled="isLoadingField"
-					:loading="loading.languages"
-					:clearable="false"
-					:append-to-body="false"
-					:options="availableLanguages"
-					:placeholder="t('settings', 'No language set')"
-					:model-value="userLanguage"
-					label="name"
-					@input="setUserLanguage" />
-			</template>
-			<span v-else-if="!isObfuscated">
+			<span v-if="!isObfuscated">
 				{{ userLanguage.name }}
 			</span>
 		</td>
@@ -240,31 +111,7 @@
 		</td>
 
 		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
-			<template v-if="editing">
-				<label
-					class="hidden-visually"
-					:for="'manager' + uniqueId">
-					{{ managerLabel }}
-				</label>
-				<NcSelect
-					v-model="currentManager"
-					class="select--fill"
-					data-cy-user-list-input-manager
-					:data-loading="loading.manager || undefined"
-					:input-id="'manager' + uniqueId"
-					:disabled="isLoadingField"
-					:loading="loadingPossibleManagers || loading.manager"
-					:options="possibleManagers"
-					:placeholder="managerLabel"
-					label="displayname"
-					:filterable="false"
-					:internal-search="false"
-					:clearable="true"
-					@open="searchInitialUserManager"
-					@search="searchUserManager"
-					@update:model-value="updateUserManager" />
-			</template>
-			<span v-else-if="!isObfuscated">
+			<span v-if="!isObfuscated">
 				{{ user.manager }}
 			</span>
 		</td>
@@ -274,7 +121,6 @@
 				v-if="visible && !isObfuscated && canEdit && !loading.all"
 				:actions="userActions"
 				:disabled="isLoadingField"
-				:edit="editing"
 				:user="user"
 				@update:edit="toggleEdit" />
 		</td>
@@ -283,19 +129,15 @@
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { showSuccess } from '@nextcloud/dialogs'
 import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 import UserRowActions from './UserRowActions.vue'
-import logger from '../../logger.ts'
 import UserRowMixin from '../../mixins/UserRowMixin.js'
-import { loadUserGroups, loadUserSubAdminGroups, searchGroups } from '../../service/groups.ts'
-import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
+import { isObfuscated } from '../../utils/userUtils.ts'
 
 const productName = window.OC.theme.productName
 
@@ -306,8 +148,6 @@ export default {
 		NcAvatar,
 		NcLoadingIcon,
 		NcProgressBar,
-		NcSelect,
-		NcTextField,
 		UserRowActions,
 	},
 
@@ -350,45 +190,27 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+
+		/** Callback from UserList to open the edit dialog */
+		onEditUser: {
+			type: Function,
+			default: null,
+		},
 	},
 
 	data() {
 		return {
-			selectedQuota: false,
 			rand: Math.random().toString(36).substring(2),
-			loadingPossibleManagers: false,
-			possibleManagers: [],
-			currentManager: '',
-			editing: false,
 			loading: {
 				all: false,
-				displayName: false,
-				mailAddress: false,
-				groups: false,
-				groupsDetails: false,
-				subAdminGroupsDetails: false,
-				subadmins: false,
-				quota: false,
 				delete: false,
 				disable: false,
-				languages: false,
 				wipe: false,
-				manager: false,
 			},
-
-			editedDisplayName: this.user.displayname,
-			editedMail: this.user.email ?? '',
-			// Cancelable promise for search groups request
-			promise: null,
 		}
 	},
 
 	computed: {
-		managerLabel() {
-			// TRANSLATORS This string describes a person's manager in the context of an organization
-			return t('settings', 'Set line manager')
-		},
-
 		isObfuscated() {
 			return isObfuscated(this.user)
 		},
@@ -409,34 +231,22 @@ export default {
 			return encodeURIComponent(this.user.id + this.rand)
 		},
 
-		availableGroups() {
-			const groups = (this.settings.isAdmin || this.settings.isDelegatedAdmin)
-				? this.$store.getters.getSortedGroups
-				: this.$store.getters.getSubAdminGroups
-
-			return groups.filter((group) => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-		},
-
-		availableSubAdminGroups() {
-			return this.availableGroups.filter((group) => group.id !== 'admin')
-		},
-
 		userGroupsLabels() {
-			return this.userGroups
-				.map((group) => {
-					// Try to match with more extensive group data
-					const availableGroup = this.availableGroups.find((g) => g.id === group.id)
-					return availableGroup?.name ?? group.name ?? group.id
+			const allGroups = this.$store.getters.getGroups
+			return this.user.groups
+				.map((id) => {
+					const group = allGroups.find((g) => g.id === id)
+					return group?.name ?? id
 				})
 				.join(', ')
 		},
 
 		userSubAdminGroupsLabels() {
-			return this.userSubAdminGroups
-				.map((group) => {
-					// Try to match with more extensive group data
-					const availableGroup = this.availableSubAdminGroups.find((g) => g.id === group.id)
-					return availableGroup?.name ?? group.name ?? group.id
+			const allGroups = this.$store.getters.getGroups
+			return (this.user.subadmin ?? [])
+				.map((id) => {
+					const group = allGroups.find((g) => g.id === id)
+					return group?.name ?? id
 				})
 				.join(', ')
 		},
@@ -458,12 +268,10 @@ export default {
 			if (quota === 'default') {
 				quota = this.settings.defaultQuota
 				if (quota !== 'none') {
-					// convert to numeric value to match what the server would usually return
 					quota = parseFileSize(quota, true)
 				}
 			}
 
-			// when the default quota is unlimited, the server returns -3 here, map it to "none"
 			if (quota === 'none' || quota === -3) {
 				return t('settings', 'Unlimited')
 			} else if (quota >= 0) {
@@ -499,37 +307,15 @@ export default {
 			}
 			return actions.concat(this.externalActions)
 		},
-
-		// mapping saved values to objects
-		editedUserQuota: {
-			get() {
-				if (this.selectedQuota !== false) {
-					return this.selectedQuota
-				}
-				if (this.settings.defaultQuota !== unlimitedQuota.id && parseFileSize(this.settings.defaultQuota, true) >= 0) {
-					// if value is valid, let's map the quotaOptions or return custom quota
-					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
-				}
-				return unlimitedQuota // unlimited
-			},
-
-			set(quota) {
-				this.selectedQuota = quota
-			},
-		},
-
-		availableLanguages() {
-			return this.languages[0].languages.concat(this.languages[1].languages)
-		},
-	},
-
-	async beforeMount() {
-		if (this.user.manager) {
-			await this.initManager(this.user.manager)
-		}
 	},
 
 	methods: {
+		toggleEdit() {
+			if (this.onEditUser) {
+				this.onEditUser(this.user)
+			}
+		},
+
 		async wipeUserDevices() {
 			const userid = this.user.id
 			await confirmPassword()
@@ -560,113 +346,6 @@ export default {
 				},
 				true,
 			)
-		},
-
-		filterManagers(managers) {
-			return managers.filter((manager) => manager.id !== this.user.id)
-		},
-
-		async initManager(userId) {
-			await this.$store.dispatch('getUser', userId).then((response) => {
-				this.currentManager = response?.data.ocs.data
-			})
-		},
-
-		async searchInitialUserManager() {
-			this.loadingPossibleManagers = true
-			await this.searchUserManager()
-			this.loadingPossibleManagers = false
-		},
-
-		async loadGroupsDetails() {
-			this.loading.groups = true
-			this.loading.groupsDetails = true
-			try {
-				const groups = await loadUserGroups({ userId: this.user.id })
-				// Populate store from server request
-				for (const group of groups) {
-					this.$store.commit('addGroup', group)
-				}
-			} catch (error) {
-				logger.error(t('settings', 'Failed to load groups with details'), { error })
-			}
-			this.loading.groups = false
-			this.loading.groupsDetails = false
-		},
-
-		async loadSubAdminGroupsDetails() {
-			this.loading.subadmins = true
-			this.loading.subAdminGroupsDetails = true
-			try {
-				const groups = await loadUserSubAdminGroups({ userId: this.user.id })
-				// Populate store from server request
-				for (const group of groups) {
-					this.$store.commit('addGroup', group)
-				}
-			} catch (error) {
-				logger.error(t('settings', 'Failed to load sub admin groups with details'), { error })
-			}
-			this.loading.subadmins = false
-			this.loading.subAdminGroupsDetails = false
-		},
-
-		async searchGroups(query, toggleLoading) {
-			if (query === '') {
-				return // Prevent unexpected search behaviour e.g. on option:created
-			}
-			if (this.promise) {
-				this.promise.cancel()
-			}
-			toggleLoading(true)
-			try {
-				this.promise = await searchGroups({
-					search: query,
-					offset: 0,
-					limit: 25,
-				})
-				const groups = await this.promise
-				// Populate store from server request
-				for (const group of groups) {
-					this.$store.commit('addGroup', group)
-				}
-			} catch (error) {
-				logger.error(t('settings', 'Failed to search groups'), { error })
-			}
-			this.promise = null
-			toggleLoading(false)
-		},
-
-		async searchUserManager(query) {
-			await this.$store.dispatch('searchUsers', { offset: 0, limit: 10, search: query }).then((response) => {
-				const users = response?.data ? this.filterManagers(Object.values(response?.data.ocs.data.users)) : []
-				if (users.length > 0) {
-					this.possibleManagers = users
-				}
-			})
-		},
-
-		async updateUserManager() {
-			this.loading.manager = true
-
-			// Store the current manager before making changes
-			const previousManager = this.user.manager
-
-			try {
-				await this.$store.dispatch('setUserData', {
-					userid: this.user.id,
-					key: 'manager',
-					value: this.currentManager ? this.currentManager.id : '',
-				})
-			} catch (error) {
-				// TRANSLATORS This string describes a line manager in the context of an organization
-				showError(t('settings', 'Failed to update line manager'))
-				logger.error('Failed to update manager:', { error })
-
-				// Revert to the previous manager in the UI on error
-				this.currentManager = previousManager
-			} finally {
-				this.loading.manager = false
-			}
 		},
 
 		async deleteUser() {
@@ -711,242 +390,6 @@ export default {
 				})
 		},
 
-		/**
-		 * Set user displayName
-		 */
-		async updateDisplayName() {
-			this.loading.displayName = true
-			try {
-				await this.$store.dispatch('setUserData', {
-					userid: this.user.id,
-					key: 'displayname',
-					value: this.editedDisplayName,
-				})
-
-				if (this.editedDisplayName === this.user.displayname) {
-					showSuccess(t('settings', 'Display name was successfully changed'))
-				}
-			} finally {
-				this.loading.displayName = false
-			}
-		},
-
-		/**
-		 * Set user mailAddress
-		 */
-		async updateEmail() {
-			this.loading.mailAddress = true
-			if (this.editedMail === '') {
-				showError(t('settings', "Email can't be empty"))
-				this.loading.mailAddress = false
-				this.editedMail = this.user.email
-			} else {
-				try {
-					await this.$store.dispatch('setUserData', {
-						userid: this.user.id,
-						key: 'email',
-						value: this.editedMail,
-					})
-
-					if (this.editedMail === this.user.email) {
-						showSuccess(t('settings', 'Email was successfully changed'))
-					}
-				} finally {
-					this.loading.mailAddress = false
-				}
-			}
-		},
-
-		/**
-		 * Create a new group and add user to it
-		 *
-		 * @param {string} gid Group id
-		 */
-		async createGroup({ name: gid }) {
-			this.loading.groups = true
-			try {
-				await this.$store.dispatch('addGroup', gid)
-				const userid = this.user.id
-				await this.$store.dispatch('addUserGroup', { userid, gid })
-			} catch (error) {
-				logger.error(t('settings', 'Failed to create group'), { error })
-			}
-			this.loading.groups = false
-		},
-
-		/**
-		 * Add user to group
-		 *
-		 * @param {object} group Group object
-		 */
-		async addUserGroup(group) {
-			if (group.isCreating) {
-				// This is NcSelect's internal value for a new inputted group name
-				// Ignore
-				return
-			}
-			const userid = this.user.id
-			const gid = group.id
-			if (group.canAdd === false) {
-				return
-			}
-			this.loading.groups = true
-			try {
-				await this.$store.dispatch('addUserGroup', { userid, gid })
-			} catch (error) {
-				logger.error(error)
-			}
-			this.loading.groups = false
-		},
-
-		/**
-		 * Remove user from group
-		 *
-		 * @param {object} group Group object
-		 */
-		async removeUserGroup(group) {
-			if (group.canRemove === false) {
-				return false
-			}
-			this.loading.groups = true
-			const userid = this.user.id
-			const gid = group.id
-			try {
-				await this.$store.dispatch('removeUserGroup', {
-					userid,
-					gid,
-				})
-				this.loading.groups = false
-				// remove user from current list if current list is the removed group
-				if (this.$route.params.selectedGroup === gid) {
-					this.$store.commit('deleteUser', userid)
-				}
-			} catch {
-				this.loading.groups = false
-			}
-		},
-
-		/**
-		 * Add user to group
-		 *
-		 * @param {object} group Group object
-		 */
-		async addUserSubAdmin(group) {
-			this.loading.subadmins = true
-			const userid = this.user.id
-			const gid = group.id
-			try {
-				await this.$store.dispatch('addUserSubAdmin', {
-					userid,
-					gid,
-				})
-			} catch (error) {
-				logger.error(error)
-			}
-			this.loading.subadmins = false
-		},
-
-		/**
-		 * Remove user from group
-		 *
-		 * @param {object} group Group object
-		 */
-		async removeUserSubAdmin(group) {
-			this.loading.subadmins = true
-			const userid = this.user.id
-			const gid = group.id
-
-			try {
-				await this.$store.dispatch('removeUserSubAdmin', {
-					userid,
-					gid,
-				})
-			} catch (error) {
-				logger.error(error)
-			} finally {
-				this.loading.subadmins = false
-			}
-		},
-
-		/**
-		 * Dispatch quota set request
-		 *
-		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
-		 * @return {string}
-		 */
-		async setUserQuota(quota = 'none') {
-			// Make sure correct label is set for unlimited quota
-			if (quota === 'none') {
-				quota = unlimitedQuota
-			}
-			this.loading.quota = true
-
-			// ensure we only send the preset id
-			quota = quota.id ? quota.id : quota
-
-			try {
-				// If human readable format, convert to raw float format
-				// Else just send the raw string
-				const value = (parseFileSize(quota, true) || quota).toString()
-				await this.$store.dispatch('setUserData', {
-					userid: this.user.id,
-					key: 'quota',
-					value,
-				})
-			} catch (error) {
-				logger.error(error)
-			} finally {
-				this.loading.quota = false
-			}
-			return quota
-		},
-
-		/**
-		 * Validate quota string to make sure it's a valid human file size
-		 *
-		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
-		 * @return {object} The validated quota object or unlimited quota if input is invalid
-		 */
-		validateQuota(quota) {
-			if (typeof quota === 'object') {
-				quota = quota?.id || quota.label
-			}
-			// only used for new presets sent through @Tag
-			const validQuota = parseFileSize(quota, true)
-			if (validQuota === null) {
-				return unlimitedQuota
-			} else {
-				// unify format output
-				quota = formatFileSize(parseFileSize(quota, true))
-				return { id: quota, label: quota }
-			}
-		},
-
-		/**
-		 * Dispatch language set request
-		 *
-		 * @param {object} lang language object {code:'en', name:'English'}
-		 * @return {object}
-		 */
-		async setUserLanguage(lang) {
-			this.loading.languages = true
-			// ensure we only send the preset id
-			try {
-				await this.$store.dispatch('setUserData', {
-					userid: this.user.id,
-					key: 'language',
-					value: lang.code,
-				})
-				this.loading.languages = false
-			} catch (error) {
-				logger.error(error)
-			}
-			return lang
-		},
-
-		/**
-		 * Dispatch new welcome mail request
-		 */
 		sendWelcomeMail() {
 			this.loading.all = true
 			this.$store.dispatch('sendWelcomeMail', this.user.id)
@@ -954,21 +397,6 @@ export default {
 				.finally(() => {
 					this.loading.all = false
 				})
-		},
-
-		async toggleEdit() {
-			this.editing = !this.editing
-			if (this.editing) {
-				await this.$nextTick()
-				this.$refs.displayNameField?.$refs?.inputField?.$refs?.input?.focus()
-				this.loadGroupsDetails()
-				this.loadSubAdminGroupsDetails()
-			}
-			if (this.editedDisplayName !== this.user.displayname) {
-				this.editedDisplayName = this.user.displayname
-			} else if (this.editedMail !== this.user.email) {
-				this.editedMail = this.user.email ?? ''
-			}
 		},
 	},
 }
@@ -987,11 +415,6 @@ export default {
 			background-color: var(--color-background-hover);
 		}
 	}
-
-	// Limit width of select in fill cell
-	.select--fill {
-		max-width: calc(var(--cell-width-large) - (2 * var(--cell-padding)));
-	}
 }
 
 .row {
@@ -999,12 +422,6 @@ export default {
 
 	&__cell {
 		border-bottom: 1px solid var(--color-border);
-
-		:deep {
-			.v-select.select {
-				min-width: var(--cell-min-width);
-			}
-		}
 	}
 
 	&__progress {
