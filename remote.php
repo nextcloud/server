@@ -77,13 +77,11 @@ function handleException(Exception|Error $e): void {
  */
 function resolveService($service) {
 	$services = [
-		'webdav' => 'dav/appinfo/v1/webdav.php',
 		'dav' => 'dav/appinfo/v2/remote.php',
 		'caldav' => 'dav/appinfo/v1/caldav.php',
 		'calendar' => 'dav/appinfo/v1/caldav.php',
 		'carddav' => 'dav/appinfo/v1/carddav.php',
 		'contacts' => 'dav/appinfo/v1/carddav.php',
-		'files' => 'dav/appinfo/v1/webdav.php',
 		'direct' => 'dav/appinfo/v2/direct.php',
 	];
 	if (isset($services[$service])) {

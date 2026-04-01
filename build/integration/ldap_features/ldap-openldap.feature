@@ -7,7 +7,7 @@ Feature: LDAP
 
   Scenario: Test valid configuration by logging in
     Given Logging in using web as "alice"
-    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+    And Sending a "GET" to "/remote.php/dav/files/alice/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
   Scenario: Test valid configuration with port in the hostname by logging in
@@ -15,7 +15,7 @@ Feature: LDAP
       | ldapHost | openldap:389 |
     And cookies are reset
     And Logging in using web as "alice"
-    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+    And Sending a "GET" to "/remote.php/dav/files/alice/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
   Scenario: Test valid configuration with LDAP protocol by logging in
@@ -23,7 +23,7 @@ Feature: LDAP
       | ldapHost | ldap://openldap |
     And cookies are reset
     And Logging in using web as "alice"
-    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+    And Sending a "GET" to "/remote.php/dav/files/alice/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
   Scenario: Test valid configuration with LDAP protocol and port by logging in
@@ -31,7 +31,7 @@ Feature: LDAP
       | ldapHost | ldap://openldap:389 |
     And cookies are reset
     And Logging in using web as "alice"
-    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+    And Sending a "GET" to "/remote.php/dav/files/alice/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
   Scenario: Test valid configuration with LDAPS protocol and port by logging in
@@ -40,7 +40,7 @@ Feature: LDAP
       | turnOffCertCheck |                    1 |
     And cookies are reset
     And Logging in using web as "alice"
-    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+    And Sending a "GET" to "/remote.php/dav/files/alice/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
   Scenario: Test failing LDAPS connection through TLS verification

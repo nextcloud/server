@@ -71,11 +71,7 @@ class ServerFactory {
 		Plugin $authPlugin,
 		callable $viewCallBack,
 	): Server {
-		// /public.php/webdav/ shows the files in the share in the root itself
-		// and not under /public.php/webdav/files/{token} so we should keep
-		// compatibility for that.
-		$needsSharesInRoot = $baseUri === '/public.php/webdav/';
-		$useCollection = $isPublicShare && !$needsSharesInRoot;
+		$useCollection = $isPublicShare;
 		$debugEnabled = $this->config->getSystemValue('debug', false);
 		[$tree, $rootCollection] = $this->getTree($useCollection);
 		$server = new Server($tree);

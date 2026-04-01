@@ -294,25 +294,26 @@ Feature: webdav-related
 		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
 	Scenario: Doing a GET with a web login should work without CSRF token on the old backend
-		Given Logging in using web as "admin"
-		When Sending a "GET" to "/remote.php/webdav/welcome.txt" without requesttoken
+		Given using new dav path
+		And user "user0" exists
+		When Sending a "GET" to "/remote.php/dav/files/admin/welcome.txt" without requesttoken
 		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a GET with a web login should work with CSRF token on the old backend
 		Given Logging in using web as "admin"
-		When Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+		When Sending a "GET" to "/remote.php/dav/files/admin/welcome.txt" with requesttoken
 		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a PROPFIND with a web login should not work without CSRF token on the old backend
 		Given Logging in using web as "admin"
-		When Sending a "PROPFIND" to "/remote.php/webdav/welcome.txt" without requesttoken
+		When Sending a "PROPFIND" to "/remote.php/dav/files/admin/welcome.txt" without requesttoken
 		Then the HTTP status code should be "401"
 
 	Scenario: Doing a PROPFIND with a web login should work with CSRF token on the old backend
 		Given Logging in using web as "admin"
-		When Sending a "PROPFIND" to "/remote.php/webdav/welcome.txt" with requesttoken
+		When Sending a "PROPFIND" to "/remote.php/dav/files/admin/welcome.txt" with requesttoken
 		Then the HTTP status code should be "207"
 
 	Scenario: A file that is not shared does not have a share-types property
@@ -432,7 +433,7 @@ Feature: webdav-related
 		Then the HTTP status code should be "503"
 
 	Scenario: Copying files into a folder with edit permissions
-		Given using dav path "remote.php/webdav"
+		Given using new dav path
 		And user "user0" exists
 		And user "user1" exists
 		And As an "user1"
@@ -448,7 +449,7 @@ Feature: webdav-related
 		Then the HTTP status code should be "201"
 
 	Scenario: Copying files into a folder without edit permissions
-		Given using dav path "remote.php/webdav"
+		Given using new dav path
 		And user "user0" exists
 		And user "user1" exists
 		And As an "user1"

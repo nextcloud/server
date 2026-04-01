@@ -14,10 +14,6 @@ Feature: log-condition
     When requesting "/index.php" with "GET"
     Then the HTTP status code should be "200"
 
-  Scenario: Accessing /remote.php/webdav with log.condition
-    When requesting "/remote.php/webdav" with "GET"
-    Then the HTTP status code should be "401"
-
   Scenario: Accessing /remote.php/dav with log.condition
     When requesting "/remote.php/dav" with "GET"
     Then the HTTP status code should be "401"
@@ -29,10 +25,6 @@ Feature: log-condition
   Scenario: Accessing /ocs/v2.php with log.condition
     When requesting "/ocs/v2.php" with "GET"
     Then the HTTP status code should be "404"
-
-  Scenario: Accessing /public.php/webdav with log.condition
-    When requesting "/public.php/webdav" with "GET"
-    Then the HTTP status code should be "401"
 
   Scenario: Accessing /public.php/dav with log.condition
     When requesting "/public.php/dav" with "GET"

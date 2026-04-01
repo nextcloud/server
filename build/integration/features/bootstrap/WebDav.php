@@ -18,8 +18,8 @@ require __DIR__ . '/autoload.php';
 trait WebDav {
 	use Sharing;
 
-	private string $davPath = 'remote.php/webdav';
-	private bool $usingOldDavPath = true;
+	private string $davPath = 'remote.php/dav';
+	private bool $usingOldDavPath = false;
 	private ?array $storedETAG = null; // map with user as key and another map as value, which has path as key and etag as value
 	private ?int $storedFileID = null;
 	/** @var ResponseInterface */
@@ -41,8 +41,7 @@ trait WebDav {
 	 * @Given /^using old dav path$/
 	 */
 	public function usingOldDavPath(): void {
-		$this->davPath = 'remote.php/webdav';
-		$this->usingOldDavPath = true;
+		$this->usingNewDavPath();
 	}
 
 	/**

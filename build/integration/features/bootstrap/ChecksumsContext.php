@@ -58,7 +58,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 		try {
 			$this->response = $this->client->put(
-				$this->baseUrl . '/remote.php/webdav' . $destination,
+				$this->baseUrl . '/remote.php/dav/files/' . $user . $destination,
 				[
 					'auth' => [
 						$user,
@@ -95,7 +95,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	public function userRequestTheChecksumOfViaPropfind($user, $path) {
 		$this->response = $this->client->request(
 			'PROPFIND',
-			$this->baseUrl . '/remote.php/webdav' . $path,
+			$this->baseUrl . '/remote.php/dav/files/' . $user . $path,
 			[
 				'body' => '<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
@@ -138,7 +138,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function userDownloadsTheFile($user, $path) {
 		$this->response = $this->client->get(
-			$this->baseUrl . '/remote.php/webdav' . $path,
+			$this->baseUrl . '/remote.php/dav/files/' . $user . $path,
 			[
 				'auth' => [
 					$user,
@@ -168,14 +168,14 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	public function userCopiedFileTo($user, $source, $destination) {
 		$this->response = $this->client->request(
 			'MOVE',
-			$this->baseUrl . '/remote.php/webdav' . $source,
+			$this->baseUrl . '/remote.php/dav/files/' . $user . $source,
 			[
 				'auth' => [
 					$user,
 					$this->getPasswordForUser($user),
 				],
 				'headers' => [
-					'Destination' => $this->baseUrl . '/remote.php/webdav' . $destination,
+					'Destination' => $this->baseUrl . '/remote.php/dav/files/' . $user . $destination,
 				],
 			]
 		);
