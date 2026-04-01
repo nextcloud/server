@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div>
+	<div class="user-form-groups">
 		<div class="user-form__item">
 			<NcSelect
 				v-model="formData.groups"
@@ -127,3 +127,17 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.user-form-groups {
+	width: 100%;
+}
+
+.user-form__item {
+	width: 100%;
+}
+
+.user-form__select {
+	width: 100%;
+}
+</style>

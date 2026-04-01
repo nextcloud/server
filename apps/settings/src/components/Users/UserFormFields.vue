@@ -5,15 +5,8 @@
 
 <template>
 	<div class="user-form-fields">
-		<div
-			v-if="fieldConfig.username?.show && fieldConfig.username?.readonly"
-			class="user-form-fields__item user-form-fields__readonly"
-			data-test="username">
-			<label class="user-form-fields__readonly-label">{{ fieldConfig.username?.label }}</label>
-			<span class="user-form-fields__readonly-value">{{ formData.username }}</span>
-		</div>
 		<NcTextField
-			v-else-if="fieldConfig.username?.show"
+			v-if="fieldConfig.username?.show"
 			ref="username"
 			v-model="formData.username"
 			class="user-form-fields__item"
@@ -174,22 +167,6 @@ export default {
 		&:not(:focus):not(:active) {
 			border-color: var(--color-border-dark);
 		}
-	}
-
-	&__readonly {
-		padding: 4px 0;
-	}
-
-	&__readonly-label {
-		display: block;
-		font-size: 13px;
-		color: var(--color-text-maxcontrast);
-		margin-bottom: 2px;
-	}
-
-	&__readonly-value {
-		display: block;
-		font-weight: bold;
 	}
 
 	&__hint {

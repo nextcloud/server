@@ -7,7 +7,7 @@
 	<NcDialog
 		class="edit-dialog"
 		size="small"
-		:name="t('settings', 'Edit account')"
+		:name="t('settings', 'Edit account') + ' - ' + user.id"
 		out-transition
 		@closing="$emit('closing')">
 		<form
@@ -202,19 +202,8 @@ export default {
 			return this.$store.getters.getServerData
 		},
 
-		/**
-		 * Field configuration for the edit dialog.
-		 * Username is shown but read-only; password visibility depends
-		 * on the backend's capabilities and admin permissions.
-		 */
 		fieldConfig() {
 			return {
-				username: {
-					show: true,
-					label: t('settings', 'Account name'),
-					readonly: true,
-				},
-
 				password: {
 					show: this.settings.canChangePassword && this.user.backendCapabilities.setPassword,
 					label: t('settings', 'New password'),
