@@ -13,7 +13,7 @@
 			<!-- Author -->
 			<NcAvatar
 				class="comment__avatar"
-				:display-name="actorDisplayName"
+				:displayName="actorDisplayName"
 				:user="actorId"
 				:size="32" />
 		</div>
@@ -26,7 +26,7 @@
 				<NcActions v-if="isOwnComment && id && !loading" class="comment__actions">
 					<template v-if="!editing">
 						<NcActionButton
-							close-after-click
+							closeAfterClick
 							@click="onEdit">
 							<template #icon>
 								<IconPencilOutline :size="20" />
@@ -35,7 +35,7 @@
 						</NcActionButton>
 						<NcActionSeparator />
 						<NcActionButton
-							close-after-click
+							closeAfterClick
 							@click="onDeleteWithUndo">
 							<template #icon>
 								<IconTrashCanOutline :size="20" />
@@ -60,7 +60,7 @@
 					v-else-if="creationDateTime"
 					class="comment__timestamp"
 					:timestamp="timestamp"
-					:ignore-seconds="true" />
+					:ignoreSeconds="true" />
 			</div>
 
 			<!-- Message editor -->
@@ -68,14 +68,14 @@
 				<div class="comment__editor-group">
 					<NcRichContenteditable
 						ref="editor"
-						:auto-complete="autoComplete"
+						v-model="localMessage"
+						:autoComplete
 						:contenteditable="!loading"
 						:label="editor ? t('comments', 'New comment') : t('comments', 'Edit comment')"
 						:placeholder="t('comments', 'Write a comment …')"
-						:model-value="localMessage"
-						:user-data="userData"
+						:userData
 						aria-describedby="tab-comments__editor-description"
-						@update:value="updateLocalMessage"
+						@update:modelValue="submitted = false"
 						@submit="onSubmit" />
 					<div class="comment__submit">
 						<NcButton
@@ -103,8 +103,8 @@
 				:class="{ 'comment__message--expanded': expanded }"
 				:text="richContent.message"
 				:arguments="richContent.mentions"
-				use-markdown
-				@click.native="onExpand" />
+				useMarkdown
+				@click="onExpand" />
 		</div>
 	</component>
 </template>
@@ -113,6 +113,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 import { mapStores } from 'pinia'
+import { defineAsyncComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
@@ -125,12 +126,12 @@ import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
 import IconPencilOutline from 'vue-material-design-icons/PencilOutline.vue'
 import IconTrashCanOutline from 'vue-material-design-icons/TrashCanOutline.vue'
-import CommentMixin from '../mixins/CommentMixin.js'
-import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
+import CommentMixin from '../mixins/CommentMixin.ts'
+import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.ts'
 
 // Dynamic loading
-const NcRichContenteditable = () => import('@nextcloud/vue/components/NcRichContenteditable')
-const NcRichText = () => import('@nextcloud/vue/components/NcRichText')
+const NcRichContenteditable = defineAsyncComponent(() => import('@nextcloud/vue/components/NcRichContenteditable'))
+const NcRichText = defineAsyncComponent(() => import('@nextcloud/vue/components/NcRichText'))
 
 export default {
 	/* eslint vue/multi-word-component-names: "warn" */

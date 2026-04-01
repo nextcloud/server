@@ -7,7 +7,7 @@
 import type { IFolder, INode, IView } from '@nextcloud/files'
 
 import { computed } from 'vue'
-import Comments from './Comments.vue'
+import CommentsApp from './CommentsApp.vue'
 
 const props = defineProps<{
 	node?: INode
@@ -24,9 +24,9 @@ const resourceId = computed(() => props.node?.fileid)
 </script>
 
 <template>
-	<Comments
+	<CommentsApp
 		v-if="resourceId !== undefined"
 		:key="resourceId"
-		:resource-id="resourceId"
-		resource-type="files" />
+		:resourceId="resourceId"
+		resourceType="files" />
 </template>
