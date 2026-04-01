@@ -113,6 +113,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 import { mapStores } from 'pinia'
+import { defineAsyncComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
@@ -129,8 +130,8 @@ import CommentMixin from '../mixins/CommentMixin.ts'
 import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.ts'
 
 // Dynamic loading
-const NcRichContenteditable = () => import('@nextcloud/vue/components/NcRichContenteditable')
-const NcRichText = () => import('@nextcloud/vue/components/NcRichText')
+const NcRichContenteditable = defineAsyncComponent(() => import('@nextcloud/vue/components/NcRichContenteditable'))
+const NcRichText = defineAsyncComponent(() => import('@nextcloud/vue/components/NcRichText'))
 
 export default {
 	/* eslint vue/multi-word-component-names: "warn" */
