@@ -11,6 +11,7 @@ namespace OCA\Files_Trashbin\Tests;
 
 use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Temporary;
@@ -126,6 +127,9 @@ class StorageTest extends \Test\TestCase {
 		$this->userView->file_put_contents('uncached.txt', 'foo');
 
 		[$storage, $internalPath] = $this->userView->resolvePath('uncached.txt');
+		if ($storage->instanceOfStorage(ObjectStoreStorage::class)) {
+			$this->markTestSkipped('object store always has the file in cache');
+		}
 		$cache = $storage->getCache();
 		$cache->remove($internalPath);
 		$this->assertFalse($cache->inCache($internalPath));
