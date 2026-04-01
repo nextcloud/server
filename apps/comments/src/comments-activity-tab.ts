@@ -4,7 +4,7 @@
  */
 
 import type { INode } from '@nextcloud/files'
-import type { ComponentPublicInstance } from 'vue'
+import type { App } from 'vue'
 
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
@@ -15,7 +15,7 @@ import { getComments } from './services/GetComments.ts'
  * Register the comments plugins for the Activity sidebar
  */
 export function registerCommentsPlugins() {
-	let app
+	let app: App
 
 	window.OCA.Activity.registerSidebarAction({
 		mount: async (el: HTMLElement, { node, reload }: { node: INode, reload: () => void }) => {
@@ -53,12 +53,12 @@ export function registerCommentsPlugins() {
 		const { default: CommentView } = await import('./views/ActivityCommentEntry.vue')
 
 		return comments.map((comment) => ({
-			_CommentsViewInstance: undefined as ComponentPublicInstance | undefined,
+			_CommentsViewInstance: undefined as App | undefined,
 
 			timestamp: Date.parse(comment.props?.creationDateTime as string | undefined ?? ''),
 
 			mount(element: HTMLElement, { reload }) {
-				this._CommentsViewInstance = createApp(
+				const app = createApp(
 					CommentView,
 					{
 						comment,
@@ -66,7 +66,8 @@ export function registerCommentsPlugins() {
 						reloadCallback: reload,
 					},
 				)
-				this._CommentsViewInstance.mount(el)
+				app.mount(element)
+				this._CommentsViewInstance = app
 			},
 			unmount() {
 				this._CommentsViewInstance?.unmount()
