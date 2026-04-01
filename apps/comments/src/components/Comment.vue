@@ -13,7 +13,7 @@
 			<!-- Author -->
 			<NcAvatar
 				class="comment__avatar"
-				:display-name="actorDisplayName"
+				:displayName="actorDisplayName"
 				:user="actorId"
 				:size="32" />
 		</div>
@@ -26,7 +26,7 @@
 				<NcActions v-if="isOwnComment && id && !loading" class="comment__actions">
 					<template v-if="!editing">
 						<NcActionButton
-							close-after-click
+							closeAfterClick
 							@click="onEdit">
 							<template #icon>
 								<IconPencilOutline :size="20" />
@@ -35,7 +35,7 @@
 						</NcActionButton>
 						<NcActionSeparator />
 						<NcActionButton
-							close-after-click
+							closeAfterClick
 							@click="onDeleteWithUndo">
 							<template #icon>
 								<IconTrashCanOutline :size="20" />
@@ -60,7 +60,7 @@
 					v-else-if="creationDateTime"
 					class="comment__timestamp"
 					:timestamp="timestamp"
-					:ignore-seconds="true" />
+					:ignoreSeconds="true" />
 			</div>
 
 			<!-- Message editor -->
@@ -68,14 +68,14 @@
 				<div class="comment__editor-group">
 					<NcRichContenteditable
 						ref="editor"
-						:auto-complete="autoComplete"
+						v-model="localMessage"
+						:autoComplete
 						:contenteditable="!loading"
 						:label="editor ? t('comments', 'New comment') : t('comments', 'Edit comment')"
 						:placeholder="t('comments', 'Write a comment …')"
-						:model-value="localMessage"
-						:user-data="userData"
+						:userData
 						aria-describedby="tab-comments__editor-description"
-						@update:model-value="updateLocalMessage"
+						@update:modelValue="submitted = false"
 						@submit="onSubmit" />
 					<div class="comment__submit">
 						<NcButton
@@ -103,7 +103,7 @@
 				:class="{ 'comment__message--expanded': expanded }"
 				:text="richContent.message"
 				:arguments="richContent.mentions"
-				use-markdown
+				useMarkdown
 				@click="onExpand" />
 		</div>
 	</component>

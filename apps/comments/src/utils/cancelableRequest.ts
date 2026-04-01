@@ -6,20 +6,20 @@
 /**
  * Creates a cancelable axios 'request object'.
  *
- * @param {Function} request the axios promise request
- * @return {object}
+ * @param request the axios promise request
+ * @return
  */
-function cancelableRequest(request) {
+function cancelableRequest(request: (url: string, options?: Record<string, unknown>) => Promise<unknown>) {
 	const controller = new AbortController()
 	const signal = controller.signal
 
 	/**
 	 * Execute the request
 	 *
-	 * @param {string} url the url to send the request to
-	 * @param {object} [options] optional config for the request
+	 * @param url the url to send the request to
+	 * @param [options] optional config for the request
 	 */
-	const fetch = async function(url, options) {
+	const fetch = async function(url: string, options?: Record<string, unknown>) {
 		const response = await request(
 			url,
 			{ signal, ...options },

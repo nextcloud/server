@@ -8,12 +8,12 @@ import client from './DavClient.ts'
 /**
  * Edit an existing comment
  *
- * @param {string} resourceType the resource type
- * @param {number} resourceId the resource ID
- * @param {number} commentId the comment iD
- * @param {string} message the message content
+ * @param resourceType the resource type
+ * @param resourceId the resource ID
+ * @param commentId the comment iD
+ * @param message the message content
  */
-export default async function(resourceType, resourceId, commentId, message) {
+export default async function(resourceType: string, resourceId: number, commentId: number, message: string) {
 	const commentPath = ['', resourceType, resourceId, commentId].join('/')
 
 	return await client.customRequest(commentPath, {

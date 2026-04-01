@@ -8,11 +8,11 @@ import client from './DavClient.ts'
 /**
  * Delete a comment
  *
- * @param {string} resourceType the resource type
- * @param {number} resourceId the resource ID
- * @param {number} commentId the comment iD
+ * @param resourceType the resource type
+ * @param resourceId the resource ID
+ * @param commentId the comment iD
  */
-export default async function(resourceType, resourceId, commentId) {
+export default async function(resourceType: string, resourceId: number, commentId: number) {
 	const commentPath = ['', resourceType, resourceId, commentId].join('/')
 
 	// Fetch newly created comment data

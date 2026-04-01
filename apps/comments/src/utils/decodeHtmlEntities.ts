@@ -4,10 +4,10 @@
  */
 
 /**
- * @param {any} value -
- * @param {any} passes -
+ * @param value - the string to decode
+ * @param passes - the number of times to decode the string, default is 1
  */
-export function decodeHtmlEntities(value, passes = 1) {
+export function decodeHtmlEntities(value: string, passes = 1) {
 	const parser = new DOMParser()
 	let decoded = value
 	for (let i = 0; i < passes; i++) {

@@ -12,17 +12,17 @@ import client from './DavClient.ts'
 /**
  * Retrieve the comments list
  *
- * @param {string} resourceType the resource type
- * @param {number} resourceId the resource ID
- * @param {string} message the message
- * @return {object} the new comment
+ * @param resourceType the resource type
+ * @param resourceId the resource ID
+ * @param message the message
+ * @return The new comment
  */
-export default async function(resourceType, resourceId, message) {
+export default async function(resourceType: string, resourceId: number, message: string) {
 	const resourcePath = ['', resourceType, resourceId].join('/')
 
 	const response = await axios.post(getRootPath() + resourcePath, {
-		actorDisplayName: getCurrentUser().displayName,
-		actorId: getCurrentUser().uid,
+		actorDisplayName: getCurrentUser()!.displayName,
+		actorId: getCurrentUser()!.uid,
 		actorType: 'users',
 		creationDateTime: (new Date()).toUTCString(),
 		message,

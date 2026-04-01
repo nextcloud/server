@@ -6,11 +6,11 @@
 <template>
 	<Comment
 		v-bind="editorData"
-		:auto-complete="autoComplete"
-		:resource-type="resourceType"
+		:autoComplete="autoComplete"
+		:resourceType="resourceType"
 		:editor="true"
-		:user-data="userData"
-		:resource-id="resourceId"
+		:userData="userData"
+		:resourceId="resourceId"
 		class="comments-action"
 		@new="onNewComment" />
 </template>

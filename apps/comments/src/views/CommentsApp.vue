@@ -11,11 +11,11 @@
 		<!-- Editor -->
 		<Comment
 			v-bind="editorData"
-			:auto-complete="autoComplete"
-			:resource-type="resourceType"
-			:editor="true"
-			:user-data="userData"
-			:resource-id="currentResourceId"
+			editor
+			:autoComplete
+			:resourceType
+			:userData
+			:resourceId="currentResourceId"
 			class="comments__writer"
 			@new="onNewComment" />
 
@@ -36,10 +36,10 @@
 					v-model="comment.props.message"
 					tag="li"
 					v-bind="comment.props"
-					:auto-complete="autoComplete"
-					:resource-type="resourceType"
-					:resource-id="currentResourceId"
-					:user-data="genMentionsData(comment.props.mentions)"
+					:autoComplete
+					:resourceType
+					:resourceId="currentResourceId"
+					:userData="genMentionsData(comment.props.mentions)"
 					class="comments__list"
 					@delete="onDelete" />
 			</ul>
@@ -86,8 +86,7 @@ import { markCommentsAsRead } from '../services/ReadComments.ts'
 import cancelableRequest from '../utils/cancelableRequest.ts'
 
 export default {
-	/* eslint vue/multi-word-component-names: "warn" */
-	name: 'Comments',
+	name: 'CommentsApp',
 
 	components: {
 		Comment,
@@ -103,6 +102,8 @@ export default {
 	},
 
 	mixins: [CommentView],
+
+	expose: ['update'],
 
 	data() {
 		return {
