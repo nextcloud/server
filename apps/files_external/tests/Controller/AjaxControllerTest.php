@@ -13,6 +13,7 @@ use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -65,6 +66,50 @@ class AjaxControllerTest extends TestCase {
 			});
 
 		parent::setUp();
+	}
+
+	public function testGetApplicableEntitiesReturnsGroupsAndUsers(): void {
+		$group = $this->createMock(IGroup::class);
+		$group->method('getGID')->willReturn('group1');
+		$group->method('getDisplayName')->willReturn('Group One');
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user1');
+		$user->method('getDisplayName')->willReturn('User One');
+
+		$this->groupManager
+			->expects($this->once())
+			->method('search')
+			->with('test', 10, 0)
+			->willReturn([$group]);
+		$this->userManager
+			->expects($this->once())
+			->method('searchDisplayName')
+			->with('test', 10, 0)
+			->willReturn([$user]);
+
+		$response = $this->ajaxController->getApplicableEntities('test', 10, 0);
+		$this->assertSame(200, $response->getStatus());
+		$this->assertSame(['group1' => 'Group One'], $response->getData()['groups']);
+		$this->assertSame(['user1' => 'User One'], $response->getData()['users']);
+	}
+
+	public function testGetApplicableEntitiesWithNoResults(): void {
+		$this->groupManager
+			->expects($this->once())
+			->method('search')
+			->with('', null, null)
+			->willReturn([]);
+		$this->userManager
+			->expects($this->once())
+			->method('searchDisplayName')
+			->with('', null, null)
+			->willReturn([]);
+
+		$response = $this->ajaxController->getApplicableEntities();
+		$this->assertSame(200, $response->getStatus());
+		$this->assertSame([], $response->getData()['groups']);
+		$this->assertSame([], $response->getData()['users']);
 	}
 
 	public function testGetSshKeys(): void {
