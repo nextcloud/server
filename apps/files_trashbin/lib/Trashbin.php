@@ -351,7 +351,7 @@ class Trashbin implements IEventListener {
 				}
 				$trashStorage->getUpdater()->update($trashInternalPath, null, $sizeDifference);
 			}
-		} catch (CopyRecursiveException $e) {
+		} catch (\Exception $e) {
 			$moveSuccessful = false;
 			if ($trashStorage->file_exists($trashInternalPath)) {
 				$trashStorage->unlink($trashInternalPath);
