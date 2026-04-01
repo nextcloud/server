@@ -2061,10 +2061,22 @@ class ShareAPIController extends OCSController {
 
 		$canDownload = false;
 		$hideDownload = true;
-		$userExplicitlySetHideDownload = $share->getHideDownload(); // Capture user's explicit choice
+		$userExplicitlySetHideDownload = $share->getHideDownload();
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 		$nodes = $userFolder->getById($share->getNodeId());
+
+		// Fallback: getById fails for federated storage when mount cache is incomplete.
+		// Use node already set on share during creation.
+		if (empty($nodes)) {
+			try {
+				$node = $share->getNode();
+				$nodes = [$node];
+			} catch (\Exception $e) {
+				return;
+			}
+		}
+
 		foreach ($nodes as $node) {
 			// Owner always can download it - so allow it, but respect their explicit choice about hiding downloads
 			if ($node->getOwner()?->getUID() === $share->getSharedBy()) {

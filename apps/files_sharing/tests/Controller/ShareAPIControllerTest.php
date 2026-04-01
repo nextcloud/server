@@ -5647,4 +5647,33 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
 	}
+
+	public function testFederatedStorageFallbackWhenGetByIdEmpty(): void {
+		$ocs = $this->mockFormatShare();
+
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock(Folder::class);
+		$owner = $this->createMock(IUser::class);
+		$storage = $this->createMock(\OCA\Files_Sharing\External\Storage::class);
+
+		$share->method('getSharedBy')->willReturn('sharedByUser');
+		$share->method('getNodeId')->willReturn(42);
+		$share->method('getHideDownload')->willReturn(false);
+		$share->method('getNode')->willReturn($node);
+		$node->method('getOwner')->willReturn($owner);
+		$owner->method('getUID')->willReturn('differentOwner');
+		$node->method('getStorage')->willReturn($storage);
+		$storage->method('instanceOfStorage')->willReturnMap([
+			[SharedStorage::class, false],
+			[\OCA\Files_Sharing\External\Storage::class, true]
+		]);
+
+		$userFolder->method('getById')->with(42)->willReturn([]);
+		$this->rootFolder->method('getUserFolder')->with('sharedByUser')->willReturn($userFolder);
+
+		$share->expects($this->once())->method('setHideDownload')->with(false);
+
+		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
+	}
 }
