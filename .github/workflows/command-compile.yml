@@ -113,7 +113,7 @@ jobs:
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') }}
         run: |
           git fetch --unshallow
-          git fetch origin "$BASE_REF"
+          git fetch origin "${BASE_REF}:${BASE_REF}"
         env:
           BASE_REF: ${{ needs.init.outputs.base_ref }}
 
@@ -140,11 +140,11 @@ jobs:
 
       - name: Rebase to ${{ needs.init.outputs.base_ref }}
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') }}
+        env:
+          BASE_REF: ${{ needs.init.outputs.base_ref }}
         run: |
-          git fetch origin '${{ needs.init.outputs.base_ref }}:${{ needs.init.outputs.base_ref }}'
-
           # Start the rebase
-          git rebase 'origin/${{ needs.init.outputs.base_ref }}' || {
+          git rebase "$BASE_REF" || {
             # Handle rebase conflicts in a loop
             while [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; do
               echo "Handling rebase conflict..."
@@ -152,11 +152,11 @@ jobs:
               # Remove and checkout /dist and /js folders from the base branch
               if [ -d "dist" ]; then
                 rm -rf dist
-                git checkout origin/${{ needs.init.outputs.base_ref }} -- dist/ 2>/dev/null || echo "No dist folder in base branch"
+                git checkout "$BASE_REF" -- dist/ 2>/dev/null || echo "No dist folder in base branch"
               fi
               if [ -d "js" ]; then
                 rm -rf js
-                git checkout origin/${{ needs.init.outputs.base_ref }} -- js/ 2>/dev/null || echo "No js folder in base branch"
+                git checkout "$BASE_REF" -- js/ 2>/dev/null || echo "No js folder in base branch"
               fi
 
               # Stage all changes
