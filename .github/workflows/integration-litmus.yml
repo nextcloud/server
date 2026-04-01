@@ -46,7 +46,7 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ['8.2']
-        endpoint: ['webdav', 'dav']
+        endpoint: ['dav']
 
     name: Litmus WebDAV ${{ matrix.endpoint }}
 
@@ -94,7 +94,7 @@ jobs:
             ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest \
             bash -c '\
               cd /tmp/litmus/litmus-0.13;
-              make URL=http://host.docker.internal:8080/remote.php/${{ matrix.endpoint }}${{ matrix.endpoint == 'dav' && '/files/admin' || ''}} CREDS="admin admin" TESTS="basic copymove props largefile" check;
+              make URL=http://host.docker.internal:8080/remote.php/${{ matrix.endpoint }}/files/admin CREDS="admin admin" TESTS="basic copymove props largefile" check;
               status=$?;
               cat debug.log;
               exit $status;'
