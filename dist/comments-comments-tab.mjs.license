@@ -1,0 +1,12 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: Apache-2.0
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+
+This file is generated from multiple sources. Included packages:
+- @mdi/svg
+	- version: 7.4.47
+	- license: Apache-2.0
+- nextcloud-ui
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later
