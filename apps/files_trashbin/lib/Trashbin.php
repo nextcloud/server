@@ -306,15 +306,6 @@ class Trashbin implements IEventListener {
 		// there is still a possibility that the file has been deleted by a remote user
 		$deletedBy = self::overwriteDeletedBy($user);
 
-		$deleteTrashRow = static function () use ($owner, $filename, $timestamp): void {
-			$query = Server::get(IDBConnection::class)->getQueryBuilder();
-			$query->delete('files_trash')
-				->where($query->expr()->eq('user', $query->createNamedParameter($owner)))
-				->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
-				->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
-			$query->executeStatement();
-		};
-
 		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('files_trash')
 			->setValue('id', $query->createNamedParameter($filename))
@@ -398,7 +389,7 @@ class Trashbin implements IEventListener {
 					'timestamp' => $timestamp,
 				]
 			);
-			$deleteTrashRow();
+			self::deleteTrashRow($user, $filename, $timestamp);
 			if ($trashStorage->file_exists($trashInternalPath)) {
 				if ($trashStorage->is_dir($trashInternalPath)) {
 					$trashStorage->rmdir($trashInternalPath);
@@ -606,12 +597,7 @@ class Trashbin implements IEventListener {
 			self::restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp);
 
 			if ($timestamp) {
-				$query = Server::get(IDBConnection::class)->getQueryBuilder();
-				$query->delete('files_trash')
-					->where($query->expr()->eq('user', $query->createNamedParameter($user)))
-					->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
-					->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
-				$query->executeStatement();
+				self::deleteTrashRow($user, $filename, $timestamp);
 			}
 
 			return true;
@@ -761,12 +747,7 @@ class Trashbin implements IEventListener {
 			$node = $userRoot->get('/files_trashbin/files/' . $file);
 		} catch (NotFoundException $e) {
 			if ($timestamp) {
-				$query = Server::get(IDBConnection::class)->getQueryBuilder();
-				$query->delete('files_trash')
-					->where($query->expr()->eq('user', $query->createNamedParameter($user)))
-					->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
-					->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
-				$query->executeStatement();
+				self::deleteTrashRow($user, $filename, $timestamp);
 			}
 			return $size;
 		}
@@ -782,15 +763,19 @@ class Trashbin implements IEventListener {
 		self::emitTrashbinPostDelete('/files_trashbin/files/' . $file);
 
 		if ($timestamp) {
-			$query = Server::get(IDBConnection::class)->getQueryBuilder();
-			$query->delete('files_trash')
-				->where($query->expr()->eq('user', $query->createNamedParameter($user)))
-				->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
-				->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
-			$query->executeStatement();
+			self::deleteTrashRow($user, $filename, $timestamp);
 		}
 
 		return $size;
+	}
+
+	private static function deleteTrashRow(string $user, string $filename, int $timestamp): void {
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
+		$query->delete('files_trash')
+			->where($query->expr()->eq('user', $query->createNamedParameter($user)))
+			->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
+			->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
+		$query->executeStatement();
 	}
 
 	/**
