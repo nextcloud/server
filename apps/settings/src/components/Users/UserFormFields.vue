@@ -45,7 +45,7 @@
 			data-test="password"
 			:minlength="minPasswordLength"
 			:maxlength="469"
-			aria-describedby="password-email-hint"
+			:aria-describedby="fieldConfig.showPasswordEmailHint ? 'password-email-hint' : undefined"
 			:label="fieldConfig.password?.label"
 			:error="!!errors.password"
 			:helper-text="errors.password"
@@ -59,7 +59,7 @@
 			class="user-form-fields__item"
 			data-test="email"
 			type="email"
-			aria-describedby="password-email-hint"
+			:aria-describedby="fieldConfig.showPasswordEmailHint ? 'password-email-hint' : undefined"
 			:label="fieldConfig.email?.label || t('settings', 'Email')"
 			:error="!!errors.email"
 			:helper-text="errors.email"
@@ -68,10 +68,21 @@
 			spellcheck="false"
 			:required="fieldConfig.email?.required" />
 
-		<UserFormGroups :formData="formData" />
-		<UserFormQuota :formData="formData" :quotaOptions="quotaOptions" />
-		<UserFormLanguage :formData="formData" />
-		<UserFormManager :formData="formData" />
+		<UserFormGroups />
+		<UserFormQuota :quota-options="quotaOptions" />
+		<UserFormLanguage />
+		<UserFormManager />
+
+		<!-- Catch-all for validation errors on NcSelect-based fields (groups, quota, etc.) -->
+		<div
+			v-if="Object.keys(unhandledErrors).length > 0"
+			class="user-form-fields__error-summary"
+			aria-live="polite"
+			role="status">
+			<p v-for="(message, field) in unhandledErrors" :key="field">
+				{{ field }}: {{ message }}
+			</p>
+		</div>
 	</div>
 </template>
 
@@ -86,10 +97,10 @@ import UserFormQuota from './UserFormQuota.vue'
 /**
  * Shared form fields for creating and editing user accounts.
  *
- * Receives a single mutable `formData` object (owned by the parent dialog)
+ * Injects a reactive `formData` object (provided by the parent dialog)
  * and binds directly to its properties via v-model. Complex field logic
  * (groups, quota, language, manager) is delegated to dedicated sub-components
- * that also receive and mutate formData directly.
+ * that also inject the same formData.
  *
  * Expected formData shape:
  *   { username, displayName, password, email, groups, subadminGroups, quota, language, manager }
@@ -106,13 +117,9 @@ export default {
 		UserFormQuota,
 	},
 
-	props: {
-		/** The mutable form data object owned by the parent dialog */
-		formData: {
-			type: Object,
-			required: true,
-		},
+	inject: ['formData'],
 
+	props: {
 		/** Quota preset options for the quota select */
 		quotaOptions: {
 			type: Array,
@@ -143,6 +150,11 @@ export default {
 	computed: {
 		minPasswordLength() {
 			return this.$store.getters.getPasswordPolicyMinLength
+		},
+
+		unhandledErrors() {
+			const handled = new Set(['displayName', 'password', 'email'])
+			return Object.fromEntries(Object.entries(this.errors).filter(([key]) => !handled.has(key)))
 		},
 	},
 
@@ -186,6 +198,17 @@ export default {
 
 	:deep(.user-form__managers) {
 		margin-bottom: 12px;
+	}
+
+	&__error-summary {
+		width: 100%;
+		margin-top: 8px;
+		color: var(--color-error);
+		font-size: var(--default-font-size, 0.875rem);
+
+		p {
+			margin: 2px 0;
+		}
 	}
 }
 </style>

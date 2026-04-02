@@ -6,7 +6,7 @@
 import { User } from '@nextcloud/e2e-test-server/cypress'
 import { clearState } from '../../support/commonUtils.ts'
 import { randomString } from '../../support/utils/randomString.ts'
-import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils.ts'
+import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, openEditDialog, saveEditDialog } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -89,34 +89,27 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 			.scrollIntoView()
 	})
 
-	it('switch into user edit mode', () => {
-		toggleEditButton(testUser)
-		getUserListRow(testUser.userId)
-			.find('[data-cy-user-list-input-groups]')
-			.should('exist')
-	})
+	it('assign the group via the edit dialog', () => {
+		openEditDialog(testUser)
 
-	it('assign the group', () => {
-		// focus inside the input
-		getUserListRow(testUser.userId)
-			.find('[data-cy-user-list-input-groups] input')
-			.click({ force: true })
-		// enter the group name
-		getUserListRow(testUser.userId)
-			.find('[data-cy-user-list-input-groups] input')
-			.type(`${groupName.slice(0, 5)}`) // only type part as otherwise we would create a new one with the same name
-		cy.contains('li.vs__dropdown-option', groupName)
-			.click({ force: true })
+		// Type part of the group name in the groups NcSelect
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
+			cy.get('[data-test="groups"] input[type="search"]').click({ force: true })
+			cy.get('[data-test="groups"] input[type="search"]').type(groupName.slice(0, 5))
+		})
+
+		// Select the group from the floating dropdown
+		cy.get('.vs__dropdown-menu').should('be.visible')
+			.contains('li', groupName).click({ force: true })
 
 		handlePasswordConfirmation(admin.password)
-	})
+		saveEditDialog()
 
-	it('leave the user edit mode', () => {
-		toggleEditButton(testUser, false)
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
 	})
 
 	it('see the group was successfully assigned', () => {
-		// see a new memeber
+		// see a new member
 		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
 			.find('.counter-bubble__counter')
 			.should('contain', '1')

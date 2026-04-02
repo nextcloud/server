@@ -31,7 +31,7 @@
 				v-model="formData.subadminGroups"
 				class="user-form__select"
 				:input-label="t('settings', 'Admin of the following groups')"
-				:placeholder="t('settings', 'Set account as admin for …')"
+				:placeholder="t('settings', 'Set account as admin for …')"
 				:disabled="creatingGroup"
 				:options="availableSubAdminGroups"
 				keep-open
@@ -54,12 +54,7 @@ export default {
 		NcSelect,
 	},
 
-	props: {
-		formData: {
-			type: Object,
-			required: true,
-		},
-	},
+	inject: ['formData'],
 
 	data() {
 		return {

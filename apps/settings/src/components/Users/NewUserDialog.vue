@@ -18,9 +18,8 @@
 			@submit.prevent="createUser">
 			<UserFormFields
 				ref="fields"
-				:formData="newUser"
-				:fieldConfig="fieldConfig"
-				:quotaOptions="quotaOptions" />
+				:field-config="fieldConfig"
+				:quota-options="quotaOptions" />
 		</form>
 
 		<template #actions>
@@ -50,6 +49,14 @@ export default {
 		UserFormFields,
 	},
 
+	// Children inject this reactive object and mutate its properties via v-model.
+	// Do not reassign newUser entirely, the injected reference would go stale.
+	provide() {
+		return {
+			formData: this.newUser,
+		}
+	},
+
 	props: {
 		loading: {
 			type: Object,
@@ -67,7 +74,7 @@ export default {
 		},
 	},
 
-	emits: ['closing', 'reset'],
+	emits: ['closing'],
 
 	computed: {
 		settings() {
@@ -99,6 +106,7 @@ export default {
 					label: this.newUser.email === ''
 						? t('settings', 'Password (required)')
 						: t('settings', 'Password'),
+
 					required: this.newUser.email === '',
 				},
 
@@ -106,6 +114,7 @@ export default {
 					label: this.newUser.password === '' || this.settings.newUserRequireEmail
 						? t('settings', 'Email (required)')
 						: t('settings', 'Email'),
+
 					required: this.newUser.password === '' || this.settings.newUserRequireEmail,
 				},
 
@@ -134,8 +143,6 @@ export default {
 					manager: this.newUser.manager.id,
 				})
 
-				this.$emit('reset')
-				this.$refs.fields?.focusField('username')
 				this.$emit('closing')
 			} catch (error) {
 				this.loading.all = false

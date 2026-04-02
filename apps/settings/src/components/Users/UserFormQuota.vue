@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { validateQuota } from './userFormUtils.ts'
 
 export default {
 	name: 'UserFormQuota',
@@ -28,11 +28,9 @@ export default {
 		NcSelect,
 	},
 
+	inject: ['formData'],
+
 	props: {
-		formData: {
-			type: Object,
-			required: true,
-		},
 		quotaOptions: {
 			type: Array,
 			required: true,
@@ -41,12 +39,7 @@ export default {
 
 	methods: {
 		validateQuota(quota) {
-			const parsed = parseFileSize(quota, true)
-			if (parsed !== null && parsed >= 0) {
-				const label = formatFileSize(parsed)
-				return { id: label, label }
-			}
-			return this.quotaOptions[0]
+			return validateQuota(quota, this.quotaOptions[0])
 		},
 	},
 }

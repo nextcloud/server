@@ -997,14 +997,21 @@ class UsersController extends AUserDataOCSController
 		}
 
 		if ($language !== null) {
-			$availableLanguages = $this->l10nFactory->findAvailableLanguages();
-			if (!in_array($language, $availableLanguages, true) && $language !== 'en') {
-				$errors['language'] = $this->l10n->t('Invalid language');
+			$forceLanguage = $this->config->getSystemValue('force_language', false);
+			if ($forceLanguage !== false && !$isAdmin && !$isDelegatedAdmin) {
+				$errors['language'] = $this->l10n->t('Language change is not allowed on this instance');
+			} else {
+				$availableLanguages = $this->l10nFactory->findAvailableLanguages();
+				if (!in_array($language, $availableLanguages, true) && $language !== 'en') {
+					$errors['language'] = $this->l10n->t('Invalid language');
+				}
 			}
 		}
 
 		if ($quota !== null) {
-			if ($quota !== 'none' && $quota !== 'default') {
+			if (!$canEditOther) {
+				$errors['quota'] = $this->l10n->t('Insufficient permissions to change quota');
+			} elseif ($quota !== 'none' && $quota !== 'default') {
 				if (is_numeric($quota)) {
 					$quota = (float) $quota;
 				} else {
@@ -1050,6 +1057,10 @@ class UsersController extends AUserDataOCSController
 			}
 		}
 
+		if ($manager !== null && !$canEditOther) {
+			$errors['manager'] = $this->l10n->t('Insufficient permissions to change manager');
+		}
+
 		if (!empty($errors)) {
 			return new DataResponse(['errors' => $errors], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
@@ -1074,7 +1085,9 @@ class UsersController extends AUserDataOCSController
 			$targetUser->setSystemEMailAddress(mb_strtolower(trim($email)));
 		}
 
-		if ($quota !== null) {
+		// Quota and manager can only be set by admins, delegated admins,
+		// or subadmins with access — never by regular users for themselves.
+		if ($quota !== null && $canEditOther) {
 			$targetUser->setQuota($quota);
 		}
 
@@ -1085,7 +1098,7 @@ class UsersController extends AUserDataOCSController
 			}
 		}
 
-		if ($manager !== null) {
+		if ($manager !== null && $canEditOther) {
 			$targetUser->setManagerUids(array_filter([$manager]));
 		}
 
@@ -1096,6 +1109,10 @@ class UsersController extends AUserDataOCSController
 				$this->groupManager->get($gid)?->removeUser($targetUser);
 			}
 			foreach (array_diff($groups, $currentGroupIds) as $gid) {
+				// Only full admins can add users to the admin group
+				if (!$isAdmin && $gid === 'admin') {
+					continue;
+				}
 				$group = $this->groupManager->get($gid);
 				if ($group === null) {
 					continue;
@@ -1114,6 +1131,10 @@ class UsersController extends AUserDataOCSController
 				}
 			}
 			foreach (array_diff($subadminGroups, $currentSubAdminGroupIds) as $gid) {
+				// Cannot create sub-admins for the admin group
+				if ($gid === 'admin') {
+					continue;
+				}
 				$group = $this->groupManager->get($gid);
 				if ($group !== null && !$subAdminManager->isSubAdminOfGroup($targetUser, $group)) {
 					$subAdminManager->createSubAdmin($targetUser, $group);

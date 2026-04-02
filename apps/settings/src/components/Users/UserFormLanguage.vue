@@ -22,6 +22,7 @@
 
 <script>
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { languageFilterBy } from './userFormUtils.ts'
 
 export default {
 	name: 'UserFormLanguage',
@@ -30,12 +31,7 @@ export default {
 		NcSelect,
 	},
 
-	props: {
-		formData: {
-			type: Object,
-			required: true,
-		},
-	},
+	inject: ['formData'],
 
 	computed: {
 		showConfig() {
@@ -54,12 +50,7 @@ export default {
 	},
 
 	methods: {
-		languageFilterBy(option, label, search) {
-			if (option.languages) {
-				return option.languages.some(({ name }) => name.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
-			}
-			return (label || '').toLocaleLowerCase().includes(search.toLocaleLowerCase())
-		},
+		languageFilterBy,
 	},
 }
 </script>

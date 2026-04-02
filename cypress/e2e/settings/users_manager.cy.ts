@@ -5,7 +5,7 @@
 
 import { User } from '@nextcloud/e2e-test-server/cypress'
 import { clearState } from '../../support/commonUtils.ts'
-import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils.ts'
+import { handlePasswordConfirmation, openEditDialog, saveEditDialog } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -21,101 +21,57 @@ describe('Settings: User Manager Management', function() {
 		}).then(($user) => {
 			user = $user
 			cy.login(admin)
-			cy.intercept('PUT', `/ocs/v2.php/cloud/users/${user.userId}*`).as('updateUser')
 		})
 	})
 
-	it('Can assign and remove a manager through the UI', function() {
+	it('Can assign a manager through the edit dialog', function() {
 		cy.visit('/settings/users')
 
-		toggleEditButton(user, true)
+		openEditDialog(user)
 
-		// Scroll to manager cell and wait for it to be visible
-		getUserListRow(user.userId)
-			.find('[data-cy-user-list-cell-manager]')
-			.scrollIntoView()
-			.should('be.visible')
-
-		// Assign a manager
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-manager]').within(() => {
-			// Verify no manager is set initially
-			cy.get('.vs__selected').should('not.exist')
-
-			// Open the dropdown menu
-			cy.get('[role="combobox"]').click({ force: true })
-
-			// Wait for the dropdown to be visible and initialized
-			waitLoading('[data-cy-user-list-input-manager]')
-
-			// Type the manager's username to search
-			cy.get('input[type="search"]').type(manager.userId, { force: true })
-
-			// Wait for the search results to load
-			waitLoading('[data-cy-user-list-input-manager]')
+		// Open the Manager NcSelect and type manager name
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
+			cy.findByRole('combobox', { name: /Manager/i }).click({ force: true })
+			cy.findByRole('combobox', { name: /Manager/i }).type(manager.userId)
 		})
 
-		// Now select the manager from the filtered results
-		// Since the dropdown is floating, we need to search globally
-		cy.get('.vs__dropdown-menu').find('li').contains('span', manager.userId).should('be.visible').click({ force: true })
+		// Select the manager from the floating dropdown
+		cy.get('.vs__dropdown-menu').should('be.visible')
+			.contains('li', manager.userId).click({ force: true })
 
-		// Handle password confirmation if needed
 		handlePasswordConfirmation(admin.password)
+		saveEditDialog()
 
-		// Verify the manager is selected in the UI
-		cy.get('.vs__selected').should('exist').and('contain.text', manager.userId)
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
 
-		// Verify the PUT request was made to set the manager
-		cy.wait('@updateUser').then((interception) => {
-			// Verify the request URL and body
-			expect(interception.request.url).to.match(/\/cloud\/users\/.+/)
-			expect(interception.request.body).to.deep.equal({
-				key: 'manager',
-				value: manager.userId,
-			})
-			expect(interception.response?.statusCode).to.equal(200)
-		})
-
-		// Wait for the save to complete
-		waitLoading('[data-cy-user-list-input-manager]')
-
-		// Verify the manager is set in the backend
+		// Verify backend
 		cy.getUserData(user).then(($result) => {
 			expect($result.body).to.contain(`<manager>${manager.userId}</manager>`)
 		})
+	})
 
-		// Now remove the manager
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-manager]').within(() => {
-			// Clear the manager selection
-			cy.get('.vs__clear').click({ force: true })
+	it('Can remove a manager through the edit dialog', function() {
+		// Set manager via backend first
+		cy.runOccCommand(`user:setting '${user.userId}' settings manager '${manager.userId}'`)
 
-			// Verify the manager is cleared in the UI
-			cy.get('.vs__selected').should('not.exist')
+		cy.visit('/settings/users')
 
-			// Handle password confirmation if needed
-			handlePasswordConfirmation(admin.password)
+		openEditDialog(user)
+
+		// Clear the manager selection inside the dialog
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
+			cy.get('.user-form__managers .vs__clear').click({ force: true })
 		})
 
-		// Verify the PUT request was made to clear the manager
-		cy.wait('@updateUser').then((interception) => {
-			// Verify the request URL and body
-			expect(interception.request.url).to.match(/\/cloud\/users\/.+/)
-			expect(interception.request.body).to.deep.equal({
-				key: 'manager',
-				value: '',
-			})
-			expect(interception.response?.statusCode).to.equal(200)
-		})
+		handlePasswordConfirmation(admin.password)
+		saveEditDialog()
 
-		// Wait for the save to complete
-		waitLoading('[data-cy-user-list-input-manager]')
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
 
-		// Verify the manager is cleared in the backend
+		// Verify backend
 		cy.getUserData(user).then(($result) => {
 			expect($result.body).to.not.contain(`<manager>${manager.userId}</manager>`)
 			expect($result.body).to.contain('<manager></manager>')
 		})
-
-		// Finish editing the user
-		toggleEditButton(user, false)
 	})
 })
