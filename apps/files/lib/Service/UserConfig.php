@@ -79,33 +79,6 @@ class UserConfig {
 			'default' => true,
 			'allowed' => [true, false],
 		],
-		[
-			// Whether to group images on recent files list or not
-			'key' => 'group_recent_files_images',
-			'default' => false,
-			'allowed' => [true, false],
-		],
-		[
-			// Which image mime types to group in the recent files list
-			'key' => 'recent_files_group_mimetypes',
-			'default' => '',
-			'allowed' => [
-				'image/png',
-				'image/jpeg',
-				'image/gif',
-				'image/webp',
-				'image/avif',
-				'image/heic',
-				'image/heif',
-			]
-		],
-		[
-			// Time window in minutes to group files uploaded close together in the recent files list
-			'key' => 'recent_files_group_timespan_minutes',
-			'default' => 2,
-			'min' => 1,
-			'max' => 999,
-		],
 	];
 	protected ?IUser $user = null;
 
@@ -145,7 +118,7 @@ class UserConfig {
 	 * Get the default config value for a given key
 	 *
 	 * @param string $key a valid config key
-	 * @return string|bool|int
+	 * @return string|bool
 	 */
 	private function getDefaultConfigValue(string $key) {
 		foreach (self::ALLOWED_CONFIGS as $config) {
@@ -173,25 +146,7 @@ class UserConfig {
 			throw new \InvalidArgumentException('Unknown config key');
 		}
 
-		if (is_string($value) && str_starts_with($value, '[') && str_ends_with($value, ']')) {
-			$value = json_decode($value, true) ?? $value;
-		}
-
-		$config = $this->getConfigDefinition($key);
-
-		if (isset($config['min'], $config['max'])) {
-			if ((int)$value < $config['min'] || (int)$value > $config['max']) {
-				throw new \InvalidArgumentException('Invalid config value');
-			}
-		} elseif (is_array($value)) {
-			$allowedValues = $this->getAllowedConfigValues($key);
-			foreach ($value as $v) {
-				if (!in_array($v, $allowedValues)) {
-					throw new \InvalidArgumentException('Invalid config value');
-				}
-			}
-			$value = json_encode($value);
-		} elseif (!in_array($value, $this->getAllowedConfigValues($key))) {
+		if (!in_array($value, $this->getAllowedConfigValues($key))) {
 			throw new \InvalidArgumentException('Invalid config value');
 		}
 
@@ -219,27 +174,9 @@ class UserConfig {
 			if (is_bool($this->getDefaultConfigValue($key)) && is_string($value)) {
 				return $value === '1';
 			}
-			if (is_string($value) && str_starts_with($value, '[') && str_ends_with($value, ']')) {
-				$value = json_decode($value, true) ?? $value;
-			}
 			return $value;
 		}, $this->getAllowedConfigKeys());
 
 		return array_combine($this->getAllowedConfigKeys(), $userConfigs);
-	}
-
-	/**
-	 * Get the config definition for a given key
-	 *
-	 * @param string $key
-	 * @return array
-	 */
-	private function getConfigDefinition(string $key): array {
-		foreach (self::ALLOWED_CONFIGS as $config) {
-			if ($config['key'] === $key) {
-				return $config;
-			}
-		}
-		return [];
 	}
 }
