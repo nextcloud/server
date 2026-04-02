@@ -110,7 +110,7 @@ class ReminderMapper extends QBMapper {
 
 		$now = $this->timeFactory->getDateTime();
 		$now->setTimezone(new \DateTimeZone('UTC'));
-		
+
 		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
 			->from($this->getTableName())
 			->where(
