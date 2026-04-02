@@ -128,7 +128,7 @@ OC.L10N.register(
     "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "Csatlakozási hiba az LDAP/AD-vel. Ellenőrizd a kiszolgálót, a portot és a hitelesítő adatokat.",
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "A(z) „%uid” helykitöltő hiányzik. Ez lesz lecserélve a felhasználónévre az LDAP/AD lekérdezésekor.",
     "When logging in, {instanceName} will find the user based on the following attributes:" : "Bejelentkezéskor a(z) {instanceName} a következő attribútumok alapján találja meg a felhasználót:",
-    "Allows login against the LDAP/AD username, which is either 'uid' or 'sAMAccountName' and will be detected." : "Engedélyezi a bejelentkezést az LDAP/AD felhasználónév alapján, amely vagy 'uid' vagy 'sAMAccountName' és észlelve lesz.",
+    "Allows login against the LDAP/AD username, which is either 'uid' or 'sAMAccountName' and will be detected." : "Engedélyezi a bejelentkezést az LDAP/AD felhasználónév alapján – ez vagy az „uid”, vagy az „sAMAccountName” mező, és észlelve lesz.",
     "LDAP/AD Username:" : "LDAP/AD felhasználónév:",
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Engedélyezi a bejelentkezést egy email attribútum alapján. 'mail' és 'mailPrimaryAddress' megengedett.",
     "LDAP/AD Email Address:" : "LDAP/AD e-mail-cím:",
