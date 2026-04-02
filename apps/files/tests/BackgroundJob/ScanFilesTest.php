@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Files\Tests\BackgroundJob;
 
 use OC\Files\Mount\MountPoint;
+use OC\Files\SetupManager;
 use OC\Files\Storage\Temporary;
 use OCA\Files\BackgroundJob\ScanFiles;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -17,6 +18,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -51,7 +53,10 @@ class ScanFilesTest extends TestCase {
 				$dispatcher,
 				$logger,
 				$connection,
-				$this->createMock(ITimeFactory::class)
+				$this->createMock(ITimeFactory::class),
+				$this->createMock(SetupManager::class),
+				$this->createMock(IUserManager::class),
+				$this->createMock(IEventDispatcher::class),
 			])
 			->onlyMethods(['runScanner'])
 			->getMock();
