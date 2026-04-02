@@ -27,6 +27,7 @@ use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
 use Psr\Clock\ClockInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Listen to various events that can change what shares a user has access to
@@ -51,6 +52,7 @@ class SharesUpdatedListener implements IEventListener {
 		private readonly ShareRecipientUpdater $shareUpdater,
 		private readonly IUserConfig $userConfig,
 		private readonly ClockInterface $clock,
+		private readonly LoggerInterface $logger,
 		IAppConfig $appConfig,
 	) {
 		$this->cutOffMarkTime = $appConfig->getValueFloat(Application::APP_ID, ConfigLexicon::UPDATE_CUTOFF_TIME, 3.0);
@@ -125,6 +127,9 @@ class SharesUpdatedListener implements IEventListener {
 	}
 
 	private function markUserForRefresh(IUser $user): void {
+		// log with exception to capture the trace
+		$ex = new \Exception('Marking ' . $user->getUID() . ' as needing the share mounts refreshed');
+		$this->logger->debug($ex->getMessage(), ['exception' => $ex]);
 		$this->userConfig->setValueBool($user->getUID(), Application::APP_ID, ConfigLexicon::USER_NEEDS_SHARE_REFRESH, true);
 	}
 

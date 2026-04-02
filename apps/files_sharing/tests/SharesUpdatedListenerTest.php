@@ -21,6 +21,7 @@ use OCP\Share\IShare;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Clock\ClockInterface;
+use Psr\Log\LoggerInterface;
 use Test\Mock\Config\MockAppConfig;
 use Test\Mock\Config\MockUserConfig;
 use Test\Traits\UserTrait;
@@ -34,6 +35,7 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 	private IUserConfig $userConfig;
 	private IAppConfig $appConfig;
 	private ClockInterface&MockObject $clock;
+	private LoggerInterface&MockObject $logger;
 	private $clockFn;
 
 	protected function setUp(): void {
@@ -54,11 +56,14 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 				// extra wrapper so we can modify clockFn
 				return ($this->clockFn)();
 			});
+		$this->logger = $this->createMock(LoggerInterface::class);
+
 		$this->sharesUpdatedListener = new SharesUpdatedListener(
 			$this->manager,
 			$this->shareRecipientUpdater,
 			$this->userConfig,
 			$this->clock,
+			$this->logger,
 			$this->appConfig,
 		);
 	}
