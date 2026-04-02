@@ -35,7 +35,7 @@ class UserHomeSetupListener implements IEventListener {
 		}
 
 		$user = $event->getUser();
-		if ($this->userConfig->getValueBool($user->getUID(), Application::APP_ID, ConfigLexicon::USER_NEEDS_SHARE_REFRESH)) {
+		if ($this->userConfig->getValueBool($user->getUID(), Application::APP_ID, ConfigLexicon::USER_NEEDS_SHARE_REFRESH, true)) {
 			$this->updater->updateForUser($user);
 			$this->userConfig->setValueBool($user->getUID(), Application::APP_ID, ConfigLexicon::USER_NEEDS_SHARE_REFRESH, false);
 		}
