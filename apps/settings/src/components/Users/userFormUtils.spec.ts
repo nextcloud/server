@@ -153,6 +153,18 @@ describe('diffPayload', () => {
 		expect(diffPayload(initial, current)).toEqual({ displayName: 'Robert' })
 	})
 
+	it('detects displayName cleared to empty string', () => {
+		const initial = makeFormData({ displayName: 'Bob' })
+		const current = makeFormData({ displayName: '' })
+		expect(diffPayload(initial, current)).toEqual({ displayName: '' })
+	})
+
+	it('detects email cleared to empty string', () => {
+		const initial = makeFormData({ email: 'bob@example.com' })
+		const current = makeFormData({ email: '' })
+		expect(diffPayload(initial, current)).toEqual({ email: '' })
+	})
+
 	it('always includes password when non-empty', () => {
 		const initial = makeFormData()
 		const current = makeFormData({ password: 'secret123' })

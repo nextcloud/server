@@ -2852,6 +2852,29 @@ class UsersControllerTest extends TestCase {
 		$this->assertArrayHasKey('language', $result->getData()['errors']);
 	}
 
+	public function testEditUserMultiFieldClearDisplayNameResetsToUserId(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('canChangeDisplayName')->willReturn(true);
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		// Clearing display name (empty string) should reset to userId
+		$targetUser->expects($this->once())->method('setDisplayName')->with('targetuser')->willReturn(true);
+
+		$result = $this->api->editUserMultiField('targetuser', displayName: '');
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
 
 	public function testDeleteUserNotExistingUser(): void {
 		$this->expectException(OCSException::class);
