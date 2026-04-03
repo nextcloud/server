@@ -45,52 +45,52 @@ const renderTag = function(tag: string, isMore = false): HTMLElement {
 const renderInline = async function(node: Node): Promise<HTMLElement> {
 	// Ensure we have the system tags as an array
 	const tags = getNodeSystemTags(node)
+	const systemTagsElementWrapper = document.createElement('div')
+	systemTagsElementWrapper.setAttribute('data-systemtags-fileid', node.id || '')
 
-	const systemTagsElement = document.createElement('ul')
-	systemTagsElement.classList.add('files-list__system-tags')
-	systemTagsElement.setAttribute('aria-label', t('files', 'Assigned collaborative tags'))
-	systemTagsElement.setAttribute('data-systemtags-fileid', node.fileid?.toString() || '')
+	if (tags.length > 0) {
+		const systemTagsElement = document.createElement('ul')
+		systemTagsElement.classList.add('files-list__system-tags')
+		systemTagsElement.setAttribute('aria-label', t('files', 'Assigned collaborative tags'))
+		systemTagsElementWrapper.appendChild(systemTagsElement)
 
-	if (tags.length === 0) {
-		return systemTagsElement
-	}
+		// Fetch the tags if the cache is empty
+		if (cache.length === 0) {
+			try {
+				// Best would be to support attributes from webdav,
+				// but currently the library does not support it
+				cache.push(...await fetchTags())
+			} catch (error) {
+				logger.error('Failed to fetch tags', { error })
+			}
+		}
 
-	// Fetch the tags if the cache is empty
-	if (cache.length === 0) {
-		try {
-			// Best would be to support attributes from webdav,
-			// but currently the library does not support it
-			cache.push(...await fetchTags())
-		} catch (error) {
-			logger.error('Failed to fetch tags', { error })
+		systemTagsElement.append(renderTag(tags[0]!))
+		if (tags.length === 2) {
+			// Special case only two tags:
+			// the overflow fake tag would take the same space as this, so render it
+			systemTagsElement.append(renderTag(tags[1]!))
+		} else if (tags.length > 1) {
+			// More tags than the one we're showing
+			// So we add a overflow element indicating there are more tags
+			const moreTagElement = renderTag('+' + (tags.length - 1), true)
+			moreTagElement.setAttribute('title', tags.slice(1).join(', '))
+			// because the title is not accessible we hide this element for screen readers (see alternative below)
+			moreTagElement.setAttribute('aria-hidden', 'true')
+			moreTagElement.setAttribute('role', 'presentation')
+			systemTagsElement.append(moreTagElement)
+
+			// For accessibility the tags are listed, as the title is not accessible
+			// but those tags are visually hidden
+			for (const tag of tags.slice(1)) {
+				const tagElement = renderTag(tag)
+				tagElement.classList.add('hidden-visually')
+				systemTagsElement.append(tagElement)
+			}
 		}
 	}
 
-	systemTagsElement.append(renderTag(tags[0]!))
-	if (tags.length === 2) {
-		// Special case only two tags:
-		// the overflow fake tag would take the same space as this, so render it
-		systemTagsElement.append(renderTag(tags[1]!))
-	} else if (tags.length > 1) {
-		// More tags than the one we're showing
-		// So we add a overflow element indicating there are more tags
-		const moreTagElement = renderTag('+' + (tags.length - 1), true)
-		moreTagElement.setAttribute('title', tags.slice(1).join(', '))
-		// because the title is not accessible we hide this element for screen readers (see alternative below)
-		moreTagElement.setAttribute('aria-hidden', 'true')
-		moreTagElement.setAttribute('role', 'presentation')
-		systemTagsElement.append(moreTagElement)
-
-		// For accessibility the tags are listed, as the title is not accessible
-		// but those tags are visually hidden
-		for (const tag of tags.slice(1)) {
-			const tagElement = renderTag(tag)
-			tagElement.classList.add('hidden-visually')
-			systemTagsElement.append(tagElement)
-		}
-	}
-
-	return systemTagsElement
+	return systemTagsElementWrapper
 }
 
 export const action = new FileAction({
