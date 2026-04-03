@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Notera:",
     "This share is valid until %s at midnight" : "Denna delning gäller t.o.m %s vid midnatt",
     "Expiration:" : "Upphör:",
-    "Open %s" : "Öppna %s",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s delade %2$s med dig. Du bör redan ha fått ett separat e-postmeddelande med en länk för åtkomst.",
     "Password to access %1$s shared to you by %2$s" : "Lösenord för åtkomst till %1$s delad med dig av %2$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Kunde inte uppdatera konfiguration för delning via e-post",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Tillåter personer att dela en personlig länk till en fil eller mapp genom att ange en e-postadress.",
     "Send password by mail" : "Skicka lösenord via e-post",
-    "Reply to initiator" : "Svara till avsändaren"
+    "Reply to initiator" : "Svara till avsändaren",
+    "Open %s" : "Öppna %s"
 },
 "nplurals=2; plural=(n != 1);");

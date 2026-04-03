@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "注意：",
     "This share is valid until %s at midnight" : "この共有は%sの午前0時まで有効です。",
     "Expiration:" : "期限切れ:",
-    "Open %s" : "%sを開く",
     "%1$s via %2$s" : "%1$s に %2$s から",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$sにより %2$s が共有されました。アクセスするためのリンクは別途メールで受信してください。",
     "Password to access %1$s shared to you by %2$s" : "%1$sへの共有アクセスのパスワードが %2$s から共有されました",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "メール共有の設定の更新に失敗しました",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
-    "Reply to initiator" : "返信先を共有開始者にする"
+    "Reply to initiator" : "返信先を共有開始者にする",
+    "Open %s" : "%sを開く"
 },
 "nplurals=1; plural=0;");

@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Merk:",
     "This share is valid until %s at midnight" : "Denne delte ressursen er gyldig til %s ved midnatt",
     "Expiration:" : "Utløp:",
-    "Open %s" : "Åpne %s",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s delte %2$s med deg. Du skal allerede ha mottatt en egen e-post med en lenke for å få tilgang til den.",
     "Password to access %1$s shared to you by %2$s" : "Passord for å få tilgang til %1$s delt med deg av %2$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Kan ikke oppdatere deling via e-postkonfigurasjon",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Tillater personer å dele en personalisert lenke til en fil eller mappe ved å skrive inn en e-postadresse.",
     "Send password by mail" : "Send passord via e-post",
-    "Reply to initiator" : "Svar til initiativtaker"
+    "Reply to initiator" : "Svar til initiativtaker",
+    "Open %s" : "Åpne %s"
 },
 "nplurals=2; plural=(n != 1);");

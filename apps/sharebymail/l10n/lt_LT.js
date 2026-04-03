@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Pastaba:",
     "This share is valid until %s at midnight" : "Šis pasiūlymas galioja iki %s vidurnakčio",
     "Expiration:" : "Galiojimo pabaiga:",
-    "Open %s" : "Atverti %s",
     "%1$s via %2$s" : "%1$s per %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s bendrino %2$s su jumis. Jau turėjote gauti atskirą el. laišką su nuoroda, kaip jį pasiekti.",
     "Password to access %1$s shared to you by %2$s" : "%2$s pasidalino slaptažodžiu, reikalingu atverti %1$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Nepavyko atnaujinti bendrinimo el. paštu konfigūracijos",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Leidžia žmonėms bendrinti asmeninę nuorodą į failą ar aplanką, įvedus el. pašto adresą.",
     "Send password by mail" : "Siųsti slaptažodį el. paštu",
-    "Reply to initiator" : "Atsakyti iniciatoriui"
+    "Reply to initiator" : "Atsakyti iniciatoriui",
+    "Open %s" : "Atverti %s"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
