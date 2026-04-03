@@ -23,6 +23,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use Sabre\DAV\Exception\Forbidden;
 
 abstract class Node implements \Sabre\DAV\INode {
 	/**
@@ -111,6 +112,13 @@ abstract class Node implements \Sabre\DAV\INode {
 	}
 
 	/**
+	 * Check if this node can be renamed
+	 */
+	public function canRename(): bool {
+		return DavUtil::canRename($this->node, $this->node->getParent());
+	}
+
+	/**
 	 * Renames the node
 	 *
 	 * @param string $name The new name
@@ -118,10 +126,8 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function setName($name) {
-		// rename is only allowed if the delete privilege is granted
-		// (basically rename is a copy with delete of the original node)
-		if (!($this->info->isDeletable() || ($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === ''))) {
-			throw new \Sabre\DAV\Exception\Forbidden();
+		if (!$this->canRename()) {
+			throw new Forbidden('');
 		}
 
 		[$parentPath,] = \Sabre\Uri\split($this->path);
@@ -341,11 +347,8 @@ abstract class Node implements \Sabre\DAV\INode {
 		return null;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDavPermissions() {
-		return DavUtil::getDavPermissions($this->info);
+	public function getDavPermissions(): string {
+		return DavUtil::getDavPermissions($this->info, $this->node->getParent());
 	}
 
 	public function getOwner() {
