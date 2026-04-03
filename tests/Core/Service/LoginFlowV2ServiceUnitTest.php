@@ -104,7 +104,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	 */
 	public function testPollPrivateKeyCouldNotBeDecrypted(): void {
 		$this->expectException(LoginFlowV2NotFoundException::class);
-		$this->expectExceptionMessage('Apptoken could not be decrypted');
+		$this->expectExceptionMessage('Private key could not be decrypted');
 
 		$this->crypto->expects($this->once())
 			->method('decrypt')
@@ -127,9 +127,9 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 		$this->subjectUnderTest->poll('');
 	}
 
-	public function testPollApptokenCouldNotBeDecrypted(): void {
+	public function testPollAppPasswordCouldNotBeDecrypted(): void {
 		$this->expectException(LoginFlowV2NotFoundException::class);
-		$this->expectExceptionMessage('Apptoken could not be decrypted');
+		$this->expectExceptionMessage('App password could not be decrypted');
 
 		/*
 		 * Cannot be mocked, because functions like getLoginName are magic functions.
@@ -352,7 +352,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 
 		$this->secureRandom->expects($this->once())
 			->method('generate')
-			->with(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS)
+			->with(72, ISecureRandom::CHAR_ALPHANUMERIC)
 			->willReturn('test_pass');
 
 		// session token
@@ -360,6 +360,10 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 		$sessionToken->expects($this->once())
 			->method('getLoginName')
 			->willReturn('login_name');
+		
+		$sessionToken->expects($this->once())
+			->method('getUID')
+			->willReturn('user_id');
 
 		$this->tokenProvider->expects($this->once())
 			->method('getPassword')
@@ -421,6 +425,36 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			'server',
 			'user_id'
 		);
+		$this->assertFalse($result);
+	}
+
+	public function testFlowDoneReturnsFalseWhenSessionUserDoesNotMatch(): void {
+		$loginFlowV2 = new LoginFlowV2();
+		$loginFlowV2->setPublicKey('public');
+		$loginFlowV2->setClientName('client_name');
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willReturn($loginFlowV2);
+
+		$sessionToken = $this->getMockBuilder(IToken::class)->disableOriginalConstructor()->getMock();
+		$sessionToken->expects($this->once())
+			->method('getLoginName')
+			->willReturn('login_name');
+		$sessionToken->expects($this->once())
+			->method('getUID')
+			->willReturn('different_user_id');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($sessionToken);
+
+		$this->tokenProvider->expects($this->never())->method('getPassword');
+		$this->tokenProvider->expects($this->never())->method('generateToken');
+		$this->mapper->expects($this->never())->method('update');
+
+		$result = $this->subjectUnderTest->flowDone('login_token', 'session_id', 'server', 'user_id');
+
 		$this->assertFalse($result);
 	}
 
