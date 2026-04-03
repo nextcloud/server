@@ -152,6 +152,11 @@ class LoginFlowV2Service {
 		try {
 			$sessionToken = $this->tokenProvider->getToken($sessionId);
 			$loginName = $sessionToken->getLoginName();
+
+			if ($sessionToken->getUID() !== $userId) {
+				return false;
+			}
+
 			try {
 				$password = $this->tokenProvider->getPassword($sessionToken, $sessionId);
 			} catch (PasswordlessTokenException $ex) {
