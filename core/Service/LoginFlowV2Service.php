@@ -25,54 +25,67 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Coordinates the Login Flow v2 token exchange.
+ *
+ * A flow stores temporary state for a login session, including a per-flow key pair.
+ * The app password is encrypted with the flow's public key and can later be recovered
+ * only by a client that holds the poll token needed to unlock the stored private key.
+ */
 class LoginFlowV2Service {
 	public function __construct(
-		private LoginFlowV2Mapper $mapper,
-		private ISecureRandom $random,
-		private ITimeFactory $time,
-		private IConfig $config,
-		private ICrypto $crypto,
-		private LoggerInterface $logger,
-		private IProvider $tokenProvider,
+		private readonly LoginFlowV2Mapper $mapper,
+		private readonly ISecureRandom $random,
+		private readonly ITimeFactory $time,
+		private readonly IConfig $config,
+		private readonly ICrypto $crypto,
+		private readonly LoggerInterface $logger,
+		private readonly IProvider $tokenProvider,
 	) {
 	}
 
 	/**
-	 * @param string $pollToken
-	 * @return LoginFlowV2Credentials
+	 * Returns the credentials for a completed login flow.
+	 *
+	 * The poll token is a one-time secret held by the client. It is used to look up
+	 * the flow and unlock the private key needed to decrypt the stored app password.
+	 * Once the credentials are available, the flow is consumed so the poll token
+	 * cannot be used again.
+	 *
 	 * @throws LoginFlowV2NotFoundException
 	 */
 	public function poll(string $pollToken): LoginFlowV2Credentials {
 		try {
-			$data = $this->mapper->getByPollToken($this->hashToken($pollToken));
+			$flow = $this->mapper->getByPollToken($this->hashToken($pollToken));
 		} catch (DoesNotExistException $e) {
 			throw new LoginFlowV2NotFoundException('Invalid token');
 		}
 
-		$loginName = $data->getLoginName();
-		$server = $data->getServer();
-		$appPassword = $data->getAppPassword();
+		$loginName = $flow->getLoginName();
+		$server = $flow->getServer();
+		$appPassword = $flow->getAppPassword();
 
 		if ($loginName === null || $server === null || $appPassword === null) {
 			throw new LoginFlowV2NotFoundException('Token not yet ready');
 		}
 
-		// Remove the data from the DB
-		$this->mapper->delete($data);
+		// Consume the flow so the poll token can only be used once.
+		$this->mapper->delete($flow);
 
 		try {
-			// Decrypt the apptoken
-			$privateKey = $this->crypto->decrypt($data->getPrivateKey(), $pollToken);
+			// Decrypt the stored private key using the poll token.
+			$unlockedPrivateKey = $this->crypto->decrypt($flow->getPrivateKey(), $pollToken);
 		} catch (\Exception) {
-			throw new LoginFlowV2NotFoundException('Apptoken could not be decrypted');
+			throw new LoginFlowV2NotFoundException('Private key could not be decrypted');
 		}
 
-		$appPassword = $this->decryptPassword($data->getAppPassword(), $privateKey);
-		if ($appPassword === null) {
-			throw new LoginFlowV2NotFoundException('Apptoken could not be decrypted');
+		// Decrypt the stored app password using the decrypted private key.
+		$decryptedAppPassword = $this->decryptPassword($flow->getAppPassword(), $unlockedPrivateKey);
+		if ($decryptedAppPassword === null) {
+			throw new LoginFlowV2NotFoundException('App password could not be decrypted');
 		}
 
-		return new LoginFlowV2Credentials($server, $loginName, $appPassword);
+		return new LoginFlowV2Credentials($server, $loginName, $decryptedAppPassword);
 	}
 
 	/**
@@ -109,32 +122,32 @@ class LoginFlowV2Service {
 	}
 
 	/**
-	 * @param string $loginToken
-	 * @return bool returns true if the start was successfull. False if not.
+	 * Marks the login flow as started.
+	 *
+	 * Returns false if the login token does not exist.
 	 */
 	public function startLoginFlow(string $loginToken): bool {
 		try {
-			$data = $this->mapper->getByLoginToken($loginToken);
+			$flow = $this->mapper->getByLoginToken($loginToken);
 		} catch (DoesNotExistException $e) {
 			return false;
 		}
 
-		$data->setStarted(1);
-		$this->mapper->update($data);
+		$flow->setStarted(1);
+		$this->mapper->update($flow);
 
 		return true;
 	}
 
 	/**
-	 * @param string $loginToken
-	 * @param string $sessionId
-	 * @param string $server
-	 * @param string $userId
-	 * @return bool true if the flow was successfully completed false otherwise
+	 * Completes the login flow by generating an app password for the authenticated session
+	 * and storing it encrypted with the flow's public key.
+	 *
+	 * Returns false if the login token or session token is invalid.
 	 */
 	public function flowDone(string $loginToken, string $sessionId, string $server, string $userId): bool {
 		try {
-			$data = $this->mapper->getByLoginToken($loginToken);
+			$flow = $this->mapper->getByLoginToken($loginToken);
 		} catch (DoesNotExistException $e) {
 			return false;
 		}
@@ -145,6 +158,7 @@ class LoginFlowV2Service {
 			try {
 				$password = $this->tokenProvider->getPassword($sessionToken, $sessionId);
 			} catch (PasswordlessTokenException $ex) {
+				// Some session tokens are passwordless, so no login password can be reused here.
 				$password = null;
 			}
 		} catch (InvalidTokenException $ex) {
@@ -157,42 +171,58 @@ class LoginFlowV2Service {
 			$userId,
 			$loginName,
 			$password,
-			$data->getClientName(),
+			$flow->getClientName(),
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);
 
-		$data->setLoginName($loginName);
-		$data->setServer($server);
+		$flow->setLoginName($loginName);
+		$flow->setServer($server);
 
-		// Properly encrypt
-		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
+		$encryptedAppPassword = $this->encryptPassword($appPassword, $flow->getPublicKey());
+		$flow->setAppPassword($encryptedAppPassword);
 
-		$this->mapper->update($data);
+		$this->mapper->update($flow);
 		return true;
 	}
 
+	/**
+	 * Completes the login flow with an app password that has already been created by the caller
+	 * and storing it encrypted with the flow's public key.
+	 *
+	 * Returns false if the login token does not exist.
+	 */
 	public function flowDoneWithAppPassword(string $loginToken, string $server, string $loginName, string $appPassword): bool {
 		try {
-			$data = $this->mapper->getByLoginToken($loginToken);
+			$flow = $this->mapper->getByLoginToken($loginToken);
 		} catch (DoesNotExistException $e) {
 			return false;
 		}
 
-		$data->setLoginName($loginName);
-		$data->setServer($server);
+		$flow->setLoginName($loginName);
+		$flow->setServer($server);
 
-		// Properly encrypt
-		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
+		$encryptedAppPassword = $this->encryptPassword($appPassword, $flow->getPublicKey());
+		$flow->setAppPassword($encryptedAppPassword);
 
-		$this->mapper->update($data);
+		$this->mapper->update($flow);
 		return true;
 	}
 
+	/**
+	 * Creates a new login flow with fresh poll and login tokens and a dedicated key pair.
+	 *
+	 * The poll token is returned only to the polling client. The generated private key is
+	 * encrypted with that poll token, and the corresponding public key is later used to
+	 * encrypt the app password before it is stored in the flow.
+	 */
 	public function createTokens(string $userAgent): LoginFlowV2Tokens {
 		$flow = new LoginFlowV2();
 		$pollToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
 		$loginToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
+
+		// Store the poll token only as a hash because it is later presented as a bearer secret.
+		// The login token must remain retrievable in plain form because it is looked up directly.
 		$flow->setPollToken($this->hashToken($pollToken));
 		$flow->setLoginToken($loginToken);
 		$flow->setStarted(0);
@@ -210,18 +240,27 @@ class LoginFlowV2Service {
 		return new LoginFlowV2Tokens($loginToken, $pollToken);
 	}
 
+	/**
+	 * Hashes a poll token with the instance secret before persisting or looking it up.
+	 */
 	private function hashToken(string $token): string {
+		// Intentionally no default: the instance secret must be configured.
 		$secret = $this->config->getSystemValue('secret');
 		return hash('sha512', $token . $secret);
 	}
 
+	/**
+	 * Generates an RSA key pair for encrypting the app password during the flow.
+	 *
+	 * @return array{0: string, 1: string} [publicKey, privateKey]
+	 */
 	private function getKeyPair(): array {
 		$config = array_merge([
 			'digest_alg' => 'sha512',
 			'private_key_bits' => 2048,
 		], $this->config->getSystemValue('openssl', []));
 
-		// Generate new key
+		// Generate a fresh RSA key pair for this flow.
 		$res = openssl_pkey_new($config);
 		if ($res === false) {
 			$this->logOpensslError();
@@ -233,7 +272,7 @@ class LoginFlowV2Service {
 			throw new \RuntimeException('OpenSSL reported a problem');
 		}
 
-		// Extract the public key from $res to $pubKey
+		// Extract the PEM-encoded public key from the generated key pair.
 		$publicKey = openssl_pkey_get_details($res);
 		$publicKey = $publicKey['key'];
 
@@ -241,6 +280,7 @@ class LoginFlowV2Service {
 	}
 
 	private function logOpensslError(): void {
+		// Drain the OpenSSL error queue so the root cause is visible in server logs.
 		$errors = [];
 		while ($error = openssl_error_string()) {
 			$errors[] = $error;
