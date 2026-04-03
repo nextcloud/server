@@ -89,8 +89,8 @@ class LoginFlowV2Service {
 	}
 
 	/**
-	 * @param string $loginToken
-	 * @return LoginFlowV2
+	 * Returns the flow for a login token, enforcing the allowed user-agent list.
+	 *
 	 * @throws LoginFlowV2NotFoundException
 	 * @throws LoginFlowV2ClientForbiddenException
 	 */
@@ -162,7 +162,7 @@ class LoginFlowV2Service {
 			return false;
 		}
 
-		$appPassword = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+		$appPassword = $this->random->generate(72, ISecureRandom::CHAR_ALPHANUMERIC);
 		$this->tokenProvider->generateToken(
 			$appPassword,
 			$userId,
@@ -215,8 +215,8 @@ class LoginFlowV2Service {
 	 */
 	public function createTokens(string $userAgent): LoginFlowV2Tokens {
 		$flow = new LoginFlowV2();
-		$pollToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
-		$loginToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
+		$pollToken = $this->random->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
+		$loginToken = $this->random->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
 
 		// Store the poll token only as a hash because it is later presented as a bearer secret.
 		// The login token must remain retrievable in plain form because it is looked up directly.
@@ -285,9 +285,12 @@ class LoginFlowV2Service {
 		while ($error = openssl_error_string()) {
 			$errors[] = $error;
 		}
-		$this->logger->critical('Something is wrong with your openssl setup: ' . implode(', ', $errors));
+		$this->logger->critical('OpenSSL error(s): ' . implode('; ', $errors));
 	}
 
+	/**
+	 * Encrypts a password with an RSA public key and returns it base64-encoded.
+	 */
 	private function encryptPassword(string $password, string $publicKey): string {
 		openssl_public_encrypt($password, $encryptedPassword, $publicKey, OPENSSL_PKCS1_OAEP_PADDING);
 		$encoded = base64_encode($encryptedPassword);
@@ -295,6 +298,9 @@ class LoginFlowV2Service {
 		return $encoded;
 	}
 
+	/**
+	 * Decrypts a base64-encoded RSA-encrypted password, returning null on failure.
+	 */
 	private function decryptPassword(string $encryptedPassword, string $privateKey): ?string {
 		$decoded = base64_decode($encryptedPassword);
 		$success = openssl_private_decrypt($decoded, $password, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
