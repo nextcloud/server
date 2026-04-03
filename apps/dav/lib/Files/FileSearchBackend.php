@@ -343,6 +343,7 @@ class FileSearchBackend implements ISearchBackend {
 		}, $query->orderBy);
 
 		$limit = $query->limit;
+		$maxResults = $limit->maxResults !== 0 ? (int)$limit->maxResults : 100;
 		$offset = $limit->firstResult;
 
 		$limitHome = false;
@@ -370,7 +371,7 @@ class FileSearchBackend implements ISearchBackend {
 
 		return new SearchQuery(
 			$operators,
-			(int)$limit->maxResults,
+			$maxResults,
 			$offset,
 			$orders,
 			$this->user,
