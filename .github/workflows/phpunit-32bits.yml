@@ -9,6 +9,7 @@ on:
       - ".github/workflows/phpunit-32bits.yml"
       - "tests/phpunit-autotest.xml"
       - "lib/private/Snowflake/*"
+      - "tests/lib/Preview/PreviewMapperTest.php"
   workflow_dispatch:
   schedule:
     - cron: "15 1 * * 1-6"
