@@ -237,6 +237,12 @@ class Scanner extends PublicEmitter {
 					$this->eventDispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
 				}
 			});
+			$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($file, $storageId) use ($storage): void {
+				$this->postProcessEntry($storage);
+			});
+			$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path, $storageId) use ($storage): void {
+				$this->postProcessEntry($storage);
+			});
 
 			if (!$storage->file_exists($relativePath)) {
 				throw new NotFoundException($dir);
@@ -278,10 +284,14 @@ class Scanner extends PublicEmitter {
 		$storage->getPropagator()->propagateChange($internalPath, time());
 	}
 
-	private function postProcessEntry(IStorage $storage, $internalPath) {
-		$this->triggerPropagator($storage, $internalPath);
+	private function postProcessEntry(IStorage $storage, ?string $internalPath = null): void {
+		if ($internalPath !== null) {
+			$this->triggerPropagator($storage, $internalPath);
+		}
 		if ($this->useTransaction) {
-			$this->entriesToCommit++;
+			if ($internalPath !== null) {
+				$this->entriesToCommit++;
+			}
 			if ($this->entriesToCommit >= self::MAX_ENTRIES_TO_COMMIT
 				|| $this->transactionStartTime + self::TRANSACTION_SECOND_TIMEOUT <= $this->timeFactory->getTime()
 			) {
