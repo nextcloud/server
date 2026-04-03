@@ -258,20 +258,20 @@ class LoginFlowV2Service {
 		], $this->config->getSystemValue('openssl', []));
 
 		// Generate a fresh RSA key pair for this flow.
-		$res = openssl_pkey_new($config);
-		if ($res === false) {
+		$keyPair = openssl_pkey_new($config);
+		if ($keyPair === false) {
 			$this->logOpensslError();
 			throw new \RuntimeException('Could not initialize keys');
 		}
 
-		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+		if (openssl_pkey_export($keyPair, $privateKey, null, $config) === false) {
 			$this->logOpensslError();
 			throw new \RuntimeException('OpenSSL reported a problem');
 		}
 
 		// Extract the PEM-encoded public key from the generated key pair.
-		$publicKey = openssl_pkey_get_details($res);
-		$publicKey = $publicKey['key'];
+		$publicKeyDetails = openssl_pkey_get_details($keyPair);
+		$publicKey = $publicKeyDetails['key'];
 
 		return [$publicKey, $privateKey];
 	}
@@ -287,14 +287,14 @@ class LoginFlowV2Service {
 
 	private function encryptPassword(string $password, string $publicKey): string {
 		openssl_public_encrypt($password, $encryptedPassword, $publicKey, OPENSSL_PKCS1_OAEP_PADDING);
-		$encryptedPassword = base64_encode($encryptedPassword);
+		$encoded = base64_encode($encryptedPassword);
 
-		return $encryptedPassword;
+		return $encoded;
 	}
 
 	private function decryptPassword(string $encryptedPassword, string $privateKey): ?string {
-		$encryptedPassword = base64_decode($encryptedPassword);
-		$success = openssl_private_decrypt($encryptedPassword, $password, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
+		$decoded = base64_decode($encryptedPassword);
+		$success = openssl_private_decrypt($decoded, $password, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
 
 		return $success ? $password : null;
 	}
