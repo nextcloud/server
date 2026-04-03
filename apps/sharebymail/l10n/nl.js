@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Notitie:",
     "This share is valid until %s at midnight" : "Deze share is geldig tot %s middernacht",
     "Expiration:" : "Vervaldatum:",
-    "Open %s" : "%s openen",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s deelde %2$s met jou. Je zou een aparte e-mail hebben moeten ontvangen met een link om er toegang toe te krijgen.",
     "Password to access %1$s shared to you by %2$s" : "Wachtwoord om toegang te krijgen tot %1$sdat met jou gedeeld werd door %2$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Kan share  niet bijwerken via mailconfiguratie",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Hiermee kunnen mensen een gepersonaliseerde link naar een bestand of map delen door een e-mailadres in te voeren.",
     "Send password by mail" : "Wachtwoord per email verzenden",
-    "Reply to initiator" : "Antwoord aan oproeper"
+    "Reply to initiator" : "Antwoord aan oproeper",
+    "Open %s" : "%s openen"
 },
 "nplurals=2; plural=(n != 1);");

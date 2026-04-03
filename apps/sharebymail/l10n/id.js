@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Catatan:",
     "This share is valid until %s at midnight" : "Berbagi ini berlaku hingga %s pada tengah malam",
     "Expiration:" : "Kedaluwarsa:",
-    "Open %s" : "Buka %s",
     "%1$s via %2$s" : "%1$s melalui %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s membagikan %2$s kepada Anda. Anda seharusnya sudah menerima email terpisah dengan tautan untuk mengaksesnya.",
     "Password to access %1$s shared to you by %2$s" : "Kata sandi untuk mengakses %1$s yang dibagikan kepada Anda oleh %2$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Tidak dapat memperbarui konfigurasi berbagi melalui email",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Memungkinkan orang membagikan tautan yang dipersonalisasi ke file atau folder dengan memasukkan alamat email.",
     "Send password by mail" : "Kirim kata sandi melalui email",
-    "Reply to initiator" : "Balas kepada penginisiasi"
+    "Reply to initiator" : "Balas kepada penginisiasi",
+    "Open %s" : "Buka %s"
 },
 "nplurals=1; plural=0;");

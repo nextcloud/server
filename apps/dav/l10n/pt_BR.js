@@ -148,7 +148,7 @@ OC.L10N.register(
     "\"%1$s\" has been canceled" : "\"%1$s\" foi cancelado",
     "Re: %1$s" : "Re: %1$s",
     "%1$s has accepted your invitation" : "%1$s aceitou seu convite",
-    "%1$s has tentatively accepted your invitation" : "%1$s aceitou provisoriamente seu convite",
+    "%1$s has tentatively accepted your invitation" : "%1$s aceitou seu convite como tentativa",
     "%1$s has declined your invitation" : "%1$s recusou seu convite",
     "%1$s has responded to your invitation" : "%1$s respondeu ao seu convite",
     "Invitation updated: %1$s" : "Convite atualizado: %1$s",

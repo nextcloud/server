@@ -20,7 +20,6 @@
     "Note:" : "说明：",
     "This share is valid until %s at midnight" : "此分享有效期至午夜 %s",
     "Expiration:" : "有效期：",
-    "Open %s" : "打开 %s",
     "%1$s via %2$s" : "%1$s 通过 %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s 与您分享了 %2$s。您应该已经收到一封单独的邮件，其中包含访问链接。",
     "Password to access %1$s shared to you by %2$s" : "访问 %1$s 的密码已通过 %2$s 与您分享",
@@ -39,6 +38,7 @@
     "Unable to update share by mail config" : "无法通过邮箱设置更新分享",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "允许用户通过填入邮箱以分享文件或文件夹的私人链接。",
     "Send password by mail" : "通过电子邮件发送密码",
-    "Reply to initiator" : "回复发起人"
+    "Reply to initiator" : "回复发起人",
+    "Open %s" : "打开 %s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
