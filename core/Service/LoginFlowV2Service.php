@@ -226,11 +226,11 @@ class LoginFlowV2Service {
 		$flow->setTimestamp($this->time->getTime());
 		$flow->setClientName($userAgent);
 
-		[$publicKey, $privateKey] = $this->getKeyPair();
-		$privateKey = $this->crypto->encrypt($privateKey, $pollToken);
+		['publicKey' => $publicKey, 'privateKey' => $privateKey] = $this->getKeyPair();
+		$encryptedPrivateKey = $this->crypto->encrypt($privateKey, $pollToken);
 
 		$flow->setPublicKey($publicKey);
-		$flow->setPrivateKey($privateKey);
+		$flow->setPrivateKey($encryptedPrivateKey);
 
 		$this->mapper->insert($flow);
 
@@ -249,7 +249,7 @@ class LoginFlowV2Service {
 	/**
 	 * Generates an RSA key pair for encrypting the app password during the flow.
 	 *
-	 * @return array{0: string, 1: string} [publicKey, privateKey]
+	 * @return array{publicKey: string, privateKey: string}
 	 */
 	private function getKeyPair(): array {
 		$config = array_merge([
@@ -273,7 +273,10 @@ class LoginFlowV2Service {
 		$publicKeyDetails = openssl_pkey_get_details($keyPair);
 		$publicKey = $publicKeyDetails['key'];
 
-		return [$publicKey, $privateKey];
+		return [
+			'publicKey' => $publicKey,
+			'privateKey' => $privateKey,
+		];
 	}
 
 	private function logOpensslError(): void {
