@@ -95,9 +95,6 @@ class LoginFlowV2Service {
 	 * @throws LoginFlowV2ClientForbiddenException
 	 */
 	public function getByLoginToken(string $loginToken): LoginFlowV2 {
-		/** @var LoginFlowV2|null $flow */
-		$flow = null;
-
 		try {
 			$flow = $this->mapper->getByLoginToken($loginToken);
 		} catch (DoesNotExistException $e) {
