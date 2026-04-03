@@ -164,7 +164,7 @@ class OfflineUser {
 		$this->foundDeleted = $this->userConfig->getValueInt($this->ocName, 'user_ldap', 'foundDeleted');
 		$this->extStorageHome = $this->userConfig->getValueString($this->ocName, 'user_ldap', 'extStorageHome');
 		$this->email = $this->userConfig->getValueString($this->ocName, 'user_ldap', 'email');
-		$this->lastLogin = $this->userConfig->getValueInt($this->ocName, 'user_ldap', 'email');
+		$this->lastLogin = $this->userConfig->getValueInt($this->ocName, 'login', 'lastLogin');
 	}
 
 	/**
