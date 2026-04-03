@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Белешка:",
     "This share is valid until %s at midnight" : "Ово дељење важи до %s у поноћ",
     "Expiration:" : "Истек:",
-    "Open %s" : "Отвори %s",
     "%1$s via %2$s" : "%1$s преко %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s је поделио „%2$s” са вама. Требало би да сте већ добили посебан мејл са везом за приступ.",
     "Password to access %1$s shared to you by %2$s" : "%2$s је са вама поделио приступ лозинком за %1$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Није успело ажурирање конфигурације дељења путем и-мејла",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Дозвољава да људи поделе персонализовани линк на фајл или фолдер уносом имејл адресе.",
     "Send password by mail" : "Пошаљи лозинку е-поштом",
-    "Reply to initiator" : "Одговор иницијатору"
+    "Reply to initiator" : "Одговор иницијатору",
+    "Open %s" : "Отвори %s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

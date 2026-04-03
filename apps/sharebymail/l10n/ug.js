@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "ئەسكەرتىش:",
     "This share is valid until %s at midnight" : "بۇ ئۈلۈش يېرىم كېچىدە %s گىچە كۈچكە ئىگە",
     "Expiration:" : "ۋاقتى:",
-    "Open %s" : "%s نى ئېچىڭ",
     "%1$s via %2$s" : "%2$s ئارقىلىق %1$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s سىز بىلەن %2$s نى ئورتاقلاشتى. ئۇنى زىيارەت قىلىش ئۈچۈن ئۇلانمىسى بار ئايرىم خەتنى تاپشۇرۇۋالغان بولۇشىڭىز كېرەك.",
     "Password to access %1$s shared to you by %2$s" : "%1$s نى زىيارەت قىلىدىغان پارول %2$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "خەت سەپلىمىسى ئارقىلىق ھەمبەھىرنى يېڭىلاشقا ئامالسىز",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "كىشىلەرنىڭ ئېلېكترونلۇق خەت ئادرېسى ئارقىلىق ھۆججەت ياكى ھۆججەت قىسقۇچقا خاسلاشتۇرۇلغان ئۇلىنىشنى ھەمبەھىرلىشىگە يول قويىدۇ.",
     "Send password by mail" : "خەت ئارقىلىق پارول ئەۋەتىڭ",
-    "Reply to initiator" : "تەشەببۇس قىلغۇچىغا جاۋاب قايتۇرۇڭ"
+    "Reply to initiator" : "تەشەببۇس قىلغۇچىغا جاۋاب قايتۇرۇڭ",
+    "Open %s" : "%s نى ئېچىڭ"
 },
 "nplurals=2; plural=(n != 1);");

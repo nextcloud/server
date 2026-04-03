@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Nóta:",
     "This share is valid until %s at midnight" : "Tá an sciar seo bailí go dtí%sag meán oíche",
     "Expiration:" : "Dul in éag:",
-    "Open %s" : "Oscailte %s",
     "%1$s via %2$s" : "%1$s trí %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$sroinnte%2$s leat. Ba chóir go mbeadh post ar leith faighte agat cheana féin le nasc chun rochtain a fháil air.",
     "Password to access %1$s shared to you by %2$s" : "Pasfhocal chun rochtain a fháil ar%1$sroinnte leat%2$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Níorbh fhéidir an chumraíocht sciar tríd an ríomhphost a nuashonrú",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Ligeann sé do dhaoine nasc pearsantaithe chuig comhad nó fillteán a roinnt trí sheoladh ríomhphoist a chur isteach.",
     "Send password by mail" : "Seol pasfhocal tríd an bpost",
-    "Reply to initiator" : "Freagra don thionscnóir"
+    "Reply to initiator" : "Freagra don thionscnóir",
+    "Open %s" : "Oscailte %s"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

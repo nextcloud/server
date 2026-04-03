@@ -20,7 +20,6 @@
     "Note:" : "Nota:",
     "This share is valid until %s at midnight" : "El recurso compartido es válido hasta el %s a medianoche",
     "Expiration:" : "Caduca el:",
-    "Open %s" : "Abrir %s",
     "%1$s via %2$s" : "%1$s vía %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s ha compartido %2$s contigo. Deberías haber recibido otro correo con un enlace para acceder.",
     "Password to access %1$s shared to you by %2$s" : "Contraseña para acceder a %1$s, compartido contigo por %2$s",
@@ -39,6 +38,7 @@
     "Unable to update share by mail config" : "No se puede actualizar la configuración de compartir por correo",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enlace personalizado a un archivo o carpeta colocando una dirección de correo electrónico.",
     "Send password by mail" : "Enviar contraseñas por email",
-    "Reply to initiator" : "Responder al iniciador"
+    "Reply to initiator" : "Responder al iniciador",
+    "Open %s" : "Abrir %s"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
