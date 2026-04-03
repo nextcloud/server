@@ -47,7 +47,7 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Utils
  */
 class Scanner extends PublicEmitter {
-	public const MAX_ENTRIES_TO_COMMIT = 10000;
+	public const MAX_ENTRIES_TO_COMMIT = 1000;
 	private const TRANSACTION_SECOND_TIMEOUT = 5;
 
 	/**
