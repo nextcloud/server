@@ -184,8 +184,8 @@ class LoginFlowV2Service {
 	}
 
 	/**
-	 * Completes the login flow with an app password that has already been created by the caller
-	 * and storing it encrypted with the flow's public key.
+	 * Completes the login flow with an app password that has already been created by the caller,
+	 * storing it encrypted with the flow's public key.
 	 *
 	 * Returns false if the login token does not exist.
 	 */
