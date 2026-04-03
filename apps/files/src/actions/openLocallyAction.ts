@@ -14,7 +14,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { isSyncable } from '../utils/permissions.ts'
 
 export const action: IFileAction = {

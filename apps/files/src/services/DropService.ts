@@ -13,7 +13,7 @@ import { join } from '@nextcloud/paths'
 import { getUploader, hasConflict } from '@nextcloud/upload'
 import { handleCopyMoveNodesTo, HintException } from '../actions/moveOrCopyAction.ts'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { createDirectoryIfNotExists, Directory, resolveConflict, traverseTree } from './DropServiceUtils.ts'
 
 /**

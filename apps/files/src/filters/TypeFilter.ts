@@ -11,7 +11,7 @@ import { t } from '@nextcloud/l10n'
 import wrap from '@vue/web-component-wrapper'
 import Vue from 'vue'
 import FileListFilterType from '../components/FileListFilter/FileListFilterType.vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 export interface ITypePreset {
 	id: string

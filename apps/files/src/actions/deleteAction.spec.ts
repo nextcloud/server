@@ -10,7 +10,7 @@ import * as capabilities from '@nextcloud/capabilities'
 import * as eventBus from '@nextcloud/event-bus'
 import { File, Folder, Permission } from '@nextcloud/files'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { action } from './deleteAction.ts'
 import { shouldAskForConfirmation } from './deleteUtils.ts'
 

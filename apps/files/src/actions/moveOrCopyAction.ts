@@ -19,8 +19,8 @@ import { t } from '@nextcloud/l10n'
 import { getConflicts } from '@nextcloud/upload'
 import { basename, join } from 'path'
 import Vue from 'vue'
-import logger from '../logger.ts'
 import { getContents } from '../services/Files.ts'
+import { logger } from '../utils/logger.ts'
 import { canCopy, canMove, getQueue, MoveCopyAction } from './moveOrCopyActionUtils.ts'
 
 /**

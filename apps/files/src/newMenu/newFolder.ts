@@ -13,7 +13,7 @@ import { emit } from '@nextcloud/event-bus'
 import { Folder, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { basename } from 'path'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 
 export const entry: NewMenuEntry = {

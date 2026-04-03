@@ -12,7 +12,7 @@ import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resul
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
 import { openConflictPicker } from '@nextcloud/upload'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 /**
  * This represents a Directory in the file tree

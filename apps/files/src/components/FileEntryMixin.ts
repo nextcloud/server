@@ -17,10 +17,10 @@ import { vOnClickOutside } from '@vueuse/components'
 import { extname } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import logger from '../logger.ts'
 import { onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
+import { logger } from '../utils/logger.ts'
 import { isDownloadable } from '../utils/permissions.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
