@@ -54,7 +54,7 @@
     "Email could not be sent. Check your mail server log" : "Не вдалося надіслати електронну пошту. Перевірте журнал поштового сервера",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Під час надсилання email сталася помилка. Будь ласка перевірте налаштування. (Помилка: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Перед надсиланням тестового ел.листа потрібно додати ел.адресу. Для цього перейдіть до %s.",
-    "Recently active" : "Нещодавна активність",
+    "Recently active" : "Нещодавно активний",
     "Disabled accounts" : "Вимкнені облікові записи",
     "Invalid account" : "Недійсний обліковий запис",
     "Invalid mail address" : "Недійсна електронна адреса",

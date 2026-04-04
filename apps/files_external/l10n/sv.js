@@ -15,6 +15,7 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Otillfredsställda autentiseringsmekanism parametrar",
     "Insufficient data: %s" : "Otillräcklig data: %s",
     "Storage with ID \"%d\" is not editable by non-admins" : "Lagring med ID \"%d\" kan inte redigeras av icke-administratörer",
+    "Static credentials" : "Statiska inloggningsuppgifter",
     "Builtin" : "Inbyggt",
     "None" : "Ingen",
     "OpenStack v2" : "OpenStack v2",

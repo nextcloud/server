@@ -20,6 +20,7 @@
     "Note:" : "Pastaba:",
     "This share is valid until %s at midnight" : "Šis pasiūlymas galioja iki %s vidurnakčio",
     "Expiration:" : "Galiojimo pabaiga:",
+    "Open shared item" : "Atidaryti bendrinamą elementą",
     "%1$s via %2$s" : "%1$s per %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s bendrino %2$s su jumis. Jau turėjote gauti atskirą el. laišką su nuoroda, kaip jį pasiekti.",
     "Password to access %1$s shared to you by %2$s" : "%2$s pasidalino slaptažodžiu, reikalingu atverti %1$s",
