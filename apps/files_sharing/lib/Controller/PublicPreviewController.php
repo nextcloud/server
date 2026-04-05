@@ -122,11 +122,18 @@ class PublicPreviewController extends PublicShareController {
 		try {
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
+				if ($file === '') {
+					return new DataResponse([], Http::STATUS_BAD_REQUEST);
+				}
 				$file = $node->get($file);
 			} else {
 				$file = $node;
 			}
+		} catch (NotFoundException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
 
+		try {
 			$f = $this->previewManager->getPreview($file, $x, $y, !$a);
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 			$response->cacheFor($cacheForSeconds);
