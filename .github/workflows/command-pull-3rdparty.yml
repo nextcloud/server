@@ -33,6 +33,9 @@ jobs:
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
 
+      # issue_comment events carry no pull_request context in their payload, so we
+      # must fetch the PR via the API. This also gives us base.ref for free, avoiding
+      # a second API call. The GITHUB_TOKEN needs pull-requests:read (granted above).
       - name: Get pull request metadata
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         id: get-pr
