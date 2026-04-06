@@ -5,9 +5,17 @@
 
 import { defineConfig } from 'vitest/config'
 
-// stub - for the moment see build/frontend/vitest.config.ts
 export default defineConfig({
 	test: {
-		projects: ['build/frontend*'],
+		projects: [
+			'build/frontend*',
+		],
+	},
+	server: {
+		watch: {
+			ignored(path: string) {
+				return !/(\/|build\/frontend[^/]*\/)(apps|core)\/(src|tests)\//.test(path)
+			},
+		},
 	},
 })
