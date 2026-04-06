@@ -20,6 +20,11 @@ jobs:
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/update-3rdparty')
 
     steps:
+      - name: Check actor permission
+        uses: skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7 # v2
+        with:
+          require: write
+
       - name: Add reaction on start
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v3.0.1
         with:
@@ -28,9 +33,6 @@ jobs:
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
 
-      # issue_comment events carry no pull_request context in their payload, so we
-      # must fetch the PR via the API. This also gives us base.ref for free, avoiding
-      # a second API call. The GITHUB_TOKEN needs pull-requests:read (granted above).
       - name: Get pull request metadata
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         id: get-pr
@@ -64,14 +66,15 @@ jobs:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Register server reference to fallback to master branch
+        env:
+          BASE_REF: ${{ steps.get-pr.outputs.base_ref }}
         run: |
-          base_ref="${{ steps.get-pr.outputs.base_ref }}"
-          if [[ "$base_ref" == "main" || "$base_ref" == "master" ]]; then
+          if [[ "$BASE_REF" == "main" || "$BASE_REF" == "master" ]]; then
             echo "server_ref=master" >> "$GITHUB_ENV"
             echo "Setting server_ref to master"
-          elif [[ "$base_ref" =~ ^stable[0-9]+$ ]]; then
-            echo "server_ref=$base_ref" >> "$GITHUB_ENV"
-            echo "Setting server_ref to $base_ref"
+          elif [[ "$BASE_REF" =~ ^stable[0-9]+$ ]]; then
+            echo "server_ref=$BASE_REF" >> "$GITHUB_ENV"
+            echo "Setting server_ref to $BASE_REF"
           else
             echo "Not based on master/main/stable*, so skipping pull 3rdparty command"
           fi
@@ -92,13 +95,16 @@ jobs:
 
       - name: Pull 3rdparty
         if: ${{ env.server_ref != '' }}
-        run: git submodule foreach 'if [ "$sm_path" == "3rdparty" ]; then git pull origin '"'"'${{ env.server_ref }}'"'"'; fi'
+        run: git submodule foreach 'if [ "$sm_path" == "3rdparty" ]; then git pull origin "'"$server_ref"'"; fi'
 
       - name: Commit and push changes
         if: ${{ env.server_ref != '' }}
+        env:
+          BOT_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}
         run: |
+          git remote set-url origin "https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}.git"
           git add 3rdparty
-          git commit -s -m 'Update submodule 3rdparty to latest ${{ env.server_ref }}'
+          git commit -s -m "Update submodule 3rdparty to latest ${server_ref}"
           git push
 
       - name: Add reaction on failure
