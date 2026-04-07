@@ -147,7 +147,7 @@ class OC_User {
 	public static function loginWithApache(IApacheBackend $backend): bool {
 		$uid = $backend->getCurrentUserId();
 		$run = true;
-		OC_Hook::emit('OC_User', 'pre_login', ['run' => &$run, 'uid' => $uid, 'backend' => $backend]);
+		Util::emitHook('OC_User', 'pre_login', ['run' => &$run, 'uid' => $uid, 'backend' => $backend]);
 
 		if ($uid) {
 			if (self::getUser() !== $uid) {
@@ -196,7 +196,7 @@ class OC_User {
 				// completed before we can safely create the users folder.
 				// For example encryption needs to initialize the users keys first
 				// before we can create the user folder with the skeleton files
-				OC_Hook::emit(
+				Util::emitHook(
 					'OC_User',
 					'post_login',
 					[
