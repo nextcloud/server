@@ -97,7 +97,7 @@ $BEHAT_EXECUTABLE \
     --colors  \
     -f junit  \
     -f pretty \
-    $TAGS     \
+    "$TAGS"     \
     $SCENARIO_TO_RUN
 
 RESULT=$?
