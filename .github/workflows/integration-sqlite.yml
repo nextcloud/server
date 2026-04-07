@@ -59,7 +59,7 @@ jobs:
           - 'dav_features'
           - 'features'
           - 'federation_features'
-          - '--tags ~@large,~@tags,~@transfer-ownership files_features'
+          - '--tags ~@large&&~@tags&&~@transfer-ownership files_features'
           - '--tags @tags files_features'
           - '--tags @transfer-ownership files_features'
           - 'filesdrop_features'
