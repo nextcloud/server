@@ -93,7 +93,7 @@ class OauthApiController extends Controller {
 			$response = new JSONResponse([
 				'error' => 'invalid_request',
 			], Http::STATUS_BAD_REQUEST);
-			$response->throttle(['invalid_request' => 'token not found', 'code' => $code]);
+			$response->throttle(['invalid_request' => 'token not found']);
 			return $response;
 		}
 
