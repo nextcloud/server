@@ -14,6 +14,8 @@ use OCP\Talk\IConversationOptions;
 class ConversationOptions implements IConversationOptions {
 	private function __construct(
 		private bool $isPublic,
+		private ?\DateTimeInterface $meetingStartDate = null,
+		private ?\DateTimeInterface $meetingEndDate = null,
 	) {
 	}
 
@@ -28,5 +30,19 @@ class ConversationOptions implements IConversationOptions {
 
 	public function isPublic(): bool {
 		return $this->isPublic;
+	}
+
+	public function setMeetingDate(\DateTimeInterface $meetingStartDate, \DateTimeInterface $meetingEndDate): IConversationOptions {
+		$this->meetingStartDate = $meetingStartDate;
+		$this->meetingEndDate = $meetingEndDate;
+		return $this;
+	}
+
+	public function getMeetingStartDate(): ?\DateTimeInterface {
+		return $this->meetingStartDate;
+	}
+
+	public function getMeetingEndDate(): ?\DateTimeInterface {
+		return $this->meetingEndDate;
 	}
 }
