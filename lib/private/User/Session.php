@@ -45,6 +45,7 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\PublicKeyToken;
 use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 use OC_User;
@@ -435,8 +436,15 @@ class Session implements IUserSession, Emitter {
 		}
 
 		try {
-			$isTokenPassword = $this->isTokenPassword($password);
-		} catch (ExpiredTokenException $e) {
+			$dbToken = $this->getTokenFromPassword($password);
+			$isTokenPassword = $dbToken !== null;
+			if (($dbToken instanceof PublicKeyToken)
+				&& ($dbToken->getType() !== IToken::PERMANENT_TOKEN)
+			) {
+				// Refuse session tokens here, only app tokens are handled
+				return false;
+			}
+		} catch (ExpiredTokenException) {
 			// Just return on an expired token no need to check further or record a failed login
 			return false;
 		}
@@ -535,6 +543,24 @@ class Session implements IUserSession, Emitter {
 				'exception' => $ex,
 			]);
 			return false;
+		}
+	}
+
+	/**
+	 * Check if the given 'password' is actually a device token
+	 *
+	 * @throws ExpiredTokenException
+	 */
+	private function getTokenFromPassword(string $password): ?\OCP\Authentication\Token\IToken {
+		try {
+			return $this->tokenProvider->getToken($password);
+		} catch (ExpiredTokenException $e) {
+			throw $e;
+		} catch (InvalidTokenException $ex) {
+			$this->logger->debug('Token is not valid: ' . $ex->getMessage(), [
+				'exception' => $ex,
+			]);
+			return null;
 		}
 	}
 
@@ -819,15 +845,29 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryTokenLogin(IRequest $request) {
 		$authHeader = $request->getHeader('Authorization');
+		$tokenFromCookie = false;
 		if (strpos($authHeader, 'Bearer ') === 0) {
 			$token = substr($authHeader, 7);
 		} else {
 			// No auth header, let's try session id
 			try {
 				$token = $this->session->getId();
+				$tokenFromCookie = true;
 			} catch (SessionNotAvailableException $ex) {
 				return false;
 			}
+		}
+
+		try {
+			$dbToken = $this->tokenProvider->getToken($token);
+		} catch (InvalidTokenException $e) {
+			// Can't really happen but better safe than sorry
+			return false;
+		}
+
+		if ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::TEMPORARY_TOKEN && !$tokenFromCookie) {
+			// Session token but from Bearer header, not allowed
+			return false;
 		}
 
 		if (!$this->loginWithToken($token)) {
@@ -835,13 +875,6 @@ class Session implements IUserSession, Emitter {
 		}
 		if (!$this->validateToken($token)) {
 			return false;
-		}
-
-		try {
-			$dbToken = $this->tokenProvider->getToken($token);
-		} catch (InvalidTokenException $e) {
-			// Can't really happen but better save than sorry
-			return true;
 		}
 
 		// Remember me tokens are not app_passwords
