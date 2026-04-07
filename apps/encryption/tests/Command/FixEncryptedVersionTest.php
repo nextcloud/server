@@ -12,6 +12,7 @@ namespace OCA\Encryption\Tests\Command;
 
 use OC\Files\View;
 use OCA\Encryption\Command\FixEncryptedVersion;
+use OCA\Encryption\KeyManager;
 use OCA\Encryption\Util;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
@@ -47,6 +48,8 @@ class FixEncryptedVersionTest extends TestCase {
 
 	public function setUp(): void {
 		parent::setUp();
+		Server::get(KeyManager::class)->validateMasterKey();
+		Server::get(KeyManager::class)->validateShareKey();
 
 		Server::get(IConfig::class)->setAppValue('encryption', 'useMasterKey', '1');
 
