@@ -40,6 +40,7 @@ class SearchBuilderTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+		$this->cleanupStorage();
 		$this->builder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$this->mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
 		$this->filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
@@ -67,7 +68,7 @@ class SearchBuilderTest extends TestCase {
 			]);
 
 		$this->searchBuilder = new SearchBuilder($this->mimetypeLoader, $this->filesMetadataManager);
-		$this->numericStorageId = 10000;
+		$this->numericStorageId = random_int(1000000, PHP_INT_MAX);
 
 		$this->builder->select(['fileid'])
 			->from('filecache', 'file') // alias needed for QuerySearchHelper#getOperatorFieldAndValue
@@ -76,19 +77,19 @@ class SearchBuilderTest extends TestCase {
 
 	protected function tearDown(): void {
 		parent::tearDown();
+		$this->cleanupStorage();
+	}
 
+	private function cleanupStorage(): void {
 		$builder = Server::get(IDBConnection::class)->getQueryBuilder();
-
 		$builder->delete('filecache')
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($this->numericStorageId, IQueryBuilder::PARAM_INT)));
-
 		$builder->executeStatement();
 	}
 
 	private function addCacheEntry(array $data) {
 		$data['storage'] = $this->numericStorageId;
 		$data['etag'] = 'unimportant';
-		$data['storage_mtime'] = $data['mtime'];
 		if (!isset($data['path'])) {
 			$data['path'] = 'random/' . $this->getUniqueID();
 		}
@@ -96,6 +97,7 @@ class SearchBuilderTest extends TestCase {
 		if (!isset($data['mtime'])) {
 			$data['mtime'] = 100;
 		}
+		$data['storage_mtime'] = $data['mtime'];
 		if (!isset($data['size'])) {
 			$data['size'] = 100;
 		}
