@@ -14,7 +14,7 @@ import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { getConflicts, getUploader } from '@nextcloud/upload'
 import { vOnClickOutside } from '@vueuse/components'
-import { extname } from 'path'
+import { extname, relative } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { onDropInternalFiles } from '../services/DropService.ts'
@@ -488,12 +488,17 @@ export default defineComponent({
 			const items = Array.from(event.dataTransfer?.items || [])
 
 			if (selection.length === 0 && items.some((item) => item.kind === 'file')) {
+				const files = items.filter((item) => item.kind === 'file')
+					.map((item) => 'webkitGetAsEntry' in item ? item.webkitGetAsEntry() : item.getAsFile())
+					.filter(Boolean) as (FileSystemEntry | File)[]
 				const uploader = getUploader()
+				const root = uploader.destination.path
+				const relativePath = relative(root, this.source.path)
+				logger.debug('Start uploading dropped files', { target: this.source.path, root, relativePath, files: files.map((file) => file.name) })
+
 				await uploader.batchUpload(
-					this.source.path,
-					items.filter((item) => item.kind === 'file')
-						.map((item) => 'webkitGetAsEntry' in item ? item.webkitGetAsEntry() : item.getAsFile())
-						.filter(Boolean) as (FileSystemEntry | File)[],
+					relativePath,
+					files,
 					async (nodes, path) => {
 						try {
 							const { contents, folder } = await this.activeView!.getContents(path)
@@ -536,7 +541,7 @@ export default defineComponent({
 			const isCopy = event.ctrlKey
 			this.dragover = false
 
-			logger.debug('Dropped', { event, folder: this.source, selection, fileTree })
+			logger.debug('Dropped', { event, folder: this.source, selection })
 
 			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
 			await onDropInternalFiles(nodes, this.source, contents, isCopy)
