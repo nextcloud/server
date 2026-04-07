@@ -1043,6 +1043,27 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * Read app types from info.xml and cache them in the database
+	 */
+	public function setAppTypes(string $app, array $appData): void {
+		if (isset($appData['types'])) {
+			$appTypes = implode(',', $appData['types']);
+		} else {
+			$appTypes = '';
+			$appData['types'] = [];
+		}
+
+		$this->config->setAppValue($app, 'types', $appTypes);
+
+		if ($this->hasProtectedAppType($appData['types'])) {
+			$enabled = $this->config->getAppValue($app, 'enabled', 'yes');
+			if ($enabled !== 'yes' && $enabled !== 'no') {
+				$this->config->setAppValue($app, 'enabled', 'yes');
+			}
+		}
+	}
+
+	/**
 	 * Run upgrade tasks for an app after the code has already been updated
 	 *
 	 * @throws AppPathNotFoundException if app folder can't be found
@@ -1099,7 +1120,7 @@ class AppManager implements IAppManager {
 			$this->config->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
 		}
 
-		\OC_App::setAppTypes($appId);
+		$this->setAppTypes($appId, $appData);
 
 		$version = $this->getAppVersion($appId);
 		$this->config->setAppValue($appId, 'installed_version', $version);
