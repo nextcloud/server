@@ -13,6 +13,7 @@ const appstoreEnabled = loadState<boolean>('appstore', 'appstoreEnabled', true)
 // Dynamic loading
 const AppstoreDiscover = defineAsyncComponent(() => import('../views/AppstoreDiscover.vue'))
 const AppstoreManage = defineAsyncComponent(() => import('../views/AppstoreManage.vue'))
+const AppstoreBundles = defineAsyncComponent(() => import('../views/AppstoreBundles.vue'))
 
 const routes: RouteRecordRaw[] = [
 	{
@@ -31,6 +32,11 @@ const routes: RouteRecordRaw[] = [
 				path: 'discover/:id?',
 				name: 'apps-discover',
 				component: AppstoreDiscover,
+			},
+			{
+				path: 'bundles/:id?',
+				name: 'apps-bundles',
+				component: AppstoreBundles,
 			},
 			{
 				path: ':category(installed|enabled|disabled|updates)/:id?',

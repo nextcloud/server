@@ -9,6 +9,7 @@ import type { IAppstoreApp, IAppstoreCategory } from '../apps.d.ts'
 import axios from '@nextcloud/axios'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
+import PQueue from 'p-queue'
 import { APPSTORE_CATEGORY_ICONS } from '../constants.ts'
 
 addPasswordConfirmationInterceptors(axios)
@@ -21,7 +22,10 @@ const Url = Object.freeze({
 	disable: `${BASE_URL}/apps/disable`,
 	uninstall: `${BASE_URL}/apps/uninstall`,
 	update: `${BASE_URL}/apps/update`,
+	bundleEnable: `${BASE_URL}/bundles/enable`,
 })
+
+const queue = new PQueue({ concurrency: 1 })
 
 /**
  * Enable an app by its app id
@@ -30,7 +34,9 @@ const Url = Object.freeze({
  * @param force - Whether to force enable the app
  */
 export async function enableApp(appId: string, force = false) {
-	await axios.post(Url.enable, { appId, force: force || undefined }, { confirmPassword: PwdConfirmationMode.Strict })
+	return queue.add(async () => {
+		await axios.post(Url.enable, { appId, force: force || undefined }, { confirmPassword: PwdConfirmationMode.Strict })
+	})
 }
 
 /**
@@ -39,7 +45,9 @@ export async function enableApp(appId: string, force = false) {
  * @param appId - The app to disable
  */
 export async function disableApp(appId: string) {
-	await axios.post(Url.disable, { appId }, { confirmPassword: PwdConfirmationMode.Lax })
+	return queue.add(async () => {
+		await axios.post(Url.disable, { appId }, { confirmPassword: PwdConfirmationMode.Lax })
+	})
 }
 
 /**
@@ -48,7 +56,9 @@ export async function disableApp(appId: string) {
  * @param appId - The app id to update
  */
 export async function updateApp(appId: string) {
-	await axios.post(Url.update, { appId }, { confirmPassword: PwdConfirmationMode.Strict })
+	return queue.add(async () => {
+		await axios.post(Url.update, { appId }, { confirmPassword: PwdConfirmationMode.Strict })
+	})
 }
 
 /**
@@ -57,7 +67,9 @@ export async function updateApp(appId: string) {
  * @param appId - The app to uninstall
  */
 export async function uninstallApp(appId: string) {
-	await axios.post(Url.uninstall, { appId }, { confirmPassword: PwdConfirmationMode.Lax })
+	return queue.add(async () => {
+		await axios.post(Url.uninstall, { appId }, { confirmPassword: PwdConfirmationMode.Strict })
+	})
 }
 
 /**
@@ -77,4 +89,15 @@ export async function getCategories() {
 		category.icon = APPSTORE_CATEGORY_ICONS[category.id] ?? ''
 	}
 	return data.ocs.data
+}
+
+/**
+ * Enable an app bundle by its id
+ *
+ * @param bundleId - The id of the bundle to enable
+ */
+export async function enableBundle(bundleId: string) {
+	return queue.add(async () => {
+		await axios.post(Url.bundleEnable, { bundleId }, { confirmPassword: PwdConfirmationMode.Strict })
+	})
 }

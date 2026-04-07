@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IAppstoreApp, IAppstoreCategory, IAppstoreExApp } from '../apps.d.ts'
+import type { IAppBundle, IAppstoreApp, IAppstoreCategory, IAppstoreExApp } from '../apps.d.ts'
 
 import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, readonly, ref } from 'vue'
 import * as api from '../service/api.ts'
 import { rebuildNavigation } from '../service/rebuild-navigation.ts'
 import { canDisable, canInstall, canUninstall, needForceEnable } from '../utils/appStatus.ts'
@@ -26,6 +27,11 @@ export const useAppsStore = defineStore('apps', () => {
 	 * All app categories available in the appstore
 	 */
 	const categories = ref<IAppstoreCategory[]>([])
+	/**
+	 * All app bundles available in the appstore
+	 */
+	const bundles = readonly(loadState<IAppBundle[]>('appstore', 'appstoreBundles'))
+
 	/**
 	 * Loading state of the store
 	 */
@@ -176,6 +182,38 @@ export const useAppsStore = defineStore('apps', () => {
 	}
 
 	/**
+	 * Enable a whole bundle of apps by its id
+	 *
+	 * @param bundleId - The id of the bundle to enable
+	 */
+	async function enableBundle(bundleId: string) {
+		const bundle = bundles.find((b) => b.id === bundleId)
+		if (!bundle) {
+			throw new Error(`Bundle with id ${bundleId} not found`)
+		}
+
+		try {
+			for (const appId of bundle.appIdentifiers) {
+				const app = getAppById(appId)!
+				app.loading = true
+			}
+			await api.enableBundle(bundle.id)
+			for (const appId of bundle.appIdentifiers) {
+				const app = getAppById(appId)!
+				app.active = true
+				app.installed = true
+				app.removable = true
+				await rebuildNavigation()
+			}
+		} finally {
+			for (const appId of bundle.appIdentifiers) {
+				const app = getAppById(appId)!
+				app.loading = false
+			}
+		}
+	}
+
+	/**
 	 * Load the app categories from the backend
 	 */
 	async function loadCategories() {
@@ -211,6 +249,7 @@ export const useAppsStore = defineStore('apps', () => {
 
 	return {
 		apps,
+		bundles,
 		categories,
 		isLoadingApps,
 		isLoadingCategories,
@@ -218,6 +257,7 @@ export const useAppsStore = defineStore('apps', () => {
 		disableApp,
 		enableApp,
 		uninstallApp,
+		enableBundle,
 
 		getAppById,
 		getAppsByCategory,

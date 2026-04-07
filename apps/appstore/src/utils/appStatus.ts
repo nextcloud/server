@@ -11,7 +11,20 @@ import type { IAppstoreApp, IAppstoreExApp } from '../apps.d.ts'
  * @param app - The app to check if installable
  */
 export function canInstall(app: IAppstoreApp | IAppstoreExApp) {
-	return !app.installed && (!app.missingDependencies || app.missingDependencies.length === 0)
+	if (app.installed || app.internal) {
+		return false
+	}
+
+	if (app.missingDependencies === undefined || app.missingDependencies.length === 0) {
+		return true
+	}
+
+	if (!app.isCompatible && app.missingDependencies.length === 1) {
+		// incompatible so can be installed but has to be force-enabled
+		return true
+	}
+
+	return false
 }
 
 /**
@@ -39,6 +52,15 @@ export function canEnable(app: IAppstoreApp | IAppstoreExApp) {
  */
 export function canForceEnable(app: IAppstoreApp | IAppstoreExApp) {
 	return !app.active && (app.installed || canInstall(app))
+}
+
+/**
+ * Check if an app needs to be force-enabled
+ *
+ * @param app - The app to check
+ */
+export function needForceEnable(app: IAppstoreApp | IAppstoreExApp) {
+	return !app.active && !app.isCompatible
 }
 
 /**

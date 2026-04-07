@@ -6,29 +6,40 @@
 import type { MaybeRefOrGetter } from 'vue'
 import type { IAppstoreApp, IAppstoreExApp } from '../apps.d.ts'
 
-import { mdiCheck, mdiClose, mdiDownload, mdiTrashCanOutline, mdiUpdate } from '@mdi/js'
+import { mdiAlertCircleCheckOutline, mdiCheck, mdiClose, mdiDownload, mdiTrashCanOutline, mdiUpdate } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { computed, toValue } from 'vue'
 import { useAppsStore } from '../store/apps.ts'
 import { useUpdatesStore } from '../store/updates.ts'
-import { canDisable, canEnable, canForceEnable, canInstall, canUninstall, canUpdate } from '../utils/appStatus.ts'
+import { canDisable, canEnable, canInstall, canUninstall, canUpdate, needForceEnable } from '../utils/appStatus.ts'
+
+type AppAction = {
+	id: string
+	icon: string
+	label: (app: IAppstoreApp | IAppstoreExApp) => string
+	callback: (app: IAppstoreApp | IAppstoreExApp) => Promise<void>
+	variant?: 'primary' | 'error' | 'warning'
+	inline?: boolean
+}
 
 const AppAction = Object.freeze({
 	INSTALL: {
 		id: 'install',
 		icon: mdiDownload,
-		variant: 'primary',
 		label: (app: IAppstoreApp | IAppstoreExApp) => {
 			if (app.app_api) {
 				return t('appstore', 'Deploy and enable')
 			}
-			return t('appstore', 'Download and enable')
+			if (app.needsDownload) {
+				return t('appstore', 'Download and enable')
+			}
+			return t('appstore', 'Install and enable')
 		},
 		async callback(app: IAppstoreApp | IAppstoreExApp) {
 			const store = useAppsStore()
 			await store.enableApp(app.id)
 		},
-	} as const,
+	} as AppAction,
 	ENABLE: {
 		id: 'enable',
 		icon: mdiCheck,
@@ -38,37 +49,38 @@ const AppAction = Object.freeze({
 			const store = useAppsStore()
 			await store.enableApp(app.id)
 		},
-	} as const,
+	} as AppAction,
 	FORCE_ENABLE: {
 		id: 'force-enable',
-		icon: mdiCheck,
-		variant: 'primary',
+		icon: mdiAlertCircleCheckOutline,
+		inline: false,
 		label: () => t('appstore', 'Force enable'),
+		variant: 'warning',
 		async callback(app: IAppstoreApp | IAppstoreExApp) {
 			const store = useAppsStore()
 			await store.forceEnableApp(app.id)
 		},
-	} as const,
+	} as AppAction,
 	DISABLE: {
 		id: 'disable',
 		icon: mdiClose,
-		variant: 'tertiary',
 		label: () => t('appstore', 'Disable'),
 		async callback(app: IAppstoreApp | IAppstoreExApp) {
 			const store = useAppsStore()
 			await store.disableApp(app.id)
 		},
-	} as const,
+	} as AppAction,
 	REMOVE: {
 		id: 'remove',
 		icon: mdiTrashCanOutline,
 		variant: 'error',
+		inline: false,
 		label: () => t('appstore', 'Remove'),
 		async callback(app: IAppstoreApp | IAppstoreExApp) {
 			const store = useAppsStore()
 			await store.uninstallApp(app.id)
 		},
-	} as const,
+	} as AppAction,
 	UPDATE: {
 		id: 'update',
 		icon: mdiUpdate,
@@ -78,7 +90,7 @@ const AppAction = Object.freeze({
 			const store = useUpdatesStore()
 			await store.updateApp(app.id)
 		},
-	} as const,
+	} as AppAction,
 })
 
 /**
@@ -97,12 +109,12 @@ export function useActions(app: MaybeRefOrGetter<IAppstoreApp | IAppstoreExApp>)
 			actions.push(AppAction.DISABLE)
 		}
 
-		if (canInstall(toValue(app))) {
+		if (needForceEnable(toValue(app))) {
+			actions.push(AppAction.FORCE_ENABLE)
+		} else if (canInstall(toValue(app))) {
 			actions.push(AppAction.INSTALL)
 		} else if (canEnable(toValue(app))) {
 			actions.push(AppAction.ENABLE)
-		} else if (canForceEnable(toValue(app))) {
-			actions.push(AppAction.FORCE_ENABLE)
 		}
 
 		if (canUninstall(toValue(app))) {

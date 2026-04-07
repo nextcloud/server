@@ -138,3 +138,9 @@ export interface IAppstoreExApp extends IAppstoreApp {
 	error?: string
 	releases: IAppstoreExAppRelease[]
 }
+
+export interface IAppBundle {
+	id: string
+	name: string
+	appIdentifiers: readonly string[]
+}

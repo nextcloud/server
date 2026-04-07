@@ -6,9 +6,11 @@
 <script setup lang="ts">
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NcAppNavigationSpacer from '@nextcloud/vue/components/NcAppNavigationSpacer'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
@@ -24,6 +26,27 @@ const updateStore = useUpdatesStore()
 const categories = computed(() => store.categories)
 const categoriesLoading = computed(() => store.isLoadingCategories)
 
+const router = useRouter()
+
+const search = ref('')
+watch(search, (newValue, oldValue) => {
+	if (newValue.trim() === oldValue.trim()) {
+		return
+	}
+
+	if (router.currentRoute.value.name === 'apps-search') {
+		router.replace({
+			name: 'apps-search',
+			query: { q: newValue },
+		})
+		return
+	}
+	router.push({
+		name: 'apps-search',
+		query: { q: newValue },
+	})
+})
+
 /**
  * Check if the current instance has a support subscription from the Nextcloud GmbH
  *
@@ -35,6 +58,11 @@ const isSubscribed = computed(() => store.apps.find(({ level }) => level === 300
 <template>
 	<!-- Categories & filters -->
 	<NcAppNavigation :aria-label="t('appstore', 'Appstore categories')">
+		<template #search>
+			<NcAppNavigationSearch
+				v-model="search"
+				:label="t('appstore', 'Search apps…')" />
+		</template>
 		<template #list>
 			<NcAppNavigationItem
 				v-if="appstoreEnabled"

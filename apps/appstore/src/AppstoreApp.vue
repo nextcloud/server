@@ -15,7 +15,15 @@ import { APPSTORE_CATEGORY_NAMES } from './constants.ts'
 
 const route = useRoute()
 
-const currentCategory = computed(() => [route.params.category].flat()[0] ?? 'discover')
+const currentCategory = computed(() => {
+	if (route.params.category) {
+		return [route.params.category].flat()[0]!
+	}
+	if (route.name === 'apps-bundles') {
+		return 'bundles'
+	}
+	return 'discover'
+})
 const heading = computed(() => APPSTORE_CATEGORY_NAMES[currentCategory.value] ?? currentCategory.value)
 const pageTitle = computed(() => `${heading.value} - ${t('appstore', 'App store')}`)
 
