@@ -13,6 +13,7 @@ namespace OCA\Encryption\Tests\Command;
 use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\Command\FixEncryptedVersion;
+use OCA\Encryption\KeyManager;
 use OCA\Encryption\Util;
 use OCP\Encryption\IManager;
 use OCP\IAppConfig;
@@ -49,6 +50,8 @@ class FixEncryptedVersionTest extends TestCase {
 
 	public function setUp(): void {
 		parent::setUp();
+		Server::get(KeyManager::class)->validateMasterKey();
+		Server::get(KeyManager::class)->validateShareKey();
 
 		Server::get(IAppConfig::class)->setValueBool('encryption', 'useMasterKey', true);
 
