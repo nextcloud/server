@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use GuzzleHttp\Exception\ClientException;
@@ -293,10 +294,26 @@ END:VCARD';
 	}
 
 	public function testFullSyncWithOrphanElement(): void {
+		$pendingCards = [];
 		$this->backend->expects($this->exactly(0))
 			->method('createCard');
 		$this->backend->expects($this->exactly(1))
-			->method('updateCard');
+			->method('updateCard')
+			->willReturnCallback(function ($id, $uri) use (&$pendingCards) {
+				unset($pendingCards[$uri]);
+			});
+		$this->backend->expects($this->exactly(1))
+			->method('markCardsAsPending')
+			->willReturnCallback(function ($id) use (&$pendingCards) {
+				$cards = array_values($this->backend->getCards($id));
+				$uris = array_map(fn ($card) => $card['uri'], $cards);
+				$pendingCards = array_combine($uris, $cards);
+			});
+		$this->backend->expects($this->exactly(1))
+			->method('getPendingCards')
+			->willReturnCallback(function ($id) use (&$pendingCards) {
+				return array_values($pendingCards);
+			});
 		$this->backend->expects($this->exactly(1))
 			->method('deleteCard');
 
@@ -351,6 +368,7 @@ END:VCARD';
 				['uri' => 'Database:bob.vcf'],
 			]);
 
+		$this->service->markCardsAsPending(1);
 		$token = $this->service->syncRemoteAddressBook(
 			'',
 			'system',
@@ -361,6 +379,7 @@ END:VCARD';
 			'principals/system/system',
 			[]
 		)[0];
+		$this->service->deletePendingCards(1);
 
 		$this->assertEquals('http://sabre.io/ns/sync/3', $token);
 	}
