@@ -47,7 +47,12 @@ class SyncFederationAddressBooks {
 			];
 
 			try {
-				$syncToken = $oldSyncToken;
+				$syncToken = $full ? null : $oldSyncToken;
+
+				$book = $this->syncService->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetBookProperties);
+				if ($full) {
+					$this->syncService->markCardsAsPending($book['id']);
+				}
 
 				do {
 					[$syncToken, $truncated] = $this->syncService->syncRemoteAddressBook(
@@ -55,12 +60,16 @@ class SyncFederationAddressBooks {
 						$cardDavUser,
 						$addressBookUrl,
 						$sharedSecret,
-						$full ? null : $syncToken,
+						$syncToken,
 						$targetBookId,
 						$targetPrincipal,
 						$targetBookProperties
 					);
 				} while ($truncated);
+
+				if ($full) {
+					$this->syncService->deletePendingCards($book['id']);
+				}
 
 				if ($syncToken !== $oldSyncToken) {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $syncToken);
