@@ -144,9 +144,8 @@ class IconBuilder {
 				$y = $tmp->getImageHeight();
 				$tmp->destroy();
 				// set resolution for proper scaling
-				$resX = (int)(72 * $size / $x);
-				$resY = (int)(72 * $size / $y);
-				$appIconFile->setResolution($resX, $resY);
+				$res = (int)(72 * $size / max($x, $y));
+				$appIconFile->setResolution($res, $res);
 				$appIconFile->readImageBlob($svg);
 			} else {
 				// handle non-SVG images
