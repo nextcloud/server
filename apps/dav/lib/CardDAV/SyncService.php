@@ -66,13 +66,11 @@ class SyncService extends ASyncService {
 			throw $ex;
 		}
 
-		$received = [];
 		// 3. apply changes
 		// TODO: use multi-get for download
 		foreach ($response['response'] as $resource => $status) {
 			$cardUri = basename($resource);
 			if (isset($status[200])) {
-				$received[] = $cardUri;
 				$absoluteUrl = $this->prepareUri($url, $resource);
 				$vCard = $this->download($absoluteUrl, $userName, $sharedSecret);
 				$this->atomic(function () use ($addressBookId, $cardUri, $vCard): void {
@@ -85,15 +83,6 @@ class SyncService extends ASyncService {
 				}, $this->dbConnection);
 			} else {
 				$this->backend->deleteCard($addressBookId, $cardUri);
-			}
-		}
-
-		// when doing a full sync, remove any items in the local address book that aren't in the remote one
-		if (!$syncToken) {
-			$existingCards = $this->backend->getCards($addressBookId);
-			$removedCards = array_filter($existingCards, fn (array $card) => !in_array($card['uri'], $received));
-			foreach ($removedCards as $removedCard) {
-				$this->backend->deleteCard($addressBookId, $removedCard['uri']);
 			}
 		}
 
@@ -224,5 +213,16 @@ class SyncService extends ASyncService {
 	 */
 	public static function getCardUri(IUser $user): string {
 		return $user->getBackendClassName() . ':' . $user->getUID() . '.vcf';
+	}
+
+	public function markCardsAsPending(int $addressBookId): void {
+		$this->backend->markCardsAsPending($addressBookId);
+	}
+
+	public function deletePendingCards(int $addressBookId): void {
+		$cards = $this->backend->getPendingCards($addressBookId);
+		foreach ($cards as $card) {
+			$this->backend->deleteCard($addressBookId, $card['uri']);
+		}
 	}
 }
