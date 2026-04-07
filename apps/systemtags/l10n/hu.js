@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Ha engedélyezve van, akkor csak a rendszergazdák hozhatnak létre és szerkeszthetik a címkéket. A fiókok továbbra is hozzárendelhetik és eltávolíthatják őket a fájlokról.",
     "Restrict tag creation and editing to administrators" : "Címkelétrehozás és -szerkesztés rendszergazdákra korlátozása",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Az együttműködési címkék elérhetők az összes felhasználó számára. A korlátozott címkék láthatók a felhasználók által, de nem rendelhetik azt semmihez. A láthatatlan címkék belső használatra vannak fenntartva, mivel a felhasználók nem látják ezeket, és nem is tudják semmihez hozzárendelni őket.",
+    "Add tags" : "Címkék hozzáadása",
     "Assigned collaborative tags" : "Hozzárendelt együttműködési címkék",
     "Open in Files" : "Megnyitás a Fájlokban",
     "List of tags and their associated files and folders." : "A címkék és a hozzájuk tartozó fájlok és mappák felsorolása.",
