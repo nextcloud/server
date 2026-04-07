@@ -15,6 +15,7 @@ use OCA\User_LDAP\Exceptions\NoMoreResults;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IAppConfig;
@@ -48,7 +49,7 @@ class Access extends LDAPUtility {
 	protected $groupMapper;
 
 	private string $lastCookie = '';
-	private array $intermediates = [];
+	private CappedMemoryCache $intermediates;
 
 	public function __construct(
 		ILDAPWrapper $ldap,
@@ -62,6 +63,7 @@ class Access extends LDAPUtility {
 	) {
 		parent::__construct($ldap);
 		$this->userManager->setLdapAccess($this);
+		$this->intermediates = new CappedMemoryCache();
 	}
 
 	/**
