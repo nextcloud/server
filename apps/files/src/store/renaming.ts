@@ -13,8 +13,8 @@ import { basename, dirname, extname } from '@nextcloud/paths'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineStore } from 'pinia'
 import Vue, { defineAsyncComponent, ref } from 'vue'
-import logger from '../logger.ts'
 import { fetchNode } from '../services/WebdavClient.ts'
+import { logger } from '../utils/logger.ts'
 import { useUserConfigStore } from './userconfig.ts'
 
 export const useRenamingStore = defineStore('renaming', () => {

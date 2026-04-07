@@ -8,9 +8,9 @@ import type { ContentsWithRoot } from '@nextcloud/files'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission } from '@nextcloud/files'
 import { defaultRemoteURL, getRootPath } from '@nextcloud/files/dav'
-import logger from '../logger.ts'
 import { getPinia } from '../store/index.ts'
 import { useSearchStore } from '../store/search.ts'
+import { logger } from '../utils/logger.ts'
 import { searchNodes } from './WebDavSearch.ts'
 
 /**

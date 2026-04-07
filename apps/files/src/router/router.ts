@@ -12,11 +12,11 @@ import { relative } from 'path'
 import queryString from 'query-string'
 import Vue from 'vue'
 import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
-import logger from '../logger.ts'
 import { useFilesStore } from '../store/files.ts'
 import { getPinia } from '../store/index.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { defaultView } from '../utils/filesViews.ts'
+import { logger } from '../utils/logger.ts'
 
 Vue.use(Router)
 

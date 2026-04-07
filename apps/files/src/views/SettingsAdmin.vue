@@ -13,7 +13,7 @@ import { ref } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import SettingsSanitizeFilenames from '../components/Settings/SettingsSanitizeFilenames.vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 const {
 	docUrl,

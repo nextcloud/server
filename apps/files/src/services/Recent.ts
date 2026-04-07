@@ -9,9 +9,9 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission } from '@nextcloud/files'
 import { getRecentSearch, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { loadState } from '@nextcloud/initial-state'
-import logger from '../logger.ts'
 import { getPinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { logger } from '../utils/logger.ts'
 import { client } from './WebdavClient.ts'
 
 const lastTwoWeeksTimestamp = Math.round((Date.now() / 1000) - (60 * 60 * 24 * 14))
