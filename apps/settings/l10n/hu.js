@@ -576,6 +576,7 @@ OC.L10N.register(
     "Headline" : "Címsor",
     "Organisation" : "Szervezet",
     "Phone number" : "Telefonszám",
+    "Pronouns" : "Névmások",
     "Role" : "Szerepkör",
     "X (formerly Twitter)" : "X (korábban Twitter)",
     "Bluesky" : "Bluesky",
