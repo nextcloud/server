@@ -157,7 +157,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		Storage::scheduleExpire($user->getUID(), $relativePath);
 
 		// store a new version of a file
-		$res = $userView->copy('files/' . $relativePath, 'files_versions/' . $relativePath . '.v' . $file->getMtime());
+		$userView->copy('files/' . $relativePath, 'files_versions/' . $relativePath . '.v' . $file->getMtime());
 		// ensure the file is scanned
 		$userView->getFileInfo('files_versions/' . $relativePath . '.v' . $file->getMtime());
 	}
