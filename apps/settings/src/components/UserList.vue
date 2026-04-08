@@ -320,6 +320,23 @@ export default {
 				key: 'showNewUserForm',
 				value: false,
 			})
+			this.resetForm()
+		},
+
+		/**
+		 * Reset the new user form to its initial state.
+		 * Uses in-place mutation (Object.assign + splice) so the
+		 * provide/inject reference stays intact.
+		 */
+		resetForm() {
+			Object.assign(this.newUser, {
+				...newUser,
+				groups: [],
+				subadminGroups: [],
+			})
+			this.newUser.groups.splice(0)
+			this.newUser.subadminGroups.splice(0)
+			this.initForm()
 		},
 
 		initForm() {
