@@ -142,8 +142,8 @@ class MySQL extends AbstractDatabase {
 
 			//we don't have a dbuser specified in config
 			if ($this->dbUser !== $oldUser) {
-				//add prefix to the admin username to prevent collisions
-				$adminUser = substr('oc_' . $username, 0, 16);
+				//cap to 16 characters
+				$adminUser = substr($username, 0, 16);
 
 				$i = 1;
 				while (true) {
@@ -169,7 +169,7 @@ class MySQL extends AbstractDatabase {
 					} else {
 						//repeat with different username
 						$length = strlen((string)$i);
-						$adminUser = substr('oc_' . $username, 0, 16 - $length) . $i;
+						$adminUser = substr($username, 0, 16 - $length) . $i;
 						$i++;
 					}
 				}
