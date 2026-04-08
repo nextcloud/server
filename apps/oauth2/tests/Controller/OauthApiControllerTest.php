@@ -652,7 +652,7 @@ class OauthApiControllerTest extends TestCase {
 		$expected = new JSONResponse([
 			'error' => 'invalid_request',
 		], Http::STATUS_BAD_REQUEST);
-		$expected->throttle(['invalid_request' => 'token already redeemed']);
+		$expected->throttle(['invalid_request' => 'refresh_token_already_redeemed']);
 
 		$accessToken = new AccessToken();
 		$accessToken->setId(21);
