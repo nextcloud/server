@@ -26,6 +26,7 @@ class RootCollection extends AbstractPrincipalCollection {
 		private IManager $shareManager,
 	) {
 		parent::__construct($principalBackend, $principalPrefix);
+		$this->disableListing = true;
 	}
 
 	/**
