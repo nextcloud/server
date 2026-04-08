@@ -282,6 +282,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\DAV\\GroupPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/GroupPrincipalBackend.php',
         'OCA\\DAV\\DAV\\PublicAuth' => __DIR__ . '/..' . '/../lib/DAV/PublicAuth.php',
         'OCA\\DAV\\DAV\\RemoteUserPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/RemoteUserPrincipalBackend.php',
+        'OCA\\DAV\\DAV\\Security\\RateLimiting' => __DIR__ . '/..' . '/../lib/DAV/Security/RateLimiting.php',
         'OCA\\DAV\\DAV\\Sharing\\Backend' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Backend.php',
         'OCA\\DAV\\DAV\\Sharing\\IShareable' => __DIR__ . '/..' . '/../lib/DAV/Sharing/IShareable.php',
         'OCA\\DAV\\DAV\\Sharing\\Plugin' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Plugin.php',
