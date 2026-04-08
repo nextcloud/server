@@ -24,6 +24,7 @@ class RootCollection extends AbstractPrincipalCollection {
 		private IUserSession $userSession,
 	) {
 		parent::__construct($principalBackend, $principalPrefix);
+		$this->disableListing = true;
 	}
 
 	/**
