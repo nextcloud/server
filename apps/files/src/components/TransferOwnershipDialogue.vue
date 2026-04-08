@@ -52,7 +52,7 @@ import debounce from 'debounce'
 import Vue from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to transfer'))
 	.setMultiSelect(false)

@@ -113,6 +113,13 @@ abstract class Node implements INode {
 	}
 
 	/**
+	 * Check if this node can be renamed
+	 */
+	public function canRename(): bool {
+		return DavUtil::canRename($this->node, $this->node->getParent());
+	}
+
+	/**
 	 * Renames the node
 	 *
 	 * @param string $name The new name
@@ -123,10 +130,8 @@ abstract class Node implements INode {
 	 * @throws LockedException
 	 */
 	public function setName($name): void {
-		// rename is only allowed if the delete privilege is granted
-		// (basically rename is a copy with delete of the original node)
-		if (!$this->info->isDeletable() && !($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === '')) {
-			throw new Forbidden();
+		if (!$this->canRename()) {
+			throw new Forbidden('');
 		}
 
 		/** @var string $parentPath */
@@ -320,7 +325,7 @@ abstract class Node implements INode {
 	}
 
 	public function getDavPermissions(): string {
-		return DavUtil::getDavPermissions($this->info);
+		return DavUtil::getDavPermissions($this->info, $this->node->getParent());
 	}
 
 	/**

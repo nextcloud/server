@@ -413,23 +413,12 @@ class Util {
 	}
 
 	/**
-	 * Cached encrypted CSRF token. Some static unit-tests of ownCloud compare
-	 * multiple Template elements which invoke `callRegister`. If the value
-	 * would not be cached these unit-tests would fail.
-	 * @var string
-	 */
-	private static $token = '';
-
-	/**
 	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * @since 4.5.0
 	 * @deprecated 32.0.0 directly use CsrfTokenManager instead
 	 */
 	public static function callRegister() {
-		if (self::$token === '') {
-			self::$token = \OCP\Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
-		}
-		return self::$token;
+		return \OCP\Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
 	}
 
 	/**

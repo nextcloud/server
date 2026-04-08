@@ -1357,6 +1357,14 @@ class Manager implements IManager {
 		}
 	}
 
+	public function countTasks(int $status, array $taskTypeIds = []): int {
+		try {
+			return $this->taskMapper->countByStatus($taskTypeIds, $status);
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem counting the tasks', 0, $e);
+		}
+	}
+
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $customId = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $customId);

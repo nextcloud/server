@@ -52,9 +52,9 @@ import FilesNavigationSearch from '../components/FilesNavigationSearch.vue'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import FilesAppSettings from './FilesAppSettings.vue'
 import { useViews } from '../composables/useViews.ts'
-import logger from '../logger.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useSidebarStore } from '../store/sidebar.ts'
+import { logger } from '../utils/logger.ts'
 
 const sidebar = useSidebarStore()
 const activeStore = useActiveStore()

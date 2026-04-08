@@ -780,7 +780,7 @@ OC.L10N.register(
     "Failed to load groups with details" : "Gruppen mit Details konnten nicht geladen werden",
     "Failed to load sub admin groups with details" : "Unteradministrations-Gruppen mit Details konnten nicht geladen werden",
     "Failed to update line manager" : "Manager konnte nicht aktualisiert werden",
-    "Fully delete {userid}'s account including all their personal files, app data, etc." : "Lösche {userid}s Konto vollständig inklusive aller persönlichen Dateien, App-Daten, usw.",
+    "Fully delete {userid}'s account including all their personal files, app data, etc." : "Das Konto von {userid} vollständig löschen, inklusive aller persönlichen Dateien, App-Daten, usw.",
     "Account deletion" : "Kontenlöschung",
     "Delete {userid}'s account" : "Konto von {userid} löschen",
     "Display name was successfully changed" : "Der Anzeigename wurde geändert",

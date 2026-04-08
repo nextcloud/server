@@ -61,6 +61,7 @@ interface ISystemTagManager {
 	 * @param string $tagName tag name
 	 * @param bool $userVisible whether the tag is visible by users
 	 * @param bool $userAssignable whether the tag is assignable by users
+	 * @param ?IUser $user the user that wants to create a tag. Null to use the one in session.
 	 *
 	 * @return ISystemTag system tag
 	 *
@@ -69,8 +70,9 @@ interface ISystemTagManager {
 	 *
 	 * @since 9.0.0
 	 * @since 31.0.0 Can throw TagCreationForbiddenExceptionif user doesn't have the right to create a new tag
+	 * @since 34.0.0 Added nullable $user parameter
 	 */
-	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag;
+	public function createTag(string $tagName, bool $userVisible, bool $userAssignable, ?IUser $user = null): ISystemTag;
 
 	/**
 	 * Returns all known tags, optionally filtered by visibility.
@@ -92,6 +94,7 @@ interface ISystemTagManager {
 	 * @param bool $userVisible whether the tag is visible by users
 	 * @param bool $userAssignable whether the tag is assignable by users
 	 * @param string $color color
+	 * @param ?IUser $user the user that wants to update a tag. Null to use the one in session.
 	 *
 	 * @throws TagNotFoundException if tag with the given id does not exist
 	 * @throws TagAlreadyExistsException if there is already another tag
@@ -99,8 +102,9 @@ interface ISystemTagManager {
 	 *
 	 * @since 9.0.0
 	 * @since 31.0.0 `$color` parameter added
+	 * @since 34.0.0 Added nullable $user parameter
 	 */
-	public function updateTag(string $tagId, string $newName, bool $userVisible, bool $userAssignable, ?string $color);
+	public function updateTag(string $tagId, string $newName, bool $userVisible, bool $userAssignable, ?string $color, ?IUser $user = null): void;
 
 	/**
 	 * Delete the given tags from the database and all their relationships.

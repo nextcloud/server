@@ -21,10 +21,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src }}
+
+    steps:
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**/lib/**'
+              - '**/templates/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+
   static-code-analysis:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -34,7 +59,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f #v2.37.0
         timeout-minutes: 5
         with:
           php-version: '8.2'
@@ -56,7 +81,8 @@ jobs:
   static-code-analysis-security:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh' }}
 
     permissions:
       security-events: write
@@ -69,7 +95,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f #v2.37.0
         timeout-minutes: 5
         with:
           php-version: '8.2'
@@ -88,14 +114,15 @@ jobs:
 
       - name: Upload Security Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@89a39a4e59826350b863aa6b6252a07ad50cf83e # v3
+        uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 # v3
         with:
           sarif_file: results.sarif
 
   static-code-analysis-ocp:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -105,7 +132,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f #v2.37.0
         timeout-minutes: 5
         with:
           php-version: '8.2'
@@ -127,7 +154,8 @@ jobs:
   static-code-analysis-ncu:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -137,7 +165,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f #v2.37.0
         timeout-minutes: 5
         with:
           php-version: '8.2'
@@ -155,7 +183,8 @@ jobs:
   static-code-analysis-strict:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -165,7 +194,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f #v2.37.0
         with:
           php-version: '8.2'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
@@ -178,3 +207,28 @@ jobs:
 
       - name: Psalm
         run: composer run psalm:strict -- --threads=1 --monochrome --no-progress --output-format=github
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, static-code-analysis, static-code-analysis-security, static-code-analysis-ocp, static-code-analysis-ncu, static-code-analysis-strict]
+
+    if: always()
+
+    name: static-code-analysis-summary
+
+    steps:
+      - name: Summary status
+        run: |
+          if ${{ needs.changes.outputs.src != 'false' && (
+            needs.static-code-analysis-security.result != 'success' ||
+            (github.event_name != 'push' && (
+              needs.static-code-analysis.result != 'success' ||
+              needs.static-code-analysis-ocp.result != 'success' ||
+              needs.static-code-analysis-ncu.result != 'success' ||
+              needs.static-code-analysis-strict.result != 'success'
+            ))
+          ) }}; then
+            exit 1
+          fi

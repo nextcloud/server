@@ -21,6 +21,9 @@ export const ConfigurationType = Object.freeze({
 
 export const ConfigurationFlag = Object.freeze({
 	None: 0,
+	/**
+	 * Indicates that the configuration option is optional and can be left empty ("not required")
+	 */
 	Optional: 1,
 	UserProvided: 2,
 	Hidden: 4,
@@ -94,6 +97,11 @@ export interface IConfigurationOption {
 	 * Optional tooltip for the configuration option
 	 */
 	tooltip?: string
+
+	/**
+	 * Default value for the configuration option.
+	 */
+	defaultValue?: string | boolean
 }
 
 export interface IAuthMechanism {

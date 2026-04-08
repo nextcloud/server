@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Примечание:",
     "This share is valid until %s at midnight" : "Общий ресурс будет действителен до полуночи %s",
     "Expiration:" : "Срок действия:",
-    "Open %s" : "Открыть %s",
     "%1$s via %2$s" : "%1$s через %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s поделился(ась) с вами %2$s. Вы должны были получить отдельное письмо со ссылкой для доступа.",
     "Password to access %1$s shared to you by %2$s" : "Пароль для доступа к %1$s, предоставленному вам пользователем %2$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Невозможно обновить конфигурацию общего доступа по почте",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Позволить пользователям делиться персонализированной ссылкой на файл или папку, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
-    "Reply to initiator" : "Направлять ответ инициатору"
+    "Reply to initiator" : "Направлять ответ инициатору",
+    "Open %s" : "Открыть %s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

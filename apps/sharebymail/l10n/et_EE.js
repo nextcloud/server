@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Märkus:",
     "This share is valid until %s at midnight" : "See jaosmeedia kehtib vaid %s keskööni",
     "Expiration:" : "Aegumine:",
-    "Open %s" : "Ava %s ",
     "%1$s via %2$s" : "%1$s %2$s kaudu",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%2$s jagas sulle „%1$s“ jaosmeediat. Peaksid juba olema saanud eraldi e-kirja ligipääsuks vajaliku lingiga.",
     "Password to access %1$s shared to you by %2$s" : "Salasõna ligipääsuks „%1$s“ jaosmeediale, mida sulle jagas %2$s",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "E-postiga jagamise seadistuste uuendamine ei õnnestu.",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Võimaldab e-posti aadressi sisestamise alusel jagada faili või kausta konkreetsele adressaadile.",
     "Send password by mail" : "Saada salasõna e-postiga",
-    "Reply to initiator" : "Vasta algatajale"
+    "Reply to initiator" : "Vasta algatajale",
+    "Open %s" : "Ava %s "
 },
 "nplurals=2; plural=(n != 1);");

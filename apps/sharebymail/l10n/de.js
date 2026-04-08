@@ -22,7 +22,7 @@ OC.L10N.register(
     "Note:" : "Bemerkung:",
     "This share is valid until %s at midnight" : "Diese Freigabe ist bis zum %s um Mitternacht gültig",
     "Expiration:" : "Ablauf:",
-    "Open %s" : "%s öffnen",
+    "Open shared item" : "Geteiltes Element öffnen",
     "%1$s via %2$s" : "%1$s über %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s hat %2$s mit dir geteilt. Den entsprechenden Link solltest du bereits in einer separaten Mail erhalten haben.",
     "Password to access %1$s shared to you by %2$s" : "Passwort für den Zugriff auf %1$s, mit dir geteilt von %2$s",
@@ -41,6 +41,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Personen, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per E-Mail senden",
-    "Reply to initiator" : "Antwort an Initiator"
+    "Reply to initiator" : "Antwort an Initiator",
+    "Open %s" : "%s öffnen"
 },
 "nplurals=2; plural=(n != 1);");

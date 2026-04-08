@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class GenerateCommand extends Command implements CompletionAwareInterface {
-	protected static $_templateSimple
+	private const TEMPLATE
 		= '<?php
 
 declare(strict_types=1);
@@ -197,7 +197,7 @@ class {{classname}} extends SimpleMigrationStep {
 			$schemaBody,
 			date('Y')
 		];
-		$code = str_replace($placeHolders, $replacements, self::$_templateSimple);
+		$code = str_replace($placeHolders, $replacements, self::TEMPLATE);
 		$dir = $ms->getMigrationsDirectory();
 
 		$this->ensureMigrationDirExists($dir);

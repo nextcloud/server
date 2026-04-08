@@ -9,8 +9,8 @@ import type { FileSource, FilesStore, RootOptions, RootsStore, Service } from '.
 import { subscribe } from '@nextcloud/event-bus'
 import { defineStore } from 'pinia'
 import Vue, { ref } from 'vue'
-import logger from '../logger.ts'
 import { fetchNode } from '../services/WebdavClient.ts'
+import { logger } from '../utils/logger.ts'
 import { usePathsStore } from './paths.ts'
 
 /**

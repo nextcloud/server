@@ -831,12 +831,6 @@
     <InvalidOperand>
       <code><![CDATA[$query->getCursor()]]></code>
     </InvalidOperand>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[[
-		'ATTENDEE' => ['CN'],
-		'ORGANIZER' => ['CN'],
-	]]]></code>
-    </InvalidPropertyAssignmentValue>
     <UndefinedMethod>
       <code><![CDATA[getDateTime]]></code>
       <code><![CDATA[getDateTime]]></code>
@@ -1365,7 +1359,6 @@
     <InternalMethod>
       <code><![CDATA[getLocalFile]]></code>
       <code><![CDATA[new View('/' . $userId . '/files_external')]]></code>
-      <code><![CDATA[put]]></code>
     </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
@@ -1478,12 +1471,6 @@
       <code><![CDATA[Circles]]></code>
       <code><![CDATA[Circles]]></code>
     </UndefinedClass>
-    <UndefinedDocblockClass>
-      <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code><![CDATA[\OCA\Talk\Share\Helper\ShareAPIController]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="apps/files_sharing/lib/Controller/ShareController.php">
     <DeprecatedClass>
@@ -2370,12 +2357,6 @@
       <code><![CDATA[FakeTranslationProvider]]></code>
     </DeprecatedInterface>
   </file>
-  <file src="apps/theming/lib/Capabilities.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/theming/lib/Command/UpdateConfig.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -2420,6 +2401,9 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/theming/lib/Listener/BeforeTemplateRenderedListener.php">
+    <DeprecatedClass>
+      <code><![CDATA[JSDataService::class]]></code>
+    </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>

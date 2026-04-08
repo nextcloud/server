@@ -8,12 +8,12 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 return [
-	'resources' => [
-		'AuthSettings' => ['url' => '/settings/personal/authtokens' , 'root' => ''],
-	],
 	'routes' => [
 		['name' => 'AuthorizedGroup#saveSettings', 'url' => '/settings/authorizedgroups/saveSettings', 'verb' => 'POST'],
 
+		['name' => 'AuthSettings#create', 'url' => '/settings/personal/authtokens', 'verb' => 'POST' , 'root' => ''],
+		['name' => 'AuthSettings#update', 'url' => '/settings/personal/authtokens/{id}', 'verb' => 'PUT' , 'root' => ''],
+		['name' => 'AuthSettings#destroy', 'url' => '/settings/personal/authtokens/{id}', 'verb' => 'DELETE' , 'root' => ''],
 		['name' => 'AuthSettings#wipe', 'url' => '/settings/personal/authtokens/wipe/{id}', 'verb' => 'POST' , 'root' => ''],
 
 		['name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST' , 'root' => ''],

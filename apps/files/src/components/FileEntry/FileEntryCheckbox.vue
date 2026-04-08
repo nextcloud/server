@@ -27,10 +27,10 @@ import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import logger from '../../logger.ts'
 import { useActiveStore } from '../../store/active.ts'
 import { useKeyboardStore } from '../../store/keyboard.ts'
 import { useSelectionStore } from '../../store/selection.ts'
+import { logger } from '../../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryCheckbox',

@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Added to favorites" : "Aan favorieten toegevoegd",
     "Removed from favorites" : "Uit favorieten verwijderd",
-    "You added {file} to your favorites" : "Je voegde {file} toe aan favorieten",
+    "You added {file} to your favorites" : "Je voegde {file} toe aan je favorieten",
     "You removed {file} from your favorites" : "Je verwijderde {file} uit je favorieten",
     "Favorites" : "Favorieten",
     "File changes" : "Bestandswijzigingen",

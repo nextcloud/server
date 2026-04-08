@@ -220,6 +220,8 @@
     "Could not find category \"%s\"" : "Ezin da \"%s\" kategoria aurkitu",
     "Input text" : "Sartu testua",
     "The input text" : "Sarrerako testua",
+    "Cannot generate more than 12 images" : "Ezin dira 12 irudi baino gehiago sortu",
+    "Cannot generate less than 1 image" : "Ezin da irudi 1 baino gutxiago sortu",
     "Sunday" : "Igandea",
     "Monday" : "Astelehena",
     "Tuesday" : "Asteartea",

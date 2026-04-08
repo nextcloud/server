@@ -2,7 +2,9 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Profilis",
+    "Searching …" : "Ieškoma",
     "Not found" : "Nerasta",
+    "Insert" : "Įterpti",
     "You have not added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
     "{user} has not added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos",
     "Edit Profile" : "Taisyti profilį",

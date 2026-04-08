@@ -14,7 +14,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { join } from 'path'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 
 const templatesEnabled = loadState<boolean>('files', 'templates_enabled', true)

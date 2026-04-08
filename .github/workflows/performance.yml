@@ -15,7 +15,13 @@ jobs:
   performance-testing:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    # Skip entirely on fork PRs so the job result is 'skipped' rather than
+    # 'failure'. The profiler action uses github.event.pull_request.head.repo.clone_url
+    # and GITHUB_TOKEN in ways that do not work reliably from forks, and a
+    # clean skip is far less confusing for contributors than a mid-run error.
+    if: >-
+      github.repository_owner != 'nextcloud-gmbh' &&
+      github.event.pull_request.head.repo.full_name == github.repository
 
     permissions:
       pull-requests: write
@@ -28,11 +34,6 @@ jobs:
     name: performance-${{ matrix.php-versions }}
 
     steps:
-      - name: Disabled on forks
-        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
-        run: |
-          echo 'Can not run performance tests on forks'
-          exit 1
 
       - name: Checkout server before PR
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -42,7 +43,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2.37.0
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}

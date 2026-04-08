@@ -9,7 +9,7 @@ import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
 import { File, Permission } from '@nextcloud/files'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { action } from './favoriteAction.ts'
 import * as favoriteAction from './favoriteAction.ts'
 

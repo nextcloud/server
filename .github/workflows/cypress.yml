@@ -41,12 +41,6 @@ jobs:
       PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
-      - name: Disabled on forks
-        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
-        run: |
-          echo 'Can not run cypress on forks'
-          exit 1
-
       - name: Checkout server
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -72,7 +66,7 @@ jobs:
           fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -160,7 +154,7 @@ jobs:
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
@@ -171,15 +165,11 @@ jobs:
         run: ./node_modules/cypress/bin/cypress install
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@bc22e01685c56e89e7813fd8e26f33dc47f87e15 # v7.1.5
+        uses: cypress-io/github-action@783cb3f07983868532cabaedaa1e6c00ff4786a8 # v7.1.9
         with:
           # We already installed the dependencies in the init job
           install: false
           component: ${{ matrix.containers == 'component' }}
-          group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
-          # cypress env
-          ci-build-id: ${{ matrix.use-cypress-cloud && format('{0}-{1}', github.sha, github.run_number) || '' }}
-          tag: ${{ matrix.use-cypress-cloud && github.event_name || '' }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
@@ -188,7 +178,6 @@ jobs:
           # Needed for some specific code workarounds
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           SPLIT: ${{ matrix.total-containers }}
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
           SPLIT_RANDOM_SEED: ${{ github.run_id }}

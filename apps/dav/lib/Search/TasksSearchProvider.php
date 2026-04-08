@@ -24,7 +24,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private static $searchProperties = [
+	private const SEARCH_PROPERTIES = [
 		'SUMMARY',
 		'DESCRIPTION',
 		'CATEGORIES',
@@ -33,12 +33,12 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private static $searchParameters = [];
+	private const SEARCH_PARAMETERS = [];
 
 	/**
 	 * @var string
 	 */
-	private static $componentType = 'VTODO';
+	private const COMPONENT_TYPE = 'VTODO';
 
 	/**
 	 * @inheritDoc
@@ -83,9 +83,9 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		$searchResults = $this->backend->searchPrincipalUri(
 			$principalUri,
 			$query->getFilter('term')?->get() ?? '',
-			[self::$componentType],
-			self::$searchProperties,
-			self::$searchParameters,
+			[self::COMPONENT_TYPE],
+			self::SEARCH_PROPERTIES,
+			self::SEARCH_PARAMETERS,
 			[
 				'limit' => $query->getLimit(),
 				'offset' => $query->getCursor(),
@@ -94,7 +94,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 			]
 		);
 		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
-			$component = $this->getPrimaryComponent($taskRow['calendardata'], self::$componentType);
+			$component = $this->getPrimaryComponent($taskRow['calendardata'], self::COMPONENT_TYPE);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled task'));
 
 			if ($taskRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {

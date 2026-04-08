@@ -22,7 +22,7 @@ OC.L10N.register(
     "Note:" : "Athugaðu:",
     "This share is valid until %s at midnight" : "Þessi sameign gildir til %s á miðnætti",
     "Expiration:" : "Gildistími:",
-    "Open %s" : "Opna %s",
+    "Open shared item" : "Opna deilt atriði",
     "%1$s via %2$s" : "%1$s með %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s deildi %2$s með þér. Þú ættir að hafa fengið sérstakan tölvupóst með tengli sem vísar á gögnin.",
     "Password to access %1$s shared to you by %2$s" : "Lykilorði fyrir aðgang að %1$s var deilt með þér af %2$s",
@@ -41,6 +41,7 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Get ekki uppfært stillingar á deilingu með tölvupósti",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Gerir notendum kleift að deila sérsniðnum tengli á skrá eða möppu með því að setja inn tölvupóstfang.",
     "Send password by mail" : "Senda lykilorð með pósti",
-    "Reply to initiator" : "Svara til upphafsaðila"
+    "Reply to initiator" : "Svara til upphafsaðila",
+    "Open %s" : "Opna %s"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
