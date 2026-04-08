@@ -39,6 +39,7 @@ use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
@@ -72,6 +73,8 @@ class OauthApiControllerTest extends TestCase {
 	private $logger;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
+	private $db;
 	/** @var OauthApiController */
 	private $oauthApiController;
 
@@ -88,6 +91,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->db = $this->createMock(IDBConnection::class);
 
 		$this->oauthApiController = new OauthApiController(
 			'oauth2',
@@ -100,7 +104,8 @@ class OauthApiControllerTest extends TestCase {
 			$this->time,
 			$this->logger,
 			$this->throttler,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->db,
 		);
 	}
 
@@ -335,6 +340,7 @@ class OauthApiControllerTest extends TestCase {
 
 	public function testRefreshTokenValidAppToken() {
 		$accessToken = new AccessToken();
+		$accessToken->setId(21);
 		$accessToken->setClientId(42);
 		$accessToken->setTokenId(1337);
 		$accessToken->setEncryptedToken('encryptedToken');
@@ -386,6 +392,18 @@ class OauthApiControllerTest extends TestCase {
 		$this->time->method('getTime')
 			->willReturn(1000);
 
+		$this->db->expects($this->once())
+			->method('beginTransaction');
+
+		$this->db->expects($this->once())
+			->method('commit');
+
+		$this->db->expects($this->never())
+			->method('rollBack');
+
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateToken');
+
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
@@ -399,7 +417,7 @@ class OauthApiControllerTest extends TestCase {
 			->willReturn('newEncryptedToken');
 
 		$this->accessTokenMapper->expects($this->once())
-			->method('update')
+			->method('rotateToken')
 			->with(
 				$this->callback(function (AccessToken $token) {
 					return $token->getHashedCode() === hash('sha512', 'random128') &&
@@ -431,6 +449,7 @@ class OauthApiControllerTest extends TestCase {
 
 	public function testRefreshTokenValidAppTokenBasicAuth() {
 		$accessToken = new AccessToken();
+		$accessToken->setId(21);
 		$accessToken->setClientId(42);
 		$accessToken->setTokenId(1337);
 		$accessToken->setEncryptedToken('encryptedToken');
@@ -482,6 +501,18 @@ class OauthApiControllerTest extends TestCase {
 		$this->time->method('getTime')
 			->willReturn(1000);
 
+		$this->db->expects($this->once())
+			->method('beginTransaction');
+
+		$this->db->expects($this->once())
+			->method('commit');
+
+		$this->db->expects($this->never())
+			->method('rollBack');
+
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateToken');
+
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
@@ -495,7 +526,7 @@ class OauthApiControllerTest extends TestCase {
 			->willReturn('newEncryptedToken');
 
 		$this->accessTokenMapper->expects($this->once())
-			->method('update')
+			->method('rotateToken')
 			->with(
 				$this->callback(function (AccessToken $token) {
 					return $token->getHashedCode() === hash('sha512', 'random128') &&
@@ -530,6 +561,7 @@ class OauthApiControllerTest extends TestCase {
 
 	public function testRefreshTokenExpiredAppToken() {
 		$accessToken = new AccessToken();
+		$accessToken->setId(21);
 		$accessToken->setClientId(42);
 		$accessToken->setTokenId(1337);
 		$accessToken->setEncryptedToken('encryptedToken');
@@ -581,6 +613,18 @@ class OauthApiControllerTest extends TestCase {
 		$this->time->method('getTime')
 			->willReturn(1000);
 
+		$this->db->expects($this->once())
+			->method('beginTransaction');
+
+		$this->db->expects($this->once())
+			->method('commit');
+
+		$this->db->expects($this->never())
+			->method('rollBack');
+
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateToken');
+
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
@@ -594,7 +638,7 @@ class OauthApiControllerTest extends TestCase {
 			->willReturn('newEncryptedToken');
 
 		$this->accessTokenMapper->expects($this->once())
-			->method('update')
+			->method('rotateToken')
 			->with(
 				$this->callback(function (AccessToken $token) {
 					return $token->getHashedCode() === hash('sha512', 'random128') &&
@@ -620,6 +664,102 @@ class OauthApiControllerTest extends TestCase {
 				'login',
 				['user' => 'userId']
 			);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
+	}
+
+	public function testRefreshTokenRedeemedConcurrently(): void {
+		$expected = new JSONResponse([
+			'error' => 'invalid_request',
+		], Http::STATUS_BAD_REQUEST);
+		$expected->throttle(['invalid_request' => 'token already redeemed']);
+
+		$accessToken = new AccessToken();
+		$accessToken->setId(21);
+		$accessToken->setClientId(42);
+		$accessToken->setTokenId(1337);
+		$accessToken->setEncryptedToken('encryptedToken');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validrefresh')
+			->willReturn($accessToken);
+
+		$client = new Client();
+		$client->setClientIdentifier('clientId');
+		$client->setSecret(bin2hex('hashedClientSecret'));
+		$this->clientMapper->method('getByUid')
+			->with(42)
+			->willReturn($client);
+
+		$this->crypto
+			->method('decrypt')
+			->with('encryptedToken')
+			->willReturn('decryptedToken');
+
+		$this->crypto
+			->method('calculateHMAC')
+			->with('clientSecret')
+			->willReturn('hashedClientSecret');
+
+		$appToken = new PublicKeyToken();
+		$appToken->setUid('userId');
+		$this->tokenProvider->method('getTokenById')
+			->with(1337)
+			->willReturn($appToken);
+
+		$this->secureRandom->method('generate')
+			->willReturnCallback(function ($len) {
+				return 'random' . $len;
+			});
+
+		$this->tokenProvider->expects($this->once())
+			->method('rotate')
+			->with(
+				$appToken,
+				'decryptedToken',
+				'random72'
+			)->willReturn($appToken);
+
+		$this->time->method('getTime')
+			->willReturn(1000);
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with($this->isInstanceOf(PublicKeyToken::class));
+
+		$this->crypto->method('encrypt')
+			->with('random72', 'random128')
+			->willReturn('newEncryptedToken');
+
+		$this->db->expects($this->once())
+			->method('beginTransaction');
+
+		$this->db->expects($this->never())
+			->method('commit');
+
+		$this->db->expects($this->exactly(2))
+			->method('inTransaction')
+			->willReturnOnConsecutiveCalls(true, false);
+
+		$this->db->expects($this->once())
+			->method('rollBack');
+
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateToken')
+			->with('random72');
+
+		$this->accessTokenMapper->expects($this->once())
+			->method('rotateToken')
+			->with(
+				21,
+				'validrefresh',
+				'random128',
+				'newEncryptedToken',
+				false,
+			)->willReturn(0);
+
+		$this->throttler->expects($this->never())
+			->method('resetDelay');
 
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
 	}
