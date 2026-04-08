@@ -63,18 +63,6 @@
       <code><![CDATA[CommentsEvent::EVENT_PRE_UPDATE]]></code>
     </DeprecatedConstant>
   </file>
-  <file src="apps/dav/appinfo/v1/publicwebdav.php">
-    <InternalMethod>
-      <code><![CDATA[Filesystem::logWarningWhenAddingStorageWrapper($previousLog)]]></code>
-      <code><![CDATA[Filesystem::logWarningWhenAddingStorageWrapper(false)]]></code>
-      <code><![CDATA[new View($node->getPath())]]></code>
-    </InternalMethod>
-  </file>
-  <file src="apps/dav/appinfo/v1/webdav.php">
-    <DeprecatedMethod>
-      <code><![CDATA[dispatch]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/appinfo/v2/publicremote.php">
     <InternalMethod>
       <code><![CDATA[new View($node->getPath())]]></code>

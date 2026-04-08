@@ -62,7 +62,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		$client = new \GuzzleHttp\Client();
 		try {
 			$client->delete(
-				$this->baseUrl . '/remote.php/webdav/myFileToComment.txt',
+				$this->baseUrl . '/remote.php/dav/files/user0/myFileToComment.txt',
 				[
 					'auth' => [
 						'user0',
@@ -83,7 +83,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	 * @return int
 	 */
 	private function getFileIdForPath($path) {
-		$url = $this->baseUrl . '/remote.php/webdav/' . $path;
+		$url = $this->baseUrl . '/remote.php/dav/files/user0/' . $path;
 		$context = stream_context_create([
 			'http' => [
 				'method' => 'PROPFIND',

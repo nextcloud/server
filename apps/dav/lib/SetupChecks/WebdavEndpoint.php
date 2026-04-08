@@ -41,7 +41,7 @@ class WebdavEndpoint implements ISetupCheck {
 
 	public function run(): SetupResult {
 		$urls = [
-			['propfind', '/remote.php/webdav', [207, 401]],
+			['propfind', '/remote.php/dav', [207, 401]],
 		];
 
 		foreach ($urls as [$verb,$url,$validStatuses]) {

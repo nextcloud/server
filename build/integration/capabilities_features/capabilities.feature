@@ -11,7 +11,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | 1 |
@@ -31,7 +31,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | EMPTY |
@@ -51,7 +51,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | EMPTY |
 			| files_sharing | public@@@enabled | EMPTY |
 			| files_sharing | public@@@upload | EMPTY |
@@ -70,7 +70,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | EMPTY |
 			| files_sharing | public@@@upload | EMPTY |
@@ -90,7 +90,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | 1 |
@@ -110,7 +110,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | 1 |
@@ -130,7 +130,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | 1 |
@@ -150,7 +150,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | 1 |
@@ -171,7 +171,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | 1 |
@@ -192,7 +192,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | 1 |
@@ -214,7 +214,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | 1 |
@@ -236,7 +236,7 @@ Feature: capabilities
 		And fields of capabilities match with
 			| capability | path_to_element | value |
 			| core | pollinterval | 60 |
-			| core | webdav-root | remote.php/webdav |
+			| core | webdav-root | remote.php/dav |
 			| files_sharing | api_enabled | 1 |
 			| files_sharing | public@@@enabled | 1 |
 			| files_sharing | public@@@upload | 1 |

@@ -22,7 +22,6 @@ use Psr\Log\LoggerInterface;
 
 function resolveService(string $service): string {
 	$services = [
-		'webdav' => 'dav/appinfo/v1/publicwebdav.php',
 		'dav' => 'dav/appinfo/v2/publicremote.php',
 	];
 	if (isset($services[$service])) {

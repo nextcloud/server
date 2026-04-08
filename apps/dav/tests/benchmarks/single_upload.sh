@@ -46,7 +46,7 @@ upload_file() {
 		-X PUT \
 		-k \
 		--limit-rate "${BANDWIDTH}k" \
-		--data-binary @"$file_local_path" "https://$USER:$PASS@$SERVER/remote.php/webdav/$file_remote_path"
+		--data-binary @"$file_local_path" "https://$USER:$PASS@$SERVER/remote.php/dav/files/$USER/$file_remote_path"
 }
 export -f upload_file
 

@@ -44,7 +44,7 @@ class CoreCapabilities implements ICapability {
 		return [
 			'core' => [
 				'pollinterval' => $this->config->getSystemValueInt('pollinterval', 60),
-				'webdav-root' => $this->config->getSystemValueString('webdav-root', 'remote.php/webdav'),
+				'webdav-root' => $this->config->getSystemValueString('webdav-root', 'remote.php/dav'),
 				'reference-api' => true,
 				'reference-regex' => IURLGenerator::URL_REGEX_NO_MODIFIERS,
 				'mod-rewrite-working' => $this->config->getSystemValueBool('htaccess.IgnoreFrontController') || getenv('front_controller_active') === 'true',

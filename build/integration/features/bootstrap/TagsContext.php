@@ -55,7 +55,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 		}
 		try {
 			$this->client->delete(
-				$this->baseUrl . '/remote.php/webdav/myFileToTag.txt',
+				$this->baseUrl . '/remote.php/dav/files/user0/myFileToTag.txt',
 				[
 					'auth' => [
 						'user0',
@@ -475,7 +475,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @return int
 	 */
 	private function getFileIdForPath($path, $user) {
-		$url = $this->baseUrl . '/remote.php/webdav/' . $path;
+		$url = $this->baseUrl . '/remote.php/dav/files/user0/' . $path;
 		$credentials = base64_encode($user . ':' . $this->getPasswordForUser($user));
 		$context = stream_context_create([
 			'http' => [

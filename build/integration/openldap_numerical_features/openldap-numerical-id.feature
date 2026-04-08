@@ -29,7 +29,7 @@ Scenario: check default home of an LDAP user
 Scenario: Test by logging in
   Given cookies are reset
   And Logging in using web as "92379"
-  And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+  And Sending a "GET" to "/remote.php/dav/files/92379/welcome.txt" with requesttoken
   Then the HTTP status code should be "200"
 
 Scenario: Test LDAP group retrieval with numeric group ids and nesting
