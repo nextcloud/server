@@ -10,6 +10,7 @@ namespace Test\Files\Utils;
 
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
+use OC\Files\SetupManager;
 use OC\Files\Storage\Temporary;
 use OC\Files\Utils\Scanner;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -77,7 +78,13 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('', Server::get(IDBConnection::class), $this->createMock(IEventDispatcher::class), Server::get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -99,7 +106,13 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('', Server::get(IDBConnection::class), $this->createMock(IEventDispatcher::class), Server::get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -137,7 +150,13 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new Scanner($uid, Server::get(IDBConnection::class), Server::get(IEventDispatcher::class), Server::get(LoggerInterface::class));
+		$scanner = new Scanner(
+			Server::get(IUserManager::class)->get($uid),
+			Server::get(IDBConnection::class),
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 
 		$this->assertFalse($cache->inCache('folder/bar.txt'));
 		$scanner->scan('/' . $uid . '/files/foo');
@@ -166,7 +185,13 @@ class ScannerTest extends \Test\TestCase {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Invalid path to scan');
 
-		$scanner = new TestScanner('', Server::get(IDBConnection::class), $this->createMock(IEventDispatcher::class), Server::get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->scan($invalidPath);
 	}
 
@@ -180,7 +205,13 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 		$storage->touch('folder/bar.txt', time() - 200);
 
-		$scanner = new TestScanner('', Server::get(IDBConnection::class), $this->createMock(IEventDispatcher::class), Server::get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -206,7 +237,13 @@ class ScannerTest extends \Test\TestCase {
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 		$storage->file_put_contents('folder/subfolder/foobar.txt', 'qwerty');
 
-		$scanner = new TestScanner('', Server::get(IDBConnection::class), $this->createMock(IEventDispatcher::class), Server::get(LoggerInterface::class));
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$this->createMock(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->addMount($mount);
 
 		$scanner->scan('', $recusive = false);
