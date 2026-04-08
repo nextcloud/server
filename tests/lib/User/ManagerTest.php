@@ -332,6 +332,50 @@ class ManagerTest extends TestCase {
 		$manager->createUser($uid, $password);
 	}
 
+	public static function dataCreateUserValid(): array {
+		return [
+			['foo', 'bar'],
+			['Foo', 'bar'],
+			['FOO', 'bar'],
+			['123', 'bar'],
+			['foo bar', 'bar'],
+			['foo_bar', 'bar'],
+			['foo.bar', 'bar'],
+			['foo@bar', 'bar'],
+			["foo-bar", 'bar'],
+			["foo'bar", 'bar'],
+			['a', 'bar'],
+			['test' . str_repeat('a', 59), 'bar'], // 63 chars total, still valid
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateUserValid')]
+	public function testCreateUserValid(string $uid, string $password): void {
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturn(true);
+
+		$backend->expects($this->once())
+			->method('createUser')
+			->with($this->equalTo($uid), $this->equalTo($password))
+			->willReturn(true);
+
+		$backend->expects($this->once())
+			->method('userExists')
+			->with($this->equalTo($uid))
+			->willReturn(false);
+
+		$backend->expects($this->never())
+			->method('loginName2UserName');
+
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($backend);
+
+		$user = $manager->createUser($uid, $password);
+		$this->assertEquals($uid, $user->getUID());
+	}
+
 	public function testCreateUserSingleBackendNotExists(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->any())
