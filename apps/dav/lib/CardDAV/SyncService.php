@@ -201,7 +201,10 @@ class SyncService extends ASyncService {
 			$vCard = Reader::read($card['carddata']);
 			$uid = $vCard->UID->getValue();
 			// load backend and see if user exists
-			if (!$this->userManager->userExists($uid)) {
+			$user = $this->userManager->get($uid);
+
+			// If the user does not exist
+			if ($user === null || self::getCardUri($user) !== $card['uri']) {
 				$this->deleteUser($card['uri']);
 			}
 		}
