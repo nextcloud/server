@@ -266,4 +266,11 @@ interface IUserManager {
 	 * @since 33.0.0
 	 */
 	public function getExistingUser(string $userId, ?string $displayName = null): IUser;
+
+	/**
+	 * Get the username of a user based on its login name.
+	 *
+	 * @since 34.0.0
+	 */
+	public function getUserNameFromLoginName(string $loginName): string;
 }

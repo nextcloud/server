@@ -486,11 +486,7 @@ class Session implements IUserSession, Emitter {
 	}
 
 	protected function isTwoFactorEnforced($username) {
-		Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$username]
-		);
+		$username = $this->manager->getUserNameFromLoginName($username);
 		$user = $this->manager->get($username);
 		if (is_null($user)) {
 			$users = $this->manager->getByEmail($username);

@@ -32,7 +32,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Listen to various events that can change what shares a user has access to
  *
- * @psalm-type GroupEvents = UserAddedEvent|UserRemovedEvent|GroupDeletedEvent|BeforeGroupDeletedEvent
+ * @psalm-type GroupEvents = UserAddedEvent|UserRemovedEvent|GroupDeletedEvent|BeforeGroupDeletedEvent|UserDeletedEvent
  * @template-implements IEventListener<GroupEvents|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent|ShareMovedEvent>
  */
 class SharesUpdatedListener implements IEventListener {

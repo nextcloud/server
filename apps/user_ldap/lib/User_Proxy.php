@@ -14,16 +14,27 @@ use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
+use OCP\User\Backend\IGetUserNameFromLoginNameBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IPropertyPermissionBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
  * @template-extends Proxy<User_LDAP>
  */
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend, IGetDisplayNameBackend, IPropertyPermissionBackend {
+class User_Proxy extends Proxy implements
+	IUserBackend,
+	UserInterface,
+	IUserLDAP,
+	ILimitAwareCountUsersBackend,
+	ICountMappedUsersBackend,
+	IProvideEnabledStateBackend,
+	IGetDisplayNameBackend,
+	IPropertyPermissionBackend,
+	IGetUserNameFromLoginNameBackend {
 	public function __construct(
 		private Helper $helper,
 		ILDAPWrapper $ldap,
@@ -225,15 +236,10 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		return $this->handleRequest($uid, 'checkPassword', [$uid, $password]);
 	}
 
-	/**
-	 * returns the username for the given login name, if available
-	 *
-	 * @param string $loginName
-	 * @return string|false
-	 */
-	public function loginName2UserName($loginName) {
+	#[Override]
+	public function getUserNameFromLoginName(string $loginName): string|false {
 		$id = 'LOGINNAME,' . $loginName;
-		return $this->handleRequest($id, 'loginName2UserName', [$loginName]);
+		return $this->handleRequest($id, 'getUserNameFromLoginName', [$loginName]);
 	}
 
 	/**

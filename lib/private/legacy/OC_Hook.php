@@ -40,7 +40,6 @@ class OC_Hook {
 		[Filesystem::CLASSNAME, Filesystem::signal_pre_setup],
 		[Filesystem::CLASSNAME, Filesystem::signal_post_init_mountpoints],
 		[Filesystem::CLASSNAME, 'umount'],
-		['\OCA\Files_Sharing\API\Server2Server', 'preLoginNameUsedAsUserName'],
 		[Share::class,'share_link_access'],
 		[Share::class,'pre_unshare'],
 		[Share::class,'post_unshare'],

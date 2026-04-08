@@ -10,7 +10,6 @@ namespace Test\User;
 
 use OC\AllConfig;
 use OC\Files\Mount\ObjectHomeMountProvider;
-use OC\Hooks\PublicEmitter;
 use OC\User\Database;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
@@ -25,7 +24,6 @@ use OCP\Notification\INotification;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 #[Group('DB')]

@@ -30,16 +30,6 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/cloud_federation_api/lib/Controller/RequestHandlerController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$uid]
-		)]]></code>
-      <code><![CDATA[getFederationIdFromSharedSecret]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/comments/lib/Activity/Listener.php">
     <DeprecatedConstant>
       <code><![CDATA[CommentsEvent::EVENT_ADD]]></code>
@@ -1311,20 +1301,6 @@
       <code><![CDATA[getMount]]></code>
     </InternalMethod>
   </file>
-  <file src="apps/federatedfilesharing/lib/AddressHandler.php">
-    <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-				'\OCA\Files_Sharing\API\Server2Server',
-				'preLoginNameUsedAsUserName',
-				['uid' => &$user1]
-			)]]></code>
-      <code><![CDATA[Util::emitHook(
-				'\OCA\Files_Sharing\API\Server2Server',
-				'preLoginNameUsedAsUserName',
-				['uid' => &$user2]
-			)]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -1351,11 +1327,6 @@
   </file>
   <file src="apps/federatedfilesharing/lib/OCM/CloudFederationProviderFiles.php">
     <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-					'\OCA\Files_Sharing\API\Server2Server',
-					'preLoginNameUsedAsUserName',
-					['uid' => &$shareWith]
-				)]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[sendNotification]]></code>
       <code><![CDATA[sendNotification]]></code>
@@ -1603,10 +1574,6 @@
     </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
-      <code><![CDATA[registerAuthMechanism]]></code>
-      <code><![CDATA[registerAuthMechanisms]]></code>
-      <code><![CDATA[registerBackend]]></code>
-      <code><![CDATA[registerBackends]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_external/lib/Service/StoragesService.php">
@@ -2728,21 +2695,6 @@
       <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
   </file>
-  <file src="apps/user_ldap/lib/AppInfo/Application.php">
-    <DeprecatedInterface>
-      <code><![CDATA[IAppContainer]]></code>
-      <code><![CDATA[IAppContainer]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			'\OCA\User_LDAP\Helper',
-			'loginName2UserName'
-		)]]></code>
-      <code><![CDATA[dispatch]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/lib/Configuration.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -3170,11 +3122,6 @@
   </file>
   <file src="core/Controller/LostController.php">
     <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$user]
-		)]]></code>
       <code><![CDATA[deleteUserValue]]></code>
     </DeprecatedMethod>
     <RedundantCast>
@@ -3268,11 +3215,6 @@
   <file src="core/Controller/WebAuthnController.php">
     <DeprecatedMethod>
       <code><![CDATA[PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN))]]></code>
-      <code><![CDATA[Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$uid]
-		)]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Middleware/TwoFactorMiddleware.php">

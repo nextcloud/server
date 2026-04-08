@@ -57,8 +57,8 @@ class BackendServiceTest extends \Test\TestCase {
 		$backendAlias->method('getIdentifier')
 			->willReturn('identifier_real');
 
-		$service->registerBackend($backend);
-		$service->registerBackend($backendAlias);
+		$this->invokePrivate($service, 'registerBackend', [$backend]);
+		$this->invokePrivate($service, 'registerBackend', [$backendAlias]);
 
 		$this->assertEquals($backend, $service->getBackend('identifier:\Foo\Bar'));
 		$this->assertEquals($backendAlias, $service->getBackend('identifier_real'));
@@ -165,9 +165,9 @@ class BackendServiceTest extends \Test\TestCase {
 		$backendAlias->expects($this->never())
 			->method('removeVisibility');
 
-		$service->registerBackend($backendAllowed);
-		$service->registerBackend($backendNotAllowed);
-		$service->registerBackend($backendAlias);
+		$this->invokePrivate($service, 'registerBackend', [$backendAllowed]);
+		$this->invokePrivate($service, 'registerBackend', [$backendNotAllowed]);
+		$this->invokePrivate($service, 'registerBackend', [$backendAlias]);
 	}
 
 	public function testGetAvailableBackends(): void {
@@ -186,8 +186,8 @@ class BackendServiceTest extends \Test\TestCase {
 					->getMock()
 			]);
 
-		$service->registerBackend($backendAvailable);
-		$service->registerBackend($backendNotAvailable);
+		$this->invokePrivate($service, 'registerBackend', [$backendAvailable]);
+		$this->invokePrivate($service, 'registerBackend', [$backendNotAvailable]);
 
 		$availableBackends = $service->getAvailableBackends();
 		$this->assertArrayHasKey('identifier:\Backend\Available', $availableBackends);
