@@ -293,4 +293,11 @@ interface IUserManager {
 	 * @since 35.0.0
 	 */
 	public function getFederatedUser(\OCP\Federation\ICloudId $cloudId): IUser;
+
+	/**
+	 * Get the username of a user based on its login name.
+	 *
+	 * @since 36.0.0
+	 */
+	public function getUserNameFromLoginName(string $loginName): string;
 }

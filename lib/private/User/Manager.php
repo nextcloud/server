@@ -33,6 +33,7 @@ use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\IGetUserNameFromLoginNameBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
@@ -41,6 +42,7 @@ use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use OCP\Util;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -906,5 +908,20 @@ class Manager extends PublicEmitter implements IUserManager {
 	#[\Override]
 	public function getFederatedUser(ICloudId $cloudId): IUser {
 		return new LazyUser($cloudId->getDisplayId(), $this, $cloudId->getDisplayId());
+	}
+
+	#[Override]
+	public function getUserNameFromLoginName(string $loginName): string {
+		$userName = $loginName;
+		foreach ($this->getBackends() as $backend) {
+			if ($backend instanceof IGetUserNameFromLoginNameBackend) {
+				$newUserName = $backend->getUserNameFromLoginName($loginName);
+				if ($newUserName !== false) {
+					$userName = $newUserName;
+					break;
+				}
+			}
+		}
+		return $userName;
 	}
 }
