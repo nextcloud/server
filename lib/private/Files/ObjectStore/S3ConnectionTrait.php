@@ -174,7 +174,11 @@ trait S3ConnectionTrait {
 						try {
 							$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
 							if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
-								throw new StorageNotAvailableException('The bucket will not be created because the name is not dns compatible, please correct it: ' . $this->bucket);
+								throw new StorageNotAvailableException(
+									'The bucket name "'
+									. $this->bucket
+									. '" is not valid for S3. Bucket names must be DNS-compatible: use lowercase letters, numbers, dots (.), and hyphens (-).'
+								);
 							}
 							$this->connection->createBucket(['Bucket' => $this->bucket]);
 							Server::get(IEventDispatcher::class)
