@@ -1948,40 +1948,46 @@ EOD;
 
 	}
 
-	public function testDefaultAlarmProperty(): void {
+	public function testDefaultAlarmProperties(): void {
 		$calendarId = $this->createTestCalendar();
 
-		// Test setting default alarm property to 15 minutes before (-900 seconds)
+		// Test setting both default alarm properties
 		$patch = new PropPatch([
-			'{http://nextcloud.com/ns}default-alarm' => -900
+			'{http://nextcloud.com/ns}default-alarm-part-day' => -900,
+			'{http://nextcloud.com/ns}default-alarm-full-day' => -3600,
 		]);
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 
-		// Verify the property was set
+		// Verify the properties were set
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(1, $calendars);
-		$this->assertEquals(-900, $calendars[0]['{http://nextcloud.com/ns}default-alarm']);
+		$this->assertEquals(-900, $calendars[0]['{http://nextcloud.com/ns}default-alarm-part-day']);
+		$this->assertEquals(-3600, $calendars[0]['{http://nextcloud.com/ns}default-alarm-full-day']);
 
-		// Test updating to a different value (1 day before = -86400 seconds)
+		// Test updating to different values
 		$patch = new PropPatch([
-			'{http://nextcloud.com/ns}default-alarm' => -86400
+			'{http://nextcloud.com/ns}default-alarm-part-day' => -86400,
+			'{http://nextcloud.com/ns}default-alarm-full-day' => -43200,
 		]);
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(-86400, $calendars[0]['{http://nextcloud.com/ns}default-alarm']);
+		$this->assertEquals(-86400, $calendars[0]['{http://nextcloud.com/ns}default-alarm-part-day']);
+		$this->assertEquals(-43200, $calendars[0]['{http://nextcloud.com/ns}default-alarm-full-day']);
 
-		// Test setting to "none"
+		// Test setting to null
 		$patch = new PropPatch([
-			'{http://nextcloud.com/ns}default-alarm' => null
+			'{http://nextcloud.com/ns}default-alarm-part-day' => null,
+			'{http://nextcloud.com/ns}default-alarm-full-day' => null,
 		]);
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(null, $calendars[0]['{http://nextcloud.com/ns}default-alarm']);
+		$this->assertNull($calendars[0]['{http://nextcloud.com/ns}default-alarm-part-day']);
+		$this->assertNull($calendars[0]['{http://nextcloud.com/ns}default-alarm-full-day']);
 
 		// Clean up
 		$this->backend->deleteCalendar($calendars[0]['id'], true);
