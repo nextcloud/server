@@ -270,6 +270,7 @@ interface IUserManager {
 	public function getExistingUser(string $userId, ?string $displayName = null): IUser;
 
 	/**
+<<<<<<< HEAD
 	 * @param 64|512 $size
 	 * @return non-empty-string
 	 * @since 34.0.0
@@ -293,4 +294,11 @@ interface IUserManager {
 	 * @since 35.0.0
 	 */
 	public function getFederatedUser(\OCP\Federation\ICloudId $cloudId): IUser;
+
+	/**
+	 * Get the username of a user based on its login name.
+	 *
+	 * @since 36.0.0
+	 */
+	public function getUserNameFromLoginName(string $loginName): string;
 }

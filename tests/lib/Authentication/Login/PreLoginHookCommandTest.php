@@ -31,16 +31,12 @@ class PreLoginHookCommandTest extends ALoginTestCommand {
 
 	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
-		$this->userManager->expects($this->once())
-			->method('emit')
-			->with(
-				'\OC\User',
-				'preLogin',
-				[
-					$this->username,
-					$this->password,
-				]
-			);
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(function (BeforeUserLoggedInEvent $event): void {
+				$this->assertEquals($this->username, $event->getUsername());
+				$this->assertEquals($this->password, $event->getPassword());
+			}));
 
 		$result = $this->cmd->process($data);
 
