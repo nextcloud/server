@@ -29,6 +29,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\ICollection;
 
 class UploadHome implements ICollection {
@@ -59,9 +60,7 @@ class UploadHome implements ICollection {
 	}
 
 	public function getChildren(): array {
-		return array_map(function ($node) {
-			return new UploadFolder($node, $this->cleanupService);
-		}, $this->impl()->getChildren());
+		throw new MethodNotAllowed('Listing members of this collection is disabled');
 	}
 
 	public function childExists($name): bool {
