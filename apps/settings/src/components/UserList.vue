@@ -37,7 +37,6 @@
 			:extra-props="{
 				users,
 				settings,
-				hasObfuscated,
 				quotaOptions,
 				languages,
 				externalActions,
@@ -50,7 +49,7 @@
 			</template>
 
 			<template #header>
-				<UserListHeader :has-obfuscated="hasObfuscated" />
+				<UserListHeader />
 			</template>
 
 			<template #footer>
@@ -77,7 +76,7 @@ import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 import VirtualList from './Users/VirtualList.vue'
 import logger from '../logger.ts'
-import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
+import { defaultQuota, unlimitedQuota } from '../utils/userUtils.ts'
 
 const newUser = Object.freeze({
 	id: '',
@@ -157,10 +156,6 @@ export default {
 			return {
 				'--row-height': `${this.rowHeight}px`,
 			}
-		},
-
-		hasObfuscated() {
-			return this.filteredUsers.some((user) => isObfuscated(user))
 		},
 
 		users() {
