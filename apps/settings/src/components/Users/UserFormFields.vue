@@ -5,13 +5,26 @@
 
 <template>
 	<div class="user-form-fields">
+		<!-- Static display for non-editable username (edit dialog) -->
+		<div
+			v-if="fieldConfig.username?.show && fieldConfig.username?.disabled"
+			class="user-form-fields__item user-form-fields__static"
+			data-test="username">
+			<span class="user-form-fields__static-label">
+				{{ fieldConfig.username?.label }}
+			</span>
+			<span class="user-form-fields__static-value">
+				{{ formData.username }}
+			</span>
+		</div>
+
+		<!-- Editable username input (create dialog) -->
 		<NcTextField
-			v-if="fieldConfig.username?.show"
+			v-else-if="fieldConfig.username?.show"
 			ref="username"
 			v-model="formData.username"
 			class="user-form-fields__item"
 			data-test="username"
-			:disabled="fieldConfig.username?.disabled"
 			:label="fieldConfig.username?.label"
 			autocapitalize="none"
 			autocomplete="off"
@@ -171,7 +184,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 4px 0;
+	gap: calc(var(--default-grid-baseline, 4px) * 2) 0;
 
 	&__item {
 		width: 100%;
@@ -181,9 +194,31 @@ export default {
 		}
 	}
 
+	&__static {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-height: var(--default-clickable-area, 44px);
+		padding: var(--border-width-input-focused, 2px);
+		padding-inline: calc(var(--border-radius-element, 8px) + var(--border-width-input-focused, 2px));
+
+		&-label {
+			font-size: var(--font-size-small, 13px);
+			font-weight: 500;
+			line-height: 1.5;
+			color: var(--color-text-maxcontrast);
+		}
+
+		&-value {
+			font-size: var(--default-font-size, 14px);
+			line-height: 1.5;
+			color: var(--color-main-text);
+		}
+	}
+
 	&__hint {
 		color: var(--color-text-maxcontrast);
-		margin-top: 8px;
+		margin-block-start: calc(var(--default-grid-baseline, 4px) * 2);
 		align-self: flex-start;
 	}
 
@@ -196,18 +231,14 @@ export default {
 		width: 100%;
 	}
 
-	:deep(.user-form__managers) {
-		margin-bottom: 12px;
-	}
-
 	&__error-summary {
 		width: 100%;
-		margin-top: 8px;
+		margin-block-start: calc(var(--default-grid-baseline, 4px) * 2);
 		color: var(--color-error);
-		font-size: var(--default-font-size, 0.875rem);
+		font-size: var(--default-font-size, 14px);
 
 		p {
-			margin: 2px 0;
+			margin-block: calc(var(--default-grid-baseline, 4px) / 2);
 		}
 	}
 }

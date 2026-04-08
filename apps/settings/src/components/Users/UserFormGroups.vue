@@ -125,6 +125,9 @@ export default {
 
 <style lang="scss" scoped>
 .user-form-groups {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline, 4px) * 2) 0;
 	width: 100%;
 }
 

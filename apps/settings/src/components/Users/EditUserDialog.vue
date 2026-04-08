@@ -148,19 +148,8 @@ export default {
 
 <style lang="scss" scoped>
 .edit-dialog {
-	&__form {
-		padding: 0 8px;
-	}
-
-	&__submit {
-		margin-top: 4px;
-		margin-bottom: 8px;
-	}
-
-	:deep {
-		.dialog__actions {
-			margin: auto;
-		}
+	:deep(.dialog__actions) {
+		margin-block-start: calc(var(--default-grid-baseline, 4px) * 3);
 	}
 }
 </style>
