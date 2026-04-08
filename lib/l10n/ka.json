@@ -131,6 +131,8 @@
     "The requested share comes from a disabled user" : "The requested share comes from a disabled user",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "The user was not created because the user limit has been reached. Check your notifications to learn more.",
     "Could not find category \"%s\"" : "Could not find category \"%s\"",
+    "Cannot generate more than 12 images" : "12-ზე მეტი გამოსახულების გენერაცია შეუძლებელია",
+    "Cannot generate less than 1 image" : "1-ზე ნაკლები გამოსახულების გენერაცია შეუძლებელია",
     "Sunday" : "Sunday",
     "Monday" : "Monday",
     "Tuesday" : "Tuesday",
