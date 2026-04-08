@@ -44,6 +44,7 @@ class PublicTemplateResponse extends TemplateResponse {
 		array $headers = [],
 	) {
 		parent::__construct($appName, $templateName, $params, 'public', $status, $headers);
+		\OCP\Util::addTranslations('core');
 		\OCP\Util::addScript('core', 'public-page-menu');
 		\OCP\Util::addScript('core', 'public-page-user-menu');
 
