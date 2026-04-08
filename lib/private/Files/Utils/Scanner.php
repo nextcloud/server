@@ -15,7 +15,6 @@ use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Home;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
-use OC\Lock\DBLockingProvider;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileScannedEvent;
@@ -31,9 +30,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
 use OCP\IUser;
-use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -46,17 +43,6 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Utils
  */
 class Scanner extends PublicEmitter {
-	public const MAX_ENTRIES_TO_COMMIT = 10000;
-
-	/**
-	 * Whether to use a DB transaction
-	 */
-	protected bool $useTransaction;
-
-	/**
-	 * Number of entries scanned to commit
-	 */
-	protected int $entriesToCommit = 0;
 
 	public function __construct(
 		private readonly ?IUser $user,
@@ -65,8 +51,6 @@ class Scanner extends PublicEmitter {
 		protected readonly LoggerInterface $logger,
 		private readonly SetupManager $setupManager,
 	) {
-		// when DB locking is used, no DB transactions will be used
-		$this->useTransaction = !(Server::get(ILockingProvider::class) instanceof DBLockingProvider);
 	}
 
 	/**
@@ -212,19 +196,18 @@ class Scanner extends PublicEmitter {
 			$relativePath = $mount->getInternalPath($dir);
 			/** @var \OC\Files\Cache\Scanner $scanner */
 			$scanner = $storage->getScanner();
-			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
 
 			$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage): void {
-				$this->postProcessEntry($storage, $path);
+				$this->triggerPropagator($storage, $path);
 				$this->eventDispatcher->dispatchTyped(new NodeRemovedFromCache($storage, $path));
 			});
 			$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage): void {
-				$this->postProcessEntry($storage, $path);
+				$this->triggerPropagator($storage, $path);
 				$this->eventDispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 			});
 			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage): void {
-				$this->postProcessEntry($storage, $path);
+				$this->triggerPropagator($storage, $path);
 				if ($fileId) {
 					$this->eventDispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 				} else {
@@ -236,9 +219,6 @@ class Scanner extends PublicEmitter {
 				throw new NotFoundException($dir);
 			}
 
-			if ($this->useTransaction) {
-				$this->db->beginTransaction();
-			}
 			try {
 				$propagator = $storage->getPropagator();
 				$propagator->beginBatch();
@@ -261,28 +241,10 @@ class Scanner extends PublicEmitter {
 				$this->logger->error('Storage ' . $storage->getId() . ' not available', ['exception' => $e]);
 				$this->emit('\OC\Files\Utils\Scanner', 'StorageNotAvailable', [$e]);
 			}
-			if ($this->useTransaction) {
-				$this->db->commit();
-			}
 		}
 	}
 
 	private function triggerPropagator(IStorage $storage, $internalPath) {
 		$storage->getPropagator()->propagateChange($internalPath, time());
-	}
-
-	private function postProcessEntry(IStorage $storage, $internalPath) {
-		$this->triggerPropagator($storage, $internalPath);
-		if ($this->useTransaction) {
-			$this->entriesToCommit++;
-			if ($this->entriesToCommit >= self::MAX_ENTRIES_TO_COMMIT) {
-				$propagator = $storage->getPropagator();
-				$this->entriesToCommit = 0;
-				$this->db->commit();
-				$propagator->commitBatch();
-				$this->db->beginTransaction();
-				$propagator->beginBatch();
-			}
-		}
 	}
 }
