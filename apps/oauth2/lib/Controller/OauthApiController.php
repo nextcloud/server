@@ -179,6 +179,9 @@ class OauthApiController extends Controller {
 		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_ALPHANUMERIC);
 		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
 		$newEncryptedToken = $this->crypto->encrypt($newToken, $newCode);
+		$redeemedThrottleReason = $grant_type === 'authorization_code'
+			? 'authorization_code_already_redeemed'
+			: 'refresh_token_already_redeemed';
 		$tokenRotated = false;
 
 		$this->db->beginTransaction();
@@ -209,7 +212,7 @@ class OauthApiController extends Controller {
 				$response = new JSONResponse([
 					'error' => 'invalid_request',
 				], Http::STATUS_BAD_REQUEST);
-				$response->throttle(['invalid_request' => 'token already redeemed']);
+				$response->throttle(['invalid_request' => $redeemedThrottleReason]);
 				return $response;
 			}
 
