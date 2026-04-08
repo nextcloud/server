@@ -1,5 +1,11 @@
 # SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
+Feature: sharing
+  Background:
+    Given using api version "1"
+    Given using old dav path
+
+# See sharing-v1.feature
   Scenario: download restrictions can not be dropped
   As an "admin"
     Given user "user0" exists
