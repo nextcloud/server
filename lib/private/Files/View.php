@@ -1423,64 +1423,77 @@ class View {
 	}
 
 	/**
-	 * get the filesystem info
+	 * Get filesystem metadata for a path within this view.
 	 *
-	 * @param string $path
-	 * @param bool|string $includeMountPoints true to add mountpoint sizes,
-	 *                                        'ext' to add only ext storage mount point sizes. Defaults to true.
-	 * @return FileInfo|false False if file does not exist
+	 * @param string $path Path relative to the current view root.
+	 * @param bool|'ext' $includeMountPoints
+	 *     true to include sub-mount sizes for directories,
+	 *     'ext' to include only external-storage sub-mount sizes,
+	 *     false to skip sub-mount size aggregation.
+	 * @return FileInfo|false
+	 *     Returns FileInfo when metadata is available.
+	 *     Returns false if the path is invalid, cannot be resolved from cache/storage,
+	 *     or does not exist. 
+	 *     NOTE: For partial-upload paths, metadata is resolved via
+	 *     the partial-file fallback path.
 	 */
-	public function getFileInfo($path, $includeMountPoints = true) {
+	public function getFileInfo(string $path, bool|string $includeMountPoints = true): FileInfo|false {
 		$this->assertPathLength($path);
+
 		if (!Filesystem::isValidPath($path)) {
 			return false;
 		}
+
 		$relativePath = $path;
-		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
+		$fullPath = Filesystem::normalizePath($this->fakeRoot . '/' . $relativePath);
 
-		$mount = Filesystem::getMountManager()->find($path);
+		$mount = Filesystem::getMountManager()->find($fullPath);
+		if (!$mount) {
+        	$this->logger->warning('No mount found for path', ['app' => 'core', 'path' => $fullPath]);
+        	return false;
+    	}
+
 		$storage = $mount->getStorage();
-		$internalPath = $mount->getInternalPath($path);
-		if ($storage) {
-			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
-
-			if (!$data instanceof ICacheEntry) {
-				if (Scanner::isPartialFile($relativePath)) {
-					return $this->getPartFileInfo($relativePath);
-				}
-
-				return false;
-			}
-
-			if ($mount instanceof MoveableMount && $internalPath === '') {
-				$data['permissions'] |= Constants::PERMISSION_DELETE;
-			}
-			if ($internalPath === '' && $data['name']) {
-				$data['name'] = basename($path);
-			}
-
-			$ownerId = $storage->getOwner($internalPath);
-			$owner = null;
-			if ($ownerId !== false) {
-				// ownerId might be null if files are accessed with an access token without file system access
-				$owner = $this->getUserObjectForOwner($ownerId);
-			}
-			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
-
-			if (isset($data['fileid'])) {
-				if ($includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
-					//add the sizes of other mount points to the folder
-					$extOnly = ($includeMountPoints === 'ext');
-					$this->addSubMounts($info, $extOnly);
-				}
-			}
-
-			return $info;
-		} else {
-			$this->logger->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint(), ['app' => 'core']);
+		if (!$storage) {
+			$this->logger->warning('Storage not valid for mountpoint', ['app' => 'core', 'mountpoint' => $mount->getMountPoint(), 'path' => $fullPath]);
+			return false;
 		}
 
-		return false;
+		$internalPath = $mount->getInternalPath($fullPath);
+		$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
+
+		if ($data === false) { // cache miss
+			if (!Scanner::isPartialFile($relativePath)) {
+				return false;
+			}
+			// Partial uploads can exist without a regular cache entry.
+			return $this->getPartFileInfo($relativePath);
+		}
+
+		// Moveable mount roots must remain deletable.
+		if ($internalPath === '' && $mount instanceof MoveableMount) {
+			$data['permissions'] |= Constants::PERMISSION_DELETE;
+		}
+
+		// Root cache names can be stale; derive from the resolved full path.
+		if ($internalPath === '' && ($data['name'] ?? '') !== '') {
+			$data['name'] = basename($fullPath);
+		}
+
+		// @todo: lazy load owner resolution in FileInfo instead?
+		$ownerId = $storage->getOwner($internalPath);
+		$owner = ($ownerId !== false)
+			? $this->getUserObjectForOwner($ownerId)
+			: null;
+
+		$info = new FileInfo($fullPath, $storage, $internalPath, $data, $mount, $owner);
+
+		if ($includeMountPoints && $data['mimetype'] === 'httpd/unix-directory' && isset($data['fileid'])) {
+			$extOnly = ($includeMountPoints === 'ext');
+			$this->addSubMounts($info, $extOnly); // expensive?
+		}
+
+		return $info;
 	}
 
 	/**
