@@ -41,4 +41,42 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 	public function testStat(): void {
 		$this->markTestSkipped('S3 doesn\'t update the parents folder mtime');
 	}
+
+	/**
+	 * Test rmdir() with a directory containing more than 1000 files to validate S3 batchDelete logic.
+	 */
+	public function testRmdirManyFiles() {
+		$dir = 'bigDir';
+		$numFiles = 1100; // S3 batchDelete limit is 1000
+
+		// Create the directory
+		$this->assertTrue($this->instance->mkdir($dir));
+
+		// Create 1100 files inside the directory
+		for ($i = 0; $i < $numFiles; $i++) {
+			$filePath = $dir . '/file' . $i . '.txt';
+			$this->assertNotFalse(
+				$this->instance->file_put_contents($filePath, 'test content'),
+				"Failed to create file: $filePath"
+			);
+		}
+
+		$this->wait();
+		// Confirm directory and files exist
+		$this->assertTrue($this->instance->is_dir($dir));
+		$this->assertTrue($this->instance->file_exists($dir . '/file0.txt'));
+		$this->assertTrue($this->instance->file_exists($dir . '/file1099.txt'));
+
+		// Delete the directory (should trigger multi-batchDelete in S3)
+		$this->assertTrue(
+			$this->instance->rmdir($dir),
+			'rmdir failed on bigDir with many files'
+		);
+
+		$this->wait();
+		// Confirm directory and files are deleted
+		$this->assertFalse($this->instance->file_exists($dir));
+		$this->assertFalse($this->instance->file_exists($dir . '/file0.txt'));
+		$this->assertFalse($this->instance->file_exists($dir . '/file1099.txt'));
+	}
 }
