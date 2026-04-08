@@ -20,6 +20,7 @@
     "Note:" : "Athugaðu:",
     "This share is valid until %s at midnight" : "Þessi sameign gildir til %s á miðnætti",
     "Expiration:" : "Gildistími:",
+    "Open shared item" : "Opna deilt atriði",
     "%1$s via %2$s" : "%1$s með %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s deildi %2$s með þér. Þú ættir að hafa fengið sérstakan tölvupóst með tengli sem vísar á gögnin.",
     "Password to access %1$s shared to you by %2$s" : "Lykilorði fyrir aðgang að %1$s var deilt með þér af %2$s",

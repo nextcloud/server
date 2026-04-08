@@ -2,6 +2,7 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Profile",
+    "Searching …" : "ძებნა …",
     "Not found" : "Not found",
     "You have not added any info yet" : "You have not added any info yet",
     "{user} has not added any info yet" : "{user} has not added any info yet",
