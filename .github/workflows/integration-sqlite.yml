@@ -164,7 +164,8 @@ jobs:
         working-directory: build/integration
         env:
           LDAP_HOST: localhost
-        run: bash run.sh ${{ matrix.test-suite }} no-tail-log
+          BEHAT_SUITE: ${{ matrix.test-suite }}
+        run: bash run.sh $BEHAT_SUITE no-tail-log
 
       - name: Print logs
         if: always()
