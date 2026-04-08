@@ -61,6 +61,7 @@ OC.L10N.register(
     "Update" : "Uppfæra",
     "Delete" : "Eyða",
     "Reset" : "Endurstilla",
+    "Loading …" : "Hleð inn…",
     "{displayName} (hidden)" : "{displayName} (falið)",
     "{displayName} (restricted)" : "{displayName} (takmarkað)",
     "Failed to apply tags changes" : "Mistókst að virkja breytingar á merkjum",

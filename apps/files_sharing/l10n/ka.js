@@ -148,6 +148,7 @@ OC.L10N.register(
     "Can edit" : "Can edit",
     "Custom permissions" : "Custom permissions",
     "Resharing is not allowed" : "Resharing is not allowed",
+    "Searching …" : "ძებნა …",
     "No elements found." : "No elements found.",
     "Search everywhere" : "მოძებნე ყველგან",
     "Guest" : "Guest",
