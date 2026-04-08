@@ -53,8 +53,8 @@ class OC_Hook {
 		['\OC\Files\Storage\Shared','fopen'],
 		['\OC\Files\Storage\Shared','file_get_contents'],
 		['\OC\Files\Storage\Shared','file_put_contents'],
-		['\OCA\Files_Trashbin\Trashbin','post_moveToTrash'],
-		['\OCA\Files_Trashbin\Trashbin','post_restore'],
+		[\OCA\Files_Trashbin\Trashbin::class,'post_moveToTrash'],
+		[\OCA\Files_Trashbin\Trashbin::class,'post_restore'],
 		['\OCP\Trashbin','preDeleteAll'],
 		['\OCP\Trashbin','deleteAll'],
 		['\OCP\Versions','rollback'],
@@ -73,8 +73,8 @@ class OC_Hook {
 		['\OC\User','assignedUserId'],
 		['\OC\User','preUnassignedUserId'],
 		['\OC\User','postUnassignedUserId'],
-		['\OC\Files\Cache\Scanner','scan_file'],
-		['\OC\Files\Cache\Scanner','post_scan_file'],
+		[OC\Files\Cache\Scanner::class,'scan_file'],
+		[OC\Files\Cache\Scanner::class,'post_scan_file'],
 		['Scanner','removeFromCache'],
 		['Scanner','addToCache'],
 		['Scanner','correctFolderSize'],
@@ -90,13 +90,15 @@ class OC_Hook {
 	 * @param string $signalName name of signal
 	 * @param string|object $slotClass class name of slot
 	 * @param string $slotName name of slot
-	 * @return bool
 	 *
 	 * This function makes it very easy to connect to use hooks.
 	 *
 	 * TODO: write example
 	 */
-	public static function connect($signalClass, $signalName, $slotClass, $slotName) {
+	public static function connect(string $signalClass, string $signalName, string|object $slotClass, string $slotName): bool {
+		if (str_starts_with($signalClass, '\\')) {
+			$signalName = substr($signalClass, 1);
+		}
 		$found = array_find(self::$allowList, function ($allowed) use ($signalClass, $signalName) {
 			[$allowedClass, $allowedSignal] = $allowed;
 			return $allowedClass === $signalClass && $allowedSignal === $signalName;
@@ -144,7 +146,10 @@ class OC_Hook {
 	 *
 	 * TODO: write example
 	 */
-	public static function emit($signalClass, $signalName, $params = []) {
+	public static function emit(string $signalClass, string $signalName, $params = []): bool {
+		if (str_starts_with($signalClass, '\\')) {
+			$signalName = substr($signalClass, 1);
+		}
 		// Return false if no hook handlers are listening to this
 		// emitting class
 		if (!array_key_exists($signalClass, self::$registered)) {
@@ -177,12 +182,13 @@ class OC_Hook {
 	}
 
 	/**
-	 * clear hooks
-	 * @param string $signalClass
-	 * @param string $signalName
+	 * Clear hooks
 	 */
-	public static function clear($signalClass = '', $signalName = '') {
+	public static function clear(string $signalClass = '', string $signalName = ''): void {
 		if ($signalClass) {
+			if (str_starts_with($signalClass, '\\')) {
+				$signalName = substr($signalClass, 1);
+			}
 			if ($signalName) {
 				self::$registered[$signalClass][$signalName] = [];
 			} else {
@@ -197,7 +203,7 @@ class OC_Hook {
 	 * DO NOT USE!
 	 * For unit tests ONLY!
 	 */
-	public static function getHooks() {
+	public static function getHooks(): array {
 		return self::$registered;
 	}
 }
