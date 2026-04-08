@@ -19,6 +19,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Vafrinn þinn styður ekki myndskeið.",
     "This file no longer exists" : "Þessi skrá er ekki lengur til",
     "There is no plugin available to display this file type" : "Ekki er til nein viðbót til að birta þessa tegund af skrám",
+    "Failed to save file before download" : "Mistókst að vista skrá áður en hún er sótt",
     "Edit" : "Breyta",
     "Exit full screen" : "Fara úr skjáfylliham",
     "Full screen" : "Skjáfylli",
