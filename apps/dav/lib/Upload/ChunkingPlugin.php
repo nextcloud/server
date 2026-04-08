@@ -28,10 +28,12 @@ namespace OCA\DAV\Upload;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
+use Sabre\HTTP\RequestInterface;
 
 class ChunkingPlugin extends ServerPlugin {
 
@@ -45,7 +47,20 @@ class ChunkingPlugin extends ServerPlugin {
 	 */
 	public function initialize(Server $server) {
 		$server->on('beforeMove', [$this, 'beforeMove']);
+		$server->on('beforeMethod:GET', [$this, 'beforeGet']);
 		$this->server = $server;
+	}
+
+	/**
+	 * @param RequestInterface $request
+	 */
+	public function beforeGet($request) {
+		$sourceNode = $this->server->tree->getNodeForPath($request->getPath());
+		if (($sourceNode instanceof FutureFile) || ($sourceNode instanceof UploadFile)) {
+			throw new MethodNotAllowed('Reading intermediate uploads is not allowed');
+		}
+
+		return true;
 	}
 
 	/**
