@@ -86,7 +86,7 @@ class Storage {
 	 * @return array
 	 * @throws NoUserException
 	 */
-	public static function getUidAndFilename($filename) {
+	public static function getUidAndFilename(string $filename) {
 		$uid = Filesystem::getOwner($filename);
 		$userManager = Server::get(IUserManager::class);
 		// if the user with the UID doesn't exists, e.g. because the UID points
@@ -153,7 +153,7 @@ class Storage {
 	/**
 	 * store a new version of a file.
 	 */
-	public static function store($filename) {
+	public static function store(string $filename) {
 		// if the file gets streamed we need to remove the .part extension
 		// to get the right target
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -287,7 +287,7 @@ class Storage {
 	 *                           the currently logged in user's "files" folder
 	 * @param string $operation can be 'copy' or 'rename'
 	 */
-	public static function renameOrCopy($sourcePath, $targetPath, $operation) {
+	public static function renameOrCopy(string $sourcePath, string $targetPath, string $operation) {
 		[$sourceOwner, $sourcePath] = self::getSourcePathAndUser($sourcePath);
 
 		// it was a upload of a existing file if no old path exists
@@ -838,7 +838,7 @@ class Storage {
 	 * @param string $uid user for which to expire the version
 	 * @return bool|int|null
 	 */
-	public static function expire($filename, $uid) {
+	public static function expire(string $filename, string $uid) {
 		$expiration = self::getExpiration();
 
 		/** @var LoggerInterface $logger */
