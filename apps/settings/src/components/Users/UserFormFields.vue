@@ -202,6 +202,10 @@ export default {
 		padding: var(--border-width-input-focused, 2px);
 		padding-inline: calc(var(--border-radius-element, 8px) + var(--border-width-input-focused, 2px));
 
+		// Manually align static value with inputs below until we have a static field in component lib.
+		// See: https://github.com/nextcloud/server/issues/53862#issuecomment-4212613996
+		margin-left: 18px;
+
 		&-label {
 			font-size: var(--font-size-small, 13px);
 			font-weight: 500;
