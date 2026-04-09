@@ -9,6 +9,7 @@ namespace OC;
 
 use OC\Hooks\PublicEmitter;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\SubAdminAddedEvent;
 use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\ISubAdmin;
@@ -17,6 +18,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Events\UserDeletedEvent;
 
 class SubAdmin extends PublicEmitter implements ISubAdmin {
 	public function __construct(
@@ -25,11 +27,11 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		private IDBConnection $dbConn,
 		private IEventDispatcher $eventDispatcher,
 	) {
-		$this->userManager->listen('\OC\User', 'postDelete', function ($user): void {
-			$this->post_deleteUser($user);
+		$this->eventDispatcher->addListener(UserDeletedEvent::class, function (UserDeletedEvent $event) {
+			$this->post_deleteUser($event->getUser());
 		});
-		$this->groupManager->listen('\OC\Group', 'postDelete', function ($group): void {
-			$this->post_deleteGroup($group);
+		$this->eventDispatcher->addListener(GroupDeletedEvent::class, function (GroupDeletedEvent $event) {
+			$this->post_deleteGroup($event->getGroup());
 		});
 	}
 

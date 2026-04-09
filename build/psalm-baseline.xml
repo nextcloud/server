@@ -1680,7 +1680,6 @@
     <DeprecatedMethod>
       <code><![CDATA[Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren')]]></code>
       <code><![CDATA[Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook')]]></code>
-      <code><![CDATA[Util::connectHook('OC_User', 'post_deleteUser', '\OCA\Files_Sharing\Hooks', 'deleteUser')]]></code>
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
     <InternalMethod>
@@ -2770,18 +2769,10 @@
       <code><![CDATA[getDatabasePlatform]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/user_ldap/lib/User/Manager.php">
-    <InvalidDocblock>
-      <code><![CDATA[public function setLdapAccess(Access $access) {]]></code>
-    </InvalidDocblock>
-  </file>
   <file src="apps/user_ldap/lib/User/User.php">
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
-    <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry')]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
     <DeprecatedInterface>
@@ -4138,12 +4129,6 @@
       <code><![CDATA[get]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/SubAdmin.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Support/Subscription/Registry.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[getSupportedApps]]></code>
@@ -4197,18 +4182,6 @@
       <code><![CDATA[$request->server]]></code>
       <code><![CDATA[$request->server]]></code>
     </NoInterfaceProperties>
-    <RedundantCondition>
-      <code><![CDATA[$this->manager instanceof PublicEmitter]]></code>
-    </RedundantCondition>
-  </file>
-  <file src="lib/private/User/User.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_App.php">
     <InvalidArgument>

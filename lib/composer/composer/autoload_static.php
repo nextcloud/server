@@ -1793,7 +1793,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Config\\LazyStorageMountInfo' => __DIR__ . '/../../..' . '/lib/private/Files/Config/LazyStorageMountInfo.php',
         'OC\\Files\\Config\\MountProviderCollection' => __DIR__ . '/../../..' . '/lib/private/Files/Config/MountProviderCollection.php',
         'OC\\Files\\Config\\UserMountCache' => __DIR__ . '/../../..' . '/lib/private/Files/Config/UserMountCache.php',
-        'OC\\Files\\Config\\UserMountCacheListener' => __DIR__ . '/../../..' . '/lib/private/Files/Config/UserMountCacheListener.php',
         'OC\\Files\\Conversion\\ConversionManager' => __DIR__ . '/../../..' . '/lib/private/Files/Conversion/ConversionManager.php',
         'OC\\Files\\FileInfo' => __DIR__ . '/../../..' . '/lib/private/Files/FileInfo.php',
         'OC\\Files\\FilenameValidator' => __DIR__ . '/../../..' . '/lib/private/Files/FilenameValidator.php',

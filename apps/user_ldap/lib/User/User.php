@@ -18,6 +18,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Config\IUserConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\Image;
@@ -27,6 +28,8 @@ use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
+use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -66,6 +69,7 @@ class User {
 		protected IAvatarManager $avatarManager,
 		protected IUserManager $userManager,
 		protected INotificationManager $notificationManager,
+		IEventDispatcher $eventDispatcher,
 	) {
 		if ($uid === '') {
 			$logger->error("uid for '$dn' must not be an empty string", ['app' => 'user_ldap']);
@@ -74,7 +78,13 @@ class User {
 		$this->connection = $this->access->getConnection();
 		$this->birthdateParser = new BirthdateParserService();
 
-		Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
+		$eventDispatcher->addListener(UserLoggedInWithCookieEvent::class, function (UserLoggedInWithCookieEvent $event) {
+			$this->handlePasswordExpiry($event->getUser());
+		});
+
+		$eventDispatcher->addListener(UserLoggedInEvent::class, function (UserLoggedInEvent $event) {
+			$this->handlePasswordExpiry($event->getUser());
+		});
 	}
 
 	/**
@@ -735,15 +745,15 @@ class User {
 	}
 
 	/**
-	 * called by a post_login hook to handle password expiry
+	 * Called by a LoggedIn events to handle password expiry
 	 */
-	public function handlePasswordExpiry(array $params): void {
+	public function handlePasswordExpiry(IUser $user): void {
+		$uid = $user->getUID();
 		$ppolicyDN = $this->connection->ldapDefaultPPolicyDN;
 		if (empty($ppolicyDN) || ((int)$this->connection->turnOnPasswordChange !== 1)) {
 			//password expiry handling disabled
 			return;
 		}
-		$uid = $params['uid'];
 		if (isset($uid) && $uid === $this->getUsername()) {
 			//retrieve relevant user attributes
 			$result = $this->access->search('objectclass=*', $this->dn, ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);

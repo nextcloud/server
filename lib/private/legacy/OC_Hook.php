@@ -40,6 +40,8 @@ class OC_Hook {
 		[Filesystem::CLASSNAME, Filesystem::signal_pre_setup],
 		[Filesystem::CLASSNAME, Filesystem::signal_post_init_mountpoints],
 		[Filesystem::CLASSNAME, 'umount'],
+		[Filesystem::CLASSNAME, 'post_umount'],
+		[Filesystem::CLASSNAME, 'post_read'],
 		[Share::class,'share_link_access'],
 		[Share::class,'pre_unshare'],
 		[Share::class,'post_unshare'],
@@ -49,38 +51,31 @@ class OC_Hook {
 		[Share::class,'post_set_expiration_date'],
 		[Share::class,'post_update_password'],
 		[Share::class,'post_update_permissions'],
-		['\OC\Share','verifyExpirationDate'],
-		['\OC\Files\Storage\Shared','fopen'],
-		['\OC\Files\Storage\Shared','file_get_contents'],
-		['\OC\Files\Storage\Shared','file_put_contents'],
+		['OC\Share','verifyExpirationDate'],
+		['OC\Files\Storage\Shared','fopen'],
+		['OC\Files\Storage\Shared','file_get_contents'],
+		['OC\Files\Storage\Shared','file_put_contents'],
 		[\OCA\Files_Trashbin\Trashbin::class,'post_moveToTrash'],
 		[\OCA\Files_Trashbin\Trashbin::class,'post_restore'],
-		['\OCP\Trashbin','preDeleteAll'],
-		['\OCP\Trashbin','deleteAll'],
-		['\OCP\Versions','rollback'],
-		['\OCP\Versions','preDelete'],
-		['\OCP\Versions','delete'],
-		[OC_User::class,'pre_createUser'],
-		[OC_User::class,'post_createUser'],
-		[OC_User::class,'pre_deleteUser'],
-		[OC_User::class,'post_deleteUser'],
-		[OC_User::class,'pre_setPassword'],
-		[OC_User::class,'post_setPassword'],
-		[OC_User::class,'pre_login'],
+		['OCP\Trashbin','preDeleteAll'],
+		['OCP\Trashbin','deleteAll'],
+		['OCP\Versions','rollback'],
+		['OCP\Versions','preDelete'],
+		['OCP\Versions','delete'],
 		[OC_User::class,'post_login'],
 		[OC_User::class,'logout'],
 		[OC_User::class,'changeUser'],
-		['\OC\User','assignedUserId'],
-		['\OC\User','preUnassignedUserId'],
-		['\OC\User','postUnassignedUserId'],
-		[OC\Files\Cache\Scanner::class,'scan_file'],
-		[OC\Files\Cache\Scanner::class,'post_scan_file'],
+		['OC\User','assignedUserId'],
+		['OC\User','preUnassignedUserId'],
+		['OC\User','postUnassignedUserId'],
+		[\OC\Files\Cache\Scanner::class,'scan_file'],
+		[\OC\Files\Cache\Scanner::class,'post_scan_file'],
 		['Scanner','removeFromCache'],
 		['Scanner','addToCache'],
 		['Scanner','correctFolderSize'],
-		['\OCP\Config','js'],
-		['\OC\Core\LostPassword\Controller\LostController','post_passwordReset'],
-		['\OC\Core\LostPassword\Controller\LostController','pre_passwordReset'],
+		['OCP\Config','js'],
+		['OC\Core\LostPassword\Controller\LostController','post_passwordReset'],
+		['OC\Core\LostPassword\Controller\LostController','pre_passwordReset'],
 	];
 
 	/**
@@ -97,7 +92,7 @@ class OC_Hook {
 	 */
 	public static function connect(string $signalClass, string $signalName, string|object $slotClass, string $slotName): bool {
 		if (str_starts_with($signalClass, '\\')) {
-			$signalName = substr($signalClass, 1);
+			$signalClass = substr($signalClass, 1);
 		}
 		$found = array_find(self::$allowList, function ($allowed) use ($signalClass, $signalName) {
 			[$allowedClass, $allowedSignal] = $allowed;
@@ -148,7 +143,7 @@ class OC_Hook {
 	 */
 	public static function emit(string $signalClass, string $signalName, $params = []): bool {
 		if (str_starts_with($signalClass, '\\')) {
-			$signalName = substr($signalClass, 1);
+			$signalClass = substr($signalClass, 1);
 		}
 		// Return false if no hook handlers are listening to this
 		// emitting class
@@ -187,7 +182,7 @@ class OC_Hook {
 	public static function clear(string $signalClass = '', string $signalName = ''): void {
 		if ($signalClass) {
 			if (str_starts_with($signalClass, '\\')) {
-				$signalName = substr($signalClass, 1);
+				$signalClass = substr($signalClass, 1);
 			}
 			if ($signalName) {
 				self::$registered[$signalClass][$signalName] = [];

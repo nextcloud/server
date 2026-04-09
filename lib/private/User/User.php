@@ -10,7 +10,6 @@ namespace OC\User;
 use InvalidArgumentException;
 use OC\Accounts\AccountManager;
 use OC\Avatar\AvatarManager;
-use OC\Hooks\Emitter;
 use OCP\Accounts\IAccountManager;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -66,7 +65,6 @@ class User implements IUser {
 		private string $uid,
 		private ?UserInterface $backend,
 		private IEventDispatcher $dispatcher,
-		private Emitter|Manager|null $emitter = null,
 		?IConfig $config = null,
 		$urlGenerator = null,
 	) {
@@ -104,7 +102,7 @@ class User implements IUser {
 	}
 
 	/**
-	 * Set the displayname for the user
+	 * Set the display name for the user.
 	 *
 	 * @param string $displayName
 	 *
@@ -251,10 +249,6 @@ class User implements IUser {
 			return false;
 		}
 
-		if ($this->emitter) {
-			/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
-			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
-		}
 		$this->dispatcher->dispatchTyped(new BeforeUserDeletedEvent($this));
 
 		// Set delete flag on the user - this is needed to ensure that the user data is removed if there happen any exception in the backend
@@ -315,10 +309,6 @@ class User implements IUser {
 			throw $e;
 		}
 
-		if ($this->emitter !== null) {
-			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
-			$this->emitter->emit('\OC\User', 'postDelete', [$this]);
-		}
 		$this->dispatcher->dispatchTyped(new UserDeletedEvent($this));
 
 		// Finally we can unset the delete flag and all other states
@@ -336,9 +326,6 @@ class User implements IUser {
 	#[\Override]
 	public function setPassword($password, $recoveryPassword = null): bool {
 		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
-		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			/** @var ISetPasswordBackend $backend */
 			$backend = $this->backend;
@@ -346,9 +333,6 @@ class User implements IUser {
 
 			if ($result !== false) {
 				$this->dispatcher->dispatchTyped(new PasswordUpdatedEvent($this, $password, $recoveryPassword));
-				if ($this->emitter) {
-					$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
-				}
 			}
 
 			return !($result === false);
@@ -676,8 +660,5 @@ class User implements IUser {
 
 	public function triggerChange($feature, $value = null, $oldValue = null): void {
 		$this->dispatcher->dispatchTyped(new UserChangedEvent($this, $feature, $value, $oldValue));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
-		}
 	}
 }

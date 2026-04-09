@@ -1752,7 +1752,6 @@ return array(
     'OC\\Files\\Config\\LazyStorageMountInfo' => $baseDir . '/lib/private/Files/Config/LazyStorageMountInfo.php',
     'OC\\Files\\Config\\MountProviderCollection' => $baseDir . '/lib/private/Files/Config/MountProviderCollection.php',
     'OC\\Files\\Config\\UserMountCache' => $baseDir . '/lib/private/Files/Config/UserMountCache.php',
-    'OC\\Files\\Config\\UserMountCacheListener' => $baseDir . '/lib/private/Files/Config/UserMountCacheListener.php',
     'OC\\Files\\Conversion\\ConversionManager' => $baseDir . '/lib/private/Files/Conversion/ConversionManager.php',
     'OC\\Files\\FileInfo' => $baseDir . '/lib/private/Files/FileInfo.php',
     'OC\\Files\\FilenameValidator' => $baseDir . '/lib/private/Files/FilenameValidator.php',

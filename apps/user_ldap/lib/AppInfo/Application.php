@@ -68,6 +68,7 @@ class Application extends App implements IBootstrap {
 					$c->get(IUserManager::class),
 					$c->get(INotificationManager::class),
 					$c->get(IShareManager::class),
+					$c->get(IEventDispatcher::class),
 				);
 			},
 			// the instance is specific to a lazy bound Access instance, thus cannot be shared.

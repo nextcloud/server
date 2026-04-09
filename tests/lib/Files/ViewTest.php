@@ -2141,12 +2141,14 @@ class ViewTest extends \Test\TestCase {
 		Filesystem::mount($storage, [], $this->user . '/');
 		$storage->mkdir('files');
 
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			$hookType,
-			HookHelper::class,
-			'cancellingCallback'
-		);
+		if ($hookType !== '') {
+			Util::connectHook(
+				Filesystem::CLASSNAME,
+				$hookType,
+				HookHelper::class,
+				'cancellingCallback'
+			);
+		}
 
 		call_user_func_array([$view, $operation], $operationArgs);
 

@@ -1015,9 +1015,10 @@ class OC {
 	}
 
 	private static function registerAppRestrictionsHooks(): void {
-		/** @var \OC\Group\Manager $groupManager */
-		$groupManager = Server::get(\OCP\IGroupManager::class);
-		$groupManager->listen('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$eventDispatcher->addListener(GroupDeletedEvent::class, function (GroupDeletedEvent $event) {
+			$group = $event->getGroup();
 			$appManager = Server::get(\OCP\App\IAppManager::class);
 			$apps = $appManager->getEnabledAppsForGroup($group);
 			foreach ($apps as $appId) {

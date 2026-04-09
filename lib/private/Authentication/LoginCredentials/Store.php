@@ -15,10 +15,13 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ISession;
 use OCP\Security\ICrypto;
+use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
-use OCP\Util;
+use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
 use Psr\Log\LoggerInterface;
 
 class Store implements IStore {
@@ -28,15 +31,19 @@ class Store implements IStore {
 		private readonly ICrypto $crypto,
 		private ?IProvider $tokenProvider = null,
 	) {
-		Util::connectHook('OC_User', 'post_login', $this, 'authenticate');
+		Server::get(IEventDispatcher::class)->addListener(UserLoggedInWithCookieEvent::class, function (UserLoggedInWithCookieEvent $event) {
+			$this->authenticate(['run' => true, 'uid' => $event->getUser()->getUID(), 'password' => $event->getPassword()]);
+		});
+
+		Server::get(IEventDispatcher::class)->addListener(UserLoggedInEvent::class, function (UserLoggedInEvent $event) {
+			$this->authenticate(['run' => true, 'uid' => $event->getUser()->getUID(), 'loginName' => $event->getLoginName(), 'password' => $event->getPassword(), 'isTokenLogin' => $event->isTokenLogin()]);
+		});
 	}
 
 	/**
 	 * Hook listener on post login
-	 *
-	 * @param array $params
 	 */
-	public function authenticate(array $params) {
+	public function authenticate(array $params): void {
 		if ($params['password'] !== null) {
 			$params['password'] = $this->crypto->encrypt((string)$params['password']);
 		}
@@ -45,10 +52,8 @@ class Store implements IStore {
 
 	/**
 	 * Replace the session implementation
-	 *
-	 * @param ISession $session
 	 */
-	public function setSession(ISession $session) {
+	public function setSession(ISession $session): void {
 		$this->session = $session;
 	}
 
