@@ -18,12 +18,17 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use OCP\Server;
+use OCP\User\Events\BeforePasswordUpdatedEvent;
+use OCP\User\Events\BeforeUserDeletedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
@@ -260,7 +265,7 @@ class UserTest extends TestCase {
 			->method('getValueBool')
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $allConfig, $userConfig);
+		$user = new User('foo', $backend, $this->dispatcher, $allConfig, $userConfig);
 		$this->assertEquals('arbitrary/path/foo', $user->getHome());
 	}
 
@@ -298,7 +303,7 @@ class UserTest extends TestCase {
 			->with('allow_user_to_change_display_name')
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = new User('foo', $backend, $this->dispatcher, $config);
 		$this->assertTrue($user->canChangeDisplayName());
 	}
 
@@ -370,37 +375,38 @@ class UserTest extends TestCase {
 			->method('setPassword')
 			->willReturn(true);
 
-		$hook = function (IUser $user, string $password) use ($test, &$hooksCalled): void {
+		$this->dispatcher->addListener(BeforePasswordUpdatedEvent::class, function (BeforePasswordUpdatedEvent $event) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
-			$test->assertEquals('foo', $user->getUID());
-			$test->assertEquals('bar', $password);
-		};
+			$test->assertEquals('foo', $event->getUser()->getUID());
+			$test->assertEquals('bar', $event->getPassword());
+		});
 
-		$emitter = new PublicEmitter();
-		$emitter->listen('\OC\User', 'preSetPassword', $hook);
-		$emitter->listen('\OC\User', 'postSetPassword', $hook);
+		$this->dispatcher->addListener(PasswordUpdatedEvent::class, function (PasswordUpdatedEvent $event) use ($test, &$hooksCalled): void {
+			$hooksCalled++;
+			$test->assertEquals('foo', $event->getUser()->getUID());
+			$test->assertEquals('bar', $event->getPassword());
+		});
 
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_PASSWORD);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter);
+		$user = new User('foo', $backend, $this->dispatcher);
 
 		$user->setPassword('bar', '');
 		$this->assertEquals(2, $hooksCalled);
 	}
 
-	public static function dataDeleteHooks(): array {
+	public static function dataDeleteEvent(): array {
 		return [
 			[true, 2],
 			[false, 1],
 		];
 	}
 
-	#[DataProvider('dataDeleteHooks')]
-	public function testDeleteHooks(bool $result, int $expectedHooks): void {
+	#[DataProvider('dataDeleteEvent')]
+	public function testDeleteEvent(bool $result, int $expectedHooks): void {
 		$hooksCalled = 0;
-		$test = $this;
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
@@ -420,16 +426,17 @@ class UserTest extends TestCase {
 
 		$userConfig = $this->createMock(IUserConfig::class);
 
-		$emitter = new PublicEmitter();
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config, $userConfig);
+		$user = new User('foo', $backend, $this->dispatcher, $config, $userConfig);
 
-		$hook = function (IUser $user) use ($test, &$hooksCalled): void {
+		$this->dispatcher->addListener(BeforeUserDeletedEvent::class, function (BeforeUserDeletedEvent $event) use (&$hooksCalled) {
 			$hooksCalled++;
-			$test->assertEquals('foo', $user->getUID());
-		};
+			$this->assertEquals('foo', $event->getUser()->getUID());
+		});
 
-		$emitter->listen('\OC\User', 'preDelete', $hook);
-		$emitter->listen('\OC\User', 'postDelete', $hook);
+		$this->dispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event) use (&$hooksCalled) {
+			$hooksCalled++;
+			$this->assertEquals('foo', $event->getUser()->getUID());
+		});
 
 		$commentsManager = $this->createMock(ICommentsManager::class);
 		$notificationManager = $this->createMock(INotificationManager::class);
@@ -547,7 +554,7 @@ class UserTest extends TestCase {
 		$urlGenerator->method('getAbsoluteURL')
 			->withAnyParameters()
 			->willReturn($absoluteUrl);
-		$user = new User('foo', $backend, $this->dispatcher, null, null, null, $urlGenerator);
+		$user = new User('foo', $backend, $this->dispatcher, null, null, $urlGenerator);
 		$this->assertEquals($cloudId, $user->getCloudId());
 	}
 
@@ -555,17 +562,13 @@ class UserTest extends TestCase {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
 
-		$test = $this;
 		$hooksCalled = 0;
 
-		$hook = function (IUser $user, string $feature, string $value) use ($test, &$hooksCalled): void {
+		$this->dispatcher->addListener(UserChangedEvent::class, function (UserChangedEvent $event) use (&$hooksCalled): void {
 			$hooksCalled++;
-			$test->assertEquals('eMailAddress', $feature);
-			$test->assertEquals('', $value);
-		};
-
-		$emitter = new PublicEmitter();
-		$emitter->listen('\OC\User', 'changeUser', $hook);
+			$this->assertEquals('eMailAddress', $event->getFeature());
+			$this->assertEquals('', $event->getValue());
+		});
 
 		$userConfig = $this->createMock(IUserConfig::class);
 		$userConfig->expects($this->once())
@@ -576,7 +579,7 @@ class UserTest extends TestCase {
 				'email'
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
+		$user = new User('foo', $backend, $this->dispatcher, null, $userConfig);
 		$user->setSystemEMailAddress('');
 	}
 
@@ -584,17 +587,13 @@ class UserTest extends TestCase {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
 
-		$test = $this;
 		$hooksCalled = 0;
 
-		$hook = function (IUser $user, string $feature, string $value) use ($test, &$hooksCalled): void {
+		$this->dispatcher->addListener(UserChangedEvent::class, function (UserChangedEvent $event) use (&$hooksCalled): void {
 			$hooksCalled++;
-			$test->assertEquals('eMailAddress', $feature);
-			$test->assertEquals('foo@bar.com', $value);
-		};
-
-		$emitter = new PublicEmitter();
-		$emitter->listen('\OC\User', 'changeUser', $hook);
+			$this->assertEquals('eMailAddress', $event->getFeature());
+			$this->assertEquals('foo@bar.com', $event->getValue());
+		});
 
 		$userConfig = $this->createMock(IUserConfig::class);
 		$userConfig->expects($this->once())
@@ -606,7 +605,7 @@ class UserTest extends TestCase {
 				'foo@bar.com'
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
+		$user = new User('foo', $backend, $this->dispatcher, null, $userConfig);
 		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
@@ -614,13 +613,11 @@ class UserTest extends TestCase {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
 
-		$emitter = $this->createMock(PublicEmitter::class);
-		$emitter->expects($this->never())
-			->method('emit');
-
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$dispatcher->expects($this->never())
 			->method('dispatch');
+		$dispatcher->expects($this->never())
+			->method('dispatchTyped');
 
 		$userConfig = $this->createMock(IUserConfig::class);
 		$userConfig->expects($this->any())
@@ -629,7 +626,7 @@ class UserTest extends TestCase {
 		$userConfig->expects($this->any())
 			->method('setValueString');
 
-		$user = new User('foo', $backend, $dispatcher, $emitter, null, $userConfig);
+		$user = new User('foo', $backend, $dispatcher, null, $userConfig);
 		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
@@ -637,17 +634,13 @@ class UserTest extends TestCase {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
 
-		$test = $this;
 		$hooksCalled = 0;
 
-		$hook = function (IUser $user, string $feature, string $value) use ($test, &$hooksCalled): void {
+		$this->dispatcher->addListener(UserChangedEvent::class, function (UserChangedEvent $event) use (&$hooksCalled): void {
 			$hooksCalled++;
-			$test->assertEquals('quota', $feature);
-			$test->assertEquals('23 TB', $value);
-		};
-
-		$emitter = new PublicEmitter();
-		$emitter->listen('\OC\User', 'changeUser', $hook);
+			$this->assertEquals('quota', $event->getFeature());
+			$this->assertEquals('23 TB', $event->getValue());
+		});
 
 		$userConfig = $this->createMock(IUserConfig::class);
 		$userConfig->expects($this->once())
@@ -662,7 +655,7 @@ class UserTest extends TestCase {
 		/* Overwrite IRootFolder to avoid crash about unknown user */
 		$this->overwriteService(IRootFolder::class, $this->createMock(IRootFolder::class));
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
+		$user = new User('foo', $backend, $this->dispatcher, null, $userConfig);
 		$user->setQuota('23 TB');
 
 		$this->restoreService(IRootFolder::class);
@@ -672,14 +665,9 @@ class UserTest extends TestCase {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
 
-		/** @var PublicEmitter|MockObject $emitter */
-		$emitter = $this->createMock(PublicEmitter::class);
-		$emitter->expects($this->never())
-			->method('emit');
-
 		$config = $this->createMock(IConfig::class);
 		$userConfig = $this->createMock(IUserConfig::class);
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config, $userConfig);
+		$user = new User('foo', $backend, $this->dispatcher, $config, $userConfig);
 
 		$userValueMap = [
 			['foo', 'files', 'quota', 'default', 'default'],
@@ -701,14 +689,9 @@ class UserTest extends TestCase {
 	public function testGetDefaultUnlimitedQuotaForbidden(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		/** @var PublicEmitter|MockObject $emitter */
-		$emitter = $this->createMock(PublicEmitter::class);
-		$emitter->expects($this->never())
-			->method('emit');
-
 		$config = $this->createMock(IConfig::class);
 		$userConfig = $this->createMock(IUserConfig::class);
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config, $userConfig);
+		$user = new User('foo', $backend, $this->dispatcher, $config, $userConfig);
 
 		$userValueMap = [
 			['foo', 'files', 'quota', 'default', 'default'],
@@ -733,11 +716,6 @@ class UserTest extends TestCase {
 	public function testSetQuotaAddressNoChange(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		/** @var PublicEmitter|MockObject $emitter */
-		$emitter = $this->createMock(PublicEmitter::class);
-		$emitter->expects($this->never())
-			->method('emit');
-
 		$userConfig = $this->createMock(IUserConfig::class);
 		$userConfig->expects($this->any())
 			->method('getValueString')
@@ -748,7 +726,7 @@ class UserTest extends TestCase {
 		/* Overwrite IRootFolder to avoid crash about unknown user */
 		$this->overwriteService(IRootFolder::class, $this->createMock(IRootFolder::class));
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
+		$user = new User('foo', $backend, $this->dispatcher, null, $userConfig);
 		$user->setQuota('23 TB');
 
 		$this->restoreService(IRootFolder::class);

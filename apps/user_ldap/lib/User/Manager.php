@@ -12,6 +12,7 @@ use OCA\User_LDAP\Access;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Config\IUserConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -45,6 +46,7 @@ class Manager {
 		protected IUserManager $userManager,
 		protected INotificationManager $notificationManager,
 		private IManager $shareManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		$this->usersByDN = new CappedMemoryCache();
 		$this->usersByUid = new CappedMemoryCache();
@@ -53,9 +55,8 @@ class Manager {
 	/**
 	 * Binds manager to an instance of Access.
 	 * It needs to be assigned first before the manager can be used.
-	 * @param Access
 	 */
-	public function setLdapAccess(Access $access) {
+	public function setLdapAccess(Access $access): void {
 		$this->access = $access;
 	}
 
@@ -64,24 +65,22 @@ class Manager {
 	 * property array
 	 * @param string $dn the DN of the user
 	 * @param string $uid the internal (owncloud) username
-	 * @return User
 	 */
-	private function createAndCache($dn, $uid) {
+	private function createAndCache(string $dn, string $uid): User {
 		$this->checkAccess();
 		$user = new User($uid, $dn, $this->access, $this->ocConfig, $this->userConfig, $this->appConfig,
 			clone $this->image, $this->logger,
 			$this->avatarManager, $this->userManager,
-			$this->notificationManager);
+			$this->notificationManager, $this->eventDispatcher);
 		$this->usersByDN[$dn] = $user;
 		$this->usersByUid[$uid] = $user;
 		return $user;
 	}
 
 	/**
-	 * removes a user entry from the cache
-	 * @param $uid
+	 * Removes a user entry from the cache.
 	 */
-	public function invalidate($uid) {
+	public function invalidate(string $uid): void {
 		if (!isset($this->usersByUid[$uid])) {
 			return;
 		}
@@ -94,9 +93,8 @@ class Manager {
 	 * @brief checks whether the Access instance has been set
 	 * @throws \Exception if Access has not been set
 	 * @psalm-assert !null $this->access
-	 * @return null
 	 */
-	private function checkAccess() {
+	private function checkAccess(): void {
 		if (is_null($this->access)) {
 			throw new \Exception('LDAP Access instance must be set first');
 		}

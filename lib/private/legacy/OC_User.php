@@ -40,13 +40,6 @@ use Psr\Log\LoggerInterface;
  * Note that &run is deprecated and won't work anymore.
  *
  * Hooks provided:
- *   pre_createUser(&run, uid, password)
- *   post_createUser(uid, password)
- *   pre_deleteUser(&run, uid)
- *   post_deleteUser(uid)
- *   pre_setPassword(&run, uid, password, recoveryPassword)
- *   post_setPassword(uid, password, recoveryPassword)
- *   pre_login(&run, uid, password)
  *   post_login(uid)
  *   logout()
  */
@@ -148,7 +141,6 @@ class OC_User {
 	public static function loginWithApache(IApacheBackend $backend): bool {
 		$uid = $backend->getCurrentUserId();
 		$run = true;
-		Util::emitHook('OC_User', 'pre_login', ['run' => &$run, 'uid' => $uid, 'backend' => $backend]);
 
 		if ($uid) {
 			if (self::getUser() !== $uid) {
@@ -191,29 +183,23 @@ class OC_User {
 					}
 				}
 
-				// setup the filesystem
-				OC_Util::setupFS($uid);
-				// first call the post_login hooks, the login-process needs to be
-				// completed before we can safely create the users folder.
+				$user = Server::get(IUserManager::class)->get($uid);
+
+				// set up the filesystem
+				Server::get(\OCP\Files\ISetupManager::class)->setupForUser($user);
+
+				// first call the UserLoggedIn event, the login-process needs to be
+				// completed before we can safely create the user's folder.
 				// For example encryption needs to initialize the users keys first
 				// before we can create the user folder with the skeleton files
-				Util::emitHook(
-					'OC_User',
-					'post_login',
-					[
-						'uid' => $uid,
-						'password' => $password,
-						'isTokenLogin' => false,
-					]
-				);
 				$dispatcher->dispatchTyped(new UserLoggedInEvent(
-					Server::get(IUserManager::class)->get($uid),
+					$user,
 					$uid,
 					null,
 					false)
 				);
 
-				//trigger creation of user home and /files folder
+				// trigger creation of user home and /files folder
 				Server::get(IRootFolder::class)->getUserFolder($uid);
 			}
 			return true;

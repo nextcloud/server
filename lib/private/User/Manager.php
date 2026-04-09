@@ -39,6 +39,7 @@ use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use OCP\Util;
@@ -49,13 +50,6 @@ use Psr\Log\LoggerInterface;
  * Class Manager
  *
  * Hooks available in scope \OC\User:
- * - preSetPassword(\OC\User\User $user, string $password, string $recoverPassword)
- * - postSetPassword(\OC\User\User $user, string $password, string $recoverPassword)
- * - preDelete(\OC\User\User $user)
- * - postDelete(\OC\User\User $user)
- * - preCreateUser(string $uid, string $password)
- * - postCreateUser(\OC\User\User $user, string $password)
- * - change(\OC\User\User $user)
  * - assignedUserId(string $uid)
  * - preUnassignedUserId(string $uid)
  * - postUnassignedUserId(string $uid)
@@ -89,8 +83,8 @@ class Manager extends PublicEmitter implements IUserManager {
 		private LoggerInterface $logger,
 	) {
 		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
-		$this->listen('\OC\User', 'postDelete', function (IUser $user): void {
-			unset($this->cachedUsers[$user->getUID()]);
+		$this->eventDispatcher->addListener(UserDeletedEvent::class, function (UserDeletedEvent $event) {
+			unset($this->cachedUsers[$event->getUser()->getUID()]);
 		});
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 	}
@@ -204,7 +198,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this->eventDispatcher, $this, $this->config);
+		$user = new User($uid, $backend, $this->eventDispatcher, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}
@@ -461,8 +455,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			throw new \InvalidArgumentException($l->t('The Login is already being used'));
 		}
 
-		/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
-		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
 		$this->eventDispatcher->dispatchTyped(new BeforeUserCreatedEvent($uid, $password));
 		$state = $backend->createUser($uid, $password);
 		if ($state === false) {
@@ -479,8 +471,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			throw new \RuntimeException('Failed to get user after creation', previous: $e);
 		}
 		if ($user instanceof IUser) {
-			/** @deprecated 21.0.0 use UserCreatedEvent event with the IEventDispatcher instead */
-			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
 			$this->eventDispatcher->dispatchTyped(new UserCreatedEvent($user, $password));
 			return $user;
 		}
