@@ -83,7 +83,7 @@ class Storage {
 	 * the owner's files folder.
 	 *
 	 * @param string $filename Path relative to the current filesystem view
-	 * @return array{0:string,1:string|null} Tuple of owner UID and owner-relative file path (null if missing/not found)
+	 * @return array{0:string,1:string|null} Tuple of owner UID and owner-relative file path (null if the owner-relative path cannot be resolved)
 	 * @throws NoUserException
 	 */
 	public static function getUidAndFilename(string $filename): array {
@@ -489,7 +489,7 @@ class Storage {
 	 *     preview:string,
 	 *     path:string,
 	 *     name:string,
-	 *     size:int,
+	 *     size:int|float|false,
 	 *     mimetype:string
 	 * }>
 	 */
@@ -685,8 +685,8 @@ class Storage {
 	 *
 	 * @param string $uid ID of the user
 	 * @return array{
-	 *     all: array<string, array{version: string, path: string, size: int|float}>,
-	 *     by_file: array<string, array<string, array{version: string, path: string, size: int|float}>>
+	 *     all: array<string, array{version: string, path: string, size: int|float|false}>,
+	 *     by_file: array<string, array<string, array{version: string, path: string, size: int|float|false}>>
 	 * } Map of 'all' versions sorted by age (descending) and 'by_file' (versions grouped by path), both keyed by "<timestamp>#<path>".
 	 */
 	private static function getAllVersions(string $uid): array {
