@@ -54,11 +54,15 @@ class SharesUpdatedListener implements IEventListener {
 		private readonly ClockInterface $clock,
 		private readonly LoggerInterface $logger,
 		IAppConfig $appConfig,
+		private readonly UserHomeSetupListener $homeSetupListener,
 	) {
 		$this->cutOffMarkTime = $appConfig->getValueFloat(Application::APP_ID, ConfigLexicon::UPDATE_CUTOFF_TIME, 3.0);
 	}
 
 	public function handle(Event $event): void {
+		// don't trigger the on-setup checks if this handler triggers an fs setup
+		$this->homeSetupListener->setDisabled(true);
+
 		if ($event instanceof UserShareAccessUpdatedEvent) {
 			foreach ($event->getUsers() as $user) {
 				$this->updateOrMarkUser($user);
@@ -106,6 +110,8 @@ class SharesUpdatedListener implements IEventListener {
 				});
 			}
 		}
+
+		$this->homeSetupListener->setDisabled(false);
 	}
 
 	private function markOrRun(IUser $user, callable $callback): void {
