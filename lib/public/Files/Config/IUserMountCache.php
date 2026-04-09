@@ -139,7 +139,7 @@ interface IUserMountCache {
 	 *
 	 * @since 33.0.0
 	 */
-	public function removeMount(string $mountPoint): void;
+	public function removeMount(string $mountPoint, ?IUser $user = null): void;
 
 	/**
 	 * Register a new mountpoint for a user

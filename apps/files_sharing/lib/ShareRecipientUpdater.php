@@ -85,7 +85,7 @@ class ShareRecipientUpdater {
 	 * Process a single deleted share for a user
 	 */
 	public function updateForDeletedShare(IUser $user, IShare $share): void {
-		$this->userMountCache->removeMount($this->getMountPointFromTarget($user, $share->getTarget()));
+		$this->userMountCache->removeMount($this->getMountPointFromTarget($user, $share->getTarget()), $user);
 	}
 
 	/**
@@ -96,7 +96,7 @@ class ShareRecipientUpdater {
 		if ($originalTarget != null) {
 			$newMountPoint = $this->getMountPointFromTarget($user, $share->getTarget());
 			$oldMountPoint = $this->getMountPointFromTarget($user, $originalTarget);
-			$this->userMountCache->removeMount($oldMountPoint);
+			$this->userMountCache->removeMount($oldMountPoint, $user);
 			$this->userMountCache->addMount($user, $newMountPoint, $share->getNode()->getData(), MountProvider::class);
 		} else {
 			$this->updateForUser($user);
