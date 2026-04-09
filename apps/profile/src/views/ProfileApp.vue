@@ -369,6 +369,38 @@ $content-max-width: 640px;
 	}
 }
 
+.user-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 8px 0;
+	margin-top: 20px;
+	max-width: 300px;
+
+	&__primary {
+		margin: 0 auto;
+		max-width: 100%;
+
+		&__icon {
+			filter: var(--primary-invert-if-dark);
+		}
+	}
+
+	&__other {
+		display: flex;
+		justify-content: center;
+		gap: 0 4px;
+
+		&__icon {
+			height: 20px;
+			width: 20px;
+			object-fit: contain;
+			filter: var(--background-invert-if-dark);
+			align-self: center;
+			margin: 12px; // so we get 44px x 44px
+		}
+	}
+}
+
 @media only screen and (max-width: 1024px) {
 	.profile {
 		&__header {
@@ -419,37 +451,12 @@ $content-max-width: 640px;
 			position: unset;
 		}
 	}
-}
 
-.user-actions {
-	display: flex;
-	flex-direction: column;
-	gap: 8px 0;
-	margin-top: 20px;
-	max-width: 300px;
-
-	&__primary {
+	.user-actions {
+		width: unset;
+		max-width: 600px;
 		margin: 0 auto;
-		max-width: 100%;
-
-		&__icon {
-			filter: var(--primary-invert-if-dark);
-		}
-	}
-
-	&__other {
-		display: flex;
-		justify-content: center;
-		gap: 0 4px;
-
-		&__icon {
-			height: 20px;
-			width: 20px;
-			object-fit: contain;
-			filter: var(--background-invert-if-dark);
-			align-self: center;
-			margin: 12px; // so we get 44px x 44px
-		}
+		padding: 20px 50px 0px 50px;
 	}
 }
 </style>
