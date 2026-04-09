@@ -70,6 +70,11 @@ class AmazonS3 extends Common {
 		return $path === '.';
 	}
 
+	private function getCachePath(string $path): string {
+		// normalizePath() converts '' to '.' for S3 object keys, but filecache stores the root as ''
+		return $this->isRoot($path) ? '' : $path;
+	}
+
 	private function cleanKey(string $path): string {
 		if ($this->isRoot($path)) {
 			return '/';
@@ -650,7 +655,7 @@ class AmazonS3 extends Common {
 		if ($this->versioningEnabled() && !$this->doesDirectoryExist($path)) {
 			return null;
 		}
-		$cacheEntry = $this->getCache()->get($path);
+		$cacheEntry = $this->getCache()->get($this->getCachePath($path));
 		if ($cacheEntry instanceof CacheEntry) {
 			return $cacheEntry->getData();
 		} else {
