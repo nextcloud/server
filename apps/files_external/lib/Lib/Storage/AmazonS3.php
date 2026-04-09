@@ -330,6 +330,25 @@ class AmazonS3 extends Common {
 		return $stat;
 	}
 
+	public function getMetaData(string $path): ?array {
+		$data = parent::getMetaData($path);
+		if ($data !== null && $data['mimetype'] === FileInfo::MIMETYPE_FOLDER) {
+			// Common::getMetaData sets storage_mtime = mtime, but for S3 virtual directories
+			// mtime may have been updated by mtime propagation while storage_mtime should
+			// reflect the actual last storage change. Without this override the scanner sees
+			// data['storage_mtime'] != cacheData['storage_mtime'] and re-writes the cache,
+			// causing View::getCacheEntry to trigger propagateChange on every read.
+			$path = $this->normalizePath($path);
+			$cacheEntry = $this->getCache()->get($this->getCachePath($path));
+			if ($cacheEntry instanceof CacheEntry) {
+				$data['storage_mtime'] = $cacheEntry->getStorageMTime();
+			} elseif (!$this->isRoot($path) && $directoryMarker = $this->headObject($path . '/')) {
+				$data['storage_mtime'] = strtotime($directoryMarker['LastModified']);
+			}
+		}
+		return $data;
+	}
+
 	public function is_dir(string $path): bool {
 		$path = $this->normalizePath($path);
 
