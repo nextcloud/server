@@ -79,19 +79,19 @@ class Storage {
 	private static $application;
 
 	/**
-	 * get the UID of the owner of the file and the path to the file relative to
-	 * owners files folder
+	 * Get the UID of the owner of the file and the path to the file relative to
+	 * the owner's files folder.
 	 *
-	 * @param string $filename
-	 * @return array
+	 * @param string $filename Path relative to the current filesystem view
+	 * @return array{0:string,1:string|null} Tuple of owner UID and owner-relative file path
 	 * @throws NoUserException
 	 */
-	public static function getUidAndFilename(string $filename) {
+	public static function getUidAndFilename(string $filename): array {
 		$uid = Filesystem::getOwner($filename);
 		$userManager = Server::get(IUserManager::class);
-		// if the user with the UID doesn't exists, e.g. because the UID points
-		// to a remote user with a federated cloud ID we use the current logged-in
-		// user. We need a valid local user to create the versions
+		// We need a valid local user to create the versions.
+		// If the resolved owner does not exist locally (for example for a federated
+	 	// remote user), the currently logged-in local user is used instead.
 		if (!$userManager->userExists($uid)) {
 			$uid = OC_User::getUser();
 		}
