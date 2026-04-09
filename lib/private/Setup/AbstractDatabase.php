@@ -34,52 +34,116 @@ abstract class AbstractDatabase {
 	) {
 	}
 
+	/**
+	 * Returns the display name of the database system (e.g., "MySQL/MariaDB", "PostgreSQL")
+	 */
+	abstract protected function getDisplayName(): string;
+
+	/**
+	 * Validates the database configuration
+	 *
+	 * @param array $config Configuration array containing database credentials and settings
+	 * @return array Array of validation error messages (empty if valid)
+	 */
 	public function validate(array $config): array {
 		$errors = [];
-		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$this->dbprettyname]);
-		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t('Enter the database Login for %s', [$this->dbprettyname]);
-		} elseif (empty($config['dbname'])) {
-			$errors[] = $this->trans->t('Enter the database name for %s', [$this->dbprettyname]);
+
+		$errors = array_merge($errors, $this->validateRequiredFields($config));
+		$errors = array_merge($errors, $this->validateDatabaseName($config));
+
+		return $errors;
+	}
+
+	protected function validateRequiredFields(array $config): array {
+		$errors = [];
+
+		$dbUser = $config['dbuser'] ?? '';
+		$dbName = $config['dbname'] ?? '';
+		$displayName = $this->getDisplayName();
+
+		// Check for missing required parameters
+		if (empty($dbUser) && empty($dbName)) {
+			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$displayName]);
+		} elseif (empty($dbUser)) {
+			$errors[] = $this->trans->t('Enter the database Login for %s', [$displayName]);
+		} elseif (empty($dbName)) {
+			$errors[] = $this->trans->t('Enter the database name for %s', [$displayName]);
 		}
-		if (substr_count($config['dbname'], '.') >= 1) {
-			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->dbprettyname]);
+
+		return $errors;
+	}
+
+	protected function validateDatabaseName(array $config): array {
+		$errors = [];
+
+		$dbName = $config['dbname'] ?? '';
+
+		if (empty($dbName)) {
+			return $errors;
 		}
+
+		// Avoid downsides of supporting database names with dots (`.`)
+		if (str_contains($dbName, '.')) {
+			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->getDisplayName()]);
+		}
+
+		// Note: Child classes should implement db specific name validations
+		// (optionally still calling this parent for default validations)
+		// (e.g. length, characters, casing, starting character, reserved words)
+
 		return $errors;
 	}
 
 	public function initialize(array $config): void {
-		$dbUser = $config['dbuser'];
-		$dbPass = $config['dbpass'];
-		$dbName = $config['dbname'];
-		$dbHost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
-		$dbPort = !empty($config['dbport']) ? $config['dbport'] : '';
-		$dbTablePrefix = $config['dbtableprefix'] ?? 'oc_';
+		$dbParams = $this->extractDatabaseParameters($config);
 
-		$createUserConfig = $this->config->getValue('setup_create_db_user', true);
-		// accept `false` both as bool and string, since setting config values from env will result in a string
-		$this->tryCreateDbUser = $createUserConfig !== false && $createUserConfig !== 'false';
+		// Should a database user/credential set be created automatically?
+		$this->tryCreateDbUser = $this->shouldCreateDbUser();
 
+		// Persist database configuration to config.php
 		$this->config->setValues([
-			'dbname' => $dbName,
-			'dbhost' => $dbHost,
-			'dbtableprefix' => $dbTablePrefix,
+			'dbname' => $dbParams['name'],
+			'dbhost' => $dbParams['host'],
+			'dbtableprefix' => $dbParams['tablePrefix'],
 		]);
 
-		$this->dbUser = $dbUser;
-		$this->dbPassword = $dbPass;
-		$this->dbName = $dbName;
-		$this->dbHost = $dbHost;
-		$this->dbPort = $dbPort;
-		$this->tablePrefix = $dbTablePrefix;
+		// Set instance properties from database parameters for subsequent operations (e.g. connecting)
+		$this->setInstanceProperties($dbParams);
+	}
+
+	protected function extractDatabaseParameters(array $config): array {
+		return [
+			// Guaranteed to exist after validate() (exceptions override initialize() - i.e. SQLite)
+			'user' => $config['dbuser'] ?? throw new \InvalidArgumentException('dbuser is required'),
+			'name' => $config['dbname'] ?? throw new \InvalidArgumentException('dbname is required'),
+			// Password can be empty for some setups / code paths
+			'pass' => $config['dbpass'] ?? '',
+			'host' => !empty($config['dbhost']) ? $config['dbhost'] : 'localhost',
+			'port' => !empty($config['dbport']) ? $config['dbport'] : '',
+			'tablePrefix' => $config['dbtableprefix'] ?? 'oc_',
+		];
+	}
+
+	protected function shouldCreateDbUser(): bool {
+		$createUserConfig = $this->config->getValue('setup_create_db_user', true);
+		// Accept `false` both as bool and string, since env vars result in strings
+		return $createUserConfig !== false && $createUserConfig !== 'false';
+	}
+
+	protected function setInstanceProperties(array $dbParams): void {
+		$this->dbUser = $dbParams['user'];
+		$this->dbPassword = $dbParams['pass'];
+		$this->dbName = $dbParams['name'];
+		$this->dbHost = $dbParams['host'];
+		$this->dbPort = $dbParams['port'];
+		$this->tablePrefix = $dbParams['tablePrefix'];
 	}
 
 	/**
-	 * @param array $configOverwrite
-	 * @return \OC\DB\Connection
+	 * @param array $configOverwrite Optional parameters to override (e.g., ['dbname' => null])
 	 */
 	protected function connect(array $configOverwrite = []): Connection {
+		// Build base connection parameters
 		$connectionParams = [
 			'host' => $this->dbHost,
 			'user' => $this->dbUser,
@@ -88,38 +152,85 @@ abstract class AbstractDatabase {
 			'dbname' => $this->dbName
 		];
 
-		// adding port support through installer
-		if (!empty($this->dbPort)) {
-			if (ctype_digit($this->dbPort)) {
-				$connectionParams['port'] = $this->dbPort;
-			} else {
-				$connectionParams['unix_socket'] = $this->dbPort;
-			}
-		} elseif (strpos($this->dbHost, ':')) {
-			// Host variable may carry a port or socket.
-			[$host, $portOrSocket] = explode(':', $this->dbHost, 2);
-			if (ctype_digit($portOrSocket)) {
-				$connectionParams['port'] = $portOrSocket;
-			} else {
-				$connectionParams['unix_socket'] = $portOrSocket;
-			}
-			$connectionParams['host'] = $host;
-		}
+		// Apply port and socket configuration
+		$connectionParams = $this->applyPortAndSocketConfig($connectionParams);
+
+		// Apply any caller-provided overrides (e.g., dbname => null)
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
-		$connectionParams = array_merge($connectionParams, ['primary' => $connectionParams, 'replica' => [$connectionParams]]);
+
+		// Configure for primary/replica topology (both point to same server during install)
+		$connectionParams['primary'] = $connectionParams;
+		$connectionParams['replica'] = [$connectionParams];
+
+		$dbType = $this->config->getValue('dbtype', 'sqlite');
+
+		$this->logger->debug('Creating database connection', [
+			'dbtype' => $dbType,
+			'host' => $connectionParams['host'] ?? 'unknown',
+			'port' => $connectionParams['port'] ?? $connectionParams['unix_socket'] ?? 'default',
+			'dbname' => $connectionParams['dbname'] ?? 'none',
+		]);
+
+		// Create and return the connection
 		$cf = new ConnectionFactory($this->config);
-		$connection = $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection = $cf->getConnection($dbType, $connectionParams);
 		$connection->ensureConnectedToPrimary();
 		return $connection;
 	}
 
-	abstract public function setupDatabase();
-
-	public function runMigrations(?IOutput $output = null) {
-		if (!is_dir(\OC::$SERVERROOT . '/core/Migrations')) {
-			return;
+	protected function applyPortAndSocketConfig(array $params): array {
+		// Check if port/socket is specified in the dedicated port field (only used by installer)
+		if (!empty($this->dbPort)) {
+			if (ctype_digit($this->dbPort)) {
+				$params['port'] = $this->dbPort;
+			} else {
+				$params['unix_socket'] = $this->dbPort;
+			}
+			return $params;
 		}
-		$ms = new MigrationService('core', Server::get(Connection::class), $output);
-		$ms->migrate('latest', true);
+
+		// Check if port/socket is embedded in the hostname (e.g., "localhost:3306")
+		if (str_contains($this->dbHost, ':')) {
+			[$host, $portOrSocket] = explode(':', $this->dbHost, 2);
+			$params['host'] = $host;
+			// Host variable may carry a port or socket.
+			if (ctype_digit($portOrSocket)) {
+				$params['port'] = $portOrSocket;
+			} else {
+				$params['unix_socket'] = $portOrSocket;
+			}
+		}
+		return $params;
+	}
+
+	/**
+	 * Sets up the database (creates database, users, etc.)
+	 *
+	 * Must be implemented by database-specific child classes
+	 */
+	abstract public function setupDatabase(): void;
+
+	/**
+	 * @throws \Exception If migration fails (handled by caller)
+	 */
+	public function runMigrations(?IOutput $output = null): void {
+		$migrationsPath = \OC::$SERVERROOT . '/core/Migrations';
+
+		if (!is_dir($migrationsPath)) {
+			$this->logger->debug('Skipping migrations - directory not found: {path}', [
+				'path' => $migrationsPath,
+			]);
+			return; // @todo: should we throw an Exception here instead to let caller decide?
+		}
+
+		$this->logger->info('Starting core database migrations');
+
+		$migrationService = new MigrationService('core', Server::get(Connection::class), $output);
+
+		// Migrate to latest version, applying schema changes only
+		// (no data migrations needed for fresh install)
+		$migrationService->migrate('latest', true);
+
+		$this->logger->info('Core database migrations completed successfully');
 	}
 }

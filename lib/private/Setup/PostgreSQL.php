@@ -15,7 +15,10 @@ use OCP\Security\ISecureRandom;
 use OCP\Server;
 
 class PostgreSQL extends AbstractDatabase {
-	public $dbprettyname = 'PostgreSQL';
+
+	protected function getDisplayName(): string {
+		return 'PostgreSQL';
+	}
 
 	/**
 	 * @throws DatabaseSetupException
