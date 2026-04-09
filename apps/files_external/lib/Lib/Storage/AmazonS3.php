@@ -450,26 +450,41 @@ class AmazonS3 extends Common {
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
-		if (is_null($mtime)) {
+		$path = $this->normalizePath($path);
+
+		if ($this->file_exists($path)) {
+			// If the object already exists, return false so the higher filesystem layer
+			// (View::touch()) can emulate touch by updating the cached mtime.
+			// This avoids an extra remote request against S3 and improves performance.
+			//
+			// Note: this does not change the object's native LastModified timestamp in S3.
+			// External consumers that only observe S3 metadata (not Nextcloud's cache) will
+			// not see the updated mtime.
+			return false;
+		}
+
+		if ($mtime === null) {
 			$mtime = time();
 		}
-		$metadata = [
-			'lastmodified' => gmdate(\DateTime::RFC1123, $mtime)
-		];
 
 		try {
-			if ($this->file_exists($path)) {
-				return false;
-			}
-
+			$key = $this->cleanKey($path);
 			$mimeType = $this->mimeDetector->detectPath($path);
+			$lastModified = gmdate(\DateTime::RFC1123, $mtime);
+
+			// When creating a missing object via touch() and the caller provided a non-null $mtime,
+			// upper layers (View::touch()) will not emulate mtime (because we return true here).
+			// As a result, the cached mtime will reflect S3's LastModified (write time), not the
+			// requested $mtime. The custom 'lastmodified' metadata is currently not read by this
+			// storage when building stat()/filecache entries.
 			$this->getConnection()->putObject([
 				'Bucket' => $this->bucket,
-				'Key' => $this->cleanKey($path),
-				'Metadata' => $metadata,
+				'Key' => $key,
 				'Body' => '',
 				'ContentType' => $mimeType,
-				'MetadataDirective' => 'REPLACE',
+				'Metadata' => [
+					'lastmodified' => $lastModified,
+				],
 			] + $this->getSSECParameters());
 			$this->testTimeout();
 		} catch (S3Exception $e) {
