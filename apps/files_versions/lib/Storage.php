@@ -116,7 +116,7 @@ class Storage {
 	 *
 	 * @param string $source source path
 	 */
-	public static function setSourcePathAndUser($source) {
+	public static function setSourcePathAndUser(string $source): void {
 		[$uid, $path] = self::getUidAndFilename($source);
 		self::$sourcePathAndUser[$source] = ['uid' => $uid, 'path' => $path];
 	}
@@ -127,7 +127,7 @@ class Storage {
 	 * @param string $source source path
 	 * @return array with user id and path
 	 */
-	public static function getSourcePathAndUser($source) {
+	public static function getSourcePathAndUser(string $source): array {
 		if (isset(self::$sourcePathAndUser[$source])) {
 			$uid = self::$sourcePathAndUser[$source]['uid'];
 			$path = self::$sourcePathAndUser[$source]['path'];
@@ -144,7 +144,7 @@ class Storage {
 	 * @param string $user user who owns the versions
 	 * @return int versions size
 	 */
-	private static function getVersionsSize($user) {
+	private static function getVersionsSize(string $user): int {
 		$view = new View('/' . $user);
 		$fileInfo = $view->getFileInfo('/files_versions');
 		return isset($fileInfo['size']) ? $fileInfo['size'] : 0;
@@ -216,12 +216,11 @@ class Storage {
 		$versionManager->createVersion($user, $file);
 	}
 
-
 	/**
 	 * mark file as deleted so that we can remove the versions if the file is gone
 	 * @param string $path
 	 */
-	public static function markDeletedFile($path) {
+	public static function markDeletedFile(string $path): void {
 		[$uid, $filename] = self::getUidAndFilename($path);
 		self::$deletedFiles[$path] = [
 			'uid' => $uid,
@@ -234,7 +233,7 @@ class Storage {
 	 * @param View $view
 	 * @param string $path
 	 */
-	protected static function deleteVersion($view, $path) {
+	protected static function deleteVersion(View $view, string $path): void {
 		$view->unlink($path);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -248,7 +247,7 @@ class Storage {
 	/**
 	 * Delete versions of a file
 	 */
-	public static function delete($path) {
+	public static function delete(string $path): void {
 		$deletedFile = self::$deletedFiles[$path];
 		$uid = $deletedFile['uid'];
 		$filename = $deletedFile['filename'];
@@ -344,7 +343,7 @@ class Storage {
 	 * @param int $revision revision timestamp
 	 * @return bool
 	 */
-	public static function rollback(string $file, int $revision, IUser $user) {
+	public static function rollback(string $file, int $revision, IUser $user): bool {
 		// add expected leading slash
 		$filename = '/' . ltrim($file, '/');
 
@@ -409,7 +408,7 @@ class Storage {
 	 *
 	 * @return bool true for success, false otherwise
 	 */
-	private static function copyFileContents($view, $path1, $path2) {
+	private static function copyFileContents(View $view, string $path1, string $path2): bool {
 		/** @var \OC\Files\Storage\Storage $storage1 */
 		[$storage1, $internalPath1] = $view->resolvePath($path1);
 		/** @var \OC\Files\Storage\Storage $storage2 */
@@ -470,7 +469,7 @@ class Storage {
 	 * @param string $userFullPath
 	 * @return array versions newest version first
 	 */
-	public static function getVersions($uid, $filename, $userFullPath = '') {
+	public static function getVersions(string $uid, string $filename, string $userFullPath = ''): array {
 		$versions = [];
 		if (empty($filename)) {
 			return $versions;
@@ -543,7 +542,7 @@ class Storage {
 	 *
 	 * @param string $uid
 	 */
-	public static function expireOlderThanMaxForUser($uid) {
+	public static function expireOlderThanMaxForUser(string $uid): void {
 		/** @var IRootFolder $root */
 		$root = Server::get(IRootFolder::class);
 		try {
@@ -662,7 +661,7 @@ class Storage {
 	 * @param string $uid id of the user
 	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename
 	 */
-	private static function getAllVersions($uid) {
+	private static function getAllVersions(string $uid): array {
 		$view = new View('/' . $uid . '/');
 		$dirs = [self::VERSIONS_ROOT];
 		$versions = [];
@@ -718,7 +717,7 @@ class Storage {
 	 * @param bool $quotaExceeded is versions storage limit reached
 	 * @return array containing the list of to deleted versions and the size of them
 	 */
-	protected static function getExpireList($time, $versions, $quotaExceeded = false) {
+	protected static function getExpireList(int $time, array $versions, bool $quotaExceeded = false): array {
 		$expiration = self::getExpiration();
 
 		if ($expiration->shouldAutoExpire()) {
@@ -758,7 +757,7 @@ class Storage {
 	 * @param integer $time
 	 * @return array containing the list of to deleted versions and the size of them
 	 */
-	protected static function getAutoExpireList($time, $versions) {
+	protected static function getAutoExpireList(int $time, array $versions): array {
 		$size = 0;
 		$toDelete = [];  // versions we want to delete
 
@@ -789,7 +788,7 @@ class Storage {
 						//distance between two version too small, mark to delete
 						$toDelete[$key] = $version['path'] . '.v' . $version['version'];
 						$size += $version['size'];
-						Server::get(LoggerInterface::class)->info('Mark to expire ' . $version['path'] . ' next version should be ' . $nextVersion . ' or smaller. (prevTimestamp: ' . $prevTimestamp . '; step: ' . $step, ['app' => 'files_versions']);
+						Server::get(LoggerInterface::class)->info('Mark to expire ' . $version['path'] . ' next version should be ' . $nextVersion . ' or smaller. (prevTimestamp: ' . $prevTimestamp . '; step: ' . $step . ')', ['app' => 'files_versions']);
 					} else {
 						$nextVersion = $version['version'] - $step;
 						$prevTimestamp = $version['version'];
@@ -818,7 +817,7 @@ class Storage {
 	 * @param string $uid owner of the file
 	 * @param string $fileName file/folder for which to schedule expiration
 	 */
-	public static function scheduleExpire($uid, $fileName) {
+	public static function scheduleExpire(string $uid, string $fileName): void {
 		// let the admin disable auto expire
 		$expiration = self::getExpiration();
 		if ($expiration->isEnabled()) {
@@ -985,7 +984,7 @@ class Storage {
 	 *                         "files" folder
 	 * @param View $view view on data/user/
 	 */
-	public static function createMissingDirectories($filename, $view) {
+	public static function createMissingDirectories(string $filename, View $view): void {
 		$dirname = Filesystem::normalizePath(dirname($filename));
 		$dirParts = explode('/', $dirname);
 		$dir = '/files_versions';
@@ -1001,7 +1000,7 @@ class Storage {
 	 * Static workaround
 	 * @return Expiration
 	 */
-	protected static function getExpiration() {
+	protected static function getExpiration(): Expiration {
 		if (self::$application === null) {
 			self::$application = Server::get(Application::class);
 		}
