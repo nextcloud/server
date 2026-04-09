@@ -11,6 +11,7 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\SetupManager;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Utils\Scanner;
 use OC\FilesMetadata\FilesMetadataManager;
@@ -49,6 +50,7 @@ class Scan extends Base {
 		private FilesMetadataManager $filesMetadataManager,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
+		private SetupManager $setupManager,
 	) {
 		parent::__construct();
 	}
@@ -111,10 +113,11 @@ class Scan extends Base {
 	): void {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new Scanner(
-			$user,
+			$this->userManager->get($user),
 			new ConnectionAdapter($connection),
-			Server::get(IEventDispatcher::class),
-			Server::get(LoggerInterface::class)
+			$this->eventDispatcher,
+			$this->logger,
+			$this->setupManager,
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
