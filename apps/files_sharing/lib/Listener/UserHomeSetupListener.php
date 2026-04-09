@@ -23,14 +23,21 @@ use OCP\Files\Events\UserHomeSetupEvent;
  * @template-implements IEventListener<UserHomeSetupEvent>
  */
 class UserHomeSetupListener implements IEventListener {
+	private bool $disabled = false;
 	public function __construct(
 		private readonly ShareRecipientUpdater $updater,
 		private readonly IUserConfig $userConfig,
 	) {
 	}
 
+	public function setDisabled(bool $disabled): void {
+		$this->disabled = $disabled;
+	}
 	public function handle(Event $event): void {
 		if (!$event instanceof UserHomeSetupEvent) {
+			return;
+		}
+		if ($this->disabled) {
 			return;
 		}
 

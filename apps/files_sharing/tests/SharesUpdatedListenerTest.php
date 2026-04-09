@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing\Tests;
 use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
 use OCA\Files_Sharing\Listener\SharesUpdatedListener;
+use OCA\Files_Sharing\Listener\UserHomeSetupListener;
 use OCA\Files_Sharing\ShareRecipientUpdater;
 use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
@@ -57,6 +58,7 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 				return ($this->clockFn)();
 			});
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$homeSetupListener = new UserHomeSetupListener($this->shareRecipientUpdater, $this->userConfig);
 
 		$this->sharesUpdatedListener = new SharesUpdatedListener(
 			$this->manager,
@@ -65,6 +67,7 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 			$this->clock,
 			$this->logger,
 			$this->appConfig,
+			$homeSetupListener,
 		);
 	}
 
