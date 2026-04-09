@@ -1,0 +1,27 @@
+{ "translations": {
+    "Versions" : "نسخه ها",
+    "This application automatically maintains older versions of files that are changed." : "این برنامه به طور خودکار نسخه های قدیمی تر پرونده های تغییر یافته را حفظ می کند.",
+    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the account does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the account's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "این برنامهب طور خودکار نسخه‌های قدیمی‌تر فایل‌هایی را که تغییر می‌کنند، نگهداری می‌کند. در صورت فعال بودن، یک پوشه نسخه‌های مخفی در دایرکتوری هر کاربر ایجاد می‌شود و برای ذخیره نسخه‌های قدیمی فایل استفاده می‌شود. کاربر می‌تواند در هر زمان از طریق رابط وب به نسخه قدیمی‌تر برگردد و فایل جایگزین شده به یک نسخه تبدیل می‌شود. برنامه به طور خودکار پوشه نسخه‌ها را مدیریت می‌کند تا اطمینان حاصل شود که حساب به دلیل نسخه‌ها، سهمیه خود را از دست نمی‌دهد.\n\nعلاوه بر انقضای نسخه‌ها، نسخه‌های برنامه اطمینان حاصل می‌کنند که هرگز بیش از 50٪ از فضای خالی موجود در حساب را استفاده نکنند. اگر نسخه‌های ذخیره شده از این حد تجاوز کنند، برنامه ابتدا قدیمی‌ترین نسخه‌ها را حذف می‌کند تا به این حد برسد. اطلاعات بیشتر در مستندات نسخه‌ها موجود است.",
+    "Current version" : "نسخه فعلی",
+    "Initial version" : "نسخه اولیه",
+    "You" : "You",
+    "Actions for version from {versionHumanExplicitDate}" : "اقدامات برای نسخه از {versionHumanExplicitDate}",
+    "Name this version" : "Name this version",
+    "Edit version name" : "Edit version name",
+    "Compare to current version" : "Compare to current version",
+    "Restore version" : "Restore version",
+    "Download version" : "Download version",
+    "Delete version" : "Delete version",
+    "Cancel" : "منصرف شدن",
+    "Remove version name" : "Remove version name",
+    "Save version name" : "Save version name",
+    "Version name" : "Version name",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.",
+    "Initial version restored" : "Initial version restored",
+    "Version restored" : "Version restored",
+    "Could not restore version" : "Could not restore version",
+    "Could not set version label" : "نمی‌تواند برچسب نسخه را تنظیم کند",
+    "Could not delete version" : "Could not delete version",
+    "File versions" : "نسخه‌های فایل"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}

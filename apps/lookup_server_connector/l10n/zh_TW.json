@@ -1,0 +1,5 @@
+{ "translations": {
+    "Lookup Server Connector" : "查詢伺服器連接程式",
+    "Sync public account information with the lookup server" : "將公開帳號資訊與查詢伺服器同步"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

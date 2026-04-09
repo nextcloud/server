@@ -1,0 +1,407 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+namespace OCA\Files_Sharing\Controller;
+
+use OC\ServerNotAvailableException;
+use OCA\DAV\Connector\Sabre\PublicAuth;
+use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
+use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
+use OCP\Accounts\IAccountManager;
+use OCP\AppFramework\AuthPublicShareController;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Constants;
+use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\File;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\HintException;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IPreview;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
+use OCP\Security\Events\GenerateSecurePasswordEvent;
+use OCP\Security\ISecureRandom;
+use OCP\Security\PasswordContext;
+use OCP\Share;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager as ShareManager;
+use OCP\Share\IPublicShareTemplateFactory;
+use OCP\Share\IShare;
+
+/**
+ * @package OCA\Files_Sharing\Controllers
+ */
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+class ShareController extends AuthPublicShareController {
+	protected ?IShare $share = null;
+
+	public const SHARE_ACCESS = 'access';
+	public const SHARE_AUTH = 'auth';
+	public const SHARE_DOWNLOAD = 'download';
+
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		protected IConfig $config,
+		IURLGenerator $urlGenerator,
+		protected IUserManager $userManager,
+		protected \OCP\Activity\IManager $activityManager,
+		protected ShareManager $shareManager,
+		ISession $session,
+		protected IPreview $previewManager,
+		protected IRootFolder $rootFolder,
+		protected FederatedShareProvider $federatedShareProvider,
+		protected IAccountManager $accountManager,
+		protected IEventDispatcher $eventDispatcher,
+		protected IL10N $l10n,
+		protected ISecureRandom $secureRandom,
+		protected Defaults $defaults,
+		private IPublicShareTemplateFactory $publicShareTemplateFactory,
+	) {
+		parent::__construct($appName, $request, $session, $urlGenerator);
+	}
+
+	/**
+	 * Show the authentication page
+	 * The form has to submit to the authenticate method route
+	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function showAuthenticate(): TemplateResponse {
+		$templateParameters = ['share' => $this->share];
+
+		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
+
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
+	}
+
+	/**
+	 * The template to show when authentication failed
+	 */
+	protected function showAuthFailed(): TemplateResponse {
+		$templateParameters = ['share' => $this->share, 'wrongpw' => true];
+
+		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
+
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
+	}
+
+	/**
+	 * The template to show after user identification
+	 */
+	protected function showIdentificationResult(bool $success = false): TemplateResponse {
+		$templateParameters = ['share' => $this->share, 'identityOk' => $success];
+
+		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
+
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
+	}
+
+	/**
+	 * Validate the identity token of a public share
+	 *
+	 * @param ?string $identityToken
+	 * @return bool
+	 */
+	protected function validateIdentity(?string $identityToken = null): bool {
+		if ($this->share->getShareType() !== IShare::TYPE_EMAIL) {
+			return false;
+		}
+
+		if ($identityToken === null || $this->share->getSharedWith() === null) {
+			return false;
+		}
+
+		return $identityToken === $this->share->getSharedWith();
+	}
+
+	/**
+	 * Generates a password for the share, respecting any password policy defined
+	 */
+	protected function generatePassword(): void {
+		$event = new GenerateSecurePasswordEvent(PasswordContext::SHARING);
+		$this->eventDispatcher->dispatchTyped($event);
+		$password = $event->getPassword() ?? $this->secureRandom->generate(20);
+
+		$this->share->setPassword($password);
+		$this->shareManager->updateShare($this->share);
+	}
+
+	protected function verifyPassword(string $password): bool {
+		return $this->shareManager->checkPassword($this->share, $password);
+	}
+
+	protected function getPasswordHash(): ?string {
+		return $this->share->getPassword();
+	}
+
+	public function isValidToken(): bool {
+		try {
+			$this->share = $this->shareManager->getShareByToken($this->getToken());
+		} catch (ShareNotFound $e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	protected function isPasswordProtected(): bool {
+		return $this->share->getPassword() !== null;
+	}
+
+	protected function authSucceeded() {
+		if ($this->share === null) {
+			throw new NotFoundException();
+		}
+
+		// For share this was always set so it is still used in other apps
+		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED);
+		if (!is_array($allowedShareIds)) {
+			$allowedShareIds = [];
+		}
+
+		$this->session->set(PublicAuth::DAV_AUTHENTICATED, array_merge($allowedShareIds, [$this->share->getId()]));
+	}
+
+	protected function authFailed() {
+		$this->emitAccessShareHook($this->share, 403, 'Wrong password');
+		$this->emitShareAccessEvent($this->share, self::SHARE_AUTH, 403, 'Wrong password');
+	}
+
+	/**
+	 * throws hooks when a share is attempted to be accessed
+	 *
+	 * @param IShare|string $share the Share instance if available,
+	 *                             otherwise token
+	 * @param int $errorCode
+	 * @param string $errorMessage
+	 *
+	 * @throws HintException
+	 * @throws ServerNotAvailableException
+	 *
+	 * @deprecated use OCP\Files_Sharing\Event\ShareLinkAccessedEvent
+	 */
+	protected function emitAccessShareHook($share, int $errorCode = 200, string $errorMessage = '') {
+		$itemType = $itemSource = $uidOwner = '';
+		$token = $share;
+		$exception = null;
+		if ($share instanceof IShare) {
+			try {
+				$token = $share->getToken();
+				$uidOwner = $share->getSharedBy();
+				$itemType = $share->getNodeType();
+				$itemSource = $share->getNodeId();
+			} catch (\Exception $e) {
+				// we log what we know and pass on the exception afterwards
+				$exception = $e;
+			}
+		}
+
+		\OC_Hook::emit(Share::class, 'share_link_access', [
+			'itemType' => $itemType,
+			'itemSource' => $itemSource,
+			'uidOwner' => $uidOwner,
+			'token' => $token,
+			'errorCode' => $errorCode,
+			'errorMessage' => $errorMessage
+		]);
+
+		if (!is_null($exception)) {
+			throw $exception;
+		}
+	}
+
+	/**
+	 * Emit a ShareLinkAccessedEvent event when a share is accessed, downloaded, auth...
+	 */
+	protected function emitShareAccessEvent(IShare $share, string $step = '', int $errorCode = 200, string $errorMessage = ''): void {
+		if ($step !== self::SHARE_ACCESS
+			&& $step !== self::SHARE_AUTH
+			&& $step !== self::SHARE_DOWNLOAD) {
+			return;
+		}
+		$this->eventDispatcher->dispatchTyped(new ShareLinkAccessedEvent($share, $step, $errorCode, $errorMessage));
+	}
+
+	/**
+	 * Validate the permissions of the share
+	 *
+	 * @param Share\IShare $share
+	 * @return bool
+	 */
+	private function validateShare(IShare $share) {
+		// If the owner is disabled no access to the link is granted
+		$owner = $this->userManager->get($share->getShareOwner());
+		if ($owner === null || !$owner->isEnabled()) {
+			return false;
+		}
+
+		// If the initiator of the share is disabled no access is granted
+		$initiator = $this->userManager->get($share->getSharedBy());
+		if ($initiator === null || !$initiator->isEnabled()) {
+			return false;
+		}
+
+		return $share->getNode()->isReadable() && $share->getNode()->isShareable();
+	}
+
+	/**
+	 * @param string $path
+	 * @return TemplateResponse
+	 * @throws NotFoundException
+	 * @throws \Exception
+	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function showShare($path = ''): TemplateResponse {
+		\OC_User::setIncognitoMode(true);
+
+		// Check whether share exists
+		try {
+			$share = $this->shareManager->getShareByToken($this->getToken());
+		} catch (ShareNotFound $e) {
+			// The share does not exists, we do not emit an ShareLinkAccessedEvent
+			$this->emitAccessShareHook($this->getToken(), 404, 'Share not found');
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
+		}
+
+		if (!$this->validateShare($share)) {
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
+		}
+
+		$shareNode = $share->getNode();
+
+		try {
+			$templateProvider = $this->publicShareTemplateFactory->getProvider($share);
+			$response = $templateProvider->renderPage($share, $this->getToken(), $path);
+		} catch (NotFoundException $e) {
+			$this->emitAccessShareHook($share, 404, 'Share not found');
+			$this->emitShareAccessEvent($share, ShareController::SHARE_ACCESS, 404, 'Share not found');
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
+		}
+
+		// We can't get the path of a file share
+		try {
+			if ($shareNode instanceof File && $path !== '') {
+				$this->emitAccessShareHook($share, 404, 'Share not found');
+				$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
+				throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
+			}
+		} catch (\Exception $e) {
+			$this->emitAccessShareHook($share, 404, 'Share not found');
+			$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
+			throw $e;
+		}
+
+
+		$this->emitAccessShareHook($share);
+		$this->emitShareAccessEvent($share, self::SHARE_ACCESS);
+
+		return $response;
+	}
+
+	/**
+	 * @throws NotFoundException
+	 * @deprecated 31.0.0 Users are encouraged to use the DAV endpoint
+	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[NoSameSiteCookieRequired]
+	public function downloadShare(string $token, ?string $files = null, string $path = ''): NotFoundResponse|RedirectResponse|DataResponse {
+		\OC_User::setIncognitoMode(true);
+
+		$share = $this->shareManager->getShareByToken($token);
+
+		if (!($share->getPermissions() & Constants::PERMISSION_READ)) {
+			return new DataResponse('Share has no read permission', Http::STATUS_FORBIDDEN);
+		}
+
+		$attributes = $share->getAttributes();
+		if ($attributes?->getAttribute('permissions', 'download') === false) {
+			return new DataResponse('Share has no download permission', Http::STATUS_FORBIDDEN);
+		}
+
+		if (!$this->validateShare($share)) {
+			throw new NotFoundException();
+		}
+
+		if ($share->getHideDownload()) {
+			// download API does not work if hidden - use the DAV endpoint for previews
+			throw new NotFoundException();
+		}
+
+		$node = $share->getNode();
+		if ($path !== '') {
+			if (!$node instanceof Folder) {
+				return new NotFoundResponse();
+			}
+
+			try {
+				$node = $node->get($path);
+			} catch (NotFoundException|NotPermittedException) {
+				$this->emitAccessShareHook($share, 404, 'Share not found');
+				$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD, 404, 'Share not found');
+				return new NotFoundResponse();
+			}
+		}
+
+		if ($files !== null) {
+			if (!$node instanceof Folder) {
+				return new NotFoundResponse();
+			}
+
+			$filesParam = json_decode($files, true);
+			if (!is_array($filesParam)) {
+				try {
+					// legacy wise this allows also passing the filename
+					$node = $node->get($files);
+					$files = null;
+				} catch (NotFoundException|NotPermittedException) {
+					$this->emitAccessShareHook($share, 404, 'Share not found');
+					$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD, 404, 'Share not found');
+					return new NotFoundResponse();
+				}
+			}
+		}
+
+		$this->emitAccessShareHook($share);
+		$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD);
+
+		$davPath = '';
+		if ($node !== $share->getNode()) {
+			$davPath = substr($node->getPath(), strlen($share->getNode()->getPath()));
+		}
+
+		$params = [];
+		if ($files !== null) {
+			$params['files'] = $files;
+		}
+		if ($node instanceof Folder) {
+			$params['accept'] = 'zip';
+		}
+
+		$davUrl = '/public.php/dav/files/' . $token . $davPath;
+		$davUrl .= '?' . http_build_query($params);
+		return new RedirectResponse($this->urlGenerator->getAbsoluteURL($davUrl));
+	}
+}

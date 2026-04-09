@@ -1,0 +1,19 @@
+{ "translations": {
+    "Dashboard" : "მთავარი დაფა",
+    "Dashboard app" : "დეშბორდის აპი",
+    "Weather" : "ამინდი",
+    "Status" : "სტატუსი",
+    "Good morning" : "დილამშვიდობისა",
+    "Good morning, {name}" : "დილამშვიდობისა, {name}",
+    "Good afternoon" : "საღამომშვიდობისა",
+    "Good afternoon, {name}" : "საღამომშვიდობისა, {name}",
+    "Good evening" : "ღამემშვიდობისა",
+    "Good evening, {name}" : "ღამემშვიდობისა, {name}",
+    "Hello" : "გამარჯობა",
+    "Hello, {name}" : "გამარჯობა, {name}",
+    "Customize" : "პერსონალიზაცია",
+    "Edit widgets" : "ვიჯეტების დაედითება",
+    "Weather service" : "ამინდის სერვისი",
+    "Weather data from Met.no" : "ამინდის პროგნოზი Met.no-დან"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
+}

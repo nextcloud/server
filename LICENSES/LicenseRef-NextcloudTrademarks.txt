@@ -1,0 +1,9 @@
+The Nextcloud marks
+Nextcloud and the Nextcloud logo is a registered trademark of Nextcloud GmbH in Germany and/or other countries.
+These guidelines cover the following marks pertaining both to the product names and the logo: “Nextcloud”
+and the blue/white cloud logo with or without the word Nextcloud; the service “Nextcloud Enterprise”;
+and our products: “Nextcloud Files”; “Nextcloud Groupware” and “Nextcloud Talk”.
+This set of marks is collectively referred to as the “Nextcloud marks.”
+
+Use of Nextcloud logos and other marks is only permitted under the guidelines provided by the Nextcloud GmbH.
+A copy can be found at https://nextcloud.com/trademarks/

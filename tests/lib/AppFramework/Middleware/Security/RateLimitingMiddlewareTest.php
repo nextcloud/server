@@ -1,0 +1,300 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace Test\AppFramework\Middleware\Security;
+
+use OC\AppFramework\Middleware\Security\RateLimitingMiddleware;
+use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Security\Ip\BruteforceAllowList;
+use OC\Security\RateLimiting\Exception\RateLimitExceededException;
+use OC\Security\RateLimiting\Limiter;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
+use Test\AppFramework\Middleware\Security\Mock\RateLimitingMiddlewareController;
+use Test\TestCase;
+
+#[\PHPUnit\Framework\Attributes\Group('DB')]
+class RateLimitingMiddlewareTest extends TestCase {
+	private IRequest|MockObject $request;
+	private IUserSession|MockObject $userSession;
+	private ControllerMethodReflector $reflector;
+	private Limiter|MockObject $limiter;
+	private ISession|MockObject $session;
+	private IAppConfig|MockObject $appConfig;
+	private IConfig|MockObject $serverConfig;
+	private BruteforceAllowList|MockObject $bruteForceAllowList;
+	private LoggerInterface|MockObject $logger;
+	private RateLimitingMiddleware $rateLimitingMiddleware;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->request = $this->createMock(IRequest::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+		$this->limiter = $this->createMock(Limiter::class);
+		$this->session = $this->createMock(ISession::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->serverConfig = $this->createMock(IConfig::class);
+		$this->bruteForceAllowList = $this->createMock(BruteforceAllowList::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+
+		$this->rateLimitingMiddleware = new RateLimitingMiddleware(
+			$this->request,
+			$this->userSession,
+			$this->reflector,
+			$this->limiter,
+			$this->session,
+			$this->appConfig,
+			$this->serverConfig,
+			$this->bruteForceAllowList,
+			$this->logger
+		);
+	}
+
+	public function testBeforeControllerWithoutAnnotationForAnon(): void {
+		$this->limiter
+			->expects($this->never())
+			->method('registerUserRequest');
+		$this->limiter
+			->expects($this->never())
+			->method('registerAnonRequest');
+
+		$this->userSession->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		/** @var RateLimitingMiddlewareController|MockObject $controller */
+		$controller = $this->createMock(RateLimitingMiddlewareController::class);
+		$this->reflector->reflect($controller, 'testMethodWithoutAnnotation');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithoutAnnotation');
+	}
+
+	public function testBeforeControllerWithoutAnnotationForLoggedIn(): void {
+		$this->limiter
+			->expects($this->never())
+			->method('registerUserRequest');
+		$this->limiter
+			->expects($this->never())
+			->method('registerAnonRequest');
+
+		$this->userSession->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+
+		/** @var RateLimitingMiddlewareController|MockObject $controller */
+		$controller = $this->createMock(RateLimitingMiddlewareController::class);
+		$this->reflector->reflect($controller, 'testMethodWithoutAnnotation');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithoutAnnotation');
+	}
+
+	public function testBeforeControllerForAnon(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+
+		$this->request
+			->method('getRemoteAddress')
+			->willReturn('127.0.0.1');
+
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		$this->limiter
+			->expects($this->never())
+			->method('registerUserRequest');
+		$this->limiter
+			->expects($this->once())
+			->method('registerAnonRequest')
+			->with(get_class($controller) . '::testMethodWithAnnotation', '10', '100', '127.0.0.1');
+
+		$this->reflector->reflect($controller, 'testMethodWithAnnotation');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAnnotation');
+	}
+
+	public function testBeforeControllerForLoggedIn(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+		/** @var IUser|MockObject $user */
+		$user = $this->createMock(IUser::class);
+
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->limiter
+			->expects($this->never())
+			->method('registerAnonRequest');
+		$this->limiter
+			->expects($this->once())
+			->method('registerUserRequest')
+			->with(get_class($controller) . '::testMethodWithAnnotation', '20', '200', $user);
+
+
+		$this->reflector->reflect($controller, 'testMethodWithAnnotation');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAnnotation');
+	}
+
+	public function testBeforeControllerAnonWithFallback(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+		$this->request
+			->expects($this->once())
+			->method('getRemoteAddress')
+			->willReturn('127.0.0.1');
+
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+
+
+		$this->limiter
+			->expects($this->never())
+			->method('registerUserRequest');
+		$this->limiter
+			->expects($this->once())
+			->method('registerAnonRequest')
+			->with(get_class($controller) . '::testMethodWithAnnotationFallback', '10', '100', '127.0.0.1');
+
+		$this->reflector->reflect($controller, 'testMethodWithAnnotationFallback');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAnnotationFallback');
+	}
+
+	public function testBeforeControllerAttributesForAnon(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+
+		$this->request
+			->method('getRemoteAddress')
+			->willReturn('127.0.0.1');
+
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(false);
+
+		$this->limiter
+			->expects($this->never())
+			->method('registerUserRequest');
+		$this->limiter
+			->expects($this->once())
+			->method('registerAnonRequest')
+			->with(get_class($controller) . '::testMethodWithAttributes', '10', '100', '127.0.0.1');
+
+		$this->reflector->reflect($controller, 'testMethodWithAttributes');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAttributes');
+	}
+
+	public function testBeforeControllerAttributesForLoggedIn(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+		/** @var IUser|MockObject $user */
+		$user = $this->createMock(IUser::class);
+
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->limiter
+			->expects($this->never())
+			->method('registerAnonRequest');
+		$this->limiter
+			->expects($this->once())
+			->method('registerUserRequest')
+			->with(get_class($controller) . '::testMethodWithAttributes', '20', '200', $user);
+
+
+		$this->reflector->reflect($controller, 'testMethodWithAttributes');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAttributes');
+	}
+
+	public function testBeforeControllerAttributesAnonWithFallback(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+		$this->request
+			->expects($this->once())
+			->method('getRemoteAddress')
+			->willReturn('127.0.0.1');
+
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+
+
+		$this->limiter
+			->expects($this->never())
+			->method('registerUserRequest');
+		$this->limiter
+			->expects($this->once())
+			->method('registerAnonRequest')
+			->with(get_class($controller) . '::testMethodWithAttributesFallback', '10', '100', '127.0.0.1');
+
+		$this->reflector->reflect($controller, 'testMethodWithAttributesFallback');
+		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAttributesFallback');
+	}
+
+	public function testAfterExceptionWithOtherException(): void {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('My test exception');
+
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+
+		$this->rateLimitingMiddleware->afterException($controller, 'testMethod', new \Exception('My test exception'));
+	}
+
+	public function testAfterExceptionWithJsonBody(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+		$this->request
+			->expects($this->once())
+			->method('getHeader')
+			->with('Accept')
+			->willReturn('JSON');
+
+		$result = $this->rateLimitingMiddleware->afterException($controller, 'testMethod', new RateLimitExceededException());
+		$expected = new DataResponse([], 429
+		);
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testAfterExceptionWithHtmlBody(): void {
+		$controller = new RateLimitingMiddlewareController('test', $this->request);
+		$this->request
+			->expects($this->once())
+			->method('getHeader')
+			->with('Accept')
+			->willReturn('html');
+
+		$result = $this->rateLimitingMiddleware->afterException($controller, 'testMethod', new RateLimitExceededException());
+		$expected = new TemplateResponse(
+			'core',
+			'429',
+			[],
+			TemplateResponse::RENDER_AS_GUEST
+		);
+		$expected->setStatus(429);
+		$this->assertEquals($expected, $result);
+		$this->assertIsString($result->render());
+	}
+}

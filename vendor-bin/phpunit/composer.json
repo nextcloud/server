@@ -1,0 +1,11 @@
+{
+	"config": {
+		"sort-packages": true,
+		"platform": {
+			"php": "8.2"
+		}
+	},
+	"require": {
+		"phpunit/phpunit": "^11.5"
+	}
+}

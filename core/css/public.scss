@@ -1,0 +1,104 @@
+/*!
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+#body-public {
+	--footer-height: calc(2lh + 2 * var(--default-grid-baseline)); // Set the initial value, will be updated programmatically to match the actual height
+
+	.header-end {
+		#header-primary-action a {
+			color: var(--color-primary-element-text);
+		}
+
+		#header-secondary-action {
+			ul li {
+				min-width: 270px;
+			}
+			#header-actions-toggle {
+				background-color: transparent;
+				border-color: transparent;
+				filter: var(--background-invert-if-dark);
+
+				&:hover,
+				&:focus,
+				&:active {
+					opacity: 1;
+				}
+			}
+			#external-share-menu-item {
+				form {
+					display: flex;
+				}
+				.hidden {
+					display: none;
+				}
+				#save-button-confirm {
+					flex-grow: 0;
+				}
+			}
+		}
+	}
+
+	#content {
+		min-height: var(--body-height, calc(100% - var(--footer-height)));
+		padding-block-end: var(--footer-height);
+	}
+
+	#app-content-vue {
+		padding-block-end: var(--footer-height);
+	}
+
+	/** don't apply content header padding on the base layout */
+	&.layout-base #content {
+		padding-top: 0;
+	}
+
+	p.info {
+		margin: 20px auto;
+		text-shadow: 0 0 2px rgba(0, 0, 0, .4);
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	p.info, form fieldset legend,
+	#datadirContent label,
+	form fieldset .warning-info,
+	form input[type='checkbox']+label {
+		text-align: center;
+	}
+
+	/* public footer */
+	footer {
+		position: fixed;
+		left: 50%;
+		bottom: var(--body-container-margin);
+		transform: translateX(-50%);
+		width: fit-content;
+		max-width: 90vw;
+
+		&.guest-box {
+			// Ensure the maxcontrast color is set for the background
+			--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+			color: var(--color-main-text);
+			background-color: var(--color-main-background-blur);
+			padding: var(--default-grid-baseline) calc(3 * var(--default-grid-baseline));
+			border-radius: var(--border-radius-container);
+			box-shadow: 0 0 10px var(--color-box-shadow);
+			-webkit-backdrop-filter: var(--filter-background-blur);
+			backdrop-filter: var(--filter-background-blur);
+
+			.info {
+				text-shadow: none;
+				margin: 0;
+
+				.entity-name {
+					font-weight: bold;
+				}
+			}
+
+			a.legal {
+				font-size: smaller;
+			}
+		}
+	}
+}

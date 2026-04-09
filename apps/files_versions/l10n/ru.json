@@ -1,0 +1,27 @@
+{ "translations": {
+    "Versions" : "Версии",
+    "This application automatically maintains older versions of files that are changed." : "Приложение служит для обработки старых версий изменённых файлов.",
+    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the account does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the account's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "Это приложение автоматически поддерживает старые версии файлов, которые были изменены. Если оно включено, в каталоге каждого пользователя создаётся папка \"Скрытые версии\", которая используется для хранения старых версий файлов. Пользователь может в любой момент вернуться к более старой версии через веб-интерфейс, при этом заменённый файл станет версией. Приложение автоматически управляет папкой версий, чтобы гарантировать, что квота учётной записи не исчерпается из-за изменений версий.\n\t\tВ дополнение к истечению срока действия версий, приложение \"Версии\" гарантирует, что вы никогда не будете использовать более 50% доступного в данный момент свободного места в учётной записи. Если сохранённые версии превысят это ограничение, приложение сначала удалит самые старые версии, пока не достигнет этого ограничения. Более подробная информация доступна в документации по версиям.",
+    "Current version" : "Текущая версия",
+    "Initial version" : "Первоначальная версия",
+    "You" : "Вы",
+    "Actions for version from {versionHumanExplicitDate}" : "Действия для версии из {versionHumanExplicitDate}",
+    "Name this version" : "Обозначить версию",
+    "Edit version name" : "Изменить название версии",
+    "Compare to current version" : "Сравнить с текущей версией",
+    "Restore version" : "Востановить версию",
+    "Download version" : "Скачать версию",
+    "Delete version" : "Удалить версию",
+    "Cancel" : "Отмена",
+    "Remove version name" : "Удалить название версии",
+    "Save version name" : "Сохранить название версии",
+    "Version name" : "Название версии",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именованные версии исключены из автоматического удаления старых версий файлов при исчерпании квоты дискового пространства.",
+    "Initial version restored" : "Восстановлена первоначальная версия",
+    "Version restored" : "Версия восстановлена",
+    "Could not restore version" : "Не удалось восстановить версию",
+    "Could not set version label" : "Не удалось установить метку версии",
+    "Could not delete version" : "Не удалось удалить версию",
+    "File versions" : "Версии файлов"
+},"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
+}

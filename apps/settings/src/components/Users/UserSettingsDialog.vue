@@ -1,0 +1,359 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<template>
+	<NcAppSettingsDialog
+		:open.sync="isModalOpen"
+		:show-navigation="true"
+		:name="t('settings', 'Account management settings')">
+		<NcAppSettingsSection
+			id="visibility-settings"
+			:name="t('settings', 'Visibility')">
+			<NcCheckboxRadioSwitch
+				v-model="showLanguages"
+				type="switch"
+				data-test="showLanguages">
+				{{ t('settings', 'Show language') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch
+				v-model="showUserBackend"
+				type="switch"
+				data-test="showUserBackend">
+				{{ t('settings', 'Show account backend') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch
+				v-model="showStoragePath"
+				type="switch"
+				data-test="showStoragePath">
+				{{ t('settings', 'Show storage path') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch
+				v-model="showFirstLogin"
+				type="switch"
+				data-test="showFirstLogin">
+				{{ t('settings', 'Show first login') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch
+				v-model="showLastLogin"
+				type="switch"
+				data-test="showLastLogin">
+				{{ t('settings', 'Show last login') }}
+			</NcCheckboxRadioSwitch>
+		</NcAppSettingsSection>
+
+		<NcAppSettingsSection
+			id="groups-sorting"
+			:name="t('settings', 'Sorting')">
+			<NcNoteCard v-if="isGroupSortingEnforced" type="warning">
+				{{ t('settings', 'The system config enforces sorting the groups by name. This also disables showing the member count.') }}
+			</NcNoteCard>
+			<fieldset>
+				<legend>{{ t('settings', 'Group list sorting') }}</legend>
+				<NcNoteCard
+					class="dialog__note"
+					type="info"
+					:text="t('settings', 'Sorting only applies to the currently loaded groups for performance reasons. Groups will be loaded as you navigate or search through the list.')" />
+				<NcCheckboxRadioSwitch
+					v-model="groupSorting"
+					type="radio"
+					data-test="sortGroupsByMemberCount"
+					:disabled="isGroupSortingEnforced"
+					name="group-sorting-mode"
+					value="member-count">
+					{{ t('settings', 'By member count') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch
+					v-model="groupSorting"
+					type="radio"
+					data-test="sortGroupsByName"
+					:disabled="isGroupSortingEnforced"
+					name="group-sorting-mode"
+					value="name">
+					{{ t('settings', 'By name') }}
+				</NcCheckboxRadioSwitch>
+			</fieldset>
+		</NcAppSettingsSection>
+
+		<NcAppSettingsSection
+			id="email-settings"
+			:name="t('settings', 'Send email')">
+			<NcCheckboxRadioSwitch
+				v-model="sendWelcomeMail"
+				type="switch"
+				data-test="sendWelcomeMail"
+				:disabled="loadingSendMail">
+				{{ t('settings', 'Send welcome email to new accounts') }}
+			</NcCheckboxRadioSwitch>
+		</NcAppSettingsSection>
+
+		<NcAppSettingsSection
+			id="default-settings"
+			:name="t('settings', 'Defaults')">
+			<NcSelect
+				v-model="defaultQuota"
+				:clearable="false"
+				:create-option="validateQuota"
+				:filter-by="filterQuotas"
+				:input-label="t('settings', 'Default quota')"
+				:options="quotaOptions"
+				placement="top"
+				:placeholder="t('settings', 'Select default quota')"
+				taggable
+				@option:selected="setDefaultQuota" />
+		</NcAppSettingsSection>
+	</NcAppSettingsDialog>
+</template>
+
+<script>
+import axios from '@nextcloud/axios'
+import { formatFileSize, parseFileSize } from '@nextcloud/files'
+import { generateUrl } from '@nextcloud/router'
+import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
+import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { GroupSorting } from '../../constants/GroupManagement.ts'
+import logger from '../../logger.ts'
+import { unlimitedQuota } from '../../utils/userUtils.ts'
+
+export default {
+	name: 'UserSettingsDialog',
+
+	components: {
+		NcAppSettingsDialog,
+		NcAppSettingsSection,
+		NcCheckboxRadioSwitch,
+		NcNoteCard,
+		NcSelect,
+	},
+
+	props: {
+		open: {
+			type: Boolean,
+			required: true,
+		},
+	},
+
+	data() {
+		return {
+			selectedQuota: false,
+			loadingSendMail: false,
+		}
+	},
+
+	computed: {
+		groupSorting: {
+			get() {
+				return this.$store.getters.getGroupSorting === GroupSorting.GroupName ? 'name' : 'member-count'
+			},
+
+			set(sorting) {
+				this.$store.commit('setGroupSorting', sorting === 'name' ? GroupSorting.GroupName : GroupSorting.UserCount)
+			},
+		},
+
+		/**
+		 * Admin has configured `sort_groups_by_name` in the system config
+		 */
+		isGroupSortingEnforced() {
+			return this.$store.getters.getServerData.forceSortGroupByName
+		},
+
+		isModalOpen: {
+			get() {
+				return this.open
+			},
+
+			set(open) {
+				this.$emit('update:open', open)
+			},
+		},
+
+		showConfig() {
+			return this.$store.getters.getShowConfig
+		},
+
+		settings() {
+			return this.$store.getters.getServerData
+		},
+
+		showLanguages: {
+			get() {
+				return this.showConfig.showLanguages
+			},
+
+			set(status) {
+				this.setShowConfig('showLanguages', status)
+			},
+		},
+
+		showFirstLogin: {
+			get() {
+				return this.showConfig.showFirstLogin
+			},
+
+			set(status) {
+				this.setShowConfig('showFirstLogin', status)
+			},
+		},
+
+		showLastLogin: {
+			get() {
+				return this.showConfig.showLastLogin
+			},
+
+			set(status) {
+				this.setShowConfig('showLastLogin', status)
+			},
+		},
+
+		showUserBackend: {
+			get() {
+				return this.showConfig.showUserBackend
+			},
+
+			set(status) {
+				this.setShowConfig('showUserBackend', status)
+			},
+		},
+
+		showStoragePath: {
+			get() {
+				return this.showConfig.showStoragePath
+			},
+
+			set(status) {
+				this.setShowConfig('showStoragePath', status)
+			},
+		},
+
+		quotaOptions() {
+			// convert the preset array into objects
+			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({ id: cur, label: cur }), [])
+			// add default presets
+			if (this.settings.allowUnlimitedQuota) {
+				quotaPreset.unshift(unlimitedQuota)
+			}
+			return quotaPreset
+		},
+
+		defaultQuota: {
+			get() {
+				if (this.selectedQuota !== false) {
+					return this.selectedQuota
+				}
+				if (this.settings.defaultQuota !== unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
+					// if value is valid, let's map the quotaOptions or return custom quota
+					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
+				}
+				return unlimitedQuota // unlimited
+			},
+
+			set(quota) {
+				this.selectedQuota = quota
+			},
+		},
+
+		sendWelcomeMail: {
+			get() {
+				return this.settings.newUserSendEmail
+			},
+
+			async set(value) {
+				try {
+					this.loadingSendMail = true
+					this.$store.commit('setServerData', {
+						...this.settings,
+						newUserSendEmail: value,
+					})
+					await axios.post(generateUrl('/settings/users/preferences/newUser.sendEmail'), { value: value ? 'yes' : 'no' })
+				} catch (error) {
+					logger.error('Could not update newUser.sendEmail preference', { error })
+				} finally {
+					this.loadingSendMail = false
+				}
+			},
+		},
+	},
+
+	methods: {
+		/**
+		 * Check if a quota matches the current search.
+		 * This is a custom filter function to allow to map "1GB" to the label "1 GB" (ignoring whitespaces).
+		 *
+		 * @param {object} option The quota to check
+		 * @param {string} label The label of the quota
+		 * @param {string} search The search string
+		 */
+		filterQuotas(option, label, search) {
+			const searchValue = search.toLocaleLowerCase().replaceAll(/\s/g, '')
+			return (label || '')
+				.toLocaleLowerCase()
+				.replaceAll(/\s/g, '')
+				.indexOf(searchValue) > -1
+		},
+
+		setShowConfig(key, status) {
+			this.$store.dispatch('setShowConfig', { key, value: status })
+		},
+
+		/**
+		 * Validate quota string to make sure it's a valid human file size
+		 *
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @return {object} The validated quota object or unlimited quota if input is invalid
+		 */
+		validateQuota(quota) {
+			if (typeof quota === 'object') {
+				quota = quota?.id || quota.label
+			}
+			// only used for new presets sent through @Tag
+			const validQuota = parseFileSize(quota, true)
+			if (validQuota === null) {
+				return unlimitedQuota
+			}
+			// unify format output
+			quota = formatFileSize(validQuota)
+			return { id: quota, label: quota }
+		},
+
+		/**
+		 * Dispatch default quota set request
+		 *
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 */
+		setDefaultQuota(quota = 'none') {
+			// Make sure correct label is set for unlimited quota
+			if (quota === 'none') {
+				quota = unlimitedQuota
+			}
+			this.$store.dispatch('setAppConfig', {
+				app: 'files',
+				key: 'default_quota',
+				// ensure we only send the preset id
+				value: quota.id ? quota.id : quota,
+			}).then(() => {
+				if (typeof quota !== 'object') {
+					quota = { id: quota, label: quota }
+				}
+				this.defaultQuota = quota
+			})
+		},
+	},
+}
+</script>
+
+<style scoped lang="scss">
+.dialog {
+	&__note {
+		font-weight: normal;
+	}
+}
+
+fieldset {
+	font-weight: bold;
+}
+</style>

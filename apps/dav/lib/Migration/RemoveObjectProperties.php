@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+namespace OCA\DAV\Migration;
+
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
+
+class RemoveObjectProperties implements IRepairStep {
+	private const RESOURCE_TYPE_PROPERTY = '{DAV:}resourcetype';
+	private const ME_CARD_PROPERTY = '{http://calendarserver.org/ns/}me-card';
+	private const CALENDAR_TRANSP_PROPERTY = '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp';
+
+	public function __construct(
+		private readonly IDBConnection $connection,
+	) {
+	}
+
+	public function getName(): string {
+		return 'Remove invalid object properties';
+	}
+
+	public function run(IOutput $output): void {
+		$query = $this->connection->getQueryBuilder();
+		$updated = $query->delete('properties')
+			->where($query->expr()->in('propertyname', $query->createNamedParameter([self::RESOURCE_TYPE_PROPERTY, self::ME_CARD_PROPERTY, self::CALENDAR_TRANSP_PROPERTY], IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($query->expr()->eq('propertyvalue', $query->createNamedParameter('Object'), IQueryBuilder::PARAM_STR))
+			->executeStatement();
+
+		$output->info("$updated invalid object properties removed.");
+	}
+}

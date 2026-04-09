@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "twofactor_backupcodes",
+    {
+    "You created two-factor backup codes for your account" : "Jūs sukūrėte dviejų faktorių atsarginius kodus savo paskyrai",
+    "Second-factor backup codes" : "Antorojo faktoriaus atsarginiai kodai",
+    "Generate backup codes" : "Generuoti atsarginius kodus",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Jūs įjungėte dviejų faktorių tapatybės nustatymą, tačiau kol kas nesugeneravote atsarginių kodų. Jie yra reikalingi, kad būtų atkurta prieiga prie jūsų paskyros tuo atveju, jei prarasite savo antrąjį faktorių.",
+    "Backup code" : "Atsarginis kodas",
+    "Use backup code" : "Naudoti atsarginį kodą",
+    "Two factor backup codes" : "Dviejų faktorių atsarginiai kodai",
+    "A two-factor auth backup codes provider" : "Dviejų veiksnių autentifikavimo atsarginių kodų teikėjas",
+    "An error occurred while generating your backup codes" : "Generuojant jūsų atsarginius kodus, įvyko klaida",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Atsarginiai kodai sugeneruoti. Panaudota {used} iš {total} kodų.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Tai yra jūsų atsarginiai kodai. Prašome juos išsaugoti ir (arba) atsispausdinti, nes vėliau negalėsite jų perskaityti.",
+    "List of backup codes" : "Atsarginių kodų sąrašas",
+    "Regenerate backup codes" : "Iš naujo generuoti atsarginius kodus",
+    "Print backup codes" : "Spausdinti atsarginius kodus",
+    "Save backup codes" : "Įrašyti atsarginius kodus",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "Jeigu iš naujo generuosite atsarginius kodus, automatiškai paversite senuosius kodus nebegaliojančiais.",
+    "{name} backup codes" : "{name} atsarginiai kodai",
+    "Unable to open a new tab for printing" : "Nepavyksta atidaryti naujo skirtuko spausdinimui",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Naudokite vieną iš atsarginių kodų, kuriuos išsaugojote nustatydami dviejų veiksnių autentifikavimą.",
+    "Submit" : "Pateikti"
+},
+"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -1,0 +1,27 @@
+{ "translations": {
+    "Versions" : "Εκδόσεις",
+    "This application automatically maintains older versions of files that are changed." : "Η εφαρμογή διατηρεί αυτόματα παλαιότερες εκδόσεις των αρχείων που έχουν αλλάξει.",
+    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the account does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the account's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "Αυτή η εφαρμογή διατηρεί αυτόματα παλαιότερες εκδόσεις αρχείων που αλλάζουν. Όταν ενεργοποιηθεί, ένας κρυφός φάκελος εκδόσεων παρέχεται στον κατάλογο κάθε χρήστη και χρησιμοποιείται για την αποθήκευση παλαιών εκδόσεων αρχείων. Ένας χρήστης μπορεί να επιστρέψει σε μια παλαιότερη έκδοση μέσω της διαδικτυακής διεπαφής ανά πάσα στιγμή, με το αντικαταστηθέν αρχείο να γίνεται έκδοση. Η εφαρμογή διαχειρίζεται αυτόματα τον φάκελο εκδόσεων για να διασφαλίσει ότι ο λογαριασμός δεν εξαντλεί το Quota λόγω εκδόσεων.\n\t\tΕκτός από τη λήξη των εκδόσεων, η εφαρμογή εκδόσεων διασφαλίζει ότι δεν θα χρησιμοποιήσει ποτέ περισσότερο από το 50% του τρέχοντα διαθέσιμου ελεύθερου χώρου του λογαριασμού. Εάν οι αποθηκευμένες εκδόσεις υπερβούν αυτό το όριο, η εφαρμογή θα διαγράψει πρώτα τις παλαιότερες εκδόσεις μέχρι να φτάσει σε αυτό το όριο. Περισσότερες πληροφορίες είναι διαθέσιμες στην τεκμηρίωση Εκδόσεων.",
+    "Current version" : "Τρέχουσα έκδοση",
+    "Initial version" : "Αρχική έκδοση",
+    "You" : "Εσύ",
+    "Actions for version from {versionHumanExplicitDate}" : "Ενέργειες για έκδοση από {versionHumanExplicitDate}",
+    "Name this version" : "Ονομασία αυτής της έκδοσης",
+    "Edit version name" : "Επεξεργασία ονόματος έκδοσης",
+    "Compare to current version" : "Σύγκριση με την τρέχουσα έκδοση",
+    "Restore version" : "Επαναφορά έκδοσης",
+    "Download version" : "Λήψη έκδοσης",
+    "Delete version" : "Διαγραφή έκδοσης",
+    "Cancel" : "Ακύρωση",
+    "Remove version name" : "Αφαίρεση ονόματος έκδοσης",
+    "Save version name" : "Αποθήκευση ονόματος έκδοσης",
+    "Version name" : "Όνομα έκδοσης",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Οι ονομασμένες εκδόσεις διατηρούνται και εξαιρούνται από αυτόματες εκκαθαρίσεις όταν ο χώρος αποθήκευσής σας είναι πλήρης.",
+    "Initial version restored" : "Η αρχική έκδοση επαναφέρθηκε",
+    "Version restored" : "Η έκδοση επαναφέρθηκε",
+    "Could not restore version" : "Δεν ήταν δυνατή η επαναφορά της έκδοσης",
+    "Could not set version label" : "Δεν ήταν δυνατή η ρύθμιση της ετικέτας έκδοσης",
+    "Could not delete version" : "Δεν ήταν δυνατή η διαγραφή της έκδοσης",
+    "File versions" : "Εκδόσεις αρχείων"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

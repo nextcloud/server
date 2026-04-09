@@ -1,0 +1,450 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+namespace OCA\Files_External\Service;
+
+use OC\Files\Cache\Storage;
+use OC\Files\Filesystem;
+use OCA\Files\AppInfo\Application as FilesApplication;
+use OCA\Files\ConfigLexicon;
+use OCA\Files_External\AppInfo\Application;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\InvalidAuth;
+use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Backend\InvalidBackend;
+use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\InvalidateMountCacheEvent;
+use OCP\Files\StorageNotAvailableException;
+use OCP\IAppConfig;
+use OCP\Server;
+use OCP\Util;
+use Psr\Log\LoggerInterface;
+
+/**
+ * Service class to manage external storage
+ *
+ * @psalm-import-type ExternalMountInfo from DBConfigService
+ */
+abstract class StoragesService {
+	public function __construct(
+		protected BackendService $backendService,
+		protected DBConfigService $dbConfig,
+		protected IEventDispatcher $eventDispatcher,
+		protected IAppConfig $appConfig,
+	) {
+	}
+
+	/**
+	 * @return list<ExternalMountInfo>
+	 */
+	protected function readDBConfig(): array {
+		return $this->dbConfig->getAdminMounts();
+	}
+
+	protected function getStorageConfigFromDBMount(array $mount): ?StorageConfig {
+		$applicableUsers = array_filter($mount['applicable'], static fn (array $applicable): bool
+			=> $applicable['type'] === DBConfigService::APPLICABLE_TYPE_USER);
+		$applicableUsers = array_map(static fn (array $applicable) => $applicable['value'], $applicableUsers);
+
+		$applicableGroups = array_filter($mount['applicable'], static fn (array $applicable): bool
+			=> $applicable['type'] === DBConfigService::APPLICABLE_TYPE_GROUP);
+		$applicableGroups = array_map(static fn (array $applicable) => $applicable['value'], $applicableGroups);
+
+		try {
+			$config = $this->createStorage(
+				$mount['mount_point'],
+				$mount['storage_backend'],
+				$mount['auth_backend'],
+				$mount['config'],
+				$mount['options'],
+				array_values($applicableUsers),
+				array_values($applicableGroups),
+				$mount['priority']
+			);
+			$config->setType($mount['type']);
+			$config->setId((int)$mount['mount_id']);
+			return $config;
+		} catch (\UnexpectedValueException $e) {
+			// don't die if a storage backend doesn't exist
+			Server::get(LoggerInterface::class)->error('Could not load storage.', [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
+			return null;
+		} catch (\InvalidArgumentException $e) {
+			Server::get(LoggerInterface::class)->error('Could not load storage.', [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
+			return null;
+		}
+	}
+
+	/**
+	 * Read the external storage config
+	 *
+	 * @return array<int, StorageConfig> map of storage id to storage config
+	 */
+	protected function readConfig(): array {
+		$mounts = $this->readDBConfig();
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs);
+
+		$keys = array_map(static fn (StorageConfig $config): int => $config->getId(), $configs);
+
+		return array_combine($keys, $configs);
+	}
+
+	/**
+	 * Get a storage with status
+	 *
+	 * @param int $id storage id
+	 *
+	 * @throws NotFoundException if the storage with the given id was not found
+	 */
+	public function getStorage(int $id): StorageConfig {
+		$mount = $this->dbConfig->getMountById($id);
+
+		if (!is_array($mount)) {
+			throw new NotFoundException('Storage with ID "' . $id . '" not found');
+		}
+
+		$config = $this->getStorageConfigFromDBMount($mount);
+		if ($this->isApplicable($config)) {
+			return $config;
+		} else {
+			throw new NotFoundException('Storage with ID "' . $id . '" not found');
+		}
+	}
+
+	/**
+	 * Check whether this storage service should provide access to a storage
+	 */
+	abstract protected function isApplicable(StorageConfig $config): bool;
+
+	/**
+	 * Gets all storages, valid or not
+	 *
+	 * @return StorageConfig[] array of storage configs
+	 */
+	public function getAllStorages(): array {
+		return $this->readConfig();
+	}
+
+	/**
+	 * Gets all valid storages
+	 *
+	 * @return StorageConfig[]
+	 */
+	public function getStorages(): array {
+		return array_filter($this->getAllStorages(), $this->validateStorage(...));
+	}
+
+	/**
+	 * Validate storage
+	 * FIXME: De-duplicate with StoragesController::validate()
+	 *
+	 */
+	protected function validateStorage(StorageConfig $storage): bool {
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+
+		if (!$backend->isVisibleFor($this->getVisibilityType())) {
+			// not permitted to use backend
+			return false;
+		}
+
+		// permitted to use auth mechanism
+		return $authMechanism->isVisibleFor($this->getVisibilityType());
+	}
+
+	/**
+	 * Get the visibility type for this controller, used in validation
+	 *
+	 * @return BackendService::VISIBILITY_*
+	 */
+	abstract public function getVisibilityType(): int;
+
+	protected function getType(): int {
+		return DBConfigService::MOUNT_TYPE_ADMIN;
+	}
+
+	/**
+	 * Add new storage to the configuration
+	 *
+	 * @param StorageConfig $newStorage storage attributes
+	 *
+	 * @return StorageConfig storage config, with added id
+	 */
+	public function addStorage(StorageConfig $newStorage): StorageConfig {
+		$allStorages = $this->readConfig();
+
+		$configId = $this->dbConfig->addMount(
+			$newStorage->getMountPoint(),
+			$newStorage->getBackend()->getIdentifier(),
+			$newStorage->getAuthMechanism()->getIdentifier(),
+			$newStorage->getPriority(),
+			$this->getType()
+		);
+
+		$newStorage->setId($configId);
+
+		foreach ($newStorage->getApplicableUsers() as $user) {
+			$this->dbConfig->addApplicable($configId, DBConfigService::APPLICABLE_TYPE_USER, $user);
+		}
+		foreach ($newStorage->getApplicableGroups() as $group) {
+			$this->dbConfig->addApplicable($configId, DBConfigService::APPLICABLE_TYPE_GROUP, $group);
+		}
+		foreach ($newStorage->getBackendOptions() as $key => $value) {
+			$this->dbConfig->setConfig($configId, $key, $value);
+		}
+		foreach ($newStorage->getMountOptions() as $key => $value) {
+			$this->dbConfig->setOption($configId, $key, $value);
+		}
+
+		if (count($newStorage->getApplicableUsers()) === 0 && count($newStorage->getApplicableGroups()) === 0) {
+			$this->dbConfig->addApplicable($configId, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		}
+
+		// add new storage
+		$allStorages[$configId] = $newStorage;
+
+		$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
+		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
+
+		$newStorage->setStatus(StorageNotAvailableException::STATUS_SUCCESS);
+
+		$this->updateOverwriteHomeFolders();
+
+		return $newStorage;
+	}
+
+	/**
+	 * Create a storage from its parameters
+	 *
+	 * @param string $mountPoint storage mount point
+	 * @param string $backendIdentifier backend identifier
+	 * @param string $authMechanismIdentifier authentication mechanism identifier
+	 * @param array $backendOptions backend-specific options
+	 * @param array|null $mountOptions mount-specific options
+	 * @param array|null $applicableUsers users for which to mount the storage
+	 * @param array|null $applicableGroups groups for which to mount the storage
+	 * @param int|null $priority priority
+	 *
+	 * @return StorageConfig
+	 */
+	public function createStorage(
+		string $mountPoint,
+		string $backendIdentifier,
+		string $authMechanismIdentifier,
+		array $backendOptions,
+		?array $mountOptions = null,
+		?array $applicableUsers = null,
+		?array $applicableGroups = null,
+		?int $priority = null,
+	): StorageConfig {
+		$backend = $this->backendService->getBackend($backendIdentifier);
+		if (!$backend) {
+			$backend = new InvalidBackend($backendIdentifier);
+		}
+		$authMechanism = $this->backendService->getAuthMechanism($authMechanismIdentifier);
+		if (!$authMechanism) {
+			$authMechanism = new InvalidAuth($authMechanismIdentifier);
+		}
+		$newStorage = new StorageConfig();
+		$newStorage->setMountPoint($mountPoint);
+		$newStorage->setBackend($backend);
+		$newStorage->setAuthMechanism($authMechanism);
+		$newStorage->setBackendOptions($backendOptions);
+		if (isset($mountOptions)) {
+			$newStorage->setMountOptions($mountOptions);
+		}
+		if (isset($applicableUsers)) {
+			$newStorage->setApplicableUsers($applicableUsers);
+		}
+		if (isset($applicableGroups)) {
+			$newStorage->setApplicableGroups($applicableGroups);
+		}
+		if (isset($priority)) {
+			$newStorage->setPriority($priority);
+		}
+
+		return $newStorage;
+	}
+
+	/**
+	 * Triggers the given hook signal for all the applicables given
+	 *
+	 * @param string $signal signal
+	 * @param string $mountPoint hook mount point param
+	 * @param string $mountType hook mount type param
+	 * @param array $applicableArray array of applicable users/groups for which to trigger the hook
+	 */
+	protected function triggerApplicableHooks(string $signal, string $mountPoint, string $mountType, array $applicableArray): void {
+		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
+		foreach ($applicableArray as $applicable) {
+			Util::emitHook(
+				Filesystem::CLASSNAME,
+				$signal,
+				[
+					Filesystem::signal_param_path => $mountPoint,
+					Filesystem::signal_param_mount_type => $mountType,
+					Filesystem::signal_param_users => $applicable,
+				]
+			);
+		}
+	}
+
+	/**
+	 * Triggers $signal for all applicable users of the given
+	 * storage
+	 *
+	 * @param StorageConfig $storage storage data
+	 * @param string $signal signal to trigger
+	 */
+	abstract protected function triggerHooks(StorageConfig $storage, string $signal): void;
+
+	/**
+	 * Triggers signal_create_mount or signal_delete_mount to
+	 * accommodate for additions/deletions in applicableUsers
+	 * and applicableGroups fields.
+	 *
+	 * @param StorageConfig $oldStorage old storage data
+	 * @param StorageConfig $newStorage new storage data
+	 */
+	abstract protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage): void;
+
+	/**
+	 * Update storage to the configuration
+	 *
+	 * @param StorageConfig $updatedStorage storage attributes
+	 *
+	 * @return StorageConfig storage config
+	 * @throws NotFoundException if the given storage does not exist in the config
+	 */
+	public function updateStorage(StorageConfig $updatedStorage): StorageConfig {
+		$id = $updatedStorage->getId();
+
+		$existingMount = $this->dbConfig->getMountById($id);
+
+		if (!is_array($existingMount)) {
+			throw new NotFoundException('Storage with ID "' . $id . '" not found while updating storage');
+		}
+
+		$oldStorage = $this->getStorageConfigFromDBMount($existingMount);
+
+		if ($oldStorage->getBackend() instanceof InvalidBackend) {
+			throw new NotFoundException('Storage with id "' . $id . '" cannot be edited due to missing backend');
+		}
+
+		$removedUsers = array_diff($oldStorage->getApplicableUsers(), $updatedStorage->getApplicableUsers());
+		$removedGroups = array_diff($oldStorage->getApplicableGroups(), $updatedStorage->getApplicableGroups());
+		$addedUsers = array_diff($updatedStorage->getApplicableUsers(), $oldStorage->getApplicableUsers());
+		$addedGroups = array_diff($updatedStorage->getApplicableGroups(), $oldStorage->getApplicableGroups());
+
+		$oldUserCount = count($oldStorage->getApplicableUsers());
+		$oldGroupCount = count($oldStorage->getApplicableGroups());
+		$newUserCount = count($updatedStorage->getApplicableUsers());
+		$newGroupCount = count($updatedStorage->getApplicableGroups());
+		$wasGlobal = ($oldUserCount + $oldGroupCount) === 0;
+		$isGlobal = ($newUserCount + $newGroupCount) === 0;
+
+		foreach ($removedUsers as $user) {
+			$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, $user);
+		}
+		foreach ($removedGroups as $group) {
+			$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_GROUP, $group);
+		}
+		foreach ($addedUsers as $user) {
+			$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, $user);
+		}
+		foreach ($addedGroups as $group) {
+			$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GROUP, $group);
+		}
+
+		if ($wasGlobal && !$isGlobal) {
+			$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		} elseif (!$wasGlobal && $isGlobal) {
+			$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		}
+
+		$changedConfig = array_diff_assoc($updatedStorage->getBackendOptions(), $oldStorage->getBackendOptions());
+		$changedOptions = array_diff_assoc($updatedStorage->getMountOptions(), $oldStorage->getMountOptions());
+
+		foreach ($changedConfig as $key => $value) {
+			if ($value !== DefinitionParameter::UNMODIFIED_PLACEHOLDER) {
+				$this->dbConfig->setConfig($id, $key, $value);
+			}
+		}
+		foreach ($changedOptions as $key => $value) {
+			$this->dbConfig->setOption($id, $key, $value);
+		}
+
+		if ($updatedStorage->getMountPoint() !== $oldStorage->getMountPoint()) {
+			$this->dbConfig->setMountPoint($id, $updatedStorage->getMountPoint());
+		}
+
+		if ($updatedStorage->getAuthMechanism()->getIdentifier() !== $oldStorage->getAuthMechanism()->getIdentifier()) {
+			$this->dbConfig->setAuthBackend($id, $updatedStorage->getAuthMechanism()->getIdentifier());
+		}
+
+		$this->triggerChangeHooks($oldStorage, $updatedStorage);
+
+		$this->updateOverwriteHomeFolders();
+
+		return $this->getStorage($id);
+	}
+
+	/**
+	 * Delete the storage with the given id.
+	 *
+	 * @param int $id storage id
+	 *
+	 * @throws NotFoundException if no storage was found with the given id
+	 */
+	public function removeStorage(int $id): void {
+		$existingMount = $this->dbConfig->getMountById($id);
+
+		if (!is_array($existingMount)) {
+			throw new NotFoundException('Storage with ID "' . $id . '" not found');
+		}
+
+		$this->dbConfig->removeMount($id);
+
+		$deletedStorage = $this->getStorageConfigFromDBMount($existingMount);
+		$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($deletedStorage));
+		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
+
+		// delete oc_storages entries and oc_filecache
+		Storage::cleanByMountId($id);
+
+		$this->updateOverwriteHomeFolders();
+	}
+
+	public function updateOverwriteHomeFolders(): void {
+		$appIdsList = $this->appConfig->getValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS);
+
+		if ($this->dbConfig->hasHomeFolderOverwriteMount()) {
+			if (!in_array(Application::APP_ID, $appIdsList)) {
+				$appIdsList[] = Application::APP_ID;
+				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
+			}
+		} else {
+			if (in_array(Application::APP_ID, $appIdsList)) {
+				$appIdsList = array_values(array_filter($appIdsList, fn ($v) => $v !== Application::APP_ID));
+				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
+			}
+		}
+	}
+}

@@ -1,0 +1,46 @@
+{
+	"apps": [
+		{
+			"id": "calendar",
+			"name": "Calendar",
+			"isCompatible": true,
+			"canInstall": true
+		},
+		{
+			"id": "contacts",
+			"name": "Contacts",
+			"isCompatible": true,
+			"canInstall": true
+		},
+		{
+			"id": "mail",
+			"name": "Mail",
+			"isCompatible": true,
+			"canInstall": true
+		},
+		{
+			"id": "spreed",
+			"name": "Talk",
+			"isCompatible": true,
+			"canInstall": true
+		},
+		{
+			"id": "richdocuments",
+			"name": "Richdocuments",
+			"isCompatible": true,
+			"canInstall": true
+		},
+		{
+			"id": "notes",
+			"name": "Notes",
+			"isCompatible": true,
+			"canInstall": true
+		},
+		{
+			"id": "richdocumentscode",
+			"name": "Richdocuments Code",
+			"isCompatible": true,
+			"canInstall": true
+		}
+	]
+}

@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Töölaud/Juhtpaneel",
+    "Dashboard app" : "Töölaua/juhtpaneeli rakendus",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Alusta oma päeva teadlikult\n\nNextcloudi avaleht on su päeva alguspunkt, mis annab ülevaate eelseisvatest kohtumistest, kiireloomulistest kirjadest, vestlussõnumitest, sissetulevatest päringutest, viimastest säutsudest ja paljust muust! Inimesed saavad lisada neile meeldivaid vidinaid ja muuta tausta oma maitse järgi.",
+    "Weather" : "Ilm",
+    "Status" : "Olek",
+    "Good morning" : "Tere hommikust",
+    "Good morning, {name}" : "Tere hommikust, {name}",
+    "Good afternoon" : "Tere päevast",
+    "Good afternoon, {name}" : "Tere päevast, {name}",
+    "Good evening" : "Tere õhtust",
+    "Good evening, {name}" : "Tere õhtust, {name}",
+    "Hello" : "Tere",
+    "Hello, {name}" : "Tere, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Palju õnne sünnipäevaks 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Palju õnne, {name} 🥳🤩🎂🎉",
+    "Customize" : "Kohanda",
+    "Edit widgets" : "Muuda vidinaid",
+    "Get more widgets from the App Store" : "Rakenduste Poest leiad veel vidinaid",
+    "Weather service" : "Ilmateenus",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Sinu privaatsuse huvides küsib su nimel ilmaandmeid {productName}i server, nii et ilmateenistus ei saa sinu kohta isiklikku teavet.",
+    "Weather data from Met.no" : "Met.no ilmaennustus",
+    "geocoding with Nominatim" : "geoprogrammeerimine Nominatimiga",
+    "elevation data from OpenTopoData" : "kõrgusandmed OpenTopoDatast"
+},
+"nplurals=2; plural=(n != 1);");

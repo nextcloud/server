@@ -1,0 +1,8 @@
+
+[mysqld]
+innodb_large_prefix=true
+innodb_file_format=barracuda
+innodb_file_per_table=true
+
+innodb_buffer_pool_size = 512M
+innodb_flush_log_at_trx_commit = 2

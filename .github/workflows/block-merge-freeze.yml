@@ -1,0 +1,57 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Block merges during freezes
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, reopened, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: block-merge-freeze-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  block-merges-during-freeze:
+    name: Block merges during freezes
+
+    if: github.event.pull_request.draft == false
+
+    runs-on: ubuntu-latest-low
+
+    steps:
+      - name: Register server reference to fallback to master branch
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const baseRef = context.payload.pull_request.base.ref
+            if (baseRef === 'main' || baseRef === 'master') {
+              core.exportVariable('server_ref', 'master');
+              console.log('Setting server_ref to master');
+            } else {
+              const regex = /^stable(\d+)$/
+              const match = baseRef.match(regex)
+              if (match) {
+                core.exportVariable('server_ref', match[0]);
+                console.log('Setting server_ref to ' + match[0]);
+              } else {
+                console.log('Not based on master/main/stable*, so skipping freeze check');
+              }
+            }
+
+      - name: Download version.php from ${{ env.server_ref }}
+        if: ${{ env.server_ref != '' }}
+        run: curl 'https://raw.githubusercontent.com/nextcloud/server/${{ env.server_ref }}/version.php' --output version.php
+
+      - name: Run check
+        if: ${{ env.server_ref != '' }}
+        run: cat version.php | grep 'OC_VersionString' | grep -i -v 'RC'

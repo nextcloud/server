@@ -1,0 +1,694 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+namespace OCP\RichObjectStrings;
+
+/**
+ * Class Definitions
+ *
+ * @since 11.0.0
+ */
+class Definitions {
+	/**
+	 * @var array
+	 * @since 11.0.0
+	 */
+	public $definitions = [
+		'addressbook' => [
+			'author' => 'Nextcloud',
+			'app' => 'dav',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the addressbook on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The display name of the addressbook which should be used in the visual representation',
+					'example' => 'Contacts',
+				],
+			],
+		],
+		'addressbook-contact' => [
+			'author' => 'Nextcloud',
+			'app' => 'dav',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the contact on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The display name of the contact which should be used in the visual representation',
+					'example' => 'John Doe',
+				],
+			],
+		],
+		'announcement' => [
+			'author' => 'Joas Schilling',
+			'app' => 'announcementcenter',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the announcement on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The announcement subject which should be used in the visual representation',
+					'example' => 'file.txt',
+				],
+				'link' => [
+					'since' => '11.0.0',
+					'required' => false,
+					'description' => 'The full URL to the file',
+					'example' => 'http://localhost/index.php/apps/announcements/#23',
+				],
+			],
+		],
+		'app' => [
+			'author' => 'Nextcloud',
+			'app' => 'updatenotification',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The app id',
+					'example' => 'updatenotification',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The name of the app which should be used in the visual representation',
+					'example' => 'Update notification',
+				],
+			],
+		],
+		'calendar' => [
+			'author' => 'Nextcloud',
+			'app' => 'dav',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the calendar on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The display name of the calendar which should be used in the visual representation',
+					'example' => 'Personal',
+				],
+			],
+		],
+		'calendar-event' => [
+			'author' => 'Nextcloud',
+			'app' => 'dav',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the event on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The display name of the event which should be used in the visual representation',
+					'example' => 'Workout',
+				],
+				'link' => [
+					'since' => '19.0.0',
+					'required' => false,
+					'description' => 'A link to the page displaying the calendar',
+					'example' => 'http://localhost/index.php/apps/calendar/dayGridMonth/2020-01-20/edit/sidebar/base64string/1579046400'
+				]
+			],
+		],
+		'call' => [
+			'author' => 'Nextcloud',
+			'app' => 'spreed',
+			'since' => '11.0.2',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.2',
+					'required' => true,
+					'description' => 'The id used to identify the call on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '11.0.2',
+					'required' => true,
+					'description' => 'The display name of the call which should be used in the visual representation',
+					'example' => 'Company call',
+				],
+				'call-type' => [
+					'since' => '11.0.2',
+					'required' => true,
+					'description' => 'The type of the call: one2one, group or public',
+					'example' => 'one2one',
+				],
+				'link' => [
+					'since' => '19.0.0',
+					'required' => false,
+					'description' => 'The link to the conversation',
+					'example' => 'https://localhost/index.php/call/R4nd0mToken',
+				],
+				'icon-url' => [
+					'since' => '27.0.0',
+					'required' => false,
+					'description' => 'The icon url to use as avatar',
+					'example' => 'https://localhost/ocs/v2.php/apps/spreed/api/v1/room/R4nd0mToken/avatar'
+				],
+				'message-id' => [
+					'since' => '27.0.0',
+					'required' => false,
+					'description' => 'The id of a message that was referred to',
+					'example' => '12345',
+				],
+			],
+		],
+		'circle' => [
+			'author' => 'Maxence Lange',
+			'app' => 'circles',
+			'since' => '12.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the circle on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The display name of the circle which should be used in the visual representation',
+					'example' => 'My friends',
+				],
+				'link' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The full URL to the circle',
+					'example' => 'http://localhost/index.php/apps/circles/#42',
+				],
+			],
+		],
+		'deck-board' => [
+			'author' => 'Nextcloud',
+			'app' => 'deck',
+			'since' => '21.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the board on the instance',
+					'example' => '1',
+				],
+				'name' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The display name of the deck board',
+					'example' => 'Personal',
+				],
+				'link' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The full URL to the board',
+					'example' => 'http://localhost/index.php/apps/deck/#/board/1',
+				],
+			],
+		],
+		'deck-card' => [
+			'author' => 'Nextcloud',
+			'app' => 'deck',
+			'since' => '21.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the card on the instance',
+					'example' => '1',
+				],
+				'name' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The title of the deck card',
+					'example' => 'Foo Bar',
+				],
+				'boardname' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The display name of board which contains the card',
+					'example' => 'Personal',
+				],
+				'stackname' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The display name of the stack which contains the card in the board',
+					'example' => 'To do',
+				],
+				'link' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The full URL to the card directly',
+					'example' => 'https://nextcloud21.local/index.php/apps/deck/#/board/1/card/1',
+				],
+			],
+		],
+		'email' => [
+			'author' => 'Nextcloud',
+			'app' => 'sharebymail',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The mail-address used to identify the event on the instance',
+					'example' => 'test@localhost',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The display name of a matching contact or the email (fallback) which should be used in the visual representation',
+					'example' => 'Foo Bar',
+				],
+			],
+		],
+		'file' => [
+			'author' => 'Nextcloud',
+			'app' => 'dav',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the file on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The file name which should be used in the visual representation',
+					'example' => 'file.txt',
+				],
+				'size' => [
+					'since' => '21.0.0',
+					'required' => false,
+					'description' => 'The file size in bytes',
+					'example' => '3145728',
+				],
+				'path' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The full path of the file for the user, should not start with a slash',
+					'example' => 'path/to/file.txt',
+				],
+				'link' => [
+					'since' => '11.0.0',
+					'required' => false,
+					'description' => 'The full URL to the file',
+					'example' => 'http://localhost/index.php/f/42',
+				],
+				'mimetype' => [
+					'since' => '16.0.0',
+					'required' => false,
+					'description' => 'The mimetype of the file/folder to allow clients to show a placeholder',
+					'example' => 'text/plain',
+				],
+				'preview-available' => [
+					'since' => '16.0.0',
+					'required' => false,
+					'description' => 'Whether or not a preview is available. If `no` the mimetype icon should be used',
+					'example' => 'yes',
+				],
+				'mtime' => [
+					'since' => '25.0.0',
+					'required' => false,
+					'description' => 'The mtime of the file/folder as unix timestamp',
+					'example' => '1661854213',
+				],
+				'etag' => [
+					'since' => '25.0.0',
+					'required' => false,
+					'description' => 'The ETag of the file/folder',
+					'example' => 'abcdefghi',
+				],
+				'permissions' => [
+					'since' => '25.0.0',
+					'required' => false,
+					'description' => 'The permissions on the file/folder',
+					'example' => '3',
+				],
+				'width' => [
+					'since' => '29.0.0',
+					'required' => false,
+					'description' => 'The width in pixels if the file is an image',
+					'example' => '1920',
+				],
+				'height' => [
+					'since' => '29.0.0',
+					'required' => false,
+					'description' => 'The height in pixels if the file is an image',
+					'example' => '1080',
+				],
+				'blurhash' => [
+					'since' => '30.0.0',
+					'required' => false,
+					'description' => 'The blurhash of the image',
+					'example' => 'LEHV9uae2yk8pyo0adR*.7kCMdnj',
+				],
+				'hide-download' => [
+					'since' => '31.0.5',
+					'required' => false,
+					'description' => 'Whether the download option should be hidden. If not set to `yes` the option can be shown',
+					'example' => 'yes',
+				],
+			],
+		],
+		'forms-form' => [
+			'author' => 'Nextcloud',
+			'app' => 'forms',
+			'since' => '21.0.1',
+			'parameters' => [
+				'id' => [
+					'since' => '21.0.1',
+					'required' => true,
+					'description' => 'The form-hash of the form',
+					'example' => 'q72GGqbfbLBC6xNB',
+				],
+				'name' => [
+					'since' => '21.0.1',
+					'required' => true,
+					'description' => 'The title of the form',
+					'example' => 'Nice Form',
+				],
+				'link' => [
+					'since' => '21.0.1',
+					'required' => true,
+					'description' => 'The full URL to the board',
+					'example' => 'http://localhost/index.php/apps/forms/q72GGqbfbLBC6xNB',
+				],
+			],
+		],
+		'guest' => [
+			'author' => 'Nextcloud',
+			'app' => 'spreed',
+			'since' => '17.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '17.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the guest user',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '17.0.0',
+					'required' => true,
+					'description' => 'Potential displayname of the guest user',
+					'example' => 'Foobar Cats',
+				],
+			],
+		],
+		'highlight' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '13.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '13.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the highlighted object on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '13.0.0',
+					'required' => true,
+					'description' => 'The string that should be highlighted.',
+					'example' => 'Hello World',
+				],
+				'link' => [
+					'since' => '13.0.0',
+					'required' => false,
+					'description' => 'The full URL that should be opened when clicking the highlighted text.',
+					'example' => 'http://localhost/index.php/f/42',
+				],
+			],
+		],
+		'geo-location' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '22.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The geo URI (https://en.wikipedia.org/wiki/Geo_URI_scheme) to identify the location',
+					'example' => 'geo:52.5450511,13.3741463',
+				],
+				'name' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'A description of the location',
+					'example' => 'Nextcloud Berlin Office',
+				],
+				'latitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The latitude of the location MUST be the same as in the id',
+					'example' => '52.5450511',
+				],
+				'longitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The longitude of the location MUST be the same as in the id',
+					'example' => '13.3741463',
+				],
+			],
+		],
+		'open-graph' => [
+			'author' => 'Maxence Lange',
+			'app' => 'mood',
+			'since' => '12.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the open graph data on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '12.0.0',
+					'required' => true,
+					'description' => 'The open graph title of the website',
+					'example' => 'This is a website',
+				],
+				'description' => [
+					'since' => '12.0.0',
+					'required' => false,
+					'description' => 'The open graph description from the website',
+					'example' => 'This is the description of the website',
+				],
+				'thumb' => [
+					'since' => '12.0.0',
+					'required' => false,
+					'description' => 'The full URL of the open graph thumbnail',
+					'example' => 'http://localhost/index.php/apps/mood/data/image?url=https%3A%2F%2Fthumb.example.com%2Fimage.png',
+				],
+				'website' => [
+					'since' => '12.0.0',
+					'required' => false,
+					'description' => 'The name of the described website',
+					'example' => 'Nextcloud - App Store',
+				],
+				'link' => [
+					'since' => '12.0.0',
+					'required' => false,
+					'description' => 'The full link to the website',
+					'example' => 'https://apps.nextcloud.com/apps/mood',
+				],
+			],
+		],
+		'pending-federated-share' => [
+			'author' => 'Nextcloud',
+			'app' => 'dav',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the federated share on the instance',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The name of the shared item which should be used in the visual representation',
+					'example' => 'file.txt',
+				],
+			],
+		],
+		'systemtag' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the systemtag on the instance',
+					'example' => '23',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The display name of the systemtag which should be used in the visual representation',
+					'example' => 'Project 1',
+				],
+				'visibility' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'If the user can see the systemtag',
+					'example' => '1',
+				],
+				'assignable' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'If the user can assign the systemtag',
+					'example' => '0',
+				],
+			],
+		],
+		'talk-attachment' => [
+			'author' => 'Nextcloud',
+			'app' => 'talk',
+			'since' => '18.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '18.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the attachment on the instance',
+					'example' => '12345',
+				],
+				'name' => [
+					'since' => '18.0.0',
+					'required' => true,
+					'description' => 'The name of the attachment',
+					'example' => 'John Doe',
+				],
+				'conversation' => [
+					'since' => '18.0.0',
+					'required' => true,
+					'description' => 'The token of the conversation',
+					'example' => 'a1b2c3d4',
+				],
+				'mimetype' => [
+					'since' => '18.0.0',
+					'required' => false,
+					'description' => 'The mimetype of the file/folder to allow clients to show a placeholder',
+					'example' => 'text/plain',
+				],
+				'preview-available' => [
+					'since' => '18.0.0',
+					'required' => false,
+					'description' => 'Whether or not a preview is available. If `no` the mimetype icon should be used',
+					'example' => 'yes',
+				],
+			],
+		],
+		'talk-poll' => [
+			'author' => 'Nextcloud',
+			'app' => 'talk',
+			'since' => '25.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '25.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the poll on the instance',
+					'example' => '12345',
+				],
+				'name' => [
+					'since' => '25.0.0',
+					'required' => true,
+					'description' => 'The poll question',
+					'example' => 'What is the question?',
+				],
+			],
+		],
+		'user' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the user on the instance',
+					'example' => 'johndoe',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The display name of the user which should be used in the visual representation',
+					'example' => 'John Doe',
+				],
+				'server' => [
+					'since' => '11.0.0',
+					'required' => false,
+					'description' => 'The URL of the instance the user lives on',
+					'example' => 'localhost',
+				],
+			],
+		],
+		'user-group' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '11.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the group on the instance',
+					'example' => 'supportteam',
+				],
+				'name' => [
+					'since' => '11.0.0',
+					'required' => true,
+					'description' => 'The display name of the group which should be used in the visual representation',
+					'example' => 'Support Team',
+				],
+			],
+		],
+	];
+
+	/**
+	 * @param string $type
+	 * @return array
+	 * @throws InvalidObjectExeption
+	 * @since 11.0.0
+	 */
+	public function getDefinition($type) {
+		if (isset($this->definitions[$type])) {
+			return $this->definitions[$type];
+		}
+
+		throw new InvalidObjectExeption('Object type is undefined');
+	}
+}

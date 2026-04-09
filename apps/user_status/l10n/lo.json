@@ -1,0 +1,28 @@
+{ "translations": {
+    "Out of office" : "Out of office",
+    "Clear status after" : "Clear status after",
+    "What is your status?" : "What is your status?",
+    "Previously set" : "Previously set",
+    "Reset status" : "Reset status",
+    "Online status" : "ສະຖານະພາບອອນລາຍ",
+    "Status message" : "ສະຖານະຂໍ້ຄວາມ",
+    "Your status was set automatically" : "Your status was set automatically",
+    "Clear status message" : "ລ້າງສະຖານະພາບຂໍ້ຄວາມ",
+    "Set status message" : "ຕັ້ງຄ່າສະຖານະພາບຂໍ້ຄວາມ",
+    "Online" : "ອອນລາຍ",
+    "Away" : "ອອກໄປ",
+    "Busy" : "Busy",
+    "Do not disturb" : "ຫ້າມລົບກວນ",
+    "Invisible" : "ເບິ່ງບໍ່ເຫັນ",
+    "Offline" : "ອັອບລາຍ",
+    "Set status" : "ຕັ້ງຄ່າສະຖານະພາບ",
+    "Don't clear" : "ບໍ່ຈະແຈ້ງ",
+    "30 minutes" : "30 ນາທີ",
+    "1 hour" : "1 ຊົ່ວໂມງ",
+    "4 hours" : "4 ຊົ່ວໂມງ",
+    "Today" : "ມື້ນີ້",
+    "This week" : "ທິດນີ້",
+    "Mute all notifications" : "ປິດການແຈ້ງເຕືອນທັງໝົດ",
+    "Appear offline" : "ເປີດອັອບລາຍ"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

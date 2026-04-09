@@ -1,0 +1,98 @@
+{
+	"config": {
+		"vendor-dir": "lib/composer",
+		"optimize-autoloader": true,
+		"sort-packages": true,
+		"platform": {
+			"php": "8.2"
+		},
+		"allow-plugins": {
+			"bamarni/composer-bin-plugin": true
+		}
+	},
+	"autoload": {
+		"exclude-from-classmap": [
+			"**/bamarni/composer-bin-plugin/**"
+		],
+		"files": [
+			"lib/public/Log/functions.php"
+		],
+		"psr-4": {
+			"": "lib/private/legacy",
+			"OC\\": "lib/private",
+			"OC\\Core\\": "core/",
+			"OCP\\": "lib/public",
+			"NCU\\": "lib/unstable"
+		}
+	},
+	"require": {
+		"php": "^8.2",
+		"ext-apcu": "*",
+		"ext-ctype": "*",
+		"ext-curl": "*",
+		"ext-dom": "*",
+		"ext-fileinfo": "*",
+		"ext-gd": "*",
+		"ext-json": "*",
+		"ext-libxml": "*",
+		"ext-mbstring": "*",
+		"ext-openssl": "*",
+		"ext-pdo": "*",
+		"ext-posix": "*",
+		"ext-session": "*",
+		"ext-simplexml": "*",
+		"ext-xml": "*",
+		"ext-xmlreader": "*",
+		"ext-xmlwriter": "*",
+		"ext-zip": "*",
+		"ext-zlib": "*"
+	},
+	"require-dev": {
+		"bamarni/composer-bin-plugin": "^1.4"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all install",
+			"composer dump-autoload --no-dev"
+		],
+		"post-update-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all update --ansi",
+			"composer dump-autoload --no-dev"
+		],
+		"cs:fix": "php-cs-fixer fix",
+		"cs:check": "php-cs-fixer fix --dry-run --diff",
+		"lint": [
+			"@lint-8.2-or-earlier",
+			"@lint-8.3-or-later"
+		],
+		"lint-8.2-or-earlier": "[ $(php -r \"echo PHP_VERSION_ID;\") -ge 80300 ] || find . -type f -name '*.php' -not -path './3rdparty/*' -not -path '*/composer/*' -not -path '*/stubs/*' -not -path '*/vendor-bin/*' -not -path '*/vendor/*' -print0 | xargs -0 -n1 -P$(nproc) php -l",
+		"lint-8.3-or-later": "[ $(php -r \"echo PHP_VERSION_ID;\") -lt 80300 ] || find . -type f -name '*.php' -not -path './3rdparty/*' -not -path '*/composer/*' -not -path '*/stubs/*' -not -path '*/vendor-bin/*' -not -path '*/vendor/*' -print0 | xargs -0 -n200 -P$(nproc) php -l",
+		"psalm": "psalm --no-cache --threads=$(nproc)",
+		"psalm:ocp": "psalm --no-cache --threads=$(nproc) -c psalm-ocp.xml",
+		"psalm:ncu": "psalm --no-cache --threads=$(nproc) -c psalm-ncu.xml",
+		"psalm:strict": "psalm --no-cache --threads=$(nproc) -c psalm-strict.xml",
+		"psalm:security": "psalm --no-cache --threads=$(nproc) --taint-analysis --use-baseline=build/psalm-baseline-security.xml",
+		"psalm:fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType",
+		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
+		"serve": [
+			"Composer\\Config::disableProcessTimeout",
+			"php -f occ config:system:set 'overwrite.cli.url' --type string --value \"http://${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080}\"",
+			"PHP_CLI_SERVER_WORKERS=${NEXTCLOUD_WORKERS:=4} php -S ${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080} -t ./"
+		],
+		"test": [
+			"Composer\\Config::disableProcessTimeout",
+			"phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration tests/phpunit-autotest.xml"
+		],
+		"test:db": "@composer run test -- --group DB --group SLOWDB",
+		"test:files_external": "phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration tests/phpunit-autotest-external.xml",
+		"rector": "rector --config=build/rector.php && composer cs:fix",
+		"rector:strict": "rector --config=build/rector-strict.php && composer cs:fix",
+		"openapi": "./build/openapi-checker.sh"
+	},
+	"extra": {
+		"bamarni-bin": {
+			"bin-links": true,
+			"forward-command": false
+		}
+	}
+}

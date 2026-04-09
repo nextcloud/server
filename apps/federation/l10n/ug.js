@@ -1,0 +1,22 @@
+OC.L10N.register(
+    "federation",
+    {
+    "Added to the list of trusted servers" : "ئىشەنچلىك مۇلازىمېتىرلار تىزىملىكىگە قوشۇلدى",
+    "No server found with ID: %s" : "بۇ ID دىكى بىرەر مۇلازىمېتىر تېپىلمىدى: %s",
+    "Could not remove server" : "مۇلازىمېتىرنى ئۆچۈرگىلى بولمىدى",
+    "Server is already in the list of trusted servers." : "مۇلازىمېتىر ئاللىقاچان ئىشەنچلىك مۇلازىمېتىرلار تىزىملىكىدە.",
+    "No server to federate with found" : "تېپىلغان مۇلازىمېتىر يوق",
+    "Could not add server" : "مۇلازىمېتىرنى قوشالمىدى",
+    "Trusted servers" : "ئىشەنچلىك مۇلازىمېتىرلار",
+    "Federation" : "فېدېراتسىيە",
+    "Federation allows you to connect with other trusted servers to exchange the account directory." : "فېدېراتسىيە ھېسابات مۇندەرىجىسىنى ئالماشتۇرۇش ئۈچۈن باشقا ئىشەنچلىك مۇلازىمېتىرلار بىلەن ئۇلىنالايسىز.",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "فېدېراتسىيە ھېسابات مۇندەرىجىسىنى ئالماشتۇرۇش ئۈچۈن باشقا ئىشەنچلىك مۇلازىمېتىرلار بىلەن ئۇلىنالايسىز. مەسىلەن ، فېدېراتسىيە ئورتاقلىشىش ئۈچۈن تاشقى ھېساباتلارنى ئاپتوماتىك تاماملاشقا ئىشلىتىلىدۇ.",
+    "Add" : "قوش",
+    "Delete" : "ئۆچۈر",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "فېدېراتسىيە ھېسابات مۇندەرىجىسىنى ئالماشتۇرۇش ئۈچۈن باشقا ئىشەنچلىك مۇلازىمېتىرلار بىلەن ئۇلىنالايسىز. مەسىلەن ، فېدېراتسىيە ئورتاقلىشىش ئۈچۈن تاشقى ھېساباتلارنى ئاپتوماتىك تاماملاشقا ئىشلىتىلىدۇ. فېدېراتىپ ئورتاقلىشىش ئۈچۈن مۇلازىمېتىرنى ئىشەنچلىك مۇلازىمېتىر قىلىپ قوشۇشنىڭ ھاجىتى يوق.",
+    "Each server must validate the other. This process may require a few cron cycles." : "ھەر بىر سېرۋېر يەنە بىرىنى دەلىللىشى كېرەك. بۇ جەريان بىر قانچە cron دەۋرىنى تەلەپ قىلىشى مۇمكىن.",
+    "External documentation for Federated Cloud Sharing" : "فېدىراتسىيەلىك بۇلۇت ھەمبەھىرلەشكە ئائىت سىرىتقى قوللانما",
+    "+ Add trusted server" : "+ ئىشەنچلىك مۇلازىمېتىر قوشۇڭ",
+    "Trusted server" : "ئىشەنچلىك مۇلازىمېتىر"
+},
+"nplurals=2; plural=(n != 1);");

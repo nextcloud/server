@@ -1,0 +1,309 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { clearState } from '../../support/commonUtils.ts'
+import { randomString } from '../../support/utils/randomString.ts'
+import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils.ts'
+
+const admin = new User('admin', 'admin')
+
+describe('Settings: Create groups', () => {
+	let groupName: string
+
+	after(() => {
+		cy.runOccCommand(`group:delete '${groupName!}'`)
+	})
+
+	before(() => {
+		cy.login(admin)
+		cy.visit('/settings/users')
+	})
+
+	it('Can create a group', () => {
+		cy.intercept('POST', '**/ocs/v2.php/cloud/groups').as('createGroups')
+
+		groupName = randomString(7)
+		// open the Create group menu
+		cy.get('button[aria-label="Create group"]').click()
+
+		cy.get('li[data-cy-users-settings-new-group-name]').within(() => {
+			// see that the group name is ""
+			cy.get('input').should('exist').and('have.value', '')
+			// set the group name to foo
+			cy.get('input').type(groupName)
+			// see that the group name is foo
+			cy.get('input').should('have.value', groupName)
+			// submit the group name
+			cy.get('input ~ button').click()
+		})
+
+		// Make sure no confirmation modal is shown
+		handlePasswordConfirmation(admin.password)
+		cy.wait('@createGroups').its('response.statusCode').should('eq', 200)
+
+		// see that the created group is in the list
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
+			// see that the list of groups contains the group foo
+			cy.contains(groupName).should('exist')
+		})
+	})
+})
+
+describe('Settings: Assign user to a group', { testIsolation: false }, () => {
+	const groupName = randomString(7)
+	let testUser: User
+
+	after(() => {
+		cy.deleteUser(testUser)
+		cy.runOccCommand(`group:delete '${groupName}'`)
+	})
+
+	before(() => {
+		clearState()
+
+		cy.createRandomUser().then((user) => {
+			testUser = user
+		})
+		cy.runOccCommand(`group:add '${groupName}'`)
+		cy.login(admin)
+		cy.intercept('GET', '**/ocs/v2.php/cloud/groups/details?search=&offset=*&limit=*').as('loadGroups')
+		cy.visit('/settings/users')
+		cy.wait('@loadGroups')
+	})
+
+	it('see that the group is in the list', () => {
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('exist')
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.find('.counter-bubble__counter')
+			.should('not.exist') // is hidden when 0
+	})
+
+	it('see that the user is in the list', () => {
+		getUserListRow(testUser.userId)
+			.contains(testUser.userId)
+			.should('exist')
+			.scrollIntoView()
+	})
+
+	it('switch into user edit mode', () => {
+		toggleEditButton(testUser)
+		getUserListRow(testUser.userId)
+			.find('[data-cy-user-list-input-groups]')
+			.should('exist')
+	})
+
+	it('assign the group', () => {
+		// focus inside the input
+		getUserListRow(testUser.userId)
+			.find('[data-cy-user-list-input-groups] input')
+			.click({ force: true })
+		// enter the group name
+		getUserListRow(testUser.userId)
+			.find('[data-cy-user-list-input-groups] input')
+			.type(`${groupName.slice(0, 5)}`) // only type part as otherwise we would create a new one with the same name
+		cy.contains('li.vs__dropdown-option', groupName)
+			.click({ force: true })
+
+		handlePasswordConfirmation(admin.password)
+	})
+
+	it('leave the user edit mode', () => {
+		toggleEditButton(testUser, false)
+	})
+
+	it('see the group was successfully assigned', () => {
+		// see a new memeber
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.find('.counter-bubble__counter')
+			.should('contain', '1')
+	})
+
+	it('validate the user was added on backend', () => {
+		cy.runOccCommand(`user:info --output=json '${testUser.userId}'`).then((output) => {
+			cy.wrap(output.exitCode).should('eq', 0)
+			cy.wrap(JSON.parse(output.stdout)?.groups).should('include', groupName)
+		})
+	})
+})
+
+describe('Settings: Delete an empty group', { testIsolation: false }, () => {
+	const groupName = randomString(7)
+
+	after(() => {
+		cy.runOccCommand(`group:delete '${groupName}'`, { failOnNonZeroExit: false })
+	})
+	before(() => {
+		cy.runOccCommand(`group:add '${groupName}'`)
+		cy.login(admin)
+		cy.intercept('GET', '**/ocs/v2.php/cloud/groups/details?search=&offset=*&limit=*').as('loadGroups')
+		cy.visit('/settings/users')
+		cy.wait('@loadGroups')
+	})
+
+	it('see that the group is in the list', () => {
+		// see that the list of groups contains the group foo
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('exist')
+			.scrollIntoView()
+		// open the actions menu for the group
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.find('button.action-item__menutoggle')
+			.click({ force: true })
+	})
+
+	it('can delete the group', () => {
+		// The "Delete group" action in the actions menu is shown and clicked
+		cy.get('.action-item__popper button').contains('Delete group').should('exist').click({ force: true })
+		// And confirmation dialog accepted
+		cy.get('.modal-container button').contains('Confirm').click({ force: true })
+
+		// Make sure no confirmation modal is shown
+		handlePasswordConfirmation(admin.password)
+	})
+
+	it('deleted group is not shown anymore', () => {
+		// see that the list of groups does not contain the group
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]')
+			.find('li')
+			.should('not.exist')
+		// and also not in database
+		cy.runOccCommand('group:list --output=json').then(($response) => {
+			const groups: string[] = Object.keys(JSON.parse($response.stdout))
+			expect(groups).to.not.include(groupName)
+		})
+	})
+})
+
+describe('Settings: Delete a non empty group', () => {
+	let testUser: User
+	const groupName = randomString(7)
+
+	after(() => {
+		cy.runOccCommand(`group:delete '${groupName}'`, { failOnNonZeroExit: false })
+	})
+
+	before(() => {
+		cy.runOccCommand(`group:add '${groupName}'`)
+		cy.createRandomUser().then(($user) => {
+			testUser = $user
+			cy.runOccCommand(`group:addUser '${groupName}' '${$user.userId}'`)
+		})
+		cy.login(admin)
+		cy.intercept('GET', '**/ocs/v2.php/cloud/groups/details?search=&offset=*&limit=*').as('loadGroups')
+		cy.visit('/settings/users')
+		cy.wait('@loadGroups')
+	})
+	after(() => cy.deleteUser(testUser))
+
+	it('see that the group is in the list', () => {
+		// see that the list of groups contains the group
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('exist')
+			.scrollIntoView()
+	})
+
+	it('can delete the group', () => {
+		// open the menu
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.find('button.action-item__menutoggle')
+			.click({ force: true })
+
+		// The "Delete group" action in the actions menu is shown and clicked
+		cy.get('.action-item__popper button').contains('Delete group').should('exist').click({ force: true })
+		// And confirmation dialog accepted
+		cy.get('.modal-container button').contains('Confirm').click({ force: true })
+
+		// Make sure no confirmation modal is shown
+		handlePasswordConfirmation(admin.password)
+	})
+
+	it('deleted group is not shown anymore', () => {
+		// see that the list of groups does not contain the group foo
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]')
+			.find('li')
+			.should('not.exist')
+		// and also not in database
+		cy.runOccCommand('group:list --output=json').then(($response) => {
+			const groups: string[] = Object.keys(JSON.parse($response.stdout))
+			expect(groups).to.not.include(groupName)
+		})
+	})
+})
+
+describe('Settings: Sort groups in the UI', () => {
+	before(() => {
+		// Clear state
+		clearState()
+
+		// Add two groups and add one user to group B
+		cy.runOccCommand('group:add A')
+		cy.runOccCommand('group:add B')
+		cy.createRandomUser().then((user) => {
+			cy.runOccCommand(`group:adduser B '${user.userId}'`)
+		})
+
+		// Visit the settings as admin
+		cy.login(admin)
+		cy.visit('/settings/users')
+	})
+
+	it('Can set sort by member count', () => {
+		// open the settings dialog
+		cy.contains('button', 'Account management settings').click()
+
+		cy.contains('.modal-container', 'Account management settings').within(() => {
+			cy.get('[data-test="sortGroupsByMemberCount"] input[type="radio"]').scrollIntoView()
+			cy.get('[data-test="sortGroupsByMemberCount"] input[type="radio"]').check({ force: true })
+			// close the settings dialog
+			cy.get('button.modal-container__close').click()
+		})
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
+	})
+
+	it('See that the groups are sorted by the member count', () => {
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
+			cy.get('li').eq(0).should('contain', 'B') // 1 member
+			cy.get('li').eq(1).should('contain', 'A') // 0 members
+		})
+	})
+
+	it('See that the order is preserved after a reload', () => {
+		cy.reload()
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
+			cy.get('li').eq(0).should('contain', 'B') // 1 member
+			cy.get('li').eq(1).should('contain', 'A') // 0 members
+		})
+	})
+
+	it('Can set sort by group name', () => {
+		// open the settings dialog
+		cy.contains('button', 'Account management settings').click()
+
+		cy.contains('.modal-container', 'Account management settings').within(() => {
+			cy.get('[data-test="sortGroupsByName"] input[type="radio"]').scrollIntoView()
+			cy.get('[data-test="sortGroupsByName"] input[type="radio"]').check({ force: true })
+			// close the settings dialog
+			cy.get('button.modal-container__close').click()
+		})
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
+	})
+
+	it('See that the groups are sorted by the user count', () => {
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
+			cy.get('li').eq(0).should('contain', 'A')
+			cy.get('li').eq(1).should('contain', 'B')
+		})
+	})
+
+	it('See that the order is preserved after a reload', () => {
+		cy.reload()
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
+			cy.get('li').eq(0).should('contain', 'A')
+			cy.get('li').eq(1).should('contain', 'B')
+		})
+	})
+})

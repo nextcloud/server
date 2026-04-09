@@ -1,0 +1,138 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: PHPUnit files_external SMB
+on:
+  pull_request:
+  schedule:
+    - cron: "5 2 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: files-external-smb-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - 'composer.json'
+              - 'composer.lock'
+              - 'apps/files/lib/**'
+              - 'apps/files/tests/**'
+              - 'apps/files_external/**'
+              - 'apps/files_sharing/lib/**'
+              - 'apps/files_sharing/tests/**'
+              - 'apps/files_trashbin/lib/**'
+              - 'apps/files_trashbin/tests/**'
+              - 'apps/files_versions/lib/**'
+              - 'apps/files_versions/tests/**'
+              - 'lib/private/Files/**'
+              - 'lib/public/Files/**'
+              - 'tests/lib/Files/**'
+
+  files-external-smb:
+    runs-on: ubuntu-latest
+    needs: changes
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php-versions: '8.2'
+            coverage: ${{ github.event_name != 'pull_request' }}
+
+    name: php${{ matrix.php-versions }}-smb
+
+    services:
+      samba:
+        image: ghcr.io/servercontainers/samba:smbd-only-a3.18.0-s4.18.2-r0
+        env:
+          ACCOUNT_test: test
+          UID_test: 1000
+          SAMBA_VOLUME_CONFIG_test: "[public]; path=/tmp; valid users = test; guest ok = no; read only = no; browseable = yes"
+        options: >-
+          --health-cmd=true
+        ports:
+          - 445:445
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f #v2.37.0
+        timeout-minutes: 5
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, smbclient, sqlite, pdo_sqlite
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up smbclient
+        # This is needed as icewind/smb php library for notify
+        run: sudo apt-get install -y smbclient
+
+      - name: Set up Nextcloud
+        run: |
+          composer install
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ config:system:set --value true --type boolean allow_local_remote_servers
+          ./occ app:enable --force files_external
+          echo "<?php return ['run'=>true, 'host'=>'localhost', 'user'=>'test', 'password'=>'test', 'root'=>'', 'share'=>'public'];" > apps/files_external/tests/config.smb.php
+
+      - name: Wait for smb
+        run: |
+          apps/files_external/tests/env/wait-for-connection 127.0.0.1 445 60
+
+      - name: PHPUnit
+        run: composer run test:files_external -- \
+          apps/files_external/tests/Storage/SmbTest.php \
+          --log-junit junit.xml \
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
+
+      - name: Upload code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
+        with:
+          files: ./clover.xml
+          flags: phpunit-files-external-smb
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
+          flags: phpunit-files-external-smb
+
+  files-external-smb-summary:
+    runs-on: ubuntu-latest-low
+    needs: [changes, files-external-smb]
+
+    if: always()
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.files-external-smb.result != 'success' }}; then exit 1; fi
