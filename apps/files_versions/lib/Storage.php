@@ -83,7 +83,7 @@ class Storage {
 	 * the owner's files folder.
 	 *
 	 * @param string $filename Path relative to the current filesystem view
-	 * @return array{0:string,1:string|null} Tuple of owner UID and owner-relative file path
+	 * @return array{0:string,1:string|null} Tuple of owner UID and owner-relative file path (null if missing/not found)
 	 * @throws NoUserException
 	 */
 	public static function getUidAndFilename(string $filename): array {
@@ -91,7 +91,7 @@ class Storage {
 		$userManager = Server::get(IUserManager::class);
 		// We need a valid local user to create the versions.
 		// If the resolved owner does not exist locally (for example for a federated
-	 	// remote user), the currently logged-in local user is used instead.
+		// remote user), the currently logged-in local user is used instead.
 		if (!$userManager->userExists($uid)) {
 			$uid = OC_User::getUser();
 		}
@@ -128,8 +128,8 @@ class Storage {
 	 * is removed before returning.
 	 *
 	 * @param string $source Source path relative to the current filesystem view
-	 * @return array{0:string|false,1:string|false} Tuple of owner UID and owner-relative path,
-	 *                                              or [false, false] if no mapping exists
+	 * @return array{0:string|false,1:string|null|false} Tuple of owner UID and owner-relative path,
+	 *                                                   or [false, false] if no mapping exists
 	 */
 	public static function getSourcePathAndUser(string $source): array {
 		if (isset(self::$sourcePathAndUser[$source])) {
@@ -480,7 +480,7 @@ class Storage {
 	 * Get a list of all available versions of a file in descending chronological order.
 	 *
 	 * @param string $uid User ID of the owner of the file
-	 * @param ?string $filename File to find versions of, relative to the user's files dir
+	 * @param string|null $filename File to find versions of, relative to the user's files dir
 	 * @param string $userFullPath Full user-visible path used for preview URL generation
 	 * @return array<string, array{
 	 *     version:string,
