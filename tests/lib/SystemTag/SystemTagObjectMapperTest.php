@@ -8,6 +8,7 @@
 
 namespace Test\SystemTag;
 
+use OC\SystemTag\Events\SingleTagAssignedEvent;
 use OC\SystemTag\SystemTag;
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
@@ -18,7 +19,6 @@ use OCP\Server;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
-use OCP\SystemTag\TagAssignedEvent;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\TagUnassignedEvent;
 use Test\TestCase;
@@ -234,20 +234,18 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->tagMapper->assignTags('1', 'testtype', [$this->tag1->getId()]);
 
 		$this->assertNotNull($event);
-		$this->assertEquals(TagAssignedEvent::class, $event::class);
+		$this->assertEquals(SingleTagAssignedEvent::class, $event::class);
 		$this->assertEquals('testtype', $event->getObjectType());
-		$this->assertCount(1, $event->getObjectIds());
-		$this->assertEquals('1', current($event->getObjectIds()));
+		$this->assertEquals('1', $event->getObjectId());
 		$this->assertCount(1, $event->getTags());
 		$this->assertEquals($this->tag1->getId(), current($event->getTags()));
 
 		$this->tagMapper->assignTags('1', 'testtype', $this->tag3->getId());
 
 		$this->assertNotNull($event);
-		$this->assertEquals(TagAssignedEvent::class, $event::class);
+		$this->assertEquals(SingleTagAssignedEvent::class, $event::class);
 		$this->assertEquals('testtype', $event->getObjectType());
-		$this->assertCount(1, $event->getObjectIds());
-		$this->assertEquals('1', current($event->getObjectIds()));
+		$this->assertEquals('1', $event->getObjectId());
 		$this->assertCount(1, $event->getTags());
 		$this->assertEquals($this->tag3->getId(), current($event->getTags()));
 
