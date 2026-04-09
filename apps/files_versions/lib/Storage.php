@@ -230,8 +230,9 @@ class Storage {
 	}
 
 	/**
-	 * mark file as deleted so that we can remove the versions if the file is gone
-	 * @param string $path
+	 * Mark a file as deleted so its versions can be removed after deletion succeeds.
+	 *
+	 * @param string $path Path relative to the current filesystem view
 	 */
 	public static function markDeletedFile(string $path): void {
 		[$uid, $filename] = self::getUidAndFilename($path);
