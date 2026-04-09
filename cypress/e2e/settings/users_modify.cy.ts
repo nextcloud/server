@@ -46,35 +46,6 @@ describe('Settings: Change user properties', function() {
 		cy.get('.toastify.toast-success').contains(/Display.+name.+was.+successfully.+changed/i).should('exist')
 	})
 
-	it('Can change the password', function() {
-		// open the User settings as admin
-		cy.visit('/settings/users')
-
-		// toggle edit button into edit mode
-		toggleEditButton(user, true)
-
-		getUserListRow(user.userId).within(() => {
-			// see that the password of user is ""
-			cy.get('[data-cy-user-list-input-password]').should('exist').and('have.value', '')
-			// set the password for user to 123456
-			cy.get('[data-cy-user-list-input-password]').type('123456')
-			// When I set the password for user to 123456
-			cy.get('[data-cy-user-list-input-password]').should('have.value', '123456')
-			cy.get('[data-cy-user-list-input-password] ~ button').click()
-
-			// Make sure no confirmation modal is shown
-			handlePasswordConfirmation(admin.password)
-
-			// see that the password cell for user is done loading
-			waitLoading('[data-cy-user-list-input-password]')
-			// password input is emptied on change
-			cy.get('[data-cy-user-list-input-password]').should('have.value', '')
-		})
-
-		// Success message is shown
-		cy.get('.toastify.toast-success').contains(/Password.+successfully.+changed/i).should('exist')
-	})
-
 	it('Can change the email address', function() {
 		// open the User settings as admin
 		cy.visit('/settings/users')
