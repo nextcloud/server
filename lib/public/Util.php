@@ -168,16 +168,27 @@ class Util {
 		// Flatten array and remove duplicates
 		$sortedScripts = array_merge([self::$scriptsInit], $sortedScripts);
 		$sortedScripts = array_merge(...array_values($sortedScripts));
+		$sortedScripts = array_unique($sortedScripts);
 
-		// Override core-common and core-main order
-		if (in_array('core/js/main', $sortedScripts)) {
-			array_unshift($sortedScripts, 'core/js/main');
-		}
-		if (in_array('core/js/common', $sortedScripts)) {
-			array_unshift($sortedScripts, 'core/js/common');
-		}
+		usort($sortedScripts, fn (string $a, string $b) => self::scriptOrderValue($b) <=> self::scriptOrderValue($a));
+		return $sortedScripts;
+	}
 
-		return array_unique($sortedScripts);
+	/**
+	 * Gets a numeric value based on the script name.
+	 * This is used to ensure that the global state is initialized before all other scripts.
+	 *
+	 * @param string $name - The script name
+	 * @since 34.0.0
+	 */
+	private static function scriptOrderValue(string $name): int {
+		return match($name) {
+			'core/js/common' => 3,
+			'core/js/main' => 2,
+			default => str_starts_with($name, 'core/l10n/')
+				? 1 // core translations have to be loaded directly after core-main
+				: 0, // other scripts should preserve their current order
+		};
 	}
 
 	/**
