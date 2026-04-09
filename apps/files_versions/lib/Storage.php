@@ -151,9 +151,18 @@ class Storage {
 	}
 
 	/**
-	 * store a new version of a file.
+	 * Store a new version of a file.
+	 *
+	 * Returns false when the file should not or cannot be versioned, for example
+	 * when the file does not exist, is a directory, belongs to an unknown user,
+	 * is empty, or version creation is vetoed by an event listener.
+	 *
+	 * On success this method currently returns null.
+	 *
+	 * @param string $filename Path relative to the current filesystem view
+	 * @return false|null False if no version was created; null on successful creation
 	 */
-	public static function store(string $filename) {
+	public static function store(string $filename): ?bool {
 		// if the file gets streamed we need to remove the .part extension
 		// to get the right target
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -279,15 +288,16 @@ class Storage {
 	}
 
 	/**
-	 * Rename or copy versions of a file of the given paths
+	 * Rename or copy versions of a file or directory between source and target paths.
 	 *
-	 * @param string $sourcePath source path of the file to move, relative to
-	 *                           the currently logged in user's "files" folder
-	 * @param string $targetPath target path of the file to move, relative to
-	 *                           the currently logged in user's "files" folder
-	 * @param string $operation can be 'copy' or 'rename'
+	 * On all other paths this method currently returns null.
+	 *
+	 * @param string $sourcePath Source path relative to the currently logged-in user's files folder
+	 * @param string $targetPath Target path relative to the currently logged-in user's files folder
+	 * @param string $operation Operation to invoke on the root view ('copy' or 'rename')
+	 * @return true|null True when nothing needed to be moved because no old source mapping exists; null otherwise
 	 */
-	public static function renameOrCopy(string $sourcePath, string $targetPath, string $operation) {
+	public static function renameOrCopy(string $sourcePath, string $targetPath, string $operation): ?bool {
 		[$sourceOwner, $sourcePath] = self::getSourcePathAndUser($sourcePath);
 
 		// it was a upload of a existing file if no old path exists
@@ -831,14 +841,14 @@ class Storage {
 	/**
 	 * Expire versions which exceed the quota.
 	 *
-	 * This will setup the filesystem for the given user but will not
-	 * tear it down afterwards.
+	 * This will setup the filesystem for the given user but will not tear it down afterwards.
 	 *
-	 * @param string $filename path to file to expire
-	 * @param string $uid user for which to expire the version
-	 * @return bool|int|null
+	 * @param string $filename Path to file to expire
+	 * @param string $uid User for which to expire versions
+	 * @return int|false Size of version history after expiration or false if expiration disabled, file missing, or nothing actionable
+	 * @throws NoUserException If no local user object can be resolved for the UID
 	 */
-	public static function expire(string $filename, string $uid) {
+	public static function expire(string $filename, string $uid): int|false {
 		$expiration = self::getExpiration();
 
 		/** @var LoggerInterface $logger */
