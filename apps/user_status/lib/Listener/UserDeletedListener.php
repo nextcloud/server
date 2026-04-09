@@ -43,5 +43,6 @@ class UserDeletedListener implements IEventListener {
 
 		$user = $event->getUser();
 		$this->service->removeUserStatus($user->getUID());
+		$this->service->removeBackupUserStatus($user->getUID());
 	}
 }
