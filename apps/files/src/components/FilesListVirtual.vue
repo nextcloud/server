@@ -957,7 +957,7 @@ export default defineComponent({
 
 	align-content: center;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: start;
 	justify-items: center;
 
 	tr {
