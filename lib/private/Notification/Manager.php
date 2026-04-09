@@ -91,22 +91,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param \Closure $service The service must implement INotifier, otherwise a
-	 *                          \InvalidArgumentException is thrown later
-	 * @param \Closure $info An array with the keys 'id' and 'name' containing
-	 *                       the app id and the app name
-	 * @deprecated 17.0.0 use registerNotifierService instead.
-	 * @since 8.2.0 - Parameter $info was added in 9.0.0
-	 */
-	public function registerNotifier(\Closure $service, \Closure $info): void {
-		$infoData = $info();
-		$exception = new \InvalidArgumentException(
-			'Notifier ' . $infoData['name'] . ' (id: ' . $infoData['id'] . ') is not considered because it is using the old way to register.'
-		);
-		$this->logger->error($exception->getMessage(), ['exception' => $exception]);
-	}
-
-	/**
 	 * @param string $notifierService The service must implement INotifier, otherwise a
 	 *                                \InvalidArgumentException is thrown later
 	 * @since 17.0.0
