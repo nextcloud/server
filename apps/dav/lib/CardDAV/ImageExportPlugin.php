@@ -79,11 +79,10 @@ class ImageExportPlugin extends ServerPlugin {
 		/** @var AddressBook $addressbook */
 		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
-		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
-		$response->setHeader('Etag', $node->getETag());
-
 		try {
 			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
+			$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
+			$response->setHeader('Etag', $node->getETag());
 			$response->setHeader('Content-Type', $file->getMimeType());
 			$fileName = $node->getName() . '.' . PhotoCache::ALLOWED_CONTENT_TYPES[$file->getMimeType()];
 			$response->setHeader('Content-Disposition', "attachment; filename=$fileName");
@@ -91,6 +90,7 @@ class ImageExportPlugin extends ServerPlugin {
 
 			$response->setBody($file->getContent());
 		} catch (NotFoundException $e) {
+			$response->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 			$response->setStatus(Http::STATUS_NO_CONTENT);
 		}
 
