@@ -76,7 +76,6 @@ import type { PropType } from 'vue'
 
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
-import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { logger } from '../utils/logger.ts'
 
 interface RecycledPoolItem {
@@ -131,11 +130,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { width: fileListWidth } = useFileListWidth()
-
-		return {
-			fileListWidth,
-		}
+		return {}
 	},
 
 	data() {
@@ -145,6 +140,7 @@ export default defineComponent({
 			footerHeight: 0,
 			headerHeight: 0,
 			tableHeight: 0,
+			listWidth: 0,
 			resizeObserver: null as ResizeObserver | null,
 		}
 	},
@@ -197,10 +193,10 @@ export default defineComponent({
 		 * 1 for list view otherwise depending on the file list width.
 		 */
 		columnCount(): number {
-			if (!this.gridMode) {
+			if (!this.gridMode || this.listWidth === 0) {
 				return 1
 			}
-			return Math.floor(this.fileListWidth / this.itemWidth)
+			return Math.floor(this.listWidth / this.itemWidth)
 		},
 
 		/**
@@ -269,10 +265,16 @@ export default defineComponent({
 			// The number of (virtual) rows below the currently rendered ones.
 			const rowsBelow = Math.max(0, this.totalRowCount - rowsAbove - this.rowCount)
 
-			return {
+			const style: Record<string, string> = {
 				paddingBlock: `${rowsAbove * this.itemHeight}px ${rowsBelow * this.itemHeight}px`,
 				minHeight: `${this.totalRowCount * this.itemHeight}px`,
 			}
+
+			if (this.gridMode) {
+				style.gridTemplateColumns = `repeat(${this.columnCount}, var(--row-width))`
+			}
+
+			return style
 		},
 	},
 
@@ -430,11 +432,12 @@ export default defineComponent({
 		},
 
 		/**
-		 * Update the height variables.
+		 * Update the height and width variables.
 		 * To be called by resize observer and `onMount`
 		 */
 		updateHeightVariables(): void {
 			this.tableHeight = this.$el?.clientHeight ?? 0
+			this.listWidth = this.$el?.clientWidth ?? 0
 			this.beforeHeight = (this.$refs.before as HTMLElement)?.clientHeight ?? 0
 			this.footerHeight = (this.$refs.footer as HTMLElement)?.clientHeight ?? 0
 
