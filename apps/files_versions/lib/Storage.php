@@ -166,7 +166,7 @@ class Storage {
 	 * @param string $filename Path relative to the current filesystem view
 	 * @return false|null False if no version was created; null on successful creation
 	 */
-	public static function store(string $filename): ?bool {
+	public static function store(string $filename): false|null {
 		// if the file gets streamed we need to remove the .part extension
 		// to get the right target
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -301,7 +301,7 @@ class Storage {
 	 * @param string $operation Operation to invoke on the root view ('copy' or 'rename')
 	 * @return true|null True when nothing needed to be moved because no old source mapping exists; null otherwise
 	 */
-	public static function renameOrCopy(string $sourcePath, string $targetPath, string $operation): ?bool {
+	public static function renameOrCopy(string $sourcePath, string $targetPath, string $operation): true|null {
 		[$sourceOwner, $sourcePath] = self::getSourcePathAndUser($sourcePath);
 
 		// it was a upload of a existing file if no old path exists
@@ -480,7 +480,7 @@ class Storage {
 	 * Get a list of all available versions of a file in descending chronological order.
 	 *
 	 * @param string $uid User ID of the owner of the file
-	 * @param string $filename File to find versions of, relative to the user's files dir
+	 * @param ?string $filename File to find versions of, relative to the user's files dir
 	 * @param string $userFullPath Full user-visible path used for preview URL generation
 	 * @return array<string, array{
 	 *     version:string,
@@ -492,7 +492,7 @@ class Storage {
 	 *     mimetype:string
 	 * }>
 	 */
-	public static function getVersions(string $uid, string $filename, string $userFullPath = ''): array {
+	public static function getVersions(string $uid, ?string $filename, string $userFullPath = ''): array {
 		$versions = [];
 		if (empty($filename)) {
 			return $versions;
@@ -866,7 +866,7 @@ class Storage {
 	 *
 	 * @param string $filename The path of the file to process.
 	 * @param string $uid The ID of the user.
-	 * @return int|false The history size after expiration, or false if expiration is disabled, 
+	 * @return int|false The history size after expiration, or false if expiration is disabled,
 	 *                   the file is missing, or no action was taken.
 	 *
 	 * @throws NoUserException If the user ID cannot be resolved to a local user.
