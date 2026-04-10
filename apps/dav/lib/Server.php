@@ -17,7 +17,7 @@ use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
-use OCA\DAV\CalDAV\CalDAV\Schedule\IMipService;
+use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
