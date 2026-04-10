@@ -178,7 +178,8 @@ class Revoke extends Base {
 	 *    a short TTL (TOKEN_CACHE_TTL = 10s) and will self-heal quickly.
 	 *  - Dispatching events per-token would require loading every row first,
 	 *    negating the performance benefit of the bulk path.
-	 *  - We already do this (presumably acceptably) elsewhere.
+	 *  - Bulk token invalidation already follows this pattern elsewhere in 
+	 *    the codebase.
 	 *
 	 * @return int|null Number of deleted rows, or null if the caller should
 	 *                  fall back to per-user iteration.
