@@ -62,6 +62,19 @@ class PublicKeyTokenMapper extends QBMapper {
 	}
 
 	/**
+	 * Delete all tokens of a given type.
+	 *
+	 * @return int Number of deleted rows
+	 */
+	public function invalidateByType(int $type): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		return $qb->executeStatement();
+	}
+
+	/**
 	 * Delete all tokens of a given type and remember value.
 	 *
 	 * @return int Number of deleted rows
