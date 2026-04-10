@@ -164,8 +164,14 @@ class Notifier implements INotifier {
 					throw new AlreadyProcessedException();
 				}
 
+				// Honor nested-group membership so a user in a sub-group of the
+				// recipient group still receives the pending-share notification.
 				$group = $this->groupManager->get($share->getSharedWith());
-				if ($group === null || !$group->inGroup($user)) {
+				if ($group === null || !in_array(
+					$share->getSharedWith(),
+					$this->groupManager->getUserEffectiveGroupIds($user),
+					true,
+				)) {
 					throw new AlreadyProcessedException();
 				}
 

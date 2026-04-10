@@ -30,6 +30,11 @@ Two separate APIs exist on `IGroupManager`:
 | `getUserGroupIds($user)`            | direct memberships only (unchanged)         |
 | `getUserEffectiveGroupIds($user)`   | direct + all ancestors via nesting edges    |
 
+Call sites that should honor nesting have been migrated to
+`getUserEffectiveGroupIds()` explicitly (Share20, AppManager, 2FA,
+AuthorizedGroupMapper, SystemTagManager, ShareDisableChecker). Other
+call sites keep the direct semantics and must be reviewed individually.
+
 A second table `group_group_admin(admin_gid, gid)` stores group-level
 sub-admin delegation: every effective member of `admin_gid` is treated
 as a sub-admin of `gid` and of all of its subgroups.
@@ -72,6 +77,28 @@ the `MAX_SYNTHESIZED_USER_EVENTS` cap. This is not addressed
 automatically; the admin must run a manual re-key pass after bulk
 nesting changes on encrypted instances. A prominent warning in
 `nextcloud.log` indicates when this is required.
+
+### Two-factor enforcement
+
+`Authentication\TwoFactorAuth\MandatoryTwoFactor` now expands the
+**enforced groups** list along nested-group edges, so a user in any
+subgroup of an enforced group is covered. This is strictly more
+secure.
+
+The **excluded groups** list is deliberately *not* expanded. If it
+were, nesting a group under an excluded one would silently exempt an
+arbitrary population from 2FA, a one-way security weakening via
+hierarchy changes. Admins who want subgroups exempt must mark each
+subgroup on the excluded list explicitly.
+
+### `shareWithGroupMembersOnly`
+
+The restriction now permits sharing whenever the sharer and sharee are
+effective members of the same group, not only direct members. This is
+the intended behaviour of the feature but represents a policy change
+from previous releases. Admins relying on direct-only membership as a
+sharing perimeter should review their group hierarchy before enabling
+nesting.
 
 ### Deleting a middle group
 

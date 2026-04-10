@@ -504,7 +504,7 @@ class AppManagerTest extends TestCase {
 	public function testIsEnabledForUserEnabledForGroup(): void {
 		$user = $this->newUser('user1');
 		$this->groupManager->expects($this->once())
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->with($user)
 			->willReturn(['foo', 'bar']);
 
@@ -515,7 +515,7 @@ class AppManagerTest extends TestCase {
 	public function testIsEnabledForUserDisabledForGroup(): void {
 		$user = $this->newUser('user1');
 		$this->groupManager->expects($this->once())
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->with($user)
 			->willReturn(['bar']);
 
@@ -535,7 +535,7 @@ class AppManagerTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 		$this->groupManager->expects($this->once())
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->with($user)
 			->willReturn(['foo', 'bar']);
 
@@ -570,7 +570,7 @@ class AppManagerTest extends TestCase {
 	public function testGetAppsForUser(): void {
 		$user = $this->newUser('user1');
 		$this->groupManager->expects($this->any())
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->with($user)
 			->willReturn(['foo', 'bar']);
 

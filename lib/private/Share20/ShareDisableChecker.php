@@ -48,7 +48,7 @@ class ShareDisableChecker {
 			if (!$user) {
 				return false;
 			}
-			$usersGroups = $this->groupManager->getUserGroupIds($user);
+			$usersGroups = $this->groupManager->getUserEffectiveGroupIds($user);
 			if ($excludeGroups !== 'allow') {
 				if (!empty($usersGroups)) {
 					$remainingGroups = array_diff($usersGroups, $excludedGroups);

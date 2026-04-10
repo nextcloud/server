@@ -386,7 +386,9 @@ class AppManager implements IAppManager {
 				return false;
 			}
 
-			$userGroups = $this->groupManager->getUserGroupIds($user);
+			// Apps restricted to groups should also be enabled for members of
+			// sub-groups reached via nested-group edges.
+			$userGroups = $this->groupManager->getUserEffectiveGroupIds($user);
 			foreach ($userGroups as $groupId) {
 				if (in_array($groupId, $groupIds, true)) {
 					return true;

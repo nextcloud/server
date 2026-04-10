@@ -165,13 +165,20 @@ class GroupsController extends AUserDataOCSController {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($user->getUID());
 		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup || $isMember) {
-			$users = $this->groupManager->get($groupId)->getUsers();
-			$users = array_map(function ($user) {
-				/** @var IUser $user */
-				return $user->getUID();
-			}, $users);
+			// Honor nested-group edges: return the union of direct members
+			// and every descendant group's direct members.
+			$users = [];
+			foreach ($this->groupManager->getGroupEffectiveDescendantIds($group) as $gid) {
+				$descendant = $this->groupManager->get($gid);
+				if ($descendant === null) {
+					continue;
+				}
+				foreach ($descendant->getUsers() as $member) {
+					$users[$member->getUID()] = true;
+				}
+			}
 			/** @var list<string> $users */
-			$users = array_values($users);
+			$users = array_values(array_keys($users));
 			return new DataResponse(['users' => $users]);
 		}
 
@@ -208,7 +215,31 @@ class GroupsController extends AUserDataOCSController {
 		$isAdmin = $this->groupManager->isAdmin($currentUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentUser->getUID());
 		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup) {
-			$users = $group->searchUsers($search, $limit, $offset);
+			// Honor nested-group edges: the effective user set of a parent
+			// group is the union of its own direct members and the members
+			// of every descendant group.
+			$users = [];
+			$seen = [];
+			foreach ($this->groupManager->getGroupEffectiveDescendantIds($group) as $gid) {
+				$descendant = $this->groupManager->get($gid);
+				if ($descendant === null) {
+					continue;
+				}
+				foreach ($descendant->searchUsers($search) as $user) {
+					$uid = $user->getUID();
+					if (isset($seen[$uid])) {
+						continue;
+					}
+					$seen[$uid] = true;
+					$users[] = $user;
+				}
+			}
+			if ($offset > 0) {
+				$users = array_slice($users, $offset);
+			}
+			if ($limit !== null && $limit >= 0) {
+				$users = array_slice($users, 0, $limit);
+			}
 
 			// Extract required number
 			$usersDetails = [];

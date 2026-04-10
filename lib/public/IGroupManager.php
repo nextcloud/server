@@ -121,7 +121,7 @@ interface IGroupManager {
 	 * @return bool true if the edge was inserted, false if it already existed
 	 * @throws \OCP\Group\Exception\CycleDetectedException if the edge would create a cycle
 	 * @throws \OCP\Group\Exception\NestedGroupsNotSupportedException if no
-	 *   nested-group-capable backend is registered
+	 *                                                                nested-group-capable backend is registered
 	 * @since 34.0.0
 	 */
 	public function addSubGroup(IGroup $parent, IGroup $child): bool;
