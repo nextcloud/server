@@ -30,8 +30,10 @@ class UserHomeSetupListener implements IEventListener {
 	) {
 	}
 
-	public function setDisabled(bool $disabled): void {
+	public function setDisabled(bool $disabled): bool {
+		$previous = $this->disabled;
 		$this->disabled = $disabled;
+		return $previous;
 	}
 	public function handle(Event $event): void {
 		if (!$event instanceof UserHomeSetupEvent) {

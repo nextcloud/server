@@ -61,7 +61,7 @@ class SharesUpdatedListener implements IEventListener {
 
 	public function handle(Event $event): void {
 		// don't trigger the on-setup checks if this handler triggers an fs setup
-		$this->homeSetupListener->setDisabled(true);
+		$oldState = $this->homeSetupListener->setDisabled(true);
 
 		if ($event instanceof UserShareAccessUpdatedEvent) {
 			foreach ($event->getUsers() as $user) {
@@ -111,7 +111,7 @@ class SharesUpdatedListener implements IEventListener {
 			}
 		}
 
-		$this->homeSetupListener->setDisabled(false);
+		$this->homeSetupListener->setDisabled($oldState);
 	}
 
 	private function markOrRun(IUser $user, callable $callback): void {
