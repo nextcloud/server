@@ -279,7 +279,7 @@ class Node implements INode {
 
 			// Manually fetch the parent if the current node doesn't have a file info yet
 			try {
-				$fileInfo = $this->getFileInfo();
+				$fileInfo = $this->getFileInfo(false);
 			} catch (NotFoundException) {
 				$this->parent = $this->root->get($newPath);
 				/** @var \OCP\Files\Folder $this->parent */
