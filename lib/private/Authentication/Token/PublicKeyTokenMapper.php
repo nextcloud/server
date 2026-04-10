@@ -62,6 +62,45 @@ class PublicKeyTokenMapper extends QBMapper {
 	}
 
 	/**
+	 * Delete all tokens of a given type and remember value.
+	 *
+	 * @return int Number of deleted rows
+	 */
+	public function invalidateByTypeAndRemember(int $type, int $remember): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		return $qb->executeStatement();
+	}
+
+	/**
+	 * Delete all tokens except those of a given type.
+	 *
+	 * @return int Number of deleted rows
+	 */
+	public function invalidateAllExceptType(int $exceptType): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->neq('type', $qb->createNamedParameter($exceptType, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		return $qb->executeStatement();
+	}
+
+	/**
+	 * Delete all tokens.
+	 *
+	 * @return int Number of deleted rows
+	 */
+	public function invalidateAllTokens(): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		return $qb->executeStatement();
+	}
+
+	/**
 	 * Get the user UID for the given token
 	 *
 	 * @throws DoesNotExistException
