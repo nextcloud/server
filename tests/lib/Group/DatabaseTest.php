@@ -57,4 +57,59 @@ class DatabaseTest extends Backend {
 		$group = $this->backend->getGroupDetails($gidCreated);
 		$this->assertEquals(['displayName' => $groupName], $group);
 	}
+
+	public function testNestedGroupCrud(): void {
+		$parent = $this->getGroupName();
+		$child = $this->getGroupName();
+		$this->backend->createGroup($parent);
+		$this->backend->createGroup($child);
+
+		$this->assertTrue($this->backend->addGroupToGroup($child, $parent));
+		$this->assertFalse($this->backend->addGroupToGroup($child, $parent), 'idempotent');
+		$this->assertTrue($this->backend->groupInGroup($child, $parent));
+		$this->assertSame([$child], $this->backend->getChildGroups($parent));
+		$this->assertSame([$parent], $this->backend->getParentGroups($child));
+
+		$this->assertTrue($this->backend->removeGroupFromGroup($child, $parent));
+		$this->assertFalse($this->backend->removeGroupFromGroup($child, $parent));
+		$this->assertFalse($this->backend->groupInGroup($child, $parent));
+		$this->assertSame([], $this->backend->getChildGroups($parent));
+	}
+
+	public function testNestedGroupRejectsSelfEdge(): void {
+		$gid = $this->getGroupName();
+		$this->backend->createGroup($gid);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->backend->addGroupToGroup($gid, $gid);
+	}
+
+	public function testNestedGroupRejectsCycle(): void {
+		$a = $this->getGroupName();
+		$b = $this->getGroupName();
+		$c = $this->getGroupName();
+		$this->backend->createGroup($a);
+		$this->backend->createGroup($b);
+		$this->backend->createGroup($c);
+
+		// a -> b -> c
+		$this->backend->addGroupToGroup($b, $a);
+		$this->backend->addGroupToGroup($c, $b);
+
+		// Adding a under c would close the cycle a -> b -> c -> a.
+		$this->expectException(\InvalidArgumentException::class);
+		$this->backend->addGroupToGroup($a, $c);
+	}
+
+	public function testDeleteGroupCleansNestedEdges(): void {
+		$parent = $this->getGroupName();
+		$child = $this->getGroupName();
+		$this->backend->createGroup($parent);
+		$this->backend->createGroup($child);
+		$this->backend->addGroupToGroup($child, $parent);
+
+		$this->backend->deleteGroup($parent);
+		// The child group still exists but has no parents anymore
+		$this->assertSame([], $this->backend->getParentGroups($child));
+	}
 }
