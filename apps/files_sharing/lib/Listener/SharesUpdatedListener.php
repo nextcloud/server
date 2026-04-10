@@ -46,6 +46,7 @@ class SharesUpdatedListener implements IEventListener {
 	 * The total amount of time we've spent so far processing updates
 	 */
 	private float $updatedTime = 0.0;
+	private bool $inUpdate = false;
 
 	public function __construct(
 		private readonly IManager $shareManager,
@@ -60,6 +61,11 @@ class SharesUpdatedListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
+		// prevent recursive updates
+		if ($this->inUpdate) {
+			return;
+		}
+
 		// don't trigger the on-setup checks if this handler triggers an fs setup
 		$oldState = $this->homeSetupListener->setDisabled(true);
 
@@ -87,7 +93,9 @@ class SharesUpdatedListener implements IEventListener {
 			foreach ($this->shareManager->getUsersForShare($share) as $user) {
 				if ($share->getSharedBy() !== $user->getUID()) {
 					$this->markOrRun($user, function () use ($user, $share) {
+						$this->inUpdate = true;
 						$this->shareUpdater->updateForAddedShare($user, $share);
+						$this->inUpdate = false;
 					});
 					// Share target validation might have changed the target, restore it for the next user
 					$share->setTarget($shareTarget);
