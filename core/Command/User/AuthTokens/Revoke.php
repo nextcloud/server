@@ -168,8 +168,20 @@ class Revoke extends Base {
 	}
 
 	/**
-	 * @return int|null Number of deleted rows, or null if caller should fall back
-	 *                  to per-user iteration
+	 * Attempt a bulk DELETE for --all-users instead of per-user iteration.
+	 *
+	 * This operates directly on the mapper for performance (single SQL DELETE
+	 * per mode). The trade-off is that TokenInvalidatedEvent is not dispatched
+	 * for individual tokens. This is acceptable because:
+	 *
+	 *  - The event is primarily consumed by the token cache layer, which uses
+	 *    a short TTL (TOKEN_CACHE_TTL = 10s) and will self-heal quickly.
+	 *  - Dispatching events per-token would require loading every row first,
+	 *    negating the performance benefit of the bulk path.
+	 *	- We already do this (presumably acceptably) elsewhere.
+	 *
+	 * @return int|null Number of deleted rows, or null if the caller should
+	 *                  fall back to per-user iteration.
 	 */
 	private function bulkRevoke(array $modes): ?int {
 		if ($modes['sessions']) {
