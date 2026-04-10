@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,7 @@ namespace OCA\DAV\CardDAV;
 
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -20,23 +22,16 @@ class ImageExportPlugin extends ServerPlugin {
 	/** @var Server */
 	protected $server;
 
-	/**
-	 * ImageExportPlugin constructor.
-	 *
-	 * @param PhotoCache $cache
-	 */
 	public function __construct(
 		private PhotoCache $cache,
+		private IConfig $config,
 	) {
 	}
 
 	/**
 	 * Initializes the plugin and registers event handlers
-	 *
-	 * @param Server $server
-	 * @return void
 	 */
-	public function initialize(Server $server) {
+	public function initialize(Server $server): void {
 		$this->server = $server;
 		$this->server->on('method:GET', [$this, 'httpGet'], 90);
 	}
@@ -44,8 +39,6 @@ class ImageExportPlugin extends ServerPlugin {
 	/**
 	 * Intercepts GET requests on addressbook urls ending with ?photo.
 	 *
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
 	 * @return bool
 	 */
 	public function httpGet(RequestInterface $request, ResponseInterface $response) {
@@ -79,10 +72,12 @@ class ImageExportPlugin extends ServerPlugin {
 		/** @var AddressBook $addressbook */
 		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
+		$maxAge = $this->config->getAppValue('dav', 'contact_photo_cache_max_age', '3600');
+		$response->setHeader('Cache-Control', 'private, max-age=' . $maxAge . ', must-revalidate');
+		$response->setHeader('Etag', $node->getETag());
+
 		try {
 			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
-			$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
-			$response->setHeader('Etag', $node->getETag());
 			$response->setHeader('Content-Type', $file->getMimeType());
 			$fileName = $node->getName() . '.' . PhotoCache::ALLOWED_CONTENT_TYPES[$file->getMimeType()];
 			$response->setHeader('Content-Disposition', "attachment; filename=$fileName");
@@ -90,7 +85,6 @@ class ImageExportPlugin extends ServerPlugin {
 
 			$response->setBody($file->getContent());
 		} catch (NotFoundException $e) {
-			$response->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 			$response->setStatus(Http::STATUS_NO_CONTENT);
 		}
 
