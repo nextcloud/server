@@ -1392,7 +1392,6 @@
       <code><![CDATA[encrypt]]></code>
       <code><![CDATA[setIV]]></code>
       <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setKey]]></code>
     </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
@@ -2655,11 +2654,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getSubject]]></code>
       <code><![CDATA[getSubject]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/workflowengine/lib/Settings/ASettings.php">
-    <DeprecatedMethod>
-      <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
