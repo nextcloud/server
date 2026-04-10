@@ -269,6 +269,61 @@ class SubAdminTest extends \Test\TestCase {
 		$this->assertEmpty($subAdmin->getAllSubAdmins());
 	}
 
+	public function testIsSubAdminOfGroupInheritsFromAncestor(): void {
+		// Direct sub-admin of the parent group should automatically be able
+		// to administer any subgroup of it.
+		$subAdmin = new SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
+		$this->groupManager->addSubGroup($this->groups[0], $this->groups[1]);
+		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
+
+		$this->assertTrue($subAdmin->isSubAdminOfGroup($this->users[0], $this->groups[0]));
+		$this->assertTrue(
+			$subAdmin->isSubAdminOfGroup($this->users[0], $this->groups[1]),
+			'Expected admin of parent group to inherit admin rights over its subgroup'
+		);
+		$this->assertFalse($subAdmin->isSubAdminOfGroup($this->users[0], $this->groups[2]));
+
+		$subAdmin->deleteSubAdmin($this->users[0], $this->groups[0]);
+		$this->groupManager->removeSubGroup($this->groups[0], $this->groups[1]);
+	}
+
+	public function testIsSubAdminOfGroupViaGroupLevelDelegation(): void {
+		// Designate groups[2] as admin group of groups[0]. Any user in groups[2]
+		// is effectively a sub-admin of groups[0] (and, by inheritance, of its
+		// descendants).
+		$subAdmin = new SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
+		$this->groupManager->addSubGroup($this->groups[0], $this->groups[1]);
+		$this->groups[2]->addUser($this->users[2]);
+		$subAdmin->createGroupSubAdmin($this->groups[2], $this->groups[0]);
+
+		$this->assertTrue($subAdmin->isSubAdminOfGroup($this->users[2], $this->groups[0]));
+		$this->assertTrue(
+			$subAdmin->isSubAdminOfGroup($this->users[2], $this->groups[1]),
+			'Expected group-level admin of parent to inherit on subgroup'
+		);
+
+		$subAdmin->deleteGroupSubAdmin($this->groups[2], $this->groups[0]);
+		$this->groups[2]->removeUser($this->users[2]);
+		$this->groupManager->removeSubGroup($this->groups[0], $this->groups[1]);
+	}
+
+	public function testGetSubAdminsGroupIdsDescendsHierarchy(): void {
+		// An admin of parent should see all descendants in their list.
+		$subAdmin = new SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
+		$this->groupManager->addSubGroup($this->groups[0], $this->groups[1]);
+		$this->groupManager->addSubGroup($this->groups[1], $this->groups[2]);
+		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
+
+		$gids = $subAdmin->getSubAdminsGroupIds($this->users[0]);
+		$this->assertContains($this->groups[0]->getGID(), $gids);
+		$this->assertContains($this->groups[1]->getGID(), $gids);
+		$this->assertContains($this->groups[2]->getGID(), $gids);
+
+		$subAdmin->deleteSubAdmin($this->users[0], $this->groups[0]);
+		$this->groupManager->removeSubGroup($this->groups[1], $this->groups[2]);
+		$this->groupManager->removeSubGroup($this->groups[0], $this->groups[1]);
+	}
+
 	public function testHooks(): void {
 		$subAdmin = new SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 

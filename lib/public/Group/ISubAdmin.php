@@ -79,4 +79,29 @@ interface ISubAdmin {
 	 * @since 16.0.0
 	 */
 	public function isUserAccessible(IUser $subadmin, IUser $user): bool;
+
+	/**
+	 * Designate $adminGroup as a sub-admin of $group.
+	 *
+	 * Every user who is (transitively) a member of $adminGroup will be
+	 * treated as a sub-admin of $group.
+	 *
+	 * @since 34.0.0
+	 */
+	public function createGroupSubAdmin(IGroup $adminGroup, IGroup $group): void;
+
+	/**
+	 * Remove $adminGroup as a sub-admin of $group.
+	 *
+	 * @since 34.0.0
+	 */
+	public function deleteGroupSubAdmin(IGroup $adminGroup, IGroup $group): void;
+
+	/**
+	 * Get the groups designated as sub-admins of $group.
+	 *
+	 * @return IGroup[]
+	 * @since 34.0.0
+	 */
+	public function getGroupSubAdminsOfGroup(IGroup $group): array;
 }

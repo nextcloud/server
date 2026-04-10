@@ -30,6 +30,10 @@ Two separate APIs exist on `IGroupManager`:
 | `getUserGroupIds($user)`            | direct memberships only (unchanged)         |
 | `getUserEffectiveGroupIds($user)`   | direct + all ancestors via nesting edges    |
 
+A second table `group_group_admin(admin_gid, gid)` stores group-level
+sub-admin delegation: every effective member of `admin_gid` is treated
+as a sub-admin of `gid` and of all of its subgroups.
+
 ## Cycle prevention
 
 Cycles are rejected at insert time in `OC\Group\Database::addGroupToGroup()`
@@ -93,6 +97,13 @@ a paginated backend query. Nesting a large LDAP group may therefore
 block the edge-mutation request for several seconds. Consider running
 nesting changes via `occ` during off-hours for large LDAP groups.
 
+### Sub-admin inheritance
+
+Designating a group as sub-admin of a parent group applies to every
+descendant of the parent. Revoking a group sub-admin designation does
+not automatically revoke sub-admin rights that were inherited via
+ancestry; re-check the hierarchy after mutations.
+
 ## Public API additions
 
 - `OCP\IGroupManager::getUserEffectiveGroupIds(IUser)`
@@ -102,6 +113,9 @@ nesting changes via `occ` during off-hours for large LDAP groups.
 - `OCP\IGroupManager::getDirectParentGroupIds(string)`
 - `OCP\IGroupManager::getGroupEffectiveDescendantIds(IGroup)`
 - `OCP\IGroupManager::getGroupEffectiveAncestorIds(IGroup)`
+- `OCP\Group\ISubAdmin::createGroupSubAdmin(IGroup $adminGroup, IGroup $group)`
+- `OCP\Group\ISubAdmin::deleteGroupSubAdmin(IGroup $adminGroup, IGroup $group)`
+- `OCP\Group\ISubAdmin::getGroupSubAdminsOfGroup(IGroup $group)`
 - `OCP\Group\Events\SubGroupAddedEvent`
 - `OCP\Group\Events\SubGroupRemovedEvent`
 - `OCP\Group\Exception\CycleDetectedException`
