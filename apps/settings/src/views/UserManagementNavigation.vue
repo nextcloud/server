@@ -17,6 +17,22 @@
 			</template>
 		</NcAppNavigationNew>
 
+		<div class="account-management__search" role="search" :aria-label="t('settings', 'Search accounts and groups')">
+			<NcInputField
+				v-model="searchInput"
+				:label="t('settings', 'Search accounts and groups…')"
+				:show-trailing-button="searchInput !== ''"
+				:trailingButtonLabel="t('settings', 'Clear search')"
+				@trailing-button-click="clearSearch">
+				<template #icon>
+					<NcIconSvgWrapper :path="mdiMagnify" />
+				</template>
+				<template #trailing-button-icon>
+					<NcIconSvgWrapper :path="mdiClose" />
+				</template>
+			</NcInputField>
+		</div>
+
 		<NcAppNavigationList
 			class="account-management__system-list"
 			data-cy-users-settings-navigation-groups="system">
@@ -107,9 +123,10 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAccountOffOutline, mdiAccountOutline, mdiCogOutline, mdiHistory, mdiPlus, mdiShieldAccountOutline } from '@mdi/js'
+import { mdiAccountOffOutline, mdiAccountOutline, mdiClose, mdiCogOutline, mdiHistory, mdiMagnify, mdiPlus, mdiShieldAccountOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
-import { computed, ref } from 'vue'
+import debounce from 'debounce'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router/composables'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -118,6 +135,7 @@ import NcAppNavigationNew from '@nextcloud/vue/components/NcAppNavigationNew'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
 import AppNavigationGroupList from '../components/AppNavigationGroupList.vue'
 import UserSettingsDialog from '../components/Users/UserSettingsDialog.vue'
 import { useFormatGroups } from '../composables/useGroupsNavigation.js'
@@ -125,6 +143,18 @@ import { useStore } from '../store/index.js'
 
 const route = useRoute()
 const store = useStore()
+
+const searchInput = ref('')
+const commitSearch = debounce((query: string) => {
+	store.commit('setSearchQuery', query)
+}, 300)
+watch(searchInput, (value) => commitSearch(value))
+function clearSearch() {
+	commitSearch.clear()
+	searchInput.value = ''
+	store.commit('setSearchQuery', '')
+}
+onBeforeUnmount(() => commitSearch.clear())
 
 /** State of the 'new-account' dialog */
 const isDialogOpen = ref(false)
@@ -163,6 +193,11 @@ function showNewUserMenu() {
 			will-change: scroll-position;
 		}
 	}
+	&__search {
+		padding-block: var(--default-grid-baseline, 4px);
+		padding-inline: var(--app-navigation-padding, 8px);
+	}
+
 	&__system-list {
 		height: auto !important;
 		overflow: visible !important;
