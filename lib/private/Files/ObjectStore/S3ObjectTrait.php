@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\ObjectStore;
@@ -41,29 +41,43 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	public function readObject($urn) {
-		$fh = SeekableHttpStream::open(function ($range) use ($urn) {
+		$maxAttempts = max(1, $this->retriesMaxAttempts);
+		$lastError = null;
+		$firstError = null;
+
+		// TODO: consider unifying logger access across S3ConnectionTrait and S3ObjectTrait
+		// via an abstract method (e.g. getLogger()) rather than inline container lookups
+		$logger = \OCP\Server::get(\Psr\Log\LoggerInterface::class);
+
+		$fh = SeekableHttpStream::open(function ($range) use ($urn, $maxAttempts, &$lastError, &$firstError, $logger) {
 			$command = $this->getConnection()->getCommand('GetObject', [
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
 				'Range' => 'bytes=' . $range,
 			] + $this->getSSECParameters());
+
 			$request = \Aws\serialize($command);
+			$requestUri = (string)$request->getUri();
+
 			$headers = [];
 			foreach ($request->getHeaders() as $key => $values) {
 				foreach ($values as $value) {
 					$headers[] = "$key: $value";
 				}
 			}
+
 			$opts = [
 				'http' => [
 					'protocol_version' => $request->getProtocolVersion(),
 					'header' => $headers,
-				]
+					'ignore_errors' => true,
+				],
 			];
+
 			$bundle = $this->getCertificateBundlePath();
 			if ($bundle) {
 				$opts['ssl'] = [
-					'cafile' => $bundle
+					'cafile' => $bundle,
 				];
 			}
 
@@ -73,12 +87,199 @@ trait S3ObjectTrait {
 			}
 
 			$context = stream_context_create($opts);
-			return fopen($request->getUri(), 'r', false, $context);
+
+			// Retries here are per ranged HTTP fetch, not per high-level readObject() call.
+			// A single read may therefore trigger multiple retry sequences across seeks/reopens.
+			// sleepBeforeRetry() deliberately caps backoff to limit per-range delay.
+			// If this ever becomes an issue we might:
+			// - use a smaller retry count for read ranges than for write operations, or
+			// - cap total sleep time more aggressively.
+			for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+				$result = @fopen($requestUri, 'r', false, $context);
+
+				if ($result !== false) {
+					$meta = stream_get_meta_data($result);
+					$responseHead = $meta['wrapper_data'] ?? [];
+					$statusCode = $this->parseHttpStatusCode($responseHead);
+
+					if ($statusCode !== null && $statusCode < 400) {
+						return $result;
+					}
+
+					$errorBody = stream_get_contents($result);
+					fclose($result);
+
+					$errorInfo = $this->parseS3ErrorResponse(
+						$errorBody,
+						is_array($responseHead) ? $responseHead : [$responseHead]
+					);
+					$currentError = $this->formatS3ReadError($urn, $range, $statusCode, $errorInfo, $attempt, $maxAttempts);
+					// on retries, the last or the first failure can be most informative, but can't know which so track both
+					if ($firstError === null) {
+						$firstError = $currentError;
+						$lastError = $currentError;
+					} else {
+						$lastError = $currentError;
+					}
+
+					if ($this->isRetryableHttpStatus($statusCode) && $attempt < $maxAttempts) {
+						// gives operators visibility into transient S3 issues even when retries succeed by logging
+						$logger->warning($currentError, ['app' => 'objectstore']);
+						$this->sleepBeforeRetry($attempt);
+						continue;
+					}
+
+					// for non-retryable HTTP errors or exhausted retries, log the final failure with full S3 error context
+					$logger->error($currentError, ['app' => 'objectstore']);
+					return false;
+				}
+
+				// fopen returned false - i.e. connection-level failure (DNS, timeout, TLS, etc.)
+				// log occurrences for operator visibility even if retried
+				$currentError = "connection failure while reading object $urn range $range on attempt $attempt/$maxAttempts (no HTTP response received)";
+				if ($firstError === null) {
+					$firstError = $currentError;
+					$lastError = $currentError;
+				} else {
+					$lastError = $currentError;
+				}
+
+				$logger->warning($currentError, ['app' => 'objectstore']);
+
+				if ($attempt < $maxAttempts) {
+					$this->sleepBeforeRetry($attempt);
+				}
+			}
+
+			$logger->error(
+				"Failed to read object $urn after $maxAttempts attempts. First failure: $firstError. Last failure: $lastError".
+				['app' => 'objectstore'],
+			);
+			return false;
 		});
+
 		if (!$fh) {
-			throw new \Exception("Failed to read object $urn");
+			throw new \Exception(
+				"Failed to read object $urn after $maxAttempts attempts. First failure: $firstError. Last failure: $lastError"
+			);
 		}
+
 		return $fh;
+	}
+
+	/**
+	 * Parse the effective HTTP status code from stream wrapper metadata.
+	 *
+	 * wrapper_data can contain multiple status lines (e.g. 100 Continue,
+	 * redirects, proxy responses). We want the last HTTP status line.
+	 *
+	 * @param array|string $responseHead The wrapper_data from stream_get_meta_data
+	 */
+	private function parseHttpStatusCode(array|string $responseHead): ?int {
+		$lines = is_array($responseHead) ? $responseHead : [$responseHead];
+
+		foreach (array_reverse($lines) as $line) {
+			if (is_string($line) && preg_match('#^HTTP/\S+\s+(\d{3})#', $line, $matches)) {
+				return (int)$matches[1];
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Parse S3 error response XML and response headers into a structured array.
+	 *
+	 * @param string|false $body The response body
+	 * @param array $responseHead The wrapper_data from stream_get_meta_data
+	 * @return array{code: string, message: string, requestId: string, extendedRequestId: string}
+	 */
+	private function parseS3ErrorResponse(string|false $body, array $responseHead): array {
+		$errorCode = 'Unknown';
+		$errorMessage = '';
+		$requestId = '';
+		$extendedRequestId = '';
+
+		if ($body) {
+			$xml = @simplexml_load_string($body);
+			if ($xml !== false) {
+				$errorCode = (string)($xml->Code ?? 'Unknown');
+				$errorMessage = (string)($xml->Message ?? '');
+				$requestId = (string)($xml->RequestId ?? '');
+			}
+		}
+
+		foreach ($responseHead as $header) {
+			if (!is_string($header)) {
+				continue;
+			}
+
+			if (stripos($header, 'x-amz-request-id:') === 0) {
+				$requestId = trim(substr($header, strlen('x-amz-request-id:')));
+			} elseif (stripos($header, 'x-amz-id-2:') === 0) {
+				$extendedRequestId = trim(substr($header, strlen('x-amz-id-2:')));
+			}
+		}
+
+		return [
+			'code' => $errorCode,
+			'message' => $errorMessage,
+			'requestId' => $requestId,
+			'extendedRequestId' => $extendedRequestId,
+		];
+	}
+
+	/**
+	 * @param array{code: string, message: string, requestId: string, extendedRequestId: string} $errorInfo
+	 */
+	private function formatS3ReadError(
+		string $urn,
+		string $range,
+		?int $statusCode,
+		array $errorInfo,
+		int $attempt,
+		int $maxAttempts,
+	): string {
+		$errorCode = $errorInfo['code'] !== '' ? $errorInfo['code'] : 'Unknown';
+		$errorMessage = $errorInfo['message'] !== '' ? $errorInfo['message'] : 'No error message';
+		$requestId = $errorInfo['requestId'] !== '' ? $errorInfo['requestId'] : 'n/a';
+		$extendedRequestId = $errorInfo['extendedRequestId'] !== '' ? $errorInfo['extendedRequestId'] : 'n/a';
+
+		if ($statusCode === 416) {
+			return sprintf(
+				'HTTP 416 reading object %s range %s on attempt %d/%d: requested range not satisfiable [%s - %s (RequestId: %s, ExtendedRequestId: %s)]',
+				$urn,
+				$range,
+				$attempt,
+				$maxAttempts,
+				$errorCode,
+				$errorMessage,
+				$requestId,
+				$extendedRequestId,
+			);
+		}
+		return sprintf(
+			'HTTP %s reading object %s range %s on attempt %d/%d: %s - %s (RequestId: %s, ExtendedRequestId: %s)',
+			$statusCode !== null ? (string)$statusCode : 'unknown',
+			$urn,
+			$range,
+			$attempt,
+			$maxAttempts,
+			$errorCode,
+			$errorMessage,
+			$requestId,
+			$extendedRequestId,
+		);
+	}
+
+	private function isRetryableHttpStatus(?int $statusCode): bool {
+		return $statusCode === 429 || ($statusCode !== null && $statusCode >= 500);
+	}
+
+	private function sleepBeforeRetry(int $attempt): void {
+		$delay = min(1000000, 100000 * (2 ** ($attempt - 1)));
+		$delay += random_int(0, 100000);
+		usleep($delay);
 	}
 
 	private function buildS3Metadata(array $metadata): array {
