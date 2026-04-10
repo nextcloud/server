@@ -411,8 +411,9 @@ trait BasicStructure {
 	 * @param string $user
 	 */
 	public function fileIsCreatedTimesInUserData($filename, $times, $user) {
+		$dataDirectory = $this->getDataDirectory();
 		for ($i = 0; $i < $times; $i++) {
-			file_put_contents($this->getDataDirectory() . "/$user/files" . "$filename-$i", "content-$i");
+			file_put_contents($dataDirectory . "/$user/files" . "$filename-$i", "content-$i");
 		}
 	}
 

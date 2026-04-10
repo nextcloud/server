@@ -12,10 +12,9 @@ fi
 
 OC_PATH=../../
 OCC=${OC_PATH}occ
-TAGS=""
+BEHAT_ARGS=()
 if [ "$1" = "--tags" ]; then
-	TAGS="--tags=$2"
-
+	BEHAT_ARGS+=("--tags=$2")
 	shift 2
 fi
 SCENARIO_TO_RUN=$1
@@ -97,7 +96,7 @@ $BEHAT_EXECUTABLE \
     --colors  \
     -f junit  \
     -f pretty \
-    $TAGS     \
+    "${BEHAT_ARGS[@]}" \
     $SCENARIO_TO_RUN
 
 RESULT=$?
