@@ -403,14 +403,13 @@ $CONFIG = [
 	 * Enforce token authentication for client logins.
 	 *
 	 * When enabled, new client authentication attempts using the user's account
-	 * password are rejected and clients must use an app password or other valid
+	 * password are rejected and clients must use an app password or another valid
 	 * token instead.
 	 *
-	 * This setting does not automatically revoke already existing browser sessions,
-	 * remember-me logins, or previously issued tokens. To fully enforce the policy
-	 * for existing authenticated sessions, those sessions/tokens must be invalidated
-	 * separately. Use ``occ user:auth-tokens:revoke`` if you want to invalidate 
-	 * existing sessions after enabling this policy.
+	 * This setting does not automatically revoke existing browser sessions,
+	 * remember-me logins, or previously issued tokens. To fully enforce this
+	 * policy for already authenticated sessions, invalidate those sessions or
+	 * tokens separately, for example with ``occ user:auth-tokens:revoke``.
 	 *
 	 * Defaults to ``false``
 	 */
