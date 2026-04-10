@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -22,6 +21,12 @@ class ImageExportPlugin extends ServerPlugin {
 	/** @var Server */
 	protected $server;
 
+	/**
+	 * ImageExportPlugin constructor.
+	 *
+	 * @param PhotoCache $cache
+	 * @param IConfig $config
+	 */
 	public function __construct(
 		private PhotoCache $cache,
 		private IConfig $config,
@@ -30,8 +35,11 @@ class ImageExportPlugin extends ServerPlugin {
 
 	/**
 	 * Initializes the plugin and registers event handlers
+	 *
+	 * @param Server $server
+	 * @return void
 	 */
-	public function initialize(Server $server): void {
+	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('method:GET', [$this, 'httpGet'], 90);
 	}
@@ -39,6 +47,8 @@ class ImageExportPlugin extends ServerPlugin {
 	/**
 	 * Intercepts GET requests on addressbook urls ending with ?photo.
 	 *
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
 	 * @return bool
 	 */
 	public function httpGet(RequestInterface $request, ResponseInterface $response) {
