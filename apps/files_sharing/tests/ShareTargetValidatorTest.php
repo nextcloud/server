@@ -9,12 +9,11 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Tests;
 
 use OC\EventDispatcher\EventDispatcher;
-use OC\Files\SetupManager;
 use OCA\Files_Sharing\ShareTargetValidator;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
-use OCP\Files\Mount\IMountManager;
+use OCP\Files\IRootFolder;
 use OCP\IUser;
 use OCP\Server;
 use OCP\Share\Events\VerifyMountPointEvent;
@@ -57,8 +56,7 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->targetValidator = new ShareTargetValidator(
 			Server::get(IManager::class),
 			$this->eventDispatcher,
-			Server::get(SetupManager::class),
-			Server::get(IMountManager::class),
+			Server::get(IRootFolder::class),
 		);
 		$this->user2 = $this->createMock(IUser::class);
 		$this->user2->method('getUID')
