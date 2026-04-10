@@ -409,7 +409,8 @@ $CONFIG = [
 	 * This setting does not automatically revoke already existing browser sessions,
 	 * remember-me logins, or previously issued tokens. To fully enforce the policy
 	 * for existing authenticated sessions, those sessions/tokens must be invalidated
-	 * separately.
+	 * separately. Use ``occ user:auth-tokens:revoke`` if you want to invalidate 
+	 * existing sessions after enabling this policy.
 	 *
 	 * Defaults to ``false``
 	 */
