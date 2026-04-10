@@ -88,11 +88,8 @@ class RuleMatcher implements IRuleMatcher {
 		if (!$this->operation) {
 			throw new RuntimeException('Operation is not set');
 		}
-		return $this->getMatchingOperations(get_class($this->operation), $returnFirstMatchingOperationOnly);
-	}
-
-	public function getMatchingOperations(string $class, bool $returnFirstMatchingOperationOnly = true): array {
-		$scopes[] = new ScopeContext(IManager::SCOPE_ADMIN);
+		$class = get_class($this->operation);
+		$scopes = [new ScopeContext(IManager::SCOPE_ADMIN)];
 		$user = $this->session->getUser();
 		if ($user !== null && $this->manager->isUserScopeEnabled()) {
 			$scopes[] = new ScopeContext(IManager::SCOPE_USER, $user->getUID());
@@ -111,7 +108,6 @@ class RuleMatcher implements IRuleMatcher {
 		}
 
 		if ($this->entity instanceof IEntity) {
-			/** @var ScopeContext[] $additionalScopes */
 			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
 			foreach ($additionalScopes as $hash => $scopeCandidate) {
 				if ($scopeCandidate->getScope() !== IManager::SCOPE_USER || in_array($scopeCandidate, $scopes)) {
