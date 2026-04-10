@@ -148,6 +148,19 @@ ancestry; re-check the hierarchy after mutations.
 - `OCP\Group\Exception\CycleDetectedException`
 - `OCP\Group\Exception\NestedGroupsNotSupportedException`
 
+## OCS endpoints
+
+Additive, namespaced under existing `cloud/groups/{groupId}`:
+
+- `GET    /subgroups`
+- `POST   /subgroups`          (body: `{subGroupId}`)
+- `DELETE /subgroups/{subGroupId}`
+- `GET    /subadmins/groups`
+- `POST   /subadmins/groups`   (body: `{adminGroupId}`)
+- `DELETE /subadmins/groups/{adminGroupId}`
+
+All require the `Users` admin delegation.
+
 ## Out of scope
 
 - Closure table / recursive CTE optimization. BFS is O(depth * fan-out)
