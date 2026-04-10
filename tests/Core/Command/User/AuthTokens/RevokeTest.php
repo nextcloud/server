@@ -205,4 +205,103 @@ class RevokeTest extends TestCase {
 
 		self::assertSame(0, $result);
 	}
+
+	public function testAllUsersBulkRevokeSessionsUsesBulkPath(): void {
+		$this->input->method('getArgument')
+			->with('uid')
+			->willReturn(null);
+
+		$this->input->method('getOption')
+			->willReturnCallback(function (string $option) {
+				return match ($option) {
+					'all-users' => true,
+					'sessions' => true,
+					'remembered-sessions' => false,
+					'all-except-app-passwords' => false,
+					'all' => false,
+					'dry-run' => false,
+					'force' => true,
+					default => throw new \InvalidArgumentException("Unexpected option $option"),
+				};
+			});
+
+		// Bulk path should call the mapper directly, not iterate users
+		$this->mapper->expects($this->once())
+			->method('invalidateByType')
+			->with(IToken::TEMPORARY_TOKEN)
+			->willReturn(5);
+
+		$this->userManager->expects($this->never())
+			->method('callForAllUsers');
+
+		$this->tokenProvider->expects($this->never())
+			->method('getTokenByUser');
+
+		$this->output->method('isVerbose')->willReturn(false);
+		$this->output->expects($this->once())
+			->method('writeln')
+			->with('<info>Revoked 5 token(s).</info>');
+
+		$result = self::invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+
+		self::assertSame(0, $result);
+	}
+
+	public function testAllUsersDryRunFallsBackToPerUserIteration(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('alice');
+
+		$tempToken = $this->createConfiguredMock(IToken::class, [
+			'getId' => 101,
+			'getType' => IToken::TEMPORARY_TOKEN,
+			'getRemember' => IToken::DO_NOT_REMEMBER,
+			'getName' => 'Firefox',
+		]);
+
+		$this->input->method('getArgument')
+			->with('uid')
+			->willReturn(null);
+
+		$this->input->method('getOption')
+			->willReturnCallback(function (string $option) {
+				return match ($option) {
+					'all-users' => true,
+					'sessions' => true,
+					'remembered-sessions' => false,
+					'all-except-app-passwords' => false,
+					'all' => false,
+					'dry-run' => true,
+					'force' => true,
+					default => throw new \InvalidArgumentException("Unexpected option $option"),
+				};
+			});
+
+		// Bulk mapper methods should NOT be called in dry-run
+		$this->mapper->expects($this->never())
+			->method('invalidateByType');
+
+		// Should fall back to per-user iteration
+		$this->userManager->expects($this->once())
+			->method('callForAllUsers')
+			->willReturnCallback(function (\Closure $callback) use ($user): void {
+				$callback($user);
+			});
+
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenByUser')
+			->with('alice')
+			->willReturn([$tempToken]);
+
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateTokenById');
+
+		$this->output->method('isVerbose')->willReturn(false);
+		$this->output->expects($this->once())
+			->method('writeln')
+			->with('<info>Dry run complete. 1 token(s) would be revoked.</info>');
+
+		$result = self::invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+
+		self::assertSame(0, $result);
+	}
 }
