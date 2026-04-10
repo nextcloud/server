@@ -82,7 +82,7 @@ class ImageExportPlugin extends ServerPlugin {
 		/** @var AddressBook $addressbook */
 		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
-		$maxAge = $this->config->getAppValue('dav', 'contact_photo_cache_max_age', '3600');
+		$maxAge = (int) $this->config->getAppValue('dav', 'contact_photo_cache_max_age', '3600');
 		$response->setHeader('Cache-Control', 'private, max-age=' . $maxAge . ', must-revalidate');
 		$response->setHeader('Etag', $node->getETag());
 
