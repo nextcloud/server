@@ -13,8 +13,7 @@ use OC\Files\View;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
-use OCP\Files\ISetupManager;
-use OCP\Files\Mount\IMountManager;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 use OCP\Share\Events\VerifyMountPointEvent;
@@ -30,8 +29,7 @@ class ShareTargetValidator {
 	public function __construct(
 		private readonly IManager $shareManager,
 		private readonly IEventDispatcher $eventDispatcher,
-		private readonly ISetupManager $setupManager,
-		private readonly IMountManager $mountManager,
+		private readonly IRootFolder $rootFolder,
 	) {
 		$this->folderExistsCache = new CappedMemoryCache();
 	}
@@ -67,8 +65,10 @@ class ShareTargetValidator {
 
 		/** @psalm-suppress InternalMethod */
 		$absoluteParent = $recipientView->getAbsolutePath($parent);
-		$this->setupManager->setupForPath($absoluteParent);
-		$parentMount = $this->mountManager->find($absoluteParent);
+
+		// the share target always has to be in the users home
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$parentMount = $userFolder->getMountPoint();
 
 		$cached = $this->folderExistsCache->get($parent);
 		if ($cached) {
