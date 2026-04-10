@@ -51,22 +51,22 @@ class Revoke extends Base {
 				'Revoke tokens for all users'
 			)
 			->addOption(
-				'browser-sessions',
+				'sessions',
 				null,
 				InputOption::VALUE_NONE,
-				'Revoke browser session tokens (temporary, non-remembered)'
+				'Revoke all session tokens, including remembered sessions'
 			)
 			->addOption(
 				'remembered-sessions',
 				null,
 				InputOption::VALUE_NONE,
-				'Revoke remembered browser session tokens (temporary, remembered)'
+				'Revoke remembered session tokens only'
 			)
 			->addOption(
-				'non-app-passwords',
+				'all-except-app-passwords',
 				null,
 				InputOption::VALUE_NONE,
-				'Revoke all tokens except permanent app passwords (includes session, remembered, one-time, and wipe tokens)'
+				'Revoke all tokens except permanent app passwords'
 			)
 			->addOption(
 				'all',
@@ -93,15 +93,15 @@ class Revoke extends Base {
 		$allUsers = (bool)$input->getOption('all-users');
 
 		$modes = [
-			'browser-sessions' => (bool)$input->getOption('browser-sessions'),
+			'sessions' => (bool)$input->getOption('sessions'),
 			'remembered-sessions' => (bool)$input->getOption('remembered-sessions'),
-			'non-app-passwords' => (bool)$input->getOption('non-app-passwords'),
+			'all-except-app-passwords' => (bool)$input->getOption('all-except-app-passwords'),
 			'all' => (bool)$input->getOption('all'),
 		];
 
 		$selectedModes = array_filter($modes);
 		if (count($selectedModes) !== 1) {
-			throw new RuntimeException('Specify exactly one of --browser-sessions, --remembered-sessions, --non-app-passwords, or --all.');
+			throw new RuntimeException('Specify exactly one of --sessions, --remembered-sessions, --all-except-app-passwords, or --all.');
 		}
 
 		if ($allUsers && $uid !== null) {
@@ -115,11 +115,12 @@ class Revoke extends Base {
 		$dryRun = (bool)$input->getOption('dry-run');
 		$force = (bool)$input->getOption('force');
 
-		// Confirm destructive operations unless --force or --dry-run is set
+		// For bulk destructive operations, ask for confirmation unless this is
+		// a dry-run or the caller explicitly requested non-interactive behavior.
 		if (!$dryRun && !$force && $input->isInteractive()) {
 			$modeName = array_key_first($selectedModes);
 			$scope = $allUsers ? 'ALL users' : "user '$uid'";
-			$message = "<question>This will revoke all --{$modeName} tokens for {$scope}. Continue? [y/N]</question> ";
+			$message = "<question>This will revoke all {$modeName} tokens for {$scope}. Continue? [y/N]</question> ";
 
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
@@ -134,17 +135,17 @@ class Revoke extends Base {
 
 		if ($allUsers) {
 			if (!$dryRun) {
-				// Use bulk deletion for --all-users when possible to avoid
-				// iterating every user and their tokens individually
-				$bulkCount = $this->bulkRevoke($modes, $output);
+				// Prefer a single bulk DELETE for all-users operations where the
+				// selected revoke mode maps cleanly to SQL predicates.
+				$bulkCount = $this->bulkRevoke($modes);
 				if ($bulkCount !== null) {
 					$output->writeln("<info>Revoked {$bulkCount} token(s).</info>");
 					return Command::SUCCESS;
 				}
 			}
 
-			// Fall back to per-user iteration for dry-run (needs token details)
-			// or if bulk deletion is not applicable
+			// Dry-run needs to enumerate tokens to report matches, and any mode
+			// not handled by bulkRevoke() falls back to per-user evaluation.
 			$this->userManager->callForAllUsers(function (IUser $user) use ($output, $dryRun, $modes, &$revoked): void {
 				$revoked += $this->revokeForUser($user->getUID(), $modes, $output, $dryRun);
 			});
@@ -167,18 +168,12 @@ class Revoke extends Base {
 	}
 
 	/**
-	 * Attempt a bulk DELETE query for --all-users instead of per-user iteration.
-	 *
-	 * @return int|null Number of deleted rows, or null if the mode doesn't
-	 *                  support bulk deletion (caller should fall back to per-user)
+	 * @return int|null Number of deleted rows, or null if caller should fall back
+	 *                  to per-user iteration
 	 */
-	private function bulkRevoke(array $modes, OutputInterface $output): ?int {
-		// Build type/remember constraints for a single bulk query
-		if ($modes['browser-sessions']) {
-			return $this->mapper->invalidateByTypeAndRemember(
-				IToken::TEMPORARY_TOKEN,
-				IToken::DO_NOT_REMEMBER
-			);
+	private function bulkRevoke(array $modes): ?int {
+		if ($modes['sessions']) {
+			return $this->mapper->invalidateByType(IToken::TEMPORARY_TOKEN);
 		}
 
 		if ($modes['remembered-sessions']) {
@@ -188,7 +183,7 @@ class Revoke extends Base {
 			);
 		}
 
-		if ($modes['non-app-passwords']) {
+		if ($modes['all-except-app-passwords']) {
 			return $this->mapper->invalidateAllExceptType(IToken::PERMANENT_TOKEN);
 		}
 
@@ -237,9 +232,9 @@ class Revoke extends Base {
 
 		$type = $token->getType();
 
-		if ($modes['browser-sessions']) {
-			return $type === IToken::TEMPORARY_TOKEN
-				&& $token->getRemember() === IToken::DO_NOT_REMEMBER;
+		if ($modes['sessions']) {
+			// "sessions" means all temporary tokens, including remembered sessions.
+			return $type === IToken::TEMPORARY_TOKEN;
 		}
 
 		if ($modes['remembered-sessions']) {
@@ -247,8 +242,8 @@ class Revoke extends Base {
 				&& $token->getRemember() === IToken::REMEMBER;
 		}
 
-		if ($modes['non-app-passwords']) {
-			// Includes TEMPORARY_TOKEN, WIPE_TOKEN, and ONETIME_TOKEN
+		if ($modes['all-except-app-passwords']) {
+			// Preserve permanent app passwords, revoke every other token type.
 			return $type !== IToken::PERMANENT_TOKEN;
 		}
 
