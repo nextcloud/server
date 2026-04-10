@@ -125,8 +125,6 @@ const selectedConfigHasServerInfo = computed(() => {
 		&& selectedConfig.value.ldapHost !== ''
 		&& selectedConfig.value.ldapPort !== ''
 		&& selectedConfig.value.ldapBase !== ''
-		&& selectedConfig.value.ldapAgentName !== ''
-		&& selectedConfig.value.ldapAgentPassword !== ''
 })
 
 /**
