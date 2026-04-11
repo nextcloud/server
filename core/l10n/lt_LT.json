@@ -350,6 +350,7 @@
     "This share is password-protected" : "Šis viešinys yra apsaugotas slaptažodžiu",
     "The password is wrong or expired. Please try again or request a new one." : "Neteisingas arba nebegaliojantis slaptažodis. Bandykite dar kartą arba paprašykite naujo slaptažodžio.",
     "Submit" : "Pateikti",
+    "If the email address was correct then you will receive an email with the password." : "Jei el. pašto adresas buvo teisingas, gausite el. laišką su slaptažodžiu.",
     "Please type in your email address to request a temporary password" : "Norėdami paprašyti laikinojo slaptažodžio įrašykite savo elektroninio pašto adresą",
     "Email address" : "El. pašto adresas",
     "Request password" : "Prašyti slaptažodžio",

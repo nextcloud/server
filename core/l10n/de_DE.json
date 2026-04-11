@@ -350,6 +350,7 @@
     "This share is password-protected" : "Diese Freigabe ist passwortgeschützt",
     "The password is wrong or expired. Please try again or request a new one." : "Passwort falsch oder abgelaufen. Bitte erneut versuchen oder ein neues Passwort anfordern.",
     "Submit" : "Übermitteln",
+    "If the email address was correct then you will receive an email with the password." : "Wenn die E-Mail-Adresse richtig war, erhalten Sie eine E-Mail mit dem Passwort.",
     "Please type in your email address to request a temporary password" : "Bitte geben Sie Ihre E-Mail-Adresse ein um ein vorläufiges Passwort anzufordern",
     "Email address" : "E-Mail-Adresse",
     "Request password" : "Passwort anfordern",

@@ -352,6 +352,7 @@ OC.L10N.register(
     "This share is password-protected" : "この共有はパスワードで保護されています",
     "The password is wrong or expired. Please try again or request a new one." : "パスワードが間違っているか有効期限切れです。後で再度お試しいただくか、新しいパスワードをリクエストしてください。",
     "Submit" : "提出する",
+    "If the email address was correct then you will receive an email with the password." : "メールアドレスが正しければ、パスワードが記載されたメールが届きます。",
     "Please type in your email address to request a temporary password" : "仮パスワードを申請するためにメールアドレスを入力してください。",
     "Email address" : "メールアドレス",
     "Request password" : "パスワードを入力",
