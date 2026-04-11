@@ -804,7 +804,7 @@ trait WebDav {
 	public function userMovesNewChunkFileWithIdToMychunkedfileWithSize($user, $id, $dest, $size) {
 		$source = '/uploads/' . $user . '/' . $id . '/.file';
 		$headers['Destination'] = $this->getFullDavFilesUrl($user) . $dest;
-		$headers['OC-Total-Length' => $size];	
+		$headers['OC-Total-Length'] = $size;	
 		$this->response = $this->makeDavRequest($user, 'MOVE', $source, $headers, null, 'uploads');
 	}
 
