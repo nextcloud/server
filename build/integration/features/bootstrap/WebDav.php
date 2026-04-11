@@ -69,25 +69,82 @@ trait WebDav {
 		}
 	}
 
-	public function makeDavRequest($user, $method, $path, $headers, $body = null, $type = 'files') {
+	/**
+	 * Returns the base URL for DAV operations (strips trailing "/ocs" from baseUrl).
+	 */
+	private function getDavBaseUrl(): string {
+		return substr($this->baseUrl, 0, -4);
+	}
+
+	/**
+	 * Resolves the full DAV endpoint URL for a given user, path, and request type.
+	 *
+	 * @param string|null $user    The acting user
+	 * @param string      $path    The resource path (e.g. "/myFile.txt")
+	 * @param string      $type    One of 'files', 'uploads', or a DAV sub-collection name
+	 * @return string              The fully qualified URL
+	 */
+	private function getDavUrl(?string $user, string $path, string $type = 'files'): string {
+		$base = $this->getDavBaseUrl();
+
 		if ($type === 'files') {
-			$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . "$path";
+			return $base . $this->getDavFilesPath($user) . $path;
 		} elseif ($type === 'uploads') {
-			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
-		} else {
-			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . '/' . $type . "$path";
+			return $base . $this->davPath . $path;
 		}
-		$client = new GClient();
+
+		return $base . $this->davPath . '/' . $type . $path;
+	}
+
+	/**
+	 * Returns the auth credentials for a user as a [username, password] tuple
+	 * suitable for both Guzzle's 'auth' option and Sabre client construction.
+	 *
+	 * @param string|null $user
+	 * @return array{string, string}|null  Null if user is empty (unauthenticated)
+	 */
+	private function getAuthForUser(?string $user): ?array {
+		if ($user === 'admin') {
+			return $this->adminUser;
+		} elseif ($user !== null && $user !== '') {
+			return [$user, $this->regularUser];
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns a pre-configured Sabre DAV client for the given user.
+	 */
+	public function getSabreClient(string $user): SClient {
+		$auth = $this->getAuthForUser($user);
+
+		return new SClient([
+			'baseUri'  => $this->getDavBaseUrl(),
+			'userName' => $auth[0] ?? $user,
+			'password' => $auth[1] ?? '',
+			'authType' => SClient::AUTH_BASIC,
+		]);
+	}
+
+	/**
+	 * Returns the full DAV URL prefix for Destination headers, etc.
+	 */
+	public function getFullDavFilesUrl(string $user): string {
+		return $this->getDavBaseUrl() . $this->getDavFilesPath($user);
+	}
+	
+	public function makeDavRequest($user, $method, $path, $headers, $body = null, $type = 'files') {
 		$options = [
 			'headers' => $headers,
-			'body' => $body
+			'body' => $body,
+			'http_errors' => false,
 		];
-		if ($user === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} elseif ($user !== '') {
-			$options['auth'] = [$user, $this->regularUser];
+		$auth = $this->getAuthForUser($user);
+		if ($user !== null) {
+			$options['auth'] = $auth;
 		}
-		return $client->request($method, $fullUrl, $options);
+		return (new GClient())->request($method, $this->getDavUrl($user, $path, $type), $options);
 	}
 
 	/**
@@ -110,13 +167,8 @@ trait WebDav {
 	 * @param string $fileDestination
 	 */
 	public function userMovesFile($user, $entry, $fileSource, $fileDestination) {
-		$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user);
-		$headers['Destination'] = $fullUrl . $fileDestination;
-		try {
-			$this->response = $this->makeDavRequest($user, 'MOVE', $fileSource, $headers);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$headers['Destination'] = $this->getFullDavFilesUrl($user) . $fileDestination;
+		$this->response = $this->makeDavRequest($user, 'MOVE', $fileSource, $headers);
 	}
 
 	/**
@@ -126,14 +178,8 @@ trait WebDav {
 	 * @param string $fileDestination
 	 */
 	public function userCopiesFileTo($user, $fileSource, $fileDestination) {
-		$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user);
-		$headers['Destination'] = $fullUrl . $fileDestination;
-		try {
-			$this->response = $this->makeDavRequest($user, 'COPY', $fileSource, $headers);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx and 5xx responses cause an exception
-			$this->response = $e->getResponse();
-		}
+		$headers['Destination'] = $this->getFullDavFilesUrl($user) . $fileDestination;
+		$this->response = $this->makeDavRequest($user, 'COPY', $fileSource, $headers);
 	}
 
 	/**
@@ -243,11 +289,7 @@ trait WebDav {
 	 * @When Downloading folder :folderName
 	 */
 	public function downloadingFolder(string $folderName) {
-		try {
-			$this->response = $this->makeDavRequest($this->currentUser, 'GET', $folderName, ['Accept' => 'application/zip']);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest($this->currentUser, 'GET', $folderName, ['Accept' => 'application/zip']);
 	}
 
 	/**
@@ -275,11 +317,7 @@ trait WebDav {
 	 * @param string $fileName
 	 */
 	public function downloadingFile($fileName) {
-		try {
-			$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
 	}
 
 	/**
@@ -588,19 +626,8 @@ trait WebDav {
 	</d:basicsearch>
 </d:searchrequest>';
 
-		try {
-			$this->response = $this->makeDavRequest($user, 'SEARCH', '', [
-				'Content-Type' => 'text/xml'
-			], $body, '');
-
-			var_dump((string)$this->response->getBody());
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 5xx responses cause a server exception
-			$this->response = $e->getResponse();
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx responses cause a client exception
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest($user, 'SEARCH', '', ['Content-Type' => 'text/xml'], $body, '');
+		var_dump((string)$this->response->getBody());
 	}
 
 	/* Returns the elements of a report command
@@ -635,24 +662,6 @@ trait WebDav {
 		}
 	}
 
-	public function getSabreClient($user) {
-		$fullUrl = substr($this->baseUrl, 0, -4);
-
-		$settings = [
-			'baseUri' => $fullUrl,
-			'userName' => $user,
-		];
-
-		if ($user === 'admin') {
-			$settings['password'] = $this->adminUser[1];
-		} else {
-			$settings['password'] = $this->regularUser;
-		}
-		$settings['authType'] = SClient::AUTH_BASIC;
-
-		return new SClient($settings);
-	}
-
 	/**
 	 * @Then /^user "([^"]*)" should see following elements$/
 	 * @param string $user
@@ -680,15 +689,7 @@ trait WebDav {
 	 */
 	public function userUploadsAFileTo($user, $source, $destination) {
 		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
-		try {
-			$this->response = $this->makeDavRequest($user, 'PUT', $destination, [], $file);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 5xx responses cause a server exception
-			$this->response = $e->getResponse();
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx responses cause a client exception
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest($user, 'PUT', $destination, [], $file);
 	}
 
 	/**
@@ -712,15 +713,7 @@ trait WebDav {
 	 */
 	public function userUploadsAFileWithContentTo($user, $content, $destination) {
 		$file = \GuzzleHttp\Psr7\Utils::streamFor($content);
-		try {
-			$this->response = $this->makeDavRequest($user, 'PUT', $destination, [], $file);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 5xx responses cause a server exception
-			$this->response = $e->getResponse();
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx responses cause a client exception
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest($user, 'PUT', $destination, [], $file);
 	}
 
 	/**
@@ -730,15 +723,7 @@ trait WebDav {
 	 * @param string $file
 	 */
 	public function userDeletesFile($user, $type, $file) {
-		try {
-			$this->response = $this->makeDavRequest($user, 'DELETE', $file, []);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 5xx responses cause a server exception
-			$this->response = $e->getResponse();
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx responses cause a client exception
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest($user, 'DELETE', $file, []);
 	}
 
 	/**
@@ -747,16 +732,8 @@ trait WebDav {
 	 * @param string $destination
 	 */
 	public function userCreatedAFolder($user, $destination) {
-		try {
-			$destination = '/' . ltrim($destination, '/');
-			$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, []);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 5xx responses cause a server exception
-			$this->response = $e->getResponse();
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx responses cause a client exception
-			$this->response = $e->getResponse();
-		}
+		$destination = '/' . ltrim($destination, '/');
+		$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, []);
 	}
 
 	/**
@@ -836,10 +813,8 @@ trait WebDav {
 	 */
 	public function userMovesNewChunkFileWithIdToMychunkedfile($user, $id, $dest) {
 		$source = '/uploads/' . $user . '/' . $id . '/.file';
-		$destination = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . $dest;
-		$this->makeDavRequest($user, 'MOVE', $source, [
-			'Destination' => $destination
-		], null, 'uploads');
+		$headers['Destination'] = $this->getFullDavFilesUrl($user) . $dest;
+		$this->makeDavRequest($user, 'MOVE', $source, $headers, null, 'uploads');
 	}
 
 	/**
@@ -847,16 +822,9 @@ trait WebDav {
 	 */
 	public function userMovesNewChunkFileWithIdToMychunkedfileWithSize($user, $id, $dest, $size) {
 		$source = '/uploads/' . $user . '/' . $id . '/.file';
-		$destination = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . $dest;
-
-		try {
-			$this->response = $this->makeDavRequest($user, 'MOVE', $source, [
-				'Destination' => $destination,
-				'OC-Total-Length' => $size
-			], null, 'uploads');
-		} catch (\GuzzleHttp\Exception\BadResponseException $ex) {
-			$this->response = $ex->getResponse();
-		}
+		$headers['Destination'] = $this->getFullDavFilesUrl($user) . $dest;
+		$headers['OC-Total-Length' => $size];	
+		$this->response = $this->makeDavRequest($user, 'MOVE', $source, $headers, null, 'uploads');
 	}
 
 
@@ -867,9 +835,8 @@ trait WebDav {
 		$this->s3MultipartDestination = $this->getTargetDestination($user, $targetDestination);
 		$this->newUploadId();
 		$destination = '/uploads/' . $user . '/' . $this->getUploadId($id);
-		$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, [
-			'Destination' => $this->s3MultipartDestination,
-		], null, 'uploads');
+		$headers['Destination'] = $this->s3MultipartDestination;
+		$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, $headers, null, 'uploads');
 	}
 
 	/**
@@ -878,9 +845,8 @@ trait WebDav {
 	public function userUploadsNewChunkv2FileToIdAndDestination($user, $num, $id) {
 		$data = \GuzzleHttp\Psr7\Utils::streamFor(fopen('/tmp/part-upload-' . $num, 'r'));
 		$destination = '/uploads/' . $user . '/' . $this->getUploadId($id) . '/' . $num;
-		$this->response = $this->makeDavRequest($user, 'PUT', $destination, [
-			'Destination' => $this->s3MultipartDestination
-		], $data, 'uploads');
+		$headers['Destination'] = $this->s3MultipartDestination;
+		$this->response = $this->makeDavRequest($user, 'PUT', $destination, $headers, $data, 'uploads');
 	}
 
 	/**
@@ -888,21 +854,12 @@ trait WebDav {
 	 */
 	public function userMovesNewChunkv2FileWithIdToMychunkedfileAndDestination($user, $id) {
 		$source = '/uploads/' . $user . '/' . $this->getUploadId($id) . '/.file';
-		try {
-			$this->response = $this->makeDavRequest($user, 'MOVE', $source, [
-				'Destination' => $this->s3MultipartDestination,
-			], null, 'uploads');
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 5xx responses cause a server exception
-			$this->response = $e->getResponse();
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx responses cause a client exception
-			$this->response = $e->getResponse();
-		}
+		$headers['Destination'] = $this->s3MultipartDestination;
+		$this->response = $this->makeDavRequest($user, 'MOVE', $source, $headers, null, 'uploads');
 	}
 
 	private function getTargetDestination(string $user, string $destination): string {
-		return substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . $destination;
+		return $this->getFullDavFilesUrl($user) . $destination;
 	}
 
 	private function getUploadId(string $id): string {
@@ -917,15 +874,7 @@ trait WebDav {
 	 * @Given /^Downloading file "([^"]*)" as "([^"]*)"$/
 	 */
 	public function downloadingFileAs($fileName, $user) {
-		try {
-			$this->response = $this->makeDavRequest($user, 'GET', $fileName, []);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 5xx responses cause a server exception
-			$this->response = $e->getResponse();
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx responses cause a client exception
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest($user, 'GET', $fileName, []);
 	}
 
 	/**
@@ -955,27 +904,11 @@ trait WebDav {
 
 	/*Set the elements of a proppatch, $folderDepth requires 1 to see elements without children*/
 	public function changeFavStateOfAnElement($user, $path, $favOrUnfav, $folderDepth, $properties = null) {
-		$fullUrl = substr($this->baseUrl, 0, -4);
-		$settings = [
-			'baseUri' => $fullUrl,
-			'userName' => $user,
-		];
-		if ($user === 'admin') {
-			$settings['password'] = $this->adminUser[1];
-		} else {
-			$settings['password'] = $this->regularUser;
-		}
-		$settings['authType'] = SClient::AUTH_BASIC;
-
-		$client = new SClient($settings);
+		$client = $this->getSabreClient($user);
 		if (!$properties) {
-			$properties = [
-				'{http://owncloud.org/ns}favorite' => $favOrUnfav
-			];
+			$properties = ['{http://owncloud.org/ns}favorite' => $favOrUnfav];
 		}
-
-		$response = $client->proppatch($this->getDavFilesPath($user) . $path, $properties, $folderDepth);
-		return $response;
+		return $client->proppatch($this->getDavFilesPath($user) . $path, $properties, $folderDepth);
 	}
 
 	/**
@@ -1010,11 +943,7 @@ trait WebDav {
 	 * @When Connecting to dav endpoint
 	 */
 	public function connectingToDavEndpoint() {
-		try {
-			$this->response = $this->makeDavRequest(null, 'PROPFIND', '', []);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest(null, 'PROPFIND', '', []);
 	}
 
 	/**
@@ -1027,11 +956,7 @@ trait WebDav {
 		} else {
 			$token = $this->lastShareData->data->token;
 		}
-		try {
-			$this->response = $this->makeDavRequest('', 'PROPFIND', $token, [], $propfind);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest('', 'PROPFIND', $token, [], $propfind);
 	}
 
 	/**
