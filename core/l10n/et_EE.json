@@ -350,6 +350,7 @@
     "This share is password-protected" : "See jaoskaust on kaitstud salasõnaga",
     "The password is wrong or expired. Please try again or request a new one." : "Salasõna on vale või aegunud. Palun proovi uuesti või taotle uut salasõna.",
     "Submit" : "Saada",
+    "If the email address was correct then you will receive an email with the password." : "Kui sisestatud e-posti aadress oli toimiv, siis peaksid saama salasõnaga e-kirja.",
     "Please type in your email address to request a temporary password" : "Palun sisesta oma e-posti aadress ajutise salasõna taotlemiseks",
     "Email address" : "E-posti aadress",
     "Request password" : "Küsi salasõna",

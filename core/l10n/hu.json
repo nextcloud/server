@@ -350,6 +350,7 @@
     "This share is password-protected" : "Ez a megosztás jelszóval védett",
     "The password is wrong or expired. Please try again or request a new one." : "A jelszó hibás vagy lejárt. Próbálja újra, vagy kérjen újat.",
     "Submit" : "Beküldés",
+    "If the email address was correct then you will receive an email with the password." : "Ha az e-mail-cím helyes volt, akkor kapni fog egy levelet a jelszóval.",
     "Please type in your email address to request a temporary password" : "Írja be az e-mail-címét, hogy ideiglenes jelszót kérjen",
     "Email address" : "E-mail-cím",
     "Request password" : "Jelszó kérése",
