@@ -350,6 +350,7 @@
     "This share is password-protected" : "此分享受密碼保護",
     "The password is wrong or expired. Please try again or request a new one." : "密碼錯誤或過期。請重試，或重新申請。",
     "Submit" : "提交",
+    "If the email address was correct then you will receive an email with the password." : "如果電子郵件地址正確，您將會收到一封包含密碼的電子郵件。",
     "Please type in your email address to request a temporary password" : "請輸入您的電子郵件地址以申請臨時密碼",
     "Email address" : "電子郵件地址",
     "Request password" : "請求密碼",
