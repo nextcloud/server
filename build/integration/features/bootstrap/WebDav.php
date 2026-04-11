@@ -79,10 +79,10 @@ trait WebDav {
 	/**
 	 * Resolves the full DAV endpoint URL for a given user, path, and request type.
 	 *
-	 * @param string|null $user    The acting user
-	 * @param string      $path    The resource path (e.g. "/myFile.txt")
-	 * @param string      $type    One of 'files', 'uploads', or a DAV sub-collection name
-	 * @return string              The fully qualified URL
+	 * @param string|null $user The acting user
+	 * @param string $path The resource path (e.g. "/myFile.txt")
+	 * @param string $type One of 'files', 'uploads', or a DAV sub-collection name
+	 * @return string The fully qualified URL
 	 */
 	private function getDavUrl(?string $user, string $path, string $type = 'files'): string {
 		$base = $this->getDavBaseUrl();
@@ -101,7 +101,7 @@ trait WebDav {
 	 * suitable for both Guzzle's 'auth' option and Sabre client construction.
 	 *
 	 * @param string|null $user
-	 * @return array{string, string}|null  Null if user is empty (unauthenticated)
+	 * @return array{string, string}|null Null if user is empty (unauthenticated)
 	 */
 	private function getAuthForUser(?string $user): ?array {
 		if ($user === 'admin') {
@@ -120,7 +120,7 @@ trait WebDav {
 		$auth = $this->getAuthForUser($user);
 
 		return new SClient([
-			'baseUri'  => $this->getDavBaseUrl(),
+			'baseUri' => $this->getDavBaseUrl(),
 			'userName' => $auth[0] ?? $user,
 			'password' => $auth[1] ?? '',
 			'authType' => SClient::AUTH_BASIC,
@@ -133,8 +133,8 @@ trait WebDav {
 	 * Centralizes: base URL, auth resolution, http_errors suppression,
 	 * and any future cross-cutting middleware (logging, retries, etc.).
 	 *
-	 * @param string|null $user  The acting user, 'admin', or null/empty for unauthenticated
-	 * @param array       $extraConfig  Additional Guzzle constructor config to merge
+	 * @param string|null $user The acting user, 'admin', or null/empty for unauthenticated
+	 * @param array $extraConfig Additional Guzzle constructor config to merge
 	 */
 	public function getGuzzleClient(?string $user = null, array $extraConfig = []): GClient {
 		$config = [
@@ -144,7 +144,7 @@ trait WebDav {
 		$auth = $this->getAuthForUser($user);
 		if ($auth !== null) {
 			$config['auth'] = $auth;
-			}
+		}
 
 		return new GClient(array_merge($config, $extraConfig));
 	}
@@ -155,7 +155,7 @@ trait WebDav {
 	public function getFullDavFilesUrl(string $user): string {
 		return $this->getDavBaseUrl() . $this->getDavFilesPath($user);
 	}
-	
+
 	public function makeDavRequest($user, $method, $path, $headers, $body = null, $type = 'files') {
 		$client = $this->getGuzzleClient($user);
 		$options = [
@@ -804,7 +804,7 @@ trait WebDav {
 	public function userMovesNewChunkFileWithIdToMychunkedfileWithSize($user, $id, $dest, $size) {
 		$source = '/uploads/' . $user . '/' . $id . '/.file';
 		$headers['Destination'] = $this->getFullDavFilesUrl($user) . $dest;
-		$headers['OC-Total-Length'] = $size;	
+		$headers['OC-Total-Length'] = $size;
 		$this->response = $this->makeDavRequest($user, 'MOVE', $source, $headers, null, 'uploads');
 	}
 
