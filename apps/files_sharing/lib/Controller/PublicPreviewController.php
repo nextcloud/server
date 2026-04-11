@@ -19,6 +19,7 @@ use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
@@ -147,7 +148,7 @@ class PublicPreviewController extends PublicShareController {
 
 			$response->cacheFor($cacheForSeconds);
 			return $response;
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			// If a preview could not be generated for a resolved file, we can redirect to the mime icon if any
 			if ($mimeFallback && $previewFile instanceof File) {
 				if ($url = $this->mimeIconProvider->getMimeIconUrl($previewFile->getMimeType())) {
@@ -155,7 +156,9 @@ class PublicPreviewController extends PublicShareController {
 				}
 			}
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\InvalidArgumentException $e) {
+		} catch (NotPermittedException) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		} catch (\InvalidArgumentException) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}

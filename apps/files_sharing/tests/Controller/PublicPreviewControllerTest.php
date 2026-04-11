@@ -276,6 +276,32 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
+	public function testPreviewFolderSubfolderReturnsBadRequest(): void {
+		$share = $this->createMock(IShare::class);
+		$this->shareManager->method('getShareByToken')
+			->with($this->equalTo('token'))
+			->willReturn($share);
+
+		$share->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+
+		$folder = $this->createMock(Folder::class);
+		$share->method('getNode')
+			->willReturn($folder);
+
+		$share->method('canSeeContent')
+			->willReturn(true);
+
+		$subfolder = $this->createMock(Folder::class);
+		$folder->method('get')
+			->with($this->equalTo('nested'))
+			->willReturn($subfolder);
+
+		$res = $this->controller->getPreview('token', 'nested', 10, 10, false, false);
+		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expected, $res);
+	}
+
 	public function testPreviewFolderInvalidFileWithMimeFallbackReturnsNotFound(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
