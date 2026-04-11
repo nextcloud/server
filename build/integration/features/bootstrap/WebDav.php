@@ -325,7 +325,7 @@ trait WebDav {
 		$token = $this->lastShareData->data->token;
 		$fullUrl = $this->getDavBaseUrl() . "public.php/dav/files/$token/$filename";
 		$client = $this->getGuzzleClient(null);
-		$options['headers' = [ 'X-Requested-With' => 'XMLHttpRequest' ];
+		$options['headers'] = [ 'X-Requested-With' => 'XMLHttpRequest' ];
 		$this->response = $client->request('GET', $fullUrl, $options);
 	}
 
