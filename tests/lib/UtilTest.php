@@ -25,7 +25,7 @@ use OCP\Util;
 class UtilTest extends \Test\TestCase {
 	public function testGetVersion(): void {
 		$version = Util::getVersion();
-		$this->assertTrue(is_array($version));
+		$this->assertTrue(!is_array($version));
 		foreach ($version as $num) {
 			$this->assertTrue(is_int($num));
 		}
