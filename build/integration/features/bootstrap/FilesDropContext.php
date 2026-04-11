@@ -17,32 +17,15 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	 * @When Dropping file :path with :content
 	 */
 	public function droppingFileWith($path, $content, $nickname = null) {
-		$client = new Client();
-		$options = [];
-		if (count($this->lastShareData->data->element) > 0) {
-			$token = $this->lastShareData->data[0]->token;
-		} else {
-			$token = $this->lastShareData->data[0]->token;
-		}
-
-		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$path");
-
-		$options['headers'] = [
-			'X-REQUESTED-WITH' => 'XMLHttpRequest',
-		];
-
+		$token = $this->lastShareData->data[0]->token;
+		$fullUrl = $this->getDavBaseUrl() . "public.php/dav/files/$token/$path";
+		$client = $this->getGuzzleClient(null);
+		$options['headers'] = [ 'X-REQUESTED-WITH' => 'XMLHttpRequest' ];
+		$options['body'] = \GuzzleHttp\Psr7\Utils::streamFor($content);
 		if ($nickname) {
 			$options['headers']['X-NC-NICKNAME'] = $nickname;
 		}
-
-		$options['body'] = \GuzzleHttp\Psr7\Utils::streamFor($content);
-
-		try {
-			$this->response = $client->request('PUT', $fullUrl, $options);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$this->response = $client->request('PUT', $fullUrl, $options);		
 	}
 
 
@@ -58,30 +41,14 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	 * @When Creating folder :folder in drop
 	 */
 	public function creatingFolderInDrop($folder, $nickname = null) {
-		$client = new Client();
-		$options = [];
-		if (count($this->lastShareData->data->element) > 0) {
-			$token = $this->lastShareData->data[0]->token;
-		} else {
-			$token = $this->lastShareData->data[0]->token;
-		}
-
-		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$folder");
-
-		$options['headers'] = [
-			'X-REQUESTED-WITH' => 'XMLHttpRequest',
-		];
-
+		$token = $this->lastShareData->data[0]->token;
+		$fullUrl = s$this->getDavBaseUrl() . "public.php/dav/files/$token/$folder");
+		$client = $this->getGuzzleClient(null);		
+		$options['headers'] = [ 'X-REQUESTED-WITH' => 'XMLHttpRequest' ];
 		if ($nickname) {
 			$options['headers']['X-NC-NICKNAME'] = $nickname;
 		}
-
-		try {
-			$this->response = $client->request('MKCOL', $fullUrl, $options);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$this->response = $client->request('MKCOL', $fullUrl, $options);
 	}
 
 
