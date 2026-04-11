@@ -42,7 +42,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	 */
 	public function creatingFolderInDrop($folder, $nickname = null) {
 		$token = $this->lastShareData->data[0]->token;
-		$fullUrl = s$this->getDavBaseUrl() . "public.php/dav/files/$token/$folder");
+		$fullUrl = $this->getDavBaseUrl() . "public.php/dav/files/$token/$folder");
 		$client = $this->getGuzzleClient(null);		
 		$options['headers'] = [ 'X-REQUESTED-WITH' => 'XMLHttpRequest' ];
 		if ($nickname) {
