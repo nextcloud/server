@@ -486,4 +486,60 @@ class FunctionBuilderTest extends TestCase {
 		$result->closeCursor();
 		$this->assertEquals(1, $row);
 	}
+
+	public function testCaseWhenTrue(): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$caseExpression = $query->func()->caseWhen(
+			$query->expr()->gt(new Literal(5), new Literal(3)),
+			new Literal("'yes'"),
+			new Literal("'no'")
+		);
+		$query->select($caseExpression);
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$result = $query->executeQuery();
+		$row = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals('yes', $row);
+	}
+
+	public function testCaseWhenFalse(): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$caseExpression = $query->func()->caseWhen(
+			$query->expr()->gt(new Literal(1), new Literal(3)),
+			new Literal("'yes'"),
+			new Literal("'no'")
+		);
+		$query->select($caseExpression);
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$result = $query->executeQuery();
+		$row = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals('no', $row);
+	}
+
+	public function testCaseWhenWithAggregate(): void {
+		$this->addIntDummyData(); // inserts editable = 1, 2, 3
+
+		$query = $this->connection->getQueryBuilder();
+
+		$effective = $query->func()->caseWhen(
+			$query->expr()->neq('editable', $query->createNamedParameter(1, IQueryBuilder::PARAM_INT)),
+			new Literal(1),
+			new Literal(50)
+		);
+		$query->select($query->func()->min($effective));
+		$query->from('systemtag')
+			->where($query->expr()->eq('name', $query->createNamedParameter('group_concat')));
+
+		$result = $query->executeQuery();
+		$row = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals(1, $row);
+	}
 }

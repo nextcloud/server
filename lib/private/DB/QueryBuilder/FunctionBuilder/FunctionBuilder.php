@@ -102,4 +102,14 @@ class FunctionBuilder implements IFunctionBuilder {
 	public function now(): IQueryFunction {
 		return new QueryFunction('NOW()');
 	}
+
+	#[Override]
+	public function caseWhen($condition, $then, $else): IQueryFunction {
+		return new QueryFunction(
+			'CASE WHEN ' . $condition
+			. ' THEN ' . $this->helper->quoteColumnName($then)
+			. ' ELSE ' . $this->helper->quoteColumnName($else)
+			. ' END'
+		);
+	}
 }

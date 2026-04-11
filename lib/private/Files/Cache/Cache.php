@@ -1015,7 +1015,6 @@ class Cache implements ICache {
 	/**
 	 * inner function because we can't add new params to the public function without breaking any child classes
 	 *
-	 * @param string $path
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @param bool $ignoreUnknown don't mark the folder size as unknown if any of it's children are unknown
 	 * @return int|float
@@ -1029,7 +1028,17 @@ class Cache implements ICache {
 			$id = $entry['fileid'];
 
 			$query = $this->getQueryBuilder();
-			$query->select('size', 'unencrypted_size')
+			// $effectiveSize is reused in both aggregates; Doctrine handles the duplicated parameter correctly
+			$effectiveSize = $query->func()->caseWhen(
+				$query->expr()->gt('unencrypted_size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)),
+				'unencrypted_size',
+				'size'
+			);
+			$query->selectAlias($query->func()->sum('size'), 'size_sum')
+				->selectAlias($query->func()->min('size'), 'size_min')
+				->selectAlias($query->func()->max('unencrypted_size'), 'unencrypted_max')
+				->selectAlias($query->func()->sum($effectiveSize), 'unencrypted_sum')
+				->selectAlias($query->func()->min($effectiveSize), 'unencrypted_min')
 				->from('filecache')
 				->whereStorageId($this->getNumericStorageId())
 				->whereParent($id);
@@ -1038,34 +1047,19 @@ class Cache implements ICache {
 			}
 
 			$result = $query->executeQuery();
-			$rows = $result->fetchAll();
+			$agg = $result->fetch();
 			$result->closeCursor();
 
-			if ($rows) {
-				$sizes = array_map(function (array $row) {
-					return Util::numericToNumber($row['size']);
-				}, $rows);
-				$unencryptedOnlySizes = array_map(function (array $row) {
-					return Util::numericToNumber($row['unencrypted_size']);
-				}, $rows);
-				$unencryptedSizes = array_map(function (array $row) {
-					return Util::numericToNumber(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
-				}, $rows);
+			// SUM() returns NULL on empty set
+			if ($agg && $agg['size_sum'] !== null) {
+				$sum = Util::numericToNumber($agg['size_sum']);
+				$min = Util::numericToNumber($agg['size_min']);
+				$unencryptedMax = Util::numericToNumber($agg['unencrypted_max'] ?? 0);
+				$unencryptedSum = Util::numericToNumber($agg['unencrypted_sum'] ?? 0);
+				$unencryptedMin = Util::numericToNumber($agg['unencrypted_min'] ?? 0);
 
-				$sum = array_sum($sizes);
-				$min = min($sizes);
+				$totalSize = ($min === -1) ? $min : $sum;
 
-				$unencryptedSum = array_sum($unencryptedSizes);
-				$unencryptedMin = min($unencryptedSizes);
-				$unencryptedMax = max($unencryptedOnlySizes);
-
-				$sum = 0 + $sum;
-				$min = 0 + $min;
-				if ($min === -1) {
-					$totalSize = $min;
-				} else {
-					$totalSize = $sum;
-				}
 				if ($unencryptedMin === -1 || $min === -1) {
 					$unencryptedTotal = $unencryptedMin;
 				} else {
@@ -1077,15 +1071,16 @@ class Cache implements ICache {
 				$unencryptedMax = 0;
 			}
 
-			// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
+			// only set unencrypted size for a folder if any child entries have it set
+			// or if the folder is empty
 			$shouldWriteUnEncryptedSize = $unencryptedMax > 0 || $totalSize === 0 || ($entry['unencrypted_size'] ?? 0) > 0;
 			if ($entry['size'] !== $totalSize || (($entry['unencrypted_size'] ?? 0) !== $unencryptedTotal && $shouldWriteUnEncryptedSize)) {
 				if ($shouldWriteUnEncryptedSize) {
-					// if all children have an unencrypted size of 0, just set the folder unencrypted size to 0 instead of summing the sizes
+					// if all children have an unencrypted size of 0
+					// just set the folder unencrypted size to 0 instead of summing the sizes
 					if ($unencryptedMax === 0) {
 						$unencryptedTotal = 0;
 					}
-
 					$this->update($id, [
 						'size' => $totalSize,
 						'unencrypted_size' => $unencryptedTotal,
