@@ -352,6 +352,7 @@ OC.L10N.register(
     "This share is password-protected" : "Доступ до цього ресурсу захищений паролем",
     "The password is wrong or expired. Please try again or request a new one." : "Пароль неправильний або термін дії минув. Спробуйте ще раз або надішліть запит на новий.",
     "Submit" : "Відправити",
+    "If the email address was correct then you will receive an email with the password." : "Якщо адресу ел.пошти зазначено правильно, то ви отримаєте лист з паролем. ",
     "Please type in your email address to request a temporary password" : "Будь ласка, введіть адресу електронної пошти, щоб отримати тимчасовий пароль",
     "Email address" : "Адреса ел.пошти",
     "Request password" : "Запит пароля",

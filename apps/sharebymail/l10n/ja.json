@@ -20,6 +20,7 @@
     "Note:" : "注意：",
     "This share is valid until %s at midnight" : "この共有は%sの午前0時まで有効です。",
     "Expiration:" : "期限切れ:",
+    "Open shared item" : "共有アイテムを開く",
     "%1$s via %2$s" : "%1$s に %2$s から",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$sにより %2$s が共有されました。アクセスするためのリンクは別途メールで受信してください。",
     "Password to access %1$s shared to you by %2$s" : "%1$sへの共有アクセスのパスワードが %2$s から共有されました",
