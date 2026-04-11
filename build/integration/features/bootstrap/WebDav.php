@@ -128,6 +128,28 @@ trait WebDav {
 	}
 
 	/**
+	 * Returns a pre-configured Guzzle client for the given user.
+	 *
+	 * Centralizes: base URL, auth resolution, http_errors suppression,
+	 * and any future cross-cutting middleware (logging, retries, etc.).
+	 *
+	 * @param string|null $user  The acting user, 'admin', or null/empty for unauthenticated
+	 * @param array       $extraConfig  Additional Guzzle constructor config to merge
+	 */
+	public function getGuzzleClient(?string $user = null, array $extraConfig = []): GClient {
+		$config = [
+			'http_errors' => false,
+		];
+
+		$auth = $this->getAuthForUser($user);
+		if ($auth !== null) {
+			$config['auth'] = $auth;
+			}
+
+		return new GClient(array_merge($config, $extraConfig));
+	}
+
+	/**
 	 * Returns the full DAV URL prefix for Destination headers, etc.
 	 */
 	public function getFullDavFilesUrl(string $user): string {
@@ -135,16 +157,12 @@ trait WebDav {
 	}
 	
 	public function makeDavRequest($user, $method, $path, $headers, $body = null, $type = 'files') {
+		$client = $this->getGuzzleClient($user);
 		$options = [
 			'headers' => $headers,
 			'body' => $body,
-			'http_errors' => false,
 		];
-		$auth = $this->getAuthForUser($user);
-		if ($user !== null) {
-			$options['auth'] = $auth;
-		}
-		return (new GClient())->request($method, $this->getDavUrl($user, $path, $type), $options);
+		return $client->request($method, $this->getDavUrl($user, $path, $type), $options);
 	}
 
 	/**
@@ -198,14 +216,9 @@ trait WebDav {
 	 */
 	public function downloadPublicFileWithRange($range) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token";
-
-		$client = new GClient();
-		$options = [];
-		$options['headers'] = [
-			'Range' => $range
-		];
-
+		$fullUrl = $this->getDavBaseUrl() . "public.php/dav/files/$token";
+		$client = $this->getGuzzleClient(null);
+		$options['headers'] = [ 'Range' => $range ];
 		$this->response = $client->request('GET', $fullUrl, $options);
 	}
 
@@ -215,15 +228,9 @@ trait WebDav {
 	 */
 	public function downloadPublicFileInsideAFolderWithRange($path, $range) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$path";
-
-		$client = new GClient();
-		$options = [
-			'headers' => [
-				'Range' => $range
-			]
-		];
-
+		$fullUrl = $this->getDavBaseUrl() . "public.php/dav/files/$token/$path";
+		$client = $this->getGuzzleClient(null);
+		$options['headers'] = [ 'Range' => $range ];
 		$this->response = $client->request('GET', $fullUrl, $options);
 	}
 
@@ -297,19 +304,10 @@ trait WebDav {
 	 */
 	public function downloadPublicFolder(string $folderName) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$folderName";
-
-		$client = new GClient();
-		$options = [];
-		$options['headers'] = [
-			'Accept' => 'application/zip'
-		];
-
-		try {
-			$this->response = $client->request('GET', $fullUrl, $options);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$fullUrl = $this->getDavBaseUrl() . "public.php/dav/files/$token/$folderName";
+		$client = $this->getGuzzleClient(null);
+		$options['headers'] = [ 'Accept' => 'application/zip' ];
+		$this->response = $client->request('GET', $fullUrl, $options);
 	}
 
 	/**
@@ -325,20 +323,10 @@ trait WebDav {
 	 */
 	public function downloadingPublicFile(string $filename) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$filename";
-
-		$client = new GClient();
-		$options = [
-			'headers' => [
-				'X-Requested-With' => 'XMLHttpRequest',
-			]
-		];
-
-		try {
-			$this->response = $client->request('GET', $fullUrl, $options);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$fullUrl = $this->getDavBaseUrl() . "public.php/dav/files/$token/$filename";
+		$client = $this->getGuzzleClient(null);
+		$options['headers' = [ 'X-Requested-With' => 'XMLHttpRequest' ];
+		$this->response = $client->request('GET', $fullUrl, $options);
 	}
 
 	/**
@@ -346,14 +334,9 @@ trait WebDav {
 	 */
 	public function downloadingPublicFileWithoutHeader(string $filename) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$filename";
-
-		$client = new GClient();
-		try {
-			$this->response = $client->request('GET', $fullUrl);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$fullUrl = $this->getDavBaseUrl() . "public.php/dav/files/$token/$filename";
+		$client = $this->getGuzzleClient(null);
+		$this->response = $client->request('GET', $fullUrl);
 	}
 
 	/**
@@ -777,17 +760,15 @@ trait WebDav {
 		fwrite($stream, $body);
 		rewind($stream);
 
-		$client = new GClient();
+		$client = $this->getGuzzleClient($user);
 		$options = [
-			'auth' => [$user, $this->regularUser],
 			'headers' => [
 				'Content-Type' => 'multipart/related; boundary=' . $boundary,
 				'Content-Length' => (string)strlen($body),
 			],
 			'body' => $body
 		];
-
-		return $client->request('POST', substr($this->baseUrl, 0, -4) . 'remote.php/dav/bulk', $options);
+		return $client->request('POST', $this->getDavBaseUrl() . 'remote.php/dav/bulk', $options);
 	}
 
 	/**
