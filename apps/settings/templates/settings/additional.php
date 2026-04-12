@@ -18,5 +18,7 @@
 
 	$anchor = $form['anchor'] ?? '';
 	?>
-	<div id="<?php p($anchor); ?>"><?php print_unescaped($formHtml); ?></div>
+	<div<?php if ($anchor !== ''): ?> id="<?php p($anchor); ?>"<?php endif; ?>>
+		<?php print_unescaped($formHtml); ?>
+	</div>
 <?php endforeach; ?>
