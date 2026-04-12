@@ -5,26 +5,19 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 
 require __DIR__ . '/autoload.php';
 
 trait Auth {
-	/** @var string */
-	private $unrestrictedClientToken;
-	/** @var string */
-	private $restrictedClientToken;
-	/** @var Client */
-	private $client;
-	/** @var string */
-	private $responseXml;
+	private string $unrestrictedClientToken;
+	private string $restrictedClientToken;
+	private Client $client;
+	private string $responseXml;
 
 	/** @BeforeScenario */
 	public function setUpScenario() {
-		$this->client = new Client();
+		$this->client = $this->getGuzzleClient(null);
 		$this->responseXml = '';
 		$this->cookieJar = new CookieJar();
 	}
@@ -38,27 +31,15 @@ trait Auth {
 
 	private function sendRequest($url, $method, $authHeader = null, $useCookies = false) {
 		$fullUrl = substr($this->baseUrl, 0, -5) . $url;
-		try {
-			if ($useCookies) {
-				$options = [
-					'cookies' => $this->cookieJar,
-				];
-			} else {
-				$options = [];
-			}
-			if ($authHeader) {
-				$options['headers'] = [
-					'Authorization' => $authHeader
-				];
-			}
-			$options['headers']['OCS_APIREQUEST'] = 'true';
-			$options['headers']['requesttoken'] = $this->requestToken;
-			$this->response = $this->client->request($method, $fullUrl, $options);
-		} catch (ClientException $ex) {
-			$this->response = $ex->getResponse();
-		} catch (ServerException $ex) {
-			$this->response = $ex->getResponse();
+		if ($useCookies) {
+			$options['cookies'] = $this->cookieJar;
 		}
+		if ($authHeader) {
+			$options['headers'] = [ 'Authorization' => $authHeader ];
+		}
+		$options['headers']['OCS_APIREQUEST'] = 'true';
+		$options['headers']['requesttoken'] = $this->requestToken;
+		$this->response = $this->client->request($method, $fullUrl, $options);
 	}
 
 	/**
@@ -69,33 +50,20 @@ trait Auth {
 	}
 
 	/**
-	 * @param bool $loginViaWeb
 	 * @return object
 	 */
-	private function createClientToken($loginViaWeb = true) {
+	private function createClientToken(bool $loginViaWeb = true) {
 		if ($loginViaWeb) {
 			$this->loggingInUsingWebAs('user0');
 		}
 
 		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens';
-		$client = new Client();
-		$options = [
-			'auth' => [
-				'user0',
-				$loginViaWeb ? '123456' : $this->restrictedClientToken,
-			],
-			'form_params' => [
-				'requesttoken' => $this->requestToken,
-				'name' => md5(microtime()),
-			],
-			'cookies' => $this->cookieJar,
-		];
+		$client = $this->getGuzzleClient(null);
+		$options['auth'] => [ 'user0', $loginViaWeb ? '123456' : $this->restrictedClientToken ];
+		$options['form_params'] = [ 'requesttoken' => $this->requestToken, 'name' => md5(microtime()) ];
+		$options['cookies'] = $this->cookieJar;
 
-		try {
-			$this->response = $client->request('POST', $fullUrl, $options);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			$this->response = $e->getResponse();
-		}
+		$this->response = $client->request('POST', $fullUrl, $options);
 		return json_decode($this->response->getBody()->getContents());
 	}
 
@@ -106,20 +74,15 @@ trait Auth {
 		$tokenObj = $this->createClientToken();
 		$newCreatedTokenId = $tokenObj->deviceToken->id;
 		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens/' . $newCreatedTokenId;
-		$client = new Client();
-		$options = [
-			'auth' => ['user0', '123456'],
-			'headers' => [
-				'requesttoken' => $this->requestToken,
-			],
-			'json' => [
-				'name' => md5(microtime()),
-				'scope' => [
-					'filesystem' => false,
-				],
-			],
-			'cookies' => $this->cookieJar,
+		$client = $this->getGuzzleClient(null);
+		$options['auth'] = [ 'user0', '123456' ];
+		$options['headers'] = [ 'requesttoken' => $this->requestToken ];
+		$options['json'] = [
+			'name' => md5(microtime()),
+			'scope' => [ 'filesystem' => false ],
 		];
+		$options['cookies'] = $this->cookieJar;
+
 		$this->response = $client->request('PUT', $fullUrl, $options);
 		$this->restrictedClientToken = $tokenObj->token;
 	}
@@ -207,29 +170,23 @@ trait Auth {
 		$baseUrl = substr($this->baseUrl, 0, -5);
 		$loginUrl = $baseUrl . '/login';
 		// Request a new session and extract CSRF token
-		$client = new Client();
-		$response = $client->get($loginUrl, [
-			'cookies' => $this->cookieJar,
-		]);
-		$this->extracRequestTokenFromResponse($response);
+		$client = $this->getGuzzleClient(null);
+		$options['cookies'] = $this->cookieJar;
+		$response = $client->get($loginUrl, $options);
+		$this->extractRequestTokenFromResponse($response);
 
 		// Login and extract new token
-		$client = new Client();
-		$response = $client->post(
-			$loginUrl, [
-				'form_params' => [
-					'user' => 'user0',
-					'password' => '123456',
-					'rememberme' => $remember ? '1' : '0',
-					'requesttoken' => $this->requestToken,
-				],
-				'cookies' => $this->cookieJar,
-				'headers' => [
-					'Origin' => $baseUrl,
-				],
-			]
-		);
-		$this->extracRequestTokenFromResponse($response);
+		$client = $this->getGuzzleClient(null);
+		$options['form_params'] = [
+			'user' => 'user0',
+			'password' => '123456',
+			'rememberme' => $remember ? '1' : '0',
+			'requesttoken' => $this->requestToken,
+		];
+		$options['cookies'] = $this->cookieJar;
+		$options['headers'] = [ 'Origin' => $baseUrl ];
+		$response = $client->post($loginUrl, $options);
+		$this->extractRequestTokenFromResponse($response);
 	}
 
 	/**
