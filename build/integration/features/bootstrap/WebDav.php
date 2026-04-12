@@ -22,8 +22,7 @@ trait WebDav {
 	private bool $usingOldDavPath = true;
 	private ?array $storedETAG = null; // map with user as key and another map as value, which has path as key and etag as value
 	private ?int $storedFileID = null;
-	/** @var ResponseInterface */
-	private $response;
+	private ?RespondInterface $response = null;
 	private array $parsedResponse = [];
 	private string $s3MultipartDestination;
 	private string $uploadId;
