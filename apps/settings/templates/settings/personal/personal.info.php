@@ -34,13 +34,6 @@ $settingSections = [
 	['id' => 'vue-biography-section', 'profileOnly' => true],
 ];
 
-$renderSettingBox = static function (string $sectionId, string $boxClass = 'personal-settings-setting-box'): void { ?>
-	<div class="<?php p($boxClass); ?>">
-		<div id="<?php p($sectionId); ?>"></div>
-	</div>
-<?php };
-?>
-
 <?php if (!$isFairUseOfFreePushService): ?>
 	<div class="section">
 		<div class="warning">
@@ -76,8 +69,10 @@ $renderSettingBox = static function (string $sectionId, string $boxClass = 'pers
 
 		$sectionId = $section['id'];
 		$boxClass = $section['boxClass'] ?? 'personal-settings-setting-box';
-		$renderSettingBox($sectionId, $boxClass);
 		?>
+		<div class="<?php p($boxClass); ?>">
+			<div id="<?php p($sectionId); ?>"></div>
+		</div>
 	<?php endforeach; ?>
 
 	<span class="msg"></span>
