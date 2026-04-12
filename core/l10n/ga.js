@@ -352,6 +352,7 @@ OC.L10N.register(
     "This share is password-protected" : "Tá an sciar seo cosanta ag pasfhocal",
     "The password is wrong or expired. Please try again or request a new one." : "Tá an pasfhocal mícheart nó imithe in éag. Bain triail eile as nó iarr ceann nua le do thoil. ",
     "Submit" : "Cuir isteach",
+    "If the email address was correct then you will receive an email with the password." : "Má bhí an seoladh ríomhphoist ceart, gheobhaidh tú ríomhphost leis an bhfocal faire.",
     "Please type in your email address to request a temporary password" : "Clóscríobh isteach do sheoladh ríomhphoist chun pasfhocal sealadach a iarraidh le do thoil",
     "Email address" : "Seoladh ríomhphoist",
     "Request password" : "Iarr pasfhocal",
