@@ -5,15 +5,16 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Cookie\CookieJar;
 
 require __DIR__ . '/autoload.php';
 
 trait Auth {
-	private string $unrestrictedClientToken;
-	private string $restrictedClientToken;
-	private Client $client;
-	private string $responseXml;
+	private ?string $unrestrictedClientToken;
+	private ?string $restrictedClientToken;
+	private ?GClient $client;
+	private ?string $responseXml;
 
 	/** @BeforeScenario */
 	public function setUpScenario() {
@@ -56,13 +57,11 @@ trait Auth {
 		if ($loginViaWeb) {
 			$this->loggingInUsingWebAs('user0');
 		}
-
 		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens';
 		$client = $this->getGuzzleClient(null);
-		$options['auth'] => [ 'user0', $loginViaWeb ? '123456' : $this->restrictedClientToken ];
+		$options['auth'] = [ 'user0', $loginViaWeb ? '123456' : $this->restrictedClientToken ];
 		$options['form_params'] = [ 'requesttoken' => $this->requestToken, 'name' => md5(microtime()) ];
 		$options['cookies'] = $this->cookieJar;
-
 		$this->response = $client->request('POST', $fullUrl, $options);
 		return json_decode($this->response->getBody()->getContents());
 	}
@@ -82,7 +81,6 @@ trait Auth {
 			'scope' => [ 'filesystem' => false ],
 		];
 		$options['cookies'] = $this->cookieJar;
-
 		$this->response = $client->request('PUT', $fullUrl, $options);
 		$this->restrictedClientToken = $tokenObj->token;
 	}
