@@ -137,34 +137,6 @@ class OC_App {
 	}
 
 	/**
-	 * read app types from info.xml and cache them in the database
-	 */
-	public static function setAppTypes(string $app): void {
-		$appManager = Server::get(IAppManager::class);
-		$appData = $appManager->getAppInfo($app);
-		if (!is_array($appData)) {
-			return;
-		}
-
-		if (isset($appData['types'])) {
-			$appTypes = implode(',', $appData['types']);
-		} else {
-			$appTypes = '';
-			$appData['types'] = [];
-		}
-
-		$config = Server::get(IConfig::class);
-		$config->setAppValue($app, 'types', $appTypes);
-
-		if ($appManager->hasProtectedAppType($appData['types'])) {
-			$enabled = $config->getAppValue($app, 'enabled', 'yes');
-			if ($enabled !== 'yes' && $enabled !== 'no') {
-				$config->setAppValue($app, 'enabled', 'yes');
-			}
-		}
-	}
-
-	/**
 	 * Returns apps enabled for the current user.
 	 *
 	 * @param bool $forceRefresh whether to refresh the cache
