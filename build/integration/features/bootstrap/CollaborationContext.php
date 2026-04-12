@@ -102,7 +102,7 @@ EOF;
 	 */
 	public function assureUserHasStatus(string $user, string $status) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/user_status/api/v1/user_status/status";
-		$client = this->getGuzzleClient($user);
+		$client = $this->getGuzzleClient($user);
 		$options['headers'] = [ 'OCS-APIREQUEST' => 'true' ];
 		$options['form_params'] = ['statusType' => $status ];
 		$this->response = $client->put($fullUrl, $options);
@@ -118,8 +118,8 @@ EOF;
 
 	public function getStatusList(string $user): ?array {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/user_status/api/v1/statuses";
-		$client = this->getGuzzleClient($user);
-		$options['headers'] = [ 'OCS-APIREQUEST' => 'true' ];;
+		$client = $this->getGuzzleClient($user);
+		$options['headers'] = [ 'OCS-APIREQUEST' => 'true' ];
 		$this->response = $client->get($fullUrl, $options);
 		$this->theHTTPStatusCodeShouldBe(200);
 
