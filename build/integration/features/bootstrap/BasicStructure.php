@@ -27,12 +27,13 @@ trait BasicStructure {
 	private CookieJar $cookieJar;
 	private string $requestToken;
 
-	protected string $adminUser = '';
-	protected string $regularUser = '';
+	/** @var array{0:string,1:string} */
+	protected array $adminUser;
+	protected string $regularUser;
 	protected string $localBaseUrl = '';
 	protected string $remoteBaseUrl = '';
 
-	public function __construct($baseUrl, $admin, $regular_user_password) {
+	public function __construct(string $baseUrl, array $admin, string $regular_user_password) {
 		// Initialize your context here
 		$this->baseUrl = $baseUrl;
 		$this->adminUser = $admin;
