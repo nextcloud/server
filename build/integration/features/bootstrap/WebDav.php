@@ -610,7 +610,6 @@ trait WebDav {
 </d:searchrequest>';
 
 		$this->response = $this->makeDavRequest($user, 'SEARCH', '', ['Content-Type' => 'text/xml'], $body, '');
-		var_dump((string)$this->response->getBody());
 	}
 
 	/* Returns the elements of a report command
