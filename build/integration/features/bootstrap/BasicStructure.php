@@ -23,7 +23,7 @@ trait BasicStructure {
 	private string $currentServer = '';
 	private string $baseUrl = '';
 	private int $apiVersion = 1;
-	private ResponseInterface $response = null;
+	private ?ResponseInterface $response = null;
 	private CookieJar $cookieJar;
 	private string $requestToken;
 
