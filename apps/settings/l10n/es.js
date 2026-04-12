@@ -442,6 +442,7 @@ OC.L10N.register(
     "This app is supported via your current Nextcloud subscription." : "Esta App está soportada a través de su suscripción actual de Nexcloud.",
     "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Las apps destacadas están desarrolladas por y dentro de la comunidad. Ofrecen una funcionalidad central y están listas para usarlas en producción.",
     "Community rating: {score}/5" : "Calificación de la comunidad: {score}/5",
+    "installed" : "Instalado",
     "Learn more" : "Aprender más",
     "Disable all" : "Deshabilitar todos",
     "Download and enable all" : "Descargar y habilitar todo",

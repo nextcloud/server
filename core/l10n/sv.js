@@ -352,6 +352,7 @@ OC.L10N.register(
     "This share is password-protected" : "Denna delning är lösenordsskyddad",
     "The password is wrong or expired. Please try again or request a new one." : "Lösenordet är fel eller har gått ut. Försök igen eller begär ett nytt.",
     "Submit" : "Skicka",
+    "If the email address was correct then you will receive an email with the password." : "Om e-postadressen var korrekt får du ett mejl med lösenordet.",
     "Please type in your email address to request a temporary password" : "Skriv in din e-postadress för att begära ett tillfälligt lösenord",
     "Email address" : "E-postadress",
     "Request password" : "Begär lösenord",
