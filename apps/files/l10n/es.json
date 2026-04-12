@@ -93,6 +93,7 @@
     "Another entry with the same name already exists." : "Ya existe otra entrada con el mismo nombre.",
     "Invalid filename." : "Nombre de archivo inválido.",
     "Rename file" : "Renombrar archivo",
+    "Recently created" : "Creado recientemente",
     "Folder" : "Carpeta",
     "Unknown file type" : "Tipo de archivo desconocido",
     "{ext} image" : "imagen {ext}",
