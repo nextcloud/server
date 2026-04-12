@@ -6,7 +6,6 @@
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use GuzzleHttp\Client;
 
 require __DIR__ . '/autoload.php';
 
@@ -25,7 +24,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		if ($nickname) {
 			$options['headers']['X-NC-NICKNAME'] = $nickname;
 		}
-		$this->response = $client->request('PUT', $fullUrl, $options);		
+		$this->response = $client->request('PUT', $fullUrl, $options);
 	}
 
 
@@ -43,7 +42,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	public function creatingFolderInDrop($folder, $nickname = null) {
 		$token = $this->lastShareData->data[0]->token;
 		$fullUrl = $this->getDavBaseUrl() . "public.php/dav/files/$token/$folder";
-		$client = $this->getGuzzleClient(null);		
+		$client = $this->getGuzzleClient(null);
 		$options['headers'] = [ 'X-REQUESTED-WITH' => 'XMLHttpRequest' ];
 		if ($nickname) {
 			$options['headers']['X-NC-NICKNAME'] = $nickname;
