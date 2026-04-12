@@ -98,7 +98,7 @@ class ConfigTest extends TestCase {
 
 		$content = file_get_contents($this->configFile);
 		$expected = "<?php\n";
-		$expected .= \OC\Config::CONF_WARNING;
+		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n);\n";
 		$this->assertEquals($expected, $content);
@@ -111,7 +111,7 @@ class ConfigTest extends TestCase {
 		$content = file_get_contents($this->configFile);
 
 		$expected = "<?php\n";
-		$expected .= \OC\Config::CONF_WARNING;
+		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'bar' => 'red',\n  'apps' => \n "
 			. " array (\n    0 => 'files',\n    1 => 'gallery',\n  ),\n);\n";
@@ -144,7 +144,7 @@ class ConfigTest extends TestCase {
 
 		$content = file_get_contents($this->configFile);
 		$expected = "<?php\n";
-		$expected .= \OC\Config::CONF_WARNING;
+		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n);\n";
 		$this->assertEquals($expected, $content);
@@ -157,7 +157,7 @@ class ConfigTest extends TestCase {
 		$content = file_get_contents($this->configFile);
 
 		$expected = "<?php\n";
-		$expected .= \OC\Config::CONF_WARNING;
+		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n);\n";
 		$this->assertEquals($expected, $content);
@@ -179,7 +179,7 @@ class ConfigTest extends TestCase {
 		// Write a new value to the config
 		$config->setValue('CoolWebsites', ['demo.owncloud.org', 'owncloud.org', 'owncloud.com']);
 		$expected = "<?php\n";
-		$expected .= \OC\Config::CONF_WARNING;
+		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'bar',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'php53' => 'totallyOutdated',\n  'CoolWebsites' => \n  array (\n  "
 			. "  0 => 'demo.owncloud.org',\n    1 => 'owncloud.org',\n    2 => 'owncloud.com',\n  ),\n);\n";
