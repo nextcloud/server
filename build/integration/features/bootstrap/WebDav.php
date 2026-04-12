@@ -105,7 +105,7 @@ trait WebDav {
 	private function getAuthForUser(?string $user): ?array {
 		if ($user === 'admin') {
 			return $this->adminUser;
-		} elseif ($user !== null && $user !== '') {
+		} elseif ($user !== null && $user !== '' && !str_starts_with($user, 'anonymous')) {
 			return [$user, $this->regularUser];
 		}
 
