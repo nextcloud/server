@@ -40,6 +40,11 @@ class AddExtraHeadersPlugin extends \Sabre\DAV\ServerPlugin {
 			return;
 		}
 
+		// skip setting the headers if the PUT request failed
+		if ($response->getStatus() >= 400) {
+			return;
+		}
+
 		$node = null;
 		try {
 			$node = $this->server->tree->getNodeForPath($request->getPath());
