@@ -646,6 +646,12 @@ class AmazonS3 extends Common {
 			// sub folders
 			if (is_array($result['CommonPrefixes'])) {
 				foreach ($result['CommonPrefixes'] as $prefix) {
+					if (preg_match('/\/{2,}$/', $prefix['Prefix'])) {
+						$this->logger->warning('Detected a repeating delimiter in prefix \'' . $prefix['Prefix']
+											   . '\'. This is unsupported and its contents have been ignored.');
+						continue;
+					}
+
 					$dir = $this->getDirectoryMetaData($prefix['Prefix']);
 					if ($dir) {
 						yield $dir;
