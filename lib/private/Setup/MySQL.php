@@ -13,7 +13,6 @@ use OC\DatabaseSetupException;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
-use OCP\Security\ISecureRandom;
 
 class MySQL extends AbstractDatabase {
 	public string $dbprettyname = 'MySQL/MariaDB';
@@ -127,14 +126,8 @@ class MySQL extends AbstractDatabase {
 		$rootUser = $this->dbUser;
 		$rootPassword = $this->dbPassword;
 
-		//create a random password so we don't need to store the admin password in the config file
-		$saveSymbols = str_replace(['\"', '\\', '\'', '`'], '', ISecureRandom::CHAR_SYMBOLS);
-		$password = $this->random->generate(22, ISecureRandom::CHAR_ALPHANUMERIC . $saveSymbols)
-			. $this->random->generate(2, ISecureRandom::CHAR_UPPER)
-			. $this->random->generate(2, ISecureRandom::CHAR_LOWER)
-			. $this->random->generate(2, ISecureRandom::CHAR_DIGITS)
-			. $this->random->generate(2, $saveSymbols);
-		$this->dbPassword = str_shuffle($password);
+		// Create a random password so we don't need to store the admin password in the config file
+		$this->dbPassword = $this->generateDbPassword();
 
 		try {
 			//user already specified in config
