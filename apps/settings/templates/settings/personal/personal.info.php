@@ -33,6 +33,7 @@ $settingSections = [
 	['id' => 'vue-headline-section', 'profileOnly' => true],
 	['id' => 'vue-biography-section', 'profileOnly' => true],
 ];
+?>
 
 <?php if (!$isFairUseOfFreePushService): ?>
 	<div class="section">
