@@ -2404,9 +2404,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.1.83``
+	 * Defaults to ``3.2.50``
 	 */
-	'minimum.supported.desktop.version' => '3.1.83',
+	'minimum.supported.desktop.version' => '3.2.50',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this
