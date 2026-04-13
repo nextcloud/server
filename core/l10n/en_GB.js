@@ -352,6 +352,7 @@ OC.L10N.register(
     "This share is password-protected" : "This share is password-protected",
     "The password is wrong or expired. Please try again or request a new one." : "The password is wrong or expired. Please try again or request a new one.",
     "Submit" : "Submit",
+    "If the email address was correct then you will receive an email with the password." : "If the email address was correct then you will receive an email with the password.",
     "Please type in your email address to request a temporary password" : "Please type in your email address to request a temporary password",
     "Email address" : "Email address",
     "Request password" : "Request password",
