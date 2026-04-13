@@ -1495,7 +1495,7 @@ class Manager implements IManager {
 			foreach ($uids as $uid) {
 				$user = $this->userManager->get($uid);
 				if ($user?->isEnabled() === false) {
-					throw new ShareNotFound($this->l->t('The requested share comes from a disabled user'));
+					throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 				}
 			}
 		}
