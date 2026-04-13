@@ -693,20 +693,14 @@ class OauthApiControllerTest extends TestCase {
 				return 'random' . $len;
 			});
 
-		$this->tokenProvider->expects($this->once())
-			->method('rotate')
-			->with(
-				$appToken,
-				'decryptedToken',
-				'random72'
-			)->willReturn($appToken);
+		$this->tokenProvider->expects($this->never())
+			->method('rotate');
 
 		$this->time->method('getTime')
 			->willReturn(1000);
 
-		$this->tokenProvider->expects($this->once())
-			->method('updateToken')
-			->with($this->isInstanceOf(PublicKeyToken::class));
+		$this->tokenProvider->expects($this->never())
+			->method('updateToken');
 
 		$this->crypto->method('encrypt')
 			->with('random72', 'random128')
@@ -718,16 +712,11 @@ class OauthApiControllerTest extends TestCase {
 		$this->db->expects($this->never())
 			->method('commit');
 
-		$this->db->expects($this->exactly(2))
-			->method('inTransaction')
-			->willReturnOnConsecutiveCalls(true, false);
-
 		$this->db->expects($this->once())
 			->method('rollBack');
 
-		$this->tokenProvider->expects($this->once())
-			->method('invalidateToken')
-			->with('random72');
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateToken');
 
 		$this->accessTokenMapper->expects($this->once())
 			->method('rotateToken')
