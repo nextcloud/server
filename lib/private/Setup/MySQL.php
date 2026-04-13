@@ -66,11 +66,13 @@ class MySQL extends AbstractDatabase {
 	 */
 	private function userExists(IDBConnection $connection, string $username): bool {
 		$result = $connection->executeQuery(
-			'SELECT user FROM mysql.user WHERE user=?',
+			'SELECT user FROM mysql.user WHERE user = ?',
 			[$username]
 		);
-		$exists = count($result->fetchAll()) > 0;
+
+		$exists = count($result->fetch() !== false;
 		$result->closeCursor();
+
 		return $exists;
 	}
 
