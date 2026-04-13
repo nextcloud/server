@@ -59,6 +59,7 @@
 				:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
 				<NcNoteCard type="warning">
 					{{ t('settings', 'This API is deprecated. Install apps that provide Unified task processing to get the best experience.') }}
+					<a href="https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html" target="_blank" rel="noopener noreferrer">{{ t('settings', 'Learn more about AI providers') }}</a>
 				</NcNoteCard>
 				<VueDraggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
 					<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
@@ -81,6 +82,7 @@
 				:description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
 				<NcNoteCard type="warning">
 					{{ t('settings', 'This API is deprecated. Install apps that provide Unified task processing to get the best experience.') }}
+					<a href="https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html" target="_blank" rel="noopener noreferrer">{{ t('settings', 'Learn more about AI providers') }}</a>
 				</NcNoteCard>
 				<template v-for="provider in text2imageProviders">
 					<NcCheckboxRadioSwitch
@@ -104,6 +106,7 @@
 				:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
 				<NcNoteCard type="warning">
 					{{ t('settings', 'This API is deprecated. Install apps that provide Unified task processing to get the best experience.') }}
+					<a href="https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html" target="_blank" rel="noopener noreferrer">{{ t('settings', 'Learn more about AI providers') }}</a>
 				</NcNoteCard>
 				<template v-for="type in tpTaskTypes">
 					<div :key="type">
