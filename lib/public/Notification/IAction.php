@@ -77,6 +77,10 @@ interface IAction {
 	public function isPrimary(): bool;
 
 	/**
+	 * Set the target endpoint for this action
+	 *
+	 * All links should always be relative to support desktop and mobile clients.
+	 *
 	 * @param string $link
 	 * @param string $requestType
 	 * @return $this

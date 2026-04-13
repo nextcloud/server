@@ -94,10 +94,13 @@ class ActionTest extends TestCase {
 
 	public static function dataSetLink(): array {
 		return [
-			['test1', 'GET'],
-			['test2', 'POST'],
-			[str_repeat('a', 1), 'PUT'],
-			[str_repeat('a', 256), 'DELETE'],
+			['http://example.tld/', 'GET'],
+			['https://example.tld/api/v1/resource', 'POST'],
+			['https://example.tld/?q=1&r=2', 'PUT'],
+			['https://example.tld/path#frag', 'DELETE'],
+			['https://example.tld/web', 'WEB'],
+			// Maximum length (256 chars total, including the scheme)
+			['https://' . str_repeat('a', 256 - 8), 'GET'],
 		];
 	}
 
@@ -115,12 +118,27 @@ class ActionTest extends TestCase {
 
 	public static function dataSetLinkInvalid(): array {
 		return [
-			// Invalid link
+			// Invalid link — empty / too long
 			['', 'GET'],
-			[str_repeat('a', 257), 'GET'],
+			['https://' . str_repeat('a', 257 - 8), 'GET'],
 
-			// Invalid type
-			['url', 'notGET'],
+			// Disallowed schemes
+			['javascript:alert(1)', 'WEB'],
+			['JavaScript:alert(1)', 'WEB'],
+			['javascript:alert(1)', 'GET'],
+			['data:text/html,<script>alert(1)</script>', 'WEB'],
+			['vbscript:msgbox("xss")', 'WEB'],
+			['file:///etc/passwd', 'GET'],
+			['mailto:test@example.tld', 'WEB'],
+			['ftp://example.tld/', 'GET'],
+
+			// Relative urls
+			['/relative/path', 'WEB'],
+			['//protocol-relative.tld/', 'GET'],
+			['url', 'GET'],
+
+			// Invalid type (with a valid http(s) link, so the type check is what trips)
+			['https://example.tld/', 'notGET'],
 		];
 	}
 
@@ -159,7 +177,7 @@ class ActionTest extends TestCase {
 		$this->action->setLabel('label');
 		$this->assertFalse($this->action->isValid());
 		$this->assertFalse($this->action->isValidParsed());
-		$this->action->setLink('link', 'GET');
+		$this->action->setLink('https://example.tld/', 'GET');
 		$this->assertTrue($this->action->isValid());
 		$this->assertFalse($this->action->isValidParsed());
 	}
@@ -170,7 +188,7 @@ class ActionTest extends TestCase {
 		$this->action->setParsedLabel('label');
 		$this->assertFalse($this->action->isValid());
 		$this->assertFalse($this->action->isValidParsed());
-		$this->action->setLink('link', 'GET');
+		$this->action->setLink('https://example.tld/', 'GET');
 		$this->assertFalse($this->action->isValid());
 		$this->assertTrue($this->action->isValidParsed());
 	}
