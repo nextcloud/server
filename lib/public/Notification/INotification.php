@@ -232,6 +232,10 @@ interface INotification {
 	public function getRichMessageParameters(): array;
 
 	/**
+	 * Set the target endpoint for this action
+	 *
+	 * All links should always be relative to support desktop and mobile clients.
+	 *
 	 * @param string $link
 	 * @return $this
 	 * @throws InvalidValueException if the link is invalid
