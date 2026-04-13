@@ -316,9 +316,8 @@ class Manager implements IManager {
 				$app->notify($notification);
 			} catch (IncompleteNotificationException) {
 			} catch (\InvalidArgumentException $e) {
-				// todo 33.0.0 Log as warning
 				// todo 39.0.0 Log as error
-				$this->logger->debug(get_class($app) . '::notify() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\IncompleteNotificationException when the notification is incomplete for your app and otherwise handle all \InvalidArgumentException yourself.');
+				$this->logger->warning(get_class($app) . '::notify() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\IncompleteNotificationException when the notification is incomplete for your app and otherwise handle all \InvalidArgumentException yourself.');
 			}
 		}
 	}
@@ -358,9 +357,8 @@ class Manager implements IManager {
 			} catch (UnknownNotificationException) {
 				continue;
 			} catch (\InvalidArgumentException $e) {
-				// todo 33.0.0 Log as warning
 				// todo 39.0.0 Log as error
-				$this->logger->debug(get_class($notifier) . '::prepare() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
+				$this->logger->warning(get_class($notifier) . '::prepare() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
 				continue;
 			}
 
@@ -373,23 +371,6 @@ class Manager implements IManager {
 		if (!$notification->isValidParsed()) {
 			$this->logger->info('Notification was not parsed by any notifier [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
 			throw new IncompleteParsedNotificationException();
-		}
-
-		$link = $notification->getLink();
-		if ($link !== '' && !str_starts_with($link, 'http://') && !str_starts_with($link, 'https://')) {
-			$this->logger->warning('Link of notification is not an absolute URL and does not work in mobile and desktop clients [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
-		}
-
-		$icon = $notification->getIcon();
-		if ($icon !== '' && !str_starts_with($icon, 'http://') && !str_starts_with($icon, 'https://')) {
-			$this->logger->warning('Icon of notification is not an absolute URL and does not work in mobile and desktop clients [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
-		}
-
-		foreach ($notification->getParsedActions() as $action) {
-			$link = $action->getLink();
-			if ($link !== '' && !str_starts_with($link, 'http://') && !str_starts_with($link, 'https://')) {
-				$this->logger->warning('Link of action is not an absolute URL and does not work in mobile and desktop clients [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
-			}
 		}
 
 		return $notification;
@@ -449,9 +430,8 @@ class Manager implements IManager {
 				} catch (UnknownNotificationException) {
 					continue;
 				} catch (\InvalidArgumentException $e) {
-					// todo 33.0.0 Log as warning
 					// todo 39.0.0 Log as error
-					$this->logger->debug(get_class($notifier) . '::dismissNotification() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
+					$this->logger->warning(get_class($notifier) . '::dismissNotification() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
 					continue;
 				}
 			}
