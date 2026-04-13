@@ -76,6 +76,12 @@ class Action implements IAction {
 		if ($link === '' || isset($link[256])) {
 			throw new InvalidValueException('link');
 		}
+
+		// Only allow absolute URLs for support of desktop and mobile clients
+		if (!str_starts_with($link, 'http://') && !str_starts_with($link, 'https://')) {
+			throw new InvalidValueException('link');
+		}
+
 		if (!in_array($requestType, [
 			self::TYPE_GET,
 			self::TYPE_POST,
