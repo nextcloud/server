@@ -200,21 +200,9 @@ class OauthApiController extends Controller {
 		$redeemedThrottleReason = $grant_type === 'authorization_code'
 			? 'authorization_code_already_redeemed'
 			: 'refresh_token_already_redeemed';
-		$tokenRotated = false;
 
 		$this->db->beginTransaction();
 		try {
-			$appToken = $this->tokenProvider->rotate(
-				$appToken,
-				$decryptedToken,
-				$newToken
-			);
-			$tokenRotated = true;
-
-			// Expiration is in 1 hour again
-			$appToken->setExpires($this->time->getTime() + 3600);
-			$this->tokenProvider->updateToken($appToken);
-
 			$updatedRows = $this->accessTokenMapper->rotateToken(
 				$accessToken->getId(),
 				$code,
@@ -225,8 +213,6 @@ class OauthApiController extends Controller {
 
 			if ($updatedRows !== 1) {
 				$this->db->rollBack();
-				// tokenProvider->rotate() updates the auth token cache, so we have to clear the new token on rollback
-				$this->tokenProvider->invalidateToken($newToken);
 				$response = new JSONResponse([
 					'error' => 'invalid_request',
 				], Http::STATUS_BAD_REQUEST);
@@ -234,16 +220,24 @@ class OauthApiController extends Controller {
 				return $response;
 			}
 
+			$appToken = $this->tokenProvider->rotate(
+				$appToken,
+				$decryptedToken,
+				$newToken
+			);
+
+			// Expiration is in 1 hour again
+			$appToken->setExpires($this->time->getTime() + 3600);
+			$this->tokenProvider->updateToken($appToken);
+
 			$this->db->commit();
 		} catch (\Throwable $e) {
 			if ($this->db->inTransaction()) {
 				$this->db->rollBack();
 			}
-
-			if ($tokenRotated) {
-				// tokenProvider->rotate() updates the auth token cache, so we have to clear the new token on rollback
-				$this->tokenProvider->invalidateToken($newToken);
-			}
+			// rotate() and updateToken() write the auth token to the cache,
+			// so if we are past rotate() we must invalidate the new token
+			$this->tokenProvider->invalidateToken($newToken);
 
 			throw $e;
 		}
