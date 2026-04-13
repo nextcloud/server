@@ -316,9 +316,8 @@ class Manager implements IManager {
 				$app->notify($notification);
 			} catch (IncompleteNotificationException) {
 			} catch (\InvalidArgumentException $e) {
-				// todo 33.0.0 Log as warning
 				// todo 39.0.0 Log as error
-				$this->logger->debug(get_class($app) . '::notify() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\IncompleteNotificationException when the notification is incomplete for your app and otherwise handle all \InvalidArgumentException yourself.');
+				$this->logger->warning(get_class($app) . '::notify() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\IncompleteNotificationException when the notification is incomplete for your app and otherwise handle all \InvalidArgumentException yourself.');
 			}
 		}
 	}
@@ -358,9 +357,8 @@ class Manager implements IManager {
 			} catch (UnknownNotificationException) {
 				continue;
 			} catch (\InvalidArgumentException $e) {
-				// todo 33.0.0 Log as warning
 				// todo 39.0.0 Log as error
-				$this->logger->debug(get_class($notifier) . '::prepare() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
+				$this->logger->warning(get_class($notifier) . '::prepare() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
 				continue;
 			}
 
@@ -449,9 +447,8 @@ class Manager implements IManager {
 				} catch (UnknownNotificationException) {
 					continue;
 				} catch (\InvalidArgumentException $e) {
-					// todo 33.0.0 Log as warning
 					// todo 39.0.0 Log as error
-					$this->logger->debug(get_class($notifier) . '::dismissNotification() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
+					$this->logger->warning(get_class($notifier) . '::dismissNotification() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
 					continue;
 				}
 			}
