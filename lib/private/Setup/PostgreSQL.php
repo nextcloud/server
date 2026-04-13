@@ -150,19 +150,36 @@ class PostgreSQL extends AbstractDatabase {
 	private function userExists(Connection $connection, string $username): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
+
 		$query = $builder->select('rolname')
 			->from('pg_roles')
-			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($username)));
+			->where(
+				$builder->expr()->eq(
+					'rolname',
+					$builder->createNamedParameter($username)
+				)
+			);
+
 		$result = $query->executeQuery();
-		return $result->rowCount() > 0;
+		$exists = $result->fetch() !== false;
+		$result->closeCursor();
+
+		return $exists;
 	}
 
 	private function databaseExists(Connection $connection): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
+
 		$query = $builder->select('datname')
 			->from('pg_database')
-			->where($builder->expr()->eq('datname', $builder->createNamedParameter($this->dbName)));
+			->where(
+				$builder->expr()->eq(
+					'datname',
+					$builder->createNamedParameter($this->dbName)
+				)
+			);
+
 		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
