@@ -70,7 +70,7 @@ class MySQL extends AbstractDatabase {
 			[$username]
 		);
 
-		$exists = count($result->fetch() !== false;
+		$exists = $result->fetch() !== false;
 		$result->closeCursor();
 
 		return $exists;
