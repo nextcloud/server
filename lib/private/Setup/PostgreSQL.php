@@ -15,6 +15,8 @@ use OCP\Security\ISecureRandom;
 use OCP\Server;
 
 class PostgreSQL extends AbstractDatabase {
+	/** @var int PostgreSQL identifier length limit */
+	private const MAX_USERNAME_LENGTH = 63;
 	public $dbprettyname = 'PostgreSQL';
 
 	/**
@@ -107,11 +109,12 @@ class PostgreSQL extends AbstractDatabase {
 	 * Find a role name starting from $base that doesn't already exist.
 	 */
 	private function findAvailableUsername(Connection $connection, string $base): string {
-		$candidate = $base;
+		$candidate = substr($base, 0, self::MAX_USERNAME_LENGTH);
 		$suffix = 1;
 
 		while ($this->userExists($connection, $candidate)) {
-			$candidate = $base . $suffix;
+			$suffixString = (string)$suffix;
+			$candidate = substr($base, 0, self::MAX_USERNAME_LENGTH - strlen($suffixString)) . $suffixString;
 			$suffix++;
 		}
 
