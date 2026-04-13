@@ -352,6 +352,7 @@ OC.L10N.register(
     "This share is password-protected" : "Toto zdieľanie je chránené heslom",
     "The password is wrong or expired. Please try again or request a new one." : "Heslo je nesprávne alebo jeho platnosť vypršala. Skúste to znova alebo požiadajte o nové heslo.",
     "Submit" : "Odoslať",
+    "If the email address was correct then you will receive an email with the password." : "Ak bola e-mailová adresa správna, dostanete e-mail s heslom.",
     "Please type in your email address to request a temporary password" : "Prosím zadajte vašu e-mailovú adresu pre získanie dočasného hesla",
     "Email address" : "E-mailová adresa",
     "Request password" : "Vyžiadať heslo",
