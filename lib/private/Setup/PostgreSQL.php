@@ -108,11 +108,11 @@ class PostgreSQL extends AbstractDatabase {
 	 */
 	private function findAvailableUsername(Connection $connection, string $base): string {
 		$candidate = $base;
+		$suffix = 1;
 
-		$i = 1;
 		while ($this->userExists($connection, $candidate)) {
-			$i++;
-			$candidate = $base . $i;
+			$candidate = $base . $suffix;
+			$suffix++;
 		}
 
 		return $candidate;
