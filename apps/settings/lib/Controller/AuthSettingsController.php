@@ -155,6 +155,7 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function destroy($id) {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
@@ -183,6 +184,7 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update($id, array $scope, string $name) {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
