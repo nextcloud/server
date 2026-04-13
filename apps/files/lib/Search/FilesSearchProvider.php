@@ -108,7 +108,7 @@ class FilesSearchProvider implements IFilteringProvider {
 		$fileQuery = $this->buildSearchQuery($query, $user);
 		$results = $userFolder->search($fileQuery);
 
-		$fileIds = array_map(static fn (Node $result): string => (string)$result->getId(), $results);
+		$fileIds = array_map(static fn (Node $result): string => $result->getId(), $results);
 		$favoriteMap = $this->getFavoriteStatesByFileId($fileIds);
 	
 		return SearchResult::paginated(
@@ -145,7 +145,7 @@ class FilesSearchProvider implements IFilteringProvider {
 					$icon,
 				);
 
-				$searchResultEntry->addAttribute('fileId', $fileId);
+				$searchResultEntry->addAttribute('fileId', (string)$nodeId);
 				$searchResultEntry->addAttribute('path', $path);
 				$searchResultEntry->addAttribute('favorite', ($favoriteMap[$nodeId] ?? false) ? 'true' : 'false');
 				return $searchResultEntry;
@@ -155,8 +155,8 @@ class FilesSearchProvider implements IFilteringProvider {
 	}
 
 	/**
-	 * @param list<string> $fileIds
-	 * @return array<string, bool>
+	 * @param list<int> $fileIds
+	 * @return array<int, bool>
 	 */
 	private function getFavoriteStatesByFileId(array $fileIds): array {
 		if ($fileIds === []) {
