@@ -24,6 +24,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
 use OCP\IPreview;
+use OCP\ITagManager;
 use OCP\ITags;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -42,6 +43,7 @@ class FilesSearchProvider implements IFilteringProvider {
 		private IMimeTypeDetector $mimeTypeDetector,
 		private IRootFolder $rootFolder,
 		private IPreview $previewManager,
+		private ITagManager $tagManager,
 	) {
 	}
 
@@ -104,22 +106,35 @@ class FilesSearchProvider implements IFilteringProvider {
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$fileQuery = $this->buildSearchQuery($query, $user);
+		$results = $userFolder->search($fileQuery);
+
+		$fileIds = array_map(static fn (Node $result): string => (string)$result->getId(), $results);
+		$favoriteMap = $this->getFavoriteStatesByFileId($fileIds);
+	
 		return SearchResult::paginated(
 			$this->l10n->t('Files'),
-			array_map(function (Node $result) use ($userFolder) {
+			array_map(function (Node $result) use ($userFolder, $favoriteMap) {
+				$nodeId = $result->getId();
 				$thumbnailUrl = $this->previewManager->isMimeSupported($result->getMimetype())
-					? $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->getId()])
+					? $this->urlGenerator->linkToRouteAbsolute(
+						'core.Preview.getPreviewByFileId', [
+							'x' => 32,
+							'y' => 32,
+							'fileId' => $nodeId,
+						])
 					: '';
+
 				$icon = $result->getMimetype() === FileInfo::MIMETYPE_FOLDER
 					? 'icon-folder'
 					: $this->mimeTypeDetector->mimeTypeIcon($result->getMimetype());
-				$path = $userFolder->getRelativePath($result->getPath());
 
+				$path = $userFolder->getRelativePath($result->getPath());
 				// Use shortened link to centralize the various
 				// files/folder url redirection in files.View.showFile
 				$link = $this->urlGenerator->linkToRoute(
-					'files.View.showFile',
-					['fileid' => $result->getId()]
+					'files.View.showFile', [
+						'fileid' => $nodeId,
+					]
 				);
 
 				$searchResultEntry = new SearchResultEntry(
@@ -129,28 +144,41 @@ class FilesSearchProvider implements IFilteringProvider {
 					$this->urlGenerator->getAbsoluteURL($link),
 					$icon,
 				);
-				$searchResultEntry->addAttribute('fileId', (string)$result->getId());
+
+				$searchResultEntry->addAttribute('fileId', $fileId);
 				$searchResultEntry->addAttribute('path', $path);
-				$searchResultEntry->addAttribute('favorite', $this->isFavorite((string)$result->getId()) ? "true" : "false");
+				$searchResultEntry->addAttribute('favorite', ($favoriteMap[$nodeId] ?? false) ? 'true' : 'false');
 				return $searchResultEntry;
-			}, $userFolder->search($fileQuery)),
+			}, $results),
 			$query->getCursor() + $query->getLimit()
 		);
 	}
 
-	private function isFavorite(string $fileId): bool {
-		$tagManager = \OCP\Server::get(\OCP\ITagManager::class);
-		$tagger = $tagManager->load('files');
+	/**
+	 * @param list<string> $fileIds
+	 * @return array<string, bool>
+	 */
+	private function getFavoriteStatesByFileId(array $fileIds): array {
+		if ($fileIds === []) {
+			return [];
+		}
+
+		$tagger = $this->tagManager->load('files');
 		if ($tagger === null) {
-			return false;
-		}
-		$tags = $tagger->getTagsForObjects([$fileId]);
-
-		if ($tags === false || empty($tags)) {
-			return false;
+			return [];
 		}
 
-		return array_search(ITags::TAG_FAVORITE, current($tags)) !== false;
+		$tags = $tagger->getTagsForObjects($fileIds);
+		if ($tags === false || $tags === []) {
+			return [];
+		}
+
+		$favoriteMap = [];
+		foreach ($fileIds as $fileId) {
+			$favoriteMap[$fileId] = in_array(ITags::TAG_FAVORITE, $tags[$fileId] ?? [], true);
+		}
+
+		return $favoriteMap;
 	}
 
 	private function buildSearchQuery(ISearchQuery $query, IUser $user): SearchQuery {
@@ -209,11 +237,11 @@ class FilesSearchProvider implements IFilteringProvider {
 	 */
 	private function formatSubline(string $path): string {
 		// Do not show the location if the file is in root
-		if (strrpos($path, '/') > 0) {
-			$path = ltrim(dirname($path), '/');
-			return $this->l10n->t('in %s', [$path]);
-		} else {
+		if (strrpos($path, '/') <= 0) {
 			return '';
 		}
+
+		$path = ltrim(dirname($path), '/');
+		return $this->l10n->t('in %s', [$path]);
 	}
 }
