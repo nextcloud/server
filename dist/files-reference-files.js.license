@@ -462,7 +462,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.9.0
 	- license: MIT
 - webpack
-	- version: 5.105.4
+	- version: 5.106.1
 	- license: MIT
 - zwitch
 	- version: 2.0.4
