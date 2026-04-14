@@ -8,12 +8,16 @@ declare(strict_types=1);
  */
 namespace OCP\Http\Client;
 
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Interface IClient
  *
  * @since 8.1.0
  */
-interface IClient {
+interface IClient extends ClientInterface {
 
 	/**
 	 * Default request timeout for requests
@@ -267,6 +271,18 @@ interface IClient {
 	 * @since 29.0.0
 	 */
 	public function request(string $method, string $uri, array $options = []): IResponse;
+
+	/**
+	 * Sends a PSR-7 request and returns a PSR-7 response, part of the PSR-18 interface.
+	 *
+	 * @param RequestInterface $request PSR-7 request interface
+	 *
+	 * @return ResponseInterface PSR-7 response interface
+	 *
+	 * @throws \Psr\Http\Client\ClientExceptionInterface If an error happens while processing the request.
+	 * @since 34.0.0
+	 */
+	public function sendRequest(RequestInterface $request): ResponseInterface;
 
 	/**
 	 * Sends an asynchronous GET request
