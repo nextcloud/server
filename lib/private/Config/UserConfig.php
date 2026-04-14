@@ -685,7 +685,7 @@ class UserConfig implements IUserConfig {
 		bool $default = false,
 		bool $lazy = false,
 	): bool {
-		$b = strtolower($this->getTypedValue($userId, $app, $key, $default ? 'true' : 'false', $lazy, ValueType::BOOL));
+		$b = strtolower((string)$this->getTypedValue($userId, $app, $key, $default ? 'true' : 'false', $lazy, ValueType::BOOL));
 		return in_array($b, ['1', 'true', 'yes', 'on']);
 	}
 
