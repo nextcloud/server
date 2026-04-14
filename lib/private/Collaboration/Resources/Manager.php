@@ -457,11 +457,6 @@ class Manager implements IManager {
 		$query->executeStatement();
 	}
 
-	public function registerResourceProvider(string $provider): void {
-		$this->logger->debug('\OC\Collaboration\Resources\Manager::registerResourceProvider is deprecated', ['provider' => $provider]);
-		$this->providerManager->registerResourceProvider($provider);
-	}
-
 	/**
 	 * Get the resource type of the provider
 	 *
