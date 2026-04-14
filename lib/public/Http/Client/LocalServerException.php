@@ -8,8 +8,10 @@ declare(strict_types=1);
  */
 namespace OCP\Http\Client;
 
+use Psr\Http\Client\ClientExceptionInterface;
+
 /**
  * @since 19.0.0
  */
-class LocalServerException extends \RuntimeException {
+class LocalServerException extends \RuntimeException implements ClientExceptionInterface {
 }

@@ -481,7 +481,7 @@ class Client implements IClient {
 
 	public function sendRequest(RequestInterface $request): ResponseInterface {
 		$this->preventLocalAddress((string)$request->getUri(), []);
-		return $this->client->sendRequest($request);
+		return $this->client->send($request, $this->buildRequestOptions([]));
 	}
 
 	protected function wrapGuzzlePromise(PromiseInterface $promise): IPromise {
