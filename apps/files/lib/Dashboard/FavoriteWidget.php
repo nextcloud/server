@@ -22,12 +22,10 @@ use OCP\Dashboard\Model\WidgetItem;
 use OCP\Dashboard\Model\WidgetItems;
 use OCP\Dashboard\Model\WidgetOptions;
 use OCP\Files\File;
-use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
-use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 
@@ -36,10 +34,8 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 	public function __construct(
 		private readonly IL10N $l10n,
 		private readonly IURLGenerator $urlGenerator,
-		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly IUserManager $userManager,
 		private readonly IRootFolder $rootFolder,
-		private readonly IPreview $previewManager,
 	) {
 	}
 
