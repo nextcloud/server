@@ -488,25 +488,45 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	public function getMountForPath(IUser $user, string $path): ICachedMountInfo {
-		$mounts = [];
-		foreach ($this->getMountsForUser($user) as $mount) {
-			$mounts[$mount->getMountPoint()] = $mount;
-		}
-
+		$searchPaths = [];
 		$current = rtrim($path, '/');
-		// walk up the directory tree until we find a path that has a mountpoint set
-		// the loop will return if a mountpoint is found or break if none are found
-		while (true) {
+		// get all paths that we are interested in, $path and all it's parents
+		while ($current !== '') {
 			$mountPoint = $current . '/';
-			if (isset($mounts[$mountPoint])) {
-				return $mounts[$mountPoint];
-			} elseif ($current === '') {
-				break;
-			}
+
+			$searchPaths[] = $mountPoint;
 
 			$current = dirname($current);
 			if ($current === '.' || $current === '/') {
 				$current = '';
+			}
+		}
+
+		$mounts = [];
+		if (isset($this->mountsForUsers[$user->getUID()])) {
+			foreach ($this->mountsForUsers[$user->getUID()] as $mount) {
+				$mounts[$mount->getMountPoint()] = $mount;
+			}
+		} else {
+			$searchPathHashes = array_map(static fn (string $path) => hash('xxh128', $path), $searchPaths);
+
+			$builder = $this->connection->getQueryBuilder();
+			$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
+				->from('mounts', 'm')
+				->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
+				->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())))
+				->andWhere($builder->expr()->in('mount_point_hash', $builder->createNamedParameter($searchPathHashes, IQueryBuilder::PARAM_STR_ARRAY)));
+
+			foreach ($query->executeQuery()->fetchAll() as $row) {
+				$mount = $this->dbRowToMountInfo($row);
+				$mounts[$mount->getMountPoint()] = $mount;
+			}
+		}
+
+		// note that $searchPaths is sorted deepest path first
+		foreach ($searchPaths as $searchPath) {
+			if (isset($mounts[$searchPath])) {
+				return $mounts[$searchPath];
 			}
 		}
 
