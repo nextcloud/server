@@ -215,7 +215,6 @@
     "Invalid share recipient" : "Недійсний отримувач спільного ресурсу",
     "Group \"%s\" does not exist" : "Група \"%s\" відсутня",
     "The requested share does not exist anymore" : "Запитуваний спільний ресурс більше недоступний",
-    "The requested share comes from a disabled user" : "Отримано запит на спільний доступ від неактивного користувача",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Користувача не створено, оскільки досягнуто обмеження на кількість користувачів. Перевірте сповіщення для докладної інформації.",
     "Could not find category \"%s\"" : "Не вдалося знайти категорію \"%s\"",
     "Input text" : "Текст для введення",

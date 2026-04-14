@@ -214,7 +214,6 @@
     "Invalid share recipient" : "Ugyldig delingsmodtager",
     "Group \"%s\" does not exist" : "Gruppe \"%s\" eksisterer ikke",
     "The requested share does not exist anymore" : "Det delte emne eksisterer ikke længere",
-    "The requested share comes from a disabled user" : "Den ønskede deling kommer fra en deaktiveret bruger",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Brugeren blev ikke oprettet, fordi brugergrænsen er nået. Tjek dine notifikationer for at få flere oplysninger.",
     "Could not find category \"%s\"" : "Kunne ikke finde kategorien \"%s\"",
     "Input text" : "Inputtekst",

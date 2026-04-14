@@ -215,7 +215,6 @@
     "Invalid share recipient" : "ئىناۋەتسىز",
     "Group \"%s\" does not exist" : "گۇرۇپپا \"%s\" مەۋجۇت ئەمەس",
     "The requested share does not exist anymore" : "تەلەپ قىلىنغان ئۈلۈش ئەمدى مەۋجۇت ئەمەس",
-    "The requested share comes from a disabled user" : "تەلەپ قىلىنغان ئۈلۈش چەكلەنگەن ئىشلەتكۈچىدىن كېلىدۇ",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "ئىشلەتكۈچى چەكلىمىسىگە يەتكەنلىكى ئۈچۈن ئىشلەتكۈچى قۇرۇلمىغان. تەپسىلاتىنى بىلىش ئۈچۈن ئۇقتۇرۇشلىرىڭىزنى تەكشۈرۈڭ.",
     "Could not find category \"%s\"" : "\"%s\" تۈرىنى تاپالمىدى",
     "Input text" : "تېكىست كىرگۈزۈڭ",

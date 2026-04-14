@@ -215,7 +215,6 @@
     "Invalid share recipient" : "Neplatný príjemca zdieľania",
     "Group \"%s\" does not exist" : "Skupina \"%s\" neexistuje",
     "The requested share does not exist anymore" : "Požadované zdieľanie už neexistuje",
-    "The requested share comes from a disabled user" : "Požadované zdieľanie pochádza od zakázaného užívateľa.",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Bol dosiahnutý limit používateľov a používateľ nebol vytvorený. Pozrite sa do upozornení pre viac informácií.",
     "Could not find category \"%s\"" : "Nemožno nájsť danú kategóriu \"%s\"",
     "Input text" : "Vstupný text",

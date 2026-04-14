@@ -132,7 +132,6 @@
     "Sharing is only allowed with group members" : "같은 그룹 사용자에게만 공유할 수 있습니다",
     "Sharing %s failed, because this item is already shared with the account %s" : "%s을(를) 공유할 수 없습니다. 이 항목을 이미 %s 계정과 공유하고 있습니다",
     "The requested share does not exist anymore" : "요청한 공유가 더 이상 존재하지 않습니다",
-    "The requested share comes from a disabled user" : "요청한 공유가 비활성화된 사용자로부터 수신되었습니다",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "사용자 수 제한에 도달하여 사용자를 만들 수 없습니다. 더 자세한 정보는 알림을 참조하십시오.",
     "Could not find category \"%s\"" : "분류 \"%s\"을(를) 찾을 수 없습니다",
     "Input text" : "텍스트를 입력",
