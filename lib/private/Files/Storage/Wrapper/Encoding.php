@@ -74,7 +74,7 @@ class Encoding extends Wrapper {
 	 */
 	private function findPathToUseLastSection(string $basePath, string $lastSection): ?string {
 		$fullPath = $basePath . $lastSection;
-		if ($lastSection === '' || $this->isAscii($lastSection) || $this->storage->file_exists($fullPath)) {
+		if ($lastSection === '' || $this->isAscii($lastSection) || $this->getWrapperStorage()->file_exists($fullPath)) {
 			$this->namesCache[$fullPath] = $fullPath;
 			return $fullPath;
 		}
@@ -86,7 +86,7 @@ class Encoding extends Wrapper {
 			$otherFormPath = \Normalizer::normalize($lastSection, \Normalizer::FORM_C);
 		}
 		$otherFullPath = $basePath . $otherFormPath;
-		if ($this->storage->file_exists($otherFullPath)) {
+		if ($this->getWrapperStorage()->file_exists($otherFullPath)) {
 			$this->namesCache[$fullPath] = $otherFullPath;
 			return $otherFullPath;
 		}
@@ -98,7 +98,7 @@ class Encoding extends Wrapper {
 
 	public function mkdir(string $path): bool {
 		// note: no conversion here, method should not be called with non-NFC names!
-		$result = $this->storage->mkdir($path);
+		$result = $this->getWrapperStorage()->mkdir($path);
 		if ($result) {
 			$this->namesCache[$path] = $path;
 		}
@@ -106,7 +106,7 @@ class Encoding extends Wrapper {
 	}
 
 	public function rmdir(string $path): bool {
-		$result = $this->storage->rmdir($this->findPathToUse($path));
+		$result = $this->getWrapperStorage()->rmdir($this->findPathToUse($path));
 		if ($result) {
 			unset($this->namesCache[$path]);
 		}
@@ -114,72 +114,72 @@ class Encoding extends Wrapper {
 	}
 
 	public function opendir(string $path) {
-		$handle = $this->storage->opendir($this->findPathToUse($path));
+		$handle = $this->getWrapperStorage()->opendir($this->findPathToUse($path));
 		return EncodingDirectoryWrapper::wrap($handle);
 	}
 
 	public function is_dir(string $path): bool {
-		return $this->storage->is_dir($this->findPathToUse($path));
+		return $this->getWrapperStorage()->is_dir($this->findPathToUse($path));
 	}
 
 	public function is_file(string $path): bool {
-		return $this->storage->is_file($this->findPathToUse($path));
+		return $this->getWrapperStorage()->is_file($this->findPathToUse($path));
 	}
 
 	public function stat(string $path): array|false {
-		return $this->storage->stat($this->findPathToUse($path));
+		return $this->getWrapperStorage()->stat($this->findPathToUse($path));
 	}
 
 	public function filetype(string $path): string|false {
-		return $this->storage->filetype($this->findPathToUse($path));
+		return $this->getWrapperStorage()->filetype($this->findPathToUse($path));
 	}
 
 	public function filesize(string $path): int|float|false {
-		return $this->storage->filesize($this->findPathToUse($path));
+		return $this->getWrapperStorage()->filesize($this->findPathToUse($path));
 	}
 
 	public function isCreatable(string $path): bool {
-		return $this->storage->isCreatable($this->findPathToUse($path));
+		return $this->getWrapperStorage()->isCreatable($this->findPathToUse($path));
 	}
 
 	public function isReadable(string $path): bool {
-		return $this->storage->isReadable($this->findPathToUse($path));
+		return $this->getWrapperStorage()->isReadable($this->findPathToUse($path));
 	}
 
 	public function isUpdatable(string $path): bool {
-		return $this->storage->isUpdatable($this->findPathToUse($path));
+		return $this->getWrapperStorage()->isUpdatable($this->findPathToUse($path));
 	}
 
 	public function isDeletable(string $path): bool {
-		return $this->storage->isDeletable($this->findPathToUse($path));
+		return $this->getWrapperStorage()->isDeletable($this->findPathToUse($path));
 	}
 
 	public function isSharable(string $path): bool {
-		return $this->storage->isSharable($this->findPathToUse($path));
+		return $this->getWrapperStorage()->isSharable($this->findPathToUse($path));
 	}
 
 	public function getPermissions(string $path): int {
-		return $this->storage->getPermissions($this->findPathToUse($path));
+		return $this->getWrapperStorage()->getPermissions($this->findPathToUse($path));
 	}
 
 	public function file_exists(string $path): bool {
-		return $this->storage->file_exists($this->findPathToUse($path));
+		return $this->getWrapperStorage()->file_exists($this->findPathToUse($path));
 	}
 
 	public function filemtime(string $path): int|false {
-		return $this->storage->filemtime($this->findPathToUse($path));
+		return $this->getWrapperStorage()->filemtime($this->findPathToUse($path));
 	}
 
 	public function file_get_contents(string $path): string|false {
-		return $this->storage->file_get_contents($this->findPathToUse($path));
+		return $this->getWrapperStorage()->file_get_contents($this->findPathToUse($path));
 	}
 
 	public function file_put_contents(string $path, mixed $data): int|float|false {
-		return $this->storage->file_put_contents($this->findPathToUse($path), $data);
+		return $this->getWrapperStorage()->file_put_contents($this->findPathToUse($path), $data);
 	}
 
 	public function unlink(string $path): bool {
-		$result = $this->storage->unlink($this->findPathToUse($path));
+		$result = $this->getWrapperStorage()->unlink($this->findPathToUse($path));
 		if ($result) {
 			unset($this->namesCache[$path]);
 		}
@@ -188,15 +188,15 @@ class Encoding extends Wrapper {
 
 	public function rename(string $source, string $target): bool {
 		// second name always NFC
-		return $this->storage->rename($this->findPathToUse($source), $this->findPathToUse($target));
+		return $this->getWrapperStorage()->rename($this->findPathToUse($source), $this->findPathToUse($target));
 	}
 
 	public function copy(string $source, string $target): bool {
-		return $this->storage->copy($this->findPathToUse($source), $this->findPathToUse($target));
+		return $this->getWrapperStorage()->copy($this->findPathToUse($source), $this->findPathToUse($target));
 	}
 
 	public function fopen(string $path, string $mode) {
-		$result = $this->storage->fopen($this->findPathToUse($path), $mode);
+		$result = $this->getWrapperStorage()->fopen($this->findPathToUse($path), $mode);
 		if ($result && $mode !== 'r' && $mode !== 'rb') {
 			unset($this->namesCache[$path]);
 		}
@@ -204,45 +204,45 @@ class Encoding extends Wrapper {
 	}
 
 	public function getMimeType(string $path): string|false {
-		return $this->storage->getMimeType($this->findPathToUse($path));
+		return $this->getWrapperStorage()->getMimeType($this->findPathToUse($path));
 	}
 
 	public function hash(string $type, string $path, bool $raw = false): string|false {
-		return $this->storage->hash($type, $this->findPathToUse($path), $raw);
+		return $this->getWrapperStorage()->hash($type, $this->findPathToUse($path), $raw);
 	}
 
 	public function free_space(string $path): int|float|false {
-		return $this->storage->free_space($this->findPathToUse($path));
+		return $this->getWrapperStorage()->free_space($this->findPathToUse($path));
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
-		return $this->storage->touch($this->findPathToUse($path), $mtime);
+		return $this->getWrapperStorage()->touch($this->findPathToUse($path), $mtime);
 	}
 
 	public function getLocalFile(string $path): string|false {
-		return $this->storage->getLocalFile($this->findPathToUse($path));
+		return $this->getWrapperStorage()->getLocalFile($this->findPathToUse($path));
 	}
 
 	public function hasUpdated(string $path, int $time): bool {
-		return $this->storage->hasUpdated($this->findPathToUse($path), $time);
+		return $this->getWrapperStorage()->hasUpdated($this->findPathToUse($path), $time);
 	}
 
 	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return $this->storage->getCache($this->findPathToUse($path), $storage);
+		return $this->getWrapperStorage()->getCache($this->findPathToUse($path), $storage);
 	}
 
 	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return $this->storage->getScanner($this->findPathToUse($path), $storage);
+		return $this->getWrapperStorage()->getScanner($this->findPathToUse($path), $storage);
 	}
 
 	public function getETag(string $path): string|false {
-		return $this->storage->getETag($this->findPathToUse($path));
+		return $this->getWrapperStorage()->getETag($this->findPathToUse($path));
 	}
 
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
@@ -250,7 +250,7 @@ class Encoding extends Wrapper {
 			return $this->copy($sourceInternalPath, $this->findPathToUse($targetInternalPath));
 		}
 
-		$result = $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $this->findPathToUse($targetInternalPath));
+		$result = $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $this->findPathToUse($targetInternalPath));
 		if ($result) {
 			unset($this->namesCache[$targetInternalPath]);
 		}
@@ -267,7 +267,7 @@ class Encoding extends Wrapper {
 			return $result;
 		}
 
-		$result = $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $this->findPathToUse($targetInternalPath));
+		$result = $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $this->findPathToUse($targetInternalPath));
 		if ($result) {
 			unset($this->namesCache[$sourceInternalPath]);
 			unset($this->namesCache[$targetInternalPath]);
@@ -276,7 +276,7 @@ class Encoding extends Wrapper {
 	}
 
 	public function getMetaData(string $path): ?array {
-		$entry = $this->storage->getMetaData($this->findPathToUse($path));
+		$entry = $this->getWrapperStorage()->getMetaData($this->findPathToUse($path));
 		if ($entry !== null) {
 			$entry['name'] = trim(Filesystem::normalizePath($entry['name']), '/');
 		}
@@ -284,7 +284,7 @@ class Encoding extends Wrapper {
 	}
 
 	public function getDirectoryContent(string $directory): \Traversable {
-		$entries = $this->storage->getDirectoryContent($this->findPathToUse($directory));
+		$entries = $this->getWrapperStorage()->getDirectoryContent($this->findPathToUse($directory));
 		foreach ($entries as $entry) {
 			$entry['name'] = trim(Filesystem::normalizePath($entry['name']), '/');
 			yield $entry;

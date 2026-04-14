@@ -59,7 +59,7 @@ class PermissionsMask extends Wrapper {
 	}
 
 	public function getPermissions(string $path): int {
-		return $this->storage->getPermissions($path) & $this->mask;
+		return $this->getWrapperStorage()->getPermissions($path) & $this->mask;
 	}
 
 	public function rename(string $source, string $target): bool {
@@ -125,7 +125,7 @@ class PermissionsMask extends Wrapper {
 
 	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
-			$storage = $this->storage;
+			$storage = $this->getWrapperStorage();
 		}
 		return parent::getScanner($path, $storage);
 	}

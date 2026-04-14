@@ -67,7 +67,7 @@ class Encryption extends Wrapper {
 		$info = $this->getCache()->get($path);
 		if ($info === false) {
 			/* Pass call to wrapped storage, it may be a special file like a part file */
-			return $this->storage->filesize($path);
+			return $this->getWrapperStorage()->filesize($path);
 		}
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
@@ -102,7 +102,7 @@ class Encryption extends Wrapper {
 			return $this->verifyUnencryptedSize($path, $info->getUnencryptedSize());
 		}
 
-		return $this->storage->filesize($path);
+		return $this->getWrapperStorage()->filesize($path);
 	}
 
 	private function modifyMetaData(string $path, array $data): array {
@@ -129,7 +129,7 @@ class Encryption extends Wrapper {
 	}
 
 	public function getMetaData(string $path): ?array {
-		$data = $this->storage->getMetaData($path);
+		$data = $this->getWrapperStorage()->getMetaData($path);
 		if (is_null($data)) {
 			return null;
 		}
@@ -155,7 +155,7 @@ class Encryption extends Wrapper {
 			fclose($handle);
 			return $data;
 		}
-		return $this->storage->file_get_contents($path);
+		return $this->getWrapperStorage()->file_get_contents($path);
 	}
 
 	public function file_put_contents(string $path, mixed $data): int|float|false {
@@ -173,7 +173,7 @@ class Encryption extends Wrapper {
 	public function unlink(string $path): bool {
 		$fullPath = $this->getFullPath($path);
 		if ($this->util->isExcluded($fullPath)) {
-			return $this->storage->unlink($path);
+			return $this->getWrapperStorage()->unlink($path);
 		}
 
 		$encryptionModule = $this->getEncryptionModule($path);
@@ -181,11 +181,11 @@ class Encryption extends Wrapper {
 			$this->keyStorage->deleteAllFileKeys($fullPath);
 		}
 
-		return $this->storage->unlink($path);
+		return $this->getWrapperStorage()->unlink($path);
 	}
 
 	public function rename(string $source, string $target): bool {
-		$result = $this->storage->rename($source, $target);
+		$result = $this->getWrapperStorage()->rename($source, $target);
 
 		if ($result
 			// versions always use the keys from the original file, so we can skip
@@ -210,7 +210,7 @@ class Encryption extends Wrapper {
 	}
 
 	public function rmdir(string $path): bool {
-		$result = $this->storage->rmdir($path);
+		$result = $this->getWrapperStorage()->rmdir($path);
 		$fullPath = $this->getFullPath($path);
 		if ($result
 			&& $this->util->isExcluded($fullPath) === false
@@ -236,14 +236,14 @@ class Encryption extends Wrapper {
 			$isReadable = $module->isReadable($fullPath, $this->uid);
 		}
 
-		return $this->storage->isReadable($path) && $isReadable;
+		return $this->getWrapperStorage()->isReadable($path) && $isReadable;
 	}
 
 	public function copy(string $source, string $target): bool {
 		$sourcePath = $this->getFullPath($source);
 
 		if ($this->util->isExcluded($sourcePath)) {
-			return $this->storage->copy($source, $target);
+			return $this->getWrapperStorage()->copy($source, $target);
 		}
 
 		// need to stream copy file by file in case we copy between a encrypted
@@ -258,11 +258,11 @@ class Encryption extends Wrapper {
 		// decrypt it
 		if ($this->arrayCache->hasKey('encryption_copy_version_' . $path)) {
 			$this->arrayCache->remove('encryption_copy_version_' . $path);
-			return $this->storage->fopen($path, $mode);
+			return $this->getWrapperStorage()->fopen($path, $mode);
 		}
 
 		if (!$this->enabled) {
-			return $this->storage->fopen($path, $mode);
+			return $this->getWrapperStorage()->fopen($path, $mode);
 		}
 
 		$encryptionEnabled = $this->encryptionManager->isEnabled();
@@ -288,7 +288,7 @@ class Encryption extends Wrapper {
 				}
 
 				if ($this->file_exists($path)) {
-					$size = $this->storage->filesize($path);
+					$size = $this->getWrapperStorage()->filesize($path);
 					$unencryptedSize = $this->filesize($path);
 				} else {
 					$size = $unencryptedSize = 0;
@@ -304,7 +304,7 @@ class Encryption extends Wrapper {
 				) {
 					// if we update a encrypted file with a un-encrypted one we change the db flag
 					if ($targetIsEncrypted && $encryptionEnabled === false) {
-						$cache = $this->storage->getCache();
+						$cache = $this->getWrapperStorage()->getCache();
 						$entry = $cache->get($path);
 						$cache->update($entry->getId(), ['encrypted' => 0]);
 					}
@@ -357,19 +357,19 @@ class Encryption extends Wrapper {
 						throw new InvalidHeaderException("Unable to get header size for $path, even though file does start with encryption header");
 					}
 				}
-				$source = $this->storage->fopen($path, $mode);
+				$source = $this->getWrapperStorage()->fopen($path, $mode);
 				if (!is_resource($source)) {
 					return false;
 				}
 				$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
-					$this->uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
+					$this->uid, $encryptionModule, $this->getWrapperStorage(), $this, $this->util, $this->fileHelper, $mode,
 					$size, $unencryptedSize, $headerSize, $signed);
 
 				return $handle;
 			}
 		}
 
-		return $this->storage->fopen($path, $mode);
+		return $this->getWrapperStorage()->fopen($path, $mode);
 	}
 
 
@@ -383,7 +383,7 @@ class Encryption extends Wrapper {
 	 * @return int unencrypted size
 	 */
 	protected function verifyUnencryptedSize(string $path, int $unencryptedSize): int {
-		$size = $this->storage->filesize($path);
+		$size = $this->getWrapperStorage()->filesize($path);
 		$result = $unencryptedSize;
 
 		if ($unencryptedSize < 0
@@ -418,7 +418,7 @@ class Encryption extends Wrapper {
 		$header = $this->getHeader($path);
 		$encryptionModule = $this->getEncryptionModule($path);
 
-		$stream = $this->storage->fopen($path, 'r');
+		$stream = $this->getWrapperStorage()->fopen($path, 'r');
 
 		// if we couldn't open the file we return the old unencrypted size
 		if (!is_resource($stream)) {
@@ -482,7 +482,7 @@ class Encryption extends Wrapper {
 		$this->updateUnencryptedSize($this->getFullPath($path), $newUnencryptedSize);
 
 		// write to cache if applicable
-		$cache = $this->storage->getCache();
+		$cache = $this->getWrapperStorage()->getCache();
 		$entry = $cache->get($path);
 		$cache->update($entry['fileid'], [
 			'unencrypted_size' => $newUnencryptedSize
@@ -529,7 +529,7 @@ class Encryption extends Wrapper {
 		}
 
 		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
-		// - call $this->storage->moveFromStorage() instead of $this->copyBetweenStorage
+		// - call $this->getWrapperStorage()->moveFromStorage() instead of $this->copyBetweenStorage
 		// - copy the file cache update from  $this->copyBetweenStorage to this method
 		// - copy the copyKeys() call from  $this->copyBetweenStorage to this method
 		// - remove $this->copyBetweenStorage
@@ -569,7 +569,7 @@ class Encryption extends Wrapper {
 		$isRename = false,
 	): bool {
 		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
-		// - call $this->storage->copyFromStorage() instead of $this->copyBetweenStorage
+		// - call $this->getWrapperStorage()->copyFromStorage() instead of $this->copyBetweenStorage
 		// - copy the file cache update from  $this->copyBetweenStorage to this method
 		// - copy the copyKeys() call from  $this->copyBetweenStorage to this method
 		// - remove $this->copyBetweenStorage
@@ -643,7 +643,7 @@ class Encryption extends Wrapper {
 			// fopen($sourceInternalPath) and by-pass the encryption in order to
 			// create a 1:1 copy of the file
 			$this->arrayCache->set('encryption_copy_version_' . $sourceInternalPath, true);
-			$result = $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			$result = $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 			$this->arrayCache->remove('encryption_copy_version_' . $sourceInternalPath);
 			if ($result) {
 				$info = $this->getCache('', $sourceStorage)->get($sourceInternalPath);
@@ -728,18 +728,18 @@ class Encryption extends Wrapper {
 				return $cachedFile;
 			}
 		}
-		return $this->storage->getLocalFile($path);
+		return $this->getWrapperStorage()->getLocalFile($path);
 	}
 
 	public function isLocal(): bool {
 		if ($this->encryptionManager->isEnabled()) {
 			return false;
 		}
-		return $this->storage->isLocal();
+		return $this->getWrapperStorage()->isLocal();
 	}
 
 	public function stat(string $path): array|false {
-		$stat = $this->storage->stat($path);
+		$stat = $this->getWrapperStorage()->stat($path);
 		if (!$stat) {
 			return false;
 		}
@@ -777,8 +777,8 @@ class Encryption extends Wrapper {
 	 */
 	protected function readFirstBlock(string $path): string {
 		$firstBlock = '';
-		if ($this->storage->is_file($path)) {
-			$handle = $this->storage->fopen($path, 'r');
+		if ($this->getWrapperStorage()->is_file($path)) {
+			$handle = $this->getWrapperStorage()->fopen($path, 'r');
 			if ($handle === false) {
 				return '';
 			}
@@ -794,7 +794,7 @@ class Encryption extends Wrapper {
 	protected function getHeaderSize(string $path): int {
 		$headerSize = 0;
 		$realFile = $this->util->stripPartialFileExtension($path);
-		if ($this->storage->is_file($realFile)) {
+		if ($this->getWrapperStorage()->is_file($realFile)) {
 			$path = $realFile;
 		}
 		$firstBlock = $this->readFirstBlock($path);
@@ -811,7 +811,7 @@ class Encryption extends Wrapper {
 	 */
 	protected function getHeader(string $path): array {
 		$realFile = $this->util->stripPartialFileExtension($path);
-		$exists = $this->storage->is_file($realFile);
+		$exists = $this->getWrapperStorage()->is_file($realFile);
 		if ($exists) {
 			$path = $realFile;
 		}

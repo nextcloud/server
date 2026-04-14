@@ -53,10 +53,10 @@ class Storage extends Wrapper {
 					"Can't move file " . $path
 					. ' to the trash bin, therefore it was deleted right away');
 
-				return $this->storage->unlink($path);
+				return $this->getWrapperStorage()->unlink($path);
 			}
 		} else {
-			return $this->storage->unlink($path);
+			return $this->getWrapperStorage()->unlink($path);
 		}
 	}
 
@@ -64,7 +64,7 @@ class Storage extends Wrapper {
 		if ($this->trashEnabled) {
 			return $this->doDelete($path, 'rmdir');
 		} else {
-			return $this->storage->rmdir($path);
+			return $this->getWrapperStorage()->rmdir($path);
 		}
 	}
 
@@ -80,9 +80,9 @@ class Storage extends Wrapper {
 		}
 
 		// check if there is a app which want to disable the trash bin for this file
-		$fileId = $this->storage->getCache()->getId($path);
-		$owner = $this->storage->getOwner($path);
-		if ($owner === false || $this->storage->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
+		$fileId = $this->getWrapperStorage()->getCache()->getId($path);
+		$owner = $this->getWrapperStorage()->getOwner($path);
+		if ($owner === false || $this->getWrapperStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
 			$nodes = $this->rootFolder->getById($fileId);
 		} else {
 			$nodes = $this->rootFolder->getUserFolder($owner)->getById($fileId);
@@ -142,7 +142,7 @@ class Storage extends Wrapper {
 			}
 		}
 
-		return call_user_func([$this->storage, $method], $path);
+		return call_user_func([$this->getWrapperStorage(), $method], $path);
 	}
 
 	/**
