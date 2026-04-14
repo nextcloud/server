@@ -28,7 +28,7 @@ class PermissionsMask extends Wrapper {
 	protected readonly int $mask;
 
 	/**
-	 * @param array{storage: Storage, mask: int, ...} $parameters
+	 * @param array{storage: IStorage, mask: int, ...} $parameters
 	 *
 	 * $storage: The storage the permissions mask should be applied on
 	 * $mask: The permission bits that should be kept, a combination of the \OCP\Constant::PERMISSION_ constants
@@ -59,7 +59,7 @@ class PermissionsMask extends Wrapper {
 	}
 
 	public function getPermissions(string $path): int {
-		return $this->storage->getPermissions($path) & $this->mask;
+		return $this->getWrapperStorage()->getPermissions($path) & $this->mask;
 	}
 
 	public function rename(string $source, string $target): bool {
@@ -125,7 +125,7 @@ class PermissionsMask extends Wrapper {
 
 	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
-			$storage = $this->storage;
+			$storage = $this->getWrapperStorage();
 		}
 		return parent::getScanner($path, $storage);
 	}
