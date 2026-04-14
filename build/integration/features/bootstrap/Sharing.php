@@ -23,8 +23,7 @@ trait Sharing {
 	/** @var SimpleXMLElement[] */
 	private array $storedShareData = [];
 	private ?string $savedShareId = null;
-	/** @var ResponseInterface */
-	private $response;
+	private ?ResponseInterface $response = null;
 
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/

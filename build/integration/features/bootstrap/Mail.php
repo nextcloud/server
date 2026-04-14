@@ -8,10 +8,7 @@ trait Mail {
 	// CommandLine trait is expected to be used in the class that uses this
 	// trait.
 
-	/**
-	 * @var string
-	 */
-	private $fakeSmtpServerPid;
+	private ?string $fakeSmtpServerPid = null;
 
 	/**
 	 * @AfterScenario

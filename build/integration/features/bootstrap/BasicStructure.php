@@ -6,10 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Gherkin\Node\TableNode;
-use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
@@ -22,33 +19,21 @@ trait BasicStructure {
 	use Mail;
 	use Theming;
 
-	/** @var string */
-	private $currentUser = '';
+	private string $currentUser = '';
+	private string $currentServer = '';
+	private string $baseUrl = '';
+	private int $apiVersion = 1;
+	private ?ResponseInterface $response = null;
+	private CookieJar $cookieJar;
+	private string $requestToken;
 
-	/** @var string */
-	private $currentServer = '';
+	/** @var array{0:string,1:string} */
+	protected array $adminUser;
+	protected string $regularUser;
+	protected string $localBaseUrl = '';
+	protected string $remoteBaseUrl = '';
 
-	/** @var string */
-	private $baseUrl = '';
-
-	/** @var int */
-	private $apiVersion = 1;
-
-	/** @var ResponseInterface */
-	private $response = null;
-
-	/** @var CookieJar */
-	private $cookieJar;
-
-	/** @var string */
-	private $requestToken;
-
-	protected $adminUser;
-	protected $regularUser;
-	protected $localBaseUrl;
-	protected $remoteBaseUrl;
-
-	public function __construct($baseUrl, $admin, $regular_user_password) {
+	public function __construct(string $baseUrl, array $admin, string $regular_user_password) {
 		// Initialize your context here
 		$this->baseUrl = $baseUrl;
 		$this->adminUser = $admin;
@@ -146,63 +131,24 @@ trait BasicStructure {
 	 */
 	public function sendingToWith(string $verb, string $url, ?TableNode $body): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} elseif (strpos($this->currentUser, 'anonymous') !== 0) {
-			$options['auth'] = [$this->currentUser, $this->regularUser];
-		}
-		$options['headers'] = [
-			'OCS-APIRequest' => 'true'
-		];
+		$client = $this->getGuzzleClient($this->currentUser);
+		$options['headers'] = [ 'OCS-APIRequest' => 'true' ];
 		if ($body instanceof TableNode) {
-			$fd = $body->getRowsHash();
-			$options['form_params'] = $fd;
+			$options['form_params'] = $body->getRowsHash();
 		}
-
-		// TODO: Fix this hack!
-		if ($verb === 'PUT' && $body === null) {
-			$options['form_params'] = [
-				'foo' => 'bar',
-			];
-		}
-
-		try {
-			$this->response = $client->request($verb, $fullUrl, $options);
-		} catch (ClientException $ex) {
-			$this->response = $ex->getResponse();
-		} catch (ServerException $ex) {
-			$this->response = $ex->getResponse();
-		}
+		$this->response = $client->request($verb, $fullUrl, $options);
 	}
 
 	protected function sendRequestForJSON(string $verb, string $url, TableNode|array|null $body = null, array $headers = []): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = ['admin', 'admin'];
-		} elseif (strpos($this->currentUser, 'anonymous') !== 0) {
-			$options['auth'] = [$this->currentUser, $this->regularUser];
-		}
+		$client = $this->getGuzzleClient($this->currentUser);
 		if ($body instanceof TableNode) {
-			$fd = $body->getRowsHash();
-			$options['form_params'] = $fd;
+			$options['form_params'] = $body->getRowsHash();
 		} elseif (is_array($body)) {
 			$options['form_params'] = $body;
 		}
-
-		$options['headers'] = array_merge($headers, [
-			'OCS-ApiRequest' => 'true',
-			'Accept' => 'application/json',
-		]);
-
-		try {
-			$this->response = $client->{$verb}($fullUrl, $options);
-		} catch (ClientException $ex) {
-			$this->response = $ex->getResponse();
-		}
+		$options['headers'] = array_merge($headers, [ 'OCS-APIRequest' => 'true', 'Accept' => 'application/json' ]);
+		$this->response = $client->{$verb}($fullUrl, $options);
 	}
 
 	/**
@@ -215,24 +161,12 @@ trait BasicStructure {
 	}
 
 	public function sendingToWithDirectUrl($verb, $url, $body) {
-		$fullUrl = substr($this->baseUrl, 0, -5) . $url;
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} elseif (strpos($this->currentUser, 'anonymous') !== 0) {
-			$options['auth'] = [$this->currentUser, $this->regularUser];
-		}
+		$fullUrl = substr($this->baseUrl, 0, -5) . $url; // drops `/ocs/`
+		$client = $this->getGuzzleClient($this->currentUser);
 		if ($body instanceof TableNode) {
-			$fd = $body->getRowsHash();
-			$options['form_params'] = $fd;
+			$options['form_params'] = $body->getRowsHash();
 		}
-
-		try {
-			$this->response = $client->request($verb, $fullUrl, $options);
-		} catch (ClientException $ex) {
-			$this->response = $ex->getResponse();
-		}
+		$this->response = $client->request($verb, $fullUrl, $options);
 	}
 
 	public function isExpectedUrl($possibleUrl, $finalPart) {
@@ -268,7 +202,7 @@ trait BasicStructure {
 	/**
 	 * @param ResponseInterface $response
 	 */
-	private function extracRequestTokenFromResponse(ResponseInterface $response) {
+	private function extractRequestTokenFromResponse(ResponseInterface $response) {
 		$this->requestToken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $response->getBody()->getContents()), 0, 89);
 	}
 
@@ -279,34 +213,20 @@ trait BasicStructure {
 	public function loggingInUsingWebAs($user) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
 		$loginUrl = $baseUrl . '/index.php/login';
+
 		// Request a new session and extract CSRF token
-		$client = new Client();
-		$response = $client->get(
-			$loginUrl,
-			[
-				'cookies' => $this->cookieJar,
-			]
-		);
-		$this->extracRequestTokenFromResponse($response);
+		$client = $this->getGuzzleClient(null);
+		$response = $client->get($loginUrl, [ 'cookies' => $this->cookieJar ]);
+		$this->extractRequestTokenFromResponse($response);
 
 		// Login and extract new token
+		$client = $this->getGuzzleClient(null);
 		$password = ($user === 'admin') ? 'admin' : '123456';
-		$client = new Client();
-		$response = $client->post(
-			$loginUrl,
-			[
-				'form_params' => [
-					'user' => $user,
-					'password' => $password,
-					'requesttoken' => $this->requestToken,
-				],
-				'cookies' => $this->cookieJar,
-				'headers' => [
-					'Origin' => $baseUrl,
-				],
-			]
-		);
-		$this->extracRequestTokenFromResponse($response);
+		$options['form_params'] = [ 'user' => $user, 'password' => $password, 'requesttoken' => $this->requestToken ];
+		$options['cookies'] = $this->cookieJar;
+		$options['headers'] = [ 'Origin' => $baseUrl ];
+		$response = $client->post($loginUrl, $options);
+		$this->extractRequestTokenFromResponse($response);
 	}
 
 	/**
@@ -317,31 +237,16 @@ trait BasicStructure {
 	 */
 	public function sendingAToWithRequesttoken($method, $url, $body = null) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
-
-		$options = [
-			'cookies' => $this->cookieJar,
-			'headers' => [
-				'requesttoken' => $this->requestToken
-			],
-		];
-
+		$fullUrl = $baseUrl . $url;
+		$client = $this->getGuzzleClient(null);
+		$options['cookies'] = $this->cookieJar;
+		$options['headers'] = [ 'requesttoken' => $this->requestToken ];
 		if ($body instanceof TableNode) {
-			$fd = $body->getRowsHash();
-			$options['form_params'] = $fd;
-		} elseif ($body) {
+			$options['form_params'] = $body->getRowsHash();
+		} elseif (is_array($body)) {
 			$options = array_merge_recursive($options, $body);
 		}
-
-		$client = new Client();
-		try {
-			$this->response = $client->request(
-				$method,
-				$baseUrl . $url,
-				$options
-			);
-		} catch (ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$this->response = $client->request($method, $fullUrl, $options);
 	}
 
 	/**
@@ -351,19 +256,10 @@ trait BasicStructure {
 	 */
 	public function sendingAToWithoutRequesttoken($method, $url) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
-
-		$client = new Client();
-		try {
-			$this->response = $client->request(
-				$method,
-				$baseUrl . $url,
-				[
-					'cookies' => $this->cookieJar
-				]
-			);
-		} catch (ClientException $e) {
-			$this->response = $e->getResponse();
-		}
+		$fullUrl = $baseUrl . $url;
+		$client = $this->getGuzzleClient(null);
+		$options['cookies'] = $this->cookieJar;
+		$this->response = $client->request($method, $fullUrl, $options);
 	}
 
 	public static function removeFile($path, $filename) {

@@ -26,7 +26,6 @@ class FilesRemindersContext implements Context {
 			'PUT',
 			'/apps/files_reminders/api/v1/' . $fileId,
 			['dueDate' => $dueDate],
-			['OCS-APIREQUEST' => 'true']
 		);
 	}
 
@@ -39,7 +38,6 @@ class FilesRemindersContext implements Context {
 			'GET',
 			'/apps/files_reminders/api/v1/' . $fileId,
 			null,
-			['OCS-APIREQUEST' => 'true']
 		);
 		$response = $this->getDueDateFromOCSResponse();
 		Assert::assertEquals($dueDate, $response);
@@ -54,7 +52,6 @@ class FilesRemindersContext implements Context {
 			'GET',
 			'/apps/files_reminders/api/v1/' . $fileId,
 			null,
-			['OCS-APIREQUEST' => 'true']
 		);
 		$response = $this->getDueDateFromOCSResponse();
 		Assert::assertNull($response);
@@ -69,7 +66,6 @@ class FilesRemindersContext implements Context {
 			'DELETE',
 			'/apps/files_reminders/api/v1/' . $fileId,
 			null,
-			['OCS-APIREQUEST' => 'true']
 		);
 	}
 

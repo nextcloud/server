@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
-use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
@@ -66,23 +65,14 @@ class CollaborationContext implements Context {
 	/**
 	 * @Given /^there is a contact in an addressbook$/
 	 */
-	public function thereIsAContactInAnAddressbook() {
+	public function thereIsAContactInAnAddressbook(): void {
 		$this->usingNewDavPath();
-		try {
-			$destination = '/users/admin/myaddressbook';
-			$data = '<x0:mkcol xmlns:x0="DAV:"><x0:set><x0:prop><x0:resourcetype><x0:collection/><x4:addressbook xmlns:x4="urn:ietf:params:xml:ns:carddav"/></x0:resourcetype><x0:displayname>myaddressbook</x0:displayname></x0:prop></x0:set></x0:mkcol>';
-			$this->response = $this->makeDavRequest($this->currentUser, 'MKCOL', $destination, ['Content-Type' => 'application/xml'], $data, 'addressbooks');
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 5xx responses cause a server exception
-			$this->response = $e->getResponse();
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx responses cause a client exception
-			$this->response = $e->getResponse();
-		}
+		$destination = '/users/admin/myaddressbook';
+		$data = '<x0:mkcol xmlns:x0="DAV:"><x0:set><x0:prop><x0:resourcetype><x0:collection/><x4:addressbook xmlns:x4="urn:ietf:params:xml:ns:carddav"/></x0:resourcetype><x0:displayname>myaddressbook</x0:displayname></x0:prop></x0:set></x0:mkcol>';
+		$this->response = $this->makeDavRequest($this->currentUser, 'MKCOL', $destination, ['Content-Type' => 'application/xml'], $data, 'addressbooks');
 
-		try {
-			$destination = '/users/admin/myaddressbook/contact1.vcf';
-			$data = <<<EOF
+		$destination = '/users/admin/myaddressbook/contact1.vcf';
+		$data = <<<EOF
 BEGIN:VCARD
 VERSION:4.0
 PRODID:-//Nextcloud Contacts v4.0.2
@@ -93,14 +83,7 @@ EMAIL;TYPE=HOME:user@example.com
 REV;VALUE=DATE-AND-OR-TIME:20211130T140111Z
 END:VCARD
 EOF;
-			$this->response = $this->makeDavRequest($this->currentUser, 'PUT', $destination, [], $data, 'addressbooks');
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 5xx responses cause a server exception
-			$this->response = $e->getResponse();
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			// 4xx responses cause a client exception
-			$this->response = $e->getResponse();
-		}
+		$this->response = $this->makeDavRequest($this->currentUser, 'PUT', $destination, [], $data, 'addressbooks');
 	}
 
 	protected function resetAppConfigs(): void {
@@ -116,27 +99,12 @@ EOF;
 
 	/**
 	 * @Given /^user "([^"]*)" has status "([^"]*)"$/
-	 * @param string $user
-	 * @param string $status
 	 */
-	public function assureUserHasStatus($user, $status) {
+	public function assureUserHasStatus(string $user, string $status) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/user_status/api/v1/user_status/status";
-		$client = new Client();
-		$options = [
-			'headers' => [
-				'OCS-APIREQUEST' => 'true',
-			],
-		];
-		if ($user === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} else {
-			$options['auth'] = [$user, $this->regularUser];
-		}
-
-		$options['form_params'] = [
-			'statusType' => $status
-		];
-
+		$client = $this->getGuzzleClient($user);
+		$options['headers'] = [ 'OCS-APIREQUEST' => 'true' ];
+		$options['form_params'] = ['statusType' => $status ];
 		$this->response = $client->put($fullUrl, $options);
 		$this->theHTTPStatusCodeShouldBe(200);
 
@@ -144,29 +112,14 @@ EOF;
 		unset($options['form_params']);
 		$this->response = $client->get($fullUrl, $options);
 		$this->theHTTPStatusCodeShouldBe(200);
-
 		$returnedStatus = json_decode(json_encode(simplexml_load_string($this->response->getBody()->getContents())->data), true)['status'];
 		Assert::assertEquals($status, $returnedStatus);
 	}
 
-	/**
-	 * @param string $user
-	 * @return null|array
-	 */
 	public function getStatusList(string $user): ?array {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/user_status/api/v1/statuses";
-		$client = new Client();
-		$options = [
-			'headers' => [
-				'OCS-APIREQUEST' => 'true',
-			],
-		];
-		if ($user === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} else {
-			$options['auth'] = [$user, $this->regularUser];
-		}
-
+		$client = $this->getGuzzleClient($user);
+		$options['headers'] = [ 'OCS-APIREQUEST' => 'true' ];
 		$this->response = $client->get($fullUrl, $options);
 		$this->theHTTPStatusCodeShouldBe(200);
 
@@ -176,9 +129,6 @@ EOF;
 
 	/**
 	 * @Given /^user statuses for "([^"]*)" list "([^"]*)" with status "([^"]*)"$/
-	 * @param string $user
-	 * @param string $statusUser
-	 * @param string $status
 	 */
 	public function assertStatusesList(string $user, string $statusUser, string $status): void {
 		$statusList = $this->getStatusList($user);
@@ -197,7 +147,6 @@ EOF;
 
 	/**
 	 * @Given /^user statuses for "([^"]*)" are empty$/
-	 * @param string $user
 	 */
 	public function assertStatusesEmpty(string $user): void {
 		$statusList = $this->getStatusList($user);

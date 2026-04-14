@@ -7,7 +7,6 @@
  */
 
 use Behat\Gherkin\Node\TableNode;
-use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
 
@@ -48,13 +47,43 @@ trait Provisioning {
 	}
 
 	/**
+	 * Sends an authenticated OCS request using the centralized Guzzle client.
+	 *
+	 * @param string $method HTTP method (GET, POST, PUT, DELETE)
+	 * @param string $url Full URL to request
+	 * @param array $additionalOptions Extra Guzzle request options (form_params, headers to merge, etc.)
+	 * @return \Psr\Http\Message\ResponseInterface
+	 */
+	private function sendOcsRequest(string $method, string $url, array $additionalOptions = []): \Psr\Http\Message\ResponseInterface {
+		$client = $this->getGuzzleClient($this->currentUser);
+		$options = array_merge_recursive([
+			'headers' => [
+				'OCS-APIREQUEST' => 'true',
+			],
+		], $additionalOptions);
+		return $client->request($method, $url, $options);
+	}
+
+	/**
+	 * Sends an authenticated OCS request, always as admin.
+	 */
+	private function sendOcsRequestAsAdmin(string $method, string $url, array $additionalOptions = []): \Psr\Http\Message\ResponseInterface {
+		$client = $this->getGuzzleClient('admin');
+		$options = array_merge_recursive([
+			'headers' => [
+				'OCS-APIREQUEST' => 'true',
+			],
+		], $additionalOptions);
+		return $client->request($method, $url, $options);
+	}
+
+	/**
 	 * @Given /^user "([^"]*)" exists$/
 	 * @param string $user
 	 */
 	public function assureUserExists($user) {
-		try {
-			$this->userExists($user);
-		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+		$this->userExists($user);
+		if ($this->response->getStatusCode() !== 200) {
 			$previous_user = $this->currentUser;
 			$this->currentUser = 'admin';
 			$this->creatingTheUser($user);
@@ -69,9 +98,8 @@ trait Provisioning {
 	 * @param string $user
 	 */
 	public function assureUserWithDisplaynameExists($user, $displayname) {
-		try {
-			$this->userExists($user);
-		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+		$this->userExists($user);
+		if ($this->response->getStatusCode() !== 200) {
 			$previous_user = $this->currentUser;
 			$this->currentUser = 'admin';
 			$this->creatingTheUser($user, $displayname);
@@ -86,60 +114,45 @@ trait Provisioning {
 	 * @param string $user
 	 */
 	public function userDoesNotExist($user) {
-		try {
-			$this->userExists($user);
-		} catch (\GuzzleHttp\Exception\ClientException $ex) {
-			$this->response = $ex->getResponse();
-			Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
+		$this->userExists($user);
+		if ($this->response->getStatusCode() === 404) {
 			return;
 		}
 		$previous_user = $this->currentUser;
 		$this->currentUser = 'admin';
 		$this->deletingTheUser($user);
 		$this->currentUser = $previous_user;
-		try {
-			$this->userExists($user);
-		} catch (\GuzzleHttp\Exception\ClientException $ex) {
-			$this->response = $ex->getResponse();
-			Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
-		}
+		$this->userExists($user);
+		Assert::assertEquals(404, $this->response->getStatusCode());
 	}
 
 	public function creatingTheUser($user, $displayname = '') {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-
-		$options['form_params'] = [
+		$formParams = [
 			'userid' => $user,
 			'password' => '123456'
 		];
 		if ($displayname !== '') {
-			$options['form_params']['displayName'] = $displayname;
+			$formParams['displayName'] = $displayname;
 		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->post($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('POST', $fullUrl, [
+			'form_params' => $formParams,
+		]);
 		if ($this->currentServer === 'LOCAL') {
 			$this->createdUsers[$user] = $user;
 		} elseif ($this->currentServer === 'REMOTE') {
 			$this->createdRemoteUsers[$user] = $user;
 		}
 
-		//Quick hack to login once with the current user
-		$options2 = [
-			'auth' => [$user, '123456'],
-		];
-		$options2['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
+		// Quick hack to login once with the current user
+		$client = $this->getGuzzleClient(null);
 		$url = $fullUrl . '/' . $user;
-		$client->get($url, $options2);
+		$client->get($url, [
+			'auth' => [$user, '123456'],
+			'headers' => [
+				'OCS-APIREQUEST' => 'true',
+			],
+		]);
 	}
 
 	/**
@@ -150,18 +163,7 @@ trait Provisioning {
 	 */
 	public function userHasSetting($user, $settings) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} else {
-			$options['auth'] = [$this->currentUser, $this->regularUser];
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$response = $client->get($fullUrl, $options);
+		$response = $this->sendOcsRequest('GET', $fullUrl);
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
 			if (isset($value['element']) && in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
@@ -182,19 +184,11 @@ trait Provisioning {
 	 */
 	public function userHasProfileData(string $user, ?TableNode $settings): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/profile/$user";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} else {
-			$options['auth'] = [$this->currentUser, $this->regularUser];
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-			'Accept' => 'application/json',
-		];
-
-		$response = $client->get($fullUrl, $options);
+		$response = $this->sendOcsRequest('GET', $fullUrl, [
+			'headers' => [
+				'Accept' => 'application/json',
+			],
+		]);
 		$body = $response->getBody()->getContents();
 		$data = json_decode($body, true);
 		$data = $data['ocs']['data'];
@@ -211,23 +205,12 @@ trait Provisioning {
 	/**
 	 * @Then /^group "([^"]*)" has$/
 	 *
-	 * @param string $user
+	 * @param string $group
 	 * @param TableNode|null $settings
 	 */
 	public function groupHasSetting($group, $settings) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/details?search=$group";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} else {
-			$options['auth'] = [$this->currentUser, $this->regularUser];
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$response = $client->get($fullUrl, $options);
+		$response = $this->sendOcsRequest('GET', $fullUrl);
 		$groupDetails = simplexml_load_string($response->getBody())->data[0]->groups[0]->element;
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode($groupDetails->{$setting[0]}), 1);
@@ -251,18 +234,7 @@ trait Provisioning {
 		if ($user !== 'self') {
 			$fullUrl .= '/' . $user;
 		}
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} else {
-			$options['auth'] = [$this->currentUser, $this->regularUser];
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$response = $client->get($fullUrl, $options);
+		$response = $this->sendOcsRequest('GET', $fullUrl);
 		$fieldsArray = json_decode(json_encode(simplexml_load_string($response->getBody())->data->element), 1);
 
 		$expectedFields = $fields->getRows();
@@ -276,17 +248,11 @@ trait Provisioning {
 	/**
 	 * @Then /^search users by phone for region "([^"]*)" with$/
 	 *
-	 * @param string $user
-	 * @param TableNode|null $settings
+	 * @param string $region
+	 * @param TableNode $searchTable
 	 */
 	public function searchUserByPhone($region, TableNode $searchTable) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/search/by-phone";
-		$client = new Client();
-		$options = [];
-		$options['auth'] = $this->adminUser;
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
 
 		$search = [];
 		foreach ($searchTable->getRows() as $row) {
@@ -296,12 +262,12 @@ trait Provisioning {
 			$search[$row[0]][] = $row[1];
 		}
 
-		$options['form_params'] = [
-			'location' => $region,
-			'search' => $search,
-		];
-
-		$this->response = $client->post($fullUrl, $options);
+		$this->response = $this->sendOcsRequestAsAdmin('POST', $fullUrl, [
+			'form_params' => [
+				'location' => $region,
+				'search' => $search,
+			],
+		]);
 	}
 
 	public function createUser($user) {
@@ -338,14 +304,7 @@ trait Provisioning {
 
 	public function userExists($user) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user";
-		$client = new Client();
-		$options = [];
-		$options['auth'] = $this->adminUser;
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true'
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequestAsAdmin('GET', $fullUrl);
 	}
 
 	/**
@@ -355,16 +314,7 @@ trait Provisioning {
 	 */
 	public function checkThatUserBelongsToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('GET', $fullUrl);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
 		sort($respondedArray);
 		Assert::assertContains($group, $respondedArray);
@@ -373,16 +323,7 @@ trait Provisioning {
 
 	public function userBelongsToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('GET', $fullUrl);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
 
 		if (array_key_exists($group, $respondedArray)) {
@@ -416,16 +357,7 @@ trait Provisioning {
 	 */
 	public function userDoesNotBelongToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('GET', $fullUrl);
 		$groups = [$group];
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
 		Assert::assertNotEqualsCanonicalizing($groups, $respondedArray);
@@ -438,20 +370,11 @@ trait Provisioning {
 	 */
 	public function creatingTheGroup($group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-
-		$options['form_params'] = [
-			'groupid' => $group,
-		];
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->post($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('POST', $fullUrl, [
+			'form_params' => [
+				'groupid' => $group,
+			],
+		]);
 		if ($this->currentServer === 'LOCAL') {
 			$this->createdGroups[$group] = $group;
 		} elseif ($this->currentServer === 'REMOTE') {
@@ -464,20 +387,7 @@ trait Provisioning {
 	 */
 	public function assureUserIsDisabled($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/disable";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-		// TODO: fix hack
-		$options['form_params'] = [
-			'foo' => 'bar'
-		];
-
-		$this->response = $client->put($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('PUT', $fullUrl);
 	}
 
 	/**
@@ -486,16 +396,7 @@ trait Provisioning {
 	 */
 	public function deletingTheUser($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->delete($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('DELETE', $fullUrl);
 	}
 
 	/**
@@ -504,16 +405,7 @@ trait Provisioning {
 	 */
 	public function deletingTheGroup($group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/$group";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->delete($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('DELETE', $fullUrl);
 
 		if ($this->currentServer === 'LOCAL') {
 			unset($this->createdGroups[$group]);
@@ -540,33 +432,17 @@ trait Provisioning {
 	 */
 	public function addingUserToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/groups";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$options['form_params'] = [
-			'groupid' => $group,
-		];
-
-		$this->response = $client->post($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('POST', $fullUrl, [
+			'form_params' => [
+				'groupid' => $group,
+			],
+		]);
 	}
 
 
 	public function groupExists($group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group";
-		$client = new Client();
-		$options = [];
-		$options['auth'] = $this->adminUser;
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequestAsAdmin('GET', $fullUrl);
 	}
 
 	/**
@@ -574,9 +450,8 @@ trait Provisioning {
 	 * @param string $group
 	 */
 	public function assureGroupExists($group) {
-		try {
-			$this->groupExists($group);
-		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+		$this->groupExists($group);
+		if ($this->response->getStatusCode() !== 200) {
 			$previous_user = $this->currentUser;
 			$this->currentUser = 'admin';
 			$this->creatingTheGroup($group);
@@ -591,23 +466,16 @@ trait Provisioning {
 	 * @param string $group
 	 */
 	public function groupDoesNotExist($group) {
-		try {
-			$this->groupExists($group);
-		} catch (\GuzzleHttp\Exception\ClientException $ex) {
-			$this->response = $ex->getResponse();
-			Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
+		$this->groupExists($group);
+		if ($this->response->getStatusCode() === 404) {
 			return;
 		}
 		$previous_user = $this->currentUser;
 		$this->currentUser = 'admin';
 		$this->deletingTheGroup($group);
 		$this->currentUser = $previous_user;
-		try {
-			$this->groupExists($group);
-		} catch (\GuzzleHttp\Exception\ClientException $ex) {
-			$this->response = $ex->getResponse();
-			Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
-		}
+		$this->groupExists($group);
+		Assert::assertEquals(404, $this->response->getStatusCode());
 	}
 
 	/**
@@ -617,16 +485,7 @@ trait Provisioning {
 	 */
 	public function userIsSubadminOfGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group/subadmins";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('GET', $fullUrl);
 		$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
 		sort($respondedArray);
 		Assert::assertContains($user, $respondedArray);
@@ -640,18 +499,11 @@ trait Provisioning {
 	 */
 	public function assureUserIsSubadminOfGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/subadmins";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['form_params'] = [
-			'groupid' => $group
-		];
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-		$this->response = $client->post($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('POST', $fullUrl, [
+			'form_params' => [
+				'groupid' => $group,
+			],
+		]);
 		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
@@ -662,16 +514,7 @@ trait Provisioning {
 	 */
 	public function userIsNotSubadminOfGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group/subadmins";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('GET', $fullUrl);
 		$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
 		sort($respondedArray);
 		Assert::assertNotContains($user, $respondedArray);
@@ -847,16 +690,7 @@ trait Provisioning {
 
 	private function getAppsWithFilter($filter) {
 		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=' . $filter;
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('GET', $fullUrl);
 		return $this->getArrayOfAppsResponded($this->response);
 	}
 
@@ -899,16 +733,7 @@ trait Provisioning {
 	 */
 	public function userIsDisabled($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('GET', $fullUrl);
 		// false in xml is empty
 		Assert::assertTrue(empty(simplexml_load_string($this->response->getBody())->data[0]->enabled));
 	}
@@ -919,16 +744,7 @@ trait Provisioning {
 	 */
 	public function userIsEnabled($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequest('GET', $fullUrl);
 		// boolean to string is integer
 		Assert::assertEquals('1', simplexml_load_string($this->response->getBody())->data[0]->enabled);
 	}
@@ -963,10 +779,7 @@ trait Provisioning {
 	 */
 	public function getUserHome($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
-		$client = new Client();
-		$options = [];
-		$options['auth'] = $this->adminUser;
-		$this->response = $client->get($fullUrl, $options);
+		$this->response = $this->sendOcsRequestAsAdmin('GET', $fullUrl);
 		return simplexml_load_string($this->response->getBody())->data[0]->home;
 	}
 
@@ -1009,18 +822,7 @@ trait Provisioning {
 	 */
 	public function userHasNotSetting($user, TableNode $settings) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		} else {
-			$options['auth'] = [$this->currentUser, $this->regularUser];
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$response = $client->get($fullUrl, $options);
+		$response = $this->sendOcsRequest('GET', $fullUrl);
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
 			if (isset($value[0])) {

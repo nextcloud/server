@@ -873,7 +873,7 @@ Feature: provisioning
     And Assure user "subadmin" is subadmin of group "new-group"
     And assure user "subadmin" is disabled
     And As an "subadmin"
-    When sending "PUT" to "/cloud/users/subadmin/enabled"
+    When sending "PUT" to "/cloud/users/subadmin/enable"
     And As an "admin"
     And user "subadmin" is disabled
 

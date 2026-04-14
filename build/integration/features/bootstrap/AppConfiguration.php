@@ -14,11 +14,9 @@ use Psr\Http\Message\ResponseInterface;
 require __DIR__ . '/autoload.php';
 
 trait AppConfiguration {
-	/** @var string */
-	private $currentUser = '';
 
-	/** @var ResponseInterface */
-	private $response = null;
+	private string $currentUser = '';
+	private ?ResponseInterface $response = null;
 
 	abstract public function sendingTo(string $verb, string $url);
 	abstract public function sendingToWith(string $verb, string $url, ?TableNode $body);
