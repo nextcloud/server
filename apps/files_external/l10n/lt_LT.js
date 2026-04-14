@@ -134,7 +134,7 @@ OC.L10N.register(
     "{module} is not installed." : "{module} modulis nėra įdiegtas",
     "Dependant backends" : "Priklausomos posistemės",
     "No external storage configured or you do not have the permission to configure them" : "Nėra sukonfigūruota išorinė saugykla arba neturite leidimo jos konfigūruoti",
-    "Add external storage" : "Pridėkite išorinę saugyklą",
+    "Add external storage" : "Pridėti išorinę saugyklą",
     "Global credentials saved" : "Globalūs prisijungimo duomenys išsaugoti",
     "Could not save global credentials" : "Nepavyko išsaugoti globalių prisijungimo duomenų",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalūs prisijungimo duomenys gali būti naudojami autentifikavimui naudojant kelias išorines saugyklas, turinčias tuos pačius prisijungimo duomenis.",

@@ -215,7 +215,6 @@
     "Invalid share recipient" : "Faighteoir scaireanna neamhbhailí",
     "Group \"%s\" does not exist" : "Níl grúpa \"%s\" ann",
     "The requested share does not exist anymore" : "Níl an sciar iarrtha ann a thuilleadh",
-    "The requested share comes from a disabled user" : "Tagann an sciar iarrtha ó úsáideoir díchumasaithe",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Níor cruthaíodh an t-úsáideoir toisc go bhfuil an teorainn úsáideora bainte amach. Seiceáil d'fhógraí chun tuilleadh a fhoghlaim.",
     "Could not find category \"%s\"" : "Níorbh fhéidir an chatagóir \"%s\" a aimsiú",
     "Input text" : "Téacs ionchuir",
