@@ -125,7 +125,6 @@
     "_Cannot set expiration date more than %n day in the future_::_Cannot set expiration date more than %n days in the future_" : ["Data expirării nu poate fi mai mult de %n zi în viitor","Data expirării nu poate fi mai mult de %n zile în viitor","Data expirării nu poate fi mai mult de %n zile în viitor"],
     "Sharing is only allowed with group members" : "Partajarea este permisă doar cu membrii grupului",
     "The requested share does not exist anymore" : "Partajarea solicitată nu mai există",
-    "The requested share comes from a disabled user" : "Partajarea solicitată provine de la un utilizator dezactivat",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Utilizatorul nu a fost creat deoarece s-a atins limita acestui număr. Verificați notificările pentru a afla mai mult.",
     "Could not find category \"%s\"" : "Cloud nu a gasit categoria \"%s\"",
     "Sunday" : "Duminică",
