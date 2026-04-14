@@ -16,6 +16,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\Authentication\IAlternativeLogin;
+use OCP\Authentication\IAlternativeLoginProvider;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
@@ -44,6 +45,7 @@ use OCP\Teams\ITeamResourceProvider;
 use OCP\TextProcessing\IProvider as ITextProcessingProvider;
 use OCP\Translation\ITranslationProvider;
 use OCP\UserMigration\IMigrator as IUserMigrator;
+use Override;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
@@ -94,6 +96,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IAlternativeLogin>[] */
 	private $alternativeLogins = [];
+
+	/** @var ServiceRegistration<IAlternativeLoginProvider>[] */
+	private array $alternativeLoginProviders = [];
 
 	/** @var ServiceRegistration<InitialStateProvider>[] */
 	private $initialStates = [];
@@ -246,6 +251,14 @@ class RegistrationContext {
 
 			public function registerAlternativeLogin(string $class): void {
 				$this->context->registerAlternativeLogin(
+					$this->appId,
+					$class
+				);
+			}
+
+			#[Override]
+			public function registerAlternativeLoginProvider(string $class): void {
+				$this->context->registerAlternativeLoginProvider(
 					$this->appId,
 					$class
 				);
@@ -493,6 +506,10 @@ class RegistrationContext {
 
 	public function registerAlternativeLogin(string $appId, string $class): void {
 		$this->alternativeLogins[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerAlternativeLoginProvider(string $appId, string $class): void {
+		$this->alternativeLoginProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerInitialState(string $appId, string $class): void {
@@ -826,6 +843,13 @@ class RegistrationContext {
 	 */
 	public function getAlternativeLogins(): array {
 		return $this->alternativeLogins;
+	}
+
+	/**
+	 * @return ServiceRegistration<IAlternativeLoginProvider>[]
+	 */
+	public function getAlternativeLoginProviders(): array {
+		return $this->alternativeLoginProviders;
 	}
 
 	/**
