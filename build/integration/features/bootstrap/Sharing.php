@@ -98,6 +98,15 @@ trait Sharing {
 	}
 
 	/**
+	 * @When /^accepting last share via the accept endpoint$/
+	 */
+	public function acceptingLastShareViaAcceptEndpoint(): void {
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/index.php/apps/files_sharing/accept/ocinternal:$share_id";
+		$this->sendingToDirectUrl('GET', $url);
+	}
+
+	/**
 	 * @When /^accepting last share$/
 	 */
 	public function acceptingLastShare() {
