@@ -10,6 +10,9 @@ declare(strict_types=1);
 namespace OCA\Files\Dashboard;
 
 use OCA\Files\AppInfo\Application;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
+use OC\Files\Search\SearchQuery;
 use OCP\Dashboard\IAPIWidgetV2;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
@@ -21,9 +24,10 @@ use OCP\Dashboard\Model\WidgetOptions;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
 use OCP\IPreview;
-use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 
@@ -34,7 +38,6 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 		private readonly IURLGenerator $urlGenerator,
 		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly IUserManager $userManager,
-		private readonly ITagManager $tagManager,
 		private readonly IRootFolder $rootFolder,
 		private readonly IPreview $previewManager,
 	) {
@@ -71,50 +74,51 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 
 	public function getItems(string $userId, int $limit = 7): array {
 		$user = $this->userManager->get($userId);
-
 		if (!$user) {
 			return [];
 		}
-		$tags = $this->tagManager->load('files', [], false, $userId);
-		$favorites = $tags->getFavorites();
-		if (empty($favorites)) {
-			return [];
-		}
-		$favoriteNodes = [];
-		$userFolder = $this->rootFolder->getUserFolder($userId);
-		$count = 0;
-		foreach ($favorites as $favorite) {
-			$node = $userFolder->getFirstNodeById($favorite);
-			if ($node) {
-				$url = $this->urlGenerator->linkToRouteAbsolute(
-					'files.view.showFile', ['fileid' => $node->getId()]
-				);
-				if ($node instanceof File) {
-					$icon = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', [
-						'x' => 256,
-						'y' => 256,
-						'fileId' => $node->getId(),
-						'c' => $node->getEtag(),
-						'mimeFallback' => true,
-					]);
-				} else {
-					$icon = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'filetypes/folder.svg'));
-				}
-				$favoriteNodes[] = new WidgetItem(
-					$node->getName(),
-					'',
-					$url,
-					$icon,
-					(string)$node->getCreationTime()
-				);
-				$count++;
-				if ($count >= $limit) {
-					break;
-				}
-			}
-		}
 
-		return $favoriteNodes;
+		$userFolder = $this->rootFolder->getUserFolder($userId);
+		$folderIcon = $this->urlGenerator->getAbsoluteURL(
+			$this->urlGenerator->imagePath('core', 'filetypes/folder.svg')
+		);
+
+		$favoriteNodes = $userFolder->search(new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'favorite', true),
+			$limit,
+			0,
+			[
+				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime'),
+			],
+			$user,
+		));
+
+		return array_map(function ($node) use ($folderIcon) {
+			$url = $this->urlGenerator->linkToRouteAbsolute(
+				'files.view.showFile',
+				['fileid' => $node->getId()]
+			);
+
+			if ($node instanceof File) {
+				$icon = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', [
+					'x' => 256,
+					'y' => 256,
+					'fileId' => $node->getId(),
+					'c' => $node->getEtag(),
+					'mimeFallback' => true,
+				]);
+			} else {
+				$icon = $folderIcon;
+			}
+
+			return new WidgetItem(
+				$node->getName(),
+				'',
+				$url,
+				$icon,
+				(string)$node->getCreationTime()
+			);
+		}, $favoriteNodes);
 	}
 
 	public function getItemsV2(string $userId, ?string $since = null, int $limit = 7): WidgetItems {
