@@ -83,7 +83,7 @@ class ShareTargetValidatorTest extends TestCase {
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertSame('/foo/bar' . $this->folder, $share->getTarget());
 
-		$this->targetValidator->verifyMountPoint($this->user2, $share, [], [$share]);
+		$this->targetValidator->verifyMountPoint($this->user2, $share, fn ($path) => null, [$share]);
 
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertSame($this->folder, $share->getTarget());
@@ -117,7 +117,7 @@ class ShareTargetValidatorTest extends TestCase {
 
 		$share = $this->shareManager->getShareById($share->getFullId());
 
-		$this->targetValidator->verifyMountPoint($this->user2, $share, [], [$share]);
+		$this->targetValidator->verifyMountPoint($this->user2, $share, fn ($path) => null, [$share]);
 
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertSame('/bar (2)', $share->getTarget());
@@ -142,9 +142,10 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
 
 		$conflictingMount = $this->createMock(ICachedMountInfo::class);
-		$this->targetValidator->verifyMountPoint($this->user2, $share2, [
+		$conflictingMounts = [
 			'/' . $this->user2->getUID() . '/files' . $this->folder2 . '/' => $conflictingMount
-		], [$share2]);
+		];
+		$this->targetValidator->verifyMountPoint($this->user2, $share2, fn ($path) => $conflictingMounts[$path] ?? null, [$share2]);
 
 		$share2 = $this->shareManager->getShareById($share2->getFullId());
 
@@ -179,7 +180,7 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->eventDispatcher->addListener(VerifyMountPointEvent::class, function (VerifyMountPointEvent $event): void {
 			$event->setCreateParent(true);
 		});
-		$this->targetValidator->verifyMountPoint($this->user2, $share, [], [$share]);
+		$this->targetValidator->verifyMountPoint($this->user2, $share, fn ($path) => null, [$share]);
 
 		$share = $this->shareManager->getShareById($share->getFullId());
 		$this->assertSame('/foo/bar' . $this->folder, $share->getTarget());
