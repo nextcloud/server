@@ -37,6 +37,7 @@
 			'preLoginNameUsedAsUserName',
 			['uid' => &$uid]
 		)]]></code>
+      <code><![CDATA[getFederationIdFromSharedSecret]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/Activity/Listener.php">
