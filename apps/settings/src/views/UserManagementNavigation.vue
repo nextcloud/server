@@ -19,6 +19,7 @@
 
 		<div class="account-management__search" role="search" :aria-label="t('settings', 'Search accounts and groups')">
 			<NcInputField
+				ref="searchField"
 				v-model="searchInput"
 				:label="t('settings', 'Search accounts and groups…')"
 				:show-trailing-button="searchInput !== ''"
@@ -126,7 +127,7 @@
 import { mdiAccountOffOutline, mdiAccountOutline, mdiClose, mdiCogOutline, mdiHistory, mdiMagnify, mdiPlus, mdiShieldAccountOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import debounce from 'debounce'
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router/composables'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -144,6 +145,7 @@ import { useStore } from '../store/index.js'
 const route = useRoute()
 const store = useStore()
 
+const searchField = ref<InstanceType<typeof NcInputField>>()
 const searchInput = ref('')
 const commitSearch = debounce((query: string) => {
 	store.commit('setSearchQuery', query)
@@ -155,6 +157,30 @@ function clearSearch() {
 	store.commit('setSearchQuery', '')
 }
 onBeforeUnmount(() => commitSearch.clear())
+
+/**
+ * Intercept Ctrl+F (Cmd+F on macOS) so it focuses the local search input
+ * instead of opening the global unified search. We always stop propagation
+ * to prevent the global handler from firing; preventDefault is skipped when
+ * the field already has focus so a second Ctrl+F opens the browser's native
+ * find-in-page dialog as an escape hatch.
+ *
+ * @param event - The keydown event
+ */
+function onKeyDown(event: KeyboardEvent) {
+	if (!(event.ctrlKey || event.metaKey) || event.key !== 'f') {
+		return
+	}
+	event.stopImmediatePropagation()
+	const fieldEl = (searchField.value?.$el as HTMLElement | undefined) ?? null
+	if (fieldEl?.contains(document.activeElement)) {
+		return
+	}
+	event.preventDefault()
+	searchField.value?.focus()
+}
+onMounted(() => window.addEventListener('keydown', onKeyDown, { capture: true }))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeyDown, { capture: true }))
 
 /** State of the 'new-account' dialog */
 const isDialogOpen = ref(false)
