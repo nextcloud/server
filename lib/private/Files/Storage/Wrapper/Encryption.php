@@ -42,7 +42,7 @@ class Encryption extends Wrapper {
 	private bool $enabled = true;
 
 	/**
-	 * @param array $parameters
+	 * @param array{storage: Storage\IStorage, ...} $parameters
 	 */
 	public function __construct(
 		array $parameters,

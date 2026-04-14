@@ -23,11 +23,11 @@ class Encoding extends Wrapper {
 	private CappedMemoryCache $namesCache;
 
 	/**
-	 * @param array $parameters
+	 * @param array{storage: IStorage, ...} $parameters
 	 */
 	public function __construct(array $parameters) {
-		$this->storage = $parameters['storage'];
 		$this->namesCache = new CappedMemoryCache();
+		parent::__construct($parameters);
 	}
 
 	/**

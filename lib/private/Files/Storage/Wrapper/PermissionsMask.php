@@ -28,7 +28,7 @@ class PermissionsMask extends Wrapper {
 	protected readonly int $mask;
 
 	/**
-	 * @param array{storage: Storage, mask: int, ...} $parameters
+	 * @param array{storage: IStorage, mask: int, ...} $parameters
 	 *
 	 * $storage: The storage the permissions mask should be applied on
 	 * $mask: The permission bits that should be kept, a combination of the \OCP\Constant::PERMISSION_ constants
