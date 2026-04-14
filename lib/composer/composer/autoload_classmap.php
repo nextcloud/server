@@ -165,6 +165,7 @@ return array(
     'OCP\\Authentication\\Exceptions\\PasswordUnavailableException' => $baseDir . '/lib/public/Authentication/Exceptions/PasswordUnavailableException.php',
     'OCP\\Authentication\\Exceptions\\WipeTokenException' => $baseDir . '/lib/public/Authentication/Exceptions/WipeTokenException.php',
     'OCP\\Authentication\\IAlternativeLogin' => $baseDir . '/lib/public/Authentication/IAlternativeLogin.php',
+    'OCP\\Authentication\\IAlternativeLoginProvider' => $baseDir . '/lib/public/Authentication/IAlternativeLoginProvider.php',
     'OCP\\Authentication\\IApacheBackend' => $baseDir . '/lib/public/Authentication/IApacheBackend.php',
     'OCP\\Authentication\\IProvideUserSecretBackend' => $baseDir . '/lib/public/Authentication/IProvideUserSecretBackend.php',
     'OCP\\Authentication\\LoginCredentials\\ICredentials' => $baseDir . '/lib/public/Authentication/LoginCredentials/ICredentials.php',

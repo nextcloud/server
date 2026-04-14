@@ -206,6 +206,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Authentication\\Exceptions\\PasswordUnavailableException' => __DIR__ . '/../../..' . '/lib/public/Authentication/Exceptions/PasswordUnavailableException.php',
         'OCP\\Authentication\\Exceptions\\WipeTokenException' => __DIR__ . '/../../..' . '/lib/public/Authentication/Exceptions/WipeTokenException.php',
         'OCP\\Authentication\\IAlternativeLogin' => __DIR__ . '/../../..' . '/lib/public/Authentication/IAlternativeLogin.php',
+        'OCP\\Authentication\\IAlternativeLoginProvider' => __DIR__ . '/../../..' . '/lib/public/Authentication/IAlternativeLoginProvider.php',
         'OCP\\Authentication\\IApacheBackend' => __DIR__ . '/../../..' . '/lib/public/Authentication/IApacheBackend.php',
         'OCP\\Authentication\\IProvideUserSecretBackend' => __DIR__ . '/../../..' . '/lib/public/Authentication/IProvideUserSecretBackend.php',
         'OCP\\Authentication\\LoginCredentials\\ICredentials' => __DIR__ . '/../../..' . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
