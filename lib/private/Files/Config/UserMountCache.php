@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Config;
 
 use OC\User\LazyUser;
@@ -32,11 +33,13 @@ class UserMountCache implements IUserMountCache {
 
 	/**
 	 * Cached mount info.
+	 *
 	 * @var CappedMemoryCache<ICachedMountInfo[]>
 	 **/
 	private CappedMemoryCache $mountsForUsers;
 	/**
 	 * fileid => internal path mapping for cached mount info.
+	 *
 	 * @var CappedMemoryCache<string>
 	 **/
 	private CappedMemoryCache $internalPathCache;
@@ -72,7 +75,9 @@ class UserMountCache implements IUserMountCache {
 
 		$cachedMounts = $this->getMountsForUser($user);
 		if (is_array($mountProviderClasses)) {
-			$cachedMounts = array_filter($cachedMounts, function (ICachedMountInfo $mountInfo) use ($mountProviderClasses, $newMounts) {
+			$cachedMounts = array_filter($cachedMounts, function (
+				ICachedMountInfo $mountInfo,
+			) use ($mountProviderClasses, $newMounts) {
 				// for existing mounts that didn't have a mount provider set
 				// we still want the ones that map to new mounts
 				if ($mountInfo->getMountProvider() === '' && isset($newMounts[$mountInfo->getKey()])) {
@@ -535,7 +540,13 @@ class UserMountCache implements IUserMountCache {
 		}
 	}
 
-	public function addMount(IUser $user, string $mountPoint, ICacheEntry $rootCacheEntry, string $mountProvider, ?int $mountId = null): void {
+	public function addMount(
+		IUser $user,
+		string $mountPoint,
+		ICacheEntry $rootCacheEntry,
+		string $mountProvider,
+		?int $mountId = null,
+	): void {
 		$this->connection->insertIgnoreConflict('mounts', [
 			'storage_id' => $rootCacheEntry->getStorageId(),
 			'root_id' => $rootCacheEntry->getId(),
@@ -555,5 +566,27 @@ class UserMountCache implements IUserMountCache {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->internalPathCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
+	}
+
+	public function getMountAtPath(IUser $user, string $mountPoint): ?ICachedMountInfo {
+		if (isset($this->mountsForUsers[$user->getUID()])) {
+			foreach ($this->mountsForUsers[$user->getUID()] as $mount) {
+				if ($mount->getMountPoint() === $mountPoint) {
+					return $mount;
+				}
+			}
+			return null;
+		}
+
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
+			->from('mounts', 'm')
+			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
+			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())))
+			->andWhere($builder->expr()->eq('mount_point_hash', $builder->createNamedParameter(hash('xxh128', $mountPoint))))
+			->setMaxResults(1);
+
+		$row = $query->executeQuery()->fetch();
+		return $row ? $this->dbRowToMountInfo($row) : null;
 	}
 }

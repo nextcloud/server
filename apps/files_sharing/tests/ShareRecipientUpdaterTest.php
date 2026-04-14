@@ -61,7 +61,7 @@ class ShareRecipientUpdaterTest extends \Test\TestCase {
 			->willReturn([]);
 
 		$this->shareTargetValidator->method('verifyMountPoint')
-			->with($user1, $share, [], [$share])
+			->with($user1, $share, fn ($path) => null, [$share])
 			->willReturn('/new-target');
 
 		$this->userMountCache->expects($this->exactly(1))
@@ -122,7 +122,7 @@ class ShareRecipientUpdaterTest extends \Test\TestCase {
 		$this->setCachedMounts($user1, []);
 
 		$this->shareTargetValidator->method('verifyMountPoint')
-			->with($user1, $share, [], [$share])
+			->with($user1, $share, fn ($path) => null, [$share])
 			->willReturn('/new-target');
 
 		$this->userMountCache->expects($this->exactly(1))

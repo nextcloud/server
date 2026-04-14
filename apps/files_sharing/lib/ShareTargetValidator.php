@@ -45,14 +45,14 @@ class ShareTargetValidator {
 	/**
 	 * check if the parent folder exists otherwise move the mount point up
 	 *
-	 * @param array<string, ICachedMountInfo> $allCachedMounts Other mounts for the user, indexed by path
+	 * @param callable(string):?ICachedMountInfo $getMountByPath
 	 * @param IShare[] $childShares
 	 * @return string
 	 */
 	public function verifyMountPoint(
 		IUser $user,
 		IShare &$share,
-		array $allCachedMounts,
+		callable $getMountByPath,
 		array $childShares,
 	): string {
 		$mountPoint = basename($share->getTarget());
@@ -94,7 +94,7 @@ class ShareTargetValidator {
 			$share->getNodeId(),
 			Filesystem::normalizePath($absoluteParent . '/' . $mountPoint),
 			$parentMount,
-			$allCachedMounts,
+			$getMountByPath,
 		);
 
 		/** @psalm-suppress InternalMethod */
@@ -112,13 +112,13 @@ class ShareTargetValidator {
 
 
 	/**
-	 * @param ICachedMountInfo[] $allCachedMounts
+	 * @param callable(string):?ICachedMountInfo $getMountByPath
 	 */
 	public function generateUniqueTarget(
 		int $shareNodeId,
 		string $absolutePath,
 		IMountPoint $parentMount,
-		array $allCachedMounts,
+		callable $getMountByPath,
 	): string {
 		$pathInfo = pathinfo($absolutePath);
 		$ext = isset($pathInfo['extension']) ? '.' . $pathInfo['extension'] : '';
@@ -128,7 +128,7 @@ class ShareTargetValidator {
 		$i = 2;
 		$parentCache = $parentMount->getStorage()->getCache();
 		$internalPath = $parentMount->getInternalPath($absolutePath);
-		while ($parentCache->inCache($internalPath) || $this->hasConflictingMount($shareNodeId, $allCachedMounts, $absolutePath)) {
+		while ($parentCache->inCache($internalPath) || $this->hasConflictingMount($shareNodeId, $getMountByPath, $absolutePath)) {
 			$absolutePath = Filesystem::normalizePath($dir . '/' . $name . ' (' . $i . ')' . $ext);
 			$internalPath = $parentMount->getInternalPath($absolutePath);
 			$i++;
@@ -138,14 +138,14 @@ class ShareTargetValidator {
 	}
 
 	/**
-	 * @param ICachedMountInfo[] $allCachedMounts
+	 * @param callable(string):?ICachedMountInfo $getMountByPath
 	 */
-	private function hasConflictingMount(int $shareNodeId, array $allCachedMounts, string $absolutePath): bool {
-		if (!isset($allCachedMounts[$absolutePath . '/'])) {
+	private function hasConflictingMount(int $shareNodeId, callable $getMountByPath, string $absolutePath): bool {
+		$mount = $getMountByPath($absolutePath . '/');
+		if ($mount === null) {
 			return false;
 		}
 
-		$mount = $allCachedMounts[$absolutePath . '/'];
 		if ($mount->getMountProvider() === MountProvider::class && $mount->getRootId() === $shareNodeId) {
 			// "conflicting" mount is a mount for the current share
 			return false;

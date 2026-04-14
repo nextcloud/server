@@ -51,7 +51,7 @@ class ShareRecipientUpdater {
 			$mountKey = $parentShare->getNodeId() . '::' . $mountPoint;
 			if (!isset($cachedMounts[$mountKey])) {
 				$mountsChanged = true;
-				$this->shareTargetValidator->verifyMountPoint($user, $parentShare, $mountsByPath, $groupedShares);
+				$this->shareTargetValidator->verifyMountPoint($user, $parentShare, fn ($path) => $mountsByPath[$path] ?? null, $groupedShares);
 			}
 		}
 
@@ -67,11 +67,7 @@ class ShareRecipientUpdater {
 	 * Validate a single received share for a user
 	 */
 	public function updateForAddedShare(IUser $user, IShare $share): void {
-		$cachedMounts = $this->userMountCache->getMountsForUser($user);
-		$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts);
-		$mountsByPath = array_combine($mountPoints, $cachedMounts);
-
-		$target = $this->shareTargetValidator->verifyMountPoint($user, $share, $mountsByPath, [$share]);
+		$target = $this->shareTargetValidator->verifyMountPoint($user, $share, fn ($path) => $this->userMountCache->getMountAtPath($user, $path), [$share]);
 		$mountPoint = $this->getMountPointFromTarget($user, $target);
 
 		$this->userMountCache->addMount($user, $mountPoint, $share->getNode()->getData(), MountProvider::class);
