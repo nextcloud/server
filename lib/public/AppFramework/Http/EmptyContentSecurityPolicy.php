@@ -24,12 +24,6 @@ class EmptyContentSecurityPolicy {
 	protected $strictDynamicAllowed = null;
 	/** @var bool Whether strict-dynamic should be used on script-src-elem */
 	protected $strictDynamicAllowedOnScripts = null;
-	/**
-	 * @var bool Whether eval in JS scripts is allowed
-	 *           TODO: Disallow per default
-	 * @link https://github.com/owncloud/core/issues/11925
-	 */
-	protected $evalScriptAllowed = null;
 	/** @var bool Whether WebAssembly compilation is allowed */
 	protected ?bool $evalWasmAllowed = null;
 	/** @var array Domains from which scripts can get loaded */
@@ -54,8 +48,6 @@ class EmptyContentSecurityPolicy {
 	protected $allowedFrameDomains = null;
 	/** @var array Domains from which fonts can be loaded */
 	protected $allowedFontDomains = null;
-	/** @var array Domains from which web-workers and nested browsing content can load elements */
-	protected $allowedChildSrcDomains = null;
 	/** @var array Domains which can embed this Nextcloud instance */
 	protected $allowedFrameAncestors = null;
 	/** @var array Domains from which web-workers can be loaded */
@@ -98,18 +90,6 @@ class EmptyContentSecurityPolicy {
 	 */
 	public function useJsNonce($nonce) {
 		$this->jsNonce = $nonce;
-		return $this;
-	}
-
-	/**
-	 * Whether eval in JavaScript is allowed or forbidden
-	 * @param bool $state
-	 * @return $this
-	 * @since 8.1.0
-	 * @deprecated 17.0.0 Eval should not be used anymore. Please update your scripts. This function will stop functioning in a future version of Nextcloud.
-	 */
-	public function allowEvalScript($state = true) {
-		$this->evalScriptAllowed = $state;
 		return $this;
 	}
 
@@ -324,31 +304,6 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
-	 * Domains from which web-workers and nested browsing content can load elements
-	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
-	 * @return $this
-	 * @since 8.1.0
-	 * @deprecated 15.0.0 use addAllowedWorkerSrcDomains or addAllowedFrameDomain
-	 */
-	public function addAllowedChildSrcDomain($domain) {
-		$this->allowedChildSrcDomains[] = $domain;
-		return $this;
-	}
-
-	/**
-	 * Remove the specified allowed child src domain from the allowed domains.
-	 *
-	 * @param string $domain
-	 * @return $this
-	 * @since 8.1.0
-	 * @deprecated 15.0.0 use the WorkerSrcDomains or FrameDomain
-	 */
-	public function disallowChildSrcDomain($domain) {
-		$this->allowedChildSrcDomains = array_diff($this->allowedChildSrcDomains, [$domain]);
-		return $this;
-	}
-
-	/**
 	 * Domains which can embed an iFrame of the Nextcloud instance
 	 *
 	 * @param string $domain
@@ -441,7 +396,7 @@ class EmptyContentSecurityPolicy {
 		$policy .= "base-uri 'none';";
 		$policy .= "manifest-src 'self';";
 
-		if (!empty($this->allowedScriptDomains) || $this->evalScriptAllowed || $this->evalWasmAllowed || is_string($this->jsNonce)) {
+		if (!empty($this->allowedScriptDomains) || $this->evalWasmAllowed || is_string($this->jsNonce)) {
 			$policy .= 'script-src ';
 			$scriptSrc = '';
 			if (is_string($this->jsNonce)) {
@@ -458,9 +413,6 @@ class EmptyContentSecurityPolicy {
 			}
 			if (is_array($this->allowedScriptDomains)) {
 				$scriptSrc .= implode(' ', $this->allowedScriptDomains);
-			}
-			if ($this->evalScriptAllowed) {
-				$scriptSrc .= ' \'unsafe-eval\'';
 			}
 			if ($this->evalWasmAllowed) {
 				$scriptSrc .= ' \'wasm-unsafe-eval\'';
@@ -514,11 +466,6 @@ class EmptyContentSecurityPolicy {
 		if (!empty($this->allowedFrameDomains)) {
 			$policy .= 'frame-src ';
 			$policy .= implode(' ', $this->allowedFrameDomains);
-			$policy .= ';';
-		}
-
-		if (!empty($this->allowedChildSrcDomains)) {
-			$policy .= 'child-src ' . implode(' ', $this->allowedChildSrcDomains);
 			$policy .= ';';
 		}
 

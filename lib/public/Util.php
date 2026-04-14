@@ -469,31 +469,6 @@ class Util {
 	}
 
 	/**
-	 * performs a search in a nested array
-	 *
-	 * @param array $haystack the array to be searched
-	 * @param string $needle the search string
-	 * @param mixed $index optional, only search this key name
-	 * @return mixed the key of the matching field, otherwise false
-	 * @since 4.5.0
-	 * @deprecated 15.0.0
-	 */
-	public static function recursiveArraySearch($haystack, $needle, $index = null) {
-		$aIt = new \RecursiveArrayIterator($haystack);
-		$it = new \RecursiveIteratorIterator($aIt);
-
-		while ($it->valid()) {
-			if (((isset($index) && ($it->key() == $index)) || !isset($index)) && ($it->current() == $needle)) {
-				return $aIt->key();
-			}
-
-			$it->next();
-		}
-
-		return false;
-	}
-
-	/**
 	 * calculates the maximum upload size respecting system settings, free space and user quota
 	 *
 	 * @param string $dir the current folder where the user currently operates
