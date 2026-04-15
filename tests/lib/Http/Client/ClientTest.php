@@ -51,14 +51,37 @@ class ClientTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 
-		$this->client = new Client(
-			$this->config,
-			$this->certificateManager,
-			$this->guzzleClient,
-			$this->remoteHostValidator,
-			$this->logger,
-			$this->serverVersion,
-		);
+		$this->client = $this->newClientWithHttp2Support(true);
+	}
+
+	private function newClientWithHttp2Support(bool $supportsHttp2): Client {
+		$client = $this->getMockBuilder(Client::class)
+			->setConstructorArgs([
+				$this->config,
+				$this->certificateManager,
+				$this->guzzleClient,
+				$this->remoteHostValidator,
+				$this->logger,
+				$this->serverVersion,
+			])
+			->onlyMethods(['supportsHttp2'])
+			->getMock();
+
+		$client->method('supportsHttp2')
+			->willReturn($supportsHttp2);
+
+		return $client;
+	}
+
+	private function addExpectedHttp2Options(array $options): array {
+		$options['version'] = '2.0';
+		$options['curl'] = [
+			\CURLOPT_HTTP_VERSION => \defined('CURL_HTTP_VERSION_2TLS')
+				? \CURL_HTTP_VERSION_2TLS
+				: \CURL_HTTP_VERSION_2_0,
+		];
+
+		return $options;
 	}
 
 	public function testGetProxyUri(): void {
@@ -257,7 +280,9 @@ class ClientTest extends \Test\TestCase {
 		$this->client->delete($uri);
 	}
 
-	private function setUpDefaultRequestOptions(): void {
+	private function setUpDefaultRequestOptions(bool $supportsHttp2 = true): void {
+		$this->client = $this->newClientWithHttp2Support($supportsHttp2);
+
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -288,6 +313,7 @@ class ClientTest extends \Test\TestCase {
 			->willReturn('123.45.6');
 
 		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
 		$this->defaultRequestOptions = [
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -298,17 +324,16 @@ class ClientTest extends \Test\TestCase {
 
 				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
 				'Accept-Encoding' => $acceptEnc,
-
 			],
 			'timeout' => 30,
 			'nextcloud' => [
 				'allow_local_address' => true,
 			],
-			'version' => '2.0',
-			'curl' => [
-				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
-			],
 		];
+
+		if ($supportsHttp2) {
+			$this->defaultRequestOptions = $this->addExpectedHttp2Options($this->defaultRequestOptions);
+		}
 	}
 
 	public function testGet(): void {
@@ -468,6 +493,8 @@ class ClientTest extends \Test\TestCase {
 	}
 
 	public function testSetDefaultOptionsWithNotInstalled(): void {
+		$this->client = $this->newClientWithHttp2Support(true);
+
 		$this->config
 			->expects($this->exactly(3))
 			->method('getSystemValueBool')
@@ -483,6 +510,7 @@ class ClientTest extends \Test\TestCase {
 				['proxy', '', ''],
 				['overwrite.cli.url', '', ''],
 			]);
+
 		$this->certificateManager
 			->expects($this->never())
 			->method('listCertificates');
@@ -496,7 +524,7 @@ class ClientTest extends \Test\TestCase {
 
 		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
-		$this->assertEquals([
+		$expected = [
 			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
 			'headers' => [
 				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
@@ -514,14 +542,16 @@ class ClientTest extends \Test\TestCase {
 				): void {
 				},
 			],
-			'version' => '2.0',
-			'curl' => [
-				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
-			],
-		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+		];
+		
+		$expected = $this->addExpectedHttp2Options($expected);
+
+		$this->assertEquals($expected, self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
 	public function testSetDefaultOptionsWithProxy(): void {
+		$this->client = $this->newClientWithHttp2Support(true);
+
 		$this->config
 			->expects($this->exactly(3))
 			->method('getSystemValueBool')
@@ -543,6 +573,7 @@ class ClientTest extends \Test\TestCase {
 				['proxyuserpwd', '', ''],
 				['overwrite.cli.url', '', ''],
 			]);
+
 		$this->certificateManager
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
@@ -554,7 +585,7 @@ class ClientTest extends \Test\TestCase {
 
 		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
-		$this->assertEquals([
+		$expected = [
 			'verify' => '/my/path.crt',
 			'proxy' => [
 				'http' => 'foo',
@@ -576,14 +607,16 @@ class ClientTest extends \Test\TestCase {
 				): void {
 				},
 			],
-			'version' => '2.0',
-			'curl' => [
-				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
-			],
-		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+		];
+
+		$expected = $this->addExpectedHttp2Options($expected);
+
+		$this->assertEquals($expected, self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
 	public function testSetDefaultOptionsWithProxyAndExclude(): void {
+		$this->client = $this->newClientWithHttp2Support(true);
+
 		$this->config
 			->expects($this->exactly(3))
 			->method('getSystemValueBool')
@@ -605,6 +638,7 @@ class ClientTest extends \Test\TestCase {
 				['proxyuserpwd', '', ''],
 				['overwrite.cli.url', '', ''],
 			]);
+
 		$this->certificateManager
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
@@ -616,7 +650,7 @@ class ClientTest extends \Test\TestCase {
 
 		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
-		$this->assertEquals([
+		$expected = [
 			'verify' => '/my/path.crt',
 			'proxy' => [
 				'http' => 'foo',
@@ -639,11 +673,63 @@ class ClientTest extends \Test\TestCase {
 				): void {
 				},
 			],
-			'version' => '2.0',
-			'curl' => [
-				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
+		];
+
+		$expected = $this->addExpectedHttp2Options($expected);
+
+		$this->assertEquals($expected, self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+	}
+
+	public function testSetDefaultOptionsWithoutHttp2Support(): void {
+		$this->client = $this->newClientWithHttp2Support(false);
+
+		$this->config
+			->expects($this->exactly(3))
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['installed', false, true],
+				['allow_local_remote_servers', false, false],
+				['http_client_add_user_agent_url', false, false],
+			]);
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValueString')
+			->willReturnMap([
+				['proxy', '', ''],
+				['overwrite.cli.url', '', ''],
+			]);
+
+		$this->certificateManager
+			->expects($this->once())
+			->method('getAbsoluteBundlePath')
+			->willReturn('/my/path.crt');
+
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
+		$expected = [
+			'verify' => '/my/path.crt',
+			'headers' => [
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
+				'Accept-Encoding' => $acceptEnc,
 			],
-		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+			'timeout' => 30,
+			'nextcloud' => [
+				'allow_local_address' => false,
+			],
+			'allow_redirects' => [
+				'on_redirect' => function (
+					\Psr\Http\Message\RequestInterface $request,
+					\Psr\Http\Message\ResponseInterface $response,
+					\Psr\Http\Message\UriInterface $uri,
+				): void {
+				},
+			],
+		];
+
+		$this->assertEquals($expected, self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
 	public static function dataForTestSetServerUrlInUserAgent(): array {
@@ -655,6 +741,8 @@ class ClientTest extends \Test\TestCase {
 
 	#[DataProvider('dataForTestSetServerUrlInUserAgent')]
 	public function testSetServerUrlInUserAgent(string $url, string $userAgent): void {
+		$this->client = $this->newClientWithHttp2Support(true);
+
 		$this->config
 			->expects($this->exactly(3))
 			->method('getSystemValueBool')
@@ -670,6 +758,7 @@ class ClientTest extends \Test\TestCase {
 				['proxy', '', ''],
 				['overwrite.cli.url', '', $url],
 			]);
+
 		$this->certificateManager
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
@@ -679,11 +768,13 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
 			'headers' => [
 				'User-Agent' => $userAgent,
-				'Accept-Encoding' => 'gzip',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -697,10 +788,10 @@ class ClientTest extends \Test\TestCase {
 				): void {
 				},
 			],
-			'version' => '2.0',
-			'curl' => [
-				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
-			],
-		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+		];
+
+		$expected = $this->addExpectedHttp2Options($expected);
+
+		$this->assertEquals($expected, self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 }
