@@ -152,7 +152,7 @@ class Client implements IClient {
 		}
 	}
 
-	private function supportsHttp2(): bool {
+	protected function supportsHttp2(): bool {
 		if (!\function_exists('curl_version') || !\defined('CURL_VERSION_HTTP2')) {
 			return false;
 		}
