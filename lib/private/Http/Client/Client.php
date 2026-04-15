@@ -19,6 +19,8 @@ use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
 use OCP\ServerVersion;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use function parse_url;
 
@@ -475,6 +477,11 @@ class Client implements IClient {
 		$response = $this->client->request($method, $uri, $this->buildRequestOptions($options));
 		$isStream = isset($options['stream']) && $options['stream'];
 		return new Response($response, $isStream);
+	}
+
+	public function sendRequest(RequestInterface $request): ResponseInterface {
+		$this->preventLocalAddress((string)$request->getUri(), []);
+		return $this->client->send($request, $this->buildRequestOptions([]));
 	}
 
 	protected function wrapGuzzlePromise(PromiseInterface $promise): IPromise {

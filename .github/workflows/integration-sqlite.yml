@@ -73,8 +73,10 @@ jobs:
           - 'sharing_features'
           - 'theming_features'
           - 'videoverification_features'
+          - 'guests_features'
 
         php-versions: ['8.4']
+        guests-versions: ['main']
         spreed-versions: ['main']
         activity-versions: ['master']
 
@@ -111,6 +113,15 @@ jobs:
           path: apps/spreed
           ref: ${{ matrix.spreed-versions }}
 
+      - name: Checkout Guests app
+        if: ${{ matrix.test-suite == 'guests_features' }}
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          repository: nextcloud/guests
+          path: apps/guests
+          ref: ${{ matrix.guests-versions }}
+
       - name: Checkout Activity app
         if: ${{ matrix.test-suite == 'sharing_features' }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -129,6 +140,7 @@ jobs:
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, ldap, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
+          ini-values: disable_functions=""
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

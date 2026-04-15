@@ -26,7 +26,7 @@ use Override;
 use Psr\Log\LoggerInterface;
 
 class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
-	protected ?Storage $storage = null;
+	protected ?IStorage $storage = null;
 
 	public ?ICache $cache = null;
 
@@ -39,7 +39,7 @@ class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
 	public ?IUpdater $updater = null;
 
 	/**
-	 * @param array{storage: Storage, ...} $parameters
+	 * @param array{storage: IStorage, ...} $parameters
 	 */
 	public function __construct(array $parameters) {
 		$this->storage = $parameters['storage'];

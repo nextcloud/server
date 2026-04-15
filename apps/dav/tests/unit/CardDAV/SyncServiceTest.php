@@ -367,6 +367,44 @@ END:VCARD';
 		$ss->deleteUser($user);
 	}
 
+	public function testSyncInstance(): void {
+		/** @var CardDavBackend | MockObject $backend */
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
+
+		$backend->expects($this->exactly(1))->method('deleteCard');
+
+		$backend->method('getCards')->willReturn([
+			[
+				'carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:test-user\r\nFN:test-user\r\nN:test-user;;;;\r\nEND:VCARD\r\n\r\n",
+				'uri' => 'Database:test-user.vcf',
+			],
+			[
+				'carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:test-user\r\nFN:test-user\r\nN:test-user;;;;\r\nEND:VCARD\r\n\r\n",
+				'uri' => 'LDAP:test-user.vcf',
+			],
+		]
+		);
+
+		$backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => -1]);
+
+		$userManager = $this->createMock(IUserManager::class);
+		$dbConnection = $this->createMock(IDBConnection::class);
+		$user = $this->createMock(IUser::class);
+		$user->method('getBackendClassName')->willReturn('LDAP');
+		$user->method('getUID')->willReturn('test-user');
+		$userManager->method('get')->willReturn($user);
+
+		$converter = $this->createMock(Converter::class);
+		$clientService = $this->createMock(IClientService::class);
+		$config = $this->createMock(IConfig::class);
+
+		$ss = new SyncService($clientService, $config, $backend, $userManager, $dbConnection, $logger, $converter);
+		$ss->syncInstance();
+	}
+
 	public function testDeleteAddressbookWhenAccessRevoked(): void {
 		$this->expectException(ClientExceptionInterface::class);
 

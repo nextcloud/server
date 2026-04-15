@@ -161,8 +161,20 @@ interface IRegistrationContext {
 	 * @return void
 	 *
 	 * @since 20.0.0
+	 * @deprecated 34.0.0 Use registerAlternativeLoginProvider instead.
 	 */
 	public function registerAlternativeLogin(string $class): void;
+
+	/**
+	 * Register an alternative login options provider
+	 *
+	 * It is allowed to register more than one option per app.
+	 *
+	 * @param class-string<\OCP\Authentication\IAlternativeLoginProvider> $class
+	 *
+	 * @since 34.0.0
+	 */
+	public function registerAlternativeLoginProvider(string $class): void;
 
 	/**
 	 * Register an initialstate provider
