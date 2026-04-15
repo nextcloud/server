@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OC\Net;
 
+use IPLib\Address\IPv4;
 use IPLib\Address\IPv6;
 use IPLib\Factory;
 use IPLib\ParseStringFlag;
@@ -58,7 +59,15 @@ class IpAddressClassifier {
 		}
 		/* Replace by normalized form */
 		if ($parsedIp instanceof IPv6) {
-			$ip = (string)($parsedIp->toIPv4() ?? $parsedIp);
+			$ipv4 = $parsedIp->toIPv4();
+			$ipv6Bytes = $parsedIp->getBytes();
+			if ($ipv4) {
+				$ip = (string)$ipv4;
+			} elseif (array_slice($ipv6Bytes, 0, 4) === [0x00, 0x64, 0xFF, 0x9B]) {
+				$ip = (string)IPv4::fromBytes(array_slice($ipv6Bytes, -4, 4));
+			} else {
+				$ip = (string)$parsedIp;
+			}
 		} else {
 			$ip = (string)$parsedIp;
 		}
