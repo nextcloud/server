@@ -45,13 +45,9 @@ class Client implements IClient {
 		$defaults = [
 			RequestOptions::VERIFY => $this->getCertBundle(),
 			RequestOptions::TIMEOUT => IClient::DEFAULT_REQUEST_TIMEOUT,
-			// Prefer HTTP/2 globally (PSR-7 request version)
-			RequestOptions::VERSION => '2.0',
-			'curl' => [
-				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
-			],
 		];
 
+		$this->applyHttp2Defaults($defaults);
 		$this->applyLocalAddressProtection($defaults, $options);
 		$this->applyProxyOption($defaults);
 
@@ -136,6 +132,35 @@ class Client implements IClient {
 		// Support legacy 'save_to' by mapping it to Guzzle's 'sink'.
 		$options['sink'] = $options['save_to'];
 		unset($options['save_to']);
+	}
+
+	private function applyHttp2Defaults(array &$defaults): void {
+		if (!$this->supportsHttp2()) {
+			return;
+		}
+
+		// Prefer HTTP/2 when supported by the local libcurl build.
+		$defaults[RequestOptions::VERSION] = '2.0';
+
+		if (\defined('CURL_HTTP_VERSION_2TLS')) {
+			$defaults['curl'][\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_2TLS;
+			return;
+		}
+
+		if (\defined('CURL_HTTP_VERSION_2_0')) {
+			$defaults['curl'][\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_2_0;
+		}
+	}
+
+	private function supportsHttp2(): bool {
+		if (!\function_exists('curl_version') || !\defined('CURL_VERSION_HTTP2')) {
+			return false;
+		}
+
+		$curlVersion = \curl_version();
+		$features = $curlVersion['features'] ?? 0;
+
+		return ($features & \CURL_VERSION_HTTP2) === \CURL_VERSION_HTTP2;
 	}
 
 	private function getCertBundle(): string {
