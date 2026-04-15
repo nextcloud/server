@@ -199,7 +199,7 @@ class Util {
 	 * This is used to ensure that the global state is initialized before all other scripts.
 	 *
 	 * @param string $name - The script name
-	 * @since 34.0.0
+	 * @since 33.0.3
 	 */
 	private static function scriptOrderValue(string $name): int {
 		return match($name) {
