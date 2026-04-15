@@ -496,7 +496,6 @@ class ClientTest extends \Test\TestCase {
 		$this->client = $this->newClientWithHttp2Support(true);
 
 		$this->config
-			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, false],
@@ -553,7 +552,6 @@ class ClientTest extends \Test\TestCase {
 		$this->client = $this->newClientWithHttp2Support(true);
 
 		$this->config
-			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
@@ -618,7 +616,6 @@ class ClientTest extends \Test\TestCase {
 		$this->client = $this->newClientWithHttp2Support(true);
 
 		$this->config
-			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
@@ -684,7 +681,6 @@ class ClientTest extends \Test\TestCase {
 		$this->client = $this->newClientWithHttp2Support(false);
 
 		$this->config
-			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
@@ -744,7 +740,6 @@ class ClientTest extends \Test\TestCase {
 		$this->client = $this->newClientWithHttp2Support(true);
 
 		$this->config
-			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
