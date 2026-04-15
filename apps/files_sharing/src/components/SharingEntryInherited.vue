@@ -15,13 +15,13 @@
 				class="sharing-entry__avatar" />
 		</template>
 		<NcActionText icon="icon-user">
-			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
+			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }, undefined, { escape: false }) }}
 		</NcActionText>
 		<NcActionLink
 			v-if="share.viaPath && share.viaFileid"
 			icon="icon-folder"
 			:href="viaFileTargetUrl">
-			{{ t('files_sharing', 'Via “{folder}”', { folder: viaFolderName }) }}
+			{{ t('files_sharing', 'Via “{folder}”', { folder: viaFolderName }, undefined, { escape: false }) }}
 		</NcActionLink>
 		<NcActionButton
 			v-if="share.canDelete"
