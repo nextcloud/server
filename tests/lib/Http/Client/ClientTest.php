@@ -543,7 +543,7 @@ class ClientTest extends \Test\TestCase {
 				},
 			],
 		];
-		
+
 		$expected = $this->addExpectedHttp2Options($expected);
 
 		$this->assertEquals($expected, self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
