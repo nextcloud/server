@@ -770,7 +770,7 @@ class ClientTest extends \Test\TestCase {
 
 		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
-		$this->assertEquals([
+		$expected = [
 			'verify' => '/my/path.crt',
 			'headers' => [
 				'User-Agent' => $userAgent,
