@@ -129,7 +129,7 @@
     "Advanced options" : "Išplėstinės parinktys",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Įdiekite „ImageMagick“ PHP plėtinį, palaikantį SVG vaizdus, kad būtų automatiškai generuojami Tinklalapio ženkleliai pagal įkeltą logotipą ir spalvą.",
     "No background has been selected" : "Fonas nepasirinktas",
-    "Select a custom color" : "Pasirinkite norimą spalvą",
+    "Select a custom color" : "Pasirinkti norimą spalvą",
     "Upload" : "Įkelti"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
