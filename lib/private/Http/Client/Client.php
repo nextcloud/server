@@ -21,6 +21,7 @@ use OCP\Security\IRemoteHostValidator;
 use OCP\ServerVersion;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 use Psr\Log\LoggerInterface;
 use function parse_url;
 
@@ -41,30 +42,53 @@ class Client implements IClient {
 	}
 
 	private function buildRequestOptions(array $options): array {
-		$proxy = $this->getProxyUri();
-
 		$defaults = [
 			RequestOptions::VERIFY => $this->getCertBundle(),
 			RequestOptions::TIMEOUT => IClient::DEFAULT_REQUEST_TIMEOUT,
 			// Prefer HTTP/2 globally (PSR-7 request version)
 			RequestOptions::VERSION => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
+			],
 		];
-		$defaults['curl'][\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_2TLS;
 
-		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
-		if ($options['nextcloud']['allow_local_address'] === false) {
-			$onRedirectFunction = function (
-				\Psr\Http\Message\RequestInterface $request,
-				\Psr\Http\Message\ResponseInterface $response,
-				\Psr\Http\Message\UriInterface $uri,
-			) use ($options): void {
-				$this->preventLocalAddress($uri->__toString(), $options);
-			};
+		$this->applyLocalAddressProtection($defaults, $options);
+		$this->applyProxyOption($defaults);
 
-			$defaults[RequestOptions::ALLOW_REDIRECTS] = [
-				'on_redirect' => $onRedirectFunction
-			];
+		$options = array_merge($defaults, $options);
+		$options[RequestOptions::HEADERS] ??= [];
+
+		$this->ensureDefaultUserAgent($options);
+		$this->ensureDefaultAcceptEncoding($options);
+		$this->normalizeLegacySaveToOption($options);
+
+		return $options;
+	}
+
+	/**
+	 * Propagate local-address policy into request options and validate redirect targets.
+	 */
+	private function applyLocalAddressProtection(array &$defaults, array &$options): void {
+		$allowLocalAddress = $this->isLocalAddressAllowed($options);
+		$options['nextcloud']['allow_local_address'] = $allowLocalAddress;
+
+		if ($allowLocalAddress) {
+			return;
 		}
+
+		$defaults[RequestOptions::ALLOW_REDIRECTS] = [
+			'on_redirect' => function (
+				RequestInterface $_request,
+				ResponseInterface $_response,
+				UriInterface $uri,
+			) use ($options): void {
+				$this->preventLocalAddress((string)$uri, $options);
+			},
+		];
+	}
+
+	private function applyProxyOption(array &$defaults): void {
+		$proxy = $this->getProxyUri();
 
 		// Only add RequestOptions::PROXY if Nextcloud is explicitly
 		// configured to use a proxy. This is needed in order not to override
@@ -72,36 +96,46 @@ class Client implements IClient {
 		if ($proxy !== null) {
 			$defaults[RequestOptions::PROXY] = $proxy;
 		}
+	}
 
-		$options = array_merge($defaults, $options);
-
-		if (!isset($options[RequestOptions::HEADERS]['User-Agent'])) {
-			$userAgent = 'Nextcloud-Server-Crawler/' . $this->serverVersion->getVersionString();
-			$overwriteCliUrl = $this->config->getSystemValueString('overwrite.cli.url');
-			if ($this->config->getSystemValueBool('http_client_add_user_agent_url') && !empty($overwriteCliUrl)) {
-				$userAgent .= '; +' . rtrim($overwriteCliUrl, '/');
-			}
-			$options[RequestOptions::HEADERS]['User-Agent'] = $userAgent;
+	private function ensureDefaultUserAgent(array &$options): void {
+		if (isset($options[RequestOptions::HEADERS]['User-Agent'])) {
+			return;
 		}
 
-		// Ensure headers array exists and set Accept-Encoding only if not present
-		$headers = $options[RequestOptions::HEADERS] ?? [];
-		if (!isset($headers['Accept-Encoding'])) {
-			$acceptEnc = 'gzip';
-			if (function_exists('brotli_uncompress')) {
-				$acceptEnc = 'br, ' . $acceptEnc;
-			}
-			$options[RequestOptions::HEADERS] = $headers; // ensure headers are present
-			$options[RequestOptions::HEADERS]['Accept-Encoding'] = $acceptEnc;
+		$userAgent = 'Nextcloud-Server-Crawler/' . $this->serverVersion->getVersionString();
+		$overwriteCliUrl = $this->config->getSystemValueString('overwrite.cli.url');
+		$addUrl = !empty($overwriteCliUrl) && $this->config->getSystemValueBool('http_client_add_user_agent_url', false);
+
+		// Optionally append the instance URL to the crawler user agent.
+		if ($addUrl) {
+			$userAgent .= '; +' . rtrim($overwriteCliUrl, '/');
 		}
 
-		// Fallback for save_to
-		if (isset($options['save_to'])) {
-			$options['sink'] = $options['save_to'];
-			unset($options['save_to']);
+		$options[RequestOptions::HEADERS]['User-Agent'] = $userAgent;
+	}
+
+	private function ensureDefaultAcceptEncoding(array &$options): void {
+		if (isset($options[RequestOptions::HEADERS]['Accept-Encoding'])) {
+			return;
 		}
 
-		return $options;
+		$acceptEncoding = 'gzip';
+		if (function_exists('brotli_uncompress')) {
+			$acceptEncoding = 'br, ' . $acceptEncoding;
+		}
+
+		$options[RequestOptions::HEADERS]['Accept-Encoding'] = $acceptEncoding;
+	}
+
+	private function normalizeLegacySaveToOption(array &$options): void {
+		if (!isset($options['save_to'])) {
+			return;
+		}
+
+		// Support legacy 'save_to' by mapping it to Guzzle's 'sink'.
+		$options['sink'] = $options['save_to'];
+		unset($options['save_to']);
 	}
 
 	private function getCertBundle(): string {
@@ -155,7 +189,7 @@ class Client implements IClient {
 		return $proxy;
 	}
 
-	private function isLocalAddressAllowed(array $options) : bool {
+	private function isLocalAddressAllowed(array $options): bool {
 		if (($options['nextcloud']['allow_local_address'] ?? false)
 			|| $this->config->getSystemValueBool('allow_local_remote_servers', false)) {
 			return true;
