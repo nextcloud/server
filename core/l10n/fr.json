@@ -350,6 +350,7 @@
     "This share is password-protected" : "Ce partage est protégé par mot de passe",
     "The password is wrong or expired. Please try again or request a new one." : "Le mot de passe est incorrect ou expiré. Ré-essayez ou demandez-en un nouveau.",
     "Submit" : "Envoyer",
+    "If the email address was correct then you will receive an email with the password." : "Si l'adresse email est correcte, vous recevrez un courriel contenant le mot de passe.",
     "Please type in your email address to request a temporary password" : "Veuillez saisir votre adresse e-mail pour recevoir un mot de passe temporaire",
     "Email address" : "Adresse e-mail",
     "Request password" : "Demande de mot de passe",

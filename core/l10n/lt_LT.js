@@ -182,7 +182,7 @@ OC.L10N.register(
     "Plain text document" : "Grynojo teksto dokumentas",
     "Rich Text document" : "Raiškiojo teksto dokumentas",
     "Electronic business card" : "Elektroninė vizitinė kortelė",
-    "C++ source code" : "C++ šaltinio kodas",
+    "C++ source code" : "C++ pradinis kodas",
     "LDIF address book" : "LDIF adresų knyga",
     "NFO document" : "NFO dokumentas",
     "PHP source" : "PHP šaltinis",
