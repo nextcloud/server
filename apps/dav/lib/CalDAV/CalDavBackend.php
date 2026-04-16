@@ -2061,6 +2061,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$outerQuery->andWhere($outerQuery->expr()->eq('uid', $outerQuery->createNamedParameter($options['uid'])));
 		}
 
+		if (isset($options['uri'])) {
+			$outerQuery->andWhere($outerQuery->expr()->eq('uri', $outerQuery->createNamedParameter($options['uri'])));
+		}
+
 		if (!empty($options['types'])) {
 			$or = [];
 			foreach ($options['types'] as $type) {
