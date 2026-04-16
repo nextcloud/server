@@ -9,19 +9,22 @@
 		<p class="settings-hint hidden-when-empty">
 			{{ t('settings', 'Set up your account for passwordless authentication following the FIDO2 standard.') }}
 		</p>
+
 		<NcNoteCard v-if="devices.length === 0" type="info">
 			{{ t('settings', 'No devices configured.') }}
 		</NcNoteCard>
 
-		<h3 v-else id="security-webauthn__active-devices">
-			{{ t('settings', 'The following devices are configured for your account:') }}
-		</h3>
-		<ul aria-labelledby="security-webauthn__active-devices" class="security-webauthn__device-list">
-			<Device v-for="device in sortedDevices"
-				:key="device.id"
-				:name="device.name"
-				@delete="deleteDevice(device.id)" />
-		</ul>
+		<template v-else>
+			<h3 id="security-webauthn__active-devices">
+				{{ t('settings', 'The following devices are configured for your account:') }}
+			</h3>
+			<ul aria-labelledby="security-webauthn__active-devices" class="security-webauthn__device-list">
+				<Device v-for="device in sortedDevices"
+					:key="device.id"
+					:name="device.name"
+					@delete="deleteDevice(device.id)" />
+			</ul>
+		</template>
 
 		<NcNoteCard v-if="!supportsWebauthn" type="warning">
 			{{ t('settings', 'Your browser does not support WebAuthn.') }}
