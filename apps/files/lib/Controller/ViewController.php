@@ -174,6 +174,10 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
 		$this->initialState->provideInitialState('recent_limit', $this->appConfig->getAppValueInt('recent_limit', 100));
+		// Not yet consumed by the frontend, provided for future implementation
+		$this->initialState->provideInitialState('group_recent_files', $this->appConfig->getAppValueBool('group_recent_files', false));
+		$this->initialState->provideInitialState('recent_files_group_mime_types', $this->appConfig->getAppValueArray('recent_files_group_mime_types', []));
+		$this->initialState->provideInitialState('recent_files_group_timespan_minutes', $this->appConfig->getAppValueInt('recent_files_group_timespan_minutes', 2));
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
