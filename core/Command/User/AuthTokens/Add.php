@@ -55,6 +55,12 @@ class Add extends Command {
 				InputOption::VALUE_REQUIRED,
 				'Name for the app password, defaults to "cli".'
 			)
+			->addOption(
+				'login-name',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Optional login-name, defaults to UID'
+			)
 		;
 	}
 
@@ -89,13 +95,15 @@ class Add extends Command {
 			$output->writeln('<info>No password provided. The generated app password will therefore have limited capabilities. Any operation that requires the login password will fail.</info>');
 		}
 
+		$loginName = $input->getOption('login-name') ?? $user->getUID();
+
 		$tokenName = $input->getOption('name') ?: 'cli';
 
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
 			$user->getUID(),
-			$user->getUID(),
+			$loginName,
 			$password,
 			$tokenName,
 			IToken::PERMANENT_TOKEN,
