@@ -10,30 +10,25 @@ namespace OCP\Share\Events;
 
 use OC\Files\View;
 use OCP\EventDispatcher\Event;
+use OCP\IUser;
 use OCP\Share\IShare;
 
 /**
  * @since 19.0.0
  */
 class VerifyMountPointEvent extends Event {
-	/** @var IShare */
-	private $share;
-	/** @var View */
-	private $view;
-	/** @var string */
-	private $parent;
+	private bool $createParent = false;
 
 	/**
 	 * @since 19.0.0
 	 */
-	public function __construct(IShare $share,
-		View $view,
-		string $parent) {
+	public function __construct(
+		private readonly IShare $share,
+		private readonly View $view,
+		private string $parent,
+		private readonly IUser $user,
+	) {
 		parent::__construct();
-
-		$this->share = $share;
-		$this->view = $view;
-		$this->parent = $parent;
 	}
 
 	/**
@@ -51,6 +46,8 @@ class VerifyMountPointEvent extends Event {
 	}
 
 	/**
+	 * The parent folder where the share is placed, as relative path to the users home directory.
+	 *
 	 * @since 19.0.0
 	 */
 	public function getParent(): string {
@@ -62,5 +59,31 @@ class VerifyMountPointEvent extends Event {
 	 */
 	public function setParent(string $parent): void {
 		$this->parent = $parent;
+	}
+
+	/**
+	 * @since 33.0.3
+	 */
+	public function setCreateParent(bool $create): void {
+		$this->createParent = $create;
+	}
+
+	/**
+	 * Whether the parent folder should be created if missing.
+	 *
+	 * If set for `false` (the default), and the parent folder doesn't exist already,
+	 * the share will be moved to the default share folder instead.
+	 *
+	 * @since 33.0.3
+	 */
+	public function createParent(): bool {
+		return $this->createParent;
+	}
+
+	/**
+	 * @since 33.0.3
+	 */
+	public function getUser(): IUser {
+		return $this->user;
 	}
 }
