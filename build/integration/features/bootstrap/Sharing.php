@@ -5,13 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/autoload.php';
-
 
 
 trait Sharing {
@@ -566,17 +566,17 @@ trait Sharing {
 		$expectedFields = array_merge($defaultExpectedFields, $body->getRowsHash());
 
 		if (!array_key_exists('uid_file_owner', $expectedFields)
-				&& array_key_exists('uid_owner', $expectedFields)) {
+			&& array_key_exists('uid_owner', $expectedFields)) {
 			$expectedFields['uid_file_owner'] = $expectedFields['uid_owner'];
 		}
 		if (!array_key_exists('displayname_file_owner', $expectedFields)
-				&& array_key_exists('displayname_owner', $expectedFields)) {
+			&& array_key_exists('displayname_owner', $expectedFields)) {
 			$expectedFields['displayname_file_owner'] = $expectedFields['displayname_owner'];
 		}
 
 		if (array_key_exists('share_type', $expectedFields)
-				&& $expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */
-				&& array_key_exists('share_with', $expectedFields)) {
+			&& $expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */
+			&& array_key_exists('share_with', $expectedFields)) {
 			if ($expectedFields['share_with'] === 'private_conversation') {
 				$expectedFields['share_with'] = 'REGEXP /^private_conversation_[0-9a-f]{6}$/';
 			} else {
@@ -781,5 +781,35 @@ trait Sharing {
 			$sharees[] = $sharee;
 		}
 		return $sharees;
+	}
+
+	/**
+	 * @Then /^Share mounts for "([^"]*)" match$/
+	 */
+	public function checkShareMounts(string $user, ?TableNode $body) {
+		if ($body instanceof TableNode) {
+			$fd = $body->getRows();
+
+			$expected = [];
+			foreach ($fd as $row) {
+				$expected[] = $row[0];
+			}
+			$this->runOcc(['files:mount:list', '--output', 'json', '--cached-only', $user]);
+			$mounts = json_decode($this->lastStdOut, true)['cached'];
+			$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === \OCA\Files_Sharing\MountProvider::class);
+			$actual = array_values(array_map(fn (array $data) => $data['mountpoint'], $shareMounts));
+			Assert::assertEquals($expected, $actual);
+		}
+	}
+
+	/**
+	 * @Then /^Share mounts for "([^"]*)" are empty$/
+	 */
+	public function checkShareMountsEmpty(string $user) {
+		$this->runOcc(['files:mount:list', '--output', 'json', '--cached-only', $user]);
+		$mounts = json_decode($this->lastStdOut, true)['cached'];
+		$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === \OCA\Files_Sharing\MountProvider::class);
+		$actual = array_values(array_map(fn (array $data) => $data['mountpoint'], $shareMounts));
+		Assert::assertEquals([], $actual);
 	}
 }
