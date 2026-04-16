@@ -70,6 +70,8 @@ class UserConfig implements IUserConfig {
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
 	private array $strictnessApplied = [];
+	// only needed to manage the old database structure during ownCloud-to-Nextcloud migration
+	private bool $migrationCompleted = true;
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -1148,12 +1150,14 @@ class UserConfig implements IUserConfig {
 				$insert->insert('preferences')
 					->setValue('userid', $insert->createNamedParameter($userId))
 					->setValue('appid', $insert->createNamedParameter($app))
-					->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-					->setValue('type', $insert->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
-					->setValue('flags', $insert->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
-					->setValue('indexed', $insert->createNamedParameter($indexed))
 					->setValue('configkey', $insert->createNamedParameter($key))
 					->setValue('configvalue', $insert->createNamedParameter($value));
+				if ($this->migrationCompleted) {
+					$insert->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+						->setValue('type', $insert->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
+						->setValue('flags', $insert->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
+						->setValue('indexed', $insert->createNamedParameter($indexed));
+				}
 				$insert->executeStatement();
 				$inserted = true;
 			} catch (DBException $e) {
@@ -1205,13 +1209,15 @@ class UserConfig implements IUserConfig {
 			$update = $this->connection->getQueryBuilder();
 			$update->update('preferences')
 				->set('configvalue', $update->createNamedParameter($value))
-				->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-				->set('type', $update->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
-				->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
-				->set('indexed', $update->createNamedParameter($indexed))
 				->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
 				->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
 				->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			if ($this->migrationCompleted) {
+				$update->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+					->set('type', $update->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
+					->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
+					->set('indexed', $update->createNamedParameter($indexed));
+			}
 
 			$update->executeStatement();
 		}
@@ -1762,25 +1768,41 @@ class UserConfig implements IUserConfig {
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('preferences');
-		$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
 		$qb->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId)));
 
-		// we only need value from lazy when loadConfig does not specify it
-		if ($lazy !== null) {
-			$qb->andWhere($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
+		if (!$this->migrationCompleted) {
+			$qb->select('appid', 'configkey', 'configvalue');
 		} else {
-			$qb->addSelect('lazy');
+			$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
+
+			// we only need value from lazy when loadConfig does not specify it
+			if ($lazy !== null) {
+				$qb->andWhere($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
+			} else {
+				$qb->addSelect('lazy');
+			}
 		}
 
-		$result = $qb->executeQuery();
+		try {
+			$result = $qb->executeQuery();
+		} catch (DBException $e) {
+			if ($e->getReason() !== DBException::REASON_INVALID_FIELD_NAME) {
+				throw $e;
+			}
+			// columns 'type', 'lazy', 'flags', 'indexed' don't exist yet (ownCloud migration)
+			$this->migrationCompleted = false;
+			$this->loadConfig($userId, $lazy);
+			return;
+		}
+
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
-			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
+			if ($this->migrationCompleted && (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1)) {
 				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
 				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			}
-			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int)$row['flags']];
+			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int)($row['flags'] ?? 0)];
 		}
 		$result->closeCursor();
 		$this->setAsLoaded($userId, $lazy);
