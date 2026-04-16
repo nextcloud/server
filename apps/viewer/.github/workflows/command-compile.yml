@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   init:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     # On pull requests and if the comment starts with `/compile`
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/compile')
@@ -59,7 +59,7 @@ jobs:
       - name: Add reaction on start
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
+          token: ${{ secrets.COMMAND_BOT_PAT }} # zizmor: ignore[secrets-outside-env]
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
@@ -86,7 +86,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: failure()
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
+          token: ${{ secrets.COMMAND_BOT_PAT }} # zizmor: ignore[secrets-outside-env]
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
           reactions: '-1'
@@ -97,17 +97,17 @@ jobs:
 
     steps:
       - name: Restore cached git repository
-        uses: buildjet/cache@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         with:
           path: .git
           key: git-repo
 
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           # Needed to allow force push later
           persist-credentials: true
-          token: ${{ secrets.COMMAND_BOT_PAT }}
+          token: ${{ secrets.COMMAND_BOT_PAT }} # zizmor: ignore[secrets-outside-env]
           fetch-depth: 0
           ref: ${{ needs.init.outputs.head_ref }}
 
@@ -124,7 +124,7 @@ jobs:
           fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
@@ -216,7 +216,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: failure()
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
+          token: ${{ secrets.COMMAND_BOT_PAT }} # zizmor: ignore[secrets-outside-env]
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
           reactions: '-1'
