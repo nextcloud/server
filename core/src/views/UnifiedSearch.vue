@@ -83,7 +83,17 @@ export default defineComponent({
 		 */
 		supportsLocalSearch() {
 			// TODO: Make this an API
-			const providerPaths = ['/settings/users', '/apps/deck', '/settings/apps']
+			const providerPaths = ['/apps/deck', '/settings/apps']
+			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
+		},
+
+		/**
+		 * Current page handles the Ctrl+F shortcut itself (e.g. has a dedicated
+		 * search input). UnifiedSearch should stay out of the way on these pages.
+		 */
+		appHandlesSearchShortcut() {
+			// TODO: Make this an API
+			const providerPaths = ['/settings/users']
 			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
 		},
 	},
@@ -135,6 +145,10 @@ export default defineComponent({
 		 */
 		onKeyDown(event: KeyboardEvent) {
 			if (event.ctrlKey && event.key === 'f') {
+				// Skip on pages that handle Ctrl+F themselves (e.g. a dedicated search input).
+				if (this.appHandlesSearchShortcut) {
+					return
+				}
 				// only handle search if not already open - in this case the browser native search should be used
 				if (!this.showLocalSearch && !this.showUnifiedSearch) {
 					event.preventDefault()
