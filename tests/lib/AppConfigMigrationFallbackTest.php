@@ -7,17 +7,16 @@ declare(strict_types=1);
  */
 namespace Test;
 
+use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use OC\AppConfig;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\DB\Exceptions\DbalException;
 use OC\Memcache\Factory as CacheFactory;
-use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\ICache;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;

@@ -7,11 +7,11 @@ declare(strict_types=1);
  */
 namespace Test\lib\Config;
 
+use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\Config\UserConfig;
 use OC\DB\Exceptions\DbalException;
-use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
