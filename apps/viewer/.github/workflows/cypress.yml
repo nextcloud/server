@@ -46,13 +46,13 @@ jobs:
           exit 1
 
       - name: Checkout app
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Check composer.json
         id: check_composer
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
+        uses: andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029 # v3.1.0
         with:
           files: 'composer.json'
 
@@ -68,7 +68,7 @@ jobs:
           fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -81,7 +81,7 @@ jobs:
           TESTING=true npm run build --if-present
 
       - name: Save context
-        uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         with:
           key: cypress-context-${{ github.run_id }}
           path: ./
@@ -93,42 +93,39 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: [0, 1, 2, 3, 4, 5, 6, 7]
-        # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
-        # Always align this number with the total of e2e runners (max. index + 1)
-        total-containers: [8]
+        # Run multiple copies of the current job in parallel
+        # Please increase the number or runners as your tests suite grows
+        containers: ['component', '1', '2', '3']
 
     name: runner ${{ matrix.containers }}
 
     steps:
       - name: Restore context
-        uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         with:
           fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
         run: npm i -g 'npm@${{ needs.init.outputs.npmVersion }}'
 
-      - name: Install cypress
-        run: ./node_modules/cypress/bin/cypress install
-
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@7ef72e250a9e564efb4ed4c2433971ada4cc38b4 # v6.10.4
+        uses: cypress-io/github-action@783cb3f07983868532cabaedaa1e6c00ff4786a8 # v7.1.9
         with:
-          # We already installed the dependencies in the init job
-          install: false
+          record: ${{ secrets.CYPRESS_RECORD_KEY && true }} # zizmor: ignore[secrets-outside-env]
+          parallel: ${{ secrets.CYPRESS_RECORD_KEY && true }} # zizmor: ignore[secrets-outside-env]
           # cypress run type
           component: ${{ matrix.containers == 'component' }}
-          # Do not add Cypress record key config as this conflicts with cypress-split
-          # Cypress again tries to force users to buy their dashboard...
+          group: ${{ secrets.CYPRESS_RECORD_KEY && env.CYPRESS_GROUP }} # zizmor: ignore[secrets-outside-env]
+          # cypress env
+          ci-build-id: ${{ secrets.CYPRESS_RECORD_KEY && env.CYPRESS_BUILD_ID }} # zizmor: ignore[secrets-outside-env]
+          tag: ${{ secrets.CYPRESS_RECORD_KEY && github.event_name }} # zizmor: ignore[secrets-outside-env]
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
@@ -137,11 +134,12 @@ jobs:
           # Needed for some specific code workarounds
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SPLIT: ${{ matrix.total-containers }}
-          SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # zizmor: ignore[secrets-outside-env]
+          CYPRESS_BUILD_ID: ${{ github.sha }}-${{ github.run_number }}
+          CYPRESS_GROUP: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
 
       - name: Upload snapshots
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
           name: snapshots_${{ matrix.containers }}
@@ -152,7 +150,7 @@ jobs:
         run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
 
       - name: Upload NC logs
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_logs_${{ matrix.containers }}
