@@ -1652,6 +1652,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\ConnectionFactory' => __DIR__ . '/../../..' . '/lib/private/DB/ConnectionFactory.php',
         'OC\\DB\\DbDataCollector' => __DIR__ . '/../../..' . '/lib/private/DB/DbDataCollector.php',
         'OC\\DB\\Exceptions\\DbalException' => __DIR__ . '/../../..' . '/lib/private/DB/Exceptions/DbalException.php',
+        'OC\\DB\\Middleware\\UtcTimezoneMiddleware' => __DIR__ . '/../../..' . '/lib/private/DB/Middleware/UtcTimezoneMiddleware.php',
+        'OC\\DB\\Middleware\\UtcTimezoneMiddlewareDriver' => __DIR__ . '/../../..' . '/lib/private/DB/Middleware/UtcTimezoneMiddlewareDriver.php',
         'OC\\DB\\MigrationException' => __DIR__ . '/../../..' . '/lib/private/DB/MigrationException.php',
         'OC\\DB\\MigrationService' => __DIR__ . '/../../..' . '/lib/private/DB/MigrationService.php',
         'OC\\DB\\Migrator' => __DIR__ . '/../../..' . '/lib/private/DB/Migrator.php',
