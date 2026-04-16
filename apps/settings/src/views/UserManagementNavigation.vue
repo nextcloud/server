@@ -126,8 +126,9 @@
 <script setup lang="ts">
 import { mdiAccountOffOutline, mdiAccountOutline, mdiClose, mdiCogOutline, mdiHistory, mdiMagnify, mdiPlus, mdiShieldAccountOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import debounce from 'debounce'
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router/composables'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -158,29 +159,10 @@ function clearSearch() {
 }
 onBeforeUnmount(() => commitSearch.clear())
 
-/**
- * Intercept Ctrl+F (Cmd+F on macOS) so it focuses the local search input
- * instead of opening the global unified search. We always stop propagation
- * to prevent the global handler from firing; preventDefault is skipped when
- * the field already has focus so a second Ctrl+F opens the browser's native
- * find-in-page dialog as an escape hatch.
- *
- * @param event - The keydown event
- */
-function onKeyDown(event: KeyboardEvent) {
-	if (!(event.ctrlKey || event.metaKey) || event.key !== 'f') {
-		return
-	}
-	event.stopImmediatePropagation()
-	const fieldEl = (searchField.value?.$el as HTMLElement | undefined) ?? null
-	if (fieldEl?.contains(document.activeElement)) {
-		return
-	}
-	event.preventDefault()
-	searchField.value?.focus()
-}
-onMounted(() => window.addEventListener('keydown', onKeyDown, { capture: true }))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKeyDown, { capture: true }))
+// Intercept Ctrl/Cmd+F to focus the local search. useHotKey ignores the
+// event when an input/textarea is already focused, so a second press falls
+// through to the browser's native find-in-page.
+useHotKey('f', () => searchField.value?.focus(), { ctrl: true, stop: true, prevent: true })
 
 /** State of the 'new-account' dialog */
 const isDialogOpen = ref(false)
