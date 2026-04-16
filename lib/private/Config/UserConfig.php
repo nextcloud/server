@@ -62,9 +62,11 @@ class UserConfig implements IUserConfig {
 	private array $fastLoaded = [];
 	/** @var array<string, boolean> ['user_id' => bool] */
 	private array $lazyLoaded = [];
-	/** @var array<array-key, array{entries: array<array-key, ConfigLexiconEntry>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
+	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $upgradedTo31 = false;
+	// only needed to manage the old database structure during ownCloud-to-Nextcloud migration
+	private bool $migrationCompleted = true;
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -1106,22 +1108,16 @@ class UserConfig implements IUserConfig {
 			 */
 			try {
 				$insert = $this->connection->getQueryBuilder();
-				if ($this->isUpgradedTo31()) {
-					$insert->insert('preferences')
-						->setValue('userid', $insert->createNamedParameter($userId))
-						->setValue('appid', $insert->createNamedParameter($app))
-						->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+				$insert->insert('preferences')
+					->setValue('userid', $insert->createNamedParameter($userId))
+					->setValue('appid', $insert->createNamedParameter($app))
+					->setValue('configkey', $insert->createNamedParameter($key))
+					->setValue('configvalue', $insert->createNamedParameter($value));
+				if ($this->migrationCompleted) {
+					$insert->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
 						->setValue('type', $insert->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
 						->setValue('flags', $insert->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
-						->setValue('indexed', $insert->createNamedParameter($indexed))
-						->setValue('configkey', $insert->createNamedParameter($key))
-						->setValue('configvalue', $insert->createNamedParameter($value));
-				} else {
-					$insert->insert('preferences')
-						->setValue('userid', $insert->createNamedParameter($userId))
-						->setValue('appid', $insert->createNamedParameter($app))
-						->setValue('configkey', $insert->createNamedParameter($key))
-						->setValue('configvalue', $insert->createNamedParameter($value));
+						->setValue('indexed', $insert->createNamedParameter($indexed));
 				}
 				$insert->executeStatement();
 				$inserted = true;
@@ -1172,22 +1168,16 @@ class UserConfig implements IUserConfig {
 			}
 
 			$update = $this->connection->getQueryBuilder();
-			if ($this->isUpgradedTo31()) {
-				$update->update('preferences')
-					->set('configvalue', $update->createNamedParameter($value))
-					->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+			$update->update('preferences')
+				->set('configvalue', $update->createNamedParameter($value))
+				->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
+				->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
+				->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			if ($this->migrationCompleted) {
+				$update->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
 					->set('type', $update->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
 					->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
-					->set('indexed', $update->createNamedParameter($indexed))
-					->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
-					->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
-					->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
-			} else {
-				$update->update('preferences')
-					->set('configvalue', $update->createNamedParameter($value))
-					->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
-					->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
-					->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+					->set('indexed', $update->createNamedParameter($indexed));
 			}
 			$update->executeStatement();
 		}
@@ -1701,14 +1691,13 @@ class UserConfig implements IUserConfig {
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('preferences');
-		if ($this->isUpgradedTo31()) {
-			$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
-		} else {
-			$qb->select('appid', 'configkey', 'configvalue');
-		}
 		$qb->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId)));
 
-		if ($this->isUpgradedTo31()) {
+		if (!$this->migrationCompleted) {
+			$qb->select('appid', 'configkey', 'configvalue');
+		} else {
+			$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
+
 			// we only need value from lazy when loadConfig does not specify it
 			if ($lazy !== null) {
 				$qb->andWhere($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
@@ -1717,10 +1706,21 @@ class UserConfig implements IUserConfig {
 			}
 		}
 
-		$result = $qb->executeQuery();
+		try {
+			$result = $qb->executeQuery();
+		} catch (DBException $e) {
+			if ($e->getReason() !== DBException::REASON_INVALID_FIELD_NAME) {
+				throw $e;
+			}
+			// columns 'type', 'lazy', 'flags', 'indexed' don't exist yet (ownCloud migration)
+			$this->migrationCompleted = false;
+			$this->loadConfig($userId, $lazy);
+			return;
+		}
+
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
-			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
+			if ($this->migrationCompleted && (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1)) {
 				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
 				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';

@@ -59,7 +59,7 @@ class AppConfig implements IAppConfig {
 	private array $valueTypes = [];  // type for all config values
 	private bool $fastLoaded = false;
 	private bool $lazyLoaded = false;
-	/** @var array<array-key, array{entries: array<array-key, ConfigLexiconEntry>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
+	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 
 	/**
@@ -788,10 +788,12 @@ class AppConfig implements IAppConfig {
 				$insert = $this->connection->getQueryBuilder();
 				$insert->insert('appconfig')
 					->setValue('appid', $insert->createNamedParameter($app))
-					->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-					->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT))
 					->setValue('configkey', $insert->createNamedParameter($key))
 					->setValue('configvalue', $insert->createNamedParameter($value));
+				if ($this->migrationCompleted) {
+					$insert->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+						->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT));
+				}
 				$insert->executeStatement();
 				$inserted = true;
 			} catch (DBException $e) {
@@ -851,10 +853,12 @@ class AppConfig implements IAppConfig {
 			$update = $this->connection->getQueryBuilder();
 			$update->update('appconfig')
 				->set('configvalue', $update->createNamedParameter($value))
-				->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-				->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
 				->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
 				->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			if ($this->migrationCompleted) {
+				$update->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+					->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT));
+			}
 
 			$update->executeStatement();
 		}
@@ -1281,7 +1285,7 @@ class AppConfig implements IAppConfig {
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
-			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
+			if ($this->migrationCompleted && (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1)) {
 				$this->lazyCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
 				$this->fastCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
