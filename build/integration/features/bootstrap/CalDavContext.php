@@ -175,6 +175,26 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
+	 * @Then The CalDAV response should contain an href :href
+	 * @throws \Exception
+	 */
+	public function theCaldavResponseShouldContainAnHref(string $href): void {
+		/** @var \Sabre\DAV\Xml\Response\MultiStatus $multiStatus */
+		$multiStatus = $this->responseXml['value'];
+		foreach ($multiStatus->getResponses() as $response) {
+			if ($response->getHref() === $href) {
+				return;
+			}
+		}
+		throw new \Exception(
+			sprintf(
+				'Expected href %s not found in response',
+				$href,
+			)
+		);
+	}
+
+	/**
 	 * @Then The CalDAV response should be multi status
 	 * @throws \Exception
 	 */
