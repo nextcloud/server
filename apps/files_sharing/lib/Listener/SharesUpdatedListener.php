@@ -97,11 +97,10 @@ class SharesUpdatedListener implements IEventListener {
 		}
 		if ($event instanceof ShareMovedEvent) {
 			$share = $event->getShare();
-			foreach ($this->shareManager->getUsersForShare($share) as $user) {
-				$this->markOrRun($user, function () use ($user, $share) {
-					$this->shareUpdater->updateForMovedShare($user, $share);
-				});
-			}
+			$user = $event->getUser();
+			$this->markOrRun($user, function () use ($user, $share) {
+				$this->shareUpdater->updateForMovedShare($user, $share);
+			});
 		}
 		if ($event instanceof BeforeShareDeletedEvent) {
 			$share = $event->getShare();
