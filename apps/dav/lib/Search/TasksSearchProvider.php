@@ -15,6 +15,8 @@ use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Reader;
 
 /**
  * Class TasksSearchProvider
@@ -98,8 +100,16 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 				'until' => $query->getFilter('until'),
 			]
 		);
-		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
-			$component = $this->getPrimaryComponent($taskRow['calendardata'], self::COMPONENT_TYPE);
+		$formattedResults = [];
+		foreach ($searchResults as $taskRow) {
+			$vCalendar = Reader::read($taskRow['calendardata'], Reader::OPTION_FORGIVING);
+			if (!$vCalendar instanceof VCalendar) {
+				continue;
+			}
+			$component = $this->getPrimaryComponent($vCalendar, self::COMPONENT_TYPE);
+			if ($component === null) {
+				continue;
+			}
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled task'));
 
 			if ($taskRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {
@@ -110,8 +120,8 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 			$subline = $this->generateSubline($component, $calendar);
 			$resourceUrl = $this->getDeepLinkToTasksApp($calendar['uri'], $taskRow['uri']);
 
-			return new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-checkmark', false);
-		}, $searchResults);
+			$formattedResults[] = new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-checkmark', false);
+		}
 
 		return SearchResult::paginated(
 			$this->getName(),

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Search;
 
+use DateTimeImmutable;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\IUser;
 use OCP\Search\IFilteringProvider;
@@ -16,13 +17,14 @@ use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property;
 use Sabre\VObject\Property\ICalendar\DateTime;
-use function array_combine;
-use function array_fill;
-use function array_key_exists;
-use function array_map;
+use Sabre\VObject\Reader;
+use function array_push;
+use function array_values;
 
 /**
  * Class EventsSearchProvider
@@ -101,6 +103,20 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 
 		/** @var string|null $term */
 		$term = $query->getFilter('term')?->get();
+
+		$since = $query->getFilter('since')?->get();
+		$until = $query->getFilter('until')?->get();
+
+		if ($since !== null && $until === null) {
+			$until = new DateTimeImmutable('now', new \DateTimeZone('Z'));
+		}
+
+		/** @var array{start: DateTimeImmutable|null, end: DateTimeImmutable|null} $timeRange */
+		$timeRange = [
+			'start' => $since,
+			'end' => $until,
+		];
+
 		if ($term === null) {
 			$searchResults = [];
 		} else {
@@ -113,10 +129,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 				[
 					'limit' => $query->getLimit(),
 					'offset' => $query->getCursor(),
-					'timerange' => [
-						'start' => $query->getFilter('since')?->get(),
-						'end' => $query->getFilter('until')?->get(),
-					],
+					'timerange' => $timeRange,
 				]
 			);
 		}
@@ -124,7 +137,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		$person = $query->getFilter('person')?->get();
 		$personDisplayName = $person?->getDisplayName();
 		if ($personDisplayName !== null) {
-			$attendeeSearchResults = $this->backend->searchPrincipalUri(
+			array_push($searchResults, ...$this->backend->searchPrincipalUri(
 				$principalUri,
 				$personDisplayName,
 				[self::COMPONENT_TYPE],
@@ -133,53 +146,123 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 				[
 					'limit' => $query->getLimit(),
 					'offset' => $query->getCursor(),
-					'timerange' => [
-						'start' => $query->getFilter('since')?->get(),
-						'end' => $query->getFilter('until')?->get(),
-					],
+					'timerange' => $timeRange,
 				],
-			);
-
-			$searchResultIndex = array_combine(
-				array_map(fn ($event) => $event['calendarid'] . '-' . $event['uri'], $searchResults),
-				array_fill(0, count($searchResults), null),
-			);
-			foreach ($attendeeSearchResults as $attendeeResult) {
-				if (array_key_exists($attendeeResult['calendarid'] . '-' . $attendeeResult['uri'], $searchResultIndex)) {
-					// Duplicate
-					continue;
-				}
-				$searchResults[] = $attendeeResult;
-			}
+			));
 		}
-		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById): SearchResultEntry {
-			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::COMPONENT_TYPE);
-			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
 
-			if ($eventRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {
-				$calendar = $calendarsById[$eventRow['calendarid']];
+		// Resolve each row to its in-range component (deduplicating events that
+		// matched both the term and attendee searches, keyed by calendarid-uri, and
+		// dropping anything that does not resolve to a usable in-range component) and
+		// format it.
+		$formattedResults = [];
+		foreach ($searchResults as $searchResult) {
+			$key = $searchResult['calendarid'] . '-' . $searchResult['uri'];
+			if (isset($formattedResults[$key])) {
+				continue;
+			}
+			$component = $this->resolveComponent($searchResult['calendardata'], $since, $until);
+			if ($component === null) {
+				continue;
+			}
+
+			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
+			if ($searchResult['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {
+				$calendar = $calendarsById[$searchResult['calendarid']];
 			} else {
-				$calendar = $subscriptionsById[$eventRow['calendarid']];
+				$calendar = $subscriptionsById[$searchResult['calendarid']];
 			}
 			$subline = $this->generateSubline($component, $calendar);
-			$resourceUrl = $this->getDeepLinkToCalendarApp($calendar['principaluri'], $calendar['uri'], $eventRow['uri']);
+			$resourceUrl = $this->getDeepLinkToCalendarApp($calendar['principaluri'], $calendar['uri'], $searchResult['uri']);
 			$result = new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
 
 			$dtStart = $component->DTSTART;
-
 			if ($dtStart instanceof DateTime) {
-				$startDateTime = $dtStart->getDateTime()->format('U');
-				$result->addAttribute('createdAt', $startDateTime);
+				$result->addAttribute('createdAt', $dtStart->getDateTime()->format('U'));
 			}
 
-			return $result;
-		}, $searchResults);
+			$formattedResults[$key] = $result;
+		}
 
 		return SearchResult::paginated(
 			$this->getName(),
-			$formattedResults,
+			array_values($formattedResults),
 			$query->getCursor() + count($formattedResults)
 		);
+	}
+
+	/**
+	 * Resolve the component to display for a result row.
+	 *
+	 * Parses the calendar data and, when a time range is requested,
+	 * expands it to the in-range occurrence. Returns null to drop the row when the
+	 * data is not a calendar or has no occurrence within since and until.
+	 */
+	private function resolveComponent(string $calendarData, ?\DateTimeInterface $since, ?\DateTimeInterface $until): ?Component {
+		$document = Reader::read($calendarData, Reader::OPTION_FORGIVING);
+		if (!$document instanceof VCalendar) {
+			return null;
+		}
+
+		if ($since !== null && $until !== null) {
+			$document = $this->expandInRange($document, $since, $until);
+			if ($document === null) {
+				return null;
+			}
+		}
+
+		return $this->getPrimaryComponent($document, self::COMPONENT_TYPE);
+	}
+
+	/**
+	 * Expand a recurring event into its occurrences within the requested
+	 * [$since, $until] window, converted back from the UTC that expand() forces
+	 * into the event's original timezone.
+	 *
+	 * Returns null when the event has no occurrence in range (recurrence gap) or
+	 * cannot be expanded.
+	 */
+	private function expandInRange(VCalendar $vCalendar, \DateTimeInterface $since, \DateTimeInterface $until): ?VCalendar {
+		// expand() rewrites every occurrence's DTSTART/DTEND to UTC, so remember
+		// the event's original timezone to display the occurrence in local time.
+		$originalTimeZone = null;
+		$baseComponent = $vCalendar->getBaseComponent(self::COMPONENT_TYPE);
+		if ($baseComponent !== null && isset($baseComponent->DTSTART) && $baseComponent->DTSTART->hasTime()) {
+			$originalTimeZone = $baseComponent->DTSTART->getDateTime()->getTimezone();
+		}
+
+		try {
+			$expanded = $vCalendar->expand($since, $until);
+		} catch (InvalidDataException $e) {
+			return null;
+		}
+
+		$occurrences = $expanded->select(self::COMPONENT_TYPE);
+		if ($occurrences === []) {
+			return null;
+		}
+
+		if ($originalTimeZone !== null) {
+			foreach ($occurrences as $occurrence) {
+				$this->applyTimeZone($occurrence, $originalTimeZone);
+			}
+		}
+
+		return $expanded;
+	}
+
+	/**
+	 * Move the occurrence back into the event's original timezone after expand()
+	 * has rewritten it to UTC, so the rendered time matches the user's local time.
+	 */
+	private function applyTimeZone(Component $component, \DateTimeZone $timeZone): void {
+		foreach (['DTSTART', 'DTEND'] as $name) {
+			if (isset($component->$name) && $component->$name->hasTime()) {
+				$component->$name->setDateTime(
+					$component->$name->getDateTime()->setTimezone($timeZone),
+				);
+			}
+		}
 	}
 
 	protected function getDeepLinkToCalendarApp(

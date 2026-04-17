@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\Search;
 
+use OC\Search\Filter\DateTimeFilter;
+use OC\Search\Filter\StringFilter;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCP\App\IAppManager;
@@ -208,6 +210,22 @@ class EventsSearchProviderTest extends TestCase {
 		. 'DTSTART;TZID=Europe/Berlin:20160816T090000' . PHP_EOL
 		. 'DTSTAMP:20160809T163632Z' . PHP_EOL
 		. 'SEQUENCE:0' . PHP_EOL
+		. 'END:VEVENT' . PHP_EOL
+		. 'END:VCALENDAR';
+
+	// Stored in a non-UTC timezone on purpose: expand() rewrites occurrences to UTC,
+	// so this exercises that the result is converted back to the event's local time.
+	private static string $vEvent8 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'PRODID:-//Tests//' . PHP_EOL
+		. 'CALSCALE:GREGORIAN' . PHP_EOL
+		. 'BEGIN:VEVENT' . PHP_EOL
+		. 'UID:recurring-yearly@example.com' . PHP_EOL
+		. 'DTSTAMP:20240601T080000Z' . PHP_EOL
+		. 'DTSTART;TZID=Europe/Berlin:20240601T090000' . PHP_EOL
+		. 'DTEND;TZID=Europe/Berlin:20240601T100000' . PHP_EOL
+		. 'RRULE:FREQ=YEARLY' . PHP_EOL
+		. 'SUMMARY:Recurring yearly event' . PHP_EOL
 		. 'END:VEVENT' . PHP_EOL
 		. 'END:VCALENDAR';
 
@@ -468,5 +486,327 @@ class EventsSearchProviderTest extends TestCase {
 			[self::$vEvent2, '08-16 09:00 - 08-17 10:00 (My Calendar)', ['{DAV:}displayname' => 'My Calendar']],
 			[self::$vEvent1, '08-16 09:00 - 10:00', ['{DAV:}displayname' => '']],
 		];
+	}
+
+	public function testGetPrimaryComponentReturnsTheOnlyComponent(): void {
+		$ics = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+BEGIN:VEVENT
+UID:single-1
+DTSTART;TZID=Europe/Berlin:20240601T090000
+SUMMARY:Only
+END:VEVENT
+END:VCALENDAR
+ICS;
+		$document = Reader::read($ics, Reader::OPTION_FORGIVING);
+
+		$actual = self::invokePrivate($this->provider, 'getPrimaryComponent', [$document, 'VEVENT']);
+
+		$this->assertSame('Only', (string)$actual->SUMMARY);
+	}
+
+	public function testGetPrimaryComponentReturnsTheRecurrenceSetMaster(): void {
+		// The override is intentionally listed before the master to prove the
+		// selection is driven by the missing RECURRENCE-ID, not document order.
+		$ics = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+BEGIN:VEVENT
+UID:recur-1
+RECURRENCE-ID;TZID=Europe/Berlin:20240602T090000
+DTSTART;TZID=Europe/Berlin:20240602T090000
+SUMMARY:Override
+END:VEVENT
+BEGIN:VEVENT
+UID:recur-1
+RRULE:FREQ=DAILY
+DTSTART;TZID=Europe/Berlin:20240601T090000
+SUMMARY:Master
+END:VEVENT
+END:VCALENDAR
+ICS;
+		$document = Reader::read($ics, Reader::OPTION_FORGIVING);
+
+		$actual = self::invokePrivate($this->provider, 'getPrimaryComponent', [$document, 'VEVENT']);
+
+		$this->assertSame('Master', (string)$actual->SUMMARY);
+	}
+
+	public function testGetPrimaryComponentFallsBackToFirstWhenAllAreOverrides(): void {
+		// Expanded occurrences all carry a RECURRENCE-ID, so the fallback returns
+		// the first element of the set.
+		$ics = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+BEGIN:VEVENT
+UID:recur-1
+RECURRENCE-ID;TZID=Europe/Berlin:20240601T090000
+DTSTART;TZID=Europe/Berlin:20240601T090000
+SUMMARY:First
+END:VEVENT
+BEGIN:VEVENT
+UID:recur-1
+RECURRENCE-ID;TZID=Europe/Berlin:20240602T090000
+DTSTART;TZID=Europe/Berlin:20240602T090000
+SUMMARY:Second
+END:VEVENT
+END:VCALENDAR
+ICS;
+		$document = Reader::read($ics, Reader::OPTION_FORGIVING);
+
+		$actual = self::invokePrivate($this->provider, 'getPrimaryComponent', [$document, 'VEVENT']);
+
+		$this->assertSame('First', (string)$actual->SUMMARY);
+	}
+
+	public function testGetPrimaryComponentReturnsNullWhenComponentTypeIsAbsent(): void {
+		// A calendar without the requested component type must not crash.
+		$ics = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+BEGIN:VTODO
+UID:todo-1
+SUMMARY:A task
+END:VTODO
+END:VCALENDAR
+ICS;
+		$document = Reader::read($ics, Reader::OPTION_FORGIVING);
+
+		$actual = self::invokePrivate($this->provider, 'getPrimaryComponent', [$document, 'VEVENT']);
+
+		$this->assertNull($actual);
+	}
+
+	public function testExpandInRangeReturnsNullWhenOutOfRange(): void {
+		// A recurring event whose occurrences all fall outside the requested
+		// window: expand() yields nothing, so the caller falls back to the master.
+		$ics = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+BEGIN:VEVENT
+UID:recur-1
+DTSTART;TZID=Europe/Berlin:20240601T090000
+DTEND;TZID=Europe/Berlin:20240601T100000
+RRULE:FREQ=DAILY;COUNT=3
+SUMMARY:Daily standup
+END:VEVENT
+END:VCALENDAR
+ICS;
+		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
+		$since = new \DateTimeImmutable('2000-01-01T00:00:00Z');
+		$until = new \DateTimeImmutable('2000-01-02T00:00:00Z');
+
+		$actual = self::invokePrivate($this->provider, 'expandInRange', [$vCalendar, $since, $until]);
+
+		$this->assertNull($actual);
+	}
+
+	public function testExpandInRangeReturnsOccurrenceInOriginalTimeZone(): void {
+		// The in-range occurrence is converted back from the UTC that expand()
+		// forces to the event's original timezone.
+		$ics = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+BEGIN:VEVENT
+UID:recur-1
+DTSTART;TZID=Europe/Berlin:20240601T090000
+DTEND;TZID=Europe/Berlin:20240601T100000
+RRULE:FREQ=DAILY;COUNT=3
+SUMMARY:Daily standup
+END:VEVENT
+END:VCALENDAR
+ICS;
+		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
+		$since = new \DateTimeImmutable('2024-06-02T00:00:00Z');
+		$until = new \DateTimeImmutable('2024-06-03T00:00:00Z');
+
+		$expanded = self::invokePrivate($this->provider, 'expandInRange', [$vCalendar, $since, $until]);
+		$occurrence = self::invokePrivate($this->provider, 'getPrimaryComponent', [$expanded, 'VEVENT']);
+
+		$this->assertSame('Europe/Berlin', $occurrence->DTSTART->getDateTime()->getTimezone()->getName());
+		$this->assertSame('2024-06-02 09:00', $occurrence->DTSTART->getDateTime()->format('Y-m-d H:i'));
+	}
+
+	public function testResolveComponentReturnsNullForNonCalendar(): void {
+		// The backend hands us opaque data; a non-calendar object is dropped.
+		$ics = <<<ICS
+BEGIN:VCARD
+VERSION:4.0
+UID:card-1
+FN:John Doe
+END:VCARD
+ICS;
+		$since = new \DateTimeImmutable('2024-06-02T00:00:00Z');
+		$until = new \DateTimeImmutable('2024-06-03T00:00:00Z');
+
+		$actual = self::invokePrivate($this->provider, 'resolveComponent', [$ics, $since, $until]);
+
+		$this->assertNull($actual);
+	}
+
+	public function testResolveComponentReturnsNullWhenOutOfRange(): void {
+		// No occurrence within the requested window: the row is dropped.
+		$ics = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+BEGIN:VEVENT
+UID:recur-1
+DTSTART;TZID=Europe/Berlin:20240601T090000
+DTEND;TZID=Europe/Berlin:20240601T100000
+RRULE:FREQ=DAILY;COUNT=3
+SUMMARY:Daily standup
+END:VEVENT
+END:VCALENDAR
+ICS;
+		$since = new \DateTimeImmutable('2000-01-01T00:00:00Z');
+		$until = new \DateTimeImmutable('2000-01-02T00:00:00Z');
+
+		$actual = self::invokePrivate($this->provider, 'resolveComponent', [$ics, $since, $until]);
+
+		$this->assertNull($actual);
+	}
+
+	public function testResolveComponentReturnsInRangeOccurrence(): void {
+		// With a time range, the in-range occurrence is returned in local time.
+		$ics = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+BEGIN:VEVENT
+UID:recur-1
+DTSTART;TZID=Europe/Berlin:20240601T090000
+DTEND;TZID=Europe/Berlin:20240601T100000
+RRULE:FREQ=DAILY;COUNT=3
+SUMMARY:Daily standup
+END:VEVENT
+END:VCALENDAR
+ICS;
+		$since = new \DateTimeImmutable('2024-06-02T00:00:00Z');
+		$until = new \DateTimeImmutable('2024-06-03T00:00:00Z');
+
+		$actual = self::invokePrivate($this->provider, 'resolveComponent', [$ics, $since, $until]);
+
+		$this->assertSame('Europe/Berlin', $actual->DTSTART->getDateTime()->getTimezone()->getName());
+		$this->assertSame('2024-06-02 09:00', $actual->DTSTART->getDateTime()->format('Y-m-d H:i'));
+	}
+
+	public function testResolveComponentReturnsMasterWithoutTimeRange(): void {
+		// Without a time range nothing is expanded; the master is kept.
+		$ics = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tests//
+BEGIN:VEVENT
+UID:recur-1
+DTSTART;TZID=Europe/Berlin:20240601T090000
+DTEND;TZID=Europe/Berlin:20240601T100000
+RRULE:FREQ=DAILY;COUNT=3
+SUMMARY:Daily standup
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+		$actual = self::invokePrivate($this->provider, 'resolveComponent', [$ics, null, null]);
+
+		$this->assertSame('Daily standup', (string)$actual->SUMMARY);
+		$this->assertSame('2024-06-01 09:00', $actual->DTSTART->getDateTime()->format('Y-m-d H:i'));
+	}
+
+	public function testSearchSince(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('john.doe');
+		$query = $this->createMock(ISearchQuery::class);
+		$query->method('getFilter')->willReturnCallback(function ($name) {
+			return match ($name) {
+				'term' => new StringFilter('search term'),
+				'since' => new DateTimeFilter('2026-05-15'),
+				'until' => new DateTimeFilter('2026-06-14'),
+				default => null,
+			};
+		});
+		$query->method('getLimit')->willReturn(5);
+		$query->method('getCursor')->willReturn(20);
+		$this->appManager->expects($this->once())
+			->method('isEnabledForUser')
+			->with('calendar', $user)
+			->willReturn(true);
+		$this->l10n->method('t')->willReturnArgument(0);
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_): string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+				return $date->format('m-d');
+			});
+		$this->backend->expects($this->once())
+			->method('getCalendarsForUser')
+			->with('principals/users/john.doe')
+			->willReturn([
+				[
+					'id' => 99,
+					'principaluri' => 'principals/users/john.doe',
+					'uri' => 'calendar-uri-99',
+					'{DAV:}displayname' => 'My Calendar',
+				]
+			]);
+		$this->backend->expects($this->once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/john.doe')
+			->willReturn([]);
+		$this->backend->expects($this->once())
+			->method('searchPrincipalUri')
+			->with('principals/users/john.doe', 'search term', ['VEVENT'],
+				['SUMMARY', 'LOCATION', 'DESCRIPTION', 'ATTENDEE', 'ORGANIZER', 'CATEGORIES'],
+				['ATTENDEE' => ['CN'], 'ORGANIZER' => ['CN']],
+				['limit' => 5, 'offset' => 20, 'timerange' => ['start' => new \DateTimeImmutable('2026-05-15 00:00:00'), 'end' => new \DateTimeImmutable('2026-06-14 00:00:00')]])
+			->willReturn([
+				[
+					'calendarid' => 99,
+					'calendartype' => CalDavBackend::CALENDAR_TYPE_CALENDAR,
+					'uri' => 'recurring-yearly-event.ics',
+					'calendardata' => self::$vEvent8,
+				]
+			]);
+		$this->urlGenerator->expects($this->once())
+			->method('linkTo')
+			->with('', 'remote.php')
+			->willReturn('link-to-remote.php');
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('calendar.view.index')
+			->willReturn('link-to-route-calendar/');
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('link-to-route-calendar/edit/bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obi5kb2UvY2FsZW5kYXItdXJpLTk5L3JlY3VycmluZy15ZWFybHktZXZlbnQuaWNz')
+			->willReturn('deep-link-to-calendar');
+
+		$actual = $this->provider->search($user, $query);
+
+		$data = $actual->jsonSerialize();
+		$this->assertInstanceOf(SearchResult::class, $actual);
+		$this->assertEquals('Events', $data['name']);
+		$this->assertCount(1, $data['entries']);
+		$this->assertTrue($data['isPaginated']);
+		$this->assertEquals(21, $data['cursor']);
+		$result0 = $data['entries'][0];
+		$result0Data = $result0->jsonSerialize();
+		$this->assertInstanceOf(SearchResultEntry::class, $result0);
+		$this->assertEmpty($result0Data['thumbnailUrl']);
+		$this->assertEquals('Recurring yearly event', $result0Data['title']);
+		// The occurrence is shown in the event's local time (Europe/Berlin, 09:00),
+		// not in the UTC time that expand() produces (07:00).
+		$this->assertEquals('06-01 09:00 - 10:00 (My Calendar)', $result0Data['subline']);
+		$this->assertEquals('deep-link-to-calendar', $result0Data['resourceUrl']);
+		$this->assertEquals('icon-calendar-dark', $result0Data['icon']);
+		$this->assertFalse($result0Data['rounded']);
+		$this->assertEquals('1780297200', $result0Data['attributes']['createdAt']);
 	}
 }
