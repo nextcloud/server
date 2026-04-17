@@ -105,9 +105,13 @@ class SharesUpdatedListener implements IEventListener {
 		if ($event instanceof ShareMovedEvent) {
 			$share = $event->getShare();
 			$user = $event->getUser();
-			$this->markOrRun($user, function () use ($user, $share) {
-				$this->shareUpdater->updateForMovedShare($user, $share);
-			});
+
+			// don't trigger if the share is moved as part of the conflict resolution
+			if (!$this->shareUpdater->isInUpdate($user)) {
+				$this->markOrRun($user, function () use ($user, $share) {
+					$this->shareUpdater->updateForMovedShare($user, $share);
+				});
+			}
 		}
 		if ($event instanceof BeforeShareDeletedEvent) {
 			$share = $event->getShare();
