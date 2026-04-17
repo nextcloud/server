@@ -19,6 +19,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
@@ -112,12 +113,6 @@ class Manager extends PublicEmitter implements IUserManager {
 		$this->backends = [];
 	}
 
-	/**
-	 * get a user by user id
-	 *
-	 * @param string $uid
-	 * @return User|null Either the user or null if the specified user does not exist
-	 */
 	#[\Override]
 	public function get($uid) {
 		if (is_null($uid) || $uid === '' || $uid === false) {
@@ -160,15 +155,8 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $this->displayNameCache->getDisplayName($uid);
 	}
 
-	/**
-	 * get or construct the user object
-	 *
-	 * @param string $uid
-	 * @param UserInterface $backend
-	 * @param bool $cacheUser If false the newly created user object will not be cached
-	 * @return User
-	 */
-	public function getUserObject($uid, $backend, $cacheUser = true) {
+	#[\Override]
+	public function getUserObject(string $uid, ?UserInterface $backend = null, bool $cacheUser = true): IUser {
 		if ($backend instanceof IGetRealUIDBackend) {
 			$uid = $backend->getRealUID($uid);
 		}
@@ -177,10 +165,20 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this->eventDispatcher, $this, $this->config);
+		$user = new User(
+			$uid,
+			$backend,
+			$this->eventDispatcher,
+			$this,
+			$this->config,
+			// DI injection is not used here as IURLGenerator needs IUserSession which needs IUserManager.
+			Server::get(IURLGenerator::class),
+		);
+
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}
+
 		return $user;
 	}
 
@@ -390,7 +388,6 @@ class Manager extends PublicEmitter implements IUserManager {
 	#[\Override]
 	public function createUser($uid, $password): IUser|false {
 		// DI injection is not used here as IRegistry needs the user manager itself for user count and thus it would create a cyclic dependency
-		/** @var IAssertion $assertion */
 		$assertion = Server::get(IAssertion::class);
 		$assertion->createUserIsLegit();
 
