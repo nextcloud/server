@@ -21,3 +21,10 @@ Feature: calendar delegation
     Then The CalDAV response should be multi status
     And The CalDAV response should contain an href "/remote.php/dav/principals/users/admin/calendar-proxy-write"
     And The CalDAV response should contain a property "{DAV:}group-member-set"
+  
+  Scenario: Admin cannot grant User1 access to User0's calendar account
+    Given user "admin" exists
+    And user "user0" exists
+    And user "user1" exists
+    When "admin" updates property "{DAV:}group-member-set" to href "/remote.php/dav/principals/users/user1" of principal "users/user0/calendar-proxy-write" on the endpoint "/remote.php/dav/principals/"
+    Then The CalDAV HTTP status code should be "404"
