@@ -2304,6 +2304,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendarOr = [];
 			$searchOr = [];
 
+			$start = null;
+			$end = null;
+
+			// Todo: Check if more from https://github.com/nextcloud/server/pull/45222 should be ported
+			$hasTimeRange = false;
+
 			// Fetch calendars and subscription
 			$calendars = $this->getCalendarsForUser($principalUri);
 			$subscriptions = $this->getSubscriptionsForUser($principalUri);
@@ -2382,19 +2388,23 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if (isset($options['offset'])) {
 				$calendarObjectIdQuery->setFirstResult($options['offset']);
 			}
-			if (isset($options['timerange'])) {
-				if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
-					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->gt(
-						'lastoccurence',
-						$calendarObjectIdQuery->createNamedParameter($options['timerange']['start']->getTimeStamp()),
-					));
-				}
-				if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
-					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->lt(
-						'firstoccurence',
-						$calendarObjectIdQuery->createNamedParameter($options['timerange']['end']->getTimeStamp()),
-					));
-				}
+			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
+				/** @var DateTimeInterface $start */
+				$start = $options['timerange']['start'];
+				$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->gt(
+					'lastoccurence',
+					$calendarObjectIdQuery->createNamedParameter($start->getTimestamp()),
+				));
+				$hasTimeRange = true;
+			}
+			if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
+				/** @var DateTimeInterface $end */
+				$end = $options['timerange']['end'];
+				$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->lt(
+					'firstoccurence',
+					$calendarObjectIdQuery->createNamedParameter($end->getTimestamp()),
+				));
+				$hasTimeRange = true;
 			}
 
 			$result = $calendarObjectIdQuery->executeQuery();
@@ -2409,17 +2419,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->from('calendarobjects')
 				->where($query->expr()->in('id', $query->createNamedParameter($matches, IQueryBuilder::PARAM_INT_ARRAY)));
 
-			$result = $query->executeQuery();
-			$calendarObjects = [];
-			while (($array = $result->fetchAssociative()) !== false) {
-				$array['calendarid'] = (int)$array['calendarid'];
-				$array['calendartype'] = (int)$array['calendartype'];
-				$array['calendardata'] = $this->readBlob($array['calendardata']);
+			$calendarObjects = $this->searchCalendarObjects($query, $start, $end);
 
-				$calendarObjects[] = $array;
-			}
-			$result->closeCursor();
-			return $calendarObjects;
+			return array_map(function ($event) {
+				$event['calendardata'] = $this->readBlob($event['calendardata']);
+				return $event;
+			}, $calendarObjects);
 		}, $this->db);
 	}
 

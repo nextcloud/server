@@ -8,12 +8,14 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Search;
 
+use DateTimeImmutable;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Search\IProvider;
 use Sabre\VObject\Component;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
 /**
@@ -84,10 +86,19 @@ abstract class ACalendarSearchProvider implements IProvider {
 	 *
 	 * @param string $calendarData
 	 * @param string $componentName
+	 * @param array{start: DateTimeImmutable, end: DateTimeImmutable} $timeRange
 	 * @return Component
 	 */
-	protected function getPrimaryComponent(string $calendarData, string $componentName): Component {
+	protected function getPrimaryComponent(string $calendarData, string $componentName, array $timeRange): Component {
 		$vCalendar = Reader::read($calendarData, Reader::OPTION_FORGIVING);
+
+		// Expand recurrences if an explicit time range is requested
+		if ($vCalendar instanceof VCalendar && isset($timeRange['start'], $timeRange['end'])) {
+			$vCalendar = $vCalendar->expand(
+				$timeRange['start'],
+				$timeRange['end']
+			);
+		}
 
 		$components = $vCalendar->select($componentName);
 		if (count($components) === 1) {
