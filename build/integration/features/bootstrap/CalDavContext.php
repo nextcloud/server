@@ -410,19 +410,23 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		$xml = new \Sabre\Xml\Service();
 		$body = $xml->write('{DAV:}propertyupdate', $propPatch, '/');
 
-		$this->response = $this->client->request(
-			'PROPPATCH',
-			$davUrl,
-			[
-				'headers' => [
-					'Content-Type' => 'application/xml; charset=UTF-8',
-				],
-				'body' => $body,
-				'auth' => [
-					$user,
-					$password,
-				],
-			]
-		);
+		try {
+			$this->response = $this->client->request(
+				'PROPPATCH',
+				$davUrl,
+				[
+					'headers' => [
+						'Content-Type' => 'application/xml; charset=UTF-8',
+					],
+					'body' => $body,
+					'auth' => [
+						$user,
+						$password,
+					],
+				]
+			);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
 	}
 }
