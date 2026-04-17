@@ -138,7 +138,7 @@ OC.L10N.register(
     "Personal files" : "Fichiers personnels",
     "Additional settings" : "Paramètres supplémentaires",
     "Actions" : "Actions",
-    "File actions" : "Actions de fichiers",
+    "File actions" : "Actions sur les fichiers",
     "Selection" : "Choix",
     "Select all files" : "Sélectionner tous les fichiers",
     "Deselect all" : "Tout désélectionner",
