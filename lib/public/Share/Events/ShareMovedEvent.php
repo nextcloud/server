@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCP\Share\Events;
 
 use OCP\EventDispatcher\Event;
+use OCP\IUser;
 use OCP\Share\IShare;
 
 /**
@@ -20,6 +21,7 @@ class ShareMovedEvent extends Event {
 	 */
 	public function __construct(
 		private readonly IShare $share,
+		private readonly IUser $user,
 	) {
 		parent::__construct();
 	}
@@ -29,5 +31,12 @@ class ShareMovedEvent extends Event {
 	 */
 	public function getShare(): IShare {
 		return $this->share;
+	}
+
+	/**
+	 * @since 33.0.0
+	 */
+	public function getUser(): IUser {
+		return $this->user;
 	}
 }

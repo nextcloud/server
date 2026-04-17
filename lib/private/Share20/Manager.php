@@ -1177,13 +1177,16 @@ class Manager implements IManager {
 		if ($share->getShareType() === IShare::TYPE_USER && $share->getSharedWith() !== $recipientId) {
 			throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 		}
+		$recipient = $this->userManager->get($recipientId);
+		if (!$recipient) {
+			throw new \InvalidArgumentException($this->l->t('Unknown share recipient'));
+		}
 
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			if (is_null($sharedWith)) {
 				throw new \InvalidArgumentException($this->l->t('Group "%s" does not exist', [$share->getSharedWith()]));
 			}
-			$recipient = $this->userManager->get($recipientId);
 			if (!$sharedWith->inGroup($recipient)) {
 				throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 			}
@@ -1194,7 +1197,7 @@ class Manager implements IManager {
 
 		$result = $provider->move($share, $recipientId);
 
-		$this->dispatchEvent(new ShareMovedEvent($share), 'share moved');
+		$this->dispatchEvent(new ShareMovedEvent($share, $recipient), 'share moved');
 
 		return $result;
 	}
