@@ -2349,6 +2349,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 
 			try {
+				// The time-range filter is hardcoded to VEVENT: Sabre only
+				// expands VEVENT recurrences (EventIterator is VEVENT-only and
+				// VTodo::isInTimeRange ignores RRULE), so other component types
+				// would not be filtered correctly here.
 				$isValid = $this->validateFilterForObject($row, [
 					'name' => 'VCALENDAR',
 					'comp-filters' => [
@@ -2452,13 +2456,24 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Search calendar objects across a principal's calendars.
+	 *
+	 * This returns the stored calendar objects and does not expand recurring
+	 * events. Callers that need the concrete occurrence for a requested time
+	 * range must expand recurrences from `calendardata` themselves.
+	 *
+	 * Note: when a `timerange` option is given, the precise filtering assumes
+	 * VEVENT components (see searchCalendarObjects()). Passing other component
+	 * types together with a `timerange` would drop all results.
+	 *
 	 * @param string $principalUri
 	 * @param string $pattern
 	 * @param array $componentTypes
 	 * @param array $searchProperties
 	 * @param array $searchParameters
 	 * @param array $options
-	 * @return array
+	 *
+	 * @return list<array{uri: string, calendarid: int, calendartype: int, calendardata: string}>
 	 */
 	public function searchPrincipalUri(string $principalUri,
 		string $pattern,
@@ -2473,6 +2488,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendarObjectIdQuery = $this->db->getQueryBuilder();
 			$calendarOr = [];
 			$searchOr = [];
+
+			$start = null;
+			$end = null;
+
+			// Todo: The retries when $hasLimit && $hasTimeRange from https://github.com/nextcloud/server/pull/45222 should also be applied here to the calendarObjectIdQuery
 
 			// Fetch calendars and subscription
 			$calendars = $this->getCalendarsForUser($principalUri);
@@ -2552,19 +2572,21 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if (isset($options['offset'])) {
 				$calendarObjectIdQuery->setFirstResult($options['offset']);
 			}
-			if (isset($options['timerange'])) {
-				if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
-					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->gt(
-						'lastoccurence',
-						$calendarObjectIdQuery->createNamedParameter($options['timerange']['start']->getTimeStamp()),
-					));
-				}
-				if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
-					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->lt(
-						'firstoccurence',
-						$calendarObjectIdQuery->createNamedParameter($options['timerange']['end']->getTimeStamp()),
-					));
-				}
+			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
+				/** @var DateTimeInterface $start */
+				$start = $options['timerange']['start'];
+				$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->gt(
+					'lastoccurence',
+					$calendarObjectIdQuery->createNamedParameter($start->getTimestamp()),
+				));
+			}
+			if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
+				/** @var DateTimeInterface $end */
+				$end = $options['timerange']['end'];
+				$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->lt(
+					'firstoccurence',
+					$calendarObjectIdQuery->createNamedParameter($end->getTimestamp()),
+				));
 			}
 
 			$result = $calendarObjectIdQuery->executeQuery();
@@ -2579,17 +2601,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->from('calendarobjects')
 				->where($query->expr()->in('id', $query->createNamedParameter($matches, IQueryBuilder::PARAM_INT_ARRAY)));
 
-			$result = $query->executeQuery();
-			$calendarObjects = [];
-			while (($array = $result->fetch()) !== false) {
-				$array['calendarid'] = (int)$array['calendarid'];
-				$array['calendartype'] = (int)$array['calendartype'];
-				$array['calendardata'] = $this->readBlob($array['calendardata']);
+			$calendarObjects = $this->searchCalendarObjects($query, $start, $end);
 
-				$calendarObjects[] = $array;
-			}
-			$result->closeCursor();
-			return $calendarObjects;
+			return array_values(array_map(function ($event) {
+				return [
+					'uri' => (string)$event['uri'],
+					'calendarid' => (int)$event['calendarid'],
+					'calendartype' => (int)$event['calendartype'],
+					'calendardata' => (string)$this->readBlob($event['calendardata']),
+				];
+			}, $calendarObjects));
 		}, $this->db);
 	}
 
