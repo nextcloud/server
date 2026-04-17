@@ -45,10 +45,10 @@ class GroupTest extends \Test\TestCase {
 	 * @return \OC\User\Manager
 	 */
 	protected function getUserManager() {
-		$userManager = $this->getMockBuilder('\OC\User\Manager')
+		$userManager = $this->getMockBuilder(\OC\User\Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend = $this->getMockBuilder('\OC\User\Backend')
+		$backend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user1 = $this->newUser('user1', $backend);
@@ -60,6 +60,13 @@ class GroupTest extends \Test\TestCase {
 				['user1', $user1],
 				['user2', $user2],
 				['user3', $user3]
+			]);
+		$userManager->expects($this->any())
+			->method('getUserObject')
+			->willReturnMap([
+				['user1', null, false, $user1],
+				['user2', null, false, $user2],
+				['user3', null, false, $user3]
 			]);
 		return $userManager;
 	}
@@ -308,7 +315,7 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2' => new User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => $userManager->getUserObject('user2', null, false)]);
 
 		$users = $group->searchUsers('2');
 
@@ -330,11 +337,11 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2' => new User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => $userManager->getUserObject('user2', null, false)]);
 		$backend2->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2' => new User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => $userManager->getUserObject('user2', null, false)]);
 
 		$users = $group->searchUsers('2');
 
@@ -353,7 +360,7 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', 'user', 1, 1)
-			->willReturn(['user2' => new User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => $userManager->getUserObject('user2', null, false)]);
 
 		$users = $group->searchUsers('user', 1, 1);
 
@@ -375,11 +382,11 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user2' => new User('user2', null, $this->dispatcher)]);
+			->willReturn(['user2' => $userManager->getUserObject('user2', null, false)]);
 		$backend2->expects($this->once())
 			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user1' => new User('user1', null, $this->dispatcher)]);
+			->willReturn(['user1' => $userManager->getUserObject('user1', null, false)]);
 
 		$users = $group->searchUsers('user', 2, 1);
 

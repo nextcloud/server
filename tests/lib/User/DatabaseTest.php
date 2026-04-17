@@ -9,11 +9,12 @@
 namespace Test\User;
 
 use OC\User\Database;
-use OC\User\User;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
+use OCP\IUserManager;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -122,8 +123,9 @@ class DatabaseTest extends Backend {
 		$user2 = $this->getUser();
 		$this->backend->createUser($user2, 'pass1');
 
-		$user1Obj = new User($user1, $this->backend, $this->createMock(IEventDispatcher::class));
-		$user2Obj = new User($user2, $this->backend, $this->createMock(IEventDispatcher::class));
+		$userManager = Server::get(IUserManager::class);
+		$user1Obj = $userManager->getUserObject($user1, $this->backend);
+		$user2Obj = $userManager->getUserObject($user2, $this->backend);
 		$emailAddr1 = "$user1@nextcloud.com";
 		$emailAddr2 = "$user2@nextcloud.com";
 

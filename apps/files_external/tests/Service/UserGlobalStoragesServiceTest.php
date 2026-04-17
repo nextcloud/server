@@ -12,9 +12,9 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -37,8 +37,9 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->globalStoragesService = $this->service;
 
-		$this->user = new User(self::USER_ID, null, Server::get(IEventDispatcher::class));
-		/** @var IUserSession&MockObject $userSession */
+		$userManager = Server::get(IUserManager::class);
+		$this->user = $userManager->getUserObject(self::USER_ID, null, false);
+
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession
 			->expects($this->any())
