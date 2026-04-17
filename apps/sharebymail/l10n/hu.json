@@ -16,16 +16,21 @@
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nem lehet az automatikusan előállított jelszót elküldeni. Állítson be érvényes e-mail-címet a személyes beállításokban, és próbálja újra.",
     "Failed to send share by email. Got an invalid email address" : "Az e-mailben történő megosztás sikertelen. Érvénytelen e-mail-cím.",
     "Failed to send share by email" : "Az e-mailben történő megosztás sikertelen",
+    "%1$s shared %2$s with you" : "%1$s megosztotta ezt Önnel: %2$s",
     "Note:" : "Megjegyzés:",
     "%1$s via %2$s" : "%1$s ezen keresztül: %2$s",
     "It is protected with the following password:" : "A következő jelszó védi:",
     "This password will expire at %s" : "Ez a jelszó ekkor jár le: %s.",
+    "%1$s shared %2$s with you and wants to add:" : "%1$s megosztotta ezt Önnel: %2$s, és ezt hozzá szeretné adni:",
+    "%1$s shared %2$s with you and wants to add" : "%1$s megosztotta ezt Önnel: %2$s, és ezt hozzá szeretné adni",
+    "%s added a note to a file shared with you" : "%s egy jegyzetet adott egy Önnel megosztott fájlhoz",
     "This is the password:" : "Ez a jelszó:",
     "You can choose a different password at any time in the share dialog." : "Bármikor másik jelszót választhat a megosztási párbeszédablakon.",
     "Could not find share" : "Nem található a megosztás",
     "Share provider which allows you to share files by mail" : "Megosztási szolgáltató, amely lehetővé teszi fájlok e-mailben történő megosztását",
     "Unable to update share by mail config" : "Az e-mailes megosztás beállításai nem frissíthetők",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
-    "Reply to initiator" : "Válasz a kezdeményezőnek"
+    "Reply to initiator" : "Válasz a kezdeményezőnek",
+    "Open %s" : "A(z) %s megnyitása"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
