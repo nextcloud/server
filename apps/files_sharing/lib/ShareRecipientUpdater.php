@@ -30,7 +30,7 @@ class ShareRecipientUpdater {
 	 */
 	public function updateForUser(IUser $user): void {
 		// prevent recursion
-		if (isset($this->inUpdate[$user->getUID()])) {
+		if ($this->isInUpdate($user)) {
 			return;
 		}
 		$this->inUpdate[$user->getUID()] = true;
@@ -61,6 +61,10 @@ class ShareRecipientUpdater {
 		}
 
 		unset($this->inUpdate[$user->getUID()]);
+	}
+
+	public function isInUpdate(IUser $user): bool {
+		return isset($this->inUpdate[$user->getUID()]);
 	}
 
 	/**
