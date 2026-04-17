@@ -601,21 +601,7 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->checkCopy('FolderA/test.txt', 'invalid\\path.txt');
 	}
 
-	public static function downloadHeadersProvider(): array {
-		return [
-			[
-				false,
-				'attachment; filename*=UTF-8\'\'somefile.xml; filename="somefile.xml"'
-			],
-			[
-				true,
-				'attachment; filename="somefile.xml"'
-			],
-		];
-	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'downloadHeadersProvider')]
-	public function testDownloadHeaders(bool $isClumsyAgent, string $contentDispositionHeader): void {
+	public function testDownloadHeaders(): void {
 		$request = $this->createMock(RequestInterface::class);
 		$response = $this->createMock(ResponseInterface::class);
 
@@ -636,13 +622,8 @@ class FilesPluginTest extends TestCase {
 			->with('test/somefile.xml')
 			->willReturn($node);
 
-		$this->request
-			->expects($this->once())
-			->method('isUserAgent')
-			->willReturn($isClumsyAgent);
-
 		$calls = [
-			['Content-Disposition', $contentDispositionHeader],
+			['Content-Disposition', 'attachment; filename="somefile.xml"'],
 			['X-Accel-Buffering', 'no'],
 		];
 		$response

@@ -10,6 +10,7 @@ namespace OCA\Files_Trashbin\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\View;
+use OC\Http\ContentDisposition;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCP\IPreview;
@@ -127,10 +128,7 @@ class TrashbinPlugin extends ServerPlugin {
 			return;
 		}
 
-		$response->addHeader(
-			'Content-Disposition',
-			'attachment; filename="' . $node->getFilename() . '"' // TODO: Confirm `filename` value is ASCII; add `filename*=UTF-8` support w/ encoding
-		);
+		$response->addHeader('Content-Disposition', ContentDisposition::make('attachment', $node->getFilename()));
 	}
 
 	/**

@@ -8,10 +8,9 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Sabre;
 
-use OC\AppFramework\Http\Request;
+use OC\Http\ContentDisposition;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\IPreview;
-use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -32,15 +31,10 @@ class Plugin extends ServerPlugin {
 	public const AUTHOR = 'author';
 	public const VERSION_LABEL = '{http://nextcloud.org/ns}version-label';
 	public const VERSION_AUTHOR = '{http://nextcloud.org/ns}version-author';
-	private const LEGACY_FILENAME_HEADER_USER_AGENTS = [ // Quirky clients
-		Request::USER_AGENT_IE,
-		Request::USER_AGENT_ANDROID_MOBILE_CHROME,
-		Request::USER_AGENT_FREEBOX,
-	];
+
 	private Server $server;
 
 	public function __construct(
-		private readonly IRequest $request,
 		private readonly IPreview $previewManager,
 	) {
 	}
@@ -77,7 +71,7 @@ class Plugin extends ServerPlugin {
 		}
 
 		$filename = $node->getVersion()->getSourceFileName();
-		$this->addContentDispositionHeader($response, $filename);
+		$response->addHeader('Content-Disposition', ContentDisposition::make('attachment', $filename));
 	}
 
 	/**
@@ -121,40 +115,5 @@ class Plugin extends ServerPlugin {
 			self::VERSION_LABEL,
 			fn (string $label) => $node->setMetadataValue(self::LABEL, $label)
 		);
-	}
-
-	/**
-	 * Add a Content-Disposition header in a way that attempts to be broadly compatible with various user agents.
-	 *
-	 * Sends both 'filename' (legacy quoted) and 'filename*' (UTF-8 encoded) per RFC 6266,
-	 * except for known quirky agents known to mishandle the `filename*`, which only get `filename`.
-	 *
-	 * Note: The quoting/escaping should strictly follow RFC 6266 and RFC 5987.
-	 *
-	 * TODO: Currently uses rawurlencode($filename) for both parameters, which is wrong: filename= should be plain
-	 * quoted ASCII (with necessary escaping), while filename* should be UTF-8 percent-encoded.
-	 * TODO: This logic appears elsewhere (sometimes with different quoting/filename handling) and could benefit
-	 * from a shared utility function. See Symfony example:
-	 * - https://github.com/symfony/symfony/blob/175775eb21508becf7e7a16d65959488e522c39a/src/Symfony/Component/HttpFoundation/BinaryFileResponse.php#L146-L155
-	 * - https://github.com/symfony/symfony/blob/175775eb21508becf7e7a16d65959488e522c39a/src/Symfony/Component/HttpFoundation/HeaderUtils.php#L152-L165
-	 *
-	 * @param ResponseInterface $response HTTP response object to add the header to
-	 * @param string $filename Download filename
-	 */
-	private function addContentDispositionHeader(ResponseInterface $response, string $filename): void {
-		if (!$this->request->isUserAgent(self::LEGACY_FILENAME_HEADER_USER_AGENTS)) {
-			// Modern clients will use 'filename*'; older clients will refer to `filename`.
-			// The older fallback must be listed first per RFC.
-			// In theory this is all we actually need to handle both client types.
-			$response->addHeader(
-				'Content-Disposition',
-				'attachment; filename="' . rawurlencode($filename) . '"; filename*=UTF-8\'\'' . rawurlencode($filename)
-			);
-		} else {
-			// Quirky clients that choke on `filename*`: only send `filename=`
-			$response->addHeader(
-				'Content-Disposition',
-				'attachment; filename="' . rawurlencode($filename) . '"');
-		}
 	}
 }

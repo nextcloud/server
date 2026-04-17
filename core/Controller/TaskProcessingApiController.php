@@ -12,6 +12,7 @@ namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
 use OC\Files\SimpleFS\SimpleFile;
+use OC\Http\ContentDisposition;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\ExAppRequired;
@@ -574,10 +575,7 @@ class TaskProcessingApiController extends OCSController {
 		}
 
 		$response = new StreamResponse($node->fopen('rb'));
-		$response->addHeader(
-			'Content-Disposition',
-			'attachment; filename="' . rawurldecode($node->getName()) . '"'
-		);
+		$response->addHeader('Content-Disposition', ContentDisposition::make('attachment', $node->getName()));
 		$response->addHeader('Content-Type', $contentType);
 		return $response;
 	}

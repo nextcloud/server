@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OC\Http\ContentDisposition;
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
 use Sabre\CardDAV\Card;
@@ -86,7 +87,7 @@ class ImageExportPlugin extends ServerPlugin {
 			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
 			$response->setHeader('Content-Type', $file->getMimeType());
 			$fileName = $node->getName() . '.' . PhotoCache::ALLOWED_CONTENT_TYPES[$file->getMimeType()];
-			$response->setHeader('Content-Disposition', "attachment; filename=$fileName");
+			$response->setHeader('Content-Disposition', ContentDisposition::make('attachment', $fileName));
 			$response->setStatus(Http::STATUS_OK);
 
 			$response->setBody($file->getContent());

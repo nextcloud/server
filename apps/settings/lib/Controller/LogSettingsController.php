@@ -7,6 +7,7 @@
  */
 namespace OCA\Settings\Controller;
 
+use OC\Http\ContentDisposition;
 use OC\Log;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -43,7 +44,7 @@ class LogSettingsController extends Controller {
 			Http::STATUS_OK,
 			[
 				'Content-Type' => 'application/octet-stream',
-				'Content-Disposition' => 'attachment; filename="nextcloud.log"',
+				'Content-Disposition' => ContentDisposition::make('attachment', 'nextcloud.log'),
 			],
 		);
 	}
