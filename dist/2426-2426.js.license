@@ -129,6 +129,9 @@ This file is generated from multiple sources. Included packages:
 - escape-html
 	- version: 1.0.3
 	- license: MIT
+- focus-trap
+	- version: 8.0.0
+	- license: MIT
 - hookable
 	- version: 5.5.3
 	- license: MIT
