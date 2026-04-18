@@ -302,7 +302,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.9.0
 	- license: MIT
 - webpack
-	- version: 5.106.1
+	- version: 5.106.2
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
