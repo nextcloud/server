@@ -352,6 +352,7 @@ OC.L10N.register(
     "This share is password-protected" : "Udostępnienie jest zabezpieczone hasłem",
     "The password is wrong or expired. Please try again or request a new one." : "Hasło jest nieprawidłowe lub wygasło. Spróbuj ponownie lub poproś o nowe.",
     "Submit" : "Wyślij",
+    "If the email address was correct then you will receive an email with the password." : "Jeśli adres email był podany prawidłowo otrzymasz wiadomość z hasłem.",
     "Please type in your email address to request a temporary password" : "Wpisz swój adres e-mail, aby poprosić o tymczasowe hasło",
     "Email address" : "Adres e-mail",
     "Request password" : "Żądanie hasła",
