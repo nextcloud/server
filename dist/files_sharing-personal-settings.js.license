@@ -57,9 +57,6 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 14.2.1
 	- license: MIT
-- focus-trap
-	- version: 8.0.0
-	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
 	- license: MIT
@@ -131,6 +128,9 @@ This file is generated from multiple sources. Included packages:
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- focus-trap
+	- version: 8.0.0
 	- license: MIT
 - hookable
 	- version: 5.5.3
