@@ -443,7 +443,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webpack
-	- version: 5.105.4
+	- version: 5.106.2
 	- license: MIT
 - zwitch
 	- version: 2.0.4
