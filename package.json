@@ -119,7 +119,7 @@
     "@babel/node": "^7.29.0",
     "@babel/plugin-transform-private-methods": "^7.28.6",
     "@babel/preset-typescript": "^7.28.5",
-    "@cypress/webpack-preprocessor": "^7.0.2",
+    "@cypress/webpack-preprocessor": "^7.1.0",
     "@nextcloud/babel-config": "^1.3.0",
     "@nextcloud/cypress": "^1.0.0-beta.15",
     "@nextcloud/eslint-config": "^8.4.2",
