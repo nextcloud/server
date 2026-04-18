@@ -125,7 +125,7 @@
     "sass": "^1.98.0",
     "typescript": "^5.9.2",
     "vite": "^7.3.2",
-    "vitest": "^4.1.0",
+    "vitest": "^4.1.4",
     "vue-loader": "^15.11.1",
     "vue-template-compiler": "^2.7.16",
     "webpack": "^5.105.3",
