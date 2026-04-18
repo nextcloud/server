@@ -1,27 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP;
 
+use InvalidArgumentException;
+
 /**
  * Simple RGB color container
+ *
  * @since 25.0.0
  */
 class Color {
-	private int $r;
-	private int $g;
-	private int $b;
-
 	/**
 	 * @since 25.0.0
 	 */
-	public function __construct($r, $g, $b) {
-		$this->r = $r;
-		$this->g = $g;
-		$this->b = $b;
+	public function __construct(
+		private int $r,
+		private int $g,
+		private int $b,
+	) {
+		self::assertChannelInRange($this->r, 'r');
+		self::assertChannelInRange($this->g, 'g');
+		self::assertChannelInRange($this->b, 'b');
 	}
 
 	/**
@@ -61,7 +66,7 @@ class Color {
 	}
 
 	/**
-	 * Returns the green blue component of this color as an int from 0 to 255
+	 * Returns the blue color component of this color as an int from 0 to 255
 	 *
 	 * @since 25.0.0
 	 */
@@ -75,11 +80,11 @@ class Color {
 	 * @since 25.0.0
 	 */
 	public function blueF(): float {
-		return $this->g / 255;
+		return $this->b / 255;
 	}
 
 	/**
-	 * Returns the name of the color in the format "#RRGGBB"; i.e. a "#" character followed by three two-digit hexadecimal numbers.
+	 * Returns the name of the color in the format "#RRGGBB"
 	 *
 	 * @since 25.0.0
 	 */
@@ -91,49 +96,67 @@ class Color {
 	 * Mix two colors
 	 *
 	 * @param int $steps the number of intermediate colors that should be generated for the palette
-	 * @param Color $color1 the first color
-	 * @param Color $color2 the second color
 	 * @return list<Color>
 	 * @since 25.0.0
 	 */
 	public static function mixPalette(int $steps, Color $color1, Color $color2): array {
-		$palette = [$color1];
-		$step = self::stepCalc($steps, [$color1, $color2]);
-		for ($i = 1; $i < $steps; $i++) {
-			$r = intval($color1->red() + ($step[0] * $i));
-			$g = intval($color1->green() + ($step[1] * $i));
-			$b = intval($color1->blue() + ($step[2] * $i));
-			$palette[] = new Color($r, $g, $b);
+		if ($steps < 2) {
+			throw new InvalidArgumentException('Palette steps must be at least 2.');
 		}
+
+		$palette = [$color1];
+		[$rStep, $gStep, $bStep] = self::stepCalc($steps, $color1, $color2);
+
+		for ($i = 1; $i < $steps; $i++) {
+			$palette[] = new self(
+				(int) round($color1->red() + ($rStep * $i)),
+				(int) round($color1->green() + ($gStep * $i)),
+				(int) round($color1->blue() + ($bStep * $i)),
+			);
+		}
+
 		return $palette;
 	}
 
 	/**
-	 * Alpha blend another color with a given opacity to this color
+	 * Alpha blend another color with a given opacity into this color
 	 *
 	 * @return Color The new color
 	 * @since 25.0.0
 	 */
 	public function alphaBlending(float $opacity, Color $source): Color {
-		return new Color(
-			(int)((1 - $opacity) * $source->red() + $opacity * $this->red()),
-			(int)((1 - $opacity) * $source->green() + $opacity * $this->green()),
-			(int)((1 - $opacity) * $source->blue() + $opacity * $this->blue())
+		if ($opacity < 0.0 || $opacity > 1.0) {
+			throw new InvalidArgumentException('Opacity must be between 0.0 and 1.0.');
+		}
+
+		return new self(
+			(int) round((1 - $opacity) * $source->red() + $opacity * $this->red()),
+			(int) round((1 - $opacity) * $source->green() + $opacity * $this->green()),
+			(int) round((1 - $opacity) * $source->blue() + $opacity * $this->blue()),
 		);
 	}
 
 	/**
-	 * Calculate steps between two Colors
-	 * @param int $steps start color
-	 * @param Color[] $ends end color
-	 * @return array{0: float, 1: float, 2: float} [r,g,b] steps for each color to go from $steps to $ends
+	 * Calculate steps between two colors
+	 *
+	 * @return array{0: float, 1: float, 2: float}
 	 * @since 25.0.0
 	 */
-	private static function stepCalc(int $steps, array $ends): array {
-		$step = [];
-		$step[0] = ($ends[1]->red() - $ends[0]->red()) / $steps;
-		$step[1] = ($ends[1]->green() - $ends[0]->green()) / $steps;
-		$step[2] = ($ends[1]->blue() - $ends[0]->blue()) / $steps;
-		return $step;
+	private static function stepCalc(int $steps, Color $start, Color $end): array {
+		return [
+			($end->red() - $start->red()) / $steps,
+			($end->green() - $start->green()) / $steps,
+			($end->blue() - $start->blue()) / $steps,
+		];
+	}
+
+	private static function assertChannelInRange(int $value, string $channel): void {
+		if ($value < 0 || $value > 255) {
+			throw new InvalidArgumentException(sprintf(
+				'Color channel "%s" must be between 0 and 255, got %d.',
+				$channel,
+				$value,
+			));
+		}
 	}
 }
