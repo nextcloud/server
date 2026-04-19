@@ -9,7 +9,7 @@ import{c as u}from"./index-DqG-5vGV.chunk.mjs";import{g as y,f as c,c as f}from"
 		<d:getetag />
 		<nc:color />
 	</d:prop>
-</d:propfind>`;async function P(){const t="/systemtags";try{const{data:s}=await n.getDirectoryContents(t,{data:l,details:!0,glob:"/systemtags/*"});return p(s)}catch(s){throw r.error(o("systemtags","Failed to load tags"),{error:s}),new Error(o("systemtags","Failed to load tags"))}}async function D(t){const s="/systemtags/"+t;try{const{data:e}=await n.stat(s,{data:l,details:!0});return p([e])[0]}catch(e){throw r.error(o("systemtags","Failed to load tag"),{error:e}),new Error(o("systemtags","Failed to load tag"))}}async function C(t){const s="/systemtags",e=v(t);try{const{headers:a}=await n.customRequest(s,{method:"POST",data:e}),i=a.get("content-location");if(i)return c("systemtags:tag:created",t),w(i);throw r.error(o("systemtags",'Missing "Content-Location" header')),new Error(o("systemtags",'Missing "Content-Location" header'))}catch(a){throw a?.response?.status===409?(r.error(o("systemtags","A tag with the same name already exists"),{error:a}),new Error(o("systemtags","A tag with the same name already exists"))):(r.error(o("systemtags","Failed to create tag"),{error:a}),new Error(o("systemtags","Failed to create tag")))}}async function R(t){const s="/systemtags/"+t.id,e=`<?xml version="1.0"?>
+</d:propfind>`;async function P(){const t="/systemtags";try{const{data:s}=await n.getDirectoryContents(t,{data:l,details:!0,glob:"/systemtags/*"});return p(s)}catch(s){throw r.error(o("systemtags","Failed to load tags"),{error:s}),new Error(o("systemtags","Failed to load tags"),{cause:s})}}async function D(t){const s="/systemtags/"+t;try{const{data:e}=await n.stat(s,{data:l,details:!0});return p([e])[0]}catch(e){throw r.error(o("systemtags","Failed to load tag"),{error:e}),new Error(o("systemtags","Failed to load tag"),{cause:e})}}async function C(t){const s="/systemtags",e=v(t);try{const{headers:a}=await n.customRequest(s,{method:"POST",data:e}),i=a.get("content-location");if(i)return c("systemtags:tag:created",t),w(i);throw r.error(o("systemtags",'Missing "Content-Location" header')),new Error(o("systemtags",'Missing "Content-Location" header'))}catch(a){throw a?.response?.status===409?(r.error(o("systemtags","A tag with the same name already exists"),{error:a}),new Error(o("systemtags","A tag with the same name already exists"),{cause:a})):(r.error(o("systemtags","Failed to create tag"),{error:a}),new Error(o("systemtags","Failed to create tag"),{cause:a}))}}async function R(t){const s="/systemtags/"+t.id,e=`<?xml version="1.0"?>
 	<d:propertyupdate xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
 		<d:set>
 			<d:prop>
@@ -19,7 +19,7 @@ import{c as u}from"./index-DqG-5vGV.chunk.mjs";import{g as y,f as c,c as f}from"
 				<nc:color>${t?.color||null}</nc:color>
 			</d:prop>
 		</d:set>
-	</d:propertyupdate>`;try{await n.customRequest(s,{method:"PROPPATCH",data:e}),c("systemtags:tag:updated",t)}catch(a){throw r.error(o("systemtags","Failed to update tag"),{error:a}),new Error(o("systemtags","Failed to update tag"))}}async function T(t){const s="/systemtags/"+t.id;try{await n.deleteFile(s),c("systemtags:tag:deleted",t)}catch(e){throw r.error(o("systemtags","Failed to delete tag"),{error:e}),new Error(o("systemtags","Failed to delete tag"))}}async function _(t,s){const e=`/systemtags/${t.id}/${s}`,a=await n.stat(e,{data:`<?xml version="1.0"?>
+	</d:propertyupdate>`;try{await n.customRequest(s,{method:"PROPPATCH",data:e}),c("systemtags:tag:updated",t)}catch(a){throw r.error(o("systemtags","Failed to update tag"),{error:a}),new Error(o("systemtags","Failed to update tag"),{cause:a})}}async function T(t){const s="/systemtags/"+t.id;try{await n.deleteFile(s),c("systemtags:tag:deleted",t)}catch(e){throw r.error(o("systemtags","Failed to delete tag"),{error:e}),new Error(o("systemtags","Failed to delete tag"),{cause:e})}}async function _(t,s){const e=`/systemtags/${t.id}/${s}`,a=await n.stat(e,{data:`<?xml version="1.0"?>
 	<d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
 		<d:prop>
 			<nc:object-ids />
@@ -40,4 +40,4 @@ import{c as u}from"./index-DqG-5vGV.chunk.mjs";import{g as y,f as c,c as f}from"
 				</d:prop>
 			</d:remove>
 		</d:propertyupdate>`),await n.customRequest(i,{method:"PROPPATCH",data:d,headers:{"if-match":a}})}async function k(t){const s=t?"1":"0",e=f("/apps/provisioning_api/api/v1/config/apps/{appId}/{key}",{appId:"systemtags",key:"restrict_creation_to_admin"});await h();const{data:a}=await u.post(e,{value:s});return a}export{T as a,k as b,C as c,O as d,V as e,P as f,_ as g,N as h,D as i,r as l,q as s,R as u};
-//# sourceMappingURL=api-Ccvyb__w.chunk.mjs.map
+//# sourceMappingURL=api-C5oKydJ-.chunk.mjs.map
