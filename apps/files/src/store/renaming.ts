@@ -66,8 +66,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 				// Check for extension change for files
 				if (node.type === FileType.File
 					&& oldExtension !== newExtension
-					&& !(await showFileExtensionDialog(oldExtension, newExtension))
-				) {
+					&& !(await showFileExtensionDialog(oldExtension, newExtension))) {
 					// user selected to use the old extension
 					newName = basename(newName, newExtension) + oldExtension
 					if (oldName === newName) {
@@ -78,8 +77,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 				if (!userConfig.userConfig.show_hidden
 					&& newName.startsWith('.')
 					&& !oldName.startsWith('.')
-					&& !(await showHiddenFileDialog(newName))
-				) {
+					&& !(await showHiddenFileDialog(newName))) {
 					return false
 				}
 			}

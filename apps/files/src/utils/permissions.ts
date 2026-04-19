@@ -21,8 +21,7 @@ export function isDownloadable(node: INode): boolean {
 
 	// check hide-download property of shares
 	if (node.attributes['hide-download'] === true
-		|| node.attributes['hide-download'] === 'true'
-	) {
+		|| node.attributes['hide-download'] === 'true') {
 		return false
 	}
 
