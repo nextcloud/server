@@ -109,9 +109,9 @@ class Color {
 
 		for ($i = 1; $i < $steps; $i++) {
 			$palette[] = new self(
-				(int) round($color1->red() + ($rStep * $i)),
-				(int) round($color1->green() + ($gStep * $i)),
-				(int) round($color1->blue() + ($bStep * $i)),
+				(int)round($color1->red() + ($rStep * $i)),
+				(int)round($color1->green() + ($gStep * $i)),
+				(int)round($color1->blue() + ($bStep * $i)),
 			);
 		}
 
@@ -130,9 +130,9 @@ class Color {
 		}
 
 		return new self(
-			(int) round((1 - $opacity) * $source->red() + $opacity * $this->red()),
-			(int) round((1 - $opacity) * $source->green() + $opacity * $this->green()),
-			(int) round((1 - $opacity) * $source->blue() + $opacity * $this->blue()),
+			(int)round((1 - $opacity) * $source->red() + $opacity * $this->red()),
+			(int)round((1 - $opacity) * $source->green() + $opacity * $this->green()),
+			(int)round((1 - $opacity) * $source->blue() + $opacity * $this->blue()),
 		);
 	}
 
