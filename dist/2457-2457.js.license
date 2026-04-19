@@ -26,7 +26,6 @@ SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
-SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Alkemics
@@ -35,7 +34,7 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
-	- version: 2.5.3
+	- version: 2.6.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.2
