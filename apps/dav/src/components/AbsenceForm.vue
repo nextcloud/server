@@ -149,7 +149,7 @@ export default {
 				ShareType.User,
 			]
 
-			let request = null
+			let request
 			try {
 				request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1/sharees'), {
 					params: {

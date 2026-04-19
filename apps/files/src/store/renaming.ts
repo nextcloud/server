@@ -126,7 +126,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 			if (isAxiosError(error)) {
 				// TODO: 409 means current folder does not exist, redirect ?
 				if (error?.response?.status === 404) {
-					throw new Error(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
+					throw new Error(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }), { cause: error })
 				} else if (error?.response?.status === 412) {
 					throw new Error(t(
 						'files',
@@ -135,11 +135,11 @@ export const useRenamingStore = defineStore('renaming', () => {
 							newName,
 							dir: basename(renamingNode.value!.dirname),
 						},
-					))
+					), { cause: error })
 				}
 			}
 			// Unknown error
-			throw new Error(t('files', 'Could not rename "{oldName}"', { oldName }))
+			throw new Error(t('files', 'Could not rename "{oldName}"', { oldName }), { cause: error })
 		} finally {
 			Vue.set(node, 'status', undefined)
 			isRenaming.value = false
