@@ -188,7 +188,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - p-queue
-	- version: 9.1.0
+	- version: 9.1.2
 	- license: MIT
 - process
 	- version: 0.11.10
