@@ -29,10 +29,10 @@
     "sass:watch": "sass --watch --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
     "stylelint": "stylelint $(for appdir in $(ls apps); do if ! $(git check-ignore -q \"apps/$appdir\"); then printf \"'apps/$appdir/**/*.{scss,vue}' \"; fi; done) 'core/**/*.{scss,vue}'",
     "stylelint:fix": "npm run stylelint -- --fix",
-    "test": "build/demi.sh test",
-    "test:coverage": "build/demi.sh test:coverage",
-    "test:update-snapshots": "build/demi.sh test:update-snapshots",
-    "test:watch": "build/demi.sh --parallel test:watch",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:update-snapshots": "vitest run --update",
+    "test:watch": "vitest --watch",
     "watch": "build/demi.sh --parallel watch"
   },
   "browserslist": [
@@ -77,9 +77,9 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/vue": "^8.1.0",
     "@types/dockerode": "^4.0.1",
-    "@vitest/coverage-istanbul": "^4.1.4",
+    "@vitest/coverage-v8": "^4.1.4",
     "@vue/test-utils": "^2.4.6",
-    "@vue/tsconfig": "^0.9.0",
+    "@vue/tsconfig": "^0.9.1",
     "@zip.js/zip.js": "^2.8.26",
     "concurrently": "^9.2.1",
     "cypress": "^15.14.0",
@@ -98,7 +98,7 @@
     "sass": "^1.99.0",
     "stylelint": "^17.8.0",
     "vite": "^7.3.2",
-    "vitest": "^4.0.15"
+    "vitest": "^4.1.4"
   },
   "engines": {
     "node": "^24.0.0",

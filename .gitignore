@@ -161,6 +161,8 @@ Vagrantfile
 /config/autoconfig.php
 clover.xml
 /coverage
+.vitest*/
+__screenshots__/
 
 # Tests - dependencies
 tests/acceptance/vendor/
