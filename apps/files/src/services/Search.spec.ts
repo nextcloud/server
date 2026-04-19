@@ -35,7 +35,7 @@ describe('Search service', () => {
 		searchNodes.mockImplementationOnce(() => {
 			throw new Error('expected error')
 		})
-		expect(() => getContents('', { signal: new AbortController().signal })).rejects.toThrow('expected error')
+		await expect(() => getContents('', { signal: new AbortController().signal })).rejects.toThrow('expected error')
 	})
 
 	it('returns the search results and a fake root', async () => {
