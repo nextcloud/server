@@ -510,7 +510,7 @@ const Dialogs = {
 			for (let j = 0; j < H2; j++) {
 				for (let i = 0; i < W2; i++) {
 					const x2 = (i + j * W2) * 4
-					let weight = 0
+					let weight
 					let weights = 0
 					let weights_alpha = 0
 					let gx_r = 0
