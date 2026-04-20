@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -342,12 +342,24 @@ $CONFIG = [
 	'remember_login_cookie_lifetime' => 60 * 60 * 24 * 15,
 
 	/**
-	 * The lifetime of a session after inactivity.
+	 * Lifetime of sessions created without selecting "Remember me", after
+	 * inactivity, in seconds.
 	 *
-	 * The maximum possible time is limited by the ``session.gc_maxlifetime`` php.ini setting
-	 * which would overwrite this option if it is less than the value in the ``config.php``
+	 * If "Remember me" is used, set ``remember_login_cookie_lifetime`` higher
+	 * than this value to avoid earlier-than-expected remembered-login expiry.
 	 *
-	 * Defaults to ``60*60*24`` seconds (24 hours)
+	 * Effective behavior also depends on related settings:
+	 * - ``session_keepalive`` can extend active Web UI sessions via heartbeat requests.
+	 * - ``session_relaxed_expiry`` may allow sessions to persist longer than this value.
+	 * - ``auto_logout`` can enforce logout behavior in the Web UI.
+	 *
+	 * The effective maximum retention also depends on PHP settings and external
+	 * session-backend cleanup policies, including (but not limited to) PHP's
+	 * ``session.gc_maxlifetime`` and environment-specific cleanup behavior (e.g., distro
+	 * cron/tmpfiles policies and handler-specific GC behavior). These may override this
+	 * value.
+	 *
+	 * Defaults to ``60*60*24`` seconds (24 hours).
 	 */
 	'session_lifetime' => 60 * 60 * 24,
 
