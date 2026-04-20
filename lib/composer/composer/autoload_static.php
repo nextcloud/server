@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' => 
+        'N' =>
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' => 
+        'NCU\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -1429,7 +1429,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Collaboration\\Resources\\Manager' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/Manager.php',
         'OC\\Collaboration\\Resources\\ProviderManager' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/ProviderManager.php',
         'OC\\Collaboration\\Resources\\Resource' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/Resource.php',
-        'OC\\Color' => __DIR__ . '/../../..' . '/lib/private/Color.php',
         'OC\\Command\\AsyncBus' => __DIR__ . '/../../..' . '/lib/private/Command/AsyncBus.php',
         'OC\\Command\\CommandJob' => __DIR__ . '/../../..' . '/lib/private/Command/CommandJob.php',
         'OC\\Command\\CronBus' => __DIR__ . '/../../..' . '/lib/private/Command/CronBus.php',
