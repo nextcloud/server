@@ -263,9 +263,9 @@ class UserAvatarTest extends \Test\TestCase {
 		$palette = Color::mixPalette($steps, $colorFrom, $colorTo);
 		foreach ($palette as $j => $color) {
 			// calc increment
-			$incR = $colorTo->red() / $steps * $j;
-			$incG = $colorTo->green() / $steps * $j;
-			$incB = $colorTo->blue() / $steps * $j;
+			(int)$incR = $colorTo->red() / $steps * $j;
+			(int)$incG = $colorTo->green() / $steps * $j;
+			(int)$incB = $colorTo->blue() / $steps * $j;
 			// ensure everything is equal
 			$this->assertEquals($color, new Color($incR, $incG, $incB));
 		}
