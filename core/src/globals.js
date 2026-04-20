@@ -1,9 +1,9 @@
-/**
+/* eslint-disable @nextcloud/no-deprecated-globals */
+/*!
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* eslint-disable @nextcloud/no-deprecations */
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
@@ -26,10 +26,9 @@ function warnIfNotTesting() {
 }
 
 /**
- *
- * @param global
- * @param cb
- * @param msg
+ * @param {string|string[]} global - a string or array of strings with the name of the global variable(s) to deprecate
+ * @param {function} cb - a callback that returns the value of the global variable when accessed
+ * @param {string} msg - an optional message to show in the warning
  */
 function setDeprecatedProp(global, cb, msg) {
 	(Array.isArray(global) ? global : [global]).forEach((global) => {

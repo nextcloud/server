@@ -141,7 +141,7 @@ export default {
 		allow-collapse
 		:loading="isLoading"
 		:data-cy-files-navigation-item="view.id"
-		:exact="hasChildViews /* eslint-disable-line @nextcloud/vue/no-deprecated-props */"
+		:exact="hasChildViews"
 		:name="view.name"
 		:open="isExpanded"
 		:pinned="view.sticky"
