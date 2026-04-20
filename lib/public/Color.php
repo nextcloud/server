@@ -21,6 +21,9 @@ class Color {
 		private int $g,
 		private int $b,
 	) {
+		self::assertChannelInRange($this->r, 'r');
+		self::assertChannelInRange($this->g, 'g');
+		self::assertChannelInRange($this->b, 'b');
 	}
 
 	/**
@@ -98,6 +101,11 @@ class Color {
 	 * @since 25.0.0
 	 */
 	public static function mixPalette(int $steps, Color $color1, Color $color2): array {
+		if ($steps < 1) {
+			// 1 is a hard requirement; 2 is a practical requirement
+			throw new \InvalidArgumentException('Palette steps must be at least 1 (and should be at least 2).');
+		}
+
 		$palette = [$color1];
 		[$rDelta, $gDelta, $bDelta] = self::calculateDeltas($steps, $color1, $color2);
 
@@ -124,6 +132,10 @@ class Color {
 	 * @since 25.0.0
 	 */
 	public function alphaBlending(float $opacity, Color $source): Color {
+		if ($opacity < 0.0 || $opacity > 1.0) {
+			throw new \InvalidArgumentException('Opacity must be between 0.0 and 1.0.');
+		}
+
 		return new Color(
 			// TODO: Consider using round() instead of (int) truncation for more accurate color transitions.
 			(int)((1 - $opacity) * $source->red() + $opacity * $this->red()),
@@ -149,5 +161,15 @@ class Color {
 		$deltas[2] = ($end->blue() - $start->blue()) / $count;
 
 		return $deltas;
+	}
+
+	private static function assertChannelInRange(int $value, string $channel): void {
+		if ($value < 0 || $value > 255) {
+			throw new \InvalidArgumentException(sprintf(
+				'Color channel "%s" must be between 0 and 255, got %d.',
+				$channel,
+				$value,
+			));
+		}
 	}
 }
