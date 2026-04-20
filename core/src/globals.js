@@ -1,10 +1,9 @@
-/**
+/* eslint-disable @nextcloud/no-deprecated-globals */
+/*!
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* eslint-disable @nextcloud/no-deprecations */
-// END TODO
 import Backbone from 'backbone'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
@@ -43,9 +42,9 @@ function warnIfNotTesting() {
  * Mark a function as deprecated and automatically
  * warn if used!
  *
- * @param {Function} func the library to deprecate
- * @param {string} funcName the name of the library
- * @param {number} version the version this gets removed
+ * @param {Function} func - The library to deprecate
+ * @param {string} funcName - The name of the library
+ * @param {number} version - The version this gets removed
  * @return {Function}
  */
 function deprecate(func, funcName, version) {
@@ -59,10 +58,11 @@ function deprecate(func, funcName, version) {
 }
 
 /**
+ * Mark a global variable as deprecated and automatically
  *
- * @param global
- * @param cb
- * @param msg
+ * @param global - the global variable to deprecate, can be a string or an array of strings
+ * @param cb - a callback that returns the value of the global variable, this is needed to avoid circular dependencies
+ * @param msg - an optional message to show in the warning, e.g. to suggest an alternative, this will be appended to the default warning message
  */
 function setDeprecatedProp(global, cb, msg) {
 	(Array.isArray(global) ? global : [global]).forEach((global) => {

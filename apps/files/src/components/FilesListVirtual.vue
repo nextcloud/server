@@ -428,8 +428,7 @@ export default defineComponent({
 			}
 
 			if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown'
-				&& (!this.userConfig.grid_view || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight'))
-			) {
+				&& (!this.userConfig.grid_view || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight'))) {
 				// not an arrow key we handle
 				return
 			}

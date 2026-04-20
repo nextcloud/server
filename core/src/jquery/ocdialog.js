@@ -207,11 +207,6 @@ $.widget('oc.ocdialog', {
 		}
 
 		const self = this
-		let contentDiv = $('#content')
-		if (contentDiv.length === 0) {
-			// nextcloud-vue compatibility
-			contentDiv = $('.content')
-		}
 		this.overlay = $('<div>')
 			.addClass('oc-dialog-dim')
 			.insertBefore(this.$dialog)

@@ -231,7 +231,7 @@ export default {
 				shareType.push(...remoteTypes)
 			}
 
-			let request = null
+			let request
 			try {
 				request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1/sharees'), {
 					params: {
@@ -321,7 +321,7 @@ export default {
 		async getRecommendations() {
 			this.loading = true
 
-			let request = null
+			let request
 			try {
 				request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1/sharees_recommended'), {
 					params: {
