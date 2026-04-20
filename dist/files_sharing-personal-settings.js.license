@@ -130,7 +130,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.3
 	- license: MIT
 - focus-trap
-	- version: 8.0.0
+	- version: 8.0.1
 	- license: MIT
 - hookable
 	- version: 5.5.3
