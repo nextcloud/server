@@ -39,14 +39,14 @@ class AppInfoTest extends ExporterTestCase {
 
 	public function testMetrics(): void {
 		$this->assertCount(4, $this->metrics);
-		foreach ($this->appList as $appName => $appVersion) {
-			$metricForApp = array_find($this->metrics, function (Metric $metric) use ($appName) {
-				return $metric->label('app_name') === $appName;
+		foreach ($this->appList as $appId => $appVersion) {
+			$metricForApp = array_find($this->metrics, function (Metric $metric) use ($appId) {
+				return $metric->label('app_id') === $appId;
 			});
 
-			$expectedMetricValue = in_array($appName, $this->installedAppsList) ? 1 : 0;
+			$expectedMetricValue = in_array($appId, $this->installedAppsList) ? 1 : 0;
 			$this->assertEquals($expectedMetricValue, $metricForApp->value);
-			$this->assertSame(['app_name' => $appName, 'version' => $appVersion], $metricForApp->labels);
+			$this->assertSame(['app_id' => $appId, 'version' => $appVersion], $metricForApp->labels);
 		}
 	}
 }

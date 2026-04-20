@@ -50,7 +50,7 @@ class AppInfo implements IMetricFamily {
 		$apps = [];
 		$enabledApps = $this->appManager->getEnabledApps();
 		foreach ($this->appManager->getAppInstalledVersions(false) as $appId => $version) {
-			yield new Metric(in_array($appId, $enabledApps, true) ? 1 : 0, ['app_name' => $appId, 'version' => $version]);
+			yield new Metric(in_array($appId, $enabledApps, true) ? 1 : 0, ['app_id' => $appId, 'version' => $version]);
 		}
 	}
 }
