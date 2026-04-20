@@ -67,7 +67,6 @@
     "dompurify": "^3.4.0",
     "escape-html": "^1.0.3",
     "focus-trap": "^8.0.1",
-    "handlebars": "^4.7.8",
     "is-svg": "^6.1.0",
     "libphonenumber-js": "^1.12.41",
     "lodash": "^4.18.1",
