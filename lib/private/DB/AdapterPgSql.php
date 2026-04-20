@@ -23,13 +23,16 @@ class AdapterPgSql extends Adapter {
 		return $statement;
 	}
 
-	public function insertIgnoreConflict(string $table, array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values, array $hintShardKey = []) : int {
 		// "upsert" is only available since PgSQL 9.5, but the generic way
 		// would leave error logs in the DB.
 		$builder = $this->conn->getQueryBuilder();
 		$builder->insert($table);
 		foreach ($values as $key => $value) {
 			$builder->setValue($key, $builder->createNamedParameter($value));
+		}
+		if (isset($hintShardKey['column'], $hintShardKey['value'])) {
+			$builder->hintShardKey($hintShardKey['column'], $hintShardKey['value'], $hintShardKey['overwrite'] ?? false);
 		}
 		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
 		return $this->conn->executeUpdate($queryString, $builder->getParameters(), $builder->getParameterTypes());

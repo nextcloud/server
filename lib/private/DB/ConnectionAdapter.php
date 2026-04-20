@@ -89,9 +89,9 @@ class ConnectionAdapter implements IDBConnection {
 		}
 	}
 
-	public function insertIgnoreConflict(string $table, array $values): int {
+	public function insertIgnoreConflict(string $table, array $values, array $hintShardKey = []): int {
 		try {
-			return $this->inner->insertIgnoreConflict($table, $values);
+			return $this->inner->insertIgnoreConflict($table, $values, $hintShardKey);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);
 		}

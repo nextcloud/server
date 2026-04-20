@@ -111,12 +111,15 @@ class Adapter {
 	/**
 	 * @throws \OCP\DB\Exception
 	 */
-	public function insertIgnoreConflict(string $table, array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values, array $hintShardKey = []) : int {
 		try {
 			$builder = $this->conn->getQueryBuilder();
 			$builder->insert($table);
 			foreach ($values as $key => $value) {
 				$builder->setValue($key, $builder->createNamedParameter($value));
+			}
+			if (isset($hintShardKey['column'], $hintShardKey['value'])) {
+				$builder->hintShardKey($hintShardKey['column'], $hintShardKey['value'], $hintShardKey['overwrite'] ?? false);
 			}
 			return $builder->executeStatement();
 		} catch (DbalException $e) {
