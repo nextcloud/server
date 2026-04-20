@@ -1950,7 +1950,7 @@ return array(
     'OC\\OpenMetrics\\ExporterManager' => $baseDir . '/lib/private/OpenMetrics/ExporterManager.php',
     'OC\\OpenMetrics\\Exporters\\ActiveSessions' => $baseDir . '/lib/private/OpenMetrics/Exporters/ActiveSessions.php',
     'OC\\OpenMetrics\\Exporters\\ActiveUsers' => $baseDir . '/lib/private/OpenMetrics/Exporters/ActiveUsers.php',
-    'OC\\OpenMetrics\\Exporters\\AppInfo' => $baseDir . '/lib/private/OpenMetrics/Exporters/AppInfo.php',
+    'OC\\OpenMetrics\\Exporters\\AppEnabled' => $baseDir . '/lib/private/OpenMetrics/Exporters/AppEnabled.php',
     'OC\\OpenMetrics\\Exporters\\Cached' => $baseDir . '/lib/private/OpenMetrics/Exporters/Cached.php',
     'OC\\OpenMetrics\\Exporters\\FilesByType' => $baseDir . '/lib/private/OpenMetrics/Exporters/FilesByType.php',
     'OC\\OpenMetrics\\Exporters\\InstanceInfo' => $baseDir . '/lib/private/OpenMetrics/Exporters/InstanceInfo.php',

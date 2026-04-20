@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Test\OpenMetrics\Exporters;
 
-use OC\OpenMetrics\Exporters\AppInfo;
+use OC\OpenMetrics\Exporters\AppEnabled;
 use OCP\App\IAppManager;
 use OCP\OpenMetrics\IMetricFamily;
 use OCP\OpenMetrics\Metric;
 
-class AppInfoTest extends ExporterTestCase {
+class AppEnabledTest extends ExporterTestCase {
 	private IAppManager $appManager;
 	private array $appList = [
 		'appA' => '0.1.2',
@@ -34,7 +34,7 @@ class AppInfoTest extends ExporterTestCase {
 		$this->appManager->method('getEnabledApps')
 			->willReturn($this->installedAppsList);
 
-		return new AppInfo($this->appManager);
+		return new AppEnabled($this->appManager);
 	}
 
 	public function testMetrics(): void {

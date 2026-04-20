@@ -12,7 +12,7 @@ namespace OC\OpenMetrics;
 use Generator;
 use OC\OpenMetrics\Exporters\ActiveSessions;
 use OC\OpenMetrics\Exporters\ActiveUsers;
-use OC\OpenMetrics\Exporters\AppInfo;
+use OC\OpenMetrics\Exporters\AppEnabled;
 use OC\OpenMetrics\Exporters\FilesByType;
 use OC\OpenMetrics\Exporters\InstanceInfo;
 use OC\OpenMetrics\Exporters\LogLevel;
@@ -43,7 +43,7 @@ class ExporterManager {
 		$exporters = [
 			// Basic exporters
 			InstanceInfo::class,
-			AppInfo::class,
+			AppEnabled::class,
 			Maintenance::class,
 			LogLevel::class,
 

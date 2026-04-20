@@ -19,7 +19,7 @@ use Override;
 /**
  * Export information about installed applications
  */
-class AppInfo implements IMetricFamily {
+class AppEnabled implements IMetricFamily {
 	public function __construct(
 		private IAppManager $appManager,
 	) {
@@ -27,7 +27,7 @@ class AppInfo implements IMetricFamily {
 
 	#[Override]
 	public function name(): string {
-		return 'app_info';
+		return 'app_enabled';
 	}
 
 	#[Override]
