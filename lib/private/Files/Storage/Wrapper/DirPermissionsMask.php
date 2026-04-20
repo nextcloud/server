@@ -88,7 +88,7 @@ class DirPermissionsMask extends PermissionsMask {
 	}
 
 	public function rename($source, $target): bool {
-		if (!$this->isDeletable($source)) {
+		if (!($this->isDeletable($source) || $this->isUpdatable($source))) {
 			return false;
 		}
 
