@@ -42,7 +42,12 @@
 			<NcButton v-if="!showQRCode" @click="showQRCode = true">
 				{{ t('settings', 'Show QR code for mobile apps') }}
 			</NcButton>
-			<QR v-else :value="qrUrl" />
+			<QR
+				v-else
+				:value="qrUrl"
+				:size="200"
+				:margin="2"
+				class="qr-code" />
 		</div>
 	</NcDialog>
 </template>
@@ -216,6 +221,13 @@ export default defineComponent({
 	&__qrcode {
 		display: flex;
 		justify-content: center;
+
+		:deep(.qr-code) {
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: -moz-crisp-edges;
+			image-rendering: pixelated;
+			image-rendering: crisp-edges;
+		}
 	}
 }
 </style>
