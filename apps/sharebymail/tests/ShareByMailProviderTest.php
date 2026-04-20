@@ -1309,7 +1309,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1428,7 +1428,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1552,7 +1552,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1656,7 +1656,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1750,7 +1750,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1848,7 +1848,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
