@@ -266,7 +266,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.8.0
 	- license: MIT
 - handlebars
-	- version: 4.7.8
+	- version: 4.7.9
 	- license: MIT
 - hookable
 	- version: 5.5.3
