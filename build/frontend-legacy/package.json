@@ -23,6 +23,9 @@
   "overrides": {
     "@vitejs/plugin-vue2": {
       "vite": "^7"
+    },
+    "@vueuse/integrations": {
+      "focus-trap": "^8"
     }
   },
   "dependencies": {
