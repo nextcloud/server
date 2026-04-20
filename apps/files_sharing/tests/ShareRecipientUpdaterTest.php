@@ -17,6 +17,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
@@ -29,6 +30,7 @@ class ShareRecipientUpdaterTest extends \Test\TestCase {
 	private ShareTargetValidator&MockObject $shareTargetValidator;
 	private IStorageFactory&MockObject $storageFactory;
 	private ShareRecipientUpdater $updater;
+	private IManager $shareManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,12 +39,14 @@ class ShareRecipientUpdaterTest extends \Test\TestCase {
 		$this->shareMountProvider = $this->createMock(MountProvider::class);
 		$this->shareTargetValidator = $this->createMock(ShareTargetValidator::class);
 		$this->storageFactory = $this->createMock(IStorageFactory::class);
+		$this->shareManager = $this->createMock(IManager::class);
 
 		$this->updater = new ShareRecipientUpdater(
 			$this->userMountCache,
 			$this->shareMountProvider,
 			$this->shareTargetValidator,
 			$this->storageFactory,
+			$this->shareManager,
 		);
 	}
 
@@ -192,7 +196,13 @@ class ShareRecipientUpdaterTest extends \Test\TestCase {
 			->willReturn('/target');
 		$share->method('getNodeId')
 			->willReturn(111);
+		$share->method('getFullId')
+			->willReturn('id');
 		$user1 = $this->createUser('user1', '');
+
+		$this->shareManager->method('getShareById')
+			->with('id')
+			->willReturn($share);
 
 		$this->shareTargetValidator->expects($this->never())
 			->method('verifyMountPoint');

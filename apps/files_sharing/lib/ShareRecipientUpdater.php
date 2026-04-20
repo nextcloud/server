@@ -12,6 +12,8 @@ use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 class ShareRecipientUpdater {
@@ -22,6 +24,7 @@ class ShareRecipientUpdater {
 		private readonly MountProvider $shareMountProvider,
 		private readonly ShareTargetValidator $shareTargetValidator,
 		private readonly IStorageFactory $storageFactory,
+		private readonly IManager $shareManager,
 	) {
 	}
 
@@ -85,7 +88,12 @@ class ShareRecipientUpdater {
 	 * Process a single deleted share for a user
 	 */
 	public function updateForDeletedShare(IUser $user, IShare $share): void {
-		$this->userMountCache->removeMount($this->getMountPointFromTarget($user, $share->getTarget()), $user);
+		try {
+			$userShare = $this->shareManager->getShareById($share->getFullId(), $user->getUID());
+			$this->userMountCache->removeMount($this->getMountPointFromTarget($user, $userShare->getTarget()), $user);
+		} catch (ShareNotFound) {
+			// user doesn't actually have access to the share
+		}
 	}
 
 	/**
