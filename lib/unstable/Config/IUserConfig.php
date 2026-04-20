@@ -764,12 +764,13 @@ interface IUserConfig {
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
 	 * @param string $key config key
+	 * @return bool whether the value was deleted
 	 *
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0  use \OCP\Config\IUserConfig
 	 * @see \OCP\Config\IUserConfig
 	 */
-	public function deleteUserConfig(string $userId, string $app, string $key): void;
+	public function deleteUserConfig(string $userId, string $app, string $key): bool;
 
 	/**
 	 * Delete config values from all users linked to a specific config keys
