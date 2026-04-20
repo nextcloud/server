@@ -11,6 +11,7 @@ namespace Test;
 use OC\Installer;
 use OC\IntegrityCheck\Checker;
 use OC\Updater;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -106,5 +107,37 @@ class UpdaterTest extends TestCase {
 			->willReturn($vendor);
 
 		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersions));
+	}
+
+	public function testUpgradeAppStoreAppsRestoresMissingAutoDisabledAppBeforeEnabling(): void {
+		$this->installer->expects($this->once())
+			->method('isUpdateAvailable')
+			->with('mailroundcube')
+			->willReturn(false);
+
+		$this->installer->expects($this->once())
+			->method('downloadApp')
+			->with('mailroundcube');
+
+		$this->installer->expects($this->once())
+			->method('installApp')
+			->with('mailroundcube');
+
+		$this->appManager->expects($this->once())
+			->method('getAppPath')
+			->with('mailroundcube', true)
+			->willThrowException(new AppPathNotFoundException('missing'));
+
+		$this->appManager->expects($this->once())
+			->method('enableApp')
+			->with('mailroundcube');
+
+		$this->appManager->expects($this->never())
+			->method('enableAppForGroups');
+
+		self::invokePrivate($this->updater, 'upgradeAppStoreApps', [
+			['mailroundcube'],
+			['mailroundcube' => 'yes'],
+		]);
 	}
 }
