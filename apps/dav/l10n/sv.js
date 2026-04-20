@@ -329,7 +329,7 @@ OC.L10N.register(
     "Enable notifications for events via push" : "Aktivera notiser för händelser via push",
     "Example content" : "Exempelinnehåll",
     "Example content serves to showcase the features of Nextcloud. Default content is shipped with Nextcloud, and can be replaced by custom content." : "Exempelinnehåll används för att visa upp funktionerna i Nextcloud. Standardinnehåll levereras med Nextcloud och kan ersättas med anpassat innehåll.",
-    "Availability" : "Din tillgänglighet",
+    "Availability" : "Tillgänglighet",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Om du konfigurerar dina arbetstider kommer andra att se när du är frånvarande när de bokar ett möte.",
     "Absence" : "Frånvaro",
     "Configure your next absence period." : "Konfigurera din nästa frånvaroperiod.",

@@ -522,7 +522,7 @@
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} filkonflikt","{count} filkonflikter"],
     "One file conflict" : "En filkonflikt",
     "New Files" : "Nya filer",
-    "Already existing files" : "Filer som redan existerar",
+    "Already existing files" : "Filer som redan finns",
     "Which files do you want to keep?" : "Vilka filer vill du behålla?",
     "If you select both versions, the copied file will have a number added to its name." : "Om du väljer båda versionerna kommer de kopierade filerna ha nummer tillagda i filnamnet.",
     "Cancel" : "Avbryt",

@@ -109,6 +109,7 @@ OC.L10N.register(
     "Last 30 days" : "Last 30 days",
     "This year ({year})" : "This year ({year})",
     "Last year ({year})" : "Last year ({year})",
+    "Custom range" : "ກຳນົດຊ່ວງເອງ",
     "Custom date range" : "Custom date range",
     "Search everywhere" : "ຄົ້ນຫາທຸກບ່ອນ",
     "Documents" : "ເອກະສານ",
