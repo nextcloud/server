@@ -17,9 +17,9 @@ use OCP\OpenMetrics\MetricType;
 use Override;
 
 /**
- * Export information about enabled applications
+ * Export information about installed applications
  */
-class AppsInfo implements IMetricFamily {
+class AppEnabled implements IMetricFamily {
 	public function __construct(
 		private IAppManager $appManager,
 	) {
@@ -27,12 +27,12 @@ class AppsInfo implements IMetricFamily {
 
 	#[Override]
 	public function name(): string {
-		return 'apps_info';
+		return 'app_enabled';
 	}
 
 	#[Override]
 	public function type(): MetricType {
-		return MetricType::info;
+		return MetricType::gauge;
 	}
 
 	#[Override]
@@ -42,15 +42,15 @@ class AppsInfo implements IMetricFamily {
 
 	#[Override]
 	public function help(): string {
-		return 'Enabled applications in Nextcloud';
+		return 'Information about the installed Nextcloud applications';
 	}
 
 	#[Override]
 	public function metrics(): Generator {
 		$apps = [];
-		foreach ($this->appManager->getAppInstalledVersions(true) as $appId => $version) {
-			$apps[str_replace('-', '_', $appId)] = $version;
+		$enabledApps = $this->appManager->getEnabledApps();
+		foreach ($this->appManager->getAppInstalledVersions(false) as $appId => $version) {
+			yield new Metric(in_array($appId, $enabledApps, true) ? 1 : 0, ['app_id' => $appId, 'version' => $version]);
 		}
-		yield new Metric(1, $apps, time());
 	}
 }
