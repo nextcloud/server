@@ -812,6 +812,7 @@
     "Authentication" : "Authentication",
     "Authentication required" : "ການຢັ້ງຢືນທີ່ຈໍາເປັນ",
     "Saving…" : "ກຳລັງບັນທຶກ…",
+    "Save settings" : "ບັນທຶກການຕັ້ງຄ່າ",
     "Please double check the {linkStartInstallationGuides}installation guides{linkEnd}, and check for any errors or warnings in the {linkStartLog}log{linkEnd}." : "Please double check the {linkStartInstallationGuides}installation guides{linkEnd}, and check for any errors or warnings in the {linkStartLog}log{linkEnd}.",
     "Check the security of your {productName} over {linkStart}our security scan{linkEnd}." : "Check the security of your {productName} over {linkStart}our security scan{linkEnd}.",
     "Security & setup warnings" : "Security & setup warnings",

@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "System tag %1$s added by the system" : "Systemtagg %1$s tillagt av systemet",
     "Added system tag {systemtag}" : "La till systemtagg {systemtag}",
-    "Added system tag %1$s" : "La till systemtagg %1$s",
+    "Added system tag %1$s" : "Lade till systemtagg %1$s",
     "%1$s added system tag %2$s" : "%1$s la till systemtagg %2$s",
     "{actor} added system tag {systemtag}" : "{actor} la till systemtagg {systemtag}",
     "System tag %1$s removed by the system" : "Systemtagg %1$s borttagen av systemet",
