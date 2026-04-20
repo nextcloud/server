@@ -91,6 +91,10 @@ class SharesUpdatedListener implements IEventListener {
 			$share = $event->getShare();
 			$shareTarget = $share->getTarget();
 			foreach ($this->shareManager->getUsersForShare($share) as $user) {
+				if ($share->getShareOwner() === $user->getUID() || $share->getSharedBy() === $user->getUID()) {
+					continue;
+				}
+
 				if ($share->getSharedBy() !== $user->getUID()) {
 					$this->markOrRun($user, function () use ($user, $share) {
 						$this->inUpdate = true;
@@ -116,6 +120,10 @@ class SharesUpdatedListener implements IEventListener {
 		if ($event instanceof BeforeShareDeletedEvent) {
 			$share = $event->getShare();
 			foreach ($this->shareManager->getUsersForShare($share) as $user) {
+				if ($share->getShareOwner() === $user->getUID() || $share->getSharedBy() === $user->getUID()) {
+					continue;
+				}
+
 				$this->markOrRun($user, function () use ($user, $share) {
 					$this->shareUpdater->updateForDeletedShare($user, $share);
 				});
