@@ -25,7 +25,11 @@
 		</th>
 
 		<!-- Actions -->
-		<th class="files-list__row-actions" />
+		<th class="files-list__row-actions">
+			<span class="hidden-visually">
+				{{ t('files', 'Actions') }}
+			</span>
+		</th>
 
 		<!-- Mime -->
 		<th v-if="isMimeAvailable"
