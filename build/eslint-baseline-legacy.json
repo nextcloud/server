@@ -4,11 +4,6 @@
       "count": 1
     }
   },
-  "apps/files/src/components/TransferOwnershipDialogue.vue": {
-    "@nextcloud/no-deprecated-library-props": {
-      "count": 1
-    }
-  },
   "apps/files_sharing/src/components/SharingEntryQuickShareSelect.vue": {
     "vue/no-mutating-props": {
       "count": 2

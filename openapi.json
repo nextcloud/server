@@ -2389,10 +2389,15 @@
                             "sharee": {
                                 "type": "object",
                                 "required": [
+                                    "minSearchStringLength",
                                     "query_lookup_default",
                                     "always_show_unique"
                                 ],
                                 "properties": {
+                                    "minSearchStringLength": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
                                     "query_lookup_default": {
                                         "type": "boolean"
                                     },
