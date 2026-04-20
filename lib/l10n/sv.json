@@ -99,7 +99,7 @@
     "\"%1$s\" is a forbidden file type." : "\"%1$s\" är en förbjuden filtyp.",
     "Filenames must not end with \"%1$s\"." : "Filnamn får inte sluta med \"%1$s\".",
     "Invalid parent path" : "Ogiltig överordnad sökväg",
-    "File already exists" : "Filen existerar redan",
+    "File already exists" : "Filen finns redan",
     "Invalid path" : "Ogiltig sökväg",
     "Failed to create file from template" : "Kunde skapa fil från mall",
     "Templates" : "Mallar",

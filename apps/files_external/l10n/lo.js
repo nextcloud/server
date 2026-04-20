@@ -130,6 +130,7 @@ OC.L10N.register(
     "Scope" : "Scope",
     "Personal" : "ສ່ວນບຸກຄົນ",
     "System" : "System",
+    "Connected" : "ເຊື່ອມຕໍ່ແລ້ວ",
     "Error" : "ຂໍ້ຜິດພາດ",
     "Network error" : "Network error",
     "Grant access" : "ການເຂົ້າເຖິງ Grant",
