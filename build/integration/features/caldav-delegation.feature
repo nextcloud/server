@@ -4,6 +4,7 @@ Feature: calendar delegation
   Calendar delegation grants another user/principal control of a calendar account,
   including all calendars the delegator can access.
 
+  @caldav-delegation
   Scenario: admin grants user0 read access to her calendar account
     Given user "admin" exists
     And user "user0" exists
@@ -12,6 +13,7 @@ Feature: calendar delegation
     And The CalDAV response should contain an href "/remote.php/dav/principals/users/admin/calendar-proxy-read"
     And The CalDAV response should contain a property "{DAV:}group-member-set"
 
+  @caldav-delegation
   Scenario: admin grants write access to her calendar account
     Given user "admin" exists
     And user "user0" exists
