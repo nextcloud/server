@@ -346,18 +346,9 @@ class SFTP extends Common {
 
 		if ($result) {
 			$this->getConnection()->clearStatCache();
-			if (!is_null($mtime)) {
-				$this->knownMTimes->set($path, $mtime);
-			}
-			if (!$this->file_exists($path)) {
-				$this->getConnection()->put($this->absPath($path), '');
-			} else {
-				return false;
-			}
-		} catch (\Exception $e) {
-			return false;
 		}
-		return true;
+
+		return $result;
 	}
 
 	/**
