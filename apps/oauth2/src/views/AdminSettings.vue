@@ -8,6 +8,7 @@ import axios, { isAxiosError } from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -56,7 +57,7 @@ async function addClient() {
 		const { data } = await axios.post(generateUrl('apps/oauth2/clients'), {
 			name: newClient.value.name,
 			redirectUri: newClient.value.redirectUri,
-		})
+		}, { confirmPassword: PwdConfirmationMode.Strict })
 		clients.value.push(data)
 		showSecretWarning.value = true
 
