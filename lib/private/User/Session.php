@@ -391,6 +391,12 @@ class Session implements IUserSession, Emitter {
 		try {
 			$dbToken = $this->getTokenFromPassword($password);
 			$isTokenPassword = $dbToken !== null;
+			if (($dbToken instanceof PublicKeyToken)
+				&& !in_array($dbToken->getType(), [IToken::PERMANENT_TOKEN,IToken::ONETIME_TOKEN])
+			) {
+				// Refuse session tokens here, only app tokens and onetime tokens are handled
+				return false;
+			}
 		} catch (ExpiredTokenException) {
 			// Just return on an expired token no need to check further or record a failed login
 			return false;
@@ -814,6 +820,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryTokenLogin(IRequest $request) {
 		$authHeader = $request->getHeader('Authorization');
+		$tokenFromCookie = false;
 		if (str_starts_with($authHeader, 'Bearer ')) {
 			$token = substr($authHeader, 7);
 		} elseif ($request->getCookie($this->config->getSystemValueString('instanceid')) !== null) {
@@ -821,10 +828,23 @@ class Session implements IUserSession, Emitter {
 			// session and the request has a session cookie
 			try {
 				$token = $this->session->getId();
+				$tokenFromCookie = true;
 			} catch (SessionNotAvailableException $ex) {
 				return false;
 			}
 		} else {
+			return false;
+		}
+
+		try {
+			$dbToken = $this->tokenProvider->getToken($token);
+		} catch (InvalidTokenException $e) {
+			// Can't really happen but better safe than sorry
+			return false;
+		}
+
+		if ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::TEMPORARY_TOKEN && !$tokenFromCookie) {
+			// Session token but from Bearer header, not allowed
 			return false;
 		}
 
@@ -833,13 +853,6 @@ class Session implements IUserSession, Emitter {
 		}
 		if (!$this->validateToken($token)) {
 			return false;
-		}
-
-		try {
-			$dbToken = $this->tokenProvider->getToken($token);
-		} catch (InvalidTokenException $e) {
-			// Can't really happen but better save than sorry
-			return true;
 		}
 
 		// Set the session variable so we know this is an app password
