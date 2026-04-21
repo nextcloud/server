@@ -78,6 +78,7 @@ use Psr\Log\LoggerInterface;
 class ShareAPIController extends OCSController {
 
 	private ?Node $lockedNode = null;
+	/** @var array<bool> $trustedServerCache */
 	private array $trustedServerCache = [];
 
 	/**
