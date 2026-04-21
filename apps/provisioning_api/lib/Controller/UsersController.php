@@ -915,6 +915,11 @@ class UsersController extends AUserDataOCSController {
 	 * @param string|null $manager Manager user ID (null = no change, '' = clear)
 	 * @param list<string>|null $groups Group IDs to assign (null = no change, [] = remove all)
 	 * @param list<string>|null $subadminGroups Subadmin group IDs (null = no change, [] = remove all)
+	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIUserDetails, array{}>|DataResponse<Http::STATUS_UNPROCESSABLE_ENTITY, array{errors: array<string, string>}, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: User updated successfully
+	 * 422: One or more submitted fields failed validation
 	 */
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
@@ -1133,7 +1138,9 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		return new DataResponse($this->getUserData($userId));
+		/** @var Provisioning_APIUserDetails $data */
+		$data = $this->getUserData($userId);
+		return new DataResponse($data);
 	}
 
 	/**
