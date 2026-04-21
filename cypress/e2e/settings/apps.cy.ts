@@ -163,6 +163,9 @@ describe('Settings: App management', { testIsolation: true }, () => {
 			.find('span')
 			.contains('admin')
 			.click()
+
+		handlePasswordConfirmation(admin.password)
+
 		cy.get('span.name-parts__first')
 			.contains('admin')
 			.should('be.visible')
