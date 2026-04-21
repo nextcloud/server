@@ -233,69 +233,95 @@ describe('SharingDetailsTab - Password State Management Logic', () => {
 			return typeof attr === 'string' && attr.length > 0
 		}
 
-		it('should set passwordError when isPasswordProtected but newPassword is empty for new share', () => {
-			const isPasswordProtected = true
-			const isNewShare = true
-			const newPassword = ''
-			let passwordError = false
-
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
+		/**
+		 * Simulates the password guard in saveShare() – returns true when execution
+		 * should be blocked (passwordError set and early return triggered).
+		 */
+		function shouldBlock(state: {
+			isPasswordProtected: boolean
+			isPublicShare: boolean
+			isNewShare: boolean
+			newPassword: string | undefined
+		}): boolean {
+			if (state.isPasswordProtected) {
+				if (state.isPublicShare && state.isNewShare && !isValidShareAttribute(state.newPassword)) {
+					return true
+				}
 			}
+			return false
+		}
 
-			expect(passwordError).toBe(true)
+		// --- New public share: password missing → should block ---
+
+		it('blocks new public share when isPasswordProtected but newPassword is empty', () => {
+			expect(shouldBlock({
+				isPasswordProtected: true,
+				isPublicShare: true,
+				isNewShare: true,
+				newPassword: '',
+			})).toBe(true)
 		})
 
-		it('should set passwordError when isPasswordProtected but newPassword is undefined for new share', () => {
-			const isPasswordProtected = true
-			const isNewShare = true
-			const newPassword = undefined
-			let passwordError = false
-
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
-			}
-
-			expect(passwordError).toBe(true)
+		it('blocks new public share when isPasswordProtected but newPassword is undefined', () => {
+			expect(shouldBlock({
+				isPasswordProtected: true,
+				isPublicShare: true,
+				isNewShare: true,
+				newPassword: undefined,
+			})).toBe(true)
 		})
 
-		it('should not set passwordError when password is valid for new share', () => {
-			const isPasswordProtected = true
-			const isNewShare = true
-			const newPassword = 'valid-password-123'
-			let passwordError = false
+		// --- New public share: valid password → should NOT block ---
 
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
-			}
-
-			expect(passwordError).toBe(false)
+		it('does not block new public share when password is valid', () => {
+			expect(shouldBlock({
+				isPasswordProtected: true,
+				isPublicShare: true,
+				isNewShare: true,
+				newPassword: 'valid-password-123',
+			})).toBe(false)
 		})
 
-		it('should not set passwordError when isPasswordProtected is false', () => {
-			const isPasswordProtected = false
-			const isNewShare = true
-			const newPassword = ''
-			let passwordError = false
+		// --- Non-public (user/group) share → should NEVER block (regression for #59254) ---
 
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
-			}
-
-			expect(passwordError).toBe(false)
+		it('does not block new non-public share even when isPasswordProtected and newPassword is empty', () => {
+			expect(shouldBlock({
+				isPasswordProtected: true,
+				isPublicShare: false,
+				isNewShare: true,
+				newPassword: '',
+			})).toBe(false)
 		})
 
-		it('should not validate password for existing shares', () => {
-			const isPasswordProtected = true
-			const isNewShare = false
-			const newPassword = ''
-			let passwordError = false
+		it('does not block new non-public share even when isPasswordProtected and newPassword is undefined', () => {
+			expect(shouldBlock({
+				isPasswordProtected: true,
+				isPublicShare: false,
+				isNewShare: true,
+				newPassword: undefined,
+			})).toBe(false)
+		})
 
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
-			}
+		// --- Existing public share (update path) → should NOT block ---
 
-			expect(passwordError).toBe(false)
+		it('does not block existing public share with empty newPassword (update path)', () => {
+			expect(shouldBlock({
+				isPasswordProtected: true,
+				isPublicShare: true,
+				isNewShare: false,
+				newPassword: '',
+			})).toBe(false)
+		})
+
+		// --- isPasswordProtected false → should NOT block ---
+
+		it('does not block when isPasswordProtected is false', () => {
+			expect(shouldBlock({
+				isPasswordProtected: false,
+				isPublicShare: true,
+				isNewShare: true,
+				newPassword: '',
+			})).toBe(false)
 		})
 	})
 })
