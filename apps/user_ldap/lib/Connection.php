@@ -11,6 +11,7 @@ use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\ICertificateManager;
 use OCP\IL10N;
 use OCP\Server;
 use OCP\Util;
@@ -684,6 +685,26 @@ class Connection extends LDAPUtility {
 			}
 		} else {
 			$this->ldap->setOption(null, LDAP_OPT_X_TLS_REQUIRE_CERT, LDAP_OPT_X_TLS_DEMAND);
+		}
+
+		/** @var ICertificateManager $certManager */
+		$certManager = Server::get(ICertificateManager::class);
+		$defaultCertificatePath = $certManager->getDefaultCertificatesBundlePath();
+		// We check if default certificate path is actually set to a custom value.
+		// Otherwise this would be a breaking change and cannot be backported.
+		if (!empty($defaultCertificatePath) && $defaultCertificatePath !== \OC::$SERVERROOT . '/resources/config/ca-bundle.crt') {
+			$absoluteBundlePath = $certManager->getAbsoluteBundlePath();
+			if ($this->ldap->setOption(null, LDAP_OPT_X_TLS_CACERTFILE, $absoluteBundlePath)) {
+				$this->logger->debug(
+					'Adjusted the tls certificate file path to ' . $absoluteBundlePath,
+					['app' => 'user_ldap']
+				);
+			} else {
+				$this->logger->warning(
+					'Could not change the tls certificate file path.',
+					['app' => 'user_ldap']
+				);
+			}
 		}
 
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port) ?: null;
