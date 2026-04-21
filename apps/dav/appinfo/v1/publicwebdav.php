@@ -82,7 +82,6 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	}
 
 	$share = $authBackend->getShare();
-	$owner = $share->getShareOwner();
 	$isReadable = $share->getPermissions() & \OCP\Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
 
@@ -97,10 +96,10 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 	OC_Util::tearDownFS();
-	OC_Util::setupFS($owner);
-	$ownerView = new \OC\Files\View('/'. $owner . '/files');
-	$path = $ownerView->getPath($fileId);
-	$fileInfo = $ownerView->getFileInfo($path);
+	OC_Util::setupFS($share->getSharedBy());
+	$initiatorView = new \OC\Files\View('/'. $share->getSharedBy() . '/files');
+	$path = $initiatorView->getPath($fileId);
+	$fileInfo = $initiatorView->getFileInfo($path);
 	$linkCheckPlugin->setFileInfo($fileInfo);
 
 	// If not readable (files_drop) enable the filesdrop plugin
@@ -108,7 +107,7 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 		$filesDropPlugin->enable();
 	}
 
-	$view = new \OC\Files\View($ownerView->getAbsolutePath($path));
+	$view = new \OC\Files\View($initiatorView->getAbsolutePath($path));
 	$filesDropPlugin->setView($view);
 
 	return $view;

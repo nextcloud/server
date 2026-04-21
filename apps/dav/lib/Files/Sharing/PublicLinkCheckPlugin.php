@@ -57,7 +57,7 @@ class PublicLinkCheckPlugin extends ServerPlugin {
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
-		// verify that the owner didn't have his share permissions revoked
+		// verify that the initiator didn't have their share permissions revoked
 		if ($this->fileInfo && !$this->fileInfo->isShareable()) {
 			throw new NotFound();
 		}
