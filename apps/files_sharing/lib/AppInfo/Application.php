@@ -34,6 +34,7 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
+use OCA\Files_Sharing\UserMigration\SharesMigrator;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -131,6 +132,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserHomeSetupEvent::class, UserHomeSetupListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
+		$context->registerUserMigrator(SharesMigrator::class);
 	}
 
 	#[\Override]

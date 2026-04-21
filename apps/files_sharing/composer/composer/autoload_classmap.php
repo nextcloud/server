@@ -103,5 +103,6 @@ return array(
     'OCA\\Files_Sharing\\SharedStorage' => $baseDir . '/../lib/SharedStorage.php',
     'OCA\\Files_Sharing\\SharesReminderJob' => $baseDir . '/../lib/SharesReminderJob.php',
     'OCA\\Files_Sharing\\Updater' => $baseDir . '/../lib/Updater.php',
+	'OCA\\Files_Sharing\\UserMigration\\SharesMigrator' => $baseDir . '/../lib/UserMigration/SharesMigrator.php',
     'OCA\\Files_Sharing\\ViewOnly' => $baseDir . '/../lib/ViewOnly.php',
 );
