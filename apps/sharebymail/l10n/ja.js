@@ -41,7 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "メール共有の設定の更新に失敗しました",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
-    "Reply to initiator" : "返信先を共有開始者にする",
-    "Open %s" : "%sを開く"
+    "Reply to initiator" : "返信先を共有開始者にする"
 },
 "nplurals=1; plural=0;");

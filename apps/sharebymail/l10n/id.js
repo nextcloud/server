@@ -40,7 +40,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Tidak dapat memperbarui konfigurasi berbagi melalui email",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Memungkinkan orang membagikan tautan yang dipersonalisasi ke file atau folder dengan memasukkan alamat email.",
     "Send password by mail" : "Kirim kata sandi melalui email",
-    "Reply to initiator" : "Balas kepada penginisiasi",
-    "Open %s" : "Buka %s"
+    "Reply to initiator" : "Balas kepada penginisiasi"
 },
 "nplurals=1; plural=0;");

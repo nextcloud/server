@@ -32,7 +32,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Megosztási szolgáltató, amely lehetővé teszi fájlok e-mailben történő megosztását",
     "Unable to update share by mail config" : "Az e-mailes megosztás beállításai nem frissíthetők",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
-    "Reply to initiator" : "Válasz a kezdeményezőnek",
-    "Open %s" : "A(z) %s megnyitása"
+    "Reply to initiator" : "Válasz a kezdeményezőnek"
 },
 "nplurals=2; plural=(n != 1);");

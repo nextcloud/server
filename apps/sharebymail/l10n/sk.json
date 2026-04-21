@@ -38,7 +38,6 @@
     "Unable to update share by mail config" : "Nepodarila sa aktualizovať konfigurácia zdieľania prostredníctvom e-mailu",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Umožňuje ľuďom zdieľať prispôsobený odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
     "Send password by mail" : "Odoslať heslo e-mailom",
-    "Reply to initiator" : "Odpovedať iniciátorovi",
-    "Open %s" : "Otvoriť %s"
+    "Reply to initiator" : "Odpovedať iniciátorovi"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

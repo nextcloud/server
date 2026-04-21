@@ -40,7 +40,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "无法通过邮箱设置更新分享",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "允许用户通过填入邮箱以分享文件或文件夹的私人链接。",
     "Send password by mail" : "通过电子邮件发送密码",
-    "Reply to initiator" : "回复发起人",
-    "Open %s" : "打开 %s"
+    "Reply to initiator" : "回复发起人"
 },
 "nplurals=1; plural=0;");
