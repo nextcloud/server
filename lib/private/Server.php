@@ -9,7 +9,6 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use lib\private\Files\Listeners\UserMountCacheListener;
 use OC\Accounts\AccountManager;
 use OC\Activity\EventMerger;
 use OC\App\AppManager;
@@ -208,6 +207,7 @@ use OCP\Files\Template\ITemplateManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IGlobalScaleService;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -1113,8 +1113,12 @@ class Server extends ServerContainer {
 		$eventDispatcher = $this->get(IEventDispatcher::class);
 		$eventDispatcher->addServiceListener(LoginFailed::class, LoginFailedListener::class);
 		$eventDispatcher->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, Store::class);
+		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, SubAdmin::class);
+		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, SubAdmin::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
 		GenerateBlurhashMetadata::loadListeners($eventDispatcher);
