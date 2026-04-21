@@ -551,7 +551,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @throws ExpiredTokenException
 	 */
-	private function getTokenFromPassword(string $password): ?\OCP\Authentication\Token\IToken {
+	private function getTokenFromPassword(string $password): ?IToken {
 		try {
 			return $this->tokenProvider->getToken($password);
 		} catch (ExpiredTokenException $e) {
