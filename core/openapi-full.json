@@ -11637,7 +11637,7 @@
             "post": {
                 "operationId": "two_factor_api-enable",
                 "summary": "Enable two factor authentication providers for specific user",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "two_factor_api"
                 ],
@@ -11815,7 +11815,7 @@
             "post": {
                 "operationId": "two_factor_api-disable",
                 "summary": "Disable two factor authentication providers for specific user",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "two_factor_api"
                 ],

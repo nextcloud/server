@@ -565,7 +565,7 @@ class AppSettingsController extends Controller {
 	 * @param array $groups
 	 * @return JSONResponse
 	 */
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function enableApps(array $appIds, array $groups = []): JSONResponse {
 		try {
 			$updateRequired = false;
