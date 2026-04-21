@@ -887,7 +887,7 @@ class DefaultShareProvider implements
 
 			if ($offset !== 0 || $limit !== -1) {
 				// Order by id
-				$qb->orderBy('id');
+				$qb->orderBy('s.id');
 			}
 
 			// Set limit and offset
@@ -960,7 +960,7 @@ class DefaultShareProvider implements
 					->setFirstResult(0);
 
 				if ($offset !== 0 || $limit !== -1) {
-					$qb->orderBy('id');
+					$qb->orderBy('s.id');
 				}
 
 				if ($limit !== -1) {
