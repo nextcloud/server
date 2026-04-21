@@ -325,7 +325,7 @@ class TemplateManager implements ITemplateManager {
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
 		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
 
-		if ($skeletonTemplatePath === '') {
+		if ($path === null && $skeletonTemplatePath === '' && $skeletonPath === '') {
 			$this->setTemplatePath('');
 			return '';
 		}
