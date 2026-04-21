@@ -69,7 +69,7 @@
     "focus-trap": "^8.0.1",
     "handlebars": "^4.7.8",
     "is-svg": "^6.1.0",
-    "libphonenumber-js": "^1.12.40",
+    "libphonenumber-js": "^1.12.41",
     "lodash": "^4.18.1",
     "marked": "^17.0.4",
     "moment": "^2.30.1",
