@@ -40,7 +40,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Αδυναμία ενημέρωσης των ρυθμίσεων κοινής χρήσης μέσω ηλεκτρονικού ταχυδρομείου",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Επιτρέπει στους χρήστες να μοιράζονται έναν εξατομικευμένο σύνδεσμο για ένα αρχείο ή φάκελο, εισάγοντας μια διεύθυνση ηλεκτρονικού ταχυδρομείου.",
     "Send password by mail" : "Αποστολή συνθηματικου με ηλεκτρονική αλληλογραφία",
-    "Reply to initiator" : "Απάντηση στον αποστολέα",
-    "Open %s" : "Άνοιγμα %s"
+    "Reply to initiator" : "Απάντηση στον αποστολέα"
 },
 "nplurals=2; plural=(n != 1);");

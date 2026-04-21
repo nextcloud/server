@@ -13,6 +13,7 @@
     "Unsatisfied authentication mechanism parameters" : "Nesplněny parametry ověřovacího mechanismu",
     "Insufficient data: %s" : "Nedostatečná data: %s",
     "Storage with ID \"%d\" is not editable by non-admins" : "Úložiště s identifikátorem „%d“ není uživatelsky upravitelné",
+    "Static credentials" : "Statické přihlašovací údaje",
     "Builtin" : "Vestavěné",
     "None" : "Žádné",
     "OpenStack v2" : "OpenStack v2",

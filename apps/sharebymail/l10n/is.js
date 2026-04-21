@@ -41,7 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Get ekki uppfært stillingar á deilingu með tölvupósti",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Gerir notendum kleift að deila sérsniðnum tengli á skrá eða möppu með því að setja inn tölvupóstfang.",
     "Send password by mail" : "Senda lykilorð með pósti",
-    "Reply to initiator" : "Svara til upphafsaðila",
-    "Open %s" : "Opna %s"
+    "Reply to initiator" : "Svara til upphafsaðila"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

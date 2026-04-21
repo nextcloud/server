@@ -25,7 +25,6 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Voit valita muun salasanan koska tahansa jakovalikossa.",
     "Could not find share" : "Jakoa ei löytynyt",
     "Send password by mail" : "Lähetä salasana sähköpostitse",
-    "Reply to initiator" : "Vastaa aloitteentekijälle",
-    "Open %s" : "Avaa %s"
+    "Reply to initiator" : "Vastaa aloitteentekijälle"
 },
 "nplurals=2; plural=(n != 1);");

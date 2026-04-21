@@ -40,7 +40,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Неможе да се ажурираат параметрите за споделување со е-пошта",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Дозволете им на корисниците да споделуваат персонални линкови до датотеки и папки со внесување на адреса на е-пошта.",
     "Send password by mail" : "Испрати лозинка преку е-пошта",
-    "Reply to initiator" : "Одговор до иницијаторот",
-    "Open %s" : "Отвори %s"
+    "Reply to initiator" : "Одговор до иницијаторот"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
