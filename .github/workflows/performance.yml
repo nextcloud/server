@@ -100,14 +100,14 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: profiles
           path: |
             before.json
             after.json
 
-      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v7
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v7
         if: failure() && steps.compare.outcome == 'failure'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}

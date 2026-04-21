@@ -50,7 +50,7 @@ jobs:
 
       - name: Check composer.json
         id: check_composer
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
+        uses: andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029 # v3.1.0
         with:
           files: 'composer.json'
 
@@ -66,7 +66,7 @@ jobs:
           fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -154,7 +154,7 @@ jobs:
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
@@ -184,7 +184,7 @@ jobs:
           SETUP_TESTING: ${{ matrix.containers == 'setup' && 'true' || '' }}
 
       - name: Upload snapshots and videos
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: snapshots_${{ matrix.containers }}
@@ -207,7 +207,7 @@ jobs:
         run: docker exec nextcloud-e2e-test-server_${{ env.APP_NAME }} tar -cvjf - data > data.tar
 
       - name: Upload data archive
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}
