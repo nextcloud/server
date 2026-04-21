@@ -38,7 +38,6 @@
     "Unable to update share by mail config" : "Имэйлээр хуваалцах тохиргоог шинэчлэж чадсангүй",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "И-мэйл хаяг оруулснаар файл эсвэл хавтасны хувийн холбоосыг хуваалцах боломжийг олгодог.",
     "Send password by mail" : "Нууц үгийг имэйлээр илгээх",
-    "Reply to initiator" : "Эхлүүлэгч рүү хариулах",
-    "Open %s" : "%s нээх"
+    "Reply to initiator" : "Эхлүүлэгч рүү хариулах"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -40,7 +40,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Kan share  niet bijwerken via mailconfiguratie",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Hiermee kunnen mensen een gepersonaliseerde link naar een bestand of map delen door een e-mailadres in te voeren.",
     "Send password by mail" : "Wachtwoord per email verzenden",
-    "Reply to initiator" : "Antwoord aan oproeper",
-    "Open %s" : "%s openen"
+    "Reply to initiator" : "Antwoord aan oproeper"
 },
 "nplurals=2; plural=(n != 1);");

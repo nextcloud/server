@@ -22,6 +22,7 @@ OC.L10N.register(
     "Note:" : "Poznámka:",
     "This share is valid until %s at midnight" : "Toto sdílení je platné do půlnoci %s",
     "Expiration:" : "Konec platnosti:",
+    "Open shared item" : "Otevřít sdílenou položku",
     "%1$s via %2$s" : "%1$s prostřednictvím %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s vám nasdílel(a) %2$s. Měl by vám už přijít e-mail s přístupovými údaji.",
     "Password to access %1$s shared to you by %2$s" : "Heslo pro přístup k %1$s které vám nasdílel(a) %2$s",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Nedaří se aktualizovat sdílení nastavením e-mailu",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Dovoluje lidem odeslat personalizovaný odkaz na soubor nebo složku po zadání e-mailové adresy.",
     "Send password by mail" : "Odeslat heslo e-mailem",
-    "Reply to initiator" : "Odpovědět iniciátorovi",
-    "Open %s" : "Otevřít %s"
+    "Reply to initiator" : "Odpovědět iniciátorovi"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -41,7 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "E-postiga jagamise seadistuste uuendamine ei õnnestu.",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Võimaldab e-posti aadressi sisestamise alusel jagada faili või kausta konkreetsele adressaadile.",
     "Send password by mail" : "Saada salasõna e-postiga",
-    "Reply to initiator" : "Vasta algatajale",
-    "Open %s" : "Ava %s "
+    "Reply to initiator" : "Vasta algatajale"
 },
 "nplurals=2; plural=(n != 1);");

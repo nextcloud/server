@@ -40,7 +40,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "خەت سەپلىمىسى ئارقىلىق ھەمبەھىرنى يېڭىلاشقا ئامالسىز",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "كىشىلەرنىڭ ئېلېكترونلۇق خەت ئادرېسى ئارقىلىق ھۆججەت ياكى ھۆججەت قىسقۇچقا خاسلاشتۇرۇلغان ئۇلىنىشنى ھەمبەھىرلىشىگە يول قويىدۇ.",
     "Send password by mail" : "خەت ئارقىلىق پارول ئەۋەتىڭ",
-    "Reply to initiator" : "تەشەببۇس قىلغۇچىغا جاۋاب قايتۇرۇڭ",
-    "Open %s" : "%s نى ئېچىڭ"
+    "Reply to initiator" : "تەشەببۇس قىلغۇچىغا جاۋاب قايتۇرۇڭ"
 },
 "nplurals=2; plural=(n != 1);");
