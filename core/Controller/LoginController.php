@@ -156,7 +156,10 @@ class LoginController extends Controller {
 		if (!empty($redirect_url)) {
 			[$url, ] = explode('?', $redirect_url);
 			if ($url !== $this->urlGenerator->linkToRoute('core.login.logout')) {
-				$this->initialState->provideInitialState('loginRedirectUrl', $redirect_url);
+				$url = $this->generateRedirectAbsoluteUrl($url);
+				if ($url !== null) {
+					$this->initialState->provideInitialState('loginRedirectUrl', $url);
+				}
 			}
 		}
 
@@ -274,14 +277,23 @@ class LoginController extends Controller {
 		return true;
 	}
 
-	private function generateRedirect(?string $redirectUrl): RedirectResponse {
-		if ($redirectUrl !== null && $this->userSession->isLoggedIn()) {
-			$location = $this->urlGenerator->getAbsoluteURL($redirectUrl);
+	private function generateRedirectAbsoluteUrl(?string $redirectUrl): ?string {
+		if ($redirectUrl === null) {
+			return null;
+		}
+		$location = $this->urlGenerator->getAbsoluteURL($redirectUrl);
+		if (str_contains($location, '@')) {
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
-			if (!str_contains($location, '@')) {
-				return new RedirectResponse($location);
-			}
+			return null;
+		}
+		return $location;
+	}
+
+	private function generateRedirectResponse(?string $redirectUrl): RedirectResponse {
+		$redirectAbsoluteUrl = $this->generateRedirectAbsoluteUrl($redirectUrl);
+		if ($redirectAbsoluteUrl !== null && $this->userSession->isLoggedIn()) {
+			return new RedirectResponse($redirectAbsoluteUrl);
 		}
 		return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 	}
@@ -317,7 +329,7 @@ class LoginController extends Controller {
 				// If the user is already logged in and the CSRF check does not pass then
 				// simply redirect the user to the correct page as required. This is the
 				// case when a user has already logged-in, in another tab.
-				return $this->generateRedirect($redirect_url);
+				return $this->generateRedirectResponse($redirect_url);
 			}
 			$error = self::LOGIN_MSG_CSRFCHECKFAILED;
 		}
@@ -368,7 +380,7 @@ class LoginController extends Controller {
 		if ($result->getRedirectUrl() !== null) {
 			return new RedirectResponse($result->getRedirectUrl());
 		}
-		return $this->generateRedirect($redirect_url);
+		return $this->generateRedirectResponse($redirect_url);
 	}
 
 	/**
@@ -376,7 +388,7 @@ class LoginController extends Controller {
 	 *
 	 * @param string $user
 	 * @param string $originalUser
-	 * @param string $redirect_url
+	 * @param ?string $redirect_url
 	 * @param string $loginMessage
 	 *
 	 * @return RedirectResponse
@@ -384,7 +396,7 @@ class LoginController extends Controller {
 	private function createLoginFailedResponse(
 		$user,
 		$originalUser,
-		$redirect_url,
+		?string $redirect_url,
 		string $loginMessage,
 		bool $throttle = true,
 	) {
