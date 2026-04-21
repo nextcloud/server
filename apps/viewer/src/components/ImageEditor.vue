@@ -110,11 +110,14 @@ export default {
 			}
 		},
 
+		decodedSourceName() {
+			return decodeURIComponent(basename(this.src))
+		},
 		defaultSavedImageName() {
-			return basename(this.src, extname(this.src))
+			return basename(this.decodedSourceName, extname(this.decodedSourceName))
 		},
 		defaultSavedImageType() {
-			return extname(this.src).slice(1) || 'jpeg'
+			return extname(this.decodedSourceName).slice(1) || 'jpeg'
 		},
 
 		hasHighContrastEnabled() {
