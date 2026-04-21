@@ -11,6 +11,7 @@ namespace OCA\Files\Tests\Command;
 use OC\Files\View;
 use OCA\Files\Command\DeleteOrphanedFiles;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -46,6 +47,13 @@ class DeleteOrphanedFilesTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
+		// since we deleted the storage it might throw a (valid) StorageNotAvailableException
+		try {
+			$view = new View('/' . $this->user1 . '/files');
+			$view->unlink('test');
+		} catch (StorageNotAvailableException|NotFoundException $e) {
+		}
+
 		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);
 		if ($user1) {
@@ -87,10 +95,10 @@ class DeleteOrphanedFilesTest extends TestCase {
 
 		$this->loginAsUser($this->user1);
 
-		$view = new View('/' . $this->user1 . '/');
-		$view->mkdir('files/test');
+		$view = new View('/' . $this->user1 . '/files');
+		$view->mkdir('test');
 
-		$fileInfo = $view->getFileInfo('files/test');
+		$fileInfo = $view->getFileInfo('test');
 
 		$storageId = $fileInfo->getStorage()->getId();
 		$numericStorageId = $fileInfo->getStorage()->getCache()->getNumericStorageId();
@@ -126,13 +134,5 @@ class DeleteOrphanedFilesTest extends TestCase {
 
 		$this->assertCount(0, $this->getFile($fileInfo->getId()), 'Asserts that file gets cleaned up');
 		$this->assertEquals(0, $this->getMountsCount($numericStorageId), 'Asserts that mount gets cleaned up');
-
-		// Rescan folder to add back to cache before deleting
-		$rootFolder->getUserFolder($this->user1)->getStorage()->getScanner()->scan('');
-		// since we deleted the storage it might throw a (valid) StorageNotAvailableException
-		try {
-			$view->unlink('files/test');
-		} catch (StorageNotAvailableException $e) {
-		}
 	}
 }
