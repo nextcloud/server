@@ -17,7 +17,6 @@ use OCP\Authentication\IApacheBackend;
 use OCP\Authentication\IProvideUserSecretBackend;
 use OCP\Authentication\Token\IToken;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
@@ -147,8 +146,6 @@ class OC_User {
 				self::setUserId($uid);
 				/** @var Session $userSession */
 				$userSession = Server::get(IUserSession::class);
-
-				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = Server::get(IEventDispatcher::class);
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
@@ -162,11 +159,12 @@ class OC_User {
 					$password = $backend->getCurrentUserSecret();
 				}
 
-				/** @var IEventDispatcher $dispatcher */
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
 
+				$user = $userSession->getUser();
+				$userSession->completeLogin($user, ['loginName' => $uid, 'password' => $password]);
 				$userSession->createSessionToken($request, $uid, $uid, $password);
-				$userSession->createRememberMeToken($userSession->getUser());
+				$userSession->createRememberMeToken($user);
 
 				if (empty($password)) {
 					$tokenProvider = Server::get(IProvider::class);
@@ -183,11 +181,6 @@ class OC_User {
 					}
 				}
 
-				$user = Server::get(IUserManager::class)->get($uid);
-
-				// set up the filesystem
-				Server::get(\OCP\Files\ISetupManager::class)->setupForUser($user);
-
 				// first call the UserLoggedIn event, the login-process needs to be
 				// completed before we can safely create the user's folder.
 				// For example encryption needs to initialize the users keys first
@@ -198,9 +191,6 @@ class OC_User {
 					null,
 					false)
 				);
-
-				// trigger creation of user home and /files folder
-				Server::get(IRootFolder::class)->getUserFolder($uid);
 			}
 			return true;
 		}

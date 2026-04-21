@@ -9,6 +9,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use lib\private\Files\Listeners\UserMountCacheListener;
 use OC\Accounts\AccountManager;
 use OC\Activity\EventMerger;
 use OC\App\AppManager;
