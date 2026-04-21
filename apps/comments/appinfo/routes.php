@@ -10,5 +10,6 @@ declare(strict_types=1);
 return [
 	'routes' => [
 		['name' => 'Notifications#view', 'url' => '/notifications/view/{id}', 'verb' => 'GET'],
+		['name' => 'Notifications#dismiss', 'url' => '/notifications/dismiss/{id}', 'verb' => 'DELETE'],
 	]
 ];
