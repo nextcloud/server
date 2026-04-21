@@ -65,8 +65,7 @@ use Psr\Log\LoggerInterface;
 class Session implements IUserSession, Emitter {
 	use TTransactional;
 
-	/** @var User $activeUser */
-	protected $activeUser;
+	protected ?IUser $activeUser = null;
 
 	public function __construct(
 		private Manager $manager,
@@ -524,8 +523,8 @@ class Session implements IUserSession, Emitter {
 
 		if ($firstTimeLogin) {
 			// trigger any other initialization
-			Server::get(IEventDispatcher::class)->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
-			Server::get(IEventDispatcher::class)->dispatchTyped(new UserFirstTimeLoggedInEvent($this->getUser()));
+			$this->dispatcher->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
+			$this->dispatcher->dispatchTyped(new UserFirstTimeLoggedInEvent($this->getUser()));
 		}
 	}
 

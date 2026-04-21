@@ -66,7 +66,7 @@ class User implements IUser {
 		private ?UserInterface $backend,
 		private IEventDispatcher $dispatcher,
 		?IConfig $config = null,
-		$urlGenerator = null,
+		?IURLGenerator $urlGenerator = null,
 	) {
 		$this->config = $config ?? Server::get(IConfig::class);
 		$this->urlGenerator = $urlGenerator ?? Server::get(IURLGenerator::class);

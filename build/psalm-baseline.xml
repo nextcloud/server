@@ -30,6 +30,11 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/cloud_federation_api/lib/Controller/RequestHandlerController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[getFederationIdFromSharedSecret]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/comments/lib/Activity/Listener.php">
     <DeprecatedConstant>
       <code><![CDATA[CommentsEvent::EVENT_ADD]]></code>
@@ -4086,11 +4091,6 @@
       <code><![CDATA[$value]]></code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/Session/Memory.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$value]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="lib/private/Setup.php">
     <RedundantCondition>
       <code><![CDATA[$type === 'pdo']]></code>
@@ -4195,11 +4195,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[getQuota]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/legacy/OC_User.php">
-    <UndefinedClass>
-      <code><![CDATA[\Test\Util\User\Dummy]]></code>
-    </UndefinedClass>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
     <LessSpecificReturnStatement>

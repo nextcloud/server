@@ -31,7 +31,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
-#[Group('DB')]
+#[Group(name: 'DB')]
 class UserTest extends TestCase {
 	protected IEventDispatcher $dispatcher;
 
@@ -400,7 +400,7 @@ class UserTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataDeleteEvent')]
+	#[DataProvider(methodName: 'dataDeleteEvent')]
 	public function testDeleteEvent(bool $result, int $expectedHooks): void {
 		$hooksCalled = 0;
 
@@ -546,7 +546,7 @@ class UserTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataGetCloudId')]
+	#[DataProvider(methodName: 'dataGetCloudId')]
 	public function testGetCloudId(string $absoluteUrl, string $cloudId): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$urlGenerator = $this->createMock(IURLGenerator::class);
@@ -733,7 +733,7 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = new User('foo', $backend, $this->dispatcher, $config);
 		$this->assertSame(42, $user->getLastLogin());
 	}
 
@@ -757,7 +757,7 @@ class UserTest extends TestCase {
 				fn ($user, $app, $key, $default) => ($key === 'enabled' ? 'false' : $default)
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = new User('foo', $backend, $this->dispatcher, $config);
 		$user->setEnabled(true);
 	}
 
@@ -838,7 +838,7 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = new User('foo', $backend, $this->dispatcher, $config);
 		$this->assertSame('foo@bar.com', $user->getEMailAddress());
 	}
 }
