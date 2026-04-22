@@ -12,6 +12,7 @@ use OC\User\DisplayNameCache;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\Capabilities;
+use OCA\Files_Sharing\Reference\ShareReferenceProvider;
 use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
 use OCA\Files_Sharing\External\Manager;
@@ -122,6 +123,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserShareAccessUpdatedEvent::class, SharesUpdatedListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
+
+		$context->registerReferenceProvider(ShareReferenceProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {
