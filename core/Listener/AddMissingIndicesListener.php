@@ -223,5 +223,13 @@ class AddMissingIndicesListener implements IEventListener {
 			['user', 'mountpoint'],
 			['lengths' => [null, 128]]
 		);
+
+		$event->replaceIndex(
+			'mounts',
+			['mounts_user_root_path_index'],
+			'mounts_user_path_root_index',
+			['user_id', 'mount_point_hash', 'root_id'],
+			true,
+		);
 	}
 }
