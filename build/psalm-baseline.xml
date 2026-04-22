@@ -1397,14 +1397,6 @@
       <code><![CDATA[$this->fileIsEncrypted]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/files/lib/BackgroundJob/ScanFiles.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files/lib/Command/Object/Multi/Users.php">
     <DeprecatedMethod>
       <code><![CDATA[getUsersForUserValue]]></code>

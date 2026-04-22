@@ -56,7 +56,7 @@ class ScanFiles extends TimedJob {
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'files']);
 		}
-		\OC_Util::tearDownFS();
+		$this->setupManager->tearDown();
 	}
 
 	/**
@@ -127,7 +127,7 @@ class ScanFiles extends TimedJob {
 	 * @throws \Exception
 	 */
 	#[\Override]
-	protected function run($argument) {
+	protected function run($argument): void {
 		if ($this->config->getSystemValueBool('files_no_background_scan', false)) {
 			return;
 		}
