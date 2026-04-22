@@ -268,6 +268,7 @@ return array(
     'OCA\\DAV\\DAV\\GroupPrincipalBackend' => $baseDir . '/../lib/DAV/GroupPrincipalBackend.php',
     'OCA\\DAV\\DAV\\PublicAuth' => $baseDir . '/../lib/DAV/PublicAuth.php',
     'OCA\\DAV\\DAV\\RemoteUserPrincipalBackend' => $baseDir . '/../lib/DAV/RemoteUserPrincipalBackend.php',
+    'OCA\\DAV\\DAV\\Security\\RateLimiting' => $baseDir . '/../lib/DAV/Security/RateLimiting.php',
     'OCA\\DAV\\DAV\\Sharing\\Backend' => $baseDir . '/../lib/DAV/Sharing/Backend.php',
     'OCA\\DAV\\DAV\\Sharing\\IShareable' => $baseDir . '/../lib/DAV/Sharing/IShareable.php',
     'OCA\\DAV\\DAV\\Sharing\\Plugin' => $baseDir . '/../lib/DAV/Sharing/Plugin.php',
