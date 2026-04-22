@@ -215,6 +215,8 @@ OC.L10N.register(
     "Submitting fields …" : "Испраќање на полињата …",
     "Submit" : "Испрати",
     "Choose a file or folder to transfer" : "Избери датотека или папка за трансфер",
+    "Transfer \"{path}\"" : "Трансфер \"{path}",
+    "Select file or folder" : "Избери датотека или папка",
     "Transfer" : "Трансфер",
     "Transfer {path} to {userid}" : "Трансфер {path} до {userid}",
     "Ownership transfer request sent" : "Испратено барање за трансфер на сопственост",
