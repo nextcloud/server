@@ -226,13 +226,12 @@ export default {
 			const apps = [...this.$store.getters.getAllApps, ...exApps]
 				.filter((app) => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 				.sort(function(a, b) {
-					const natSortDiff = OC.Util.naturalSortCompare(a, b)
-					if (natSortDiff === 0) {
-						const sortStringA = '' + (a.active ? 0 : 1) + (a.update ? 0 : 1)
-						const sortStringB = '' + (b.active ? 0 : 1) + (b.update ? 0 : 1)
-						return Number(sortStringA) - Number(sortStringB)
+					const statusA = (a.active ? 0 : 2) + (a.update ? 0 : 1)
+					const statusB = (b.active ? 0 : 2) + (b.update ? 0 : 1)
+					if (statusA !== statusB) {
+						return statusA - statusB
 					}
-					return natSortDiff
+					return OC.Util.naturalSortCompare(a.name, b.name)
 				})
 
 			if (this.category === 'installed') {
