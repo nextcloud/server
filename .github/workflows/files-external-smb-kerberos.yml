@@ -57,6 +57,7 @@ jobs:
           persist-credentials: false
           repository: nextcloud/user_saml
           path: apps/user_saml
+          ref: 'stable-7'
 
       - name: Install user_saml
         run: |
