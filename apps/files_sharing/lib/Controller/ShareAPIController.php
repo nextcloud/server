@@ -74,6 +74,7 @@ use Psr\Log\LoggerInterface;
 class ShareAPIController extends OCSController {
 
 	private ?Node $lockedNode = null;
+	/** @var array<bool> $trustedServerCache */
 	private array $trustedServerCache = [];
 
 	/**
@@ -233,6 +234,10 @@ class ShareAPIController extends OCSController {
 			$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
 		}
 
+		$currentUserPermissions = $recipientNode?->getPermissions() ?? Constants::PERMISSION_ALL;
+		$userHasEnoughPermissions = ($currentUserPermissions & $share->getPermissions()) === $share->getPermissions();
+		$token = $userHasEnoughPermissions ? $share->getToken() : null;
+
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
@@ -258,6 +263,7 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
+			$url = $token ? $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]) : null;
 
 			// "share_with" and "share_with_displayname" for passwords of link
 			// shares was deprecated in Nextcloud 15, use "password" instead.
@@ -268,23 +274,23 @@ class ShareAPIController extends OCSController {
 
 			$result['send_password_by_talk'] = $share->getSendPasswordByTalk();
 
-			$result['token'] = $share->getToken();
-			$result['url'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share->getToken()]);
+			$result['token'] = $token;
+			$result['url'] = $url;
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $this->getCachedFederatedDisplayName($share->getSharedWith());
-			$result['token'] = $share->getToken();
+			$result['token'] = $token;
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'CLOUD');
-			$result['token'] = $share->getToken();
+			$result['token'] = $token;
 		} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['password'] = $share->getPassword();
 			$result['password_expiration_time'] = $share->getPasswordExpirationTime() !== null ? $share->getPasswordExpirationTime()->format(\DateTime::ATOM) : null;
 			$result['send_password_by_talk'] = $share->getSendPasswordByTalk();
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'EMAIL');
-			$result['token'] = $share->getToken();
+			$result['token'] = $token;
 		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
 			// getSharedWith() returns either "name (type, owner)" or
 			// "name (type, owner) [id]", depending on the Teams app version.
