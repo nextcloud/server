@@ -76,38 +76,53 @@ class IMipService {
 		return $default;
 	}
 
-	private function generateDiffString(VEvent $vevent, VEvent $oldVEvent, string $property, string $default): ?string {
-		$strikethrough = "<span style='text-decoration: line-through'>%s</span><br />%s";
-		if (!isset($vevent->$property)) {
-			return $default;
+	private function getStrikethroughString(?string $oldString, ?string $newValue = null): ?string {
+		if ($oldString === null || $oldString === '') {
+			return null;
 		}
-		$value = $vevent->$property->getValue();
-		$newstring = $value === null ? null : htmlspecialchars($value);
-		if (isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring) {
-			$oldstring = $oldVEvent->$property->getValue();
-			return sprintf($strikethrough, htmlspecialchars($oldstring), $newstring);
+
+		$strikethrough = '<span style="text-decoration: line-through">%s</span><br />%s';
+		return sprintf($strikethrough, $oldString, $newValue ?? '');
+	}
+
+	private function generateDiffString(VEvent $vEvent, VEvent $oldVEvent, string $property): ?string {
+		if (!isset($vEvent->$property)) {
+			return null;
 		}
-		return $newstring;
+
+		$newValue = $vEvent->$property->getValue();
+		$newString = $newValue === null ? null : htmlspecialchars($newValue);
+
+		$propertyChanged = isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newString;
+		if ($propertyChanged) {
+			$oldValue = $oldVEvent->$property->getValue();
+			$oldString = htmlspecialchars($oldValue);
+
+			return $this->getStrikethroughString($oldString, $newString);
+		}
+		return $newString;
 	}
 
 	/**
 	 * Like generateDiffString() but linkifies the property values if they are urls.
 	 */
-	private function generateLinkifiedDiffString(VEvent $vevent, VEvent $oldVEvent, string $property, string $default): ?string {
-		if (!isset($vevent->$property)) {
-			return $default;
+	private function generateLinkifiedDiffString(VEvent $vEvent, VEvent $oldVEvent, string $property): ?string {
+		if (!isset($vEvent->$property)) {
+			return null;
 		}
-		$value = $vevent->$property->getValue();
-		$newString = $value === null ? null : htmlspecialchars($value);
-		$oldString = isset($oldVEvent->$property) ? htmlspecialchars($oldVEvent->$property->getValue()) : null;
-		if ($oldString !== $newString) {
-			return sprintf(
-				"<span style='text-decoration: line-through'>%s</span><br />%s",
-				$this->linkify($oldString) ?? $oldString ?? '',
-				$this->linkify($newString) ?? $newString ?? ''
-			);
+
+		$newValue = $vEvent->$property->getValue();
+		$newString = $this->linkify($newValue) ?? htmlspecialchars($newValue);
+
+		$propertyChanged = isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newValue;
+		if ($propertyChanged) {
+			$oldValue = $oldVEvent->$property->getValue();
+			$oldString = $this->linkify($oldValue) ?? htmlspecialchars($oldValue);
+
+			return $this->getStrikethroughString($oldString, $newString);
 		}
-		return $this->linkify($newString) ?? $newString;
+
+		return $this->getStrikethroughString($newString);
 	}
 
 	/**
@@ -117,7 +132,15 @@ class IMipService {
 		if ($url === null) {
 			return null;
 		}
-		if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
+
+		$isValidLinkUrl
+			= filter_var($url, FILTER_VALIDATE_URL) !== false
+			&& (
+				str_starts_with($url, 'http://')
+				|| str_starts_with($url, 'https://')
+			);
+
+		if (!$isValidLinkUrl) {
 			return null;
 		}
 
@@ -130,7 +153,6 @@ class IMipService {
 	 * @return array
 	 */
 	public function buildBodyData(VEvent $vEvent, ?VEvent $oldVEvent): array {
-
 		// construct event reader
 		$eventReaderCurrent = new EventReader($vEvent);
 		$eventReaderPrevious = !empty($oldVEvent) ? new EventReader($oldVEvent) : null;
@@ -142,22 +164,26 @@ class IMipService {
 			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
 		}
 
-		$data['meeting_url_html'] = self::readPropertyWithDefault($vEvent, 'URL', $defaultVal);
-
-		if (($locationHtml = $this->linkify($data['meeting_location'])) !== null) {
-			$data['meeting_location_html'] = $locationHtml;
-		}
+		$data['meeting_location_html'] = $this->linkify($data['meeting_location']);
+		$data['meeting_url_html'] = $this->linkify($data['meeting_url']);
 
 		if (!empty($oldVEvent)) {
+			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY');
+			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION');
+			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION');
+
+			$oldMeetingUrl = self::readPropertyWithDefault($oldVEvent, 'URL', $defaultVal);
+			$oldMeetingUrlAsLink = $this->linkify($oldMeetingUrl);
+			$meetingUrlAsLinkChanged = !empty($oldMeetingUrlAsLink) && $oldMeetingUrlAsLink !== $data['meeting_url_html'];
+			if ($meetingUrlAsLinkChanged) {
+				$data['meeting_url_html'] = $this->getStrikethroughString(htmlspecialchars($oldMeetingUrl), $data['meeting_url_html']);
+			}
+
 			$oldMeetingWhen = $this->generateWhenString($eventReaderPrevious);
-			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
-			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION', $data['meeting_description']);
-			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
-
-			$oldUrl = self::readPropertyWithDefault($oldVEvent, 'URL', $defaultVal);
-			$data['meeting_url_html'] = !empty($oldUrl) && $oldUrl !== $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $oldUrl) : $data['meeting_url'];
-
-			$data['meeting_when_html'] = $oldMeetingWhen !== $data['meeting_when'] ? sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", $oldMeetingWhen, $data['meeting_when']) : $data['meeting_when'];
+			$meetingWhenChanged = $oldMeetingWhen !== $data['meeting_when'];
+			$data['meeting_when_html'] = $meetingWhenChanged
+				? $this->getStrikethroughString($oldMeetingWhen, $data['meeting_when'])
+				: null;
 		}
 		// generate occurring next string
 		if ($eventReaderCurrent->recurs()) {
@@ -181,11 +207,8 @@ class IMipService {
 			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
 		}
 
-		if (($locationHtml = $this->linkify($data['meeting_location'])) !== null) {
-			$data['meeting_location_html'] = $locationHtml;
-		}
-
-		$data['meeting_url_html'] = $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $data['meeting_url']) : '';
+		$data['meeting_location_html'] = $this->linkify($data['meeting_location']);
+		$data['meeting_url_html'] = $this->linkify($data['meeting_url']);
 
 		// generate occurring next string
 		if ($eventReader->recurs()) {
@@ -625,7 +648,6 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateOccurringString(EventReader $er): string {
-
 		// initialize
 		$occurrence = null;
 		$occurrence2 = null;
@@ -796,26 +818,26 @@ class IMipService {
 		// construct event reader
 		$eventReaderCurrent = new EventReader($vEvent);
 		$defaultVal = '';
-		$strikethrough = "<span style='text-decoration: line-through'>%s</span>";
 
 		$newMeetingWhen = $this->generateWhenString($eventReaderCurrent);
-		$newSummary = htmlspecialchars(isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event'));
-		$newDescription = htmlspecialchars(isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal);
-		$newUrl = isset($vEvent->URL) && (string)$vEvent->URL !== '' ? sprintf('<a href="%1$s">%1$s</a>', $vEvent->URL) : $defaultVal;
-		$newLocation = htmlspecialchars(isset($vEvent->LOCATION) && (string)$vEvent->LOCATION !== '' ? (string)$vEvent->LOCATION : $defaultVal);
-		$newLocationHtml = $this->linkify($newLocation) ?? $newLocation;
+		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
+		$newDescription = isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal;
+		$newUrl = isset($vEvent->URL) && (string)$vEvent->URL !== '' ? $this->linkify((string)$vEvent->URL) : $defaultVal;
+		$newLocation = isset($vEvent->LOCATION) && (string)$vEvent->LOCATION !== '' ? (string)$vEvent->LOCATION : $defaultVal;
+		$newLocationHtml = $this->linkify($newLocation);
 
 		$data = [];
-		$data['meeting_when_html'] = $newMeetingWhen === '' ?: sprintf($strikethrough, $newMeetingWhen);
+		$data['meeting_when_html'] = $this->getStrikethroughString(htmlspecialchars($newMeetingWhen));
 		$data['meeting_when'] = $newMeetingWhen;
-		$data['meeting_title_html'] = sprintf($strikethrough, $newSummary);
+		$data['meeting_title_html'] = $this->getStrikethroughString(htmlspecialchars($newSummary));
 		$data['meeting_title'] = $newSummary !== '' ? $newSummary: $this->l10n->t('Untitled event');
-		$data['meeting_description_html'] = $newDescription !== '' ? sprintf($strikethrough, $newDescription) : '';
+		$data['meeting_description_html'] = $this->getStrikethroughString(htmlspecialchars($newDescription));
 		$data['meeting_description'] = $newDescription;
-		$data['meeting_url_html'] = $newUrl !== '' ? sprintf($strikethrough, $newUrl) : '';
+		$data['meeting_url_html'] = $this->getStrikethroughString($newUrl);
 		$data['meeting_url'] = isset($vEvent->URL) ? (string)$vEvent->URL : '';
-		$data['meeting_location_html'] = $newLocationHtml !== '' ? sprintf($strikethrough, $newLocationHtml) : '';
+		$data['meeting_location_html'] = $this->getStrikethroughString($newLocationHtml ?? htmlspecialchars($newLocation));
 		$data['meeting_location'] = $newLocation;
+
 		return $data;
 	}
 
