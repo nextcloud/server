@@ -228,6 +228,10 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('groupExists')
 			->with('group')
 			->willReturn(true);
+		$this->groupManager
+			->method('getGroupEffectiveDescendantIds')
+			->with($group)
+			->willReturn(['group']);
 		$group
 			->method('getUsers')
 			->willReturn([
@@ -273,6 +277,10 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('groupExists')
 			->with('group')
 			->willReturn(true);
+		$this->groupManager
+			->method('getGroupEffectiveDescendantIds')
+			->with($group)
+			->willReturn(['group']);
 		$group
 			->method('getUsers')
 			->willReturn([
@@ -478,13 +486,17 @@ class GroupsControllerTest extends \Test\TestCase {
 		$group = $this->createGroup($gid);
 		$group->expects($this->once())
 			->method('searchUsers')
-			->with('', null, 0)
+			->with('')
 			->willReturn(array_values($users));
 
 		$this->groupManager
 			->method('get')
 			->with($gid)
 			->willReturn($group);
+		$this->groupManager
+			->method('getGroupEffectiveDescendantIds')
+			->with($group)
+			->willReturn([$gid]);
 		$this->groupManager->expects($this->any())
 			->method('getUserGroups')
 			->willReturn([$group]);
@@ -523,13 +535,17 @@ class GroupsControllerTest extends \Test\TestCase {
 		$group = $this->createGroup($gid);
 		$group->expects($this->once())
 			->method('searchUsers')
-			->with('', null, 0)
+			->with('')
 			->willReturn(array_values($users));
 
 		$this->groupManager
 			->method('get')
 			->with($gid)
 			->willReturn($group);
+		$this->groupManager
+			->method('getGroupEffectiveDescendantIds')
+			->with($group)
+			->willReturn([$gid]);
 		$this->groupManager->expects($this->any())
 			->method('getUserGroups')
 			->willReturn([$group]);
@@ -544,5 +560,77 @@ class GroupsControllerTest extends \Test\TestCase {
 
 
 		$this->api->getGroupUsersDetails(urlencode($gid));
+	}
+
+	public function testGetGroupUsersUnionsNestedDescendants(): void {
+		$parentGid = 'engineering';
+		$childGid = 'backend';
+
+		$this->asAdmin();
+
+		$alice = $this->createUser('alice');
+		$this->userManager->method('get')
+			->willReturnCallback(fn (string $uid) => $uid === 'alice' ? $alice : null);
+
+		$parent = $this->createGroup($parentGid);
+		$parent->method('getUsers')->willReturn([]);
+		$child = $this->createGroup($childGid);
+		$child->method('getUsers')->willReturn([$alice]);
+
+		$this->groupManager
+			->method('get')
+			->willReturnMap([
+				[$parentGid, $parent],
+				[$childGid, $child],
+			]);
+		$this->groupManager
+			->method('getGroupEffectiveDescendantIds')
+			->with($parent)
+			->willReturn([$parentGid, $childGid]);
+
+		$result = $this->api->getGroupUsers($parentGid);
+
+		self::assertSame(['users' => ['alice']], $result->getData());
+	}
+
+	public function testGetGroupUsersDetailsUnionsNestedDescendants(): void {
+		$parentGid = 'engineering';
+		$childGid = 'backend';
+
+		$this->asAdmin();
+
+		$alice = $this->createUser('alice');
+		$this->userManager->method('get')
+			->willReturnCallback(fn (string $uid) => $uid === 'alice' ? $alice : null);
+
+		$parent = $this->createGroup($parentGid);
+		$parent->method('searchUsers')->with('')->willReturn([]);
+		$child = $this->createGroup($childGid);
+		$child->method('searchUsers')->with('')->willReturn([$alice]);
+
+		$this->groupManager
+			->method('get')
+			->willReturnMap([
+				[$parentGid, $parent],
+				[$childGid, $child],
+			]);
+		$this->groupManager
+			->method('getGroupEffectiveDescendantIds')
+			->with($parent)
+			->willReturn([$parentGid, $childGid]);
+		$this->groupManager->expects($this->any())
+			->method('getUserGroups')
+			->willReturn([$parent]);
+
+		$this->subAdminManager->expects($this->any())
+			->method('isSubAdminOfGroup')
+			->willReturn(false);
+		$this->subAdminManager->expects($this->any())
+			->method('getSubAdminsGroups')
+			->willReturn([]);
+
+		$result = $this->api->getGroupUsersDetails($parentGid);
+
+		self::assertSame(['alice'], array_keys($result->getData()['users']));
 	}
 }

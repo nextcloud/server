@@ -358,7 +358,7 @@ class SystemTagManager implements ISystemTagManager {
 			return false;
 		}
 
-		$groupIds = $this->groupManager->getUserGroupIds($user);
+		$groupIds = $this->groupManager->getUserEffectiveGroupIds($user);
 		if (!empty($groupIds)) {
 			$matchingGroups = array_intersect($groupIds, $this->getTagGroups($tag));
 			if (!empty($matchingGroups)) {

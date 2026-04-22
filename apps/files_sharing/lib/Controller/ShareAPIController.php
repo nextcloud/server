@@ -1538,11 +1538,14 @@ class ShareAPIController extends OCSController {
 			return true;
 		}
 
-		// If in the recipient group, you can see the share
+		// If in the recipient group (directly or via a nested group), you can see the share
 		if ($checkGroups && $share->getShareType() === IShare::TYPE_GROUP) {
-			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			$user = $this->userManager->get($this->userId);
-			if ($user !== null && $sharedWith !== null && $sharedWith->inGroup($user)) {
+			if ($user !== null && in_array(
+				$share->getSharedWith(),
+				$this->groupManager->getUserEffectiveGroupIds($user),
+				true,
+			)) {
 				return true;
 			}
 		}
@@ -1668,11 +1671,14 @@ class ShareAPIController extends OCSController {
 			return false;
 		}
 
-		// If in the recipient group, you can delete the share from self
+		// If in the recipient group (directly or via a nested group), you can delete the share from self
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
-			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			$user = $this->userManager->get($this->userId);
-			if ($user !== null && $sharedWith !== null && $sharedWith->inGroup($user)) {
+			if ($user !== null && in_array(
+				$share->getSharedWith(),
+				$this->groupManager->getUserEffectiveGroupIds($user),
+				true,
+			)) {
 				return true;
 			}
 		}

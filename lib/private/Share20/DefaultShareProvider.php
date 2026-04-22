@@ -326,7 +326,11 @@ class DefaultShareProvider implements
 				throw new ProviderException('Group "' . $share->getSharedWith() . '" does not exist');
 			}
 
-			if (!$group->inGroup($user)) {
+			if ($user === null || !in_array(
+				$share->getSharedWith(),
+				$this->groupManager->getUserEffectiveGroupIds($user),
+				true,
+			)) {
 				throw new ProviderException('Recipient not in receiving group');
 			}
 
@@ -439,7 +443,11 @@ class DefaultShareProvider implements
 				throw new ProviderException('Group "' . $share->getSharedWith() . '" does not exist');
 			}
 
-			if (!$group->inGroup($user)) {
+			if ($user === null || !in_array(
+				$share->getSharedWith(),
+				$this->groupManager->getUserEffectiveGroupIds($user),
+				true,
+			)) {
 				// nothing left to do
 				return;
 			}
@@ -940,7 +948,9 @@ class DefaultShareProvider implements
 			$cursor->closeCursor();
 		} elseif ($shareType === IShare::TYPE_GROUP) {
 			$user = new LazyUser($userId, $this->userManager);
-			$allGroups = $this->groupManager->getUserGroupIds($user);
+			// Include groups reached via nested-group edges so shares to a
+			// parent group are visible to members of its sub-groups.
+			$allGroups = $this->groupManager->getUserEffectiveGroupIds($user);
 
 			/** @var Share[] $shares2 */
 			$shares2 = [];
@@ -1348,7 +1358,7 @@ class DefaultShareProvider implements
 			if ($user === null) {
 				return;
 			}
-			$userGroups = $this->groupManager->getUserGroupIds($user);
+			$userGroups = $this->groupManager->getUserEffectiveGroupIds($user);
 			$userGroups = array_diff($userGroups, $this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList());
 
 			// Delete user shares received by the user from users in the group.
@@ -1358,7 +1368,7 @@ class DefaultShareProvider implements
 				if ($owner === null) {
 					continue;
 				}
-				$ownerGroups = $this->groupManager->getUserGroupIds($owner);
+				$ownerGroups = $this->groupManager->getUserEffectiveGroupIds($owner);
 				$mutualGroups = array_intersect($userGroups, $ownerGroups);
 
 				if (count($mutualGroups) === 0) {
@@ -1373,7 +1383,7 @@ class DefaultShareProvider implements
 				if ($recipient === null) {
 					continue;
 				}
-				$recipientGroups = $this->groupManager->getUserGroupIds($recipient);
+				$recipientGroups = $this->groupManager->getUserEffectiveGroupIds($recipient);
 				$mutualGroups = array_intersect($userGroups, $recipientGroups);
 
 				if (count($mutualGroups) === 0) {

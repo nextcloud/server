@@ -95,6 +95,92 @@ interface IGroupManager {
 	public function getUserGroupIds(IUser $user): array;
 
 	/**
+	 * Get the effective group ids a user belongs to, including every group
+	 * reachable transitively via nested-group (group-in-group) edges.
+	 *
+	 * Use this for permission checks, share recipient expansion, and anywhere
+	 * "the user is effectively a member of G" is the intended semantic.
+	 * {@see getUserGroupIds()} returns only direct memberships reported by
+	 * backends and does not expand nested groups.
+	 *
+	 * @return list<string>
+	 * @since 34.0.0
+	 */
+	public function getUserEffectiveGroupIds(IUser $user): array;
+
+	/**
+	 * Add $child as a direct subgroup of $parent.
+	 *
+	 * Users who are transitively members of $child become effective members
+	 * of $parent and will be reflected by {@see getUserEffectiveGroupIds()}.
+	 * A {@see \OCP\Group\Events\SubGroupAddedEvent} is dispatched, followed
+	 * by a best-effort batch of {@see \OCP\Group\Events\UserAddedEvent}s for
+	 * every user who gains effective membership of $parent (subject to an
+	 * internal synthesis cap; see the Manager implementation).
+	 *
+	 * @return bool true if the edge was inserted, false if it already existed
+	 * @throws \OCP\Group\Exception\CycleDetectedException if the edge would create a cycle
+	 * @throws \OCP\Group\Exception\NestedGroupsNotSupportedException if no
+	 *                                                                nested-group-capable backend is registered
+	 * @since 34.0.0
+	 */
+	public function addSubGroup(IGroup $parent, IGroup $child): bool;
+
+	/**
+	 * Remove the direct edge $parent -> $child.
+	 *
+	 * A {@see \OCP\Group\Events\SubGroupRemovedEvent} is dispatched, followed
+	 * by a best-effort batch of {@see \OCP\Group\Events\UserRemovedEvent}s
+	 * for every user who loses effective membership of $parent.
+	 *
+	 * @return bool true if an edge was removed
+	 * @since 34.0.0
+	 */
+	public function removeSubGroup(IGroup $parent, IGroup $child): bool;
+
+	/**
+	 * List direct child group ids of $gid (one level deep).
+	 *
+	 * Unlike the effective-membership helpers this does not walk the
+	 * hierarchy; it is intended for admin UIs that need to render and
+	 * mutate the immediate nesting edges.
+	 *
+	 * @return list<string>
+	 * @since 34.0.0
+	 */
+	public function getDirectChildGroupIds(string $gid): array;
+
+	/**
+	 * List direct parent group ids of $gid (one level deep).
+	 *
+	 * @return list<string>
+	 * @since 34.0.0
+	 */
+	public function getDirectParentGroupIds(string $gid): array;
+
+	/**
+	 * Return the gids of $group itself plus every transitive descendant,
+	 * following parent -> child edges in the nested-group hierarchy.
+	 *
+	 * Intended for callers that need to enumerate "everything under" a group
+	 * (e.g. effective member resolution, sub-admin delegation listings).
+	 * Implementations may memoize the result per request.
+	 *
+	 * @return list<string>
+	 * @since 34.0.0
+	 */
+	public function getGroupEffectiveDescendantIds(IGroup $group): array;
+
+	/**
+	 * Return the gids of $group itself plus every transitive ancestor,
+	 * following child -> parent edges in the nested-group hierarchy.
+	 *
+	 * @return list<string>
+	 * @since 34.0.0
+	 */
+	public function getGroupEffectiveAncestorIds(IGroup $group): array;
+
+	/**
 	 * get a list of all display names in a group
 	 *
 	 * @param string $gid

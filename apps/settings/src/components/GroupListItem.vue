@@ -5,6 +5,11 @@
 
 <template>
 	<Fragment>
+		<GroupNestingModal
+			v-if="showNestingModal"
+			:group-id="id"
+			:group-name="name"
+			@close="showNestingModal = false" />
 		<NcModal
 			v-if="showRemoveGroupModal"
 			@close="showRemoveGroupModal = false">
@@ -66,6 +71,14 @@
 				</NcActionInput>
 				<NcActionButton
 					v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
+					@click="showNestingModal = true">
+					<template #icon>
+						<FamilyTree :size="20" />
+					</template>
+					{{ t('settings', 'Manage nested groups') }}
+				</NcActionButton>
+				<NcActionButton
+					v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
 					@click="showRemoveGroupModal = true">
 					<template #icon>
 						<Delete :size="20" />
@@ -88,15 +101,19 @@ import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
+import FamilyTree from 'vue-material-design-icons/FileTreeOutline.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import GroupNestingModal from './GroupNestingModal.vue'
 
 export default {
 	name: 'GroupListItem',
 	components: {
 		AccountGroup,
 		Delete,
+		FamilyTree,
 		Fragment,
+		GroupNestingModal,
 		NcActionButton,
 		NcActionInput,
 		NcAppNavigationItem,
@@ -146,6 +163,7 @@ export default {
 			loadingRenameGroup: false,
 			openGroupMenu: false,
 			showRemoveGroupModal: false,
+			showNestingModal: false,
 		}
 	},
 

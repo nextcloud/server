@@ -23,6 +23,7 @@ use OCP\Group\Backend\INamedBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
+use OCP\Group\Exception\CycleDetectedException;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Server;
@@ -42,7 +43,8 @@ class Database extends ABackend implements
 	ISetDisplayNameBackend,
 	ISearchableGroupBackend,
 	IBatchMethodsBackend,
-	INamedBackend {
+	INamedBackend,
+	INestedGroupBackend {
 	/** @var array<string, array{gid: string, displayname: string}> */
 	private $groupCache = [];
 
@@ -119,6 +121,24 @@ class Database extends ABackend implements
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->executeStatement();
+
+		// Delete nested-group edges where this group appears on either side
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_group')
+			->where($qb->expr()->orX(
+				$qb->expr()->eq('parent_gid', $qb->createNamedParameter($gid)),
+				$qb->expr()->eq('child_gid', $qb->createNamedParameter($gid)),
+			))
+			->executeStatement();
+
+		// Delete group-level sub-admin edges on either side
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_group_admin')
+			->where($qb->expr()->orX(
+				$qb->expr()->eq('admin_gid', $qb->createNamedParameter($gid)),
+				$qb->expr()->eq('gid', $qb->createNamedParameter($gid)),
+			))
 			->executeStatement();
 
 		// Delete from cache
@@ -594,5 +614,196 @@ class Database extends ABackend implements
 		return mb_strlen($displayName) > 64
 			? hash('sha256', $displayName)
 			: $displayName;
+	}
+
+	public function addGroupToGroup(string $childGid, string $parentGid): bool {
+		$this->fixDI();
+
+		if ($childGid === $parentGid) {
+			throw new CycleDetectedException('A group cannot be a subgroup of itself');
+		}
+
+		// Serialize the cycle check and insert to close the TOCTOU window
+		// between "is there already a path back to parent?" and "insert the edge".
+		// Concurrent writers on the same backend will contend on this transaction.
+		$this->dbConn->beginTransaction();
+		try {
+			// Reject if the edge would introduce a cycle: if $parent is already
+			// reachable as a descendant of $child, adding parent -> child forms a loop.
+			if ($this->isDescendantOf($parentGid, $childGid)) {
+				$this->dbConn->rollBack();
+				throw new CycleDetectedException(
+					"Adding group '$childGid' under '$parentGid' would introduce a cycle"
+				);
+			}
+
+			if ($this->groupInGroup($childGid, $parentGid)) {
+				$this->dbConn->rollBack();
+				return false;
+			}
+
+			try {
+				$qb = $this->dbConn->getQueryBuilder();
+				$qb->insert('group_group')
+					->setValue('parent_gid', $qb->createNamedParameter($parentGid))
+					->setValue('child_gid', $qb->createNamedParameter($childGid))
+					->executeStatement();
+			} catch (Exception $e) {
+				$this->dbConn->rollBack();
+				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					return false;
+				}
+				throw $e;
+			}
+			$this->dbConn->commit();
+		} catch (CycleDetectedException $e) {
+			// rollBack already called above
+			throw $e;
+		} catch (\Throwable $e) {
+			if ($this->dbConn->inTransaction()) {
+				$this->dbConn->rollBack();
+			}
+			throw $e;
+		}
+		return true;
+	}
+
+	public function removeGroupFromGroup(string $childGid, string $parentGid): bool {
+		$this->fixDI();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$affected = $qb->delete('group_group')
+			->where($qb->expr()->eq('parent_gid', $qb->createNamedParameter($parentGid)))
+			->andWhere($qb->expr()->eq('child_gid', $qb->createNamedParameter($childGid)))
+			->executeStatement();
+
+		return $affected > 0;
+	}
+
+	public function getChildGroups(string $parentGid): array {
+		$this->fixDI();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->select('child_gid')
+			->from('group_group')
+			->where($qb->expr()->eq('parent_gid', $qb->createNamedParameter($parentGid)))
+			->executeQuery();
+
+		$gids = [];
+		while ($row = $result->fetch()) {
+			$gids[] = $row['child_gid'];
+		}
+		$result->closeCursor();
+		return $gids;
+	}
+
+	public function getChildGroupsBatch(array $parentGids): array {
+		if ($parentGids === []) {
+			return [];
+		}
+		$this->fixDI();
+		$result = [];
+		foreach ($parentGids as $gid) {
+			$result[$gid] = [];
+		}
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$cursor = $qb->select('parent_gid', 'child_gid')
+			->from('group_group')
+			->where($qb->expr()->in(
+				'parent_gid',
+				$qb->createNamedParameter($parentGids, IQueryBuilder::PARAM_STR_ARRAY)
+			))
+			->executeQuery();
+		while ($row = $cursor->fetch()) {
+			$result[$row['parent_gid']][] = $row['child_gid'];
+		}
+		$cursor->closeCursor();
+		return $result;
+	}
+
+	public function getParentGroups(string $childGid): array {
+		$this->fixDI();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->select('parent_gid')
+			->from('group_group')
+			->where($qb->expr()->eq('child_gid', $qb->createNamedParameter($childGid)))
+			->executeQuery();
+
+		$gids = [];
+		while ($row = $result->fetch()) {
+			$gids[] = $row['parent_gid'];
+		}
+		$result->closeCursor();
+		return $gids;
+	}
+
+	public function getParentGroupsBatch(array $childGids): array {
+		if ($childGids === []) {
+			return [];
+		}
+		$this->fixDI();
+		$result = [];
+		foreach ($childGids as $gid) {
+			$result[$gid] = [];
+		}
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$cursor = $qb->select('parent_gid', 'child_gid')
+			->from('group_group')
+			->where($qb->expr()->in(
+				'child_gid',
+				$qb->createNamedParameter($childGids, IQueryBuilder::PARAM_STR_ARRAY)
+			))
+			->executeQuery();
+		while ($row = $cursor->fetch()) {
+			$result[$row['child_gid']][] = $row['parent_gid'];
+		}
+		$cursor->closeCursor();
+		return $result;
+	}
+
+	public function groupInGroup(string $childGid, string $parentGid): bool {
+		$this->fixDI();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->select('parent_gid')
+			->from('group_group')
+			->where($qb->expr()->eq('parent_gid', $qb->createNamedParameter($parentGid)))
+			->andWhere($qb->expr()->eq('child_gid', $qb->createNamedParameter($childGid)))
+			->setMaxResults(1)
+			->executeQuery();
+
+		$row = $result->fetch();
+		$result->closeCursor();
+		return $row !== false;
+	}
+
+	/**
+	 * BFS: is $candidate reachable from $root by following parent -> child edges?
+	 */
+	private function isDescendantOf(string $candidate, string $root): bool {
+		if ($candidate === $root) {
+			return true;
+		}
+		$visited = [$root => true];
+		$frontier = [$root];
+		while ($frontier !== []) {
+			$children = [];
+			foreach ($frontier as $gid) {
+				foreach ($this->getChildGroups($gid) as $child) {
+					if ($child === $candidate) {
+						return true;
+					}
+					if (!isset($visited[$child])) {
+						$visited[$child] = true;
+						$children[] = $child;
+					}
+				}
+			}
+			$frontier = $children;
+		}
+		return false;
 	}
 }

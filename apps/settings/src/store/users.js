@@ -584,6 +584,108 @@ const actions = {
 	},
 
 	/**
+	 * List the direct subgroups of a group.
+	 *
+	 * @param {object} context store context
+	 * @param {string} gid Parent group id
+	 * @return {Promise<string[]>}
+	 */
+	fetchSubGroups(context, gid) {
+		return api.requireAdmin().then(() => {
+			return api.get(generateOcsUrl('cloud/groups/{groupId}/subgroups', { groupId: encodeURIComponent(gid) }))
+				.then((response) => response.data.ocs.data)
+		})
+	},
+
+	/**
+	 * Add a subgroup to a group.
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {string} options.gid Parent group id
+	 * @param {string} options.subGroupId Child group id
+	 * @return {Promise}
+	 */
+	addSubGroup(context, { gid, subGroupId }) {
+		return api.requireAdmin().then(() => {
+			return api.post(
+				generateOcsUrl('cloud/groups/{groupId}/subgroups', { groupId: encodeURIComponent(gid) }),
+				{ subGroupId },
+			)
+		})
+	},
+
+	/**
+	 * Remove a subgroup from a group.
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {string} options.gid Parent group id
+	 * @param {string} options.subGroupId Child group id
+	 * @return {Promise}
+	 */
+	removeSubGroup(context, { gid, subGroupId }) {
+		return api.requireAdmin().then(() => {
+			return api.delete(generateOcsUrl(
+				'cloud/groups/{groupId}/subgroups/{subGroupId}',
+				{ groupId: encodeURIComponent(gid), subGroupId: encodeURIComponent(subGroupId) },
+			))
+		})
+	},
+
+	/**
+	 * List the groups designated as sub-admins of a group.
+	 *
+	 * @param {object} context store context
+	 * @param {string} gid Group id
+	 * @return {Promise<string[]>}
+	 */
+	fetchGroupSubAdmins(context, gid) {
+		return api.requireAdmin().then(() => {
+			return api.get(generateOcsUrl(
+				'cloud/groups/{groupId}/subadmins/groups',
+				{ groupId: encodeURIComponent(gid) },
+			)).then((response) => response.data.ocs.data)
+		})
+	},
+
+	/**
+	 * Designate a group as sub-admin of another group.
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {string} options.gid Target group id
+	 * @param {string} options.adminGroupId Admin group id
+	 * @return {Promise}
+	 */
+	addGroupSubAdmin(context, { gid, adminGroupId }) {
+		return api.requireAdmin().then(() => {
+			return api.post(
+				generateOcsUrl('cloud/groups/{groupId}/subadmins/groups', { groupId: encodeURIComponent(gid) }),
+				{ adminGroupId },
+			)
+		})
+	},
+
+	/**
+	 * Revoke sub-admin rights for a group.
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {string} options.gid Target group id
+	 * @param {string} options.adminGroupId Admin group id
+	 * @return {Promise}
+	 */
+	removeGroupSubAdmin(context, { gid, adminGroupId }) {
+		return api.requireAdmin().then(() => {
+			return api.delete(generateOcsUrl(
+				'cloud/groups/{groupId}/subadmins/groups/{adminGroupId}',
+				{ groupId: encodeURIComponent(gid), adminGroupId: encodeURIComponent(adminGroupId) },
+			))
+		})
+	},
+
+	/**
 	 * Add user to group
 	 *
 	 * @param {object} context store context
