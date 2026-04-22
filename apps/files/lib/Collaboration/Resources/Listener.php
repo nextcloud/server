@@ -15,6 +15,7 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use Override;
 
 /**
  * @template-implements IEventListener<ShareCreatedEvent|ShareDeletedEvent|ShareDeletedFromSelfEvent>
@@ -26,6 +27,7 @@ class Listener implements IEventListener {
 	) {
 	}
 
+	#[Override]
 	public function handle(Event $event): void {
 		if ($event instanceof ShareDeletedFromSelfEvent || $event instanceof ShareDeletedEvent || $event instanceof ShareCreatedEvent) {
 			$this->shareModification();

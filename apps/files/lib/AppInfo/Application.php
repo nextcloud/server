@@ -88,7 +88,7 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function boot(IBootContext $context): void {
-		$context->injectFn($this->registerCollaboration(...));
+		$context->injectFn(\Closure::fromCallable($this->registerCollaboration(...)));
 	}
 
 	private function registerCollaboration(IProviderManager $providerManager): void {
