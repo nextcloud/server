@@ -102,24 +102,23 @@
 				</NcCheckboxRadioSwitch>
 			</div>
 			<div class="unified-search-modal__filters-applied">
-				<FilterChip
+				<NcChip
 					v-for="filter in filters"
 					:key="filter.id"
 					:text="filter.name ?? filter.text"
-					pretext=""
-					@delete="removeFilter(filter)">
+					@close="removeFilter(filter)">
 					<template #icon>
 						<NcAvatar
 							v-if="filter.type === 'person'"
 							:user="filter.user"
-							:size="24"
+							:size="22"
 							disable-menu
 							hide-user-status
 							:hide-favorite="false" />
-						<IconCalendarRange v-else-if="filter.type === 'date'" />
-						<img v-else :src="filter.icon" alt="">
+						<IconCalendarRange v-else-if="filter.type === 'date'" :size="18" />
+						<img v-else :src="filter.icon" height="18" width="18" alt="">
 					</template>
-				</FilterChip>
+				</NcChip>
 			</div>
 		</div>
 
@@ -208,6 +207,7 @@ import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcChip from '@nextcloud/vue/components/NcChip'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
@@ -220,7 +220,6 @@ import IconListBox from 'vue-material-design-icons/ListBox.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
-import FilterChip from './SearchFilterChip.vue'
 import SearchResult from './SearchResult.vue'
 import { unifiedSearchLogger } from '../../logger.js'
 import { getContacts, getProviders, search as unifiedSearch } from '../../services/UnifiedSearchService.js'
@@ -238,11 +237,11 @@ export default defineComponent({
 		IconMagnify,
 
 		CustomDateRangeModal,
-		FilterChip,
 		NcActions,
 		NcActionButton,
 		NcAvatar,
 		NcButton,
+		NcChip,
 		NcEmptyContent,
 		NcDialog,
 		NcInputField,
