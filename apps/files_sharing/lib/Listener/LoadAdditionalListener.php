@@ -29,7 +29,7 @@ class LoadAdditionalListener implements IEventListener {
 		Util::addStyle(Application::APP_ID, 'icons');
 
 		$shareManager = Server::get(IManager::class);
-		if ($shareManager->shareApiEnabled() && class_exists('\OCA\Files\App')) {
+		if ($shareManager->shareApiEnabled()) {
 			Util::addInitScript(Application::APP_ID, 'init');
 		}
 	}
