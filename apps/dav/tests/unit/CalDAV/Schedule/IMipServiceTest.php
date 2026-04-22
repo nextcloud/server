@@ -18,6 +18,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\IEMailTemplate;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
@@ -221,12 +222,71 @@ class IMipServiceTest extends TestCase {
 			'meeting_description' => '',
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
+			'meeting_location_html' => '',
 			'meeting_url' => '',
 			'meeting_url_html' => '',
 		];
 		// generate actual output
 		$actual = $this->service->buildBodyData($vCalendar->VEVENT[0], null);
 		// test output
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildBodyDataCreatedEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240630T000000'))
+				};
+			}
+		);
+
+		$testTitle = '<h1>Test event</h1>';
+		$testLocation = '<h1>Stuttgart Office</h1>';
+		$testDescription = '<h1>Description for event</h1>';
+		$testUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', $testTitle);
+		$vEvent->add('LOCATION', $testLocation);
+		$vEvent->add('DESCRIPTION', $testDescription);
+		$vEvent->add('URL', $testUrl);
+
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+
+		$expected = [
+			'meeting_when' => $this->service->generateWhenString($eventReader),
+			'meeting_description' => $testDescription,
+			'meeting_title' => $testTitle,
+			'meeting_location' => $testLocation,
+			'meeting_location_html' => null,
+			'meeting_url' => $testUrl,
+			'meeting_url_html' => null,
+		];
+
+		$actual = $this->service->buildBodyData($vCalendar->VEVENT[0], null);
+
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -273,15 +333,214 @@ class IMipServiceTest extends TestCase {
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
 			'meeting_url' => '',
-			'meeting_url_html' => '',
-			'meeting_when_html' => $this->service->generateWhenString($eventReaderNew),
-			'meeting_title_html' => sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", 'Testing Singleton Event', 'Testing Event'),
-			'meeting_description_html' => '',
-			'meeting_location_html' => ''
+			'meeting_url_html' => null,
+			'meeting_when_html' => null,
+			'meeting_title_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />%s', 'Testing Singleton Event', 'Testing Event'),
+			'meeting_description_html' => null,
+			'meeting_location_html' => null
 		];
 		// generate actual output
 		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
 		// test output
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildBodyDataUpdatedEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240601T000000'))
+				};
+			}
+		);
+
+		$oldTitle = '<h1>Old event</h1>';
+		$oldLocation = '<h1>Stuttgart Office</h1>';
+		$oldDescription = '<h1>Description for old event</h1>';
+		$oldUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$newTitle = '<h1>New event</h1>';
+		$newLocation = '<h1>Berlin Office</h1>';
+		$newDescription = '<h1>Description for new event</h1>';
+		$newUrl = 'https://example.test/event?id=456"><script>alert(1)</script><a href="';
+
+		$vCalendarNew = new VCalendar();
+		$vEventNew = $vCalendarNew->add('VEVENT', []);
+		$vEventNew->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEventNew->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEventNew->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEventNew->add('SUMMARY', $newTitle);
+		$vEventNew->add('LOCATION', $newLocation);
+		$vEventNew->add('DESCRIPTION', $newDescription);
+		$vEventNew->add('URL', $newUrl);
+
+		$vCalendarOld = new VCalendar();
+		$vEventOld = $vCalendarOld->add('VEVENT', []);
+		$vEventOld->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEventOld->add('DTSTART', '20240702T080000', ['TZID' => 'Europe/Berlin']);
+		$vEventOld->add('DTEND', '20240702T090000', ['TZID' => 'Europe/Berlin']);
+		$vEventOld->add('SUMMARY', $oldTitle);
+		$vEventOld->add('LOCATION', $oldLocation);
+		$vEventOld->add('DESCRIPTION', $oldDescription);
+		$vEventOld->add('URL', $oldUrl);
+
+		$eventReaderNew = new EventReader($vCalendarNew, $vCalendarNew->VEVENT[0]->UID->getValue());
+
+		$expected = [
+			'meeting_when' => $this->service->generateWhenString($eventReaderNew),
+			'meeting_when_html' => null,
+			'meeting_description' => $newDescription,
+			'meeting_title' => $newTitle,
+			'meeting_location' => $newLocation,
+			'meeting_url' => $newUrl,
+			'meeting_url_html' => null,
+			'meeting_title_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />%s', htmlspecialchars($oldTitle), htmlspecialchars($newTitle)),
+			'meeting_description_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />%s', htmlspecialchars($oldDescription), htmlspecialchars($newDescription)),
+			'meeting_location_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />%s', htmlspecialchars($oldLocation), htmlspecialchars($newLocation)),
+		];
+
+		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
+
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildReplyBodyDataEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240601T000000'))
+				};
+			}
+		);
+
+		$testTitle = '<h1>Test event</h1>';
+		$testLocation = '<h1>Stuttgart Office</h1>';
+		$testDescription = '<h1>Description for event</h1>';
+		$testUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', $testTitle);
+		$vEvent->add('LOCATION', $testLocation);
+		$vEvent->add('DESCRIPTION', $testDescription);
+		$vEvent->add('URL', $testUrl);
+
+		$eventReaderNew = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+
+		$expected = [
+			'meeting_when' => $this->service->generateWhenString($eventReaderNew),
+			'meeting_description' => $testDescription,
+			'meeting_title' => $testTitle,
+			'meeting_location' => $testLocation,
+			'meeting_location_html' => null,
+			'meeting_url' => $testUrl,
+			'meeting_url_html' => null,
+		];
+
+		$actual = $this->service->buildReplyBodyData($vCalendar->VEVENT[0]);
+
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildCancelledBodyDataEscapesStrings(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
+				if ($type === 'time') {
+					return $date->format('H:i');
+				}
+
+				return $date->format('m-d');
+			});
+
+		$this->l10n->method('n')
+			->willReturnCallback(function (string $singular, string $plural, int $count) {
+				if ($count === 1) {
+					return $singular;
+				}
+
+				return $plural;
+			});
+
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 == 'now' && $v2 == null => (new \DateTime('20240601T000000'))
+				};
+			}
+		);
+
+		$testTitle = '<h1>Test event</h1>';
+		$testLocation = '<h1>Stuttgart Office</h1>';
+		$testDescription = '<h1>Description for event</h1>';
+		$testUrl = 'https://example.test/event?id=123"><script>alert(1)</script><a href="';
+
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', $testTitle);
+		$vEvent->add('LOCATION', $testLocation);
+		$vEvent->add('DESCRIPTION', $testDescription);
+		$vEvent->add('URL', $testUrl);
+
+		$eventReaderNew = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+
+		$expectedWhenString = $this->service->generateWhenString($eventReaderNew);
+
+		$expected = [
+			'meeting_when' => $expectedWhenString,
+			'meeting_when_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />', htmlspecialchars($expectedWhenString)),
+			'meeting_description' => $testDescription,
+			'meeting_title' => $testTitle,
+			'meeting_location' => $testLocation,
+			'meeting_url' => $testUrl,
+			'meeting_url_html' => null,
+			'meeting_title_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />', htmlspecialchars($testTitle)),
+			'meeting_description_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />', htmlspecialchars($testDescription)),
+			'meeting_location_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />', htmlspecialchars($testLocation)),
+		];
+
+		$actual = $this->service->buildCancelledBodyData($vCalendar->VEVENT[0]);
+
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -2226,4 +2485,87 @@ class IMipServiceTest extends TestCase {
 		);
 	}
 
+	/**
+	 * Test that HTML properties are preferred over non-HTML ones
+	 * and that these will be passed through as is.
+	 */
+	public function testAddBulletListMaintainsHtmlProperties(): void {
+		$template = $this->createMock(IEMailTemplate::class);
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->add('SUMMARY', 'Test Event');
+		$vEvent->add('UID', 'test-uid');
+
+		$data = [
+			'meeting_title' => 'Title',
+			'meeting_title_html' => '<strong>Title</strong>',
+			'meeting_when' => 'Monday & Tuesday',
+			'meeting_when_html' => '<em>Monday & Tuesday</em>',
+			'meeting_location' => 'Room A',
+			'meeting_location_html' => '<span>Room <b>A</b></span>',
+			'meeting_url' => 'https://example.com',
+			'meeting_url_html' => '<a href="https://example.com">https://example.com</a>',
+			'meeting_description' => 'Description',
+			'meeting_description_html' => '<p>Description</p>',
+			'meeting_occurring' => 'Every Monday',
+			'meeting_occurring_html' => '<em>Every Monday</em>',
+		];
+
+		$actualHtmlValues = [];
+		$template
+			->method('addBodyListItem')
+			->willReturnCallback(function (string $html) use (&$actualHtmlValues) {
+				$actualHtmlValues[] = $html;
+			});
+
+		$this->config->method('getAppValue')->willReturn(false);
+		$this->service->addBulletList($template, $vEvent, $data);
+
+		$this->assertCount(6, $actualHtmlValues);
+		$this->assertSame($data['meeting_title_html'], $actualHtmlValues[0]);
+		$this->assertSame($data['meeting_when_html'], $actualHtmlValues[1]);
+		$this->assertSame($data['meeting_location_html'], $actualHtmlValues[2]);
+		$this->assertSame($data['meeting_url_html'], $actualHtmlValues[3]);
+		$this->assertSame($data['meeting_occurring_html'], $actualHtmlValues[4]);
+		$this->assertSame($data['meeting_description_html'], $actualHtmlValues[5]);
+	}
+
+	/**
+	 * Test that non-HTML properties are used when no HTML properties
+	 * being provided and that those are escaped through `htmlspecialchars()`.
+	 */
+	public function testAddBulletListEscapesNonHtmlProperties(): void {
+		$template = $this->createMock(IEMailTemplate::class);
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->add('SUMMARY', 'Test Event');
+		$vEvent->add('UID', 'test-uid');
+
+		$data = [
+			'meeting_title' => '<script>alert("xss")</script>',
+			'meeting_when' => '<em>Monday & Tuesday</em>',
+			'meeting_location' => '<div onclick="hack()">Room "A" & B</div>',
+			'meeting_url' => 'https://example.com/?a=1&b=<script>',
+			'meeting_description' => '<p>Description with "quotes" & ampersands</p>',
+			'meeting_occurring' => '<b>Every Monday & Wednesday</b>',
+		];
+
+		$actualHtmlValues = [];
+		$template
+			->method('addBodyListItem')
+			->willReturnCallback(function (string $html) use (&$actualHtmlValues) {
+				$actualHtmlValues[] = $html;
+			});
+
+		$this->config->method('getAppValue')->willReturn(false);
+		$this->service->addBulletList($template, $vEvent, $data);
+
+		$this->assertCount(6, $actualHtmlValues);
+		$this->assertSame(htmlspecialchars($data['meeting_title']), $actualHtmlValues[0]);
+		$this->assertSame(htmlspecialchars($data['meeting_when']), $actualHtmlValues[1]);
+		$this->assertSame(htmlspecialchars($data['meeting_location']), $actualHtmlValues[2]);
+		$this->assertSame(htmlspecialchars($data['meeting_url']), $actualHtmlValues[3]);
+		$this->assertSame(htmlspecialchars($data['meeting_occurring']), $actualHtmlValues[4]);
+		$this->assertSame(htmlspecialchars($data['meeting_description']), $actualHtmlValues[5]);
+	}
 }
