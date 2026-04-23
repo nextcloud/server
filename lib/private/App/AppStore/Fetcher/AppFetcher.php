@@ -60,80 +60,93 @@ class AppFetcher extends Fetcher {
 			return [];
 		}
 
-		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
-		$allowNightly = $allowUnstable || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
+		$channel = $this->getChannel();
+		$allowPreReleases = $allowUnstable || $channel === 'beta' || $channel === 'daily' || $channel === 'git';
+		$allowNightly = $allowUnstable || $channel === 'daily' || $channel === 'git';
+
+		$versionParser = new VersionParser();
+		$ncVersion = $this->getVersion();
+		$currentPhpVersion = PHP_VERSION;
+		$ignoreMaxVersion = $this->ignoreMaxVersion;
+
+		/** @var array<string, array{0: string, 1: string}> $platformSpecCache */
+		$platformSpecCache = [];
+		/** @var array<string, array{0: string, 1: string}> $phpSpecCache */
+		$phpSpecCache = [];
 
 		foreach ($response['data'] as $dataKey => $app) {
-			$releases = [];
+			$bestRelease = null;
 
-			// Filter all compatible releases
+			// Filter compatible releases
 			foreach ($app['releases'] as $release) {
-				// Exclude all nightly and pre-releases if required
-				if (($allowNightly || $release['isNightly'] === false)
-					&& ($allowPreReleases || !str_contains($release['version'], '-'))) {
-					// Exclude all versions not compatible with the current version
-					try {
-						$versionParser = new VersionParser();
-						$serverVersion = $versionParser->getVersion($release['rawPlatformVersionSpec']);
-						$ncVersion = $this->getVersion();
-						$minServerVersion = $serverVersion->getMinimumVersion();
-						$maxServerVersion = $serverVersion->getMaximumVersion();
-						$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $minServerVersion, '>=');
-						$maxFulfilled = $maxServerVersion !== ''
-							&& $this->compareVersion->isCompatible($ncVersion, $maxServerVersion, '<=');
-						$isPhpCompatible = true;
-						if (($release['rawPhpVersionSpec'] ?? '*') !== '*') {
-							$phpVersion = $versionParser->getVersion($release['rawPhpVersionSpec']);
-							$minPhpVersion = $phpVersion->getMinimumVersion();
-							$maxPhpVersion = $phpVersion->getMaximumVersion();
-							$minPhpFulfilled = $minPhpVersion === '' || $this->compareVersion->isCompatible(
-								PHP_VERSION,
-								$minPhpVersion,
-								'>='
-							);
-							$maxPhpFulfilled = $maxPhpVersion === '' || $this->compareVersion->isCompatible(
-								PHP_VERSION,
-								$maxPhpVersion,
-								'<='
-							);
+				// Exclude nightly builds
+				if (($release['isNightly'] ?? false) !== false && !$allowNightly) {
+					continue;
+				}
 
-							$isPhpCompatible = $minPhpFulfilled && $maxPhpFulfilled;
-						}
-						if ($minFulfilled && ($this->ignoreMaxVersion || $maxFulfilled) && $isPhpCompatible) {
-							$releases[] = $release;
-						}
-					} catch (\InvalidArgumentException $e) {
-						$this->logger->warning($e->getMessage(), [
-							'exception' => $e,
-						]);
+				// Exclude pre-releases
+				if (str_contains($release['version'], '-') && !$allowPreReleases)) {
+					continue;
+				}
+
+				try {
+					$rawPlatformVersionSpec = (string)$release['rawPlatformVersionSpec'];
+					if (!isset($platformSpecCache[$rawPlatformVersionSpec])) {
+						$serverVersion = $versionParser->getVersion($rawPlatformVersionSpec);
+						$platformSpecCache[$rawPlatformVersionSpec] = [
+							$serverVersion->getMinimumVersion(),
+							$serverVersion->getMaximumVersion(),
+						];
 					}
+
+					[$minServerVersion, $maxServerVersion] = $platformSpecCache[$rawPlatformVersionSpec];
+
+					$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $minServerVersion, '>=');
+					$maxFulfilled = $maxServerVersion !== '' && $this->compareVersion->isCompatible($ncVersion, $maxServerVersion, '<=');
+
+					$isPhpCompatible = true;
+
+					$rawPhpVersionSpec = (string)($release['rawPhpVersionSpec'] ?? '*');
+
+					if ($rawPhpVersionSpec !== '*') {
+						if (!isset($phpSpecCache[$rawPhpVersionSpec])) {
+							$phpVersion = $versionParser->getVersion($rawPhpVersionSpec);
+							$phpSpecCache[$rawPhpVersionSpec] = [
+								$phpVersion->getMinimumVersion(),
+								$phpVersion->getMaximumVersion(),
+							];
+						}
+		
+						[$minPhpVersion, $maxPhpVersion] = $phpSpecCache[$rawPhpVersionSpec];
+
+						$minPhpFulfilled = $minPhpVersion === '' || $this->compareVersion->isCompatible($currentPhpVersion, $minPhpVersion, '>=');
+						$maxPhpFulfilled = $maxPhpVersion === '' || $this->compareVersion->isCompatible($currentPhpVersion, $maxPhpVersion, '<=');
+						
+						$isPhpCompatible = $minPhpFulfilled && $maxPhpFulfilled;
+					}
+
+					$isCompatible = $minFulfilled && ($ignoreMaxVersion || $maxFulfilled) && $isPhpCompatible;
+
+					if (!$isCompatible) {
+						continue;
+					}
+
+					$betterRelease = $bestRelease === null || version_compare((string)$release['version'], (string)$bestRelease['version'], '>');
+					if ($betterRelease) {
+						$bestRelease = $release;
+					}
+				} catch (\InvalidArgumentException $e) {
+					$this->logger->warning($e->getMessage(), [ 'exception' => $e, ]);
 				}
 			}
 
-			if (empty($releases)) {
+			if ($bestRelease === null) {
 				// Remove apps that don't have a matching release
 				$response['data'][$dataKey] = [];
 				continue;
 			}
 
-			// Get the highest version
-			$versions = [];
-			foreach ($releases as $release) {
-				$versions[] = $release['version'];
-			}
-			usort($versions, function ($version1, $version2) {
-				return version_compare($version1, $version2);
-			});
-			$versions = array_reverse($versions);
-			if (isset($versions[0])) {
-				$highestVersion = $versions[0];
-				foreach ($releases as $release) {
-					if ((string)$release['version'] === (string)$highestVersion) {
-						$response['data'][$dataKey]['releases'] = [$release];
-						break;
-					}
-				}
-			}
+			$response['data'][$dataKey]['releases'] = [$bestRelease];
 		}
 
 		$response['data'] = array_values(array_filter($response['data']));
