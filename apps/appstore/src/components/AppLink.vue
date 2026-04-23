@@ -63,7 +63,7 @@ watchEffect(() => {
 	// Fallback to show the app store entry
 	routerProps.value = {
 		to: {
-			name: 'apps-details',
+			name: 'apps-discover',
 			params: {
 				category: route.params?.category ?? 'discover',
 				id: appId,

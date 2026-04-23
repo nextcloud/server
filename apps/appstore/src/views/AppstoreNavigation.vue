@@ -18,11 +18,13 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import { APPSTORE_CATEGORY_ICONS, APPSTORE_CATEGORY_NAMES } from '../constants.ts'
 import { useAppsStore } from '../store/apps.ts'
 import { useUpdatesStore } from '../store/updates.ts'
+import { useUserSettingsStore } from '../store/userSettings.ts'
 
 const appstoreEnabled = loadState<boolean>('settings', 'appstoreEnabled', true)
 
 const store = useAppsStore()
 const updateStore = useUpdatesStore()
+const userSettings = useUserSettingsStore()
 const categories = computed(() => store.categories)
 const categoriesLoading = computed(() => store.isLoadingCategories)
 
@@ -123,7 +125,7 @@ const isSubscribed = computed(() => store.apps.find(({ level }) => level === 300
 				<NcAppNavigationItem
 					v-if="isSubscribed"
 					id="app-category-supported"
-					:to="{ name: 'apps-category', params: { category: 'supported' } }"
+					:to="{ name: 'apps-category', params: { category: 'supported' }, query: userSettings.getQuery(true) }"
 					:name="APPSTORE_CATEGORY_NAMES.supported">
 					<template #icon>
 						<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.supported" />
@@ -131,7 +133,7 @@ const isSubscribed = computed(() => store.apps.find(({ level }) => level === 300
 				</NcAppNavigationItem>
 				<NcAppNavigationItem
 					id="app-category-featured"
-					:to="{ name: 'apps-category', params: { category: 'featured' } }"
+					:to="{ name: 'apps-category', params: { category: 'featured' }, query: userSettings.getQuery(true) }"
 					:name="APPSTORE_CATEGORY_NAMES.featured">
 					<template #icon>
 						<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.featured" />
@@ -146,6 +148,7 @@ const isSubscribed = computed(() => store.apps.find(({ level }) => level === 300
 					:to="{
 						name: 'apps-category',
 						params: { category: category.id },
+						query: userSettings.getQuery(true),
 					}">
 					<template #icon>
 						<NcIconSvgWrapper :path="category.icon" />

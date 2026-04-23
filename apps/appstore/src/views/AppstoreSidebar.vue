@@ -18,10 +18,12 @@ import AppReleasesTab from '../components/AppstoreSidebar/AppReleasesTab.vue'
 import { useActions } from '../composables/useActions.ts'
 import { useAppIcon } from '../composables/useAppIcon.ts'
 import { useAppsStore } from '../store/apps.ts'
+import { useUserSettingsStore } from '../store/userSettings.ts'
 
 const route = useRoute()
 const router = useRouter()
 const store = useAppsStore()
+const userSettings = useUserSettingsStore()
 
 const appId = computed<string>(() => [route.params.id].flat()[0]!)
 const app = computed(() => store.getAppById(appId.value) ?? null)
@@ -56,6 +58,7 @@ function hideAppDetails() {
 			...route.params,
 			id: undefined,
 		},
+		query: userSettings.getQuery(),
 	})
 }
 

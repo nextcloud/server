@@ -12,8 +12,10 @@ import NcContent from '@nextcloud/vue/components/NcContent'
 import AppstoreNavigation from './views/AppstoreNavigation.vue'
 import AppstoreSidebar from './views/AppstoreSidebar.vue'
 import { APPSTORE_CATEGORY_NAMES } from './constants.ts'
+import { useAppsStore } from './store/apps.ts'
 
 const route = useRoute()
+const store = useAppsStore()
 
 const currentCategory = computed(() => {
 	if (route.params.category) {
@@ -24,7 +26,13 @@ const currentCategory = computed(() => {
 	}
 	return 'discover'
 })
-const heading = computed(() => APPSTORE_CATEGORY_NAMES[currentCategory.value] ?? currentCategory.value)
+
+const heading = computed(() => {
+	if (currentCategory.value in APPSTORE_CATEGORY_NAMES) {
+		return APPSTORE_CATEGORY_NAMES[currentCategory.value]
+	}
+	return store.getCategoryById(currentCategory.value)?.displayName ?? currentCategory.value
+})
 const pageTitle = computed(() => `${heading.value} - ${t('appstore', 'App store')}`)
 
 const showSidebar = computed(() => !!route.params.id)

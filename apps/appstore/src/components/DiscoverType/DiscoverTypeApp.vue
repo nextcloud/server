@@ -2,6 +2,28 @@
   - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import type { IAppDiscoverApp } from '../../apps-discover.d.ts'
+
+import { computed } from 'vue'
+import AppImage from '../AppImage.vue'
+import AppLink from '../AppLink.vue'
+import BadgeAppScore from '../BadgeAppScore.vue'
+import { useAppsStore } from '../../store/apps.ts'
+
+const props = defineProps<{
+	modelValue: IAppDiscoverApp
+}>()
+
+const store = useAppsStore()
+const app = computed(() => store.getAppById(props.modelValue.appId))
+
+const appStoreLink = computed(() => props.modelValue.appId
+	? `https://apps.nextcloud.com/apps/${props.modelValue.appId}`
+	: '#')
+</script>
+
 <template>
 	<a
 		v-if="!app"
@@ -27,34 +49,12 @@
 				</AppLink>
 			</h3>
 			<p>{{ app.summary }}</p>
-			<AppScore
-				v-if="app.ratingNumThresholdReached"
+			<BadgeAppScore
 				class="app-discover-app__score"
-				:score="app.score" />
+				:app />
 		</div>
 	</article>
 </template>
-
-<script setup lang="ts">
-import type { IAppDiscoverApp } from '../../apps-discover.d.ts'
-
-import { computed } from 'vue'
-import AppImage from '../AppImage.vue'
-import AppLink from '../AppLink.vue'
-import AppScore from '../AppScore.vue'
-import { useAppsStore } from '../../store/apps.ts'
-
-const props = defineProps<{
-	modelValue: IAppDiscoverApp
-}>()
-
-const store = useAppsStore()
-const app = computed(() => store.getAppById(props.modelValue.appId))
-
-const appStoreLink = computed(() => props.modelValue.appId
-	? `https://apps.nextcloud.com/apps/${props.modelValue.appId}`
-	: '#')
-</script>
 
 <style scoped lang="scss">
 .app-discover-app {

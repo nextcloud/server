@@ -14,9 +14,9 @@ import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import AppDaemonBadge from '../AppDaemonBadge.vue'
-import AppLevelBadge from '../AppLevelBadge.vue'
-import AppScore from '../AppScore.vue'
+import BadgeAppDaemon from '../BadgeAppDaemon.vue'
+import BadgeAppLevel from '../BadgeAppLevel.vue'
+import BadgeAppScore from '../BadgeAppScore.vue'
 import { useAppsStore } from '../../store/apps.ts'
 
 const { app } = defineProps<{ app: IAppstoreApp | IAppstoreExApp }>()
@@ -133,9 +133,9 @@ function authorName(xmlNode): string {
 		<div class="app-details">
 			<!-- Featured/Supported badges -->
 			<div :class="$style.appstoreDetailsTab__badges">
-				<AppLevelBadge :level="app.level" />
-				<AppDaemonBadge v-if="app.app_api && app.daemon" :daemon="app.daemon" />
-				<AppScore v-if="(app.ratingNumOverall ?? 0) > 5" :score="app.ratingOverall!" />
+				<BadgeAppLevel :level="app.level" />
+				<BadgeAppDaemon v-if="app.app_api && app.daemon" :daemon="app.daemon" />
+				<BadgeAppScore :app />
 			</div>
 
 			<NcNoteCard v-if="app.missingMinNextcloudVersion || app.missingMaxNextcloudVersion" type="warning">

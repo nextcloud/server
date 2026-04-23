@@ -14,9 +14,9 @@ import { useRoute } from 'vue-router'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AppActions from '../AppActions.vue'
-import AppDaemonBadge from '../AppDaemonBadge.vue'
 import AppIcon from '../AppIcon.vue'
-import AppLevelBadge from '../AppLevelBadge.vue'
+import BadgeAppDaemon from '../BadgeAppDaemon.vue'
+import BadgeAppLevel from '../BadgeAppLevel.vue'
 import { useActions } from '../../composables/useActions.ts'
 
 const { app, isNarrow } = defineProps<{
@@ -30,6 +30,9 @@ const detailsRoute = computed(() => ({
 	params: {
 		...route.params,
 		id: app.id,
+	},
+	query: {
+		...route.query,
 	},
 }))
 
@@ -73,8 +76,8 @@ const actions = computed(() => [
 		</td>
 		<td v-if="!isNarrow">
 			<div :class="$style.appTableRow__levelCell">
-				<AppLevelBadge v-if="app.level" :level="app.level" />
-				<AppDaemonBadge v-if="'daemon' in app && app.daemon" :daemon="app.daemon" />
+				<BadgeAppLevel v-if="app.level" :level="app.level" />
+				<BadgeAppDaemon v-if="'daemon' in app && app.daemon" :daemon="app.daemon" />
 			</div>
 		</td>
 		<td>

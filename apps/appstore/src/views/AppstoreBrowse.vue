@@ -10,6 +10,7 @@ import { useRoute } from 'vue-router'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AppGrid from '../components/AppGrid/AppGrid.vue'
+import OfficeSuiteSwitcher from '../components/AppstoreBrowse/OfficeSuiteSwitcher.vue'
 import AppTable from '../components/AppTable/AppTable.vue'
 import AppToolbar from '../components/AppToolbar.vue'
 import { useFilteredApps } from '../composables/useFilteredApps.ts'
@@ -20,19 +21,16 @@ const route = useRoute()
 const store = useAppsStore()
 const userSettings = useUserSettingsStore()
 
-const currentCategory = computed(() => route.params!.category as 'enabled' | 'installed' | 'disabled' | 'updates')
+const currentCategory = computed(() => route.params!.category as string)
 const apps = computed(() => {
-	if (currentCategory.value === 'installed') {
-		return store.apps.filter((app) => app.installed)
-	} else if (currentCategory.value === 'enabled') {
-		return store.apps.filter((app) => app.active)
-	} else if (currentCategory.value === 'disabled') {
-		return store.apps.filter((app) => app.installed && !app.active)
-	} else if (currentCategory.value === 'updates') {
-		return store.apps.filter((app) => app.update)
+	if (currentCategory.value === 'featured') {
+		return store.apps.filter((app) => app.level === 200)
+	} else if (currentCategory.value === 'supported') {
+		return store.apps.filter((app) => app.level === 300)
 	}
-	return []
+	return store.getAppsByCategory(currentCategory.value)
 })
+
 const visibleApps = useFilteredApps(apps)
 </script>
 
@@ -48,15 +46,18 @@ const visibleApps = useFilteredApps(apps)
 		</template>
 	</NcEmptyContent>
 
-	<component
-		:is="userSettings.isGridView ? AppGrid : AppTable"
-		v-else
-		:class="$style.appstoreManage"
-		:apps="visibleApps" />
+	<template v-else>
+		<OfficeSuiteSwitcher v-if="currentCategory === 'office'" />
+
+		<component
+			:is="userSettings.isGridView ? AppGrid : AppTable"
+			:class="$style.appstoreBrowse"
+			:apps="visibleApps" />
+	</template>
 </template>
 
 <style module>
-.appstoreManage {
+.appstoreBrowse {
 	margin-bottom: var(--body-container-margin);
 }
 </style>

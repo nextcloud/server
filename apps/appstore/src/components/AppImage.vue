@@ -24,7 +24,7 @@ watchEffect(() => {
 		isLoading.value = true
 		queue.add(() => {
 			const image = new Image()
-			const { promise, resolve } = Promise.withResolvers()
+			const { promise, resolve } = Promise.withResolvers<void>()
 			image.onload = () => {
 				isLoading.value = false
 				resolve()
@@ -45,7 +45,7 @@ watchEffect(() => {
 </script>
 
 <script lang="ts">
-const queue = new PQueue()
+const queue = new PQueue({ concurrency: 4 })
 </script>
 
 <template>
@@ -57,7 +57,11 @@ const queue = new PQueue()
 
 		<NcLoadingIcon v-else-if="isLoading" :size="80" />
 
-		<img :class="$style.appImage__image" :src="props.app.screenshot" alt="">
+		<img
+			v-else
+			:class="$style.appImage__image"
+			:src="props.app.screenshot"
+			alt="">
 	</div>
 </template>
 

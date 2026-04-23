@@ -2,18 +2,9 @@
   - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
-<template>
-	<span
-		v-if="daemon"
-		class="app-daemon-badge"
-		:title="daemon.name">
-		<NcIconSvgWrapper :path="mdiFileChart" :size="20" inline />
-		{{ daemon.display_name }}
-	</span>
-</template>
 
 <script setup lang="ts">
-import type { IDeployDaemon } from '../../app-types.ts'
+import type { IDeployDaemon } from '../apps.d.ts'
 
 import { mdiFileChart } from '@mdi/js'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
@@ -23,8 +14,18 @@ defineProps<{
 }>()
 </script>
 
-<style scoped lang="scss">
-.app-daemon-badge {
+<template>
+	<span
+		v-if="daemon"
+		:class="$style.appDaemonBadge"
+		:title="daemon.name">
+		<NcIconSvgWrapper :path="mdiFileChart" :size="20" inline />
+		{{ daemon.display_name }}
+	</span>
+</template>
+
+<style module>
+.appDaemonBadge {
 	color: var(--color-text-maxcontrast);
 	background-color: transparent;
 	border: 1px solid var(--color-text-maxcontrast);
