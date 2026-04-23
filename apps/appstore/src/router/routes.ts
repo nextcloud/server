@@ -11,9 +11,9 @@ import { defineAsyncComponent } from 'vue'
 const appstoreEnabled = loadState<boolean>('appstore', 'appstoreEnabled', true)
 
 // Dynamic loading
-const AppstoreDiscover = defineAsyncComponent(() => import('../views/AppstoreDiscover.vue'))
-const AppstoreManage = defineAsyncComponent(() => import('../views/AppstoreManage.vue'))
-const AppstoreBundles = defineAsyncComponent(() => import('../views/AppstoreBundles.vue'))
+const AppstoreDiscover = () => import('../views/AppstoreDiscover.vue')
+const AppstoreManage = () => import('../views/AppstoreManage.vue')
+const AppstoreBundles = () => import('../views/AppstoreBundles.vue')
 
 const routes: RouteRecordRaw[] = [
 	{

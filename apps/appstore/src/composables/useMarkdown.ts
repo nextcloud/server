@@ -86,7 +86,7 @@ function markedLink({ href, title, text }: Tokens.Link) {
 	if (title) {
 		out += ' title="' + title + '"'
 	}
-	out += '>' + text + '</a>'
+	out += '>' + text.replaceAll(/(?<!\\)\\([^\\])/g, '$1') + '</a>'
 	return out
 }
 

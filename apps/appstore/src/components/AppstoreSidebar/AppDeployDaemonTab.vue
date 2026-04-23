@@ -3,28 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<NcAppSidebarTab
-		v-if="app?.daemon"
-		id="daemon"
-		:name="t('appstore', 'Daemon')"
-		:order="3">
-		<template #icon>
-			<NcIconSvgWrapper :path="mdiFileChart" :size="24" />
-		</template>
-		<div class="daemon">
-			<h4>{{ t('appstore', 'Deploy Daemon') }}</h4>
-			<p><b>{{ t('appstore', 'Type') }}</b>: {{ app?.daemon.accepts_deploy_id }}</p>
-			<p><b>{{ t('appstore', 'Name') }}</b>: {{ app?.daemon.name }}</p>
-			<p><b>{{ t('appstore', 'Display Name') }}</b>: {{ app?.daemon.display_name }}</p>
-			<p><b>{{ t('appstore', 'GPUs support') }}</b>: {{ gpuSupport }}</p>
-			<p><b>{{ t('appstore', 'Compute device') }}</b>: {{ app?.daemon?.deploy_config?.computeDevice?.label }}</p>
-		</div>
-	</NcAppSidebarTab>
-</template>
-
 <script setup lang="ts">
-import type { IAppstoreExApp } from '../../app-types.ts'
+import type { IAppstoreExApp } from '../../apps.d.ts'
 
 import { mdiFileChart } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
@@ -39,13 +19,33 @@ const props = defineProps<{
 const gpuSupport = ref(props.app?.daemon?.deploy_config?.computeDevice?.id !== 'cpu' || false)
 </script>
 
-<style scoped lang="scss">
-.daemon {
-  padding: 20px;
+<template>
+	<NcAppSidebarTab
+		v-if="app?.daemon"
+		id="daemon"
+		:name="t('appstore', 'Daemon')"
+		:order="5">
+		<template #icon>
+			<NcIconSvgWrapper :path="mdiFileChart" :size="24" />
+		</template>
+		<div :class="$style.appDeployDaemonTab">
+			<h4>{{ t('appstore', 'Deploy Daemon') }}</h4>
+			<p><b>{{ t('appstore', 'Type') }}</b>: {{ app?.daemon.accepts_deploy_id }}</p>
+			<p><b>{{ t('appstore', 'Name') }}</b>: {{ app?.daemon.name }}</p>
+			<p><b>{{ t('appstore', 'Display Name') }}</b>: {{ app?.daemon.display_name }}</p>
+			<p><b>{{ t('appstore', 'GPUs support') }}</b>: {{ gpuSupport }}</p>
+			<p><b>{{ t('appstore', 'Compute device') }}</b>: {{ app?.daemon?.deploy_config?.computeDevice?.label }}</p>
+		</div>
+	</NcAppSidebarTab>
+</template>
 
-  h4 {
-    font-weight: bold;
-    margin: 10px auto;
-  }
+<style module>
+.appDeployDaemonTab {
+	padding: 20px;
+
+	h4 {
+		font-weight: bold;
+		margin: 10px auto;
+	}
 }
 </style>

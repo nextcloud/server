@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  */
 
-import type { IAppstoreExApp, IDeployDaemon, IDeployOptions } from '../apps.d.ts'
+import type { IAppstoreExApp, IDeployDaemon, IDeployOptions, IExAppStatus } from '../apps.d.ts'
 
 import axios from '@nextcloud/axios'
 import { confirmPassword } from '@nextcloud/password-confirmation'
@@ -15,6 +15,16 @@ import { generateUrl } from '@nextcloud/router'
 export async function fetchApps() {
 	const { data } = await axios.get(generateUrl('/apps/app_api/apps/list'))
 	return data.apps as IAppstoreExApp[]
+}
+
+/**
+ * Get the status of an external app.
+ *
+ * @param appId - The app to fetch
+ */
+export async function fetchAppStatus(appId: string) {
+	const { data } = await axios.get<IExAppStatus>(generateUrl(`/apps/app_api/apps/status/${appId}`))
+	return data
 }
 
 /**

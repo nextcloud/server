@@ -12,7 +12,7 @@ import { defineStore } from 'pinia'
 import { computed, readonly, ref } from 'vue'
 import * as api from '../service/api.ts'
 import { rebuildNavigation } from '../service/rebuild-navigation.ts'
-import { canDisable, canInstall, canUninstall, needForceEnable } from '../utils/appStatus.ts'
+import { canDisable, canInstall, canLimitToGroups, canUninstall, needForceEnable } from '../utils/appStatus.ts'
 import logger from '../utils/logger.ts'
 import { useExAppsStore } from './exApps.ts'
 
@@ -132,6 +132,8 @@ export const useAppsStore = defineStore('apps', () => {
 				await api.disableApp(appId)
 			}
 			app.active = false
+			// revert "force enable"
+			app.isCompatible = app.missingDependencies === undefined || app.missingDependencies.length === 0
 			await rebuildNavigation()
 		} finally {
 			app.loading = false
@@ -169,15 +171,31 @@ export const useAppsStore = defineStore('apps', () => {
 	}
 
 	/**
-	 * Update the groups of an app
+	 * Limit access to an app to specific groups
 	 *
-	 * @param appId - The app to update
-	 * @param groups - The new groups
+	 * @param appId - The app to limit access to
+	 * @param groups - The groups which should have access
 	 */
-	function updateAppGroups(appId: string, groups: string[]) {
-		const app = apps.value.find(({ id }) => id === appId)
-		if (app) {
-			app.groups = [...groups]
+	async function limitAppToGroups(appId: string, groups: string[]) {
+		const app = getAppById(appId)
+		if (!app) {
+			throw new Error(`App with id ${appId} not found`)
+		}
+
+		if (!canLimitToGroups(app)) {
+			throw new Error(`App with id ${appId} cannot be limited to groups`)
+		}
+
+		if (app.app_api) {
+			return
+		}
+
+		try {
+			app.loading = true
+			await api.enableApp(appId, false, groups)
+			app.groups = groups
+		} finally {
+			app.loading = false
 		}
 	}
 
@@ -262,6 +280,6 @@ export const useAppsStore = defineStore('apps', () => {
 		getAppById,
 		getAppsByCategory,
 		getCategoryById,
-		updateAppGroups,
+		limitAppToGroups,
 	}
 })

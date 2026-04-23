@@ -33,14 +33,30 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	 */
 	const updateCount = ref(loadState('appstore', 'appstoreExAppUpdateCount', 0))
 
-	const statusUpdater = ref<number | null | undefined>(null)
+	/**
+	 * The interval ID for the status updater
+	 */
+	let statusUpdater: number | null = null
+
+	/**
+	 * Whether at least one of the configured daemons is accessible.
+	 */
 	const daemonAccessible = ref(loadState('appstore', 'defaultDaemonConfigAccessible', false))
+
+	/**
+	 * The default daemon, used for apps that don't specify a daemon or have a daemon that is not accessible.
+	 */
 	const defaultDaemon = ref(loadState<IDeployDaemon | null>('appstore', 'defaultDaemonConfig', null))
+
+	/**
+	 * The list of daemons that support docker-based deployment, used to show the daemon selection when enabling an app.
+	 */
 	const dockerDaemons = ref<IDeployDaemon[]>([])
 
-	const initializingOrDeployingApps = computed(() => apps.value.filter((app) => app?.status?.action
-		&& (app?.status?.action === 'deploy' || app.status.action === 'init' || app.status.action === 'healthcheck')
-		&& app.status.type !== ''))
+	const initializingOrDeployingApps = computed(() => apps.value
+		.filter((app) => app?.status?.action
+			&& app.status.type !== ''
+			&& (app?.status?.action === 'deploy' || app.status.action === 'init' || app.status.action === 'healthcheck')))
 
 	/**
 	 * Get an external app by its ID
@@ -89,6 +105,8 @@ export const useExAppsStore = defineStore('external-apps', () => {
 			}
 			app.removable = true
 			delete app.error
+
+			await fetchAppStatus(appId)
 		} finally {
 			app.loading = false
 		}
@@ -186,8 +204,8 @@ export const useExAppsStore = defineStore('external-apps', () => {
 			delete app.update
 			delete app.error
 			updateCount.value--
-			// Trigger status updates
-			// updateAppsStatus()
+
+			await fetchAppStatus(appId)
 		} catch (error) {
 			logger.error('Failed to update ex app', { appId, error })
 			showError(t('appstore', 'Could not update the app. Please try again later.'))
@@ -218,6 +236,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 		updateCount,
 		defaultDaemon,
 		dockerDaemons,
+		daemonAccessible,
 
 		getById,
 		disableApp,
@@ -255,48 +274,54 @@ export const useExAppsStore = defineStore('external-apps', () => {
 		}
 	}
 
-	/*
-		async fetchAppStatus(appId: string) {
-			return api.get(generateUrl(`/apps/app_api/apps/status/${appId}`))
-				.then((response) => {
-					const app = this.apps.find((app) => app.id === appId)
-					if (app) {
-						app.status = response.data
-					}
-					const initializingOrDeployingApps = this.getInitializingOrDeployingApps
-					logger.debug('initializingOrDeployingApps after setAppStatus', { initializingOrDeployingApps })
-					if (initializingOrDeployingApps.length === 0) {
-						logger.debug('clearing interval')
-						clearInterval(this.statusUpdater as number)
-						this.statusUpdater = null
-					}
-					if (Object.hasOwn(response.data, 'error')
-						&& response.data.error !== ''
-						&& initializingOrDeployingApps.length === 1) {
-						clearInterval(this.statusUpdater as number)
-						this.statusUpdater = null
-					}
-				})
-				.catch((error) => {
-					this.appsApiFailure({ appId, error })
-					this.apps = this.apps.filter((app) => app.id !== appId)
-					this.updateAppsStatus()
-				})
-		},
+	/**
+	 * Get the status of an external app.
+	 *
+	 * @param appId - The app ID to fetch the status for
+	 */
+	async function fetchAppStatus(appId: string) {
+		const app = getById(appId)
+		if (!app) {
+			logger.error('[app-api-store] app not found while fetching status', { appId })
+			return
+		}
 
-		updateAppsStatus() {
-			clearInterval(this.statusUpdater as number)
-			const initializingOrDeployingApps = this.getInitializingOrDeployingApps
-			if (initializingOrDeployingApps.length === 0) {
-				return
+		app.loading = true
+		try {
+			const status = await exAppApi.fetchAppStatus(appId)
+			app.status = status
+			logger.debug('[app-api-store] initializingOrDeployingApps after setAppStatus', { initializingOrDeployingApps })
+			if (initializingOrDeployingApps.value.length === 0) {
+				logger.debug('[app-api-store] Clearing interval')
+				clearInterval(statusUpdater as number)
+				statusUpdater = null
 			}
-			this.statusUpdater = setInterval(() => {
-				const initializingOrDeployingApps = this.getInitializingOrDeployingApps
-				logger.debug('initializingOrDeployingApps', { initializingOrDeployingApps })
-				initializingOrDeployingApps.forEach((app) => {
-					this.fetchAppStatus(app.id)
-				})
-			}, 2000) as unknown as number
-		},
-	}, */
+			if (app.status.error && initializingOrDeployingApps.value.length === 1) {
+				clearInterval(statusUpdater as number)
+				statusUpdater = null
+			}
+		} catch (e) {
+			updateAppsStatus()
+			throw e
+		} finally {
+			app.loading = false
+		}
+	}
+
+	/**
+	 * Update the status of all apps that are currently initializing or deploying
+	 */
+	function updateAppsStatus() {
+		clearInterval(statusUpdater as number)
+		if (initializingOrDeployingApps.value.length === 0) {
+			return
+		}
+
+		statusUpdater = window.setInterval(() => {
+			logger.debug('[app-api-store] initializingOrDeployingApps', { initializingOrDeployingApps })
+			for (const app of initializingOrDeployingApps.value) {
+				fetchAppStatus(app.id)
+			}
+		}, 2000)
+	}
 })

@@ -32,10 +32,11 @@ const queue = new PQueue({ concurrency: 1 })
  *
  * @param appId - The app to enable
  * @param force - Whether to force enable the app
+ * @param groups - The groups to enable the app for
  */
-export async function enableApp(appId: string, force = false) {
+export async function enableApp(appId: string, force = false, groups?: string[]) {
 	return queue.add(async () => {
-		await axios.post(Url.enable, { appId, force: force || undefined }, { confirmPassword: PwdConfirmationMode.Strict })
+		await axios.post(Url.enable, { appId, groups, force: force || undefined }, { confirmPassword: PwdConfirmationMode.Strict })
 	})
 }
 

@@ -4,17 +4,19 @@
 -->
 
 <script setup lang="ts">
+import type { AppAction } from '../../actions/index.ts'
 import type { IAppstoreApp, IAppstoreExApp } from '../../apps.d.ts'
 
+import { mdiInformationOutline } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import AppActions from '../AppActions.vue'
 import AppDaemonBadge from '../AppDaemonBadge.vue'
 import AppIcon from '../AppIcon.vue'
 import AppLevelBadge from '../AppLevelBadge.vue'
-import AppActions from '../AppActions.vue'
 import { useActions } from '../../composables/useActions.ts'
 
 const { app, isNarrow } = defineProps<{
@@ -22,15 +24,30 @@ const { app, isNarrow } = defineProps<{
 	isNarrow?: boolean
 }>()
 
-const actions = useActions(() => app)
 const route = useRoute()
 const detailsRoute = computed(() => ({
-	name: route.name!,
+	...route,
 	params: {
 		...route.params,
 		id: app.id,
 	},
 }))
+
+const detailsAction = computed<AppAction>(() => ({
+	id: 'details',
+	order: 99,
+	enabled: () => true,
+	label: () => t('appstore', 'Show details'),
+	icon: mdiInformationOutline,
+	to: () => detailsRoute.value,
+	inline: false,
+}))
+
+const rawActions = useActions(() => app)
+const actions = computed(() => [
+	...rawActions.value,
+	detailsAction.value,
+])
 </script>
 
 <template>

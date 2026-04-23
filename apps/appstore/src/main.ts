@@ -12,6 +12,7 @@ import 'vite/modulepreload-polyfill'
 
 const pinia = createPinia()
 const app = createApp(AppstoreApp)
+app.config.idPrefix = 'appstore'
 app.use(pinia)
 app.use(router)
 app.mount('#content')
