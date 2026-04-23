@@ -85,7 +85,7 @@ class AppFetcher extends Fetcher {
 				}
 
 				// Exclude pre-releases
-				if (str_contains($release['version'], '-') && !$allowPreReleases)) {
+				if (str_contains($release['version'], '-') && !$allowPreReleases) {
 					continue;
 				}
 
