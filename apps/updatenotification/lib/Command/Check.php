@@ -11,10 +11,16 @@ namespace OCA\UpdateNotification\Command;
 use OC\App\AppManager;
 use OC\Installer;
 use OCA\UpdateNotification\UpdateChecker;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+	name: 'update:check',
+	description: 'Check for server and app updates',
+	help: 'Checks for the availability of updates for server and all enabled apps.'
+)]
 class Check extends Command {
 
 	public function __construct(
@@ -25,23 +31,15 @@ class Check extends Command {
 		parent::__construct();
 	}
 
-	protected function configure(): void {
-		$this
-			->setName('update:check')
-			->setDescription('Check for server and app updates')
-		;
-	}
-
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$updatesAvailableCount = 0;
 
 		// Server
 		$r = $this->updateChecker->getUpdateState();
 		if (isset($r['updateAvailable']) && $r['updateAvailable']) {
-			$output->writeln($r['updateVersionString'] . ' is available. Get more information on how to update at ' . $r['updateLink'] . '.');
+			$output->writeln('Update for server to version ' . $r['updateVersionString'] . ' is available. Get more information on how to update at ' . $r['updateLink'] . '.');
 			$updatesAvailableCount += 1;
 		}
-
 
 		// Apps
 		$apps = $this->appManager->getEnabledApps();
