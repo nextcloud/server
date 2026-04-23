@@ -454,7 +454,7 @@ class Session implements IUserSession, Emitter {
 				// Refuse session tokens here, only app tokens are handled
 				return false;
 			}
-		} catch (ExpiredTokenException) {
+		} catch (ExpiredTokenException $e) {
 			// Just return on an expired token no need to check further or record a failed login
 			return false;
 		}
