@@ -24,6 +24,10 @@ use OCP\DB\Types;
  * @method void setCodeCreatedAt(int $createdAt)
  * @method int getTokenCount()
  * @method void setTokenCount(int $tokenCount)
+ * @method string|null getHashedCodeChallenge()
+ * @method void setHashedCodeChallenge(?string $hashedCodeChallenge)
+ * @method string|null getCodeChallengeMethod()
+ * @method void setCodeChallengeMethod(?string $codeChallengeMethod)
  */
 class AccessToken extends Entity {
 	/** @var int */
@@ -38,14 +42,20 @@ class AccessToken extends Entity {
 	protected $codeCreatedAt;
 	/** @var int */
 	protected $tokenCount;
+	/** @var string|null */
+	protected $hashedCodeChallenge;
+	/** @var string|null */
+	protected $codeChallengeMethod;
 
 	public function __construct() {
 		$this->addType('id', Types::INTEGER);
 		$this->addType('tokenId', Types::INTEGER);
 		$this->addType('clientId', Types::INTEGER);
-		$this->addType('hashedCode', 'string');
-		$this->addType('encryptedToken', 'string');
+		$this->addType('hashedCode', Types::STRING);
+		$this->addType('encryptedToken', Types::STRING);
 		$this->addType('codeCreatedAt', Types::INTEGER);
 		$this->addType('tokenCount', Types::INTEGER);
+		$this->addType('hashedCodeChallenge', Types::STRING);
+		$this->addType('codeChallengeMethod', Types::STRING);
 	}
 }

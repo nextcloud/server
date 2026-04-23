@@ -27711,6 +27711,24 @@
                             "type": "string",
                             "default": ""
                         }
+                    },
+                    {
+                        "name": "code_challenge",
+                        "in": "query",
+                        "description": "PKCE code challenge (optional)",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "code_challenge_method",
+                        "in": "query",
+                        "description": "PKCE code challenge method \"S256\" or \"plain\" (optional)",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
                     }
                 ],
                 "responses": {
@@ -27790,6 +27808,12 @@
                                         "type": "string",
                                         "nullable": true,
                                         "description": "Client secret"
+                                    },
+                                    "code_verifier": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "PKCE code verifier (required if code_challenge was provided)"
                                     }
                                 }
                             }

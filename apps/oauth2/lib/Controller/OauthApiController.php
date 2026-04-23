@@ -61,6 +61,7 @@ class OauthApiController extends Controller {
 	 * @param ?string $refresh_token Refresh token
 	 * @param ?string $client_id Client ID
 	 * @param ?string $client_secret Client secret
+	 * @param ?string $code_verifier PKCE code verifier (required if code_challenge was provided)
 	 * @throws Exception
 	 * @return JSONResponse<Http::STATUS_OK, array{access_token: string, token_type: string, expires_in: int, refresh_token: string, user_id: string}, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
 	 *
@@ -73,6 +74,7 @@ class OauthApiController extends Controller {
 	public function getToken(
 		string $grant_type, ?string $code, ?string $refresh_token,
 		?string $client_id, ?string $client_secret,
+		?string $code_verifier = null,
 	): JSONResponse {
 
 		// We only handle two types
@@ -123,6 +125,38 @@ class OauthApiController extends Controller {
 				$expiredSince = $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER - $codeCreatedAt;
 				$response->throttle(['invalid_request' => 'authorization_code_expired', 'expired_since' => $expiredSince]);
 				return $response;
+			}
+
+			// verify PKCE code_verifier if code_challenge was provided
+			$hashedCodeChallenge = $accessToken->getHashedCodeChallenge();
+			if ($hashedCodeChallenge !== null && $hashedCodeChallenge !== '') {
+				if ($code_verifier === null || $code_verifier === '') {
+					$response = new JSONResponse([
+						'error' => 'invalid_request',
+					], Http::STATUS_BAD_REQUEST);
+					$response->throttle(['invalid_request' => 'code_verifier_required']);
+					return $response;
+				}
+
+				$codeChallengeMethod = $accessToken->getCodeChallengeMethod();
+				if ($codeChallengeMethod === 'S256') {
+					$expectedHash = rtrim(strtr(base64_encode(hash('sha256', $code_verifier, true)), '+/', '-_'), '=');
+					if (!hash_equals($hashedCodeChallenge, $expectedHash)) {
+						$response = new JSONResponse([
+							'error' => 'invalid_grant',
+						], Http::STATUS_BAD_REQUEST);
+						$response->throttle(['invalid_grant' => 'pkce_verification_failed']);
+						return $response;
+					}
+				} else {
+					if (!hash_equals($hashedCodeChallenge, $code_verifier)) {
+						$response = new JSONResponse([
+							'error' => 'invalid_grant',
+						], Http::STATUS_BAD_REQUEST);
+						$response->throttle(['invalid_grant' => 'pkce_verification_failed']);
+						return $response;
+					}
+				}
 			}
 		}
 
