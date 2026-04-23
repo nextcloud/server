@@ -2,9 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Node, View } from '@nextcloud/files'
 
-import { FileAction, registerFileAction } from '@nextcloud/files'
+import { FileAction, Permission, registerFileAction } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { t } from '@nextcloud/l10n'
@@ -12,6 +13,8 @@ import { t } from '@nextcloud/l10n'
 import AutoRenewSvg from '@mdi/svg/svg/autorenew.svg?raw'
 
 import { convertFile, convertFiles } from './convertUtils'
+import { isPublicShare } from '@nextcloud/sharing/public'
+import { useFilesStore } from '../store/files'
 
 type ConversionsProvider = {
 	from: string,
@@ -28,7 +31,16 @@ export const registerConvertActions = () => {
 			id: `convert-${from}-${to}`,
 			displayName: () => t('files', 'Save as {displayName}', { displayName }),
 			iconSvgInline: () => generateIconSvg(to),
-			enabled: (nodes: Node[]) => {
+			enabled: (nodes: Node[], view: View) => {
+				if (isPublicShare()) {
+					// public shares without create permission cant convert files (no way to save the results)
+					const store = useFilesStore()
+					const root = store.getRoot(view.id)
+					if (root && !(root.permissions & Permission.CREATE)) {
+						return false
+					}
+				}
+
 				// Check that all nodes have the same mime type
 				return nodes.every(node => from === node.mime)
 			},
