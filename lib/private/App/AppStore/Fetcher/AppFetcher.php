@@ -176,6 +176,12 @@ class AppFetcher extends Fetcher {
 		$allowList = $this->config->getSystemValue('appsallowlist');
 		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
 			$allowSet = array_flip($allowList);
+			return array_values(array_filter($apps, static function ($app) use ($allowSet) {
+				return isset($allowSet[$app['id']]);
+			}));
+		}
+		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
+			$allowSet = array_flip($allowList);
 			return array_filter($apps, static function ($app) use ($allowSet) {
 				return isset($allowSet[$app['id']]);
 			});
