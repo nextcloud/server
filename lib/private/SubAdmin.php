@@ -8,6 +8,7 @@
 namespace OC;
 
 use OC\Hooks\PublicEmitter;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\SubAdminAddedEvent;
 use OCP\Group\Events\SubAdminRemovedEvent;
@@ -93,25 +94,64 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	}
 
 	/**
-	 * Get group ids of a SubAdmin
+	 * Get group ids of a SubAdmin.
+	 *
+	 * Returns the effective set including:
+	 *   - groups the user is directly admin of ({@code group_admin.uid = $user})
+	 *   - groups reached via group-level delegation ({@code group_group_admin}
+	 *     where {@code admin_gid} is any effective group of $user)
+	 *   - every transitive descendant of the groups above, because being
+	 *     admin of a parent group implies the ability to administer its
+	 *     subgroups.
+	 *
 	 * @param IUser $user the SubAdmin
 	 * @return string[]
 	 */
 	public function getSubAdminsGroupIds(IUser $user): array {
-		$qb = $this->dbConn->getQueryBuilder();
+		$directTargets = [];
 
+		$qb = $this->dbConn->getQueryBuilder();
 		$result = $qb->select('gid')
 			->from('group_admin')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->executeQuery();
-
-		$groups = [];
 		while ($row = $result->fetch()) {
-			$groups[] = $row['gid'];
+			$directTargets[$row['gid']] = true;
 		}
 		$result->closeCursor();
 
-		return $groups;
+		// Group-level delegation: any effective group of $user designated
+		// as admin of some target group.
+		$effectiveGroups = $this->groupManager->getUserEffectiveGroupIds($user);
+		if ($effectiveGroups !== []) {
+			$qb = $this->dbConn->getQueryBuilder();
+			$result = $qb->select('gid')
+				->from('group_group_admin')
+				->where($qb->expr()->in(
+					'admin_gid',
+					$qb->createNamedParameter($effectiveGroups, IQueryBuilder::PARAM_STR_ARRAY)
+				))
+				->executeQuery();
+			while ($row = $result->fetch()) {
+				$directTargets[$row['gid']] = true;
+			}
+			$result->closeCursor();
+		}
+
+		// Descend: if $user admins P, they also admin every subgroup of P.
+		$all = [];
+		foreach (array_keys($directTargets) as $gid) {
+			$group = $this->groupManager->get($gid);
+			if ($group === null) {
+				$all[$gid] = true;
+				continue;
+			}
+			foreach ($this->groupManager->getGroupEffectiveDescendantIds($group) as $descendant) {
+				$all[$descendant] = true;
+			}
+		}
+
+		return array_keys($all);
 	}
 
 	/**
@@ -126,28 +166,68 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	}
 
 	/**
-	 * get SubAdmins of a group
+	 * Get SubAdmins of a group.
+	 *
+	 * Collects:
+	 *   - direct user sub-admins of $group;
+	 *   - direct user sub-admins of any ancestor of $group (inherited);
+	 *   - every effective member of a group designated as admin of $group
+	 *     or any of its ancestors via {@code group_group_admin}.
+	 *
 	 * @param IGroup $group the group
 	 * @return IUser[]
 	 */
 	public function getGroupsSubAdmins(IGroup $group): array {
-		$qb = $this->dbConn->getQueryBuilder();
-
-		$result = $qb->select('uid')
-			->from('group_admin')
-			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
-			->executeQuery();
+		$targetGids = $this->groupManager->getGroupEffectiveAncestorIds($group);
+		if ($targetGids === []) {
+			$targetGids = [$group->getGID()];
+		}
 
 		$users = [];
+
+		// Direct user sub-admins of $group or any ancestor.
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->selectDistinct('uid')
+			->from('group_admin')
+			->where($qb->expr()->in(
+				'gid',
+				$qb->createNamedParameter($targetGids, IQueryBuilder::PARAM_STR_ARRAY)
+			))
+			->executeQuery();
 		while ($row = $result->fetch()) {
-			$user = $this->userManager->get($row['uid']);
-			if (!is_null($user)) {
-				$users[] = $user;
+			$uid = $row['uid'];
+			if (isset($users[$uid])) {
+				continue;
+			}
+			$user = $this->userManager->get($uid);
+			if ($user !== null) {
+				$users[$uid] = $user;
 			}
 		}
 		$result->closeCursor();
 
-		return $users;
+		// Group-level sub-admins across the same ancestor set.
+		foreach ($targetGids as $targetGid) {
+			$target = $this->groupManager->get($targetGid);
+			if ($target === null) {
+				continue;
+			}
+			foreach ($this->getGroupSubAdminsOfGroup($target) as $adminGroup) {
+				// Every effective member of $adminGroup (including its
+				// nested descendants) is a sub-admin of the target.
+				foreach ($this->groupManager->getGroupEffectiveDescendantIds($adminGroup) as $descendantGid) {
+					$descendant = $this->groupManager->get($descendantGid);
+					if ($descendant === null) {
+						continue;
+					}
+					foreach ($descendant->searchUsers('') as $user) {
+						$users[$user->getUID()] = $user;
+					}
+				}
+			}
+		}
+
+		return array_values($users);
 	}
 
 	/**
@@ -178,28 +258,64 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	}
 
 	/**
-	 * checks if a user is a SubAdmin of a group
+	 * Checks if $user is a SubAdmin of $group.
+	 *
+	 * The check honors group-level delegation and ancestor inheritance:
+	 *   - direct row in {@code group_admin} for $user / $group, or any
+	 *     ancestor of $group;
+	 *   - effective group of $user listed in {@code group_group_admin} for
+	 *     $group or any ancestor of $group.
+	 *
 	 * @param IUser $user
 	 * @param IGroup $group
 	 * @return bool
 	 */
 	public function isSubAdminOfGroup(IUser $user, IGroup $group): bool {
+		// Candidate target gids: $group and all of its ancestors. Being
+		// admin of an ancestor implies being admin of $group.
+		$targetGids = $this->groupManager->getGroupEffectiveAncestorIds($group);
+		if ($targetGids === []) {
+			$targetGids = [$group->getGID()];
+		}
+
 		$qb = $this->dbConn->getQueryBuilder();
-
-		/*
-		 * Primary key is ('gid', 'uid') so max 1 result possible here
-		 */
-		$result = $qb->select('*')
+		$result = $qb->select('gid')
 			->from('group_admin')
-			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
-			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
+			->andWhere($qb->expr()->in(
+				'gid',
+				$qb->createNamedParameter($targetGids, IQueryBuilder::PARAM_STR_ARRAY)
+			))
+			->setMaxResults(1)
 			->executeQuery();
-
 		$fetch = $result->fetch();
 		$result->closeCursor();
-		$result = !empty($fetch) ? true : false;
+		if ($fetch !== false) {
+			return true;
+		}
 
-		return $result;
+		// Group-level delegation across the same ancestor set.
+		$effectiveGroups = $this->groupManager->getUserEffectiveGroupIds($user);
+		if ($effectiveGroups === []) {
+			return false;
+		}
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->select('admin_gid')
+			->from('group_group_admin')
+			->where($qb->expr()->in(
+				'gid',
+				$qb->createNamedParameter($targetGids, IQueryBuilder::PARAM_STR_ARRAY)
+			))
+			->andWhere($qb->expr()->in(
+				'admin_gid',
+				$qb->createNamedParameter($effectiveGroups, IQueryBuilder::PARAM_STR_ARRAY)
+			))
+			->setMaxResults(1)
+			->executeQuery();
+		$fetch = $result->fetch();
+		$result->closeCursor();
+
+		return $fetch !== false;
 	}
 
 	/**
@@ -228,8 +344,29 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 
 		$isSubAdmin = $result->fetch();
 		$result->closeCursor();
+		if ($isSubAdmin !== false) {
+			return true;
+		}
 
-		return $isSubAdmin !== false;
+		// Group-level delegation: any of the user's effective groups appears
+		// in group_group_admin.admin_gid?
+		$effectiveGroups = $this->groupManager->getUserEffectiveGroupIds($user);
+		if ($effectiveGroups === []) {
+			return false;
+		}
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->select('gid')
+			->from('group_group_admin')
+			->where($qb->expr()->in(
+				'admin_gid',
+				$qb->createNamedParameter($effectiveGroups, IQueryBuilder::PARAM_STR_ARRAY)
+			))
+			->setMaxResults(1)
+			->executeQuery();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		return $row !== false;
 	}
 
 	/**
@@ -250,7 +387,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		}
 
 		$accessibleGroups = $this->getSubAdminsGroupIds($subadmin);
-		$userGroups = $this->groupManager->getUserGroupIds($user);
+		$userGroups = $this->groupManager->getUserEffectiveGroupIds($user);
 
 		return !empty(array_intersect($accessibleGroups, $userGroups));
 	}
@@ -269,6 +406,11 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 
 	/**
 	 * delete all SubAdmins by $group
+	 *
+	 * Note: {@see \OC\Group\Database::deleteGroup()} already cleans the
+	 * {@code group_group_admin} rows when a database group is removed.
+	 * This listener only needs to handle the legacy {@code group_admin} table.
+	 *
 	 * @param IGroup $group
 	 */
 	private function post_deleteGroup(IGroup $group) {
@@ -277,5 +419,48 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
 			->executeStatement();
+	}
+
+	public function createGroupSubAdmin(IGroup $adminGroup, IGroup $group): void {
+		$qb = $this->dbConn->getQueryBuilder();
+		try {
+			$qb->insert('group_group_admin')
+				->values([
+					'admin_gid' => $qb->createNamedParameter($adminGroup->getGID()),
+					'gid' => $qb->createNamedParameter($group->getGID()),
+				])
+				->executeStatement();
+		} catch (\OCP\DB\Exception $e) {
+			if ($e->getReason() !== \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+			// Idempotent.
+		}
+	}
+
+	public function deleteGroupSubAdmin(IGroup $adminGroup, IGroup $group): void {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_group_admin')
+			->where($qb->expr()->eq('admin_gid', $qb->createNamedParameter($adminGroup->getGID())))
+			->andWhere($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
+			->executeStatement();
+	}
+
+	public function getGroupSubAdminsOfGroup(IGroup $group): array {
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->select('admin_gid')
+			->from('group_group_admin')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
+			->executeQuery();
+
+		$groups = [];
+		while ($row = $result->fetch()) {
+			$adminGroup = $this->groupManager->get($row['admin_gid']);
+			if ($adminGroup !== null) {
+				$groups[] = $adminGroup;
+			}
+		}
+		$result->closeCursor();
+		return $groups;
 	}
 }

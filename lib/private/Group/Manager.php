@@ -17,6 +17,12 @@ use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\Events\SubGroupAddedEvent;
+use OCP\Group\Events\SubGroupRemovedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
+use OCP\Group\Exception\CycleDetectedException;
+use OCP\Group\Exception\NestedGroupsNotSupportedException;
 use OCP\GroupInterface;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
@@ -50,9 +56,23 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private array $cachedGroups = [];
 	/** @var array<string, list<string>> */
 	private array $cachedUserGroups = [];
+	/** @var array<string, list<string>> cached transitive ancestor gids per gid (self included) */
+	private array $cachedAncestors = [];
+	/** @var array<string, list<string>> cached transitive descendant gids per gid (self included) */
+	private array $cachedDescendants = [];
 	private ?SubAdmin $subAdmin = null;
 	private DisplayNameCache $displayNameCache;
 	private const MAX_GROUP_LENGTH = 255;
+
+	/**
+	 * Beyond this threshold, {@see addSubGroup()} and {@see removeSubGroup()}
+	 * skip synthesizing per-user UserAdded/UserRemoved events and log a
+	 * prominent warning instead. The aim is to bound worst-case request
+	 * duration on huge nested hierarchies at the cost of leaving dependent
+	 * state (notably server-side encryption key distribution) out of sync
+	 * for those users. Admins who hit this cap must run a manual re-key pass.
+	 */
+	private const MAX_SYNTHESIZED_USER_EVENTS = 500;
 
 	public function __construct(
 		private \OC\User\Manager $userManager,
@@ -66,6 +86,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$this->listen('\OC\Group', 'preDelete', function (IGroup $group): void {
 			unset($this->cachedGroups[$group->getGID()]);
 			$this->cachedUserGroups = [];
+			$this->cachedAncestors = [];
+			$this->cachedDescendants = [];
 		});
 		$this->listen('\OC\Group', 'preAddUser', function (IGroup $group): void {
 			$this->cachedUserGroups = [];
@@ -119,6 +141,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 	protected function clearCaches() {
 		$this->cachedGroups = [];
 		$this->cachedUserGroups = [];
+		$this->cachedAncestors = [];
+		$this->cachedDescendants = [];
 	}
 
 	/**
@@ -354,6 +378,22 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
+	 * Return the *effective* group ids a user belongs to, including ancestors
+	 * reached via nested-group edges.
+	 *
+	 * Unlike {@see getUserGroupIds()}, this walks the group_group table and
+	 * includes every group reachable from the user's direct memberships.
+	 * Use this for share expansion, permission checks, and anywhere "the user
+	 * is effectively a member of G" is the intended semantic.
+	 *
+	 * @return list<string>
+	 */
+	public function getUserEffectiveGroupIds(IUser $user): array {
+		$direct = $this->getUserIdGroupIds($user->getUID());
+		return $this->expandAncestors($direct);
+	}
+
+	/**
 	 * @param string $uid the user id
 	 * @return list<string>
 	 */
@@ -369,6 +409,321 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 
 		return $this->cachedUserGroups[$uid];
+	}
+
+	/**
+	 * Locate the (single) nested-group-aware backend, if any.
+	 */
+	private function getNestedGroupBackend(): ?INestedGroupBackend {
+		foreach ($this->backends as $backend) {
+			if ($backend instanceof INestedGroupBackend) {
+				return $backend;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Direct children (one level) of $gid, without walking the subtree.
+	 *
+	 * Internal helper used by the admin UI's subgroup listing and by the
+	 * sub-admin ancestor lookup.
+	 *
+	 * @return list<string>
+	 */
+	public function getDirectChildGroupIds(string $gid): array {
+		$backend = $this->getNestedGroupBackend();
+		if ($backend === null) {
+			return [];
+		}
+		return array_values($backend->getChildGroups($gid));
+	}
+
+	/**
+	 * Direct parents (one level) of $gid.
+	 *
+	 * @return list<string>
+	 */
+	public function getDirectParentGroupIds(string $gid): array {
+		$backend = $this->getNestedGroupBackend();
+		if ($backend === null) {
+			return [];
+		}
+		return array_values($backend->getParentGroups($gid));
+	}
+
+	public function getGroupEffectiveDescendantIds(IGroup $group): array {
+		return $this->expandDescendants($group->getGID());
+	}
+
+	public function getGroupEffectiveAncestorIds(IGroup $group): array {
+		return $this->expandAncestors([$group->getGID()]);
+	}
+
+	/**
+	 * Expand a list of gids to include all transitive ancestors
+	 * (every group reachable by following child -> parent edges).
+	 *
+	 * The result always contains the input gids and is deduplicated.
+	 * Results are memoized per gid for the lifetime of the Manager instance.
+	 *
+	 * @param list<string> $gids
+	 * @return list<string>
+	 */
+	public function expandAncestors(array $gids): array {
+		$backend = $this->getNestedGroupBackend();
+		if ($backend === null || $gids === []) {
+			return array_values(array_unique($gids));
+		}
+		$seen = [];
+		$toWalk = [];
+		foreach ($gids as $gid) {
+			if (isset($seen[$gid])) {
+				continue;
+			}
+			if (isset($this->cachedAncestors[$gid])) {
+				foreach ($this->cachedAncestors[$gid] as $anc) {
+					$seen[$anc] = true;
+				}
+				continue;
+			}
+			$seen[$gid] = true;
+			$toWalk[] = $gid;
+		}
+
+		if ($toWalk !== []) {
+			// Per-input-gid we need to know which ancestors are reachable so
+			// we can memoize correctly; this is a BFS from each starting gid
+			// but we batch the parent lookup per level across all active
+			// frontiers to keep DB round-trips down.
+			$perRoot = [];
+			foreach ($toWalk as $root) {
+				$perRoot[$root] = [$root => true];
+			}
+			$frontier = $toWalk;
+			$frontierOrigin = [];
+			foreach ($toWalk as $root) {
+				$frontierOrigin[$root] = [$root];
+			}
+			while ($frontier !== []) {
+				$parentsMap = $backend->getParentGroupsBatch(array_values(array_unique($frontier)));
+				$nextFrontier = [];
+				$nextOrigin = [];
+				foreach ($frontier as $node) {
+					$parents = $parentsMap[$node] ?? [];
+					$origins = $frontierOrigin[$node] ?? [];
+					foreach ($parents as $parent) {
+						foreach ($origins as $origin) {
+							if (isset($perRoot[$origin][$parent])) {
+								continue;
+							}
+							$perRoot[$origin][$parent] = true;
+							$seen[$parent] = true;
+							if (!isset($nextOrigin[$parent])) {
+								$nextOrigin[$parent] = [];
+								$nextFrontier[] = $parent;
+							}
+							$nextOrigin[$parent][] = $origin;
+						}
+					}
+				}
+				$frontier = $nextFrontier;
+				$frontierOrigin = $nextOrigin;
+			}
+			foreach ($perRoot as $root => $ancestors) {
+				$this->cachedAncestors[$root] = array_keys($ancestors);
+			}
+		}
+
+		return array_keys($seen);
+	}
+
+	/**
+	 * Expand $gid to include itself plus all transitive descendants
+	 * (every group reachable by following parent -> child edges).
+	 *
+	 * Results are memoized per gid for the lifetime of the Manager instance.
+	 *
+	 * @return list<string>
+	 */
+	public function expandDescendants(string $gid): array {
+		if (isset($this->cachedDescendants[$gid])) {
+			return $this->cachedDescendants[$gid];
+		}
+		$backend = $this->getNestedGroupBackend();
+		if ($backend === null) {
+			return $this->cachedDescendants[$gid] = [$gid];
+		}
+		$seen = [$gid => true];
+		$frontier = [$gid];
+		while ($frontier !== []) {
+			$childMap = $backend->getChildGroupsBatch($frontier);
+			$next = [];
+			foreach ($childMap as $children) {
+				foreach ($children as $child) {
+					if (!isset($seen[$child])) {
+						$seen[$child] = true;
+						$next[] = $child;
+					}
+				}
+			}
+			$frontier = $next;
+		}
+		return $this->cachedDescendants[$gid] = array_keys($seen);
+	}
+
+	/**
+	 * Add $child as a direct subgroup of $parent.
+	 *
+	 * After the edge is inserted, dispatches {@see SubGroupAddedEvent} and
+	 * synthesizes {@see UserAddedEvent} for every user who becomes a new
+	 * effective member of $parent, so listeners such as the server-side
+	 * encryption app can re-key files shared with $parent.
+	 *
+	 * To bound worst-case request duration, if the number of newly-effective
+	 * users exceeds {@see self::MAX_SYNTHESIZED_USER_EVENTS} the per-user
+	 * events are skipped and a warning is logged; admins must then manually
+	 * trigger any dependent rebuilds (e.g. encryption re-keying).
+	 *
+	 * @throws CycleDetectedException if the edge would create a cycle
+	 * @throws NestedGroupsNotSupportedException if no nested-group backend is registered
+	 */
+	public function addSubGroup(IGroup $parent, IGroup $child): bool {
+		$backend = $this->getNestedGroupBackend();
+		if ($backend === null) {
+			throw new NestedGroupsNotSupportedException('No nested-group backend registered');
+		}
+		$parentGid = $parent->getGID();
+		$childGid = $child->getGID();
+
+		// Snapshot users directly or transitively reachable from $parent
+		// *before* the edge. These are the users we will NOT emit events for.
+		$before = $this->collectEffectiveUserIds($parentGid);
+
+		try {
+			if (!$backend->addGroupToGroup($childGid, $parentGid)) {
+				return false;
+			}
+		} catch (\InvalidArgumentException $e) {
+			// Preserve the typed exception for callers; CycleDetectedException
+			// already extends InvalidArgumentException.
+			if ($e instanceof CycleDetectedException) {
+				throw $e;
+			}
+			throw new CycleDetectedException($e->getMessage(), 0, $e);
+		}
+		$this->invalidateNestingCaches();
+
+		// Users now effectively in $parent via the new child subtree are
+		// exactly the users in expandDescendants($childGid) that were not
+		// already in $before. One descendant sweep, not two.
+		$childSide = $this->collectEffectiveUserIds($childGid);
+		$added = array_diff_key($childSide, $before);
+
+		$this->dispatcher->dispatchTyped(new SubGroupAddedEvent($parent, $child));
+		$this->dispatchUserEventsForDelta(UserAddedEvent::class, $parent, $added);
+		return true;
+	}
+
+	/**
+	 * Remove the direct edge $parent -> $child.
+	 *
+	 * Dispatches {@see SubGroupRemovedEvent} and synthesizes
+	 * {@see UserRemovedEvent} for every user who loses effective membership
+	 * in $parent, subject to the synthesis cap.
+	 *
+	 * @throws NestedGroupsNotSupportedException if no nested-group backend is registered
+	 */
+	public function removeSubGroup(IGroup $parent, IGroup $child): bool {
+		$backend = $this->getNestedGroupBackend();
+		if ($backend === null) {
+			throw new NestedGroupsNotSupportedException('No nested-group backend registered');
+		}
+		$parentGid = $parent->getGID();
+		$childGid = $child->getGID();
+
+		$before = $this->collectEffectiveUserIds($parentGid);
+
+		if (!$backend->removeGroupFromGroup($childGid, $parentGid)) {
+			return false;
+		}
+		$this->invalidateNestingCaches();
+
+		// Users that lose membership are those only reachable via the
+		// removed child branch. Compute "after" once.
+		$after = $this->collectEffectiveUserIds($parentGid);
+		$removed = array_diff_key($before, $after);
+
+		$this->dispatcher->dispatchTyped(new SubGroupRemovedEvent($parent, $child));
+		$this->dispatchUserEventsForDelta(UserRemovedEvent::class, $parent, $removed);
+		return true;
+	}
+
+	private function invalidateNestingCaches(): void {
+		$this->cachedAncestors = [];
+		$this->cachedDescendants = [];
+		$this->cachedUserGroups = [];
+	}
+
+	/**
+	 * Collect every uid that is transitively a member of $gid (self included).
+	 *
+	 * Returned as a map uid => true for O(1) diffing.
+	 *
+	 * @return array<string, true>
+	 */
+	private function collectEffectiveUserIds(string $gid): array {
+		$uids = [];
+		foreach ($this->expandDescendants($gid) as $descendant) {
+			$group = $this->get($descendant);
+			if ($group === null) {
+				continue;
+			}
+			foreach ($group->searchUsers('') as $user) {
+				$uids[$user->getUID()] = true;
+			}
+		}
+		return $uids;
+	}
+
+	/**
+	 * Dispatch UserAddedEvent or UserRemovedEvent for each uid in $delta.
+	 *
+	 * If the delta exceeds the synthesis cap, skip and log a warning — admins
+	 * must then perform any dependent rebuilds manually. This bounds the
+	 * request time for bulk nesting mutations at the cost of leaving
+	 * listener-driven state (encryption keys, activity, …) stale for large
+	 * user sets.
+	 *
+	 * @param class-string<UserAddedEvent|UserRemovedEvent> $eventClass
+	 * @param array<string, true> $delta
+	 */
+	private function dispatchUserEventsForDelta(string $eventClass, IGroup $group, array $delta): void {
+		$count = count($delta);
+		if ($count === 0) {
+			return;
+		}
+		if ($count > self::MAX_SYNTHESIZED_USER_EVENTS) {
+			$this->logger->warning(
+				'Skipped synthesizing {event} for {count} users on group {gid}: exceeds cap {cap}. '
+				. 'Dependent state (encryption keys, activity, …) may be out of sync for affected users; '
+				. 'admins must trigger a manual rebuild.',
+				[
+					'event' => $eventClass,
+					'count' => $count,
+					'gid' => $group->getGID(),
+					'cap' => self::MAX_SYNTHESIZED_USER_EVENTS,
+				],
+			);
+			return;
+		}
+		foreach ($delta as $uid => $_) {
+			$user = $this->userManager->get($uid);
+			if ($user === null) {
+				continue;
+			}
+			$this->dispatcher->dispatchTyped(new $eventClass($group, $user));
+		}
 	}
 
 	/**
