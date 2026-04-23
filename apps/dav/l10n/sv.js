@@ -221,6 +221,7 @@ OC.L10N.register(
     "You updated contact {card} in address book {addressbook}" : "Du uppdaterade kontakten {card} i adressboken {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "En <strong>kontakt</strong> eller <strong>adressbok</strong> ändrades",
     "System address book disabled" : "Systemadressbok inaktiverad",
+    "The system contacts address book has been automatically disabled during upgrade. This means that the address book will no longer be available to users in the contacts app or other clients. The system contacts address book was disabled because the amount of contacts in the address book exceeded the maximum recommended number of contacts. This limit is set to prevent performance issues. You can re-enable the system address book with the following command {command}" : "Systemets kontaktbok har inaktiverats automatiskt under uppgraderingen. Detta innebär att kontaktboken inte längre är tillgänglig för användare i kontaktappen eller andra klienter. Systemets kontaktbok inaktiverades eftersom antalet kontakter i kontaktboken överskred det maximala rekommenderade antalet kontakter. Denna gräns har fastställts för att förhindra prestandaproblem. Du kan återaktivera systemets kontaktbok med följande kommando {command}",
     "Accounts" : "Konton",
     "System address book which holds all accounts" : "Systemadressbok som innehåller alla konton",
     "File is not updatable: %1$s" : "Fil kan inte uppdateras: %1$s",
