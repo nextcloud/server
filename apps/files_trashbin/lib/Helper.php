@@ -45,17 +45,30 @@ class Helper {
 		foreach ($dirContent as $entry) {
 			$entryName = $entry->getName();
 			$name = $entryName;
+
 			if ($dir === '' || $dir === '/') {
-				$pathparts = pathinfo($entryName);
-				$timestamp = substr($pathparts['extension'], 1);
-				$name = $pathparts['filename'];
+				$pathParts = pathinfo($entryName);
+				$timestamp = substr($pathParts['extension'], 1);
+				$name = $pathParts['filename'];
 			} elseif ($timestamp === null) {
 				// for subfolders we need to calculate the timestamp only once
 				$parts = explode('/', ltrim($dir, '/'));
-				$timestamp = substr(pathinfo($parts[0], PATHINFO_EXTENSION), 1);
+				$timestamp = '';
+				for ($i = 0, $count = count($parts); $i < $count && $timestamp === ''; $i++) {
+					$timestamp = substr(pathinfo($parts[0], PATHINFO_EXTENSION), 1);
+				}
+
+				if ($timestamp === '') {
+					$pathParts = pathinfo($entryName);
+					$timestamp = substr($pathParts['extension'], 1);
+					$name = $pathParts['filename'];
+				}
 			}
+
+
 			$originalPath = '';
-			$originalName = substr($entryName, 0, -strlen($timestamp) - 2);
+			$originalName = $timestamp === '' ? $entryName : substr($entryName, 0, -strlen($timestamp) - 2);
+			$hasFileTrashEntry = array_key_exists($originalName, $extraData);
 			if (isset($extraData[$originalName][$timestamp]['location'])) {
 				$originalPath = $extraData[$originalName][$timestamp]['location'];
 				if (substr($originalPath, -1) === '/') {
@@ -73,6 +86,7 @@ class Helper {
 				'etag' => '',
 				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE,
 				'fileid' => $entry->getId(),
+				'is_trash_root' => !$hasFileTrashEntry,
 			];
 			if ($originalPath) {
 				if ($originalPath !== '.') {
