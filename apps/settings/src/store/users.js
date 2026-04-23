@@ -225,9 +225,22 @@ const mutations = {
 	 */
 	editUserMultiField(state, { userid, data }) {
 		const index = state.users.findIndex((user) => user.id === userid)
-		if (index !== -1) {
-			state.users.splice(index, 1, { ...state.users[index], ...data })
+		if (index === -1) {
+			return
 		}
+
+		// Delegate group membership changes so sidebar usercount stays in sync.
+		if (Array.isArray(data.groups)) {
+			const prevGids = state.users[index].groups ?? []
+			for (const gid of data.groups.filter((g) => !prevGids.includes(g))) {
+				this.commit('addUserGroup', { userid, gid })
+			}
+			for (const gid of prevGids.filter((g) => !data.groups.includes(g))) {
+				this.commit('removeUserGroup', { userid, gid })
+			}
+		}
+
+		state.users.splice(index, 1, { ...state.users[index], ...data })
 	},
 
 	/**
