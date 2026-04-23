@@ -465,9 +465,9 @@ abstract class FetcherBase extends TestCase {
 			->willReturn('{"timestamp":1200,"data":[{"id":"MyApp"}],"ncversion":"11.0.0.2","ETag":"\"myETag\""}');
 
 		$this->timeFactory
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getTime')
-			->willReturn(4801);
+			->willReturnOnConsecutiveCalls(4801, 4801);
 
 		$expected = [
 			[
