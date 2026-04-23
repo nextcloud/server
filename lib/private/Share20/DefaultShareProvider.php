@@ -1351,10 +1351,20 @@ class DefaultShareProvider implements
 			$userGroups = $this->groupManager->getUserGroupIds($user);
 			$userGroups = array_diff($userGroups, $this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList());
 
+			// Method-local cache: avoids repeated backend lookups for the same
+			// UID across both loops. Uses array_key_exists() (not isset()) so
+			// that UIDs resolving to null are cached and not re-queried.
+			/** @var array<string, \OCP\IUser|null> $userCache */
+			$userCache = [];
+
 			// Delete user shares received by the user from users in the group.
 			$userReceivedShares = $this->shareManager->getSharedWith($uid, IShare::TYPE_USER, null, -1);
 			foreach ($userReceivedShares as $share) {
-				$owner = $this->userManager->get($share->getSharedBy());
+				$ownerUid = $share->getSharedBy();
+				if (!array_key_exists($ownerUid, $userCache)) {
+					$userCache[$ownerUid] = $this->userManager->get($ownerUid);
+				}
+				$owner = $userCache[$ownerUid];
 				if ($owner === null) {
 					continue;
 				}
@@ -1369,7 +1379,11 @@ class DefaultShareProvider implements
 			// Delete user shares from the user to users in the group.
 			$userEmittedShares = $this->shareManager->getSharesBy($uid, IShare::TYPE_USER, null, true, -1);
 			foreach ($userEmittedShares as $share) {
-				$recipient = $this->userManager->get($share->getSharedWith());
+				$recipientUid = $share->getSharedWith();
+				if (!array_key_exists($recipientUid, $userCache)) {
+					$userCache[$recipientUid] = $this->userManager->get($recipientUid);
+				}
+				$recipient = $userCache[$recipientUid];
 				if ($recipient === null) {
 					continue;
 				}
@@ -1423,6 +1437,13 @@ class DefaultShareProvider implements
 
 		$users = [];
 		$link = false;
+		// Deduplicate group->getUsers() calls within this invocation.
+		// A group can appear multiple times when multiple nodes in $nodes are
+		// covered by the same group share (e.g. nested folder tree).
+		// getUsers() on LDAP / large DB backends is expensive; cache per GID.
+		/** @var array<string, list<\OCP\IUser>> $groupUsersCache */
+		$groupUsersCache = [];
+
 		while ($row = $cursor->fetch()) {
 			$type = (int)$row['share_type'];
 			if ($type === IShare::TYPE_USER) {
@@ -1431,14 +1452,14 @@ class DefaultShareProvider implements
 				$users[$uid][$row['id']] = $row;
 			} elseif ($type === IShare::TYPE_GROUP) {
 				$gid = $row['share_with'];
-				$group = $this->groupManager->get($gid);
 
-				if ($group === null) {
-					continue;
+				if (!isset($groupUsersCache[$gid])) {
+					$group = $this->groupManager->get($gid);
+					// Null means the group was deleted after the share was created.
+					$groupUsersCache[$gid] = $group?->getUsers() ?? [];
 				}
 
-				$userList = $group->getUsers();
-				foreach ($userList as $user) {
+				foreach ($groupUsersCache[$gid] as $user) {
 					$uid = $user->getUID();
 					$users[$uid] = $users[$uid] ?? [];
 					$users[$uid][$row['id']] = $row;

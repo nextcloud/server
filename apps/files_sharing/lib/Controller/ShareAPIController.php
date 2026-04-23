@@ -82,6 +82,22 @@ class ShareAPIController extends OCSController {
 	private array $trustedServerCache = [];
 
 	/**
+	 * Per-request user object cache to avoid repeated backend lookups when
+	 * formatting multiple shares for the same owner, sharer, or recipient.
+	 * Keyed by UID. Stores null to avoid re-querying a UID that doesn't exist.
+	 *
+	 * @var array<string, \OCP\IUser|null>
+	 */
+	private array $userObjectCache = [];
+
+	/**
+	 * Per-request group object cache for the same reason as $userObjectCache.
+	 *
+	 * @var array<string, \OCP\IGroup|null>
+	 */
+	private array $groupObjectCache = [];
+
+	/**
 	 * Share20OCS constructor.
 	 */
 	public function __construct(
@@ -112,18 +128,46 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * Fetches a user object, using the request-scoped cache to avoid repeated
+	 * backend calls for the same UID within a single API response.
+	 * Uses array_key_exists() so that UIDs resolving to null are cached and
+	 * not re-queried (e.g. shares from deleted users).
+	 *
+	 * @since 34.0.0
+	 * @internal
+	 */
+	private function getCachedUser(string $uid): ?\OCP\IUser {
+		if (!array_key_exists($uid, $this->userObjectCache)) {
+			$this->userObjectCache[$uid] = $this->userManager->get($uid);
+		}
+		return $this->userObjectCache[$uid];
+	}
+
+	/**
+	 * Fetches a group object, using the request-scoped cache to avoid repeated
+	 * backend calls for the same GID within a single API response.
+	 *
+	 * @since 34.0.0
+	 * @internal
+	 */
+	private function getCachedGroup(string $gid): ?\OCP\IGroup {
+		if (!array_key_exists($gid, $this->groupObjectCache)) {
+			$this->groupObjectCache[$gid] = $this->groupManager->get($gid);
+		}
+		return $this->groupObjectCache[$gid];
+	}
+
+	/**
 	 * Convert an IShare to an array for OCS output
 	 *
-	 * @param IShare $share
-	 * @param Node|null $recipientNode
 	 * @return Files_SharingShare
 	 * @throws NotFoundException In case the node can't be resolved.
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function formatShare(IShare $share, ?Node $recipientNode = null): array {
-		$sharedBy = $this->userManager->get($share->getSharedBy());
-		$shareOwner = $this->userManager->get($share->getShareOwner());
+		$sharedBy = $this->getCachedUser($share->getSharedBy());
+		$shareOwner = $this->getCachedUser($share->getShareOwner());
 
 		$isOwnShare = false;
 		if ($shareOwner !== null) {
@@ -245,7 +289,7 @@ class ShareAPIController extends OCSController {
 		$token = $userHasEnoughPermissions ? $share->getToken() : null;
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
-			$sharedWith = $this->userManager->get($share->getSharedWith());
+			$sharedWith = $this->getCachedUser($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $sharedWith !== null ? $sharedWith->getDisplayName() : $share->getSharedWith();
 			$result['share_with_displayname_unique'] = $sharedWith !== null ? (
@@ -265,7 +309,7 @@ class ShareAPIController extends OCSController {
 				];
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
-			$group = $this->groupManager->get($share->getSharedWith());
+			$group = $this->getCachedGroup($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
