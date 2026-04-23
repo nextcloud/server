@@ -35,10 +35,6 @@
 			</template>
 		</NcAppNavigationCaption>
 
-		<NcAppNavigationSearch
-			v-model="groupsSearchQuery"
-			:label="t('settings', 'Search groups…')" />
-
 		<p id="group-list-desc" class="hidden-visually">
 			{{ t('settings', 'List of groups. This list is not fully populated for performance reasons. The groups will be loaded as you navigate or search through the list.') }}
 		</p>
@@ -76,7 +72,6 @@ import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcActionText from '@nextcloud/vue/components/NcActionText'
 import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
-import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import GroupListItem from './GroupListItem.vue'
@@ -123,8 +118,8 @@ const newGroupName = ref('')
 const loadingGroups = ref(false)
 /** Search offset */
 const offset = ref(0)
-/** Search query for groups */
-const groupsSearchQuery = ref('')
+/** Search query — shared via Vuex store */
+const groupsSearchQuery = computed(() => store.getters.getSearchQuery)
 const filteredGroups = computed(() => {
 	if (isAdminOrDelegatedAdmin.value) {
 		return userGroups.value
