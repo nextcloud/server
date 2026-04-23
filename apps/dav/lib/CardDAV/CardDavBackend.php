@@ -979,7 +979,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					->from('cards')
 					->where(
 						$qb->expr()->eq('addressbookid', $qb->createNamedParameter($addressBookId))
-					);
+					)
+					->orderBy('id');
 				// No synctoken supplied, this is the initial sync.
 				$qb->setMaxResults($limit);
 				$stmt = $qb->executeQuery();
