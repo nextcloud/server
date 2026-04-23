@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Mail\Provider;
 
+use JsonSerializable;
+use OCP\Json\JsonDeserializable;
+
 /**
  * Mail Message Object
  *
@@ -16,7 +19,7 @@ namespace OCP\Mail\Provider;
  * @since 30.0.0
  *
  */
-class Message implements \OCP\Mail\Provider\IMessage {
+class Message implements IMessage, JsonSerializable, JsonDeserializable {
 
 	/**
 	 * initialize the mail message object
@@ -28,6 +31,61 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	public function __construct(
 		protected array $data = [],
 	) {
+	}
+
+	/**
+	 * export this objects data as an array
+	 *
+	 * @since 33.0.0
+	 *
+	 * @return array representation of this object as an array
+	 */
+	public function jsonSerialize(): array {
+		$data = $this->data;
+		$data['bodyHtml'] = base64_encode($this->data['bodyHtml'] ?? '');
+		$data['bodyPlain'] = base64_encode($this->data['bodyPlain'] ?? '');
+		$data['subject'] = base64_encode($this->data['subject'] ?? '');
+		return $data;
+	}
+
+	/**
+	 * import this objects data from an array
+	 *
+	 * @since 33.0.0
+	 *
+	 * @param array array representation of this object
+	 */
+	public static function jsonDeserialize(array|string $data): static {
+		if (is_string($data)) {
+			$data = json_decode($data, true);
+		}
+		// decode encoded fields
+		$data['bodyHtml'] = base64_decode($data['bodyHtml'] ?? '');
+		$data['bodyPlain'] = base64_decode($data['bodyPlain'] ?? '');
+		$data['subject'] = base64_decode($data['subject'] ?? '');
+		//  convert object fields
+		foreach (['from', 'replyTo'] as $field) {
+			if (isset($data[$field]) && is_array($data[$field])) {
+				$data[$field] = Address::jsonDeserialize($data[$field]);
+			} else {
+				$data[$field] = null;
+			}
+		}
+		foreach (['to', 'cc', 'bcc', 'attachments'] as $field) {
+			if (isset($data[$field]) && is_array($data[$field])) {
+				foreach ($data[$field] as $key => $item) {
+					if (is_array($item)) {
+						if ($field === 'attachments') {
+							$data[$field][$key] = Attachment::jsonDeserialize($item);
+						} else {
+							$data[$field][$key] = Address::jsonDeserialize($item);
+						}
+					}
+				}
+			}
+		}
+
+		return new static($data);
 	}
 
 	/**
