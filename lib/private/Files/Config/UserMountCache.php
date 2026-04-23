@@ -522,7 +522,8 @@ class UserMountCache implements IUserMountCache {
 	public function removeMount(string $mountPoint): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('mounts')
-			->where($query->expr()->eq('mount_point', $query->createNamedParameter($mountPoint)));
+			->where($query->expr()->eq('mount_point_hash', $query->createNamedParameter(hash('xxh128', $mountPoint))))
+			->andWhere($query->expr()->eq('mount_point', $query->createNamedParameter($mountPoint)));
 		$query->executeStatement();
 	}
 
