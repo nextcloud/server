@@ -43,9 +43,11 @@ class SharesUpdatedListener implements IEventListener {
 	private float $cutOffMarkTime;
 
 	/**
-	 * The total amount of time we've spent so far processing updates
+	 * Timestamp marking the first time this listener was triggered, used to
+	 * determine if we should update the share date immediately or just mark the
+	 * users for refresh.
 	 */
-	private float $updatedTime = 0.0;
+	private ?float $firstRun = null;
 	private bool $inUpdate = false;
 
 	public function __construct(
@@ -134,14 +136,15 @@ class SharesUpdatedListener implements IEventListener {
 	}
 
 	private function markOrRun(IUser $user, callable $callback): void {
-		$start = floatval($this->clock->now()->format('U.u'));
-		if ($this->cutOffMarkTime === -1.0 || $this->updatedTime < $this->cutOffMarkTime) {
+		$now = floatval($this->clock->now()->format('U.u'));
+		$this->firstRun ??= $now;
+		$elapsed = $now - $this->firstRun;
+
+		if ($this->cutOffMarkTime === -1.0 && $elapsed < $this->cutOffMarkTime) {
 			$callback();
 		} else {
 			$this->markUserForRefresh($user);
 		}
-		$end = floatval($this->clock->now()->format('U.u'));
-		$this->updatedTime += $end - $start;
 	}
 
 	private function updateOrMarkUser(IUser $user): void {
