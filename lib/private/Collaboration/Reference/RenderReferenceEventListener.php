@@ -15,12 +15,13 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IInitialStateService;
-
+use OCP\ICacheFactory;
 /** @template-implements IEventListener<Event|RenderReferenceEvent> */
 class RenderReferenceEventListener implements IEventListener {
 	public function __construct(
 		private IReferenceManager $manager,
 		private IInitialStateService $initialStateService,
+		private ICacheFactory $cacheFactory,
 	) {
 	}
 
@@ -36,13 +37,23 @@ class RenderReferenceEventListener implements IEventListener {
 			return;
 		}
 
-		$providers = $this->manager->getDiscoverableProviders();
-		$jsonProviders = array_map(static function (IDiscoverableReferenceProvider $provider) {
-			return $provider->jsonSerialize();
-		}, $providers);
-		$this->initialStateService->provideInitialState('core', 'reference-provider-list', $jsonProviders);
+		$cache = $this->cacheFactory->createLocal('reference-provider-list');
 
-		$timestamps = $this->manager->getUserProviderTimestamps();
+		$jsonProviders = $cache->get('providers');
+		$timestamps = $cache->get('timestamps');
+
+		if ($jsonProviders === null || $timestamps === null) {
+			$providers = $this->manager->getDiscoverableProviders();
+			$jsonProviders = array_map(static function (IDiscoverableReferenceProvider $provider) {
+				return $provider->jsonSerialize();
+			}, $providers);
+			$cache->set('providers', $jsonProviders, 24 * 3600);
+
+			$timestamps = $this->manager->getUserProviderTimestamps();
+			$cache->set('timestamps', $timestamps, 24 * 3600);
+		}
+
+		$this->initialStateService->provideInitialState('core', 'reference-provider-list', $jsonProviders);
 		$this->initialStateService->provideInitialState('core', 'reference-provider-timestamps', $timestamps);
 	}
 }
