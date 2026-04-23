@@ -9,6 +9,7 @@ namespace OCA\DAV\CardDAV;
 
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -24,9 +25,11 @@ class ImageExportPlugin extends ServerPlugin {
 	 * ImageExportPlugin constructor.
 	 *
 	 * @param PhotoCache $cache
+	 * @param IConfig $config
 	 */
 	public function __construct(
 		private PhotoCache $cache,
+		private IConfig $config,
 	) {
 	}
 
@@ -79,7 +82,8 @@ class ImageExportPlugin extends ServerPlugin {
 		/** @var AddressBook $addressbook */
 		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
-		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
+		$maxAge = (int) $this->config->getAppValue('dav', 'contact_photo_cache_max_age', '3600');
+		$response->setHeader('Cache-Control', 'private, max-age=' . $maxAge . ', must-revalidate');
 		$response->setHeader('Etag', $node->getETag());
 
 		try {

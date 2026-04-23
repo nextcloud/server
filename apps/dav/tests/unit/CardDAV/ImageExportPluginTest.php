@@ -14,6 +14,7 @@ use OCA\DAV\CardDAV\PhotoCache;
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Node;
@@ -29,6 +30,7 @@ class ImageExportPluginTest extends TestCase {
 	private Server&MockObject $server;
 	private Tree&MockObject $tree;
 	private PhotoCache&MockObject $cache;
+	private IConfig&MockObject $config;
 	private ImageExportPlugin $plugin;
 
 	protected function setUp(): void {
@@ -40,8 +42,12 @@ class ImageExportPluginTest extends TestCase {
 		$this->tree = $this->createMock(Tree::class);
 		$this->server->tree = $this->tree;
 		$this->cache = $this->createMock(PhotoCache::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->config->method('getAppValue')
+			->with('dav', 'contact_photo_cache_max_age', '3600')
+			->willReturn('3600');
 
-		$this->plugin = new ImageExportPlugin($this->cache);
+		$this->plugin = new ImageExportPlugin($this->cache, $this->config);
 		$this->plugin->initialize($this->server);
 	}
 
@@ -169,6 +175,125 @@ class ImageExportPluginTest extends TestCase {
 		}
 
 		$result = $this->plugin->httpGet($this->request, $this->response);
+		$this->assertFalse($result);
+	}
+
+	public function testCardWithCustomMaxAge(): void {
+		$config = $this->createMock(IConfig::class);
+		$config->method('getAppValue')
+			->with('dav', 'contact_photo_cache_max_age', '3600')
+			->willReturn('120');
+
+		$plugin = new ImageExportPlugin($this->cache, $config);
+		$plugin->initialize($this->server);
+
+		$this->request->method('getQueryParameters')
+			->willReturn(['photo' => null]);
+		$this->request->method('getPath')
+			->willReturn('user/book/card');
+
+		$card = $this->createMock(Card::class);
+		$card->method('getETag')
+			->willReturn('"myEtag"');
+		$card->method('getName')
+			->willReturn('card');
+		$book = $this->createMock(AddressBook::class);
+		$book->method('getResourceId')
+			->willReturn(1);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnCallback(function ($path) use ($card, $book) {
+				if ($path === 'user/book/card') {
+					return $card;
+				} elseif ($path === 'user/book') {
+					return $book;
+				}
+				$this->fail();
+			});
+
+		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getMimeType')
+			->willReturn('image/jpeg');
+		$file->method('getContent')
+			->willReturn('imgdata');
+
+		$this->cache->method('get')
+			->with(1, 'card', -1, $card)
+			->willReturn($file);
+
+		$setHeaderCalls = [
+			['Cache-Control', 'private, max-age=120, must-revalidate'],
+			['Etag', '"myEtag"'],
+			['Content-Type', 'image/jpeg'],
+			['Content-Disposition', 'attachment; filename=card.jpg'],
+		];
+		$this->response->expects($this->exactly(count($setHeaderCalls)))
+			->method('setHeader')
+			->willReturnCallback(function () use (&$setHeaderCalls): void {
+				$expected = array_shift($setHeaderCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
+
+		$this->response->expects($this->once())
+			->method('setStatus')
+			->with(200);
+
+		$result = $plugin->httpGet($this->request, $this->response);
+		$this->assertFalse($result);
+	}
+
+	public function testCardWithZeroMaxAge(): void {
+		$config = $this->createMock(IConfig::class);
+		$config->method('getAppValue')
+			->with('dav', 'contact_photo_cache_max_age', '3600')
+			->willReturn('0');
+
+		$plugin = new ImageExportPlugin($this->cache, $config);
+		$plugin->initialize($this->server);
+
+		$this->request->method('getQueryParameters')
+			->willReturn(['photo' => null]);
+		$this->request->method('getPath')
+			->willReturn('user/book/card');
+
+		$card = $this->createMock(Card::class);
+		$card->method('getETag')
+			->willReturn('"myEtag"');
+		$card->method('getName')
+			->willReturn('card');
+		$book = $this->createMock(AddressBook::class);
+		$book->method('getResourceId')
+			->willReturn(1);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnCallback(function ($path) use ($card, $book) {
+				if ($path === 'user/book/card') {
+					return $card;
+				} elseif ($path === 'user/book') {
+					return $book;
+				}
+				$this->fail();
+			});
+
+		$this->cache->method('get')
+			->with(1, 'card', -1, $card)
+			->willThrowException(new NotFoundException());
+
+		$setHeaderCalls = [
+			['Cache-Control', 'private, max-age=0, must-revalidate'],
+			['Etag', '"myEtag"'],
+		];
+		$this->response->expects($this->exactly(count($setHeaderCalls)))
+			->method('setHeader')
+			->willReturnCallback(function () use (&$setHeaderCalls): void {
+				$expected = array_shift($setHeaderCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
+		$this->response->expects($this->once())
+			->method('setStatus')
+			->with(Http::STATUS_NO_CONTENT);
+
+		$result = $plugin->httpGet($this->request, $this->response);
 		$this->assertFalse($result);
 	}
 }

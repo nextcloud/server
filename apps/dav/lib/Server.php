@@ -228,7 +228,7 @@ class Server {
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new MultiGetExportPlugin());
 			$this->server->addPlugin(new HasPhotoPlugin());
-			$this->server->addPlugin(new ImageExportPlugin(\OCP\Server::get(PhotoCache::class)));
+			$this->server->addPlugin(new ImageExportPlugin(\OCP\Server::get(PhotoCache::class), \OCP\Server::get(IConfig::class)));
 
 			$this->server->addPlugin(\OCP\Server::get(CardDavRateLimitingPlugin::class));
 			$this->server->addPlugin(\OCP\Server::get(CardDavValidatePlugin::class));
