@@ -256,7 +256,7 @@ class AppManager implements IAppManager {
 		// Add each apps' folder as allowed class path
 		foreach ($apps as $app) {
 			// If the app is already loaded then autoloading it makes no sense
-			if (!$this->isAppLoaded($app)) {
+			if (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))) {
 				try {
 					$path = $this->getAppPath($app);
 					\OC_App::registerAutoloading($app, $path);
