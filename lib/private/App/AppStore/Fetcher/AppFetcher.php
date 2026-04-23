@@ -80,7 +80,7 @@ class AppFetcher extends Fetcher {
 			// Filter compatible releases
 			foreach ($app['releases'] as $release) {
 				// Exclude nightly builds
-				if (($release['isNightly'] ?? false) !== false && !$allowNightly) {
+				if ($release['isNightly'] !== false && !$allowNightly) {
 					continue;
 				}
 
