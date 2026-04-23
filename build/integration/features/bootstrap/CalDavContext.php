@@ -42,21 +42,39 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 	/** @AfterScenario */
 	public function afterScenario() {
-		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/admin/MyCalendar';
-		try {
-			$this->client->delete(
-				$davUrl,
-				[
-					'auth' => [
-						'admin',
-						'admin',
-					],
-					'headers' => [
-						'X-NC-CalDAV-No-Trashbin' => '1',
+		foreach (['MyCalendar', 'MyCalendar2'] as $calendarName) {
+			try {
+				$this->client->delete(
+					$this->baseUrl . '/remote.php/dav/calendars/admin/' . $calendarName,
+					[
+						'auth' => ['admin', 'admin'],
+						'headers' => ['X-NC-CalDAV-No-Trashbin' => '1'],
 					]
-				]
-			);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+				);
+			} catch (\GuzzleHttp\Exception\ClientException $e) {
+			}
+		}
+	}
+
+	/** @AfterScenario @caldav-delegation */
+	public function afterDelegationScenario() {
+		foreach (['calendar-proxy-read', 'calendar-proxy-write'] as $proxyType) {
+			try {
+				$propPatch = new \Sabre\DAV\Xml\Request\PropPatch();
+				$propPatch->properties = ['{DAV:}group-member-set' => new \Sabre\DAV\Xml\Property\Href([])];
+				$xml = new \Sabre\Xml\Service();
+				$body = $xml->write('{DAV:}propertyupdate', $propPatch, '/');
+				$this->client->request(
+					'PROPPATCH',
+					$this->baseUrl . '/remote.php/dav/principals/users/admin/' . $proxyType,
+					[
+						'headers' => ['Content-Type' => 'application/xml; charset=UTF-8'],
+						'body' => $body,
+						'auth' => ['admin', 'admin'],
+					]
+				);
+			} catch (\GuzzleHttp\Exception\ClientException $e) {
+			}
 		}
 	}
 
@@ -172,6 +190,26 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		if ($actualValue !== $value) {
 			throw new \Exception("Property \"$key\" found with value \"$actualValue\", expected \"$value\"");
 		}
+	}
+
+	/**
+	 * @Then The CalDAV response should contain an href :href
+	 * @throws \Exception
+	 */
+	public function theCaldavResponseShouldContainAnHref(string $href): void {
+		/** @var \Sabre\DAV\Xml\Response\MultiStatus $multiStatus */
+		$multiStatus = $this->responseXml['value'];
+		foreach ($multiStatus->getResponses() as $response) {
+			if ($response->getHref() === $href) {
+				return;
+			}
+		}
+		throw new \Exception(
+			sprintf(
+				'Expected href %s not found in response',
+				$href,
+			)
+		);
 	}
 
 	/**
