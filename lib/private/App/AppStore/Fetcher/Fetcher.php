@@ -175,7 +175,7 @@ abstract class Fetcher {
 			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
 
 			if (empty($responseJson) || empty($responseJson['data'])) {
-				return [];
+				return is_array($cachedData) ? $cachedData : [];
 			}
 
 			$file->putContent(json_encode($responseJson));
