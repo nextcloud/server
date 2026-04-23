@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2019-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Reminder;
@@ -11,19 +11,7 @@ namespace OCA\DAV\CalDAV\Reminder;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 
-/**
- * Class Backend
- *
- * @package OCA\DAV\CalDAV\Reminder
- */
 class Backend {
-
-	/**
-	 * Backend constructor.
-	 *
-	 * @param IDBConnection $db
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(
 		protected IDBConnection $db,
 		protected ITimeFactory $timeFactory,
@@ -31,64 +19,73 @@ class Backend {
 	}
 
 	/**
-	 * Get all reminders with a notification date before now
-	 *
-	 * @return array
-	 * @throws \Exception
+	 * Get all reminders with a notification date before now,
+	 * excluding objects that have been moved to the trashbin.
 	 */
-	public function getRemindersToProcess():array {
+	public function getRemindersToProcess(): array {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['cr.id', 'cr.calendar_id','cr.object_id','cr.is_recurring','cr.uid','cr.recurrence_id','cr.is_recurrence_exception','cr.event_hash','cr.alarm_hash','cr.type','cr.is_relative','cr.notification_date','cr.is_repeat_based','co.calendardata', 'c.displayname', 'c.principaluri'])
-			->from('calendar_reminders', 'cr')
-			->where($query->expr()->lte('cr.notification_date', $query->createNamedParameter($this->timeFactory->getTime())))
-			->join('cr', 'calendarobjects', 'co', $query->expr()->eq('cr.object_id', 'co.id'))
-			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'))
-			->groupBy('cr.event_hash', 'cr.notification_date', 'cr.type', 'cr.id', 'cr.calendar_id', 'cr.object_id', 'cr.is_recurring', 'cr.uid', 'cr.recurrence_id', 'cr.is_recurrence_exception', 'cr.alarm_hash', 'cr.is_relative', 'cr.is_repeat_based', 'co.calendardata', 'c.displayname', 'c.principaluri');
-		$stmt = $query->executeQuery();
 
-		return array_map(
-			[$this, 'fixRowTyping'],
-			$stmt->fetchAllAssociative()
-		);
+		$columns = [
+			'cr.id',
+			'cr.calendar_id',
+			'cr.object_id',
+			'cr.is_recurring',
+			'cr.uid',
+			'cr.recurrence_id',
+			'cr.is_recurrence_exception',
+			'cr.event_hash',
+			'cr.alarm_hash',
+			'cr.type',
+			'cr.is_relative',
+			'cr.notification_date',
+			'cr.is_repeat_based',
+			'co.calendardata',
+			'c.displayname',
+			'c.principaluri',
+		];
+
+		$query->select($columns)
+			->from('calendar_reminders', 'cr')
+			->where($query->expr()->lte(
+				'cr.notification_date',
+				$query->createNamedParameter($this->timeFactory->getTime())
+			))
+			->join('cr', 'calendarobjects', 'co', $query->expr()->andX(
+				$query->expr()->eq('cr.object_id', 'co.id'),
+				$query->expr()->isNull('co.deleted_at')
+			))
+			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'));
+
+		$stmt = $query->executeQuery();
+		$rows = $stmt->fetchAllAssociative();
+		$stmt->closeCursor();
+
+		return array_map([$this, 'fixRowTyping'], $rows);
 	}
 
 	/**
-	 * Get all scheduled reminders for an event
-	 *
-	 * @param int $objectId
-	 * @return array
+	 * Get all scheduled reminders for an event.
 	 */
-	public function getAllScheduledRemindersForEvent(int $objectId):array {
+	public function getAllScheduledRemindersForEvent(int $objectId): array {
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
 			->from('calendar_reminders')
 			->where($query->expr()->eq('object_id', $query->createNamedParameter($objectId)));
-		$stmt = $query->executeQuery();
 
-		return array_map(
-			[$this, 'fixRowTyping'],
-			$stmt->fetchAllAssociative()
-		);
+		$stmt = $query->executeQuery();
+		$rows = $stmt->fetchAllAssociative();
+		$stmt->closeCursor();
+
+		return array_map([$this, 'fixRowTyping'], $rows);
 	}
 
 	/**
-	 * Insert a new reminder into the database
+	 * Insert a new reminder into the database.
 	 *
-	 * @param int $calendarId
-	 * @param int $objectId
-	 * @param string $uid
-	 * @param bool $isRecurring
-	 * @param int $recurrenceId
-	 * @param bool $isRecurrenceException
-	 * @param string $eventHash
-	 * @param string $alarmHash
-	 * @param string $type
-	 * @param bool $isRelative
-	 * @param int $notificationDate
-	 * @param bool $isRepeatBased
 	 * @return int The insert id
 	 */
-	public function insertReminder(int $calendarId,
+	public function insertReminder(
+		int $calendarId,
 		int $objectId,
 		string $uid,
 		bool $isRecurring,
@@ -99,7 +96,8 @@ class Backend {
 		string $type,
 		bool $isRelative,
 		int $notificationDate,
-		bool $isRepeatBased):int {
+		bool $isRepeatBased,
+	): int {
 		$query = $this->db->getQueryBuilder();
 		$query->insert('calendar_reminders')
 			->values([
@@ -122,13 +120,12 @@ class Backend {
 	}
 
 	/**
-	 * Sets a new notificationDate on an existing reminder
-	 *
-	 * @param int $reminderId
-	 * @param int $newNotificationDate
+	 * Set a new notification date on an existing reminder.
 	 */
-	public function updateReminder(int $reminderId,
-		int $newNotificationDate):void {
+	public function updateReminder(
+		int $reminderId,
+		int $newNotificationDate
+	): void {
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendar_reminders')
 			->set('notification_date', $query->createNamedParameter($newNotificationDate))
@@ -137,12 +134,9 @@ class Backend {
 	}
 
 	/**
-	 * Remove a reminder by it's id
-	 *
-	 * @param integer $reminderId
-	 * @return void
+	 * Remove a reminder by its id.
 	 */
-	public function removeReminder(int $reminderId):void {
+	public function removeReminder(int $reminderId): void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->delete('calendar_reminders')
@@ -151,11 +145,9 @@ class Backend {
 	}
 
 	/**
-	 * Cleans reminders in database
-	 *
-	 * @param int $objectId
+	 * Remove all reminders for a calendar object.
 	 */
-	public function cleanRemindersForEvent(int $objectId):void {
+	public function cleanRemindersForEvent(int $objectId): void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->delete('calendar_reminders')
@@ -164,12 +156,9 @@ class Backend {
 	}
 
 	/**
-	 * Remove all reminders for a calendar
-	 *
-	 * @param int $calendarId
-	 * @return void
+	 * Remove all reminders for a calendar.
 	 */
-	public function cleanRemindersForCalendar(int $calendarId):void {
+	public function cleanRemindersForCalendar(int $calendarId): void {
 		$query = $this->db->getQueryBuilder();
 
 		$query->delete('calendar_reminders')
@@ -177,10 +166,6 @@ class Backend {
 			->executeStatement();
 	}
 
-	/**
-	 * @param array $row
-	 * @return array
-	 */
 	private function fixRowTyping(array $row): array {
 		$row['id'] = (int)$row['id'];
 		$row['calendar_id'] = (int)$row['calendar_id'];
