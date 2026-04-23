@@ -2250,4 +2250,97 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals(count($apps), 1);
 		$this->assertEquals($apps[0]['id'], 'contacts');
 	}
+
+	public function testGetKeepsHighestCompatibleReleaseOnly(): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'version') {
+					return '30.0.0';
+				} elseif ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
+					return 'https://custom.appsstore.endpoint/api/v1';
+				}
+				return $default;
+			});
+		$this->config->method('getSystemValueBool')
+			->willReturnArgument(1);
+
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with('apps.json')
+			->willThrowException(new NotFoundException());
+		$folder
+			->expects($this->once())
+			->method('newFile')
+			->with('apps.json')
+			->willReturn($file);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with('https://custom.appsstore.endpoint/api/v1/apps.json')
+			->willReturn($response);
+
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->willReturn(json_encode([
+				[
+					'id' => 'testapp',
+					'releases' => [
+						[
+							'version' => '1.0.0',
+							'isNightly' => false,
+							'rawPhpVersionSpec' => '*',
+							'rawPlatformVersionSpec' => '>=30 <=30',
+						],
+						[
+							'version' => '1.5.0',
+							'isNightly' => false,
+							'rawPhpVersionSpec' => '*',
+							'rawPlatformVersionSpec' => '>=30 <=30',
+						],
+						[
+							'version' => '2.0.0',
+							'isNightly' => false,
+							'rawPhpVersionSpec' => '*',
+							'rawPlatformVersionSpec' => '>=31 <=31',
+						],
+					],
+				],
+			], JSON_THROW_ON_ERROR));
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
+
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->willReturn(1234);
+
+		$file
+			->expects($this->once())
+			->method('putContent');
+
+		$result = $this->fetcher->get();
+
+		$this->assertCount(1, $result);
+		$this->assertSame('testapp', $result[0]['id']);
+		$this->assertCount(1, $result[0]['releases']);
+		$this->assertSame('1.5.0', $result[0]['releases'][0]['version']);
+	}
 }
