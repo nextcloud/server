@@ -9,6 +9,7 @@
 namespace Test\User;
 
 use OC\AppFramework\Http\Request;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
