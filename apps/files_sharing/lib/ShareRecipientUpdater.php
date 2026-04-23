@@ -89,7 +89,7 @@ class ShareRecipientUpdater {
 	 */
 	public function updateForDeletedShare(IUser $user, IShare $share): void {
 		try {
-			$userShare = $this->shareManager->getShareById($share->getFullId(), $user->getUID());
+			$userShare = $this->shareManager->getShareById($share->getFullId(), $user->getUID(), false);
 			$this->userMountCache->removeMount($this->getMountPointFromTarget($user, $userShare->getTarget()), $user);
 		} catch (ShareNotFound) {
 			// user doesn't actually have access to the share
