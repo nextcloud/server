@@ -17206,6 +17206,15 @@
                 ],
                 "parameters": [
                     {
+                        "name": "details",
+                        "in": "query",
+                        "description": "- Whether to include detailed appstore information about the app",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
