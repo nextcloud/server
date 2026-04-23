@@ -471,21 +471,34 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * returns an internal Nextcloud name for the given LDAP DN, false on DN outside of search DN
+	 * Resolves an LDAP DN to an internal Nextcloud user/group ID, optionally creating a new mapping.
 	 *
-	 * @param string $fdn the dn of the user object
-	 * @param string|null $ldapName optional, the display name of the object
-	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
-	 * @param bool|null $newlyMapped
-	 * @param array|null $record
-	 * @param bool $autoMapping Should the group be mapped if not yet mapped
-	 * @return false|string with with the name to use in Nextcloud
-	 * @throws \Exception
+	 * Order: existing DN mapping, UUID mapping (updates DN), then optional auto-mapping (with collision fallback).
+	 *
+	 * @param string $fdn Full LDAP DN to resolve.
+	 * @param string|null $ldapName Optional group display-name candidate (used only if $isUser is false).
+	 * @param bool $isUser Whether the entry is a user (true) or a group (false).
+	 * @param bool|null &$newlyMapped Tracks whether a new mapping gets created in this call.
+	 * @param-out bool $newlyMapped True iff this call created a new mapping; false otherwise.
+	 * @param array|null $record Optional pre-fetched LDAP record; if null, attributes are read from LDAP.
+	 * @param bool $autoMapping If false, only existing mappings are resolved and no new mapping is created.
+	 * @return string|false Internal Nextcloud name, or false if resolution/mapping fails.
+	 * @throws ServerNotAvailableException
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, ?array $record = null, bool $autoMapping = true) {
+	public function dn2ocname(
+		string $fdn,
+		?string $ldapName = null,
+		bool $isUser = true,
+		?bool &$newlyMapped = null,
+		?array $record = null,
+		bool $autoMapping = true,
+	): string|false {
+		// Use a static cache to track DNs already identified as intermediates
+		// within this request, avoiding redundant processing for the same DN.
 		static $intermediates = [];
-		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
-			return false; // is a known intermediate
+		$key = ($isUser ? 'user-' : 'group-') . $fdn;
+		if (isset($intermediates[$key])) {
+			return false; // already known intermediate
 		}
 
 		$newlyMapped = false;
@@ -586,40 +599,40 @@ class Access extends LDAPUtility {
 			$intName = $this->sanitizeGroupIDCandidate($ldapName);
 		}
 
-		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
-		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
-		//NOTE: mind, disabling cache affects only this instance! Using it
-		// outside of core user management will still cache the user as non-existing.
+		// Map a new user/group only if the candidate ID does not collide with existing users/groups.
+
+		// Disable LDAP cache for this connection instance so conflict-detection existence
+		// checks are evaluated fresh and, more importantly, their results are not cached before mapping.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		if ($intName !== ''
-			&& (($isUser && !$this->ncUserManager->userExists($intName))
-				|| (!$isUser && !Server::get(IGroupManager::class)->groupExists($intName))
-			)
-		) {
-			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-			$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
-			if ($newlyMapped) {
-				$this->logger->debug('Mapped {fdn} as {name}', ['fdn' => $fdn,'name' => $intName]);
-				return $intName;
-			}
-		}
 
-		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
-		if (is_string($altName)) {
-			if ($this->mapAndAnnounceIfApplicable($mapper, $fdn, $altName, $uuid, $isUser)) {
-				$this->logger->warning(
-					'Mapped {fdn} as {altName} because of a name collision on {intName}.',
-					[
-						'fdn' => $fdn,
-						'altName' => $altName,
-						'intName' => $intName,
-					]
-				);
-				$newlyMapped = true;
-				return $altName;
+		try {
+			if ($intName !== '') {
+				$noUserConflict = $isUser && !$this->ncUserManager->userExists($intName);
+				$noGroupConflict = !$isUser && !Server::get(IGroupManager::class)->groupExists($intName);
+
+				if ($noUserConflict || $noGroupConflict) {
+					$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
+					if ($newlyMapped) {
+						$this->logger->debug('Mapped {fdn} as {name}', ['fdn' => $fdn, 'name' => $intName]);
+						return $intName;
+					}
+				}
 			}
+
+			$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
+			if (is_string($altName)) {
+				if ($this->mapAndAnnounceIfApplicable($mapper, $fdn, $altName, $uuid, $isUser)) {
+					$this->logger->warning(
+						'Mapped {fdn} as {altName} because of a name collision on {intName}.',
+						['fdn' => $fdn, 'altName' => $altName, 'intName' => $intName]
+					);
+					$newlyMapped = true;
+					return $altName;
+				}
+			}
+		} finally {
+			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 		}
 
 		//if everything else did not help..
