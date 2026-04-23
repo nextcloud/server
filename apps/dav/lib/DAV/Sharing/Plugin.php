@@ -10,11 +10,13 @@ namespace OCA\DAV\DAV\Sharing;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCA\DAV\DAV\Security\RateLimiting;
 use OCA\DAV\DAV\Sharing\Xml\Invite;
 use OCA\DAV\DAV\Sharing\Xml\ShareRequest;
 use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IRequest;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 use Sabre\DAV\INode;
@@ -28,17 +30,11 @@ class Plugin extends ServerPlugin {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.com/ns';
 
-	/**
-	 * Plugin constructor.
-	 *
-	 * @param Auth $auth
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		private Auth $auth,
 		private IRequest $request,
 		private IConfig $config,
+		private RateLimiting $rateLimiting,
 	) {
 	}
 
@@ -136,6 +132,9 @@ class Plugin extends ServerPlugin {
 			// calendar.
 			case '{' . self::NS_OWNCLOUD . '}share':
 
+				$this->rateLimiting->check();
+				$this->validateShareRequest($message);
+
 				// We can only deal with IShareableCalendar objects
 				if (!$node instanceof IShareable) {
 					return;
@@ -167,6 +166,23 @@ class Plugin extends ServerPlugin {
 
 				// Breaking the event chain
 				return false;
+		}
+	}
+
+	private function validateShareRequest($shareRequest): void {
+		if (!$shareRequest instanceof ShareRequest) {
+			// @FIXME: Replace switch-case in httpPost with instanceof ShareRequest
+			throw new BadRequest('The given request is not valid');
+		}
+
+		$elements = (count($shareRequest->set) + count($shareRequest->remove));
+
+		if ($elements === 0) {
+			throw new BadRequest(ShareRequest::ELEMENT_SHARE . ' needs at least one set or remove element');
+		}
+
+		if ($elements > 10) {
+			throw new BadRequest(ShareRequest::ELEMENT_SHARE . ' is limited to 10 set or remove elements');
 		}
 	}
 
