@@ -9,8 +9,33 @@
 /** @var array $_ */
 
 \OCP\Util::addScript('settings', 'vue-settings-personal-info');
+
+$isFairUseOfFreePushService = (bool)($_['isFairUseOfFreePushService'] ?? true);
+$profileEnabledGlobally = (bool)($_['profileEnabledGlobally'] ?? false);
+
+$settingSections = [
+	['id' => 'vue-displayname-section'],
+	['id' => 'vue-pronouns-section'],
+	['id' => 'vue-email-section'],
+	['id' => 'vue-phone-section'],
+	['id' => 'vue-location-section'],
+	['id' => 'vue-birthday-section'],
+	['id' => 'vue-language-section', 'boxClass' => 'personal-settings-setting-box personal-settings-language-box'],
+	['id' => 'vue-locale-section', 'boxClass' => 'personal-settings-setting-box personal-settings-locale-box'],
+	['id' => 'vue-fdow-section'],
+	['id' => 'vue-timezone-section'],
+	['id' => 'vue-website-section'],
+	['id' => 'vue-twitter-section'],
+	['id' => 'vue-bluesky-section'],
+	['id' => 'vue-fediverse-section'],
+	['id' => 'vue-organisation-section', 'profileOnly' => true],
+	['id' => 'vue-role-section', 'profileOnly' => true],
+	['id' => 'vue-headline-section', 'profileOnly' => true],
+	['id' => 'vue-biography-section', 'profileOnly' => true],
+];
 ?>
-<?php if (!$_['isFairUseOfFreePushService']) : ?>
+
+<?php if (!$isFairUseOfFreePushService): ?>
 	<div class="section">
 		<div class="warning">
 			<?php p($l->t('This community release of Nextcloud is unsupported and instant notifications are unavailable.')); ?>
@@ -20,8 +45,10 @@
 
 <div id="personal-settings">
 	<h2 class="hidden-visually"><?php p($l->t('Personal info')); ?></h2>
+
 	<div id="vue-avatar-section"></div>
-	<?php if ($_['profileEnabledGlobally']) : ?>
+
+	<?php if ($profileEnabledGlobally): ?>
 		<div class="personal-settings-setting-box personal-settings-setting-box-profile">
 			<div id="vue-profile-section"></div>
 		</div>
@@ -33,67 +60,27 @@
 			<div id="vue-details-section"></div>
 		</div>
 	<?php endif; ?>
-	<div class="personal-settings-setting-box">
-		<div id="vue-displayname-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-pronouns-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-email-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-phone-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-location-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-birthday-section"></div>
-	</div>
-	<div class="personal-settings-setting-box personal-settings-language-box">
-		<div id="vue-language-section"></div>
-	</div>
-	<div class="personal-settings-setting-box personal-settings-locale-box">
-		<div id="vue-locale-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-fdow-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-timezone-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-website-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-twitter-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-bluesky-section"></div>
-	</div>
-	<div class="personal-settings-setting-box">
-		<div id="vue-fediverse-section"></div>
-	</div>
-	<?php if ($_['profileEnabledGlobally']) : ?>
-		<div class="personal-settings-setting-box">
-			<div id="vue-organisation-section"></div>
-		</div>
-		<div class="personal-settings-setting-box">
-			<div id="vue-role-section"></div>
-		</div>
-		<div class="personal-settings-setting-box">
-			<div id="vue-headline-section"></div>
-		</div>
-		<div class="personal-settings-setting-box">
-			<div id="vue-biography-section"></div>
-		</div>
-	<?php endif; ?>
-	<span class="msg"></span>
 
+	<?php foreach ($settingSections as $section): ?>
+		<?php
+		$isProfileOnly = $section['profileOnly'] ?? false;
+		if ($isProfileOnly && !$profileEnabledGlobally) {
+			continue;
+		}
+
+		$sectionId = $section['id'];
+		$boxClass = $section['boxClass'] ?? 'personal-settings-setting-box';
+		?>
+		<div class="<?php p($boxClass); ?>">
+			<div id="<?php p($sectionId); ?>"></div>
+		</div>
+	<?php endforeach; ?>
+
+	<span class="msg"></span>
 	<div id="personal-settings-group-container"></div>
 </div>
-<?php if ($_['profileEnabledGlobally']) : ?>
+
+<?php if ($profileEnabledGlobally): ?>
 	<div class="personal-settings-section">
 		<div id="vue-profile-visibility-section"></div>
 	</div>
