@@ -14,11 +14,13 @@ OC.L10N.register(
     "Reset" : "Qayta tiklash",
     "Warning" : "Ogohlantirish",
     "Confirm" : "Confirm",
+    "Discard changes" : "O'zgarishlarni bekor qilish",
     "Undo" : "Bekor qilish",
     "Custom" : "Boshqa",
     "Value" : "Qiymati",
     "Line" : "Chiziq",
     "Text" : "Matn",
-    "Size" : "Size"
+    "Size" : "Size",
+    "Format" : "Formatlash"
 },
 "nplurals=1; plural=0;");
