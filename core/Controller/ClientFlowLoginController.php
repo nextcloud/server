@@ -297,7 +297,18 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setHashedCode(hash('sha512', $code));
 			$accessToken->setTokenId($generatedToken->getId());
 			$accessToken->setCodeCreatedAt($this->timeFactory->now()->getTimestamp());
+
+			$codeChallenge = $this->session->get('oauth.code_challenge');
+			$codeChallengeMethod = $this->session->get('oauth.code_challenge_method');
+			if ($codeChallenge !== null && $codeChallenge !== '') {
+				$accessToken->setHashedCodeChallenge($codeChallenge);
+				$accessToken->setCodeChallengeMethod($codeChallengeMethod);
+			}
+
 			$this->accessTokenMapper->insert($accessToken);
+
+			$this->session->remove('oauth.code_challenge');
+			$this->session->remove('oauth.code_challenge_method');
 
 			$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
 

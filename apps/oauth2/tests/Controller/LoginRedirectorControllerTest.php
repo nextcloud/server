@@ -165,6 +165,23 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'wrongcode'));
 	}
 
+	public function testAuthorizeRejectsCodeChallengeMethodWithoutChallenge(): void {
+		$client = new Client();
+		$client->setClientIdentifier('MyClientIdentifier');
+		$client->setRedirectUri('http://foo.bar');
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects($this->never())
+			->method('set');
+
+		$expected = new RedirectResponse('http://foo.bar?error=invalid_request&error_description=code_challenge+required&state=MyState');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', '', '', 'S256'));
+	}
+
 	public function testAuthorizeWithLegacyOcClient(): void {
 		$client = new Client();
 		$client->setClientIdentifier('MyClientIdentifier');
