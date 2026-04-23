@@ -42,7 +42,7 @@ class Version33000Date20251209123503 extends SimpleMigrationStep {
 			if ($table->hasIndex('mounts_user_root_path_index')) {
 				$table->dropIndex('mounts_user_root_path_index');
 			}
-			$table->addUniqueIndex(['user_id', 'root_id', 'mount_point_hash'], 'mounts_user_root_path_index');
+			$table->addUniqueIndex(['user_id', 'mount_point_hash', 'root_id'], 'mounts_user_path_root_index');
 			return $schema;
 		}
 
