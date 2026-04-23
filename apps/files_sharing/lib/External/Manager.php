@@ -158,7 +158,13 @@ class Manager {
 				$groupShare = $share;
 			}
 
-			if ($this->groupManager->get($groupShare->getUser())->inGroup($user)) {
+			// Honor nested-group membership: a user in a sub-group of the
+			// target group is also an effective recipient.
+			if (in_array(
+				$groupShare->getUser(),
+				$this->groupManager->getUserEffectiveGroupIds($user),
+				true,
+			)) {
 				return true;
 			}
 		}

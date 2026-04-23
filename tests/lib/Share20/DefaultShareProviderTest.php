@@ -1095,7 +1095,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			['sharedBy', $initiator],
 		]);
 		$this->groupManager
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->willReturnCallback(fn (IUser $user) => ($user->getUID() === 'sharedWith' ? $groups : []));
 
 		$file = $this->createMock(File::class);
@@ -1183,7 +1183,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			['sharedBy', $initiator],
 		]);
 		$this->groupManager
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->willReturnCallback(fn (IUser $user) => ($user->getUID() === 'user' ? $groups : []));
 
 		$file = $this->createMock(File::class);
@@ -1264,7 +1264,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		]);
 
 		$this->groupManager
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->willReturnCallback(fn (IUser $user) => ($user->getUID() === 'user0' ? ['group0'] : []));
 
 		$node = $this->createMock(Folder::class);
@@ -1341,7 +1341,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			['sharedBy', $initiator],
 		]);
 		$this->groupManager
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->willReturnCallback(fn (IUser $user) => ($user->getUID() === 'sharedWith' ? $groups : []));
 
 		$share = $this->provider->getSharedWith('sharedWith', $shareType, null, 1, 0);
@@ -1533,9 +1533,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')->willReturn('group');
-		$group->method('inGroup')->with($user2)->willReturn(true);
 		$group->method('getDisplayName')->willReturn('group-displayname');
 		$this->groupManager->method('get')->with('group')->willReturn($group);
+		$this->groupManager->method('getUserEffectiveGroupIds')->with($user2)->willReturn(['group']);
 
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
@@ -1605,9 +1605,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')->willReturn('group');
-		$group->method('inGroup')->with($user2)->willReturn(true);
 		$group->method('getDisplayName')->willReturn('group-displayname');
 		$this->groupManager->method('get')->with('group')->willReturn($group);
+		$this->groupManager->method('getUserEffectiveGroupIds')->with($user2)->willReturn(['group']);
 
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
@@ -1663,9 +1663,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')->willReturn('group');
-		$group->method('inGroup')->with($user2)->willReturn(false);
 		$group->method('getDisplayName')->willReturn('group-displayname');
 		$this->groupManager->method('get')->with('group')->willReturn($group);
+		$this->groupManager->method('getUserEffectiveGroupIds')->with($user2)->willReturn([]);
 
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(1);
@@ -1676,6 +1676,70 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->getShareById($id);
 
 		$this->provider->deleteFromSelf($share, 'user2');
+	}
+
+	/**
+	 * `acceptShare` must succeed when the recipient reaches the target
+	 * group via a nested-group edge (effective membership) rather than
+	 * being a direct member. Regression guard for the previous
+	 * `$group->inGroup()` direct-only check.
+	 */
+	public function testAcceptShareViaNestedGroup(): void {
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
+				'share_with' => $qb->expr()->literal('engineering'),
+				'uid_owner' => $qb->expr()->literal('bob'),
+				'uid_initiator' => $qb->expr()->literal('bob'),
+				'item_type' => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(1),
+				'file_target' => $qb->expr()->literal('/nested.txt'),
+				'permissions' => $qb->expr()->literal(31),
+			])->executeStatement();
+		$this->assertEquals(1, $stmt);
+		$id = $qb->getLastInsertId();
+
+		$bob = $this->createMock(IUser::class);
+		$bob->method('getUID')->willReturn('bob');
+		$alice = $this->createMock(IUser::class);
+		$alice->method('getUID')->willReturn('alice');
+		$this->userManager->method('get')->willReturnMap([
+			['bob', $bob],
+			['alice', $alice],
+		]);
+
+		$engineering = $this->createMock(IGroup::class);
+		$engineering->method('getGID')->willReturn('engineering');
+		$engineering->method('getDisplayName')->willReturn('Engineering');
+		$this->groupManager->method('get')->with('engineering')->willReturn($engineering);
+		// Alice is only a direct member of `backend`; `engineering` appears
+		// in her effective set via the nested edge backend -> engineering.
+		$this->groupManager->method('getUserEffectiveGroupIds')
+			->with($alice)
+			->willReturn(['backend', 'engineering']);
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(1);
+		$this->rootFolder->method('getUserFolder')->with('bob')->willReturnSelf();
+		$this->rootFolder->method('getFirstNodeById')->with(1)->willReturn($file);
+
+		$share = $this->provider->getShareById($id);
+		$this->provider->acceptShare($share, 'alice');
+
+		// The acceptance is recorded as a TYPE_USERGROUP sub-share row
+		// pointing back at the parent group share.
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
+			->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($id)))
+			->executeQuery();
+		$rows = $stmt->fetchAllAssociative();
+		$stmt->closeCursor();
+
+		self::assertCount(1, $rows);
+		self::assertSame('alice', $rows[0]['share_with']);
 	}
 
 

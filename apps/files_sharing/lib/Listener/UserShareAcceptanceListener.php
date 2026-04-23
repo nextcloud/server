@@ -43,9 +43,23 @@ class UserShareAcceptanceListener implements IEventListener {
 				return;
 			}
 
-			$users = $group->getUsers();
-			foreach ($users as $user) {
-				$this->handleAutoAccept($share, $user->getUID());
+			// Walk descendants so effective members reached via nested-group
+			// edges also get the share auto-accepted, matching what
+			// `IManager::getSharedWith` returns for them.
+			$seen = [];
+			foreach ($this->groupManager->getGroupEffectiveDescendantIds($group) as $gid) {
+				$descendant = $this->groupManager->get($gid);
+				if ($descendant === null) {
+					continue;
+				}
+				foreach ($descendant->getUsers() as $user) {
+					$uid = $user->getUID();
+					if (isset($seen[$uid])) {
+						continue;
+					}
+					$seen[$uid] = true;
+					$this->handleAutoAccept($share, $uid);
+				}
 			}
 		}
 	}

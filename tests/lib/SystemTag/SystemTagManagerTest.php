@@ -469,7 +469,7 @@ class SystemTagManagerTest extends TestCase {
 			->with('test')
 			->willReturn($isAdmin);
 		$this->groupManager->expects($this->any())
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->with($user)
 			->willReturn($userGroupIds);
 
