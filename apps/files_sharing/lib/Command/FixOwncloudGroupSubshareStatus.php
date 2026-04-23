@@ -19,27 +19,30 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Fixes USERGROUP subshares that were created without `accepted = STATUS_ACCEPTED`
- * by the rename bug affecting ownCloud-migrated group shares.
+ * by a rename on an ownCloud-migrated instance.
  *
- * When an ownCloud-migrated group share (which has no per-user USERGROUP subshare)
- * is renamed for the first time, a new USERGROUP row is inserted without an
- * `accepted` value. The column defaults to 0 (STATUS_PENDING), causing
- * MountProvider to skip the share — the file disappears for the recipient.
+ * When an OC-migrated group share (which has no per-user USERGROUP subshare) is
+ * renamed for the first time, DefaultShareProvider::move() inserted a new USERGROUP
+ * row without setting `accepted`. The column defaulted to 0 (STATUS_PENDING), causing
+ * MountProvider to skip the share on the next login — the file disappeared for the
+ * recipient.
  *
- * A USERGROUP subshare with permissions = 0 was explicitly declined by the user
- * and must not be touched.
+ * USERGROUP subshares with permissions = 0 were explicitly declined by the user
+ * and are left untouched.
  */
-class FixOwncloudGroupShares extends Base {
+class FixOwncloudGroupSubshareStatus extends Base {
+
 	public function __construct(
 		private IDBConnection $connection,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('sharing:fix-owncloud-group-shares')
-			->setDescription('Fix group share subshares left with accepted = STATUS_PENDING after renaming on an ownCloud-migrated instance')
+			->setDescription('Fix group share subshares left pending after renaming on an ownCloud-migrated instance')
 			->addOption(
 				'dry-run',
 				null,
@@ -48,6 +51,7 @@ class FixOwncloudGroupShares extends Base {
 			);
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 
