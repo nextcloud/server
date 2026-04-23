@@ -301,6 +301,8 @@ class LoginControllerTest extends TestCase {
 	}
 
 	public function testShowLoginFormForFlowAuth(): void {
+		$relativeUrl = 'login/flow';
+		$absoluteUrl = 'http://nextcloud.example.com/login/flow';
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')
@@ -317,7 +319,7 @@ class LoginControllerTest extends TestCase {
 			],
 			[
 				'loginRedirectUrl',
-				'login/flow'
+				$absoluteUrl
 			],
 		];
 		$this->initialState->expects($this->exactly(15))
@@ -328,6 +330,13 @@ class LoginControllerTest extends TestCase {
 					$this->assertEquals($expected, func_get_args());
 				}
 			});
+		$this->urlGenerator->expects($this->atLeastOnce())
+			->method('getAbsoluteURL')
+			->willReturnCallback(
+				fn (string $url): string => match($url) {
+					$relativeUrl => $absoluteUrl,
+					default => $url,
+				});
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -338,7 +347,7 @@ class LoginControllerTest extends TestCase {
 			],
 			'guest'
 		);
-		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', 'login/flow'));
+		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', $relativeUrl));
 	}
 
 	/**
