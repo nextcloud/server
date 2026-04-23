@@ -165,13 +165,20 @@ class GroupsController extends AUserDataOCSController {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($user->getUID());
 		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup || $isMember) {
-			$users = $this->groupManager->get($groupId)->getUsers();
-			$users = array_map(function ($user) {
-				/** @var IUser $user */
-				return $user->getUID();
-			}, $users);
+			// Honor nested-group edges: return the union of direct members
+			// and every descendant group's direct members.
+			$users = [];
+			foreach ($this->groupManager->getGroupEffectiveDescendantIds($group) as $gid) {
+				$descendant = $this->groupManager->get($gid);
+				if ($descendant === null) {
+					continue;
+				}
+				foreach ($descendant->getUsers() as $member) {
+					$users[$member->getUID()] = true;
+				}
+			}
 			/** @var list<string> $users */
-			$users = array_values($users);
+			$users = array_values(array_keys($users));
 			return new DataResponse(['users' => $users]);
 		}
 
@@ -208,7 +215,31 @@ class GroupsController extends AUserDataOCSController {
 		$isAdmin = $this->groupManager->isAdmin($currentUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentUser->getUID());
 		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup) {
-			$users = $group->searchUsers($search, $limit, $offset);
+			// Honor nested-group edges: the effective user set of a parent
+			// group is the union of its own direct members and the members
+			// of every descendant group.
+			$users = [];
+			$seen = [];
+			foreach ($this->groupManager->getGroupEffectiveDescendantIds($group) as $gid) {
+				$descendant = $this->groupManager->get($gid);
+				if ($descendant === null) {
+					continue;
+				}
+				foreach ($descendant->searchUsers($search) as $user) {
+					$uid = $user->getUID();
+					if (isset($seen[$uid])) {
+						continue;
+					}
+					$seen[$uid] = true;
+					$users[] = $user;
+				}
+			}
+			if ($offset > 0) {
+				$users = array_slice($users, $offset);
+			}
+			if ($limit !== null && $limit >= 0) {
+				$users = array_slice($users, 0, $limit);
+			}
 
 			// Extract required number
 			$usersDetails = [];
@@ -350,5 +381,167 @@ class GroupsController extends AUserDataOCSController {
 		}
 
 		return new DataResponse($uids);
+	}
+
+	/**
+	 * Get the direct subgroups of a group (one level deep).
+	 *
+	 * Only edges stored in the nested-group table are returned; transitive
+	 * descendants are not. Use effective-member endpoints if you need the
+	 * full set of users reachable via nesting.
+	 *
+	 * @param string $groupId ID of the parent group
+	 * @return DataResponse<Http::STATUS_OK, list<string>, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Direct subgroups returned
+	 */
+	#[AuthorizedAdminSetting(settings: Users::class)]
+	public function getSubGroups(string $groupId): DataResponse {
+		$groupId = urldecode($groupId);
+		$group = $this->groupManager->get($groupId);
+		if ($group === null) {
+			throw new OCSException('Group does not exist', 101);
+		}
+		$direct = $this->groupManager->getDirectChildGroupIds($groupId);
+		return new DataResponse($direct);
+	}
+
+	/**
+	 * Add a subgroup to a group
+	 *
+	 * @param string $groupId ID of the parent group
+	 * @param string $subGroupId ID of the group to add as a subgroup
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Subgroup added
+	 */
+	#[AuthorizedAdminSetting(settings: Users::class)]
+	#[PasswordConfirmationRequired]
+	public function addSubGroup(string $groupId, string $subGroupId): DataResponse {
+		$groupId = urldecode($groupId);
+		$parent = $this->groupManager->get($groupId);
+		if ($parent === null) {
+			throw new OCSException('Parent group does not exist', 101);
+		}
+		$child = $this->groupManager->get($subGroupId);
+		if ($child === null) {
+			throw new OCSException('Subgroup does not exist', 102);
+		}
+		try {
+			$this->groupManager->addSubGroup($parent, $child);
+		} catch (\OCP\Group\Exception\CycleDetectedException $e) {
+			throw new OCSException($e->getMessage(), 103);
+		} catch (\OCP\Group\Exception\NestedGroupsNotSupportedException $e) {
+			throw new OCSException('Nested groups are not supported by this backend', 104);
+		}
+		return new DataResponse();
+	}
+
+	/**
+	 * Remove a subgroup from a group
+	 *
+	 * @param string $groupId ID of the parent group
+	 * @param string $subGroupId ID of the subgroup to remove
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Subgroup removed
+	 */
+	#[AuthorizedAdminSetting(settings: Users::class)]
+	#[PasswordConfirmationRequired]
+	public function removeSubGroup(string $groupId, string $subGroupId): DataResponse {
+		$groupId = urldecode($groupId);
+		$subGroupId = urldecode($subGroupId);
+		$parent = $this->groupManager->get($groupId);
+		if ($parent === null) {
+			throw new OCSException('Parent group does not exist', 101);
+		}
+		$child = $this->groupManager->get($subGroupId);
+		if ($child === null) {
+			throw new OCSException('Subgroup does not exist', 102);
+		}
+		try {
+			$this->groupManager->removeSubGroup($parent, $child);
+		} catch (\OCP\Group\Exception\NestedGroupsNotSupportedException $e) {
+			throw new OCSException('Nested groups are not supported by this backend', 104);
+		}
+		return new DataResponse();
+	}
+
+	/**
+	 * Get the groups designated as sub-admins of a group
+	 *
+	 * @param string $groupId ID of the group
+	 * @return DataResponse<Http::STATUS_OK, list<string>, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Admin groups returned
+	 */
+	#[AuthorizedAdminSetting(settings: Users::class)]
+	public function getGroupSubAdmins(string $groupId): DataResponse {
+		$groupId = urldecode($groupId);
+		$group = $this->groupManager->get($groupId);
+		if ($group === null) {
+			throw new OCSException('Group does not exist', 101);
+		}
+		$adminGroups = $this->groupManager->getSubAdmin()->getGroupSubAdminsOfGroup($group);
+		/** @var list<string> $gids */
+		$gids = array_map(static fn (IGroup $g): string => $g->getGID(), $adminGroups);
+		return new DataResponse($gids);
+	}
+
+	/**
+	 * Designate a group as sub-admin of another group
+	 *
+	 * @param string $groupId ID of the group to be administered
+	 * @param string $adminGroupId ID of the group to grant sub-admin rights
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Group sub-admin created
+	 */
+	#[AuthorizedAdminSetting(settings: Users::class)]
+	#[PasswordConfirmationRequired]
+	public function addGroupSubAdmin(string $groupId, string $adminGroupId): DataResponse {
+		$groupId = urldecode($groupId);
+		$group = $this->groupManager->get($groupId);
+		if ($group === null) {
+			throw new OCSException('Group does not exist', 101);
+		}
+		$adminGroup = $this->groupManager->get($adminGroupId);
+		if ($adminGroup === null) {
+			throw new OCSException('Admin group does not exist', 102);
+		}
+		$this->groupManager->getSubAdmin()->createGroupSubAdmin($adminGroup, $group);
+		return new DataResponse();
+	}
+
+	/**
+	 * Revoke sub-admin rights for a group
+	 *
+	 * @param string $groupId ID of the group
+	 * @param string $adminGroupId ID of the admin group
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Group sub-admin removed
+	 */
+	#[AuthorizedAdminSetting(settings: Users::class)]
+	#[PasswordConfirmationRequired]
+	public function removeGroupSubAdmin(string $groupId, string $adminGroupId): DataResponse {
+		$groupId = urldecode($groupId);
+		$adminGroupId = urldecode($adminGroupId);
+		$group = $this->groupManager->get($groupId);
+		if ($group === null) {
+			throw new OCSException('Group does not exist', 101);
+		}
+		$adminGroup = $this->groupManager->get($adminGroupId);
+		if ($adminGroup === null) {
+			throw new OCSException('Admin group does not exist', 102);
+		}
+		$this->groupManager->getSubAdmin()->deleteGroupSubAdmin($adminGroup, $group);
+		return new DataResponse();
 	}
 }

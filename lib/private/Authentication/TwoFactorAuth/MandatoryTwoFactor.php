@@ -55,29 +55,36 @@ class MandatoryTwoFactor {
 		if (!$state->isEnforced()) {
 			return false;
 		}
-		$uid = $user->getUID();
+		// Enforced groups are expanded along nested-group edges: if a group
+		// is marked enforced and the user is in a sub-group of it, 2FA is
+		// applied. This is strictly more secure (no user can hide behind
+		// nesting to skip 2FA).
+		//
+		// Excluded groups are NOT expanded. Expanding them would let an
+		// admin accidentally exempt a large population from 2FA by nesting
+		// a group under an exempt one — a silent weakening of a security
+		// boundary via hierarchy changes. Admins who want sub-groups
+		// exempted must mark each exempt group explicitly.
+		$effectiveGroups = $this->groupManager->getUserEffectiveGroupIds($user);
+		$directGroups = $this->groupManager->getUserGroupIds($user);
 
 		/*
 		 * If there is a list of enforced groups, we only enforce 2FA for members of those groups.
 		 * For all the other users it is not enforced (overruling the excluded groups list).
 		 */
 		if (!empty($state->getEnforcedGroups())) {
-			foreach ($state->getEnforcedGroups() as $group) {
-				if ($this->groupManager->isInGroup($uid, $group)) {
-					return true;
-				}
+			if (array_intersect($state->getEnforcedGroups(), $effectiveGroups) !== []) {
+				return true;
 			}
 			// Not a member of any of these groups -> no 2FA enforced
 			return false;
 		}
 
 		/**
-		 * If the user is member of an excluded group, 2FA won't be enforced.
+		 * If the user is directly a member of an excluded group, 2FA won't be enforced.
 		 */
-		foreach ($state->getExcludedGroups() as $group) {
-			if ($this->groupManager->isInGroup($uid, $group)) {
-				return false;
-			}
+		if (array_intersect($state->getExcludedGroups(), $directGroups) !== []) {
+			return false;
 		}
 
 		/**

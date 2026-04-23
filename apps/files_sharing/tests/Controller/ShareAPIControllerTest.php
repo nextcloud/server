@@ -438,9 +438,9 @@ class ShareAPIControllerTest extends TestCase {
 			->method('get')
 			->with($this->currentUser)
 			->willReturn($user);
-		$group->method('inGroup')
+		$this->groupManager->method('getUserEffectiveGroupIds')
 			->with($user)
-			->willReturn(true);
+			->willReturn(['group']);
 
 		$node->expects($this->once())
 			->method('lock')
@@ -1780,16 +1780,17 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($user);
 
-		$group = $this->createMock(IGroup::class);
-		$group->method('inGroup')->with($user)->willReturn(true);
-		$group2 = $this->createMock(IGroup::class);
-		$group2->method('inGroup')->with($user)->willReturn(false);
-
+		$groupMock = $this->createMock(IGroup::class);
+		$group2Mock = $this->createMock(IGroup::class);
 		$this->groupManager->method('get')->willReturnMap([
-			['group', $group],
-			['group2', $group2],
+			['group', $groupMock],
+			['group2', $group2Mock],
 			['group-null', null],
 		]);
+		// Only "group" contains the current user (directly or via nesting).
+		$this->groupManager->method('getUserEffectiveGroupIds')
+			->with($user)
+			->willReturn(['group']);
 
 		if ($expected) {
 			$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));

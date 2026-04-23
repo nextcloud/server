@@ -459,10 +459,11 @@ class Manager implements IManager {
 		if ($this->shareWithGroupMembersOnly()) {
 			$sharedBy = $this->userManager->get($share->getSharedBy());
 			$sharedWith = $this->userManager->get($share->getSharedWith());
-			// Verify we can share with this user
+			// Verify we can share with this user. Use effective group ids so
+			// users nested via recursive groups are treated as co-members.
 			$groups = array_intersect(
-				$this->groupManager->getUserGroupIds($sharedBy),
-				$this->groupManager->getUserGroupIds($sharedWith)
+				$this->groupManager->getUserEffectiveGroupIds($sharedBy),
+				$this->groupManager->getUserEffectiveGroupIds($sharedWith)
 			);
 
 			// optional excluded groups
@@ -496,15 +497,19 @@ class Manager implements IManager {
 				throw new AlreadySharedException($this->l->t('Sharing %s failed, because this item is already shared with the account %s', [$share->getNode()->getName(), $share->getSharedWithDisplayName()]), $existingShare);
 			}
 
-			// The share is already shared with this user via a group share
+			// The share is already shared with this user via a group share (directly or via nesting)
 			if ($existingShare->getShareType() === IShare::TYPE_GROUP) {
-				$group = $this->groupManager->get($existingShare->getSharedWith());
-				if (!is_null($group)) {
-					$user = $this->userManager->get($share->getSharedWith());
+				$user = $this->userManager->get($share->getSharedWith());
 
-					if ($group->inGroup($user) && $existingShare->getShareOwner() !== $share->getShareOwner()) {
-						throw new AlreadySharedException($this->l->t('Sharing %s failed, because this item is already shared with the account %s', [$share->getNode()->getName(), $share->getSharedWithDisplayName()]), $existingShare);
-					}
+				if ($user !== null
+					&& in_array(
+						$existingShare->getSharedWith(),
+						$this->groupManager->getUserEffectiveGroupIds($user),
+						true,
+					)
+					&& $existingShare->getShareOwner() !== $share->getShareOwner()
+				) {
+					throw new AlreadySharedException($this->l->t('Sharing %s failed, because this item is already shared with the account %s', [$share->getNode()->getName(), $share->getSharedWithDisplayName()]), $existingShare);
 				}
 			}
 		}
@@ -528,7 +533,13 @@ class Manager implements IManager {
 
 			// optional excluded groups
 			$excludedGroups = $this->shareWithGroupMembersOnlyExcludeGroupsList();
-			if (is_null($sharedWith) || in_array($share->getSharedWith(), $excludedGroups) || !$sharedWith->inGroup($sharedBy)) {
+			// Allow sharing when the sharer is an effective member of the
+			// target group, i.e. also when they reach it via a nested-group edge.
+			$sharerGroups = $sharedBy !== null ? $this->groupManager->getUserEffectiveGroupIds($sharedBy) : [];
+			if ($sharedWith === null
+				|| in_array($share->getSharedWith(), $excludedGroups)
+				|| !in_array($share->getSharedWith(), $sharerGroups, true)
+			) {
 				throw new \Exception($this->l->t('Sharing is only allowed within your own groups'));
 			}
 		}
@@ -1192,7 +1203,11 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException($this->l->t('Group "%s" does not exist', [$share->getSharedWith()]));
 			}
 			$recipient = $this->userManager->get($recipientId);
-			if (!$sharedWith->inGroup($recipient)) {
+			if ($recipient === null || !in_array(
+				$share->getSharedWith(),
+				$this->groupManager->getUserEffectiveGroupIds($recipient),
+				true,
+			)) {
 				throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 			}
 		}
@@ -1696,7 +1711,7 @@ class Manager implements IManager {
 		if ($user) {
 			$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
 			if ($excludedGroups) {
-				$userGroups = $this->groupManager->getUserGroupIds($user);
+				$userGroups = $this->groupManager->getUserEffectiveGroupIds($user);
 				return !(bool)array_intersect($excludedGroups, $userGroups);
 			}
 		}
@@ -1721,7 +1736,7 @@ class Manager implements IManager {
 			$excludedGroups = json_decode($excludedGroups);
 			$user = $this->userSession->getUser();
 			if ($user) {
-				$userGroups = $this->groupManager->getUserGroupIds($user);
+				$userGroups = $this->groupManager->getUserEffectiveGroupIds($user);
 				if ((bool)array_intersect($excludedGroups, $userGroups)) {
 					return false;
 				}
@@ -1880,8 +1895,8 @@ class Manager implements IManager {
 
 		// Enumeration is limited to groups
 		if ($this->limitEnumerationToGroups()) {
-			$currentUserGroupIds = $this->groupManager->getUserGroupIds($currentUser);
-			$targetUserGroupIds = $this->groupManager->getUserGroupIds($targetUser);
+			$currentUserGroupIds = $this->groupManager->getUserEffectiveGroupIds($currentUser);
+			$targetUserGroupIds = $this->groupManager->getUserEffectiveGroupIds($targetUser);
 			if (!empty(array_intersect($currentUserGroupIds, $targetUserGroupIds))) {
 				return true;
 			}

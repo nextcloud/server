@@ -90,10 +90,10 @@ class MandatoryTwoFactorTest extends TestCase {
 				['twofactor_enforced_groups', [], ['twofactorers']],
 				['twofactor_enforced_excluded_groups', [], []],
 			]);
-		$this->groupManager->method('isInGroup')
-			->willReturnCallback(function ($user, $group) {
-				return $user === 'user123' && $group === 'twofactorers';
-			});
+		$this->groupManager->method('getUserEffectiveGroupIds')
+			->willReturn(['twofactorers']);
+		$this->groupManager->method('getUserGroupIds')
+			->willReturn(['twofactorers']);
 
 		$isEnforced = $this->mandatoryTwoFactor->isEnforcedFor($user);
 
@@ -110,8 +110,10 @@ class MandatoryTwoFactorTest extends TestCase {
 				['twofactor_enforced_groups', [], ['twofactorers']],
 				['twofactor_enforced_excluded_groups', [], []],
 			]);
-		$this->groupManager->method('isInGroup')
-			->willReturn(false);
+		$this->groupManager->method('getUserEffectiveGroupIds')
+			->willReturn(['otherGroup']);
+		$this->groupManager->method('getUserGroupIds')
+			->willReturn(['otherGroup']);
 
 		$isEnforced = $this->mandatoryTwoFactor->isEnforcedFor($user);
 
@@ -128,14 +130,40 @@ class MandatoryTwoFactorTest extends TestCase {
 				['twofactor_enforced_groups', [], []],
 				['twofactor_enforced_excluded_groups', [], ['yoloers']],
 			]);
-		$this->groupManager->method('isInGroup')
-			->willReturnCallback(function ($user, $group) {
-				return $user === 'user123' && $group === 'yoloers';
-			});
+		// Exclusion is checked against direct membership only.
+		$this->groupManager->method('getUserEffectiveGroupIds')
+			->willReturn(['yoloers']);
+		$this->groupManager->method('getUserGroupIds')
+			->willReturn(['yoloers']);
 
 		$isEnforced = $this->mandatoryTwoFactor->isEnforcedFor($user);
 
 		$this->assertFalse($isEnforced);
+	}
+
+	public function testIsEnforcedForMemberOfExcludedGroupViaNestingOnly(): void {
+		// Nesting must not silently exempt users from 2FA: if a user is in
+		// a subgroup that is not itself on the excluded list, excluding the
+		// parent should not cascade down. The user's direct membership is
+		// 'staff', and 'staff' is nested under 'yoloers' — 2FA must still
+		// be enforced because 'staff' is not directly excluded.
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user123');
+		$this->config
+			->method('getSystemValue')
+			->willReturnMap([
+				['twofactor_enforced', 'false', 'true'],
+				['twofactor_enforced_groups', [], []],
+				['twofactor_enforced_excluded_groups', [], ['yoloers']],
+			]);
+		$this->groupManager->method('getUserEffectiveGroupIds')
+			->willReturn(['staff', 'yoloers']);
+		$this->groupManager->method('getUserGroupIds')
+			->willReturn(['staff']);
+
+		$isEnforced = $this->mandatoryTwoFactor->isEnforcedFor($user);
+
+		$this->assertTrue($isEnforced);
 	}
 
 	public function testSetEnforced(): void {

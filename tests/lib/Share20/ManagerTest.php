@@ -838,7 +838,7 @@ class ManagerTest extends \Test\TestCase {
 		// Create admin user
 		$user = $this->createMock(IUser::class);
 		$this->userSession->method('getUser')->willReturn($user);
-		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn(['admin']);
+		$this->groupManager->method('getUserEffectiveGroupIds')->with($user)->willReturn(['admin']);
 
 		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
 		$this->assertNull($result);
@@ -853,7 +853,7 @@ class ManagerTest extends \Test\TestCase {
 		// Create admin user
 		$user = $this->createMock(IUser::class);
 		$this->userSession->method('getUser')->willReturn($user);
-		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn(['special']);
+		$this->groupManager->method('getUserEffectiveGroupIds')->with($user)->willReturn(['special']);
 
 		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
 		$this->assertNull($result);
@@ -1998,7 +1998,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setSharedBy('sharedBy')->setSharedWith('sharedWith');
 
 		$this->groupManager
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->willReturnMap(
 				[
 					[$sharedBy, ['group1']],
@@ -2032,7 +2032,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setNode($path);
 
 		$this->groupManager
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->willReturnMap(
 				[
 					[$sharedBy, ['group1', 'group3']],
@@ -2118,12 +2118,9 @@ class ManagerTest extends \Test\TestCase {
 			->setId('baz')
 			->setSharedWith('group');
 
-		$group = $this->createMock(IGroup::class);
-		$group->method('inGroup')
+		$this->groupManager->method('getUserEffectiveGroupIds')
 			->with($sharedWith)
-			->willReturn(true);
-
-		$this->groupManager->method('get')->with('group')->willReturn($group);
+			->willReturn(['group']);
 
 		$this->defaultProvider
 			->method('getSharesByPath')
@@ -2282,7 +2279,48 @@ class ManagerTest extends \Test\TestCase {
 		$this->userManager->method('get')->with('user')->willReturn($user);
 		$this->groupManager->method('get')->with('group')->willReturn($group);
 
-		$group->method('inGroup')->with($user)->willReturn(true);
+		$this->groupManager->method('getUserEffectiveGroupIds')->with($user)->willReturn(['group']);
+
+		$path = $this->createMock(Node::class);
+		$share->setNode($path);
+
+		$this->defaultProvider->method('getSharesByPath')
+			->with($path)
+			->willReturn([]);
+
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '', '[]'],
+			]);
+
+		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
+		$this->addToAssertionCount(1);
+	}
+
+	/**
+	 * `shareWithGroupMembersOnly` must also admit a sharer who reaches the
+	 * target group via a nested-group edge, not only via direct membership.
+	 * Regression guard: the check previously called `$group->inGroup()` which
+	 * bypassed nesting entirely.
+	 */
+	public function testGroupCreateChecksShareWithGroupMembersOnlyViaNestedGroup(): void {
+		$share = $this->manager->newShare();
+
+		$user = $this->createMock(IUser::class);
+		$group = $this->createMock(IGroup::class);
+		$share->setSharedBy('user')->setSharedWith('engineering');
+
+		$this->userManager->method('get')->with('user')->willReturn($user);
+		$this->groupManager->method('get')->with('engineering')->willReturn($group);
+
+		// User is a direct member of `backend` which is nested under `engineering`,
+		// so `engineering` appears only in the *effective* set, not in direct groups.
+		$this->groupManager->method('getUserEffectiveGroupIds')
+			->with($user)
+			->willReturn(['backend', 'engineering']);
 
 		$path = $this->createMock(Node::class);
 		$share->setNode($path);
@@ -2554,7 +2592,7 @@ class ManagerTest extends \Test\TestCase {
 				->method('setAppValue');
 		}
 
-		$this->groupManager->method('getUserGroupIds')
+		$this->groupManager->method('getUserEffectiveGroupIds')
 			->with($user)
 			->willReturn($groupIds);
 
@@ -3509,7 +3547,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($shareOwner);
 
 		$this->groupManager->expects($this->once())
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->with($shareOwner)
 			->willReturn(['excludedGroup', 'otherGroup']);
 
@@ -3545,7 +3583,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($shareOwner);
 
 		$this->groupManager->expects($this->once())
-			->method('getUserGroupIds')
+			->method('getUserEffectiveGroupIds')
 			->with($shareOwner)
 			->willReturn(['allowedGroup', 'otherGroup']);
 
@@ -4700,7 +4738,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setSharedWith('shareWith');
 
 		$recipient = $this->createMock(IUser::class);
-		$sharedWith->method('inGroup')->with($recipient)->willReturn(false);
+		$this->groupManager->method('getUserEffectiveGroupIds')->with($recipient)->willReturn([]);
 
 		$this->groupManager->method('get')->with('shareWith')->willReturn($sharedWith);
 		$this->userManager->method('get')->with('recipient')->willReturn($recipient);
@@ -4735,7 +4773,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setSharedWith('group');
 
 		$recipient = $this->createMock(IUser::class);
-		$group->method('inGroup')->with($recipient)->willReturn(true);
+		$this->groupManager->method('getUserEffectiveGroupIds')->with($recipient)->willReturn(['group']);
 
 		$this->groupManager->method('get')->with('group')->willReturn($group);
 		$this->userManager->method('get')->with('recipient')->willReturn($recipient);
@@ -5155,13 +5193,13 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn('target');
 
 		if ($haveCommonGroup) {
-			$this->groupManager->method('getUserGroupIds')
+			$this->groupManager->method('getUserEffectiveGroupIds')
 				->willReturnMap([
 					[$targetUser, ['gid1', 'gid2']],
 					[$currentUser, ['gid2', 'gid3']],
 				]);
 		} else {
-			$this->groupManager->method('getUserGroupIds')
+			$this->groupManager->method('getUserEffectiveGroupIds')
 				->willReturnMap([
 					[$targetUser, ['gid1', 'gid2']],
 					[$currentUser, ['gid3', 'gid4']],
