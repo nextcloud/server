@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use GuzzleHttp\Exception\ClientException;
@@ -104,7 +105,7 @@ class SyncServiceTest extends TestCase {
 			'system',
 			'system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
@@ -175,7 +176,7 @@ END:VCARD';
 			'system',
 			'system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
@@ -246,7 +247,7 @@ END:VCARD';
 			'system',
 			'system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
@@ -287,13 +288,104 @@ END:VCARD';
 			'system',
 			'system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
 		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/4', $token);
+	}
+
+	public function testFullSyncWithOrphanElement(): void {
+		$pendingCards = [];
+		$this->backend->expects($this->exactly(0))
+			->method('createCard');
+		$this->backend->expects($this->exactly(1))
+			->method('updateCard')
+			->willReturnCallback(function ($id, $uri) use (&$pendingCards) {
+				unset($pendingCards[$uri]);
+			});
+		$this->backend->expects($this->exactly(1))
+			->method('markCardsAsPending')
+			->willReturnCallback(function ($id) use (&$pendingCards) {
+				$cards = array_values($this->backend->getCards($id));
+				$uris = array_map(fn ($card) => $card['uri'], $cards);
+				$pendingCards = array_combine($uris, $cards);
+			});
+		$this->backend->expects($this->exactly(1))
+			->method('getPendingCards')
+			->willReturnCallback(function ($id) use (&$pendingCards) {
+				return array_values($pendingCards);
+			});
+		$this->backend->expects($this->exactly(1))
+			->method('deleteCard');
+
+		$body = '<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
+    <d:response>
+        <d:href>/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf</d:href>
+        <d:propstat>
+            <d:prop>
+                <d:getcontenttype>text/vcard; charset=utf-8</d:getcontenttype>
+                <d:getetag>&quot;2df155fa5c2a24cd7f750353fc63f037&quot;</d:getetag>
+            </d:prop>
+            <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+    </d:response>
+    <d:sync-token>http://sabre.io/ns/sync/3</d:sync-token>
+</d:multistatus>';
+
+		$reportResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+
+		$this->client
+			->method('request')
+			->willReturn($reportResponse);
+
+		$vCard = 'BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject 4.5.4//EN
+UID:alice
+FN;X-NC-SCOPE=v2-federated:alice
+N;X-NC-SCOPE=v2-federated:alice;;;;
+X-SOCIALPROFILE;TYPE=NEXTCLOUD;X-NC-SCOPE=v2-published:https://server2.internal/index.php/u/alice
+CLOUD:alice@server2.internal
+END:VCARD';
+
+		$getResponse = new Response(new PsrResponse(
+			200,
+			['Content-Type' => 'text/vcard; charset=utf-8', 'Content-Length' => strlen($vCard)],
+			$vCard,
+		));
+
+		$this->client
+			->method('get')
+			->willReturn($getResponse);
+
+		$this->backend->method('getCards')
+			->willReturn([
+				['uri' => 'Database:alice.vcf'],
+				['uri' => 'Database:bob.vcf'],
+			]);
+
+		$this->service->markCardsAsPending(1);
+		$token = $this->service->syncRemoteAddressBook(
+			'',
+			'system',
+			'system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		)[0];
+		$this->service->deletePendingCards(1);
+
+		$this->assertEquals('http://sabre.io/ns/sync/3', $token);
 	}
 
 	public function testEnsureSystemAddressBookExists(): void {
@@ -496,7 +588,7 @@ END:VCARD';
 			'system',
 			'remote.php/dav/addressbooks/system/system/system',
 			'1234567890',
-			null,
+			'1',
 			'1',
 			'principals/system/system',
 			[]
