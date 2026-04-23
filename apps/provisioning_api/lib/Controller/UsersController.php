@@ -12,6 +12,7 @@ namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Group\Group;
 use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
@@ -32,6 +33,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
@@ -81,6 +83,7 @@ class UsersController extends AUserDataOCSController {
 		private IEventDispatcher $eventDispatcher,
 		private IPhoneNumberUtil $phoneNumberUtil,
 		private IAppManager $appManager,
+		private readonly IUserConfig $userConfig,
 	) {
 		parent::__construct(
 			$appName,
@@ -1074,19 +1077,19 @@ class UsersController extends AUserDataOCSController {
 				if (!in_array($value, $languagesCodes, true) && $value !== 'en') {
 					throw new OCSException($this->l10n->t('Invalid language'), 101);
 				}
-				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
+				$this->userConfig->setValueString($targetUser->getUID(), 'core', ConfigLexicon::USER_LANGUAGE, $value);
 				break;
 			case self::USER_FIELD_LOCALE:
 				if (!$this->l10nFactory->localeExists($value)) {
 					throw new OCSException($this->l10n->t('Invalid locale'), 101);
 				}
-				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
+				$this->userConfig->setValueString($targetUser->getUID(), 'core', ConfigLexicon::USER_LOCALE, $value);
 				break;
 			case self::USER_FIELD_TIMEZONE:
 				if (!in_array($value, \DateTimeZone::listIdentifiers())) {
 					throw new OCSException($this->l10n->t('Invalid timezone'), 101);
 				}
-				$this->config->setUserValue($targetUser->getUID(), 'core', 'timezone', $value);
+				$this->userConfig->setValueString($targetUser->getUID(), 'core', ConfigLexicon::USER_TIMEZONE, $value);
 				break;
 			case self::USER_FIELD_FIRST_DAY_OF_WEEK:
 				$intValue = (int)$value;
