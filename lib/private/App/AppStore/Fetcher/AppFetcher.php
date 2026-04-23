@@ -171,12 +171,13 @@ class AppFetcher extends Fetcher {
 		if (empty($apps)) {
 			return [];
 		}
-		$allowList = $this->config->getSystemValue('appsallowlist');
 
 		// If the admin specified a allow list, filter apps from the appstore
+		$allowList = $this->config->getSystemValue('appsallowlist');
 		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
-			return array_filter($apps, function ($app) use ($allowList) {
-				return in_array($app['id'], $allowList);
+			$allowSet = array_flip($allowList);
+			return array_filter($apps, static function ($app) use ($allowSet) {
+				return isset($allowSet[$app['id']]);
 			});
 		}
 
