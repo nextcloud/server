@@ -204,6 +204,8 @@ OC.L10N.register(
     "Visibility" : "Vizibil",
     "Show last login" : "Arată ultima autentificare",
     "Send email" : "Expediază mesajul",
+    "Search" : "Căutare",
+    "Help" : "Ajutor",
     "Server error while trying to complete WebAuthn device registration" : "Eroare de server în timpul încercării de a finaliza înregistrarea dispozitivului WebAuthn",
     "Add WebAuthn device" : "Adăugați dispozitivul WebAuthn",
     "Unnamed device" : "Dispozitiv fără nume",

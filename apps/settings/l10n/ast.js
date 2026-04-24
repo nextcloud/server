@@ -419,6 +419,8 @@ OC.L10N.register(
     "Send welcome email to new accounts" : "Unviar el mensaxe d'acoyida a les cuentes nueves",
     "Defaults" : "Valores predeterminaos",
     "Default quota" : "Cuota predeterminada",
+    "Search" : "Buscar",
+    "Help" : "Ayuda",
     "Server error while trying to complete WebAuthn device registration" : "Error del sirvidor mentanto se completaba'l rexistru del preséu WebAuthn.",
     "Passwordless authentication requires a secure connection." : "L'autenticación ensin contraseña rique una conexón segura.",
     "Add WebAuthn device" : "Amestar preséu WebAuthn",

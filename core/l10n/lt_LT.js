@@ -364,7 +364,7 @@ OC.L10N.register(
     "Password is very strong" : "Labai stiprus slaptažodis",
     "Password is extremely strong" : "Ypatingai stiprus slaptažodis",
     "Unknown password strength" : "Nežinomas slaptažodžio stiprumas",
-    "Your data directory and files are probably accessible from the internet because the <code>.htaccess</code> file does not work." : "Jūsų duomenų katalogas ir failai tikriausiai pasiekiami iš interneto, nes <code>.htaccess </code> failas neveikia.",
+    "Your data directory and files are probably accessible from the internet because the <code>.htaccess</code> file does not work." : "Jūsų duomenų katalogas ir failai, tikriausiai, pasiekiami iš interneto, nes <code>.htaccess </code> failas neveikia.",
     "For information how to properly configure your server, please {linkStart}see the documentation{linkEnd}" : "Informacijos, kaip tinkamai sukonfigūruoti serverį, ieškokite {linkStart} dokumentacijoje {linkEnd}",
     "Autoconfig file detected" : "Aptiktas Autoconfig failas",
     "The setup form below is pre-filled with the values from the config file." : "Žemiau esanti sąrankos forma yra iš anksto užpildyta reikšmėmis iš konfigūracijos failo.",

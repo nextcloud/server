@@ -161,6 +161,8 @@ OC.L10N.register(
     "Show last login" : "Afichar la darrièra connexion",
     "Send email" : "Enviar email",
     "Default quota" : "Quota per defaut",
+    "Search" : "Recercar",
+    "Help" : "Ajuda",
     "Unnamed device" : "Periferic sens nom",
     "Passwordless Authentication" : "Autentificacion sens senhal",
     "No devices configured." : "Cap de periferic pas configurat.",
