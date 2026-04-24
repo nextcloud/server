@@ -8,6 +8,7 @@ namespace OCA\Provisioning_API\AppInfo;
 
 use OC\Group\Manager as GroupManager;
 use OCA\Provisioning_API\Capabilities;
+use OCA\Provisioning_API\Listener\UserDataCacheListener;
 use OCA\Provisioning_API\Listener\UserDeletedListener;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCA\Settings\Mailer\NewUserMailHelper;
@@ -27,6 +28,8 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
@@ -37,7 +40,10 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(UserChangedEvent::class, UserDataCacheListener::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserDataCacheListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
+		$context->registerEventListener(PasswordUpdatedEvent::class, UserDataCacheListener::class);
 
 		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $c) {
 			return new NewUserMailHelper(

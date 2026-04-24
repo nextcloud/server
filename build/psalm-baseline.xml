@@ -2067,10 +2067,6 @@
       <code><![CDATA[setUserValue]]></code>
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
-    <TypeDoesNotContainNull>
-      <code><![CDATA[$groupid === null]]></code>
-      <code><![CDATA[$groupid === null]]></code>
-    </TypeDoesNotContainNull>
   </file>
   <file src="apps/provisioning_api/lib/FederatedShareProviderFactory.php">
     <DeprecatedInterface>

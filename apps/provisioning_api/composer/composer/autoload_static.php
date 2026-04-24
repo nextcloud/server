@@ -32,6 +32,7 @@ class ComposerStaticInitProvisioning_API
         'OCA\\Provisioning_API\\Controller\\UsersController' => __DIR__ . '/..' . '/../lib/Controller/UsersController.php',
         'OCA\\Provisioning_API\\Controller\\VerificationController' => __DIR__ . '/..' . '/../lib/Controller/VerificationController.php',
         'OCA\\Provisioning_API\\FederatedShareProviderFactory' => __DIR__ . '/..' . '/../lib/FederatedShareProviderFactory.php',
+        'OCA\\Provisioning_API\\Listener\\UserDataCacheListener' => __DIR__ . '/..' . '/../lib/Listener/UserDataCacheListener.php',
         'OCA\\Provisioning_API\\Listener\\UserDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/UserDeletedListener.php',
         'OCA\\Provisioning_API\\Middleware\\Exceptions\\NotSubAdminException' => __DIR__ . '/..' . '/../lib/Middleware/Exceptions/NotSubAdminException.php',
         'OCA\\Provisioning_API\\Middleware\\ProvisioningApiMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/ProvisioningApiMiddleware.php',

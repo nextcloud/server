@@ -22,6 +22,8 @@ use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Group\ISubAdmin;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
@@ -50,6 +52,10 @@ abstract class AUserDataOCSController extends OCSController {
 	public const USER_FIELD_MANAGER = 'manager';
 	public const USER_FIELD_NOTIFICATION_EMAIL = 'notify_email';
 
+	private const CACHE_TTL = 300; // 5 minutes
+
+	private ICache $cache;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -61,8 +67,10 @@ abstract class AUserDataOCSController extends OCSController {
 		protected ISubAdmin $subAdminManager,
 		protected IFactory $l10nFactory,
 		protected IRootFolder $rootFolder,
+		ICacheFactory $cacheFactory,
 	) {
 		parent::__construct($appName, $request);
+		$this->cache = $cacheFactory->createDistributed('provisioning_api');
 	}
 
 	/**
@@ -79,8 +87,6 @@ abstract class AUserDataOCSController extends OCSController {
 		$currentLoggedInUser = $this->userSession->getUser();
 		assert($currentLoggedInUser !== null, 'No user logged in');
 
-		$data = [];
-
 		// Check if the target user exists
 		$targetUserObject = $this->userManager->get($userId);
 		if ($targetUserObject === null) {
@@ -89,6 +95,15 @@ abstract class AUserDataOCSController extends OCSController {
 
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+
+		$cacheKey = 'user_data_' . $userId . '_' . ($isAdmin || $isDelegatedAdmin ? 'admin' : 'noadmin') . ($includeScopes ? '_scoped' : '');
+		/** @var Provisioning_APIUserDetails|null $cached */
+		$cached = $this->cache->get($cacheKey);
+		if ($cached !== null) {
+			return $cached;
+		}
+
+		$data = [];
 		if ($isAdmin
 			|| $isDelegatedAdmin
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
@@ -197,6 +212,7 @@ abstract class AUserDataOCSController extends OCSController {
 			'setPassword' => $backend instanceof ISetPasswordBackend || $backend->implementsActions(Backend::SET_PASSWORD),
 		];
 
+		$this->cache->set($cacheKey, $data, self::CACHE_TTL);
 		return $data;
 	}
 
