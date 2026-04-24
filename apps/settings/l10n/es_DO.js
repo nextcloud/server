@@ -170,6 +170,8 @@ OC.L10N.register(
     "Show last login" : "Mostrar último inicio de sesión",
     "Send email" : "Enviar correo electrónico",
     "Default quota" : "Cuota predeterminada",
+    "Search" : "Buscar",
+    "Help" : "Ayuda",
     "Unnamed device" : "Dispositivo sin nombre",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Es importante preparar este servidor para poder enviar correos electrónicos, como para restablecer contraseñas y notificaciones. ",
     "Send mode" : "Modo de envío",

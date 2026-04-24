@@ -347,6 +347,8 @@ OC.L10N.register(
     "Defaults" : "Valores predeterminados",
     "Default quota" : "Cuota predeterminada",
     "Select default quota" : "Seleccionar cuota predeterminada",
+    "Search" : "Buscar",
+    "Help" : "Ayuda",
     "Server error while trying to complete WebAuthn device registration" : "Error del servidor al intentar completar el registro del dispositivo WebAuthn",
     "Passwordless authentication requires a secure connection." : "La autenticación sin contraseña requiere una conexión segura.",
     "Add WebAuthn device" : "Agregar dispositivo WebAuthn",

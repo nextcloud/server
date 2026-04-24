@@ -226,6 +226,8 @@ OC.L10N.register(
     "Send email" : "Kas postel",
     "Default quota" : "Quota dre ziouer",
     "Select default quota" : "Choaz ar c'hota dre ziouer",
+    "Search" : "Klask",
+    "Help" : "Skoazell",
     "Server error while trying to complete WebAuthn device registration" : "Ur fazi servijour a zo bet pa oa glotaet an ardivink WebAuthn",
     "Passwordless authentication requires a secure connection." : "Ret eo kaout ur c'henstagadur sur evit un dilesa di-ger-tremen.",
     "Add WebAuthn device" : "Ouzhpenn ardivink WebAuthn",

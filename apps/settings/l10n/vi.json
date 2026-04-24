@@ -355,6 +355,8 @@
     "Defaults" : "Mặc định",
     "Default quota" : "Hạn ngạch mặc định",
     "Select default quota" : "Chọn hạn ngạch mặc định",
+    "Search" : "Tìm kiếm",
+    "Help" : "Trợ giúp",
     "Server error while trying to complete WebAuthn device registration" : "Lỗi máy chủ khi cố gắng hoàn tất đăng ký thiết bị WebAuthn",
     "Passwordless authentication requires a secure connection." : "Xác thực không cần mật khẩu yêu cầu kết nối an toàn.",
     "Add WebAuthn device" : "Thêm thiết bị WebAuthn",
