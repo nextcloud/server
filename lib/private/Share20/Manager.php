@@ -51,6 +51,7 @@ use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -1185,13 +1186,16 @@ class Manager implements IManager {
 		if ($share->getShareType() === IShare::TYPE_USER && $share->getSharedWith() !== $recipientId) {
 			throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 		}
+		$recipient = $this->userManager->get($recipientId);
+		if (!$recipient) {
+			throw new \InvalidArgumentException($this->l->t('Unknown share recipient'));
+		}
 
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			if (is_null($sharedWith)) {
 				throw new \InvalidArgumentException($this->l->t('Group "%s" does not exist', [$share->getSharedWith()]));
 			}
-			$recipient = $this->userManager->get($recipientId);
 			if (!$sharedWith->inGroup($recipient)) {
 				throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 			}
@@ -1200,7 +1204,11 @@ class Manager implements IManager {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		return $provider->move($share, $recipientId);
+		$result = $provider->move($share, $recipientId);
+
+		$this->dispatchEvent(new ShareMovedEvent($share, $recipient), 'share moved');
+
+		return $result;
 	}
 
 	#[Override]

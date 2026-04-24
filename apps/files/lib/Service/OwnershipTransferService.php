@@ -577,14 +577,16 @@ class OwnershipTransferService {
 		$output->writeln('');
 	}
 
-	private function transferIncomingShares(string $sourceUid,
+	private function transferIncomingShares(
+		string $sourceUid,
 		string $destinationUid,
 		array $sourceShares,
 		array $destinationShares,
 		OutputInterface $output,
 		string $path,
 		string $finalTarget,
-		bool $move): void {
+		bool $move,
+	): void {
 		$output->writeln('Restoring incoming shares ...');
 		$progress = new ProgressBar($output, count($sourceShares));
 		$prefix = "$destinationUid/files";
@@ -623,8 +625,11 @@ class OwnershipTransferService {
 						if ($move) {
 							continue;
 						}
+						$oldMountPoint = $this->getShareMountPoint($destinationUid, $share->getTarget());
+						$newMountPoint = $this->getShareMountPoint($destinationUid, $shareTarget);
 						$share->setTarget($shareTarget);
 						$this->shareManager->moveShare($share, $destinationUid);
+						$this->mountManager->moveMount($oldMountPoint, $newMountPoint);
 						continue;
 					}
 					$this->shareManager->deleteShare($share);
@@ -642,8 +647,11 @@ class OwnershipTransferService {
 					if ($move) {
 						continue;
 					}
+					$oldMountPoint = $this->getShareMountPoint($destinationUid, $share->getTarget());
+					$newMountPoint = $this->getShareMountPoint($destinationUid, $shareTarget);
 					$share->setTarget($shareTarget);
 					$this->shareManager->moveShare($share, $destinationUid);
+					$this->mountManager->moveMount($oldMountPoint, $newMountPoint);
 					continue;
 				}
 			} catch (NotFoundException $e) {
@@ -655,5 +663,9 @@ class OwnershipTransferService {
 		}
 		$progress->finish();
 		$output->writeln('');
+	}
+
+	private function getShareMountPoint(string $uid, string $target): string {
+		return '/' . $uid . '/files/' . trim($target, '/') . '/';
 	}
 }
