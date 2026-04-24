@@ -1407,7 +1407,6 @@
     <InternalMethod>
       <code><![CDATA[getLocalFile]]></code>
       <code><![CDATA[new View('/' . $userId . '/files_external')]]></code>
-      <code><![CDATA[put]]></code>
     </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
