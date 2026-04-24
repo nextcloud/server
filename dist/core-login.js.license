@@ -14,7 +14,6 @@ SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: Yehuda Katz
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
@@ -221,9 +220,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - focus-trap
 	- version: 8.0.1
-	- license: MIT
-- handlebars
-	- version: 4.7.8
 	- license: MIT
 - hookable
 	- version: 5.5.3
