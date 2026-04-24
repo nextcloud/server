@@ -2133,15 +2133,11 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserAdminUserSelfEditChangeValidQuota(): void {
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('getAppValue')
-			->willReturnCallback(function ($appid, $key, $default) {
-				if ($key === 'max_quota') {
-					return '-1';
-				}
-				return null;
-			});
+			->method('getValueInt')
+			->with('files', 'max_quota', -1)
+			->willReturn(-1);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())
@@ -2221,15 +2217,11 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserAdminUserEditChangeValidQuota(): void {
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('getAppValue')
-			->willReturnCallback(function ($appid, $key, $default) {
-				if ($key === 'max_quota') {
-					return '-1';
-				}
-				return null;
-			});
+			->method('getValueInt')
+			->with('files', 'max_quota', -1)
+			->willReturn(-1);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())
@@ -2276,8 +2268,8 @@ class UsersControllerTest extends TestCase {
 
 	public function testEditUserSelfEditChangeLanguage(): void {
 		$this->l10nFactory->expects($this->once())
-			->method('findAvailableLanguages')
-			->willReturn(['en', 'de', 'sv']);
+			->method('languageExists')
+			->willReturnCallback(fn ($app, $lang) => in_array($lang, ['en', 'de', 'sv'], true));
 		$this->config->expects($this->any())
 			->method('getSystemValue')
 			->willReturnMap([
@@ -2378,8 +2370,8 @@ class UsersControllerTest extends TestCase {
 
 	public function testEditUserAdminEditChangeLanguage(): void {
 		$this->l10nFactory->expects($this->once())
-			->method('findAvailableLanguages')
-			->willReturn(['en', 'de', 'sv']);
+			->method('languageExists')
+			->willReturnCallback(fn ($app, $lang) => in_array($lang, ['en', 'de', 'sv'], true));
 
 		$loggedInUser = $this->createMock(IUser::class);
 		$loggedInUser
@@ -2429,8 +2421,8 @@ class UsersControllerTest extends TestCase {
 
 
 		$this->l10nFactory->expects($this->once())
-			->method('findAvailableLanguages')
-			->willReturn(['en', 'de', 'sv']);
+			->method('languageExists')
+			->willReturnCallback(fn ($app, $lang) => in_array($lang, ['en', 'de', 'sv'], true));
 
 		$loggedInUser = $this->createMock(IUser::class);
 		$loggedInUser
@@ -2474,15 +2466,11 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserSubadminUserAccessible(): void {
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('getAppValue')
-			->willReturnCallback(function ($appid, $key, $default) {
-				if ($key === 'max_quota') {
-					return '-1';
-				}
-				return null;
-			});
+			->method('getValueInt')
+			->with('files', 'max_quota', -1)
+			->willReturn(-1);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())

@@ -979,10 +979,8 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($password !== null) {
-			if (!$targetUser->canChangePassword()) {
-				$errors['password'] = $this->l10n->t('Password change is not supported by the user backend');
-			} elseif (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
-				$errors['password'] = $this->l10n->t('Password exceeds maximum length');
+			if (($error = $this->validatePasswordChange($targetUser, $password)) !== null) {
+				$errors['password'] = $error[0];
 			}
 		}
 
@@ -994,41 +992,19 @@ class UsersController extends AUserDataOCSController {
 			$forceLanguage = $this->config->getSystemValue('force_language', false);
 			if ($forceLanguage !== false && !$isAdmin && !$isDelegatedAdmin) {
 				$errors['language'] = $this->l10n->t('Language change is not allowed on this instance');
-			} else {
-				$availableLanguages = $this->l10nFactory->findAvailableLanguages();
-				if (!in_array($language, $availableLanguages, true) && $language !== 'en') {
-					$errors['language'] = $this->l10n->t('Invalid language');
-				}
+			} elseif (!$this->l10nFactory->languageExists(null, $language)) {
+				$errors['language'] = $this->l10n->t('Invalid language');
 			}
 		}
 
 		if ($quota !== null) {
 			if (!$canEditOther) {
 				$errors['quota'] = $this->l10n->t('Insufficient permissions to change quota');
-			} elseif ($quota !== 'none' && $quota !== 'default') {
-				if (is_numeric($quota)) {
-					$quota = (float)$quota;
-				} else {
-					$quota = Util::computerFileSize($quota);
-				}
-				if ($quota === false) {
-					$errors['quota'] = $this->l10n->t('Invalid quota value');
-				} elseif ($quota === -1) {
-					$quota = 'none';
-				} else {
-					$maxQuota = $this->appConfig->getValueInt('files', 'max_quota', -1);
-					if ($maxQuota !== -1 && $quota > $maxQuota) {
-						$errors['quota'] = $this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$quota]);
-					} else {
-						$quota = Util::humanFileSize($quota);
-					}
-				}
-			}
-			// no else block because quota can be set to 'none' in previous if
-			if ($quota === 'none') {
-				$allowUnlimitedQuota = $this->appConfig->getValueString('files', 'allow_unlimited_quota', '1') === '1';
-				if (!$allowUnlimitedQuota) {
-					$errors['quota'] = $this->l10n->t('Unlimited quota is forbidden on this instance');
+			} else {
+				try {
+					$quota = $this->parseAndValidateQuota($quota);
+				} catch (\InvalidArgumentException $e) {
+					$errors['quota'] = $e->getMessage();
 				}
 			}
 		}
@@ -1141,6 +1117,59 @@ class UsersController extends AUserDataOCSController {
 		/** @var Provisioning_APIUserDetails $data */
 		$data = $this->getUserData($userId);
 		return new DataResponse($data);
+	}
+
+	/**
+	 * Validate and parse a quota string into the form expected by IUser::setQuota().
+	 *
+	 * Accepts: 'none', 'default', a numeric byte count, or a human-readable size like '5 GB'.
+	 * Enforces max_quota and allow_unlimited_quota policies.
+	 *
+	 * @return string Parsed quota: 'none', 'default', or humanFileSize string (e.g. '5 GB')
+	 * @throws \InvalidArgumentException With l10n'd user-facing error message
+	 */
+	private function parseAndValidateQuota(string $value): string {
+		if ($value === 'default') {
+			return 'default';
+		}
+
+		if ($value !== 'none') {
+			$bytes = is_numeric($value) ? (float)$value : Util::computerFileSize($value);
+			if ($bytes === false) {
+				throw new \InvalidArgumentException($this->l10n->t('Invalid quota value: %1$s', [$value]));
+			}
+			if ($bytes !== -1) {
+				$maxQuota = $this->appConfig->getValueInt('files', 'max_quota', -1);
+				if ($maxQuota !== -1 && $bytes > $maxQuota) {
+					throw new \InvalidArgumentException($this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$value]));
+				}
+				return Util::humanFileSize($bytes);
+			}
+		}
+
+		$allowUnlimitedQuota = $this->appConfig->getValueString('files', 'allow_unlimited_quota', '1') === '1';
+		if (!$allowUnlimitedQuota) {
+			throw new \InvalidArgumentException($this->l10n->t('Unlimited quota is forbidden on this instance'));
+		}
+		return 'none';
+	}
+
+	/**
+	 * Validate that a new password can be set on the target user.
+	 *
+	 * Does not apply the password — only checks backend support and length.
+	 *
+	 * @return array{0: string, 1: int}|null Tuple of [error message, OCS code] or null on success.
+	 *                                       Code 112: backend not supported. Code 101: invalid value.
+	 */
+	private function validatePasswordChange(IUser $targetUser, string $password): ?array {
+		if (!$targetUser->canChangePassword()) {
+			return [$this->l10n->t('Setting the password is not supported by the users backend'), 112];
+		}
+		if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
+			return [$this->l10n->t('Invalid password value'), 101];
+		}
+		return null;
 	}
 
 	/**
@@ -1271,32 +1300,10 @@ class UsersController extends AUserDataOCSController {
 				}
 				break;
 			case self::USER_FIELD_QUOTA:
-				$quota = $value;
-				if ($quota !== 'none' && $quota !== 'default') {
-					if (is_numeric($quota)) {
-						$quota = (float)$quota;
-					} else {
-						$quota = Util::computerFileSize($quota);
-					}
-					if ($quota === false) {
-						throw new OCSException($this->l10n->t('Invalid quota value: %1$s', [$value]), 101);
-					}
-					if ($quota === -1) {
-						$quota = 'none';
-					} else {
-						$maxQuota = (int)$this->config->getAppValue('files', 'max_quota', '-1');
-						if ($maxQuota !== -1 && $quota > $maxQuota) {
-							throw new OCSException($this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$value]), 101);
-						}
-						$quota = Util::humanFileSize($quota);
-					}
-				}
-				// no else block because quota can be set to 'none' in previous if
-				if ($quota === 'none') {
-					$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
-					if (!$allowUnlimitedQuota) {
-						throw new OCSException($this->l10n->t('Unlimited quota is forbidden on this instance'), 101);
-					}
+				try {
+					$quota = $this->parseAndValidateQuota($value);
+				} catch (\InvalidArgumentException $e) {
+					throw new OCSException($e->getMessage(), 101);
 				}
 				$targetUser->setQuota($quota);
 				break;
@@ -1305,11 +1312,8 @@ class UsersController extends AUserDataOCSController {
 				break;
 			case self::USER_FIELD_PASSWORD:
 				try {
-					if (strlen($value) > IUserManager::MAX_PASSWORD_LENGTH) {
-						throw new OCSException($this->l10n->t('Invalid password value'), 101);
-					}
-					if (!$targetUser->canChangePassword()) {
-						throw new OCSException($this->l10n->t('Setting the password is not supported by the users backend'), 112);
+					if (($error = $this->validatePasswordChange($targetUser, $value)) !== null) {
+						throw new OCSException($error[0], $error[1]);
 					}
 					$targetUser->setPassword($value);
 				} catch (HintException $e) { // password policy error
@@ -1317,8 +1321,7 @@ class UsersController extends AUserDataOCSController {
 				}
 				break;
 			case self::USER_FIELD_LANGUAGE:
-				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
-				if (!in_array($value, $languagesCodes, true) && $value !== 'en') {
+				if (!$this->l10nFactory->languageExists(null, $value)) {
 					throw new OCSException($this->l10n->t('Invalid language'), 101);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
