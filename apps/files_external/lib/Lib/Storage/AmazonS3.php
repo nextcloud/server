@@ -659,15 +659,25 @@ class AmazonS3 extends Common {
 		if ($cacheEntry instanceof CacheEntry) {
 			return $cacheEntry->getData();
 		} else {
-			return [
-				'name' => basename($path),
+			// On a cache miss, prefer the real S3 directory marker metadata before falling back
+			// to synthetic folder data for prefix-only directories.
+			$directoryMarker = $path === '.' ? false : $this->headObject($path . '/');
+			if ($directoryMarker !== false) {
+				$data = $this->objectToMetaData($directoryMarker);
+			} else {
+				$data = [
+					'name' => basename($path),
+					'mtime' => time(),
+					'storage_mtime' => time(),
+					'etag' => uniqid(),
+				];
+			}
+
+			return array_replace($data, [
 				'mimetype' => FileInfo::MIMETYPE_FOLDER,
-				'mtime' => time(),
-				'storage_mtime' => time(),
-				'etag' => uniqid(),
 				'permissions' => Constants::PERMISSION_ALL,
 				'size' => -1,
-			];
+			]);
 		}
 	}
 
