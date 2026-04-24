@@ -107,8 +107,7 @@ class PreviewManager implements IPreview {
 	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
 	 * @param ProviderClosure $callable
 	 */
-	#[\Override]
-	public function registerProvider(string $mimeTypeRegex, Closure $callable): void {
+	private function registerProviderClosure(string $mimeTypeRegex, Closure $callable): void {
 		if (!$this->enablePreviews) {
 			return;
 		}
@@ -300,7 +299,7 @@ class PreviewManager implements IPreview {
 	 */
 	protected function registerCoreProvider(string $class, string $mimeType, array $options = []): void {
 		if (in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
-			$this->registerProvider($mimeType, function () use ($class, $options) {
+			$this->registerProviderClosure($mimeType, function () use ($class, $options): IProviderV2 {
 				return new $class($options);
 			});
 		}
@@ -426,7 +425,7 @@ class PreviewManager implements IPreview {
 			}
 			$this->loadedBootstrapProviders[$key] = null;
 
-			$this->registerProvider($provider->getMimeTypeRegex(), function () use ($provider): IProviderV2|false {
+			$this->registerProviderClosure($provider->getMimeTypeRegex(), function () use ($provider): IProviderV2|false {
 				try {
 					return $this->container->get($provider->getService());
 				} catch (NotFoundExceptionInterface) {
