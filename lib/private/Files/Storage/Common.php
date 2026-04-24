@@ -255,23 +255,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		return $this->getCachedFile($path);
 	}
 
-	private function addLocalFolder(string $path, string $target): void {
-		$dh = $this->opendir($path);
-		if (is_resource($dh)) {
-			while (($file = readdir($dh)) !== false) {
-				if (!Filesystem::isIgnoredDir($file)) {
-					if ($this->is_dir($path . '/' . $file)) {
-						mkdir($target . '/' . $file);
-						$this->addLocalFolder($path . '/' . $file, $target . '/' . $file);
-					} else {
-						$tmp = $this->toTmpFile($path . '/' . $file);
-						rename($tmp, $target . '/' . $file);
-					}
-				}
-			}
-		}
-	}
-
 	protected function searchInDir(string $query, string $dir = ''): array {
 		$files = [];
 		$dh = $this->opendir($dir);
