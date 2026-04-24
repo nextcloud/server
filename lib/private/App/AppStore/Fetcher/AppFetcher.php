@@ -90,7 +90,10 @@ class AppFetcher extends Fetcher {
 				}
 
 				try {
-					$rawPlatformVersionSpec = (string)$release['rawPlatformVersionSpec'];
+					$rawPlatformVersionSpec = $release['rawPlatformVersionSpec'] ?? null;
+					if ($rawPlatformVersionSpec === null) {
+						continue; // no spec; treat as incompatible, skip
+					}
 					if (!isset($platformSpecCache[$rawPlatformVersionSpec])) {
 						$serverVersion = $versionParser->getVersion($rawPlatformVersionSpec);
 						$platformSpecCache[$rawPlatformVersionSpec] = [
@@ -106,8 +109,7 @@ class AppFetcher extends Fetcher {
 
 					$isPhpCompatible = true;
 
-					$rawPhpVersionSpec = (string)($release['rawPhpVersionSpec'] ?? '*');
-
+					$rawPhpVersionSpec = $release['rawPhpVersionSpec'] ?? '*';
 					if ($rawPhpVersionSpec !== '*') {
 						if (!isset($phpSpecCache[$rawPhpVersionSpec])) {
 							$phpVersion = $versionParser->getVersion($rawPhpVersionSpec);
@@ -174,12 +176,6 @@ class AppFetcher extends Fetcher {
 
 		// If the admin specified a allow list, filter apps from the appstore
 		$allowList = $this->config->getSystemValue('appsallowlist');
-		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
-			$allowSet = array_flip($allowList);
-			return array_values(array_filter($apps, static function ($app) use ($allowSet) {
-				return isset($allowSet[$app['id']]);
-			}));
-		}
 		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
 			$allowSet = array_flip($allowList);
 			return array_filter($apps, static function ($app) use ($allowSet) {
