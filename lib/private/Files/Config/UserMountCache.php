@@ -149,12 +149,12 @@ class UserMountCache implements IUserMountCache {
 	private function findChangedMounts(array $newMounts, array $cachedMounts): array {
 		$changed = [];
 		foreach ($cachedMounts as $key => $cachedMount) {
+			// $key = "$rootId::$mountPoint"
 			if (isset($newMounts[$key])) {
 				$newMount = $newMounts[$key];
 				if (
 					$newMount->getMountId() !== $cachedMount->getMountId()
 					|| $newMount->getMountProvider() !== $cachedMount->getMountProvider()
-					|| $newMount->getStorageId() !== $cachedMount->getStorageId()
 				) {
 					$changed[] = [$cachedMount, $newMount];
 				}
