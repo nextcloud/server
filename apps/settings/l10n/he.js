@@ -248,6 +248,8 @@ OC.L10N.register(
     "Send email" : "שליחת דואר אלקטרוני",
     "Default quota" : "מיכסת בררת מחדל",
     "Select default quota" : "בחירת מכסת בררת מחדל",
+    "Search" : "חיפוש",
+    "Help" : "עזרה",
     "Server error while trying to complete WebAuthn device registration" : "התקבלה שגיאת שרת בעת הניסיון להשלים את הרשמת התקן ה־WebAuthn",
     "Passwordless authentication requires a secure connection." : "אימות ללא ססמה דורש חיבור מוצפן.",
     "Add WebAuthn device" : "הוספת התקן WebAuthn",

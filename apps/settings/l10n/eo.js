@@ -225,6 +225,8 @@ OC.L10N.register(
     "Send email" : "Sendi retpoŝtmesaĝon",
     "Default quota" : "Defaŭlta kvoto",
     "Select default quota" : "Elekti defaŭltan kvoton",
+    "Search" : "Serĉi",
+    "Help" : "Helpo",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Gravas agordi tiun ĉi servilon por povi sendi retpoŝtmesaĝojn, ekz. por restarigo de pasvorto aŭ sciigoj.",
     "Send mode" : "Kiel sendi",
     "Encryption" : "Ĉifrado",

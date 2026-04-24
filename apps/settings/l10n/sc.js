@@ -271,6 +271,8 @@ OC.L10N.register(
     "Send email" : "Imbia messàgiu de posta eletrònica",
     "Default quota" : "Cuota predefinida",
     "Select default quota" : "Seletziona cuota predefinida",
+    "Search" : "Chirca",
+    "Help" : "Agiudu",
     "Server error while trying to complete WebAuthn device registration" : "Errore de su serbidore chirchende de cumpletare sa registratzione de su dispositivu WebAuthn",
     "Passwordless authentication requires a secure connection." : "S'autenticatzione chene crae rechedet una connessione segura.",
     "Add WebAuthn device" : "Agiunghe dispositivu WebAuthn",
