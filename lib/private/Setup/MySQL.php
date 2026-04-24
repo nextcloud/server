@@ -17,6 +17,9 @@ use OCP\IDBConnection;
 class MySQL extends AbstractDatabase {
 	public string $dbprettyname = 'MySQL/MariaDB';
 
+	/** @var int MySQL username length limit */
+	private const MAX_USERNAME_LENGTH = 16;
+
 	public function setupDatabase(): void {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
@@ -55,6 +58,38 @@ class MySQL extends AbstractDatabase {
 			throw new DatabaseSetupException($this->trans->t('MySQL Login and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
+	}
+
+	/**
+	 * Check whether a MySQL user account already exists.
+	 */
+	private function userExists(IDBConnection $connection, string $username): bool {
+		$result = $connection->executeQuery(
+			'SELECT user FROM mysql.user WHERE user = ?',
+			[$username]
+		);
+
+		$exists = $result->fetch() !== false;
+		$result->closeCursor();
+
+		return $exists;
+	}
+
+	/**
+	 * Find a username starting from $base that doesn't already exist,
+	 * respecting MySQL's 16-character username limit.
+	 */
+	private function findAvailableUsername(IDBConnection $connection, string $base): string {
+		$candidate = substr($base, 0, self::MAX_USERNAME_LENGTH);
+
+		$i = 1;
+		while ($this->userExists($connection, $candidate)) {
+			$suffix = (string)$i;
+			$candidate = substr($base, 0, self::MAX_USERNAME_LENGTH - strlen($suffix)) . $suffix;
+			$i++;
+		}
+
+		return $candidate;
 	}
 
 	private function createDatabase(\OC\DB\Connection $connection): void {
@@ -136,35 +171,12 @@ class MySQL extends AbstractDatabase {
 			//we don't have a dbuser specified in config
 			if ($this->dbUser !== $oldUser) {
 				//add prefix to the admin username to prevent collisions
-				$adminUser = substr('oc_' . $username, 0, 16);
-
-				$i = 1;
-				while (true) {
-					//this should be enough to check for admin rights in mysql
-					$query = 'SELECT user FROM mysql.user WHERE user=?';
-					$result = $connection->executeQuery($query, [$adminUser]);
-
-					//current dbuser has admin rights
-					$data = $result->fetchAll();
-					$result->closeCursor();
-					//new dbuser does not exist
-					if (count($data) === 0) {
-						//use the admin login data for the new database user
-						$this->dbUser = $adminUser;
-						$this->createDBUser($connection);
-						// if sharding is used we need to manually call this for every shard as those also need the user setup!
-						/** @var ConnectionAdapter $connection */
-						foreach ($connection->getInner()->getShardConnections() as $shard) {
-							$this->createDBUser($shard);
-						}
-
-						break;
-					} else {
-						//repeat with different username
-						$length = strlen((string)$i);
-						$adminUser = substr('oc_' . $username, 0, 16 - $length) . $i;
-						$i++;
-					}
+				$this->dbUser = $this->findAvailableUsername($connection, 'oc_' . $username);
+				$this->createDBUser($connection);
+				// if sharding is used we need to manually call this for every shard as those also need the user setup!
+				/** @var ConnectionAdapter $connection */
+				foreach ($connection->getInner()->getShardConnections() as $shard) {
+					$this->createDBUser($shard);
 				}
 			} else {
 				// Reuse existing password if a database config is already present
