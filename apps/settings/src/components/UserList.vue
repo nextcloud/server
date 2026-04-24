@@ -340,6 +340,11 @@ export default {
 		},
 
 		initForm() {
+			/**
+			 * Init default language from server data. The use of this.settings
+			 * requires a computed variable, which break the v-model binding of the form,
+			 * this is a much easier solution than getter and setter on a computed var
+			 */
 			if (this.settings.defaultLanguage) {
 				this.newUser.language.code = this.settings.defaultLanguage
 			}
