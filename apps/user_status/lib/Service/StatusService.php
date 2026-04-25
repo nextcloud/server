@@ -284,7 +284,18 @@ class StatusService {
 
 		if ($createBackup) {
 			if ($this->backupCurrentStatus($userId) === false) {
-				return null; // Already a status set automatically => abort.
+				// A backup already exists, meaning another automated status is active.
+				// If the active status already carries the same messageId, this is a
+				// duplicate/concurrent request for the same event — treat it as success.
+				try {
+					$currentStatus = $this->mapper->findByUserId($userId);
+					if ($currentStatus->getMessageId() === $messageId) {
+						return $currentStatus;
+					}
+				} catch (DoesNotExistException) {
+					// No active status row exists, fall through to abort
+				}
+				return null; // A different automated status is active => abort.
 			}
 
 			// If we just created the backup
