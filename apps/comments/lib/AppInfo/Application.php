@@ -23,7 +23,10 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Comments\CommentsEntityEvent;
-use OCP\Comments\CommentsEvent;
+use OCP\Comments\Events\BeforeCommentUpdatedEvent;
+use OCP\Comments\Events\CommentAddedEvent;
+use OCP\Comments\Events\CommentDeletedEvent;
+use OCP\Comments\Events\CommentUpdatedEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'comments';
@@ -48,7 +51,19 @@ class Application extends App implements IBootstrap {
 			CommentsEntityEventListener::class
 		);
 		$context->registerEventListener(
-			CommentsEvent::class,
+			CommentAddedEvent::class,
+			CommentsEventListener::class,
+		);
+		$context->registerEventListener(
+			BeforeCommentUpdatedEvent::class,
+			CommentsEventListener::class,
+		);
+		$context->registerEventListener(
+			CommentUpdatedEvent::class,
+			CommentsEventListener::class,
+		);
+		$context->registerEventListener(
+			CommentDeletedEvent::class,
 			CommentsEventListener::class,
 		);
 
