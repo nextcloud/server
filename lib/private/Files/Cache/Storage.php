@@ -153,6 +153,8 @@ class Storage {
 			->set('last_checked', $query->createNamedParameter(time() + $delay))
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
 		$query->executeStatement();
+
+		self::getGlobalCache()->clearStorageInfo($this->storageId);
 	}
 
 	/**
