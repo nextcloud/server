@@ -272,7 +272,7 @@ trait S3ObjectTrait {
 	 * @throws S3Exception|\Exception if there is an unhandled exception
 	 */
 	public function objectExists($urn) {
-		return $this->getConnection()->doesObjectExistV2($this->bucket, $urn, false, $this->getSSECParameters());
+		return $this->getConnection()->doesObjectExistV2($this->bucket, $urn, false, $this->getServerSideEncryptionParameters());
 	}
 
 	public function copyObject($from, $to, array $options = []) {
