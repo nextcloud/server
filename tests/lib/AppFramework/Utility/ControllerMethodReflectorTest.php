@@ -9,6 +9,8 @@
 namespace Test\AppFramework\Utility;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class BaseController {
 	/**
@@ -69,7 +71,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @Annotation
 	 */
 	public function testReadAnnotation(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadAnnotation'
@@ -82,7 +84,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @Annotation(parameter=value)
 	 */
 	public function testGetAnnotationParameterSingle(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			self::class,
 			__FUNCTION__
@@ -95,7 +97,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @Annotation(parameter1=value1, parameter2=value2,parameter3=value3)
 	 */
 	public function testGetAnnotationParameterMultiple(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			self::class,
 			__FUNCTION__
@@ -111,7 +113,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @param test
 	 */
 	public function testReadAnnotationNoLowercase(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadAnnotationNoLowercase'
@@ -127,7 +129,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @param int $test
 	 */
 	public function testReadTypeIntAnnotations(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadTypeIntAnnotations'
@@ -145,7 +147,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	}
 
 	public function testReadTypeIntAnnotationsScalarTypes(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'arguments3'
@@ -163,7 +165,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @param double $test something special
 	 */
 	public function testReadTypeDoubleAnnotations(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadTypeDoubleAnnotations'
@@ -177,7 +179,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @param string $foo
 	 */
 	public function testReadTypeWhitespaceAnnotations(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'testReadTypeWhitespaceAnnotations'
@@ -190,7 +192,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	public function arguments($arg, $arg2 = 'hi') {
 	}
 	public function testReflectParameters(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'arguments'
@@ -203,7 +205,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	public function arguments2($arg) {
 	}
 	public function testReflectParameters2(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect(
 			'\Test\AppFramework\Utility\ControllerMethodReflectorTest',
 			'arguments2'
@@ -214,7 +216,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 
 
 	public function testInheritance(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test');
 
 		$this->assertTrue($reader->hasAnnotation('Annotation'));
@@ -222,7 +224,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 
 
 	public function testInheritanceOverride(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test2');
 
 		$this->assertTrue($reader->hasAnnotation('NoAnnotation'));
@@ -231,14 +233,14 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 
 
 	public function testInheritanceOverrideNoDocblock(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test3');
 
 		$this->assertFalse($reader->hasAnnotation('Annotation'));
 	}
 
 	public function testRangeDetectionPsalm(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test4');
 
 		$rangeInfo1 = $reader->getRange('rangedOne');
@@ -259,7 +261,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	}
 
 	public function testRangeDetectionNative(): void {
-		$reader = new ControllerMethodReflector();
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test5');
 
 		$rangeInfo1 = $reader->getRange('rangedOne');

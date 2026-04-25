@@ -28,7 +28,11 @@
 		</th>
 
 		<!-- Actions -->
-		<th class="files-list__row-actions" />
+		<th class="files-list__row-actions">
+			<span class="hidden-visually">
+				{{ t('files', 'Actions') }}
+			</span>
+		</th>
 
 		<!-- Mime -->
 		<th
@@ -84,11 +88,11 @@ import { FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID } from './FilesListTableHeaderActi
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import logger from '../logger.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import { logger } from '../utils/logger.ts'
 
 export const FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID = 'files-list-header-select-all-checkbox'
 

@@ -37,6 +37,7 @@
 			'preLoginNameUsedAsUserName',
 			['uid' => &$uid]
 		)]]></code>
+      <code><![CDATA[getFederationIdFromSharedSecret]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/Activity/Listener.php">
@@ -831,12 +832,6 @@
     <InvalidOperand>
       <code><![CDATA[$query->getCursor()]]></code>
     </InvalidOperand>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[[
-		'ATTENDEE' => ['CN'],
-		'ORGANIZER' => ['CN'],
-	]]]></code>
-    </InvalidPropertyAssignmentValue>
     <UndefinedMethod>
       <code><![CDATA[getDateTime]]></code>
       <code><![CDATA[getDateTime]]></code>
@@ -1365,7 +1360,6 @@
     <InternalMethod>
       <code><![CDATA[getLocalFile]]></code>
       <code><![CDATA[new View('/' . $userId . '/files_external')]]></code>
-      <code><![CDATA[put]]></code>
     </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
@@ -1399,7 +1393,6 @@
       <code><![CDATA[encrypt]]></code>
       <code><![CDATA[setIV]]></code>
       <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setKey]]></code>
     </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
@@ -1478,12 +1471,6 @@
       <code><![CDATA[Circles]]></code>
       <code><![CDATA[Circles]]></code>
     </UndefinedClass>
-    <UndefinedDocblockClass>
-      <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code><![CDATA[\OCA\Talk\Share\Helper\ShareAPIController]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="apps/files_sharing/lib/Controller/ShareController.php">
     <DeprecatedClass>
@@ -1552,9 +1539,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/Middleware/SharingCheckMiddleware.php">
-    <DeprecatedInterface>
-      <code><![CDATA[protected]]></code>
-    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -2097,9 +2081,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
-    <DeprecatedInterface>
-      <code><![CDATA[IControllerMethodReflector]]></code>
-    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[hasAnnotation]]></code>
       <code><![CDATA[hasAnnotation]]></code>
@@ -2376,12 +2357,6 @@
       <code><![CDATA[FakeTranslationProvider]]></code>
     </DeprecatedInterface>
   </file>
-  <file src="apps/theming/lib/Capabilities.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/theming/lib/Command/UpdateConfig.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -2426,6 +2401,9 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/theming/lib/Listener/BeforeTemplateRenderedListener.php">
+    <DeprecatedClass>
+      <code><![CDATA[JSDataService::class]]></code>
+    </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
@@ -2611,16 +2589,10 @@
     <DeprecatedInterface>
       <code><![CDATA[User_LDAP]]></code>
     </DeprecatedInterface>
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[string|false]]></code>
-    </ImplementedReturnTypeMismatch>
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$limit]]></code>
       <code><![CDATA[$offset]]></code>
     </MoreSpecificImplementedParamType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
     <RedundantCondition>
       <code><![CDATA[$displayName && (count($displayName) > 0)]]></code>
       <code><![CDATA[is_string($dn)]]></code>
@@ -2683,11 +2655,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getSubject]]></code>
       <code><![CDATA[getSubject]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/workflowengine/lib/Settings/ASettings.php">
-    <DeprecatedMethod>
-      <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
@@ -3439,14 +3406,6 @@
     <InvalidArgument>
       <code><![CDATA[self::SCAN_RECURSIVE_INCOMPLETE]]></code>
     </InvalidArgument>
-  </file>
-  <file src="lib/private/Files/Cache/Storage.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[array]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[self::getGlobalCache()->getStorageInfo($storageId)]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>

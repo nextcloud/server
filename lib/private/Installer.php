@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
+use OC\App\AppManager;
 use OC\App\AppStore\AppNotFoundException;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
@@ -19,7 +20,6 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Files\FilenameValidator;
 use OCP\App\AppPathNotFoundException;
-use OCP\App\IAppManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files;
 use OCP\HintException;
@@ -46,7 +46,7 @@ class Installer {
 		private ITempManager $tempManager,
 		private LoggerInterface $logger,
 		private IConfig $config,
-		private IAppManager $appManager,
+		private AppManager $appManager,
 		private IFactory $l10nFactory,
 		private bool $isCLI,
 	) {
@@ -136,7 +136,7 @@ class Installer {
 		foreach (\OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				// Check if there is a writable install folder.
-				if (!is_writable($dir['path'])
+				if ((!is_writable($dir['path']) && $this->config->getSystemValueBool('appstoreenabled', true))
 					|| !is_readable($dir['path'])
 				) {
 					throw new \RuntimeException(
@@ -583,7 +583,7 @@ class Installer {
 			$this->config->setAppValue('core', 'public_' . $name, $info['id'] . '/' . $path);
 		}
 
-		\OC_App::setAppTypes($info['id']);
+		$this->appManager->setAppTypes($info['id'], $info);
 
 		return $info['id'];
 	}

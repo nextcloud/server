@@ -37,7 +37,6 @@
 			:extra-props="{
 				users,
 				settings,
-				hasObfuscated,
 				quotaOptions,
 				languages,
 				externalActions,
@@ -50,7 +49,7 @@
 			</template>
 
 			<template #header>
-				<UserListHeader :has-obfuscated="hasObfuscated" />
+				<UserListHeader />
 			</template>
 
 			<template #footer>
@@ -65,7 +64,6 @@
 <script>
 import { mdiAccountGroupOutline } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import Vue from 'vue'
 import { Fragment } from 'vue-frag'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
@@ -77,7 +75,7 @@ import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 import VirtualList from './Users/VirtualList.vue'
 import logger from '../logger.ts'
-import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
+import { defaultQuota, unlimitedQuota } from '../utils/userUtils.ts'
 
 const newUser = Object.freeze({
 	id: '',
@@ -140,11 +138,14 @@ export default {
 
 			newUser: { ...newUser },
 			isInitialLoad: true,
-			searchQuery: '',
 		}
 	},
 
 	computed: {
+		searchQuery() {
+			return this.$store.getters.getSearchQuery
+		},
+
 		showConfig() {
 			return this.$store.getters.getShowConfig
 		},
@@ -157,10 +158,6 @@ export default {
 			return {
 				'--row-height': `${this.rowHeight}px`,
 			}
-		},
-
-		hasObfuscated() {
-			return this.filteredUsers.some((user) => isObfuscated(user))
 		},
 
 		users() {
@@ -229,6 +226,11 @@ export default {
 	},
 
 	watch: {
+		async searchQuery() {
+			this.$store.commit('resetUsers')
+			await this.loadUsers()
+		},
+
 		// watch url change and group select
 		async selectedGroup(val) {
 			this.isInitialLoad = true
@@ -259,20 +261,9 @@ export default {
 		this.resetForm()
 
 		/**
-		 * Register search
-		 */
-		subscribe('nextcloud:unified-search.search', this.search)
-		subscribe('nextcloud:unified-search.reset', this.resetSearch)
-
-		/**
 		 * If disabled group but empty, redirect
 		 */
 		await this.redirectIfDisabled()
-	},
-
-	beforeDestroy() {
-		unsubscribe('nextcloud:unified-search.search', this.search)
-		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
 	},
 
 	methods: {
@@ -317,16 +308,6 @@ export default {
 				key: 'showNewUserForm',
 				value: false,
 			})
-		},
-
-		async search({ query }) {
-			this.searchQuery = query
-			this.$store.commit('resetUsers')
-			await this.loadUsers()
-		},
-
-		resetSearch() {
-			this.search({ query: '' })
 		},
 
 		resetForm() {

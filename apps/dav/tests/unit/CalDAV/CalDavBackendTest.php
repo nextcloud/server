@@ -1840,6 +1840,72 @@ EOD;
 		$this->assertEquals('Missing DTSTART 2', $results[3]['objects'][0]['SUMMARY'][0]);
 	}
 
+	public function testSearchByUri(): void {
+		$calendarId = $this->createTestCalendar();
+		$uris = [];
+		$calData = [];
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20260323T093039Z
+UID:search-by-uri-test1
+LAST-MODIFIED;VALUE=DATE-TIME:20260323T093039Z
+DTSTAMP;VALUE=DATE-TIME:20260323T093039Z
+SUMMARY:First Test Event
+DTSTART;VALUE=DATE-TIME:20260323T093039Z
+DTEND;VALUE=DATE-TIME:20260323T093039Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20260323T093039Z
+UID:search-by-uri-test2
+LAST-MODIFIED;VALUE=DATE-TIME:20260323T093039Z
+DTSTAMP;VALUE=DATE-TIME:20260323T093039Z
+SUMMARY:Second Test Event
+DTSTART;VALUE=DATE-TIME:20260323T093039Z
+DTEND;VALUE=DATE-TIME:20260323T093039Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		foreach ($uris as $i => $uri) {
+			$this->backend->createCalendarObject($calendarId, $uri, $calData[$i]);
+		}
+
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		// Searching by first event's URI returns this event
+		$results = $this->backend->search($calendarInfo, '', [], ['uri' => $uris[0]], null, null);
+		$this->assertCount(1, $results);
+		$this->assertEquals($uris[0], $results[0]['uri']);
+
+		// Searching by second event's URI returns this event
+		$results = $this->backend->search($calendarInfo, '', [], ['uri' => $uris[1]], null, null);
+		$this->assertCount(1, $results);
+		$this->assertEquals($uris[1], $results[0]['uri']);
+
+		// Searching by a non-existent URI returns nothing
+		$result = $this->backend->search($calendarInfo, '', [], ['uri' => 'nonexistant.ical'], null, null);
+		$this->assertCount(0, $result);
+	}
+
 	public function testUnshare(): void {
 		$principalGroup = 'principal:' . self::UNIT_TEST_GROUP;
 		$principalUser = 'principal:' . self::UNIT_TEST_USER;
@@ -1880,5 +1946,44 @@ EOD;
 			principal: $principalUser
 		);
 
+	}
+
+	public function testDefaultAlarmProperty(): void {
+		$calendarId = $this->createTestCalendar();
+
+		// Test setting default alarm property to 15 minutes before (-900 seconds)
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}default-alarm' => -900
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		// Verify the property was set
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $calendars);
+		$this->assertEquals(-900, $calendars[0]['{http://nextcloud.com/ns}default-alarm']);
+
+		// Test updating to a different value (1 day before = -86400 seconds)
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}default-alarm' => -86400
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(-86400, $calendars[0]['{http://nextcloud.com/ns}default-alarm']);
+
+		// Test setting to "none"
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}default-alarm' => null
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(null, $calendars[0]['{http://nextcloud.com/ns}default-alarm']);
+
+		// Clean up
+		$this->backend->deleteCalendar($calendars[0]['id'], true);
 	}
 }

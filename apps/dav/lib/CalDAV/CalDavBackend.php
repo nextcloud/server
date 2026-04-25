@@ -151,6 +151,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{http://apple.com/ns/ical/}calendar-order' => ['calendarorder', 'int'],
 		'{http://apple.com/ns/ical/}calendar-color' => ['calendarcolor', 'string'],
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}deleted-at' => ['deleted_at', 'int'],
+		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}default-alarm' => ['default_alarm', 'int'],
 	];
 
 	/**
@@ -189,7 +190,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	];
 
 	/** @var array parameters to index */
-	public static array $indexParameters = [
+	private const INDEXED_PARAMETERS = [
 		'ATTENDEE' => ['CN'],
 		'ORGANIZER' => ['CN'],
 	];
@@ -2061,6 +2062,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$outerQuery->andWhere($outerQuery->expr()->eq('uid', $outerQuery->createNamedParameter($options['uid'])));
 		}
 
+		if (isset($options['uri'])) {
+			$outerQuery->andWhere($outerQuery->expr()->eq('uri', $outerQuery->createNamedParameter($options['uri'])));
+		}
+
 		if (!empty($options['types'])) {
 			$or = [];
 			foreach ($options['types'] as $type) {
@@ -3381,9 +3386,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						$query->executeStatement();
 					}
 
-					if (array_key_exists($property->name, self::$indexParameters)) {
+					if (array_key_exists($property->name, self::INDEXED_PARAMETERS)) {
 						$parameters = $property->parameters();
-						$indexedParametersForProperty = self::$indexParameters[$property->name];
+						$indexedParametersForProperty = self::INDEXED_PARAMETERS[$property->name];
 
 						foreach ($parameters as $key => $value) {
 							if (in_array($key, $indexedParametersForProperty)) {

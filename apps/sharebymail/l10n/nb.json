@@ -20,7 +20,6 @@
     "Note:" : "Merk:",
     "This share is valid until %s at midnight" : "Denne delte ressursen er gyldig til %s ved midnatt",
     "Expiration:" : "Utløp:",
-    "Open %s" : "Åpne %s",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s delte %2$s med deg. Du skal allerede ha mottatt en egen e-post med en lenke for å få tilgang til den.",
     "Password to access %1$s shared to you by %2$s" : "Passord for å få tilgang til %1$s delt med deg av %2$s",

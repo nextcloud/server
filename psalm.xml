@@ -97,6 +97,7 @@
 		<file name="3rdparty/sabre/uri/lib/functions.php" />
 		<file name="build/stubs/app_api.php" />
 		<file name="build/stubs/php-polyfill.php" />
+		<file name="build/stubs/oca_talk_share_helper_shareapicontroller.php" />
 	</stubs>
 	<issueHandlers>
 		<LessSpecificReturnStatement errorLevel="error"/>

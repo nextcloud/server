@@ -7,6 +7,7 @@
 
 namespace OCP\Files;
 
+use OC\Files\Mount\MoveableMount;
 use OCP\Constants;
 use OCP\Files\Mount\IMovableMount;
 
@@ -33,7 +34,7 @@ class DavUtil {
 	 *
 	 * @since 25.0.0
 	 */
-	public static function getDavPermissions(FileInfo $info): string {
+	public static function getDavPermissions(FileInfo $info, FileInfo $parent): string {
 		$permissions = $info->getPermissions();
 		$p = '';
 		if ($info->isShared()) {
@@ -51,8 +52,11 @@ class DavUtil {
 		if ($permissions & Constants::PERMISSION_DELETE) {
 			$p .= 'D';
 		}
+		if (self::canRename($info, $parent)) {
+			$p .= 'N'; // Renamable
+		}
 		if ($permissions & Constants::PERMISSION_UPDATE) {
-			$p .= 'NV'; // Renameable, Movable
+			$p .= 'V'; // Movable
 		}
 
 		// since we always add update permissions for the root of movable mounts
@@ -75,5 +79,25 @@ class DavUtil {
 			}
 		}
 		return $p;
+	}
+
+	public static function canRename(FileInfo $info, FileInfo $parent): bool {
+		// the root of a movable mountpoint can be renamed regardless of the file permissions
+		if ($info->getMountPoint() instanceof MoveableMount && $info->getInternalPath() === '') {
+			return true;
+		}
+
+		// we allow renaming the file if either the file has update permissions
+		if ($info->isUpdateable()) {
+			return true;
+		}
+
+		// or the file can be deleted and the parent has create permissions
+		if ($info->getStorage() instanceof IHomeStorage && $info->getInternalPath() === 'files') {
+			// can't rename the users home
+			return false;
+		}
+
+		return $info->isDeletable() && $parent->isCreatable();
 	}
 }

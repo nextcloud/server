@@ -57,7 +57,6 @@ export default defineConfig({
 		coverage: {
 			include: ['./apps/*/src/**', 'core/src/**'],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
-			provider: 'istanbul',
 			reporter: ['lcov', 'text'],
 			reportsDirectory: resolve(import.meta.dirname, '../../coverage/legacy'),
 		},

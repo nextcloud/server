@@ -9,7 +9,7 @@ import type { ResponseDataDetailed, SearchResult } from 'webdav'
 import { getCurrentUser } from '@nextcloud/auth'
 import { defaultRootPath, getDavNameSpaces, getDavProperties, resultToNode } from '@nextcloud/files/dav'
 import { getBaseUrl } from '@nextcloud/router'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { client } from './WebdavClient.ts'
 
 export interface SearchNodesOptions {

@@ -49,11 +49,11 @@ import { basename } from '@nextcloud/paths'
 import { defineComponent, inject } from 'vue'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
-import logger from '../../logger.ts'
 import { useActiveStore } from '../../store/active.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
 import { useUserConfigStore } from '../../store/userconfig.ts'
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
+import { logger } from '../../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryName',

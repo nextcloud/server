@@ -107,7 +107,7 @@ jobs:
           fi
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
         if: steps.update-files.outputs.CHANGES_MADE == 'true'
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
@@ -115,7 +115,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
-          branch: "automated/noid/${{ matrix.branches }}-update-min-supported-desktop-version"
+          branch: "automated/noid/update-min-supported-desktop-version"
           title: "chore: Update minimum supported desktop version to ${{ steps.extract-version.outputs.VERSION }}"
           base: "master"
           body: |

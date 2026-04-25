@@ -11,6 +11,7 @@ namespace OC\Core\Db;
 
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
+use OCP\Profile\IProfileManager;
 use OCP\Profile\ParameterDoesNotExistException;
 use function json_decode;
 use function json_encode;
@@ -68,7 +69,7 @@ class ProfileConfig extends Entity implements JsonSerializable {
 		foreach ($visibilityMap as $paramId => $visibility) {
 			$config[$paramId] = array_merge(
 				$config[$paramId] ?: [],
-				['visibility' => $visibility],
+				['visibility' => $this->normalizeVisibility($visibility)],
 			);
 		}
 
@@ -102,5 +103,13 @@ class ProfileConfig extends Entity implements JsonSerializable {
 			'userId' => $this->userId,
 			'config' => $this->getConfigArray(),
 		];
+	}
+
+	private function normalizeVisibility(string $visibility): string {
+		return match(strtolower($visibility)) {
+			IProfileManager::VISIBILITY_SHOW => IProfileManager::VISIBILITY_SHOW,
+			IProfileManager::VISIBILITY_SHOW_USERS_ONLY => IProfileManager::VISIBILITY_SHOW_USERS_ONLY,
+			default => IProfileManager::VISIBILITY_HIDE,
+		};
 	}
 }

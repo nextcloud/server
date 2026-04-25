@@ -37,7 +37,7 @@ import { debounce, throttle } from 'throttle-debounce'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 import ChartPie from 'vue-material-design-icons/ChartPieOutline.vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 export default {
 	name: 'NavigationQuota',

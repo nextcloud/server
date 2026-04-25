@@ -76,7 +76,7 @@ class BulkUploadPlugin extends ServerPlugin {
 					'error' => false,
 					'etag' => $node->getETag(),
 					'fileid' => DavUtil::getDavFileId($node->getId()),
-					'permissions' => DavUtil::getDavPermissions($node),
+					'permissions' => DavUtil::getDavPermissions($node, $node->getParent()),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);

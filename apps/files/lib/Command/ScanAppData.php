@@ -10,6 +10,7 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\SetupManager;
 use OC\Files\Utils\Scanner;
 use OC\ForbiddenException;
 use OC\Preview\Storage\StorageFactory;
@@ -60,6 +61,7 @@ class ScanAppData extends Base {
 			new ConnectionAdapter($connection),
 			Server::get(IEventDispatcher::class),
 			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
 		);
 	}
 

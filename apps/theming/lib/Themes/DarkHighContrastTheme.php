@@ -99,6 +99,8 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 				'--color-info-hover' => $this->util->lighten($colorInfo, 5),
 				'--color-info-text' => $this->util->lighten($colorInfo, 60),
 
+				'--color-background-selection' => 'var(--color-primary-element)',
+
 				'--color-scrollbar' => 'auto transparent',
 
 				// used for the icon loading animation
@@ -127,6 +129,9 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 			}
 			div.crumb {
 				filter: brightness(150%);
+			}
+			::selection {
+				color: var(--color-primary-element-text);
 			}
 		";
 	}

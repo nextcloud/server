@@ -15,11 +15,11 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
-use OCP\ITagManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -28,16 +28,13 @@ use Psr\Log\LoggerInterface;
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class TagsTest extends \Test\TestCase {
 	protected $objectType;
-	/** @var IUser */
-	protected $user;
-	/** @var IUserSession */
-	protected $userSession;
-	protected $backupGlobals = false;
-	/** @var TagMapper */
-	protected $tagMapper;
-	/** @var ITagManager */
-	protected $tagMgr;
-	protected IRootFolder $rootFolder;
+	protected IUser&MockObject $user;
+	protected IUserSession&MockObject $userSession;
+	protected IUserManager&MockObject $userManager;
+	protected IRootFolder&MockObject $rootFolder;
+
+	protected TagMapper $tagMapper;
+	protected TagManager $tagMgr;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -50,6 +47,11 @@ class TagsTest extends \Test\TestCase {
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')
 			->willReturn($userId);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager
+			->expects($this->any())
+			->method('getExistingUser')
+			->willReturn($this->user);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession
 			->expects($this->any())
@@ -70,7 +72,15 @@ class TagsTest extends \Test\TestCase {
 
 		$this->objectType = $this->getUniqueID('type_');
 		$this->tagMapper = new TagMapper(Server::get(IDBConnection::class));
-		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class), $this->rootFolder);
+		$this->tagMgr = new TagManager(
+			$this->tagMapper,
+			$this->userSession,
+			$this->userManager,
+			Server::get(IDBConnection::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IEventDispatcher::class),
+			$this->rootFolder
+		);
 	}
 
 	protected function tearDown(): void {
@@ -87,7 +97,15 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn(null);
-		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class), $this->rootFolder);
+		$this->tagMgr = new TagManager(
+			$this->tagMapper,
+			$this->userSession,
+			$this->userManager,
+			Server::get(IDBConnection::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IEventDispatcher::class),
+			$this->rootFolder
+		);
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}
 

@@ -68,6 +68,7 @@
     "Primary color" : "Основной цвет",
     "Background color" : "Цвет фона",
     "Remove background image" : "Убрать фоновое изображение ",
+    "Background image" : "Фоновое изображение",
     "Favicon" : "Favicon (значок сайта)",
     "Logo" : "Логотип",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Хотя вы можете выбрать и настроить свой экземпляр, пользователи могут изменять свой фон и цвета. Если вы хотите принудительно применить свои настройки для всех, вы можете включить это.",

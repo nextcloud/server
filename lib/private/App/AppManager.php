@@ -54,6 +54,9 @@ class AppManager implements IAppManager {
 	/** @var string[] $appId => $enabled */
 	private array $enabledAppsCache = [];
 
+	/** @var array<string, array{path: string, url: string}> $appId => approot information */
+	private array $appsDirCache = [];
+
 	/** @var string[]|null */
 	private ?array $shippedApps = null;
 
@@ -253,7 +256,7 @@ class AppManager implements IAppManager {
 		// Add each apps' folder as allowed class path
 		foreach ($apps as $app) {
 			// If the app is already loaded then autoloading it makes no sense
-			if (!$this->isAppLoaded($app)) {
+			if (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))) {
 				try {
 					$path = $this->getAppPath($app);
 					\OC_App::registerAutoloading($app, $path);
@@ -743,11 +746,9 @@ class AppManager implements IAppManager {
 		if ($sanitizedAppId !== $appId) {
 			return false;
 		}
-		// FIXME replace by a property or a cache
-		static $app_dir = [];
 
-		if (isset($app_dir[$appId]) && !$ignoreCache) {
-			return $app_dir[$appId];
+		if (isset($this->appsDirCache[$appId]) && !$ignoreCache) {
+			return $this->appsDirCache[$appId];
 		}
 
 		$possibleApps = [];
@@ -761,7 +762,7 @@ class AppManager implements IAppManager {
 			return false;
 		} elseif (count($possibleApps) === 1) {
 			$dir = array_shift($possibleApps);
-			$app_dir[$appId] = $dir;
+			$this->appsDirCache[$appId] = $dir;
 			return $dir;
 		} else {
 			$versionToLoad = [];
@@ -778,7 +779,7 @@ class AppManager implements IAppManager {
 			if (!isset($versionToLoad['dir'])) {
 				return false;
 			}
-			$app_dir[$appId] = $versionToLoad['dir'];
+			$this->appsDirCache[$appId] = $versionToLoad['dir'];
 			return $versionToLoad['dir'];
 		}
 	}
@@ -1042,6 +1043,27 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * Read app types from info.xml and cache them in the database
+	 */
+	public function setAppTypes(string $app, array $appData): void {
+		if (isset($appData['types'])) {
+			$appTypes = implode(',', $appData['types']);
+		} else {
+			$appTypes = '';
+			$appData['types'] = [];
+		}
+
+		$this->config->setAppValue($app, 'types', $appTypes);
+
+		if ($this->hasProtectedAppType($appData['types'])) {
+			$enabled = $this->config->getAppValue($app, 'enabled', 'yes');
+			if ($enabled !== 'yes' && $enabled !== 'no') {
+				$this->config->setAppValue($app, 'enabled', 'yes');
+			}
+		}
+	}
+
+	/**
 	 * Run upgrade tasks for an app after the code has already been updated
 	 *
 	 * @throws AppPathNotFoundException if app folder can't be found
@@ -1098,7 +1120,7 @@ class AppManager implements IAppManager {
 			$this->config->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
 		}
 
-		\OC_App::setAppTypes($appId);
+		$this->setAppTypes($appId, $appData);
 
 		$version = $this->getAppVersion($appId);
 		$this->config->setAppValue($appId, 'installed_version', $version);

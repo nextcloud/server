@@ -295,6 +295,80 @@ trait S3ConnectionTrait {
 		];
 	}
 
+	/**
+	 * Get SSE-KMS key ID from configuration
+	 * @return string|null KMS key ARN/ID or null for bucket default key
+	 */
+	protected function getSSEKMSKeyId(): ?string {
+		if (isset($this->params['sse_kms_key_id']) && !empty($this->params['sse_kms_key_id'])) {
+			return $this->params['sse_kms_key_id'];
+		}
+		return null;
+	}
+
+	/**
+	 * Check if SSE-KMS is enabled
+	 * @return bool
+	 */
+	protected function isSSEKMSEnabled(): bool {
+		return !empty($this->params['sse_kms_enabled']) && $this->params['sse_kms_enabled'] === true;
+	}
+
+	/**
+	 * Get SSE-KMS parameters for S3 operations
+	 *
+	 * When SSE-KMS is enabled, AWS S3 encrypts objects server-side using
+	 * AWS Key Management Service (KMS) keys. This provides:
+	 * - Centralized key management via AWS KMS
+	 * - Audit trail of key usage
+	 * - No client-side encryption overhead
+	 * - Automatic key rotation support
+	 *
+	 * @param bool $copy Whether this is for a copy operation (unused for KMS)
+	 * @return array Parameters to merge into S3 API calls
+	 */
+	protected function getSSEKMSParameters(bool $copy = false): array {
+		if (!$this->isSSEKMSEnabled()) {
+			return [];
+		}
+
+		$params = [
+			'ServerSideEncryption' => 'aws:kms',
+		];
+
+		// Add specific KMS key if configured, otherwise use bucket default key
+		$keyId = $this->getSSEKMSKeyId();
+		if ($keyId !== null) {
+			$params['SSEKMSKeyId'] = $keyId;
+		}
+
+		// Note: For copy operations, S3 re-encrypts with the destination key
+		// No special source parameters needed (unlike SSE-C)
+
+		return $params;
+	}
+
+	/**
+	 * Get unified server-side encryption parameters
+	 *
+	 * Supports both SSE-C (customer-provided keys) and SSE-KMS (AWS-managed keys).
+	 * SSE-C takes precedence if both are configured (for backward compatibility
+	 * during migration from SSE-C to SSE-KMS).
+	 *
+	 * @param bool $copy Whether this is for a copy operation
+	 * @return array Encryption parameters to merge into S3 API calls
+	 */
+	protected function getServerSideEncryptionParameters(bool $copy = false): array {
+		// SSE-C takes precedence for backward compatibility during migration
+		$sseC = $this->getSSECParameters($copy);
+		if (!empty($sseC)) {
+			return $sseC;
+		}
+
+		// Fall back to SSE-KMS if enabled
+		return $this->getSSEKMSParameters($copy);
+	}
+
 	public function isUsePresignedUrl(): bool {
 		return $this->usePresignedUrl;
 	}

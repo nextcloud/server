@@ -170,6 +170,8 @@
     "Show last login" : "ბოლო ავტორიზაციის ჩვენება",
     "Send email" : "ელ-წერილის გაგზავნა",
     "Default quota" : "საწყისი კვოტა",
+    "Search" : "ძიება",
+    "Help" : "დახმარება",
     "Unnamed device" : "უსახელო მოწყობილობა",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "ამ სერვერის მოწყობა ელ-წერილების გასაგზვნად მნიშვნელოვანია, მაგ. პაროლის აღსადგენად და შეტყობინებების მისაღებად.",
     "Send mode" : "გაგზავნის რეჟიმი",

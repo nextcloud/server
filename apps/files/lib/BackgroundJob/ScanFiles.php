@@ -8,6 +8,7 @@
 
 namespace OCA\Files\BackgroundJob;
 
+use OC\Files\SetupManager;
 use OC\Files\Utils\Scanner;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
@@ -15,6 +16,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,6 +35,8 @@ class ScanFiles extends TimedJob {
 		private LoggerInterface $logger,
 		private IDBConnection $connection,
 		ITimeFactory $time,
+		private readonly SetupManager $setupManager,
+		private readonly IUserManager $userManager,
 	) {
 		parent::__construct($time);
 		// Run once per 10 minutes
@@ -42,10 +46,11 @@ class ScanFiles extends TimedJob {
 	protected function runScanner(string $user): void {
 		try {
 			$scanner = new Scanner(
-				$user,
+				$this->userManager->get($user),
 				null,
 				$this->dispatcher,
-				$this->logger
+				$this->logger,
+				$this->setupManager,
 			);
 			$scanner->backgroundScan('');
 		} catch (\Exception $e) {

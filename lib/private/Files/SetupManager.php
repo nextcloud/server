@@ -42,6 +42,7 @@ use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
+use OCP\Files\Events\UserHomeSetupEvent;
 use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
@@ -94,6 +95,8 @@ class SetupManager implements ISetupManager {
 	private bool $optimizeAuthoritativeProviders;
 	private const SETUP_WITH_CHILDREN = 1;
 	private const SETUP_WITHOUT_CHILDREN = 0;
+
+	private bool $updatingProviders = false;
 
 	public function __construct(
 		private IEventLogger $eventLogger,
@@ -245,11 +248,10 @@ class SetupManager implements ISetupManager {
 		}
 
 		// prevent recursion loop from when getting mounts from providers ends up setting up the filesystem
-		static $updatingProviders = false;
-		if ($updatingProviders) {
+		if ($this->updatingProviders) {
 			return;
 		}
-		$updatingProviders = true;
+		$this->updatingProviders = true;
 
 		$providers = $this->mountProviderCollection->getProviders();
 		$nonAuthoritativeProviders = array_filter(
@@ -265,7 +267,7 @@ class SetupManager implements ISetupManager {
 		$this->userMountCache->registerMounts($user, $mount, $providerNames);
 
 		$this->usersMountsUpdated[$user->getUID()] = true;
-		$updatingProviders = false;
+		$this->updatingProviders = false;
 	}
 
 	#[Override]
@@ -335,6 +337,9 @@ class SetupManager implements ISetupManager {
 				$this->eventLogger->end('fs:setup:user:home:scan');
 			}
 			$this->eventLogger->end('fs:setup:user:home');
+
+			$event = new UserHomeSetupEvent($user, $homeMount);
+			$this->eventDispatcher->dispatchTyped($event);
 		} else {
 			$this->mountManager->addMount(new MountPoint(
 				new NullStorage([]),

@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Σημείωση:",
     "This share is valid until %s at midnight" : "Αυτή η κοινή χρήση ισχύει μέχρι τις %s τα μεσάνυχτα",
     "Expiration:" : "Λήξη:",
-    "Open %s" : "Άνοιγμα %s",
     "%1$s via %2$s" : "%1$s μέσω %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s κοινοποίησε το %2$s μαζί σας. Θα πρέπει να έχετε ήδη λάβει ξεχωριστό μήνυμα ηλεκτρονικού ταχυδρομείου με έναν σύνδεσμο πρόσβασης.",
     "Password to access %1$s shared to you by %2$s" : "Συνθηματικό για το %1$s που κοινοποιήθηκε μαζί σας από το/την %2$s",

@@ -18,16 +18,6 @@ use RuntimeException;
  */
 interface IRuleMatcher extends IFileCheck {
 	/**
-	 * This method is left for backwards compatibility and easier porting of
-	 * apps. Please use 'getFlows' instead (and setOperation if you implement
-	 * an IComplexOperation).
-	 *
-	 * @since 18.0.0
-	 * @deprecated 18.0.0
-	 */
-	public function getMatchingOperations(string $class, bool $returnFirstMatchingOperationOnly = true): array;
-
-	/**
 	 * @throws RuntimeException
 	 * @since 18.0.0
 	 */

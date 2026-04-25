@@ -42,6 +42,7 @@ const state = {
 	usersLimit: 25,
 	disabledUsersOffset: 0,
 	disabledUsersLimit: 25,
+	searchQuery: '',
 	userCount: usersSettings.userCount ?? 0,
 	showConfig: {
 		showStoragePath: usersSettings.showConfig?.user_list_show_storage_path,
@@ -237,6 +238,10 @@ const mutations = {
 		]
 	},
 
+	setSearchQuery(state, query) {
+		state.searchQuery = query
+	},
+
 	setShowConfig(state, { key, value }) {
 		state.showConfig[key] = value
 	},
@@ -265,6 +270,9 @@ const getters = {
 	},
 	getGroups(state) {
 		return state.groups
+	},
+	getSearchQuery(state) {
+		return state.searchQuery
 	},
 	getSubAdminGroups() {
 		return usersSettings.subAdminGroups ?? []
@@ -365,14 +373,6 @@ const actions = {
 		}
 		searchRequestCancelSource = CancelToken.source()
 		search = typeof search === 'string' ? search : ''
-
-		/**
-		 * Adding filters in the search bar such as in:files, in:users, etc.
-		 * collides with this particular search, so we need to remove them
-		 * here and leave only the original search query
-		 */
-		search = search.replace(/in:[^\s]+/g, '').trim()
-
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
 			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {

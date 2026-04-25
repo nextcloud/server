@@ -140,7 +140,7 @@ class Upgrade extends Command {
 				$output->writeln('<info>Turned off maintenance mode</info>');
 			});
 			$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($output): void {
-				$output->writeln('<info>Maintenance mode is kept active</info>');
+				$output->writeln('<comment>Maintenance mode is kept active</comment>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
 				function ($success) use ($output, $self): void {

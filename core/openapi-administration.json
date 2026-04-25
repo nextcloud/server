@@ -129,6 +129,188 @@
         }
     },
     "paths": {
+        "/ocs/v2.php/taskprocessing/queue_stats": {
+            "get": {
+                "operationId": "task_processing_api-queue-stats",
+                "summary": "Returns queue statistics for task processing",
+                "description": "Returns the count of scheduled and running tasks, optionally filtered by task type(s). Designed for external scalers (e.g. KEDA) to poll for task queue depth. Admin-only endpoint authenticated via app_password.\nThis endpoint requires admin access",
+                "tags": [
+                    "task_processing_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "taskTypeIds[]",
+                        "in": "query",
+                        "description": "List of task type IDs to filter by",
+                        "schema": {
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Queue stats returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "scheduled_count",
+                                                        "running_count"
+                                                    ],
+                                                    "properties": {
+                                                        "scheduled_count": {
+                                                            "type": "integer",
+                                                            "format": "int64"
+                                                        },
+                                                        "running_count": {
+                                                            "type": "integer",
+                                                            "format": "int64"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Logged in account must be an admin",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/twofactor/state": {
             "get": {
                 "operationId": "two_factor_api-state",
@@ -293,7 +475,7 @@
             "post": {
                 "operationId": "two_factor_api-enable",
                 "summary": "Enable two factor authentication providers for specific user",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "two_factor_api"
                 ],
@@ -471,7 +653,7 @@
             "post": {
                 "operationId": "two_factor_api-disable",
                 "summary": "Disable two factor authentication providers for specific user",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "two_factor_api"
                 ],

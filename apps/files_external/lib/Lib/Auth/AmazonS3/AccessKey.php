@@ -23,10 +23,10 @@ class AccessKey extends AuthMechanism {
 		$this
 			->setIdentifier('amazons3::accesskey')
 			->setScheme(self::SCHEME_AMAZONS3_ACCESSKEY)
-			->setText($l->t('Access key'))
+			->setText($l->t('Static credentials'))
 			->addParameters([
-				new DefinitionParameter('key', $l->t('Access key')),
-				(new DefinitionParameter('secret', $l->t('Secret key')))
+				new DefinitionParameter('key', $l->t('Access key ID')),
+				(new DefinitionParameter('secret', $l->t('Secret access key')))
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 			]);
 	}

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,31 +9,31 @@
 namespace OCP;
 
 /**
- * wrapper for server side events (http://en.wikipedia.org/wiki/Server-sent_events)
- * includes a fallback for older browsers and IE
+ * Wrapper for Server-Sent Events (SSE).
  *
- * use server side events with caution, to many open requests can hang the server
+ * Use SSE with caution: too many concurrent open requests can overload or stall the server.
  *
- * The event source will initialize the connection to the client when the first data is sent
+ * The connection is opened lazily when the first event is sent.
+ *
+ * @see https://developer.mozilla.org/docs/Web/API/Server-sent_events
  * @since 8.0.0
  */
 interface IEventSource {
 	/**
-	 * send a message to the client
+	 * Sends an event to the client.
 	 *
-	 * @param string $type One of success, notice, error, failure and done. Used in core/js/update.js
-	 * @param mixed $data
-	 * @return void
+	 * @param string $type Event type/name.
+	 * @param mixed $data Event payload.
 	 *
-	 * if only one parameter is given, a typeless message will be send with that parameter as data
+	 * If only one argument is provided, it is sent as a typeless payload (legacy behavior).
 	 * @since 8.0.0
 	 */
-	public function send($type, $data = null);
+	public function send(string $type, mixed $data = null): void;
 
 	/**
-	 * close the connection of the event source
-	 * @return void
+	 * Closes the SSE connection.
+	 *
 	 * @since 8.0.0
 	 */
-	public function close();
+	public function close(): void;
 }

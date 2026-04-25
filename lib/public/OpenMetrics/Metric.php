@@ -19,9 +19,18 @@ final readonly class Metric {
 		public array $labels = [],
 		public int|float|null $timestamp = null,
 	) {
+		$this->validateLabels();
 	}
 
 	public function label(string $name): ?string {
 		return $this->labels[$name] ?? null;
+	}
+
+	private function validateLabels(): void {
+		foreach ($this->labels as $label => $_value) {
+			if (preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', (string)$label) !== 1) {
+				throw new \InvalidArgumentException('Invalid OpenMetrics label name: "' . $label . '"');
+			}
+		}
 	}
 }

@@ -14,10 +14,9 @@ use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Exceptions\AbortedEventException;
 use OCP\Files\Folder;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\IUserSession;
 
 /**
@@ -76,7 +75,7 @@ class SyncLivePhotosListener implements IEventListener {
 				unset($this->pendingRestores[$peerFile->getId()]);
 				return;
 			} else {
-				$event->abortOperation(new NotPermittedException('Cannot restore the video part of a live photo'));
+				throw new AbortedEventException('Cannot restore the video part of a live photo');
 			}
 		} else {
 			$user = $this->userSession?->getUser();
@@ -94,14 +93,14 @@ class SyncLivePhotosListener implements IEventListener {
 			$trashItem = $this->getTrashItem($trashRoot, $peerFile->getInternalPath());
 
 			if ($trashItem === null) {
-				$event->abortOperation(new NotFoundException("Couldn't find peer file in trashbin"));
+				throw new AbortedEventException('Could not find peer file in trashbin');
 			}
 
 			$this->pendingRestores[$sourceFile->getId()] = true;
 			try {
 				$this->trashManager->restoreItem($trashItem);
 			} catch (\Throwable $ex) {
-				$event->abortOperation($ex);
+				throw new AbortedEventException($ex->getMessage());
 			}
 		}
 	}

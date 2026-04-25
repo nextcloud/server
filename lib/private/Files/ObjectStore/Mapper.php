@@ -30,6 +30,10 @@ class Mapper {
 			? (int)$this->config['arguments']['min_bucket']
 			: 0;
 
+		if ($minBucket === $numBuckets) {
+			return (string)$minBucket;
+		}
+
 		$hash = md5($this->user->getUID());
 		$num = hexdec(substr($hash, 0, 4));
 		return (string)(($num % ($numBuckets - $minBucket)) + $minBucket);

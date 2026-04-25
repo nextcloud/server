@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Nota:",
     "This share is valid until %s at midnight" : "Aquesta compartició és vàlida fins a les %s a mitjanit",
     "Expiration:" : "Expiració:",
-    "Open %s" : "Obre %s",
     "%1$s via %2$s" : "%1$s mitjançant %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s ha compartit %2$s amb tu. Ja hauríeu d'haver rebut un correu separat amb un enllaç per accedir-hi.",
     "Password to access %1$s shared to you by %2$s" : "Contrasenya per accedir a %1$s compartida amb vosaltres per %2$s",

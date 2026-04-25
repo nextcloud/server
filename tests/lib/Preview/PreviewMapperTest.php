@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -65,7 +64,7 @@ class PreviewMapperTest extends TestCase {
 		$this->assertEquals('default', $previews[43][0]->getObjectStoreName());
 	}
 
-	private function createPreviewForFileId(int $fileId, ?int $bucket = null): void {
+	private function createPreviewForFileId(int $fileId, ?int $bucket = null): string {
 		$locationId = null;
 		if ($bucket) {
 			$qb = $this->connection->getQueryBuilder();
@@ -96,5 +95,16 @@ class PreviewMapperTest extends TestCase {
 			$preview->setLocationId($locationId);
 		}
 		$this->previewMapper->insert($preview);
+
+		return $preview->id;
+	}
+
+	public function testLargeIdInsertRetrieve(): void {
+		$fileId = PHP_INT_MAX;
+		$originalPreviewId = $this->createPreviewForFileId($fileId);
+
+		$dbPreview = $this->previewMapper->getAvailablePreviews([$fileId])[$fileId][0];
+		$this->assertEquals($originalPreviewId, $dbPreview->id);
+		$this->assertEquals($fileId, $dbPreview->getFileId());
 	}
 }

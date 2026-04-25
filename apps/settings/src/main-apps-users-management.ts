@@ -4,7 +4,9 @@
  */
 
 import { getCSPNonce } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { n, t } from '@nextcloud/l10n'
+import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import VTooltipPlugin from 'v-tooltip'
 import Vue from 'vue'
@@ -13,6 +15,8 @@ import { sync } from 'vuex-router-sync'
 import SettingsApp from './views/SettingsApp.vue'
 import router from './router/index.ts'
 import { useStore } from './store/index.js'
+
+addPasswordConfirmationInterceptors(axios)
 
 // CSP config for webpack dynamic chunk loading
 

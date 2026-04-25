@@ -97,7 +97,9 @@ class ConfigTest extends TestCase {
 		$this->assertSame('moo', $config->getValue('foo'));
 
 		$content = file_get_contents($this->configFile);
-		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
+		$expected = "<?php\n";
+		$expected .= Config::CONF_WARNING;
+		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n);\n";
 		$this->assertEquals($expected, $content);
 
@@ -108,7 +110,9 @@ class ConfigTest extends TestCase {
 
 		$content = file_get_contents($this->configFile);
 
-		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
+		$expected = "<?php\n";
+		$expected .= Config::CONF_WARNING;
+		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'bar' => 'red',\n  'apps' => \n "
 			. " array (\n    0 => 'files',\n    1 => 'gallery',\n  ),\n);\n";
 		$this->assertEquals($expected, $content);
@@ -139,7 +143,9 @@ class ConfigTest extends TestCase {
 		$this->assertSame(null, $config->getValue('not_exists'));
 
 		$content = file_get_contents($this->configFile);
-		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
+		$expected = "<?php\n";
+		$expected .= Config::CONF_WARNING;
+		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n);\n";
 		$this->assertEquals($expected, $content);
 	}
@@ -150,7 +156,9 @@ class ConfigTest extends TestCase {
 		$this->assertSame('this_was_clearly_not_set_before', $config->getValue('foo', 'this_was_clearly_not_set_before'));
 		$content = file_get_contents($this->configFile);
 
-		$expected = "<?php\n\$CONFIG = array (\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
+		$expected = "<?php\n";
+		$expected .= Config::CONF_WARNING;
+		$expected .= "\$CONFIG = array (\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n);\n";
 		$this->assertEquals($expected, $content);
 	}
@@ -170,7 +178,9 @@ class ConfigTest extends TestCase {
 
 		// Write a new value to the config
 		$config->setValue('CoolWebsites', ['demo.owncloud.org', 'owncloud.org', 'owncloud.com']);
-		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'bar',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
+		$expected = "<?php\n";
+		$expected .= Config::CONF_WARNING;
+		$expected .= "\$CONFIG = array (\n  'foo' => 'bar',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'php53' => 'totallyOutdated',\n  'CoolWebsites' => \n  array (\n  "
 			. "  0 => 'demo.owncloud.org',\n    1 => 'owncloud.org',\n    2 => 'owncloud.com',\n  ),\n);\n";
 		$this->assertEquals($expected, file_get_contents($this->configFile));

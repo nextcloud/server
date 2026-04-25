@@ -13,10 +13,34 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/lib/**'
+              - '**/tests/**'
+              - '**/vendor-bin/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+
   strict:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -26,7 +50,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f #v2.37.0
         with:
           php-version: '8.2'
           extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
@@ -43,3 +67,17 @@ jobs:
       - name: Show changes
         if: always()
         run: git diff --exit-code -- . ':!lib/composer'
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, strict]
+
+    if: always()
+
+    name: rector-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.strict.result != 'success' }}; then exit 1; fi

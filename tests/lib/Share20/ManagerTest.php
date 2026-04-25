@@ -3318,7 +3318,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenHideDisabledUser(): void {
 		$this->expectException(ShareNotFound::class);
-		$this->expectExceptionMessage('The requested share comes from a disabled user');
+		$this->expectExceptionMessage('The requested share does not exist anymore');
 
 		$this->config
 			->expects($this->exactly(2))
@@ -4679,6 +4679,9 @@ class ManagerTest extends \Test\TestCase {
 		$share->setShareType(IShare::TYPE_USER)
 			->setId('42')
 			->setProviderId('foo');
+		$this->userManager->method('get')
+			->with('recipient')
+			->willReturn($this->createMock(IUser::class));
 
 		$share->setSharedWith('recipient');
 

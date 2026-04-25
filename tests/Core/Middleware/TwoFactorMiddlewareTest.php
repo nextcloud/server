@@ -10,7 +10,6 @@ namespace Test\Core\Middleware;
 
 use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\TwoFactorAuthRequiredException;
 use OC\Authentication\Exceptions\UserAlreadyLoggedInException;
@@ -102,7 +101,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			$this->createMock(IConfig::class)
 		);
 
-		$this->middleware = new TwoFactorMiddleware($this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator, new MiddlewareUtils($this->reflector, $this->logger), $this->request);
+		$this->middleware = new TwoFactorMiddleware($this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator, $this->reflector, $this->request);
 	}
 
 	public function testBeforeControllerNotLoggedIn(): void {

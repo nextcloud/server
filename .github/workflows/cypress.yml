@@ -41,12 +41,6 @@ jobs:
       PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
-      - name: Disabled on forks
-        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
-        run: |
-          echo 'Can not run cypress on forks'
-          exit 1
-
       - name: Checkout server
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -56,7 +50,7 @@ jobs:
 
       - name: Check composer.json
         id: check_composer
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
+        uses: andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029 # v3.1.0
         with:
           files: 'composer.json'
 
@@ -72,7 +66,7 @@ jobs:
           fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -160,7 +154,7 @@ jobs:
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
@@ -171,15 +165,11 @@ jobs:
         run: ./node_modules/cypress/bin/cypress install
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@bc22e01685c56e89e7813fd8e26f33dc47f87e15 # v7.1.5
+        uses: cypress-io/github-action@783cb3f07983868532cabaedaa1e6c00ff4786a8 # v7.1.9
         with:
           # We already installed the dependencies in the init job
           install: false
           component: ${{ matrix.containers == 'component' }}
-          group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
-          # cypress env
-          ci-build-id: ${{ matrix.use-cypress-cloud && format('{0}-{1}', github.sha, github.run_number) || '' }}
-          tag: ${{ matrix.use-cypress-cloud && github.event_name || '' }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
@@ -188,14 +178,13 @@ jobs:
           # Needed for some specific code workarounds
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           SPLIT: ${{ matrix.total-containers }}
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
           SPLIT_RANDOM_SEED: ${{ github.run_id }}
           SETUP_TESTING: ${{ matrix.containers == 'setup' && 'true' || '' }}
 
       - name: Upload snapshots and videos
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: snapshots_${{ matrix.containers }}
@@ -218,7 +207,7 @@ jobs:
         run: docker exec nextcloud-e2e-test-server_${{ env.APP_NAME }} tar -cvjf - data > data.tar
 
       - name: Upload data archive
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}

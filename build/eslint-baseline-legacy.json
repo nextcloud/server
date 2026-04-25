@@ -1,11 +1,6 @@
 {
-  "apps/files/src/components/FilesNavigationItem.vue": {
-    "@nextcloud/vue/no-deprecated-props": {
-      "count": 1
-    }
-  },
-  "apps/files/src/components/TransferOwnershipDialogue.vue": {
-    "@nextcloud/vue/no-deprecated-props": {
+  "apps/files/src/components/FilesNavigationListItem.vue": {
+    "@nextcloud/no-deprecated-library-props": {
       "count": 1
     }
   },
@@ -15,7 +10,7 @@
     }
   },
   "apps/files_sharing/src/components/SharingInput.vue": {
-    "@nextcloud/vue/no-deprecated-props": {
+    "@nextcloud/no-deprecated-library-props": {
       "count": 1
     }
   },
@@ -30,12 +25,12 @@
     }
   },
   "apps/settings/src/components/GroupListItem.vue": {
-    "@nextcloud/vue/no-deprecated-props": {
+    "@nextcloud/no-deprecated-library-props": {
       "count": 1
     }
   },
   "apps/settings/src/components/Users/NewUserDialog.vue": {
-    "@nextcloud/vue/no-deprecated-props": {
+    "@nextcloud/no-deprecated-library-props": {
       "count": 1
     },
     "vue/no-mutating-props": {
@@ -43,7 +38,7 @@
     }
   },
   "apps/settings/src/views/UserManagementNavigation.vue": {
-    "@nextcloud/vue/no-deprecated-props": {
+    "@nextcloud/no-deprecated-library-props": {
       "count": 4
     }
   },

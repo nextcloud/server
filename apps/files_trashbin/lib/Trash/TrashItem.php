@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Trashbin\Trash;
 
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\IUser;
 
@@ -154,6 +155,10 @@ class TrashItem implements ITrashItem {
 		return $this->fileInfo->getUploadTime();
 	}
 
+	public function getLastActivity(): int {
+		return $this->fileInfo->getLastActivity();
+	}
+
 	public function getParentId(): int {
 		return $this->fileInfo->getParentId();
 	}
@@ -168,5 +173,9 @@ class TrashItem implements ITrashItem {
 	 */
 	public function getMetadata(): array {
 		return $this->fileInfo->getMetadata();
+	}
+
+	public function getData(): ICacheEntry {
+		return $this->fileInfo->getData();
 	}
 }

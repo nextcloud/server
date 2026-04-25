@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Not:",
     "This share is valid until %s at midnight" : "Bu paylaşım %s gece yarısına kadar kullanılabilir",
     "Expiration:" : "Geçerlilik süresi sonu:",
-    "Open %s" : "%s aç",
     "%1$s via %2$s" : "%1$s, %2$s aracılığıyla",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s sizinle %2$s ögesini paylaştı. Erişim bağlantısını içeren başka bir e-posta daha almış olmalısınız.",
     "Password to access %1$s shared to you by %2$s" : "%1$s için sizin tarafınızdan %2$s üzerinden paylaşılan erişim parolası",

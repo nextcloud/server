@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Invalid configuration: %s" : "Ongeldige configuratie: %s",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Geldige configuratie, maar Binding mislukte. Controleer de serverinstellingen en inloggegevens.",
     "Invalid configuration: Anonymous binding is not allowed." : "De configuratie is ongeldig: anonieme bind is niet toegestaan.",
     "Valid configuration, connection established!" : "Geldige configuratie, verbinding tot stand gebracht",
@@ -11,6 +12,7 @@ OC.L10N.register(
     "Your password will expire today." : "Je wachtwoord vervalt vandaag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Je wachtwoord verloopt binnen %n dag.","Je wachtwoord vervalt over %n dagen."],
     "LDAP/AD integration" : "LDAP/AD integratie",
+    "Invalid LDAP UUIDs" : "Ongeldige LDAP UUIDs",
     "_%n group found_::_%n groups found_" : ["%n groep gevonden","%n groepen gevonden"],
     "_%n user found_::_%n users found_" : ["%n gebruiker gevonden","%n gebruikers gevonden"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Kon het weergavenaam attribuut van de gebruiker niet vinden. Geef het zelf op in de geavanceerde LDAP instellingen.",
@@ -128,6 +130,7 @@ OC.L10N.register(
     "No action specified" : "Geen actie opgegeven",
     "No configuration specified" : "Geen configuratie opgegeven",
     "No data specified" : "Geen gegevens verstrekt",
+    "Invalid data specified" : "Ongeldige data opgegven",
     "Action does not exist" : "Actie bestaat niet",
     "Renewing …" : "Herstellen ...",
     "Very weak password" : "Zeer zwak wachtwoord",

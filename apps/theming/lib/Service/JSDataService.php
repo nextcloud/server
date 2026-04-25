@@ -11,6 +11,9 @@ namespace OCA\Theming\Service;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 
+/**
+ * @deprecated since Nextcloud 34 — all properties are now exposed via Capabilities
+ */
 class JSDataService implements \JsonSerializable {
 
 	public function __construct(
@@ -40,10 +43,6 @@ class JSDataService implements \JsonSerializable {
 
 			'cacheBuster' => $this->util->getCacheBuster(),
 			'enabledThemes' => $this->themesService->getEnabledThemes(),
-
-			// deprecated use primaryColor
-			'color' => $this->themingDefaults->getColorPrimary(),
-			'' => 'color is deprecated since Nextcloud 29, use primaryColor instead'
 		];
 	}
 }

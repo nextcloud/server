@@ -9,7 +9,7 @@ import { subscribe } from '@nextcloud/event-bus'
 import { getSidebarActions, getSidebarTabs } from '@nextcloud/files'
 import { defineStore } from 'pinia'
 import { computed, readonly, ref, watch } from 'vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { useActiveStore } from './active.ts'
 import { useFilesStore } from './files.ts'
 

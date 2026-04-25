@@ -20,7 +20,6 @@ OC.L10N.register(
     "Failed to send share by email" : "ارسال اشتراک از طریق ایمیل انجام نشد",
     "%1$s shared %2$s with you" : "%1$s %2$s را با شما به اشتراک گذاشت",
     "Note:" : "یادداشت: ",
-    "Open %s" : "باز کردن %s",
     "%1$s via %2$s" : "%1$s از طریق %2$s",
     "It is protected with the following password:" : "با رمز عبور زیر محافظت می شود:",
     "This password will expire at %s" : "این رمز عبور در تاریخ منقضی می شود %s",

@@ -90,6 +90,7 @@ class Capabilities implements ICapability {
 	 *             },
 	 *         },
 	 *         sharee: array{
+	 *             minSearchStringLength: int,
 	 *             query_lookup_default: bool,
 	 *             always_show_unique: bool,
 	 *         },
@@ -185,6 +186,7 @@ class Capabilities implements ICapability {
 
 		// Sharee searches
 		$res['sharee'] = [
+			'minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
 			'query_lookup_default' => $this->config->getSystemValueBool('gs.enabled', false),
 			'always_show_unique' => $this->config->getAppValue('files_sharing', 'always_show_unique', 'yes') === 'yes',
 		];

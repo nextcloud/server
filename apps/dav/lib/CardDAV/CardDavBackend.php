@@ -42,7 +42,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	private string $dbCardsPropertiesTable = 'cards_properties';
 
 	/** @var array properties to index */
-	public static array $indexProperties = [
+	private const INDEXED_PROPERTIES = [
 		'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
 		'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO',
 		'CLOUD', 'X-SOCIALPROFILE'];
@@ -478,6 +478,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->from($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressbookId)));
 
+		return $this->getCardsFromQuery($query);
+	}
+
+	/**
+	 * @return array[]
+	 */
+	private function getCardsFromQuery(IQueryBuilder $query): array {
 		$cards = [];
 
 		$result = $query->executeQuery();
@@ -972,7 +979,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					->from('cards')
 					->where(
 						$qb->expr()->eq('addressbookid', $qb->createNamedParameter($addressBookId))
-					);
+					)
+					->orderBy('id');
 				// No synctoken supplied, this is the initial sync.
 				$qb->setMaxResults($limit);
 				$stmt = $qb->executeQuery();
@@ -1384,7 +1392,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				);
 
 			foreach ($vCard->children() as $property) {
-				if (!in_array($property->name, self::$indexProperties)) {
+				if (!in_array($property->name, self::INDEXED_PROPERTIES)) {
 					continue;
 				}
 				$preferred = 0;
@@ -1531,5 +1539,33 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 		// should already be handled, but just in case
 		throw new BadRequest('vCard can not be empty');
+	}
+
+	/**
+	 * Mark all cards in an address book as needing to be validated
+	 *
+	 * This is done by setting the modified date to `null`, once a sync runs
+	 * the mtime will be set to a non-null value. Leaving all deleted items with
+	 * a null modified date.
+	 */
+	public function markCardsAsPending(int $addressBookId): void {
+		$query = $this->db->getTypedQueryBuilder();
+		$query->update($this->dbCardsTable)
+			->set('lastmodified', $query->createNamedParameter(null))
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
+			->executeStatement();
+	}
+
+	/**
+	 * @return array[]
+	 */
+	public function getPendingCards(int $addressBookId): array {
+		$query = $this->db->getQueryBuilder();
+		$query->select(['id', 'addressbookid', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
+			->from($this->dbCardsTable)
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
+			->andWhere($query->expr()->isNull('lastmodified'));
+
+		return $this->getCardsFromQuery($query);
 	}
 }

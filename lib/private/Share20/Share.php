@@ -7,6 +7,7 @@
  */
 namespace OC\Share20;
 
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
@@ -61,6 +62,8 @@ class Share implements IShare {
 	private ?int $parent = null;
 	/** @var string */
 	private $target;
+	/** @var string */
+	private ?string $originalTarget = null;
 	/** @var \DateTime */
 	private $shareTime;
 	/** @var bool */
@@ -513,8 +516,19 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	public function setTarget($target) {
+		// if the target is changed, save the original target
+		if ($this->target && !$this->originalTarget) {
+			$this->originalTarget = $this->target;
+		}
 		$this->target = $target;
 		return $this;
+	}
+
+	/**
+	 * Return the original target, if this share was moved
+	 */
+	public function getOriginalTarget(): ?string {
+		return $this->originalTarget;
 	}
 
 	/**
@@ -586,6 +600,19 @@ class Share implements IShare {
 		return $this->reminderSent;
 	}
 
+	public function canDownload(): bool {
+		if (($this->getPermissions() & Constants::PERMISSION_READ) === 0) {
+			return false;
+		}
+
+		$attributes = $this->getAttributes();
+		if ($attributes?->getAttribute('permissions', 'download') === false) {
+			return false;
+		}
+
+		return true;
+	}
+
 	public function canSeeContent(): bool {
 		$shareManager = Server::get(IManager::class);
 
@@ -595,13 +622,6 @@ class Share implements IShare {
 			return true;
 		}
 
-		// No "allow preview" header set, so we must check if
-		// the share has not explicitly disabled download permissions
-		$attributes = $this->getAttributes();
-		if ($attributes?->getAttribute('permissions', 'download') === false) {
-			return false;
-		}
-
-		return true;
+		return $this->canDownload();
 	}
 }

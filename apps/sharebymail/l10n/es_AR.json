@@ -20,7 +20,6 @@
     "Note:" : "Nota:",
     "This share is valid until %s at midnight" : "El recurso compartido es válido hasta el %s a la media noche",
     "Expiration:" : "Caducidad:",
-    "Open %s" : "Abrir %s",
     "%1$s via %2$s" : "%1$s vía %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s le compartió %2$s. Debería ya haber recibido un correo por separado con el enlace para acceder a éste.",
     "Password to access %1$s shared to you by %2$s" : "Contraseña para acceder a %1$s que le compartió %2$s",

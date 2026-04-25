@@ -18,6 +18,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Diagnostics\IEventLogger;
@@ -48,6 +49,7 @@ use Test\TestCase;
 class ViewControllerTest extends TestCase {
 	private ContainerInterface&MockObject $container;
 	private IAppManager&MockObject $appManager;
+	private IAppConfig&MockObject $appConfig;
 	private ICacheFactory&MockObject $cacheFactory;
 	private IConfig&MockObject $config;
 	private IEventDispatcher $eventDispatcher;
@@ -71,6 +73,7 @@ class ViewControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->initialState = $this->createMock(IInitialState::class);
@@ -142,6 +145,7 @@ class ViewControllerTest extends TestCase {
 				$this->viewConfig,
 				$filenameValidator,
 				$this->twoFactorRegistry,
+				$this->appConfig,
 			])
 			->onlyMethods([
 				'getStorageInfo',
@@ -298,11 +302,11 @@ class ViewControllerTest extends TestCase {
 				'backup_codes' => true,
 			]);
 
-		$invokedCountProvideInitialState = $this->exactly(9);
+		$invokedCountProvideInitialState = $this->exactly(13);
 		$this->initialState->expects($invokedCountProvideInitialState)
 			->method('provideInitialState')
 			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState): void {
-				if ($invokedCountProvideInitialState->numberOfInvocations() === 9) {
+				if ($invokedCountProvideInitialState->numberOfInvocations() === 13) {
 					$this->assertEquals('isTwoFactorEnabled', $key);
 					$this->assertTrue($data);
 				}

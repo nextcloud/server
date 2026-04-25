@@ -16,7 +16,7 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Wizard extends LDAPUtility {
-	protected static ?IL10N $l = null;
+	private IL10N $l;
 	protected ?\LDAP\Connection $cr = null;
 	protected WizardResult $result;
 	protected LoggerInterface $logger;
@@ -40,9 +40,7 @@ class Wizard extends LDAPUtility {
 		protected Access $access,
 	) {
 		parent::__construct($ldap);
-		if (is_null(static::$l)) {
-			static::$l = Server::get(IL10NFactory::class)->get('user_ldap');
-		}
+		$this->l = Server::get(IL10NFactory::class)->get('user_ldap');
 		$this->result = new WizardResult();
 		$this->logger = Server::get(LoggerInterface::class);
 	}
@@ -94,7 +92,7 @@ class Wizard extends LDAPUtility {
 		$filter = $this->configuration->ldapGroupFilter;
 
 		if (empty($filter)) {
-			$output = self::$l->n('%n group found', '%n groups found', 0);
+			$output = $this->l->n('%n group found', '%n groups found', 0);
 			$this->result->addChange('ldap_group_count', $output);
 			return $this->result;
 		}
@@ -110,9 +108,9 @@ class Wizard extends LDAPUtility {
 		}
 
 		if ($groupsTotal > 1000) {
-			$output = self::$l->t('> 1000 groups found');
+			$output = $this->l->t('> 1000 groups found');
 		} else {
-			$output = self::$l->n(
+			$output = $this->l->n(
 				'%n group found',
 				'%n groups found',
 				$groupsTotal
@@ -130,9 +128,9 @@ class Wizard extends LDAPUtility {
 
 		$usersTotal = $this->countEntries($filter, 'users');
 		if ($usersTotal > 1000) {
-			$output = self::$l->t('> 1000 users found');
+			$output = $this->l->t('> 1000 users found');
 		} else {
-			$output = self::$l->n(
+			$output = $this->l->n(
 				'%n user found',
 				'%n users found',
 				$usersTotal
@@ -216,7 +214,7 @@ class Wizard extends LDAPUtility {
 			}
 		}
 
-		throw new \Exception(self::$l->t('Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings.'));
+		throw new \Exception($this->l->t('Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings.'));
 	}
 
 	/**
@@ -431,7 +429,7 @@ class Wizard extends LDAPUtility {
 			natsort($groupNames);
 			$this->result->addOptions($dbKey, array_values($groupNames));
 		} else {
-			throw new \Exception(self::$l->t('Could not find the desired feature'));
+			throw new \Exception($this->l->t('Could not find the desired feature'));
 		}
 
 		$setFeatures = $this->configuration->$confKey;
@@ -1024,7 +1022,7 @@ class Wizard extends LDAPUtility {
 		$host = $this->configuration->ldapHost;
 		$hostInfo = parse_url((string)$host);
 		if (!is_string($host) || !$hostInfo) {
-			throw new \Exception(self::$l->t('Invalid Host'));
+			throw new \Exception($this->l->t('Invalid Host'));
 		}
 		$this->logger->debug(
 			'Wiz: Attempting to connect',
@@ -1032,7 +1030,7 @@ class Wizard extends LDAPUtility {
 		);
 		$cr = $this->ldap->connect($host, (string)$port);
 		if (!$this->ldap->isResource($cr)) {
-			throw new \Exception(self::$l->t('Invalid Host'));
+			throw new \Exception($this->l->t('Invalid Host'));
 		}
 		/** @var \LDAP\Connection $cr */
 
@@ -1219,7 +1217,7 @@ class Wizard extends LDAPUtility {
 			//sorting in the web UI. Therefore: array_values
 			$this->result->addOptions($dbkey, array_values($availableFeatures));
 		} else {
-			throw new \Exception(self::$l->t('Could not find the desired feature'));
+			throw new \Exception($this->l->t('Could not find the desired feature'));
 		}
 
 		$setFeatures = $this->configuration->$confkey;
@@ -1307,7 +1305,7 @@ class Wizard extends LDAPUtility {
 	 * @return array<array{port:int,tls:bool}>
 	 */
 	private function getDefaultLdapPortSettings(): array {
-		static $settings = [
+		return [
 			['port' => 7636, 'tls' => false],
 			['port' => 636, 'tls' => false],
 			['port' => 7389, 'tls' => true],
@@ -1315,7 +1313,6 @@ class Wizard extends LDAPUtility {
 			['port' => 7389, 'tls' => false],
 			['port' => 389, 'tls' => false],
 		];
-		return $settings;
 	}
 
 	/**

@@ -7,6 +7,11 @@ import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
 
 const modules = {
+	comments: {
+		'comments-app': resolve(import.meta.dirname, 'apps/comments/src', 'comments-app.ts'),
+		'comments-tab': resolve(import.meta.dirname, 'apps/comments/src', 'files-sidebar.ts'),
+		init: resolve(import.meta.dirname, 'apps/comments/src', 'init.ts'),
+	},
 	dav: {
 		'settings-admin-caldav': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin.ts'),
 		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),

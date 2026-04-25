@@ -30,7 +30,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }}
 
     steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
         id: changes
         continue-on-error: true
         with:
@@ -81,7 +81,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f #v2.37.0
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
@@ -110,7 +110,7 @@ jobs:
 
       - name: Upload nodb code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           files: ./clover.nodb.xml
           flags: phpunit-nodb

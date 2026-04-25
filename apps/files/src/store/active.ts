@@ -11,7 +11,7 @@ import { Folder, getNavigation, Permission } from '@nextcloud/files'
 import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { defineStore } from 'pinia'
 import { ref, shallowRef, watch } from 'vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 // Temporary fake folder to use until we have the first valid folder
 // fetched and cached. This allow us to mount the FilesListVirtual

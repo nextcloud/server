@@ -14,19 +14,14 @@ use OCA\Files_External\Event\StorageUpdatedEvent;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCP\IGroup;
+use Override;
 
 /**
  * Service class to manage global external storage
  */
 class GlobalStoragesService extends StoragesService {
-	/**
-	 * Triggers $signal for all applicable users of the given
-	 * storage
-	 *
-	 * @param StorageConfig $storage storage data
-	 * @param string $signal signal to trigger
-	 */
-	protected function triggerHooks(StorageConfig $storage, $signal) {
+	#[Override]
+	protected function triggerHooks(StorageConfig $storage, $signal): void {
 		// FIXME: Use as expression in empty once PHP 5.4 support is dropped
 		$applicableUsers = $storage->getApplicableUsers();
 		$applicableGroups = $storage->getApplicableGroups();
@@ -55,15 +50,8 @@ class GlobalStoragesService extends StoragesService {
 		);
 	}
 
-	/**
-	 * Triggers signal_create_mount or signal_delete_mount to
-	 * accommodate for additions/deletions in applicableUsers
-	 * and applicableGroups fields.
-	 *
-	 * @param StorageConfig $oldStorage old storage config
-	 * @param StorageConfig $newStorage new storage config
-	 */
-	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage) {
+	#[Override]
+	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage): void {
 		// if mount point changed, it's like a deletion + creation
 		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {
 			$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($oldStorage));
@@ -139,16 +127,13 @@ class GlobalStoragesService extends StoragesService {
 		}
 	}
 
-	/**
-	 * Get the visibility type for this controller, used in validation
-	 *
-	 * @return int BackendService::VISIBILITY_* constants
-	 */
-	public function getVisibilityType() {
+	#[Override]
+	public function getVisibilityType(): int {
 		return BackendService::VISIBILITY_ADMIN;
 	}
 
-	protected function isApplicable(StorageConfig $config) {
+	#[Override]
+	protected function isApplicable(StorageConfig $config): bool {
 		return true;
 	}
 
@@ -157,16 +142,14 @@ class GlobalStoragesService extends StoragesService {
 	 *
 	 * @return StorageConfig[] map of storage id to storage config
 	 */
-	public function getStorageForAllUsers() {
+	public function getStorageForAllUsers(): array {
 		$mounts = $this->dbConfig->getAllMounts();
 		$configs = array_map([$this, 'getStorageConfigFromDBMount'], $mounts);
 		$configs = array_filter($configs, function ($config) {
 			return $config instanceof StorageConfig;
 		});
 
-		$keys = array_map(function (StorageConfig $config) {
-			return $config->getId();
-		}, $configs);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
 
 		return array_combine($keys, $configs);
 	}

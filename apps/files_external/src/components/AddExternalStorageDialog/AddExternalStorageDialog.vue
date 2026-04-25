@@ -33,7 +33,7 @@ const open = defineModel<boolean>('open', { default: true })
 const {
 	storage = { backendOptions: {}, mountOptions: {}, type: isAdmin ? 'system' : 'personal' },
 } = defineProps<{
-	storage?: Partial<IStorage> & { backendOptions: IStorage['backendOptions'] }
+	storage?: Partial<IStorage>
 }>()
 
 defineEmits<{
@@ -88,7 +88,7 @@ watch(authMechanisms, () => {
 			:label="t('files_external', 'Folder name')"
 			required />
 
-		<MountOptions v-model="internalStorage.mountOptions" />
+		<MountOptions v-model="internalStorage.mountOptions!" />
 
 		<ApplicableEntities
 			v-if="isAdmin"
@@ -112,13 +112,13 @@ watch(authMechanisms, () => {
 			required />
 
 		<BackendConfiguration
-			v-if="backend"
+			v-if="backend && internalStorage.backendOptions"
 			v-model="internalStorage.backendOptions"
 			:class="$style.externalStorageDialog__configuration"
 			:configuration="backend.configuration" />
 
 		<AuthMechanismConfiguration
-			v-if="authMechanism"
+			v-if="authMechanism && internalStorage.backendOptions"
 			v-model="internalStorage.backendOptions"
 			:class="$style.externalStorageDialog__configuration"
 			:authMechanism="authMechanism" />

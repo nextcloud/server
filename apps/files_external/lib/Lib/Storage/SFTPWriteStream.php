@@ -32,6 +32,8 @@ class SFTPWriteStream implements File {
 
 	private $buffer = '';
 
+	private string $path;
+
 	public static function register($protocol = 'sftpwrite') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
 			return false;
@@ -71,6 +73,8 @@ class SFTPWriteStream implements File {
 		}
 
 		$remote_file = $this->sftp->_realpath($path);
+
+		$this->path = $remote_file;
 		if ($remote_file === false) {
 			return false;
 		}
@@ -160,6 +164,8 @@ class SFTPWriteStream implements File {
 		if (!$this->sftp->_close_handle($this->handle)) {
 			return false;
 		}
+		$this->sftp->touch($this->path, time(), time());
+
 		return true;
 	}
 }

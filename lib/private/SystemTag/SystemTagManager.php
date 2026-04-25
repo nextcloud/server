@@ -150,8 +150,17 @@ class SystemTagManager implements ISystemTagManager {
 		return $this->createSystemTagFromRow($row);
 	}
 
-	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
-		$user = $this->userSession->getUser();
+	#[\Override]
+	public function getGeneratedByAITag(): ISystemTag {
+		try {
+			return $this->getTag(ISystemTag::GENERATED_BY_AI, true, true);
+		} catch (TagNotFoundException) {
+			return $this->createTag(ISystemTag::GENERATED_BY_AI, true, true);
+		}
+	}
+
+	public function createTag(string $tagName, bool $userVisible, bool $userAssignable, ?IUser $user = null): ISystemTag {
+		$user ??= $this->userSession->getUser();
 		if (!$this->canUserCreateTag($user)) {
 			throw new TagCreationForbiddenException();
 		}
@@ -210,6 +219,7 @@ class SystemTagManager implements ISystemTagManager {
 		bool $userVisible,
 		bool $userAssignable,
 		?string $color,
+		?IUser $user = null,
 	): void {
 		try {
 			$tags = $this->getTagsByIds($tagId);
@@ -219,7 +229,7 @@ class SystemTagManager implements ISystemTagManager {
 			);
 		}
 
-		$user = $this->userSession->getUser();
+		$user ??= $this->userSession->getUser();
 		if (!$this->canUserUpdateTag($user)) {
 			throw new TagUpdateForbiddenException();
 		}

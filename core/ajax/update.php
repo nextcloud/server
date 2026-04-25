@@ -82,7 +82,7 @@ if (Util::needUpgrade()) {
 		$eventSource->send('success', $l->t('Turned off maintenance mode'));
 	});
 	$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($eventSource, $l): void {
-		$eventSource->send('success', $l->t('Maintenance mode is kept active'));
+		$eventSource->send('notice', $l->t('Maintenance mode is kept active'));
 	});
 	$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($eventSource, $l): void {
 		$eventSource->send('success', $l->t('Updating database schema'));

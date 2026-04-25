@@ -31,10 +31,10 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.4
+	- version: 1.7.5
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.10
+	- version: 0.2.11
 	- license: MIT
 - @nextcloud/auth
 	- version: 2.5.3
@@ -56,9 +56,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - @vueuse/shared
 	- version: 14.2.1
-	- license: MIT
-- focus-trap
-	- version: 8.0.0
 	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
@@ -94,13 +91,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.3
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 3.0.0
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.36.0
+	- version: 8.37.0
 	- license: AGPL-3.0-or-later
 - @vue/reactivity
 	- version: 3.5.28
@@ -115,7 +112,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.5.28
 	- license: MIT
 - axios
-	- version: 1.13.5
+	- version: 1.15.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -127,10 +124,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.3.1
+	- version: 3.4.0
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- focus-trap
+	- version: 8.0.1
 	- license: MIT
 - hookable
 	- version: 5.5.3

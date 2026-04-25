@@ -22,7 +22,7 @@ OC.L10N.register(
     "Note:" : "Note:",
     "This share is valid until %s at midnight" : "This share is valid until %s at midnight",
     "Expiration:" : "Expiration:",
-    "Open %s" : "Open %s",
+    "Open shared item" : "Open shared item",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it.",
     "Password to access %1$s shared to you by %2$s" : "Password to access %1$s shared to you by %2$s",

@@ -136,10 +136,10 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import CustomElementRender from '../CustomElementRender.vue'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
-import logger from '../../logger.ts'
 import actionsMixins from '../../mixins/actionsMixin.ts'
 import { useActiveStore } from '../../store/active.ts'
 import { executeAction } from '../../utils/actionUtils.ts'
+import { logger } from '../../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryActions',
