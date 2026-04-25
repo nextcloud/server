@@ -300,6 +300,7 @@ class PreviewManager implements IPreview {
 	protected function registerCoreProvider(string $class, string $mimeType, array $options = []): void {
 		if (in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
 			$this->registerProviderClosure($mimeType, function () use ($class, $options): IProviderV2 {
+				/** @var IProviderV2 $class */
 				return new $class($options);
 			});
 		}
