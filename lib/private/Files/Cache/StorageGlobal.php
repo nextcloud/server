@@ -118,7 +118,26 @@ class StorageGlobal {
 		return $this->numericIdCache[$numericId] ?? null;
 	}
 
+	public function clearStorageInfo(string $storageId): void {
+		$row = $this->cache[$storageId] ?? null;
+		unset($this->cache[$storageId]);
+
+		if ($row !== null) {
+			unset($this->numericIdCache[$row['numeric_id']]);
+		}
+	}
+
+	public function clearStorageInfoByNumericId(int $numericId): void {
+		$row = $this->numericIdCache[$numericId] ?? null;
+		unset($this->numericIdCache[$numericId]);
+
+		if ($row !== null) {
+			unset($this->cache[$row['id']]);
+		}
+	}
+
 	public function clearCache(): void {
 		$this->cache = [];
+		$this->numericIdCache = [];
 	}
 }
