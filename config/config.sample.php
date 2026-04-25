@@ -304,6 +304,34 @@ $CONFIG = [
 	'allow_user_to_change_display_name' => true,
 
 	/**
+	 * ``true`` allows users to change their email address (on their Personal
+	 * pages), and ``false`` prevents them from changing their email address.
+	 * Falls back to ``allow_user_to_change_display_name`` if not set.
+	 *
+	 * Defaults to ``true``
+	 */
+	'allow_user_to_change_email' => true,
+
+	/**
+	 * ``true`` allows users to create app passwords (tokens) in their personal
+	 * security settings. Set to ``false`` to prevent users from generating app
+	 * passwords, for example when SSO is enforced and app passwords would
+	 * bypass it.
+	 *
+	 * Defaults to ``true``
+	 */
+	'auth_can_create_app_token' => true,
+
+	/**
+	 * Validity period (in seconds) for one-time authentication tokens, such as
+	 * those used for email-based login or share link authentication.
+	 * The minimum value is ``120``.
+	 *
+	 * Defaults to ``120``
+	 */
+	'auth_onetime_token_validity' => 120,
+
+	/**
 	 * The directory where the skeleton files are located. These files will be
 	 * copied to the data directory of new users. Set empty string to not copy any
 	 * skeleton files. If unset and templatedirectory is an empty string, shipped
@@ -407,6 +435,30 @@ $CONFIG = [
 	 * Defaults to ``false``
 	 */
 	'token_auth_enforced' => false,
+
+	/**
+	 * Enforce two-factor authentication for all users, or for members of specific
+	 * groups. Managed via ``occ twofactorauth:enforce``.
+	 *
+	 * Defaults to ``'false'`` (stored as string)
+	 */
+	'twofactor_enforced' => 'false',
+
+	/**
+	 * When ``twofactor_enforced`` is ``'true'``, restrict enforcement to these
+	 * groups. All other users are not affected. Empty array enforces for all users.
+	 *
+	 * Defaults to ``[]``
+	 */
+	'twofactor_enforced_groups' => [],
+
+	/**
+	 * Exclude specific groups from two-factor authentication enforcement.
+	 * Only relevant when ``twofactor_enforced`` is ``'true'``.
+	 *
+	 * Defaults to ``[]``
+	 */
+	'twofactor_enforced_excluded_groups' => [],
 
 	/**
 	 * The interval at which token activity should be updated.
@@ -826,6 +878,16 @@ $CONFIG = [
 	 * Defaults to ``false``
 	 */
 	'allow_local_remote_servers' => true,
+
+	/**
+	 * Enable DNS pinning for outbound HTTP requests. When enabled, Nextcloud
+	 * resolves the hostname of a request target once and rejects the connection
+	 * if the resolved IP changes during the request. This prevents DNS rebinding
+	 * attacks at the cost of slightly increased latency on the first request.
+	 *
+	 * Defaults to ``true``
+	 */
+	'dns_pinning' => true,
 
 	/**
 	 * Add the URL of the Nextcloud server in User-Agent headers HTTP calls.
@@ -1328,6 +1390,15 @@ $CONFIG = [
 		=> 'https://f-droid.org/packages/com.nextcloud.client/',
 
 	/**
+	 * URL shown as a sign-up / registration link on the login page. Set to a
+	 * custom URL to point users to your own registration flow.
+	 * Set to empty string ``''`` to hide the link entirely.
+	 *
+	 * Defaults to ``'https://nextcloud.com/register'``
+	 */
+	'registration_link' => 'https://nextcloud.com/register',
+
+	/**
 	 * Activity
 	 *
 	 * Options for the activity app.
@@ -1386,11 +1457,41 @@ $CONFIG = [
 	'defaultapp' => 'dashboard,files',
 
 	/**
+	 * Interval (in seconds) at which sync clients poll the server for changes.
+	 * Lowering this value increases server load; increasing it reduces update
+	 * frequency for connected clients.
+	 *
+	 * Defaults to ``60``
+	 */
+	'pollinterval' => 60,
+
+	/**
+	 * WebDAV root path advertised to sync clients via the capabilities API.
+	 * Clients use this value to construct the WebDAV URL; changing it does not
+	 * remap the server's routing. Only set this if you have configured a custom
+	 * WebDAV path at the web server level and need clients to use that path.
+	 *
+	 * Defaults to ``'remote.php/webdav'``
+	 */
+	'webdav-root' => 'remote.php/webdav',
+
+	/**
 	 * When enabled, admins may install apps from the Nextcloud app store.
 	 *
 	 * Defaults to ``true``
 	 */
 	'appstoreenabled' => true,
+
+	/**
+	 * Allow installing apps that declare a maximum version requirement lower than
+	 * the current Nextcloud version. List the app IDs to override.
+	 * Apps force-enabled via ``occ app:enable --force`` are added here automatically.
+	 *
+	 * Use with care: apps may be incompatible with the current server version.
+	 *
+	 * Defaults to ``[]``
+	 */
+	'app_install_overwrite' => [],
 
 	/**
 	 * Enables the installation of apps from a self-hosted apps store.
@@ -1432,6 +1533,14 @@ $CONFIG = [
 	 * Nextcloud supports generating previews for various file types, such as images, audio files, and text files.
 	 * These options control enabling and disabling previews, and thumbnail size.
 	 */
+
+	/**
+	 * ``true`` enables avatar support. Set to ``false`` to disable avatars
+	 * server-wide, which also removes the avatar section from personal settings.
+	 *
+	 * Defaults to ``true``
+	 */
+	'enable_avatars' => true,
 
 	/**
 	 * By default, Nextcloud can generate previews for the following filetypes:
@@ -1539,6 +1648,18 @@ $CONFIG = [
 	 * See https://github.com/h2non/imaginary
 	 */
 	'preview_imaginary_url' => 'http://previews_hpb:8088/',
+
+	/**
+	 * Image format used when generating preview thumbnails via the Imaginary
+	 * service. Applies only when ``preview_imaginary_url`` is configured.
+	 * Accepted values: ``jpeg``, ``webp``, ``png``.
+	 *
+	 * ``webp`` produces smaller files at comparable quality. ``jpeg`` has the
+	 * broadest client compatibility.
+	 *
+	 * Defaults to ``'jpeg'``
+	 */
+	'preview_format' => 'jpeg',
 
 	/**
 	 * If you want to set an API key for Imaginary.
@@ -2606,6 +2727,16 @@ $CONFIG = [
 	'max_filesize_animated_gifs_public_sharing' => 10,
 
 	/**
+	 * Enable transactional file locking. This prevents simultaneous processes
+	 * from writing to the same files, which can cause data corruption.
+	 * Disabling this is strongly discouraged unless you are using an external
+	 * file locking provider.
+	 *
+	 * Defaults to ``true``
+	 */
+	'filelocking.enabled' => true,
+
+	/**
 	 * Set the lock's time-to-live (TTL) in seconds. Locks older than this are
 	 * automatically cleaned up.
 	 *
@@ -3013,4 +3144,38 @@ $CONFIG = [
 	 * Defaults to ``0``.
 	 */
 	'preview_expiration_days' => 0,
+
+	/**
+	 * Set server-wide default values for user config keys managed by the Config
+	 * Lexicon. These defaults are used when the user has not explicitly set a value.
+	 * The structure mirrors the app config lexicon: ``appId => [ configKey => value ]``.
+	 *
+	 * Example::
+	 *
+	 *   'lexicon.default.userconfig' => [
+	 *       'files' => [
+	 *           'show_hidden' => 'false',
+	 *       ],
+	 *   ],
+	 *
+	 * Defaults to ``[]``
+	 */
+	'lexicon.default.userconfig' => [],
+
+	/**
+	 * Enforce server-wide values for user config keys managed by the Config
+	 * Lexicon. Users cannot override enforced values. The structure is the same
+	 * as ``lexicon.default.userconfig``.
+	 *
+	 * Example::
+	 *
+	 *   'lexicon.default.userconfig.enforced' => [
+	 *       'files' => [
+	 *           'show_hidden' => 'false',
+	 *       ],
+	 *   ],
+	 *
+	 * Defaults to ``[]``
+	 */
+	'lexicon.default.userconfig.enforced' => [],
 ];
