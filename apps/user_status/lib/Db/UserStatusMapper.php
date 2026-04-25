@@ -185,6 +185,14 @@ class UserStatusMapper extends QBMapper {
 		return $qb->executeStatement() > 0;
 	}
 
+	public function cleanOrphanedBackups(int $olderThan): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('is_backup', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL)))
+			->andWhere($qb->expr()->lte('status_timestamp', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)));
+		$qb->executeStatement();
+	}
+
 	public function restoreBackupStatuses(array $ids): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update($this->tableName)

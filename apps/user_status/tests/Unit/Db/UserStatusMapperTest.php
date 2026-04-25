@@ -329,4 +329,58 @@ class UserStatusMapperTest extends TestCase {
 		$this->assertEquals(true, $user3Status->getIsBackup());
 		$this->assertEquals('Vacationing', $user3Status->getCustomMessage());
 	}
+
+	public function testCleanOrphanedBackups(): void {
+		// Recent backup — should survive
+		$recentBackup = new UserStatus();
+		$recentBackup->setUserId('_user1');
+		$recentBackup->setStatus('dnd');
+		$recentBackup->setStatusTimestamp(9000);
+		$recentBackup->setIsUserDefined(true);
+		$recentBackup->setIsBackup(true);
+		$this->mapper->insert($recentBackup);
+
+		// Old backup — should be deleted
+		$oldBackup = new UserStatus();
+		$oldBackup->setUserId('_user2');
+		$oldBackup->setStatus('away');
+		$oldBackup->setStatusTimestamp(1000);
+		$oldBackup->setIsUserDefined(false);
+		$oldBackup->setIsBackup(true);
+		$this->mapper->insert($oldBackup);
+
+		// Active (non-backup) status with old timestamp — must not be deleted
+		$activeStatus = new UserStatus();
+		$activeStatus->setUserId('user3');
+		$activeStatus->setStatus('online');
+		$activeStatus->setStatusTimestamp(1000);
+		$activeStatus->setIsUserDefined(true);
+		$activeStatus->setIsBackup(false);
+		$this->mapper->insert($activeStatus);
+
+		$this->mapper->cleanOrphanedBackups(5000);
+
+		// Recent backup survives
+		$surviving = $this->mapper->findByUserId('user1', true);
+		$this->assertEquals('_user1', $surviving->getUserId());
+
+		// Old backup is gone
+		$this->expectException(DoesNotExistException::class);
+		$this->mapper->findByUserId('user2', true);
+	}
+
+	public function testCleanOrphanedBackupsDoesNotTouchActiveStatuses(): void {
+		$activeStatus = new UserStatus();
+		$activeStatus->setUserId('user1');
+		$activeStatus->setStatus('online');
+		$activeStatus->setStatusTimestamp(1000);
+		$activeStatus->setIsUserDefined(true);
+		$activeStatus->setIsBackup(false);
+		$this->mapper->insert($activeStatus);
+
+		$this->mapper->cleanOrphanedBackups(5000);
+
+		$found = $this->mapper->findByUserId('user1', false);
+		$this->assertEquals('user1', $found->getUserId());
+	}
 }

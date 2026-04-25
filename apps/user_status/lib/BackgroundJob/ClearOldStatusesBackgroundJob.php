@@ -43,5 +43,6 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 
 		$this->mapper->clearOlderThanClearAt($now);
 		$this->mapper->clearStatusesOlderThan($now - StatusService::INVALIDATE_STATUS_THRESHOLD, $now);
+		$this->mapper->cleanOrphanedBackups($now - 86400);
 	}
 }
