@@ -384,6 +384,7 @@
             <xs:enumeration value="AGPL-3.0-only"/>
             <xs:enumeration value="AGPL-3.0-or-later"/>
             <xs:enumeration value="Apache-2.0"/>
+            <xs:enumeration value="CC0-1.0"/>
             <xs:enumeration value="GPL-3.0-only"/>
             <xs:enumeration value="GPL-3.0-or-later"/>
             <xs:enumeration value="MIT"/>
