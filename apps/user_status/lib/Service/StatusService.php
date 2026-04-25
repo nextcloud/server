@@ -64,6 +64,17 @@ class StatusService {
 	/** @var int */
 	public const MAXIMUM_MESSAGE_LENGTH = 80;
 
+	/**
+	 * Priority of automated status messages — higher value wins.
+	 * A message can only override another if its priority is strictly greater.
+	 */
+	public const MESSAGE_PRIORITY = [
+		IUserStatus::MESSAGE_CALENDAR_BUSY => 0,
+		IUserStatus::MESSAGE_CALL          => 1,
+		IUserStatus::MESSAGE_AVAILABILITY  => 2,
+		IUserStatus::MESSAGE_OUT_OF_OFFICE => 3,
+	];
+
 	public function __construct(
 		private UserStatusMapper $mapper,
 		private ITimeFactory $timeFactory,
@@ -248,19 +259,10 @@ class StatusService {
 			$userStatus->setUserId($userId);
 		}
 
-		$updateStatus = false;
-		if ($messageId === IUserStatus::MESSAGE_OUT_OF_OFFICE) {
-			// OUT_OF_OFFICE trumps AVAILABILITY, CALL and CALENDAR status
-			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_AVAILABILITY || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALL || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY;
-		} elseif ($messageId === IUserStatus::MESSAGE_AVAILABILITY) {
-			// AVAILABILITY trumps CALL and CALENDAR status
-			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_CALL || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY;
-		} elseif ($messageId === IUserStatus::MESSAGE_CALL) {
-			// CALL trumps CALENDAR status
-			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY;
-		}
+		$updateStatus = isset(self::MESSAGE_PRIORITY[$messageId], self::MESSAGE_PRIORITY[$userStatus->getMessageId()])
+			&& self::MESSAGE_PRIORITY[$messageId] > self::MESSAGE_PRIORITY[$userStatus->getMessageId()];
 
-		if ($messageId === IUserStatus::MESSAGE_OUT_OF_OFFICE || $messageId === IUserStatus::MESSAGE_AVAILABILITY || $messageId === IUserStatus::MESSAGE_CALL || $messageId === IUserStatus::MESSAGE_CALENDAR_BUSY) {
+		if (isset(self::MESSAGE_PRIORITY[$messageId])) {
 			if ($updateStatus) {
 				$this->logger->debug('User ' . $userId . ' is currently NOT available, overwriting status [status: ' . $userStatus->getStatus() . ', messageId: ' . json_encode($userStatus->getMessageId()) . ']', ['app' => 'dav']);
 			} else {
