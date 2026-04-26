@@ -303,12 +303,12 @@ END:VCARD';
 			->method('createCard');
 		$this->backend->expects($this->exactly(1))
 			->method('updateCard')
-			->willReturnCallback(function ($id, $uri) use (&$pendingCards) {
+			->willReturnCallback(function ($id, $uri) use (&$pendingCards): void {
 				unset($pendingCards[$uri]);
 			});
 		$this->backend->expects($this->exactly(1))
 			->method('markCardsAsPending')
-			->willReturnCallback(function ($id) use (&$pendingCards) {
+			->willReturnCallback(function ($id) use (&$pendingCards): void {
 				$cards = array_values($this->backend->getCards($id));
 				$uris = array_map(fn ($card) => $card['uri'], $cards);
 				$pendingCards = array_combine($uris, $cards);
