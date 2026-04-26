@@ -11,34 +11,41 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 
 /**
- * Fallback implementation for moveFromCache
+ * Generic fallback implementation for moving cache entries.
+ *
+ * This fallback copies the source entry to the target path and then removes
+ * it from the source cache.
+ *
+ * It is intended for cache implementations that do not provide a specialized
+ * in-place move operation.
  */
 trait MoveFromCacheTrait {
-	/**
-	 * store meta data for a file or folder
-	 *
-	 * @param string $file
-	 * @param array $data
-	 *
-	 * @return int file id
-	 * @throws \RuntimeException
-	 */
+
 	abstract public function put($file, array $data);
 
 	abstract public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int;
 
 	/**
-	 * Move a file or folder in the cache
+	 * Move a file or folder in the cache.
+	 *
+	 * This fallback performs the move as a copy-then-delete, so it does not
+	 * preserve the original cache entry identity and may result in a new file id
+	 * at the destination.
 	 *
 	 * @param ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
+	 * @throws \RuntimeException if the source entry cannot be copied
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		$sourceEntry = $sourceCache->get($sourcePath);
 
-		$this->copyFromCache($sourceCache, $sourceEntry, $targetPath);
+		if (!$sourceEntry) {
+			throw new \RuntimeException('Source path not found in cache: ' . $sourcePath);
+		}
 
+		$this->copyFromCache($sourceCache, $sourceEntry, $targetPath);
+		// non-atomic; failed removals can leave duplicates
 		$sourceCache->remove($sourcePath);
 	}
 }
