@@ -215,7 +215,7 @@
     "Submit" : "Enviar",
     "Choose a file or folder to transfer" : "Escolha o arquivo ou pasta a transferir",
     "Transfer \"{path}\"" : "Transferir \"{path}\"",
-    "Select file or folder" : "Selecionar arquivo ou pasta",
+    "Select file or folder" : "Selecione arquivo ou pasta",
     "Transfer" : "Transferir",
     "Transfer {path} to {userid}" : "Transferir {path} para {userid}",
     "Error while opening file picker for transfer ownership" : "Erro ao abrir o seletor de arquivos para transferência de propriedade",
