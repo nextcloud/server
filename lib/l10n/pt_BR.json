@@ -213,6 +213,7 @@
     "Share provider does not support accepting" : "O provedor de compartilhamento não oferece suporte à aceitação",
     "Cannot change target of link share" : "Não é possível alterar o destino do compartilhamento do link",
     "Invalid share recipient" : "Destinatário de compartilhamento inválido",
+    "Unknown share recipient" : "Destinatário de compartilhamento desconhecido",
     "Group \"%s\" does not exist" : "Grupo \"%s\" não existe",
     "The requested share does not exist anymore" : "O compartilhamento solicitado não existe mais",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "O usuário não foi criado porque o limite de usuários foi atingido. Confira suas notificações para saber mais.",
