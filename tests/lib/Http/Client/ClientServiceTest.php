@@ -81,6 +81,58 @@ class ClientServiceTest extends \Test\TestCase {
 		);
 	}
 
+	public function testNewClientWithConfig(): void {
+		/** @var IConfig $config */
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValueBool')
+			->with('dns_pinning', true)
+			->willReturn(true);
+		/** @var ICertificateManager $certificateManager */
+		$certificateManager = $this->createMock(ICertificateManager::class);
+		$dnsPinMiddleware = $this->createMock(DnsPinMiddleware::class);
+		$dnsPinMiddleware
+			->expects($this->atLeastOnce())
+			->method('addDnsPinning')
+			->willReturn(function (): void {
+			});
+		$remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
+		$eventLogger = $this->createMock(IEventLogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$serverVersion = $this->createMock(ServerVersion::class);
+
+		$clientService = new ClientService(
+			$config,
+			$certificateManager,
+			$dnsPinMiddleware,
+			$remoteHostValidator,
+			$eventLogger,
+			$logger,
+			$serverVersion,
+		);
+
+		$handler = new CurlHandler();
+		$stack = HandlerStack::create($handler);
+		$stack->push($dnsPinMiddleware->addDnsPinning());
+		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
+			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
+		}, function () use ($eventLogger): void {
+			$eventLogger->end('http:request');
+		}), 'event logger');
+		$guzzleClient = new GuzzleClient(['handler' => $stack, 'timeout' => 2.0]);
+
+		$this->assertEquals(
+			new Client(
+				$config,
+				$certificateManager,
+				$guzzleClient,
+				$remoteHostValidator,
+				$logger,
+				$serverVersion,
+			),
+			$clientService->newClient(['timeout' => 2.0])
+		);
+	}
+
 	public function testDisableDnsPinning(): void {
 		/** @var IConfig $config */
 		$config = $this->createMock(IConfig::class);
