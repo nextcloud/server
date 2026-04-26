@@ -34,7 +34,11 @@ class AdapterPgSql extends Adapter {
 		if (isset($hintShardKey['column'], $hintShardKey['value'])) {
 			$builder->hintShardKey($hintShardKey['column'], $hintShardKey['value'], $hintShardKey['overwrite'] ?? false);
 		}
-		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
-		return $this->conn->executeUpdate($queryString, $builder->getParameters(), $builder->getParameterTypes());
+		$builder->ignoreConflictsOnInsert();
+		return $builder->executeStatement();
+	}
+
+	public function getInsertIgnoreSqlTransformer(): callable {
+		return fn (string $sql) => $sql . ' ON CONFLICT DO NOTHING';
 	}
 }

@@ -88,10 +88,11 @@ class AdapterSqlite extends Adapter {
 			$builder->hintShardKey($hintShardKey['column'], $hintShardKey['value'], $hintShardKey['overwrite'] ?? false);
 		}
 
-		return $this->conn->executeStatement(
-			$builder->getSQL() . ' ON CONFLICT DO NOTHING',
-			$builder->getParameters(),
-			$builder->getParameterTypes()
-		);
+		$builder->ignoreConflictsOnInsert();
+		return $builder->executeStatement();
+	}
+
+	public function getInsertIgnoreSqlTransformer(): callable {
+		return fn (string $sql) => $sql . ' ON CONFLICT DO NOTHING';
 	}
 }

@@ -129,4 +129,8 @@ class Adapter {
 			throw $e;
 		}
 	}
+
+	public function getInsertIgnoreSqlTransformer(): ?callable {
+		return null;
+	}
 }
