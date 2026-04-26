@@ -91,4 +91,20 @@ class Broker implements IBroker {
 
 		$this->backend->deleteConversation($id);
 	}
+
+	public function isDisabledForUser(): bool {
+		if (!$this->hasBackend()) {
+			return true;
+		}
+
+		return $this->backend->isDisabledForUser();
+	}
+
+	public function isNotAllowedToCreateConversations(): bool {
+		if (!$this->hasBackend()) {
+			return true;
+		}
+
+		return $this->backend->isNotAllowedToCreateConversations();
+	}
 }

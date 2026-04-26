@@ -65,4 +65,28 @@ interface IBroker {
 	 * @since 26.0.0
 	 */
 	public function deleteConversation(string $id): void;
+
+	/**
+	 * Check if the logged in user is not allowed to create conversations,
+	 * respecting the per-group restrictions configured in Talk admin settings
+	 * (allowed_groups).
+	 *
+	 * Returns false when Talk is not available at all.
+	 *
+	 * @return bool
+	 * @since 34.0.0
+	 */
+	public function isNotAllowedToCreateConversations(): bool;
+
+	/**
+	 * Check if Talk is disabled for the logged in user, respecting the
+	 * per-group restriction configured in Talk admin settings
+	 * (start_conversations).
+	 *
+	 * Returns false when Talk is not available at all.
+	 *
+	 * @return bool
+	 * @since 34.0.0
+	 */
+	public function isDisabledForUser(): bool;
 }
