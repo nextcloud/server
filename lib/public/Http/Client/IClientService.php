@@ -14,9 +14,10 @@ namespace OCP\Http\Client;
  * @since 8.1.0
  */
 interface IClientService {
-	/**
-	 * @return IClient
-	 * @since 8.1.0
-	 */
-	public function newClient(): IClient;
+   /**
+    * @param array $baseConfig default configuration for the client
+	* @return IClient
+	* @since 8.1.0
+	*/
+	public function newClient(array $baseConfig = []): IClient;
 }
