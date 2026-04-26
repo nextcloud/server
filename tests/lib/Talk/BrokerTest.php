@@ -132,4 +132,92 @@ class BrokerTest extends TestCase {
 			$options
 		);
 	}
+
+	public function testIsDisabledForUserNoBackend(): void {
+		$this->coordinator->expects(self::once())
+			->method('getRegistrationContext')
+			->willReturn($this->createMock(RegistrationContext::class));
+
+		self::assertTrue(
+			$this->broker->isDisabledForUser()
+		);
+	}
+
+	public static function dataIsDisabledForUser(): array {
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataIsDisabledForUser
+	 */
+	public function testIsDisabledForUser(bool $disabled): void {
+		$fakeTalkServiceClass = '\\OCA\\Spreed\\TalkBackend';
+		$registrationContext = $this->createMock(RegistrationContext::class);
+		$this->coordinator->expects(self::once())
+			->method('getRegistrationContext')
+			->willReturn($registrationContext);
+		$registrationContext->expects(self::once())
+			->method('getTalkBackendRegistration')
+			->willReturn(new ServiceRegistration('spreed', $fakeTalkServiceClass));
+		$talkService = $this->createMock(ITalkBackend::class);
+		$this->container->expects(self::once())
+			->method('get')
+			->with($fakeTalkServiceClass)
+			->willReturn($talkService);
+		$talkService->expects(self::once())
+			->method('isDisabledForUser')
+			->willReturn($disabled);
+
+		self::assertSame(
+			$disabled,
+			$this->broker->isDisabledForUser()
+		);
+	}
+
+	public function testIsNotAllowedToCreateConversationsNoBackend(): void {
+		$this->coordinator->expects(self::once())
+			->method('getRegistrationContext')
+			->willReturn($this->createMock(RegistrationContext::class));
+
+		self::assertTrue(
+			$this->broker->isNotAllowedToCreateConversations()
+		);
+	}
+
+	public static function dataIsNotAllowedToCreateConversations(): array {
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataIsNotAllowedToCreateConversations
+	 */
+	public function testIsNotAllowedToCreateConversations(bool $notAllowed): void {
+		$fakeTalkServiceClass = '\\OCA\\Spreed\\TalkBackend';
+		$registrationContext = $this->createMock(RegistrationContext::class);
+		$this->coordinator->expects(self::once())
+			->method('getRegistrationContext')
+			->willReturn($registrationContext);
+		$registrationContext->expects(self::once())
+			->method('getTalkBackendRegistration')
+			->willReturn(new ServiceRegistration('spreed', $fakeTalkServiceClass));
+		$talkService = $this->createMock(ITalkBackend::class);
+		$this->container->expects(self::once())
+			->method('get')
+			->with($fakeTalkServiceClass)
+			->willReturn($talkService);
+		$talkService->expects(self::once())
+			->method('isNotAllowedToCreateConversations')
+			->willReturn($notAllowed);
+
+		self::assertSame(
+			$notAllowed,
+			$this->broker->isNotAllowedToCreateConversations()
+		);
+	}
 }
