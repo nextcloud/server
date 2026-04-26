@@ -535,7 +535,7 @@ OC.L10N.register(
     "Ask questions or discuss" : "Poser des questions ou discuter",
     "Rate the app" : "Évaluer l’application",
     "Rate" : "Évaluation",
-    "Changelog" : "Journal des modifications",
+    "Changelog" : "Journal des modifs",
     "Google Chrome for Android" : "Google Chrome pour Android",
     "{productName} iOS app" : "Application iOS {productName}",
     "{productName} Android app" : "Application Android {productName}",

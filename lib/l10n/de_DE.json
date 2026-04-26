@@ -213,6 +213,7 @@
     "Share provider does not support accepting" : "Der Teilen-Anbieter unterstützt das Akzeptieren nicht",
     "Cannot change target of link share" : "Das Ziel der Linkfreigabe kann nicht geändert werden",
     "Invalid share recipient" : "Ungültiger Freigabeempfänger",
+    "Unknown share recipient" : "Unbekannter Freigabeempfänger",
     "Group \"%s\" does not exist" : "Gruppe \"%s\" existiert nicht",
     "The requested share does not exist anymore" : "Die angeforderte Freigabe existiert nicht mehr",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Der Benutzer wurde nicht erstellt, da das Benutzerlimit erreicht wurde. Überprüfen Sie Ihre Benachrichtigungen, um mehr zu erfahren.",
