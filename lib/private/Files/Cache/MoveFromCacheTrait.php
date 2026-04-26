@@ -35,7 +35,7 @@ trait MoveFromCacheTrait {
 	 * @param ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
-	 * @throws \RuntimeException if the source entry cannot be copied
+	 * @throws \RuntimeException if the source path cannot be found in cache
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		$sourceEntry = $sourceCache->get($sourcePath);
