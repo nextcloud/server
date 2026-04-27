@@ -210,12 +210,13 @@ class OauthApiControllerTest extends TestCase {
 			'error' => 'invalid_request',
 		], Http::STATUS_BAD_REQUEST);
 		$expected->throttle(['invalid_request' => 'code_verifier_required']);
+		$codeChallenge = str_repeat('a', 43);
 
 		$accessToken = new AccessToken();
 		$accessToken->setClientId(42);
 		$accessToken->setCodeCreatedAt(100);
-		$accessToken->setHashedCodeChallenge('challenge');
-		$accessToken->setCodeChallengeMethod('plain');
+		$accessToken->setHashedCodeChallenge($codeChallenge);
+		$accessToken->setCodeChallengeMethod('S256');
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
@@ -228,17 +229,18 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null));
 	}
 
-	public function testGetTokenPkcePlainVerifierMismatch(): void {
+	public function testGetTokenPkceRejectsInvalidVerifierFormat(): void {
 		$expected = new JSONResponse([
 			'error' => 'invalid_grant',
 		], Http::STATUS_BAD_REQUEST);
-		$expected->throttle(['invalid_grant' => 'pkce_verification_failed']);
+		$expected->throttle(['invalid_grant' => 'invalid_code_verifier']);
+		$codeChallenge = str_repeat('a', 43);
 
 		$accessToken = new AccessToken();
 		$accessToken->setClientId(42);
 		$accessToken->setCodeCreatedAt(100);
-		$accessToken->setHashedCodeChallenge('expected-verifier');
-		$accessToken->setCodeChallengeMethod('plain');
+		$accessToken->setHashedCodeChallenge($codeChallenge);
+		$accessToken->setCodeChallengeMethod('S256');
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
@@ -248,7 +250,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->timeFactory->method('now')
 			->willReturn($dateNow);
 
-		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null, 'wrong-verifier'));
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null, 'short'));
 	}
 
 	public function testGetTokenPkceS256VerifierMismatch(): void {
@@ -271,14 +273,38 @@ class OauthApiControllerTest extends TestCase {
 		$this->timeFactory->method('now')
 			->willReturn($dateNow);
 
-		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null, 'wrong-verifier'));
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null, str_repeat('b', 43)));
+	}
+
+	public function testGetTokenPkceRejectsUnsupportedStoredMethod(): void {
+		$expected = new JSONResponse([
+			'error' => 'invalid_grant',
+		], Http::STATUS_BAD_REQUEST);
+		$expected->throttle(['invalid_grant' => 'unsupported_code_challenge_method']);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setCodeCreatedAt(100);
+		$accessToken->setHashedCodeChallenge(str_repeat('a', 43));
+		$accessToken->setCodeChallengeMethod('plain');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validcode')
+			->willReturn($accessToken);
+
+		$dateNow = (new \DateTimeImmutable())->setTimestamp(101);
+		$this->timeFactory->method('now')
+			->willReturn($dateNow);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null, str_repeat('a', 43)));
 	}
 
 	public function testGetTokenPkceS256VerifierMatch(): void {
-		$codeVerifier = 'verifier-value';
+		$codeVerifier = str_repeat('a', 43);
 		$codeChallenge = rtrim(strtr(base64_encode(hash('sha256', $codeVerifier, true)), '+/', '-_'), '=');
 
 		$accessToken = new AccessToken();
+		$accessToken->setId(21);
 		$accessToken->setClientId(42);
 		$accessToken->setTokenId(1337);
 		$accessToken->setEncryptedToken('encryptedToken');
@@ -301,9 +327,21 @@ class OauthApiControllerTest extends TestCase {
 			->with(42)
 			->willReturn($client);
 
+		$this->db->expects($this->once())
+			->method('beginTransaction');
+
+		$this->db->expects($this->once())
+			->method('commit');
+
+		$this->db->expects($this->never())
+			->method('rollBack');
+
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateToken');
+
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validcode')
 			->willReturn('decryptedToken');
 
 		$this->crypto
@@ -346,13 +384,14 @@ class OauthApiControllerTest extends TestCase {
 			->willReturn('newEncryptedToken');
 
 		$this->accessTokenMapper->expects($this->once())
-			->method('update')
+			->method('rotateToken')
 			->with(
-				$this->callback(function (AccessToken $token) {
-					return $token->getHashedCode() === hash('sha512', 'random128')
-						&& $token->getEncryptedToken() === 'newEncryptedToken';
-				})
-			);
+				21,
+				'validcode',
+				'random128',
+				'newEncryptedToken',
+				true,
+			)->willReturn(1);
 
 		$expected = new JSONResponse([
 			'access_token' => 'random72',
@@ -481,7 +520,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
@@ -520,7 +559,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
@@ -630,7 +669,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
@@ -743,7 +782,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
@@ -858,7 +897,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
