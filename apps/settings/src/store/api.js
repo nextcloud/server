@@ -50,8 +50,8 @@ export default {
 	get(url, options) {
 		return axios.get(sanitize(url), options)
 	},
-	post(url, data) {
-		return axios.post(sanitize(url), data)
+	post(url, data, options) {
+		return axios.post(sanitize(url), data, options)
 	},
 	patch(url, data) {
 		return axios.patch(sanitize(url), data)

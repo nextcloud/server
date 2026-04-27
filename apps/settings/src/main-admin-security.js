@@ -1,14 +1,18 @@
+import { getCSPNonce } from '@nextcloud/auth'
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getCSPNonce } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
+import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 import Vue from 'vue'
 
 import AdminTwoFactor from './components/AdminTwoFactor.vue'
 import EncryptionSettings from './components/Encryption/EncryptionSettings.vue'
 import store from './store/admin-security.js'
+
+addPasswordConfirmationInterceptors(axios)
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
