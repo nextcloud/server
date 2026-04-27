@@ -57,7 +57,7 @@ class CommentsEvent extends Event {
 
 	/**
 	 * @since 9.0.0
-	 * @depreacted Since 33.0.0 use instanceof CommentAddedEvent, CommentRemovedEvent, CommentUpdatedEvent or BeforeCommentUpdatedEvent instead.
+	 * @deprecated 33.0.0 Use instanceof CommentAddedEvent, CommentRemovedEvent, CommentUpdatedEvent or BeforeCommentUpdatedEvent instead.
 	 */
 	public function getEvent(): string {
 		return $this->event;

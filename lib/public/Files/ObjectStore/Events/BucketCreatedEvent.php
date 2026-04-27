@@ -17,6 +17,9 @@ use OCP\EventDispatcher\Event;
 #[Consumable(since: '33.0.0')]
 class BucketCreatedEvent extends Event {
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function __construct(
 		private readonly string $bucket,
 		private readonly string $endpoint,
@@ -26,18 +29,30 @@ class BucketCreatedEvent extends Event {
 		parent::__construct();
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function getBucket(): string {
 		return $this->bucket;
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function getEndpoint(): string {
 		return $this->endpoint;
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function getRegion(): string {
 		return $this->region;
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function getVersion(): string {
 		return $this->version;
 	}

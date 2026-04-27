@@ -17,10 +17,14 @@ namespace OCP\DB\QueryBuilder;
 enum ConflictResolutionMode {
 	/**
 	 * Wait for the row to be unlocked.
+	 *
+	 * @since 34.0.0
 	 */
 	case Ordinary;
 	/**
 	 * Skip the row if it is locked.
+	 *
+	 * @since 34.0.0
 	 */
 	case SkipLocked;
 }

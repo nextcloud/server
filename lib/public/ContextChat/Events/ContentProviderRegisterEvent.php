@@ -17,6 +17,9 @@ use OCP\EventDispatcher\Event;
  * @since 32.0.0
  */
 class ContentProviderRegisterEvent extends Event {
+	/**
+	 * @since 32.0.0
+	 */
 	public function __construct(
 		private IContentManager $contentManager,
 	) {

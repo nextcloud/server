@@ -17,18 +17,57 @@ use OCP\TaskProcessing\Exception\ValidationException;
  * @since 30.0.0
  */
 enum EShapeType: int {
+	/**
+	 * @since 30.0.0
+	 */
 	case Number = 0;
+	/**
+	 * @since 30.0.0
+	 */
 	case Text = 1;
+	/**
+	 * @since 30.0.0
+	 */
 	case Image = 2;
+	/**
+	 * @since 30.0.0
+	 */
 	case Audio = 3;
+	/**
+	 * @since 30.0.0
+	 */
 	case Video = 4;
+	/**
+	 * @since 30.0.0
+	 */
 	case File = 5;
+	/**
+	 * @since 30.0.0
+	 */
 	case Enum = 6;
+	/**
+	 * @since 30.0.0
+	 */
 	case ListOfNumbers = 10;
+	/**
+	 * @since 30.0.0
+	 */
 	case ListOfTexts = 11;
+	/**
+	 * @since 30.0.0
+	 */
 	case ListOfImages = 12;
+	/**
+	 * @since 30.0.0
+	 */
 	case ListOfAudios = 13;
+	/**
+	 * @since 30.0.0
+	 */
 	case ListOfVideos = 14;
+	/**
+	 * @since 30.0.0
+	 */
 	case ListOfFiles = 15;
 
 	/**

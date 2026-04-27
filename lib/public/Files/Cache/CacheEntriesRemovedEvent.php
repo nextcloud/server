@@ -21,6 +21,7 @@ use OCP\EventDispatcher\Event;
 class CacheEntriesRemovedEvent extends Event {
 	/**
 	 * @param ICacheEvent[] $cacheEntryRemovedEvents
+	 * @since 34.0.0
 	 */
 	public function __construct(
 		private readonly array $cacheEntryRemovedEvents,
@@ -30,6 +31,7 @@ class CacheEntriesRemovedEvent extends Event {
 
 	/**
 	 * @return ICacheEvent[]
+	 * @since 34.0.0
 	 */
 	public function getCacheEntryRemovedEvents(): array {
 		return $this->cacheEntryRemovedEvents;

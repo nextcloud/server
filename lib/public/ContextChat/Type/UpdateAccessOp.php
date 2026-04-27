@@ -13,6 +13,12 @@ namespace OCP\ContextChat\Type;
  * @since 32.0.0
  */
 class UpdateAccessOp {
+	/**
+	 * @since 32.0.0
+	 */
 	public const ALLOW = 'allow';
+	/**
+	 * @since 32.0.0
+	 */
 	public const DENY = 'deny';
 }

@@ -15,12 +15,36 @@ namespace OCP\OpenMetrics;
  * @since 33.0.0
  */
 enum MetricType {
+	/**
+	 * @since 33.0.0
+	 */
 	case counter;
+	/**
+	 * @since 33.0.0
+	 */
 	case gauge;
+	/**
+	 * @since 33.0.0
+	 */
 	case histogram;
+	/**
+	 * @since 33.0.0
+	 */
 	case gaugehistogram;
+	/**
+	 * @since 33.0.0
+	 */
 	case stateset;
+	/**
+	 * @since 33.0.0
+	 */
 	case info;
+	/**
+	 * @since 33.0.0
+	 */
 	case summary;
+	/**
+	 * @since 33.0.0
+	 */
 	case unknown;
 }

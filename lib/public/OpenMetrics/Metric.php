@@ -13,6 +13,9 @@ namespace OCP\OpenMetrics;
  * @since 33.0.0
  */
 final readonly class Metric {
+	/**
+	 * @since 33.0.0
+	 */
 	public function __construct(
 		public int|float|bool|MetricValue $value = false,
 		/** @var string[] */
@@ -22,6 +25,9 @@ final readonly class Metric {
 		$this->validateLabels();
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function label(string $name): ?string {
 		return $this->labels[$name] ?? null;
 	}
