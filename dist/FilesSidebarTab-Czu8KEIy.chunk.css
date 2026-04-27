@@ -1,0 +1,17 @@
+.comments[data-v-19de1880] {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.comments__empty[data-v-19de1880], .comments__error[data-v-19de1880] {
+  flex: 1 0;
+}
+.comments__retry[data-v-19de1880] {
+  margin: 0 auto;
+}
+.comments__info[data-v-19de1880] {
+  height: 60px;
+  color: var(--color-text-maxcontrast);
+  text-align: center;
+  line-height: 60px;
+}

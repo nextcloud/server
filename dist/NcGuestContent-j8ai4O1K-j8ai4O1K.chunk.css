@@ -1,0 +1,50 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/*
+* Ensure proper alignment of the vue material icons
+*/
+.material-design-icon[data-v-26ad2498] {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
+#guest-content-vue[data-v-26ad2498] {
+  color: var(--color-main-text);
+  background-color: var(--color-main-background);
+  min-width: 0;
+  border-radius: var(--border-radius-element);
+  box-shadow: 0 0 10px var(--color-box-shadow);
+  height: fit-content;
+  padding: 15px;
+  margin: 20px auto;
+}/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/*
+* Ensure proper alignment of the vue material icons
+*/
+.material-design-icon {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
+#content.nc-guest-content {
+  overflow: auto;
+  margin-bottom: 0;
+  height: calc(var(--body-height) + var(--body-container-margin));
+}

@@ -1,0 +1,26 @@
+.social-button[data-v-dcd0b4c8] {
+  margin-top: 0.5rem;
+}
+.social-button button[data-v-dcd0b4c8], .social-button a[data-v-dcd0b4c8] {
+  display: inline-flex;
+  margin-inline-start: 0.5rem;
+  margin-top: 1rem;
+}
+.social-button__website-button[data-v-dcd0b4c8] {
+  width: min(100%, 400px) !important;
+}
+.social-button__icon[data-v-dcd0b4c8] {
+  height: 20px;
+  width: 20px;
+  filter: var(--background-invert-if-dark);
+}
+.social-button__icon--bright[data-v-dcd0b4c8] {
+  filter: var(--background-invert-if-bright);
+}
+.federated-cloud__cloud-id[data-v-dcd0b4c8] {
+  max-width: 300px;
+}
+pre[data-v-dcd0b4c8] {
+  margin-top: 0;
+  white-space: pre-wrap;
+}

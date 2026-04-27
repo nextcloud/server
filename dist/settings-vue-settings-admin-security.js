@@ -1,2 +1,2389 @@
-(()=>{var e,n,o,r={3127(e,n,o){"use strict";var r=o(21777),i=o(19051),a=o(81222),s=o(77690),c=o(85471),l=o(63814),u=o(38221),d=o.n(u),p=o(73054),f=o.n(p),h=o(63375),m=o.n(h),g=o(74095),y=o(32073),v=o(67607),b=o(88837);const A=(0,o(35947).YK)().setApp("settings").detectUser().build(),w={name:"AdminTwoFactor",components:{NcSelect:v.default,NcButton:g.A,NcCheckboxRadioSwitch:y.A,NcSettingsSection:b.A},data:()=>({loading:!1,dirty:!1,groups:[],loadingGroups:!1,twoFactorAdminDoc:(0,a.C)("settings","two-factor-admin-doc")}),computed:{enforced:{get(){return this.$store.state.enforced},set(t){this.dirty=!0,this.$store.commit("setEnforced",t)}},enforcedGroups:{get(){return this.$store.state.enforcedGroups},set(t){this.dirty=!0,this.$store.commit("setEnforcedGroups",t)}},excludedGroups:{get(){return this.$store.state.excludedGroups},set(t){this.dirty=!0,this.$store.commit("setExcludedGroups",t)}}},mounted(){this.groups=f()(m()(this.enforcedGroups.concat(this.excludedGroups))),this.searchGroup("")},methods:{searchGroup:d()(function(t){this.loadingGroups=!0,i.Ay.get((0,l.KT)("cloud/groups?offset=0&search={query}&limit=20",{query:t})).then(t=>t.data.ocs).then(t=>t.data.groups).then(t=>{this.groups=f()(m()(this.groups.concat(t)))}).catch(t=>A.error("could not search groups",{error:t})).then(()=>{this.loadingGroups=!1})},500),saveChanges(){this.loading=!0;const t={enforced:this.enforced,enforcedGroups:this.enforcedGroups,excludedGroups:this.excludedGroups};i.Ay.put((0,l.Jv)("/settings/api/admin/twofactorauth"),t,{confirmPassword:s.mH.Strict}).then(t=>t.data).then(t=>{this.state=t,this.dirty=!1}).catch(t=>{A.error("could not save changes",{error:t})}).then(()=>{this.loading=!1})}}};var _=o(85072),x=o.n(_),C=o(97825),E=o.n(C),k=o(77659),S=o.n(k),N=o(55056),G=o.n(N),O=o(10540),M=o.n(O),T=o(41113),$=o.n(T),P=o(27009),D={};D.styleTagTransform=$(),D.setAttributes=G(),D.insert=S().bind(null,"head"),D.domAPI=E(),D.insertStyleElement=M(),x()(P.A,D),P.A&&P.A.locals&&P.A.locals;var j=o(14486);const F=(0,j.A)(w,function(){var t=this,e=t._self._c;return e("NcSettingsSection",{attrs:{name:t.t("settings","Two-Factor Authentication"),description:t.t("settings","Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system."),"doc-url":t.twoFactorAdminDoc}},[t.loading?e("p",[e("span",{staticClass:"icon-loading-small two-factor-loading"}),t._v(" "),e("span",[t._v(t._s(t.t("settings","Enforce two-factor authentication")))])]):e("NcCheckboxRadioSwitch",{attrs:{id:"two-factor-enforced",type:"switch"},model:{value:t.enforced,callback:function(e){t.enforced=e},expression:"enforced"}},[t._v("\n\t\t"+t._s(t.t("settings","Enforce two-factor authentication"))+"\n\t")]),t._v(" "),t.enforced?[e("h3",[t._v(t._s(t.t("settings","Limit to groups")))]),t._v("\n\t\t"+t._s(t.t("settings","Enforcement of two-factor authentication can be set for certain groups only."))+"\n\t\t"),e("p",{staticClass:"top-margin"},[t._v("\n\t\t\t"+t._s(t.t("settings","Two-factor authentication is enforced for all members of the following groups."))+"\n\t\t")]),t._v(" "),e("p",[e("label",{attrs:{for:"enforcedGroups"}},[e("span",[t._v(t._s(t.t("settings","Enforced groups")))])]),t._v(" "),e("NcSelect",{attrs:{"input-id":"enforcedGroups",options:t.groups,disabled:t.loading,multiple:!0,loading:t.loadingGroups,"keep-open":""},on:{search:t.searchGroup},model:{value:t.enforcedGroups,callback:function(e){t.enforcedGroups=e},expression:"enforcedGroups"}})],1),t._v(" "),e("p",{staticClass:"top-margin"},[t._v("\n\t\t\t"+t._s(t.t("settings","Two-factor authentication is not enforced for members of the following groups."))+"\n\t\t")]),t._v(" "),e("p",[e("label",{attrs:{for:"excludedGroups"}},[e("span",[t._v(t._s(t.t("settings","Excluded groups")))])]),t._v(" "),e("NcSelect",{attrs:{"input-id":"excludedGroups",options:t.groups,disabled:t.loading,multiple:!0,loading:t.loadingGroups,"keep-open":""},on:{search:t.searchGroup},model:{value:t.excludedGroups,callback:function(e){t.excludedGroups=e},expression:"excludedGroups"}})],1),t._v(" "),e("p",{staticClass:"top-margin"},[e("em",[t._v("\n\t\t\t\t"+t._s(t.t("settings","When groups are selected/excluded, they use the following logic to determine if an account has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If an account is both in a selected and excluded group, the selected takes precedence and 2FA is enforced."))+"\n\t\t\t")])])]:t._e(),t._v(" "),e("p",{staticClass:"top-margin"},[t.dirty?e("NcButton",{attrs:{variant:"primary",disabled:t.loading},on:{click:t.saveChanges}},[t._v("\n\t\t\t"+t._s(t.t("settings","Save changes"))+"\n\t\t")]):t._e()],1)],2)},[],!1,null,"58723dac",null).exports;var R=o(85168),B=o(53334),I=o(98469),U=o(371),L=o(94219);const q=window.OC.theme.productName,W=(0,B.t)("settings","For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted.",{productName:q}),V=(0,c.pM)({__name:"EncryptionWarningDialog",emits:["close"],setup(t,{emit:e}){const n=[{label:(0,B.t)("settings","Cancel encryption"),type:"tertiary",callback:()=>e("close",!1)},{label:(0,B.t)("settings","Enable encryption"),type:"error",callback:()=>e("close",!0)}];return{__sfc:!0,emit:e,buttons:n,onUpdateOpen:function(t){t||e("close",!1)},t:B.t,NcDialog:L.A,NcNoteCard:U.A,textExistingFilesNotEncrypted:W}}});var H=o(83703),K={};K.styleTagTransform=$(),K.setAttributes=G(),K.insert=S().bind(null,"head"),K.domAPI=E(),K.insertStyleElement=M(),x()(H.A,K),H.A&&H.A.locals&&H.A.locals;const X=(0,j.A)(V,function(){var t=this,e=t._self._c,n=t._self._setupProxy;return e(n.NcDialog,{attrs:{buttons:n.buttons,name:n.t("settings","Confirm enabling encryption"),size:"normal"},on:{"update:open":n.onUpdateOpen}},[e(n.NcNoteCard,{attrs:{type:"warning"}},[e("p",[t._v("\n\t\t\t"+t._s(n.t("settings","Please read carefully before activating server-side encryption:"))+"\n\t\t\t"),e("ul",[e("li",[t._v("\n\t\t\t\t\t"+t._s(n.t("settings","Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met."))+"\n\t\t\t\t")]),t._v(" "),e("li",[t._v("\n\t\t\t\t\t"+t._s(n.t("settings","By default a master key for the whole instance will be generated. Please check if that level of access is compliant with your needs."))+"\n\t\t\t\t")]),t._v(" "),e("li",[t._v("\n\t\t\t\t\t"+t._s(n.t("settings","Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases."))+"\n\t\t\t\t")]),t._v(" "),e("li",[t._v("\n\t\t\t\t\t"+t._s(n.t("settings","Be aware that encryption always increases the file size."))+"\n\t\t\t\t")]),t._v(" "),e("li",[t._v("\n\t\t\t\t\t"+t._s(n.t("settings","It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data."))+"\n\t\t\t\t")]),t._v(" "),e("li",[t._v("\n\t\t\t\t\t"+t._s(n.textExistingFilesNotEncrypted)+"\n\t\t\t\t\t"+t._s(n.t("settings","Refer to the admin documentation on how to manually also encrypt existing files."))+"\n\t\t\t\t")])])])]),t._v(" "),e("p",[t._v("\n\t\t"+t._s(n.t("settings","This is the final warning: Do you really want to enable encryption?"))+"\n\t")])],1)},[],!1,null,"21c94c20",null).exports,z=(0,c.pM)({__name:"EncryptionSettings",setup(t){const e=(0,a.C)("settings","encryption-modules"),n=Array.isArray(e)?[]:Object.entries(e).map(([t,e])=>({...e,id:t})),o=n.find(t=>t.default)?.id,r=(0,a.C)("settings","encryption-ready"),u=(0,a.C)("settings","external-backends-enabled"),d=(0,a.C)("settings","encryption-admin-doc"),p=(0,c.KR)((0,a.C)("settings","encryption-enabled")),f=(0,c.KR)(!1);async function h(t,e){await(0,s.C5)();const n=(0,l.KT)("/apps/provisioning_api/api/v1/config/apps/{appId}/{key}",{appId:"core",key:t});try{const{data:t}=await i.Ay.post(n,{value:e});if("ok"!==t.ocs.meta.status)throw new Error("Unsuccessful OCS response",{cause:t.ocs})}catch(t){return(0,R.Qg)((0,B.t)("settings","Unable to update server side encryption config")),A.error("Unable to update server side encryption config",{error:t}),!1}return!0}async function m(){p.value=await h("encryption_enabled","yes")}return{__sfc:!0,allEncryptionModules:e,encryptionModules:n,defaultCheckedModule:o,encryptionReady:r,externalBackendsEnabled:u,encryptionAdminDoc:d,encryptionEnabled:p,loadingEncryptionState:f,displayWarning:function(t){f.value||!1===t||(f.value=!0,(0,I.S)(X,{},async t=>{try{t&&await m()}finally{f.value=!1}}))},update:h,checkDefaultModule:async function(){o&&await h("default_encryption_module",o)},enableEncryption:m,t:B.t,NcCheckboxRadioSwitch:y.A,NcNoteCard:U.A,NcSettingsSection:b.A,textExistingFilesNotEncrypted:W}}});var Y=o(95224),J={};J.styleTagTransform=$(),J.setAttributes=G(),J.insert=S().bind(null,"head"),J.domAPI=E(),J.insertStyleElement=M(),x()(Y.A,J),Y.A&&Y.A.locals&&Y.A.locals;const Q=(0,j.A)(z,function(){var t=this,e=t._self._c,n=t._self._setupProxy;return e(n.NcSettingsSection,{attrs:{name:n.t("settings","Server-side encryption"),description:n.t("settings","Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed."),"doc-url":n.encryptionAdminDoc}},[n.encryptionEnabled?e(n.NcNoteCard,{attrs:{type:"info"}},[e("p",[t._v("\n\t\t\t"+t._s(n.textExistingFilesNotEncrypted)+"\n\t\t\t"+t._s(n.t("settings","To encrypt all existing files run this OCC command:"))+"\n\t\t")]),t._v(" "),e("code",[e("pre",[t._v("occ encryption:encrypt-all")])])]):t._e(),t._v(" "),e(n.NcCheckboxRadioSwitch,{class:{disabled:n.encryptionEnabled},attrs:{"model-value":n.encryptionEnabled,"aria-disabled":n.encryptionEnabled?"true":void 0,"aria-describedby":n.encryptionEnabled?"server-side-encryption-disable-hint":void 0,loading:n.loadingEncryptionState,type:"switch"},on:{"update:modelValue":n.displayWarning}},[t._v("\n\t\t"+t._s(n.t("settings","Enable server-side encryption"))+"\n\t")]),t._v(" "),n.encryptionEnabled?e("p",{staticClass:"disable-hint",attrs:{id:"server-side-encryption-disable-hint"}},[t._v("\n\t\t"+t._s(n.t("settings","Disabling server side encryption is only possible using OCC, please refer to the documentation."))+"\n\t")]):t._e(),t._v(" "),0===n.encryptionModules.length?e(n.NcNoteCard,{attrs:{type:"warning",text:n.t("settings","No encryption module loaded, please enable an encryption module in the app menu.")}}):n.encryptionEnabled?[n.encryptionReady&&n.encryptionModules.length>0?e("div",[e("h3",[t._v(t._s(n.t("settings","Select default encryption module:")))]),t._v(" "),e("fieldset",t._l(n.encryptionModules,function(o){return e(n.NcCheckboxRadioSwitch,{key:o.id,attrs:{value:o.id,type:"radio",name:"default_encryption_module"},on:{"update:modelValue":n.checkDefaultModule},model:{value:n.defaultCheckedModule,callback:function(t){n.defaultCheckedModule=t},expression:"defaultCheckedModule"}},[t._v("\n\t\t\t\t\t"+t._s(o.displayName)+"\n\t\t\t\t")])}),1)]):n.externalBackendsEnabled?e("div",[t._v("\n\t\t\t"+t._s(n.t("settings",'You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "Default encryption module" and run {command}',{command:'"occ encryption:migrate"'}))+"\n\t\t")]):t._e()]:t._e()],2)},[],!1,null,"1608e64f",null).exports;var Z=("undefined"!=typeof window?window:"undefined"!=typeof globalThis?globalThis:{}).__VUE_DEVTOOLS_GLOBAL_HOOK__;function tt(t,e){if(void 0===e&&(e=[]),null===t||"object"!=typeof t)return t;var n,o=(n=function(e){return e.original===t},e.filter(n)[0]);if(o)return o.copy;var r=Array.isArray(t)?[]:{};return e.push({original:t,copy:r}),Object.keys(t).forEach(function(n){r[n]=tt(t[n],e)}),r}function et(t,e){Object.keys(t).forEach(function(n){return e(t[n],n)})}function nt(t){return null!==t&&"object"==typeof t}var ot=function(t,e){this.runtime=e,this._children=Object.create(null),this._rawModule=t;var n=t.state;this.state=("function"==typeof n?n():n)||{}},rt={namespaced:{configurable:!0}};rt.namespaced.get=function(){return!!this._rawModule.namespaced},ot.prototype.addChild=function(t,e){this._children[t]=e},ot.prototype.removeChild=function(t){delete this._children[t]},ot.prototype.getChild=function(t){return this._children[t]},ot.prototype.hasChild=function(t){return t in this._children},ot.prototype.update=function(t){this._rawModule.namespaced=t.namespaced,t.actions&&(this._rawModule.actions=t.actions),t.mutations&&(this._rawModule.mutations=t.mutations),t.getters&&(this._rawModule.getters=t.getters)},ot.prototype.forEachChild=function(t){et(this._children,t)},ot.prototype.forEachGetter=function(t){this._rawModule.getters&&et(this._rawModule.getters,t)},ot.prototype.forEachAction=function(t){this._rawModule.actions&&et(this._rawModule.actions,t)},ot.prototype.forEachMutation=function(t){this._rawModule.mutations&&et(this._rawModule.mutations,t)},Object.defineProperties(ot.prototype,rt);var it,at=function(t){this.register([],t,!1)};function st(t,e,n){if(e.update(n),n.modules)for(var o in n.modules){if(!e.getChild(o))return;st(t.concat(o),e.getChild(o),n.modules[o])}}at.prototype.get=function(t){return t.reduce(function(t,e){return t.getChild(e)},this.root)},at.prototype.getNamespace=function(t){var e=this.root;return t.reduce(function(t,n){return t+((e=e.getChild(n)).namespaced?n+"/":"")},"")},at.prototype.update=function(t){st([],this.root,t)},at.prototype.register=function(t,e,n){var o=this;void 0===n&&(n=!0);var r=new ot(e,n);0===t.length?this.root=r:this.get(t.slice(0,-1)).addChild(t[t.length-1],r),e.modules&&et(e.modules,function(e,r){o.register(t.concat(r),e,n)})},at.prototype.unregister=function(t){var e=this.get(t.slice(0,-1)),n=t[t.length-1],o=e.getChild(n);o&&o.runtime&&e.removeChild(n)},at.prototype.isRegistered=function(t){var e=this.get(t.slice(0,-1)),n=t[t.length-1];return!!e&&e.hasChild(n)};var ct=function(t){var e=this;void 0===t&&(t={}),!it&&"undefined"!=typeof window&&window.Vue&&gt(window.Vue);var n=t.plugins;void 0===n&&(n=[]);var o=t.strict;void 0===o&&(o=!1),this._committing=!1,this._actions=Object.create(null),this._actionSubscribers=[],this._mutations=Object.create(null),this._wrappedGetters=Object.create(null),this._modules=new at(t),this._modulesNamespaceMap=Object.create(null),this._subscribers=[],this._watcherVM=new it,this._makeLocalGettersCache=Object.create(null);var r=this,i=this.dispatch,a=this.commit;this.dispatch=function(t,e){return i.call(r,t,e)},this.commit=function(t,e,n){return a.call(r,t,e,n)},this.strict=o;var s=this._modules.root.state;ft(this,s,[],this._modules.root),pt(this,s),n.forEach(function(t){return t(e)}),(void 0!==t.devtools?t.devtools:it.config.devtools)&&function(t){Z&&(t._devtoolHook=Z,Z.emit("vuex:init",t),Z.on("vuex:travel-to-state",function(e){t.replaceState(e)}),t.subscribe(function(t,e){Z.emit("vuex:mutation",t,e)},{prepend:!0}),t.subscribeAction(function(t,e){Z.emit("vuex:action",t,e)},{prepend:!0}))}(this)},lt={state:{configurable:!0}};function ut(t,e,n){return e.indexOf(t)<0&&(n&&n.prepend?e.unshift(t):e.push(t)),function(){var n=e.indexOf(t);n>-1&&e.splice(n,1)}}function dt(t,e){t._actions=Object.create(null),t._mutations=Object.create(null),t._wrappedGetters=Object.create(null),t._modulesNamespaceMap=Object.create(null);var n=t.state;ft(t,n,[],t._modules.root,!0),pt(t,n,e)}function pt(t,e,n){var o=t._vm;t.getters={},t._makeLocalGettersCache=Object.create(null);var r=t._wrappedGetters,i={};et(r,function(e,n){i[n]=function(t,e){return function(){return t(e)}}(e,t),Object.defineProperty(t.getters,n,{get:function(){return t._vm[n]},enumerable:!0})});var a=it.config.silent;it.config.silent=!0,t._vm=new it({data:{$$state:e},computed:i}),it.config.silent=a,t.strict&&function(t){t._vm.$watch(function(){return this._data.$$state},function(){},{deep:!0,sync:!0})}(t),o&&(n&&t._withCommit(function(){o._data.$$state=null}),it.nextTick(function(){return o.$destroy()}))}function ft(t,e,n,o,r){var i=!n.length,a=t._modules.getNamespace(n);if(o.namespaced&&(t._modulesNamespaceMap[a],t._modulesNamespaceMap[a]=o),!i&&!r){var s=ht(e,n.slice(0,-1)),c=n[n.length-1];t._withCommit(function(){it.set(s,c,o.state)})}var l=o.context=function(t,e,n){var o=""===e,r={dispatch:o?t.dispatch:function(n,o,r){var i=mt(n,o,r),a=i.payload,s=i.options,c=i.type;return s&&s.root||(c=e+c),t.dispatch(c,a)},commit:o?t.commit:function(n,o,r){var i=mt(n,o,r),a=i.payload,s=i.options,c=i.type;s&&s.root||(c=e+c),t.commit(c,a,s)}};return Object.defineProperties(r,{getters:{get:o?function(){return t.getters}:function(){return function(t,e){if(!t._makeLocalGettersCache[e]){var n={},o=e.length;Object.keys(t.getters).forEach(function(r){if(r.slice(0,o)===e){var i=r.slice(o);Object.defineProperty(n,i,{get:function(){return t.getters[r]},enumerable:!0})}}),t._makeLocalGettersCache[e]=n}return t._makeLocalGettersCache[e]}(t,e)}},state:{get:function(){return ht(t.state,n)}}}),r}(t,a,n);o.forEachMutation(function(e,n){!function(t,e,n,o){(t._mutations[e]||(t._mutations[e]=[])).push(function(e){n.call(t,o.state,e)})}(t,a+n,e,l)}),o.forEachAction(function(e,n){var o=e.root?n:a+n,r=e.handler||e;!function(t,e,n,o){(t._actions[e]||(t._actions[e]=[])).push(function(e){var r,i=n.call(t,{dispatch:o.dispatch,commit:o.commit,getters:o.getters,state:o.state,rootGetters:t.getters,rootState:t.state},e);return(r=i)&&"function"==typeof r.then||(i=Promise.resolve(i)),t._devtoolHook?i.catch(function(e){throw t._devtoolHook.emit("vuex:error",e),e}):i})}(t,o,r,l)}),o.forEachGetter(function(e,n){!function(t,e,n,o){t._wrappedGetters[e]||(t._wrappedGetters[e]=function(t){return n(o.state,o.getters,t.state,t.getters)})}(t,a+n,e,l)}),o.forEachChild(function(o,i){ft(t,e,n.concat(i),o,r)})}function ht(t,e){return e.reduce(function(t,e){return t[e]},t)}function mt(t,e,n){return nt(t)&&t.type&&(n=e,e=t,t=t.type),{type:t,payload:e,options:n}}function gt(t){it&&t===it||function(t){if(Number(t.version.split(".")[0])>=2)t.mixin({beforeCreate:n});else{var e=t.prototype._init;t.prototype._init=function(t){void 0===t&&(t={}),t.init=t.init?[n].concat(t.init):n,e.call(this,t)}}function n(){var t=this.$options;t.store?this.$store="function"==typeof t.store?t.store():t.store:t.parent&&t.parent.$store&&(this.$store=t.parent.$store)}}(it=t)}lt.state.get=function(){return this._vm._data.$$state},lt.state.set=function(t){},ct.prototype.commit=function(t,e,n){var o=this,r=mt(t,e,n),i=r.type,a=r.payload,s=(r.options,{type:i,payload:a}),c=this._mutations[i];c&&(this._withCommit(function(){c.forEach(function(t){t(a)})}),this._subscribers.slice().forEach(function(t){return t(s,o.state)}))},ct.prototype.dispatch=function(t,e){var n=this,o=mt(t,e),r=o.type,i=o.payload,a={type:r,payload:i},s=this._actions[r];if(s){try{this._actionSubscribers.slice().filter(function(t){return t.before}).forEach(function(t){return t.before(a,n.state)})}catch(t){}var c=s.length>1?Promise.all(s.map(function(t){return t(i)})):s[0](i);return new Promise(function(t,e){c.then(function(e){try{n._actionSubscribers.filter(function(t){return t.after}).forEach(function(t){return t.after(a,n.state)})}catch(t){}t(e)},function(t){try{n._actionSubscribers.filter(function(t){return t.error}).forEach(function(e){return e.error(a,n.state,t)})}catch(t){}e(t)})})}},ct.prototype.subscribe=function(t,e){return ut(t,this._subscribers,e)},ct.prototype.subscribeAction=function(t,e){return ut("function"==typeof t?{before:t}:t,this._actionSubscribers,e)},ct.prototype.watch=function(t,e,n){var o=this;return this._watcherVM.$watch(function(){return t(o.state,o.getters)},e,n)},ct.prototype.replaceState=function(t){var e=this;this._withCommit(function(){e._vm._data.$$state=t})},ct.prototype.registerModule=function(t,e,n){void 0===n&&(n={}),"string"==typeof t&&(t=[t]),this._modules.register(t,e),ft(this,this.state,t,this._modules.get(t),n.preserveState),pt(this,this.state)},ct.prototype.unregisterModule=function(t){var e=this;"string"==typeof t&&(t=[t]),this._modules.unregister(t),this._withCommit(function(){var n=ht(e.state,t.slice(0,-1));it.delete(n,t[t.length-1])}),dt(this)},ct.prototype.hasModule=function(t){return"string"==typeof t&&(t=[t]),this._modules.isRegistered(t)},ct.prototype.hotUpdate=function(t){this._modules.update(t),dt(this,!0)},ct.prototype._withCommit=function(t){var e=this._committing;this._committing=!0,t(),this._committing=e},Object.defineProperties(ct.prototype,lt);var yt=_t(function(t,e){var n={};return wt(e).forEach(function(e){var o=e.key,r=e.val;n[o]=function(){var e=this.$store.state,n=this.$store.getters;if(t){var o=xt(this.$store,0,t);if(!o)return;e=o.context.state,n=o.context.getters}return"function"==typeof r?r.call(this,e,n):e[r]},n[o].vuex=!0}),n}),vt=_t(function(t,e){var n={};return wt(e).forEach(function(e){var o=e.key,r=e.val;n[o]=function(){for(var e=[],n=arguments.length;n--;)e[n]=arguments[n];var o=this.$store.commit;if(t){var i=xt(this.$store,0,t);if(!i)return;o=i.context.commit}return"function"==typeof r?r.apply(this,[o].concat(e)):o.apply(this.$store,[r].concat(e))}}),n}),bt=_t(function(t,e){var n={};return wt(e).forEach(function(e){var o=e.key,r=e.val;r=t+r,n[o]=function(){if(!t||xt(this.$store,0,t))return this.$store.getters[r]},n[o].vuex=!0}),n}),At=_t(function(t,e){var n={};return wt(e).forEach(function(e){var o=e.key,r=e.val;n[o]=function(){for(var e=[],n=arguments.length;n--;)e[n]=arguments[n];var o=this.$store.dispatch;if(t){var i=xt(this.$store,0,t);if(!i)return;o=i.context.dispatch}return"function"==typeof r?r.apply(this,[o].concat(e)):o.apply(this.$store,[r].concat(e))}}),n});function wt(t){return function(t){return Array.isArray(t)||nt(t)}(t)?Array.isArray(t)?t.map(function(t){return{key:t,val:t}}):Object.keys(t).map(function(e){return{key:e,val:t[e]}}):[]}function _t(t){return function(e,n){return"string"!=typeof e?(n=e,e=""):"/"!==e.charAt(e.length-1)&&(e+="/"),t(e,n)}}function xt(t,e,n){return t._modulesNamespaceMap[n]}function Ct(t,e,n){var o=n?t.groupCollapsed:t.group;try{o.call(t,e)}catch(n){t.log(e)}}function Et(t){try{t.groupEnd()}catch(e){t.log("—— log end ——")}}function kt(){var t=new Date;return" @ "+St(t.getHours(),2)+":"+St(t.getMinutes(),2)+":"+St(t.getSeconds(),2)+"."+St(t.getMilliseconds(),3)}function St(t,e){return n=e-t.toString().length,new Array(n+1).join("0")+t;var n}var Nt={Store:ct,install:gt,version:"3.6.2",mapState:yt,mapMutations:vt,mapGetters:bt,mapActions:At,createNamespacedHelpers:function(t){return{mapState:yt.bind(null,t),mapGetters:bt.bind(null,t),mapMutations:vt.bind(null,t),mapActions:At.bind(null,t)}},createLogger:function(t){void 0===t&&(t={});var e=t.collapsed;void 0===e&&(e=!0);var n=t.filter;void 0===n&&(n=function(t,e,n){return!0});var o=t.transformer;void 0===o&&(o=function(t){return t});var r=t.mutationTransformer;void 0===r&&(r=function(t){return t});var i=t.actionFilter;void 0===i&&(i=function(t,e){return!0});var a=t.actionTransformer;void 0===a&&(a=function(t){return t});var s=t.logMutations;void 0===s&&(s=!0);var c=t.logActions;void 0===c&&(c=!0);var l=t.logger;return void 0===l&&(l=console),function(t){var u=tt(t.state);void 0!==l&&(s&&t.subscribe(function(t,i){var a=tt(i);if(n(t,u,a)){var s=kt(),c=r(t),d="mutation "+t.type+s;Ct(l,d,e),l.log("%c prev state","color: #9E9E9E; font-weight: bold",o(u)),l.log("%c mutation","color: #03A9F4; font-weight: bold",c),l.log("%c next state","color: #4CAF50; font-weight: bold",o(a)),Et(l)}u=a}),c&&t.subscribeAction(function(t,n){if(i(t,n)){var o=kt(),r=a(t),s="action "+t.type+o;Ct(l,s,e),l.log("%c action","color: #03A9F4; font-weight: bold",r),Et(l)}}))}}};const Gt=Nt;c.Ay.use(Gt);const Ot=new ct({strict:!1,state:{enforced:!1,enforcedGroups:[],excludedGroups:[]},mutations:{setEnforced(t,e){c.Ay.set(t,"enforced",e)},setEnforcedGroups(t,e){c.Ay.set(t,"enforcedGroups",e)},setExcludedGroups(t,e){c.Ay.set(t,"excludedGroups",e)}}});(0,s.IF)(i.Ay),o.nc=(0,r.aV)(),c.Ay.prototype.t=t,Ot.replaceState((0,a.C)("settings","mandatory2FAState")),new(c.Ay.extend(F))({store:Ot}).$mount("#two-factor-auth-settings"),(new(c.Ay.extend(Q))).$mount("#vue-admin-encryption")},27009(t,e,n){"use strict";n.d(e,{A:()=>s});var o=n(71354),r=n.n(o),i=n(76314),a=n.n(i)()(r());a.push([t.id,"\n.two-factor-loading[data-v-58723dac] {\n\tdisplay: inline-block;\n\tvertical-align: sub;\n\tmargin-inline: -2px 1px;\n}\n.top-margin[data-v-58723dac] {\n\tmargin-top: 0.5rem;\n}\n","",{version:3,sources:["webpack://./apps/settings/src/components/AdminTwoFactor.vue"],names:[],mappings:";AAwMA;CACA,qBAAA;CACA,mBAAA;CACA,uBAAA;AACA;AAEA;CACA,kBAAA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n<template>\n\t<NcSettingsSection\n\t\t:name=\"t('settings', 'Two-Factor Authentication')\"\n\t\t:description=\"t('settings', 'Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')\"\n\t\t:doc-url=\"twoFactorAdminDoc\">\n\t\t<p v-if=\"loading\">\n\t\t\t<span class=\"icon-loading-small two-factor-loading\" />\n\t\t\t<span>{{ t('settings', 'Enforce two-factor authentication') }}</span>\n\t\t</p>\n\t\t<NcCheckboxRadioSwitch\n\t\t\tv-else\n\t\t\tid=\"two-factor-enforced\"\n\t\t\tv-model=\"enforced\"\n\t\t\ttype=\"switch\">\n\t\t\t{{ t('settings', 'Enforce two-factor authentication') }}\n\t\t</NcCheckboxRadioSwitch>\n\t\t<template v-if=\"enforced\">\n\t\t\t<h3>{{ t('settings', 'Limit to groups') }}</h3>\n\t\t\t{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}\n\t\t\t<p class=\"top-margin\">\n\t\t\t\t{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"enforcedGroups\">\n\t\t\t\t\t<span>{{ t('settings', 'Enforced groups') }}</span>\n\t\t\t\t</label>\n\t\t\t\t<NcSelect\n\t\t\t\t\tv-model=\"enforcedGroups\"\n\t\t\t\t\tinput-id=\"enforcedGroups\"\n\t\t\t\t\t:options=\"groups\"\n\t\t\t\t\t:disabled=\"loading\"\n\t\t\t\t\t:multiple=\"true\"\n\t\t\t\t\t:loading=\"loadingGroups\"\n\t\t\t\t\tkeep-open\n\t\t\t\t\t@search=\"searchGroup\" />\n\t\t\t</p>\n\t\t\t<p class=\"top-margin\">\n\t\t\t\t{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"excludedGroups\">\n\t\t\t\t\t<span>{{ t('settings', 'Excluded groups') }}</span>\n\t\t\t\t</label>\n\t\t\t\t<NcSelect\n\t\t\t\t\tv-model=\"excludedGroups\"\n\t\t\t\t\tinput-id=\"excludedGroups\"\n\t\t\t\t\t:options=\"groups\"\n\t\t\t\t\t:disabled=\"loading\"\n\t\t\t\t\t:multiple=\"true\"\n\t\t\t\t\t:loading=\"loadingGroups\"\n\t\t\t\t\tkeep-open\n\t\t\t\t\t@search=\"searchGroup\" />\n\t\t\t</p>\n\t\t\t<p class=\"top-margin\">\n\t\t\t\t<em>\n\t\t\t\t\t\x3c!-- this text is also found in the documentation. update it there as well if it ever changes --\x3e\n\t\t\t\t\t{{ t('settings', 'When groups are selected/excluded, they use the following logic to determine if an account has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If an account is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.') }}\n\t\t\t\t</em>\n\t\t\t</p>\n\t\t</template>\n\t\t<p class=\"top-margin\">\n\t\t\t<NcButton\n\t\t\t\tv-if=\"dirty\"\n\t\t\t\tvariant=\"primary\"\n\t\t\t\t:disabled=\"loading\"\n\t\t\t\t@click=\"saveChanges\">\n\t\t\t\t{{ t('settings', 'Save changes') }}\n\t\t\t</NcButton>\n\t\t</p>\n\t</NcSettingsSection>\n</template>\n\n<script>\nimport axios from '@nextcloud/axios'\nimport { loadState } from '@nextcloud/initial-state'\nimport { PwdConfirmationMode } from '@nextcloud/password-confirmation'\nimport { generateOcsUrl, generateUrl } from '@nextcloud/router'\nimport debounce from 'lodash/debounce.js'\nimport sortedUniq from 'lodash/sortedUniq.js'\nimport uniq from 'lodash/uniq.js'\nimport NcButton from '@nextcloud/vue/components/NcButton'\nimport NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'\nimport NcSelect from '@nextcloud/vue/components/NcSelect'\nimport NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'\nimport logger from '../logger.ts'\n\nexport default {\n\tname: 'AdminTwoFactor',\n\tcomponents: {\n\t\tNcSelect,\n\t\tNcButton,\n\t\tNcCheckboxRadioSwitch,\n\t\tNcSettingsSection,\n\t},\n\n\tdata() {\n\t\treturn {\n\t\t\tloading: false,\n\t\t\tdirty: false,\n\t\t\tgroups: [],\n\t\t\tloadingGroups: false,\n\t\t\ttwoFactorAdminDoc: loadState('settings', 'two-factor-admin-doc'),\n\t\t}\n\t},\n\n\tcomputed: {\n\t\tenforced: {\n\t\t\tget() {\n\t\t\t\treturn this.$store.state.enforced\n\t\t\t},\n\n\t\t\tset(val) {\n\t\t\t\tthis.dirty = true\n\t\t\t\tthis.$store.commit('setEnforced', val)\n\t\t\t},\n\t\t},\n\n\t\tenforcedGroups: {\n\t\t\tget() {\n\t\t\t\treturn this.$store.state.enforcedGroups\n\t\t\t},\n\n\t\t\tset(val) {\n\t\t\t\tthis.dirty = true\n\t\t\t\tthis.$store.commit('setEnforcedGroups', val)\n\t\t\t},\n\t\t},\n\n\t\texcludedGroups: {\n\t\t\tget() {\n\t\t\t\treturn this.$store.state.excludedGroups\n\t\t\t},\n\n\t\t\tset(val) {\n\t\t\t\tthis.dirty = true\n\t\t\t\tthis.$store.commit('setExcludedGroups', val)\n\t\t\t},\n\t\t},\n\t},\n\n\tmounted() {\n\t\t// Groups are loaded dynamically, but the assigned ones *should*\n\t\t// be valid groups, so let's add them as initial state\n\t\tthis.groups = sortedUniq(uniq(this.enforcedGroups.concat(this.excludedGroups)))\n\n\t\t// Populate the groups with a first set so the dropdown is not empty\n\t\t// when opening the page the first time\n\t\tthis.searchGroup('')\n\t},\n\n\tmethods: {\n\t\tsearchGroup: debounce(function(query) {\n\t\t\tthis.loadingGroups = true\n\t\t\taxios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))\n\t\t\t\t.then((res) => res.data.ocs)\n\t\t\t\t.then((ocs) => ocs.data.groups)\n\t\t\t\t.then((groups) => { this.groups = sortedUniq(uniq(this.groups.concat(groups))) })\n\t\t\t\t.catch((error) => logger.error('could not search groups', { error }))\n\t\t\t\t.then(() => { this.loadingGroups = false })\n\t\t}, 500),\n\n\t\tsaveChanges() {\n\t\t\tthis.loading = true\n\n\t\t\tconst data = {\n\t\t\t\tenforced: this.enforced,\n\t\t\t\tenforcedGroups: this.enforcedGroups,\n\t\t\t\texcludedGroups: this.excludedGroups,\n\t\t\t}\n\t\t\taxios.put(generateUrl('/settings/api/admin/twofactorauth'), data, { confirmPassword: PwdConfirmationMode.Strict })\n\t\t\t\t.then((resp) => resp.data)\n\t\t\t\t.then((state) => {\n\t\t\t\t\tthis.state = state\n\t\t\t\t\tthis.dirty = false\n\t\t\t\t})\n\t\t\t\t.catch((error) => {\n\t\t\t\t\tlogger.error('could not save changes', { error })\n\t\t\t\t})\n\t\t\t\t.then(() => { this.loading = false })\n\t\t},\n\t},\n}\n<\/script>\n\n<style scoped>\n\t.two-factor-loading {\n\t\tdisplay: inline-block;\n\t\tvertical-align: sub;\n\t\tmargin-inline: -2px 1px;\n\t}\n\n\t.top-margin {\n\t\tmargin-top: 0.5rem;\n\t}\n</style>\n"],sourceRoot:""}]);const s=a},95224(t,e,n){"use strict";n.d(e,{A:()=>s});var o=n(71354),r=n.n(o),i=n(76314),a=n.n(i)()(r());a.push([t.id,"\ncode[data-v-1608e64f] {\n\tbackground-color: var(--color-background-dark);\n\tcolor: var(--color-main-text);\n\n\tdisplay: block;\n\tmargin-block-start: 0.5rem;\n\tpadding: .25lh .5lh;\n\twidth: fit-content;\n}\n.disabled[data-v-1608e64f] {\n\topacity: .75;\n}\n.disabled[data-v-1608e64f] * {\n\tcursor: not-allowed !important;\n}\n.disable-hint[data-v-1608e64f] {\n\tcolor: var(--color-text-maxcontrast);\n\tpadding-inline-start: 10px;\n}\n","",{version:3,sources:["webpack://./apps/settings/src/components/Encryption/EncryptionSettings.vue"],names:[],mappings:";AAoLA;CACA,8CAAA;CACA,6BAAA;;CAEA,cAAA;CACA,0BAAA;CACA,mBAAA;CACA,kBAAA;AACA;AAEA;CACA,YAAA;AACA;AAEA;CACA,8BAAA;AACA;AAEA;CACA,oCAAA;CACA,0BAAA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n\n<script setup lang=\"ts\">\nimport type { OCSResponse } from '@nextcloud/typings/ocs'\n\nimport axios from '@nextcloud/axios'\nimport { showError } from '@nextcloud/dialogs'\nimport { loadState } from '@nextcloud/initial-state'\nimport { t } from '@nextcloud/l10n'\nimport { confirmPassword } from '@nextcloud/password-confirmation'\nimport { generateOcsUrl } from '@nextcloud/router'\nimport { spawnDialog } from '@nextcloud/vue/functions/dialog'\nimport { ref } from 'vue'\nimport NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'\nimport NcNoteCard from '@nextcloud/vue/components/NcNoteCard'\nimport NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'\nimport EncryptionWarningDialog from './EncryptionWarningDialog.vue'\nimport logger from '../../logger.ts'\nimport { textExistingFilesNotEncrypted } from './sharedTexts.ts'\n\ninterface EncryptionModule {\n\tdefault?: boolean\n\tdisplayName: string\n}\n\nconst allEncryptionModules = loadState<never[] | Record<string, EncryptionModule>>('settings', 'encryption-modules')\n/** Available encryption modules on the backend */\nconst encryptionModules = Array.isArray(allEncryptionModules) ? [] : Object.entries(allEncryptionModules).map(([id, module]) => ({ ...module, id }))\n/** ID of the default encryption module */\nconst defaultCheckedModule = encryptionModules.find((module) => module.default)?.id\n\n/** Is the server side encryptio ready to be enabled */\nconst encryptionReady = loadState<boolean>('settings', 'encryption-ready')\n/** Are external backends enabled (legacy ownCloud stuff) */\nconst externalBackendsEnabled = loadState<boolean>('settings', 'external-backends-enabled')\n/** URL to the admin docs */\nconst encryptionAdminDoc = loadState<string>('settings', 'encryption-admin-doc')\n\n/** Is the encryption enabled */\nconst encryptionEnabled = ref(loadState<boolean>('settings', 'encryption-enabled'))\n\n/** Loading state while enabling encryption (e.g. because the confirmation dialog is open) */\nconst loadingEncryptionState = ref(false)\n\n/**\n * Open the encryption-enabling warning (spawns a dialog)\n *\n * @param enabled The enabled state of encryption\n */\nfunction displayWarning(enabled: boolean) {\n\tif (loadingEncryptionState.value || enabled === false) {\n\t\treturn\n\t}\n\n\tloadingEncryptionState.value = true\n\tspawnDialog(EncryptionWarningDialog, {}, async (confirmed) => {\n\t\ttry {\n\t\t\tif (confirmed) {\n\t\t\t\tawait enableEncryption()\n\t\t\t}\n\t\t} finally {\n\t\t\tloadingEncryptionState.value = false\n\t\t}\n\t})\n}\n\n/**\n * Update an encryption setting on the backend\n *\n * @param key The setting to update\n * @param value The new value\n */\nasync function update(key: string, value: string) {\n\tawait confirmPassword()\n\n\tconst url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {\n\t\tappId: 'core',\n\t\tkey,\n\t})\n\n\ttry {\n\t\tconst { data } = await axios.post<OCSResponse>(url, {\n\t\t\tvalue,\n\t\t})\n\t\tif (data.ocs.meta.status !== 'ok') {\n\t\t\tthrow new Error('Unsuccessful OCS response', { cause: data.ocs })\n\t\t}\n\t} catch (error) {\n\t\tshowError(t('settings', 'Unable to update server side encryption config'))\n\t\tlogger.error('Unable to update server side encryption config', { error })\n\t\treturn false\n\t}\n\treturn true\n}\n\n/**\n * Choose the default encryption module\n */\nasync function checkDefaultModule(): Promise<void> {\n\tif (defaultCheckedModule) {\n\t\tawait update('default_encryption_module', defaultCheckedModule)\n\t}\n}\n\n/**\n * Enable encryption - sends an async POST request\n */\nasync function enableEncryption(): Promise<void> {\n\tencryptionEnabled.value = await update('encryption_enabled', 'yes')\n}\n<\/script>\n\n<template>\n\t<NcSettingsSection\n\t\t:name=\"t('settings', 'Server-side encryption')\"\n\t\t:description=\"t('settings', 'Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed.')\"\n\t\t:doc-url=\"encryptionAdminDoc\">\n\t\t<NcNoteCard v-if=\"encryptionEnabled\" type=\"info\">\n\t\t\t<p>\n\t\t\t\t{{ textExistingFilesNotEncrypted }}\n\t\t\t\t{{ t('settings', 'To encrypt all existing files run this OCC command:') }}\n\t\t\t</p>\n\t\t\t<code>\n\t\t\t\t<pre>occ encryption:encrypt-all</pre>\n\t\t\t</code>\n\t\t</NcNoteCard>\n\n\t\t<NcCheckboxRadioSwitch\n\t\t\t:class=\"{ disabled: encryptionEnabled }\"\n\t\t\t:model-value=\"encryptionEnabled\"\n\t\t\t:aria-disabled=\"encryptionEnabled ? 'true' : undefined\"\n\t\t\t:aria-describedby=\"encryptionEnabled ? 'server-side-encryption-disable-hint' : undefined\"\n\t\t\t:loading=\"loadingEncryptionState\"\n\t\t\ttype=\"switch\"\n\t\t\t@update:modelValue=\"displayWarning\">\n\t\t\t{{ t('settings', 'Enable server-side encryption') }}\n\t\t</NcCheckboxRadioSwitch>\n\t\t<p v-if=\"encryptionEnabled\" id=\"server-side-encryption-disable-hint\" class=\"disable-hint\">\n\t\t\t{{ t('settings', 'Disabling server side encryption is only possible using OCC, please refer to the documentation.') }}\n\t\t</p>\n\n\t\t<NcNoteCard\n\t\t\tv-if=\"encryptionModules.length === 0\"\n\t\t\ttype=\"warning\"\n\t\t\t:text=\"t('settings', 'No encryption module loaded, please enable an encryption module in the app menu.')\" />\n\n\t\t<template v-else-if=\"encryptionEnabled\">\n\t\t\t<div v-if=\"encryptionReady && encryptionModules.length > 0\">\n\t\t\t\t<h3>{{ t('settings', 'Select default encryption module:') }}</h3>\n\t\t\t\t<fieldset>\n\t\t\t\t\t<NcCheckboxRadioSwitch\n\t\t\t\t\t\tv-for=\"module in encryptionModules\"\n\t\t\t\t\t\t:key=\"module.id\"\n\t\t\t\t\t\tv-model=\"defaultCheckedModule\"\n\t\t\t\t\t\t:value=\"module.id\"\n\t\t\t\t\t\ttype=\"radio\"\n\t\t\t\t\t\tname=\"default_encryption_module\"\n\t\t\t\t\t\t@update:modelValue=\"checkDefaultModule\">\n\t\t\t\t\t\t{{ module.displayName }}\n\t\t\t\t\t</NcCheckboxRadioSwitch>\n\t\t\t\t</fieldset>\n\t\t\t</div>\n\n\t\t\t<div v-else-if=\"externalBackendsEnabled\">\n\t\t\t\t{{\n\t\t\t\t\tt(\n\t\t\t\t\t\t'settings',\n\t\t\t\t\t\t'You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"Default encryption module\" and run {command}',\n\t\t\t\t\t\t{ command: '\"occ encryption:migrate\"' },\n\t\t\t\t\t)\n\t\t\t\t}}\n\t\t\t</div>\n\t\t</template>\n\t</NcSettingsSection>\n</template>\n\n<style scoped>\ncode {\n\tbackground-color: var(--color-background-dark);\n\tcolor: var(--color-main-text);\n\n\tdisplay: block;\n\tmargin-block-start: 0.5rem;\n\tpadding: .25lh .5lh;\n\twidth: fit-content;\n}\n\n.disabled {\n\topacity: .75;\n}\n\n.disabled :deep(*) {\n\tcursor: not-allowed !important;\n}\n\n.disable-hint {\n\tcolor: var(--color-text-maxcontrast);\n\tpadding-inline-start: 10px;\n}\n</style>\n"],sourceRoot:""}]);const s=a},83703(t,e,n){"use strict";n.d(e,{A:()=>s});var o=n(71354),r=n.n(o),i=n(76314),a=n.n(i)()(r());a.push([t.id,"\nli[data-v-21c94c20] {\n\tlist-style-type: initial;\n\tmargin-inline-start: 1rem;\n\tpadding: 0.25rem 0;\n}\np + p[data-v-21c94c20],\ndiv + p[data-v-21c94c20] {\n\tmargin-block: 0.75rem;\n}\n","",{version:3,sources:["webpack://./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue"],names:[],mappings:";AAkFA;CACA,wBAAA;CACA,yBAAA;CACA,kBAAA;AACA;AAEA;;CAEA,qBAAA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n\n<script setup lang=\"ts\">\nimport type { IDialogButton } from '@nextcloud/dialogs'\n\nimport { t } from '@nextcloud/l10n'\nimport NcDialog from '@nextcloud/vue/components/NcDialog'\nimport NcNoteCard from '@nextcloud/vue/components/NcNoteCard'\nimport { textExistingFilesNotEncrypted } from './sharedTexts.ts'\n\nconst emit = defineEmits<{\n\t(e: 'close', encrypt: boolean): void\n}>()\n\nconst buttons: IDialogButton[] = [\n\t{\n\t\tlabel: t('settings', 'Cancel encryption'),\n\t\t// @ts-expect-error Needs to be fixed in the dialogs library - value is allowed but missing from the types\n\t\ttype: 'tertiary',\n\t\tcallback: () => emit('close', false),\n\t},\n\t{\n\t\tlabel: t('settings', 'Enable encryption'),\n\t\ttype: 'error',\n\t\tcallback: () => emit('close', true),\n\t},\n]\n\n/**\n * When closed we need to emit the close event\n *\n * @param isOpen open state of the dialog\n */\nfunction onUpdateOpen(isOpen: boolean) {\n\tif (!isOpen) {\n\t\temit('close', false)\n\t}\n}\n<\/script>\n\n<template>\n\t<NcDialog\n\t\t:buttons=\"buttons\"\n\t\t:name=\"t('settings', 'Confirm enabling encryption')\"\n\t\tsize=\"normal\"\n\t\t@update:open=\"onUpdateOpen\">\n\t\t<NcNoteCard type=\"warning\">\n\t\t\t<p>\n\t\t\t\t{{ t('settings', 'Please read carefully before activating server-side encryption:') }}\n\t\t\t\t<ul>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t{{ t('settings', 'Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met.') }}\n\t\t\t\t\t</li>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t{{ t('settings', 'By default a master key for the whole instance will be generated. Please check if that level of access is compliant with your needs.') }}\n\t\t\t\t\t</li>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t{{ t('settings', 'Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases.') }}\n\t\t\t\t\t</li>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t{{ t('settings', 'Be aware that encryption always increases the file size.') }}\n\t\t\t\t\t</li>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t{{ t('settings', 'It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data.') }}\n\t\t\t\t\t</li>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t{{ textExistingFilesNotEncrypted }}\n\t\t\t\t\t\t{{ t('settings', 'Refer to the admin documentation on how to manually also encrypt existing files.') }}\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</p>\n\t\t</NcNoteCard>\n\t\t<p>\n\t\t\t{{ t('settings', 'This is the final warning: Do you really want to enable encryption?') }}\n\t\t</p>\n\t</NcDialog>\n</template>\n\n<style scoped>\nli {\n\tlist-style-type: initial;\n\tmargin-inline-start: 1rem;\n\tpadding: 0.25rem 0;\n}\n\np + p,\ndiv + p {\n\tmargin-block: 0.75rem;\n}\n</style>\n"],sourceRoot:""}]);const s=a},15325(t,e,n){var o=n(96131);t.exports=function(t,e){return!(null==t||!t.length)&&o(t,e,0)>-1}},29905(t){t.exports=function(t,e,n){for(var o=-1,r=null==t?0:t.length;++o<r;)if(n(e,t[o]))return!0;return!1}},2523(t){t.exports=function(t,e,n,o){for(var r=t.length,i=n+(o?1:-1);o?i--:++i<r;)if(e(t[i],i,t))return i;return-1}},96131(t,e,n){var o=n(2523),r=n(85463),i=n(76959);t.exports=function(t,e,n){return e==e?i(t,e,n):o(t,r,n)}},85463(t){t.exports=function(t){return t!=t}},18024(t,e,n){var o=n(75288);t.exports=function(t,e){for(var n=-1,r=t.length,i=0,a=[];++n<r;){var s=t[n],c=e?e(s):s;if(!n||!o(c,l)){var l=c;a[i++]=0===s?0:s}}return a}},54128(t,e,n){var o=n(31800),r=/^\s+/;t.exports=function(t){return t?t.slice(0,o(t)+1).replace(r,""):t}},55765(t,e,n){var o=n(38859),r=n(15325),i=n(29905),a=n(19219),s=n(44517),c=n(84247);t.exports=function(t,e,n){var l=-1,u=r,d=t.length,p=!0,f=[],h=f;if(n)p=!1,u=i;else if(d>=200){var m=e?null:s(t);if(m)return c(m);p=!1,u=a,h=new o}else h=e?[]:f;t:for(;++l<d;){var g=t[l],y=e?e(g):g;if(g=n||0!==g?g:0,p&&y==y){for(var v=h.length;v--;)if(h[v]===y)continue t;e&&h.push(y),f.push(g)}else u(h,y,n)||(h!==f&&h.push(y),f.push(g))}return f}},44517(t,e,n){var o=n(76545),r=n(63950),i=n(84247),a=o&&1/i(new o([,-0]))[1]==1/0?function(t){return new o(t)}:r;t.exports=a},76959(t){t.exports=function(t,e,n){for(var o=n-1,r=t.length;++o<r;)if(t[o]===e)return o;return-1}},31800(t){var e=/\s/;t.exports=function(t){for(var n=t.length;n--&&e.test(t.charAt(n)););return n}},38221(t,e,n){var o=n(23805),r=n(10124),i=n(99374),a=Math.max,s=Math.min;t.exports=function(t,e,n){var c,l,u,d,p,f,h=0,m=!1,g=!1,y=!0;if("function"!=typeof t)throw new TypeError("Expected a function");function v(e){var n=c,o=l;return c=l=void 0,h=e,d=t.apply(o,n)}function b(t){var n=t-f;return void 0===f||n>=e||n<0||g&&t-h>=u}function A(){var t=r();if(b(t))return w(t);p=setTimeout(A,function(t){var n=e-(t-f);return g?s(n,u-(t-h)):n}(t))}function w(t){return p=void 0,y&&c?v(t):(c=l=void 0,d)}function _(){var t=r(),n=b(t);if(c=arguments,l=this,f=t,n){if(void 0===p)return function(t){return h=t,p=setTimeout(A,e),m?v(t):d}(f);if(g)return clearTimeout(p),p=setTimeout(A,e),v(f)}return void 0===p&&(p=setTimeout(A,e)),d}return e=i(e)||0,o(n)&&(m=!!n.leading,u=(g="maxWait"in n)?a(i(n.maxWait)||0,e):u,y="trailing"in n?!!n.trailing:y),_.cancel=function(){void 0!==p&&clearTimeout(p),h=0,c=f=l=p=void 0},_.flush=function(){return void 0===p?d:w(r())},_}},44394(t,e,n){var o=n(72552),r=n(40346);t.exports=function(t){return"symbol"==typeof t||r(t)&&"[object Symbol]"==o(t)}},63950(t){t.exports=function(){}},10124(t,e,n){var o=n(9325);t.exports=function(){return o.Date.now()}},73054(t,e,n){var o=n(18024);t.exports=function(t){return t&&t.length?o(t):[]}},99374(t,e,n){var o=n(54128),r=n(23805),i=n(44394),a=/^[-+]0x[0-9a-f]+$/i,s=/^0b[01]+$/i,c=/^0o[0-7]+$/i,l=parseInt;t.exports=function(t){if("number"==typeof t)return t;if(i(t))return NaN;if(r(t)){var e="function"==typeof t.valueOf?t.valueOf():t;t=r(e)?e+"":e}if("string"!=typeof t)return 0===t?t:+t;t=o(t);var n=s.test(t);return n||c.test(t)?l(t.slice(2),n?2:8):a.test(t)?NaN:+t}},63375(t,e,n){var o=n(55765);t.exports=function(t){return t&&t.length?o(t):[]}}},i={};function a(t){var e=i[t];if(void 0!==e)return e.exports;var n=i[t]={id:t,loaded:!1,exports:{}};return r[t].call(n.exports,n,n.exports,a),n.loaded=!0,n.exports}a.m=r,e=[],a.O=(t,n,o,r)=>{if(!n){var i=1/0;for(u=0;u<e.length;u++){for(var[n,o,r]=e[u],s=!0,c=0;c<n.length;c++)(!1&r||i>=r)&&Object.keys(a.O).every(t=>a.O[t](n[c]))?n.splice(c--,1):(s=!1,r<i&&(i=r));if(s){e.splice(u--,1);var l=o();void 0!==l&&(t=l)}}return t}r=r||0;for(var u=e.length;u>0&&e[u-1][2]>r;u--)e[u]=e[u-1];e[u]=[n,o,r]},a.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return a.d(e,{a:e}),e},a.d=(t,e)=>{for(var n in e)a.o(e,n)&&!a.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:e[n]})},a.f={},a.e=t=>Promise.all(Object.keys(a.f).reduce((e,n)=>(a.f[n](t,e),e),[])),a.u=t=>t+"-"+t+".js?v="+{1140:"490e17ed9c8948d5a9e8",2221:"428c2ff62c4b8b3c97fc",5448:"71cfe268d6f1213c4735",6015:"ebcb6885c1fc8c461988",7859:"740587c0c8c350dad157",7910:"de857920f8beb5205bbc",8815:"9a5c507c75429c9c04e4"}[t],a.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),n={},o="nextcloud-ui-legacy:",a.l=(t,e,r,i)=>{if(n[t])n[t].push(e);else{var s,c;if(void 0!==r)for(var l=document.getElementsByTagName("script"),u=0;u<l.length;u++){var d=l[u];if(d.getAttribute("src")==t||d.getAttribute("data-webpack")==o+r){s=d;break}}s||(c=!0,(s=document.createElement("script")).charset="utf-8",a.nc&&s.setAttribute("nonce",a.nc),s.setAttribute("data-webpack",o+r),s.src=t),n[t]=[e];var p=(e,o)=>{s.onerror=s.onload=null,clearTimeout(f);var r=n[t];if(delete n[t],s.parentNode&&s.parentNode.removeChild(s),r&&r.forEach(t=>t(o)),e)return e(o)},f=setTimeout(p.bind(null,void 0,{type:"timeout",target:s}),12e4);s.onerror=p.bind(null,s.onerror),s.onload=p.bind(null,s.onload),c&&document.head.appendChild(s)}},a.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},a.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),a.j=7584,(()=>{var t;globalThis.importScripts&&(t=globalThis.location+"");var e=globalThis.document;if(!t&&e&&(e.currentScript&&"SCRIPT"===e.currentScript.tagName.toUpperCase()&&(t=e.currentScript.src),!t)){var n=e.getElementsByTagName("script");if(n.length)for(var o=n.length-1;o>-1&&(!t||!/^http(s?):/.test(t));)t=n[o--].src}if(!t)throw new Error("Automatic publicPath is not supported in this browser");t=t.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),a.p=t})(),(()=>{a.b="undefined"!=typeof document&&document.baseURI||self.location.href;var t={7584:0};a.f.j=(e,n)=>{var o=a.o(t,e)?t[e]:void 0;if(0!==o)if(o)n.push(o[2]);else{var r=new Promise((n,r)=>o=t[e]=[n,r]);n.push(o[2]=r);var i=a.p+a.u(e),s=new Error;a.l(i,n=>{if(a.o(t,e)&&(0!==(o=t[e])&&(t[e]=void 0),o)){var r=n&&("load"===n.type?"missing":n.type),i=n&&n.target&&n.target.src;s.message="Loading chunk "+e+" failed.\n("+r+": "+i+")",s.name="ChunkLoadError",s.type=r,s.request=i,o[1](s)}},"chunk-"+e,e)}},a.O.j=e=>0===t[e];var e=(e,n)=>{var o,r,[i,s,c]=n,l=0;if(i.some(e=>0!==t[e])){for(o in s)a.o(s,o)&&(a.m[o]=s[o]);if(c)var u=c(a)}for(e&&e(n);l<i.length;l++)r=i[l],a.o(t,r)&&t[r]&&t[r][0](),t[r]=0;return a.O(u)},n=globalThis.webpackChunknextcloud_ui_legacy=globalThis.webpackChunknextcloud_ui_legacy||[];n.forEach(e.bind(null,0)),n.push=e.bind(null,n.push.bind(n))})(),a.nc=void 0;var s=a.O(void 0,[4208],()=>a(3127));s=a.O(s)})();
-//# sourceMappingURL=settings-vue-settings-admin-security.js.map?v=21df521994f86c06b6be
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/settings/src/main-admin-security.js"
+/*!**************************************************!*\
+  !*** ./apps/settings/src/main-admin-security.js ***!
+  \**************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_AdminTwoFactor_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/AdminTwoFactor.vue */ "./apps/settings/src/components/AdminTwoFactor.vue");
+/* harmony import */ var _components_Encryption_EncryptionSettings_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Encryption/EncryptionSettings.vue */ "./apps/settings/src/components/Encryption/EncryptionSettings.vue");
+/* harmony import */ var _store_admin_security_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store/admin-security.js */ "./apps/settings/src/store/admin-security.js");
+
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+(0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_3__.addPasswordConfirmationInterceptors)(_nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"]);
+__webpack_require__.nc = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCSPNonce)();
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].prototype.t = t;
+_store_admin_security_js__WEBPACK_IMPORTED_MODULE_7__["default"].replaceState((0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('settings', 'mandatory2FAState'));
+const View = vue__WEBPACK_IMPORTED_MODULE_4__["default"].extend(_components_AdminTwoFactor_vue__WEBPACK_IMPORTED_MODULE_5__["default"]);
+new View({
+  store: _store_admin_security_js__WEBPACK_IMPORTED_MODULE_7__["default"]
+}).$mount('#two-factor-auth-settings');
+const EncryptionView = vue__WEBPACK_IMPORTED_MODULE_4__["default"].extend(_components_Encryption_EncryptionSettings_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
+new EncryptionView().$mount('#vue-admin-encryption');
+
+/***/ },
+
+/***/ "./apps/settings/src/store/admin-security.js"
+/*!***************************************************!*\
+  !*** ./apps/settings/src/store/admin-security.js ***!
+  \***************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+const state = {
+  enforced: false,
+  enforcedGroups: [],
+  excludedGroups: []
+};
+const mutations = {
+  setEnforced(state, enabled) {
+    vue__WEBPACK_IMPORTED_MODULE_0__["default"].set(state, 'enforced', enabled);
+  },
+  setEnforcedGroups(state, total) {
+    vue__WEBPACK_IMPORTED_MODULE_0__["default"].set(state, 'enforcedGroups', total);
+  },
+  setExcludedGroups(state, used) {
+    vue__WEBPACK_IMPORTED_MODULE_0__["default"].set(state, 'excludedGroups', used);
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_1__.Store({
+  strict: !false,
+  state,
+  mutations
+}));
+
+/***/ },
+
+/***/ "./apps/settings/src/components/Encryption/sharedTexts.ts"
+/*!****************************************************************!*\
+  !*** ./apps/settings/src/components/Encryption/sharedTexts.ts ***!
+  \****************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   textExistingFilesNotEncrypted: () => (/* binding */ textExistingFilesNotEncrypted)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const productName = window.OC.theme.productName;
+const textExistingFilesNotEncrypted = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.t)('settings', 'For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted.', {
+  productName
+});
+
+/***/ },
+
+/***/ "./apps/settings/src/logger.ts"
+/*!*************************************!*\
+  !*** ./apps/settings/src/logger.ts ***!
+  \*************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('settings').detectUser().build());
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=script&setup=true&lang=ts"
+/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=script&setup=true&lang=ts ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_functions_dialog__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/functions/dialog */ "./node_modules/@nextcloud/vue/dist/Functions/dialog.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/vue/components/NcCheckboxRadioSwitch */ "./node_modules/@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/vue/components/NcNoteCard */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/vue/components/NcSettingsSection */ "./node_modules/@nextcloud/vue/dist/Components/NcSettingsSection.mjs");
+/* harmony import */ var _EncryptionWarningDialog_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./EncryptionWarningDialog.vue */ "./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../logger.ts */ "./apps/settings/src/logger.ts");
+/* harmony import */ var _sharedTexts_ts__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./sharedTexts.ts */ "./apps/settings/src/components/Encryption/sharedTexts.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'EncryptionSettings',
+  setup(__props) {
+    const allEncryptionModules = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('settings', 'encryption-modules');
+    /** Available encryption modules on the backend */
+    const encryptionModules = Array.isArray(allEncryptionModules) ? [] : Object.entries(allEncryptionModules).map(([id, module]) => ({
+      ...module,
+      id
+    }));
+    /** ID of the default encryption module */
+    const defaultCheckedModule = encryptionModules.find(module => module.default)?.id;
+    /** Is the server side encryptio ready to be enabled */
+    const encryptionReady = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('settings', 'encryption-ready');
+    /** Are external backends enabled (legacy ownCloud stuff) */
+    const externalBackendsEnabled = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('settings', 'external-backends-enabled');
+    /** URL to the admin docs */
+    const encryptionAdminDoc = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('settings', 'encryption-admin-doc');
+    /** Is the encryption enabled */
+    const encryptionEnabled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)((0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('settings', 'encryption-enabled'));
+    /** Loading state while enabling encryption (e.g. because the confirmation dialog is open) */
+    const loadingEncryptionState = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    /**
+     * Open the encryption-enabling warning (spawns a dialog)
+     *
+     * @param enabled The enabled state of encryption
+     */
+    function displayWarning(enabled) {
+      if (loadingEncryptionState.value || enabled === false) {
+        return;
+      }
+      loadingEncryptionState.value = true;
+      (0,_nextcloud_vue_functions_dialog__WEBPACK_IMPORTED_MODULE_7__.spawnDialog)(_EncryptionWarningDialog_vue__WEBPACK_IMPORTED_MODULE_11__["default"], {}, async confirmed => {
+        try {
+          if (confirmed) {
+            await enableEncryption();
+          }
+        } finally {
+          loadingEncryptionState.value = false;
+        }
+      });
+    }
+    /**
+     * Update an encryption setting on the backend
+     *
+     * @param key The setting to update
+     * @param value The new value
+     */
+    async function update(key, value) {
+      await (0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_5__.confirmPassword)();
+      const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_6__.generateOcsUrl)('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+        appId: 'core',
+        key
+      });
+      try {
+        const {
+          data
+        } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post(url, {
+          value
+        });
+        if (data.ocs.meta.status !== 'ok') {
+          throw new Error('Unsuccessful OCS response', {
+            cause: data.ocs
+          });
+        }
+      } catch (error) {
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('settings', 'Unable to update server side encryption config'));
+        _logger_ts__WEBPACK_IMPORTED_MODULE_12__["default"].error('Unable to update server side encryption config', {
+          error
+        });
+        return false;
+      }
+      return true;
+    }
+    /**
+     * Choose the default encryption module
+     */
+    async function checkDefaultModule() {
+      if (defaultCheckedModule) {
+        await update('default_encryption_module', defaultCheckedModule);
+      }
+    }
+    /**
+     * Enable encryption - sends an async POST request
+     */
+    async function enableEncryption() {
+      encryptionEnabled.value = await update('encryption_enabled', 'yes');
+    }
+    return {
+      __sfc: true,
+      allEncryptionModules,
+      encryptionModules,
+      defaultCheckedModule,
+      encryptionReady,
+      externalBackendsEnabled,
+      encryptionAdminDoc,
+      encryptionEnabled,
+      loadingEncryptionState,
+      displayWarning,
+      update,
+      checkDefaultModule,
+      enableEncryption,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t,
+      NcCheckboxRadioSwitch: _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_8__["default"],
+      NcNoteCard: _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_9__["default"],
+      NcSettingsSection: _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_10__["default"],
+      textExistingFilesNotEncrypted: _sharedTexts_ts__WEBPACK_IMPORTED_MODULE_13__.textExistingFilesNotEncrypted
+    };
+  }
+}));
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=script&setup=true&lang=ts"
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=script&setup=true&lang=ts ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/components/NcDialog */ "./node_modules/@nextcloud/vue/dist/Components/NcDialog.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcNoteCard */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.mjs");
+/* harmony import */ var _sharedTexts_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sharedTexts.ts */ "./apps/settings/src/components/Encryption/sharedTexts.ts");
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'EncryptionWarningDialog',
+  emits: ["close"],
+  setup(__props, {
+    emit
+  }) {
+    const buttons = [{
+      label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('settings', 'Cancel encryption'),
+      // @ts-expect-error Needs to be fixed in the dialogs library - value is allowed but missing from the types
+      type: 'tertiary',
+      callback: () => emit('close', false)
+    }, {
+      label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('settings', 'Enable encryption'),
+      type: 'error',
+      callback: () => emit('close', true)
+    }];
+    /**
+     * When closed we need to emit the close event
+     *
+     * @param isOpen open state of the dialog
+     */
+    function onUpdateOpen(isOpen) {
+      if (!isOpen) {
+        emit('close', false);
+      }
+    }
+    return {
+      __sfc: true,
+      emit,
+      buttons,
+      onUpdateOpen,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t,
+      NcDialog: _nextcloud_vue_components_NcDialog__WEBPACK_IMPORTED_MODULE_2__["default"],
+      NcNoteCard: _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_3__["default"],
+      textExistingFilesNotEncrypted: _sharedTexts_ts__WEBPACK_IMPORTED_MODULE_4__.textExistingFilesNotEncrypted
+    };
+  }
+}));
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=script&lang=js"
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var lodash_debounce_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/debounce.js */ "./node_modules/lodash/debounce.js");
+/* harmony import */ var lodash_debounce_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var lodash_sortedUniq_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/sortedUniq.js */ "./node_modules/lodash/sortedUniq.js");
+/* harmony import */ var lodash_sortedUniq_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_sortedUniq_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var lodash_uniq_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash/uniq.js */ "./node_modules/lodash/uniq.js");
+/* harmony import */ var lodash_uniq_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash_uniq_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/vue/components/NcCheckboxRadioSwitch */ "./node_modules/@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSelect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/vue/components/NcSelect */ "./node_modules/@nextcloud/vue/dist/Components/NcSelect.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/vue/components/NcSettingsSection */ "./node_modules/@nextcloud/vue/dist/Components/NcSettingsSection.mjs");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../logger.ts */ "./apps/settings/src/logger.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'AdminTwoFactor',
+  components: {
+    NcSelect: _nextcloud_vue_components_NcSelect__WEBPACK_IMPORTED_MODULE_9__["default"],
+    NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_7__["default"],
+    NcCheckboxRadioSwitch: _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_8__["default"],
+    NcSettingsSection: _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_10__["default"]
+  },
+  data() {
+    return {
+      loading: false,
+      dirty: false,
+      groups: [],
+      loadingGroups: false,
+      twoFactorAdminDoc: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('settings', 'two-factor-admin-doc')
+    };
+  },
+  computed: {
+    enforced: {
+      get() {
+        return this.$store.state.enforced;
+      },
+      set(val) {
+        this.dirty = true;
+        this.$store.commit('setEnforced', val);
+      }
+    },
+    enforcedGroups: {
+      get() {
+        return this.$store.state.enforcedGroups;
+      },
+      set(val) {
+        this.dirty = true;
+        this.$store.commit('setEnforcedGroups', val);
+      }
+    },
+    excludedGroups: {
+      get() {
+        return this.$store.state.excludedGroups;
+      },
+      set(val) {
+        this.dirty = true;
+        this.$store.commit('setExcludedGroups', val);
+      }
+    }
+  },
+  mounted() {
+    // Groups are loaded dynamically, but the assigned ones *should*
+    // be valid groups, so let's add them as initial state
+    this.groups = lodash_sortedUniq_js__WEBPACK_IMPORTED_MODULE_5___default()(lodash_uniq_js__WEBPACK_IMPORTED_MODULE_6___default()(this.enforcedGroups.concat(this.excludedGroups)));
+
+    // Populate the groups with a first set so the dropdown is not empty
+    // when opening the page the first time
+    this.searchGroup('');
+  },
+  methods: {
+    searchGroup: lodash_debounce_js__WEBPACK_IMPORTED_MODULE_4___default()(function (query) {
+      this.loadingGroups = true;
+      _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_3__.generateOcsUrl)('cloud/groups?offset=0&search={query}&limit=20', {
+        query
+      })).then(res => res.data.ocs).then(ocs => ocs.data.groups).then(groups => {
+        this.groups = lodash_sortedUniq_js__WEBPACK_IMPORTED_MODULE_5___default()(lodash_uniq_js__WEBPACK_IMPORTED_MODULE_6___default()(this.groups.concat(groups)));
+      }).catch(error => _logger_ts__WEBPACK_IMPORTED_MODULE_11__["default"].error('could not search groups', {
+        error
+      })).then(() => {
+        this.loadingGroups = false;
+      });
+    }, 500),
+    saveChanges() {
+      this.loading = true;
+      const data = {
+        enforced: this.enforced,
+        enforcedGroups: this.enforcedGroups,
+        excludedGroups: this.excludedGroups
+      };
+      _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].put((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_3__.generateUrl)('/settings/api/admin/twofactorauth'), data, {
+        confirmPassword: _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_2__.PwdConfirmationMode.Strict
+      }).then(resp => resp.data).then(state => {
+        this.state = state;
+        this.dirty = false;
+      }).catch(error => {
+        _logger_ts__WEBPACK_IMPORTED_MODULE_11__["default"].error('could not save changes', {
+          error
+        });
+      }).then(() => {
+        this.loading = false;
+      });
+    }
+  }
+});
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=template&id=20893fad&scoped=true"
+/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=template&id=20893fad&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("NcSettingsSection", {
+    attrs: {
+      name: _vm.t("settings", "Two-Factor Authentication"),
+      description: _vm.t("settings", "Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system."),
+      "doc-url": _vm.twoFactorAdminDoc
+    }
+  }, [_vm.loading ? _c("p", [_c("span", {
+    staticClass: "icon-loading-small two-factor-loading"
+  }), _vm._v(" "), _c("span", [_vm._v(_vm._s(_vm.t("settings", "Enforce two-factor authentication")))])]) : _c("NcCheckboxRadioSwitch", {
+    attrs: {
+      id: "two-factor-enforced",
+      type: "switch"
+    },
+    model: {
+      value: _vm.enforced,
+      callback: function ($$v) {
+        _vm.enforced = $$v;
+      },
+      expression: "enforced"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("settings", "Enforce two-factor authentication")) + "\n\t")]), _vm._v(" "), _vm.enforced ? [_c("h3", [_vm._v(_vm._s(_vm.t("settings", "Limit to groups")))]), _vm._v("\n\t\t" + _vm._s(_vm.t("settings", "Enforcement of two-factor authentication can be set for certain groups only.")) + "\n\t\t"), _c("p", {
+    staticClass: "top-margin"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("settings", "Two-factor authentication is enforced for all members of the following groups.")) + "\n\t\t")]), _vm._v(" "), _c("p", [_c("label", {
+    attrs: {
+      for: "enforcedGroups"
+    }
+  }, [_c("span", [_vm._v(_vm._s(_vm.t("settings", "Enforced groups")))])]), _vm._v(" "), _c("NcSelect", {
+    attrs: {
+      "input-id": "enforcedGroups",
+      options: _vm.groups,
+      disabled: _vm.loading,
+      multiple: true,
+      loading: _vm.loadingGroups,
+      "keep-open": ""
+    },
+    on: {
+      search: _vm.searchGroup
+    },
+    model: {
+      value: _vm.enforcedGroups,
+      callback: function ($$v) {
+        _vm.enforcedGroups = $$v;
+      },
+      expression: "enforcedGroups"
+    }
+  })], 1), _vm._v(" "), _c("p", {
+    staticClass: "top-margin"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("settings", "Two-factor authentication is not enforced for members of the following groups.")) + "\n\t\t")]), _vm._v(" "), _c("p", [_c("label", {
+    attrs: {
+      for: "excludedGroups"
+    }
+  }, [_c("span", [_vm._v(_vm._s(_vm.t("settings", "Excluded groups")))])]), _vm._v(" "), _c("NcSelect", {
+    attrs: {
+      "input-id": "excludedGroups",
+      options: _vm.groups,
+      disabled: _vm.loading,
+      multiple: true,
+      loading: _vm.loadingGroups,
+      "keep-open": ""
+    },
+    on: {
+      search: _vm.searchGroup
+    },
+    model: {
+      value: _vm.excludedGroups,
+      callback: function ($$v) {
+        _vm.excludedGroups = $$v;
+      },
+      expression: "excludedGroups"
+    }
+  })], 1), _vm._v(" "), _c("p", {
+    staticClass: "top-margin"
+  }, [_c("em", [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("settings", "When groups are selected/excluded, they use the following logic to determine if an account has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If an account is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.")) + "\n\t\t\t")])])] : _vm._e(), _vm._v(" "), _c("p", {
+    staticClass: "top-margin"
+  }, [_vm.dirty ? _c("NcButton", {
+    attrs: {
+      variant: "primary",
+      disabled: _vm.loading
+    },
+    on: {
+      click: _vm.saveChanges
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("settings", "Save changes")) + "\n\t\t")]) : _vm._e()], 1)], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=template&id=6d57aa81&scoped=true"
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=template&id=6d57aa81&scoped=true ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcSettingsSection, {
+    attrs: {
+      name: _setup.t("settings", "Server-side encryption"),
+      description: _setup.t("settings", "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed."),
+      "doc-url": _setup.encryptionAdminDoc
+    }
+  }, [_setup.encryptionEnabled ? _c(_setup.NcNoteCard, {
+    attrs: {
+      type: "info"
+    }
+  }, [_c("p", [_vm._v("\n\t\t\t" + _vm._s(_setup.textExistingFilesNotEncrypted) + "\n\t\t\t" + _vm._s(_setup.t("settings", "To encrypt all existing files run this OCC command:")) + "\n\t\t")]), _vm._v(" "), _c("code", [_c("pre", [_vm._v("occ encryption:encrypt-all")])])]) : _vm._e(), _vm._v(" "), _c(_setup.NcCheckboxRadioSwitch, {
+    class: {
+      disabled: _setup.encryptionEnabled
+    },
+    attrs: {
+      "model-value": _setup.encryptionEnabled,
+      "aria-disabled": _setup.encryptionEnabled ? "true" : undefined,
+      "aria-describedby": _setup.encryptionEnabled ? "server-side-encryption-disable-hint" : undefined,
+      loading: _setup.loadingEncryptionState,
+      type: "switch"
+    },
+    on: {
+      "update:modelValue": _setup.displayWarning
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_setup.t("settings", "Enable server-side encryption")) + "\n\t")]), _vm._v(" "), _setup.encryptionEnabled ? _c("p", {
+    staticClass: "disable-hint",
+    attrs: {
+      id: "server-side-encryption-disable-hint"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_setup.t("settings", "Disabling server side encryption is only possible using OCC, please refer to the documentation.")) + "\n\t")]) : _vm._e(), _vm._v(" "), _setup.encryptionModules.length === 0 ? _c(_setup.NcNoteCard, {
+    attrs: {
+      type: "warning",
+      text: _setup.t("settings", "No encryption module loaded, please enable an encryption module in the app menu.")
+    }
+  }) : _setup.encryptionEnabled ? [_setup.encryptionReady && _setup.encryptionModules.length > 0 ? _c("div", [_c("h3", [_vm._v(_vm._s(_setup.t("settings", "Select default encryption module:")))]), _vm._v(" "), _c("fieldset", _vm._l(_setup.encryptionModules, function (module) {
+    return _c(_setup.NcCheckboxRadioSwitch, {
+      key: module.id,
+      attrs: {
+        value: module.id,
+        type: "radio",
+        name: "default_encryption_module"
+      },
+      on: {
+        "update:modelValue": _setup.checkDefaultModule
+      },
+      model: {
+        value: _setup.defaultCheckedModule,
+        callback: function ($$v) {
+          _setup.defaultCheckedModule = $$v;
+        },
+        expression: "defaultCheckedModule"
+      }
+    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(module.displayName) + "\n\t\t\t\t")]);
+  }), 1)]) : _setup.externalBackendsEnabled ? _c("div", [_vm._v("\n\t\t\t" + _vm._s(_setup.t("settings", 'You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "Default encryption module" and run {command}', {
+    command: '"occ encryption:migrate"'
+  })) + "\n\t\t")]) : _vm._e()] : _vm._e()], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=template&id=0a05db16&scoped=true"
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=template&id=0a05db16&scoped=true ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcDialog, {
+    attrs: {
+      buttons: _setup.buttons,
+      name: _setup.t("settings", "Confirm enabling encryption"),
+      size: "normal"
+    },
+    on: {
+      "update:open": _setup.onUpdateOpen
+    }
+  }, [_c(_setup.NcNoteCard, {
+    attrs: {
+      type: "warning"
+    }
+  }, [_c("p", [_vm._v("\n\t\t\t" + _vm._s(_setup.t("settings", "Please read carefully before activating server-side encryption:")) + "\n\t\t\t"), _c("ul", [_c("li", [_vm._v("\n\t\t\t\t\t" + _vm._s(_setup.t("settings", "Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met.")) + "\n\t\t\t\t")]), _vm._v(" "), _c("li", [_vm._v("\n\t\t\t\t\t" + _vm._s(_setup.t("settings", "By default a master key for the whole instance will be generated. Please check if that level of access is compliant with your needs.")) + "\n\t\t\t\t")]), _vm._v(" "), _c("li", [_vm._v("\n\t\t\t\t\t" + _vm._s(_setup.t("settings", "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases.")) + "\n\t\t\t\t")]), _vm._v(" "), _c("li", [_vm._v("\n\t\t\t\t\t" + _vm._s(_setup.t("settings", "Be aware that encryption always increases the file size.")) + "\n\t\t\t\t")]), _vm._v(" "), _c("li", [_vm._v("\n\t\t\t\t\t" + _vm._s(_setup.t("settings", "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data.")) + "\n\t\t\t\t")]), _vm._v(" "), _c("li", [_vm._v("\n\t\t\t\t\t" + _vm._s(_setup.textExistingFilesNotEncrypted) + "\n\t\t\t\t\t" + _vm._s(_setup.t("settings", "Refer to the admin documentation on how to manually also encrypt existing files.")) + "\n\t\t\t\t")])])])]), _vm._v(" "), _c("p", [_vm._v("\n\t\t" + _vm._s(_setup.t("settings", "This is the final warning: Do you really want to enable encryption?")) + "\n\t")])], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css"
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+.two-factor-loading[data-v-20893fad] {
+	display: inline-block;
+	vertical-align: sub;
+	margin-inline: -2px 1px;
+}
+.top-margin[data-v-20893fad] {
+	margin-top: 0.5rem;
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css"
+/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+code[data-v-6d57aa81] {
+	background-color: var(--color-background-dark);
+	color: var(--color-main-text);
+
+	display: block;
+	margin-block-start: 0.5rem;
+	padding: .25lh .5lh;
+	width: fit-content;
+}
+.disabled[data-v-6d57aa81] {
+	opacity: .75;
+}
+.disabled[data-v-6d57aa81] * {
+	cursor: not-allowed !important;
+}
+.disable-hint[data-v-6d57aa81] {
+	color: var(--color-text-maxcontrast);
+	padding-inline-start: 10px;
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css"
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+li[data-v-0a05db16] {
+	list-style-type: initial;
+	margin-inline-start: 1rem;
+	padding: 0.25rem 0;
+}
+p + p[data-v-0a05db16],
+div + p[data-v-0a05db16] {
+	margin-block: 0.75rem;
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_arrayIncludes.js"
+/*!***********************************************!*\
+  !*** ./node_modules/lodash/_arrayIncludes.js ***!
+  \***********************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var baseIndexOf = __webpack_require__(/*! ./_baseIndexOf */ "./node_modules/lodash/_baseIndexOf.js");
+
+/**
+ * A specialized version of `_.includes` for arrays without support for
+ * specifying an index to search from.
+ *
+ * @private
+ * @param {Array} [array] The array to inspect.
+ * @param {*} target The value to search for.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludes(array, value) {
+  var length = array == null ? 0 : array.length;
+  return !!length && baseIndexOf(array, value, 0) > -1;
+}
+
+module.exports = arrayIncludes;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_arrayIncludesWith.js"
+/*!***************************************************!*\
+  !*** ./node_modules/lodash/_arrayIncludesWith.js ***!
+  \***************************************************/
+(module) {
+
+/**
+ * This function is like `arrayIncludes` except that it accepts a comparator.
+ *
+ * @private
+ * @param {Array} [array] The array to inspect.
+ * @param {*} target The value to search for.
+ * @param {Function} comparator The comparator invoked per element.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludesWith(array, value, comparator) {
+  var index = -1,
+      length = array == null ? 0 : array.length;
+
+  while (++index < length) {
+    if (comparator(value, array[index])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+module.exports = arrayIncludesWith;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_baseFindIndex.js"
+/*!***********************************************!*\
+  !*** ./node_modules/lodash/_baseFindIndex.js ***!
+  \***********************************************/
+(module) {
+
+/**
+ * The base implementation of `_.findIndex` and `_.findLastIndex` without
+ * support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseFindIndex(array, predicate, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 1 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = baseFindIndex;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_baseIndexOf.js"
+/*!*********************************************!*\
+  !*** ./node_modules/lodash/_baseIndexOf.js ***!
+  \*********************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var baseFindIndex = __webpack_require__(/*! ./_baseFindIndex */ "./node_modules/lodash/_baseFindIndex.js"),
+    baseIsNaN = __webpack_require__(/*! ./_baseIsNaN */ "./node_modules/lodash/_baseIsNaN.js"),
+    strictIndexOf = __webpack_require__(/*! ./_strictIndexOf */ "./node_modules/lodash/_strictIndexOf.js");
+
+/**
+ * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+  return value === value
+    ? strictIndexOf(array, value, fromIndex)
+    : baseFindIndex(array, baseIsNaN, fromIndex);
+}
+
+module.exports = baseIndexOf;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_baseIsNaN.js"
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/_baseIsNaN.js ***!
+  \*******************************************/
+(module) {
+
+/**
+ * The base implementation of `_.isNaN` without support for number objects.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+ */
+function baseIsNaN(value) {
+  return value !== value;
+}
+
+module.exports = baseIsNaN;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_baseSortedUniq.js"
+/*!************************************************!*\
+  !*** ./node_modules/lodash/_baseSortedUniq.js ***!
+  \************************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var eq = __webpack_require__(/*! ./eq */ "./node_modules/lodash/eq.js");
+
+/**
+ * The base implementation of `_.sortedUniq` and `_.sortedUniqBy` without
+ * support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} [iteratee] The iteratee invoked per element.
+ * @returns {Array} Returns the new duplicate free array.
+ */
+function baseSortedUniq(array, iteratee) {
+  var index = -1,
+      length = array.length,
+      resIndex = 0,
+      result = [];
+
+  while (++index < length) {
+    var value = array[index],
+        computed = iteratee ? iteratee(value) : value;
+
+    if (!index || !eq(computed, seen)) {
+      var seen = computed;
+      result[resIndex++] = value === 0 ? 0 : value;
+    }
+  }
+  return result;
+}
+
+module.exports = baseSortedUniq;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_baseTrim.js"
+/*!******************************************!*\
+  !*** ./node_modules/lodash/_baseTrim.js ***!
+  \******************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var trimmedEndIndex = __webpack_require__(/*! ./_trimmedEndIndex */ "./node_modules/lodash/_trimmedEndIndex.js");
+
+/** Used to match leading whitespace. */
+var reTrimStart = /^\s+/;
+
+/**
+ * The base implementation of `_.trim`.
+ *
+ * @private
+ * @param {string} string The string to trim.
+ * @returns {string} Returns the trimmed string.
+ */
+function baseTrim(string) {
+  return string
+    ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
+    : string;
+}
+
+module.exports = baseTrim;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_baseUniq.js"
+/*!******************************************!*\
+  !*** ./node_modules/lodash/_baseUniq.js ***!
+  \******************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var SetCache = __webpack_require__(/*! ./_SetCache */ "./node_modules/lodash/_SetCache.js"),
+    arrayIncludes = __webpack_require__(/*! ./_arrayIncludes */ "./node_modules/lodash/_arrayIncludes.js"),
+    arrayIncludesWith = __webpack_require__(/*! ./_arrayIncludesWith */ "./node_modules/lodash/_arrayIncludesWith.js"),
+    cacheHas = __webpack_require__(/*! ./_cacheHas */ "./node_modules/lodash/_cacheHas.js"),
+    createSet = __webpack_require__(/*! ./_createSet */ "./node_modules/lodash/_createSet.js"),
+    setToArray = __webpack_require__(/*! ./_setToArray */ "./node_modules/lodash/_setToArray.js");
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * The base implementation of `_.uniqBy` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} [iteratee] The iteratee invoked per element.
+ * @param {Function} [comparator] The comparator invoked per element.
+ * @returns {Array} Returns the new duplicate free array.
+ */
+function baseUniq(array, iteratee, comparator) {
+  var index = -1,
+      includes = arrayIncludes,
+      length = array.length,
+      isCommon = true,
+      result = [],
+      seen = result;
+
+  if (comparator) {
+    isCommon = false;
+    includes = arrayIncludesWith;
+  }
+  else if (length >= LARGE_ARRAY_SIZE) {
+    var set = iteratee ? null : createSet(array);
+    if (set) {
+      return setToArray(set);
+    }
+    isCommon = false;
+    includes = cacheHas;
+    seen = new SetCache;
+  }
+  else {
+    seen = iteratee ? [] : result;
+  }
+  outer:
+  while (++index < length) {
+    var value = array[index],
+        computed = iteratee ? iteratee(value) : value;
+
+    value = (comparator || value !== 0) ? value : 0;
+    if (isCommon && computed === computed) {
+      var seenIndex = seen.length;
+      while (seenIndex--) {
+        if (seen[seenIndex] === computed) {
+          continue outer;
+        }
+      }
+      if (iteratee) {
+        seen.push(computed);
+      }
+      result.push(value);
+    }
+    else if (!includes(seen, computed, comparator)) {
+      if (seen !== result) {
+        seen.push(computed);
+      }
+      result.push(value);
+    }
+  }
+  return result;
+}
+
+module.exports = baseUniq;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_createSet.js"
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/_createSet.js ***!
+  \*******************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var Set = __webpack_require__(/*! ./_Set */ "./node_modules/lodash/_Set.js"),
+    noop = __webpack_require__(/*! ./noop */ "./node_modules/lodash/noop.js"),
+    setToArray = __webpack_require__(/*! ./_setToArray */ "./node_modules/lodash/_setToArray.js");
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/**
+ * Creates a set object of `values`.
+ *
+ * @private
+ * @param {Array} values The values to add to the set.
+ * @returns {Object} Returns the new set.
+ */
+var createSet = !(Set && (1 / setToArray(new Set([,-0]))[1]) == INFINITY) ? noop : function(values) {
+  return new Set(values);
+};
+
+module.exports = createSet;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_strictIndexOf.js"
+/*!***********************************************!*\
+  !*** ./node_modules/lodash/_strictIndexOf.js ***!
+  \***********************************************/
+(module) {
+
+/**
+ * A specialized version of `_.indexOf` which performs strict equality
+ * comparisons of values, i.e. `===`.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function strictIndexOf(array, value, fromIndex) {
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = strictIndexOf;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/_trimmedEndIndex.js"
+/*!*************************************************!*\
+  !*** ./node_modules/lodash/_trimmedEndIndex.js ***!
+  \*************************************************/
+(module) {
+
+/** Used to match a single whitespace character. */
+var reWhitespace = /\s/;
+
+/**
+ * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
+ * character of `string`.
+ *
+ * @private
+ * @param {string} string The string to inspect.
+ * @returns {number} Returns the index of the last non-whitespace character.
+ */
+function trimmedEndIndex(string) {
+  var index = string.length;
+
+  while (index-- && reWhitespace.test(string.charAt(index))) {}
+  return index;
+}
+
+module.exports = trimmedEndIndex;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/debounce.js"
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/debounce.js ***!
+  \*****************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var isObject = __webpack_require__(/*! ./isObject */ "./node_modules/lodash/isObject.js"),
+    now = __webpack_require__(/*! ./now */ "./node_modules/lodash/now.js"),
+    toNumber = __webpack_require__(/*! ./toNumber */ "./node_modules/lodash/toNumber.js");
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        timeWaiting = wait - timeSinceLastCall;
+
+    return maxing
+      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        clearTimeout(timerId);
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/isSymbol.js"
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/isSymbol.js ***!
+  \*****************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "./node_modules/lodash/_baseGetTag.js"),
+    isObjectLike = __webpack_require__(/*! ./isObjectLike */ "./node_modules/lodash/isObjectLike.js");
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/noop.js"
+/*!*************************************!*\
+  !*** ./node_modules/lodash/noop.js ***!
+  \*************************************/
+(module) {
+
+/**
+ * This method returns `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.3.0
+ * @category Util
+ * @example
+ *
+ * _.times(2, _.noop);
+ * // => [undefined, undefined]
+ */
+function noop() {
+  // No operation performed.
+}
+
+module.exports = noop;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/now.js"
+/*!************************************!*\
+  !*** ./node_modules/lodash/now.js ***!
+  \************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var root = __webpack_require__(/*! ./_root */ "./node_modules/lodash/_root.js");
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+module.exports = now;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/sortedUniq.js"
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/sortedUniq.js ***!
+  \*******************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var baseSortedUniq = __webpack_require__(/*! ./_baseSortedUniq */ "./node_modules/lodash/_baseSortedUniq.js");
+
+/**
+ * This method is like `_.uniq` except that it's designed and optimized
+ * for sorted arrays.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Array
+ * @param {Array} array The array to inspect.
+ * @returns {Array} Returns the new duplicate free array.
+ * @example
+ *
+ * _.sortedUniq([1, 1, 2]);
+ * // => [1, 2]
+ */
+function sortedUniq(array) {
+  return (array && array.length)
+    ? baseSortedUniq(array)
+    : [];
+}
+
+module.exports = sortedUniq;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/toNumber.js"
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/toNumber.js ***!
+  \*****************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var baseTrim = __webpack_require__(/*! ./_baseTrim */ "./node_modules/lodash/_baseTrim.js"),
+    isObject = __webpack_require__(/*! ./isObject */ "./node_modules/lodash/isObject.js"),
+    isSymbol = __webpack_require__(/*! ./isSymbol */ "./node_modules/lodash/isSymbol.js");
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = baseTrim(value);
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
+
+
+/***/ },
+
+/***/ "./node_modules/lodash/uniq.js"
+/*!*************************************!*\
+  !*** ./node_modules/lodash/uniq.js ***!
+  \*************************************/
+(module, __unused_webpack_exports, __webpack_require__) {
+
+var baseUniq = __webpack_require__(/*! ./_baseUniq */ "./node_modules/lodash/_baseUniq.js");
+
+/**
+ * Creates a duplicate-free version of an array, using
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * for equality comparisons, in which only the first occurrence of each element
+ * is kept. The order of result values is determined by the order they occur
+ * in the array.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to inspect.
+ * @returns {Array} Returns the new duplicate free array.
+ * @example
+ *
+ * _.uniq([2, 1, 2]);
+ * // => [2, 1]
+ */
+function uniq(array) {
+  return (array && array.length) ? baseUniq(array) : [];
+}
+
+module.exports = uniq;
+
+
+/***/ },
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css"
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_style_index_0_id_20893fad_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_style_index_0_id_20893fad_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_style_index_0_id_20893fad_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_style_index_0_id_20893fad_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_style_index_0_id_20893fad_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css"
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_style_index_0_id_6d57aa81_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_style_index_0_id_6d57aa81_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_style_index_0_id_6d57aa81_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_style_index_0_id_6d57aa81_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_style_index_0_id_6d57aa81_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css"
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_style_index_0_id_0a05db16_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_style_index_0_id_0a05db16_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_style_index_0_id_0a05db16_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_style_index_0_id_0a05db16_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_style_index_0_id_0a05db16_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./apps/settings/src/components/AdminTwoFactor.vue"
+/*!*********************************************************!*\
+  !*** ./apps/settings/src/components/AdminTwoFactor.vue ***!
+  \*********************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AdminTwoFactor_vue_vue_type_template_id_20893fad_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AdminTwoFactor.vue?vue&type=template&id=20893fad&scoped=true */ "./apps/settings/src/components/AdminTwoFactor.vue?vue&type=template&id=20893fad&scoped=true");
+/* harmony import */ var _AdminTwoFactor_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AdminTwoFactor.vue?vue&type=script&lang=js */ "./apps/settings/src/components/AdminTwoFactor.vue?vue&type=script&lang=js");
+/* harmony import */ var _AdminTwoFactor_vue_vue_type_style_index_0_id_20893fad_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css */ "./apps/settings/src/components/AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AdminTwoFactor_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AdminTwoFactor_vue_vue_type_template_id_20893fad_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AdminTwoFactor_vue_vue_type_template_id_20893fad_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "20893fad",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/settings/src/components/AdminTwoFactor.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/settings/src/components/Encryption/EncryptionSettings.vue"
+/*!************************************************************************!*\
+  !*** ./apps/settings/src/components/Encryption/EncryptionSettings.vue ***!
+  \************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EncryptionSettings_vue_vue_type_template_id_6d57aa81_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EncryptionSettings.vue?vue&type=template&id=6d57aa81&scoped=true */ "./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=template&id=6d57aa81&scoped=true");
+/* harmony import */ var _EncryptionSettings_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EncryptionSettings.vue?vue&type=script&setup=true&lang=ts */ "./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _EncryptionSettings_vue_vue_type_style_index_0_id_6d57aa81_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css */ "./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _EncryptionSettings_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EncryptionSettings_vue_vue_type_template_id_6d57aa81_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _EncryptionSettings_vue_vue_type_template_id_6d57aa81_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "6d57aa81",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/settings/src/components/Encryption/EncryptionSettings.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue"
+/*!*****************************************************************************!*\
+  !*** ./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue ***!
+  \*****************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EncryptionWarningDialog_vue_vue_type_template_id_0a05db16_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EncryptionWarningDialog.vue?vue&type=template&id=0a05db16&scoped=true */ "./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=template&id=0a05db16&scoped=true");
+/* harmony import */ var _EncryptionWarningDialog_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EncryptionWarningDialog.vue?vue&type=script&setup=true&lang=ts */ "./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _EncryptionWarningDialog_vue_vue_type_style_index_0_id_0a05db16_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css */ "./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _EncryptionWarningDialog_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EncryptionWarningDialog_vue_vue_type_template_id_0a05db16_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _EncryptionWarningDialog_vue_vue_type_template_id_0a05db16_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "0a05db16",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/settings/src/components/Encryption/EncryptionWarningDialog.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=script&setup=true&lang=ts"
+/*!***********************************************************************************************************!*\
+  !*** ./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=script&setup=true&lang=ts ***!
+  \***********************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EncryptionSettings.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=script&setup=true&lang=ts"
+/*!****************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=script&setup=true&lang=ts ***!
+  \****************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EncryptionWarningDialog.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/settings/src/components/AdminTwoFactor.vue?vue&type=script&lang=js"
+/*!*********************************************************************************!*\
+  !*** ./apps/settings/src/components/AdminTwoFactor.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminTwoFactor.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/settings/src/components/AdminTwoFactor.vue?vue&type=template&id=20893fad&scoped=true"
+/*!***************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AdminTwoFactor.vue?vue&type=template&id=20893fad&scoped=true ***!
+  \***************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_template_id_20893fad_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_template_id_20893fad_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_template_id_20893fad_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminTwoFactor.vue?vue&type=template&id=20893fad&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=template&id=20893fad&scoped=true");
+
+
+/***/ },
+
+/***/ "./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=template&id=6d57aa81&scoped=true"
+/*!******************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=template&id=6d57aa81&scoped=true ***!
+  \******************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_template_id_6d57aa81_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_template_id_6d57aa81_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_template_id_6d57aa81_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EncryptionSettings.vue?vue&type=template&id=6d57aa81&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=template&id=6d57aa81&scoped=true");
+
+
+/***/ },
+
+/***/ "./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=template&id=0a05db16&scoped=true"
+/*!***********************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=template&id=0a05db16&scoped=true ***!
+  \***********************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_template_id_0a05db16_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_template_id_0a05db16_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_template_id_0a05db16_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EncryptionWarningDialog.vue?vue&type=template&id=0a05db16&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=template&id=0a05db16&scoped=true");
+
+
+/***/ },
+
+/***/ "./apps/settings/src/components/AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css"
+/*!*****************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css ***!
+  \*****************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminTwoFactor_vue_vue_type_style_index_0_id_20893fad_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminTwoFactor.vue?vue&type=style&index=0&id=20893fad&scoped=true&lang=css");
+
+
+/***/ },
+
+/***/ "./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css"
+/*!********************************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css ***!
+  \********************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionSettings_vue_vue_type_style_index_0_id_6d57aa81_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionSettings.vue?vue&type=style&index=0&id=6d57aa81&scoped=true&lang=css");
+
+
+/***/ },
+
+/***/ "./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css"
+/*!*************************************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_EncryptionWarningDialog_vue_vue_type_style_index_0_id_0a05db16_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/Encryption/EncryptionWarningDialog.vue?vue&type=style&index=0&id=0a05db16&scoped=true&lang=css");
+
+
+/***/ }
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_preview-BIbJGxXF_mjs-node_modules_nextcloud_dialog-7546cc":"dce7060a8340cecf2ca5","node_modules_nextcloud_dialogs_dist_chunks_ConflictPicker-CWBf0soh_mjs":"01a2e7bc2c49db839239","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcTextField_index_mjs":"50270bc67122ae47dfd0","node_modules_nextcloud_dialogs_dist_chunks_FilePicker-C1yRZfLt_mjs":"a3985d66705012167d75","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-7_GNN76e_mjs":"b2479474dfc9749ea9d0","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcColorPicker_index_mjs":"63766ea64d27a6d8d6cc","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcDateTimePicker_in-952ddb":"bd2fc411cc830fe12f0b"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud-ui-legacy:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (globalThis.importScripts) scriptUrl = globalThis.location + "";
+/******/ 		var document = globalThis.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = (typeof document !== 'undefined' && document.baseURI) || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"settings-vue-settings-admin-security": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunknextcloud_ui_legacy"] = globalThis["webpackChunknextcloud_ui_legacy"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/settings/src/main-admin-security.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=settings-vue-settings-admin-security.js.map?v=fcfe511f310c8877f9b3

@@ -1,2 +1,1076 @@
-(()=>{"use strict";var t,e,n,i={27541(t,e,n){var i=n(85471),s=n(19051),a=n(85168),o=n(81222),l=n(53334),r=n(77690),m=n(63814),d=n(950),c=n(74715),p=n(61744),g=n(78928),u=n(86162),f=n(57908),v=n(64426),N=n(59915),_=n(56587),h=n(15502),b=n(71711),S=n(25878),A=n(75017),y=n(47611),C=n(10363),x=n(32999),w=n(48283),M=n(54048),E=n(8976),F=n(27345),T=n(86226),k=n(49833),P=n(37024),O=n(62306),B=n(542),L=n(31744),I=n(93651),G=n(15807),R=n(35056),$=n(50017),D=n(60258),j=n(51122),q=n(66865),U=n(17067),X=n(2302),K=n(52631),W=n(87450),z=n(24426),H=n(20948),J=n(69075),Q=n(17671),Y=n(8852),V=n(50299),Z=n(90429),tt=n(64569),et=n(29982),nt=n(44025),it=n(35048),st=n(48198),at=n(96573),ot=n(20959),lt=n(83194),rt=n(91849),mt=n(42507),dt=n(31241),ct=n(85646),pt=n(71565),gt=n(11264),ut=n(17848),ft=n(99925),vt=n(66768),Nt=n(16704),_t=n(40020),ht=n(51550),bt=n(91624),St=n(6670),At=n(48191),yt=n(21541),Ct=n(56570),xt=n(77128),wt=n(88289),Mt=n(83947),Et=n(371),Ft=n(3274),Tt=n(71912),kt=n(35290),Pt=n(1938),Ot=n(1357),Bt=n(17370),Lt=n(36079),It=n(69674),Gt=(n(21777),n(64789),n(52781),n(3168),n(39156)),Rt=n(53160),$t=n(14762),Dt=(n(61338),n(71639)),jt=n(72223),qt=n(9773),Ut=n(27971),Xt=n(25514),Kt=n(6330),Wt=n(88381),zt=n(8256),Ht=n(64289),Jt=n(37356),Qt=n(8818),Yt=n(23610),Vt=(n(55581),n(94205),n(95462),n(23020),n(53429),n(23739),n(39160),n(29928),n(64660),n(18547),n(42892)),Zt=n(69885),te=(n(59656),n(75105),n(92471),n(16406),n(2508));d.N,c.N,p.A,g.N,u.N,f.A,v.N,N.A,h.A,b.A,S.N,_.N,A.N,y.A,C.A,x.N,w.N,M.A,E.N,F.A,T.N,k.N,P.N,O.N,B.A,L.N,I.N,G.N,G.N,R.N,$.N,D.A,j.N,q.A,U.N,It.N,X.N,K.N,W.N,z.N,H.N,J.N,Q.N,Y.N,V.N,Z.N,tt.N,et.N,nt.N,it.default,st.A,at.N,ot.N,lt.A,rt.N,mt.A,dt.N,ct.N,pt.N,gt.N,ut.N,ft.N,vt.A,Nt.N,_t.N,ht.N,bt.N,St.N,At.N,yt.N,Ct.N,xt.N,wt.A,Lt.N,Mt.A,Et.A,Ft.N,Tt.N,kt.N,Pt.N,Ot.N,Bt.N,It.a,Gt.N,Dt.N,Rt.N,jt.N,qt.N,Ut.N,Xt.N,Kt.N,Wt.N,$t.N,zt.N,Ht.N,Jt.N,Qt.N,Yt.A,Symbol.toStringTag,Vt.A,Zt.A,te.yw,Symbol.toStringTag;var ee=n(57268),ne=n(67607),ie=n(88837),se=n(82182);const ae=(0,n(35947).YK)().setApp("settings").detectUser().build(),oe=(0,i.pM)({__name:"AdminSettingsMailServer",setup(t){const e=(0,o.C)("settings","settingsAdminMail"),n=(0,o.C)("settings","settingsAdminMailConfig"),d=(0,i.KR)({...n}),c=(0,i.EW)({get:()=>e.smtpModeOptions.find(t=>t.id===d.value.mail_smtpmode),set(t){d.value.mail_smtpmode=t?.id??""}}),p=(0,i.EW)({get:()=>e.smtpEncryptionOptions.find(t=>t.id===d.value.mail_smtpsecure),set(t){d.value.mail_smtpsecure=t?.id??""}}),g=(0,i.EW)({get:()=>e.smtpSendmailModeOptions.find(t=>t.id===d.value.mail_sendmailmode),set(t){d.value.mail_sendmailmode=t?.id??""}}),u=(0,i.EW)(()=>"********"!==d.value.mail_smtppassword),f=(0,i.EW)(()=>u.value||d.value.mail_smtpname!==n.mail_smtpname),v=(0,i.KR)(!1),N=(0,i.KR)(!1),_=(0,i.KR)("");return{__sfc:!0,settingsAdminMail:e,initialConfig:n,mailConfig:d,smtpMode:c,smtpEncryption:p,smtpSendmailMode:g,hasPasswordChanges:u,hasCredentialChanges:f,isSaving:v,isSendingTestEmail:N,testEmailError:_,testEmail:async function(){_.value="",N.value=!0;try{await s.Ay.post((0,m.Jv)("/settings/admin/mailtest")),(0,a.Te)((0,l.t)("settings","Email sent successfully"))}catch(t){ae.error("Error sending test email",{error:t}),(0,a.Qg)((0,l.t)("settings","Failed to send email")),(0,s.F0)(t)&&"string"==typeof t.response?.data&&(_.value=t.response.data)}finally{N.value=!1}},onSubmit:async function(){await(0,r.C5)(),v.value=!0;try{d.value.mail_smtpauth&&f.value&&await s.Ay.post((0,m.Jv)("/settings/admin/mailsettings/credentials"),{mail_smtppassword:u.value?d.value.mail_smtppassword:void 0,mail_smtpname:d.value.mail_smtpname});const t={...d.value};delete t.mail_smtppassword,delete t.mail_smtpname,await s.Ay.post((0,m.Jv)("/settings/admin/mailsettings"),t),_.value=""}catch(t){return ae.error("Error saving email settings",{error:t}),void(0,a.Qg)((0,l.t)("settings","Failed to save email settings"))}finally{v.value=!1}},t:l.t,NcButton:H.N,NcCheckboxRadioSwitch:J.N,NcLoadingIcon:wt.A,NcPasswordField:Ft.N,NcFormBox:ee.A,NcFormGroup:ft.N,NcNoteCard:Et.A,NcSelect:ne.default,NcSettingsSection:ie.A,NcTextField:se.A}}});var le=n(85072),re=n.n(le),me=n(97825),de=n.n(me),ce=n(77659),pe=n.n(ce),ge=n(55056),ue=n.n(ge),fe=n(10540),ve=n.n(fe),Ne=n(41113),_e=n.n(Ne),he=n(67794),be={};be.styleTagTransform=_e(),be.setAttributes=ue(),be.insert=pe().bind(null,"head"),be.domAPI=de(),be.insertStyleElement=ve(),re()(he.A,be);const Se=he.A&&he.A.locals?he.A.locals:void 0;var Ae=(0,n(14486).A)(oe,function(){var t=this,e=t._self._c,n=t._self._setupProxy;return e(n.NcSettingsSection,{attrs:{"doc-url":n.settingsAdminMail.docUrl,name:n.t("settings","Email server"),description:n.t("settings","It is important to set up this server to be able to send emails, like for password reset and notifications.")}},[n.settingsAdminMail.configIsReadonly?e(n.NcNoteCard,{attrs:{type:"info"}},[t._v("\n\t\t"+t._s(n.t("settings","The server configuration is read-only so the mail settings cannot be changed using the web interface."))+"\n\t")]):t._e(),t._v(" "),"null"===n.smtpMode?.id?e(n.NcNoteCard,{attrs:{type:"info"}},[t._v("\n\t\t"+t._s(n.t("settings",'Mail delivery is disabled by instance config "{config}".',{config:"mail_smtpmode"}))+"\n\t")]):e("form",{class:t.$style.adminSettingsMailServer__form,on:{submit:function(t){return t.preventDefault(),n.onSubmit.apply(null,arguments)}}},[e(n.NcFormBox,[e(n.NcSelect,{attrs:{"input-label":n.t("settings","Send mode"),options:n.settingsAdminMail.smtpModeOptions,required:""},model:{value:n.smtpMode,callback:function(t){n.smtpMode=t},expression:"smtpMode"}}),t._v(" "),"smtp"===n.smtpMode?.id?e(n.NcSelect,{attrs:{"input-label":n.t("settings","Encryption"),options:n.settingsAdminMail.smtpEncryptionOptions,required:""},model:{value:n.smtpEncryption,callback:function(t){n.smtpEncryption=t},expression:"smtpEncryption"}}):"sendmail"===n.smtpMode?.id?e(n.NcSelect,{attrs:{"input-label":n.t("settings","Sendmail mode"),options:n.settingsAdminMail.smtpSendmailModeOptions,required:""},model:{value:n.smtpSendmailMode,callback:function(t){n.smtpSendmailMode=t},expression:"smtpSendmailMode"}}):t._e(),t._v(" "),e(n.NcCheckboxRadioSwitch,{attrs:{type:"switch"},model:{value:n.mailConfig.mail_noverify,callback:function(e){t.$set(n.mailConfig,"mail_noverify",e)},expression:"mailConfig.mail_noverify"}},[t._v("\n\t\t\t\t"+t._s(n.t("settings","Disable certificate verification (insecure)"))+"\n\t\t\t")])],1),t._v(" "),e(n.NcFormGroup,{attrs:{label:n.t("settings","From address")}},[e(n.NcFormBox,{attrs:{row:""}},[e(n.NcTextField,{attrs:{label:n.t("settings","Email")},model:{value:n.mailConfig.mail_from_address,callback:function(e){t.$set(n.mailConfig,"mail_from_address",e)},expression:"mailConfig.mail_from_address"}}),t._v(" "),e(n.NcTextField,{attrs:{label:n.t("settings","Domain")},scopedSlots:t._u([{key:"icon",fn:function(){return[e("div",{staticStyle:{"line-height":"1"}},[t._v("\n\t\t\t\t\t\t\t@\n\t\t\t\t\t\t")])]},proxy:!0}]),model:{value:n.mailConfig.mail_domain,callback:function(e){t.$set(n.mailConfig,"mail_domain",e)},expression:"mailConfig.mail_domain"}})],1)],1),t._v(" "),e(n.NcFormGroup,{directives:[{name:"show",rawName:"v-show",value:"smtp"===n.smtpMode?.id,expression:"smtpMode?.id === 'smtp'"}],attrs:{label:n.t("settings","Server address")}},[e(n.NcFormBox,{attrs:{row:""}},[e(n.NcTextField,{attrs:{label:n.t("settings","Host"),name:"mail_smtphost"},model:{value:n.mailConfig.mail_smtphost,callback:function(e){t.$set(n.mailConfig,"mail_smtphost",e)},expression:"mailConfig.mail_smtphost"}}),t._v(" "),e(n.NcTextField,{attrs:{label:n.t("settings","Port"),type:"number",max:"65535",min:"1",name:"mail_smtpport"},scopedSlots:t._u([{key:"icon",fn:function(){return[e("div",{staticStyle:{"line-height":"1"}},[t._v("\n\t\t\t\t\t\t\t:\n\t\t\t\t\t\t")])]},proxy:!0}]),model:{value:n.mailConfig.mail_smtpport,callback:function(e){t.$set(n.mailConfig,"mail_smtpport",e)},expression:"mailConfig.mail_smtpport"}})],1)],1),t._v(" "),e(n.NcFormGroup,{directives:[{name:"show",rawName:"v-show",value:"smtp"===n.smtpMode?.id,expression:"smtpMode?.id === 'smtp'"}],attrs:{label:n.t("settings","Authentication")}},[e(n.NcCheckboxRadioSwitch,{attrs:{type:"switch"},model:{value:n.mailConfig.mail_smtpauth,callback:function(e){t.$set(n.mailConfig,"mail_smtpauth",e)},expression:"mailConfig.mail_smtpauth"}},[t._v("\n\t\t\t\t"+t._s(n.t("settings","Authentication required"))+"\n\t\t\t")]),t._v(" "),e(n.NcFormBox,{directives:[{name:"show",rawName:"v-show",value:n.mailConfig.mail_smtpauth,expression:"mailConfig.mail_smtpauth"}]},[e(n.NcTextField,{attrs:{label:n.t("settings","Login"),name:"mail_smtpname"},model:{value:n.mailConfig.mail_smtpname,callback:function(e){t.$set(n.mailConfig,"mail_smtpname",e)},expression:"mailConfig.mail_smtpname"}}),t._v(" "),e(n.NcPasswordField,{attrs:{label:n.t("settings","Password"),"show-trailing-button":n.hasPasswordChanges,name:"mail_smtppassword"},model:{value:n.mailConfig.mail_smtppassword,callback:function(e){t.$set(n.mailConfig,"mail_smtppassword",e)},expression:"mailConfig.mail_smtppassword"}})],1)],1),t._v(" "),e("div",{class:t.$style.adminSettingsMailServer__formAction},[e(n.NcButton,{attrs:{disabled:n.isSendingTestEmail,variant:"success"},on:{click:n.testEmail},scopedSlots:t._u([n.isSendingTestEmail?{key:"icon",fn:function(){return[e(n.NcLoadingIcon)]},proxy:!0}:null],null,!0)},[t._v("\n\t\t\t\t"+t._s(n.isSendingTestEmail?n.t("settings","Sending test email…"):n.t("settings","Send test email"))+"\n\t\t\t")]),t._v(" "),e(n.NcButton,{attrs:{disabled:n.isSaving,type:"submit",variant:"primary"},scopedSlots:t._u([n.isSaving?{key:"icon",fn:function(){return[e(n.NcLoadingIcon)]},proxy:!0}:null],null,!0)},[t._v("\n\t\t\t\t"+t._s(n.isSaving?n.t("settings","Saving…"):n.t("settings","Save settings"))+"\n\t\t\t")])],1)],1),t._v(" "),n.testEmailError?e(n.NcNoteCard,{attrs:{type:"error"}},[t._v("\n\t\t"+t._s(n.testEmailError)+"\n\t")]):t._e()],1)},[],!1,function(t){this.$style=Se.locals||Se},null,null);const ye=Ae.exports;new i.Ay(ye).$mount("#vue-admin-settings-mail")},67794(t,e,n){n.d(e,{A:()=>l});var i=n(71354),s=n.n(i),a=n(76314),o=n.n(a)()(s());o.push([t.id,"\n._adminSettingsMailServer__form_hqpau {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: calc(2.5 * var(--default-grid-baseline));\n\n\tmax-width: 600px !important;\n}\n._adminSettingsMailServer__formAction_fbriG {\n\tdisplay: flex;\n\tjustify-content: end;\n\tgap: var(--default-grid-baseline);\n}\n","",{version:3,sources:["webpack://./apps/settings/src/views/AdminSettingsMailServer.vue"],names:[],mappings:";AA2PA;CACA,aAAA;CACA,sBAAA;CACA,6CAAA;;CAEA,2BAAA;AACA;AAEA;CACA,aAAA;CACA,oBAAA;CACA,iCAAA;AACA",sourcesContent:["\x3c!--\n - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors\n - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n\n<script setup lang=\"ts\">\nimport axios, { isAxiosError } from '@nextcloud/axios'\nimport { showError, showSuccess } from '@nextcloud/dialogs'\nimport { loadState } from '@nextcloud/initial-state'\nimport { t } from '@nextcloud/l10n'\nimport { confirmPassword } from '@nextcloud/password-confirmation'\nimport { generateUrl } from '@nextcloud/router'\nimport { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcPasswordField } from '@nextcloud/vue'\nimport { computed, ref } from 'vue'\nimport NcFormBox from '@nextcloud/vue/components/NcFormBox'\nimport NcFormGroup from '@nextcloud/vue/components/NcFormGroup'\nimport NcNoteCard from '@nextcloud/vue/components/NcNoteCard'\nimport NcSelect from '@nextcloud/vue/components/NcSelect'\nimport NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'\nimport NcTextField from '@nextcloud/vue/components/NcTextField'\nimport logger from '../logger.ts'\n\nconst settingsAdminMail = loadState<{\n\tconfigIsReadonly: boolean\n\tdocUrl: string\n\tsmtpModeOptions: { label: string, id: string }[]\n\tsmtpEncryptionOptions: { label: string, id: string }[]\n\tsmtpSendmailModeOptions: { label: string, id: string }[]\n}>('settings', 'settingsAdminMail')\n\nconst initialConfig = loadState<{\n\tmail_domain: string\n\tmail_from_address: string\n\tmail_smtpmode: string\n\tmail_smtpsecure: string\n\tmail_smtphost: string\n\tmail_smtpport: string\n\tmail_smtpauth: boolean\n\tmail_smtpname: string\n\tmail_smtppassword: string\n\tmail_sendmailmode: string\n\n\tmail_noverify: boolean\n}>('settings', 'settingsAdminMailConfig')\nconst mailConfig = ref({ ...initialConfig })\n\nconst smtpMode = computed({\n\tget() {\n\t\treturn settingsAdminMail.smtpModeOptions.find((option) => option.id === mailConfig.value.mail_smtpmode)\n\t},\n\tset(value) {\n\t\tmailConfig.value.mail_smtpmode = value?.id ?? ''\n\t},\n})\nconst smtpEncryption = computed({\n\tget() {\n\t\treturn settingsAdminMail.smtpEncryptionOptions.find((option) => option.id === mailConfig.value.mail_smtpsecure)\n\t},\n\tset(value) {\n\t\tmailConfig.value.mail_smtpsecure = value?.id ?? ''\n\t},\n})\nconst smtpSendmailMode = computed({\n\tget() {\n\t\treturn settingsAdminMail.smtpSendmailModeOptions.find((option) => option.id === mailConfig.value.mail_sendmailmode)\n\t},\n\tset(value) {\n\t\tmailConfig.value.mail_sendmailmode = value?.id ?? ''\n\t},\n})\n\nconst hasPasswordChanges = computed(() => mailConfig.value.mail_smtppassword !== '********')\nconst hasCredentialChanges = computed(() => hasPasswordChanges.value || mailConfig.value.mail_smtpname !== initialConfig.mail_smtpname)\n\nconst isSaving = ref(false)\nconst isSendingTestEmail = ref(false)\nconst testEmailError = ref('')\n\n/**\n * Send a test email to verify the email settings\n */\nasync function testEmail() {\n\ttestEmailError.value = ''\n\tisSendingTestEmail.value = true\n\ttry {\n\t\tawait axios.post(generateUrl('/settings/admin/mailtest'))\n\t\tshowSuccess(t('settings', 'Email sent successfully'))\n\t} catch (error) {\n\t\tlogger.error('Error sending test email', { error })\n\t\tshowError(t('settings', 'Failed to send email'))\n\n\t\tif (isAxiosError(error) && typeof error.response?.data === 'string') {\n\t\t\ttestEmailError.value = error.response.data\n\t\t}\n\t} finally {\n\t\tisSendingTestEmail.value = false\n\t}\n}\n\n/**\n * Submit the mail settings form\n */\nasync function onSubmit() {\n\tawait confirmPassword()\n\n\tisSaving.value = true\n\ttry {\n\t\tif (mailConfig.value.mail_smtpauth && hasCredentialChanges.value) {\n\t\t\tawait axios.post(generateUrl('/settings/admin/mailsettings/credentials'), {\n\t\t\t\tmail_smtppassword: hasPasswordChanges.value ? mailConfig.value.mail_smtppassword : undefined,\n\t\t\t\tmail_smtpname: mailConfig.value.mail_smtpname,\n\t\t\t})\n\t\t}\n\n\t\tconst config: Record<string, string | boolean> = { ...mailConfig.value }\n\t\tdelete config.mail_smtppassword\n\t\tdelete config.mail_smtpname\n\t\tawait axios.post(generateUrl('/settings/admin/mailsettings'), config)\n\n\t\ttestEmailError.value = ''\n\t} catch (error) {\n\t\tlogger.error('Error saving email settings', { error })\n\t\tshowError(t('settings', 'Failed to save email settings'))\n\t\treturn\n\t} finally {\n\t\tisSaving.value = false\n\t}\n}\n<\/script>\n\n<template>\n\t<NcSettingsSection\n\t\t:doc-url=\"settingsAdminMail.docUrl\"\n\t\t:name=\"t('settings', 'Email server')\"\n\t\t:description=\"t('settings', 'It is important to set up this server to be able to send emails, like for password reset and notifications.')\">\n\t\t<NcNoteCard v-if=\"settingsAdminMail.configIsReadonly\" type=\"info\">\n\t\t\t{{ t('settings', 'The server configuration is read-only so the mail settings cannot be changed using the web interface.') }}\n\t\t</NcNoteCard>\n\n\t\t<NcNoteCard v-if=\"smtpMode?.id === 'null'\" type=\"info\">\n\t\t\t{{ t('settings', 'Mail delivery is disabled by instance config \"{config}\".', { config: 'mail_smtpmode' }) }}\n\t\t</NcNoteCard>\n\n\t\t<form v-else :class=\"$style.adminSettingsMailServer__form\" @submit.prevent=\"onSubmit\">\n\t\t\t<NcFormBox>\n\t\t\t\t<NcSelect\n\t\t\t\t\tv-model=\"smtpMode\"\n\t\t\t\t\t:input-label=\"t('settings', 'Send mode')\"\n\t\t\t\t\t:options=\"settingsAdminMail.smtpModeOptions\"\n\t\t\t\t\trequired />\n\n\t\t\t\t<NcSelect\n\t\t\t\t\tv-if=\"smtpMode?.id === 'smtp'\"\n\t\t\t\t\tv-model=\"smtpEncryption\"\n\t\t\t\t\t:input-label=\"t('settings', 'Encryption')\"\n\t\t\t\t\t:options=\"settingsAdminMail.smtpEncryptionOptions\"\n\t\t\t\t\trequired />\n\t\t\t\t<NcSelect\n\t\t\t\t\tv-else-if=\"smtpMode?.id === 'sendmail'\"\n\t\t\t\t\tv-model=\"smtpSendmailMode\"\n\t\t\t\t\t:input-label=\"t('settings', 'Sendmail mode')\"\n\t\t\t\t\t:options=\"settingsAdminMail.smtpSendmailModeOptions\"\n\t\t\t\t\trequired />\n\n\t\t\t\t<NcCheckboxRadioSwitch v-model=\"mailConfig.mail_noverify\" type=\"switch\">\n\t\t\t\t\t{{ t('settings', 'Disable certificate verification (insecure)') }}\n\t\t\t\t</NcCheckboxRadioSwitch>\n\t\t\t</NcFormBox>\n\n\t\t\t<NcFormGroup :label=\"t('settings', 'From address')\">\n\t\t\t\t<NcFormBox row>\n\t\t\t\t\t<NcTextField v-model=\"mailConfig.mail_from_address\" :label=\"t('settings', 'Email')\" />\n\t\t\t\t\t<NcTextField v-model=\"mailConfig.mail_domain\" :label=\"t('settings', 'Domain')\">\n\t\t\t\t\t\t<template #icon>\n\t\t\t\t\t\t\t<div style=\"line-height: 1;\">\n\t\t\t\t\t\t\t\t@\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</template>\n\t\t\t\t\t</NcTextField>\n\t\t\t\t</NcFormBox>\n\t\t\t</NcFormGroup>\n\n\t\t\t<NcFormGroup v-show=\"smtpMode?.id === 'smtp'\" :label=\"t('settings', 'Server address')\">\n\t\t\t\t<NcFormBox row>\n\t\t\t\t\t<NcTextField\n\t\t\t\t\t\tv-model=\"mailConfig.mail_smtphost\"\n\t\t\t\t\t\t:label=\"t('settings', 'Host')\"\n\t\t\t\t\t\tname=\"mail_smtphost\" />\n\t\t\t\t\t<NcTextField\n\t\t\t\t\t\tv-model=\"mailConfig.mail_smtpport\"\n\t\t\t\t\t\t:label=\"t('settings', 'Port')\"\n\t\t\t\t\t\ttype=\"number\"\n\t\t\t\t\t\tmax=\"65535\"\n\t\t\t\t\t\tmin=\"1\"\n\t\t\t\t\t\tname=\"mail_smtpport\">\n\t\t\t\t\t\t<template #icon>\n\t\t\t\t\t\t\t<div style=\"line-height: 1;\">\n\t\t\t\t\t\t\t\t:\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</template>\n\t\t\t\t\t</NcTextField>\n\t\t\t\t</NcFormBox>\n\t\t\t</NcFormGroup>\n\n\t\t\t<NcFormGroup v-show=\"smtpMode?.id === 'smtp'\" :label=\"t('settings', 'Authentication')\">\n\t\t\t\t<NcCheckboxRadioSwitch v-model=\"mailConfig.mail_smtpauth\" type=\"switch\">\n\t\t\t\t\t{{ t('settings', 'Authentication required') }}\n\t\t\t\t</NcCheckboxRadioSwitch>\n\n\t\t\t\t<NcFormBox v-show=\"mailConfig.mail_smtpauth\">\n\t\t\t\t\t<NcTextField\n\t\t\t\t\t\tv-model=\"mailConfig.mail_smtpname\"\n\t\t\t\t\t\t:label=\"t('settings', 'Login')\"\n\t\t\t\t\t\tname=\"mail_smtpname\" />\n\t\t\t\t\t<NcPasswordField\n\t\t\t\t\t\tv-model=\"mailConfig.mail_smtppassword\"\n\t\t\t\t\t\t:label=\"t('settings', 'Password')\"\n\t\t\t\t\t\t:show-trailing-button=\"hasPasswordChanges\"\n\t\t\t\t\t\tname=\"mail_smtppassword\" />\n\t\t\t\t</NcFormBox>\n\t\t\t</NcFormGroup>\n\n\t\t\t<div :class=\"$style.adminSettingsMailServer__formAction\">\n\t\t\t\t<NcButton\n\t\t\t\t\t:disabled=\"isSendingTestEmail\"\n\t\t\t\t\tvariant=\"success\"\n\t\t\t\t\t@click=\"testEmail\">\n\t\t\t\t\t<template v-if=\"isSendingTestEmail\" #icon>\n\t\t\t\t\t\t<NcLoadingIcon />\n\t\t\t\t\t</template>\n\t\t\t\t\t{{ isSendingTestEmail ? t('settings', 'Sending test email…') : t('settings', 'Send test email') }}\n\t\t\t\t</NcButton>\n\t\t\t\t<NcButton\n\t\t\t\t\t:disabled=\"isSaving\"\n\t\t\t\t\ttype=\"submit\"\n\t\t\t\t\tvariant=\"primary\">\n\t\t\t\t\t<template v-if=\"isSaving\" #icon>\n\t\t\t\t\t\t<NcLoadingIcon />\n\t\t\t\t\t</template>\n\t\t\t\t\t{{ isSaving ? t('settings', 'Saving…') : t('settings', 'Save settings') }}\n\t\t\t\t</NcButton>\n\t\t\t</div>\n\t\t</form>\n\n\t\t<NcNoteCard v-if=\"testEmailError\" type=\"error\">\n\t\t\t{{ testEmailError }}\n\t\t</NcNoteCard>\n\t</NcSettingsSection>\n</template>\n\n<style module>\n.adminSettingsMailServer__form {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: calc(2.5 * var(--default-grid-baseline));\n\n\tmax-width: 600px !important;\n}\n\n.adminSettingsMailServer__formAction {\n\tdisplay: flex;\n\tjustify-content: end;\n\tgap: var(--default-grid-baseline);\n}\n</style>\n"],sourceRoot:""}]),o.locals={adminSettingsMailServer__form:"_adminSettingsMailServer__form_hqpau",adminSettingsMailServer__formAction:"_adminSettingsMailServer__formAction_fbriG"};const l=o},27518(t){t.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e"},27514(t){t.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e"},79722(t){t.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e"},64505(t){t.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e"}},s={};function a(t){var e=s[t];if(void 0!==e)return e.exports;var n=s[t]={id:t,loaded:!1,exports:{}};return i[t].call(n.exports,n,n.exports,a),n.loaded=!0,n.exports}a.m=i,t=[],a.O=(e,n,i,s)=>{if(!n){var o=1/0;for(d=0;d<t.length;d++){for(var[n,i,s]=t[d],l=!0,r=0;r<n.length;r++)(!1&s||o>=s)&&Object.keys(a.O).every(t=>a.O[t](n[r]))?n.splice(r--,1):(l=!1,s<o&&(o=s));if(l){t.splice(d--,1);var m=i();void 0!==m&&(e=m)}}return e}s=s||0;for(var d=t.length;d>0&&t[d-1][2]>s;d--)t[d]=t[d-1];t[d]=[n,i,s]},a.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return a.d(e,{a:e}),e},a.d=(t,e)=>{for(var n in e)a.o(e,n)&&!a.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:e[n]})},a.f={},a.e=t=>Promise.all(Object.keys(a.f).reduce((e,n)=>(a.f[n](t,e),e),[])),a.u=t=>t+"-"+t+".js?v="+{1140:"490e17ed9c8948d5a9e8",2221:"428c2ff62c4b8b3c97fc",5448:"71cfe268d6f1213c4735",5862:"580b9c2e231a9169a12f",6015:"ebcb6885c1fc8c461988",6798:"1a6cf42d93801a926a3d",7471:"b4ac70873a3ab192efd0",7859:"740587c0c8c350dad157",7910:"de857920f8beb5205bbc",8815:"9a5c507c75429c9c04e4"}[t],a.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),e={},n="nextcloud-ui-legacy:",a.l=(t,i,s,o)=>{if(e[t])e[t].push(i);else{var l,r;if(void 0!==s)for(var m=document.getElementsByTagName("script"),d=0;d<m.length;d++){var c=m[d];if(c.getAttribute("src")==t||c.getAttribute("data-webpack")==n+s){l=c;break}}l||(r=!0,(l=document.createElement("script")).charset="utf-8",a.nc&&l.setAttribute("nonce",a.nc),l.setAttribute("data-webpack",n+s),l.src=t),e[t]=[i];var p=(n,i)=>{l.onerror=l.onload=null,clearTimeout(g);var s=e[t];if(delete e[t],l.parentNode&&l.parentNode.removeChild(l),s&&s.forEach(t=>t(i)),n)return n(i)},g=setTimeout(p.bind(null,void 0,{type:"timeout",target:l}),12e4);l.onerror=p.bind(null,l.onerror),l.onload=p.bind(null,l.onload),r&&document.head.appendChild(l)}},a.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},a.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),a.j=775,(()=>{var t;globalThis.importScripts&&(t=globalThis.location+"");var e=globalThis.document;if(!t&&e&&(e.currentScript&&"SCRIPT"===e.currentScript.tagName.toUpperCase()&&(t=e.currentScript.src),!t)){var n=e.getElementsByTagName("script");if(n.length)for(var i=n.length-1;i>-1&&(!t||!/^http(s?):/.test(t));)t=n[i--].src}if(!t)throw new Error("Automatic publicPath is not supported in this browser");t=t.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),a.p=t})(),(()=>{a.b="undefined"!=typeof document&&document.baseURI||self.location.href;var t={775:0,7471:0};a.f.j=(e,n)=>{var i=a.o(t,e)?t[e]:void 0;if(0!==i)if(i)n.push(i[2]);else{var s=new Promise((n,s)=>i=t[e]=[n,s]);n.push(i[2]=s);var o=a.p+a.u(e),l=new Error;a.l(o,n=>{if(a.o(t,e)&&(0!==(i=t[e])&&(t[e]=void 0),i)){var s=n&&("load"===n.type?"missing":n.type),o=n&&n.target&&n.target.src;l.message="Loading chunk "+e+" failed.\n("+s+": "+o+")",l.name="ChunkLoadError",l.type=s,l.request=o,i[1](l)}},"chunk-"+e,e)}},a.O.j=e=>0===t[e];var e=(e,n)=>{var i,s,[o,l,r]=n,m=0;if(o.some(e=>0!==t[e])){for(i in l)a.o(l,i)&&(a.m[i]=l[i]);if(r)var d=r(a)}for(e&&e(n);m<o.length;m++)s=o[m],a.o(t,s)&&t[s]&&t[s][0](),t[s]=0;return a.O(d)},n=globalThis.webpackChunknextcloud_ui_legacy=globalThis.webpackChunknextcloud_ui_legacy||[];n.forEach(e.bind(null,0)),n.push=e.bind(null,n.push.bind(n))})(),a.nc=void 0;var o=a.O(void 0,[4208],()=>a(27541));o=a.O(o)})();
-//# sourceMappingURL=settings-vue-settings-admin-mail.js.map?v=0fb37eee1c4558af53b1
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/settings/src/admin-settings-mail.ts"
+/*!**************************************************!*\
+  !*** ./apps/settings/src/admin-settings-mail.ts ***!
+  \**************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _views_AdminSettingsMailServer_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/AdminSettingsMailServer.vue */ "./apps/settings/src/views/AdminSettingsMailServer.vue");
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+const app = new vue__WEBPACK_IMPORTED_MODULE_0__["default"](_views_AdminSettingsMailServer_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
+app.$mount('#vue-admin-settings-mail');
+
+/***/ },
+
+/***/ "./apps/settings/src/logger.ts"
+/*!*************************************!*\
+  !*** ./apps/settings/src/logger.ts ***!
+  \*************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('settings').detectUser().build());
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=script&setup=true&lang=ts"
+/*!**************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=script&setup=true&lang=ts ***!
+  \**************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue */ "./node_modules/@nextcloud/vue/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcFormBox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/vue/components/NcFormBox */ "./node_modules/@nextcloud/vue/dist/Components/NcFormBox.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcFormGroup__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/vue/components/NcFormGroup */ "./node_modules/@nextcloud/vue/dist/Components/NcFormGroup.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/vue/components/NcNoteCard */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSelect__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @nextcloud/vue/components/NcSelect */ "./node_modules/@nextcloud/vue/dist/Components/NcSelect.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @nextcloud/vue/components/NcSettingsSection */ "./node_modules/@nextcloud/vue/dist/Components/NcSettingsSection.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @nextcloud/vue/components/NcTextField */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.mjs");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../logger.ts */ "./apps/settings/src/logger.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'AdminSettingsMailServer',
+  setup(__props) {
+    const settingsAdminMail = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('settings', 'settingsAdminMail');
+    const initialConfig = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('settings', 'settingsAdminMailConfig');
+    const mailConfig = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({
+      ...initialConfig
+    });
+    const smtpMode = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)({
+      get() {
+        return settingsAdminMail.smtpModeOptions.find(option => option.id === mailConfig.value.mail_smtpmode);
+      },
+      set(value) {
+        mailConfig.value.mail_smtpmode = value?.id ?? '';
+      }
+    });
+    const smtpEncryption = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)({
+      get() {
+        return settingsAdminMail.smtpEncryptionOptions.find(option => option.id === mailConfig.value.mail_smtpsecure);
+      },
+      set(value) {
+        mailConfig.value.mail_smtpsecure = value?.id ?? '';
+      }
+    });
+    const smtpSendmailMode = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)({
+      get() {
+        return settingsAdminMail.smtpSendmailModeOptions.find(option => option.id === mailConfig.value.mail_sendmailmode);
+      },
+      set(value) {
+        mailConfig.value.mail_sendmailmode = value?.id ?? '';
+      }
+    });
+    const hasPasswordChanges = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => mailConfig.value.mail_smtppassword !== '********');
+    const hasCredentialChanges = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => hasPasswordChanges.value || mailConfig.value.mail_smtpname !== initialConfig.mail_smtpname);
+    const isSaving = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    const isSendingTestEmail = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    const testEmailError = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    /**
+     * Send a test email to verify the email settings
+     */
+    async function testEmail() {
+      testEmailError.value = '';
+      isSendingTestEmail.value = true;
+      try {
+        await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_6__.generateUrl)('/settings/admin/mailtest'));
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('settings', 'Email sent successfully'));
+      } catch (error) {
+        _logger_ts__WEBPACK_IMPORTED_MODULE_14__["default"].error('Error sending test email', {
+          error
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('settings', 'Failed to send email'));
+        if ((0,_nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__.isAxiosError)(error) && typeof error.response?.data === 'string') {
+          testEmailError.value = error.response.data;
+        }
+      } finally {
+        isSendingTestEmail.value = false;
+      }
+    }
+    /**
+     * Submit the mail settings form
+     */
+    async function onSubmit() {
+      await (0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_5__.confirmPassword)();
+      isSaving.value = true;
+      try {
+        if (mailConfig.value.mail_smtpauth && hasCredentialChanges.value) {
+          await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_6__.generateUrl)('/settings/admin/mailsettings/credentials'), {
+            mail_smtppassword: hasPasswordChanges.value ? mailConfig.value.mail_smtppassword : undefined,
+            mail_smtpname: mailConfig.value.mail_smtpname
+          });
+        }
+        const config = {
+          ...mailConfig.value
+        };
+        delete config.mail_smtppassword;
+        delete config.mail_smtpname;
+        await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_6__.generateUrl)('/settings/admin/mailsettings'), config);
+        testEmailError.value = '';
+      } catch (error) {
+        _logger_ts__WEBPACK_IMPORTED_MODULE_14__["default"].error('Error saving email settings', {
+          error
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('settings', 'Failed to save email settings'));
+        return;
+      } finally {
+        isSaving.value = false;
+      }
+    }
+    return {
+      __sfc: true,
+      settingsAdminMail,
+      initialConfig,
+      mailConfig,
+      smtpMode,
+      smtpEncryption,
+      smtpSendmailMode,
+      hasPasswordChanges,
+      hasCredentialChanges,
+      isSaving,
+      isSendingTestEmail,
+      testEmailError,
+      testEmail,
+      onSubmit,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t,
+      NcButton: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_7__.NcButton,
+      NcCheckboxRadioSwitch: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_7__.NcCheckboxRadioSwitch,
+      NcLoadingIcon: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_7__.NcLoadingIcon,
+      NcPasswordField: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_7__.NcPasswordField,
+      NcFormBox: _nextcloud_vue_components_NcFormBox__WEBPACK_IMPORTED_MODULE_8__["default"],
+      NcFormGroup: _nextcloud_vue_components_NcFormGroup__WEBPACK_IMPORTED_MODULE_9__["default"],
+      NcNoteCard: _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_10__["default"],
+      NcSelect: _nextcloud_vue_components_NcSelect__WEBPACK_IMPORTED_MODULE_11__["default"],
+      NcSettingsSection: _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_12__["default"],
+      NcTextField: _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_13__["default"]
+    };
+  }
+}));
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=template&id=0dc2d593"
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=template&id=0dc2d593 ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcSettingsSection, {
+    attrs: {
+      "doc-url": _setup.settingsAdminMail.docUrl,
+      name: _setup.t("settings", "Email server"),
+      description: _setup.t("settings", "It is important to set up this server to be able to send emails, like for password reset and notifications.")
+    }
+  }, [_setup.settingsAdminMail.configIsReadonly ? _c(_setup.NcNoteCard, {
+    attrs: {
+      type: "info"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_setup.t("settings", "The server configuration is read-only so the mail settings cannot be changed using the web interface.")) + "\n\t")]) : _vm._e(), _vm._v(" "), _setup.smtpMode?.id === "null" ? _c(_setup.NcNoteCard, {
+    attrs: {
+      type: "info"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_setup.t("settings", 'Mail delivery is disabled by instance config "{config}".', {
+    config: "mail_smtpmode"
+  })) + "\n\t")]) : _c("form", {
+    class: _vm.$style.adminSettingsMailServer__form,
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        return _setup.onSubmit.apply(null, arguments);
+      }
+    }
+  }, [_c(_setup.NcFormBox, [_c(_setup.NcSelect, {
+    attrs: {
+      "input-label": _setup.t("settings", "Send mode"),
+      options: _setup.settingsAdminMail.smtpModeOptions,
+      required: ""
+    },
+    model: {
+      value: _setup.smtpMode,
+      callback: function ($$v) {
+        _setup.smtpMode = $$v;
+      },
+      expression: "smtpMode"
+    }
+  }), _vm._v(" "), _setup.smtpMode?.id === "smtp" ? _c(_setup.NcSelect, {
+    attrs: {
+      "input-label": _setup.t("settings", "Encryption"),
+      options: _setup.settingsAdminMail.smtpEncryptionOptions,
+      required: ""
+    },
+    model: {
+      value: _setup.smtpEncryption,
+      callback: function ($$v) {
+        _setup.smtpEncryption = $$v;
+      },
+      expression: "smtpEncryption"
+    }
+  }) : _setup.smtpMode?.id === "sendmail" ? _c(_setup.NcSelect, {
+    attrs: {
+      "input-label": _setup.t("settings", "Sendmail mode"),
+      options: _setup.settingsAdminMail.smtpSendmailModeOptions,
+      required: ""
+    },
+    model: {
+      value: _setup.smtpSendmailMode,
+      callback: function ($$v) {
+        _setup.smtpSendmailMode = $$v;
+      },
+      expression: "smtpSendmailMode"
+    }
+  }) : _vm._e(), _vm._v(" "), _c(_setup.NcCheckboxRadioSwitch, {
+    attrs: {
+      type: "switch"
+    },
+    model: {
+      value: _setup.mailConfig.mail_noverify,
+      callback: function ($$v) {
+        _vm.$set(_setup.mailConfig, "mail_noverify", $$v);
+      },
+      expression: "mailConfig.mail_noverify"
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_setup.t("settings", "Disable certificate verification (insecure)")) + "\n\t\t\t")])], 1), _vm._v(" "), _c(_setup.NcFormGroup, {
+    attrs: {
+      label: _setup.t("settings", "From address")
+    }
+  }, [_c(_setup.NcFormBox, {
+    attrs: {
+      row: ""
+    }
+  }, [_c(_setup.NcTextField, {
+    attrs: {
+      label: _setup.t("settings", "Email")
+    },
+    model: {
+      value: _setup.mailConfig.mail_from_address,
+      callback: function ($$v) {
+        _vm.$set(_setup.mailConfig, "mail_from_address", $$v);
+      },
+      expression: "mailConfig.mail_from_address"
+    }
+  }), _vm._v(" "), _c(_setup.NcTextField, {
+    attrs: {
+      label: _setup.t("settings", "Domain")
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("div", {
+          staticStyle: {
+            "line-height": "1"
+          }
+        }, [_vm._v("\n\t\t\t\t\t\t\t@\n\t\t\t\t\t\t")])];
+      },
+      proxy: true
+    }]),
+    model: {
+      value: _setup.mailConfig.mail_domain,
+      callback: function ($$v) {
+        _vm.$set(_setup.mailConfig, "mail_domain", $$v);
+      },
+      expression: "mailConfig.mail_domain"
+    }
+  })], 1)], 1), _vm._v(" "), _c(_setup.NcFormGroup, {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _setup.smtpMode?.id === "smtp",
+      expression: "smtpMode?.id === 'smtp'"
+    }],
+    attrs: {
+      label: _setup.t("settings", "Server address")
+    }
+  }, [_c(_setup.NcFormBox, {
+    attrs: {
+      row: ""
+    }
+  }, [_c(_setup.NcTextField, {
+    attrs: {
+      label: _setup.t("settings", "Host"),
+      name: "mail_smtphost"
+    },
+    model: {
+      value: _setup.mailConfig.mail_smtphost,
+      callback: function ($$v) {
+        _vm.$set(_setup.mailConfig, "mail_smtphost", $$v);
+      },
+      expression: "mailConfig.mail_smtphost"
+    }
+  }), _vm._v(" "), _c(_setup.NcTextField, {
+    attrs: {
+      label: _setup.t("settings", "Port"),
+      type: "number",
+      max: "65535",
+      min: "1",
+      name: "mail_smtpport"
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("div", {
+          staticStyle: {
+            "line-height": "1"
+          }
+        }, [_vm._v("\n\t\t\t\t\t\t\t:\n\t\t\t\t\t\t")])];
+      },
+      proxy: true
+    }]),
+    model: {
+      value: _setup.mailConfig.mail_smtpport,
+      callback: function ($$v) {
+        _vm.$set(_setup.mailConfig, "mail_smtpport", $$v);
+      },
+      expression: "mailConfig.mail_smtpport"
+    }
+  })], 1)], 1), _vm._v(" "), _c(_setup.NcFormGroup, {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _setup.smtpMode?.id === "smtp",
+      expression: "smtpMode?.id === 'smtp'"
+    }],
+    attrs: {
+      label: _setup.t("settings", "Authentication")
+    }
+  }, [_c(_setup.NcCheckboxRadioSwitch, {
+    attrs: {
+      type: "switch"
+    },
+    model: {
+      value: _setup.mailConfig.mail_smtpauth,
+      callback: function ($$v) {
+        _vm.$set(_setup.mailConfig, "mail_smtpauth", $$v);
+      },
+      expression: "mailConfig.mail_smtpauth"
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_setup.t("settings", "Authentication required")) + "\n\t\t\t")]), _vm._v(" "), _c(_setup.NcFormBox, {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _setup.mailConfig.mail_smtpauth,
+      expression: "mailConfig.mail_smtpauth"
+    }]
+  }, [_c(_setup.NcTextField, {
+    attrs: {
+      label: _setup.t("settings", "Login"),
+      name: "mail_smtpname"
+    },
+    model: {
+      value: _setup.mailConfig.mail_smtpname,
+      callback: function ($$v) {
+        _vm.$set(_setup.mailConfig, "mail_smtpname", $$v);
+      },
+      expression: "mailConfig.mail_smtpname"
+    }
+  }), _vm._v(" "), _c(_setup.NcPasswordField, {
+    attrs: {
+      label: _setup.t("settings", "Password"),
+      "show-trailing-button": _setup.hasPasswordChanges,
+      name: "mail_smtppassword"
+    },
+    model: {
+      value: _setup.mailConfig.mail_smtppassword,
+      callback: function ($$v) {
+        _vm.$set(_setup.mailConfig, "mail_smtppassword", $$v);
+      },
+      expression: "mailConfig.mail_smtppassword"
+    }
+  })], 1)], 1), _vm._v(" "), _c("div", {
+    class: _vm.$style.adminSettingsMailServer__formAction
+  }, [_c(_setup.NcButton, {
+    attrs: {
+      disabled: _setup.isSendingTestEmail,
+      variant: "success"
+    },
+    on: {
+      click: _setup.testEmail
+    },
+    scopedSlots: _vm._u([_setup.isSendingTestEmail ? {
+      key: "icon",
+      fn: function () {
+        return [_c(_setup.NcLoadingIcon)];
+      },
+      proxy: true
+    } : null], null, true)
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_setup.isSendingTestEmail ? _setup.t("settings", "Sending test email…") : _setup.t("settings", "Send test email")) + "\n\t\t\t")]), _vm._v(" "), _c(_setup.NcButton, {
+    attrs: {
+      disabled: _setup.isSaving,
+      type: "submit",
+      variant: "primary"
+    },
+    scopedSlots: _vm._u([_setup.isSaving ? {
+      key: "icon",
+      fn: function () {
+        return [_c(_setup.NcLoadingIcon)];
+      },
+      proxy: true
+    } : null], null, true)
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_setup.isSaving ? _setup.t("settings", "Saving…") : _setup.t("settings", "Save settings")) + "\n\t\t\t")])], 1)], 1), _vm._v(" "), _setup.testEmailError ? _c(_setup.NcNoteCard, {
+    attrs: {
+      type: "error"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_setup.testEmailError) + "\n\t")]) : _vm._e()], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css"
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+._adminSettingsMailServer__form_hqpau {
+	display: flex;
+	flex-direction: column;
+	gap: calc(2.5 * var(--default-grid-baseline));
+
+	max-width: 600px !important;
+}
+._adminSettingsMailServer__formAction_fbriG {
+	display: flex;
+	justify-content: end;
+	gap: var(--default-grid-baseline);
+}
+`, ""]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"adminSettingsMailServer__form": `_adminSettingsMailServer__form_hqpau`,
+	"adminSettingsMailServer__formAction": `_adminSettingsMailServer__formAction_fbriG`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css"
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./apps/settings/src/views/AdminSettingsMailServer.vue"
+/*!*************************************************************!*\
+  !*** ./apps/settings/src/views/AdminSettingsMailServer.vue ***!
+  \*************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AdminSettingsMailServer_vue_vue_type_template_id_0dc2d593__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AdminSettingsMailServer.vue?vue&type=template&id=0dc2d593 */ "./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=template&id=0dc2d593");
+/* harmony import */ var _AdminSettingsMailServer_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AdminSettingsMailServer.vue?vue&type=script&setup=true&lang=ts */ "./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css */ "./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* module decorator */ module = __webpack_require__.hmd(module);
+
+
+
+;
+
+var cssModules = {}
+var disposed = false
+
+function injectStyles (context) {
+  if (disposed) return
+  
+        cssModules["$style"] = (_AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_2__["default"].locals || _AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_2__["default"])
+        Object.defineProperty(this, "$style", {
+          configurable: true,
+          get: function () {
+            return cssModules["$style"]
+          }
+        })
+      
+}
+
+
+  module.hot && 0
+
+
+
+        module.hot && 0
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AdminSettingsMailServer_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AdminSettingsMailServer_vue_vue_type_template_id_0dc2d593__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AdminSettingsMailServer_vue_vue_type_template_id_0dc2d593__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  injectStyles,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/settings/src/views/AdminSettingsMailServer.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=script&setup=true&lang=ts"
+/*!************************************************************************************************!*\
+  !*** ./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=script&setup=true&lang=ts ***!
+  \************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminSettingsMailServer.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=template&id=0dc2d593"
+/*!*******************************************************************************************!*\
+  !*** ./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=template&id=0dc2d593 ***!
+  \*******************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_template_id_0dc2d593__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_template_id_0dc2d593__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_template_id_0dc2d593__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminSettingsMailServer.vue?vue&type=template&id=0dc2d593 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=template&id=0dc2d593");
+
+
+/***/ },
+
+/***/ "./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css"
+/*!*********************************************************************************************************************!*\
+  !*** ./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css ***!
+  \*********************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminSettingsMailServer_vue_vue_type_style_index_0_id_0dc2d593_module_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/AdminSettingsMailServer.vue?vue&type=style&index=0&id=0dc2d593&module=true&lang=css");
+ 
+
+/***/ },
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e"
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(module) {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e";
+
+/***/ },
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e"
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(module) {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e";
+
+/***/ },
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e"
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(module) {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e";
+
+/***/ },
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e"
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(module) {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e";
+
+/***/ },
+
+/***/ "./node_modules/@nextcloud/vue/dist/Components/NcFormGroup.mjs"
+/*!*********************************************************************!*\
+  !*** ./node_modules/@nextcloud/vue/dist/Components/NcFormGroup.mjs ***!
+  \*********************************************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _chunks_NcFormGroup_DblLoFMf_mjs__WEBPACK_IMPORTED_MODULE_0__.N)
+/* harmony export */ });
+/* harmony import */ var _chunks_NcFormGroup_DblLoFMf_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chunks/NcFormGroup-DblLoFMf.mjs */ "./node_modules/@nextcloud/vue/dist/chunks/NcFormGroup-DblLoFMf.mjs");
+
+
+//# sourceMappingURL=NcFormGroup.mjs.map
+
+
+/***/ }
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_preview-BIbJGxXF_mjs-node_modules_nextcloud_dialog-7546cc":"dce7060a8340cecf2ca5","node_modules_nextcloud_dialogs_dist_chunks_ConflictPicker-CWBf0soh_mjs":"01a2e7bc2c49db839239","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcTextField_index_mjs":"50270bc67122ae47dfd0","node_modules_nextcloud_dialogs_dist_chunks_FilePicker-C1yRZfLt_mjs":"a3985d66705012167d75","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-7_GNN76e_mjs":"b2479474dfc9749ea9d0","node_modules_nextcloud_vue_dist_Components_NcColorPicker_mjs":"cc9a80a105a480079016","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-cc29b1":"21fc91c563f5cd8d04c3","node_modules_rehype-highlight_index_js":"625f8818e33c457c3744","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcColorPicker_index_mjs":"63766ea64d27a6d8d6cc","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcDateTimePicker_in-952ddb":"bd2fc411cc830fe12f0b"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/harmony module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud-ui-legacy:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (globalThis.importScripts) scriptUrl = globalThis.location + "";
+/******/ 		var document = globalThis.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = (typeof document !== 'undefined' && document.baseURI) || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"settings-vue-settings-admin-mail": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunknextcloud_ui_legacy"] = globalThis["webpackChunknextcloud_ui_legacy"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/settings/src/admin-settings-mail.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=settings-vue-settings-admin-mail.js.map?v=e347361abbfd3259f31c

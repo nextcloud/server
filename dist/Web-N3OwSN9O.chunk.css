@@ -1,0 +1,45 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/*
+* Ensure proper alignment of the vue material icons
+*/
+.material-design-icon[data-v-aaedb1c3] {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
+.icon-vue[data-v-aaedb1c3] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: var(--default-clickable-area);
+  min-height: var(--default-clickable-area);
+  opacity: 1;
+}
+.icon-vue.icon-vue--inline[data-v-aaedb1c3] {
+  display: inline-flex !important;
+  min-width: fit-content;
+  min-height: fit-content;
+  vertical-align: text-bottom;
+}
+.icon-vue span[data-v-aaedb1c3] {
+  line-height: 0;
+}
+.icon-vue[data-v-aaedb1c3] svg {
+  fill: currentColor;
+  width: var(--fb515064);
+  height: var(--fb515064);
+  max-width: var(--fb515064);
+  max-height: var(--fb515064);
+}
+.icon-vue--directional[data-v-aaedb1c3] svg:dir(rtl) {
+  transform: scaleX(-1);
+}

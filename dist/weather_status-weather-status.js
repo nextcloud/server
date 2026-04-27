@@ -1,2 +1,1993 @@
-(()=>{"use strict";var e,r,a,s={87171(e,r,a){var s=a(21777),n=a(85471);const u='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-star-outline" viewBox="0 0 24 24"><path d="M12,15.39L8.24,17.66L9.23,13.38L5.91,10.5L10.29,10.13L12,6.09L13.71,10.13L18.09,10.5L14.77,13.38L15.76,17.66M22,9.24L14.81,8.63L12,2L9.19,8.63L2,9.24L7.45,13.97L5.82,21L12,17.27L18.18,21L16.54,13.97L22,9.24Z" /></svg>';var i=a(11459),o=a(85168),h=a(53334),l=a(51651),d=a(63814),w=a(57505),p=a(61744),m=a(44131),c=a(57908),g=a(24764),_=a(15502),y=a(71711),v=a(6695),f=a(88289);const A=(0,a(35947).YK)().detectLogLevel().setApp("weather_status").build();var x=a(19051);async function T(t){const e=(0,d.KT)("apps/weather_status/api/v1/favorites");return(await x.Ay.put(e,{favorites:t})).data.ocs.data}const b={clearsky_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} clear sky later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} clear sky",{temperature:e,unit:r})},clearsky_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} clear sky later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} clear sky",{temperature:e,unit:r})},cloudy:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} cloudy later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} cloudy",{temperature:e,unit:r})},snowandthunder:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} snow and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} snow and thunder",{temperature:e,unit:r})},snowshowersandthunder_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} snow showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} snow showers and thunder",{temperature:e,unit:r})},snowshowersandthunder_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} snow showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} snow showers and thunder",{temperature:e,unit:r})},snowshowersandthunder_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} snow showers, thunder and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} snow showers, thunder and polar twilight",{temperature:e,unit:r})},snowshowers_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} snow showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} snow showers",{temperature:e,unit:r})},snowshowers_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} snow showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} snow showers",{temperature:e,unit:r})},snowshowers_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} snow showers and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} snow showers and polar twilight",{temperature:e,unit:r})},snow:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} snow later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} snow",{temperature:e,unit:r})},fair_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} fair weather later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} fair weather",{temperature:e,unit:r})},fair_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} fair weather later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} fair weather",{temperature:e,unit:r})},partlycloudy_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} partly cloudy later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} partly cloudy",{temperature:e,unit:r})},partlycloudy_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} partly cloudy later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} partly cloudy",{temperature:e,unit:r})},fog:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} foggy later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} foggy",{temperature:e,unit:r})},lightrain:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light rainfall later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light rainfall",{temperature:e,unit:r})},rain:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} rainfall later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} rainfall",{temperature:e,unit:r})},heavyrain:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy rainfall later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy rainfall",{temperature:e,unit:r})},rainshowers_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} rainfall showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} rainfall showers",{temperature:e,unit:r})},rainshowers_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} rainfall showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} rainfall showers",{temperature:e,unit:r})},lightrainshowers_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light rainfall showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light rainfall showers",{temperature:e,unit:r})},lightrainshowers_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light rainfall showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light rainfall showers",{temperature:e,unit:r})},heavyrainshowers_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy rainfall showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy rainfall showers",{temperature:e,unit:r})},heavyrainshowers_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy rainfall showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy rainfall showers",{temperature:e,unit:r})},clearsky_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} clear sky and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} clear sky and polar twilight",{temperature:e,unit:r})},fair_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} fair weather and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} fair weather and polar twilight",{temperature:e,unit:r})},partlycloudy_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} partly cloudy and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} partly cloudy and polar twilight",{temperature:e,unit:r})},lightrainandthunder:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light rain and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light rain and thunder",{temperature:e,unit:r})},rainandthunder:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} rain and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} rain and thunder",{temperature:e,unit:r})},heavyrainandthunder:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy rain and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy rain and thunder",{temperature:e,unit:r})},lightrainshowersandthunder_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light rainfall showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light rainfall showers and thunder",{temperature:e,unit:r})},lightrainshowersandthunder_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light rainfall showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light rainfall showers and thunder",{temperature:e,unit:r})},lightrainshowersandthunder_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light rainfall showers, thunder and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light rainfall showers, thunder and polar twilight",{temperature:e,unit:r})},rainshowersandthunder_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} rainfall showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} rainfall showers and thunder",{temperature:e,unit:r})},rainshowersandthunder_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} rainfall showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} rainfall showers and thunder",{temperature:e,unit:r})},rainshowersandthunder_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} rainfall showers, thunder and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} rainfall showers, thunder and polar twilight",{temperature:e,unit:r})},heavyrainshowersandthunder_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy rainfall showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy rainfall showers and thunder",{temperature:e,unit:r})},heavyrainshowersandthunder_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy rainfall showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy rainfall showers and thunder",{temperature:e,unit:r})},heavyrainshowersandthunder_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy rainfall showers, thunder and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy rainfall showers, thunder and polar twilight",{temperature:e,unit:r})},lightrainshowers_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light rainfall showers and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light rainfall showers and polar twilight",{temperature:e,unit:r})},rainshowers_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} rainfall showers and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} rainfall showers and polar twilight",{temperature:e,unit:r})},heavyrainshowers_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy rainfall showers and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy rainfall showers and polar twilight",{temperature:e,unit:r})},lightsleet:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light sleet later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light sleet",{temperature:e,unit:r})},sleet:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} sleet later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} sleet",{temperature:e,unit:r})},heavysleet:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy sleet later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy sleet",{temperature:e,unit:r})},lightsleetandthunder:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light sleet and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light sleet and thunder",{temperature:e,unit:r})},sleetandthunder:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} sleet and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} sleet and thunder",{temperature:e,unit:r})},heavysleetandthunder:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy sleet and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy sleet and thunder",{temperature:e,unit:r})},lightsleetshowers_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light sleet showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light sleet showers",{temperature:e,unit:r})},lightsleetshowers_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light sleet showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light sleet showers",{temperature:e,unit:r})},lightsleetshowers_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light sleet showers and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light sleet showers and polar twilight",{temperature:e,unit:r})},sleetshowers_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} sleet showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} sleet showers",{temperature:e,unit:r})},sleetshowers_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} sleet showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} sleet showers",{temperature:e,unit:r})},sleetshowers_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} sleet showers and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} sleet showers and polar twilight",{temperature:e,unit:r})},heavysleetshowers_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy sleet showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy sleet showers",{temperature:e,unit:r})},heavysleetshowers_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy sleet showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy sleet showers",{temperature:e,unit:r})},heavysleetshowers_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy sleet showers and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy sleet showers and polar twilight",{temperature:e,unit:r})},lightssleetshowersandthunder_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light sleet showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light sleet showers and thunder",{temperature:e,unit:r})},lightssleetshowersandthunder_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light sleet showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light sleet showers and thunder",{temperature:e,unit:r})},lightssleetshowersandthunder_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light sleet showers, thunder and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light sleet showers, thunder and polar twilight",{temperature:e,unit:r})},sleetshowersandthunder_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} sleet showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} sleet showers and thunder",{temperature:e,unit:r})},sleetshowersandthunder_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} sleet showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} sleet showers and thunder",{temperature:e,unit:r})},sleetshowersandthunder_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} sleet showers, thunder and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} sleet showers, thunder and polar twilight",{temperature:e,unit:r})},heavysleetshowersandthunder_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy sleet showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy sleet showers and thunder",{temperature:e,unit:r})},heavysleetshowersandthunder_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy sleet showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy sleet showers and thunder",{temperature:e,unit:r})},heavysleetshowersandthunder_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy sleet showers, thunder and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy sleet showers, thunder and polar twilight",{temperature:e,unit:r})},lightsnow:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light snow later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light snow",{temperature:e,unit:r})},heavysnow:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy snow later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy snow",{temperature:e,unit:r})},lightsnowandthunder:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light snow and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light snow and thunder",{temperature:e,unit:r})},heavysnowandthunder:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy snow and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy snow and thunder",{temperature:e,unit:r})},lightsnowshowers_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light snow showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light snow showers",{temperature:e,unit:r})},lightsnowshowers_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light snow showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light snow showers",{temperature:e,unit:r})},lightsnowshowers_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light snow showers and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light snow showers and polar twilight",{temperature:e,unit:r})},heavysnowshowers_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy snow showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy snow showers",{temperature:e,unit:r})},heavysnowshowers_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy snow showers later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy snow showers",{temperature:e,unit:r})},heavysnowshowers_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy snow showers and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy snow showers and polar twilight",{temperature:e,unit:r})},lightssnowshowersandthunder_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light snow showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light snow showers and thunder",{temperature:e,unit:r})},lightssnowshowersandthunder_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light snow showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light snow showers and thunder",{temperature:e,unit:r})},lightssnowshowersandthunder_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} light snow showers, thunder and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} light snow showers, thunder and polar twilight",{temperature:e,unit:r})},heavysnowshowersandthunder_day:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy snow showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy snow showers and thunder",{temperature:e,unit:r})},heavysnowshowersandthunder_night:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy snow showers and thunder later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy snow showers and thunder",{temperature:e,unit:r})},heavysnowshowersandthunder_polartwilight:{text:(e,r,a=!1)=>a?t("weather_status","{temperature} {unit} heavy snow showers, thunder and polar twilight later today",{temperature:e,unit:r}):t("weather_status","{temperature} {unit} heavy snow showers, thunder and polar twilight",{temperature:e,unit:r})}},M={name:"App",components:{NcActions:g.A,NcActionButton:w.A,NcActionCaption:p.A,NcActionInput:m.A,NcActionLink:c.A,NcActionSeparator:_.A,NcActionText:y.A,NcLoadingIcon:f.A,NcIconSvgWrapper:v.A},data:()=>({crosshairsSvg:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-crosshairs" viewBox="0 0 24 24"><path d="M3.05,13H1V11H3.05C3.5,6.83 6.83,3.5 11,3.05V1H13V3.05C17.17,3.5 20.5,6.83 20.95,11H23V13H20.95C20.5,17.17 17.17,20.5 13,20.95V23H11V20.95C6.83,20.5 3.5,17.17 3.05,13M12,5A7,7 0 0,0 5,12A7,7 0 0,0 12,19A7,7 0 0,0 19,12A7,7 0 0,0 12,5Z" /></svg>',mapMarkerSvg:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-map-marker" viewBox="0 0 24 24"><path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" /></svg>',starSvg:i,starOutlineSvg:u,locale:(0,h.JK)(),loading:!0,errorMessage:"",mode:1,address:null,lat:null,lon:null,offset:5,forecasts:[],loop:null,favorites:[]}),computed:{useFahrenheitLocale(){return["en_US","en_MH","en_FM","en_PW","en_KY","en_LR"].includes(this.locale)},temperatureUnit(){return this.useFahrenheitLocale?"°F":"°C"},locationText(){return t("weather_status","More weather for {adr}",{adr:this.address})},temperature(){return this.getTemperature(this.forecasts,0)},futureTemperature(){return this.getTemperature(this.forecasts,this.offset)},weatherCode(){return this.getWeatherCode(this.forecasts,0)},futureWeatherCode(){return this.getWeatherCode(this.forecasts,this.offset)},weatherIconUrl(){return this.getWeatherIconUrl(this.weatherCode)},futureWeatherIconUrl(){return this.getWeatherIconUrl(this.futureWeatherCode)},currentWeatherMessage(){return this.loading?t("weather_status","Loading weather"):this.errorMessage?this.errorMessage:this.gotWeather?this.getWeatherMessage(this.weatherCode,this.temperature):t("weather_status","Set location for weather")},forecastMessage(){return this.loading?t("weather_status","Loading weather"):this.gotWeather?this.getWeatherMessage(this.futureWeatherCode,this.futureTemperature,!0):t("weather_status","Set location for weather")},weatherLinkTarget(){return"https://www.windy.com/-Rain-thunder-rain?rain,"+this.lat+","+this.lon+",11"},gotWeather(){return this.address&&!this.errorMessage},addRemoveFavoriteSvg(){return this.currentAddressIsFavorite?i:u},addRemoveFavoriteText(){return this.currentAddressIsFavorite?t("weather_status","Remove from favorites"):t("weather_status","Add as favorite")},currentAddressIsFavorite(){return this.favorites.find(t=>t===this.address)}},mounted(){this.initWeatherStatus()},methods:{async initWeatherStatus(){try{const t=await async function(){const t=(0,d.KT)("apps/weather_status/api/v1/location");return(await x.Ay.get(t)).data.ocs.data}();this.lat=t.lat,this.lon=t.lon,this.address=t.address,this.mode=t.mode,1===this.mode?this.askBrowserLocation():2===this.mode&&this.startLoop();const e=await async function(){const t=(0,d.KT)("apps/weather_status/api/v1/favorites");return(await x.Ay.get(t)).data.ocs.data}();this.favorites=e}catch(e){if("ECONNABORTED"===e?.code)return void A.info("The weather status request was cancelled because the user navigates.");e.response&&401===e.response.status?(0,o.Qg)(t("weather_status","You are not logged in.")):(0,o.Qg)(t("weather_status","There was an error getting the weather status information.")),A.error(e)}},startLoop(){clearInterval(this.loop),this.lat&&this.lon?(this.loop=setInterval(()=>this.getForecast(),36e5),this.getForecast()):this.loading=!1},askBrowserLocation(){this.loading=!0,this.errorMessage="",navigator.geolocation&&window.isSecureContext?navigator.geolocation.getCurrentPosition(t=>{A.debug("browser location success"),this.lat=t.coords.latitude,this.lon=t.coords.longitude,this.saveMode(1),this.mode=1,this.saveLocation(this.lat,this.lon)},t=>{A.debug("location permission refused"),A.debug(t),this.saveMode(2),this.mode=2,this.lat&&this.lon?this.startLoop():this.usePersonalAddress()}):(A.debug("no secure context!"),this.saveMode(2),this.mode=2,this.startLoop())},async getForecast(){try{this.forecasts=await async function(){const t=(0,d.KT)("apps/weather_status/api/v1/forecast");return(await x.Ay.get(t)).data.ocs.data}()}catch(e){this.errorMessage=t("weather_status","No weather information found"),A.debug(e)}this.loading=!1},async setAddress(e){this.loading=!0,this.errorMessage="";try{const r=await async function(t){const e=(0,d.KT)("apps/weather_status/api/v1/location");return(await x.Ay.put(e,{address:t,lat:null,lon:null})).data.ocs.data}(e);r.success?(this.lat=r.lat,this.lon=r.lon,this.address=r.address,this.mode=2,this.startLoop()):(this.errorMessage=t("weather_status","Location not found"),this.loading=!1)}catch(e){e.response&&401===e.response.status?(0,o.Qg)(t("weather_status","You are not logged in.")):(0,o.Qg)(t("weather_status","There was an error setting the location address.")),this.loading=!1}},async saveLocation(e,r){try{const t=await async function(t,e){const r=(0,d.KT)("apps/weather_status/api/v1/location");return(await x.Ay.put(r,{address:"",lat:t,lon:e})).data.ocs.data}(e,r);this.address=t.address,this.startLoop()}catch(e){e.response&&401===e.response.status?(0,o.Qg)(t("weather_status","You are not logged in.")):(0,o.Qg)(t("weather_status","There was an error setting the location.")),A.debug(e)}},async saveMode(e){try{await async function(t){const e=(0,d.KT)("apps/weather_status/api/v1/mode");return(await x.Ay.put(e,{mode:t})).data.ocs.data}(e)}catch(e){e.response&&401===e.response.status?(0,o.Qg)(t("weather_status","You are not logged in.")):(0,o.Qg)(t("weather_status","There was an error saving the mode.")),A.debug(e)}},onBrowserLocationClick(){this.askBrowserLocation()},async usePersonalAddress(){this.loading=!0;try{const t=await async function(){const t=(0,d.KT)("apps/weather_status/api/v1/use-personal");return(await x.Ay.put(t)).data.ocs.data}();this.lat=t.lat,this.lon=t.lon,this.address=t.address,this.mode=2,this.startLoop()}catch(e){e.response&&401===e.response.status?(0,o.Qg)(t("weather_status","You are not logged in.")):(0,o.Qg)(t("weather_status","There was an error using personal address.")),A.debug(e),this.loading=!1}},onAddressSubmit(){const t=this.$refs.addressInput.$el.querySelector('input[type="text"]').value;this.setAddress(t)},getLocalizedTemperature(t){return this.useFahrenheitLocale?1.8*t+32:t},onAddRemoveFavoriteClick(){const t=this.currentAddressIsFavorite;if(t){const e=this.favorites.indexOf(t);-1!==e&&this.favorites.splice(e,1)}else this.favorites.push(this.address);T(this.favorites)},onFavoriteClick(t,e){if(t.target.classList.contains("action-button__icon")){const t=this.favorites.indexOf(e);-1!==t&&this.favorites.splice(t,1),T(this.favorites)}else e!==this.address&&this.setAddress(e)},formatTime:t=>(0,l.A)(t).format("LT"),getTemperature:(t,e=0)=>t.length>e?t[e].data.instant.details.air_temperature:"",getWeatherCode:(t,e=0)=>t.length>e?t[e].data.next_1_hours.summary.symbol_code:"",getWeatherIconUrl:t=>t&&t in b?(0,d.d0)("weather_status","met.no.icons/"+t+".svg"):(0,d.d0)("weather_status","met.no.icons/fair_day.svg"),getWeatherMessage(e,r,a=!1){return e&&e in b?b[e].text(Math.round(this.getLocalizedTemperature(r)),this.temperatureUnit,a):t("weather_status","Unknown weather code")}}};var C=a(85072),L=a.n(C),N=a(97825),k=a.n(N),S=a(77659),I=a.n(S),W=a(55056),D=a.n(W),E=a(10540),O=a.n(E),B=a(41113),F=a.n(B),j=a(19254),Q={};Q.styleTagTransform=F(),Q.setAttributes=D(),Q.insert=I().bind(null,"head"),Q.domAPI=k(),Q.insertStyleElement=O(),L()(j.A,Q),j.A&&j.A.locals&&j.A.locals;const H=(0,a(14486).A)(M,function(){var t=this,e=t._self._c;return e("div",{attrs:{id:"weather-status-menu-item"}},[e("NcActions",{staticClass:"weather-status-menu-item__subheader",attrs:{"aria-label":t.currentWeatherMessage,"menu-name":t.currentWeatherMessage},scopedSlots:t._u([{key:"icon",fn:function(){return[t.loading?e("NcLoadingIcon"):e("img",{staticClass:"weather-image",attrs:{src:t.weatherIconUrl,alt:""}})]},proxy:!0}])},[t._v(" "),t.gotWeather?e("NcActionText",{scopedSlots:t._u([{key:"icon",fn:function(){return[t.loading?e("NcLoadingIcon"):e("div",{staticClass:"weather-action-image-container"},[e("img",{staticClass:"weather-image",attrs:{src:t.futureWeatherIconUrl,alt:""}})])]},proxy:!0}],null,!1,1876957744)},[t._v("\n\t\t\t"+t._s(t.forecastMessage)+"\n\t\t")]):t._e(),t._v(" "),t.gotWeather?e("NcActionLink",{attrs:{target:"_blank",href:t.weatherLinkTarget,"close-after-click":!0},scopedSlots:t._u([{key:"icon",fn:function(){return[e("NcIconSvgWrapper",{attrs:{name:"MapMarker",svg:t.mapMarkerSvg,size:20}})]},proxy:!0}],null,!1,2374361976)},[t._v("\n\t\t\t"+t._s(t.locationText)+"\n\t\t")]):t._e(),t._v(" "),t.gotWeather?e("NcActionButton",{on:{click:t.onAddRemoveFavoriteClick},scopedSlots:t._u([{key:"icon",fn:function(){return[e("NcIconSvgWrapper",{staticClass:"favorite-color",attrs:{name:"Star",svg:t.addRemoveFavoriteSvg,size:20}})]},proxy:!0}],null,!1,2760308411)},[t._v("\n\t\t\t"+t._s(t.addRemoveFavoriteText)+"\n\t\t")]):t._e(),t._v(" "),t.address&&!t.errorMessage?e("NcActionSeparator"):t._e(),t._v(" "),e("NcActionButton",{attrs:{"close-after-click":!0},on:{click:t.onBrowserLocationClick},scopedSlots:t._u([{key:"icon",fn:function(){return[e("NcIconSvgWrapper",{attrs:{name:"Crosshairs",svg:t.crosshairsSvg,size:20}})]},proxy:!0}])},[t._v("\n\t\t\t"+t._s(t.t("weather_status","Detect location"))+"\n\t\t")]),t._v(" "),e("NcActionInput",{ref:"addressInput",attrs:{label:t.t("weather_status","Set custom address"),disabled:!1,icon:"icon-rename",type:"text","model-value":""},on:{submit:t.onAddressSubmit}}),t._v(" "),t.favorites.length>0?[e("NcActionCaption",{attrs:{name:t.t("weather_status","Favorites")}}),t._v(" "),t._l(t.favorites,function(r){return e("NcActionButton",{key:r,on:{click:function(e){return t.onFavoriteClick(e,r)}},scopedSlots:t._u([{key:"icon",fn:function(){return[e("NcIconSvgWrapper",{class:{"favorite-color":t.address===r},attrs:{name:"Star",svg:t.starSvg,size:20}})]},proxy:!0}],null,!0)},[t._v("\n\t\t\t\t"+t._s(r)+"\n\t\t\t")])})]:t._e()],2)],1)},[],!1,null,null,null).exports;a.nc=(0,s.aV)(),n.Ay.prototype.t=t,document.addEventListener("DOMContentLoaded",function(){OCA.Dashboard&&OCA.Dashboard.registerStatus("weather",t=>(new(n.Ay.extend(H))).$mount(t))})},19254(t,e,r){r.d(e,{A:()=>w});var a=r(71354),s=r.n(a),n=r(76314),u=r.n(n),i=r(4417),o=r.n(i),h=new URL(r(6315),r.b),l=u()(s()),d=o()(h);l.push([t.id,`.icon-weather-status{background-image:url(${d})}.weather-action-image-container{width:var(--default-clickable-area);height:var(--default-clickable-area);display:flex;align-items:center;justify-content:center}.weather-image{width:calc(var(--default-clickable-area) - 2*var(--default-grid-baseline))}.favorite-color{color:var(--color-favorite)}`,"",{version:3,sources:["webpack://./apps/weather_status/src/App.vue"],names:[],mappings:"AACA,qBACC,wDAAA,CAGD,gCACC,mCAAA,CACA,oCAAA,CACA,YAAA,CACA,kBAAA,CACA,sBAAA,CAGD,eACC,0EAAA,CAID,gBACC,2BAAA",sourcesContent:["\n.icon-weather-status {\n\tbackground-image: url('../img/app-dark.svg');\n}\n\n.weather-action-image-container {\n\twidth: var(--default-clickable-area);\n\theight: var(--default-clickable-area);\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n}\n\n.weather-image {\n\twidth: calc(var(--default-clickable-area) - 2 * var(--default-grid-baseline));\n}\n\n// Set color to primary element for current / active favorite address\n.favorite-color {\n\tcolor: var(--color-favorite);\n}\n"],sourceRoot:""}]);const w=l},6315(t){t.exports="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjBweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyMHB4Ij48cGF0aCBkPSJNNDQ0LTc2OHYtMTQ0aDcydjE0NGgtNzJabTI2NSAxMTItNTQtNTIgMTA0LTEwMiA1MiA1MC0xMDIgMTA0Wm01OSAyMTJ2LTcyaDE0NHY3Mkg3NjhaTTQ0NC00OHYtMTQ0aDcydjE0NGgtNzJaTTI1MS02NTggMTQ3LTc2MGw1NC01MCAxMDEgMTAxLTUxIDUxWm01MDkgNTExTDY1OS0yNTJsNTAtNTAgMTA0IDEwMC01MyA1NVpNNDgtNDQ0di03MmgxNDR2NzJINDhabTE1MiAyOTctNTEtNTMgMTAyLTEwMCAyNSAyNCAyNCAyNS0xMDAgMTA0Wm0yODAtOTNxLTEwMCAwLTE3MC03MHQtNzAtMTcwcTAtMTAwIDcwLTE3MHQxNzAtNzBxMTAwIDAgMTcwIDcwdDcwIDE3MHEwIDEwMC03MCAxNzB0LTE3MCA3MFoiLz48L3N2Zz4="}},n={};function u(t){var e=n[t];if(void 0!==e)return e.exports;var r=n[t]={id:t,loaded:!1,exports:{}};return s[t].call(r.exports,r,r.exports,u),r.loaded=!0,r.exports}u.m=s,e=[],u.O=(t,r,a,s)=>{if(!r){var n=1/0;for(l=0;l<e.length;l++){for(var[r,a,s]=e[l],i=!0,o=0;o<r.length;o++)(!1&s||n>=s)&&Object.keys(u.O).every(t=>u.O[t](r[o]))?r.splice(o--,1):(i=!1,s<n&&(n=s));if(i){e.splice(l--,1);var h=a();void 0!==h&&(t=h)}}return t}s=s||0;for(var l=e.length;l>0&&e[l-1][2]>s;l--)e[l]=e[l-1];e[l]=[r,a,s]},u.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return u.d(e,{a:e}),e},u.d=(t,e)=>{for(var r in e)u.o(e,r)&&!u.o(t,r)&&Object.defineProperty(t,r,{enumerable:!0,get:e[r]})},u.f={},u.e=t=>Promise.all(Object.keys(u.f).reduce((e,r)=>(u.f[r](t,e),e),[])),u.u=t=>t+"-"+t+".js?v="+{1140:"490e17ed9c8948d5a9e8",2221:"428c2ff62c4b8b3c97fc",5448:"71cfe268d6f1213c4735",6015:"ebcb6885c1fc8c461988",6798:"1a6cf42d93801a926a3d",7471:"b4ac70873a3ab192efd0",7859:"740587c0c8c350dad157",7910:"de857920f8beb5205bbc",8815:"9a5c507c75429c9c04e4"}[t],u.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),r={},a="nextcloud-ui-legacy:",u.l=(t,e,s,n)=>{if(r[t])r[t].push(e);else{var i,o;if(void 0!==s)for(var h=document.getElementsByTagName("script"),l=0;l<h.length;l++){var d=h[l];if(d.getAttribute("src")==t||d.getAttribute("data-webpack")==a+s){i=d;break}}i||(o=!0,(i=document.createElement("script")).charset="utf-8",u.nc&&i.setAttribute("nonce",u.nc),i.setAttribute("data-webpack",a+s),i.src=t),r[t]=[e];var w=(e,a)=>{i.onerror=i.onload=null,clearTimeout(p);var s=r[t];if(delete r[t],i.parentNode&&i.parentNode.removeChild(i),s&&s.forEach(t=>t(a)),e)return e(a)},p=setTimeout(w.bind(null,void 0,{type:"timeout",target:i}),12e4);i.onerror=w.bind(null,i.onerror),i.onload=w.bind(null,i.onload),o&&document.head.appendChild(i)}},u.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},u.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),u.j=1848,(()=>{var t;globalThis.importScripts&&(t=globalThis.location+"");var e=globalThis.document;if(!t&&e&&(e.currentScript&&"SCRIPT"===e.currentScript.tagName.toUpperCase()&&(t=e.currentScript.src),!t)){var r=e.getElementsByTagName("script");if(r.length)for(var a=r.length-1;a>-1&&(!t||!/^http(s?):/.test(t));)t=r[a--].src}if(!t)throw new Error("Automatic publicPath is not supported in this browser");t=t.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),u.p=t})(),(()=>{u.b="undefined"!=typeof document&&document.baseURI||self.location.href;var t={1848:0};u.f.j=(e,r)=>{var a=u.o(t,e)?t[e]:void 0;if(0!==a)if(a)r.push(a[2]);else{var s=new Promise((r,s)=>a=t[e]=[r,s]);r.push(a[2]=s);var n=u.p+u.u(e),i=new Error;u.l(n,r=>{if(u.o(t,e)&&(0!==(a=t[e])&&(t[e]=void 0),a)){var s=r&&("load"===r.type?"missing":r.type),n=r&&r.target&&r.target.src;i.message="Loading chunk "+e+" failed.\n("+s+": "+n+")",i.name="ChunkLoadError",i.type=s,i.request=n,a[1](i)}},"chunk-"+e,e)}},u.O.j=e=>0===t[e];var e=(e,r)=>{var a,s,[n,i,o]=r,h=0;if(n.some(e=>0!==t[e])){for(a in i)u.o(i,a)&&(u.m[a]=i[a]);if(o)var l=o(u)}for(e&&e(r);h<n.length;h++)s=n[h],u.o(t,s)&&t[s]&&t[s][0](),t[s]=0;return u.O(l)},r=globalThis.webpackChunknextcloud_ui_legacy=globalThis.webpackChunknextcloud_ui_legacy||[];r.forEach(e.bind(null,0)),r.push=e.bind(null,r.push.bind(r))})(),u.nc=void 0;var i=u.O(void 0,[4208],()=>u(87171));i=u.O(i)})();
-//# sourceMappingURL=weather_status-weather-status.js.map?v=c45f2551109fd59b158b
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/weather_status/src/services/weatherStatusService.js"
+/*!******************************************************************!*\
+  !*** ./apps/weather_status/src/services/weatherStatusService.js ***!
+  \******************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   fetchForecast: () => (/* binding */ fetchForecast),
+/* harmony export */   getFavorites: () => (/* binding */ getFavorites),
+/* harmony export */   getLocation: () => (/* binding */ getLocation),
+/* harmony export */   saveFavorites: () => (/* binding */ saveFavorites),
+/* harmony export */   setAddress: () => (/* binding */ setAddress),
+/* harmony export */   setLocation: () => (/* binding */ setLocation),
+/* harmony export */   setMode: () => (/* binding */ setMode),
+/* harmony export */   usePersonalAddress: () => (/* binding */ usePersonalAddress)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+/**
+ *
+ *
+ * @param {string} lat the latitude
+ * @param {string} lon the longitude
+ * @return {Promise<object>}
+ */
+async function setLocation(lat, lon) {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/weather_status/api/v1/location');
+  const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(url, {
+    address: '',
+    lat,
+    lon
+  });
+  return response.data.ocs.data;
+}
+
+/**
+ *
+ * @param {string} address The location
+ * @return {Promise<object>}
+ */
+async function setAddress(address) {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/weather_status/api/v1/location');
+  const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(url, {
+    address,
+    lat: null,
+    lon: null
+  });
+  return response.data.ocs.data;
+}
+
+/**
+ *
+ * @param {string} mode can be 1 browser or 2 custom
+ * @return {Promise<object>}
+ */
+async function setMode(mode) {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/weather_status/api/v1/mode');
+  const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(url, {
+    mode
+  });
+  return response.data.ocs.data;
+}
+
+/**
+ *
+ * @return {Promise<object>}
+ */
+async function usePersonalAddress() {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/weather_status/api/v1/use-personal');
+  const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(url);
+  return response.data.ocs.data;
+}
+
+/**
+ * Fetches the location information for current user
+ *
+ * @return {Promise<object>}
+ */
+async function getLocation() {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/weather_status/api/v1/location');
+  const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(url);
+  return response.data.ocs.data;
+}
+
+/**
+ * Fetches the weather forecast
+ *
+ * @return {Promise<object>}
+ */
+async function fetchForecast() {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/weather_status/api/v1/forecast');
+  const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(url);
+  return response.data.ocs.data;
+}
+
+/**
+ * Fetches the location favorites
+ *
+ * @return {Promise<object>}
+ */
+async function getFavorites() {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/weather_status/api/v1/favorites');
+  const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(url);
+  return response.data.ocs.data;
+}
+
+/**
+ *
+ * @param {Array} favorites List of favorite addresses
+ * @return {Promise<object>}
+ */
+async function saveFavorites(favorites) {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/weather_status/api/v1/favorites');
+  const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(url, {
+    favorites
+  });
+  return response.data.ocs.data;
+}
+
+
+/***/ },
+
+/***/ "./apps/weather_status/src/weather-status.js"
+/*!***************************************************!*\
+  !*** ./apps/weather_status/src/weather-status.js ***!
+  \***************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App.vue */ "./apps/weather_status/src/App.vue");
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+__webpack_require__.nc = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCSPNonce)();
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.t = t;
+document.addEventListener('DOMContentLoaded', function () {
+  if (!OCA.Dashboard) {
+    return;
+  }
+  OCA.Dashboard.registerStatus('weather', el => {
+    const Dashboard = vue__WEBPACK_IMPORTED_MODULE_1__["default"].extend(_App_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
+    return new Dashboard().$mount(el);
+  });
+});
+
+/***/ },
+
+/***/ "./apps/weather_status/src/logger.ts"
+/*!*******************************************!*\
+  !*** ./apps/weather_status/src/logger.ts ***!
+  \*******************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   logger: () => (/* binding */ logger)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const logger = (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().detectLogLevel().setApp('weather_status').build();
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=script&lang=js"
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mdi_svg_svg_crosshairs_svg_raw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/svg/svg/crosshairs.svg?raw */ "./node_modules/@mdi/svg/svg/crosshairs.svg?raw");
+/* harmony import */ var _mdi_svg_svg_map_marker_svg_raw__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mdi/svg/svg/map-marker.svg?raw */ "./node_modules/@mdi/svg/svg/map-marker.svg?raw");
+/* harmony import */ var _mdi_svg_svg_star_outline_svg_raw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mdi/svg/svg/star-outline.svg?raw */ "./node_modules/@mdi/svg/svg/star-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_star_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/star.svg?raw */ "./node_modules/@mdi/svg/svg/star.svg?raw");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/moment */ "./node_modules/@nextcloud/moment/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionButton */ "./node_modules/@nextcloud/vue/dist/Components/NcActionButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionCaption__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionCaption */ "./node_modules/@nextcloud/vue/dist/Components/NcActionCaption.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionInput__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionInput */ "./node_modules/@nextcloud/vue/dist/Components/NcActionInput.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionLink__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionLink */ "./node_modules/@nextcloud/vue/dist/Components/NcActionLink.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @nextcloud/vue/components/NcActions */ "./node_modules/@nextcloud/vue/dist/Components/NcActions.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionSeparator__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionSeparator */ "./node_modules/@nextcloud/vue/dist/Components/NcActionSeparator.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionText__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionText */ "./node_modules/@nextcloud/vue/dist/Components/NcActionText.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @nextcloud/vue/components/NcIconSvgWrapper */ "./node_modules/@nextcloud/vue/dist/Components/NcIconSvgWrapper.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @nextcloud/vue/components/NcLoadingIcon */ "./node_modules/@nextcloud/vue/dist/Components/NcLoadingIcon.mjs");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./logger.ts */ "./apps/weather_status/src/logger.ts");
+/* harmony import */ var _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./services/weatherStatusService.js */ "./apps/weather_status/src/services/weatherStatusService.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const MODE_BROWSER_LOCATION = 1;
+const MODE_MANUAL_LOCATION = 2;
+const weatherOptions = {
+  clearsky_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} clear sky later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} clear sky', {
+      temperature,
+      unit
+    })
+  },
+  clearsky_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} clear sky later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} clear sky', {
+      temperature,
+      unit
+    })
+  },
+  cloudy: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} cloudy later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} cloudy', {
+      temperature,
+      unit
+    })
+  },
+  snowandthunder: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} snow and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} snow and thunder', {
+      temperature,
+      unit
+    })
+  },
+  snowshowersandthunder_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} snow showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} snow showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  snowshowersandthunder_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} snow showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} snow showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  snowshowersandthunder_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} snow showers, thunder and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} snow showers, thunder and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  snowshowers_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} snow showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} snow showers', {
+      temperature,
+      unit
+    })
+  },
+  snowshowers_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} snow showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} snow showers', {
+      temperature,
+      unit
+    })
+  },
+  snowshowers_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} snow showers and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} snow showers and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  snow: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} snow later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} snow', {
+      temperature,
+      unit
+    })
+  },
+  fair_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} fair weather later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} fair weather', {
+      temperature,
+      unit
+    })
+  },
+  fair_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} fair weather later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} fair weather', {
+      temperature,
+      unit
+    })
+  },
+  partlycloudy_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} partly cloudy later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} partly cloudy', {
+      temperature,
+      unit
+    })
+  },
+  partlycloudy_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} partly cloudy later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} partly cloudy', {
+      temperature,
+      unit
+    })
+  },
+  fog: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} foggy later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} foggy', {
+      temperature,
+      unit
+    })
+  },
+  lightrain: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light rainfall later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light rainfall', {
+      temperature,
+      unit
+    })
+  },
+  rain: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} rainfall later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} rainfall', {
+      temperature,
+      unit
+    })
+  },
+  heavyrain: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy rainfall later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy rainfall', {
+      temperature,
+      unit
+    })
+  },
+  rainshowers_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} rainfall showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} rainfall showers', {
+      temperature,
+      unit
+    })
+  },
+  rainshowers_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} rainfall showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} rainfall showers', {
+      temperature,
+      unit
+    })
+  },
+  lightrainshowers_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light rainfall showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light rainfall showers', {
+      temperature,
+      unit
+    })
+  },
+  lightrainshowers_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light rainfall showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light rainfall showers', {
+      temperature,
+      unit
+    })
+  },
+  heavyrainshowers_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy rainfall showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy rainfall showers', {
+      temperature,
+      unit
+    })
+  },
+  heavyrainshowers_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy rainfall showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy rainfall showers', {
+      temperature,
+      unit
+    })
+  },
+  clearsky_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} clear sky and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} clear sky and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  fair_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} fair weather and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} fair weather and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  partlycloudy_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} partly cloudy and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} partly cloudy and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  lightrainandthunder: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light rain and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light rain and thunder', {
+      temperature,
+      unit
+    })
+  },
+  rainandthunder: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} rain and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} rain and thunder', {
+      temperature,
+      unit
+    })
+  },
+  heavyrainandthunder: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy rain and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy rain and thunder', {
+      temperature,
+      unit
+    })
+  },
+  lightrainshowersandthunder_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light rainfall showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light rainfall showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  lightrainshowersandthunder_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light rainfall showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light rainfall showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  lightrainshowersandthunder_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light rainfall showers, thunder and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light rainfall showers, thunder and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  rainshowersandthunder_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} rainfall showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} rainfall showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  rainshowersandthunder_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} rainfall showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} rainfall showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  rainshowersandthunder_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} rainfall showers, thunder and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} rainfall showers, thunder and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  heavyrainshowersandthunder_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy rainfall showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy rainfall showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  heavyrainshowersandthunder_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy rainfall showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy rainfall showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  heavyrainshowersandthunder_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy rainfall showers, thunder and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy rainfall showers, thunder and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  lightrainshowers_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light rainfall showers and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light rainfall showers and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  rainshowers_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} rainfall showers and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} rainfall showers and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  heavyrainshowers_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy rainfall showers and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy rainfall showers and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  lightsleet: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light sleet later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light sleet', {
+      temperature,
+      unit
+    })
+  },
+  sleet: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} sleet later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} sleet', {
+      temperature,
+      unit
+    })
+  },
+  heavysleet: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy sleet later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy sleet', {
+      temperature,
+      unit
+    })
+  },
+  lightsleetandthunder: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light sleet and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light sleet and thunder', {
+      temperature,
+      unit
+    })
+  },
+  sleetandthunder: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} sleet and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} sleet and thunder', {
+      temperature,
+      unit
+    })
+  },
+  heavysleetandthunder: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy sleet and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy sleet and thunder', {
+      temperature,
+      unit
+    })
+  },
+  lightsleetshowers_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light sleet showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light sleet showers', {
+      temperature,
+      unit
+    })
+  },
+  lightsleetshowers_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light sleet showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light sleet showers', {
+      temperature,
+      unit
+    })
+  },
+  lightsleetshowers_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light sleet showers and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light sleet showers and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  sleetshowers_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} sleet showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} sleet showers', {
+      temperature,
+      unit
+    })
+  },
+  sleetshowers_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} sleet showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} sleet showers', {
+      temperature,
+      unit
+    })
+  },
+  sleetshowers_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} sleet showers and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} sleet showers and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  heavysleetshowers_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy sleet showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy sleet showers', {
+      temperature,
+      unit
+    })
+  },
+  heavysleetshowers_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy sleet showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy sleet showers', {
+      temperature,
+      unit
+    })
+  },
+  heavysleetshowers_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy sleet showers and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy sleet showers and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  lightssleetshowersandthunder_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light sleet showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light sleet showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  lightssleetshowersandthunder_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light sleet showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light sleet showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  lightssleetshowersandthunder_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light sleet showers, thunder and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light sleet showers, thunder and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  sleetshowersandthunder_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} sleet showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} sleet showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  sleetshowersandthunder_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} sleet showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} sleet showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  sleetshowersandthunder_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} sleet showers, thunder and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} sleet showers, thunder and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  heavysleetshowersandthunder_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy sleet showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy sleet showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  heavysleetshowersandthunder_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy sleet showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy sleet showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  heavysleetshowersandthunder_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy sleet showers, thunder and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy sleet showers, thunder and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  lightsnow: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light snow later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light snow', {
+      temperature,
+      unit
+    })
+  },
+  heavysnow: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy snow later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy snow', {
+      temperature,
+      unit
+    })
+  },
+  lightsnowandthunder: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light snow and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light snow and thunder', {
+      temperature,
+      unit
+    })
+  },
+  heavysnowandthunder: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy snow and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy snow and thunder', {
+      temperature,
+      unit
+    })
+  },
+  lightsnowshowers_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light snow showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light snow showers', {
+      temperature,
+      unit
+    })
+  },
+  lightsnowshowers_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light snow showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light snow showers', {
+      temperature,
+      unit
+    })
+  },
+  lightsnowshowers_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light snow showers and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light snow showers and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  heavysnowshowers_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy snow showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy snow showers', {
+      temperature,
+      unit
+    })
+  },
+  heavysnowshowers_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy snow showers later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy snow showers', {
+      temperature,
+      unit
+    })
+  },
+  heavysnowshowers_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy snow showers and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy snow showers and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  lightssnowshowersandthunder_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light snow showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light snow showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  lightssnowshowersandthunder_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light snow showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light snow showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  lightssnowshowersandthunder_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} light snow showers, thunder and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} light snow showers, thunder and polar twilight', {
+      temperature,
+      unit
+    })
+  },
+  heavysnowshowersandthunder_day: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy snow showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy snow showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  heavysnowshowersandthunder_night: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy snow showers and thunder later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy snow showers and thunder', {
+      temperature,
+      unit
+    })
+  },
+  heavysnowshowersandthunder_polartwilight: {
+    text: (temperature, unit, later = false) => later ? t('weather_status', '{temperature} {unit} heavy snow showers, thunder and polar twilight later today', {
+      temperature,
+      unit
+    }) : t('weather_status', '{temperature} {unit} heavy snow showers, thunder and polar twilight', {
+      temperature,
+      unit
+    })
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'App',
+  components: {
+    NcActions: _nextcloud_vue_components_NcActions__WEBPACK_IMPORTED_MODULE_12__["default"],
+    NcActionButton: _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_8__["default"],
+    NcActionCaption: _nextcloud_vue_components_NcActionCaption__WEBPACK_IMPORTED_MODULE_9__["default"],
+    NcActionInput: _nextcloud_vue_components_NcActionInput__WEBPACK_IMPORTED_MODULE_10__["default"],
+    NcActionLink: _nextcloud_vue_components_NcActionLink__WEBPACK_IMPORTED_MODULE_11__["default"],
+    NcActionSeparator: _nextcloud_vue_components_NcActionSeparator__WEBPACK_IMPORTED_MODULE_13__["default"],
+    NcActionText: _nextcloud_vue_components_NcActionText__WEBPACK_IMPORTED_MODULE_14__["default"],
+    NcLoadingIcon: _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_16__["default"],
+    NcIconSvgWrapper: _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_15__["default"]
+  },
+  data() {
+    return {
+      crosshairsSvg: _mdi_svg_svg_crosshairs_svg_raw__WEBPACK_IMPORTED_MODULE_0__,
+      mapMarkerSvg: _mdi_svg_svg_map_marker_svg_raw__WEBPACK_IMPORTED_MODULE_1__,
+      starSvg: _mdi_svg_svg_star_svg_raw__WEBPACK_IMPORTED_MODULE_3__,
+      starOutlineSvg: _mdi_svg_svg_star_outline_svg_raw__WEBPACK_IMPORTED_MODULE_2__,
+      locale: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.getLocale)(),
+      loading: true,
+      errorMessage: '',
+      mode: MODE_BROWSER_LOCATION,
+      address: null,
+      lat: null,
+      lon: null,
+      // how many hours ahead do we want to see the forecast?
+      offset: 5,
+      forecasts: [],
+      loop: null,
+      favorites: []
+    };
+  },
+  computed: {
+    useFahrenheitLocale() {
+      return ['en_US', 'en_MH', 'en_FM', 'en_PW', 'en_KY', 'en_LR'].includes(this.locale);
+    },
+    temperatureUnit() {
+      return this.useFahrenheitLocale ? '°F' : '°C';
+    },
+    locationText() {
+      return t('weather_status', 'More weather for {adr}', {
+        adr: this.address
+      });
+    },
+    temperature() {
+      return this.getTemperature(this.forecasts, 0);
+    },
+    futureTemperature() {
+      return this.getTemperature(this.forecasts, this.offset);
+    },
+    weatherCode() {
+      return this.getWeatherCode(this.forecasts, 0);
+    },
+    futureWeatherCode() {
+      return this.getWeatherCode(this.forecasts, this.offset);
+    },
+    weatherIconUrl() {
+      return this.getWeatherIconUrl(this.weatherCode);
+    },
+    futureWeatherIconUrl() {
+      return this.getWeatherIconUrl(this.futureWeatherCode);
+    },
+    /**
+     * The message displayed in the top right corner
+     *
+     * @return {string}
+     */
+    currentWeatherMessage() {
+      if (this.loading) {
+        return t('weather_status', 'Loading weather');
+      } else if (this.errorMessage) {
+        return this.errorMessage;
+      } else if (this.gotWeather) {
+        return this.getWeatherMessage(this.weatherCode, this.temperature);
+      } else {
+        return t('weather_status', 'Set location for weather');
+      }
+    },
+    forecastMessage() {
+      if (this.loading) {
+        return t('weather_status', 'Loading weather');
+      } else if (this.gotWeather) {
+        return this.getWeatherMessage(this.futureWeatherCode, this.futureTemperature, true);
+      } else {
+        return t('weather_status', 'Set location for weather');
+      }
+    },
+    weatherLinkTarget() {
+      return 'https://www.windy.com/-Rain-thunder-rain?rain,' + this.lat + ',' + this.lon + ',11';
+    },
+    gotWeather() {
+      return this.address && !this.errorMessage;
+    },
+    addRemoveFavoriteSvg() {
+      return this.currentAddressIsFavorite ? _mdi_svg_svg_star_svg_raw__WEBPACK_IMPORTED_MODULE_3__ : _mdi_svg_svg_star_outline_svg_raw__WEBPACK_IMPORTED_MODULE_2__;
+    },
+    addRemoveFavoriteText() {
+      return this.currentAddressIsFavorite ? t('weather_status', 'Remove from favorites') : t('weather_status', 'Add as favorite');
+    },
+    currentAddressIsFavorite() {
+      return this.favorites.find(f => {
+        return f === this.address;
+      });
+    }
+  },
+  mounted() {
+    this.initWeatherStatus();
+  },
+  methods: {
+    async initWeatherStatus() {
+      try {
+        const loc = await _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__.getLocation();
+        this.lat = loc.lat;
+        this.lon = loc.lon;
+        this.address = loc.address;
+        this.mode = loc.mode;
+        if (this.mode === MODE_BROWSER_LOCATION) {
+          this.askBrowserLocation();
+        } else if (this.mode === MODE_MANUAL_LOCATION) {
+          this.startLoop();
+        }
+        const favs = await _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__.getFavorites();
+        this.favorites = favs;
+      } catch (err) {
+        if (err?.code === 'ECONNABORTED') {
+          _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.info('The weather status request was cancelled because the user navigates.');
+          return;
+        }
+        if (err.response && err.response.status === 401) {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'You are not logged in.'));
+        } else {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'There was an error getting the weather status information.'));
+        }
+        _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.error(err);
+      }
+    },
+    startLoop() {
+      clearInterval(this.loop);
+      if (this.lat && this.lon) {
+        this.loop = setInterval(() => this.getForecast(), 60 * 1000 * 60);
+        this.getForecast();
+      } else {
+        this.loading = false;
+      }
+    },
+    askBrowserLocation() {
+      this.loading = true;
+      this.errorMessage = '';
+      if (navigator.geolocation && window.isSecureContext) {
+        navigator.geolocation.getCurrentPosition(position => {
+          _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.debug('browser location success');
+          this.lat = position.coords.latitude;
+          this.lon = position.coords.longitude;
+          this.saveMode(MODE_BROWSER_LOCATION);
+          this.mode = MODE_BROWSER_LOCATION;
+          this.saveLocation(this.lat, this.lon);
+        }, error => {
+          _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.debug('location permission refused');
+          _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.debug(error);
+          this.saveMode(MODE_MANUAL_LOCATION);
+          this.mode = MODE_MANUAL_LOCATION;
+          // fallback on what we have if possible
+          if (this.lat && this.lon) {
+            this.startLoop();
+          } else {
+            this.usePersonalAddress();
+          }
+        });
+      } else {
+        _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.debug('no secure context!');
+        this.saveMode(MODE_MANUAL_LOCATION);
+        this.mode = MODE_MANUAL_LOCATION;
+        this.startLoop();
+      }
+    },
+    async getForecast() {
+      try {
+        this.forecasts = await _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__.fetchForecast();
+      } catch (err) {
+        this.errorMessage = t('weather_status', 'No weather information found');
+        _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.debug(err);
+      }
+      this.loading = false;
+    },
+    async setAddress(address) {
+      this.loading = true;
+      this.errorMessage = '';
+      try {
+        const loc = await _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__.setAddress(address);
+        if (loc.success) {
+          this.lat = loc.lat;
+          this.lon = loc.lon;
+          this.address = loc.address;
+          this.mode = MODE_MANUAL_LOCATION;
+          this.startLoop();
+        } else {
+          this.errorMessage = t('weather_status', 'Location not found');
+          this.loading = false;
+        }
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'You are not logged in.'));
+        } else {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'There was an error setting the location address.'));
+        }
+        this.loading = false;
+      }
+    },
+    async saveLocation(lat, lon) {
+      try {
+        const loc = await _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__.setLocation(lat, lon);
+        this.address = loc.address;
+        this.startLoop();
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'You are not logged in.'));
+        } else {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'There was an error setting the location.'));
+        }
+        _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.debug(err);
+      }
+    },
+    async saveMode(mode) {
+      try {
+        await _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__.setMode(mode);
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'You are not logged in.'));
+        } else {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'There was an error saving the mode.'));
+        }
+        _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.debug(err);
+      }
+    },
+    onBrowserLocationClick() {
+      this.askBrowserLocation();
+    },
+    async usePersonalAddress() {
+      this.loading = true;
+      try {
+        const loc = await _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__.usePersonalAddress();
+        this.lat = loc.lat;
+        this.lon = loc.lon;
+        this.address = loc.address;
+        this.mode = MODE_MANUAL_LOCATION;
+        this.startLoop();
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'You are not logged in.'));
+        } else {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('weather_status', 'There was an error using personal address.'));
+        }
+        _logger_ts__WEBPACK_IMPORTED_MODULE_17__.logger.debug(err);
+        this.loading = false;
+      }
+    },
+    onAddressSubmit() {
+      const newAddress = this.$refs.addressInput.$el.querySelector('input[type="text"]').value;
+      this.setAddress(newAddress);
+    },
+    getLocalizedTemperature(celcius) {
+      return this.useFahrenheitLocale ? celcius * (9 / 5) + 32 : celcius;
+    },
+    onAddRemoveFavoriteClick() {
+      const currentIsFavorite = this.currentAddressIsFavorite;
+      if (currentIsFavorite) {
+        const i = this.favorites.indexOf(currentIsFavorite);
+        if (i !== -1) {
+          this.favorites.splice(i, 1);
+        }
+      } else {
+        this.favorites.push(this.address);
+      }
+      _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__.saveFavorites(this.favorites);
+    },
+    onFavoriteClick(e, favAddress) {
+      // clicked on the icon
+      if (e.target.classList.contains('action-button__icon')) {
+        const i = this.favorites.indexOf(favAddress);
+        if (i !== -1) {
+          this.favorites.splice(i, 1);
+        }
+        _services_weatherStatusService_js__WEBPACK_IMPORTED_MODULE_18__.saveFavorites(this.favorites);
+      } else if (favAddress !== this.address) {
+        // clicked on the text
+        this.setAddress(favAddress);
+      }
+    },
+    formatTime(time) {
+      return (0,_nextcloud_moment__WEBPACK_IMPORTED_MODULE_6__["default"])(time).format('LT');
+    },
+    getTemperature(forecasts, offset = 0) {
+      return forecasts.length > offset ? forecasts[offset].data.instant.details.air_temperature : '';
+    },
+    getWeatherCode(forecasts, offset = 0) {
+      return forecasts.length > offset ? forecasts[offset].data.next_1_hours.summary.symbol_code : '';
+    },
+    getWeatherIconUrl(weatherCode) {
+      // those icons were obtained there: https://github.com/metno/weathericons/tree/main/weather/svg
+      return weatherCode && weatherCode in weatherOptions ? (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_7__.imagePath)('weather_status', 'met.no.icons/' + weatherCode + '.svg') : (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_7__.imagePath)('weather_status', 'met.no.icons/fair_day.svg');
+    },
+    getWeatherMessage(weatherCode, temperature, later = false) {
+      return weatherCode && weatherCode in weatherOptions ? weatherOptions[weatherCode].text(Math.round(this.getLocalizedTemperature(temperature)), this.temperatureUnit, later) : t('weather_status', 'Unknown weather code');
+    }
+  }
+});
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=template&id=a14b84fa"
+/*!********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=template&id=a14b84fa ***!
+  \********************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    attrs: {
+      id: "weather-status-menu-item"
+    }
+  }, [_c("NcActions", {
+    staticClass: "weather-status-menu-item__subheader",
+    attrs: {
+      "aria-label": _vm.currentWeatherMessage,
+      "menu-name": _vm.currentWeatherMessage
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_vm.loading ? _c("NcLoadingIcon") : _c("img", {
+          staticClass: "weather-image",
+          attrs: {
+            src: _vm.weatherIconUrl,
+            alt: ""
+          }
+        })];
+      },
+      proxy: true
+    }])
+  }, [_vm._v(" "), _vm.gotWeather ? _c("NcActionText", {
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_vm.loading ? _c("NcLoadingIcon") : _c("div", {
+          staticClass: "weather-action-image-container"
+        }, [_c("img", {
+          staticClass: "weather-image",
+          attrs: {
+            src: _vm.futureWeatherIconUrl,
+            alt: ""
+          }
+        })])];
+      },
+      proxy: true
+    }], null, false, 1876957744)
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.forecastMessage) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm.gotWeather ? _c("NcActionLink", {
+    attrs: {
+      target: "_blank",
+      href: _vm.weatherLinkTarget,
+      "close-after-click": true
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("NcIconSvgWrapper", {
+          attrs: {
+            name: "MapMarker",
+            svg: _vm.mapMarkerSvg,
+            size: 20
+          }
+        })];
+      },
+      proxy: true
+    }], null, false, 2374361976)
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.locationText) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm.gotWeather ? _c("NcActionButton", {
+    on: {
+      click: _vm.onAddRemoveFavoriteClick
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("NcIconSvgWrapper", {
+          staticClass: "favorite-color",
+          attrs: {
+            name: "Star",
+            svg: _vm.addRemoveFavoriteSvg,
+            size: 20
+          }
+        })];
+      },
+      proxy: true
+    }], null, false, 2760308411)
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.addRemoveFavoriteText) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm.address && !_vm.errorMessage ? _c("NcActionSeparator") : _vm._e(), _vm._v(" "), _c("NcActionButton", {
+    attrs: {
+      "close-after-click": true
+    },
+    on: {
+      click: _vm.onBrowserLocationClick
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("NcIconSvgWrapper", {
+          attrs: {
+            name: "Crosshairs",
+            svg: _vm.crosshairsSvg,
+            size: 20
+          }
+        })];
+      },
+      proxy: true
+    }])
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("weather_status", "Detect location")) + "\n\t\t")]), _vm._v(" "), _c("NcActionInput", {
+    ref: "addressInput",
+    attrs: {
+      label: _vm.t("weather_status", "Set custom address"),
+      disabled: false,
+      icon: "icon-rename",
+      type: "text",
+      "model-value": ""
+    },
+    on: {
+      submit: _vm.onAddressSubmit
+    }
+  }), _vm._v(" "), _vm.favorites.length > 0 ? [_c("NcActionCaption", {
+    attrs: {
+      name: _vm.t("weather_status", "Favorites")
+    }
+  }), _vm._v(" "), _vm._l(_vm.favorites, function (favorite) {
+    return _c("NcActionButton", {
+      key: favorite,
+      on: {
+        click: function ($event) {
+          return _vm.onFavoriteClick($event, favorite);
+        }
+      },
+      scopedSlots: _vm._u([{
+        key: "icon",
+        fn: function () {
+          return [_c("NcIconSvgWrapper", {
+            class: {
+              "favorite-color": _vm.address === favorite
+            },
+            attrs: {
+              name: "Star",
+              svg: _vm.starSvg,
+              size: 20
+            }
+          })];
+        },
+        proxy: true
+      }], null, true)
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(favorite) + "\n\t\t\t")]);
+  })] : _vm._e()], 2)], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss"
+/*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
+// Imports
+
+
+
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ../img/app-dark.svg */ "./apps/weather_status/img/app-dark.svg"), __webpack_require__.b);
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.icon-weather-status {
+  background-image: url(${___CSS_LOADER_URL_REPLACEMENT_0___});
+}
+.weather-action-image-container {
+  width: var(--default-clickable-area);
+  height: var(--default-clickable-area);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.weather-image {
+  width: calc(var(--default-clickable-area) - 2 * var(--default-grid-baseline));
+}
+.favorite-color {
+  color: var(--color-favorite);
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss"
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_a14b84fa_lang_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_a14b84fa_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_a14b84fa_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_a14b84fa_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_a14b84fa_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./apps/weather_status/src/App.vue"
+/*!*****************************************!*\
+  !*** ./apps/weather_status/src/App.vue ***!
+  \*****************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _App_vue_vue_type_template_id_a14b84fa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App.vue?vue&type=template&id=a14b84fa */ "./apps/weather_status/src/App.vue?vue&type=template&id=a14b84fa");
+/* harmony import */ var _App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.vue?vue&type=script&lang=js */ "./apps/weather_status/src/App.vue?vue&type=script&lang=js");
+/* harmony import */ var _App_vue_vue_type_style_index_0_id_a14b84fa_lang_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss */ "./apps/weather_status/src/App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _App_vue_vue_type_template_id_a14b84fa__WEBPACK_IMPORTED_MODULE_0__.render,
+  _App_vue_vue_type_template_id_a14b84fa__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/weather_status/src/App.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/weather_status/src/App.vue?vue&type=script&lang=js"
+/*!*****************************************************************!*\
+  !*** ./apps/weather_status/src/App.vue?vue&type=script&lang=js ***!
+  \*****************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./App.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/weather_status/src/App.vue?vue&type=template&id=a14b84fa"
+/*!***********************************************************************!*\
+  !*** ./apps/weather_status/src/App.vue?vue&type=template&id=a14b84fa ***!
+  \***********************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_a14b84fa__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_a14b84fa__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_template_id_a14b84fa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./App.vue?vue&type=template&id=a14b84fa */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=template&id=a14b84fa");
+
+
+/***/ },
+
+/***/ "./apps/weather_status/src/App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss"
+/*!**************************************************************************************!*\
+  !*** ./apps/weather_status/src/App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss ***!
+  \**************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_App_vue_vue_type_style_index_0_id_a14b84fa_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/weather_status/src/App.vue?vue&type=style&index=0&id=a14b84fa&lang=scss");
+
+
+/***/ },
+
+/***/ "./apps/weather_status/img/app-dark.svg"
+/*!**********************************************!*\
+  !*** ./apps/weather_status/img/app-dark.svg ***!
+  \**********************************************/
+(module) {
+
+module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjBweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyMHB4Ij48cGF0aCBkPSJNNDQ0LTc2OHYtMTQ0aDcydjE0NGgtNzJabTI2NSAxMTItNTQtNTIgMTA0LTEwMiA1MiA1MC0xMDIgMTA0Wm01OSAyMTJ2LTcyaDE0NHY3Mkg3NjhaTTQ0NC00OHYtMTQ0aDcydjE0NGgtNzJaTTI1MS02NTggMTQ3LTc2MGw1NC01MCAxMDEgMTAxLTUxIDUxWm01MDkgNTExTDY1OS0yNTJsNTAtNTAgMTA0IDEwMC01MyA1NVpNNDgtNDQ0di03MmgxNDR2NzJINDhabTE1MiAyOTctNTEtNTMgMTAyLTEwMCAyNSAyNCAyNCAyNS0xMDAgMTA0Wm0yODAtOTNxLTEwMCAwLTE3MC03MHQtNzAtMTcwcTAtMTAwIDcwLTE3MHQxNzAtNzBxMTAwIDAgMTcwIDcwdDcwIDE3MHEwIDEwMC03MCAxNzB0LTE3MCA3MFoiLz48L3N2Zz4=";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/crosshairs.svg?raw"
+/*!******************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/crosshairs.svg?raw ***!
+  \******************************************************/
+(module) {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-crosshairs\" viewBox=\"0 0 24 24\"><path d=\"M3.05,13H1V11H3.05C3.5,6.83 6.83,3.5 11,3.05V1H13V3.05C17.17,3.5 20.5,6.83 20.95,11H23V13H20.95C20.5,17.17 17.17,20.5 13,20.95V23H11V20.95C6.83,20.5 3.5,17.17 3.05,13M12,5A7,7 0 0,0 5,12A7,7 0 0,0 12,19A7,7 0 0,0 19,12A7,7 0 0,0 12,5Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/map-marker.svg?raw"
+/*!******************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/map-marker.svg?raw ***!
+  \******************************************************/
+(module) {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-map-marker\" viewBox=\"0 0 24 24\"><path d=\"M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/star-outline.svg?raw"
+/*!********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/star-outline.svg?raw ***!
+  \********************************************************/
+(module) {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-star-outline\" viewBox=\"0 0 24 24\"><path d=\"M12,15.39L8.24,17.66L9.23,13.38L5.91,10.5L10.29,10.13L12,6.09L13.71,10.13L18.09,10.5L14.77,13.38L15.76,17.66M22,9.24L14.81,8.63L12,2L9.19,8.63L2,9.24L7.45,13.97L5.82,21L12,17.27L18.18,21L16.54,13.97L22,9.24Z\" /></svg>";
+
+/***/ }
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_preview-BIbJGxXF_mjs-node_modules_nextcloud_dialog-7546cc":"dce7060a8340cecf2ca5","node_modules_nextcloud_dialogs_dist_chunks_ConflictPicker-CWBf0soh_mjs":"01a2e7bc2c49db839239","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcTextField_index_mjs":"50270bc67122ae47dfd0","node_modules_nextcloud_dialogs_dist_chunks_FilePicker-C1yRZfLt_mjs":"a3985d66705012167d75","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-7_GNN76e_mjs":"b2479474dfc9749ea9d0","node_modules_nextcloud_vue_dist_Components_NcColorPicker_mjs":"cc9a80a105a480079016","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-cc29b1":"21fc91c563f5cd8d04c3","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcColorPicker_index_mjs":"63766ea64d27a6d8d6cc","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcDateTimePicker_in-952ddb":"bd2fc411cc830fe12f0b"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud-ui-legacy:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (globalThis.importScripts) scriptUrl = globalThis.location + "";
+/******/ 		var document = globalThis.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = (typeof document !== 'undefined' && document.baseURI) || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"weather_status-weather-status": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunknextcloud_ui_legacy"] = globalThis["webpackChunknextcloud_ui_legacy"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/weather_status/src/weather-status.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=weather_status-weather-status.js.map?v=5371af635a36455f4d5e

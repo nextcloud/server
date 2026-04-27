@@ -1,2 +1,908 @@
-import{b as P,a6 as Q,l as b,n as A,o as p,c as _,w as g,g as v,t as y,u as e,k as m,j as U,f as C,h as j,y as B,a7 as H,X as te,a8 as le,B as ne,a1 as L,F as k,R as ie,i as oe,D as Y,a5 as se,A as re,H as X,e as ue}from"./preload-helper-D9xEqq8S.chunk.mjs";import{l as V,_ as $}from"./public-CvthP4YJ.chunk.mjs";import{g as de,h as Z,i as me,N as ce}from"./mdi-B3j1XNhV.chunk.mjs";import{c as T,i as R}from"./index-DqG-5vGV.chunk.mjs";import{a as x}from"./index-C1xmmKTZ-XKFVqjxi.chunk.mjs";import{t}from"./translation-DoG5ZELJ-8aobdbPK.chunk.mjs";import{b as w}from"./index-Bp9-GhMo.chunk.mjs";import{N as G}from"./NcCheckboxRadioSwitch-D0gFwEVl-C7shEyvA.chunk.mjs";import{N as pe}from"./NcSelect-B1uITk_3-B0TPRkMI.chunk.mjs";import{N as O}from"./ContentCopy-BThU2vZd.chunk.mjs";import{A as ge,l as D,g as he,r as S}from"./refreshStyles-CHjgFeU1.chunk.mjs";import{N as q}from"./TrashCanOutline-COIylzhj.chunk.mjs";import{_ as fe}from"./NcTextField.vue_vue_type_script_setup_true_lang-B-4HNjYH-zA0ct3s7.chunk.mjs";import{w as ee}from"./index-telxF5Te.chunk.mjs";import{N as M}from"./ArrowRight-YxbwZNEK.chunk.mjs";import ye from"./index-Cjo2D0Xj.chunk.mjs";import{N as z}from"./Web-7MW_v0ET.chunk.mjs";import"./modulepreload-polyfill-BxzAKjcf.chunk.mjs";import"./util-Caafb9Jl.chunk.mjs";import"./NcDialog-nDc1gW50-BF3zId_C.chunk.mjs";import"./NcModal-kyWZ3UFC-DO8otox5.chunk.mjs";import"./NcInputField-CPL-a_MM-BYLCq7JD.chunk.mjs";import"./colors-BfjxNgsx-DzIYAbgd.chunk.mjs";const ve={class:"info-note"},be=["aria-labelledby"],_e=["id"],ke={class:"info-note"},we=P({__name:"AdminSectionAppMenu",setup(l){const d=Q(),{defaultApps:a}=V("theming","adminThemingParameters"),n=V("core","apps").map(({id:r,name:s,icon:u})=>({label:s,id:r,icon:u})),i=b(a.map(r=>n.find(s=>s.id===r)).filter(Boolean));A(i,async r=>{try{await c("defaultApps",r.map(s=>s.id))}catch(s){D.error("Could not set global default apps",{error:s}),x(t("theming","Could not set global default apps"))}});const o=b(a.length>0);A(o,r=>{i.value=r?n.filter(s=>["dashboard","files"].includes(s.id)):[]});async function c(r,s){const u=w("/apps/theming/ajax/updateAppMenu");return await T.put(u,{setting:r,value:s})}return(r,s)=>(p(),_(e(O),{name:e(t)("theming","Navigation bar settings")},{default:g(()=>[v("h3",null,y(e(t)("theming","Default app")),1),v("p",ve,y(e(t)("theming","The default app is the app that is e.g. opened after login or when the logo in the menu is clicked.")),1),m(e(G),{modelValue:o.value,"onUpdate:modelValue":s[0]||(s[0]=u=>o.value=u),type:"switch"},{default:g(()=>[U(y(e(t)("theming","Use custom default app")),1)]),_:1},8,["modelValue"]),o.value?(p(),C("section",{key:0,"aria-labelledby":e(d)},[v("h4",{id:e(d)},y(e(t)("theming","Global default app")),9,_e),m(e(pe),{modelValue:i.value,"onUpdate:modelValue":s[1]||(s[1]=u=>i.value=u),keepOpen:"",multiple:"",placeholder:e(t)("theming","Global default apps"),options:e(n)},null,8,["modelValue","placeholder","options"]),v("h5",null,y(e(t)("theming","Default app priority")),1),v("p",ke,y(e(t)("theming","If an app is not enabled for a user, the next app with lower priority is used.")),1),m(ge,{modelValue:i.value,"onUpdate:modelValue":s[2]||(s[2]=u=>i.value=u)},null,8,["modelValue"])],8,be)):j("",!0)]),_:1},8,["name"]))}}),Ve=$(we,[["__scopeId","data-v-a9baec70"]]);function E(l,d,a){let n=!1;const i=b(!1),o=b(!1);ee(d,async()=>{if(!i.value){if(n){n=!1;return}i.value=!0,o.value=!1;try{await Fe(B(l),B(d)),o.value=!0,window.setTimeout(()=>{o.value=!1},2e3)}finally{i.value=!1}}},{debounce:800,flush:"sync"});async function c(){i.value=!0,o.value=!1;try{const r=await Te(B(l));r&&te(a)&&!le(a)&&(a.value=r),n=!0,d.value=B(a)}finally{i.value=!1}}return{isSaving:H(i),isSaved:H(o),reset:c}}async function Fe(l,d){const a=w("/apps/theming/ajax/updateStylesheet");try{await T.post(a,{setting:l,value:String(d)})}catch(n){throw D.error("Failed to save changes",{error:n,setting:l,value:d}),R(n)&&n.response?.data?.data?.message&&x(n.response.data.data.message),n}}async function Te(l){const d=w("/apps/theming/ajax/undoChanges");try{const{data:a}=await T.post(d,{setting:l});return a.data.value}catch(a){if(D.error("Failed to reset theming value",{error:a,setting:l}),R(a)&&a.response?.data?.data?.message)return x(a.response.data.data.message),!1;throw a}}const I=P({__name:"TextField",props:{name:{},label:{},defaultValue:{},type:{default:"text"}},setup(l){const d=l,a=b(V("theming","adminThemingParameters")[d.name].toString()),{isSaving:n,isSaved:i,reset:o}=E(L(()=>d.name),a,L(()=>d.defaultValue));return ee(a,c=>{if(d.type==="url"&&c.includes('"'))try{const r=new URL(c);r.pathname=r.pathname.replaceAll(/"/g,"%22"),a.value=r.href}catch{return}},{debounce:600}),(c,r)=>(p(),_(e(fe),{modelValue:a.value,"onUpdate:modelValue":r[0]||(r[0]=s=>a.value=s),label:l.label,readonly:e(n),success:e(i),type:l.type,showTrailingButton:a.value!==l.defaultValue,trailingButtonIcon:l.defaultValue?"undo":"close",onTrailingButtonClick:e(o)},ne({_:2},[e(n)?{name:"icon",fn:g(()=>[m(e(q))]),key:"0"}:void 0]),1032,["modelValue","label","readonly","success","type","showTrailingButton","trailingButtonIcon","onTrailingButtonClick"]))}}),Ue=P({__name:"AdminSectionTheming",setup(l){const d=V("theming","adminThemingInfo");return(a,n)=>(p(),_(e(O),{name:e(t)("theming","Theming"),description:e(t)("theming","Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users."),docUrl:e(d).docUrl,"data-admin-theming-settings":""},{default:g(()=>[v("div",{class:k(a.$style.adminSectionTheming)},[m(I,{name:"name",label:e(t)("theming","Name"),defaultValue:"Nextcloud",maxlength:"250"},null,8,["label"]),m(I,{name:"url",label:e(t)("theming","Web link"),defaultValue:"https://nextcloud.com",placeholder:"https://…",type:"url",maxlength:"500"},null,8,["label"]),m(I,{name:"slogan",label:e(t)("theming","Slogan"),defaultValue:e(t)("settings","a safe home for all your data"),maxlength:"500"},null,8,["label","defaultValue"]),n[0]||(n[0]=v("hr",null,null,-1)),m(I,{name:"legalNoticeUrl",label:e(t)("theming","Legal notice link"),defaultValue:"",type:"url",placeholder:"https://…",maxlength:"500"},null,8,["label"]),m(I,{name:"privacyPolicyUrl",label:e(t)("theming","Privacy policy link"),defaultValue:"",type:"url",placeholder:"https://…",maxlength:"500"},null,8,["label"])],2)]),_:1},8,["name","description","docUrl"]))}}),xe="_adminSectionTheming_1p8pd_2",Pe={adminSectionTheming:xe},Se={$style:Pe},Ce=$(Ue,[["__cssModules",Se]]),Ie=P({__name:"ColorPickerField",props:{name:{},label:{},defaultValue:{}},emits:["updated"],setup(l,{emit:d}){const a=l,n=d,i=Q(),o=b(V("theming","adminThemingParameters")[a.name]),c=b(o.value);A(o,h=>{c.value=h});const{isSaving:r,reset:s}=E(()=>a.name,o,L(a,"defaultValue"));A(r,h=>!h&&n("updated"));const u=Y(()=>he(c.value));return(h,f)=>(p(),C("div",{class:k(h.$style.colorPickerField)},[v("div",{class:k(h.$style.colorPickerField__row)},[m(e(ye),{id:e(i),modelValue:c.value,"onUpdate:modelValue":f[0]||(f[0]=F=>c.value=F),advancedFields:"",onSubmit:f[1]||(f[1]=F=>o.value=F)},{default:g(()=>[m(e(M),{class:k(h.$style.colorPickerField__button),size:"large",variant:"primary",style:ie({"--color-primary-element":c.value,"--color-primary-element-text":u.value,"--color-primary-element-hover":"color-mix(in srgb, var(--color-primary-element) 70%, var(--color-primary-element-text))"})},{icon:g(()=>[e(r)?(p(),_(e(q),{key:0,appearance:u.value==="#ffffff"?"light":"dark"},null,8,["appearance"])):(p(),_(e(z),{key:1,path:e(de)},null,8,["path"]))]),default:g(()=>[U(" "+y(l.label),1)]),_:1},8,["class","style"])]),_:1},8,["id","modelValue"]),o.value!==l.defaultValue?(p(),_(e(M),{key:0,variant:"tertiary","aria-label":e(t)("theming","Reset to default"),title:e(t)("theming","Reset to default"),onClick:e(s)},{icon:g(()=>[m(e(z),{path:e(Z)},null,8,["path"])]),_:1},8,["aria-label","title","onClick"])):j("",!0)],2),v("p",{class:k(h.$style.colorPickerField__description)},[oe(h.$slots,"description")],2)],2))}}),Ae="_colorPickerField_o0yey_2",$e="_colorPickerField__row_o0yey_7",Be="_colorPickerField__button_o0yey_14",Ne="_colorPickerField__description_o0yey_18",je={colorPickerField:Ae,colorPickerField__row:$e,colorPickerField__button:Be,colorPickerField__description:Ne},Me={$style:je},J=$(Ie,[["__cssModules",Me]]),ze=["aria-label"],Re=["disabled","name"],De=P({__name:"FileInputField",props:{name:{},label:{},disabled:{type:Boolean}},emits:["updated"],setup(l,{emit:d}){se(f=>({v64992c7e:r.value}));const a=l,n=d,i=b(!1),o=b(V("theming","adminThemingParameters")[a.name+"Mime"]),c=re("input"),r=Y(()=>`url(${w("/apps/theming/image/{key}",{key:a.name})}?v=${Date.now()}&m=${encodeURIComponent(o.value)})`);function s(){i.value||(c.value.files=null,c.value.click())}async function u(){if(!c.value.files?.[0])return;const f=c.value.files[0];if(f.type&&!f.type.startsWith("image/")){x(t("theming","Non image file selected"));return}i.value=!0;const F=new FormData;F.append("image",f),F.append("key",a.name);try{await T.post(w("/apps/theming/ajax/uploadImage"),F,{headers:{"Content-Type":"multipart/form-data"}}),o.value=f.type,n("updated")}catch(W){if(R(W)&&W.response?.status===422){const ae=W.response.data?.data?.message;x(ae||t("theming","Failed to upload image"))}else x(t("theming","Failed to upload image"))}finally{i.value=!1,c.value.value=""}}async function h(){if(!i.value){i.value=!0;try{await T.post(w("/apps/theming/ajax/undoChanges"),{setting:a.name}),o.value="",n("updated")}finally{i.value=!1}}}return(f,F)=>(p(),C("div",{class:k(f.$style.fileInputField)},[m(e(M),{class:k(f.$style.fileInputField__button),alignment:"start",disabled:l.disabled,size:"large",onClick:s},{icon:g(()=>[i.value?(p(),_(e(q),{key:0})):(p(),_(e(z),{key:1,path:e(me)},null,8,["path"]))]),default:g(()=>[U(" "+y(l.label),1)]),_:1},8,["class","disabled"]),o.value.startsWith("image/")?(p(),C("div",{key:0,class:k(f.$style.fileInputField__preview),role:"img","aria-label":e(t)("theming","Preview of the selected image")},null,10,ze)):j("",!0),o.value&&!l.disabled?(p(),_(e(M),{key:1,"aria-label":e(t)("theming","Reset to default"),title:e(t)("theming","Reset to default"),size:"large",variant:"tertiary",onClick:h},{icon:g(()=>[m(e(z),{path:e(Z)},null,8,["path"])]),_:1},8,["aria-label","title"])):j("",!0),v("input",{ref:"input",class:"hidden-visually","aria-hidden":"true",disabled:l.disabled,type:"file",accept:"image/*",name:l.name,onChange:u},null,40,Re)],2))}}),We="_fileInputField_1u7zs_2",Le="_fileInputField__button_1u7zs_10",Ge="_fileInputField__preview_1u7zs_14",Oe={fileInputField:We,fileInputField__button:Le,fileInputField__preview:Ge},qe={$style:Oe},N=$(De,[["__cssModules",qe]]),Ee=P({__name:"AdminSectionThemingAdvanced",setup(l){const{defaultBackgroundColor:d}=V("theming","adminThemingInfo"),a=V("theming","adminThemingParameters"),n=b(a.disableUserTheming),{isSaving:i}=E("disableUserTheming",n,!1),o=b(!1),c=b(a.backgroundMime==="backgroundColor");A(c,r);async function r(s){o.value=!0;try{s?(await T.post(w("/apps/theming/ajax/undoChanges"),{setting:"background"}),await T.post(w("/apps/theming/ajax/updateStylesheet"),{setting:"backgroundMime",value:"backgroundColor"})):await T.post(w("/apps/theming/ajax/undoChanges"),{setting:"backgroundMime"}),await S()}catch(u){if(D.error("Failed to remove background image",{error:u}),R(u)&&u.response?.data?.data?.message){x(u.response.data.data.message);return}throw u}finally{o.value=!1}}return(s,u)=>(p(),_(e(O),{name:e(t)("theming","Background and color")},{default:g(()=>[v("div",{class:k(s.$style.adminSectionThemingAdvanced)},[m(J,{name:"primaryColor",label:e(t)("theming","Primary color"),defaultValue:"#00679e",onUpdated:e(S)},{description:g(()=>[U(y(e(t)("theming","Set the default primary color, used to highlight important elements."))+" "+y(e(t)("theming","The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements.")),1)]),_:1},8,["label","onUpdated"]),m(J,{name:"backgroundColor",label:e(t)("theming","Background color"),defaultValue:e(d),onUpdated:e(S)},{description:g(()=>[U(y(e(t)("theming","When no background image is set the background color will be used."))+" "+y(e(t)("theming","Otherwise the background color is by default generated from the background image, but can be adjusted to fine tune the color of the navigation icons.")),1)]),_:1},8,["label","defaultValue","onUpdated"]),m(e(G),{modelValue:c.value,"onUpdate:modelValue":u[0]||(u[0]=h=>c.value=h),type:"switch",loading:o.value,description:e(t)("theming","Use a plain background color instead of a background image.")},{default:g(()=>[U(y(e(t)("theming","Remove background image")),1)]),_:1},8,["modelValue","loading","description"]),m(N,{name:"background",disabled:c.value,label:e(t)("theming","Background image"),onUpdated:e(S)},null,8,["disabled","label","onUpdated"]),m(N,{name:"favicon",label:e(t)("theming","Favicon")},null,8,["label"]),m(N,{name:"logo",label:e(t)("theming","Logo"),onUpdated:e(S)},null,8,["label","onUpdated"]),m(N,{name:"logoheader",label:e(t)("theming","Navigation bar logo"),onUpdated:e(S)},null,8,["label","onUpdated"]),u[2]||(u[2]=v("hr",null,null,-1)),m(e(G),{modelValue:n.value,"onUpdate:modelValue":u[1]||(u[1]=h=>n.value=h),type:"switch",loading:e(i),description:e(t)("theming","Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on.")},{default:g(()=>[U(y(e(t)("theming","Disable user theming")),1)]),_:1},8,["modelValue","loading","description"])],2)]),_:1},8,["name"]))}}),He="_adminSectionThemingAdvanced_dyaj4_2",Xe={adminSectionThemingAdvanced:He},Je={$style:Xe},Ke=$(Ee,[["__cssModules",Je]]),Qe=P({__name:"AdminTheming",setup(l){const{isThemeable:d,notThemeableErrorMessage:a}=V("theming","adminThemingInfo");return(n,i)=>(p(),C(X,null,[e(d)?(p(),C(X,{key:1},[m(Ce),m(Ke)],64)):(p(),_(e(ce),{key:0,text:e(a),showAlert:"",type:"error"},null,8,["text"])),m(Ve)],64))}}),K=ue(Qe);K.config.idPrefix="settings",K.mount("#settings-admin-theming");
+const appName = "nextcloud-ui";
+const appVersion = "1.0.0";
+import { b as defineComponent, W as useId, y as ref, z as watch, o as openBlock, c as createBlock, w as withCtx, g as createBaseVNode, t as toDisplayString, x as createVNode, j as createTextVNode, f as createElementBlock, h as createCommentVNode, X as toValue, Y as readonly, Z as isRef, $ as isReadonly, a0 as toRef, p as createSlots, v as normalizeClass, n as computed, N as normalizeStyle, i as renderSlot, S as useCssVars, l as useTemplateRef, F as Fragment, e as createApp } from "./preload-helper-xAe3EUYB.chunk.mjs";
+import { l as loadState, _ as _export_sfc } from "./index-o76qk6sn.chunk.mjs";
+import { g as mdiUndo, h as mdiPaletteOutline, i as mdiImageOutline, N as NcNoteCard } from "./mdi-BGU2G5q5.chunk.mjs";
+import { c as cancelableClient, i as isAxiosError } from "./index-D5H5XMHa.chunk.mjs";
+import { a as showError } from "./index-C1xmmKTZ-kBgT3zMc.chunk.mjs";
+import { t as translate } from "./translation-DoG5ZELJ-2UfAUX2V.chunk.mjs";
+import { b as generateUrl } from "./index-rAufP352.chunk.mjs";
+import { N as NcCheckboxRadioSwitch } from "./NcCheckboxRadioSwitch-BMsPx74L-BYrlnEKO.chunk.mjs";
+import { N as NcSelect } from "./NcSelect-DLheQ2yp-DVxJhLyT.chunk.mjs";
+import { N as NcSettingsSection } from "./ContentCopy-C2t0ZTwU.chunk.mjs";
+import { l as logger, A as AppOrderSelector, g as getTextColor, r as refreshStyles } from "./refreshStyles-BusgZcyi.chunk.mjs";
+import { N as NcLoadingIcon } from "./TrashCanOutline-DgEtyFGH.chunk.mjs";
+import { _ as _sfc_main$7 } from "./NcTextField.vue_vue_type_script_setup_true_lang-BxkYy7wv-Beu3Njvy.chunk.mjs";
+import { w as watchDebounced } from "./NcModal-DHryP_87-Da4dXMUU.chunk.mjs";
+import { N as NcButton } from "./ArrowRight-BC77f5L9.chunk.mjs";
+import NcColorPicker from "./index-DD39fp6M.chunk.mjs";
+import { N as NcIconSvgWrapper } from "./Web-BOM4en5n.chunk.mjs";
+import "./modulepreload-polyfill-mMY-eDcw.chunk.mjs";
+import "./util-BSOXDoOW.chunk.mjs";
+import "./NcDialog-BG9t4Psg-IlLJVAz0.chunk.mjs";
+import "./NcInputField-o5OFv3z6-D-7orWgm.chunk.mjs";
+import "./colors-BHGKZFDI-C0-WujoK.chunk.mjs";
+const _sfc_main$6 = /* @__PURE__ */ defineComponent({
+  __name: "AdminSectionAppMenu",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const idGlobalDefaultApp = useId();
+    const { defaultApps } = loadState("theming", "adminThemingParameters");
+    const allApps = loadState("core", "apps").map(({ id, name, icon }) => ({ label: name, id, icon }));
+    const selectedApps = ref(defaultApps.map((id) => allApps.find((app2) => app2.id === id)).filter(Boolean));
+    watch(selectedApps, async (value) => {
+      try {
+        await saveSetting("defaultApps", value.map((app2) => app2.id));
+      } catch (error) {
+        logger.error("Could not set global default apps", { error });
+        showError(translate("theming", "Could not set global default apps"));
+      }
+    });
+    const hasCustomDefaultApp = ref(defaultApps.length > 0);
+    watch(hasCustomDefaultApp, (checked) => {
+      selectedApps.value = checked ? allApps.filter((app2) => ["dashboard", "files"].includes(app2.id)) : [];
+    });
+    async function saveSetting(key, value) {
+      const url = generateUrl("/apps/theming/ajax/updateAppMenu");
+      return await cancelableClient.put(url, {
+        setting: key,
+        value
+      });
+    }
+    const __returned__ = { idGlobalDefaultApp, defaultApps, allApps, selectedApps, hasCustomDefaultApp, saveSetting, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get NcSettingsSection() {
+      return NcSettingsSection;
+    }, AppOrderSelector };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$1 = { class: "info-note" };
+const _hoisted_2$1 = ["aria-labelledby"];
+const _hoisted_3 = ["id"];
+const _hoisted_4 = { class: "info-note" };
+function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createBlock($setup["NcSettingsSection"], {
+    name: $setup.t("theming", "Navigation bar settings")
+  }, {
+    default: withCtx(() => [
+      createBaseVNode(
+        "h3",
+        null,
+        toDisplayString($setup.t("theming", "Default app")),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode(
+        "p",
+        _hoisted_1$1,
+        toDisplayString($setup.t("theming", "The default app is the app that is e.g. opened after login or when the logo in the menu is clicked.")),
+        1
+        /* TEXT */
+      ),
+      createVNode($setup["NcCheckboxRadioSwitch"], {
+        modelValue: $setup.hasCustomDefaultApp,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.hasCustomDefaultApp = $event),
+        type: "switch"
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            toDisplayString($setup.t("theming", "Use custom default app")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["modelValue"]),
+      $setup.hasCustomDefaultApp ? (openBlock(), createElementBlock("section", {
+        key: 0,
+        "aria-labelledby": $setup.idGlobalDefaultApp
+      }, [
+        createBaseVNode("h4", { id: $setup.idGlobalDefaultApp }, toDisplayString($setup.t("theming", "Global default app")), 9, _hoisted_3),
+        createVNode($setup["NcSelect"], {
+          modelValue: $setup.selectedApps,
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.selectedApps = $event),
+          keepOpen: "",
+          multiple: "",
+          placeholder: $setup.t("theming", "Global default apps"),
+          options: $setup.allApps
+        }, null, 8, ["modelValue", "placeholder", "options"]),
+        createBaseVNode(
+          "h5",
+          null,
+          toDisplayString($setup.t("theming", "Default app priority")),
+          1
+          /* TEXT */
+        ),
+        createBaseVNode(
+          "p",
+          _hoisted_4,
+          toDisplayString($setup.t("theming", "If an app is not enabled for a user, the next app with lower priority is used.")),
+          1
+          /* TEXT */
+        ),
+        createVNode($setup["AppOrderSelector"], {
+          modelValue: $setup.selectedApps,
+          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.selectedApps = $event)
+        }, null, 8, ["modelValue"])
+      ], 8, _hoisted_2$1)) : createCommentVNode("v-if", true)
+    ]),
+    _: 1
+    /* STABLE */
+  }, 8, ["name"]);
+}
+const AdminSectionAppMenu = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__scopeId", "data-v-030d9b5a"], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/theming/src/components/AdminSectionAppMenu.vue"]]);
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+function useAdminThemingValue(name, modelValue, defaultValue) {
+  let resetted = false;
+  const isSaving = ref(false);
+  const isSaved = ref(false);
+  watchDebounced(modelValue, async () => {
+    if (isSaving.value) {
+      return;
+    }
+    if (resetted) {
+      resetted = false;
+      return;
+    }
+    isSaving.value = true;
+    isSaved.value = false;
+    try {
+      await setValue(toValue(name), toValue(modelValue));
+      isSaved.value = true;
+      window.setTimeout(() => {
+        isSaved.value = false;
+      }, 2e3);
+    } finally {
+      isSaving.value = false;
+    }
+  }, { debounce: 800, flush: "sync" });
+  async function reset() {
+    isSaving.value = true;
+    isSaved.value = false;
+    try {
+      const result = await resetValue(toValue(name));
+      if (result && isRef(defaultValue) && !isReadonly(defaultValue)) {
+        defaultValue.value = result;
+      }
+      resetted = true;
+      modelValue.value = toValue(defaultValue);
+    } finally {
+      isSaving.value = false;
+    }
+  }
+  return {
+    isSaving: readonly(isSaving),
+    isSaved: readonly(isSaved),
+    reset
+  };
+}
+async function setValue(setting, value) {
+  const url = generateUrl("/apps/theming/ajax/updateStylesheet");
+  try {
+    await cancelableClient.post(url, {
+      setting,
+      value: String(value)
+    });
+  } catch (error) {
+    logger.error("Failed to save changes", { error, setting, value });
+    if (isAxiosError(error) && error.response?.data?.data?.message) {
+      showError(error.response.data.data.message);
+    }
+    throw error;
+  }
+}
+async function resetValue(setting) {
+  const url = generateUrl("/apps/theming/ajax/undoChanges");
+  try {
+    const { data } = await cancelableClient.post(url, { setting });
+    return data.data.value;
+  } catch (error) {
+    logger.error("Failed to reset theming value", { error, setting });
+    if (isAxiosError(error) && error.response?.data?.data?.message) {
+      showError(error.response.data.data.message);
+      return false;
+    }
+    throw error;
+  }
+}
+const _sfc_main$5 = /* @__PURE__ */ defineComponent({
+  __name: "TextField",
+  props: {
+    name: { type: String, required: true },
+    label: { type: String, required: true },
+    defaultValue: { type: String, required: true },
+    type: { type: String, required: false, default: "text" }
+  },
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const props = __props;
+    const modelValue = ref(loadState("theming", "adminThemingParameters")[props.name].toString());
+    const {
+      isSaving,
+      isSaved,
+      reset
+    } = useAdminThemingValue(toRef(() => props.name), modelValue, toRef(() => props.defaultValue));
+    watchDebounced(modelValue, (value) => {
+      if (props.type === "url" && value.includes('"')) {
+        try {
+          const url = new URL(value);
+          url.pathname = url.pathname.replaceAll(/"/g, "%22");
+          modelValue.value = url.href;
+        } catch {
+          return;
+        }
+      }
+    }, { debounce: 600 });
+    const __returned__ = { props, modelValue, isSaving, isSaved, reset, get NcLoadingIcon() {
+      return NcLoadingIcon;
+    }, get NcTextField() {
+      return _sfc_main$7;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createBlock($setup["NcTextField"], {
+    modelValue: $setup.modelValue,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.modelValue = $event),
+    label: $props.label,
+    readonly: $setup.isSaving,
+    success: $setup.isSaved,
+    type: $props.type,
+    showTrailingButton: $setup.modelValue !== $props.defaultValue,
+    trailingButtonIcon: $props.defaultValue ? "undo" : "close",
+    onTrailingButtonClick: $setup.reset
+  }, createSlots({
+    _: 2
+    /* DYNAMIC */
+  }, [
+    $setup.isSaving ? {
+      name: "icon",
+      fn: withCtx(() => [
+        createVNode($setup["NcLoadingIcon"])
+      ]),
+      key: "0"
+    } : void 0
+  ]), 1032, ["modelValue", "label", "readonly", "success", "type", "showTrailingButton", "trailingButtonIcon", "onTrailingButtonClick"]);
+}
+const TextField = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/theming/src/components/admin/TextField.vue"]]);
+const _sfc_main$4 = /* @__PURE__ */ defineComponent({
+  __name: "AdminSectionTheming",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const ADMIN_INFO = loadState("theming", "adminThemingInfo");
+    const __returned__ = { ADMIN_INFO, get t() {
+      return translate;
+    }, get NcSettingsSection() {
+      return NcSettingsSection;
+    }, TextField };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const adminSectionTheming = "_adminSectionTheming_1p8pd_2";
+const style0$3 = {
+  adminSectionTheming
+};
+function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createBlock($setup["NcSettingsSection"], {
+    name: $setup.t("theming", "Theming"),
+    description: $setup.t("theming", "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users."),
+    docUrl: $setup.ADMIN_INFO.docUrl,
+    "data-admin-theming-settings": ""
+  }, {
+    default: withCtx(() => [
+      createBaseVNode(
+        "div",
+        {
+          class: normalizeClass(_ctx.$style.adminSectionTheming)
+        },
+        [
+          createCommentVNode(" Name, web link, slogan... fields "),
+          createVNode($setup["TextField"], {
+            name: "name",
+            label: $setup.t("theming", "Name"),
+            defaultValue: "Nextcloud",
+            maxlength: "250"
+          }, null, 8, ["label"]),
+          createVNode($setup["TextField"], {
+            name: "url",
+            label: $setup.t("theming", "Web link"),
+            defaultValue: "https://nextcloud.com",
+            placeholder: "https://…",
+            type: "url",
+            maxlength: "500"
+          }, null, 8, ["label"]),
+          createVNode($setup["TextField"], {
+            name: "slogan",
+            label: $setup.t("theming", "Slogan"),
+            defaultValue: $setup.t("settings", "a safe home for all your data"),
+            maxlength: "500"
+          }, null, 8, ["label", "defaultValue"]),
+          _cache[0] || (_cache[0] = createBaseVNode(
+            "hr",
+            null,
+            null,
+            -1
+            /* CACHED */
+          )),
+          createVNode($setup["TextField"], {
+            name: "legalNoticeUrl",
+            label: $setup.t("theming", "Legal notice link"),
+            defaultValue: "",
+            type: "url",
+            placeholder: "https://…",
+            maxlength: "500"
+          }, null, 8, ["label"]),
+          createVNode($setup["TextField"], {
+            name: "privacyPolicyUrl",
+            label: $setup.t("theming", "Privacy policy link"),
+            defaultValue: "",
+            type: "url",
+            placeholder: "https://…",
+            maxlength: "500"
+          }, null, 8, ["label"])
+        ],
+        2
+        /* CLASS */
+      )
+    ]),
+    _: 1
+    /* STABLE */
+  }, 8, ["name", "description", "docUrl"]);
+}
+const cssModules$3 = {
+  "$style": style0$3
+};
+const AdminSectionTheming = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4], ["__cssModules", cssModules$3], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/theming/src/components/AdminSectionTheming.vue"]]);
+const _sfc_main$3 = /* @__PURE__ */ defineComponent({
+  __name: "ColorPickerField",
+  props: {
+    name: { type: String, required: true },
+    label: { type: String, required: true },
+    defaultValue: { type: String, required: true }
+  },
+  emits: ["updated"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const props = __props;
+    const emit = __emit;
+    const id = useId();
+    const modelValue = ref(loadState("theming", "adminThemingParameters")[props.name]);
+    const previewColor = ref(modelValue.value);
+    watch(modelValue, (v) => {
+      previewColor.value = v;
+    });
+    const {
+      isSaving,
+      reset
+    } = useAdminThemingValue(() => props.name, modelValue, toRef(props, "defaultValue"));
+    watch(isSaving, (v) => !v && emit("updated"));
+    const textColor = computed(() => getTextColor(previewColor.value));
+    const __returned__ = { props, emit, id, modelValue, previewColor, isSaving, reset, textColor, get mdiPaletteOutline() {
+      return mdiPaletteOutline;
+    }, get mdiUndo() {
+      return mdiUndo;
+    }, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcColorPicker() {
+      return NcColorPicker;
+    }, get NcIconSvgWrapper() {
+      return NcIconSvgWrapper;
+    }, get NcLoadingIcon() {
+      return NcLoadingIcon;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const colorPickerField = "_colorPickerField_o0yey_2";
+const colorPickerField__row = "_colorPickerField__row_o0yey_7";
+const colorPickerField__button = "_colorPickerField__button_o0yey_14";
+const colorPickerField__description = "_colorPickerField__description_o0yey_18";
+const style0$2 = {
+  colorPickerField,
+  colorPickerField__row,
+  colorPickerField__button,
+  colorPickerField__description
+};
+function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock(
+    "div",
+    {
+      class: normalizeClass(_ctx.$style.colorPickerField)
+    },
+    [
+      createBaseVNode(
+        "div",
+        {
+          class: normalizeClass(_ctx.$style.colorPickerField__row)
+        },
+        [
+          createVNode($setup["NcColorPicker"], {
+            id: $setup.id,
+            modelValue: $setup.previewColor,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.previewColor = $event),
+            advancedFields: "",
+            onSubmit: _cache[1] || (_cache[1] = ($event) => $setup.modelValue = $event)
+          }, {
+            default: withCtx(() => [
+              createVNode($setup["NcButton"], {
+                class: normalizeClass(_ctx.$style.colorPickerField__button),
+                size: "large",
+                variant: "primary",
+                style: normalizeStyle({
+                  "--color-primary-element": $setup.previewColor,
+                  "--color-primary-element-text": $setup.textColor,
+                  "--color-primary-element-hover": "color-mix(in srgb, var(--color-primary-element) 70%, var(--color-primary-element-text))"
+                })
+              }, {
+                icon: withCtx(() => [
+                  $setup.isSaving ? (openBlock(), createBlock($setup["NcLoadingIcon"], {
+                    key: 0,
+                    appearance: $setup.textColor === "#ffffff" ? "light" : "dark"
+                  }, null, 8, ["appearance"])) : (openBlock(), createBlock($setup["NcIconSvgWrapper"], {
+                    key: 1,
+                    path: $setup.mdiPaletteOutline
+                  }, null, 8, ["path"]))
+                ]),
+                default: withCtx(() => [
+                  createTextVNode(
+                    " " + toDisplayString($props.label),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 1
+                /* STABLE */
+              }, 8, ["class", "style"])
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["id", "modelValue"]),
+          $setup.modelValue !== $props.defaultValue ? (openBlock(), createBlock($setup["NcButton"], {
+            key: 0,
+            variant: "tertiary",
+            "aria-label": $setup.t("theming", "Reset to default"),
+            title: $setup.t("theming", "Reset to default"),
+            onClick: $setup.reset
+          }, {
+            icon: withCtx(() => [
+              createVNode($setup["NcIconSvgWrapper"], { path: $setup.mdiUndo }, null, 8, ["path"])
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["aria-label", "title", "onClick"])) : createCommentVNode("v-if", true)
+        ],
+        2
+        /* CLASS */
+      ),
+      createBaseVNode(
+        "p",
+        {
+          class: normalizeClass(_ctx.$style.colorPickerField__description)
+        },
+        [
+          renderSlot(_ctx.$slots, "description")
+        ],
+        2
+        /* CLASS */
+      )
+    ],
+    2
+    /* CLASS */
+  );
+}
+const cssModules$2 = {
+  "$style": style0$2
+};
+const ColorPickerField = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__cssModules", cssModules$2], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/theming/src/components/admin/ColorPickerField.vue"]]);
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
+  __name: "FileInputField",
+  props: {
+    name: { type: String, required: true },
+    label: { type: String, required: true },
+    disabled: { type: Boolean, required: false }
+  },
+  emits: ["updated"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    useCssVars((_ctx) => ({
+      "bd0e75b8-background": background.value
+    }));
+    const props = __props;
+    const emit = __emit;
+    const isSaving = ref(false);
+    const mime = ref(loadState("theming", "adminThemingParameters")[props.name + "Mime"]);
+    const inputElement = useTemplateRef("input");
+    const background = computed(() => {
+      const baseUrl = generateUrl("/apps/theming/image/{key}", { key: props.name });
+      return `url(${baseUrl}?v=${Date.now()}&m=${encodeURIComponent(mime.value)})`;
+    });
+    function pickFile() {
+      if (isSaving.value) {
+        return;
+      }
+      inputElement.value.files = null;
+      inputElement.value.click();
+    }
+    async function onChange() {
+      if (!inputElement.value.files?.[0]) {
+        return;
+      }
+      const file = inputElement.value.files[0];
+      if (file.type && !file.type.startsWith("image/")) {
+        showError(translate("theming", "Non image file selected"));
+        return;
+      }
+      isSaving.value = true;
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("key", props.name);
+      try {
+        await cancelableClient.post(generateUrl("/apps/theming/ajax/uploadImage"), formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
+        mime.value = file.type;
+        emit("updated");
+      } catch (error) {
+        if (isAxiosError(error) && error.response?.status === 422) {
+          const serverMessage = error.response.data?.data?.message;
+          showError(serverMessage || translate("theming", "Failed to upload image"));
+        } else {
+          showError(translate("theming", "Failed to upload image"));
+        }
+      } finally {
+        isSaving.value = false;
+        inputElement.value.value = "";
+      }
+    }
+    async function resetToDefault() {
+      if (isSaving.value) {
+        return;
+      }
+      isSaving.value = true;
+      try {
+        await cancelableClient.post(generateUrl("/apps/theming/ajax/undoChanges"), {
+          setting: props.name
+        });
+        mime.value = "";
+        emit("updated");
+      } finally {
+        isSaving.value = false;
+      }
+    }
+    const __returned__ = { props, emit, isSaving, mime, inputElement, background, pickFile, onChange, resetToDefault, get mdiImageOutline() {
+      return mdiImageOutline;
+    }, get mdiUndo() {
+      return mdiUndo;
+    }, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcIconSvgWrapper() {
+      return NcIconSvgWrapper;
+    }, get NcLoadingIcon() {
+      return NcLoadingIcon;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const fileInputField = "_fileInputField_1u7zs_2";
+const fileInputField__button = "_fileInputField__button_1u7zs_10";
+const fileInputField__preview = "_fileInputField__preview_1u7zs_14";
+const style0$1 = {
+  fileInputField,
+  fileInputField__button,
+  fileInputField__preview
+};
+const _hoisted_1 = ["aria-label"];
+const _hoisted_2 = ["disabled", "name"];
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock(
+    "div",
+    {
+      class: normalizeClass(_ctx.$style.fileInputField)
+    },
+    [
+      createVNode($setup["NcButton"], {
+        class: normalizeClass(_ctx.$style.fileInputField__button),
+        alignment: "start",
+        disabled: $props.disabled,
+        size: "large",
+        onClick: $setup.pickFile
+      }, {
+        icon: withCtx(() => [
+          $setup.isSaving ? (openBlock(), createBlock($setup["NcLoadingIcon"], { key: 0 })) : (openBlock(), createBlock($setup["NcIconSvgWrapper"], {
+            key: 1,
+            path: $setup.mdiImageOutline
+          }, null, 8, ["path"]))
+        ]),
+        default: withCtx(() => [
+          createTextVNode(
+            " " + toDisplayString($props.label),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["class", "disabled"]),
+      $setup.mime.startsWith("image/") ? (openBlock(), createElementBlock("div", {
+        key: 0,
+        class: normalizeClass(_ctx.$style.fileInputField__preview),
+        role: "img",
+        "aria-label": $setup.t("theming", "Preview of the selected image")
+      }, null, 10, _hoisted_1)) : createCommentVNode("v-if", true),
+      $setup.mime && !$props.disabled ? (openBlock(), createBlock($setup["NcButton"], {
+        key: 1,
+        "aria-label": $setup.t("theming", "Reset to default"),
+        title: $setup.t("theming", "Reset to default"),
+        size: "large",
+        variant: "tertiary",
+        onClick: $setup.resetToDefault
+      }, {
+        icon: withCtx(() => [
+          createVNode($setup["NcIconSvgWrapper"], { path: $setup.mdiUndo }, null, 8, ["path"])
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["aria-label", "title"])) : createCommentVNode("v-if", true),
+      createBaseVNode("input", {
+        ref: "input",
+        class: "hidden-visually",
+        "aria-hidden": "true",
+        disabled: $props.disabled,
+        type: "file",
+        accept: "image/*",
+        name: $props.name,
+        onChange: $setup.onChange
+      }, null, 40, _hoisted_2)
+    ],
+    2
+    /* CLASS */
+  );
+}
+const cssModules$1 = {
+  "$style": style0$1
+};
+const FileInputField = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__cssModules", cssModules$1], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/theming/src/components/admin/FileInputField.vue"]]);
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "AdminSectionThemingAdvanced",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const { defaultBackgroundColor } = loadState("theming", "adminThemingInfo");
+    const adminThemingParameters = loadState("theming", "adminThemingParameters");
+    const userThemingDisabled = ref(adminThemingParameters.disableUserTheming);
+    const { isSaving } = useAdminThemingValue("disableUserTheming", userThemingDisabled, false);
+    const isRemovingBackgroundImage = ref(false);
+    const removeBackgroundImage = ref(adminThemingParameters.backgroundMime === "backgroundColor");
+    watch(removeBackgroundImage, toggleBackground);
+    async function toggleBackground(value) {
+      isRemovingBackgroundImage.value = true;
+      try {
+        if (value) {
+          await cancelableClient.post(generateUrl("/apps/theming/ajax/undoChanges"), {
+            setting: "background"
+          });
+          await cancelableClient.post(generateUrl("/apps/theming/ajax/updateStylesheet"), {
+            setting: "backgroundMime",
+            value: "backgroundColor"
+          });
+        } else {
+          await cancelableClient.post(generateUrl("/apps/theming/ajax/undoChanges"), {
+            setting: "backgroundMime"
+          });
+        }
+        await refreshStyles();
+      } catch (error) {
+        logger.error("Failed to remove background image", { error });
+        if (isAxiosError(error) && error.response?.data?.data?.message) {
+          showError(error.response.data.data.message);
+          return;
+        }
+        throw error;
+      } finally {
+        isRemovingBackgroundImage.value = false;
+      }
+    }
+    const __returned__ = { defaultBackgroundColor, adminThemingParameters, userThemingDisabled, isSaving, isRemovingBackgroundImage, removeBackgroundImage, toggleBackground, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSettingsSection() {
+      return NcSettingsSection;
+    }, ColorPickerField, FileInputField, get refreshStyles() {
+      return refreshStyles;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const adminSectionThemingAdvanced = "_adminSectionThemingAdvanced_dyaj4_2";
+const style0 = {
+  adminSectionThemingAdvanced
+};
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createBlock($setup["NcSettingsSection"], {
+    name: $setup.t("theming", "Background and color")
+  }, {
+    default: withCtx(() => [
+      createBaseVNode(
+        "div",
+        {
+          class: normalizeClass(_ctx.$style.adminSectionThemingAdvanced)
+        },
+        [
+          createCommentVNode(" primary color "),
+          createVNode($setup["ColorPickerField"], {
+            name: "primaryColor",
+            label: $setup.t("theming", "Primary color"),
+            defaultValue: "#00679e",
+            onUpdated: $setup.refreshStyles
+          }, {
+            description: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("theming", "Set the default primary color, used to highlight important elements.")) + " " + toDisplayString($setup.t("theming", "The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements.")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["label", "onUpdated"]),
+          createCommentVNode(" background color "),
+          createVNode($setup["ColorPickerField"], {
+            name: "backgroundColor",
+            label: $setup.t("theming", "Background color"),
+            defaultValue: $setup.defaultBackgroundColor,
+            onUpdated: $setup.refreshStyles
+          }, {
+            description: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("theming", "When no background image is set the background color will be used.")) + " " + toDisplayString($setup.t("theming", "Otherwise the background color is by default generated from the background image, but can be adjusted to fine tune the color of the navigation icons.")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["label", "defaultValue", "onUpdated"]),
+          createCommentVNode(" background and logo "),
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            modelValue: $setup.removeBackgroundImage,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.removeBackgroundImage = $event),
+            type: "switch",
+            loading: $setup.isRemovingBackgroundImage,
+            description: $setup.t("theming", "Use a plain background color instead of a background image.")
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("theming", "Remove background image")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["modelValue", "loading", "description"]),
+          createVNode($setup["FileInputField"], {
+            name: "background",
+            disabled: $setup.removeBackgroundImage,
+            label: $setup.t("theming", "Background image"),
+            onUpdated: $setup.refreshStyles
+          }, null, 8, ["disabled", "label", "onUpdated"]),
+          createVNode($setup["FileInputField"], {
+            name: "favicon",
+            label: $setup.t("theming", "Favicon")
+          }, null, 8, ["label"]),
+          createVNode($setup["FileInputField"], {
+            name: "logo",
+            label: $setup.t("theming", "Logo"),
+            onUpdated: $setup.refreshStyles
+          }, null, 8, ["label", "onUpdated"]),
+          createVNode($setup["FileInputField"], {
+            name: "logoheader",
+            label: $setup.t("theming", "Navigation bar logo"),
+            onUpdated: $setup.refreshStyles
+          }, null, 8, ["label", "onUpdated"]),
+          _cache[2] || (_cache[2] = createBaseVNode(
+            "hr",
+            null,
+            null,
+            -1
+            /* CACHED */
+          )),
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            modelValue: $setup.userThemingDisabled,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.userThemingDisabled = $event),
+            type: "switch",
+            loading: $setup.isSaving,
+            description: $setup.t("theming", "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on.")
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("theming", "Disable user theming")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["modelValue", "loading", "description"])
+        ],
+        2
+        /* CLASS */
+      )
+    ]),
+    _: 1
+    /* STABLE */
+  }, 8, ["name"]);
+}
+const cssModules = {
+  "$style": style0
+};
+const AdminSectionThemingAdvanced = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__cssModules", cssModules], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/theming/src/components/AdminSectionThemingAdvanced.vue"]]);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "AdminTheming",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const { isThemeable, notThemeableErrorMessage } = loadState("theming", "adminThemingInfo");
+    const __returned__ = { isThemeable, notThemeableErrorMessage, get NcNoteCard() {
+      return NcNoteCard;
+    }, AdminSectionAppMenu, AdminSectionTheming, AdminSectionThemingAdvanced };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock(
+    Fragment,
+    null,
+    [
+      !$setup.isThemeable ? (openBlock(), createBlock($setup["NcNoteCard"], {
+        key: 0,
+        text: $setup.notThemeableErrorMessage,
+        showAlert: "",
+        type: "error"
+      }, null, 8, ["text"])) : (openBlock(), createElementBlock(
+        Fragment,
+        { key: 1 },
+        [
+          createVNode($setup["AdminSectionTheming"]),
+          createVNode($setup["AdminSectionThemingAdvanced"])
+        ],
+        64
+        /* STABLE_FRAGMENT */
+      )),
+      createVNode($setup["AdminSectionAppMenu"])
+    ],
+    64
+    /* STABLE_FRAGMENT */
+  );
+}
+const AdminTheming = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/theming/src/views/AdminTheming.vue"]]);
+/*!
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+const app = createApp(AdminTheming);
+app.config.idPrefix = "settings";
+app.mount("#settings-admin-theming");
 //# sourceMappingURL=theming-settings-admin.mjs.map

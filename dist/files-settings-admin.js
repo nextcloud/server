@@ -1,2 +1,1113 @@
-(()=>{"use strict";var t,e,n,i={86693(t,e,n){var i,s=n(21777),a=n(53334),o=n(85471),r=n(19051),l=n(85168),c=n(81222),d=n(63814),u=n(32073),f=n(88837),p=n(74095),m=n(16879),g=n(88289),v=n(371),h=n(95101);!function(t){t[t.Unknown=0]="Unknown",t[t.Scheduled=1]="Scheduled",t[t.Running=2]="Running",t[t.Done=3]="Done",t[t.Error=4]="Error"}(i||(i={}));const b=(0,n(35947).YK)().setApp("files").detectUser().build(),A=(0,o.pM)({__name:"SettingsSanitizeFilenames",setup(t){const{status:e}=(0,c.C)("files","filesCompatibilitySettings"),n=(0,o.KR)(!1),s=(0,o.KR)(10),u=(0,o.KR)(e.status),f=(0,o.KR)(e.processed),A=(0,o.KR)(e.total),S=(0,o.IJ)(e.errors||{}),y=(0,o.EW)(()=>f.value>0?Math.round(100*f.value/A.value):0),w=(0,o.EW)(()=>u.value===i.Scheduled||u.value===i.Running);return{__sfc:!0,initialStatus:e,loading:n,renameLimit:s,status:u,processedUsers:f,totalUsers:A,errors:S,progress:y,isRunning:w,startSanitization:async function(){if(!w.value)try{n.value=!0,await r.Ay.post((0,d.KT)("apps/files/api/v1/filenames/sanitization"),{limit:s.value}),u.value=i.Scheduled}catch(t){b.error("Failed to start filename sanitization.",{error:t}),(0,r.F0)(t)&&t.response?.data?.ocs?(0,l.Qg)(t.response.data.ocs.meta.message):(0,l.Qg)((0,a.t)("files","Failed to start filename sanitization."))}finally{n.value=!1}},refreshStatus:async function(){if(!n.value)try{n.value=!0;const{data:t}=await r.Ay.get((0,d.KT)("apps/files/api/v1/filenames/sanitization"));u.value=t.ocs.data.status,A.value=t.ocs.data.total,f.value=t.ocs.data.processed,S.value=t.ocs.data.errors||{}}catch(t){b.error("Failed to refresh filename sanitization status.",{error:t}),(0,l.Qg)((0,a.t)("files","Failed to refresh filename sanitization status."))}finally{n.value=!1}},t:a.t,NcButton:p.A,NcInputField:m.A,NcLoadingIcon:g.A,NcNoteCard:v.A,NcProgressBar:h.A,SanitizeFilenameStatus:i}}});var S=n(85072),y=n.n(S),w=n(97825),_=n.n(w),x=n(77659),C=n.n(x),N=n(55056),z=n.n(N),k=n(10540),F=n.n(k),R=n(41113),U=n.n(R),W=n(79118),E={};E.styleTagTransform=U(),E.setAttributes=z(),E.insert=C().bind(null,"head"),E.domAPI=_(),E.insertStyleElement=F(),y()(W.A,E),W.A&&W.A.locals&&W.A.locals;var P=n(14486),O=(0,P.A)(A,function(){var t=this,e=t._self._c,n=t._self._setupProxy;return n.isRunning?e(n.NcNoteCard,[e("div",{staticClass:"sanitize-filenames__progress-container"},[e("p",[t._v("\n\t\t\t"+t._s(n.t("files","Filename sanitization in progress."))+"\n\t\t\t"),e("br"),t._v(" "),n.processedUsers>0?[t._v("\n\t\t\t\t"+t._s(n.t("files","Currently {processedUsers} of {totalUsers} accounts are already processed.",{processedUsers:n.processedUsers,totalUsers:n.totalUsers}))+"\n\t\t\t")]:[t._v("\n\t\t\t\t"+t._s(n.t("files","Preparing …"))+"\n\t\t\t")]],2),t._v(" "),e(n.NcProgressBar,{attrs:{value:n.progress,size:12}}),t._v(" "),e(n.NcButton,{attrs:{variant:"tertiary"},on:{click:n.refreshStatus},scopedSlots:t._u([n.loading?{key:"icon",fn:function(){return[e(n.NcLoadingIcon)]},proxy:!0}:null],null,!0)},[t._v("\n\t\t\t"+t._s(n.t("files","Refresh"))+"\n\t\t")])],1)]):n.status===n.SanitizeFilenameStatus.Done?e(n.NcNoteCard,{attrs:{type:"success"}},[t._v("\n\t"+t._s(n.t("files","All files have been santized for Windows filename support."))+"\n")]):e("form",{staticClass:"sanitize-filenames__form",attrs:{disabled:n.loading},on:{submit:function(t){return t.stopPropagation(),t.preventDefault(),n.startSanitization.apply(null,arguments)}}},[n.status===n.SanitizeFilenameStatus.Error?e(n.NcNoteCard,{attrs:{type:"error"}},[t._v("\n\t\t"+t._s(n.t("files","Some files could not be sanitized, please check your logs."))+"\n\t\t"),e("ul",{staticClass:"sanitize-filenames__errors",attrs:{"aria-label":n.t("files","Sanitization errors")}},t._l(Object.entries(n.errors),function([i,s]){return e("li",{key:i},[e("h4",[t._v(t._s(i)+":")]),t._v(" "),e("ul",{attrs:{"aria-label":n.t("files","Not sanitized filenames")}},t._l(s,function(n){return e("li",{key:n},[t._v("\n\t\t\t\t\t\t"+t._s(n)+"\n\t\t\t\t\t")])}),0)])}),0)]):t._e(),t._v(" "),e(n.NcNoteCard,[t._v("\n\t\t"+t._s(n.t("files","Windows filename support has been enabled."))+"\n\t\t"),e("br"),t._v("\n\t\t"+t._s(n.t("files","While this blocks users from creating new files with unsupported filenames, existing files are not yet renamed and thus still may break sync on Windows."))+"\n\t\t"+t._s(n.t("files","You can trigger a rename of files with invalid filenames, this will be done in the background and may take some time."))+"\n\t\t"+t._s(n.t("files","Please note that this may cause high workload on the sync clients."))+"\n\t")]),t._v(" "),e("fieldset",{staticClass:"sanitize-filenames__fields"},[e(n.NcInputField,{attrs:{label:n.t("files","Limit"),"helper-text":n.t("files","This allows to configure how many users should be processed in one background job run."),min:"1",type:"number"},model:{value:n.renameLimit,callback:function(t){n.renameLimit=t},expression:"renameLimit"}}),t._v(" "),e(n.NcButton,{attrs:{type:"submit",variant:"error"},scopedSlots:t._u([n.loading?{key:"icon",fn:function(){return[e(n.NcLoadingIcon)]},proxy:!0}:null],null,!0)},[t._v("\n\t\t\t"+t._s(n.t("files","Sanitize filenames"))+"\n\t\t\t"),n.loading?e("span",{staticClass:"hidden-visually"},[t._v("\n\t\t\t\t"+t._s(n.t("files","(starting)"))+"\n\t\t\t")]):t._e()])],1)],1)},[],!1,null,"51ab1271",null);const B=O.exports,T=(0,o.pM)({__name:"SettingsAdmin",setup(t){const{docUrl:e,isRunningSanitization:n,windowsSupport:i}=(0,c.C)("files","filesCompatibilitySettings"),s=(0,a.t)("files","Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed.")+"\n"+(0,a.t)("files","After enabling the Windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner."),p=(0,o.KR)(!1),m=(0,o.KR)(i);return{__sfc:!0,docUrl:e,isRunningSanitization:n,windowsSupport:i,description:s,loading:p,hasWindowsSupport:m,toggleWindowsFilenameSupport:async function(t){if(!p.value)try{p.value=!0,await r.Ay.post((0,d.KT)("apps/files/api/v1/filenames/windows-compatibility"),{enabled:t}),m.value=t}catch(t){(0,l.Qg)((0,a.t)("files","Failed to toggle Windows filename support")),b.error("Failed to toggle Windows filename support",{error:t})}finally{p.value=!1}},t:a.t,NcCheckboxRadioSwitch:u.A,NcSettingsSection:f.A,SettingsSanitizeFilenames:B}}});var L=n(87556),I={};I.styleTagTransform=U(),I.setAttributes=z(),I.insert=C().bind(null,"head"),I.domAPI=_(),I.insertStyleElement=F(),y()(L.A,I),L.A&&L.A.locals&&L.A.locals;const j=(0,P.A)(T,function(){var t=this,e=t._self._c,n=t._self._setupProxy;return e(n.NcSettingsSection,{attrs:{"doc-url":n.docUrl,name:n.t("files","Files compatibility"),description:n.description}},[e(n.NcCheckboxRadioSwitch,{attrs:{"model-value":n.hasWindowsSupport,disabled:n.isRunningSanitization,loading:n.loading,type:"switch"},on:{"update:model-value":n.toggleWindowsFilenameSupport}},[t._v("\n\t\t"+t._s(n.t("files","Enforce Windows compatibility"))+"\n\t")]),t._v(" "),e("p",{staticClass:"hint"},[t._v("\n\t\t"+t._s(n.t("files","This will block filenames not valid on Windows systems, like using reserved names or special characters. But this will not enforce compatibility of case sensitivity."))+"\n\t")]),t._v(" "),n.hasWindowsSupport?e(n.SettingsSanitizeFilenames):t._e()],1)},[],!1,null,"739c627a",null).exports;n.nc=(0,s.aV)(),o.Ay.prototype.t=a.t,(new(o.Ay.extend(j))).$mount("#files-admin-settings")},79118(t,e,n){n.d(e,{A:()=>r});var i=n(71354),s=n.n(i),a=n(76314),o=n.n(a)()(s());o.push([t.id,"\n.sanitize-filenames__progress-container[data-v-51ab1271] {\n\talign-items: end;\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: var(--default-grid-baseline);\n}\n.sanitize-filenames__form[data-v-51ab1271] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: var(--default-grid-baseline);\n}\n.sanitize-filenames__fields[data-v-51ab1271] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: var(--default-grid-baseline);\n\n\talign-items: end;\n\tmax-width: 400px;\n}\n","",{version:3,sources:["webpack://./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue"],names:[],mappings:";AAkKA;CACA,gBAAA;CACA,aAAA;CACA,sBAAA;CACA,iCAAA;AACA;AAEA;CACA,aAAA;CACA,sBAAA;CACA,iCAAA;AACA;AAEA;CACA,aAAA;CACA,sBAAA;CACA,iCAAA;;CAEA,gBAAA;CACA,gBAAA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n\n<script setup lang=\"ts\">\nimport type { OCSResponse } from '@nextcloud/typings/ocs'\n\nimport axios, { isAxiosError } from '@nextcloud/axios'\nimport { showError } from '@nextcloud/dialogs'\nimport { loadState } from '@nextcloud/initial-state'\nimport { t } from '@nextcloud/l10n'\nimport { generateOcsUrl } from '@nextcloud/router'\nimport { computed, ref, shallowRef } from 'vue'\nimport NcButton from '@nextcloud/vue/components/NcButton'\nimport NcInputField from '@nextcloud/vue/components/NcInputField'\nimport NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'\nimport NcNoteCard from '@nextcloud/vue/components/NcNoteCard'\nimport NcProgressBar from '@nextcloud/vue/components/NcProgressBar'\nimport { SanitizeFilenameStatus } from '../../models/SanitizeFilenameStatus.ts'\nimport { logger } from '../../utils/logger.ts'\n\ntype ApiStatus = { total: number, processed: number, errors?: Record<string, string[]>, status: SanitizeFilenameStatus }\n\nconst { status: initialStatus } = loadState<{ isRunningSanitization: boolean, status: ApiStatus }>('files', 'filesCompatibilitySettings')\n\nconst loading = ref(false)\nconst renameLimit = ref(10)\nconst status = ref(initialStatus.status)\nconst processedUsers = ref(initialStatus.processed)\nconst totalUsers = ref(initialStatus.total)\nconst errors = shallowRef<ApiStatus['errors']>(initialStatus.errors || {})\n\nconst progress = computed(() => processedUsers.value > 0 ? Math.round((processedUsers.value * 100) / totalUsers.value) : 0)\nconst isRunning = computed(() => status.value === SanitizeFilenameStatus.Scheduled || status.value === SanitizeFilenameStatus.Running)\n\n/**\n * Start the sanitization process\n */\nasync function startSanitization() {\n\tif (isRunning.value) {\n\t\treturn\n\t}\n\n\ttry {\n\t\tloading.value = true\n\t\tawait axios.post(generateOcsUrl('apps/files/api/v1/filenames/sanitization'), {\n\t\t\tlimit: renameLimit.value,\n\t\t})\n\t\tstatus.value = SanitizeFilenameStatus.Scheduled\n\t} catch (error) {\n\t\tlogger.error('Failed to start filename sanitization.', { error })\n\n\t\tif (isAxiosError(error) && error.response?.data?.ocs) {\n\t\t\tshowError((error.response.data as OCSResponse).ocs.meta.message!)\n\t\t} else {\n\t\t\tshowError(t('files', 'Failed to start filename sanitization.'))\n\t\t}\n\t} finally {\n\t\tloading.value = false\n\t}\n}\n\n/**\n * Refresh the filename sanitization status\n */\nasync function refreshStatus() {\n\tif (loading.value) {\n\t\treturn\n\t}\n\n\ttry {\n\t\tloading.value = true\n\t\tconst { data } = await axios.get<OCSResponse<ApiStatus>>(generateOcsUrl('apps/files/api/v1/filenames/sanitization'))\n\t\tstatus.value = data.ocs.data.status\n\t\ttotalUsers.value = data.ocs.data.total\n\t\tprocessedUsers.value = data.ocs.data.processed\n\t\terrors.value = data.ocs.data.errors || {}\n\t} catch (error) {\n\t\tlogger.error('Failed to refresh filename sanitization status.', { error })\n\t\tshowError(t('files', 'Failed to refresh filename sanitization status.'))\n\t} finally {\n\t\tloading.value = false\n\t}\n}\n<\/script>\n\n<template>\n\t<NcNoteCard v-if=\"isRunning\">\n\t\t<div class=\"sanitize-filenames__progress-container\">\n\t\t\t<p>\n\t\t\t\t{{ t('files', 'Filename sanitization in progress.') }}\n\t\t\t\t<br>\n\t\t\t\t<template v-if=\"processedUsers > 0\">\n\t\t\t\t\t{{ t('files', 'Currently {processedUsers} of {totalUsers} accounts are already processed.', { processedUsers, totalUsers }) }}\n\t\t\t\t</template>\n\t\t\t\t<template v-else>\n\t\t\t\t\t{{ t('files', 'Preparing …') }}\n\t\t\t\t</template>\n\t\t\t</p>\n\t\t\t<NcProgressBar :value=\"progress\" :size=\"12\" />\n\t\t\t<NcButton variant=\"tertiary\" @click=\"refreshStatus\">\n\t\t\t\t<template v-if=\"loading\" #icon>\n\t\t\t\t\t<NcLoadingIcon />\n\t\t\t\t</template>\n\t\t\t\t{{ t('files', 'Refresh') }}\n\t\t\t</NcButton>\n\t\t</div>\n\t</NcNoteCard>\n\n\t<NcNoteCard v-else-if=\"status === SanitizeFilenameStatus.Done\" type=\"success\">\n\t\t{{ t('files', 'All files have been santized for Windows filename support.') }}\n\t</NcNoteCard>\n\n\t<form\n\t\tv-else\n\t\tclass=\"sanitize-filenames__form\"\n\t\t:disabled=\"loading\"\n\t\t@submit.stop.prevent=\"startSanitization\">\n\t\t<NcNoteCard v-if=\"status === SanitizeFilenameStatus.Error\" type=\"error\">\n\t\t\t{{ t('files', 'Some files could not be sanitized, please check your logs.') }}\n\t\t\t<ul class=\"sanitize-filenames__errors\" :aria-label=\"t('files', 'Sanitization errors')\">\n\t\t\t\t<li v-for=\"[user, failedFiles] of Object.entries(errors)\" :key=\"user\">\n\t\t\t\t\t<h4>{{ user }}:</h4>\n\t\t\t\t\t<ul :aria-label=\"t('files', 'Not sanitized filenames')\">\n\t\t\t\t\t\t<li v-for=\"file of failedFiles\" :key=\"file\">\n\t\t\t\t\t\t\t{{ file }}\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</NcNoteCard>\n\t\t<NcNoteCard>\n\t\t\t{{ t('files', 'Windows filename support has been enabled.') }}\n\t\t\t<br>\n\t\t\t{{ t('files', 'While this blocks users from creating new files with unsupported filenames, existing files are not yet renamed and thus still may break sync on Windows.') }}\n\t\t\t{{ t('files', 'You can trigger a rename of files with invalid filenames, this will be done in the background and may take some time.') }}\n\t\t\t{{ t('files', 'Please note that this may cause high workload on the sync clients.') }}\n\t\t</NcNoteCard>\n\n\t\t<fieldset class=\"sanitize-filenames__fields\">\n\t\t\t<NcInputField\n\t\t\t\tv-model=\"renameLimit\"\n\t\t\t\t:label=\"t('files', 'Limit')\"\n\t\t\t\t:helper-text=\"t('files', 'This allows to configure how many users should be processed in one background job run.')\"\n\t\t\t\tmin=\"1\"\n\t\t\t\ttype=\"number\" />\n\n\t\t\t<NcButton type=\"submit\" variant=\"error\">\n\t\t\t\t<template v-if=\"loading\" #icon>\n\t\t\t\t\t<NcLoadingIcon />\n\t\t\t\t</template>\n\t\t\t\t{{ t('files', 'Sanitize filenames') }}\n\t\t\t\t<span v-if=\"loading\" class=\"hidden-visually\">\n\t\t\t\t\t{{ t('files', '(starting)') }}\n\t\t\t\t</span>\n\t\t\t</NcButton>\n\t\t</fieldset>\n\t</form>\n</template>\n\n<style scoped>\n.sanitize-filenames__progress-container {\n\talign-items: end;\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: var(--default-grid-baseline);\n}\n\n.sanitize-filenames__form {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: var(--default-grid-baseline);\n}\n\n.sanitize-filenames__fields {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: var(--default-grid-baseline);\n\n\talign-items: end;\n\tmax-width: 400px;\n}\n</style>\n"],sourceRoot:""}]);const r=o},87556(t,e,n){n.d(e,{A:()=>r});var i=n(71354),s=n.n(i),a=n(76314),o=n.n(a)()(s());o.push([t.id,"\n.hint[data-v-739c627a] {\n\tcolor: var(--color-text-maxcontrast);\n\tmargin-inline-start: var(--border-radius-element);\n\tmargin-block-end: 1em;\n}\n","",{version:3,sources:["webpack://./apps/files/src/views/SettingsAdmin.vue"],names:[],mappings:";AA0EA;CACA,oCAAA;CACA,iDAAA;CACA,qBAAA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n\n<script setup lang=\"ts\">\nimport axios from '@nextcloud/axios'\nimport { showError } from '@nextcloud/dialogs'\nimport { loadState } from '@nextcloud/initial-state'\nimport { t } from '@nextcloud/l10n'\nimport { generateOcsUrl } from '@nextcloud/router'\nimport { ref } from 'vue'\nimport NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'\nimport NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'\nimport SettingsSanitizeFilenames from '../components/Settings/SettingsSanitizeFilenames.vue'\nimport { logger } from '../utils/logger.ts'\n\nconst {\n\tdocUrl,\n\tisRunningSanitization,\n\twindowsSupport,\n} = loadState<{ docUrl: string, isRunningSanitization: boolean, windowsSupport: boolean }>('files', 'filesCompatibilitySettings')\n\nconst description = t('files', 'Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed.')\n\t+ '\\n' + t('files', 'After enabling the Windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner.')\n\nconst loading = ref(false)\nconst hasWindowsSupport = ref(windowsSupport)\n\n/**\n * Toggle the Windows filename support on the backend.\n *\n * @param enabled - The new state to be set\n */\nasync function toggleWindowsFilenameSupport(enabled: boolean) {\n\tif (loading.value) {\n\t\treturn\n\t}\n\n\ttry {\n\t\tloading.value = true\n\t\tawait axios.post(generateOcsUrl('apps/files/api/v1/filenames/windows-compatibility'), { enabled })\n\t\thasWindowsSupport.value = enabled\n\t} catch (error) {\n\t\tshowError(t('files', 'Failed to toggle Windows filename support'))\n\t\tlogger.error('Failed to toggle Windows filename support', { error })\n\t} finally {\n\t\tloading.value = false\n\t}\n}\n<\/script>\n\n<template>\n\t<NcSettingsSection\n\t\t:doc-url=\"docUrl\"\n\t\t:name=\"t('files', 'Files compatibility')\"\n\t\t:description=\"description\">\n\t\t<NcCheckboxRadioSwitch\n\t\t\t:model-value=\"hasWindowsSupport\"\n\t\t\t:disabled=\"isRunningSanitization\"\n\t\t\t:loading=\"loading\"\n\t\t\ttype=\"switch\"\n\t\t\t@update:model-value=\"toggleWindowsFilenameSupport\">\n\t\t\t{{ t('files', 'Enforce Windows compatibility') }}\n\t\t</NcCheckboxRadioSwitch>\n\t\t<p class=\"hint\">\n\t\t\t{{ t('files', 'This will block filenames not valid on Windows systems, like using reserved names or special characters. But this will not enforce compatibility of case sensitivity.') }}\n\t\t</p>\n\n\t\t<SettingsSanitizeFilenames v-if=\"hasWindowsSupport\" />\n\t</NcSettingsSection>\n</template>\n\n<style scoped>\n.hint {\n\tcolor: var(--color-text-maxcontrast);\n\tmargin-inline-start: var(--border-radius-element);\n\tmargin-block-end: 1em;\n}\n</style>\n"],sourceRoot:""}]);const r=o}},s={};function a(t){var e=s[t];if(void 0!==e)return e.exports;var n=s[t]={id:t,loaded:!1,exports:{}};return i[t].call(n.exports,n,n.exports,a),n.loaded=!0,n.exports}a.m=i,t=[],a.O=(e,n,i,s)=>{if(!n){var o=1/0;for(d=0;d<t.length;d++){for(var[n,i,s]=t[d],r=!0,l=0;l<n.length;l++)(!1&s||o>=s)&&Object.keys(a.O).every(t=>a.O[t](n[l]))?n.splice(l--,1):(r=!1,s<o&&(o=s));if(r){t.splice(d--,1);var c=i();void 0!==c&&(e=c)}}return e}s=s||0;for(var d=t.length;d>0&&t[d-1][2]>s;d--)t[d]=t[d-1];t[d]=[n,i,s]},a.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return a.d(e,{a:e}),e},a.d=(t,e)=>{for(var n in e)a.o(e,n)&&!a.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:e[n]})},a.f={},a.e=t=>Promise.all(Object.keys(a.f).reduce((e,n)=>(a.f[n](t,e),e),[])),a.u=t=>t+"-"+t+".js?v="+{1140:"490e17ed9c8948d5a9e8",2221:"428c2ff62c4b8b3c97fc",5448:"71cfe268d6f1213c4735",6015:"ebcb6885c1fc8c461988",7859:"740587c0c8c350dad157",7910:"de857920f8beb5205bbc",8815:"9a5c507c75429c9c04e4"}[t],a.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),e={},n="nextcloud-ui-legacy:",a.l=(t,i,s,o)=>{if(e[t])e[t].push(i);else{var r,l;if(void 0!==s)for(var c=document.getElementsByTagName("script"),d=0;d<c.length;d++){var u=c[d];if(u.getAttribute("src")==t||u.getAttribute("data-webpack")==n+s){r=u;break}}r||(l=!0,(r=document.createElement("script")).charset="utf-8",a.nc&&r.setAttribute("nonce",a.nc),r.setAttribute("data-webpack",n+s),r.src=t),e[t]=[i];var f=(n,i)=>{r.onerror=r.onload=null,clearTimeout(p);var s=e[t];if(delete e[t],r.parentNode&&r.parentNode.removeChild(r),s&&s.forEach(t=>t(i)),n)return n(i)},p=setTimeout(f.bind(null,void 0,{type:"timeout",target:r}),12e4);r.onerror=f.bind(null,r.onerror),r.onload=f.bind(null,r.onload),l&&document.head.appendChild(r)}},a.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},a.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),a.j=5404,(()=>{var t;globalThis.importScripts&&(t=globalThis.location+"");var e=globalThis.document;if(!t&&e&&(e.currentScript&&"SCRIPT"===e.currentScript.tagName.toUpperCase()&&(t=e.currentScript.src),!t)){var n=e.getElementsByTagName("script");if(n.length)for(var i=n.length-1;i>-1&&(!t||!/^http(s?):/.test(t));)t=n[i--].src}if(!t)throw new Error("Automatic publicPath is not supported in this browser");t=t.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),a.p=t})(),(()=>{a.b="undefined"!=typeof document&&document.baseURI||self.location.href;var t={5404:0};a.f.j=(e,n)=>{var i=a.o(t,e)?t[e]:void 0;if(0!==i)if(i)n.push(i[2]);else{var s=new Promise((n,s)=>i=t[e]=[n,s]);n.push(i[2]=s);var o=a.p+a.u(e),r=new Error;a.l(o,n=>{if(a.o(t,e)&&(0!==(i=t[e])&&(t[e]=void 0),i)){var s=n&&("load"===n.type?"missing":n.type),o=n&&n.target&&n.target.src;r.message="Loading chunk "+e+" failed.\n("+s+": "+o+")",r.name="ChunkLoadError",r.type=s,r.request=o,i[1](r)}},"chunk-"+e,e)}},a.O.j=e=>0===t[e];var e=(e,n)=>{var i,s,[o,r,l]=n,c=0;if(o.some(e=>0!==t[e])){for(i in r)a.o(r,i)&&(a.m[i]=r[i]);if(l)var d=l(a)}for(e&&e(n);c<o.length;c++)s=o[c],a.o(t,s)&&t[s]&&t[s][0](),t[s]=0;return a.O(d)},n=globalThis.webpackChunknextcloud_ui_legacy=globalThis.webpackChunknextcloud_ui_legacy||[];n.forEach(e.bind(null,0)),n.push=e.bind(null,n.push.bind(n))})(),a.nc=void 0;var o=a.O(void 0,[4208],()=>a(86693));o=a.O(o)})();
-//# sourceMappingURL=files-settings-admin.js.map?v=7993267eeecc9b4c29e8
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/files/src/main-settings-admin.ts"
+/*!***********************************************!*\
+  !*** ./apps/files/src/main-settings-admin.ts ***!
+  \***********************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _views_SettingsAdmin_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/SettingsAdmin.vue */ "./apps/files/src/views/SettingsAdmin.vue");
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+__webpack_require__.nc = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCSPNonce)();
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].prototype.t = _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t;
+const View = vue__WEBPACK_IMPORTED_MODULE_2__["default"].extend(_views_SettingsAdmin_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
+const instance = new View();
+instance.$mount('#files-admin-settings');
+
+/***/ },
+
+/***/ "./apps/files/src/models/SanitizeFilenameStatus.ts"
+/*!*********************************************************!*\
+  !*** ./apps/files/src/models/SanitizeFilenameStatus.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SanitizeFilenameStatus: () => (/* binding */ SanitizeFilenameStatus)
+/* harmony export */ });
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * The current status of the filename sanitization
+ */
+var SanitizeFilenameStatus;
+(function (SanitizeFilenameStatus) {
+  SanitizeFilenameStatus[SanitizeFilenameStatus["Unknown"] = 0] = "Unknown";
+  SanitizeFilenameStatus[SanitizeFilenameStatus["Scheduled"] = 1] = "Scheduled";
+  SanitizeFilenameStatus[SanitizeFilenameStatus["Running"] = 2] = "Running";
+  SanitizeFilenameStatus[SanitizeFilenameStatus["Done"] = 3] = "Done";
+  SanitizeFilenameStatus[SanitizeFilenameStatus["Error"] = 4] = "Error";
+})(SanitizeFilenameStatus || (SanitizeFilenameStatus = {}));
+
+/***/ },
+
+/***/ "./apps/files/src/utils/logger.ts"
+/*!****************************************!*\
+  !*** ./apps/files/src/utils/logger.ts ***!
+  \****************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   logger: () => (/* binding */ logger)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/*!
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const logger = (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('files').detectUser().build();
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=script&setup=true&lang=ts"
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=script&setup=true&lang=ts ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcInputField__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/components/NcInputField */ "./node_modules/@nextcloud/vue/dist/Components/NcInputField.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/vue/components/NcLoadingIcon */ "./node_modules/@nextcloud/vue/dist/Components/NcLoadingIcon.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/vue/components/NcNoteCard */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcProgressBar__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/vue/components/NcProgressBar */ "./node_modules/@nextcloud/vue/dist/Components/NcProgressBar.mjs");
+/* harmony import */ var _models_SanitizeFilenameStatus_ts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../models/SanitizeFilenameStatus.ts */ "./apps/files/src/models/SanitizeFilenameStatus.ts");
+/* harmony import */ var _utils_logger_ts__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../utils/logger.ts */ "./apps/files/src/utils/logger.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'SettingsSanitizeFilenames',
+  setup(__props) {
+    const {
+      status: initialStatus
+    } = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('files', 'filesCompatibilitySettings');
+    const loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    const renameLimit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(10);
+    const status = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(initialStatus.status);
+    const processedUsers = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(initialStatus.processed);
+    const totalUsers = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(initialStatus.total);
+    const errors = (0,vue__WEBPACK_IMPORTED_MODULE_0__.shallowRef)(initialStatus.errors || {});
+    const progress = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => processedUsers.value > 0 ? Math.round(processedUsers.value * 100 / totalUsers.value) : 0);
+    const isRunning = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => status.value === _models_SanitizeFilenameStatus_ts__WEBPACK_IMPORTED_MODULE_11__.SanitizeFilenameStatus.Scheduled || status.value === _models_SanitizeFilenameStatus_ts__WEBPACK_IMPORTED_MODULE_11__.SanitizeFilenameStatus.Running);
+    /**
+     * Start the sanitization process
+     */
+    async function startSanitization() {
+      if (isRunning.value) {
+        return;
+      }
+      try {
+        loading.value = true;
+        await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_5__.generateOcsUrl)('apps/files/api/v1/filenames/sanitization'), {
+          limit: renameLimit.value
+        });
+        status.value = _models_SanitizeFilenameStatus_ts__WEBPACK_IMPORTED_MODULE_11__.SanitizeFilenameStatus.Scheduled;
+      } catch (error) {
+        _utils_logger_ts__WEBPACK_IMPORTED_MODULE_12__.logger.error('Failed to start filename sanitization.', {
+          error
+        });
+        if ((0,_nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__.isAxiosError)(error) && error.response?.data?.ocs) {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)(error.response.data.ocs.meta.message);
+        } else {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('files', 'Failed to start filename sanitization.'));
+        }
+      } finally {
+        loading.value = false;
+      }
+    }
+    /**
+     * Refresh the filename sanitization status
+     */
+    async function refreshStatus() {
+      if (loading.value) {
+        return;
+      }
+      try {
+        loading.value = true;
+        const {
+          data
+        } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_5__.generateOcsUrl)('apps/files/api/v1/filenames/sanitization'));
+        status.value = data.ocs.data.status;
+        totalUsers.value = data.ocs.data.total;
+        processedUsers.value = data.ocs.data.processed;
+        errors.value = data.ocs.data.errors || {};
+      } catch (error) {
+        _utils_logger_ts__WEBPACK_IMPORTED_MODULE_12__.logger.error('Failed to refresh filename sanitization status.', {
+          error
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('files', 'Failed to refresh filename sanitization status.'));
+      } finally {
+        loading.value = false;
+      }
+    }
+    return {
+      __sfc: true,
+      initialStatus,
+      loading,
+      renameLimit,
+      status,
+      processedUsers,
+      totalUsers,
+      errors,
+      progress,
+      isRunning,
+      startSanitization,
+      refreshStatus,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t,
+      NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_6__["default"],
+      NcInputField: _nextcloud_vue_components_NcInputField__WEBPACK_IMPORTED_MODULE_7__["default"],
+      NcLoadingIcon: _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_8__["default"],
+      NcNoteCard: _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_9__["default"],
+      NcProgressBar: _nextcloud_vue_components_NcProgressBar__WEBPACK_IMPORTED_MODULE_10__["default"],
+      SanitizeFilenameStatus: _models_SanitizeFilenameStatus_ts__WEBPACK_IMPORTED_MODULE_11__.SanitizeFilenameStatus
+    };
+  }
+}));
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=script&setup=true&lang=ts"
+/*!*************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=script&setup=true&lang=ts ***!
+  \*************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/vue/components/NcCheckboxRadioSwitch */ "./node_modules/@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/components/NcSettingsSection */ "./node_modules/@nextcloud/vue/dist/Components/NcSettingsSection.mjs");
+/* harmony import */ var _components_Settings_SettingsSanitizeFilenames_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/Settings/SettingsSanitizeFilenames.vue */ "./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue");
+/* harmony import */ var _utils_logger_ts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/logger.ts */ "./apps/files/src/utils/logger.ts");
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'SettingsAdmin',
+  setup(__props) {
+    const {
+      docUrl,
+      isRunningSanitization,
+      windowsSupport
+    } = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('files', 'filesCompatibilitySettings');
+    const description = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('files', 'Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed.') + '\n' + (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('files', 'After enabling the Windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner.');
+    const loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    const hasWindowsSupport = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(windowsSupport);
+    /**
+     * Toggle the Windows filename support on the backend.
+     *
+     * @param enabled - The new state to be set
+     */
+    async function toggleWindowsFilenameSupport(enabled) {
+      if (loading.value) {
+        return;
+      }
+      try {
+        loading.value = true;
+        await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_5__.generateOcsUrl)('apps/files/api/v1/filenames/windows-compatibility'), {
+          enabled
+        });
+        hasWindowsSupport.value = enabled;
+      } catch (error) {
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('files', 'Failed to toggle Windows filename support'));
+        _utils_logger_ts__WEBPACK_IMPORTED_MODULE_9__.logger.error('Failed to toggle Windows filename support', {
+          error
+        });
+      } finally {
+        loading.value = false;
+      }
+    }
+    return {
+      __sfc: true,
+      docUrl,
+      isRunningSanitization,
+      windowsSupport,
+      description,
+      loading,
+      hasWindowsSupport,
+      toggleWindowsFilenameSupport,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t,
+      NcCheckboxRadioSwitch: _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_6__["default"],
+      NcSettingsSection: _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_7__["default"],
+      SettingsSanitizeFilenames: _components_Settings_SettingsSanitizeFilenames_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
+    };
+  }
+}));
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=template&id=4b02aaca&scoped=true"
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=template&id=4b02aaca&scoped=true ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _setup.isRunning ? _c(_setup.NcNoteCard, [_c("div", {
+    staticClass: "sanitize-filenames__progress-container"
+  }, [_c("p", [_vm._v("\n\t\t\t" + _vm._s(_setup.t("files", "Filename sanitization in progress.")) + "\n\t\t\t"), _c("br"), _vm._v(" "), _setup.processedUsers > 0 ? [_vm._v("\n\t\t\t\t" + _vm._s(_setup.t("files", "Currently {processedUsers} of {totalUsers} accounts are already processed.", {
+    processedUsers: _setup.processedUsers,
+    totalUsers: _setup.totalUsers
+  })) + "\n\t\t\t")] : [_vm._v("\n\t\t\t\t" + _vm._s(_setup.t("files", "Preparing …")) + "\n\t\t\t")]], 2), _vm._v(" "), _c(_setup.NcProgressBar, {
+    attrs: {
+      value: _setup.progress,
+      size: 12
+    }
+  }), _vm._v(" "), _c(_setup.NcButton, {
+    attrs: {
+      variant: "tertiary"
+    },
+    on: {
+      click: _setup.refreshStatus
+    },
+    scopedSlots: _vm._u([_setup.loading ? {
+      key: "icon",
+      fn: function () {
+        return [_c(_setup.NcLoadingIcon)];
+      },
+      proxy: true
+    } : null], null, true)
+  }, [_vm._v("\n\t\t\t" + _vm._s(_setup.t("files", "Refresh")) + "\n\t\t")])], 1)]) : _setup.status === _setup.SanitizeFilenameStatus.Done ? _c(_setup.NcNoteCard, {
+    attrs: {
+      type: "success"
+    }
+  }, [_vm._v("\n\t" + _vm._s(_setup.t("files", "All files have been santized for Windows filename support.")) + "\n")]) : _c("form", {
+    staticClass: "sanitize-filenames__form",
+    attrs: {
+      disabled: _setup.loading
+    },
+    on: {
+      submit: function ($event) {
+        $event.stopPropagation();
+        $event.preventDefault();
+        return _setup.startSanitization.apply(null, arguments);
+      }
+    }
+  }, [_setup.status === _setup.SanitizeFilenameStatus.Error ? _c(_setup.NcNoteCard, {
+    attrs: {
+      type: "error"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_setup.t("files", "Some files could not be sanitized, please check your logs.")) + "\n\t\t"), _c("ul", {
+    staticClass: "sanitize-filenames__errors",
+    attrs: {
+      "aria-label": _setup.t("files", "Sanitization errors")
+    }
+  }, _vm._l(Object.entries(_setup.errors), function ([user, failedFiles]) {
+    return _c("li", {
+      key: user
+    }, [_c("h4", [_vm._v(_vm._s(user) + ":")]), _vm._v(" "), _c("ul", {
+      attrs: {
+        "aria-label": _setup.t("files", "Not sanitized filenames")
+      }
+    }, _vm._l(failedFiles, function (file) {
+      return _c("li", {
+        key: file
+      }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(file) + "\n\t\t\t\t\t")]);
+    }), 0)]);
+  }), 0)]) : _vm._e(), _vm._v(" "), _c(_setup.NcNoteCard, [_vm._v("\n\t\t" + _vm._s(_setup.t("files", "Windows filename support has been enabled.")) + "\n\t\t"), _c("br"), _vm._v("\n\t\t" + _vm._s(_setup.t("files", "While this blocks users from creating new files with unsupported filenames, existing files are not yet renamed and thus still may break sync on Windows.")) + "\n\t\t" + _vm._s(_setup.t("files", "You can trigger a rename of files with invalid filenames, this will be done in the background and may take some time.")) + "\n\t\t" + _vm._s(_setup.t("files", "Please note that this may cause high workload on the sync clients.")) + "\n\t")]), _vm._v(" "), _c("fieldset", {
+    staticClass: "sanitize-filenames__fields"
+  }, [_c(_setup.NcInputField, {
+    attrs: {
+      label: _setup.t("files", "Limit"),
+      "helper-text": _setup.t("files", "This allows to configure how many users should be processed in one background job run."),
+      min: "1",
+      type: "number"
+    },
+    model: {
+      value: _setup.renameLimit,
+      callback: function ($$v) {
+        _setup.renameLimit = $$v;
+      },
+      expression: "renameLimit"
+    }
+  }), _vm._v(" "), _c(_setup.NcButton, {
+    attrs: {
+      type: "submit",
+      variant: "error"
+    },
+    scopedSlots: _vm._u([_setup.loading ? {
+      key: "icon",
+      fn: function () {
+        return [_c(_setup.NcLoadingIcon)];
+      },
+      proxy: true
+    } : null], null, true)
+  }, [_vm._v("\n\t\t\t" + _vm._s(_setup.t("files", "Sanitize filenames")) + "\n\t\t\t"), _setup.loading ? _c("span", {
+    staticClass: "hidden-visually"
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_setup.t("files", "(starting)")) + "\n\t\t\t")]) : _vm._e()])], 1)], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=template&id=02539c59&scoped=true"
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=template&id=02539c59&scoped=true ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcSettingsSection, {
+    attrs: {
+      "doc-url": _setup.docUrl,
+      name: _setup.t("files", "Files compatibility"),
+      description: _setup.description
+    }
+  }, [_c(_setup.NcCheckboxRadioSwitch, {
+    attrs: {
+      "model-value": _setup.hasWindowsSupport,
+      disabled: _setup.isRunningSanitization,
+      loading: _setup.loading,
+      type: "switch"
+    },
+    on: {
+      "update:model-value": _setup.toggleWindowsFilenameSupport
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_setup.t("files", "Enforce Windows compatibility")) + "\n\t")]), _vm._v(" "), _c("p", {
+    staticClass: "hint"
+  }, [_vm._v("\n\t\t" + _vm._s(_setup.t("files", "This will block filenames not valid on Windows systems, like using reserved names or special characters. But this will not enforce compatibility of case sensitivity.")) + "\n\t")]), _vm._v(" "), _setup.hasWindowsSupport ? _c(_setup.SettingsSanitizeFilenames) : _vm._e()], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css"
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+.sanitize-filenames__progress-container[data-v-4b02aaca] {
+	align-items: end;
+	display: flex;
+	flex-direction: column;
+	gap: var(--default-grid-baseline);
+}
+.sanitize-filenames__form[data-v-4b02aaca] {
+	display: flex;
+	flex-direction: column;
+	gap: var(--default-grid-baseline);
+}
+.sanitize-filenames__fields[data-v-4b02aaca] {
+	display: flex;
+	flex-direction: column;
+	gap: var(--default-grid-baseline);
+
+	align-items: end;
+	max-width: 400px;
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css"
+/*!******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+.hint[data-v-02539c59] {
+	color: var(--color-text-maxcontrast);
+	margin-inline-start: var(--border-radius-element);
+	margin-block-end: 1em;
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css"
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_style_index_0_id_4b02aaca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_style_index_0_id_4b02aaca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_style_index_0_id_4b02aaca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_style_index_0_id_4b02aaca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_style_index_0_id_4b02aaca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css"
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_style_index_0_id_02539c59_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_style_index_0_id_02539c59_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_style_index_0_id_02539c59_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_style_index_0_id_02539c59_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_style_index_0_id_02539c59_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue"
+/*!**************************************************************************!*\
+  !*** ./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue ***!
+  \**************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SettingsSanitizeFilenames_vue_vue_type_template_id_4b02aaca_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SettingsSanitizeFilenames.vue?vue&type=template&id=4b02aaca&scoped=true */ "./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=template&id=4b02aaca&scoped=true");
+/* harmony import */ var _SettingsSanitizeFilenames_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SettingsSanitizeFilenames.vue?vue&type=script&setup=true&lang=ts */ "./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _SettingsSanitizeFilenames_vue_vue_type_style_index_0_id_4b02aaca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css */ "./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _SettingsSanitizeFilenames_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SettingsSanitizeFilenames_vue_vue_type_template_id_4b02aaca_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _SettingsSanitizeFilenames_vue_vue_type_template_id_4b02aaca_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "4b02aaca",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/components/Settings/SettingsSanitizeFilenames.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/files/src/views/SettingsAdmin.vue"
+/*!************************************************!*\
+  !*** ./apps/files/src/views/SettingsAdmin.vue ***!
+  \************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SettingsAdmin_vue_vue_type_template_id_02539c59_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SettingsAdmin.vue?vue&type=template&id=02539c59&scoped=true */ "./apps/files/src/views/SettingsAdmin.vue?vue&type=template&id=02539c59&scoped=true");
+/* harmony import */ var _SettingsAdmin_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SettingsAdmin.vue?vue&type=script&setup=true&lang=ts */ "./apps/files/src/views/SettingsAdmin.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _SettingsAdmin_vue_vue_type_style_index_0_id_02539c59_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css */ "./apps/files/src/views/SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _SettingsAdmin_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SettingsAdmin_vue_vue_type_template_id_02539c59_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _SettingsAdmin_vue_vue_type_template_id_02539c59_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "02539c59",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/views/SettingsAdmin.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=script&setup=true&lang=ts"
+/*!*************************************************************************************************************!*\
+  !*** ./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=script&setup=true&lang=ts ***!
+  \*************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsSanitizeFilenames.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/files/src/views/SettingsAdmin.vue?vue&type=script&setup=true&lang=ts"
+/*!***********************************************************************************!*\
+  !*** ./apps/files/src/views/SettingsAdmin.vue?vue&type=script&setup=true&lang=ts ***!
+  \***********************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsAdmin.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=template&id=4b02aaca&scoped=true"
+/*!********************************************************************************************************************!*\
+  !*** ./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=template&id=4b02aaca&scoped=true ***!
+  \********************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_template_id_4b02aaca_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_template_id_4b02aaca_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_template_id_4b02aaca_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsSanitizeFilenames.vue?vue&type=template&id=4b02aaca&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=template&id=4b02aaca&scoped=true");
+
+
+/***/ },
+
+/***/ "./apps/files/src/views/SettingsAdmin.vue?vue&type=template&id=02539c59&scoped=true"
+/*!******************************************************************************************!*\
+  !*** ./apps/files/src/views/SettingsAdmin.vue?vue&type=template&id=02539c59&scoped=true ***!
+  \******************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_template_id_02539c59_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_template_id_02539c59_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_template_id_02539c59_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsAdmin.vue?vue&type=template&id=02539c59&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=template&id=02539c59&scoped=true");
+
+
+/***/ },
+
+/***/ "./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css"
+/*!**********************************************************************************************************************************!*\
+  !*** ./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css ***!
+  \**********************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsSanitizeFilenames_vue_vue_type_style_index_0_id_4b02aaca_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/Settings/SettingsSanitizeFilenames.vue?vue&type=style&index=0&id=4b02aaca&scoped=true&lang=css");
+
+
+/***/ },
+
+/***/ "./apps/files/src/views/SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css"
+/*!********************************************************************************************************!*\
+  !*** ./apps/files/src/views/SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css ***!
+  \********************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsAdmin_vue_vue_type_style_index_0_id_02539c59_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/views/SettingsAdmin.vue?vue&type=style&index=0&id=02539c59&scoped=true&lang=css");
+
+
+/***/ }
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_preview-BIbJGxXF_mjs-node_modules_nextcloud_dialog-7546cc":"dce7060a8340cecf2ca5","node_modules_nextcloud_dialogs_dist_chunks_ConflictPicker-CWBf0soh_mjs":"01a2e7bc2c49db839239","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcTextField_index_mjs":"50270bc67122ae47dfd0","node_modules_nextcloud_dialogs_dist_chunks_FilePicker-C1yRZfLt_mjs":"a3985d66705012167d75","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-7_GNN76e_mjs":"b2479474dfc9749ea9d0","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcColorPicker_index_mjs":"63766ea64d27a6d8d6cc","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcDateTimePicker_in-952ddb":"bd2fc411cc830fe12f0b"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud-ui-legacy:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (globalThis.importScripts) scriptUrl = globalThis.location + "";
+/******/ 		var document = globalThis.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = (typeof document !== 'undefined' && document.baseURI) || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"files-settings-admin": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunknextcloud_ui_legacy"] = globalThis["webpackChunknextcloud_ui_legacy"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/files/src/main-settings-admin.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=files-settings-admin.js.map?v=fe45ba9a2abdf747027b
