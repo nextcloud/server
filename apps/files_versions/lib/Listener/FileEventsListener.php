@@ -10,7 +10,6 @@ namespace OCA\Files_Versions\Listener;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\Exceptions\DbalException;
 use OC\Files\Filesystem;
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\NonExistingFile;
 use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
@@ -36,6 +35,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserSession;
@@ -396,7 +396,7 @@ class FileEventsListener implements IEventListener {
 		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
 		$internalPath = $mount->getInternalPath($absOldPath);
-		if ($internalPath === '' && $mount instanceof MoveableMount) {
+		if ($internalPath === '' && $mount instanceof IMovableMount) {
 			return;
 		}
 

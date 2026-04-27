@@ -1800,7 +1800,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Mount\\LocalHomeMountProvider' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/LocalHomeMountProvider.php',
         'OC\\Files\\Mount\\Manager' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/Manager.php',
         'OC\\Files\\Mount\\MountPoint' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/MountPoint.php',
-        'OC\\Files\\Mount\\MoveableMount' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/MoveableMount.php',
         'OC\\Files\\Mount\\ObjectHomeMountProvider' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/ObjectHomeMountProvider.php',
         'OC\\Files\\Mount\\RootMountProvider' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/RootMountProvider.php',
         'OC\\Files\\Node\\File' => __DIR__ . '/../../..' . '/lib/private/Files/Node/File.php',

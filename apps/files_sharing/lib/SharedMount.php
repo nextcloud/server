@@ -10,22 +10,25 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
-use OC\Files\Mount\MoveableMount;
 use OCA\Files_Sharing\Exceptions\BrokenPath;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
 use OCP\Share\IShare;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
  * Shared mount points can be moved by the user
  */
-class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint {
-	/** @var ?SharedStorage $storage */
+class SharedMount extends MountPoint implements IMovableMount, ISharedMountPoint {
+	/**
+	 * @var ?SharedStorage $storage
+	 */
 	protected $storage = null;
 
 	/** @var IShare */
@@ -74,7 +77,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	 * @return string e.g. turns '/admin/files/test.txt' into '/test.txt'
 	 * @throws BrokenPath
 	 */
-	protected function stripUserFilesPath($path) {
+	protected function stripUserFilesPath(string $path): string {
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
 
@@ -91,13 +94,8 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		return '/' . $relPath;
 	}
 
-	/**
-	 * Move the mount point to $target
-	 *
-	 * @param string $target the target mount point
-	 * @return bool
-	 */
-	public function moveMount($target) {
+	#[Override]
+	public function moveMount(string $target): bool {
 		$relTargetPath = $this->stripUserFilesPath($target);
 		$share = $this->storage->getShare();
 
@@ -120,12 +118,8 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		return $result;
 	}
 
-	/**
-	 * Remove the mount points
-	 *
-	 * @return bool
-	 */
-	public function removeMount() {
+	#[Override]
+	public function removeMount(): bool {
 		$mountManager = Filesystem::getMountManager();
 		/** @var SharedStorage $storage */
 		$storage = $this->getStorage();
@@ -181,7 +175,8 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		}
 	}
 
-	public function getMountType() {
+	#[Override]
+	public function getMountType(): string {
 		return 'shared';
 	}
 

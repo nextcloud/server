@@ -8,30 +8,22 @@
 
 namespace Test;
 
-use OC\Files\Mount;
 use OC\Files\Mount\MountPoint;
-use OC\Files\Mount\MoveableMount;
+use OCP\Files\Mount\IMovableMount;
+use Override;
 
 /**
  * Test moveable mount for mocking
  */
-class TestMoveableMountPoint extends MountPoint implements MoveableMount {
-	/**
-	 * Move the mount point to $target
-	 *
-	 * @param string $target the target mount point
-	 * @return bool
-	 */
-	public function moveMount($target) {
+class TestMoveableMountPoint extends MountPoint implements IMovableMount {
+	#[Override]
+	public function moveMount(string $target): bool {
 		$this->setMountPoint($target);
+		return true;
 	}
 
-	/**
-	 * Remove the mount points
-	 *
-	 * @return mixed
-	 * @return bool
-	 */
-	public function removeMount() {
+	#[Override]
+	public function removeMount(): bool {
+		return false;
 	}
 }
