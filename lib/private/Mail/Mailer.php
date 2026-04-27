@@ -235,7 +235,7 @@ class Mailer implements IMailer {
 	/**
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
-	 * @deprecated 26.0.0 use IEmailValidator.isValid instead
+	 * @deprecated 32.0.0 use {@see IEmailValidator::isValid()} instead
 	 */
 	public function validateMailAddress(string $email): bool {
 		return $this->emailValidator->isValid($email);
