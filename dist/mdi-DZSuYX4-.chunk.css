@@ -1,0 +1,62 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/*
+* Ensure proper alignment of the vue material icons
+*/
+.material-design-icon[data-v-7e4656f9] {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
+.notecard[data-v-7e4656f9] {
+  --note-card-icon-size: 20px;
+  --note-card-padding: calc(2 * var(--default-grid-baseline));
+  color: var(--color-main-text) !important;
+  background-color: var(--note-background) !important;
+  border-inline-start: var(--default-grid-baseline) solid var(--note-theme);
+  border-radius: var(--border-radius-small);
+  margin: 1rem 0;
+  padding: var(--note-card-padding);
+  display: flex;
+  flex-direction: row;
+  gap: var(--note-card-padding);
+}
+.notecard__heading[data-v-7e4656f9] {
+  font-size: var(--note-card-icon-size);
+  font-weight: 600;
+}
+.notecard__icon[data-v-7e4656f9] {
+  color: var(--note-theme);
+}
+.notecard__icon--heading[data-v-7e4656f9] {
+  font-size: var(--note-card-icon-size);
+  margin-block: calc((1lh - 1em) / 2) auto;
+}
+.notecard--success[data-v-7e4656f9] {
+  --note-background: var(--color-success);
+  --note-theme: var(--color-success-text);
+}
+.notecard--info[data-v-7e4656f9] {
+  --note-background: var(--color-info);
+  --note-theme: var(--color-info-text);
+}
+.notecard--error[data-v-7e4656f9] {
+  --note-background: var(--color-error);
+  --note-theme: var(--color-error-text);
+}
+.notecard--warning[data-v-7e4656f9] {
+  --note-background: var(--color-warning);
+  --note-theme: var(--color-warning-text);
+}
+.notecard--legacy[data-v-7e4656f9] {
+  background-color: color-mix(in srgb, var(--note-background), var(--color-main-background) 80%) !important;
+  color: var(--color-main-text) !important;
+}

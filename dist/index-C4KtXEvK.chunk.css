@@ -1,0 +1,274 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/*
+* Ensure proper alignment of the vue material icons
+*/
+.material-design-icon[data-v-ca83b679] {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
+.autocomplete-result[data-v-ca83b679] {
+  display: flex;
+  align-items: center;
+  gap: var(--default-grid-baseline);
+  line-height: 1.2;
+  --auto-complete-result-avatar-size: var(--default-clickable-area);
+}
+.autocomplete-result__icon[data-v-ca83b679] {
+  position: relative;
+  flex: 0 0 var(--default-clickable-area);
+  width: var(--default-clickable-area);
+  min-width: var(--default-clickable-area);
+  height: var(--default-clickable-area);
+  border-radius: var(--default-clickable-area);
+  background-color: var(--color-background-darker);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.autocomplete-result__icon--with-avatar[data-v-ca83b679] {
+  color: inherit;
+  background-size: cover;
+}
+.autocomplete-result__status[data-v-ca83b679] {
+  --auto-complete-result-status-icon-size: clamp(14px, var(--auto-complete-result-avatar-size) * 0.4, 18px);
+  --auto-complete-result-status-icon-position: calc(var(--auto-complete-result-avatar-size) / 2 * (1 - 1 / sqrt(2)) - var(--auto-complete-result-status-icon-size) / 2);
+  box-sizing: border-box;
+  position: absolute;
+  inset-inline-end: var(--auto-complete-result-status-icon-position);
+  bottom: var(--auto-complete-result-status-icon-position);
+  height: var(--auto-complete-result-status-icon-size);
+  width: var(--auto-complete-result-status-icon-size);
+  border: 2px solid var(--color-main-background);
+  border-radius: 50%;
+  background-color: var(--color-main-background);
+  font-size: calc(var(--auto-complete-result-status-icon-size) / 1.2);
+  line-height: 1.2;
+  background-repeat: no-repeat;
+  background-size: var(--auto-complete-result-status-icon-size);
+  background-position: center;
+}
+.autocomplete-result__status--icon[data-v-ca83b679] {
+  border: none;
+  background-color: transparent;
+}
+.autocomplete-result__content[data-v-ca83b679] {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.autocomplete-result__title[data-v-ca83b679], .autocomplete-result__subline[data-v-ca83b679] {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.autocomplete-result__subline[data-v-ca83b679] {
+  color: var(--color-text-maxcontrast);
+}/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/*
+* Ensure proper alignment of the vue material icons
+*/
+.material-design-icon[data-v-faef642b] {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
+.rich-contenteditable[data-v-faef642b] {
+  --contenteditable-block-offset: calc(2 * var(--default-grid-baseline));
+  --contenteditable-inline-start-offset: calc(2 * var(--default-grid-baseline));
+  --contenteditable-inline-end-offset: calc(2 * var(--default-grid-baseline));
+  position: relative;
+  width: auto;
+}
+.rich-contenteditable__label[data-v-faef642b] {
+  position: absolute;
+  margin-inline: 14px;
+  max-width: fit-content;
+  inset-block-start: 11px;
+  inset-inline: 0;
+  color: var(--color-text-maxcontrast);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  transition: height var(--animation-quick), inset-block-start var(--animation-quick), font-size var(--animation-quick), color var(--animation-quick), background-color var(--animation-quick) var(--animation-slow);
+}
+.rich-contenteditable__input:focus + .rich-contenteditable__label[data-v-faef642b], .rich-contenteditable__input:not(.rich-contenteditable__input--empty) + .rich-contenteditable__label[data-v-faef642b] {
+  inset-block-start: -10px;
+  line-height: 1.5;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--default-grid-baseline) var(--default-grid-baseline) 0 0;
+  background-color: var(--color-main-background);
+  padding-inline: 5px;
+  margin-inline: 9px;
+  transition: height var(--animation-quick), inset-block-start var(--animation-quick), font-size var(--animation-quick), color var(--animation-quick);
+}
+.rich-contenteditable__input[data-v-faef642b] {
+  overflow-y: auto;
+  width: auto;
+  margin: 0;
+  padding-block: var(--contenteditable-block-offset);
+  padding-inline: var(--contenteditable-inline-start-offset) var(--contenteditable-inline-end-offset);
+  cursor: text;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  color: var(--color-main-text);
+  border: 2px solid var(--color-border-maxcontrast);
+  border-radius: var(--border-radius-element);
+  outline: none;
+  background-color: var(--color-main-background);
+  font-family: var(--font-face);
+  font-size: inherit;
+  tab-size: 4;
+  min-height: var(--default-clickable-area);
+  max-height: calc(var(--default-clickable-area) * 5.5);
+}
+.rich-contenteditable__input--has-label[data-v-faef642b] {
+  margin-top: 10px;
+}
+.rich-contenteditable__input--empty[data-v-faef642b]:focus:before, .rich-contenteditable__input--empty[data-v-faef642b]:not(.rich-contenteditable__input--has-label):before {
+  content: attr(aria-placeholder);
+  color: var(--color-text-maxcontrast);
+  position: absolute;
+  width: calc(100% - var(--contenteditable-inline-start-offset) - var(--contenteditable-inline-end-offset));
+  height: calc(100% - 2 * var(--contenteditable-block-offset));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.rich-contenteditable__input[contenteditable=false][data-v-faef642b]:not(.rich-contenteditable__input--disabled) {
+  cursor: default;
+  background-color: transparent;
+  color: var(--color-main-text);
+  border-color: transparent;
+  opacity: 1;
+  border-radius: 0;
+}
+.rich-contenteditable__input--multiline[data-v-faef642b] {
+  min-height: calc(var(--default-clickable-area) * 3);
+  max-height: none;
+}
+.rich-contenteditable__input--disabled[data-v-faef642b] {
+  opacity: 0.5;
+  color: var(--color-text-maxcontrast);
+  border: 2px solid var(--color-background-darker);
+  border-radius: var(--border-radius-small);
+  background-color: var(--color-background-dark);
+}
+.rich-contenteditable__input--overflow[data-v-faef642b], .rich-contenteditable__input--overflow[data-v-faef642b]:hover {
+  border-color: var(--color-border-error, var(--color-error)) !important;
+}/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/*
+* Ensure proper alignment of the vue material icons
+*/
+._material-design-icon_UrExO {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
+._tribute-container_aTO5r {
+  z-index: 9000;
+  overflow: auto;
+  position: absolute;
+  /* stylelint-disable-next-line csstools/use-logical */ /* upstream logic */
+  left: -100vw;
+  margin: var(--default-grid-baseline) 0;
+  padding: var(--default-grid-baseline);
+  color: var(--color-text-maxcontrast);
+  border-radius: var(--border-radius-element);
+  background: var(--color-main-background);
+  box-shadow: 0 1px 5px var(--color-box-shadow);
+}
+._tribute-container_aTO5r, ._tribute-container_aTO5r * {
+  box-sizing: border-box;
+}
+._tribute-container_aTO5r ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--default-grid-baseline);
+}
+._tribute-container_aTO5r ._tribute-container__item_EHZ07 {
+  color: var(--color-text-maxcontrast);
+  border-radius: var(--border-radius-small);
+  padding: var(--default-grid-baseline);
+  cursor: pointer;
+  min-height: var(--clickable-area-small, auto);
+}
+._tribute-container_aTO5r ._tribute-container__item_EHZ07.highlight {
+  color: var(--color-main-text);
+  background: var(--color-background-hover);
+}
+._tribute-container_aTO5r ._tribute-container__item_EHZ07.highlight, ._tribute-container_aTO5r ._tribute-container__item_EHZ07.highlight * {
+  cursor: pointer;
+}
+._tribute-container_aTO5r._tribute-container--focus-visible_GHsDW .highlight._tribute-container__item_EHZ07 {
+  outline: 2px solid var(--color-main-text) !important;
+}
+._tribute-container-autocomplete_YNk1h {
+  min-width: 250px;
+  max-width: 300px;
+  max-height: calc((var(--default-clickable-area) + 3 * var(--default-grid-baseline)) * 4.5 - 1.5 * var(--default-grid-baseline));
+}
+._tribute-container-emoji_jWgZX,
+._tribute-container-link_1b7mc {
+  min-width: 200px;
+  max-width: 200px;
+  max-height: calc((24px + 3 * var(--default-grid-baseline)) * 5.5 - 1.5 * var(--default-grid-baseline));
+}
+._tribute-container-emoji_jWgZX ._tribute-item_p5sRT,
+._tribute-container-link_1b7mc ._tribute-item_p5sRT {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+._tribute-container-link_1b7mc {
+  min-width: 200px;
+  max-width: 300px;
+}
+._tribute-container-link_1b7mc ._tribute-item_p5sRT {
+  display: flex;
+  align-items: center;
+}
+._tribute-container-link_1b7mc ._tribute-item__title_VPcy9 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+._tribute-container-link_1b7mc ._tribute-item__icon_aTxCU {
+  margin: auto 0;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  padding-inline-end: var(--default-grid-baseline);
+  filter: var(--background-invert-if-dark);
+}

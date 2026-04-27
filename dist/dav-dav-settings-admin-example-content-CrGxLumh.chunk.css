@@ -1,0 +1,51 @@
+.download-button[data-v-1a393c56] {
+  display: flex;
+  max-width: 200px;
+}
+.download-button__label[data-v-1a393c56] {
+  font-weight: initial;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.download-button__icon[data-v-1a393c56] {
+  margin-top: 2px;
+  margin-inline-start: var(--default-grid-baseline);
+}.example-contact-settings[data-v-1c516d62] {
+  margin-block-start: 2rem;
+}
+.example-contact-settings__buttons[data-v-1c516d62] {
+  display: flex;
+  gap: calc(var(--default-grid-baseline) * 2);
+  margin-top: calc(var(--default-grid-baseline) * 2);
+}.example-event-settings[data-v-9048222d] {
+  margin-block: 2rem;
+}
+.example-event-settings__buttons[data-v-9048222d] {
+  display: flex;
+  gap: calc(var(--default-grid-baseline) * 2);
+  margin-top: calc(var(--default-grid-baseline) * 2);
+}
+.example-event-settings__buttons__download-link[data-v-9048222d] {
+  display: flex;
+  max-width: 100px;
+}
+.example-event-settings__buttons__download-link__label[data-v-9048222d] {
+  text-decoration: underline;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.import-event-modal[data-v-9048222d] {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--default-grid-baseline) * 2);
+  padding: calc(var(--default-grid-baseline) * 2);
+}
+.import-event-modal__file-picker[data-v-9048222d] {
+  width: 100%;
+}
+.import-event-modal__buttons[data-v-9048222d] {
+  display: flex;
+  justify-content: flex-end;
+}

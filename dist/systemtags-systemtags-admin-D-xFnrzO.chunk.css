@@ -1,0 +1,15 @@
+.system-tag-form[data-v-c66aab93] {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  gap: 8px 0;
+}
+.system-tag-form__group[data-v-c66aab93] {
+  display: flex;
+  flex-direction: column;
+}
+.system-tag-form__row[data-v-c66aab93] {
+  margin-top: 8px;
+  display: flex;
+  gap: 0 4px;
+}

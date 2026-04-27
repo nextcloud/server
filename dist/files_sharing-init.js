@@ -1,2 +1,2649 @@
-(()=>{var e,t,n,r={81382(e,t,n){"use strict";var r=n(35810),i=n(77815),s=n(65659),a=n(19051),o=n(61338),l=n(53334),c=n(63814);const d='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account-group-outline" viewBox="0 0 24 24"><path d="M12,5A3.5,3.5 0 0,0 8.5,8.5A3.5,3.5 0 0,0 12,12A3.5,3.5 0 0,0 15.5,8.5A3.5,3.5 0 0,0 12,5M12,7A1.5,1.5 0 0,1 13.5,8.5A1.5,1.5 0 0,1 12,10A1.5,1.5 0 0,1 10.5,8.5A1.5,1.5 0 0,1 12,7M5.5,8A2.5,2.5 0 0,0 3,10.5C3,11.44 3.53,12.25 4.29,12.68C4.65,12.88 5.06,13 5.5,13C5.94,13 6.35,12.88 6.71,12.68C7.08,12.47 7.39,12.17 7.62,11.81C6.89,10.86 6.5,9.7 6.5,8.5C6.5,8.41 6.5,8.31 6.5,8.22C6.2,8.08 5.86,8 5.5,8M18.5,8C18.14,8 17.8,8.08 17.5,8.22C17.5,8.31 17.5,8.41 17.5,8.5C17.5,9.7 17.11,10.86 16.38,11.81C16.5,12 16.63,12.15 16.78,12.3C16.94,12.45 17.1,12.58 17.29,12.68C17.65,12.88 18.06,13 18.5,13C18.94,13 19.35,12.88 19.71,12.68C20.47,12.25 21,11.44 21,10.5A2.5,2.5 0 0,0 18.5,8M12,14C9.66,14 5,15.17 5,17.5V19H19V17.5C19,15.17 14.34,14 12,14M4.71,14.55C2.78,14.78 0,15.76 0,17.5V19H3V17.07C3,16.06 3.69,15.22 4.71,14.55M19.29,14.55C20.31,15.22 21,16.06 21,17.07V19H24V17.5C24,15.76 21.22,14.78 19.29,14.55M12,16C13.53,16 15.24,16.5 16.23,17H7.77C8.76,16.5 10.47,16 12,16Z" /></svg>',u='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account-plus-outline" viewBox="0 0 24 24"><path d="M15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4M15,5.9C16.16,5.9 17.1,6.84 17.1,8C17.1,9.16 16.16,10.1 15,10.1A2.1,2.1 0 0,1 12.9,8A2.1,2.1 0 0,1 15,5.9M4,7V10H1V12H4V15H6V12H9V10H6V7H4M15,13C12.33,13 7,14.33 7,17V20H23V17C23,14.33 17.67,13 15,13M15,14.9C17.97,14.9 21.1,16.36 21.1,17V18.1H8.9V17C8.9,16.36 12,14.9 15,14.9Z" /></svg>',p='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-file-upload-outline" viewBox="0 0 24 24"><path d="M14,2L20,8V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H14M18,20V9H13V4H6V20H18M12,12L16,16H13.5V19H10.5V16H8L12,12Z" /></svg>',h='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-link" viewBox="0 0 24 24"><path d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" /></svg>';var f=n(81222),m=n(40715),g=n(87543);const v="shareoverview",A="sharingin",w="sharingout",b="sharinglinks",y="deletedshares",_="pendingshares",C={id:"accept-share",displayName:({nodes:e})=>(0,l.zw)("files_sharing","Accept share","Accept shares",e.length),iconSvgInline:()=>s,enabled:({nodes:e,view:t})=>e.length>0&&t.id===_,async exec({nodes:e}){try{const t=e[0],n=!!t.attributes.remote,r=(0,c.KT)("apps/files_sharing/api/v1/{shareBase}/pending/{id}",{shareBase:n?"remote_shares":"shares",id:t.id});return await a.Ay.post(r),(0,o.Ic)("files:node:deleted",t),!0}catch{return!1}},async execBatch({nodes:e,view:t,folder:n,contents:r}){return Promise.all(e.map(e=>this.exec({nodes:[e],view:t,folder:n,contents:r})))},order:1,inline:()=>!0},x={id:"files_sharing:open-in-files",displayName:()=>(0,l.Tl)("files_sharing","Open in Files"),iconSvgInline:()=>"",enabled:({view:e})=>[v,A,w,b].includes(e.id),async exec({nodes:e}){const t=e[0].type===r.pt.Folder;return window.OCP.Files.Router.goToRoute(null,{view:"files",fileid:String(e[0].fileid)},{dir:t?e[0].path:e[0].dirname,openfile:t?void 0:"true"}),null},order:-1e3,default:r.m9.HIDDEN},E={id:"reject-share",displayName:({nodes:e})=>(0,l.zw)("files_sharing","Reject share","Reject shares",e.length),iconSvgInline:()=>'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-close" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>',enabled:({nodes:e,view:t})=>t.id===_&&0!==e.length&&!e.some(e=>e.attributes.remote_id&&e.attributes.share_type===m.I.RemoteGroup),async exec({nodes:e}){try{const t=e[0],n=t.attributes.remote?"remote_shares":"shares",r=t.id;let i;return i=0===t.attributes.accepted?(0,c.KT)("apps/files_sharing/api/v1/{shareBase}/pending/{id}",{shareBase:n,id:r}):(0,c.KT)("apps/files_sharing/api/v1/{shareBase}/{id}",{shareBase:n,id:r}),await a.Ay.delete(i),(0,o.Ic)("files:node:deleted",t),!0}catch{return!1}},async execBatch({nodes:e,view:t,folder:n,contents:r}){return Promise.all(e.map(e=>this.exec({nodes:[e],view:t,folder:n,contents:r})))},order:2,inline:()=>!0},D={id:"restore-share",displayName:({nodes:e})=>(0,l.zw)("files_sharing","Restore share","Restore shares",e.length),iconSvgInline:()=>'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-arrow-u-left-top" viewBox="0 0 24 24"><path d="M20 13.5C20 17.09 17.09 20 13.5 20H6V18H13.5C16 18 18 16 18 13.5S16 9 13.5 9H7.83L10.91 12.09L9.5 13.5L4 8L9.5 2.5L10.92 3.91L7.83 7H13.5C17.09 7 20 9.91 20 13.5Z" /></svg>',enabled:({nodes:e,view:t})=>e.length>0&&t.id===y,async exec({nodes:e}){try{const t=e[0],n=(0,c.KT)("apps/files_sharing/api/v1/deletedshares/{id}",{id:t.id});return await a.Ay.post(n),(0,o.Ic)("files:node:deleted",t),!0}catch{return!1}},async execBatch({nodes:e,view:t,folder:n,contents:r}){return Promise.all(e.map(e=>this.exec({nodes:[e],view:t,folder:n,contents:r})))},order:1,inline:()=>!0};var S=n(21777),L=n(85168),N=n(32505);var T=n(85072),F=n.n(T),I=n(97825),H=n.n(I),P=n(77659),V=n.n(P),M=n(55056),O=n.n(M),k=n(10540),R=n.n(k),$=n(41113),B=n.n($),U=n(53168),j={};function q(e){return e.attributes?.["is-federated"]??!1}j.styleTagTransform=B(),j.setAttributes=O(),j.insert=V().bind(null,"head"),j.domAPI=H(),j.insertStyleElement=R(),F()(U.A,j),U.A&&U.A.locals&&U.A.locals;const z={id:"sharing-status",displayName({nodes:e}){const t=e[0];return Object.values(t?.attributes?.["share-types"]||{}).flat().length>0||t.owner!==(0,S.HW)()?.uid||q(t)?(0,l.Tl)("files_sharing","Shared"):""},title({nodes:e}){const t=e[0];if(t.owner&&(t.owner!==(0,S.HW)()?.uid||q(t))){const e=t?.attributes?.["owner-display-name"];return(0,l.Tl)("files_sharing","Shared by {ownerDisplayName}",{ownerDisplayName:e})}if(Object.values(t?.attributes?.["share-types"]||{}).flat().length>1)return(0,l.Tl)("files_sharing","Shared multiple times with different people");const n=t.attributes.sharees?.sharee;if(!n)return(0,l.Tl)("files_sharing","Sharing options");const r=[n].flat()[0];switch(r?.type){case m.I.User:return(0,l.Tl)("files_sharing","Shared with {user}",{user:r["display-name"]});case m.I.Group:return(0,l.Tl)("files_sharing","Shared with group {group}",{group:r["display-name"]??r.id});default:return(0,l.Tl)("files_sharing","Shared with others")}},iconSvgInline({nodes:e}){const t=e[0],n=Object.values(t?.attributes?.["share-types"]||{}).flat();return Array.isArray(t.attributes?.["share-types"])&&t.attributes?.["share-types"].length>1?u:n.includes(m.I.Link)||n.includes(m.I.Email)?h:n.includes(m.I.Group)||n.includes(m.I.RemoteGroup)?d:n.includes(m.I.Team)?'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z" /></svg>':t.owner&&(t.owner!==(0,S.HW)()?.uid||q(t))?function(e,t=!1){const n=`${t?`/avatar/guest/${e}`:`/avatar/${e}`}/32${!0===window?.matchMedia?.("(prefers-color-scheme: dark)")?.matches||null!==document.querySelector("[data-themes*=dark]")?"/dark":""}${t?"":"?guestFallback=true"}`;return`<svg width="32" height="32" viewBox="0 0 32 32"\n\t\txmlns="http://www.w3.org/2000/svg" class="sharing-status__avatar">\n\t\t<image href="${(0,c.Jv)(n,{userId:e})}" height="32" width="32" />\n\t</svg>`}(t.owner,q(t)):u},enabled({nodes:e}){if(1!==e.length)return!1;if((0,N.f)())return!1;const t=e[0],n=t.attributes?.["share-types"];return!!(Array.isArray(n)&&n.length>0)||!(t.owner===(0,S.HW)()?.uid&&!q(t))||0!==(t.permissions&r.aX.SHARE)&&0!==(t.permissions&r.aX.READ)},async exec({nodes:e}){const t=e[0];return 0!==(t.permissions&r.aX.READ)?((0,r.dC)().open(t,"sharing"),null):((0,L.Qg)((0,l.Tl)("files_sharing","You do not have enough permissions to share this file.")),null)},inline:()=>!0};var G=n(26422),W=n(85471),K=n(41944),Y=n(74095),Z=n(82182);const X=document.getElementsByTagName("head")[0].getAttribute("data-user"),J=(document.getElementsByTagName("head")[0].getAttribute("data-user-displayname"),void 0!==X&&X),Q=(0,W.pM)({__name:"FileListFilterAccount",props:{filter:null},setup(e){const t=e,n=J,r=(0,W.KR)(""),i=(0,W.KR)([]),s=(0,W.KR)([]);(0,W.wB)(s,()=>{const e=s.value.map(({id:e,displayName:t})=>({uid:e,displayName:t}));t.filter.setAccounts(e.length>0?e:void 0)}),(0,W.sV)(()=>{u(t.filter.availableAccounts),s.value=i.value.filter(({id:e})=>t.filter.filterAccounts?.some(({uid:t})=>t===e))??[],t.filter.addEventListener("accounts-updated",u),t.filter.addEventListener("reset",d),t.filter.addEventListener("deselect",c)}),(0,W.hi)(()=>{t.filter.removeEventListener("accounts-updated",u),t.filter.removeEventListener("reset",d),t.filter.removeEventListener("deselect",c)});const a=(0,W.EW)(()=>{if(!r.value)return[...i.value].sort(o);const e=r.value.toLocaleLowerCase().trim().split(" ");return i.value.filter(t=>e.every(e=>t.user.toLocaleLowerCase().includes(e)||t.displayName.toLocaleLowerCase().includes(e))).sort(o)});function o(e,t){return e.id===n?-1:t.id===n?1:e.displayName.localeCompare(t.displayName)}function c(e){const t=e.detail;s.value=s.value.filter(({id:e})=>e!==t)}function d(){s.value=[],r.value=""}function u(e){e instanceof CustomEvent&&(e=e.detail),i.value=e.map(({uid:e,displayName:t})=>({displayName:t,id:e,user:e}))}return{__sfc:!0,props:t,currentUserId:n,accountFilter:r,availableAccounts:i,selectedAccounts:s,shownAccounts:a,sortAccounts:o,toggleAccount:function(e,t){if(s.value=s.value.filter(({id:t})=>t!==e),t){const t=i.value.find(({id:t})=>t===e);t&&(s.value=[...s.value,t])}},deselect:c,resetFilter:d,setAvailableAccounts:u,t:l.t,NcAvatar:K.A,NcButton:Y.A,NcTextField:Z.A}}});var ee=n(15914),te={};te.styleTagTransform=B(),te.setAttributes=O(),te.insert=V().bind(null,"head"),te.domAPI=H(),te.insertStyleElement=R(),F()(ee.A,te);const ne=ee.A&&ee.A.locals?ee.A.locals:void 0,re=(0,n(14486).A)(Q,function(){var e=this,t=e._self._c,n=e._self._setupProxy;return t("div",{class:e.$style.fileListFilterAccount},[n.availableAccounts.length>1?t(n.NcTextField,{attrs:{type:"search",label:n.t("files_sharing","Filter accounts")},model:{value:n.accountFilter,callback:function(e){n.accountFilter=e},expression:"accountFilter"}}):e._e(),e._v(" "),e._l(n.shownAccounts,function(r){return t(n.NcButton,{key:r.id,attrs:{alignment:"start",pressed:n.selectedAccounts.includes(r),variant:"tertiary",wide:""},on:{"update:pressed":function(e){return n.toggleAccount(r.id,e)}},scopedSlots:e._u([{key:"icon",fn:function(){return[t(n.NcAvatar,e._b({class:e.$style.fileListFilterAccount__avatar,attrs:{size:24,"disable-menu":"","hide-status":""}},"NcAvatar",r,!1))]},proxy:!0}],null,!0)},[e._v("\n\t\t"+e._s(r.displayName)+"\n\t\t"),r.id===n.currentUserId?t("span",{class:e.$style.fileListFilterAccount__currentUser},[e._v("\n\t\t\t("+e._s(n.t("files","you"))+")\n\t\t")]):e._e()])})],2)},[],!1,function(e){this.$style=ne.locals||ne},null,null).exports;function ie(e,t,n){return(t=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var n=t.call(e,"string");if("object"!=typeof n)return n;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function se(e,t,n){(function(e,t){if(t.has(e))throw new TypeError("Cannot initialize the same private elements twice on an object")})(e,t),t.set(e,n)}function ae(e,t){return e.get(le(e,t))}function oe(e,t,n){return e.set(le(e,t),n),n}function le(e,t,n){if("function"==typeof e?e===t:e.has(t))return arguments.length<3?t:n;throw new TypeError("Private element is not present on this object")}const ce="files_sharing-file-list-filter-account";var de=new WeakMap,ue=new WeakMap;class pe extends r.L3{constructor(){super("files_sharing:account",100),se(this,de,void 0),se(this,ue,void 0),ie(this,"displayName",(0,l.t)("files_sharing","People")),ie(this,"iconSvgInline",'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account-multiple-outline" viewBox="0 0 24 24"><path d="M13.07 10.41A5 5 0 0 0 13.07 4.59A3.39 3.39 0 0 1 15 4A3.5 3.5 0 0 1 15 11A3.39 3.39 0 0 1 13.07 10.41M5.5 7.5A3.5 3.5 0 1 1 9 11A3.5 3.5 0 0 1 5.5 7.5M7.5 7.5A1.5 1.5 0 1 0 9 6A1.5 1.5 0 0 0 7.5 7.5M16 17V19H2V17S2 13 9 13 16 17 16 17M14 17C13.86 16.22 12.67 15 9 15S4.07 16.31 4 17M15.95 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13Z" /></svg>'),ie(this,"tagName",ce),oe(de,this,[]),(0,o.B1)("files:list:updated",({contents:e})=>{this.updateAvailableAccounts(e)})}get availableAccounts(){return ae(de,this)}get filterAccounts(){return ae(ue,this)}filter(e){if(!ae(ue,this)||0===ae(ue,this).length)return e;const t=ae(ue,this).map(({uid:e})=>e);return e.filter(e=>{if("trashbin"===window.OCP.Files.Router.params.view){const n=e.attributes?.["trashbin-deleted-by-id"];return!(!n||!t.includes(n))}if(e.owner&&t.includes(e.owner))return!0;const n=e.attributes.sharees?.sharee;return!(!n||![n].flat().some(({id:e})=>t.includes(e)))||!e.owner&&!n})}reset(){this.dispatchEvent(new CustomEvent("reset"))}setAccounts(e){oe(ue,this,e);let t=[];ae(ue,this)&&ae(ue,this).length>0&&(t=ae(ue,this).map(({displayName:e,uid:t})=>({text:e,user:t,onclick:()=>this.dispatchEvent(new CustomEvent("deselect",{detail:t}))}))),this.updateChips(t),this.filterUpdated()}updateAvailableAccounts(e){const t=new Map;for(const n of e){const e=n.owner;e&&!t.has(e)&&t.set(e,{uid:e,displayName:n.attributes["owner-display-name"]??n.owner});const r=[n.attributes.sharees?.sharee].flat().filter(Boolean);for(const e of[r].flat())""!==e.id&&(e.type!==m.I.User&&e.type!==m.I.Remote||t.has(e.id)||t.set(e.id,{uid:e.id,displayName:e["display-name"]}));const i=n.attributes?.["trashbin-deleted-by-id"];i&&t.set(i,{uid:i,displayName:n.attributes?.["trashbin-deleted-by-display-name"]||i})}oe(de,this,[...t.values()]),this.dispatchEvent(new CustomEvent("accounts-updated"))}}var he=n(98469);const fe=new(n(87771).A),me=(0,W.$V)(()=>Promise.all([n.e(4208),n.e(1598)]).then(n.bind(n,11598))),ge={id:"file-request",displayName:(0,l.t)("files_sharing","Create file request"),iconSvgInline:p,order:10,enabled:()=>!(0,N.f)()&&!!fe.isPublicUploadEnabled&&fe.isPublicShareAllowed,async handler(e,t){(0,he.S)(me,{context:e,content:t})}};(()=>{const e=(0,r.bh)();e.register(new r.Ss({id:v,name:(0,l.t)("files_sharing","Shares"),caption:(0,l.t)("files_sharing","Overview of shared files."),emptyTitle:(0,l.t)("files_sharing","No shares"),emptyCaption:(0,l.t)("files_sharing","Files and folders you shared or have been shared with you will show up here"),icon:u,order:20,columns:[],getContents:()=>(0,g.h)()})),e.register(new r.Ss({id:A,name:(0,l.t)("files_sharing","Shared with you"),caption:(0,l.t)("files_sharing","List of files that are shared with you."),emptyTitle:(0,l.t)("files_sharing","Nothing shared with you yet"),emptyCaption:(0,l.t)("files_sharing","Files and folders others shared with you will show up here"),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account-outline" viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M12,13C14.67,13 20,14.33 20,17V20H4V17C4,14.33 9.33,13 12,13M12,14.9C9.03,14.9 5.9,16.36 5.9,17V18.1H18.1V17C18.1,16.36 14.97,14.9 12,14.9Z" /></svg>',order:1,parent:v,columns:[],getContents:()=>(0,g.h)(!0,!1,!1,!1)})),0!==(0,f.C)("files","storageStats",{quota:-1}).quota&&e.register(new r.Ss({id:w,name:(0,l.t)("files_sharing","Shared with others"),caption:(0,l.t)("files_sharing","List of files that you shared with others."),emptyTitle:(0,l.t)("files_sharing","Nothing shared yet"),emptyCaption:(0,l.t)("files_sharing","Files and folders you shared will show up here"),icon:d,order:2,parent:v,columns:[],getContents:()=>(0,g.h)(!1,!0,!1,!1)})),e.register(new r.Ss({id:b,name:(0,l.t)("files_sharing","Shared by link"),caption:(0,l.t)("files_sharing","List of files that are shared by link."),emptyTitle:(0,l.t)("files_sharing","No shared links"),emptyCaption:(0,l.t)("files_sharing","Files and folders you shared by link will show up here"),icon:h,order:3,parent:v,columns:[],getContents:()=>(0,g.h)(!1,!0,!1,!1,[m.I.Link])})),e.register(new r.Ss({id:"filerequest",name:(0,l.t)("files_sharing","File requests"),caption:(0,l.t)("files_sharing","List of file requests."),emptyTitle:(0,l.t)("files_sharing","No file requests"),emptyCaption:(0,l.t)("files_sharing","File requests you have created will show up here"),icon:p,order:4,parent:v,columns:[],getContents:()=>(0,g.h)(!1,!0,!1,!1,[m.I.Link,m.I.Email]).then(({folder:e,contents:t})=>({folder:e,contents:t.filter(e=>(0,g.C)(e.attributes?.["share-attributes"]||[]))}))})),e.register(new r.Ss({id:y,name:(0,l.t)("files_sharing","Deleted shares"),caption:(0,l.t)("files_sharing","List of shares you left."),emptyTitle:(0,l.t)("files_sharing","No deleted shares"),emptyCaption:(0,l.t)("files_sharing","Shares you have left will show up here"),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-trash-can-outline" viewBox="0 0 24 24"><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',order:5,parent:v,columns:[],getContents:()=>(0,g.h)(!1,!1,!1,!0)})),e.register(new r.Ss({id:_,name:(0,l.t)("files_sharing","Pending shares"),caption:(0,l.t)("files_sharing","List of unapproved shares."),emptyTitle:(0,l.t)("files_sharing","No pending shares"),emptyCaption:(0,l.t)("files_sharing","Shares you have received but not approved will show up here"),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account-clock-outline" viewBox="0 0 24 24"><path d="M16,14H17.5V16.82L19.94,18.23L19.19,19.53L16,17.69V14M17,12A5,5 0 0,0 12,17A5,5 0 0,0 17,22A5,5 0 0,0 22,17A5,5 0 0,0 17,12M17,10A7,7 0 0,1 24,17A7,7 0 0,1 17,24C14.21,24 11.8,22.36 10.67,20H1V17C1,14.34 6.33,13 9,13C9.6,13 10.34,13.07 11.12,13.2C12.36,11.28 14.53,10 17,10M10,17C10,16.3 10.1,15.62 10.29,15C9.87,14.93 9.43,14.9 9,14.9C6.03,14.9 2.9,16.36 2.9,17V18.1H10.09C10.03,17.74 10,17.37 10,17M9,4A4,4 0 0,1 13,8A4,4 0 0,1 9,12A4,4 0 0,1 5,8A4,4 0 0,1 9,4M9,5.9A2.1,2.1 0 0,0 6.9,8A2.1,2.1 0 0,0 9,10.1A2.1,2.1 0 0,0 11.1,8A2.1,2.1 0 0,0 9,5.9Z" /></svg>',order:6,parent:v,columns:[],getContents:()=>(0,g.h)(!1,!1,!0,!1)}))})(),(0,r.zj)(ge),(0,i.Yc)("nc:note",{nc:"http://nextcloud.org/ns"}),(0,i.Yc)("nc:sharees",{nc:"http://nextcloud.org/ns"}),(0,i.Yc)("nc:hide-download",{nc:"http://nextcloud.org/ns"}),(0,i.Yc)("nc:share-attributes",{nc:"http://nextcloud.org/ns"}),(0,i.Yc)("oc:share-types",{oc:"http://owncloud.org/ns"}),(0,i.Yc)("ocs:share-permissions",{ocs:"http://open-collaboration-services.org/ns"}),(0,r.Gg)(C),(0,r.Gg)(x),(0,r.Gg)(E),(0,r.Gg)(D),(0,r.Gg)(z),function(){if((0,N.f)())return;const e=(0,G.A)(W.Ay,re);Object.defineProperty(e.prototype,"attachShadow",{value(){return this}}),Object.defineProperty(e.prototype,"shadowRoot",{get(){return this}}),customElements.define(ce,e),(0,r.cZ)(new pe)}(),function(){let e,t;(0,r.pJ)({id:"note-to-recipient",order:0,enabled:e=>Boolean(e.attributes.note),updated:e=>{t&&t.updateFolder(e)},render:async(r,i)=>{if(void 0===e){const{default:t}=await Promise.all([n.e(4208),n.e(1930)]).then(n.bind(n,81930));e=W.Ay.extend(t)}t=(new e).$mount(r),t.updateFolder(i)}})}()},87771(e,t,n){"use strict";n.d(t,{A:()=>s});var r=n(87485),i=n(81222);class s{constructor(){var e,t,n;e=this,n=void 0,(t=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var n=t.call(e,"string");if("object"!=typeof n)return n;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(t="_capabilities"))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,this._capabilities=(0,r.F)()}get defaultPermissions(){return this._capabilities.files_sharing?.default_permissions}get excludeReshareFromEdit(){return!0===this._capabilities.files_sharing?.exclude_reshare_from_edit}get isPublicUploadEnabled(){return!0===this._capabilities.files_sharing?.public?.upload}get federatedShareDocLink(){return window.OC.appConfig.core.federatedCloudShareDoc}get defaultExpirationDate(){return this.isDefaultExpireDateEnabled&&null!==this.defaultExpireDate?new Date((new Date).setDate((new Date).getDate()+this.defaultExpireDate)):null}get defaultInternalExpirationDate(){return this.isDefaultInternalExpireDateEnabled&&null!==this.defaultInternalExpireDate?new Date((new Date).setDate((new Date).getDate()+this.defaultInternalExpireDate)):null}get defaultRemoteExpirationDateString(){return this.isDefaultRemoteExpireDateEnabled&&null!==this.defaultRemoteExpireDate?new Date((new Date).setDate((new Date).getDate()+this.defaultRemoteExpireDate)):null}get enforcePasswordForPublicLink(){return!0===window.OC.appConfig.core.enforcePasswordForPublicLink}get enableLinkPasswordByDefault(){return!0===window.OC.appConfig.core.enableLinkPasswordByDefault}get isDefaultExpireDateEnforced(){return!0===window.OC.appConfig.core.defaultExpireDateEnforced}get isDefaultExpireDateEnabled(){return!0===window.OC.appConfig.core.defaultExpireDateEnabled}get isDefaultInternalExpireDateEnforced(){return!0===window.OC.appConfig.core.defaultInternalExpireDateEnforced}get isDefaultInternalExpireDateEnabled(){return!0===window.OC.appConfig.core.defaultInternalExpireDateEnabled}get isDefaultRemoteExpireDateEnforced(){return!0===window.OC.appConfig.core.defaultRemoteExpireDateEnforced}get isDefaultRemoteExpireDateEnabled(){return!0===window.OC.appConfig.core.defaultRemoteExpireDateEnabled}get isRemoteShareAllowed(){return!0===window.OC.appConfig.core.remoteShareAllowed}get isFederationEnabled(){return!0===this._capabilities?.files_sharing?.federation?.outgoing}get isPublicShareAllowed(){return!0===this._capabilities?.files_sharing?.public?.enabled}get isMailShareAllowed(){return!0===this._capabilities?.files_sharing?.sharebymail?.enabled&&!0===this.isPublicShareAllowed}get defaultExpireDate(){return window.OC.appConfig.core.defaultExpireDate}get defaultInternalExpireDate(){return window.OC.appConfig.core.defaultInternalExpireDate}get defaultRemoteExpireDate(){return window.OC.appConfig.core.defaultRemoteExpireDate}get isResharingAllowed(){return!0===window.OC.appConfig.core.resharingAllowed}get isPasswordForMailSharesRequired(){return!0===this._capabilities.files_sharing?.sharebymail?.password?.enforced}get shouldAlwaysShowUnique(){return!0===this._capabilities.files_sharing?.sharee?.always_show_unique}get allowGroupSharing(){return!0===window.OC.appConfig.core.allowGroupSharing}get maxAutocompleteResults(){return parseInt(window.OC.config["sharing.maxAutocompleteResults"],10)||25}get minSearchStringLength(){return parseInt(window.OC.config["sharing.minSearchStringLength"],10)||0}get passwordPolicy(){return this._capabilities?.password_policy||{}}get allowCustomTokens(){return this._capabilities?.files_sharing?.public?.custom_tokens}get showFederatedSharesAsInternal(){return(0,i.C)("files_sharing","showFederatedSharesAsInternal",!1)}get showFederatedSharesToTrustedServersAsInternal(){return(0,i.C)("files_sharing","showFederatedSharesToTrustedServersAsInternal",!1)}get showExternalSharing(){return(0,i.C)("files_sharing","showExternalSharing",!0)}}},87543(e,t,n){"use strict";n.d(t,{C:()=>p,h:()=>h});var r=n(21777),i=n(19051),s=n(35810),a=n(77815),o=n(63814),l=n(48564);const c={"Content-Type":"application/json"};async function d(e){try{if(void 0!==e?.remote_id){if(!e.mimetype){const t=(await n.e(857).then(n.bind(n,10857))).default;e.mimetype=t.getType(e.name)}const t="dir"===e.type?"folder":e.type;e.item_type=t||(e.mimetype?"file":"folder"),e.item_mtime=e.mtime,e.file_target=e.file_target||e.mountpoint,e.file_target.includes("TemporaryMountPointName")&&(e.file_target=e.name),e.accepted||(e.item_permissions=s.aX.NONE,e.permissions=s.aX.NONE),e.uid_owner=e.owner,e.displayname_owner=e.owner}const t="folder"===e?.item_type,r=!0===e?.has_preview,i=t?s.vd:s.ZH,o=e.file_source||e.file_id||e.id,l=e.path||e.file_target||e.name,c=`${(0,a.EY)()}${(0,a.ei)()}/${l.replace(/^\/+/,"")}`;let d,u=e.item_mtime?new Date(1e3*e.item_mtime):void 0;return e?.stime>(e?.item_mtime||0)&&(u=new Date(1e3*e.stime)),"share_with"in e&&(d={sharee:{id:e.share_with,"display-name":e.share_with_displayname||e.share_with,type:e.share_type}}),new i({id:o,source:c,owner:e?.uid_owner,mime:e?.mimetype||"application/octet-stream",mtime:u,size:e?.item_size??void 0,permissions:e?.item_permissions||e?.permissions,root:(0,a.ei)(),attributes:{...e,"has-preview":r,"hide-download":1===e?.hide_download,"owner-id":e?.uid_owner,"owner-display-name":e?.displayname_owner,"share-types":e?.share_type,"share-attributes":e?.attributes||"[]",sharees:d,favorite:e?.tags?.includes(window.OC.TAG_FAVORITE)?1:0}})}catch(e){return l.A.error("Error while parsing OCS entry",{error:e}),null}}function u(e=!1){const t=(0,o.KT)("apps/files_sharing/api/v1/shares");return i.Ay.get(t,{headers:c,params:{shared_with_me:e,include_tags:!0}})}function p(e="[]"){const t=e=>"fileRequest"===e.scope&&"enabled"===e.key&&!0===e.value;try{return JSON.parse(e).some(t)}catch(e){return l.A.error("Error while parsing share attributes",{error:e}),!1}}async function h(e=!0,t=!0,n=!1,l=!1,p=[]){const h=[];e&&h.push(u(!0),function(){const e=(0,o.KT)("apps/files_sharing/api/v1/remote_shares");return i.Ay.get(e,{headers:c,params:{include_tags:!0}})}()),t&&h.push(u()),n&&h.push(function(){const e=(0,o.KT)("apps/files_sharing/api/v1/shares/pending");return i.Ay.get(e,{headers:c,params:{include_tags:!0}})}(),function(){const e=(0,o.KT)("apps/files_sharing/api/v1/remote_shares/pending");return i.Ay.get(e,{headers:c,params:{include_tags:!0}})}()),l&&h.push(function(){const e=(0,o.KT)("apps/files_sharing/api/v1/deletedshares");return i.Ay.get(e,{headers:c,params:{include_tags:!0}})}());const f=(await Promise.all(h)).map(e=>e.data.ocs.data).flat();let m=(await Promise.all(f.map(d))).filter(e=>null!==e);var g,v;return p.length>0&&(m=m.filter(e=>p.includes(e.attributes?.share_type))),m=(g=m,v="source",Object.values(g.reduce(function(e,t){return(e[t[v]]=e[t[v]]||[]).push(t),e},{}))).map(e=>{const t=e[0];return t.attributes["share-types"]=e.map(e=>e.attributes["share-types"]),t}),{folder:new s.vd({id:0,source:`${(0,a.EY)()}${(0,a.ei)()}`,owner:(0,r.HW)()?.uid||null,root:(0,a.ei)()}),contents:m}}},48564(e,t,n){"use strict";n.d(t,{A:()=>r});const r=(0,n(35947).YK)().setApp("files_sharing").detectUser().build()},53168(e,t,n){"use strict";n.d(t,{A:()=>o});var r=n(71354),i=n.n(r),s=n(76314),a=n.n(s)()(i());a.push([e.id,".action-items>.files-list__row-action-sharing-status{padding-inline:0 !important}.action-items>.files-list__row-action-sharing-status .button-vue__wrapper{flex-direction:row-reverse;gap:var(--default-grid-baseline)}svg.sharing-status__avatar{height:var(--button-inner-size, 32px) !important;width:var(--button-inner-size, 32px) !important;max-height:var(--button-inner-size, 32px) !important;max-width:var(--button-inner-size, 32px) !important;border-radius:var(--button-inner-size, 32px);overflow:hidden}.files-list__row-action-sharing-status .button-vue__text{color:var(--color-primary-element)}.files-list__row-action-sharing-status .button-vue__icon{color:var(--color-primary-element)}","",{version:3,sources:["webpack://./apps/files_sharing/src/files_actions/sharingStatusAction.scss"],names:[],mappings:"AAMA,qDAEC,2BAAA,CAEA,0EAEC,0BAAA,CACA,gCAAA,CAIF,2BACC,gDAAA,CACA,+CAAA,CACA,oDAAA,CACA,mDAAA,CACA,4CAAA,CACA,eAAA,CAIA,yDACC,kCAAA,CAED,yDACC,kCAAA",sourcesContent:["/*\n * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors\n * SPDX-License-Identifier: AGPL-3.0-or-later\n */\n\n // Only when rendered inline, when not enough space, this is put in the menu\n.action-items > .files-list__row-action-sharing-status {\n\t// align icons with text-less inline actions\n\tpadding-inline: 0 !important;\n\n\t.button-vue__wrapper {\n\t\t// put icon at the end of the button\n\t\tflex-direction: row-reverse;\n\t\tgap: var(--default-grid-baseline);\n\t}\n}\n\nsvg.sharing-status__avatar {\n\theight: var(--button-inner-size, 32px) !important;\n\twidth: var(--button-inner-size, 32px) !important;\n\tmax-height: var(--button-inner-size, 32px) !important;\n\tmax-width: var(--button-inner-size, 32px) !important;\n\tborder-radius: var(--button-inner-size, 32px);\n\toverflow: hidden;\n}\n\n.files-list__row-action-sharing-status {\n\t.button-vue__text {\n\t\tcolor: var(--color-primary-element);\n\t}\n\t.button-vue__icon {\n\t\tcolor: var(--color-primary-element);\n\t}\n}\n"],sourceRoot:""}]);const o=a},15914(e,t,n){"use strict";n.d(t,{A:()=>o});var r=n(71354),i=n.n(r),s=n(76314),a=n.n(s)()(i());a.push([e.id,"\n._fileListFilterAccount_ZW91g {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: var(--default-grid-baseline);\n}\n._fileListFilterAccount__avatar_V0YuN {\n\t/* 24px is the avatar size */\n\tmargin: calc((var(--default-clickable-area) - 24px) / 2);\n}\n._fileListFilterAccount__currentUser_PqQfx {\n\tfont-weight: normal !important;\n}\n","",{version:3,sources:["webpack://./apps/files_sharing/src/components/FileListFilterAccount.vue"],names:[],mappings:";AA4JA;CACA,aAAA;CACA,sBAAA;CACA,iCAAA;AACA;AAEA;CACA,4BAAA;CACA,wDAAA;AACA;AAEA;CACA,8BAAA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n<template>\n\t<div :class=\"$style.fileListFilterAccount\">\n\t\t<NcTextField\n\t\t\tv-if=\"availableAccounts.length > 1\"\n\t\t\tv-model=\"accountFilter\"\n\t\t\ttype=\"search\"\n\t\t\t:label=\"t('files_sharing', 'Filter accounts')\" />\n\t\t<NcButton\n\t\t\tv-for=\"account of shownAccounts\"\n\t\t\t:key=\"account.id\"\n\t\t\talignment=\"start\"\n\t\t\t:pressed=\"selectedAccounts.includes(account)\"\n\t\t\tvariant=\"tertiary\"\n\t\t\twide\n\t\t\t@update:pressed=\"toggleAccount(account.id, $event)\">\n\t\t\t<template #icon>\n\t\t\t\t<NcAvatar\n\t\t\t\t\t:class=\"$style.fileListFilterAccount__avatar\"\n\t\t\t\t\tv-bind=\"account\"\n\t\t\t\t\t:size=\"24\"\n\t\t\t\t\tdisable-menu\n\t\t\t\t\thide-status />\n\t\t\t</template>\n\t\t\t{{ account.displayName }}\n\t\t\t<span v-if=\"account.id === currentUserId\" :class=\"$style.fileListFilterAccount__currentUser\">\n\t\t\t\t({{ t('files', 'you') }})\n\t\t\t</span>\n\t\t</NcButton>\n\t</div>\n</template>\n\n<script setup lang=\"ts\">\nimport type { AccountFilter, IAccountData } from '../files_filters/AccountFilter.ts'\n\nimport { t } from '@nextcloud/l10n'\nimport { computed, onMounted, onUnmounted, ref, watch } from 'vue'\nimport NcAvatar from '@nextcloud/vue/components/NcAvatar'\nimport NcButton from '@nextcloud/vue/components/NcButton'\nimport NcTextField from '@nextcloud/vue/components/NcTextField'\nimport { getCurrentUser } from '../../../../core/src/OC/currentuser.js'\n\ninterface IUserSelectData {\n\tid: string\n\tuser: string\n\tdisplayName: string\n}\n\nconst props = defineProps<{\n\tfilter: AccountFilter\n}>()\n\nconst currentUserId = getCurrentUser()!.uid\n\nconst accountFilter = ref('')\nconst availableAccounts = ref<IUserSelectData[]>([])\nconst selectedAccounts = ref<IUserSelectData[]>([])\nwatch(selectedAccounts, () => {\n\tconst accounts = selectedAccounts.value.map(({ id: uid, displayName }) => ({ uid, displayName }))\n\tprops.filter.setAccounts(accounts.length > 0 ? accounts : undefined)\n})\n\nonMounted(() => {\n\tsetAvailableAccounts(props.filter.availableAccounts)\n\tselectedAccounts.value = availableAccounts.value.filter(({ id }) => props.filter.filterAccounts?.some(({ uid }) => uid === id)) ?? []\n\tprops.filter.addEventListener('accounts-updated', setAvailableAccounts)\n\tprops.filter.addEventListener('reset', resetFilter)\n\tprops.filter.addEventListener('deselect', deselect)\n})\nonUnmounted(() => {\n\tprops.filter.removeEventListener('accounts-updated', setAvailableAccounts)\n\tprops.filter.removeEventListener('reset', resetFilter)\n\tprops.filter.removeEventListener('deselect', deselect)\n})\n\n/**\n * Currently shown accounts (filtered)\n */\nconst shownAccounts = computed(() => {\n\tif (!accountFilter.value) {\n\t\treturn [...availableAccounts.value].sort(sortAccounts)\n\t}\n\n\tconst queryParts = accountFilter.value.toLocaleLowerCase().trim().split(' ')\n\tconst accounts = availableAccounts.value.filter((account) => queryParts.every((part) => account.user.toLocaleLowerCase().includes(part)\n\t\t|| account.displayName.toLocaleLowerCase().includes(part)))\n\treturn accounts.sort(sortAccounts)\n})\n\n/**\n * Sort accounts, putting the current user at the begin\n *\n * @param a - First account\n * @param b - Second account\n */\nfunction sortAccounts(a: IUserSelectData, b: IUserSelectData) {\n\tif (a.id === currentUserId) {\n\t\treturn -1\n\t}\n\tif (b.id === currentUserId) {\n\t\treturn 1\n\t}\n\treturn a.displayName.localeCompare(b.displayName)\n}\n\n/**\n * Toggle an account as selected\n *\n * @param accountId The account to toggle\n * @param selected Whether to select or deselect the account\n */\nfunction toggleAccount(accountId: string, selected: boolean) {\n\tselectedAccounts.value = selectedAccounts.value.filter(({ id }) => id !== accountId)\n\tif (selected) {\n\t\tconst account = availableAccounts.value.find(({ id }) => id === accountId)\n\t\tif (account) {\n\t\t\tselectedAccounts.value = [...selectedAccounts.value, account]\n\t\t}\n\t}\n}\n\n/**\n * Deselect an account\n *\n * @param event - The custom event\n */\nfunction deselect(event: CustomEvent) {\n\tconst accountId = event.detail as string\n\tselectedAccounts.value = selectedAccounts.value.filter(({ id }) => id !== accountId)\n}\n\n/**\n * Reset this filter\n */\nfunction resetFilter() {\n\tselectedAccounts.value = []\n\taccountFilter.value = ''\n}\n\n/**\n * Update list of available accounts in current view.\n *\n * @param accounts - Accounts to use\n */\nfunction setAvailableAccounts(accounts: IAccountData[] | CustomEvent): void {\n\tif (accounts instanceof CustomEvent) {\n\t\taccounts = accounts.detail as IAccountData[]\n\t}\n\tavailableAccounts.value = accounts.map(({ uid, displayName }) => ({ displayName, id: uid, user: uid }))\n}\n<\/script>\n\n<style module>\n.fileListFilterAccount {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: var(--default-grid-baseline);\n}\n\n.fileListFilterAccount__avatar {\n\t/* 24px is the avatar size */\n\tmargin: calc((var(--default-clickable-area) - 24px) / 2);\n}\n\n.fileListFilterAccount__currentUser {\n\tfont-weight: normal !important;\n}\n</style>\n"],sourceRoot:""}]),a.locals={fileListFilterAccount:"_fileListFilterAccount_ZW91g",fileListFilterAccount__avatar:"_fileListFilterAccount__avatar_V0YuN",fileListFilterAccount__currentUser:"_fileListFilterAccount__currentUser_PqQfx"};const o=a},63779(){},77199(){},77815(e,t,n){"use strict";n.d(t,{EY:()=>v,KU:()=>w,Q$:()=>b,VA:()=>g,Yc:()=>d,Yr:()=>f,aN:()=>h,ei:()=>m,pO:()=>y});var r=n(21777),i=n(63814),s=n(9487),a=n(44719),o=n(70970);const l=["d:getcontentlength","d:getcontenttype","d:getetag","d:getlastmodified","d:creationdate","d:displayname","d:quota-available-bytes","d:resourcetype","nc:has-preview","nc:is-encrypted","nc:mount-type","oc:comments-unread","oc:favorite","oc:fileid","oc:owner-display-name","oc:owner-id","oc:permissions","oc:size"],c={d:"DAV:",nc:"http://nextcloud.org/ns",oc:"http://owncloud.org/ns",ocs:"http://open-collaboration-services.org/ns"};function d(e,t={nc:"http://nextcloud.org/ns"}){o.s.davNamespaces??={...c},o.s.davProperties??=[...l];const n={...o.s.davNamespaces,...t};return o.s.davProperties.find(t=>t===e)?(o.l.warn(`${e} already registered`,{prop:e}),!1):e.startsWith("<")||2!==e.split(":").length?(o.l.error(`${e} is not valid. See example: 'oc:fileid'`,{prop:e}),!1):n[e.split(":")[0]]?(o.s.davProperties.push(e),o.s.davNamespaces=n,!0):(o.l.error(`${e} namespace unknown`,{prop:e,namespaces:n}),!1)}function u(){return o.s.davProperties??=[...l],o.s.davProperties.map(e=>`<${e} />`).join(" ")}function p(){return o.s.davNamespaces??={...c},Object.keys(o.s.davNamespaces).map(e=>`xmlns:${e}="${o.s.davNamespaces?.[e]}"`).join(" ")}function h(){return`<?xml version="1.0"?>\n\t\t<d:propfind ${p()}>\n\t\t\t<d:prop>\n\t\t\t\t${u()}\n\t\t\t</d:prop>\n\t\t</d:propfind>`}function f(e){return`<?xml version="1.0" encoding="UTF-8"?>\n<d:searchrequest ${p()}\n\txmlns:ns="https://github.com/icewind1991/SearchDAV/ns">\n\t<d:basicsearch>\n\t\t<d:select>\n\t\t\t<d:prop>\n\t\t\t\t${u()}\n\t\t\t</d:prop>\n\t\t</d:select>\n\t\t<d:from>\n\t\t\t<d:scope>\n\t\t\t\t<d:href>/files/${(0,r.HW)()?.uid}/</d:href>\n\t\t\t\t<d:depth>infinity</d:depth>\n\t\t\t</d:scope>\n\t\t</d:from>\n\t\t<d:where>\n\t\t\t<d:and>\n\t\t\t\t<d:or>\n\t\t\t\t\t<d:not>\n\t\t\t\t\t\t<d:eq>\n\t\t\t\t\t\t\t<d:prop>\n\t\t\t\t\t\t\t\t<d:getcontenttype/>\n\t\t\t\t\t\t\t</d:prop>\n\t\t\t\t\t\t\t<d:literal>httpd/unix-directory</d:literal>\n\t\t\t\t\t\t</d:eq>\n\t\t\t\t\t</d:not>\n\t\t\t\t\t<d:eq>\n\t\t\t\t\t\t<d:prop>\n\t\t\t\t\t\t\t<oc:size/>\n\t\t\t\t\t\t</d:prop>\n\t\t\t\t\t\t<d:literal>0</d:literal>\n\t\t\t\t\t</d:eq>\n\t\t\t\t</d:or>\n\t\t\t\t<d:gt>\n\t\t\t\t\t<d:prop>\n\t\t\t\t\t\t<d:getlastmodified/>\n\t\t\t\t\t</d:prop>\n\t\t\t\t\t<d:literal>${e}</d:literal>\n\t\t\t\t</d:gt>\n\t\t\t</d:and>\n\t\t</d:where>\n\t\t<d:orderby>\n\t\t\t<d:order>\n\t\t\t\t<d:prop>\n\t\t\t\t\t<d:getlastmodified/>\n\t\t\t\t</d:prop>\n\t\t\t\t<d:descending/>\n\t\t\t</d:order>\n\t\t</d:orderby>\n\t\t<d:limit>\n\t\t\t<d:nresults>100</d:nresults>\n\t\t\t<ns:firstresult>0</ns:firstresult>\n\t\t</d:limit>\n\t</d:basicsearch>\n</d:searchrequest>`}function m(){return(0,s.f)()?`/files/${(0,s.G)()}`:`/files/${(0,r.HW)()?.uid}`}const g=m();function v(){const e=(0,i.dC)("dav");return(0,s.f)()?e.replace("remote.php","public.php"):e}const A=v();function w(e=A,t={}){const n=(0,a.UU)(e,{headers:t});function i(e){n.setHeaders({...t,"X-Requested-With":"XMLHttpRequest",requesttoken:e??""})}return(0,r.zo)(i),i((0,r.do)()),(0,a.Gu)().patch("fetch",(e,t)=>{const n=t.headers;return n?.method&&(t.method=n.method,delete n.method),fetch(e,t)}),n}async function b(e={}){const t=e.client??w(),n=e.path??"/",r=e.davRoot??g;return(await t.getDirectoryContents(`${r}${n}`,{signal:e.signal,details:!0,data:`<?xml version="1.0"?>\n\t\t<oc:filter-files ${p()}>\n\t\t\t<d:prop>\n\t\t\t\t${u()}\n\t\t\t</d:prop>\n\t\t\t<oc:filter-rules>\n\t\t\t\t<oc:favorite>1</oc:favorite>\n\t\t\t</oc:filter-rules>\n\t\t</oc:filter-files>`,headers:{method:"REPORT"},includeSelf:!0})).data.filter(e=>e.filename!==n).map(e=>y(e,r))}function y(e,t=g,n=A){let i=(0,r.HW)()?.uid;if((0,s.f)())i=i??"anonymous";else if(!i)throw new Error("No user id found");const a=e.props,l=function(e=""){let t=o.P.NONE;return e?(e.includes("G")&&(t|=o.P.READ),e.includes("W")&&(t|=o.P.WRITE),e.includes("CK")&&(t|=o.P.CREATE),e.includes("NV")&&(t|=o.P.UPDATE),e.includes("D")&&(t|=o.P.DELETE),e.includes("R")&&(t|=o.P.SHARE),t):t}(a?.permissions),c=String(a?.["owner-id"]||i),d=a.fileid||0,u=new Date(Date.parse(e.lastmod)),p=new Date(Date.parse(a.creationdate)),h={id:d,source:`${n}${e.filename}`,mtime:isNaN(u.getTime())||0===u.getTime()?void 0:u,crtime:isNaN(p.getTime())||0===p.getTime()?void 0:p,mime:e.mime||"application/octet-stream",displayname:void 0!==a.displayname?String(a.displayname):void 0,size:a?.size||Number.parseInt(a.getcontentlength||"0"),status:d<0?o.c.FAILED:void 0,permissions:l,owner:c,root:t,attributes:{...e,...a,hasPreview:a?.["has-preview"]}};return delete h.attributes?.props,"file"===e.type?new o.a(h):new o.b(h)}}},i={};function s(e){var t=i[e];if(void 0!==t)return t.exports;var n=i[e]={id:e,loaded:!1,exports:{}};return r[e].call(n.exports,n,n.exports,s),n.loaded=!0,n.exports}s.m=r,e=[],s.O=(t,n,r,i)=>{if(!n){var a=1/0;for(d=0;d<e.length;d++){for(var[n,r,i]=e[d],o=!0,l=0;l<n.length;l++)(!1&i||a>=i)&&Object.keys(s.O).every(e=>s.O[e](n[l]))?n.splice(l--,1):(o=!1,i<a&&(a=i));if(o){e.splice(d--,1);var c=r();void 0!==c&&(t=c)}}return t}i=i||0;for(var d=e.length;d>0&&e[d-1][2]>i;d--)e[d]=e[d-1];e[d]=[n,r,i]},s.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return s.d(t,{a:t}),t},s.d=(e,t)=>{for(var n in t)s.o(t,n)&&!s.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},s.f={},s.e=e=>Promise.all(Object.keys(s.f).reduce((t,n)=>(s.f[n](e,t),t),[])),s.u=e=>e+"-"+e+".js?v="+{857:"3d28157955f39376ab2c",1140:"490e17ed9c8948d5a9e8",1598:"2313105a96b6c6fe6e7d",1930:"8264403992d9fcef1444",2221:"428c2ff62c4b8b3c97fc",5448:"71cfe268d6f1213c4735",6015:"ebcb6885c1fc8c461988",7859:"740587c0c8c350dad157",7910:"de857920f8beb5205bbc",8815:"9a5c507c75429c9c04e4"}[e],s.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),t={},n="nextcloud-ui-legacy:",s.l=(e,r,i,a)=>{if(t[e])t[e].push(r);else{var o,l;if(void 0!==i)for(var c=document.getElementsByTagName("script"),d=0;d<c.length;d++){var u=c[d];if(u.getAttribute("src")==e||u.getAttribute("data-webpack")==n+i){o=u;break}}o||(l=!0,(o=document.createElement("script")).charset="utf-8",s.nc&&o.setAttribute("nonce",s.nc),o.setAttribute("data-webpack",n+i),o.src=e),t[e]=[r];var p=(n,r)=>{o.onerror=o.onload=null,clearTimeout(h);var i=t[e];if(delete t[e],o.parentNode&&o.parentNode.removeChild(o),i&&i.forEach(e=>e(r)),n)return n(r)},h=setTimeout(p.bind(null,void 0,{type:"timeout",target:o}),12e4);o.onerror=p.bind(null,o.onerror),o.onload=p.bind(null,o.onload),l&&document.head.appendChild(o)}},s.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},s.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),s.j=5928,(()=>{var e;globalThis.importScripts&&(e=globalThis.location+"");var t=globalThis.document;if(!e&&t&&(t.currentScript&&"SCRIPT"===t.currentScript.tagName.toUpperCase()&&(e=t.currentScript.src),!e)){var n=t.getElementsByTagName("script");if(n.length)for(var r=n.length-1;r>-1&&(!e||!/^http(s?):/.test(e));)e=n[r--].src}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),s.p=e})(),(()=>{s.b="undefined"!=typeof document&&document.baseURI||self.location.href;var e={5928:0};s.f.j=(t,n)=>{var r=s.o(e,t)?e[t]:void 0;if(0!==r)if(r)n.push(r[2]);else{var i=new Promise((n,i)=>r=e[t]=[n,i]);n.push(r[2]=i);var a=s.p+s.u(t),o=new Error;s.l(a,n=>{if(s.o(e,t)&&(0!==(r=e[t])&&(e[t]=void 0),r)){var i=n&&("load"===n.type?"missing":n.type),a=n&&n.target&&n.target.src;o.message="Loading chunk "+t+" failed.\n("+i+": "+a+")",o.name="ChunkLoadError",o.type=i,o.request=a,r[1](o)}},"chunk-"+t,t)}},s.O.j=t=>0===e[t];var t=(t,n)=>{var r,i,[a,o,l]=n,c=0;if(a.some(t=>0!==e[t])){for(r in o)s.o(o,r)&&(s.m[r]=o[r]);if(l)var d=l(s)}for(t&&t(n);c<a.length;c++)i=a[c],s.o(e,i)&&e[i]&&e[i][0](),e[i]=0;return s.O(d)},n=globalThis.webpackChunknextcloud_ui_legacy=globalThis.webpackChunknextcloud_ui_legacy||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),s.nc=void 0;var a=s.O(void 0,[4208],()=>s(81382));a=s.O(a)})();
-//# sourceMappingURL=files_sharing-init.js.map?v=5083720510b5b4c4b266
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./core/src/OC/currentuser.js"
+/*!************************************!*\
+  !*** ./core/src/OC/currentuser.js ***!
+  \************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   currentUser: () => (/* binding */ currentUser),
+/* harmony export */   getCurrentUser: () => (/* binding */ getCurrentUser)
+/* harmony export */ });
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const rawUid = document.getElementsByTagName('head')[0].getAttribute('data-user');
+const displayName = document.getElementsByTagName('head')[0].getAttribute('data-user-displayname');
+const currentUser = rawUid !== undefined ? rawUid : false;
+
+/**
+ *
+ */
+function getCurrentUser() {
+  return {
+    uid: currentUser,
+    displayName
+  };
+}
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_actions/acceptShareAction.ts"
+/*!*******************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/acceptShareAction.ts ***!
+  \*******************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _mdi_svg_svg_check_svg_raw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/svg/svg/check.svg?raw */ "./node_modules/@mdi/svg/svg/check.svg?raw");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../files_views/shares.ts */ "./apps/files_sharing/src/files_views/shares.ts");
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const action = {
+  id: 'accept-share',
+  displayName: ({
+    nodes
+  }) => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.translatePlural)('files_sharing', 'Accept share', 'Accept shares', nodes.length),
+  iconSvgInline: () => _mdi_svg_svg_check_svg_raw__WEBPACK_IMPORTED_MODULE_0__,
+  enabled: ({
+    nodes,
+    view
+  }) => nodes.length > 0 && view.id === _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_5__.pendingSharesViewId,
+  async exec({
+    nodes
+  }) {
+    try {
+      const node = nodes[0];
+      const isRemote = !!node.attributes.remote;
+      const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('apps/files_sharing/api/v1/{shareBase}/pending/{id}', {
+        shareBase: isRemote ? 'remote_shares' : 'shares',
+        id: node.id
+      });
+      await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post(url);
+      // Remove from current view
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_2__.emit)('files:node:deleted', node);
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  async execBatch({
+    nodes,
+    view,
+    folder,
+    contents
+  }) {
+    return Promise.all(nodes.map(node => this.exec({
+      nodes: [node],
+      view,
+      folder,
+      contents
+    })));
+  },
+  order: 1,
+  inline: () => true
+};
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_actions/openInFilesAction.ts"
+/*!*******************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/openInFilesAction.ts ***!
+  \*******************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../files_views/shares.ts */ "./apps/files_sharing/src/files_views/shares.ts");
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+const action = {
+  id: 'files_sharing:open-in-files',
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files_sharing', 'Open in Files'),
+  iconSvgInline: () => '',
+  enabled: ({
+    view
+  }) => [_files_views_shares_ts__WEBPACK_IMPORTED_MODULE_2__.sharesViewId, _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_2__.sharedWithYouViewId, _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_2__.sharedWithOthersViewId, _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_2__.sharingByLinksViewId
+  // Deleted and pending shares are not
+  // accessible in the files app.
+  ].includes(view.id),
+  async exec({
+    nodes
+  }) {
+    const isFolder = nodes[0].type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder;
+    window.OCP.Files.Router.goToRoute(null,
+    // use default route
+    {
+      view: 'files',
+      fileid: String(nodes[0].fileid)
+    }, {
+      // If this node is a folder open the folder in files
+      dir: isFolder ? nodes[0].path : nodes[0].dirname,
+      // otherwise if this is a file, we should open it
+      openfile: isFolder ? undefined : 'true'
+    });
+    return null;
+  },
+  // Before openFolderAction
+  order: -1000,
+  default: _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.DefaultType.HIDDEN
+};
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_actions/rejectShareAction.ts"
+/*!*******************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/rejectShareAction.ts ***!
+  \*******************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _mdi_svg_svg_close_svg_raw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/svg/svg/close.svg?raw */ "./node_modules/@mdi/svg/svg/close.svg?raw");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/sharing */ "./node_modules/@nextcloud/sharing/dist/index.js");
+/* harmony import */ var _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../files_views/shares.ts */ "./apps/files_sharing/src/files_views/shares.ts");
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+const action = {
+  id: 'reject-share',
+  displayName: ({
+    nodes
+  }) => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.translatePlural)('files_sharing', 'Reject share', 'Reject shares', nodes.length),
+  iconSvgInline: () => _mdi_svg_svg_close_svg_raw__WEBPACK_IMPORTED_MODULE_0__,
+  enabled: ({
+    nodes,
+    view
+  }) => {
+    if (view.id !== _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_6__.pendingSharesViewId) {
+      return false;
+    }
+    if (nodes.length === 0) {
+      return false;
+    }
+    // disable rejecting group shares from the pending list because they anyway
+    // land back into that same list after rejecting them
+    if (nodes.some(node => node.attributes.remote_id && node.attributes.share_type === _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_5__.ShareType.RemoteGroup)) {
+      return false;
+    }
+    return true;
+  },
+  async exec({
+    nodes
+  }) {
+    try {
+      const node = nodes[0];
+      const isRemote = !!node.attributes.remote;
+      const shareBase = isRemote ? 'remote_shares' : 'shares';
+      const id = node.id;
+      let url;
+      if (node.attributes.accepted === 0) {
+        url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('apps/files_sharing/api/v1/{shareBase}/pending/{id}', {
+          shareBase,
+          id
+        });
+      } else {
+        url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('apps/files_sharing/api/v1/{shareBase}/{id}', {
+          shareBase,
+          id
+        });
+      }
+      await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].delete(url);
+      // Remove from current view
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_2__.emit)('files:node:deleted', node);
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  async execBatch({
+    nodes,
+    view,
+    folder,
+    contents
+  }) {
+    return Promise.all(nodes.map(node => this.exec({
+      nodes: [node],
+      view,
+      folder,
+      contents
+    })));
+  },
+  order: 2,
+  inline: () => true
+};
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_actions/restoreShareAction.ts"
+/*!********************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/restoreShareAction.ts ***!
+  \********************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _mdi_svg_svg_arrow_u_left_top_svg_raw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/svg/svg/arrow-u-left-top.svg?raw */ "./node_modules/@mdi/svg/svg/arrow-u-left-top.svg?raw");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../files_views/shares.ts */ "./apps/files_sharing/src/files_views/shares.ts");
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const action = {
+  id: 'restore-share',
+  displayName: ({
+    nodes
+  }) => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.translatePlural)('files_sharing', 'Restore share', 'Restore shares', nodes.length),
+  iconSvgInline: () => _mdi_svg_svg_arrow_u_left_top_svg_raw__WEBPACK_IMPORTED_MODULE_0__,
+  enabled: ({
+    nodes,
+    view
+  }) => nodes.length > 0 && view.id === _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_5__.deletedSharesViewId,
+  async exec({
+    nodes
+  }) {
+    try {
+      const node = nodes[0];
+      const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('apps/files_sharing/api/v1/deletedshares/{id}', {
+        id: node.id
+      });
+      await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post(url);
+      // Remove from current view
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_2__.emit)('files:node:deleted', node);
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  async execBatch({
+    nodes,
+    view,
+    folder,
+    contents
+  }) {
+    return Promise.all(nodes.map(node => this.exec({
+      nodes: [node],
+      view,
+      folder,
+      contents
+    })));
+  },
+  order: 1,
+  inline: () => true
+};
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_actions/sharingStatusAction.ts"
+/*!*********************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/sharingStatusAction.ts ***!
+  \*********************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ACTION_SHARING_STATUS: () => (/* binding */ ACTION_SHARING_STATUS),
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _mdi_svg_svg_account_group_outline_svg_raw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/svg/svg/account-group-outline.svg?raw */ "./node_modules/@mdi/svg/svg/account-group-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_account_plus_outline_svg_raw__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mdi/svg/svg/account-plus-outline.svg?raw */ "./node_modules/@mdi/svg/svg/account-plus-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mdi/svg/svg/link.svg?raw */ "./node_modules/@mdi/svg/svg/link.svg?raw");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/sharing */ "./node_modules/@nextcloud/sharing/dist/index.js");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.js");
+/* harmony import */ var _core_img_apps_circles_svg_raw__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../core/img/apps/circles.svg?raw */ "./core/img/apps/circles.svg?raw");
+/* harmony import */ var _utils_AccountIcon_ts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/AccountIcon.ts */ "./apps/files_sharing/src/utils/AccountIcon.ts");
+/* harmony import */ var _sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./sharingStatusAction.scss */ "./apps/files_sharing/src/files_actions/sharingStatusAction.scss");
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Check if the node is external (federated)
+ *
+ * @param node - The node to check
+ */
+function isExternal(node) {
+  return node.attributes?.['is-federated'] ?? false;
+}
+const ACTION_SHARING_STATUS = 'sharing-status';
+const action = {
+  id: ACTION_SHARING_STATUS,
+  displayName({
+    nodes
+  }) {
+    const node = nodes[0];
+    const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat();
+    if (shareTypes.length > 0 || node.owner !== (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__.getCurrentUser)()?.uid || isExternal(node)) {
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.translate)('files_sharing', 'Shared');
+    }
+    return '';
+  },
+  title({
+    nodes
+  }) {
+    const node = nodes[0];
+    if (node.owner && (node.owner !== (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__.getCurrentUser)()?.uid || isExternal(node))) {
+      const ownerDisplayName = node?.attributes?.['owner-display-name'];
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.translate)('files_sharing', 'Shared by {ownerDisplayName}', {
+        ownerDisplayName
+      });
+    }
+    const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat();
+    if (shareTypes.length > 1) {
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.translate)('files_sharing', 'Shared multiple times with different people');
+    }
+    const sharees = node.attributes.sharees?.sharee;
+    if (!sharees) {
+      // No sharees so just show the default message to create a new share
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.translate)('files_sharing', 'Sharing options');
+    }
+    const sharee = [sharees].flat()[0]; // the property is sometimes weirdly normalized, so we need to compensate
+    switch (sharee?.type) {
+      case _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_7__.ShareType.User:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.translate)('files_sharing', 'Shared with {user}', {
+          user: sharee['display-name']
+        });
+      case _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_7__.ShareType.Group:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.translate)('files_sharing', 'Shared with group {group}', {
+          group: sharee['display-name'] ?? sharee.id
+        });
+      default:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.translate)('files_sharing', 'Shared with others');
+    }
+  },
+  iconSvgInline({
+    nodes
+  }) {
+    const node = nodes[0];
+    const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat();
+    // Mixed share types
+    if (Array.isArray(node.attributes?.['share-types']) && node.attributes?.['share-types'].length > 1) {
+      return _mdi_svg_svg_account_plus_outline_svg_raw__WEBPACK_IMPORTED_MODULE_1__;
+    }
+    // Link shares
+    if (shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_7__.ShareType.Link) || shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_7__.ShareType.Email)) {
+      return _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_2__;
+    }
+    // Group shares
+    if (shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_7__.ShareType.Group) || shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_7__.ShareType.RemoteGroup)) {
+      return _mdi_svg_svg_account_group_outline_svg_raw__WEBPACK_IMPORTED_MODULE_0__;
+    }
+    // Circle shares
+    if (shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_7__.ShareType.Team)) {
+      return _core_img_apps_circles_svg_raw__WEBPACK_IMPORTED_MODULE_9__;
+    }
+    if (node.owner && (node.owner !== (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__.getCurrentUser)()?.uid || isExternal(node))) {
+      return (0,_utils_AccountIcon_ts__WEBPACK_IMPORTED_MODULE_10__.generateAvatarSvg)(node.owner, isExternal(node));
+    }
+    return _mdi_svg_svg_account_plus_outline_svg_raw__WEBPACK_IMPORTED_MODULE_1__;
+  },
+  enabled({
+    nodes
+  }) {
+    if (nodes.length !== 1) {
+      return false;
+    }
+    // Do not leak information about users to public shares
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_8__.isPublicShare)()) {
+      return false;
+    }
+    const node = nodes[0];
+    const shareTypes = node.attributes?.['share-types'];
+    const isMixed = Array.isArray(shareTypes) && shareTypes.length > 0;
+    // If the node is shared multiple times with
+    // different share types to the current user
+    if (isMixed) {
+      return true;
+    }
+    // If the node is shared by someone else
+    if (node.owner !== (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__.getCurrentUser)()?.uid || isExternal(node)) {
+      return true;
+    }
+    // You need share permissions to share this file
+    // and read permissions to see the sidebar
+    return (node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_5__.Permission.SHARE) !== 0 && (node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_5__.Permission.READ) !== 0;
+  },
+  async exec({
+    nodes
+  }) {
+    // You need read permissions to see the sidebar
+    const node = nodes[0];
+    if ((node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_5__.Permission.READ) !== 0) {
+      const sidebar = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_5__.getSidebar)();
+      sidebar.open(node, 'sharing');
+      return null;
+    }
+    // Should not happen as the enabled check should prevent this
+    // leaving it here for safety or in case someone calls this action directly
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.translate)('files_sharing', 'You do not have enough permissions to share this file.'));
+    return null;
+  },
+  inline: () => true
+};
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_filters/AccountFilter.ts"
+/*!***************************************************************!*\
+  !*** ./apps/files_sharing/src/files_filters/AccountFilter.ts ***!
+  \***************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerAccountFilter: () => (/* binding */ registerAccountFilter)
+/* harmony export */ });
+/* harmony import */ var _mdi_svg_svg_account_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/svg/svg/account-multiple-outline.svg?raw */ "./node_modules/@mdi/svg/svg/account-multiple-outline.svg?raw");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/sharing */ "./node_modules/@nextcloud/sharing/dist/index.js");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.js");
+/* harmony import */ var _vue_web_component_wrapper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @vue/web-component-wrapper */ "./node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_FileListFilterAccount_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/FileListFilterAccount.vue */ "./apps/files_sharing/src/components/FileListFilterAccount.vue");
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _classPrivateFieldInitSpec(e, t, a) { _checkPrivateRedeclaration(e, t), t.set(e, a); }
+function _checkPrivateRedeclaration(e, t) { if (t.has(e)) throw new TypeError("Cannot initialize the same private elements twice on an object"); }
+function _classPrivateFieldGet(s, a) { return s.get(_assertClassBrand(s, a)); }
+function _classPrivateFieldSet(s, a, r) { return s.set(_assertClassBrand(s, a), r), r; }
+function _assertClassBrand(e, t, n) { if ("function" == typeof e ? e === t : e.has(t)) return arguments.length < 3 ? t : n; throw new TypeError("Private element is not present on this object"); }
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+// once files_sharing is migrated to the new frontend use the import instead:
+// import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
+const TRASHBIN_VIEW_ID = 'trashbin';
+const tagName = 'files_sharing-file-list-filter-account';
+/**
+ * File list filter to filter by owner / sharee
+ */
+var _availableAccounts = /*#__PURE__*/new WeakMap();
+var _filterAccounts = /*#__PURE__*/new WeakMap();
+class AccountFilter extends _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.FileListFilter {
+  constructor() {
+    super('files_sharing:account', 100);
+    _classPrivateFieldInitSpec(this, _availableAccounts, void 0);
+    _classPrivateFieldInitSpec(this, _filterAccounts, void 0);
+    _defineProperty(this, "displayName", (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_sharing', 'People'));
+    _defineProperty(this, "iconSvgInline", _mdi_svg_svg_account_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_0__);
+    _defineProperty(this, "tagName", tagName);
+    _classPrivateFieldSet(_availableAccounts, this, []);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:list:updated', ({
+      contents
+    }) => {
+      this.updateAvailableAccounts(contents);
+    });
+  }
+  get availableAccounts() {
+    return _classPrivateFieldGet(_availableAccounts, this);
+  }
+  get filterAccounts() {
+    return _classPrivateFieldGet(_filterAccounts, this);
+  }
+  filter(nodes) {
+    if (!_classPrivateFieldGet(_filterAccounts, this) || _classPrivateFieldGet(_filterAccounts, this).length === 0) {
+      return nodes;
+    }
+    const userIds = _classPrivateFieldGet(_filterAccounts, this).map(({
+      uid
+    }) => uid);
+    // Filter if the owner of the node is in the list of filtered accounts
+    return nodes.filter(node => {
+      if (window.OCP.Files.Router.params.view === TRASHBIN_VIEW_ID) {
+        const deletedBy = node.attributes?.['trashbin-deleted-by-id'];
+        if (deletedBy && userIds.includes(deletedBy)) {
+          return true;
+        }
+        return false;
+      }
+      // if the owner matches
+      if (node.owner && userIds.includes(node.owner)) {
+        return true;
+      }
+      // Or any of the sharees (if only one share this will be an object, otherwise an array. So using `.flat()` to make it always an array)
+      const sharees = node.attributes.sharees?.sharee;
+      if (sharees && [sharees].flat().some(({
+        id
+      }) => userIds.includes(id))) {
+        return true;
+      }
+      // If the node provides no information lets keep it
+      if (!node.owner && !sharees) {
+        return true;
+      }
+      // Not a valid node for the current filter
+      return false;
+    });
+  }
+  reset() {
+    this.dispatchEvent(new CustomEvent('reset'));
+  }
+  /**
+   * Set accounts that should be filtered.
+   *
+   * @param accounts - Account to filter or undefined if inactive.
+   */
+  setAccounts(accounts) {
+    _classPrivateFieldSet(_filterAccounts, this, accounts);
+    let chips = [];
+    if (_classPrivateFieldGet(_filterAccounts, this) && _classPrivateFieldGet(_filterAccounts, this).length > 0) {
+      chips = _classPrivateFieldGet(_filterAccounts, this).map(({
+        displayName,
+        uid
+      }) => ({
+        text: displayName,
+        user: uid,
+        onclick: () => this.dispatchEvent(new CustomEvent('deselect', {
+          detail: uid
+        }))
+      }));
+    }
+    this.updateChips(chips);
+    this.filterUpdated();
+  }
+  /**
+   * Update the accounts owning nodes or have nodes shared to them.
+   *
+   * @param nodes - The current content of the file list.
+   */
+  updateAvailableAccounts(nodes) {
+    const available = new Map();
+    for (const node of nodes) {
+      const owner = node.owner;
+      if (owner && !available.has(owner)) {
+        available.set(owner, {
+          uid: owner,
+          displayName: node.attributes['owner-display-name'] ?? node.owner
+        });
+      }
+      // ensure sharees is an array (if only one share then it is just an object)
+      const sharees = [node.attributes.sharees?.sharee].flat().filter(Boolean);
+      for (const sharee of [sharees].flat()) {
+        // Skip link shares and other without user
+        if (sharee.id === '') {
+          continue;
+        }
+        if (sharee.type !== _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_4__.ShareType.User && sharee.type !== _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_4__.ShareType.Remote) {
+          continue;
+        }
+        // Add if not already added
+        if (!available.has(sharee.id)) {
+          available.set(sharee.id, {
+            uid: sharee.id,
+            displayName: sharee['display-name']
+          });
+        }
+      }
+      // lets also handle trashbin
+      const deletedBy = node.attributes?.['trashbin-deleted-by-id'];
+      if (deletedBy) {
+        available.set(deletedBy, {
+          uid: deletedBy,
+          displayName: node.attributes?.['trashbin-deleted-by-display-name'] || deletedBy
+        });
+      }
+    }
+    _classPrivateFieldSet(_availableAccounts, this, [...available.values()]);
+    this.dispatchEvent(new CustomEvent('accounts-updated'));
+  }
+}
+/**
+ * Register the file list filter by owner or sharees
+ */
+function registerAccountFilter() {
+  if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_5__.isPublicShare)()) {
+    // We do not show the filter on public pages - it makes no sense
+    return;
+  }
+  const WrappedComponent = (0,_vue_web_component_wrapper__WEBPACK_IMPORTED_MODULE_6__["default"])(vue__WEBPACK_IMPORTED_MODULE_7__["default"], _components_FileListFilterAccount_vue__WEBPACK_IMPORTED_MODULE_8__["default"]);
+  // In Vue 2, wrap doesn't support disabling shadow :(
+  // Disable with a hack
+  Object.defineProperty(WrappedComponent.prototype, 'attachShadow', {
+    value() {
+      return this;
+    }
+  });
+  Object.defineProperty(WrappedComponent.prototype, 'shadowRoot', {
+    get() {
+      return this;
+    }
+  });
+  customElements.define(tagName, WrappedComponent);
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.registerFileListFilter)(new AccountFilter());
+}
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_headers/noteToRecipient.ts"
+/*!*****************************************************************!*\
+  !*** ./apps/files_sharing/src/files_headers/noteToRecipient.ts ***!
+  \*****************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ registerNoteToRecipient)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+/**
+ * Register the  "note to recipient" as a files list header
+ */
+function registerNoteToRecipient() {
+  let FilesHeaderNoteToRecipient;
+  let instance;
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileListHeader)({
+    id: 'note-to-recipient',
+    order: 0,
+    // Always if there is a note
+    enabled: folder => Boolean(folder.attributes.note),
+    // Update the root folder if needed
+    updated: folder => {
+      if (instance) {
+        instance.updateFolder(folder);
+      }
+    },
+    // render simply spawns the component
+    render: async (el, folder) => {
+      if (FilesHeaderNoteToRecipient === undefined) {
+        const {
+          default: component
+        } = await Promise.all(/*! import() */[__webpack_require__.e("core-common"), __webpack_require__.e("apps_files_sharing_src_views_FilesHeaderNoteToRecipient_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ../views/FilesHeaderNoteToRecipient.vue */ "./apps/files_sharing/src/views/FilesHeaderNoteToRecipient.vue"));
+        FilesHeaderNoteToRecipient = vue__WEBPACK_IMPORTED_MODULE_1__["default"].extend(component);
+      }
+      instance = new FilesHeaderNoteToRecipient().$mount(el);
+      instance.updateFolder(folder);
+    }
+  });
+}
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_newMenu/newFileRequest.ts"
+/*!****************************************************************!*\
+  !*** ./apps/files_sharing/src/files_newMenu/newFileRequest.ts ***!
+  \****************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   EntryId: () => (/* binding */ EntryId),
+/* harmony export */   entry: () => (/* binding */ entry)
+/* harmony export */ });
+/* harmony import */ var _mdi_svg_svg_file_upload_outline_svg_raw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/svg/svg/file-upload-outline.svg?raw */ "./node_modules/@mdi/svg/svg/file-upload-outline.svg?raw");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.js");
+/* harmony import */ var _nextcloud_vue_functions_dialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/functions/dialog */ "./node_modules/@nextcloud/vue/dist/Functions/dialog.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _services_ConfigService_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/ConfigService.ts */ "./apps/files_sharing/src/services/ConfigService.ts");
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const sharingConfig = new _services_ConfigService_ts__WEBPACK_IMPORTED_MODULE_5__["default"]();
+const NewFileRequestDialogVue = (0,vue__WEBPACK_IMPORTED_MODULE_4__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("core-common"), __webpack_require__.e("apps_files_sharing_src_models_Share_ts-apps_files_sharing_src_utils_GeneratePassword_ts"), __webpack_require__.e("apps_files_sharing_src_components_NewFileRequestDialog_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ../components/NewFileRequestDialog.vue */ "./apps/files_sharing/src/components/NewFileRequestDialog.vue")));
+const EntryId = 'file-request';
+const entry = {
+  id: EntryId,
+  displayName: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files_sharing', 'Create file request'),
+  iconSvgInline: _mdi_svg_svg_file_upload_outline_svg_raw__WEBPACK_IMPORTED_MODULE_0__,
+  order: 10,
+  enabled() {
+    // not on public shares
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_2__.isPublicShare)()) {
+      return false;
+    }
+    if (!sharingConfig.isPublicUploadEnabled) {
+      return false;
+    }
+    // We will check for the folder permission on the dialog
+    return sharingConfig.isPublicShareAllowed;
+  },
+  async handler(context, content) {
+    (0,_nextcloud_vue_functions_dialog__WEBPACK_IMPORTED_MODULE_3__.spawnDialog)(NewFileRequestDialogVue, {
+      context,
+      content
+    });
+  }
+};
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_views/shares.ts"
+/*!******************************************************!*\
+  !*** ./apps/files_sharing/src/files_views/shares.ts ***!
+  \******************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   deletedSharesViewId: () => (/* binding */ deletedSharesViewId),
+/* harmony export */   fileRequestViewId: () => (/* binding */ fileRequestViewId),
+/* harmony export */   pendingSharesViewId: () => (/* binding */ pendingSharesViewId),
+/* harmony export */   sharedWithOthersViewId: () => (/* binding */ sharedWithOthersViewId),
+/* harmony export */   sharedWithYouViewId: () => (/* binding */ sharedWithYouViewId),
+/* harmony export */   sharesViewId: () => (/* binding */ sharesViewId),
+/* harmony export */   sharingByLinksViewId: () => (/* binding */ sharingByLinksViewId)
+/* harmony export */ });
+/* harmony import */ var _mdi_svg_svg_account_clock_outline_svg_raw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/svg/svg/account-clock-outline.svg?raw */ "./node_modules/@mdi/svg/svg/account-clock-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_account_group_outline_svg_raw__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mdi/svg/svg/account-group-outline.svg?raw */ "./node_modules/@mdi/svg/svg/account-group-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_account_outline_svg_raw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mdi/svg/svg/account-outline.svg?raw */ "./node_modules/@mdi/svg/svg/account-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_account_plus_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/account-plus-outline.svg?raw */ "./node_modules/@mdi/svg/svg/account-plus-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_file_upload_outline_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/file-upload-outline.svg?raw */ "./node_modules/@mdi/svg/svg/file-upload-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mdi/svg/svg/link.svg?raw */ "./node_modules/@mdi/svg/svg/link.svg?raw");
+/* harmony import */ var _mdi_svg_svg_trash_can_outline_svg_raw__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mdi/svg/svg/trash-can-outline.svg?raw */ "./node_modules/@mdi/svg/svg/trash-can-outline.svg?raw");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/sharing */ "./node_modules/@nextcloud/sharing/dist/index.js");
+/* harmony import */ var _services_SharingService_ts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../services/SharingService.ts */ "./apps/files_sharing/src/services/SharingService.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+const sharesViewId = 'shareoverview';
+const sharedWithYouViewId = 'sharingin';
+const sharedWithOthersViewId = 'sharingout';
+const sharingByLinksViewId = 'sharinglinks';
+const deletedSharesViewId = 'deletedshares';
+const pendingSharesViewId = 'pendingshares';
+const fileRequestViewId = 'filerequest';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_7__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_7__.View({
+    id: sharesViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Shares'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Overview of shared files.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'No shares'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Files and folders you shared or have been shared with you will show up here'),
+    icon: _mdi_svg_svg_account_plus_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__,
+    order: 20,
+    columns: [],
+    getContents: () => (0,_services_SharingService_ts__WEBPACK_IMPORTED_MODULE_11__.getContents)()
+  }));
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_7__.View({
+    id: sharedWithYouViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Shared with you'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'List of files that are shared with you.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Nothing shared with you yet'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Files and folders others shared with you will show up here'),
+    icon: _mdi_svg_svg_account_outline_svg_raw__WEBPACK_IMPORTED_MODULE_2__,
+    order: 1,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService_ts__WEBPACK_IMPORTED_MODULE_11__.getContents)(true, false, false, false)
+  }));
+  // Don't show this view if the user has no storage quota
+  const storageStats = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_8__.loadState)('files', 'storageStats', {
+    quota: -1
+  });
+  if (storageStats.quota !== 0) {
+    Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_7__.View({
+      id: sharedWithOthersViewId,
+      name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Shared with others'),
+      caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'List of files that you shared with others.'),
+      emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Nothing shared yet'),
+      emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Files and folders you shared will show up here'),
+      icon: _mdi_svg_svg_account_group_outline_svg_raw__WEBPACK_IMPORTED_MODULE_1__,
+      order: 2,
+      parent: sharesViewId,
+      columns: [],
+      getContents: () => (0,_services_SharingService_ts__WEBPACK_IMPORTED_MODULE_11__.getContents)(false, true, false, false)
+    }));
+  }
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_7__.View({
+    id: sharingByLinksViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Shared by link'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'List of files that are shared by link.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'No shared links'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Files and folders you shared by link will show up here'),
+    icon: _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_5__,
+    order: 3,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService_ts__WEBPACK_IMPORTED_MODULE_11__.getContents)(false, true, false, false, [_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_10__.ShareType.Link])
+  }));
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_7__.View({
+    id: fileRequestViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'File requests'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'List of file requests.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'No file requests'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'File requests you have created will show up here'),
+    icon: _mdi_svg_svg_file_upload_outline_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+    order: 4,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService_ts__WEBPACK_IMPORTED_MODULE_11__.getContents)(false, true, false, false, [_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_10__.ShareType.Link, _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_10__.ShareType.Email]).then(({
+      folder,
+      contents
+    }) => {
+      return {
+        folder,
+        contents: contents.filter(node => (0,_services_SharingService_ts__WEBPACK_IMPORTED_MODULE_11__.isFileRequest)(node.attributes?.['share-attributes'] || []))
+      };
+    })
+  }));
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_7__.View({
+    id: deletedSharesViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Deleted shares'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'List of shares you left.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'No deleted shares'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Shares you have left will show up here'),
+    icon: _mdi_svg_svg_trash_can_outline_svg_raw__WEBPACK_IMPORTED_MODULE_6__,
+    order: 5,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService_ts__WEBPACK_IMPORTED_MODULE_11__.getContents)(false, false, false, true)
+  }));
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_7__.View({
+    id: pendingSharesViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Pending shares'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'List of unapproved shares.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'No pending shares'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_9__.t)('files_sharing', 'Shares you have received but not approved will show up here'),
+    icon: _mdi_svg_svg_account_clock_outline_svg_raw__WEBPACK_IMPORTED_MODULE_0__,
+    order: 6,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService_ts__WEBPACK_IMPORTED_MODULE_11__.getContents)(false, false, true, false)
+  }));
+});
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/init.ts"
+/*!****************************************!*\
+  !*** ./apps/files_sharing/src/init.ts ***!
+  \****************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var _files_actions_acceptShareAction_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./files_actions/acceptShareAction.ts */ "./apps/files_sharing/src/files_actions/acceptShareAction.ts");
+/* harmony import */ var _files_actions_openInFilesAction_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./files_actions/openInFilesAction.ts */ "./apps/files_sharing/src/files_actions/openInFilesAction.ts");
+/* harmony import */ var _files_actions_rejectShareAction_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./files_actions/rejectShareAction.ts */ "./apps/files_sharing/src/files_actions/rejectShareAction.ts");
+/* harmony import */ var _files_actions_restoreShareAction_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./files_actions/restoreShareAction.ts */ "./apps/files_sharing/src/files_actions/restoreShareAction.ts");
+/* harmony import */ var _files_actions_sharingStatusAction_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./files_actions/sharingStatusAction.ts */ "./apps/files_sharing/src/files_actions/sharingStatusAction.ts");
+/* harmony import */ var _files_filters_AccountFilter_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./files_filters/AccountFilter.ts */ "./apps/files_sharing/src/files_filters/AccountFilter.ts");
+/* harmony import */ var _files_headers_noteToRecipient_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./files_headers/noteToRecipient.ts */ "./apps/files_sharing/src/files_headers/noteToRecipient.ts");
+/* harmony import */ var _files_newMenu_newFileRequest_ts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./files_newMenu/newFileRequest.ts */ "./apps/files_sharing/src/files_newMenu/newFileRequest.ts");
+/* harmony import */ var _files_views_shares_ts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./files_views/shares.ts */ "./apps/files_sharing/src/files_views/shares.ts");
+/*!
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+
+
+(0,_files_views_shares_ts__WEBPACK_IMPORTED_MODULE_10__["default"])();
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.addNewFileMenuEntry)(_files_newMenu_newFileRequest_ts__WEBPACK_IMPORTED_MODULE_9__.entry);
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('nc:note', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('nc:sharees', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('nc:hide-download', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('nc:share-attributes', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('oc:share-types', {
+  oc: 'http://owncloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('ocs:share-permissions', {
+  ocs: 'http://open-collaboration-services.org/ns'
+});
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_files_actions_acceptShareAction_ts__WEBPACK_IMPORTED_MODULE_2__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_files_actions_openInFilesAction_ts__WEBPACK_IMPORTED_MODULE_3__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_files_actions_rejectShareAction_ts__WEBPACK_IMPORTED_MODULE_4__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_files_actions_restoreShareAction_ts__WEBPACK_IMPORTED_MODULE_5__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_files_actions_sharingStatusAction_ts__WEBPACK_IMPORTED_MODULE_6__.action);
+(0,_files_filters_AccountFilter_ts__WEBPACK_IMPORTED_MODULE_7__.registerAccountFilter)();
+// Add "note to recipient" message
+(0,_files_headers_noteToRecipient_ts__WEBPACK_IMPORTED_MODULE_8__["default"])();
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/services/ConfigService.ts"
+/*!**********************************************************!*\
+  !*** ./apps/files_sharing/src/services/ConfigService.ts ***!
+  \**********************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Config)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/capabilities */ "./node_modules/@nextcloud/capabilities/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+class Config {
+  constructor() {
+    _defineProperty(this, "_capabilities", void 0);
+    this._capabilities = (0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_0__.getCapabilities)();
+  }
+  /**
+   * Get default share permissions, if any
+   */
+  get defaultPermissions() {
+    return this._capabilities.files_sharing?.default_permissions;
+  }
+  /**
+   * Should SHARE permission be excluded from "Allow editing" bundled permissions
+   */
+  get excludeReshareFromEdit() {
+    return this._capabilities.files_sharing?.exclude_reshare_from_edit === true;
+  }
+  /**
+   * Is public upload allowed on link shares ?
+   * This covers File request and Full upload/edit option.
+   */
+  get isPublicUploadEnabled() {
+    return this._capabilities.files_sharing?.public?.upload === true;
+  }
+  /**
+   * Get the federated sharing documentation link
+   */
+  get federatedShareDocLink() {
+    return window.OC.appConfig.core.federatedCloudShareDoc;
+  }
+  /**
+   * Get the default link share expiration date
+   */
+  get defaultExpirationDate() {
+    if (this.isDefaultExpireDateEnabled && this.defaultExpireDate !== null) {
+      return new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate));
+    }
+    return null;
+  }
+  /**
+   * Get the default internal expiration date
+   */
+  get defaultInternalExpirationDate() {
+    if (this.isDefaultInternalExpireDateEnabled && this.defaultInternalExpireDate !== null) {
+      return new Date(new Date().setDate(new Date().getDate() + this.defaultInternalExpireDate));
+    }
+    return null;
+  }
+  /**
+   * Get the default remote expiration date
+   */
+  get defaultRemoteExpirationDateString() {
+    if (this.isDefaultRemoteExpireDateEnabled && this.defaultRemoteExpireDate !== null) {
+      return new Date(new Date().setDate(new Date().getDate() + this.defaultRemoteExpireDate));
+    }
+    return null;
+  }
+  /**
+   * Are link shares password-enforced ?
+   */
+  get enforcePasswordForPublicLink() {
+    return window.OC.appConfig.core.enforcePasswordForPublicLink === true;
+  }
+  /**
+   * Is password asked by default on link shares ?
+   */
+  get enableLinkPasswordByDefault() {
+    return window.OC.appConfig.core.enableLinkPasswordByDefault === true;
+  }
+  /**
+   * Is link shares expiration enforced ?
+   */
+  get isDefaultExpireDateEnforced() {
+    return window.OC.appConfig.core.defaultExpireDateEnforced === true;
+  }
+  /**
+   * Is there a default expiration date for new link shares ?
+   */
+  get isDefaultExpireDateEnabled() {
+    return window.OC.appConfig.core.defaultExpireDateEnabled === true;
+  }
+  /**
+   * Is internal shares expiration enforced ?
+   */
+  get isDefaultInternalExpireDateEnforced() {
+    return window.OC.appConfig.core.defaultInternalExpireDateEnforced === true;
+  }
+  /**
+   * Is there a default expiration date for new internal shares ?
+   */
+  get isDefaultInternalExpireDateEnabled() {
+    return window.OC.appConfig.core.defaultInternalExpireDateEnabled === true;
+  }
+  /**
+   * Is remote shares expiration enforced ?
+   */
+  get isDefaultRemoteExpireDateEnforced() {
+    return window.OC.appConfig.core.defaultRemoteExpireDateEnforced === true;
+  }
+  /**
+   * Is there a default expiration date for new remote shares ?
+   */
+  get isDefaultRemoteExpireDateEnabled() {
+    return window.OC.appConfig.core.defaultRemoteExpireDateEnabled === true;
+  }
+  /**
+   * Are users on this server allowed to send shares to other servers ?
+   */
+  get isRemoteShareAllowed() {
+    return window.OC.appConfig.core.remoteShareAllowed === true;
+  }
+  /**
+   * Is federation enabled ?
+   */
+  get isFederationEnabled() {
+    return this._capabilities?.files_sharing?.federation?.outgoing === true;
+  }
+  /**
+   * Is public sharing enabled ?
+   */
+  get isPublicShareAllowed() {
+    return this._capabilities?.files_sharing?.public?.enabled === true;
+  }
+  /**
+   * Is sharing my mail (link share) enabled ?
+   */
+  get isMailShareAllowed() {
+    return this._capabilities?.files_sharing?.sharebymail?.enabled === true && this.isPublicShareAllowed === true;
+  }
+  /**
+   * Get the default days to link shares expiration
+   */
+  get defaultExpireDate() {
+    return window.OC.appConfig.core.defaultExpireDate;
+  }
+  /**
+   * Get the default days to internal shares expiration
+   */
+  get defaultInternalExpireDate() {
+    return window.OC.appConfig.core.defaultInternalExpireDate;
+  }
+  /**
+   * Get the default days to remote shares expiration
+   */
+  get defaultRemoteExpireDate() {
+    return window.OC.appConfig.core.defaultRemoteExpireDate;
+  }
+  /**
+   * Is resharing allowed ?
+   */
+  get isResharingAllowed() {
+    return window.OC.appConfig.core.resharingAllowed === true;
+  }
+  /**
+   * Is password enforced for mail shares ?
+   */
+  get isPasswordForMailSharesRequired() {
+    return this._capabilities.files_sharing?.sharebymail?.password?.enforced === true;
+  }
+  /**
+   * Always show the email or userid unique sharee label if enabled by the admin
+   */
+  get shouldAlwaysShowUnique() {
+    return this._capabilities.files_sharing?.sharee?.always_show_unique === true;
+  }
+  /**
+   * Is sharing with groups allowed ?
+   */
+  get allowGroupSharing() {
+    return window.OC.appConfig.core.allowGroupSharing === true;
+  }
+  /**
+   * Get the maximum results of a share search
+   */
+  get maxAutocompleteResults() {
+    return parseInt(window.OC.config['sharing.maxAutocompleteResults'], 10) || 25;
+  }
+  /**
+   * Get the minimal string length
+   * to initiate a share search
+   */
+  get minSearchStringLength() {
+    return parseInt(window.OC.config['sharing.minSearchStringLength'], 10) || 0;
+  }
+  /**
+   * Get the password policy configuration
+   */
+  get passwordPolicy() {
+    return this._capabilities?.password_policy || {};
+  }
+  /**
+   * Returns true if custom tokens are allowed
+   */
+  get allowCustomTokens() {
+    return this._capabilities?.files_sharing?.public?.custom_tokens;
+  }
+  /**
+   * Show federated shares as internal shares
+   *
+   * @return
+   */
+  get showFederatedSharesAsInternal() {
+    return (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('files_sharing', 'showFederatedSharesAsInternal', false);
+  }
+  /**
+   * Show federated shares to trusted servers as internal shares
+   *
+   * @return
+   */
+  get showFederatedSharesToTrustedServersAsInternal() {
+    return (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('files_sharing', 'showFederatedSharesToTrustedServersAsInternal', false);
+  }
+  /**
+   * Show the external share ui
+   */
+  get showExternalSharing() {
+    return (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('files_sharing', 'showExternalSharing', true);
+  }
+}
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/services/SharingService.ts"
+/*!***********************************************************!*\
+  !*** ./apps/files_sharing/src/services/SharingService.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContents: () => (/* binding */ getContents),
+/* harmony export */   isFileRequest: () => (/* binding */ isFileRequest)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./logger.ts */ "./apps/files_sharing/src/services/logger.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+// TODO: Fix this instead of disabling ESLint!!!
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
+
+
+
+
+const headers = {
+  'Content-Type': 'application/json'
+};
+/**
+ *
+ * @param ocsEntry
+ */
+async function ocsEntryToNode(ocsEntry) {
+  try {
+    // Federated share handling
+    if (ocsEntry?.remote_id !== undefined) {
+      if (!ocsEntry.mimetype) {
+        const mime = (await __webpack_require__.e(/*! import() */ "node_modules_mime_dist_src_index_js").then(__webpack_require__.bind(__webpack_require__, /*! mime */ "./node_modules/mime/dist/src/index.js"))).default;
+        // This won't catch files without an extension, but this is the best we can do
+        ocsEntry.mimetype = mime.getType(ocsEntry.name);
+      }
+      const type = ocsEntry.type === 'dir' ? 'folder' : ocsEntry.type;
+      ocsEntry.item_type = type || (ocsEntry.mimetype ? 'file' : 'folder');
+      // different naming for remote shares
+      ocsEntry.item_mtime = ocsEntry.mtime;
+      ocsEntry.file_target = ocsEntry.file_target || ocsEntry.mountpoint;
+      if (ocsEntry.file_target.includes('TemporaryMountPointName')) {
+        ocsEntry.file_target = ocsEntry.name;
+      }
+      // If the share is not accepted yet we don't know which permissions it will have
+      if (!ocsEntry.accepted) {
+        // Need to set permissions to NONE for federated shares
+        ocsEntry.item_permissions = _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.Permission.NONE;
+        ocsEntry.permissions = _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.Permission.NONE;
+      }
+      ocsEntry.uid_owner = ocsEntry.owner;
+      // TODO: have the real display name stored somewhere
+      ocsEntry.displayname_owner = ocsEntry.owner;
+    }
+    const isFolder = ocsEntry?.item_type === 'folder';
+    const hasPreview = ocsEntry?.has_preview === true;
+    const Node = isFolder ? _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.Folder : _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.File;
+    // If this is an external share that is not yet accepted,
+    // we don't have an id. We can fallback to the row id temporarily
+    // local shares (this server) use `file_source`, but remote shares (federated) use `file_id`
+    const fileid = ocsEntry.file_source || ocsEntry.file_id || ocsEntry.id;
+    // Generate path and strip double slashes
+    const path = ocsEntry.path || ocsEntry.file_target || ocsEntry.name;
+    const source = `${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_3__.getRemoteURL)()}${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_3__.getRootPath)()}/${path.replace(/^\/+/, '')}`;
+    let mtime = ocsEntry.item_mtime ? new Date(ocsEntry.item_mtime * 1000) : undefined;
+    // Prefer share time if more recent than item mtime
+    if (ocsEntry?.stime > (ocsEntry?.item_mtime || 0)) {
+      mtime = new Date(ocsEntry.stime * 1000);
+    }
+    let sharees;
+    if ('share_with' in ocsEntry) {
+      sharees = {
+        sharee: {
+          id: ocsEntry.share_with,
+          'display-name': ocsEntry.share_with_displayname || ocsEntry.share_with,
+          type: ocsEntry.share_type
+        }
+      };
+    }
+    return new Node({
+      id: fileid,
+      source,
+      owner: ocsEntry?.uid_owner,
+      mime: ocsEntry?.mimetype || 'application/octet-stream',
+      mtime,
+      size: ocsEntry?.item_size ?? undefined,
+      permissions: ocsEntry?.item_permissions || ocsEntry?.permissions,
+      root: (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_3__.getRootPath)(),
+      attributes: {
+        ...ocsEntry,
+        'has-preview': hasPreview,
+        'hide-download': ocsEntry?.hide_download === 1,
+        // Also check the sharingStatusAction.ts code
+        'owner-id': ocsEntry?.uid_owner,
+        'owner-display-name': ocsEntry?.displayname_owner,
+        'share-types': ocsEntry?.share_type,
+        'share-attributes': ocsEntry?.attributes || '[]',
+        sharees,
+        favorite: ocsEntry?.tags?.includes(window.OC.TAG_FAVORITE) ? 1 : 0
+      }
+    });
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error('Error while parsing OCS entry', {
+      error
+    });
+    return null;
+  }
+}
+/**
+ *
+ * @param shareWithMe
+ */
+function getShares(shareWithMe = false) {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('apps/files_sharing/api/v1/shares');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get(url, {
+    headers,
+    params: {
+      shared_with_me: shareWithMe,
+      include_tags: true
+    }
+  });
+}
+/**
+ *
+ */
+function getSharedWithYou() {
+  return getShares(true);
+}
+/**
+ *
+ */
+function getSharedWithOthers() {
+  return getShares();
+}
+/**
+ *
+ */
+function getRemoteShares() {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('apps/files_sharing/api/v1/remote_shares');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get(url, {
+    headers,
+    params: {
+      include_tags: true
+    }
+  });
+}
+/**
+ *
+ */
+function getPendingShares() {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('apps/files_sharing/api/v1/shares/pending');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get(url, {
+    headers,
+    params: {
+      include_tags: true
+    }
+  });
+}
+/**
+ *
+ */
+function getRemotePendingShares() {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('apps/files_sharing/api/v1/remote_shares/pending');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get(url, {
+    headers,
+    params: {
+      include_tags: true
+    }
+  });
+}
+/**
+ *
+ */
+function getDeletedShares() {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('apps/files_sharing/api/v1/deletedshares');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get(url, {
+    headers,
+    params: {
+      include_tags: true
+    }
+  });
+}
+/**
+ * Check if a file request is enabled
+ *
+ * @param attributes the share attributes json-encoded array
+ */
+function isFileRequest(attributes = '[]') {
+  const isFileRequest = attribute => {
+    return attribute.scope === 'fileRequest' && attribute.key === 'enabled' && attribute.value === true;
+  };
+  try {
+    const attributesArray = JSON.parse(attributes);
+    return attributesArray.some(isFileRequest);
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error('Error while parsing share attributes', {
+      error
+    });
+    return false;
+  }
+}
+/**
+ * Group an array of objects (here Nodes) by a key
+ * and return an array of arrays of them.
+ *
+ * @param nodes Nodes to group
+ * @param key The attribute to group by
+ */
+function groupBy(nodes, key) {
+  return Object.values(nodes.reduce(function (acc, curr) {
+    (acc[curr[key]] = acc[curr[key]] || []).push(curr);
+    return acc;
+  }, {}));
+}
+/**
+ *
+ * @param sharedWithYou
+ * @param sharedWithOthers
+ * @param pendingShares
+ * @param deletedshares
+ * @param filterTypes
+ */
+async function getContents(sharedWithYou = true, sharedWithOthers = true, pendingShares = false, deletedshares = false, filterTypes = []) {
+  const promises = [];
+  if (sharedWithYou) {
+    promises.push(getSharedWithYou(), getRemoteShares());
+  }
+  if (sharedWithOthers) {
+    promises.push(getSharedWithOthers());
+  }
+  if (pendingShares) {
+    promises.push(getPendingShares(), getRemotePendingShares());
+  }
+  if (deletedshares) {
+    promises.push(getDeletedShares());
+  }
+  const responses = await Promise.all(promises);
+  const data = responses.map(response => response.data.ocs.data).flat();
+  let contents = (await Promise.all(data.map(ocsEntryToNode))).filter(node => node !== null);
+  if (filterTypes.length > 0) {
+    contents = contents.filter(node => filterTypes.includes(node.attributes?.share_type));
+  }
+  // Merge duplicate shares and group their attributes
+  // Also check the sharingStatusAction.ts code
+  contents = groupBy(contents, 'source').map(nodes => {
+    const node = nodes[0];
+    node.attributes['share-types'] = nodes.map(node => node.attributes['share-types']);
+    return node;
+  });
+  return {
+    folder: new _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.Folder({
+      id: 0,
+      source: `${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_3__.getRemoteURL)()}${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_3__.getRootPath)()}`,
+      owner: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid || null,
+      root: (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_3__.getRootPath)()
+    }),
+    contents
+  };
+}
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/services/logger.ts"
+/*!***************************************************!*\
+  !*** ./apps/files_sharing/src/services/logger.ts ***!
+  \***************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('files_sharing').detectUser().build());
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/utils/AccountIcon.ts"
+/*!*****************************************************!*\
+  !*** ./apps/files_sharing/src/utils/AccountIcon.ts ***!
+  \*****************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   generateAvatarSvg: () => (/* binding */ generateAvatarSvg)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/**
+ *
+ */
+function isDarkMode() {
+  return window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches === true || document.querySelector('[data-themes*=dark]') !== null;
+}
+/**
+ *
+ * @param userId
+ * @param isGuest
+ */
+function generateAvatarSvg(userId, isGuest = false) {
+  // normal avatar url: /avatar/{userId}/32?guestFallback=true
+  // dark avatar url: /avatar/{userId}/32/dark?guestFallback=true
+  // guest avatar url: /avatar/guest/{userId}/32
+  // guest dark avatar url: /avatar/guest/{userId}/32/dark
+  const basePath = isGuest ? `/avatar/guest/${userId}` : `/avatar/${userId}`;
+  const darkModePath = isDarkMode() ? '/dark' : '';
+  const guestFallback = isGuest ? '' : '?guestFallback=true';
+  const url = `${basePath}/32${darkModePath}${guestFallback}`;
+  const avatarUrl = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)(url, {
+    userId
+  });
+  return `<svg width="32" height="32" viewBox="0 0 32 32"
+		xmlns="http://www.w3.org/2000/svg" class="sharing-status__avatar">
+		<image href="${avatarUrl}" height="32" width="32" />
+	</svg>`;
+}
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts"
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcAvatar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/components/NcAvatar */ "./node_modules/@nextcloud/vue/dist/Components/NcAvatar.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcTextField */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.mjs");
+/* harmony import */ var _core_src_OC_currentuser_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../core/src/OC/currentuser.js */ "./core/src/OC/currentuser.js");
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'FileListFilterAccount',
+  props: {
+    filter: {
+      type: null,
+      required: true
+    }
+  },
+  setup(__props) {
+    const props = __props;
+    const currentUserId = (0,_core_src_OC_currentuser_js__WEBPACK_IMPORTED_MODULE_5__.getCurrentUser)().uid;
+    const accountFilter = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    const availableAccounts = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+    const selectedAccounts = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(selectedAccounts, () => {
+      const accounts = selectedAccounts.value.map(({
+        id: uid,
+        displayName
+      }) => ({
+        uid,
+        displayName
+      }));
+      props.filter.setAccounts(accounts.length > 0 ? accounts : undefined);
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(() => {
+      setAvailableAccounts(props.filter.availableAccounts);
+      selectedAccounts.value = availableAccounts.value.filter(({
+        id
+      }) => props.filter.filterAccounts?.some(({
+        uid
+      }) => uid === id)) ?? [];
+      props.filter.addEventListener('accounts-updated', setAvailableAccounts);
+      props.filter.addEventListener('reset', resetFilter);
+      props.filter.addEventListener('deselect', deselect);
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted)(() => {
+      props.filter.removeEventListener('accounts-updated', setAvailableAccounts);
+      props.filter.removeEventListener('reset', resetFilter);
+      props.filter.removeEventListener('deselect', deselect);
+    });
+    /**
+     * Currently shown accounts (filtered)
+     */
+    const shownAccounts = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+      if (!accountFilter.value) {
+        return [...availableAccounts.value].sort(sortAccounts);
+      }
+      const queryParts = accountFilter.value.toLocaleLowerCase().trim().split(' ');
+      const accounts = availableAccounts.value.filter(account => queryParts.every(part => account.user.toLocaleLowerCase().includes(part) || account.displayName.toLocaleLowerCase().includes(part)));
+      return accounts.sort(sortAccounts);
+    });
+    /**
+     * Sort accounts, putting the current user at the begin
+     *
+     * @param a - First account
+     * @param b - Second account
+     */
+    function sortAccounts(a, b) {
+      if (a.id === currentUserId) {
+        return -1;
+      }
+      if (b.id === currentUserId) {
+        return 1;
+      }
+      return a.displayName.localeCompare(b.displayName);
+    }
+    /**
+     * Toggle an account as selected
+     *
+     * @param accountId The account to toggle
+     * @param selected Whether to select or deselect the account
+     */
+    function toggleAccount(accountId, selected) {
+      selectedAccounts.value = selectedAccounts.value.filter(({
+        id
+      }) => id !== accountId);
+      if (selected) {
+        const account = availableAccounts.value.find(({
+          id
+        }) => id === accountId);
+        if (account) {
+          selectedAccounts.value = [...selectedAccounts.value, account];
+        }
+      }
+    }
+    /**
+     * Deselect an account
+     *
+     * @param event - The custom event
+     */
+    function deselect(event) {
+      const accountId = event.detail;
+      selectedAccounts.value = selectedAccounts.value.filter(({
+        id
+      }) => id !== accountId);
+    }
+    /**
+     * Reset this filter
+     */
+    function resetFilter() {
+      selectedAccounts.value = [];
+      accountFilter.value = '';
+    }
+    /**
+     * Update list of available accounts in current view.
+     *
+     * @param accounts - Accounts to use
+     */
+    function setAvailableAccounts(accounts) {
+      if (accounts instanceof CustomEvent) {
+        accounts = accounts.detail;
+      }
+      availableAccounts.value = accounts.map(({
+        uid,
+        displayName
+      }) => ({
+        displayName,
+        id: uid,
+        user: uid
+      }));
+    }
+    return {
+      __sfc: true,
+      props,
+      currentUserId,
+      accountFilter,
+      availableAccounts,
+      selectedAccounts,
+      shownAccounts,
+      sortAccounts,
+      toggleAccount,
+      deselect,
+      resetFilter,
+      setAvailableAccounts,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t,
+      NcAvatar: _nextcloud_vue_components_NcAvatar__WEBPACK_IMPORTED_MODULE_2__["default"],
+      NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_3__["default"],
+      NcTextField: _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_4__["default"]
+    };
+  }
+}));
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127"
+/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("div", {
+    class: _vm.$style.fileListFilterAccount
+  }, [_setup.availableAccounts.length > 1 ? _c(_setup.NcTextField, {
+    attrs: {
+      type: "search",
+      label: _setup.t("files_sharing", "Filter accounts")
+    },
+    model: {
+      value: _setup.accountFilter,
+      callback: function ($$v) {
+        _setup.accountFilter = $$v;
+      },
+      expression: "accountFilter"
+    }
+  }) : _vm._e(), _vm._v(" "), _vm._l(_setup.shownAccounts, function (account) {
+    return _c(_setup.NcButton, {
+      key: account.id,
+      attrs: {
+        alignment: "start",
+        pressed: _setup.selectedAccounts.includes(account),
+        variant: "tertiary",
+        wide: ""
+      },
+      on: {
+        "update:pressed": function ($event) {
+          return _setup.toggleAccount(account.id, $event);
+        }
+      },
+      scopedSlots: _vm._u([{
+        key: "icon",
+        fn: function () {
+          return [_c(_setup.NcAvatar, _vm._b({
+            class: _vm.$style.fileListFilterAccount__avatar,
+            attrs: {
+              size: 24,
+              "disable-menu": "",
+              "hide-status": ""
+            }
+          }, "NcAvatar", account, false))];
+        },
+        proxy: true
+      }], null, true)
+    }, [_vm._v("\n\t\t" + _vm._s(account.displayName) + "\n\t\t"), account.id === _setup.currentUserId ? _c("span", {
+      class: _vm.$style.fileListFilterAccount__currentUser
+    }, [_vm._v("\n\t\t\t(" + _vm._s(_setup.t("files", "you")) + ")\n\t\t")]) : _vm._e()]);
+  })], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./apps/files_sharing/src/files_actions/sharingStatusAction.scss"
+/*!****************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./apps/files_sharing/src/files_actions/sharingStatusAction.scss ***!
+  \****************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `/*
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.action-items > .files-list__row-action-sharing-status {
+  padding-inline: 0 !important;
+}
+.action-items > .files-list__row-action-sharing-status .button-vue__wrapper {
+  flex-direction: row-reverse;
+  gap: var(--default-grid-baseline);
+}
+
+svg.sharing-status__avatar {
+  height: var(--button-inner-size, 32px) !important;
+  width: var(--button-inner-size, 32px) !important;
+  max-height: var(--button-inner-size, 32px) !important;
+  max-width: var(--button-inner-size, 32px) !important;
+  border-radius: var(--button-inner-size, 32px);
+  overflow: hidden;
+}
+
+.files-list__row-action-sharing-status .button-vue__text {
+  color: var(--color-primary-element);
+}
+.files-list__row-action-sharing-status .button-vue__icon {
+  color: var(--color-primary-element);
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css"
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+._fileListFilterAccount_ZW91g {
+	display: flex;
+	flex-direction: column;
+	gap: var(--default-grid-baseline);
+}
+._fileListFilterAccount__avatar_V0YuN {
+	/* 24px is the avatar size */
+	margin: calc((var(--default-clickable-area) - 24px) / 2);
+}
+._fileListFilterAccount__currentUser_PqQfx {
+	font-weight: normal !important;
+}
+`, ""]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"fileListFilterAccount": `_fileListFilterAccount_ZW91g`,
+	"fileListFilterAccount__avatar": `_fileListFilterAccount__avatar_V0YuN`,
+	"fileListFilterAccount__currentUser": `_fileListFilterAccount__currentUser_PqQfx`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/files_actions/sharingStatusAction.scss"
+/*!***********************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/sharingStatusAction.scss ***!
+  \***********************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/dist/cjs.js!./sharingStatusAction.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./apps/files_sharing/src/files_actions/sharingStatusAction.scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css"
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/components/FileListFilterAccount.vue"
+/*!*********************************************************************!*\
+  !*** ./apps/files_sharing/src/components/FileListFilterAccount.vue ***!
+  \*********************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FileListFilterAccount_vue_vue_type_template_id_40ba7127__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileListFilterAccount.vue?vue&type=template&id=40ba7127 */ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127");
+/* harmony import */ var _FileListFilterAccount_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts */ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css */ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* module decorator */ module = __webpack_require__.hmd(module);
+
+
+
+;
+
+var cssModules = {}
+var disposed = false
+
+function injectStyles (context) {
+  if (disposed) return
+  
+        cssModules["$style"] = (_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_2__["default"].locals || _FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_2__["default"])
+        Object.defineProperty(this, "$style", {
+          configurable: true,
+          get: function () {
+            return cssModules["$style"]
+          }
+        })
+      
+}
+
+
+  module.hot && 0
+
+
+
+        module.hot && 0
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _FileListFilterAccount_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FileListFilterAccount_vue_vue_type_template_id_40ba7127__WEBPACK_IMPORTED_MODULE_0__.render,
+  _FileListFilterAccount_vue_vue_type_template_id_40ba7127__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  injectStyles,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files_sharing/src/components/FileListFilterAccount.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts"
+/*!********************************************************************************************************!*\
+  !*** ./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts ***!
+  \********************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127"
+/*!***************************************************************************************************!*\
+  !*** ./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127 ***!
+  \***************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_template_id_40ba7127__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_template_id_40ba7127__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_template_id_40ba7127__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterAccount.vue?vue&type=template&id=40ba7127 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127");
+
+
+/***/ },
+
+/***/ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css"
+/*!*****************************************************************************************************************************!*\
+  !*** ./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css ***!
+  \*****************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_module_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&module=true&lang=css");
+ 
+
+/***/ },
+
+/***/ "./core/img/apps/circles.svg?raw"
+/*!***************************************!*\
+  !*** ./core/img/apps/circles.svg?raw ***!
+  \***************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/account-clock-outline.svg?raw"
+/*!*****************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account-clock-outline.svg?raw ***!
+  \*****************************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account-clock-outline\" viewBox=\"0 0 24 24\"><path d=\"M16,14H17.5V16.82L19.94,18.23L19.19,19.53L16,17.69V14M17,12A5,5 0 0,0 12,17A5,5 0 0,0 17,22A5,5 0 0,0 22,17A5,5 0 0,0 17,12M17,10A7,7 0 0,1 24,17A7,7 0 0,1 17,24C14.21,24 11.8,22.36 10.67,20H1V17C1,14.34 6.33,13 9,13C9.6,13 10.34,13.07 11.12,13.2C12.36,11.28 14.53,10 17,10M10,17C10,16.3 10.1,15.62 10.29,15C9.87,14.93 9.43,14.9 9,14.9C6.03,14.9 2.9,16.36 2.9,17V18.1H10.09C10.03,17.74 10,17.37 10,17M9,4A4,4 0 0,1 13,8A4,4 0 0,1 9,12A4,4 0 0,1 5,8A4,4 0 0,1 9,4M9,5.9A2.1,2.1 0 0,0 6.9,8A2.1,2.1 0 0,0 9,10.1A2.1,2.1 0 0,0 11.1,8A2.1,2.1 0 0,0 9,5.9Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/account-group-outline.svg?raw"
+/*!*****************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account-group-outline.svg?raw ***!
+  \*****************************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account-group-outline\" viewBox=\"0 0 24 24\"><path d=\"M12,5A3.5,3.5 0 0,0 8.5,8.5A3.5,3.5 0 0,0 12,12A3.5,3.5 0 0,0 15.5,8.5A3.5,3.5 0 0,0 12,5M12,7A1.5,1.5 0 0,1 13.5,8.5A1.5,1.5 0 0,1 12,10A1.5,1.5 0 0,1 10.5,8.5A1.5,1.5 0 0,1 12,7M5.5,8A2.5,2.5 0 0,0 3,10.5C3,11.44 3.53,12.25 4.29,12.68C4.65,12.88 5.06,13 5.5,13C5.94,13 6.35,12.88 6.71,12.68C7.08,12.47 7.39,12.17 7.62,11.81C6.89,10.86 6.5,9.7 6.5,8.5C6.5,8.41 6.5,8.31 6.5,8.22C6.2,8.08 5.86,8 5.5,8M18.5,8C18.14,8 17.8,8.08 17.5,8.22C17.5,8.31 17.5,8.41 17.5,8.5C17.5,9.7 17.11,10.86 16.38,11.81C16.5,12 16.63,12.15 16.78,12.3C16.94,12.45 17.1,12.58 17.29,12.68C17.65,12.88 18.06,13 18.5,13C18.94,13 19.35,12.88 19.71,12.68C20.47,12.25 21,11.44 21,10.5A2.5,2.5 0 0,0 18.5,8M12,14C9.66,14 5,15.17 5,17.5V19H19V17.5C19,15.17 14.34,14 12,14M4.71,14.55C2.78,14.78 0,15.76 0,17.5V19H3V17.07C3,16.06 3.69,15.22 4.71,14.55M19.29,14.55C20.31,15.22 21,16.06 21,17.07V19H24V17.5C24,15.76 21.22,14.78 19.29,14.55M12,16C13.53,16 15.24,16.5 16.23,17H7.77C8.76,16.5 10.47,16 12,16Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/account-multiple-outline.svg?raw"
+/*!********************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account-multiple-outline.svg?raw ***!
+  \********************************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account-multiple-outline\" viewBox=\"0 0 24 24\"><path d=\"M13.07 10.41A5 5 0 0 0 13.07 4.59A3.39 3.39 0 0 1 15 4A3.5 3.5 0 0 1 15 11A3.39 3.39 0 0 1 13.07 10.41M5.5 7.5A3.5 3.5 0 1 1 9 11A3.5 3.5 0 0 1 5.5 7.5M7.5 7.5A1.5 1.5 0 1 0 9 6A1.5 1.5 0 0 0 7.5 7.5M16 17V19H2V17S2 13 9 13 16 17 16 17M14 17C13.86 16.22 12.67 15 9 15S4.07 16.31 4 17M15.95 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/account-outline.svg?raw"
+/*!***********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account-outline.svg?raw ***!
+  \***********************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account-outline\" viewBox=\"0 0 24 24\"><path d=\"M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M12,13C14.67,13 20,14.33 20,17V20H4V17C4,14.33 9.33,13 12,13M12,14.9C9.03,14.9 5.9,16.36 5.9,17V18.1H18.1V17C18.1,16.36 14.97,14.9 12,14.9Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/account-plus-outline.svg?raw"
+/*!****************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account-plus-outline.svg?raw ***!
+  \****************************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account-plus-outline\" viewBox=\"0 0 24 24\"><path d=\"M15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4M15,5.9C16.16,5.9 17.1,6.84 17.1,8C17.1,9.16 16.16,10.1 15,10.1A2.1,2.1 0 0,1 12.9,8A2.1,2.1 0 0,1 15,5.9M4,7V10H1V12H4V15H6V12H9V10H6V7H4M15,13C12.33,13 7,14.33 7,17V20H23V17C23,14.33 17.67,13 15,13M15,14.9C17.97,14.9 21.1,16.36 21.1,17V18.1H8.9V17C8.9,16.36 12,14.9 15,14.9Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/arrow-u-left-top.svg?raw"
+/*!************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/arrow-u-left-top.svg?raw ***!
+  \************************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-arrow-u-left-top\" viewBox=\"0 0 24 24\"><path d=\"M20 13.5C20 17.09 17.09 20 13.5 20H6V18H13.5C16 18 18 16 18 13.5S16 9 13.5 9H7.83L10.91 12.09L9.5 13.5L4 8L9.5 2.5L10.92 3.91L7.83 7H13.5C17.09 7 20 9.91 20 13.5Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/close.svg?raw"
+/*!*************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/close.svg?raw ***!
+  \*************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-close\" viewBox=\"0 0 24 24\"><path d=\"M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/file-upload-outline.svg?raw"
+/*!***************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/file-upload-outline.svg?raw ***!
+  \***************************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-file-upload-outline\" viewBox=\"0 0 24 24\"><path d=\"M14,2L20,8V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H14M18,20V9H13V4H6V20H18M12,12L16,16H13.5V19H10.5V16H8L12,12Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/link.svg?raw"
+/*!************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/link.svg?raw ***!
+  \************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-link\" viewBox=\"0 0 24 24\"><path d=\"M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z\" /></svg>";
+
+/***/ },
+
+/***/ "./node_modules/@mdi/svg/svg/trash-can-outline.svg?raw"
+/*!*************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/trash-can-outline.svg?raw ***!
+  \*************************************************************/
+(module) {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-trash-can-outline\" viewBox=\"0 0 24 24\"><path d=\"M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z\" /></svg>";
+
+/***/ },
+
+/***/ "?3e83"
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+() {
+
+/* (ignored) */
+
+/***/ },
+
+/***/ "?19e6"
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+() {
+
+/* (ignored) */
+
+/***/ }
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_preview-BIbJGxXF_mjs-node_modules_nextcloud_dialog-7546cc":"dce7060a8340cecf2ca5","node_modules_nextcloud_dialogs_dist_chunks_ConflictPicker-CWBf0soh_mjs":"01a2e7bc2c49db839239","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcTextField_index_mjs":"50270bc67122ae47dfd0","node_modules_nextcloud_dialogs_dist_chunks_FilePicker-C1yRZfLt_mjs":"a3985d66705012167d75","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-7_GNN76e_mjs":"b2479474dfc9749ea9d0","node_modules_mime_dist_src_index_js":"22b42a8057603602a087","apps_files_sharing_src_views_FilesHeaderNoteToRecipient_vue":"ff21ec55ee1a6ec73ad5","apps_files_sharing_src_models_Share_ts-apps_files_sharing_src_utils_GeneratePassword_ts":"1942af70723c04b7fc35","apps_files_sharing_src_components_NewFileRequestDialog_vue":"f99b6b013ef3b9454bff","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcColorPicker_index_mjs":"63766ea64d27a6d8d6cc","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcDateTimePicker_in-952ddb":"bd2fc411cc830fe12f0b"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/harmony module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud-ui-legacy:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (globalThis.importScripts) scriptUrl = globalThis.location + "";
+/******/ 		var document = globalThis.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = (typeof document !== 'undefined' && document.baseURI) || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"files_sharing-init": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunknextcloud_ui_legacy"] = globalThis["webpackChunknextcloud_ui_legacy"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/files_sharing/src/init.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=files_sharing-init.js.map?v=d56bac124cead11307d0

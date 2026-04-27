@@ -1,2 +1,439 @@
-import{b as k,z as A,n as T,o as p,c as f,u as e,w as c,j as g,t as w,l as s,A as x,f as P,k as m,h,M as K,D as N,F as j,H as D,g as H,e as M}from"./preload-helper-D9xEqq8S.chunk.mjs";import{_ as z,l as F}from"./public-CvthP4YJ.chunk.mjs";import{t as o}from"./translation-DoG5ZELJ-8aobdbPK.chunk.mjs";import"./PencilOutline-BE2yOTiX.chunk.mjs";import"./Web-7MW_v0ET.chunk.mjs";import"./NcTextArea-CseOD9aM-BwQFMiGJ.chunk.mjs";import"./index-CqAJBppk.chunk.mjs";import"./NcDateTime.vue_vue_type_script_setup_true_lang-B4upiZjL-CEiPv5af.chunk.mjs";import"./NcModal-kyWZ3UFC-DO8otox5.chunk.mjs";/* empty css                                          */import"./NcAvatar-ruClKRzS-B7xYQpkD.chunk.mjs";import"./NcContent-D69ktIEB-CHqWfXn1.chunk.mjs";import{N as U}from"./ArrowRight-YxbwZNEK.chunk.mjs";import"./TrashCanOutline-COIylzhj.chunk.mjs";import{b as S}from"./index-Bp9-GhMo.chunk.mjs";import{N as I}from"./NcCheckboxRadioSwitch-D0gFwEVl-C7shEyvA.chunk.mjs";import"./Plus-uZcrt3zr.chunk.mjs";import"./index-Cjo2D0Xj.chunk.mjs";import"./TrayArrowDown-BaLKZwHn.chunk.mjs";import"./index-Dsay4aTQ.chunk.mjs";import"./NcDialog-nDc1gW50-BF3zId_C.chunk.mjs";import"./NcSelect-B1uITk_3-B0TPRkMI.chunk.mjs";import"./NcEmojiPicker-DGgqTnHp-ABN-vwjy.chunk.mjs";import"./NcEmptyContent-CDgWCt_m-SjrDEqRZ.chunk.mjs";import"./index-CdKrRetX.chunk.mjs";/* empty css                                       */import"./NcInputField-CPL-a_MM-BYLCq7JD.chunk.mjs";import{N as E}from"./mdi-B3j1XNhV.chunk.mjs";import{N as V}from"./NcPasswordField-BOLzDHBJ-BKSfVdzU.chunk.mjs";import"./index-DLET_n3s.chunk.mjs";import{c as R}from"./index-DqG-5vGV.chunk.mjs";import"./NcTextField.vue_vue_type_script_setup_true_lang-B-4HNjYH-zA0ct3s7.chunk.mjs";import"./NcSelectTags-B3_tcJAf-DlWHH7QM.chunk.mjs";import{N as B}from"./ContentCopy-BThU2vZd.chunk.mjs";import"./NcUserBubble-BE6yD-R0-SSK_qJmL.chunk.mjs";import"./NcUserStatusIcon-JWiuiAXe-YBMsdL44.chunk.mjs";import"./emoji-V9hqFgPs-DG-_iBjD.chunk.mjs";import"./colors-BfjxNgsx-DzIYAbgd.chunk.mjs";import{w as $}from"./index-telxF5Te.chunk.mjs";import{d as O}from"./index-C1xmmKTZ-XKFVqjxi.chunk.mjs";import{N as q,l as C,I as G}from"./types-Dg5tY2iw.chunk.mjs";import"./util-Caafb9Jl.chunk.mjs";const J=k({__name:"SettingsAdminHomeStorage",props:{modelValue:{type:Boolean,required:!0},modelModifiers:{}},emits:["update:modelValue"],setup(b){const a=A(b,"modelValue"),i=s(!1);return T(a,()=>{i.value=!0}),$(a,async(t,n)=>{if(t===n){i.value=!1;return}try{await R.post(S("/apps/encryption/ajax/setEncryptHomeStorage"),{encryptHomeStorage:t})}finally{i.value=!1}},{debounce:800}),(t,n)=>(p(),f(e(I),{modelValue:a.value,"onUpdate:modelValue":n[0]||(n[0]=r=>a.value=r),loading:i.value,description:e(o)("encryption","Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted"),type:"switch"},{default:c(()=>[g(w(e(o)("encryption","Encrypt the home storage")),1)]),_:1},8,["modelValue","loading","description"]))}}),L=k({__name:"SettingsAdminRecoveryKey",props:{modelValue:{type:Boolean,required:!0},modelModifiers:{}},emits:["update:modelValue"],setup(b){const a=A(b,"modelValue"),i=x("form"),t=s(!1),n=s(!1),r=s(""),l=s(""),v=N(()=>r.value===l.value);async function _(){if(!t.value&&v.value){n.value=!1,t.value=!0;try{const{data:d}=await R.post(S("/apps/encryption/ajax/adminRecovery"),{adminEnableRecovery:!a.value,recoveryPassword:r.value,confirmPassword:l.value});a.value=!a.value,r.value=l.value="",i.value?.reset(),d.data.message&&O(d.data.message)}catch(d){n.value=!0,C.error("Failed to update recovery key settings",{error:d})}finally{t.value=!1}}}return(d,u)=>(p(),P("form",{ref:"form",onSubmit:K(_,["prevent"])},[m(e(q),{label:a.value?e(o)("encryption","Disable recovery key"):e(o)("encryption","Enable recovery key"),description:e(o)("encryption","The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten.")},{default:c(()=>[m(e(V),{modelValue:r.value,"onUpdate:modelValue":u[0]||(u[0]=y=>r.value=y),required:"",name:"password",label:e(o)("encryption","Recovery key password")},null,8,["modelValue","label"]),m(e(V),{modelValue:l.value,"onUpdate:modelValue":u[1]||(u[1]=y=>l.value=y),required:"",name:"confirmPassword",error:!!l.value&&!v.value,helperText:v.value||!l.value?"":e(o)("encryption","Passwords fields do not match"),label:e(o)("encryption","Repeat recovery key password")},null,8,["modelValue","error","helperText","label"]),m(e(U),{type:"submit",variant:a.value?"error":"primary"},{default:c(()=>[g(w(a.value?e(o)("encryption","Disable recovery key"):e(o)("encryption","Enable recovery key")),1)]),_:1},8,["variant"]),n.value?(p(),f(e(E),{key:0,type:"error"},{default:c(()=>[g(w(e(o)("encryption","An error occurred while updating the recovery key settings. Please try again.")),1)]),_:1})):h("",!0)]),_:1},8,["label","description"])],544))}}),Q=k({__name:"SettingsAdminRecoveryKeyChange",setup(b){const a=x("form"),i=s(!1),t=s(!1),n=s(""),r=s(""),l=s(""),v=N(()=>r.value===l.value);async function _(){if(!i.value&&v.value){t.value=!1,i.value=!0;try{await R.post(S("/apps/encryption/ajax/changeRecoveryPassword"),{oldPassword:n.value,newPassword:r.value,confirmPassword:l.value}),n.value=r.value=l.value="",a.value?.reset()}catch(d){t.value=!0,C.error("Failed to update recovery key settings",{error:d})}finally{i.value=!1}}}return(d,u)=>(p(),P("form",{ref:"form",class:j(d.$style.settingsAdminRecoveryKeyChange),onSubmit:K(_,["prevent"])},[m(e(q),{label:e(o)("encryption","Change recovery key password")},{default:c(()=>[m(e(V),{modelValue:n.value,"onUpdate:modelValue":u[0]||(u[0]=y=>n.value=y),required:"",name:"oldPassword",label:e(o)("encryption","Old recovery key password")},null,8,["modelValue","label"]),m(e(V),{modelValue:r.value,"onUpdate:modelValue":u[1]||(u[1]=y=>r.value=y),required:"",name:"password",label:e(o)("encryption","New recovery key password")},null,8,["modelValue","label"]),m(e(V),{modelValue:l.value,"onUpdate:modelValue":u[2]||(u[2]=y=>l.value=y),required:"",name:"confirmPassword",error:!v.value&&!!l.value,helperText:v.value||!l.value?"":e(o)("encryption","Passwords fields do not match"),label:e(o)("encryption","Repeat new recovery key password")},null,8,["modelValue","error","helperText","label"]),m(e(U),{type:"submit",variant:"primary"},{default:c(()=>[g(w(e(o)("encryption","Change recovery key password")),1)]),_:1}),t.value?(p(),f(e(E),{key:0,type:"error"},{default:c(()=>[g(w(e(o)("encryption","An error occurred while changing the recovery key password. Please try again.")),1)]),_:1})):h("",!0)]),_:1},8,["label"])],34))}}),W="_settingsAdminRecoveryKeyChange_12rwr_2",X={settingsAdminRecoveryKeyChange:W},Y={$style:X},Z=z(Q,[["__cssModules",Y]]),ee=k({__name:"SettingsAdmin",setup(b){const a=F("encryption","adminSettings"),i=s(a.encryptHomeStorage),t=s(a.recoveryEnabled);return(n,r)=>(p(),f(e(B),{name:e(o)("encryption","Default encryption module")},{default:c(()=>[e(a).initStatus===e(G).NotInitialized&&!e(a).masterKeyEnabled?(p(),f(e(E),{key:0,type:"warning"},{default:c(()=>[g(w(e(o)("encryption","Encryption app is enabled but your keys are not initialized, please log-out and log-in again")),1)]),_:1})):(p(),P(D,{key:1},[m(J,{modelValue:i.value,"onUpdate:modelValue":r[0]||(r[0]=l=>i.value=l)},null,8,["modelValue"]),r[2]||(r[2]=H("br",null,null,-1)),e(a).masterKeyEnabled?(p(),f(L,{key:0,modelValue:t.value,"onUpdate:modelValue":r[1]||(r[1]=l=>t.value=l)},null,8,["modelValue"])):h("",!0),e(a).masterKeyEnabled&&t.value?(p(),f(Z,{key:1})):h("",!0)],64))]),_:1},8,["name"]))}}),ae=M(ee);ae.mount("#encryption-settings-section");
+const appName = "nextcloud-ui";
+const appVersion = "1.0.0";
+import { b as defineComponent, k as useModel, z as watch, y as ref, o as openBlock, c as createBlock, w as withCtx, j as createTextVNode, t as toDisplayString, l as useTemplateRef, n as computed, f as createElementBlock, x as createVNode, h as createCommentVNode, M as withModifiers, v as normalizeClass, F as Fragment, g as createBaseVNode, e as createApp } from "./preload-helper-xAe3EUYB.chunk.mjs";
+import { _ as _export_sfc, l as loadState } from "./index-o76qk6sn.chunk.mjs";
+import { t as translate } from "./translation-DoG5ZELJ-2UfAUX2V.chunk.mjs";
+import "./PencilOutline-BMYBdzdS.chunk.mjs";
+import "./Web-BOM4en5n.chunk.mjs";
+import "./NcTextArea-CWA3KOiC-Cpgesyiv.chunk.mjs";
+import "./index-CZV8rpGu.chunk.mjs";
+import "./NcDateTime.vue_vue_type_script_setup_true_lang-BhB8yA4U-DXOBfuGJ.chunk.mjs";
+import { w as watchDebounced } from "./NcModal-DHryP_87-Da4dXMUU.chunk.mjs";
+/* empty css                                           */
+import "./NcAvatar-C9d7Wrc8-C3hNgT1e.chunk.mjs";
+import "./NcContent-O-bMKi-3-CUJgW_Xf.chunk.mjs";
+import { N as NcButton } from "./ArrowRight-BC77f5L9.chunk.mjs";
+import "./TrashCanOutline-DgEtyFGH.chunk.mjs";
+import { b as generateUrl } from "./index-rAufP352.chunk.mjs";
+import { N as NcCheckboxRadioSwitch } from "./NcCheckboxRadioSwitch-BMsPx74L-BYrlnEKO.chunk.mjs";
+import "./Plus-DuSPdibD.chunk.mjs";
+import "./index-DD39fp6M.chunk.mjs";
+import "./TrayArrowDown-DVjUGg6-.chunk.mjs";
+import "./index-BcMnKoRR.chunk.mjs";
+import "./NcDialog-BG9t4Psg-IlLJVAz0.chunk.mjs";
+import "./NcSelect-DLheQ2yp-DVxJhLyT.chunk.mjs";
+import "./NcEmojiPicker-Djc9a0gw-F1kmncT2.chunk.mjs";
+import "./NcEmptyContent-B8-90BSI-BIPGjjpl.chunk.mjs";
+import "./index-D5BR15En.chunk.mjs";
+/* empty css                                        */
+import "./NcInputField-o5OFv3z6-D-7orWgm.chunk.mjs";
+import { N as NcNoteCard } from "./mdi-BGU2G5q5.chunk.mjs";
+import { N as NcPasswordField } from "./NcPasswordField-uaMO2pdt-DjVmarEi.chunk.mjs";
+import "./index-gwTr8m4i.chunk.mjs";
+import { c as cancelableClient } from "./index-D5H5XMHa.chunk.mjs";
+import "./NcTextField.vue_vue_type_script_setup_true_lang-BxkYy7wv-Beu3Njvy.chunk.mjs";
+import "./NcSelectTags-CTHyuMcq-2HejGZhj.chunk.mjs";
+import { N as NcSettingsSection } from "./ContentCopy-C2t0ZTwU.chunk.mjs";
+import "./NcUserBubble-vOAXLHB5-C3lGURBU.chunk.mjs";
+import "./NcUserStatusIcon-XiwrgeCm-DTG2zfIi.chunk.mjs";
+import "./emoji-BY_D0V5K-BlCul1cD.chunk.mjs";
+import "./colors-BHGKZFDI-C0-WujoK.chunk.mjs";
+import { c as showSuccess } from "./index-C1xmmKTZ-kBgT3zMc.chunk.mjs";
+import { l as logger, N as NcFormGroup, I as InitStatus } from "./types-D9UTgwfU.chunk.mjs";
+import "./util-BSOXDoOW.chunk.mjs";
+const _sfc_main$3 = /* @__PURE__ */ defineComponent({
+  __name: "SettingsAdminHomeStorage",
+  props: {
+    "modelValue": { type: Boolean, ...{ required: true } },
+    "modelModifiers": {}
+  },
+  emits: ["update:modelValue"],
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const encryptHomeStorage = useModel(__props, "modelValue");
+    const isSavingHomeStorageEncryption = ref(false);
+    watch(encryptHomeStorage, () => {
+      isSavingHomeStorageEncryption.value = true;
+    });
+    watchDebounced(encryptHomeStorage, async (encryptHomeStorage2, oldValue) => {
+      if (encryptHomeStorage2 === oldValue) {
+        isSavingHomeStorageEncryption.value = false;
+        return;
+      }
+      try {
+        await cancelableClient.post(
+          generateUrl("/apps/encryption/ajax/setEncryptHomeStorage"),
+          { encryptHomeStorage: encryptHomeStorage2 }
+        );
+      } finally {
+        isSavingHomeStorageEncryption.value = false;
+      }
+    }, { debounce: 800 });
+    const __returned__ = { encryptHomeStorage, isSavingHomeStorageEncryption, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createBlock($setup["NcCheckboxRadioSwitch"], {
+    modelValue: $setup.encryptHomeStorage,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.encryptHomeStorage = $event),
+    loading: $setup.isSavingHomeStorageEncryption,
+    description: $setup.t("encryption", "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted"),
+    type: "switch"
+  }, {
+    default: withCtx(() => [
+      createTextVNode(
+        toDisplayString($setup.t("encryption", "Encrypt the home storage")),
+        1
+        /* TEXT */
+      )
+    ]),
+    _: 1
+    /* STABLE */
+  }, 8, ["modelValue", "loading", "description"]);
+}
+const SettingsAdminHomeStorage = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/encryption/src/components/SettingsAdminHomeStorage.vue"]]);
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
+  __name: "SettingsAdminRecoveryKey",
+  props: {
+    "modelValue": { type: Boolean, ...{ required: true } },
+    "modelModifiers": {}
+  },
+  emits: ["update:modelValue"],
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const recoveryEnabled = useModel(__props, "modelValue");
+    const formElement = useTemplateRef("form");
+    const isLoading = ref(false);
+    const hasError = ref(false);
+    const password = ref("");
+    const confirmPassword = ref("");
+    const passwordMatch = computed(() => password.value === confirmPassword.value);
+    async function onSubmit() {
+      if (isLoading.value) {
+        return;
+      }
+      if (!passwordMatch.value) {
+        return;
+      }
+      hasError.value = false;
+      isLoading.value = true;
+      try {
+        const { data } = await cancelableClient.post(
+          generateUrl("/apps/encryption/ajax/adminRecovery"),
+          {
+            adminEnableRecovery: !recoveryEnabled.value,
+            recoveryPassword: password.value,
+            confirmPassword: confirmPassword.value
+          }
+        );
+        recoveryEnabled.value = !recoveryEnabled.value;
+        password.value = confirmPassword.value = "";
+        formElement.value?.reset();
+        if (data.data.message) {
+          showSuccess(data.data.message);
+        }
+      } catch (error) {
+        hasError.value = true;
+        logger.error("Failed to update recovery key settings", { error });
+      } finally {
+        isLoading.value = false;
+      }
+    }
+    const __returned__ = { recoveryEnabled, formElement, isLoading, hasError, password, confirmPassword, passwordMatch, onSubmit, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcFormGroup() {
+      return NcFormGroup;
+    }, get NcNoteCard() {
+      return NcNoteCard;
+    }, get NcPasswordField() {
+      return NcPasswordField;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock(
+    "form",
+    {
+      ref: "form",
+      onSubmit: withModifiers($setup.onSubmit, ["prevent"])
+    },
+    [
+      createVNode($setup["NcFormGroup"], {
+        label: $setup.recoveryEnabled ? $setup.t("encryption", "Disable recovery key") : $setup.t("encryption", "Enable recovery key"),
+        description: $setup.t("encryption", "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten.")
+      }, {
+        default: withCtx(() => [
+          createVNode($setup["NcPasswordField"], {
+            modelValue: $setup.password,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.password = $event),
+            required: "",
+            name: "password",
+            label: $setup.t("encryption", "Recovery key password")
+          }, null, 8, ["modelValue", "label"]),
+          createVNode($setup["NcPasswordField"], {
+            modelValue: $setup.confirmPassword,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.confirmPassword = $event),
+            required: "",
+            name: "confirmPassword",
+            error: !!$setup.confirmPassword && !$setup.passwordMatch,
+            helperText: $setup.passwordMatch || !$setup.confirmPassword ? "" : $setup.t("encryption", "Passwords fields do not match"),
+            label: $setup.t("encryption", "Repeat recovery key password")
+          }, null, 8, ["modelValue", "error", "helperText", "label"]),
+          createVNode($setup["NcButton"], {
+            type: "submit",
+            variant: $setup.recoveryEnabled ? "error" : "primary"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.recoveryEnabled ? $setup.t("encryption", "Disable recovery key") : $setup.t("encryption", "Enable recovery key")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["variant"]),
+          $setup.hasError ? (openBlock(), createBlock($setup["NcNoteCard"], {
+            key: 0,
+            type: "error"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("encryption", "An error occurred while updating the recovery key settings. Please try again.")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          })) : createCommentVNode("v-if", true)
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["label", "description"])
+    ],
+    544
+    /* NEED_HYDRATION, NEED_PATCH */
+  );
+}
+const SettingsAdminRecoveryKey = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/encryption/src/components/SettingsAdminRecoveryKey.vue"]]);
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "SettingsAdminRecoveryKeyChange",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const formElement = useTemplateRef("form");
+    const isLoading = ref(false);
+    const hasError = ref(false);
+    const oldPassword = ref("");
+    const password = ref("");
+    const confirmPassword = ref("");
+    const passwordMatch = computed(() => password.value === confirmPassword.value);
+    async function onSubmit() {
+      if (isLoading.value) {
+        return;
+      }
+      if (!passwordMatch.value) {
+        return;
+      }
+      hasError.value = false;
+      isLoading.value = true;
+      try {
+        await cancelableClient.post(
+          generateUrl("/apps/encryption/ajax/changeRecoveryPassword"),
+          {
+            oldPassword: oldPassword.value,
+            newPassword: password.value,
+            confirmPassword: confirmPassword.value
+          }
+        );
+        oldPassword.value = password.value = confirmPassword.value = "";
+        formElement.value?.reset();
+      } catch (error) {
+        hasError.value = true;
+        logger.error("Failed to update recovery key settings", { error });
+      } finally {
+        isLoading.value = false;
+      }
+    }
+    const __returned__ = { formElement, isLoading, hasError, oldPassword, password, confirmPassword, passwordMatch, onSubmit, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcFormGroup() {
+      return NcFormGroup;
+    }, get NcNoteCard() {
+      return NcNoteCard;
+    }, get NcPasswordField() {
+      return NcPasswordField;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const settingsAdminRecoveryKeyChange = "_settingsAdminRecoveryKeyChange_12rwr_2";
+const style0 = {
+  settingsAdminRecoveryKeyChange
+};
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock(
+    "form",
+    {
+      ref: "form",
+      class: normalizeClass(_ctx.$style.settingsAdminRecoveryKeyChange),
+      onSubmit: withModifiers($setup.onSubmit, ["prevent"])
+    },
+    [
+      createVNode($setup["NcFormGroup"], {
+        label: $setup.t("encryption", "Change recovery key password")
+      }, {
+        default: withCtx(() => [
+          createVNode($setup["NcPasswordField"], {
+            modelValue: $setup.oldPassword,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.oldPassword = $event),
+            required: "",
+            name: "oldPassword",
+            label: $setup.t("encryption", "Old recovery key password")
+          }, null, 8, ["modelValue", "label"]),
+          createVNode($setup["NcPasswordField"], {
+            modelValue: $setup.password,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.password = $event),
+            required: "",
+            name: "password",
+            label: $setup.t("encryption", "New recovery key password")
+          }, null, 8, ["modelValue", "label"]),
+          createVNode($setup["NcPasswordField"], {
+            modelValue: $setup.confirmPassword,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.confirmPassword = $event),
+            required: "",
+            name: "confirmPassword",
+            error: !$setup.passwordMatch && !!$setup.confirmPassword,
+            helperText: $setup.passwordMatch || !$setup.confirmPassword ? "" : $setup.t("encryption", "Passwords fields do not match"),
+            label: $setup.t("encryption", "Repeat new recovery key password")
+          }, null, 8, ["modelValue", "error", "helperText", "label"]),
+          createVNode($setup["NcButton"], {
+            type: "submit",
+            variant: "primary"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("encryption", "Change recovery key password")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }),
+          $setup.hasError ? (openBlock(), createBlock($setup["NcNoteCard"], {
+            key: 0,
+            type: "error"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("encryption", "An error occurred while changing the recovery key password. Please try again.")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          })) : createCommentVNode("v-if", true)
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["label"])
+    ],
+    34
+    /* CLASS, NEED_HYDRATION */
+  );
+}
+const cssModules = {
+  "$style": style0
+};
+const SettingsAdminRecoveryKeyChange = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__cssModules", cssModules], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/encryption/src/components/SettingsAdminRecoveryKeyChange.vue"]]);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "SettingsAdmin",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const adminSettings = loadState("encryption", "adminSettings");
+    const encryptHomeStorage = ref(adminSettings.encryptHomeStorage);
+    const recoveryEnabled = ref(adminSettings.recoveryEnabled);
+    const __returned__ = { adminSettings, encryptHomeStorage, recoveryEnabled, get t() {
+      return translate;
+    }, get NcNoteCard() {
+      return NcNoteCard;
+    }, get NcSettingsSection() {
+      return NcSettingsSection;
+    }, SettingsAdminHomeStorage, SettingsAdminRecoveryKey, SettingsAdminRecoveryKeyChange, get InitStatus() {
+      return InitStatus;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createBlock($setup["NcSettingsSection"], {
+    name: $setup.t("encryption", "Default encryption module")
+  }, {
+    default: withCtx(() => [
+      $setup.adminSettings.initStatus === $setup.InitStatus.NotInitialized && !$setup.adminSettings.masterKeyEnabled ? (openBlock(), createBlock($setup["NcNoteCard"], {
+        key: 0,
+        type: "warning"
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            toDisplayString($setup.t("encryption", "Encryption app is enabled but your keys are not initialized, please log-out and log-in again")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      })) : (openBlock(), createElementBlock(
+        Fragment,
+        { key: 1 },
+        [
+          createVNode($setup["SettingsAdminHomeStorage"], {
+            modelValue: $setup.encryptHomeStorage,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.encryptHomeStorage = $event)
+          }, null, 8, ["modelValue"]),
+          _cache[2] || (_cache[2] = createBaseVNode(
+            "br",
+            null,
+            null,
+            -1
+            /* CACHED */
+          )),
+          $setup.adminSettings.masterKeyEnabled ? (openBlock(), createBlock($setup["SettingsAdminRecoveryKey"], {
+            key: 0,
+            modelValue: $setup.recoveryEnabled,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.recoveryEnabled = $event)
+          }, null, 8, ["modelValue"])) : createCommentVNode("v-if", true),
+          $setup.adminSettings.masterKeyEnabled && $setup.recoveryEnabled ? (openBlock(), createBlock($setup["SettingsAdminRecoveryKeyChange"], { key: 1 })) : createCommentVNode("v-if", true)
+        ],
+        64
+        /* STABLE_FRAGMENT */
+      ))
+    ]),
+    _: 1
+    /* STABLE */
+  }, 8, ["name"]);
+}
+const SettingsAdmin = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/encryption/src/views/SettingsAdmin.vue"]]);
+/*!
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+const app = createApp(SettingsAdmin);
+app.mount("#encryption-settings-section");
 //# sourceMappingURL=encryption-settings_admin.mjs.map

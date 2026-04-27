@@ -1,3 +1,294 @@
-import{d as T,c as U}from"./pinia-BhysKopn.chunk.mjs";import{l as _,b as A,o as n,f as l,u as a,c as x,w as k,j as p,t as d,h as E,H as m,g as f,I as H,F as g,k as y,D as N,e as M}from"./preload-helper-D9xEqq8S.chunk.mjs";import{g as $,l as R,_ as j}from"./public-CvthP4YJ.chunk.mjs";import{a as I}from"./index-C1xmmKTZ-XKFVqjxi.chunk.mjs";import{t as o}from"./translation-DoG5ZELJ-8aobdbPK.chunk.mjs";import{c as B}from"./index-b06SCjVD.chunk.mjs";import{N as w}from"./ArrowRight-YxbwZNEK.chunk.mjs";import{N as D}from"./TrashCanOutline-COIylzhj.chunk.mjs";import{g as F,b as G}from"./index-Bp9-GhMo.chunk.mjs";import{c as q}from"./index-DqG-5vGV.chunk.mjs";import"./NcDialog-nDc1gW50-BF3zId_C.chunk.mjs";import"./NcModal-kyWZ3UFC-DO8otox5.chunk.mjs";import"./Web-7MW_v0ET.chunk.mjs";import"./mdi-B3j1XNhV.chunk.mjs";import"./NcPasswordField-BOLzDHBJ-BKSfVdzU.chunk.mjs";import"./NcInputField-CPL-a_MM-BYLCq7JD.chunk.mjs";import"./util-Caafb9Jl.chunk.mjs";const z=F().detectLogLevel().setApp("twofactor_backupcodes").build();function J(r){const c=$().theming.name||"Nextcloud",e=window.open("",o("twofactor_backupcodes","{name} backup codes",{name:c}));if(!e)throw I(o("twofactor_backupcodes","Unable to open a new tab for printing")),new Error("Unable to open a new tab for printing");const t=e.document.createElement("h1");t.textContent=o("twofactor_backupcodes","{name} backup codes",{name:c});const s=e.document.createElement("pre");for(const b of r){const u=e.document.createTextNode(b);s.appendChild(u),s.appendChild(e.document.createElement("br"))}e.document.body.innerHTML="",e.document.body.appendChild(t),e.document.body.appendChild(s),e.print(),e.close()}async function K(){const r=G("/apps/twofactor_backupcodes/settings/create"),{data:c}=await q.post(r);return c}const v=R("twofactor_backupcodes","state"),O=T("twofactor_backupcodes",()=>{const r=_(v.enabled),c=_(v.total),e=_(v.used),t=_([]);async function s(){r.value=!1;const{codes:b,state:u}=await K();r.value=u.enabled,c.value=u.total,e.value=u.used,t.value=b}return{enabled:r,total:c,used:e,codes:t,generate:s}}),Q=["aria-label"],V=A({__name:"PersonalSettings",setup(r){const c=$().theming.name??"Nextcloud",e=O(),t=_(!1),s=N(()=>e.codes&&e.codes.length>0),b=c+"-backup-codes.txt",u=N(()=>s.value?"data:text/plain,"+encodeURIComponent(e.codes.reduce((i,C)=>i+C+`
-`,"")):"");async function h(){await B(),t.value=!0;try{await e.generate()}catch(i){z.error("Error generating backup codes",{error:i}),I(o("twofactor_backupcodes","An error occurred while generating your backup codes"))}finally{t.value=!1}}function P(){J(!e.codes||e.codes.length===0?[]:e.codes)}return(i,C)=>(n(),l("div",{class:g(i.$style.backupcodesSettings)},[a(e).enabled?(n(),l(m,{key:1},[f("p",null,[s.value?(n(),l(m,{key:1},[p(d(a(o)("twofactor_backupcodes","These are your backup codes. Please save and/or print them as you will not be able to read the codes again later."))+" ",1),f("ul",{"aria-label":a(o)("twofactor_backupcodes","List of backup codes")},[(n(!0),l(m,null,H(a(e).codes,S=>(n(),l("li",{key:S,class:g(i.$style.backupcodesSettings__code)},d(S),3))),128))],8,Q)],64)):(n(),l(m,{key:0},[p(d(a(o)("twofactor_backupcodes","Backup codes have been generated. {used} of {total} codes have been used.",{used:a(e).used,total:a(e).total})),1)],64))]),f("p",{class:g(i.$style.backupcodesSettings__actions)},[y(a(w),{id:"generate-backup-codes",variant:"error",onClick:h},{default:k(()=>[p(d(a(o)("twofactor_backupcodes","Regenerate backup codes")),1)]),_:1}),s.value?(n(),l(m,{key:0},[y(a(w),{onClick:P},{default:k(()=>[p(d(a(o)("twofactor_backupcodes","Print backup codes")),1)]),_:1}),y(a(w),{href:u.value,download:b,variant:"primary"},{default:k(()=>[p(d(a(o)("twofactor_backupcodes","Save backup codes")),1)]),_:1},8,["href"])],64)):E("",!0)],2),f("p",null,[f("em",null,d(a(o)("twofactor_backupcodes","If you regenerate backup codes, you automatically invalidate old codes.")),1)])],64)):(n(),x(a(w),{key:0,disabled:t.value,variant:"primary",onClick:h},{icon:k(()=>[t.value?(n(),x(a(D),{key:0})):E("",!0)]),default:k(()=>[p(" "+d(a(o)("twofactor_backupcodes","Generate backup codes")),1)]),_:1},8,["disabled"]))],2))}}),W="_backupcodesSettings_bnkw8_2",X="_backupcodesSettings__code_bnkw8_7",Y="_backupcodesSettings__actions_bnkw8_13",Z={backupcodesSettings:W,backupcodesSettings__code:X,backupcodesSettings__actions:Y},ee={$style:Z},ae=j(V,[["__cssModules",ee]]),oe=U(),L=M(ae);L.use(oe),L.mount("#twofactor-backupcodes-settings");
+const appName = "nextcloud-ui";
+const appVersion = "1.0.0";
+import { d as defineStore, c as createPinia } from "./pinia-0yhe0wHh.chunk.mjs";
+import { y as ref, b as defineComponent, n as computed, o as openBlock, f as createElementBlock, c as createBlock, w as withCtx, j as createTextVNode, t as toDisplayString, h as createCommentVNode, F as Fragment, g as createBaseVNode, C as renderList, v as normalizeClass, x as createVNode, e as createApp } from "./preload-helper-xAe3EUYB.chunk.mjs";
+import { g as getCapabilities, l as loadState, _ as _export_sfc } from "./index-o76qk6sn.chunk.mjs";
+import { a as showError } from "./index-C1xmmKTZ-kBgT3zMc.chunk.mjs";
+import { t as translate } from "./translation-DoG5ZELJ-2UfAUX2V.chunk.mjs";
+import { c as confirmPassword } from "./index-Dl6U1WCt.chunk.mjs";
+import { N as NcButton } from "./ArrowRight-BC77f5L9.chunk.mjs";
+import { N as NcLoadingIcon } from "./TrashCanOutline-DgEtyFGH.chunk.mjs";
+import { g as getLoggerBuilder, b as generateUrl } from "./index-rAufP352.chunk.mjs";
+import { c as cancelableClient } from "./index-D5H5XMHa.chunk.mjs";
+import "./util-BSOXDoOW.chunk.mjs";
+import "./NcDialog-BG9t4Psg-IlLJVAz0.chunk.mjs";
+import "./NcModal-DHryP_87-Da4dXMUU.chunk.mjs";
+import "./Web-BOM4en5n.chunk.mjs";
+import "./mdi-BGU2G5q5.chunk.mjs";
+import "./NcPasswordField-uaMO2pdt-DjVmarEi.chunk.mjs";
+import "./NcInputField-o5OFv3z6-D-7orWgm.chunk.mjs";
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+const logger = getLoggerBuilder().detectLogLevel().setApp("twofactor_backupcodes").build();
+/*!
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+function print(data) {
+  const name = getCapabilities().theming.name || "Nextcloud";
+  const newTab = window.open("", translate("twofactor_backupcodes", "{name} backup codes", { name }));
+  if (!newTab) {
+    showError(translate("twofactor_backupcodes", "Unable to open a new tab for printing"));
+    throw new Error("Unable to open a new tab for printing");
+  }
+  const heading = newTab.document.createElement("h1");
+  heading.textContent = translate("twofactor_backupcodes", "{name} backup codes", { name });
+  const pre = newTab.document.createElement("pre");
+  for (const code of data) {
+    const codeLine = newTab.document.createTextNode(code);
+    pre.appendChild(codeLine);
+    pre.appendChild(newTab.document.createElement("br"));
+  }
+  newTab.document.body.innerHTML = "";
+  newTab.document.body.appendChild(heading);
+  newTab.document.body.appendChild(pre);
+  newTab.print();
+  newTab.close();
+}
+async function generateCodes() {
+  const url = generateUrl("/apps/twofactor_backupcodes/settings/create");
+  const { data } = await cancelableClient.post(url);
+  return data;
+}
+const initialState = loadState("twofactor_backupcodes", "state");
+const useStore = defineStore("twofactor_backupcodes", () => {
+  const enabled = ref(initialState.enabled);
+  const total = ref(initialState.total);
+  const used = ref(initialState.used);
+  const codes = ref([]);
+  async function generate() {
+    enabled.value = false;
+    const { codes: newCodes, state } = await generateCodes();
+    enabled.value = state.enabled;
+    total.value = state.total;
+    used.value = state.used;
+    codes.value = newCodes;
+  }
+  return {
+    enabled,
+    total,
+    used,
+    codes,
+    generate
+  };
+});
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "PersonalSettings",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const instanceName = getCapabilities().theming.name ?? "Nextcloud";
+    const store = useStore();
+    const generatingCodes = ref(false);
+    const hasCodes = computed(() => {
+      return store.codes && store.codes.length > 0;
+    });
+    const downloadFilename = instanceName + "-backup-codes.txt";
+    const downloadUrl = computed(() => {
+      if (!hasCodes.value) {
+        return "";
+      }
+      return "data:text/plain," + encodeURIComponent(store.codes.reduce((prev, code) => {
+        return prev + code + "\n";
+      }, ""));
+    });
+    async function generateBackupCodes() {
+      await confirmPassword();
+      generatingCodes.value = true;
+      try {
+        await store.generate();
+      } catch (error) {
+        logger.error("Error generating backup codes", { error });
+        showError(translate("twofactor_backupcodes", "An error occurred while generating your backup codes"));
+      } finally {
+        generatingCodes.value = false;
+      }
+    }
+    function printCodes() {
+      print(!store.codes || store.codes.length === 0 ? [] : store.codes);
+    }
+    const __returned__ = { instanceName, store, generatingCodes, hasCodes, downloadFilename, downloadUrl, generateBackupCodes, printCodes, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcLoadingIcon() {
+      return NcLoadingIcon;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const backupcodesSettings = "_backupcodesSettings_bnkw8_2";
+const backupcodesSettings__code = "_backupcodesSettings__code_bnkw8_7";
+const backupcodesSettings__actions = "_backupcodesSettings__actions_bnkw8_13";
+const style0 = {
+  backupcodesSettings,
+  backupcodesSettings__code,
+  backupcodesSettings__actions
+};
+const _hoisted_1 = ["aria-label"];
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock(
+    "div",
+    {
+      class: normalizeClass(_ctx.$style.backupcodesSettings)
+    },
+    [
+      !$setup.store.enabled ? (openBlock(), createBlock($setup["NcButton"], {
+        key: 0,
+        disabled: $setup.generatingCodes,
+        variant: "primary",
+        onClick: $setup.generateBackupCodes
+      }, {
+        icon: withCtx(() => [
+          $setup.generatingCodes ? (openBlock(), createBlock($setup["NcLoadingIcon"], { key: 0 })) : createCommentVNode("v-if", true)
+        ]),
+        default: withCtx(() => [
+          createTextVNode(
+            " " + toDisplayString($setup.t("twofactor_backupcodes", "Generate backup codes")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["disabled"])) : (openBlock(), createElementBlock(
+        Fragment,
+        { key: 1 },
+        [
+          createBaseVNode("p", null, [
+            !$setup.hasCodes ? (openBlock(), createElementBlock(
+              Fragment,
+              { key: 0 },
+              [
+                createTextVNode(
+                  toDisplayString($setup.t("twofactor_backupcodes", "Backup codes have been generated. {used} of {total} codes have been used.", { used: $setup.store.used, total: $setup.store.total })),
+                  1
+                  /* TEXT */
+                )
+              ],
+              64
+              /* STABLE_FRAGMENT */
+            )) : (openBlock(), createElementBlock(
+              Fragment,
+              { key: 1 },
+              [
+                createTextVNode(
+                  toDisplayString($setup.t("twofactor_backupcodes", "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later.")) + " ",
+                  1
+                  /* TEXT */
+                ),
+                createBaseVNode("ul", {
+                  "aria-label": $setup.t("twofactor_backupcodes", "List of backup codes")
+                }, [
+                  (openBlock(true), createElementBlock(
+                    Fragment,
+                    null,
+                    renderList($setup.store.codes, (code) => {
+                      return openBlock(), createElementBlock(
+                        "li",
+                        {
+                          key: code,
+                          class: normalizeClass(_ctx.$style.backupcodesSettings__code)
+                        },
+                        toDisplayString(code),
+                        3
+                        /* TEXT, CLASS */
+                      );
+                    }),
+                    128
+                    /* KEYED_FRAGMENT */
+                  ))
+                ], 8, _hoisted_1)
+              ],
+              64
+              /* STABLE_FRAGMENT */
+            ))
+          ]),
+          createBaseVNode(
+            "p",
+            {
+              class: normalizeClass(_ctx.$style.backupcodesSettings__actions)
+            },
+            [
+              createVNode($setup["NcButton"], {
+                id: "generate-backup-codes",
+                variant: "error",
+                onClick: $setup.generateBackupCodes
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("twofactor_backupcodes", "Regenerate backup codes")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 1
+                /* STABLE */
+              }),
+              $setup.hasCodes ? (openBlock(), createElementBlock(
+                Fragment,
+                { key: 0 },
+                [
+                  createVNode($setup["NcButton"], { onClick: $setup.printCodes }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("twofactor_backupcodes", "Print backup codes")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 1
+                    /* STABLE */
+                  }),
+                  createVNode($setup["NcButton"], {
+                    href: $setup.downloadUrl,
+                    download: $setup.downloadFilename,
+                    variant: "primary"
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("twofactor_backupcodes", "Save backup codes")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 1
+                    /* STABLE */
+                  }, 8, ["href"])
+                ],
+                64
+                /* STABLE_FRAGMENT */
+              )) : createCommentVNode("v-if", true)
+            ],
+            2
+            /* CLASS */
+          ),
+          createBaseVNode("p", null, [
+            createBaseVNode(
+              "em",
+              null,
+              toDisplayString($setup.t("twofactor_backupcodes", "If you regenerate backup codes, you automatically invalidate old codes.")),
+              1
+              /* TEXT */
+            )
+          ])
+        ],
+        64
+        /* STABLE_FRAGMENT */
+      ))
+    ],
+    2
+    /* CLASS */
+  );
+}
+const cssModules = {
+  "$style": style0
+};
+const PersonalSettings = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__cssModules", cssModules], ["__file", "/home/rodrigo/nextcloud-docker-dev/workspace/server/build/frontend/apps/twofactor_backupcodes/src/views/PersonalSettings.vue"]]);
+const pinia = createPinia();
+const app = createApp(PersonalSettings);
+app.use(pinia);
+app.mount("#twofactor-backupcodes-settings");
 //# sourceMappingURL=twofactor_backupcodes-settings-personal.mjs.map

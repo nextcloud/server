@@ -1,2 +1,1106 @@
-(()=>{"use strict";var e,t,r,n={77396(e,t,r){var n=r(21777),s=r(53334),o=r(85471),a=r(950),i=r(74715),l=r(61744),c=r(78928),u=r(86162),d=r(57908),p=r(64426),f=r(59915),h=r(56587),m=r(15502),g=r(71711),v=r(25878),w=r(75017),N=r(47611),b=r(10363),y=r(32999),A=r(48283),_=r(54048),S=r(8976),x=r(27345),O=r(86226),T=r(49833),F=r(37024),C=r(62306),k=r(542),U=r(31744),B=r(93651),P=r(15807),E=r(35056),D=r(50017),q=r(60258),L=r(51122),M=r(66865),I=r(17067),j=r(2302),W=r(52631),G=r(87450),$=r(24426),X=r(20948),R=r(69075),K=r(17671),Y=r(8852),Q=r(50299),z=r(90429),H=r(64569),V=r(29982),J=r(44025),Z=r(35048),ee=r(48198),te=r(96573),re=r(20959),ne=r(83194),se=r(91849),oe=r(42507),ae=r(31241),ie=r(85646),le=r(71565),ce=r(11264),ue=r(17848),de=r(99925),pe=r(66768),fe=r(16704),he=r(40020),me=r(51550),ge=r(91624),ve=r(6670),we=r(48191),Ne=r(21541),be=r(56570),ye=r(77128),Ae=r(88289),_e=r(83947),Se=r(371),xe=r(3274),Oe=r(71912),Te=r(35290),Fe=r(1938),Ce=r(1357),ke=r(17370),Ue=r(36079),Be=r(69674),Pe=r(19051),Ee=(r(64789),r(52781),r(3168),r(39156)),De=r(53160),qe=r(14762),Le=(r(61338),r(71639)),Me=r(72223),Ie=r(9773),je=r(27971),We=r(25514),Ge=r(6330),$e=r(88381),Xe=r(8256),Re=r(64289),Ke=r(37356),Ye=r(8818),Qe=r(23610),ze=(r(55581),r(94205),r(95462),r(23020),r(53429),r(23739),r(39160),r(29928),r(64660),r(18547),r(42892)),He=r(69885),Ve=(r(59656),r(75105),r(92471),r(16406),r(2508));a.N,i.N,l.A,c.N,u.N,d.A,p.N,f.A,m.A,g.A,v.N,h.N,w.N,N.A,b.A,y.N,A.N,_.A,S.N,x.A,O.N,T.N,F.N,C.N,k.A,U.N,B.N,P.N,P.N,E.N,D.N,q.A,L.N,M.A,I.N,Be.N,j.N,W.N,G.N,$.N,X.N,R.N,K.N,Y.N,Q.N,z.N,H.N,V.N,J.N,Z.default,ee.A,te.N,re.N,ne.A,se.N,oe.A,ae.N,ie.N,le.N,ce.N,ue.N,de.N,pe.A,fe.N,he.N,me.N,ge.N,ve.N,we.N,Ne.N,be.N,ye.N,Ae.A,Ue.N,_e.A,Se.A,xe.N,Oe.N,Te.N,Fe.N,Ce.N,ke.N,Be.a,Ee.N,Le.N,De.N,Me.N,Ie.N,je.N,We.N,Ge.N,$e.N,qe.N,Xe.N,Re.N,Ke.N,Ye.N,Qe.A,Symbol.toStringTag,ze.A,He.A,Ve.yw,Symbol.toStringTag;var Je=r(9165),Ze=r(87485),et=r(85168),tt=r(63814),rt=r(22720),nt=r(74095),st=r(57268),ot=r(6695);const at=(0,r(35947).YK)().setApp("files").detectUser().build(),it=(0,o.pM)({__name:"TransferOwnershipDialogue",setup(e){const t=(0,Ze.F)().files_sharing.sharee.minSearchStringLength,r=(0,et.a1)((0,s.t)("files","Choose a file or folder to transfer")).allowDirectories().setMultiSelect(!1).setButtonFactory(([e])=>{const t=!!e?.path&&"/"!==e.path&&e.owner===(0,n.HW)().uid;return[{label:t?(0,s.t)("files",'Transfer "{path}"',{path:e.displayname}):(0,s.t)("files","Select file or folder"),callback:()=>{},disabled:!t,variant:"primary"}]}).build(),a=(0,o.KR)(),i=(0,o.KR)(!1),l=(0,o.KR)(),c=(0,o.KR)([]),u=(0,o.EW)(()=>!!a.value&&!!l.value),d=(0,o.EW)(()=>a.value&&l.value?(0,s.t)("files","Transfer {path} to {userid}",{path:a.value.displayname,userid:l.value.displayName}):(0,s.t)("files","Transfer"));(0,o.KC)(()=>f(""));const p=(0,rt.Q0)(f,500);async function f(e){if(!((e=e.trim()).length<t)){i.value=!0;try{const t=await Pe.Ay.get((0,tt.KT)("apps/files_sharing/api/v1/sharees"),{params:{format:"json",itemType:"file",search:e,perPage:20,lookup:!1}}),r=[...t.data.ocs.data.exact.users,...t.data.ocs.data.users];c.value=r.map(e=>({displayName:e.label,id:e.value.shareWith,user:e.value.shareWith,subname:e.shareWithDisplayNameUnique}))}catch(e){at.error("could not fetch users",{error:e}),(0,et.Qg)((0,s.t)("files","Error while searching for users"))}finally{i.value=!1}}}return{__sfc:!0,minSearchStringLength:t,picker:r,nodeForTransfer:a,loadingUsers:i,selectedUser:l,userSuggestions:c,canSubmit:u,submitButtonText:d,chooseNodeForTransfer:async function(){try{const[e]=await r.pickNodes();a.value=e}catch(e){return e instanceof et.vT?void at.debug("Selecting object for transfer aborted",{error:e}):(a.value=void 0,at.error("Error while opening file picker for transfer ownership",{error:e}),void(0,et.Qg)((0,s.t)("files","Error while opening file picker for transfer ownership")))}},searchUsersDebounced:p,searchUsers:f,submit:async function(){u.value||at.warn("ignoring form submit");const e={path:a.value?.path,recipient:l.value?.user};at.debug("submit transfer ownership form",{requestParameters:e});try{const t=(0,tt.KT)("apps/files/api/v1/transferownership"),{data:r}=await Pe.Ay.post(t,e);at.info("Transfer ownership request sent",{data:r}),a.value=void 0,l.value=void 0,(0,et.Te)((0,s.t)("files","Ownership transfer request sent"))}catch(e){at.error("Could not send ownership transfer request",{error:e}),(0,Pe.F0)(e)&&403===e.response?.status?(0,et.Qg)((0,s.t)("files","Cannot transfer ownership of a file or folder you do not own")):(0,et.Qg)((0,s.t)("files","Error while sending ownership transfer request"))}},mdiFolderOutline:Je.B32,t:s.t,NcButton:nt.A,NcFormBox:st.A,NcFormBoxButton:le.N,NcFormGroup:de.N,NcIconSvgWrapper:ot.A,NcSelectUsers:Ie.N}}});var lt=r(85072),ct=r.n(lt),ut=r(97825),dt=r.n(ut),pt=r(77659),ft=r.n(pt),ht=r(55056),mt=r.n(ht),gt=r(10540),vt=r.n(gt),wt=r(41113),Nt=r.n(wt),bt=r(6141),yt={};yt.styleTagTransform=Nt(),yt.setAttributes=mt(),yt.insert=ft().bind(null,"head"),yt.domAPI=dt(),yt.insertStyleElement=vt(),ct()(bt.A,yt);const At=bt.A&&bt.A.locals?bt.A.locals:void 0;var _t=r(14486),St=(0,_t.A)(it,function(){var e=this,t=e._self._c,r=e._self._setupProxy;return t("form",{on:{submit:function(e){return e.preventDefault(),r.submit.apply(null,arguments)}}},[t(r.NcFormGroup,{class:e.$style.transferOwnership__group,attrs:{label:r.t("files","Transfer ownership of a file or folder")}},[t(r.NcFormBox,{scopedSlots:e._u([{key:"default",fn:function({itemClass:n}){return[t(r.NcFormBoxButton,{attrs:{"inverted-accent":"",label:r.t("files","File or folder to transfer"),description:r.nodeForTransfer?.displayname??r.t("files","No file or folder selected")},on:{click:r.chooseNodeForTransfer},scopedSlots:e._u([{key:"icon",fn:function(){return[t(r.NcIconSvgWrapper,{attrs:{path:r.mdiFolderOutline}})]},proxy:!0}],null,!0)}),e._v(" "),t("div",{class:[n,e.$style.transferOwnership__newOwner]},[t(r.NcSelectUsers,{class:e.$style.transferOwnership__newOwnerSelect,attrs:{"input-label":r.t("files","New owner"),loading:r.loadingUsers,options:r.userSuggestions},on:{search:r.searchUsersDebounced},model:{value:r.selectedUser,callback:function(e){r.selectedUser=e},expression:"selectedUser"}})],1),e._v(" "),t(r.NcButton,{attrs:{disabled:!r.canSubmit,type:"submit",variant:"primary",wide:""}},[e._v("\n\t\t\t\t"+e._s(r.submitButtonText)+"\n\t\t\t")])]}}])}),e._v(" "),t("p",{staticClass:"hidden-visually",attrs:{"aria-live":"polite"}},[r.nodeForTransfer?e._e():t("span",[e._v(e._s(r.t("files","You need to select a file or folder to transfer ownership.")))]),e._v(" "),r.selectedUser?e._e():t("span",[e._v(e._s(r.t("files","You need to select a new owner for the file or folder.")))])])],1)],1)},[],!1,function(e){this.$style=At.locals||At},null,null);const xt=St.exports,Ot=(0,o.pM)({__name:"PersonalSettings",setup:e=>({__sfc:!0,t:s.t,NcSettingsSection:We.N,TransferOwnershipDialogue:xt})}),Tt=(0,_t.A)(Ot,function(){var e=this._self._c,t=this._self._setupProxy;return e(t.NcSettingsSection,{attrs:{name:t.t("files","Files")}},[e(t.TransferOwnershipDialogue)],1)},[],!1,null,null,null).exports;r.nc=(0,n.aV)(),o.Ay.prototype.t=s.t,(new(o.Ay.extend(Tt))).$mount("#files-personal-settings")},6141(e,t,r){r.d(t,{A:()=>i});var n=r(71354),s=r.n(n),o=r(76314),a=r.n(o)()(s());a.push([e.id,"\n._transferOwnership__group_lSDrv {\n\tmax-width: 512px;\n}\n._transferOwnership__newOwner_qBBCY {\n\tbackground-color: var(--color-primary-element-light);\n\tpadding-block: var(--default-grid-baseline);\n\tpadding-inline: calc(var(--border-radius-element) + var(--default-grid-baseline));\n}\n._transferOwnership__newOwnerSelect_Mt32B {\n\twidth: 100%;\n}\n._transferOwnership__newOwner_qBBCY .vs--open .vs__dropdown-toggle {\n\tbackground-color: var(--color-main-background);\n}\n","",{version:3,sources:["webpack://./apps/files/src/components/TransferOwnershipDialogue.vue"],names:[],mappings:";AAuMA;CACA,gBAAA;AACA;AAEA;CACA,oDAAA;CACA,2CAAA;CACA,iFAAA;AACA;AAEA;CACA,WAAA;AACA;AAEA;CACA,8CAAA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n\n<script setup lang=\"ts\">\nimport type { INode } from '@nextcloud/files'\nimport type { OCSResponse } from '@nextcloud/typings/ocs'\nimport type { NcSelectUsersModel } from '@nextcloud/vue/components/NcSelectUsers'\n\nimport { mdiFolderOutline } from '@mdi/js'\nimport { getCurrentUser } from '@nextcloud/auth'\nimport axios, { isAxiosError } from '@nextcloud/axios'\nimport { getCapabilities } from '@nextcloud/capabilities'\nimport { FilePickerClosed, getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'\nimport { t } from '@nextcloud/l10n'\nimport { generateOcsUrl } from '@nextcloud/router'\nimport { useDebounceFn } from '@vueuse/core'\nimport { computed, onBeforeMount, ref } from 'vue'\nimport NcButton from '@nextcloud/vue/components/NcButton'\nimport NcFormBox from '@nextcloud/vue/components/NcFormBox'\nimport NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'\nimport NcFormGroup from '@nextcloud/vue/components/NcFormGroup'\nimport NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'\nimport NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'\nimport { logger } from '../utils/logger.ts'\n\n// eslint-disable-next-line @typescript-eslint/no-explicit-any\nconst minSearchStringLength = (getCapabilities() as any).files_sharing.sharee.minSearchStringLength\nconst picker = getFilePickerBuilder(t('files', 'Choose a file or folder to transfer'))\n\t.allowDirectories()\n\t.setMultiSelect(false)\n\t.setButtonFactory(([node]) => {\n\t\tconst canPick = !!node?.path && node.path !== '/' && node.owner === getCurrentUser()!.uid\n\t\treturn [{\n\t\t\tlabel: canPick\n\t\t\t\t? t('files', 'Transfer \"{path}\"', { path: node.displayname })\n\t\t\t\t: t('files', 'Select file or folder'),\n\t\t\tcallback: () => {},\n\t\t\tdisabled: !canPick,\n\t\t\tvariant: 'primary',\n\t\t}]\n\t})\n\t.build()\n\nconst nodeForTransfer = ref<INode>()\nconst loadingUsers = ref(false)\nconst selectedUser = ref<NcSelectUsersModel>()\nconst userSuggestions = ref<NcSelectUsersModel[]>([])\n\nconst canSubmit = computed(() => !!nodeForTransfer.value && !!selectedUser.value)\n\nconst submitButtonText = computed(() => {\n\tif (!nodeForTransfer.value || !selectedUser.value) {\n\t\treturn t('files', 'Transfer')\n\t}\n\treturn t('files', 'Transfer {path} to {userid}', { path: nodeForTransfer.value!.displayname, userid: selectedUser.value!.displayName })\n})\n\nonBeforeMount(() => searchUsers(''))\n\n/**\n * Open the file picker to choose a file or folder for which the ownership should be transferred.\n */\nasync function chooseNodeForTransfer() {\n\ttry {\n\t\tconst [node] = await picker.pickNodes()\n\t\tnodeForTransfer.value = node\n\t} catch (error) {\n\t\tif (error instanceof FilePickerClosed) {\n\t\t\tlogger.debug('Selecting object for transfer aborted', { error })\n\t\t\treturn\n\t\t}\n\n\t\tnodeForTransfer.value = undefined\n\t\tlogger.error('Error while opening file picker for transfer ownership', { error })\n\t\tshowError(t('files', 'Error while opening file picker for transfer ownership'))\n\t\treturn\n\t}\n}\n\nconst searchUsersDebounced = useDebounceFn(searchUsers, 500)\n\n/**\n * Handle the user search input and fetch matching users from the server.\n *\n * @param query - The search string entered by the user\n */\nasync function searchUsers(query: string) {\n\tquery = query.trim()\n\tif (query.length < minSearchStringLength) {\n\t\treturn\n\t}\n\n\tloadingUsers.value = true\n\ttry {\n\t\tconst response = await axios.get<OCSResponse>(generateOcsUrl('apps/files_sharing/api/v1/sharees'), {\n\t\t\tparams: {\n\t\t\t\tformat: 'json',\n\t\t\t\titemType: 'file',\n\t\t\t\tsearch: query,\n\t\t\t\tperPage: 20,\n\t\t\t\tlookup: false,\n\t\t\t},\n\t\t})\n\n\t\tconst data = [...response.data.ocs.data.exact.users, ...response.data.ocs.data.users]\n\t\tuserSuggestions.value = data.map((user) => ({\n\t\t\tdisplayName: user.label,\n\t\t\tid: user.value.shareWith,\n\t\t\tuser: user.value.shareWith,\n\t\t\tsubname: user.shareWithDisplayNameUnique,\n\t\t} as NcSelectUsersModel))\n\t} catch (error) {\n\t\tlogger.error('could not fetch users', { error })\n\t\tshowError(t('files', 'Error while searching for users'))\n\t} finally {\n\t\tloadingUsers.value = false\n\t}\n}\n\n/**\n * Handle submit of the ownership transfer.\n */\nasync function submit() {\n\tif (!canSubmit.value) {\n\t\tlogger.warn('ignoring form submit')\n\t}\n\n\tconst requestParameters = {\n\t\tpath: nodeForTransfer.value?.path,\n\t\trecipient: selectedUser.value?.user,\n\t}\n\tlogger.debug('submit transfer ownership form', { requestParameters })\n\n\ttry {\n\t\tconst url = generateOcsUrl('apps/files/api/v1/transferownership')\n\t\tconst { data } = await axios.post(url, requestParameters)\n\t\tlogger.info('Transfer ownership request sent', { data })\n\n\t\tnodeForTransfer.value = undefined\n\t\tselectedUser.value = undefined\n\t\tshowSuccess(t('files', 'Ownership transfer request sent'))\n\t} catch (error) {\n\t\tlogger.error('Could not send ownership transfer request', { error })\n\n\t\tif (isAxiosError(error) && error.response?.status === 403) {\n\t\t\tshowError(t('files', 'Cannot transfer ownership of a file or folder you do not own'))\n\t\t} else {\n\t\t\tshowError(t('files', 'Error while sending ownership transfer request'))\n\t\t}\n\t}\n}\n<\/script>\n\n<template>\n\t<form @submit.prevent=\"submit\">\n\t\t<NcFormGroup\n\t\t\t:class=\"$style.transferOwnership__group\"\n\t\t\t:label=\"t('files', 'Transfer ownership of a file or folder')\">\n\t\t\t<NcFormBox v-slot=\"{ itemClass }\">\n\t\t\t\t<NcFormBoxButton\n\t\t\t\t\tinverted-accent\n\t\t\t\t\t:label=\"t('files', 'File or folder to transfer')\"\n\t\t\t\t\t:description=\"nodeForTransfer?.displayname ?? t('files', 'No file or folder selected')\"\n\t\t\t\t\t@click=\"chooseNodeForTransfer\">\n\t\t\t\t\t<template #icon>\n\t\t\t\t\t\t<NcIconSvgWrapper :path=\"mdiFolderOutline\" />\n\t\t\t\t\t</template>\n\t\t\t\t</NcFormBoxButton>\n\n\t\t\t\t<div :class=\"[itemClass, $style.transferOwnership__newOwner]\">\n\t\t\t\t\t<NcSelectUsers\n\t\t\t\t\t\tv-model=\"selectedUser\"\n\t\t\t\t\t\t:class=\"$style.transferOwnership__newOwnerSelect\"\n\t\t\t\t\t\t:input-label=\"t('files', 'New owner')\"\n\t\t\t\t\t\t:loading=\"loadingUsers\"\n\t\t\t\t\t\t:options=\"userSuggestions\"\n\t\t\t\t\t\t@search=\"searchUsersDebounced\" />\n\t\t\t\t</div>\n\n\t\t\t\t<NcButton\n\t\t\t\t\t:disabled=\"!canSubmit\"\n\t\t\t\t\ttype=\"submit\"\n\t\t\t\t\tvariant=\"primary\"\n\t\t\t\t\twide>\n\t\t\t\t\t{{ submitButtonText }}\n\t\t\t\t</NcButton>\n\t\t\t</NcFormBox>\n\n\t\t\t<p class=\"hidden-visually\" aria-live=\"polite\">\n\t\t\t\t<span v-if=\"!nodeForTransfer\">{{ t('files', 'You need to select a file or folder to transfer ownership.') }}</span>\n\t\t\t\t<span v-if=\"!selectedUser\">{{ t('files', 'You need to select a new owner for the file or folder.') }}</span>\n\t\t\t</p>\n\t\t</NcFormGroup>\n\t</form>\n</template>\n\n<style module>\n.transferOwnership__group {\n\tmax-width: 512px;\n}\n\n.transferOwnership__newOwner {\n\tbackground-color: var(--color-primary-element-light);\n\tpadding-block: var(--default-grid-baseline);\n\tpadding-inline: calc(var(--border-radius-element) + var(--default-grid-baseline));\n}\n\n.transferOwnership__newOwnerSelect {\n\twidth: 100%;\n}\n\n.transferOwnership__newOwner :global(.vs--open .vs__dropdown-toggle) {\n\tbackground-color: var(--color-main-background);\n}\n</style>\n"],sourceRoot:""}]),a.locals={transferOwnership__group:"_transferOwnership__group_lSDrv",transferOwnership__newOwner:"_transferOwnership__newOwner_qBBCY",transferOwnership__newOwnerSelect:"_transferOwnership__newOwnerSelect_Mt32B"};const i=a},27518(e){e.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e"},27514(e){e.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e"},79722(e){e.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e"},64505(e){e.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e"}},s={};function o(e){var t=s[e];if(void 0!==t)return t.exports;var r=s[e]={id:e,loaded:!1,exports:{}};return n[e].call(r.exports,r,r.exports,o),r.loaded=!0,r.exports}o.m=n,e=[],o.O=(t,r,n,s)=>{if(!r){var a=1/0;for(u=0;u<e.length;u++){for(var[r,n,s]=e[u],i=!0,l=0;l<r.length;l++)(!1&s||a>=s)&&Object.keys(o.O).every(e=>o.O[e](r[l]))?r.splice(l--,1):(i=!1,s<a&&(a=s));if(i){e.splice(u--,1);var c=n();void 0!==c&&(t=c)}}return t}s=s||0;for(var u=e.length;u>0&&e[u-1][2]>s;u--)e[u]=e[u-1];e[u]=[r,n,s]},o.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return o.d(t,{a:t}),t},o.d=(e,t)=>{for(var r in t)o.o(t,r)&&!o.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:t[r]})},o.f={},o.e=e=>Promise.all(Object.keys(o.f).reduce((t,r)=>(o.f[r](e,t),t),[])),o.u=e=>e+"-"+e+".js?v="+{1140:"490e17ed9c8948d5a9e8",2221:"428c2ff62c4b8b3c97fc",5448:"71cfe268d6f1213c4735",5862:"580b9c2e231a9169a12f",6015:"ebcb6885c1fc8c461988",6798:"1a6cf42d93801a926a3d",7471:"b4ac70873a3ab192efd0",7859:"740587c0c8c350dad157",7910:"de857920f8beb5205bbc",8815:"9a5c507c75429c9c04e4"}[e],o.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),t={},r="nextcloud-ui-legacy:",o.l=(e,n,s,a)=>{if(t[e])t[e].push(n);else{var i,l;if(void 0!==s)for(var c=document.getElementsByTagName("script"),u=0;u<c.length;u++){var d=c[u];if(d.getAttribute("src")==e||d.getAttribute("data-webpack")==r+s){i=d;break}}i||(l=!0,(i=document.createElement("script")).charset="utf-8",o.nc&&i.setAttribute("nonce",o.nc),i.setAttribute("data-webpack",r+s),i.src=e),t[e]=[n];var p=(r,n)=>{i.onerror=i.onload=null,clearTimeout(f);var s=t[e];if(delete t[e],i.parentNode&&i.parentNode.removeChild(i),s&&s.forEach(e=>e(n)),r)return r(n)},f=setTimeout(p.bind(null,void 0,{type:"timeout",target:i}),12e4);i.onerror=p.bind(null,i.onerror),i.onload=p.bind(null,i.onload),l&&document.head.appendChild(i)}},o.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},o.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),o.j=5671,(()=>{var e;globalThis.importScripts&&(e=globalThis.location+"");var t=globalThis.document;if(!e&&t&&(t.currentScript&&"SCRIPT"===t.currentScript.tagName.toUpperCase()&&(e=t.currentScript.src),!e)){var r=t.getElementsByTagName("script");if(r.length)for(var n=r.length-1;n>-1&&(!e||!/^http(s?):/.test(e));)e=r[n--].src}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),o.p=e})(),(()=>{o.b="undefined"!=typeof document&&document.baseURI||self.location.href;var e={5671:0,7471:0};o.f.j=(t,r)=>{var n=o.o(e,t)?e[t]:void 0;if(0!==n)if(n)r.push(n[2]);else{var s=new Promise((r,s)=>n=e[t]=[r,s]);r.push(n[2]=s);var a=o.p+o.u(t),i=new Error;o.l(a,r=>{if(o.o(e,t)&&(0!==(n=e[t])&&(e[t]=void 0),n)){var s=r&&("load"===r.type?"missing":r.type),a=r&&r.target&&r.target.src;i.message="Loading chunk "+t+" failed.\n("+s+": "+a+")",i.name="ChunkLoadError",i.type=s,i.request=a,n[1](i)}},"chunk-"+t,t)}},o.O.j=t=>0===e[t];var t=(t,r)=>{var n,s,[a,i,l]=r,c=0;if(a.some(t=>0!==e[t])){for(n in i)o.o(i,n)&&(o.m[n]=i[n]);if(l)var u=l(o)}for(t&&t(r);c<a.length;c++)s=a[c],o.o(e,s)&&e[s]&&e[s][0](),e[s]=0;return o.O(u)},r=globalThis.webpackChunknextcloud_ui_legacy=globalThis.webpackChunknextcloud_ui_legacy||[];r.forEach(t.bind(null,0)),r.push=t.bind(null,r.push.bind(r))})(),o.nc=void 0;var a=o.O(void 0,[4208],()=>o(77396));a=o.O(a)})();
-//# sourceMappingURL=files-settings-personal.js.map?v=36187352c2f425a01e02
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/files/src/main-settings-personal.ts"
+/*!**************************************************!*\
+  !*** ./apps/files/src/main-settings-personal.ts ***!
+  \**************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_PersonalSettings_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/PersonalSettings.vue */ "./apps/files/src/components/PersonalSettings.vue");
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+__webpack_require__.nc = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCSPNonce)();
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].prototype.t = _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t;
+const View = vue__WEBPACK_IMPORTED_MODULE_2__["default"].extend(_components_PersonalSettings_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
+const instance = new View();
+instance.$mount('#files-personal-settings');
+
+/***/ },
+
+/***/ "./apps/files/src/utils/logger.ts"
+/*!****************************************!*\
+  !*** ./apps/files/src/utils/logger.ts ***!
+  \****************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   logger: () => (/* binding */ logger)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/*!
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const logger = (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('files').detectUser().build();
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/PersonalSettings.vue?vue&type=script&setup=true&lang=ts"
+/*!*********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/PersonalSettings.vue?vue&type=script&setup=true&lang=ts ***!
+  \*********************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue */ "./node_modules/@nextcloud/vue/dist/index.mjs");
+/* harmony import */ var _TransferOwnershipDialogue_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TransferOwnershipDialogue.vue */ "./apps/files/src/components/TransferOwnershipDialogue.vue");
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'PersonalSettings',
+  setup(__props) {
+    return {
+      __sfc: true,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t,
+      NcSettingsSection: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_2__.NcSettingsSection,
+      TransferOwnershipDialogue: _TransferOwnershipDialogue_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    };
+  }
+}));
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=script&setup=true&lang=ts"
+/*!******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=script&setup=true&lang=ts ***!
+  \******************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _mdi_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mdi/js */ "./node_modules/@mdi/js/mdi.js");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/capabilities */ "./node_modules/@nextcloud/capabilities/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _vueuse_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @vueuse/core */ "./node_modules/@vueuse/shared/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcFormBox__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/vue/components/NcFormBox */ "./node_modules/@nextcloud/vue/dist/Components/NcFormBox.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcFormBoxButton__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @nextcloud/vue/components/NcFormBoxButton */ "./node_modules/@nextcloud/vue/dist/Components/NcFormBoxButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcFormGroup__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @nextcloud/vue/components/NcFormGroup */ "./node_modules/@nextcloud/vue/dist/Components/NcFormGroup.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @nextcloud/vue/components/NcIconSvgWrapper */ "./node_modules/@nextcloud/vue/dist/Components/NcIconSvgWrapper.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSelectUsers__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @nextcloud/vue/components/NcSelectUsers */ "./node_modules/@nextcloud/vue/dist/Components/NcSelectUsers.mjs");
+/* harmony import */ var _utils_logger_ts__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utils/logger.ts */ "./apps/files/src/utils/logger.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'TransferOwnershipDialogue',
+  setup(__props) {
+    const minSearchStringLength = (0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_4__.getCapabilities)().files_sharing.sharee.minSearchStringLength;
+    const picker = (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_5__.getFilePickerBuilder)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Choose a file or folder to transfer')).allowDirectories().setMultiSelect(false).setButtonFactory(([node]) => {
+      const canPick = !!node?.path && node.path !== '/' && node.owner === (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__.getCurrentUser)().uid;
+      return [{
+        label: canPick ? (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Transfer "{path}"', {
+          path: node.displayname
+        }) : (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Select file or folder'),
+        callback: () => {},
+        disabled: !canPick,
+        variant: 'primary'
+      }];
+    }).build();
+    const nodeForTransfer = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
+    const loadingUsers = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    const selectedUser = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
+    const userSuggestions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+    const canSubmit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => !!nodeForTransfer.value && !!selectedUser.value);
+    const submitButtonText = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+      if (!nodeForTransfer.value || !selectedUser.value) {
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Transfer');
+      }
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Transfer {path} to {userid}', {
+        path: nodeForTransfer.value.displayname,
+        userid: selectedUser.value.displayName
+      });
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeMount)(() => searchUsers(''));
+    /**
+     * Open the file picker to choose a file or folder for which the ownership should be transferred.
+     */
+    async function chooseNodeForTransfer() {
+      try {
+        const [node] = await picker.pickNodes();
+        nodeForTransfer.value = node;
+      } catch (error) {
+        if (error instanceof _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_5__.FilePickerClosed) {
+          _utils_logger_ts__WEBPACK_IMPORTED_MODULE_15__.logger.debug('Selecting object for transfer aborted', {
+            error
+          });
+          return;
+        }
+        nodeForTransfer.value = undefined;
+        _utils_logger_ts__WEBPACK_IMPORTED_MODULE_15__.logger.error('Error while opening file picker for transfer ownership', {
+          error
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_5__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Error while opening file picker for transfer ownership'));
+        return;
+      }
+    }
+    const searchUsersDebounced = (0,_vueuse_core__WEBPACK_IMPORTED_MODULE_8__.useDebounceFn)(searchUsers, 500);
+    /**
+     * Handle the user search input and fetch matching users from the server.
+     *
+     * @param query - The search string entered by the user
+     */
+    async function searchUsers(query) {
+      query = query.trim();
+      if (query.length < minSearchStringLength) {
+        return;
+      }
+      loadingUsers.value = true;
+      try {
+        const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_7__.generateOcsUrl)('apps/files_sharing/api/v1/sharees'), {
+          params: {
+            format: 'json',
+            itemType: 'file',
+            search: query,
+            perPage: 20,
+            lookup: false
+          }
+        });
+        const data = [...response.data.ocs.data.exact.users, ...response.data.ocs.data.users];
+        userSuggestions.value = data.map(user => ({
+          displayName: user.label,
+          id: user.value.shareWith,
+          user: user.value.shareWith,
+          subname: user.shareWithDisplayNameUnique
+        }));
+      } catch (error) {
+        _utils_logger_ts__WEBPACK_IMPORTED_MODULE_15__.logger.error('could not fetch users', {
+          error
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_5__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Error while searching for users'));
+      } finally {
+        loadingUsers.value = false;
+      }
+    }
+    /**
+     * Handle submit of the ownership transfer.
+     */
+    async function submit() {
+      if (!canSubmit.value) {
+        _utils_logger_ts__WEBPACK_IMPORTED_MODULE_15__.logger.warn('ignoring form submit');
+      }
+      const requestParameters = {
+        path: nodeForTransfer.value?.path,
+        recipient: selectedUser.value?.user
+      };
+      _utils_logger_ts__WEBPACK_IMPORTED_MODULE_15__.logger.debug('submit transfer ownership form', {
+        requestParameters
+      });
+      try {
+        const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_7__.generateOcsUrl)('apps/files/api/v1/transferownership');
+        const {
+          data
+        } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].post(url, requestParameters);
+        _utils_logger_ts__WEBPACK_IMPORTED_MODULE_15__.logger.info('Transfer ownership request sent', {
+          data
+        });
+        nodeForTransfer.value = undefined;
+        selectedUser.value = undefined;
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_5__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Ownership transfer request sent'));
+      } catch (error) {
+        _utils_logger_ts__WEBPACK_IMPORTED_MODULE_15__.logger.error('Could not send ownership transfer request', {
+          error
+        });
+        if ((0,_nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__.isAxiosError)(error) && error.response?.status === 403) {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_5__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Cannot transfer ownership of a file or folder you do not own'));
+        } else {
+          (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_5__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t)('files', 'Error while sending ownership transfer request'));
+        }
+      }
+    }
+    return {
+      __sfc: true,
+      minSearchStringLength,
+      picker,
+      nodeForTransfer,
+      loadingUsers,
+      selectedUser,
+      userSuggestions,
+      canSubmit,
+      submitButtonText,
+      chooseNodeForTransfer,
+      searchUsersDebounced,
+      searchUsers,
+      submit,
+      mdiFolderOutline: _mdi_js__WEBPACK_IMPORTED_MODULE_1__.mdiFolderOutline,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_6__.t,
+      NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_9__["default"],
+      NcFormBox: _nextcloud_vue_components_NcFormBox__WEBPACK_IMPORTED_MODULE_10__["default"],
+      NcFormBoxButton: _nextcloud_vue_components_NcFormBoxButton__WEBPACK_IMPORTED_MODULE_11__["default"],
+      NcFormGroup: _nextcloud_vue_components_NcFormGroup__WEBPACK_IMPORTED_MODULE_12__["default"],
+      NcIconSvgWrapper: _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_13__["default"],
+      NcSelectUsers: _nextcloud_vue_components_NcSelectUsers__WEBPACK_IMPORTED_MODULE_14__["default"]
+    };
+  }
+}));
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/PersonalSettings.vue?vue&type=template&id=1cf5236a"
+/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/PersonalSettings.vue?vue&type=template&id=1cf5236a ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcSettingsSection, {
+    attrs: {
+      name: _setup.t("files", "Files")
+    }
+  }, [_c(_setup.TransferOwnershipDialogue)], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=template&id=76fb0136"
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=template&id=76fb0136 ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("form", {
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        return _setup.submit.apply(null, arguments);
+      }
+    }
+  }, [_c(_setup.NcFormGroup, {
+    class: _vm.$style.transferOwnership__group,
+    attrs: {
+      label: _setup.t("files", "Transfer ownership of a file or folder")
+    }
+  }, [_c(_setup.NcFormBox, {
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function ({
+        itemClass
+      }) {
+        return [_c(_setup.NcFormBoxButton, {
+          attrs: {
+            "inverted-accent": "",
+            label: _setup.t("files", "File or folder to transfer"),
+            description: _setup.nodeForTransfer?.displayname ?? _setup.t("files", "No file or folder selected")
+          },
+          on: {
+            click: _setup.chooseNodeForTransfer
+          },
+          scopedSlots: _vm._u([{
+            key: "icon",
+            fn: function () {
+              return [_c(_setup.NcIconSvgWrapper, {
+                attrs: {
+                  path: _setup.mdiFolderOutline
+                }
+              })];
+            },
+            proxy: true
+          }], null, true)
+        }), _vm._v(" "), _c("div", {
+          class: [itemClass, _vm.$style.transferOwnership__newOwner]
+        }, [_c(_setup.NcSelectUsers, {
+          class: _vm.$style.transferOwnership__newOwnerSelect,
+          attrs: {
+            "input-label": _setup.t("files", "New owner"),
+            loading: _setup.loadingUsers,
+            options: _setup.userSuggestions
+          },
+          on: {
+            search: _setup.searchUsersDebounced
+          },
+          model: {
+            value: _setup.selectedUser,
+            callback: function ($$v) {
+              _setup.selectedUser = $$v;
+            },
+            expression: "selectedUser"
+          }
+        })], 1), _vm._v(" "), _c(_setup.NcButton, {
+          attrs: {
+            disabled: !_setup.canSubmit,
+            type: "submit",
+            variant: "primary",
+            wide: ""
+          }
+        }, [_vm._v("\n\t\t\t\t" + _vm._s(_setup.submitButtonText) + "\n\t\t\t")])];
+      }
+    }])
+  }), _vm._v(" "), _c("p", {
+    staticClass: "hidden-visually",
+    attrs: {
+      "aria-live": "polite"
+    }
+  }, [!_setup.nodeForTransfer ? _c("span", [_vm._v(_vm._s(_setup.t("files", "You need to select a file or folder to transfer ownership.")))]) : _vm._e(), _vm._v(" "), !_setup.selectedUser ? _c("span", [_vm._v(_vm._s(_setup.t("files", "You need to select a new owner for the file or folder.")))]) : _vm._e()])], 1)], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ },
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css"
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+._transferOwnership__group_lSDrv {
+	max-width: 512px;
+}
+._transferOwnership__newOwner_qBBCY {
+	background-color: var(--color-primary-element-light);
+	padding-block: var(--default-grid-baseline);
+	padding-inline: calc(var(--border-radius-element) + var(--default-grid-baseline));
+}
+._transferOwnership__newOwnerSelect_Mt32B {
+	width: 100%;
+}
+._transferOwnership__newOwner_qBBCY .vs--open .vs__dropdown-toggle {
+	background-color: var(--color-main-background);
+}
+`, ""]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"transferOwnership__group": `_transferOwnership__group_lSDrv`,
+	"transferOwnership__newOwner": `_transferOwnership__newOwner_qBBCY`,
+	"transferOwnership__newOwnerSelect": `_transferOwnership__newOwnerSelect_Mt32B`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ },
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css"
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ },
+
+/***/ "./apps/files/src/components/PersonalSettings.vue"
+/*!********************************************************!*\
+  !*** ./apps/files/src/components/PersonalSettings.vue ***!
+  \********************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PersonalSettings_vue_vue_type_template_id_1cf5236a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PersonalSettings.vue?vue&type=template&id=1cf5236a */ "./apps/files/src/components/PersonalSettings.vue?vue&type=template&id=1cf5236a");
+/* harmony import */ var _PersonalSettings_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PersonalSettings.vue?vue&type=script&setup=true&lang=ts */ "./apps/files/src/components/PersonalSettings.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PersonalSettings_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PersonalSettings_vue_vue_type_template_id_1cf5236a__WEBPACK_IMPORTED_MODULE_0__.render,
+  _PersonalSettings_vue_vue_type_template_id_1cf5236a__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/components/PersonalSettings.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/files/src/components/TransferOwnershipDialogue.vue"
+/*!*****************************************************************!*\
+  !*** ./apps/files/src/components/TransferOwnershipDialogue.vue ***!
+  \*****************************************************************/
+(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TransferOwnershipDialogue_vue_vue_type_template_id_76fb0136__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TransferOwnershipDialogue.vue?vue&type=template&id=76fb0136 */ "./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=template&id=76fb0136");
+/* harmony import */ var _TransferOwnershipDialogue_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TransferOwnershipDialogue.vue?vue&type=script&setup=true&lang=ts */ "./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css */ "./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* module decorator */ module = __webpack_require__.hmd(module);
+
+
+
+;
+
+var cssModules = {}
+var disposed = false
+
+function injectStyles (context) {
+  if (disposed) return
+  
+        cssModules["$style"] = (_TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_2__["default"].locals || _TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_2__["default"])
+        Object.defineProperty(this, "$style", {
+          configurable: true,
+          get: function () {
+            return cssModules["$style"]
+          }
+        })
+      
+}
+
+
+  module.hot && 0
+
+
+
+        module.hot && 0
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _TransferOwnershipDialogue_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TransferOwnershipDialogue_vue_vue_type_template_id_76fb0136__WEBPACK_IMPORTED_MODULE_0__.render,
+  _TransferOwnershipDialogue_vue_vue_type_template_id_76fb0136__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  injectStyles,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/components/TransferOwnershipDialogue.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ },
+
+/***/ "./apps/files/src/components/PersonalSettings.vue?vue&type=script&setup=true&lang=ts"
+/*!*******************************************************************************************!*\
+  !*** ./apps/files/src/components/PersonalSettings.vue?vue&type=script&setup=true&lang=ts ***!
+  \*******************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PersonalSettings.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/PersonalSettings.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=script&setup=true&lang=ts"
+/*!****************************************************************************************************!*\
+  !*** ./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=script&setup=true&lang=ts ***!
+  \****************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TransferOwnershipDialogue.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-6.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_6_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ },
+
+/***/ "./apps/files/src/components/PersonalSettings.vue?vue&type=template&id=1cf5236a"
+/*!**************************************************************************************!*\
+  !*** ./apps/files/src/components/PersonalSettings.vue?vue&type=template&id=1cf5236a ***!
+  \**************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_template_id_1cf5236a__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_template_id_1cf5236a__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_template_id_1cf5236a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PersonalSettings.vue?vue&type=template&id=1cf5236a */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/PersonalSettings.vue?vue&type=template&id=1cf5236a");
+
+
+/***/ },
+
+/***/ "./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=template&id=76fb0136"
+/*!***********************************************************************************************!*\
+  !*** ./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=template&id=76fb0136 ***!
+  \***********************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_template_id_76fb0136__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_template_id_76fb0136__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_template_id_76fb0136__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TransferOwnershipDialogue.vue?vue&type=template&id=76fb0136 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=template&id=76fb0136");
+
+
+/***/ },
+
+/***/ "./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css"
+/*!*************************************************************************************************************************!*\
+  !*** ./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css ***!
+  \*************************************************************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_3_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferOwnershipDialogue_vue_vue_type_style_index_0_id_76fb0136_module_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-3.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/TransferOwnershipDialogue.vue?vue&type=style&index=0&id=76fb0136&module=true&lang=css");
+ 
+
+/***/ },
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e"
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(module) {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e";
+
+/***/ },
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e"
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(module) {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e";
+
+/***/ },
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e"
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(module) {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e";
+
+/***/ },
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e"
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(module) {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e";
+
+/***/ },
+
+/***/ "./node_modules/@nextcloud/vue/dist/Components/NcFormBoxButton.mjs"
+/*!*************************************************************************!*\
+  !*** ./node_modules/@nextcloud/vue/dist/Components/NcFormBoxButton.mjs ***!
+  \*************************************************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _chunks_NcFormBoxButton_BQi11xQX_mjs__WEBPACK_IMPORTED_MODULE_0__.N)
+/* harmony export */ });
+/* harmony import */ var _chunks_NcFormBoxButton_BQi11xQX_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chunks/NcFormBoxButton-BQi11xQX.mjs */ "./node_modules/@nextcloud/vue/dist/chunks/NcFormBoxButton-BQi11xQX.mjs");
+
+
+//# sourceMappingURL=NcFormBoxButton.mjs.map
+
+
+/***/ },
+
+/***/ "./node_modules/@nextcloud/vue/dist/Components/NcFormGroup.mjs"
+/*!*********************************************************************!*\
+  !*** ./node_modules/@nextcloud/vue/dist/Components/NcFormGroup.mjs ***!
+  \*********************************************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _chunks_NcFormGroup_DblLoFMf_mjs__WEBPACK_IMPORTED_MODULE_0__.N)
+/* harmony export */ });
+/* harmony import */ var _chunks_NcFormGroup_DblLoFMf_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chunks/NcFormGroup-DblLoFMf.mjs */ "./node_modules/@nextcloud/vue/dist/chunks/NcFormGroup-DblLoFMf.mjs");
+
+
+//# sourceMappingURL=NcFormGroup.mjs.map
+
+
+/***/ },
+
+/***/ "./node_modules/@nextcloud/vue/dist/Components/NcSelectUsers.mjs"
+/*!***********************************************************************!*\
+  !*** ./node_modules/@nextcloud/vue/dist/Components/NcSelectUsers.mjs ***!
+  \***********************************************************************/
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _chunks_NcSelectUsers_BRDGLoPt_mjs__WEBPACK_IMPORTED_MODULE_0__.N)
+/* harmony export */ });
+/* harmony import */ var _chunks_NcSelectUsers_BRDGLoPt_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chunks/NcSelectUsers-BRDGLoPt.mjs */ "./node_modules/@nextcloud/vue/dist/chunks/NcSelectUsers-BRDGLoPt.mjs");
+
+
+//# sourceMappingURL=NcSelectUsers.mjs.map
+
+
+/***/ }
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		if (!(moduleId in __webpack_modules__)) {
+/******/ 			delete __webpack_module_cache__[moduleId];
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
+/******/ 		}
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_preview-BIbJGxXF_mjs-node_modules_nextcloud_dialog-7546cc":"dce7060a8340cecf2ca5","node_modules_nextcloud_dialogs_dist_chunks_ConflictPicker-CWBf0soh_mjs":"01a2e7bc2c49db839239","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcTextField_index_mjs":"50270bc67122ae47dfd0","node_modules_nextcloud_dialogs_dist_chunks_FilePicker-C1yRZfLt_mjs":"a3985d66705012167d75","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-7_GNN76e_mjs":"b2479474dfc9749ea9d0","node_modules_nextcloud_vue_dist_Components_NcColorPicker_mjs":"cc9a80a105a480079016","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-cc29b1":"21fc91c563f5cd8d04c3","node_modules_rehype-highlight_index_js":"625f8818e33c457c3744","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcColorPicker_index_mjs":"63766ea64d27a6d8d6cc","node_modules_nextcloud_dialogs_node_modules_nextcloud_vue_dist_components_NcDateTimePicker_in-952ddb":"bd2fc411cc830fe12f0b"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/harmony module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud-ui-legacy:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (globalThis.importScripts) scriptUrl = globalThis.location + "";
+/******/ 		var document = globalThis.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = (typeof document !== 'undefined' && document.baseURI) || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"files-settings-personal": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunknextcloud_ui_legacy"] = globalThis["webpackChunknextcloud_ui_legacy"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/files/src/main-settings-personal.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=files-settings-personal.js.map?v=a05a1bcb0d910cec9d88
