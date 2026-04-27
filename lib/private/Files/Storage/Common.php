@@ -26,6 +26,7 @@ use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Cache\IWatcher;
+use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
@@ -530,6 +531,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 				try {
 					$this->writeStream($targetInternalPath, $source);
 					$result = true;
+				} catch (EntityTooLargeException $e) {
+					throw $e;
 				} catch (\Exception $e) {
 					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
 				}

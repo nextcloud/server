@@ -10,12 +10,14 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Storage\PublicShareWrapper;
 use OCP\App\IAppManager;
 use OCP\Constants;
+use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
@@ -447,6 +449,8 @@ class Directory extends Node implements
 			if (!$renameOkay) {
 				throw new \Sabre\DAV\Exception\Forbidden('');
 			}
+		} catch (EntityTooLargeException $e) {
+			throw new EntityTooLarge($e->getMessage());
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (ForbiddenException $ex) {
@@ -482,6 +486,8 @@ class Directory extends Node implements
 				}
 
 				return true;
+			} catch (EntityTooLargeException $e) {
+				throw new EntityTooLarge($e->getMessage());
 			} catch (StorageNotAvailableException $e) {
 				throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 			} catch (ForbiddenException $ex) {

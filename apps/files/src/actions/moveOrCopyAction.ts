@@ -192,6 +192,8 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 					logger.debug(`Error while trying to ${method === MoveCopyAction.COPY ? 'copy' : 'move'} node`, { node, error })
 					if (error.response?.status === 412) {
 						throw new HintException(t('files', 'A file or folder with that name already exists in this folder'))
+					} else if (error.response?.status === 413) {
+						throw new HintException(t('files', 'Insufficient storage, quota exceeded'))
 					} else if (error.response?.status === 423) {
 						throw new HintException(t('files', 'The files are locked'))
 					} else if (error.response?.status === 404) {

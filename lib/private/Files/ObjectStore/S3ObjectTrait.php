@@ -17,6 +17,7 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Utils;
 use OC\Files\Stream\SeekableHttpStream;
 use OCA\DAV\Connector\Sabre\Exception\BadGateway;
+use OCP\Files\EntityTooLargeException;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
@@ -94,6 +95,24 @@ trait S3ObjectTrait {
 		return $result;
 	}
 
+	private function isStorageFullException(\Throwable $e) {
+		while ($e !== null) {
+			if ($e instanceof AwsException) {
+				// MinIO: dedicated error code for storage-full
+				if ($e->getAwsErrorCode() === 'XMinioStorageFull') {
+					return true;
+				}
+				// RustFS: returns generic error code but with a recognisable message
+				if (str_starts_with($e->getAwsErrorMessage() ?? '', 'Bucket quota exceeded.')) {
+					return true;
+				}
+			}
+			$e = $e->getPrevious();
+		}
+
+		return false;
+	}
+
 	/**
 	 * Single object put helper
 	 *
@@ -121,7 +140,14 @@ trait S3ObjectTrait {
 			$args['ContentLength'] = $size;
 		}
 
-		$this->getConnection()->putObject($args);
+		try {
+			$this->getConnection()->putObject($args);
+		} catch (AwsException $e) {
+			if ($this->isStorageFullException($e)) {
+				throw new EntityTooLargeException('Quota exceeded on S3 storage', 0, $e);
+			}
+			throw $e;
+		}
 	}
 
 
@@ -196,6 +222,10 @@ trait S3ObjectTrait {
 			$uploadInfo = $exception->getState()->getId();
 			if ($exception->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
 				$this->getConnection()->abortMultipartUpload($uploadInfo);
+			}
+
+			if ($this->isStorageFullException($exception)) {
+				throw new EntityTooLargeException('Quota exceeded on S3 storage', 0, $exception);
 			}
 
 			throw new BadGateway('Error while uploading to S3 bucket', 0, $exception);
@@ -290,12 +320,24 @@ trait S3ObjectTrait {
 				'params' => $this->getServerSideEncryptionParameters() + $this->getServerSideEncryptionParameters(true),
 				'source_metadata' => $sourceMetadata
 			], $options));
-			$copy->copy();
+			try {
+				$copy->copy();
+			} catch (\Throwable $e) {
+				if ($this->isStorageFullException($e)) {
+					throw new EntityTooLargeException('Quota exceeded on S3 storage', 0, $e);
+				}
+			}
 		} else {
-			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
-				'params' => $this->getServerSideEncryptionParameters() + $this->getServerSideEncryptionParameters(true),
-				'mup_threshold' => PHP_INT_MAX,
-			], $options));
+			try {
+				$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
+					'params' => $this->getServerSideEncryptionParameters() + $this->getServerSideEncryptionParameters(true),
+					'mup_threshold' => PHP_INT_MAX,
+				], $options));
+			} catch (AwsException $e) {
+				if ($this->isStorageFullException($e)) {
+					throw new EntityTooLargeException('Quota exceeded on S3 storage', 0, $e);
+				}
+			}
 		}
 	}
 
