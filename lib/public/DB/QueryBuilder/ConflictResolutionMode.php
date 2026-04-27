@@ -12,15 +12,19 @@ namespace OCP\DB\QueryBuilder;
 /**
  * Conflict resolution mode for "FOR UPDATE" select queries.
  *
- * @since 34.0.0
+ * @since 33.0.0
  */
 enum ConflictResolutionMode {
 	/**
 	 * Wait for the row to be unlocked.
+	 *
+	 * @since 33.0.0
 	 */
 	case Ordinary;
 	/**
 	 * Skip the row if it is locked.
+	 *
+	 * @since 33.0.0
 	 */
 	case SkipLocked;
 }
