@@ -8,6 +8,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use Aws\S3\Exception\S3Exception;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
@@ -455,7 +456,7 @@ class Directory extends Node implements
 			if (!$renameOkay) {
 				throw new \Sabre\DAV\Exception\Forbidden('');
 			}
-		} catch (StorageNotAvailableException $e) {
+		} catch (StorageNotAvailableException|S3Exception $e) {
 			throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (ForbiddenException $ex) {
 			throw new Forbidden($ex->getMessage(), $ex->getRetry(), $ex);

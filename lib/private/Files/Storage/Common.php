@@ -8,6 +8,7 @@
 
 namespace OC\Files\Storage;
 
+use Aws\S3\Exception\S3Exception;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheDependencies;
 use OC\Files\Cache\Propagator;
@@ -563,6 +564,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 				try {
 					$this->writeStream($targetInternalPath, $source);
 					$result = true;
+				} catch (S3Exception $e) {
+					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
+					throw $e;
 				} catch (\Exception $e) {
 					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
 				}
