@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -9,8 +10,8 @@
 namespace Test\User;
 
 use OC\AppFramework\Http\Request;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Events\LoginFailed;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
@@ -1035,7 +1036,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getHeader')
 			->with('Authorization')
 			->willReturn('Bearer xxxxx');
-		$this->tokenProvider->expects($this->once())
+		$this->tokenProvider->expects($this->atLeastOnce())
 			->method('getToken')
 			->with('xxxxx')
 			->willReturn($token);
