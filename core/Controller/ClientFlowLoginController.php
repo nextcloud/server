@@ -324,6 +324,13 @@ class ClientFlowLoginController extends Controller {
 				$redirectUri = $providedRedirectUri;
 			}
 
+			$fragment = '';
+			$fragmentPosition = strpos($redirectUri, '#');
+			if ($fragmentPosition !== false) {
+				$fragment = substr($redirectUri, $fragmentPosition);
+				$redirectUri = substr($redirectUri, 0, $fragmentPosition);
+			}
+
 			if (parse_url($redirectUri, PHP_URL_QUERY)) {
 				$redirectUri .= '&';
 			} else {
@@ -335,6 +342,7 @@ class ClientFlowLoginController extends Controller {
 				urlencode($this->session->get('oauth.state')),
 				urlencode($code)
 			);
+			$redirectUri .= $fragment;
 			$this->session->remove('oauth.state');
 		} else {
 			$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
