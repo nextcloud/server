@@ -51,8 +51,8 @@
 </template>
 
 <script type="ts">
-import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { getBaseUrl } from '@nextcloud/router'
+import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { defineComponent } from 'vue'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
@@ -150,8 +150,8 @@ export default defineComponent({
 				.then(({ defaultRedirectUrl }) => {
 					logger.debug('Logged in redirecting')
 					if (redirectUrl) {
-						if (redirectUrl.charAt(0) !== "/") {
-							redirectUrl = "/" + redirectUrl;
+						if (redirectUrl.charAt(0) !== '/') {
+							redirectUrl = '/' + redirectUrl
 						}
 						window.location.href = getBaseUrl() + redirectUrl
 					} else {
