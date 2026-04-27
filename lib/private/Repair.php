@@ -64,6 +64,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use OCP\Migration\IRepairStepExpensive;
 use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -113,10 +114,11 @@ class Repair implements IOutput {
 	/**
 	 * Add repair step
 	 *
-	 * @param IRepairStep|class-string<IRepairStep> $repairStep repair step
+	 * @param IRepairStep|class-string<IRepairStep> $repairStep Repair step
+	 * @param bool $includeExpensive Whether to include expensive repair steps, defaults to false
 	 * @throws \Exception
 	 */
-	public function addStep(IRepairStep|string $repairStep): void {
+	public function addStep(IRepairStep|string $repairStep, bool $includeExpensive = false): void {
 		if (is_string($repairStep)) {
 			try {
 				$s = Server::get($repairStep);
@@ -134,24 +136,30 @@ class Repair implements IOutput {
 				}
 			}
 
-			if ($s instanceof IRepairStep) {
-				$this->repairSteps[] = $s;
-			} else {
+			if (!($s instanceof IRepairStep)) {
 				throw new \Exception("Repair step '$repairStep' is not of type \\OCP\\Migration\\IRepairStep");
 			}
+
+			$repairStep = $s;
+		}
+
+		if (($repairStep instanceof IRepairStepExpensive) && !$includeExpensive) {
+			$this->debug("Skipping expensive repair step '" . $repairStep::class . "'");
 		} else {
 			$this->repairSteps[] = $repairStep;
 		}
 	}
 
 	/**
-	 * Returns the default repair steps to be run on the
-	 * command line or after an upgrade.
+	 * Returns the core repair steps to be run on the command line or after an upgrade.
 	 *
+	 * @param bool $includeExpensive Whether to include expensive repair steps, defaults to false
 	 * @return list<IRepairStep>
+	 *
+	 * @since 34.0.0, the $includeExpensive parameter was added
 	 */
-	public static function getRepairSteps(): array {
-		return [
+	public static function getRepairSteps(bool $includeExpensive = false): array {
+		$repairSteps = [
 			new Collation(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(IDBConnection::class), false),
 			Server::get(CleanTags::class),
 			Server::get(RepairInvalidShares::class),
@@ -190,28 +198,17 @@ class Repair implements IOutput {
 			Server::get(AddMovePreviewJob::class),
 			Server::get(ConfigKeyMigration::class),
 		];
-	}
 
-	/**
-	 * Returns expensive repair steps to be run on the
-	 * command line with a special option.
-	 *
-	 * @return list<IRepairStep>
-	 */
-	public static function getExpensiveRepairSteps(): array {
-		$expensiveSteps = [
-			Server::get(OldGroupMembershipShares::class),
-			Server::get(RemoveBrokenProperties::class),
-			Server::get(RepairMimeTypes::class),
-			Server::get(DeleteSchedulingObjects::class),
-			Server::get(RemoveObjectProperties::class),
-		];
-
-		if (class_exists(CleanupShareTarget::class)) {
-			$expensiveSteps[] = Server::get(CleanupShareTarget::class);
+		if ($includeExpensive) {
+			$expensiveSteps = [
+				Server::get(OldGroupMembershipShares::class),
+				Server::get(RemoveBrokenProperties::class),
+				Server::get(RepairMimeTypes::class),
+			];
+			$repairSteps = array_merge($repairSteps, $expensiveSteps);
 		}
 
-		return $expensiveSteps;
+		return $repairSteps;
 	}
 
 	/**
