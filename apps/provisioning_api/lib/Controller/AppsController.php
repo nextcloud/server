@@ -93,7 +93,7 @@ class AppsController extends OCSController {
 	 *
 	 * 200: App enabled successfully
 	 */
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function enable(string $app): DataResponse {
 		try {
 			$this->appManager->enableApp($app);
