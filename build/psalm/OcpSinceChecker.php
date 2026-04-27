@@ -44,7 +44,7 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 				self::checkStatementComment($stmt, $statementsSource, 'constant');
 			}
 
-			if ($stmt instanceof ClassMethod) {
+			if ($stmt instanceof ClassMethod && ($stmt->isPublic() || $stmt->isProtected())) {
 				self::checkStatementComment($stmt, $statementsSource, 'method');
 			}
 
