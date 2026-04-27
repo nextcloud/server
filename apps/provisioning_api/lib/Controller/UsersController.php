@@ -966,10 +966,9 @@ class UsersController extends AUserDataOCSController {
 
 		if ($displayName !== null) {
 			$backend = $targetUser->getBackend();
-			if ($canEditOther) {
+			if (!$isSelf) {
 				$canSetDisplayName = $backend instanceof ISetDisplayNameBackend
-					|| ($backend !== null && $backend->implementsActions(Backend::SET_DISPLAYNAME))
-					|| $targetUser->canChangeDisplayName();
+					|| ($backend !== null && $backend->implementsActions(Backend::SET_DISPLAYNAME));
 			} else {
 				$canSetDisplayName = $targetUser->canChangeDisplayName();
 			}
@@ -1009,20 +1008,28 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		if ($groups !== null && ($isAdmin || $isDelegatedAdmin)) {
-			foreach ($groups as $gid) {
-				if (!$this->groupManager->groupExists($gid)) {
-					$errors['groups'] = $this->l10n->t('Group %s does not exist', [$gid]);
-					break;
+		if ($groups !== null) {
+			if (!$isAdmin && !$isDelegatedAdmin) {
+				$errors['groups'] = $this->l10n->t('Insufficient permissions to change groups');
+			} else {
+				foreach ($groups as $gid) {
+					if (!$this->groupManager->groupExists($gid)) {
+						$errors['groups'] = $this->l10n->t('Group %s does not exist', [$gid]);
+						break;
+					}
 				}
 			}
 		}
 
-		if ($subadminGroups !== null && ($isAdmin || $isDelegatedAdmin)) {
-			foreach ($subadminGroups as $gid) {
-				if (!$this->groupManager->groupExists($gid)) {
-					$errors['subadminGroups'] = $this->l10n->t('Group %s does not exist', [$gid]);
-					break;
+		if ($subadminGroups !== null) {
+			if (!$isAdmin && !$isDelegatedAdmin) {
+				$errors['subadminGroups'] = $this->l10n->t('Insufficient permissions to change sub-admin groups');
+			} else {
+				foreach ($subadminGroups as $gid) {
+					if (!$this->groupManager->groupExists($gid)) {
+						$errors['subadminGroups'] = $this->l10n->t('Group %s does not exist', [$gid]);
+						break;
+					}
 				}
 			}
 		}
@@ -1057,24 +1064,19 @@ class UsersController extends AUserDataOCSController {
 			$targetUser->setSystemEMailAddress(mb_strtolower(trim($email)));
 		}
 
-		// Quota and manager can only be set by admins, delegated admins,
-		// or subadmins with access — never by regular users for themselves.
-		if ($quota !== null && $canEditOther) {
+		if ($quota !== null) {
 			$targetUser->setQuota($quota);
 		}
 
 		if ($language !== null) {
-			$forceLanguage = $this->config->getSystemValue('force_language', false);
-			if ($forceLanguage === false || $isAdmin || $isDelegatedAdmin) {
-				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $language);
-			}
+			$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $language);
 		}
 
-		if ($manager !== null && $canEditOther) {
+		if ($manager !== null) {
 			$targetUser->setManagerUids(array_filter([$manager]));
 		}
 
-		if ($groups !== null && ($isAdmin || $isDelegatedAdmin)) {
+		if ($groups !== null) {
 			$currentGroups = $this->groupManager->getUserGroups($targetUser);
 			$currentGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentGroups);
 			foreach (array_diff($currentGroupIds, $groups) as $gid) {
@@ -1085,15 +1087,11 @@ class UsersController extends AUserDataOCSController {
 				if (!$isAdmin && $gid === 'admin') {
 					continue;
 				}
-				$group = $this->groupManager->get($gid);
-				if ($group === null) {
-					continue;
-				}
-				$group->addUser($targetUser);
+				$this->groupManager->get($gid)?->addUser($targetUser);
 			}
 		}
 
-		if ($subadminGroups !== null && ($isAdmin || $isDelegatedAdmin)) {
+		if ($subadminGroups !== null) {
 			$currentSubAdminGroups = $subAdminManager->getSubAdminsGroups($targetUser);
 			$currentSubAdminGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentSubAdminGroups);
 			foreach (array_diff($currentSubAdminGroupIds, $subadminGroups) as $gid) {

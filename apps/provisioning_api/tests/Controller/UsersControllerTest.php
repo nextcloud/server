@@ -2564,7 +2564,9 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->createMock(IUser::class);
 		$targetUser->method('getUID')->willReturn('targetuser');
 		$targetUser->method('canChangeDisplayName')->willReturn(true);
-		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$backend = $this->createMock(UserInterface::class);
+		$backend->method('implementsActions')->willReturn(true);
+		$targetUser->method('getBackend')->willReturn($backend);
 		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
 
 		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
@@ -2848,7 +2850,9 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->createMock(IUser::class);
 		$targetUser->method('getUID')->willReturn('targetuser');
 		$targetUser->method('canChangeDisplayName')->willReturn(true);
-		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$backend = $this->createMock(UserInterface::class);
+		$backend->method('implementsActions')->willReturn(true);
+		$targetUser->method('getBackend')->willReturn($backend);
 		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
 
 		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
