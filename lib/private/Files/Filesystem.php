@@ -392,17 +392,25 @@ class Filesystem {
 	}
 
 	/**
-	 * check if the requested path is valid
+	 * Validates a file path for safety in the Nextcloud virtual filesystem.
 	 *
-	 * @param string $path
-	 * @return bool
+	 * This method is the primary defense against directory traversal and
+	 * path manipulation attacks. It ALWAYS normalizes the input (see {@see normalizePath}),
+	 * converting slash and unicode variants to a canonical absolute path.
+	 *
+	 * After normalization, any path containing '/..' segments (traversal attempts) is rejected.
+	 * Normalized paths like '//foo//bar' are allowed and become '/foo/bar'.
+	 *
+	 * @param string $path Untrusted or user-supplied path to check.
+	 * @return bool True if the path is safe, false otherwise.
 	 */
-	public static function isValidPath($path) {
+	public static function isValidPath(string $path): bool {
 		$path = self::normalizePath($path);
-		if (!$path || $path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		if (str_contains($path, '/../') || strrchr($path, '/') === '/..') {
+
+		// Invariant: normalized path is non-empty and absolute.
+		assert($path !== '' && $path[0] === '/', 'normalizePath() must return absolute path');
+
+		if (str_contains($path, '/../') || str_ends_with($path, '/..')) {
 			return false;
 		}
 		return true;
