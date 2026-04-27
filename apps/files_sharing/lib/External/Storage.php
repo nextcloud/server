@@ -362,20 +362,27 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$ocsPermissions = $response['{http://open-collaboration-services.org/ns}share-permissions'] ?? null;
 		$ocmPermissions = $response['{http://open-cloud-mesh.org/ns}share-permissions'] ?? null;
 		$ocPermissions = $response['{http://owncloud.org/ns}permissions'] ?? null;
+
 		// old federated sharing permissions
 		if ($ocsPermissions !== null) {
-			$permissions = (int)$ocsPermissions;
-		} elseif ($ocmPermissions !== null) {
-			// permissions provided by the OCM API
-			$permissions = $this->ocmPermissions2ncPermissions($ocmPermissions, $path);
-		} elseif ($ocPermissions !== null) {
-			return $this->parsePermissions($ocPermissions);
-		} else {
-			// use default permission if remote server doesn't provide the share permissions
-			$permissions = $this->getDefaultPermissions($path);
+			$permission = (int)$ocsPermissions;
+			if ($permission < 0 || $permission > Constants::PERMISSION_ALL) {
+				throw new \RuntimeException('Got invalid permissions: ' . $ocsPermissions);
+			}
+			return $permission;
 		}
 
-		return $permissions;
+		if ($ocmPermissions !== null) {
+			// permissions provided by the OCM API
+			return $this->ocmPermissions2ncPermissions($ocmPermissions, $path);
+		}
+
+		if ($ocPermissions !== null) {
+			return $this->parsePermissions($ocPermissions);
+		}
+
+		// use default permission if remote server doesn't provide the share permissions
+		return $this->getDefaultPermissions($path);
 	}
 
 	#[\Override]
@@ -388,36 +395,30 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	 *
 	 * @param string $ocmPermissions json encoded OCM permissions
 	 * @param string $path path to file
-	 * @return int
+	 * @return int-mask-of<Constants::PERMISSION_*>
 	 */
 	protected function ocmPermissions2ncPermissions(string $ocmPermissions, string $path): int {
 		try {
-			$ocmPermissions = json_decode($ocmPermissions);
+			$ocmPermissions = json_decode($ocmPermissions, flags: JSON_THROW_ON_ERROR);
 			$ncPermissions = 0;
 			foreach ($ocmPermissions as $permission) {
-				switch (strtolower($permission)) {
-					case 'read':
-						$ncPermissions += Constants::PERMISSION_READ;
-						break;
-					case 'write':
-						$ncPermissions += Constants::PERMISSION_CREATE + Constants::PERMISSION_UPDATE;
-						break;
-					case 'share':
-						$ncPermissions += Constants::PERMISSION_SHARE;
-						break;
-					default:
-						throw new \Exception();
-				}
+				$ncPermissions |= match (strtolower($permission)) {
+					'read' => Constants::PERMISSION_READ,
+					'write' => Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE,
+					'share' => Constants::PERMISSION_SHARE,
+					default => throw new \Exception(),
+				};
 			}
-		} catch (\Exception $e) {
-			$ncPermissions = $this->getDefaultPermissions($path);
+			/** @var int-mask-of<Constants::PERMISSION_*> $ncPermissions */
+			return $ncPermissions;
+		} catch (\Exception) {
+			return $this->getDefaultPermissions($path);
 		}
-
-		return $ncPermissions;
 	}
 
 	/**
 	 * Calculate the default permissions in case no permissions are provided
+	 * @return int-mask-of<Constants::PERMISSION_*>
 	 */
 	protected function getDefaultPermissions(string $path): int {
 		if ($this->is_dir($path)) {

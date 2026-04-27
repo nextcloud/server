@@ -759,6 +759,9 @@ class DAV extends Common {
 		return $meta ? $meta['etag'] : false;
 	}
 
+	/**
+	 * @return int-mask-of<Constants::PERMISSION_*>
+	 */
 	protected function parsePermissions(string $permissionsString): int {
 		$permissions = Constants::PERMISSION_READ;
 		if (str_contains($permissionsString, 'R')) {

@@ -256,11 +256,8 @@ class LazyFolder implements Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	#[\Override]
-	public function getPermissions() {
+	public function getPermissions(): int {
 		if (isset($this->data['permissions'])) {
 			return $this->data['permissions'];
 		}

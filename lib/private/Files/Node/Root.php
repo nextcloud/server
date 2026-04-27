@@ -254,35 +254,23 @@ class Root extends Folder implements IRootFolder {
 		return 0;
 	}
 
-	/**
-	 * @return string
-	 */
 	#[\Override]
-	public function getEtag() {
+	public function getEtag(): string {
 		return '';
 	}
 
-	/**
-	 * @return int
-	 */
 	#[\Override]
-	public function getPermissions() {
+	public function getPermissions(): int {
 		return Constants::PERMISSION_CREATE;
 	}
 
-	/**
-	 * @return bool
-	 */
 	#[\Override]
-	public function isReadable() {
+	public function isReadable(): bool {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
 	#[\Override]
-	public function isUpdateable() {
+	public function isUpdateable(): bool {
 		return false;
 	}
 

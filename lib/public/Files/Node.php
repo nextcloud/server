@@ -160,13 +160,13 @@ interface Node extends FileInfo {
 	 *  - \OCP\Constants::PERMISSION_DELETE
 	 *  - \OCP\Constants::PERMISSION_SHARE
 	 *
-	 * @return int
+	 * @return int-mask-of<Constants::PERMISSION_*>
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @since 6.0.0 - namespace of constants has changed in 8.0.0
 	 */
 	#[\Override]
-	public function getPermissions();
+	public function getPermissions(): int;
 
 	/**
 	 * Check if the file or folder is readable

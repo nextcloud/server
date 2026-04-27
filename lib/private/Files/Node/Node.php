@@ -228,12 +228,11 @@ class Node implements INode {
 	}
 
 	/**
-	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
 	#[\Override]
-	public function getPermissions() {
+	public function getPermissions(): int {
 		return $this->getFileInfo(false)->getPermissions();
 	}
 

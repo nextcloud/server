@@ -249,6 +249,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		if (!$this->isValid()) {
 			return 0;
 		}
+		/** @var int-mask-of<Constants::PERMISSION_*> $permissions */
 		$permissions = parent::getPermissions($path) & $this->superShare->getPermissions();
 
 		// part files and the mount point always have delete permissions
