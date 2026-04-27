@@ -115,9 +115,14 @@ class AmazonS3 extends Common {
 	}
 
 	private function headObject(string $key): array|false {
-		if (!isset($this->objectCache[$key])) {
+		// Normalize only the cache key so callers can keep using the original S3 object key.
+		$cacheKey = match ($key) {
+			'', '.', '/' => '.',
+			default => ltrim($key, '/'),
+		};
+		if (!isset($this->objectCache[$cacheKey])) {
 			try {
-				$this->objectCache[$key] = $this->getConnection()->headObject([
+				$this->objectCache[$cacheKey] = $this->getConnection()->headObject([
 					'Bucket' => $this->bucket,
 					'Key' => $key
 				] + $this->getServerSideEncryptionParameters())->toArray();
@@ -125,15 +130,15 @@ class AmazonS3 extends Common {
 				if ($e->getStatusCode() >= 500) {
 					throw $e;
 				}
-				$this->objectCache[$key] = false;
+				$this->objectCache[$cacheKey] = false;
 			}
 		}
 
-		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]['Key'])) {
+		if (is_array($this->objectCache[$cacheKey]) && !isset($this->objectCache[$cacheKey]['Key'])) {
 			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
-			$this->objectCache[$key]['Key'] = $key;
+			$this->objectCache[$cacheKey]['Key'] = $key;
 		}
-		return $this->objectCache[$key];
+		return $this->objectCache[$cacheKey];
 	}
 
 	/**
