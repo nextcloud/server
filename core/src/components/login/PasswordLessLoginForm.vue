@@ -44,8 +44,8 @@
 </template>
 
 <script type="ts">
-import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { getBaseUrl } from '@nextcloud/router'
+import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { defineComponent } from 'vue'
 import {
 	NoValidCredentials,
