@@ -117,8 +117,8 @@ class AmazonS3 extends Common {
 	private function headObject(string $key): array|false {
 		// Normalize only the cache key so callers can keep using the original S3 object key.
 		$cacheKey = match ($key) {
-			'', '.', '/' => '.',
-			default => ltrim($key, '/'),
+			'', '.' => '.',
+			default => $key,
 		};
 		if (!isset($this->objectCache[$cacheKey])) {
 			try {
