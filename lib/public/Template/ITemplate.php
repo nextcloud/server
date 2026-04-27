@@ -42,6 +42,7 @@ interface ITemplate {
 	 * This function assigns a variable in an array context. If the key already
 	 * exists, the value will be appended. It can be accessed via
 	 * $_[$key][$position] in the template.
+	 * @since 32.0.0
 	 */
 	public function append(string $key, mixed $value): void;
 }

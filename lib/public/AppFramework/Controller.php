@@ -141,6 +141,9 @@ abstract class Controller {
 			. $format . '!');
 	}
 
+	/**
+	 * @since 32.0.2
+	 */
 	public function isResponderRegistered(string $responder): bool {
 		return isset($this->responders[$responder]);
 	}
