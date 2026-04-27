@@ -137,12 +137,27 @@ class Listener {
 			$owner = $mount->getUser()->getUID();
 			$ownerFolder = $this->rootFolder->getUserFolder($owner);
 			$nodes = $ownerFolder->getById($event->getObjectId());
-			if (!empty($nodes)) {
-				/** @var Node $node */
-				$node = array_shift($nodes);
-				$al = $this->shareHelper->getPathsForAccessList($node);
-				$users += $al['users'];
+			if (empty($nodes)) {
+				continue;
 			}
+			/** @var Node $node */
+			$node = array_shift($nodes);
+			// Resolve the file in the true owner's home so access-list expansion
+			// is based on the canonical owner view even when the first hit came
+			// from a recipient/shared mount.
+			$fileOwner = $node->getOwner();
+			if ($fileOwner !== null) {
+				$ownerHome = $this->rootFolder->getUserFolder($fileOwner->getUID());
+				$ownerNodes = $ownerHome->getById($event->getObjectId());
+				if (!empty($ownerNodes)) {
+					$node = array_shift($ownerNodes);
+				}
+			}
+			// getPathsForAccessList() already expands all users that can access
+			// this file. One call is enough; repeating per mount was the hot path.
+			$al = $this->shareHelper->getPathsForAccessList($node);
+			$users = $al['users'];
+			break;
 		}
 
 		$actor = $this->session->getUser();
