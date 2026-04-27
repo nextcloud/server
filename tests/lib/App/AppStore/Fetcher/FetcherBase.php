@@ -149,9 +149,8 @@ abstract class FetcherBase extends TestCase {
 			->method('putContent')
 			->with($fileData);
 		$file
-			->expects($this->once())
-			->method('getContent')
-			->willReturn($fileData);
+			->expects($this->never())
+			->method('getContent');
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
@@ -199,12 +198,9 @@ abstract class FetcherBase extends TestCase {
 			->method('putContent')
 			->with($fileData);
 		$file
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getContent')
-			->willReturnOnConsecutiveCalls(
-				'{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}},"ncversion":"11.0.0.2"}',
-				$fileData
-			);
+			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}},"ncversion":"11.0.0.2"}');
 		$this->timeFactory
 			->expects($this->exactly(2))
 			->method('getTime')
@@ -275,12 +271,9 @@ abstract class FetcherBase extends TestCase {
 			->method('putContent')
 			->with($fileData);
 		$file
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getContent')
-			->willReturnOnConsecutiveCalls(
-				'{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}}',
-				$fileData
-			);
+			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}}');
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
@@ -348,12 +341,9 @@ abstract class FetcherBase extends TestCase {
 			->method('putContent')
 			->with($fileData);
 		$file
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getContent')
-			->willReturnOnConsecutiveCalls(
-				'{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}},"ncversion":"11.0.0.1"',
-				$fileData
-			);
+			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}},"ncversion":"11.0.0.1"');
 		$this->timeFactory
 			->method('getTime')
 			->willReturn(1201);
@@ -388,9 +378,14 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithExceptionInClient(): void {
+	public function testGetWithExceptionInClientReturnsStaleCachedData(): void {
 		$this->config->method('getSystemValueString')
-			->willReturnArgument(1);
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+				return $default;
+			});
 		$this->config->method('getSystemValueBool')
 			->willReturnArgument(1);
 
@@ -409,7 +404,13 @@ abstract class FetcherBase extends TestCase {
 		$file
 			->expects($this->once())
 			->method('getContent')
-			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}}}');
+			->willReturn('{"timestamp":1200,"data":[{"id":"MyApp"}],"ncversion":"11.0.0.2","ETag":"\"myETag\""}');
+
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->willReturn(4801);
+
 		$client = $this->createMock(IClient::class);
 		$this->clientService
 			->expects($this->once())
@@ -419,9 +420,144 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->once())
 			->method('get')
 			->with($this->endpoint)
-			->willThrowException(new \Exception());
+			->willThrowException(new \Exception('refresh failed'));
 
-		$this->assertSame([], $this->fetcher->get());
+		$expected = [
+			[
+				'id' => 'MyApp',
+			],
+		];
+
+		$this->assertSame($expected, $this->fetcher->get());
+	}
+
+	public function testGetReturnsStaleCachedDataWhenRefreshReturnsEmptyResult(): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+				return $default;
+			});
+		$this->config->method('getSystemValueBool')
+			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '4800'],
+			]);
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($file);
+		$file
+			->expects($this->once())
+			->method('getContent')
+			->willReturn('{"timestamp":1200,"data":[{"id":"MyApp"}],"ncversion":"11.0.0.2","ETag":"\"myETag\""}');
+
+		$this->timeFactory
+			->expects($this->exactly(2))
+			->method('getTime')
+			->willReturnOnConsecutiveCalls(4801, 4801);
+
+		$expected = [
+			[
+				'id' => 'MyApp',
+			],
+		];
+
+		$this->assertSame($expected, $this->fetcher->get());
+	}
+
+	public function testGetReturnsFreshDataWithoutReadingBackWrittenCache(): void {
+		$this->config
+			->method('getSystemValueString')
+			->willReturnCallback(function ($var, $default) {
+				if ($var === 'appstoreurl') {
+					return 'https://apps.nextcloud.com/api/v1';
+				} elseif ($var === 'version') {
+					return '11.0.0.2';
+				}
+				return $default;
+			});
+		$this->config->method('getSystemValueBool')
+			->willReturnArgument(1);
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willThrowException(new NotFoundException());
+		$folder
+			->expects($this->once())
+			->method('newFile')
+			->with($this->fileName)
+			->willReturn($file);
+
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with($this->endpoint)
+			->willReturn($response);
+
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->willReturn('[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}]');
+		$response
+			->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
+
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
+		$file
+			->expects($this->once())
+			->method('putContent')
+			->with($fileData);
+
+		$file
+			->expects($this->never())
+			->method('getContent');
+
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->willReturn(1502);
+
+		$expected = [
+			[
+				'id' => 'MyNewApp',
+				'foo' => 'foo',
+			],
+			[
+				'id' => 'bar',
+			],
+		];
+
+		$this->assertSame($expected, $this->fetcher->get());
 	}
 
 	public function testGetMatchingETag(): void {
@@ -462,12 +598,9 @@ abstract class FetcherBase extends TestCase {
 			->method('putContent')
 			->with($newData);
 		$file
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getContent')
-			->willReturnOnConsecutiveCalls(
-				$origData,
-				$newData,
-			);
+			->willReturn($origData);
 		$this->timeFactory
 			->expects($this->exactly(2))
 			->method('getTime')
@@ -545,12 +678,9 @@ abstract class FetcherBase extends TestCase {
 			->method('putContent')
 			->with($fileData);
 		$file
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getContent')
-			->willReturnOnConsecutiveCalls(
-				'{"data":[{"id":"MyOldApp","abc":"def"}],"timestamp":1200,"ncversion":"11.0.0.2","ETag":"\"myETag\""}',
-				$fileData,
-			);
+			->willReturn('{"data":[{"id":"MyOldApp","abc":"def"}],"timestamp":1200,"ncversion":"11.0.0.2","ETag":"\"myETag\""}');
 		$this->timeFactory
 			->expects($this->exactly(2))
 			->method('getTime')
@@ -636,12 +766,9 @@ abstract class FetcherBase extends TestCase {
 			->method('putContent')
 			->with($fileData);
 		$file
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getContent')
-			->willReturnOnConsecutiveCalls(
-				'{"data":[{"id":"MyOldApp","abc":"def"}],"timestamp":1200,"ncversion":"11.0.0.2","ETag":"\"myETag\""}',
-				$fileData
-			);
+			->willReturn('{"data":[{"id":"MyOldApp","abc":"def"}],"timestamp":1200,"ncversion":"11.0.0.2","ETag":"\"myETag\""}');
 		$client = $this->createMock(IClient::class);
 		$this->clientService
 			->expects($this->once())

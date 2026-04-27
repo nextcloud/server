@@ -134,6 +134,7 @@ abstract class Fetcher {
 
 		$ETag = '';
 		$content = '';
+		$cachedData = null;
 
 		try {
 			// File does already exists
@@ -141,6 +142,10 @@ abstract class Fetcher {
 			$jsonBlob = json_decode($file->getContent(), true);
 
 			if (is_array($jsonBlob)) {
+				if (isset($jsonBlob['data']) && is_array($jsonBlob['data'])) {
+					$cachedData = $jsonBlob['data'];
+				}
+
 				// No caching when the version has been updated
 				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->getVersion()) {
 					// If the timestamp is older than 3600 seconds request the files new
@@ -170,20 +175,17 @@ abstract class Fetcher {
 			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
 
 			if (empty($responseJson) || empty($responseJson['data'])) {
-				return [];
+				return is_array($cachedData) ? $cachedData : [];
 			}
 
 			$file->putContent(json_encode($responseJson));
-			return json_decode($file->getContent(), true)['data'];
+			return $responseJson['data'];
 		} catch (ConnectException $e) {
 			$this->logger->warning('Could not connect to appstore: ' . $e->getMessage(), ['app' => 'appstoreFetcher']);
-			return [];
+			return is_array($cachedData) ? $cachedData : [];
 		} catch (\Exception $e) {
-			$this->logger->warning($e->getMessage(), [
-				'exception' => $e,
-				'app' => 'appstoreFetcher',
-			]);
-			return [];
+			$this->logger->warning($e->getMessage(), ['exception' => $e, 'app' => 'appstoreFetcher',]);
+			return is_array($cachedData) ? $cachedData : [];
 		}
 	}
 
