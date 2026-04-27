@@ -400,11 +400,12 @@ class OauthApiControllerTest extends TestCase {
 		$this->accessTokenMapper->expects($this->once())
 			->method('rotateToken')
 			->with(
-				$this->callback(function (AccessToken $token) {
-					return $token->getHashedCode() === hash('sha512', 'random128') &&
-						$token->getEncryptedToken() === 'newEncryptedToken';
-				})
-			);
+				21,
+				'validrefresh',
+				'random128',
+				'newEncryptedToken',
+				false,
+			)->willReturn(1);
 
 		$expected = new JSONResponse([
 			'access_token' => 'random72',
@@ -509,11 +510,12 @@ class OauthApiControllerTest extends TestCase {
 		$this->accessTokenMapper->expects($this->once())
 			->method('rotateToken')
 			->with(
-				$this->callback(function (AccessToken $token) {
-					return $token->getHashedCode() === hash('sha512', 'random128') &&
-						$token->getEncryptedToken() === 'newEncryptedToken';
-				})
-			);
+				21,
+				'validrefresh',
+				'random128',
+				'newEncryptedToken',
+				false,
+			)->willReturn(1);
 
 		$expected = new JSONResponse([
 			'access_token' => 'random72',
@@ -621,11 +623,12 @@ class OauthApiControllerTest extends TestCase {
 		$this->accessTokenMapper->expects($this->once())
 			->method('rotateToken')
 			->with(
-				$this->callback(function (AccessToken $token) {
-					return $token->getHashedCode() === hash('sha512', 'random128') &&
-						$token->getEncryptedToken() === 'newEncryptedToken';
-				})
-			);
+				21,
+				'validrefresh',
+				'random128',
+				'newEncryptedToken',
+				false,
+			)->willReturn(1);
 
 		$expected = new JSONResponse([
 			'access_token' => 'random72',
