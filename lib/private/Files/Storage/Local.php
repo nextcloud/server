@@ -44,6 +44,8 @@ class Local extends Common {
 
 	protected bool $caseInsensitive = false;
 
+	protected bool $allowSymlinks = false;
+
 	public function __construct(array $parameters) {
 		if (!isset($parameters['datadir']) || !is_string($parameters['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
@@ -64,6 +66,7 @@ class Local extends Common {
 		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
 		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
 		$this->caseInsensitive = $this->config->getSystemValueBool('localstorage.case_insensitive', false);
+		$this->allowSymlinks = $this->config->getSystemValueBool('localstorage.allowsymlinks', false);
 
 		// support Write-Once-Read-Many file systems
 		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
@@ -250,17 +253,36 @@ class Local extends Common {
 	}
 
 	public function file_exists(string $path): bool {
-		if ($this->caseInsensitive) {
-			$fullPath = $this->getSourcePath($path);
-			$parentPath = dirname($fullPath);
-			if (!is_dir($parentPath)) {
-				return false;
-			}
-			$content = scandir($parentPath, SCANDIR_SORT_NONE);
-			return is_array($content) && array_search(basename($fullPath), $content, true) !== false;
-		} else {
-			return file_exists($this->getSourcePath($path));
+		$fullPath = $this->getSourcePath($path);
+
+		// Standard (default) path
+		if (!$this->caseInsensitive) {
+			return file_exists($fullPath);
 		}
+
+		return $this->fileExistsWithExactCase($fullPath);
+	}
+
+	/**
+	 * Best-effort exact-case existence check for case-insensitive filesystems.
+	 */
+	private function fileExistsWithExactCase(string $fullPath): bool {
+		// We intentionally do an exact basename lookup (instead of trusting
+		// file_exists() alone): on case-insensitive filesystems, path lookup can
+		// succeed even if canonical on-disk casing differs from the requested name.
+		// This best-effort guard helps ensure case-only renames (e.g. "Foo" -> "foo")
+		// are reflected with expected casing, reducing cache/client/sync inconsistencies.
+		// Filesystem behavior varies (including Unicode normalization), so this is
+		// pragmatic, not a strict invariant.
+		$parentPath = dirname($fullPath);
+		if (!is_dir($parentPath)) {
+			return false;
+		}
+
+		$baseName = basename($fullPath);
+		$content = scandir($parentPath, SCANDIR_SORT_NONE);
+
+		return is_array($content) && array_search($baseName, $content, true) !== false;
 	}
 
 	public function filemtime(string $path): int|false {
@@ -437,21 +459,43 @@ class Local extends Common {
 
 	protected function searchInDir(string $query, string $dir = ''): array {
 		$files = [];
+		$this->searchInDirRecursive($query, $dir, $files);
+		return $files;
+	}
+
+	/**
+	 * @param list<string> $files
+	 */
+	private function searchInDirRecursive(string $query, string $dir, array &$files): void {
 		$physicalDir = $this->getSourcePath($dir);
-		foreach (scandir($physicalDir) as $item) {
+		$items = scandir($physicalDir);
+		if (!is_array($items)) {
+			return;
+		}
+
+		$queryLower = strtolower($query);
+
+		foreach ($items as $item) {
 			if (Filesystem::isIgnoredDir($item)) {
 				continue;
 			}
+
+			$relativePath = $dir . '/' . $item;
 			$physicalItem = $physicalDir . '/' . $item;
 
-			if (strstr(strtolower($item), strtolower($query)) !== false) {
-				$files[] = $dir . '/' . $item;
+			// Enforce no-symlink policy during search traversal as well.
+			if (!$this->allowSymlinks && is_link($physicalItem)) {
+				continue;
 			}
+
+			if (strstr(strtolower($item), $queryLower) !== false) {
+				$files[] = $relativePath;
+			}
+
 			if (is_dir($physicalItem)) {
-				$files = array_merge($files, $this->searchInDir($query, $dir . '/' . $item));
+				$this->searchInDirRecursive($query, $relativePath, $files);
 			}
 		}
-		return $files;
 	}
 
 	public function hasUpdated(string $path, int $time): bool {
@@ -474,8 +518,7 @@ class Local extends Common {
 
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
-		$allowSymlinks = $this->config->getSystemValueBool('localstorage.allowsymlinks', false);
-		if ($allowSymlinks || $currentPath === '') {
+		if ($this->allowSymlinks || $currentPath === '') {
 			return $fullPath;
 		}
 		$pathToResolve = $fullPath;
