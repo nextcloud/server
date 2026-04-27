@@ -176,6 +176,28 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'wrongcode'));
 	}
 
+	public function testAuthorizeWrongResponseTypePreservesExistingQuery(): void {
+		$client = new Client();
+		$client->setClientIdentifier('MyClientIdentifier');
+		$client->setRedirectUri('http://foo.bar?hello=world');
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects($this->never())
+			->method('set');
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(false);
+
+		$expected = new RedirectResponse('http://foo.bar?hello=world&error=unsupported_response_type&state=MyState');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'wrongcode'));
+	}
+
 	public function testAuthorizeRejectsCodeChallengeMethodWithoutChallenge(): void {
 		$client = new Client();
 		$client->setClientIdentifier('MyClientIdentifier');
@@ -207,8 +229,36 @@ class LoginRedirectorControllerTest extends TestCase {
 			->method('set');
 
 		$codeChallenge = str_repeat('a', 43);
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(false);
 		$expected = new RedirectResponse('http://foo.bar?error=invalid_request&error_description=Transform+algorithm+not+supported&state=MyState');
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', '', $codeChallenge));
+	}
+
+	public function testAuthorizeRejectsPkceWithoutMethodForLegacyOcClientUsingProvidedRedirectUri(): void {
+		$client = new Client();
+		$client->setClientIdentifier('MyClientIdentifier');
+		$client->setRedirectUri('http://localhost:*');
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects($this->never())
+			->method('set');
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(true);
+
+		$codeChallenge = str_repeat('a', 43);
+		$expected = new RedirectResponse('http://localhost:30000?error=invalid_request&error_description=Transform+algorithm+not+supported&state=MyState');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', 'http://localhost:30000', $codeChallenge));
 	}
 
 	public function testAuthorizeRejectsUnsupportedCodeChallengeMethod(): void {
@@ -225,6 +275,11 @@ class LoginRedirectorControllerTest extends TestCase {
 			->method('set');
 
 		$codeChallenge = str_repeat('a', 43);
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(false);
 		$expected = new RedirectResponse('http://foo.bar?error=invalid_request&error_description=Transform+algorithm+not+supported&state=MyState');
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', '', $codeChallenge, 'plain'));
 	}
@@ -241,6 +296,11 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->session
 			->expects($this->never())
 			->method('set');
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(false);
 
 		$expected = new RedirectResponse('http://foo.bar?error=invalid_request&error_description=Invalid+code_challenge&state=MyState');
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', '', 'short', 'S256'));

@@ -30,6 +30,7 @@ use OCP\Security\ISecureRandom;
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 class LoginRedirectorController extends Controller {
 	private const PKCE_STRING_PATTERN = '/^[A-Za-z0-9._~-]{43,128}$/';
+	private const LEGACY_LOCALHOST_REDIRECT_PATTERN = '/^http:\/\/localhost:[0-9]+$/';
 
 	/**
 	 * @param string $appName
@@ -51,6 +52,41 @@ class LoginRedirectorController extends Controller {
 		private IConfig $config,
 	) {
 		parent::__construct($appName, $request);
+	}
+
+	/**
+	 * @return RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
+	 */
+	private function buildErrorRedirectResponse(
+		string $registeredRedirectUri,
+		string $providedRedirectUri,
+		string $error,
+		string $state,
+		?string $errorDescription = null,
+	): RedirectResponse {
+		$redirectUri = $registeredRedirectUri;
+		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+		if ($enableOcClients && $redirectUri === 'http://localhost:*' && preg_match(self::LEGACY_LOCALHOST_REDIRECT_PATTERN, $providedRedirectUri) === 1) {
+			$redirectUri = $providedRedirectUri;
+		}
+
+		$fragment = '';
+		$fragmentPosition = strpos($redirectUri, '#');
+		if ($fragmentPosition !== false) {
+			$fragment = substr($redirectUri, $fragmentPosition);
+			$redirectUri = substr($redirectUri, 0, $fragmentPosition);
+		}
+
+		$params = [
+			'error' => $error,
+		];
+		if ($errorDescription !== null) {
+			$params['error_description'] = $errorDescription;
+		}
+		$params['state'] = $state;
+
+		$separator = str_contains($redirectUri, '?') ? '&' : '?';
+		return new RedirectResponse($redirectUri . $separator . http_build_query($params) . $fragment);
 	}
 
 	/**
@@ -86,27 +122,22 @@ class LoginRedirectorController extends Controller {
 		}
 
 		if ($response_type !== 'code') {
-			//Fail
-			$url = $client->getRedirectUri() . '?error=unsupported_response_type&state=' . \urlencode($state);
-			return new RedirectResponse($url);
+			return $this->buildErrorRedirectResponse($client->getRedirectUri(), $redirect_uri, 'unsupported_response_type', $state);
 		}
 
 		if ($code_challenge === '' && $code_challenge_method !== '') {
-			$url = $client->getRedirectUri() . '?error=invalid_request&error_description=code_challenge+required&state=' . \urlencode($state);
-			return new RedirectResponse($url);
+			return $this->buildErrorRedirectResponse($client->getRedirectUri(), $redirect_uri, 'invalid_request', $state, 'code_challenge required');
 		}
 
 		if ($code_challenge !== '' && preg_match(self::PKCE_STRING_PATTERN, $code_challenge) !== 1) {
-			$url = $client->getRedirectUri() . '?error=invalid_request&error_description=Invalid+code_challenge&state=' . \urlencode($state);
-			return new RedirectResponse($url);
+			return $this->buildErrorRedirectResponse($client->getRedirectUri(), $redirect_uri, 'invalid_request', $state, 'Invalid code_challenge');
 		}
 
 		$effectiveCodeChallengeMethod = $code_challenge_method === '' && $code_challenge !== ''
 			? 'plain'
 			: $code_challenge_method;
 		if ($effectiveCodeChallengeMethod !== '' && $effectiveCodeChallengeMethod !== 'S256') {
-			$url = $client->getRedirectUri() . '?error=invalid_request&error_description=Transform+algorithm+not+supported&state=' . \urlencode($state);
-			return new RedirectResponse($url);
+			return $this->buildErrorRedirectResponse($client->getRedirectUri(), $redirect_uri, 'invalid_request', $state, 'Transform algorithm not supported');
 		}
 
 		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);

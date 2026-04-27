@@ -14,8 +14,8 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Core\Controller\ClientFlowLoginController;
-use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\AccessToken;
+use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http;
@@ -423,6 +423,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 	 * @testWith
 	 * ["https://example.com/redirect.php", "https://example.com/redirect.php?state=MyOauthState&code=MyAccessCode"]
 	 * ["https://example.com/redirect.php?hello=world", "https://example.com/redirect.php?hello=world&state=MyOauthState&code=MyAccessCode"]
+	 * ["https://example.com/redirect.php#target", "https://example.com/redirect.php?state=MyOauthState&code=MyAccessCode#target"]
+	 * ["https://example.com/redirect.php?hello=world#target", "https://example.com/redirect.php?hello=world&state=MyOauthState&code=MyAccessCode#target"]
 	 *
 	 */
 	public function testGeneratePasswordWithPasswordForOauthClient($redirectUri, $redirectUrl): void {
