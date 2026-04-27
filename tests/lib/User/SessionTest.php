@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -10,6 +11,7 @@ namespace Test\User;
 
 use OC\AppFramework\Http\Request;
 use OC\Authentication\Events\LoginFailed;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
@@ -489,16 +491,18 @@ class SessionTest extends \Test\TestCase {
 		$manager = $this->createMock(Manager::class);
 		$session = $this->createMock(ISession::class);
 		$request = $this->createMock(IRequest::class);
+		$token = $this->createMock(IToken::class);
 
 		/** @var \OC\User\Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
-		$userSession->expects($this->once())
-			->method('isTokenPassword')
-			->willReturn(true);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('I-AM-AN-APP-PASSWORD')
+			->willReturn($token);
 		$userSession->expects($this->once())
 			->method('login')
 			->with('john', 'I-AM-AN-APP-PASSWORD')
@@ -1032,7 +1036,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getHeader')
 			->with('Authorization')
 			->willReturn('Bearer xxxxx');
-		$this->tokenProvider->expects($this->once())
+		$this->tokenProvider->expects($this->atLeastOnce())
 			->method('getToken')
 			->with('xxxxx')
 			->willReturn($token);
@@ -1478,16 +1482,18 @@ class SessionTest extends \Test\TestCase {
 		$manager = $this->createMock(Manager::class);
 		$session = $this->createMock(ISession::class);
 		$request = $this->createMock(IRequest::class);
+		$token = $this->createMock(IToken::class);
 
 		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
-		$userSession->expects($this->once())
-			->method('isTokenPassword')
-			->willReturn(true);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('I-AM-AN-PASSWORD')
+			->willReturn($token);
 		$userSession->expects($this->once())
 			->method('login')
 			->with('john', 'I-AM-AN-PASSWORD')
@@ -1528,12 +1534,13 @@ class SessionTest extends \Test\TestCase {
 		/** @var Session $userSession */
 		$userSession = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
-			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->onlyMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
-		$userSession->expects($this->once())
-			->method('isTokenPassword')
-			->willReturn(true);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('I-AM-AN-PASSWORD')
+			->willThrowException(new InvalidTokenException());
 		$userSession->expects($this->once())
 			->method('login')
 			->with('john@foo.bar', 'I-AM-AN-PASSWORD')
