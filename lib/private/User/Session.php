@@ -20,7 +20,6 @@ use OC\Hooks\PublicEmitter;
 use OC\Http\CookieHelper;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC_User;
-use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -28,7 +27,6 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -525,21 +523,6 @@ class Session implements IUserSession, Emitter {
 		}
 
 		if ($firstTimeLogin) {
-			//we need to pass the user name, which may differ from login name
-			$user = $this->getUser()->getUID();
-			OC_Util::setupFS($user);
-
-			// TODO: lock necessary?
-			//trigger creation of user home and /files folder
-			$userFolder = \OC::$server->getUserFolder($user);
-
-			try {
-				// copy skeleton
-				\OC_Util::copySkeleton($user, $userFolder);
-			} catch (NotPermittedException $ex) {
-				// read only uses
-			}
-
 			// trigger any other initialization
 			Server::get(IEventDispatcher::class)->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
 			Server::get(IEventDispatcher::class)->dispatchTyped(new UserFirstTimeLoggedInEvent($this->getUser()));

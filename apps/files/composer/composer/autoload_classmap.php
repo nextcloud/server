@@ -79,6 +79,7 @@ return array(
     'OCA\\Files\\Listener\\NodeRemovedFromFavoriteListener' => $baseDir . '/../lib/Listener/NodeRemovedFromFavoriteListener.php',
     'OCA\\Files\\Listener\\RenderReferenceEventListener' => $baseDir . '/../lib/Listener/RenderReferenceEventListener.php',
     'OCA\\Files\\Listener\\SyncLivePhotosListener' => $baseDir . '/../lib/Listener/SyncLivePhotosListener.php',
+    'OCA\\Files\\Listener\\UserFirstTimeLoggedInListener' => $baseDir . '/../lib/Listener/UserFirstTimeLoggedInListener.php',
     'OCA\\Files\\Migration\\Version11301Date20191205150729' => $baseDir . '/../lib/Migration/Version11301Date20191205150729.php',
     'OCA\\Files\\Migration\\Version12101Date20221011153334' => $baseDir . '/../lib/Migration/Version12101Date20221011153334.php',
     'OCA\\Files\\Migration\\Version2003Date20241021095629' => $baseDir . '/../lib/Migration/Version2003Date20241021095629.php',

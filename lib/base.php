@@ -46,6 +46,7 @@ require_once 'public/Constants.php';
 class OC {
 	/**
 	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
+	 * @internal Use auto-loaded $serverRoot with DI instead.
 	 */
 	public static string $SERVERROOT = '';
 	/**

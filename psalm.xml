@@ -63,6 +63,7 @@
 		<file name="status.php"/>
 		<file name="version.php"/>
 		<file name="tests/lib/TestCase.php"/>
+		<file name="tests/lib/Files/Template/*.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/tests"/>
 			<directory name="apps/**/composer"/>
