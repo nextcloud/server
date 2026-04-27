@@ -20,17 +20,17 @@ export const OFFICE_SUITES = [
 		isPrimary: true,
 	},
 	{
-		id: 'onlyoffice',
+		id: 'euro-office',
 		appId: 'onlyoffice',
-		name: 'Onlyoffice',
+		name: 'Euro-Office',
 		features: [
 			t('settings', 'Good Nextcloud integration'),
-			t('settings', 'Open core'),
+			t('settings', 'Open source'),
 			t('settings', 'Best performance'),
 			t('settings', 'Limited ODF compatibility'),
 			t('settings', 'Best Microsoft compatibility'),
 		],
-		learnMoreUrl: 'https://nextcloud.com/onlyoffice/',
+		learnMoreUrl: 'https://github.com/Euro-Office',
 		isPrimary: false,
 	},
 ]
@@ -48,7 +48,7 @@ export function getOfficeSuiteById(id) {
 /**
  * Get office suite configuration by app ID
  *
- * @param {string} appId - The app ID (richdocuments, onlyoffice, etc.)
+ * @param {string} appId - The app ID (richdocuments, onlyoffice, euro-office, etc.)
  * @return {object|undefined} The suite configuration or undefined if not found
  */
 export function getOfficeSuiteByAppId(appId) {
