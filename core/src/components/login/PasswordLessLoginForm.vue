@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { getBaseUrl } from '@nextcloud/router'
+import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import {
 	startAuthentication,
 	finishAuthentication,
@@ -128,8 +128,8 @@ export default {
 				.then(({ defaultRedirectUrl }) => {
 					logger.debug('Logged in redirecting')
 					if (redirectUrl) {
-						if (redirectUrl.charAt(0) !== "/") {
-							redirectUrl = "/" + redirectUrl;
+						if (redirectUrl.charAt(0) !== '/') {
+							redirectUrl = '/' + redirectUrl
 						}
 						window.location.href = getBaseUrl() + redirectUrl
 					} else {
