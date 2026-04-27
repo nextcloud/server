@@ -70,9 +70,18 @@ class LoginRedirectorControllerTest extends TestCase {
 			->with('MyClientId')
 			->willReturn($client);
 		$this->session
-			->expects($this->once())
+			->expects($this->exactly(3))
 			->method('set')
-			->with('oauth.state', 'MyState');
+			->willReturnCallback(function (string $key, string $value): void {
+				switch ([$key, $value]) {
+					case ['oauth.state', 'MyState']:
+					case ['oauth.code_challenge', '']:
+					case ['oauth.code_challenge_method', '']:
+						break;
+					default:
+						throw new LogicException();
+				}
+			});
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
@@ -104,11 +113,13 @@ class LoginRedirectorControllerTest extends TestCase {
 			->with('MyClientId')
 			->willReturn($client);
 		$this->session
-			->expects(static::exactly(2))
+			->expects(static::exactly(4))
 			->method('set')
 			->willReturnCallback(function (string $key, string $value): void {
 				switch ([$key, $value]) {
 					case ['oauth.state', 'MyState']:
+					case ['oauth.code_challenge', '']:
+					case ['oauth.code_challenge_method', '']:
 					case [ClientFlowLoginController::STATE_NAME, 'MyStateToken']:
 						/* Expected */
 						break;
@@ -182,6 +193,59 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', '', '', 'S256'));
 	}
 
+	public function testAuthorizeRejectsPkceWithoutMethodBecausePlainIsUnsupported(): void {
+		$client = new Client();
+		$client->setClientIdentifier('MyClientIdentifier');
+		$client->setRedirectUri('http://foo.bar');
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects($this->never())
+			->method('set');
+
+		$codeChallenge = str_repeat('a', 43);
+		$expected = new RedirectResponse('http://foo.bar?error=invalid_request&error_description=Transform+algorithm+not+supported&state=MyState');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', '', $codeChallenge));
+	}
+
+	public function testAuthorizeRejectsUnsupportedCodeChallengeMethod(): void {
+		$client = new Client();
+		$client->setClientIdentifier('MyClientIdentifier');
+		$client->setRedirectUri('http://foo.bar');
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects($this->never())
+			->method('set');
+
+		$codeChallenge = str_repeat('a', 43);
+		$expected = new RedirectResponse('http://foo.bar?error=invalid_request&error_description=Transform+algorithm+not+supported&state=MyState');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', '', $codeChallenge, 'plain'));
+	}
+
+	public function testAuthorizeRejectsInvalidCodeChallengeFormat(): void {
+		$client = new Client();
+		$client->setClientIdentifier('MyClientIdentifier');
+		$client->setRedirectUri('http://foo.bar');
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects($this->never())
+			->method('set');
+
+		$expected = new RedirectResponse('http://foo.bar?error=invalid_request&error_description=Invalid+code_challenge&state=MyState');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', '', 'short', 'S256'));
+	}
+
 	public function testAuthorizeWithLegacyOcClient(): void {
 		$client = new Client();
 		$client->setClientIdentifier('MyClientIdentifier');
@@ -192,9 +256,18 @@ class LoginRedirectorControllerTest extends TestCase {
 			->with('MyClientId')
 			->willReturn($client);
 		$this->session
-			->expects($this->once())
+			->expects($this->exactly(3))
 			->method('set')
-			->with('oauth.state', 'MyState');
+			->willReturnCallback(function (string $key, string $value): void {
+				switch ([$key, $value]) {
+					case ['oauth.state', 'MyState']:
+					case ['oauth.code_challenge', '']:
+					case ['oauth.code_challenge_method', '']:
+						break;
+					default:
+						throw new LogicException();
+				}
+			});
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
@@ -225,9 +298,18 @@ class LoginRedirectorControllerTest extends TestCase {
 			->with('MyClientId')
 			->willReturn($client);
 		$this->session
-			->expects($this->once())
+			->expects($this->exactly(3))
 			->method('set')
-			->with('oauth.state', 'MyState');
+			->willReturnCallback(function (string $key, string $value): void {
+				switch ([$key, $value]) {
+					case ['oauth.state', 'MyState']:
+					case ['oauth.code_challenge', '']:
+					case ['oauth.code_challenge_method', '']:
+						break;
+					default:
+						throw new LogicException();
+				}
+			});
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')

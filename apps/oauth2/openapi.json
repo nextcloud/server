@@ -78,7 +78,7 @@
                     {
                         "name": "code_challenge",
                         "in": "query",
-                        "description": "PKCE code challenge (optional)",
+                        "description": "PKCE code challenge (optional, RFC 7636 format)",
                         "schema": {
                             "type": "string",
                             "default": ""
@@ -87,7 +87,7 @@
                     {
                         "name": "code_challenge_method",
                         "in": "query",
-                        "description": "PKCE code challenge method \"S256\" or \"plain\" (optional)",
+                        "description": "PKCE code challenge method. Only \"S256\" is supported. If omitted, RFC 7636 defaults to \"plain\", which is rejected.",
                         "schema": {
                             "type": "string",
                             "default": ""
@@ -176,7 +176,7 @@
                                         "type": "string",
                                         "nullable": true,
                                         "default": null,
-                                        "description": "PKCE code verifier (required if code_challenge was provided)"
+                                        "description": "PKCE code verifier in RFC 7636 format (required if code_challenge was provided)"
                                     }
                                 }
                             }

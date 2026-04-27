@@ -29,6 +29,8 @@ use OCP\Security\ISecureRandom;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 class LoginRedirectorController extends Controller {
+	private const PKCE_STRING_PATTERN = '/^[A-Za-z0-9._~-]{43,128}$/';
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -58,8 +60,8 @@ class LoginRedirectorController extends Controller {
 	 * @param string $state State of the flow
 	 * @param string $response_type Response type for the flow
 	 * @param string $redirect_uri URI to redirect to after the flow (is only used for legacy ownCloud clients)
-	 * @param string $code_challenge PKCE code challenge (optional)
-	 * @param string $code_challenge_method PKCE code challenge method "S256" or "plain" (optional)
+	 * @param string $code_challenge PKCE code challenge (optional, RFC 7636 format)
+	 * @param string $code_challenge_method PKCE code challenge method. Only "S256" is supported. If omitted, RFC 7636 defaults to "plain", which is rejected.
 	 * @return TemplateResponse<Http::STATUS_OK, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 *
 	 * 200: Client not found
@@ -89,18 +91,21 @@ class LoginRedirectorController extends Controller {
 			return new RedirectResponse($url);
 		}
 
-		if ($code_challenge_method !== '' && $code_challenge_method !== 'S256' && $code_challenge_method !== 'plain') {
-			$url = $client->getRedirectUri() . '?error=invalid_request&error_description=Invalid+code_challenge_method&state=' . \urlencode($state);
-			return new RedirectResponse($url);
-		}
-
-		if ($code_challenge !== '' && $code_challenge_method === '') {
-			$url = $client->getRedirectUri() . '?error=invalid_request&error_description=code_challenge_method+required&state=' . \urlencode($state);
-			return new RedirectResponse($url);
-		}
-
 		if ($code_challenge === '' && $code_challenge_method !== '') {
 			$url = $client->getRedirectUri() . '?error=invalid_request&error_description=code_challenge+required&state=' . \urlencode($state);
+			return new RedirectResponse($url);
+		}
+
+		if ($code_challenge !== '' && preg_match(self::PKCE_STRING_PATTERN, $code_challenge) !== 1) {
+			$url = $client->getRedirectUri() . '?error=invalid_request&error_description=Invalid+code_challenge&state=' . \urlencode($state);
+			return new RedirectResponse($url);
+		}
+
+		$effectiveCodeChallengeMethod = $code_challenge_method === '' && $code_challenge !== ''
+			? 'plain'
+			: $code_challenge_method;
+		if ($effectiveCodeChallengeMethod !== '' && $effectiveCodeChallengeMethod !== 'S256') {
+			$url = $client->getRedirectUri() . '?error=invalid_request&error_description=Transform+algorithm+not+supported&state=' . \urlencode($state);
 			return new RedirectResponse($url);
 		}
 
@@ -113,7 +118,7 @@ class LoginRedirectorController extends Controller {
 
 		$this->session->set('oauth.state', $state);
 		$this->session->set('oauth.code_challenge', $code_challenge);
-		$this->session->set('oauth.code_challenge_method', $code_challenge_method);
+		$this->session->set('oauth.code_challenge_method', $effectiveCodeChallengeMethod);
 
 		if (in_array($client->getName(), $this->appConfig->getValueArray('oauth2', 'skipAuthPickerApplications', []))) {
 			/** @see ClientFlowLoginController::showAuthPickerPage **/

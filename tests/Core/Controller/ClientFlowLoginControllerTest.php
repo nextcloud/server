@@ -434,6 +434,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 			]);
 		$calls = [
 			'client.flow.state.token',
+			'oauth.code_challenge',
+			'oauth.code_challenge_method',
 			'oauth.state',
 		];
 		$this->session
@@ -507,12 +509,13 @@ class ClientFlowLoginControllerTest extends TestCase {
 	}
 
 	public function testGeneratePasswordWithPasswordForOauthClientStoresPkceChallenge(): void {
+		$codeChallenge = str_repeat('a', 43);
 		$this->session
 			->method('get')
 			->willReturnMap([
 				['client.flow.state.token', 'MyStateToken'],
 				['oauth.state', 'MyOauthState'],
-				['oauth.code_challenge', 'PkceChallenge'],
+				['oauth.code_challenge', $codeChallenge],
 				['oauth.code_challenge_method', 'S256'],
 			]);
 		$calls = [
@@ -598,7 +601,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('insert')
 			->with($this->callback(function (AccessToken $accessToken) {
-				return $accessToken->getHashedCodeChallenge() === 'PkceChallenge'
+				return $accessToken->getHashedCodeChallenge() === str_repeat('a', 43)
 					&& $accessToken->getCodeChallengeMethod() === 'S256'
 					&& $accessToken->getHashedCode() === hash('sha512', 'MyAccessCode');
 			}));
