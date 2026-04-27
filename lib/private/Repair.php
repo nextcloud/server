@@ -29,7 +29,7 @@ use OC\Repair\Events\RepairWarningEvent;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC13\AddLogRotateJob;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
-use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
+use OC\Repair\NC16\AddCleanupLoginFlowV2BackgroundJob;
 use OC\Repair\NC16\CleanupCardDAVPhotoCache;
 use OC\Repair\NC16\ClearCollectionsAccessCache;
 use OC\Repair\NC18\ResetGeneratedAvatarFlag;
@@ -175,7 +175,7 @@ class Repair implements IOutput {
 			Server::get(AddPreviewBackgroundCleanupJob::class),
 			Server::get(AddCleanupUpdaterBackupsJob::class),
 			Server::get(CleanupCardDAVPhotoCache::class),
-			Server::get(AddClenupLoginFlowV2BackgroundJob::class),
+			Server::get(AddCleanupLoginFlowV2BackgroundJob::class),
 			Server::get(RemoveLinkShares::class),
 			Server::get(ClearCollectionsAccessCache::class),
 			Server::get(ResetGeneratedAvatarFlag::class),
