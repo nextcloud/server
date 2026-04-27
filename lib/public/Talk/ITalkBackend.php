@@ -44,26 +44,20 @@ interface ITalkBackend {
 	public function deleteConversation(string $id): void;
 
 	/**
-	 * Check if the logged in user is not allowed to create conversations,
-	 * respecting the per-group restrictions configured in Talk admin settings
-	 * (allowed_groups).
+	 * Check if the logged-in user is allowed to create conversations
 	 *
-	 * Returns false when Talk is not available at all.
+	 * Also returns false when no backend is enabled for the user
 	 *
 	 * @return bool
 	 * @since 34.0.0
 	 */
-	public function isNotAllowedToCreateConversations(): bool;
+	public function isAllowedToCreateConversations(): bool;
 
 	/**
-	 * Check if Talk is disabled for the logged in user, respecting the
-	 * per-group restriction configured in Talk admin settings
-	 * (start_conversations).
-	 *
-	 * Returns false when Talk is not available at all.
+	 * Check if the Talk backend is enabled for the logged-in user
 	 *
 	 * @return bool
 	 * @since 34.0.0
 	 */
-	public function isDisabledForUser(): bool;
+	public function isEnabledForUser(): bool;
 }
