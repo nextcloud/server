@@ -84,7 +84,7 @@ class TeamManager implements ITeamManager {
 		return array_values($resources);
 	}
 
-	public function getSharedWithList(array $teams, string $userId): array {
+	public function getSharedWithList(array $teams, string $userId, string $resourceId): array {
 		if (!$this->hasTeamSupport()) {
 			return [];
 		}
@@ -92,7 +92,7 @@ class TeamManager implements ITeamManager {
 		$resources = [];
 		foreach ($this->getProviders() as $provider) {
 			if (method_exists($provider, 'getSharedWithList')) {
-				$resources[] = $provider->getSharedWithList($teams, $userId);
+				$resources[] = $provider->getSharedWithList($teams, $resourceId);
 			} else {
 				foreach ($teams as $team) {
 					$resources[] = [$team => $provider->getSharedWith($team)];
