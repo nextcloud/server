@@ -447,7 +447,7 @@ export default defineComponent({
 					files,
 					async (nodes, path) => {
 						try {
-							const { contents, folder } = await this.activeView!.getContents(path)
+							const { contents, folder } = await this.currentView!.getContents(path)
 							const conflicts = getConflicts(nodes, contents)
 							if (conflicts.length === 0) {
 								return nodes
@@ -479,9 +479,9 @@ export default defineComponent({
 			}
 
 			// We might not have the target directory fetched yet
-			const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
+			const cachedContents = this.filesStore.getNodesByPath(this.currentView.id, this.source.path)
 			const contents = cachedContents.length === 0
-				? (await this.activeView!.getContents(this.source.path)).contents
+				? (await this.currentView!.getContents(this.source.path)).contents
 				: cachedContents
 
 			const isCopy = event.ctrlKey
