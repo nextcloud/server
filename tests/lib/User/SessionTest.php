@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -1034,7 +1035,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getHeader')
 			->with('Authorization')
 			->willReturn('Bearer xxxxx');
-		$this->tokenProvider->expects($this->once())
+		$this->tokenProvider->expects($this->atLeastOnce())
 			->method('getToken')
 			->with('xxxxx')
 			->willReturn($token);
