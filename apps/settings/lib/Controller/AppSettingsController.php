@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
@@ -47,6 +48,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -544,11 +546,11 @@ class AppSettingsController extends Controller {
 	 *
 	 * apps will be enabled for specific groups only if $groups is defined
 	 *
-	 * @PasswordConfirmationRequired
 	 * @param array $appIds
 	 * @param array $groups
 	 * @return JSONResponse
 	 */
+	#[PasswordConfirmationRequired(strict: true)]
 	public function enableApps(array $appIds, array $groups = []): JSONResponse {
 		try {
 			$updateRequired = false;
@@ -663,8 +665,8 @@ class AppSettingsController extends Controller {
 	}
 
 	private function sortApps($a, $b) {
-		$a = (string)$a['name'];
-		$b = (string)$b['name'];
+		$a = (string) $a['name'];
+		$b = (string) $b['name'];
 		if ($a === $b) {
 			return 0;
 		}

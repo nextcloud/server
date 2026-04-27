@@ -72,6 +72,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { loadState } from '@nextcloud/initial-state'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 
 import sortedUniq from 'lodash/sortedUniq.js'
 import uniq from 'lodash/uniq.js'
@@ -152,7 +153,7 @@ export default {
 				enforcedGroups: this.enforcedGroups,
 				excludedGroups: this.excludedGroups,
 			}
-			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data)
+			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data, { confirmPassword: PwdConfirmationMode.Strict })
 				.then(resp => resp.data)
 				.then(state => {
 					this.state = state

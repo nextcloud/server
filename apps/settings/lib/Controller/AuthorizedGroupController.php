@@ -27,6 +27,7 @@ use OC\Settings\AuthorizedGroup;
 use OCA\Settings\Service\AuthorizedGroupService;
 use OCA\Settings\Service\NotFoundException;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\DB\Exception;
 use OCP\IRequest;
@@ -44,6 +45,7 @@ class AuthorizedGroupController extends Controller {
 	 * @throws NotFoundException
 	 * @throws Exception
 	 */
+	#[PasswordConfirmationRequired(strict: true)]
 	public function saveSettings(array $newGroups, string $class): DataResponse {
 		$currentGroups = $this->authorizedGroupService->findExistingGroupsForClass($class);
 

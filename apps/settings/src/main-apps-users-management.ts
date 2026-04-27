@@ -22,6 +22,8 @@
  *
  */
 
+import axios from '@nextcloud/axios'
+import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
 import { sync } from 'vuex-router-sync'
@@ -37,6 +39,8 @@ Vue.use(VTooltip, { defaultHtml: false })
 
 const store = useStore()
 sync(store, router)
+
+addPasswordConfirmationInterceptors(axios)
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line camelcase
