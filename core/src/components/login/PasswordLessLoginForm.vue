@@ -210,8 +210,8 @@ export default {
 				.then(({ defaultRedirectUrl }) => {
 					logger.debug('Logged in redirecting')
 					if (redirectUrl) {
-						if (redirectUrl.charAt(0) !== "/") {
-							redirectUrl = "/" + redirectUrl;
+						if (redirectUrl.charAt(0) !== '/') {
+							redirectUrl = '/' + redirectUrl
 						}
 						window.location.href = getBaseUrl() + redirectUrl
 					} else {
