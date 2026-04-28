@@ -43,8 +43,8 @@ class TaskProcessingPickupSpeedTest extends TestCase {
 		for ($i = 0; $i < 100; $i++) {
 			$task = new Task('test', ['test' => 'test'], 'settings', 'user' . $i);
 			$task->setStartedAt(0);
-			if ($i < 15) {
-				$task->setScheduledAt(60 * 5); // 15% get 5mins
+			if ($i < 5) {
+				$task->setScheduledAt(60 * 5); // 5% get 5mins
 			} else {
 				$task->setScheduledAt(60); // the rest gets 1min
 			}
