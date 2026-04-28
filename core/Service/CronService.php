@@ -18,6 +18,7 @@ use OC\Session\CryptoWrapper;
 use OC\Session\Memory;
 use OC\User\Session;
 use OCP\App\IAppManager;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
@@ -29,6 +30,8 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class CronService {
+	private ?IJob $currentJob = null;
+
 	/** * @var ?callable $verboseCallback */
 	private $verboseCallback = null;
 
@@ -151,6 +154,21 @@ class CronService {
 			}
 		}
 
+		// Try to log and unlock job in case of failure (eg. Allowed memory size exhausted)
+		register_shutdown_function(function () {
+			$error = error_get_last();
+			if ($error === null) {
+				return;
+			}
+
+			$message = 'Uncatched error when running job ' . $this->currentJob->getId() . ': ' . $error['message'];
+			$this->logger->error($message);
+			$this->verboseOutput($message);
+			if ($this->currentJob instanceof IJob) {
+				$this->jobList->unlockJob($this->currentJob);
+			}
+		});
+
 		// We only ask for jobs for 14 minutes, because after 5 minutes the next
 		// system cron task should spawn and we want to have at most three
 		// cron jobs running in parallel.
@@ -159,6 +177,7 @@ class CronService {
 		$executedJobs = [];
 
 		while ($job = $this->jobList->getNext($onlyTimeSensitive, $jobClasses)) {
+			$this->currentJob = $job;
 			if (isset($executedJobs[$job->getId()])) {
 				$this->jobList->unlockJob($job);
 				break;
@@ -220,6 +239,9 @@ class CronService {
 				break;
 			}
 		}
+
+		// Makes sure last error isn't catched by shutdown function
+		error_clear_last();
 	}
 
 	private function runWeb(string $appMode): void {
