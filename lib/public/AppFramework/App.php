@@ -36,6 +36,7 @@ class App {
 	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 * @since 8.0.0
+	 * @deprecated 34.0.0 use IAppManager::getAppNamespace
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
 		return \OC\AppFramework\App::buildAppNamespace($appId, $topNamespace);

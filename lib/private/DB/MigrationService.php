@@ -63,7 +63,7 @@ class MigrationService {
 		} else {
 			$appManager = Server::get(IAppManager::class);
 			$appPath = $appManager->getAppPath($this->appName);
-			$namespace = App::buildAppNamespace($this->appName);
+			$namespace = $appManager->getAppNamespace($this->appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
 
