@@ -51,6 +51,7 @@ class RetryJob extends Job {
 	/**
 	 * Run the job, then remove it from the jobList
 	 */
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		if (!isset($this->argument['userId'])) {
 			// Old background job without user id, just drop it.
@@ -95,6 +96,7 @@ class RetryJob extends Job {
 		return ($this->time->getTime() - $this->lastRun) > $delay;
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$user = $this->userManager->get($this->argument['userId']);
 		if (!$user instanceof IUser) {

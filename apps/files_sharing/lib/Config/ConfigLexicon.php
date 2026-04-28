@@ -27,10 +27,12 @@ class ConfigLexicon implements ILexicon {
 	public const UPDATE_CUTOFF_TIME = 'update_cutoff_time';
 	public const USER_NEEDS_SHARE_REFRESH = 'user_needs_share_refresh';
 
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
 			new Entry(self::SHOW_FEDERATED_AS_INTERNAL, ValueType::BOOL, false, 'shows federated shares as internal shares', true),
@@ -41,6 +43,7 @@ class ConfigLexicon implements ILexicon {
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [
 			new Entry(self::USER_NEEDS_SHARE_REFRESH, ValueType::BOOL, true, 'whether a user needs to have the receiving share data refreshed for possible changes'),

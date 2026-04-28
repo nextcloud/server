@@ -25,6 +25,7 @@ class Refresh extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:mount:refresh')
@@ -32,6 +33,7 @@ class Refresh extends Command {
 			->addArgument('user', InputArgument::REQUIRED, 'User to refresh mounts for');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('user');
 		$user = $this->userManager->get($userId);

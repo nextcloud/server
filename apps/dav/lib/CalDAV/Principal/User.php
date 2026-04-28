@@ -27,6 +27,7 @@ class User extends \Sabre\CalDAV\Principal\User {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getACL() {
 		$acl = parent::getACL();
 		$acl[] = [
@@ -44,6 +45,7 @@ class User extends \Sabre\CalDAV\Principal\User {
 	 *
 	 * @return \Sabre\DAV\INode
 	 */
+	#[\Override]
 	public function getChild($name) {
 		$principal = $this->principalBackend->getPrincipalByPath($this->getPrincipalURL() . '/' . $name);
 		if (!$principal) {
@@ -65,6 +67,7 @@ class User extends \Sabre\CalDAV\Principal\User {
 	 *
 	 * @return \Sabre\DAV\INode[]
 	 */
+	#[\Override]
 	public function getChildren() {
 		$r = [];
 		if ($this->principalBackend->getPrincipalByPath($this->getPrincipalURL() . '/calendar-proxy-read')) {

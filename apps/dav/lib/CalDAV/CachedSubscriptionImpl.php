@@ -28,6 +28,7 @@ class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendar
 	 * @return string defining the technical unique key
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getKey(): string {
 		return (string)$this->calendarInfo['id'];
 	}
@@ -35,6 +36,7 @@ class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendar
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getUri(): string {
 		return $this->calendarInfo['uri'];
 	}
@@ -43,6 +45,7 @@ class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendar
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getDisplayName(): ?string {
 		return $this->calendarInfo['{DAV:}displayname'];
 	}
@@ -51,10 +54,12 @@ class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendar
 	 * Calendar color
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getDisplayColor(): ?string {
 		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
 	}
 
+	#[\Override]
 	public function search(string $pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null): array {
 		return $this->backend->search($this->calendarInfo, $pattern, $searchProperties, $options, $limit, $offset);
 	}
@@ -63,6 +68,7 @@ class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendar
 	 * @return int build up using \OCP\Constants
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getPermissions(): int {
 		$permissions = $this->calendar->getACL();
 		$result = 0;
@@ -80,18 +86,22 @@ class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendar
 	/**
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function isEnabled(): bool {
 		return $this->calendarInfo['{http://owncloud.org/ns}calendar-enabled'] ?? true;
 	}
 
+	#[\Override]
 	public function isWritable(): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function isDeleted(): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function isShared(): bool {
 		return true;
 	}

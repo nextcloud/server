@@ -31,6 +31,7 @@ class UpdateGroups extends TimedJob {
 	 * @param mixed $argument
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->logger->debug('Run background job "updateGroups"');
 		$this->service->updateGroups();

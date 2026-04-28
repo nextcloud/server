@@ -41,6 +41,7 @@ class ImportCalendar extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setName('calendar:import')
 			->setDescription('Import calendar data to supported calendars from disk or stdin')
@@ -57,6 +58,7 @@ class ImportCalendar extends Command {
 			->addOption('show-errors', null, InputOption::VALUE_NONE, 'show all errored items after processing');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('uid');
 		$calendarId = $input->getArgument('uri');

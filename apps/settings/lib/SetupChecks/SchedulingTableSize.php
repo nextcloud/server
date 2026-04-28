@@ -22,14 +22,17 @@ class SchedulingTableSize implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Scheduling objects table size');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select($qb->func()->count('id'))

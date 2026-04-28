@@ -20,6 +20,7 @@ class Password implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$user = $this->userManager->get($this->userId);
 		$passwordChangeSupported = false;
@@ -32,10 +33,12 @@ class Password implements ISettings {
 		]);
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}

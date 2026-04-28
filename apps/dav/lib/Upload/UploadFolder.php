@@ -25,6 +25,7 @@ class UploadFolder implements ICollection {
 	) {
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		// TODO: verify name - should be a simple number
 		try {
@@ -38,10 +39,12 @@ class UploadFolder implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create file (filename ' . $name . ')');
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		if ($name === '.file') {
 			return new FutureFile($this->node, '.file');
@@ -49,6 +52,7 @@ class UploadFolder implements ICollection {
 		return new UploadFile($this->node->getChild($name));
 	}
 
+	#[\Override]
 	public function getChildren() {
 		$tmpChildren = $this->node->getChildren();
 
@@ -79,6 +83,7 @@ class UploadFolder implements ICollection {
 		return $children;
 	}
 
+	#[\Override]
 	public function childExists($name) {
 		if ($name === '.file') {
 			return true;
@@ -86,6 +91,7 @@ class UploadFolder implements ICollection {
 		return $this->node->childExists($name);
 	}
 
+	#[\Override]
 	public function delete() {
 		$this->node->delete();
 
@@ -93,14 +99,17 @@ class UploadFolder implements ICollection {
 		$this->cleanupService->removeJob($this->uid, $this->getName());
 	}
 
+	#[\Override]
 	public function getName() {
 		return $this->node->getName();
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this folder');
 	}
 
+	#[\Override]
 	public function getLastModified() {
 		return $this->node->getLastModified();
 	}

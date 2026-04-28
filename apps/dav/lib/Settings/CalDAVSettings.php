@@ -41,6 +41,7 @@ class CalDAVSettings implements IDelegatedSettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->initialState->provideInitialState('userSyncCalendarsDocUrl', $this->urlGenerator->linkToDocs('user-sync-calendars'));
 		foreach (self::defaults as $key => $default) {
@@ -53,6 +54,7 @@ class CalDAVSettings implements IDelegatedSettings {
 		return new TemplateResponse(Application::APP_ID, 'settings-admin-caldav');
 	}
 
+	#[\Override]
 	public function getSection(): ?string {
 		if (!$this->appManager->isBackendRequired(IAppManager::BACKEND_CALDAV)) {
 			return null;
@@ -64,14 +66,17 @@ class CalDAVSettings implements IDelegatedSettings {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 10;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return null; // Only setting in this section
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
 			'dav' => ['/(' . implode('|', array_keys(self::defaults)) . ')/']

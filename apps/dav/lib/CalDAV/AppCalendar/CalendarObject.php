@@ -27,14 +27,17 @@ class CalendarObject implements ICalendarObject, IACL {
 	) {
 	}
 
+	#[\Override]
 	public function getOwner() {
 		return $this->calendar->getOwner();
 	}
 
+	#[\Override]
 	public function getGroup() {
 		return $this->calendar->getGroup();
 	}
 
+	#[\Override]
 	public function getACL(): array {
 		$acl = [
 			[
@@ -53,14 +56,17 @@ class CalendarObject implements ICalendarObject, IACL {
 		return $acl;
 	}
 
+	#[\Override]
 	public function setACL(array $acl): void {
 		throw new Forbidden('Setting ACL is not supported on this node');
 	}
 
+	#[\Override]
 	public function getSupportedPrivilegeSet(): ?array {
 		return null;
 	}
 
+	#[\Override]
 	public function put($data): void {
 		if ($this->backend instanceof ICreateFromString && $this->calendar->getPermissions() & Constants::PERMISSION_UPDATE) {
 			if (is_resource($data)) {
@@ -72,22 +78,27 @@ class CalendarObject implements ICalendarObject, IACL {
 		}
 	}
 
+	#[\Override]
 	public function get(): string {
 		return $this->vobject->serialize();
 	}
 
+	#[\Override]
 	public function getContentType(): string {
 		return 'text/calendar; charset=utf-8';
 	}
 
+	#[\Override]
 	public function getETag(): ?string {
 		return null;
 	}
 
+	#[\Override]
 	public function getSize() {
 		return mb_strlen($this->vobject->serialize());
 	}
 
+	#[\Override]
 	public function delete(): void {
 		if ($this->backend instanceof ICreateFromString && $this->calendar->getPermissions() & Constants::PERMISSION_DELETE) {
 			/** @var \Sabre\VObject\Component[] */
@@ -105,6 +116,7 @@ class CalendarObject implements ICalendarObject, IACL {
 		}
 	}
 
+	#[\Override]
 	public function getName(): string {
 		// Every object is required to have an UID
 		$base = $this->vobject->getBaseComponent();
@@ -118,10 +130,12 @@ class CalendarObject implements ICalendarObject, IACL {
 		return (string)$base->UID . '.ics';
 	}
 
+	#[\Override]
 	public function setName($name): void {
 		throw new Forbidden('This calendar-object is read-only');
 	}
 
+	#[\Override]
 	public function getLastModified(): ?int {
 		$base = $this->vobject->getBaseComponent();
 		if ($base !== null && $this->vobject->getBaseComponent()->{'LAST-MODIFIED'}) {

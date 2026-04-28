@@ -23,10 +23,12 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'Fix broken values of calendar objects';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$pattern = ';VALUE=:';
 		$count = $warnings = 0;

@@ -60,6 +60,7 @@ class SMB extends Backend {
 			->setLegacyAuthMechanism($legacyAuth);
 	}
 
+	#[\Override]
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null): void {
 		$auth = $storage->getAuthMechanism();
 		if ($auth->getScheme() === AuthMechanism::SCHEME_PASSWORD) {
@@ -122,6 +123,7 @@ class SMB extends Backend {
 		$storage->setBackendOption('auth', $smbAuth);
 	}
 
+	#[\Override]
 	public function checkDependencies(): array {
 		$system = \OCP\Server::get(SystemBridge::class);
 		if (NativeServer::available($system)) {

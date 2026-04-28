@@ -81,6 +81,7 @@ class Manager implements IManager {
 		$this->operationsByScope = new CappedMemoryCache(64);
 	}
 
+	#[\Override]
 	public function getRuleMatcher(): IRuleMatcher {
 		return new RuleMatcher(
 			$this->session,
@@ -654,14 +655,17 @@ class Manager implements IManager {
 		return array_merge($this->getBuildInChecks(), $this->registeredChecks);
 	}
 
+	#[\Override]
 	public function registerEntity(IEntity $entity): void {
 		$this->registeredEntities[get_class($entity)] = $entity;
 	}
 
+	#[\Override]
 	public function registerOperation(IOperation $operator): void {
 		$this->registeredOperators[get_class($operator)] = $operator;
 	}
 
+	#[\Override]
 	public function registerCheck(ICheck $check): void {
 		$this->registeredChecks[get_class($check)] = $check;
 	}

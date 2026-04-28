@@ -20,10 +20,12 @@ class CreateSystemAddressBookStep implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Create system address book';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->syncService->ensureLocalSystemAddressBookExists();
 	}

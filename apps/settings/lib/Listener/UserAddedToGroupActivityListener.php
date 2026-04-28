@@ -27,6 +27,7 @@ class UserAddedToGroupActivityListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof UserAddedEvent)) {
 			return;

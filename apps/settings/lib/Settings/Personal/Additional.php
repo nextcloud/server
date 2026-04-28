@@ -17,6 +17,7 @@ class Additional implements ISettings {
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		return new TemplateResponse('settings', 'settings/empty');
 	}
@@ -25,6 +26,7 @@ class Additional implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getSection(): string {
 		return 'additional';
 	}
@@ -37,6 +39,7 @@ class Additional implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 5;
 	}

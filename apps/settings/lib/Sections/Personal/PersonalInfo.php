@@ -20,18 +20,22 @@ class PersonalInfo implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon() {
 		return $this->urlGenerator->imagePath('core', 'actions/user.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'personal-info';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Personal info');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}

@@ -28,6 +28,7 @@ class Add extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setName('tag:files:add')
 			->setDescription('Add a system-tag to a file or folder')
@@ -36,6 +37,7 @@ class Add extends Command {
 			->addArgument('access', InputArgument::REQUIRED, 'access level of the tag (public, restricted or invisible)');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$targetInput = $input->getArgument('target');
 		$tagsInput = $input->getArgument('tags');

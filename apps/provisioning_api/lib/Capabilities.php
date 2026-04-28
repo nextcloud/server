@@ -30,6 +30,7 @@ class Capabilities implements ICapability {
 	 *     },
 	 * }
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		$federatedScopeEnabled = $this->appManager->isEnabledForUser('federation');
 

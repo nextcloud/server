@@ -28,10 +28,12 @@ class DirectFile implements IFile {
 	) {
 	}
 
+	#[\Override]
 	public function put($data) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function get() {
 		$this->getFile();
 
@@ -40,12 +42,14 @@ class DirectFile implements IFile {
 		return $this->file->fopen('rb');
 	}
 
+	#[\Override]
 	public function getContentType() {
 		$this->getFile();
 
 		return $this->file->getMimeType();
 	}
 
+	#[\Override]
 	public function getETag() {
 		$this->getFile();
 
@@ -56,24 +60,29 @@ class DirectFile implements IFile {
 	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
 	 * @return int|float
 	 */
+	#[\Override]
 	public function getSize() {
 		$this->getFile();
 
 		return $this->file->getSize();
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getName() {
 		return $this->direct->getToken();
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getLastModified() {
 		$this->getFile();
 

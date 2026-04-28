@@ -49,6 +49,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		return Application::APP_NAME;
 	}
@@ -59,6 +60,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10NFactory->get(Application::APP_NAME)->t('Update notifications');
 	}
@@ -71,6 +73,7 @@ class Notifier implements INotifier {
 	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== Application::APP_NAME) {
 			throw new UnknownNotificationException('Unknown app id');

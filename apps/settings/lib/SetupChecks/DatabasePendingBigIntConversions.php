@@ -29,10 +29,12 @@ class DatabasePendingBigIntConversions implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database pending bigint migrations');
 	}
@@ -63,6 +65,7 @@ class DatabasePendingBigIntConversions implements ISetupCheck {
 		return $pendingColumns;
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$pendingColumns = $this->getBigIntConversionPendingColumns();
 		if (empty($pendingColumns)) {

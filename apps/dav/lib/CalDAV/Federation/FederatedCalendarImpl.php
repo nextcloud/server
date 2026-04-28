@@ -23,22 +23,27 @@ class FederatedCalendarImpl implements ICalendar, ICalendarIsShared, ICalendarIs
 	) {
 	}
 
+	#[\Override]
 	public function getKey(): string {
 		return (string)$this->calendarInfo['id'];
 	}
 
+	#[\Override]
 	public function getUri(): string {
 		return $this->calendarInfo['uri'];
 	}
 
+	#[\Override]
 	public function getDisplayName(): ?string {
 		return $this->calendarInfo['{DAV:}displayname'];
 	}
 
+	#[\Override]
 	public function getDisplayColor(): ?string {
 		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
 	}
 
+	#[\Override]
 	public function search(string $pattern, array $searchProperties = [], array $options = [], ?int $limit = null, ?int $offset = null): array {
 		return $this->calDavBackend->search(
 			$this->calendarInfo,
@@ -50,23 +55,28 @@ class FederatedCalendarImpl implements ICalendar, ICalendarIsShared, ICalendarIs
 		);
 	}
 
+	#[\Override]
 	public function getPermissions(): int {
 		return $this->calendarInfo['{http://owncloud.org/ns}permissions'] ?? Constants::PERMISSION_READ;
 	}
 
+	#[\Override]
 	public function isDeleted(): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function isShared(): bool {
 		return true;
 	}
 
+	#[\Override]
 	public function isWritable(): bool {
 		$permissions = $this->getPermissions();
 		return ($permissions & Constants::PERMISSION_UPDATE) !== 0;
 	}
 
+	#[\Override]
 	public function isEnabled(): bool {
 		return $this->calendarInfo['{http://owncloud.org/ns}calendar-enabled'] ?? true;
 	}

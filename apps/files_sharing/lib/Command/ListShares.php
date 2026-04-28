@@ -41,6 +41,7 @@ class ListShares extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 		$this
@@ -56,6 +57,7 @@ class ListShares extends Base {
 			->addOption('status', null, InputOption::VALUE_REQUIRED, 'only show shares with a specific status');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('recursive') && !$input->getOption('parent')) {
 			$output->writeln("<error>recursive option can't be used without parent option</error>");

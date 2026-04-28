@@ -20,14 +20,17 @@ class PhpGetEnv implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('PHP getenv');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'php';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (!empty(getenv('PATH'))) {
 			return SetupResult::success();

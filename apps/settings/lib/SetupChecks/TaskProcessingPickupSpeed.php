@@ -27,14 +27,17 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'ai';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Task Processing pickup speed');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$taskCount = 0;
 		$lastNDays = 1;

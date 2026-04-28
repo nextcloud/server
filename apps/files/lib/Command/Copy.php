@@ -25,6 +25,7 @@ class Copy extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:copy')
@@ -35,6 +36,7 @@ class Copy extends Command {
 			->addOption('no-target-directory', 'T', InputOption::VALUE_NONE, 'When target path is folder, overwrite the folder instead of copying into the folder');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$sourceInput = $input->getArgument('source');
 		$targetInput = $input->getArgument('target');

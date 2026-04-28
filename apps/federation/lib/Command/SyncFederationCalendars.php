@@ -22,12 +22,14 @@ class SyncFederationCalendars extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('federation:sync-calendars')
 			->setDescription('Synchronize all incoming federated calendar shares');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$calendarCount = $this->federatedCalendarMapper->countAll();
 		if ($calendarCount === 0) {

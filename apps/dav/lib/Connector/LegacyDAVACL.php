@@ -17,6 +17,7 @@ class LegacyDAVACL extends DavAclPlugin {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getCurrentUserPrincipals() {
 		$principalV2 = $this->getCurrentUserPrincipal();
 
@@ -42,6 +43,7 @@ class LegacyDAVACL extends DavAclPlugin {
 		return "principals/$name";
 	}
 
+	#[\Override]
 	public function propFind(PropFind $propFind, INode $node) {
 		/* Overload current-user-principal */
 		$propFind->handle('{DAV:}current-user-principal', function () {

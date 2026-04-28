@@ -126,6 +126,7 @@ class ScanFiles extends TimedJob {
 	 * @param $argument
 	 * @throws \Exception
 	 */
+	#[\Override]
 	protected function run($argument) {
 		if ($this->config->getSystemValueBool('files_no_background_scan', false)) {
 			return;

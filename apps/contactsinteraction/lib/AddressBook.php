@@ -38,6 +38,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	 * @inheritDoc
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function delete(): void {
 		throw new Exception('This addressbook is immutable');
 	}
@@ -46,6 +47,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	 * @inheritDoc
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Exception('This addressbook is immutable');
 	}
@@ -54,6 +56,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	 * @inheritDoc
 	 * @throws NotFound
 	 */
+	#[\Override]
 	public function getChild($name): Card {
 		try {
 			return new Card(
@@ -72,6 +75,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getChildren(): array {
 		return array_map(
 			function (RecentContact $contact) {
@@ -88,6 +92,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function childExists($name): bool {
 		try {
 			$this->mapper->find(
@@ -103,6 +108,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getLastModified(): ?int {
 		return $this->mapper->findLastUpdatedForUserId($this->getUid());
 	}
@@ -111,6 +117,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	 * @inheritDoc
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function propPatch(PropPatch $propPatch) {
 		throw new Exception('This addressbook is immutable');
 	}
@@ -118,6 +125,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getProperties($properties): array {
 		return [
 			'principaluri' => $this->principalUri,
@@ -127,6 +135,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 		];
 	}
 
+	#[\Override]
 	public function getOwner(): string {
 		return $this->principalUri;
 	}
@@ -134,6 +143,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getACL(): array {
 		return [
 			[

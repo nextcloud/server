@@ -27,10 +27,12 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database missing indices');
 	}
@@ -70,6 +72,7 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 		return $indexInfo->getListOfMissingIndices();
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$missingIndices = $this->getMissingIndices();
 		if (empty($missingIndices)) {

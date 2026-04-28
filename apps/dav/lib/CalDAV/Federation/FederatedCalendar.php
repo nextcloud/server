@@ -47,6 +47,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 		return $this->federationInfo->getId();
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->federationInfo->getUri();
 	}
@@ -54,6 +55,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	/**
 	 * @param string $name Name of the file
 	 */
+	#[\Override]
 	public function setName($name): void {
 		throw new MethodNotAllowed('Renaming federated calendars is not allowed');
 	}
@@ -66,10 +68,12 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 		return $this->federationInfo->getPrincipaluri();
 	}
 
+	#[\Override]
 	public function getOwner(): ?string {
 		return $this->federationInfo->getSharedByPrincipal();
 	}
 
+	#[\Override]
 	public function getGroup(): ?string {
 		return null;
 	}
@@ -77,6 +81,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	/**
 	 * @return array<array-key, mixed>
 	 */
+	#[\Override]
 	public function getACL(): array {
 		if ($this->calendarACL !== null) {
 			return $this->calendarACL;
@@ -135,10 +140,12 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 		return $acl;
 	}
 
+	#[\Override]
 	public function setACL(array $acl): void {
 		throw new MethodNotAllowed('Changing ACLs on federated calendars is not allowed');
 	}
 
+	#[\Override]
 	public function getSupportedPrivilegeSet(): ?array {
 		return null;
 	}
@@ -146,6 +153,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	/**
 	 * @return array<string, mixed> properties array, with property name as key
 	 */
+	#[\Override]
 	public function getProperties($properties): array {
 		return [
 			self::DAV_PROPERTY_CALENDAR_LABEL => $this->federationInfo->getDisplayName(),
@@ -154,6 +162,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 		];
 	}
 
+	#[\Override]
 	public function propPatch(PropPatch $propPatch): void {
 		$mutations = $propPatch->getMutations();
 		if (count($mutations) > 0) {
@@ -176,10 +185,12 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 		return $this->getACL();
 	}
 
+	#[\Override]
 	public function getLastModified(): ?int {
 		return $this->federationInfo->getLastSync();
 	}
 
+	#[\Override]
 	public function delete(): void {
 		$this->federatedCalendarMapper->deleteById($this->getResourceId());
 	}
@@ -187,10 +198,12 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	/**
 	 * @param string $name Name of the file
 	 */
+	#[\Override]
 	public function createDirectory($name): void {
 		throw new MethodNotAllowed('Creating nested collection is not allowed');
 	}
 
+	#[\Override]
 	public function calendarQuery(array $filters): array {
 		$uris = $this->caldavBackend->calendarQuery($this->federationInfo->getId(), $filters, $this->getCalendarType());
 		return $uris;
@@ -199,6 +212,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	/**
 	 * @param string $name Name of the file
 	 */
+	#[\Override]
 	public function getChild($name): INode {
 		$obj = $this->caldavBackend->getCalendarObject($this->federationInfo->getId(), $name, $this->getCalendarType());
 
@@ -212,6 +226,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	/**
 	 * @return array<INode>
 	 */
+	#[\Override]
 	public function getChildren(): array {
 		$objs = $this->caldavBackend->getCalendarObjects($this->federationInfo->getId(), $this->getCalendarType());
 
@@ -228,6 +243,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	 *
 	 * @return array<INode>
 	 */
+	#[\Override]
 	public function getMultipleChildren(array $paths): array {
 		$objs = $this->caldavBackend->getMultipleCalendarObjects($this->federationInfo->getId(), $paths, $this->getCalendarType());
 
@@ -242,6 +258,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	/**
 	 * @param string $name Name of the file
 	 */
+	#[\Override]
 	public function childExists($name): bool {
 		$obj = $this->caldavBackend->getCalendarObject($this->federationInfo->getId(), $name, $this->getCalendarType());
 		return $obj !== null;
@@ -251,6 +268,7 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 	 * @param string $name Name of the file
 	 * @param resource|string $data Initial payload
 	 */
+	#[\Override]
 	public function createFile($name, $data = null): string {
 		if (is_resource($data)) {
 			$data = stream_get_contents($data);

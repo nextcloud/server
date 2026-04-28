@@ -27,6 +27,7 @@ class CopyEtagHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 

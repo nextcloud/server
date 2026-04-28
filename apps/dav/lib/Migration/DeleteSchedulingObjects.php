@@ -23,10 +23,12 @@ class DeleteSchedulingObjects implements IRepairStepExpensive {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Handle outdated scheduling events';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$output->info('Cleaning up old scheduling events');
 		$time = $this->time->getTime() - (60 * 60);

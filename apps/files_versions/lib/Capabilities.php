@@ -25,6 +25,7 @@ class Capabilities implements ICapability {
 	 *
 	 * @return array{files: array{versioning: bool, version_labeling: bool, version_deletion: bool}}
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'files' => [

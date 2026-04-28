@@ -22,10 +22,12 @@ class RootCollection extends AbstractPrincipalCollection {
 		parent::__construct($principalBackend, $principalPrefix);
 	}
 
+	#[\Override]
 	public function getChildForPrincipal(array $principalInfo): INode {
 		return $this->root;
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'files';
 	}

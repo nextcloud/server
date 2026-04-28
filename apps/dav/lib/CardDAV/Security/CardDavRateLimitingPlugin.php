@@ -38,6 +38,7 @@ class CardDavRateLimitingPlugin extends ServerPlugin {
 		$this->logger = $logger;
 	}
 
+	#[\Override]
 	public function initialize(DAV\Server $server): void {
 		$server->on('beforeBind', [$this, 'beforeBind'], 1);
 	}

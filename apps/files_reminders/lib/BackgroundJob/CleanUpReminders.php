@@ -27,6 +27,7 @@ class CleanUpReminders extends TimedJob {
 	/**
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$this->reminderService->cleanUp(500);
 	}

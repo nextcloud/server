@@ -148,6 +148,7 @@ class SharedMount extends MountPoint implements IMovableMount, ISharedMountPoint
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getStorageRootId() {
 		return $this->getShare()->getNodeId();
 	}
@@ -155,6 +156,7 @@ class SharedMount extends MountPoint implements IMovableMount, ISharedMountPoint
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getNumericStorageId() {
 		if (!is_null($this->getShare()->getNodeCacheEntry())) {
 			return $this->getShare()->getNodeCacheEntry()->getStorageId();

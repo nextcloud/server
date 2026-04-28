@@ -35,6 +35,7 @@ class UserHomeSetupListener implements IEventListener {
 		$this->disabled = $disabled;
 		return $previous;
 	}
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$event instanceof UserHomeSetupEvent) {
 			return;

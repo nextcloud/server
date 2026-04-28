@@ -59,6 +59,7 @@ class SharesUpdatedListener implements IEventListener {
 		$this->cutOffMarkTime = $appConfig->getValueFloat(Application::APP_ID, ConfigLexicon::UPDATE_CUTOFF_TIME, 3.0);
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		// don't trigger the on-setup checks if this handler triggers an fs setup
 		$oldState = $this->homeSetupListener->setDisabled(true);

@@ -26,6 +26,7 @@ class JSDataService implements \JsonSerializable {
 		$this->themesService = $themesService;
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->themingDefaults->getName(),

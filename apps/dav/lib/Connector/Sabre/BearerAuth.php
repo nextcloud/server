@@ -38,6 +38,7 @@ class BearerAuth extends AbstractBearer {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function validateBearerToken($bearerToken) {
 		\OC_Util::setupFS();
 
@@ -59,6 +60,7 @@ class BearerAuth extends AbstractBearer {
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
 	 */
+	#[\Override]
 	public function challenge(RequestInterface $request, ResponseInterface $response): void {
 		// Legacy ownCloud clients still authenticate via OAuth2
 		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);

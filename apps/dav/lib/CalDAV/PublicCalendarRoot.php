@@ -32,6 +32,7 @@ class PublicCalendarRoot extends Collection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'public-calendars';
 	}
@@ -39,6 +40,7 @@ class PublicCalendarRoot extends Collection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChild($name) {
 		$calendar = $this->caldavBackend->getPublicCalendar($name);
 		return new PublicCalendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
@@ -47,6 +49,7 @@ class PublicCalendarRoot extends Collection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChildren() {
 		return [];
 	}

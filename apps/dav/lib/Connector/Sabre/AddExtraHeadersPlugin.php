@@ -29,6 +29,7 @@ class AddExtraHeadersPlugin extends \Sabre\DAV\ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 

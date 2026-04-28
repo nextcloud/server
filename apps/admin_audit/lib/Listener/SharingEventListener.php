@@ -20,6 +20,7 @@ use OCP\Share\IShare;
  * @template-implements IEventListener<ShareCreatedEvent|ShareDeletedEvent>
  */
 class SharingEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof ShareCreatedEvent) {
 			$this->shareCreated($event);

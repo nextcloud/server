@@ -25,6 +25,7 @@ class SyncJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$this->syncService->syncThemAll(function ($url, $ex): void {
 			if ($ex instanceof \Exception) {

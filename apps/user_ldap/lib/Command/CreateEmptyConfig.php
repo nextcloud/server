@@ -21,6 +21,7 @@ class CreateEmptyConfig extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:create-empty-config')
@@ -34,6 +35,7 @@ class CreateEmptyConfig extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configPrefix = $this->helper->getNextServerConfigurationPrefix();
 		$configHolder = new Configuration($configPrefix);

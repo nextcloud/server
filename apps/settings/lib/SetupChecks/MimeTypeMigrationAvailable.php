@@ -21,14 +21,17 @@ class MimeTypeMigrationAvailable implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Mimetype migrations available');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->repairMimeTypes->migrationsAvailable()) {
 			return SetupResult::warning(

@@ -29,6 +29,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$parameters = [
 			'trustedServers' => $this->trustedServers->getServers(),
@@ -45,6 +46,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'sharing';
 	}
@@ -56,14 +58,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 30;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Trusted servers');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return []; // Handled by custom controller
 	}

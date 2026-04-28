@@ -27,6 +27,7 @@ class ImportLegacyStoragesService extends LegacyStoragesService {
 	 *
 	 * @return array list of mount configs
 	 */
+	#[\Override]
 	protected function readLegacyConfig() {
 		return $this->data;
 	}

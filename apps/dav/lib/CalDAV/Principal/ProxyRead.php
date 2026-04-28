@@ -17,6 +17,7 @@ class ProxyRead extends \Sabre\CalDAV\Principal\ProxyRead implements DAVACL\IACL
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOwner() {
 		return $this->principalInfo['uri'];
 	}

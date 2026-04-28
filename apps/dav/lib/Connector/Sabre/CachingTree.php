@@ -23,6 +23,7 @@ class CachingTree extends Tree {
 	 * @param string $path
 	 * @return void
 	 */
+	#[\Override]
 	public function markDirty($path) {
 		// We don't care enough about sub-paths
 		// flushing the entire cache

@@ -23,6 +23,7 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -115,6 +116,7 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 		return $schema;
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('share_external')

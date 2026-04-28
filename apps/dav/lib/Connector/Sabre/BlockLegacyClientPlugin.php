@@ -32,6 +32,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('beforeMethod:*', [$this, 'beforeHandler'], 200);

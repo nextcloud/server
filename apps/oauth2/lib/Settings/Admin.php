@@ -26,6 +26,7 @@ class Admin implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$clients = $this->clientMapper->getClients();
 		$result = [];
@@ -56,10 +57,12 @@ class Admin implements ISettings {
 		);
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 100;
 	}

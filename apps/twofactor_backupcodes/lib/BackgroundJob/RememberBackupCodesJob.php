@@ -31,6 +31,7 @@ class RememberBackupCodesJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$uid = $argument['uid'];
 		$user = $this->userManager->get($uid);

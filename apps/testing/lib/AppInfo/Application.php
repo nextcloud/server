@@ -44,6 +44,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerTranslationProvider(FakeTranslationProvider::class);
 		$context->registerTextProcessingProvider(FakeTextProcessingProvider::class);
@@ -67,6 +68,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, SetDeclarativeSettingsValueListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$server = $context->getServerContainer();
 		$config = $server->get(IAppConfig::class);

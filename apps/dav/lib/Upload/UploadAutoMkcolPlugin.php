@@ -27,6 +27,7 @@ class UploadAutoMkcolPlugin extends ServerPlugin {
 
 	private Server $server;
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$server->on('beforeMethod:PUT', [$this, 'beforeMethod']);
 		$this->server = $server;

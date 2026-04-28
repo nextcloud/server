@@ -19,6 +19,7 @@ class Todo extends Event {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_todo') {
 			throw new UnknownActivityException();
@@ -72,6 +73,7 @@ class Todo extends Event {
 	 * @param IEvent $event
 	 * @return array
 	 */
+	#[\Override]
 	protected function getParameters(IEvent $event) {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();

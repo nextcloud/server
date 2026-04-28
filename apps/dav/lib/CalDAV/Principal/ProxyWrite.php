@@ -17,6 +17,7 @@ class ProxyWrite extends \Sabre\CalDAV\Principal\ProxyWrite implements DAVACL\IA
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOwner() {
 		return $this->principalInfo['uri'];
 	}

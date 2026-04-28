@@ -31,6 +31,7 @@ class ScheduledNotifications extends TimedJob {
 	/**
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
+	#[\Override]
 	public function run($argument) {
 		$reminders = $this->reminderMapper->findOverdue();
 		foreach ($reminders as $reminder) {

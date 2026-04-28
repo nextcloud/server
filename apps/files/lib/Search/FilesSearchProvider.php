@@ -47,6 +47,7 @@ class FilesSearchProvider implements IFilteringProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'files';
 	}
@@ -54,6 +55,7 @@ class FilesSearchProvider implements IFilteringProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Files');
 	}
@@ -61,6 +63,7 @@ class FilesSearchProvider implements IFilteringProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): int {
 		if ($route === 'files.View.index') {
 			// Before comments
@@ -69,6 +72,7 @@ class FilesSearchProvider implements IFilteringProvider {
 		return 5;
 	}
 
+	#[\Override]
 	public function getSupportedFilters(): array {
 		return [
 			'term',
@@ -85,10 +89,12 @@ class FilesSearchProvider implements IFilteringProvider {
 		];
 	}
 
+	#[\Override]
 	public function getAlternateIds(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getCustomFilters(): array {
 		return [
 			new FilterDefinition('min-size', FilterDefinition::TYPE_INT),
@@ -100,6 +106,7 @@ class FilesSearchProvider implements IFilteringProvider {
 		];
 	}
 
+	#[\Override]
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$fileQuery = $this->buildSearchQuery($query, $user);

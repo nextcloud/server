@@ -32,6 +32,7 @@ class DisableSystemAddressBook implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Disable system address book';
 	}
@@ -39,6 +40,7 @@ class DisableSystemAddressBook implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		// If the system address book exposure was previously set skip the repair step
 		if ($this->appConfig->hasAppKey(ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED) === true) {

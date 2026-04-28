@@ -30,6 +30,7 @@ class FederatedSharesDiscoverJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$qb = $this->connection->getQueryBuilder();
 

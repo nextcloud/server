@@ -25,6 +25,7 @@ class Admin implements IDelegatedSettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$helper = Server::get(Helper::class);
 		$prefixes = $helper->getServerConfigurationPrefixes();
@@ -66,6 +67,7 @@ class Admin implements IDelegatedSettings {
 		return new TemplateResponse(Application::APP_ID, 'settings', $parameters);
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'ldap';
 	}
@@ -77,14 +79,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 5;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return null; // Only one setting in this section
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return []; // Custom controller
 	}

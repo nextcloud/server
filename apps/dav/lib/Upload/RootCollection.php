@@ -32,6 +32,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChildForPrincipal(array $principalInfo): UploadHome {
 		return new UploadHome(
 			$principalInfo,
@@ -45,6 +46,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'uploads';
 	}

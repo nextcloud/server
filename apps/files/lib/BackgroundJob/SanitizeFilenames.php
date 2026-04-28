@@ -56,6 +56,7 @@ class SanitizeFilenames extends QueuedJob {
 	 * @param array $argument unused argument
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function run($argument) {
 		$this->charReplacement = strval($argument['charReplacement']) ?: null;
 		if (isset($argument['errorsOnly'])) {

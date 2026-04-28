@@ -36,6 +36,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct('provisioning_api', $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 
@@ -74,6 +75,7 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

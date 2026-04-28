@@ -61,6 +61,7 @@ class SharesReminderJob extends TimedJob {
 	 * @param array $argument unused argument
 	 * @throws Exception if a database error occurs
 	 */
+	#[\Override]
 	public function run(mixed $argument): void {
 		foreach ($this->getShares() as $share) {
 			$reminderInfo = $this->prepareReminder($share);

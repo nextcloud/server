@@ -20,20 +20,24 @@ class UserSearch implements IProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'users';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Users');
 	}
 
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): ?int {
 		return str_starts_with($route, 'settings.Users.usersList')
 			? 300
 			: null;
 	}
 
+	#[\Override]
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete($this->l->t('Users'), []);
 	}

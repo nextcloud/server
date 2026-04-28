@@ -57,6 +57,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
 	}
 
+	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('id', 'remote', 'share_token', 'password', 'mountpoint', 'owner')
@@ -74,6 +75,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		return $mounts;
 	}
 
+	#[\Override]
 	public function getMountsForPath(
 		string $setupPathHint,
 		bool $forChildren,

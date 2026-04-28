@@ -44,6 +44,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$translationProviders = [];
 		$translationPreferences = [];
@@ -191,6 +192,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'ai';
 	}
@@ -202,14 +204,17 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 10;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Artificial Intelligence');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
 			'core' => ['/ai..*/'],

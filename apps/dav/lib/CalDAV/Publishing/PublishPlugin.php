@@ -58,6 +58,7 @@ class PublishPlugin extends ServerPlugin {
 	 *
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getFeatures() {
 		// May have to be changed to be detected
 		return ['oc-calendar-publishing', 'calendarserver-sharing'];
@@ -71,6 +72,7 @@ class PublishPlugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getPluginName() {
 		return 'oc-calendar-publishing';
 	}
@@ -85,6 +87,7 @@ class PublishPlugin extends ServerPlugin {
 	 *
 	 * @param Server $server
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 

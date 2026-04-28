@@ -45,6 +45,7 @@ class Addressbook extends Base {
 	 * @return IEvent
 	 * @throws UnknownActivityException
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'contacts') {
 			throw new UnknownActivityException();

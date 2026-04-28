@@ -17,16 +17,19 @@ use Sabre\HTTP\ResponseInterface;
 class ChecksumUpdatePlugin extends ServerPlugin {
 	protected ?Server $server = null;
 
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$server->on('method:PATCH', [$this, 'httpPatch']);
 	}
 
+	#[\Override]
 	public function getPluginName(): string {
 		return 'checksumupdate';
 	}
 
 	/** @return string[] */
+	#[\Override]
 	public function getFeatures(): array {
 		return ['nextcloud-checksum-update'];
 	}

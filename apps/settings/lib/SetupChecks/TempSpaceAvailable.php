@@ -24,10 +24,12 @@ class TempSpaceAvailable implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Temporary space available');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
@@ -51,6 +53,7 @@ class TempSpaceAvailable implements ISetupCheck {
 		return true;
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$phpTempPath = sys_get_temp_dir();
 		$nextcloudTempPath = '';

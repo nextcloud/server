@@ -42,10 +42,12 @@ class UploadHome implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create file (filename ' . $name . ')');
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		$this->impl()->createDirectory($name);
 
@@ -53,6 +55,7 @@ class UploadHome implements ICollection {
 		$this->cleanupService->addJob($this->uid, $name);
 	}
 
+	#[\Override]
 	public function getChild($name): UploadFolder {
 		return new UploadFolder(
 			$this->impl()->getChild($name),
@@ -62,10 +65,12 @@ class UploadHome implements ICollection {
 		);
 	}
 
+	#[\Override]
 	public function getChildren(): array {
 		throw new MethodNotAllowed('Listing members of this collection is disabled');
 	}
 
+	#[\Override]
 	public function childExists($name): bool {
 		try {
 			$this->getChild($name);
@@ -75,19 +80,23 @@ class UploadHome implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function delete() {
 		$this->impl()->delete();
 	}
 
+	#[\Override]
 	public function getName() {
 		[,$name] = \Sabre\Uri\split($this->principalInfo['uri']);
 		return $name;
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this folder');
 	}
 
+	#[\Override]
 	public function getLastModified() {
 		return $this->impl()->getLastModified();
 	}

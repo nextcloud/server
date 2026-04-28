@@ -27,6 +27,7 @@ class BulkUploadPlugin extends ServerPlugin {
 	/**
 	 * Register listener on POST requests with the httpPost method.
 	 */
+	#[\Override]
 	public function initialize(Server $server): void {
 		$server->on('method:POST', [$this, 'httpPost'], 10);
 	}

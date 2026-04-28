@@ -25,10 +25,12 @@ class SetTokenExpiration implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Update OAuth token expiration times';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('*')

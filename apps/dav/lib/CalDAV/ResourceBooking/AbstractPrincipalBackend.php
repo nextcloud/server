@@ -65,6 +65,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param string $prefixPath
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getPrincipalsByPrefix($prefixPath): array {
 		$principals = [];
 
@@ -115,6 +116,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getPrincipalByPath($path) {
 		if (!str_starts_with($path, $this->principalPrefix)) {
 			return null;
@@ -186,6 +188,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param PropPatch $propPatch
 	 * @return int
 	 */
+	#[\Override]
 	public function updatePrincipal($path, PropPatch $propPatch): int {
 		return 0;
 	}
@@ -196,6 +199,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		$results = [];
 		if (\count($searchProperties) === 0) {
@@ -392,6 +396,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @return null|string
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function findByUri($uri, $principalPrefix): ?string {
 		$user = $this->userSession->getUser();
 		if (!$user) {

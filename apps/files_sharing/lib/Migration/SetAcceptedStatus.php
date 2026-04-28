@@ -29,6 +29,7 @@ class SetAcceptedStatus implements IRepairStep {
 	 * @return string
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'Set existing shares as accepted';
 	}
@@ -36,6 +37,7 @@ class SetAcceptedStatus implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		if (!$this->shouldRun()) {
 			return;

@@ -17,10 +17,12 @@ class UploadFile implements IFile {
 	) {
 	}
 
+	#[\Override]
 	public function put($data) {
 		return $this->file->put($data);
 	}
 
+	#[\Override]
 	public function get() {
 		return $this->file->get();
 	}
@@ -29,10 +31,12 @@ class UploadFile implements IFile {
 		return $this->file->getId();
 	}
 
+	#[\Override]
 	public function getContentType() {
 		return $this->file->getContentType();
 	}
 
+	#[\Override]
 	public function getETag() {
 		return $this->file->getETag();
 	}
@@ -41,22 +45,27 @@ class UploadFile implements IFile {
 	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
 	 * @return int|float
 	 */
+	#[\Override]
 	public function getSize() {
 		return $this->file->getSize();
 	}
 
+	#[\Override]
 	public function delete() {
 		$this->file->delete();
 	}
 
+	#[\Override]
 	public function getName() {
 		return $this->file->getName();
 	}
 
+	#[\Override]
 	public function setName($name) {
 		$this->file->setName($name);
 	}
 
+	#[\Override]
 	public function getLastModified() {
 		return $this->file->getLastModified();
 	}

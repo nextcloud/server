@@ -73,6 +73,7 @@ class Auth extends AbstractBasic {
 	 * @return bool
 	 * @throws PasswordLoginForbidden
 	 */
+	#[\Override]
 	protected function validateUserPass($username, $password) {
 		if ($this->userSession->isLoggedIn()
 			&& $this->isDavAuthenticated($this->userSession->getUser()->getUID())
@@ -104,6 +105,7 @@ class Auth extends AbstractBasic {
 	 * @throws NotAuthenticated
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function check(RequestInterface $request, ResponseInterface $response) {
 		try {
 			return $this->auth($request, $response);

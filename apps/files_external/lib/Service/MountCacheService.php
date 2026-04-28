@@ -46,6 +46,7 @@ class MountCacheService implements IEventListener {
 		$this->storageRootCache = new CappedMemoryCache();
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof StorageCreatedEvent) {
 			$this->handleAddedStorage($event->getNewConfig());

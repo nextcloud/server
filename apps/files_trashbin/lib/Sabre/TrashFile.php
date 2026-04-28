@@ -13,6 +13,7 @@ use OCP\Files\ForbiddenException;
 use Sabre\DAV\Exception\Forbidden;
 
 class TrashFile extends AbstractTrashFile {
+	#[\Override]
 	public function get() {
 		try {
 			return $this->data->getStorage()->fopen(Trashbin::getTrashFilename($this->data->getInternalPath(), $this->getDeletionTime()), 'rb');
@@ -21,6 +22,7 @@ class TrashFile extends AbstractTrashFile {
 		}
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return Trashbin::getTrashFilename($this->data->getName(), $this->getDeletionTime());
 	}

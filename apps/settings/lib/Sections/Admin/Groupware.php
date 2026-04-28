@@ -20,18 +20,22 @@ class Groupware implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('core', 'places/contacts.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'groupware';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Groupware');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 50;
 	}

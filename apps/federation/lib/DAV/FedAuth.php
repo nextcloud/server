@@ -40,6 +40,7 @@ class FedAuth extends AbstractBasic {
 	 * @param string $password
 	 * @return bool
 	 */
+	#[\Override]
 	protected function validateUserPass($username, $password) {
 		return $this->db->auth($username, $password);
 	}
@@ -47,6 +48,7 @@ class FedAuth extends AbstractBasic {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function challenge(RequestInterface $request, ResponseInterface $response) {
 	}
 }

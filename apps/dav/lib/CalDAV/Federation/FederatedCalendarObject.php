@@ -21,6 +21,7 @@ class FederatedCalendarObject implements ICalendarObject, IACL {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->objectData['uri'];
 	}
@@ -28,10 +29,12 @@ class FederatedCalendarObject implements ICalendarObject, IACL {
 	/**
 	 * @param string $name Name of the file
 	 */
+	#[\Override]
 	public function setName($name) {
 		throw new \Exception('Not implemented');
 	}
 
+	#[\Override]
 	public function get(): string {
 		return $this->objectData['calendardata'];
 	}
@@ -39,6 +42,7 @@ class FederatedCalendarObject implements ICalendarObject, IACL {
 	/**
 	 * @param resource|string $data contents of the file
 	 */
+	#[\Override]
 	public function put($data): string {
 
 		$etag = $this->calendarObject->updateFile($this->objectData['uri'], $data);
@@ -48,10 +52,12 @@ class FederatedCalendarObject implements ICalendarObject, IACL {
 		return $etag;
 	}
 
+	#[\Override]
 	public function delete(): void {
 		$this->calendarObject->deleteFile($this->objectData['uri']);
 	}
 
+	#[\Override]
 	public function getContentType(): ?string {
 		$mime = 'text/calendar; charset=utf-8';
 		if (isset($this->objectData['component']) && $this->objectData['component']) {
@@ -61,6 +67,7 @@ class FederatedCalendarObject implements ICalendarObject, IACL {
 		return $mime;
 	}
 
+	#[\Override]
 	public function getETag(): string {
 		if (isset($this->objectData['etag'])) {
 			return $this->objectData['etag'];
@@ -69,10 +76,12 @@ class FederatedCalendarObject implements ICalendarObject, IACL {
 		}
 	}
 
+	#[\Override]
 	public function getLastModified(): int {
 		return $this->objectData['lastmodified'];
 	}
 
+	#[\Override]
 	public function getSize(): int {
 		if (isset($this->objectData['size'])) {
 			return $this->objectData['size'];
@@ -81,10 +90,12 @@ class FederatedCalendarObject implements ICalendarObject, IACL {
 		}
 	}
 
+	#[\Override]
 	public function getOwner(): ?string {
 		return $this->calendarObject->getPrincipalURI();
 	}
 
+	#[\Override]
 	public function getGroup(): ?string {
 		return null;
 	}
@@ -92,14 +103,17 @@ class FederatedCalendarObject implements ICalendarObject, IACL {
 	/**
 	 * @return array<array-key, mixed>
 	 */
+	#[\Override]
 	public function getACL(): array {
 		return $this->calendarObject->getACL();
 	}
 
+	#[\Override]
 	public function setACL(array $acl): void {
 		throw new MethodNotAllowed('Changing ACLs on federated events is not allowed');
 	}
 
+	#[\Override]
 	public function getSupportedPrivilegeSet(): ?array {
 		return null;
 	}

@@ -25,14 +25,17 @@ class BruteForceThrottler implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Brute-force Throttle');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$address = $this->request->getRemoteAddress();
 		if ($address === '') {

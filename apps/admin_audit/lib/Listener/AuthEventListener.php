@@ -22,6 +22,7 @@ use OCP\User\Events\UserLoggedInWithCookieEvent;
  * @template-implements IEventListener<BeforeUserLoggedInEvent|UserLoggedInWithCookieEvent|UserLoggedInEvent|BeforeUserLoggedOutEvent|AnyLoginFailedEvent>
  */
 class AuthEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof BeforeUserLoggedInEvent) {
 			$this->beforeUserLoggedIn($event);

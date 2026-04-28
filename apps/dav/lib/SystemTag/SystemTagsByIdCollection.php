@@ -56,6 +56,7 @@ class SystemTagsByIdCollection implements ICollection {
 	 *
 	 * @return never
 	 */
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden('Cannot create tags by id');
 	}
@@ -65,6 +66,7 @@ class SystemTagsByIdCollection implements ICollection {
 	 *
 	 * @return never
 	 */
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
@@ -74,6 +76,7 @@ class SystemTagsByIdCollection implements ICollection {
 	 *
 	 * @return SystemTagNode
 	 */
+	#[\Override]
 	public function getChild($name) {
 		try {
 			$tag = $this->tagManager->getTagsByIds([$name]);
@@ -94,6 +97,7 @@ class SystemTagsByIdCollection implements ICollection {
 	 *
 	 * @psalm-return array<SystemTagNode>
 	 */
+	#[\Override]
 	public function getChildren() {
 		$visibilityFilter = true;
 		if ($this->isAdmin()) {
@@ -109,6 +113,7 @@ class SystemTagsByIdCollection implements ICollection {
 	/**
 	 * @param string $name
 	 */
+	#[\Override]
 	public function childExists($name) {
 		try {
 			$tag = $this->tagManager->getTagsByIds([$name]);
@@ -127,6 +132,7 @@ class SystemTagsByIdCollection implements ICollection {
 	/**
 	 * @return never
 	 */
+	#[\Override]
 	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
@@ -136,6 +142,7 @@ class SystemTagsByIdCollection implements ICollection {
 	 *
 	 * @psalm-return 'systemtags'
 	 */
+	#[\Override]
 	public function getName() {
 		return 'systemtags';
 	}
@@ -143,6 +150,7 @@ class SystemTagsByIdCollection implements ICollection {
 	/**
 	 * @return never
 	 */
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
@@ -152,6 +160,7 @@ class SystemTagsByIdCollection implements ICollection {
 	 *
 	 * @return null
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return null;
 	}

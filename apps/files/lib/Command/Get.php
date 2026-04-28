@@ -22,6 +22,7 @@ class Get extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:get')
@@ -30,6 +31,7 @@ class Get extends Command {
 			->addArgument('output', InputArgument::OPTIONAL, 'Target local file to output to, defaults to STDOUT');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument('file');
 		$outputName = $input->getArgument('output');

@@ -27,6 +27,7 @@ class CardListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof CardCreatedEvent) {
 			try {

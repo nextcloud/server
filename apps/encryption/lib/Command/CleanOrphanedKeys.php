@@ -43,6 +43,7 @@ class CleanOrphanedKeys extends Command {
 
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('encryption:clean-orphaned-keys')
@@ -54,6 +55,7 @@ class CleanOrphanedKeys extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = [];
 		$userId = $input->getArgument('user');

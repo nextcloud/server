@@ -28,6 +28,7 @@ class ListMounts extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -37,6 +38,7 @@ class ListMounts extends Base {
 			->addOption('cached-only', null, InputOption::VALUE_NONE, 'Only return cached mounts, prevents filesystem setup');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('user');
 		$cachedOnly = $input->getOption('cached-only');

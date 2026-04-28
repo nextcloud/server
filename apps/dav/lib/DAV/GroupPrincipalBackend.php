@@ -47,6 +47,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @param string $prefixPath
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getPrincipalsByPrefix($prefixPath) {
 		$principals = [];
 
@@ -69,6 +70,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @param string $path
 	 * @return array
 	 */
+	#[\Override]
 	public function getPrincipalByPath($path) {
 		$elements = explode('/', $path, 3);
 		if ($elements[0] !== 'principals') {
@@ -94,6 +96,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @return array
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function getGroupMemberSet($principal) {
 		$elements = explode('/', $principal);
 		if ($elements[0] !== 'principals') {
@@ -121,6 +124,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @return array
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function getGroupMembership($principal) {
 		return [];
 	}
@@ -134,6 +138,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @param string[] $members
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function setGroupMemberSet($principal, array $members) {
 		throw new Exception('Setting members of the group is not supported yet');
 	}
@@ -143,6 +148,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @param PropPatch $propPatch
 	 * @return int
 	 */
+	#[\Override]
 	public function updatePrincipal($path, PropPatch $propPatch) {
 		return 0;
 	}
@@ -153,6 +159,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @param string $test
 	 * @return array
 	 */
+	#[\Override]
 	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		$results = [];
 
@@ -240,6 +247,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @param string $principalPrefix
 	 * @return string
 	 */
+	#[\Override]
 	public function findByUri($uri, $principalPrefix) {
 		// If sharing is disabled, return the empty array
 		if (!$this->groupSharingEnabled()) {

@@ -25,6 +25,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('afterMethod:REPORT', [$this, 'httpReport'], 90);
@@ -80,6 +81,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getPluginName() {
 		return 'vcf-multi-get-intercept-and-export';
 	}
@@ -95,6 +97,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getPluginInfo() {
 		return [
 			'name' => $this->getPluginName(),

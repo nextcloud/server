@@ -21,10 +21,12 @@ class RemoveObjectProperties implements IRepairStepExpensive {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Remove invalid object properties';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$query = $this->connection->getQueryBuilder();
 		$updated = $query->delete('properties')

@@ -19,10 +19,12 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Queue jobs to clean up orphan event and contact data';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->queueJob('calendarobjects', 'calendars', 'calendarid', '%d events without a calendar have been cleaned up');
 		$this->queueJob('calendarobjects_props', 'calendarobjects', 'objectid', '%d properties without an events have been cleaned up');

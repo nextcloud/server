@@ -13,26 +13,32 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 	protected bool $isDarkVariant = true;
 
+	#[\Override]
 	public function getId(): string {
 		return 'dark';
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('Dark theme');
 	}
 
+	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable dark theme');
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness.');
 	}
 
+	#[\Override]
 	public function getMediaQuery(): string {
 		return '(prefers-color-scheme: dark)';
 	}
 
+	#[\Override]
 	public function getMeta(): array {
 		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
 		return [[
@@ -41,6 +47,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		]];
 	}
 
+	#[\Override]
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 
