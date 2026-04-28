@@ -321,33 +321,24 @@ class Util {
 	 * @param int|float $bytes file size in bytes
 	 * @return string a human readable file size
 	 * @since 4.0.0
+	 * @since 34.0.0 Return correct unit (IEC prefixes instead of SI prefixes)
+	 * @since 34.0.0 Handle negative size
 	 */
 	public static function humanFileSize(int|float $bytes): string {
+		if ($bytes == 0) {
+			return '0 B';
+		}
+		$sign = '';
 		if ($bytes < 0) {
-			return '?';
-		}
-		if ($bytes < 1024) {
-			return "$bytes B";
-		}
-		$bytes = round($bytes / 1024, 0);
-		if ($bytes < 1024) {
-			return "$bytes KB";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return "$bytes MB";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return "$bytes GB";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return "$bytes TB";
+			$sign = '−';
+			$bytes = abs($bytes);
 		}
 
-		$bytes = round($bytes / 1024, 1);
-		return "$bytes PB";
+		$base = max(log($bytes, 1024), 0);
+		$suffixes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+		$precision = 1;
+
+		return $sign . round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[(int)floor($base)];
 	}
 
 	/**
