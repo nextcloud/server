@@ -23,16 +23,25 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
-class PageControllerTest extends TestCase {
+final class PageControllerTest extends TestCase {
 	private IRequest&MockObject $request;
+
 	private IL10N&MockObject $l10n;
+
 	private IConfig&MockObject $config;
+
 	private INavigationManager&MockObject $navigationManager;
+
 	private AppManager&MockObject $appManager;
+
 	private BundleFetcher&MockObject $bundleFetcher;
+
 	private Installer&MockObject $installer;
+
 	private IURLGenerator&MockObject $urlGenerator;
+
 	private IInitialState&MockObject $initialState;
+
 	private PageController $pageController;
 
 	protected function setUp(): void {

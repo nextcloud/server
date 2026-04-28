@@ -17,10 +17,10 @@ use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 
-class AppSearch implements IProvider {
+final readonly class AppSearch implements IProvider {
 	public function __construct(
-		protected INavigationManager $navigationManager,
-		protected IL10N $l,
+		private INavigationManager $navigationManager,
+		private IL10N $l,
 	) {
 	}
 
@@ -44,8 +44,8 @@ class AppSearch implements IProvider {
 		$entries = $this->navigationManager->getAll('all');
 
 		$searchTitle = $this->l->t('Apps');
-		$term = $query->getFilter('term')?->get();
-		if (empty($term)) {
+		$term = (string)$query->getFilter('term')?->get();
+		if ($term === '') {
 			return SearchResult::complete($searchTitle, []);
 		}
 

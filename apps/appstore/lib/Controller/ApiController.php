@@ -44,17 +44,17 @@ class ApiController extends OCSController {
 
 	public function __construct(
 		IRequest $request,
-		private IConfig $config,
-		private IAppConfig $appConfig,
-		private AppManager $appManager,
-		private DependencyAnalyzer $dependencyAnalyzer,
-		private CategoryFetcher $categoryFetcher,
-		private AppFetcher $appFetcher,
-		private IFactory $l10nFactory,
-		private BundleFetcher $bundleFetcher,
-		private Installer $installer,
-		private IRegistry $subscriptionRegistry,
-		private LoggerInterface $logger,
+		private readonly IConfig $config,
+		private readonly IAppConfig $appConfig,
+		private readonly AppManager $appManager,
+		private readonly DependencyAnalyzer $dependencyAnalyzer,
+		private readonly CategoryFetcher $categoryFetcher,
+		private readonly AppFetcher $appFetcher,
+		private readonly IFactory $l10nFactory,
+		private readonly BundleFetcher $bundleFetcher,
+		private readonly Installer $installer,
+		private readonly IRegistry $subscriptionRegistry,
+		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -71,7 +71,7 @@ class ApiController extends OCSController {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
 		$categories = $this->categoryFetcher->get();
-		$categories = array_map(fn ($category) => [
+		$categories = array_map(fn (array $category): array => [
 			'id' => $category['id'],
 			'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
 		], $categories);
@@ -82,7 +82,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get all available apps
 	 *
-	 * @return DataResponse<Http::STATUS_OK, list<array{id: string, name: string, description: string, ...}>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<array{id: string, name: string, groups: list<string>, internal: bool, isCompatible: bool, missingDependencies?: list<string>, missingMaxNextcloudVersion: bool, missingMinNextcloudVersion: bool, ...<array-key, mixed>}>, array{}>
 	 *
 	 * 200: The apps were found successfully
 	 */
@@ -90,6 +90,7 @@ class ApiController extends OCSController {
 	public function listApps(): DataResponse {
 		$apps = $this->getAllApps();
 
+		/** @var array<string>|mixed $ignoreMaxApps */
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
 		if (!is_array($ignoreMaxApps)) {
 			$this->logger->warning('The value given for app_install_overwrite is not an array. Ignoring...');
@@ -97,7 +98,7 @@ class ApiController extends OCSController {
 		}
 
 		// Extend existing app details
-		$apps = array_map(function (array $appData) use ($ignoreMaxApps) {
+		$apps = array_map(function (array $appData) use ($ignoreMaxApps): array {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
 				$appData['screenshot'] = $this->createProxyPreviewUrl($appstoreData['screenshots'][0]['url'] ?? '');
@@ -106,7 +107,7 @@ class ApiController extends OCSController {
 			}
 
 			$newVersion = $this->installer->isUpdateAvailable($appData['id']);
-			if ($newVersion) {
+			if ($newVersion !== false) {
 				$appData['update'] = $newVersion;
 			}
 
@@ -120,6 +121,7 @@ class ApiController extends OCSController {
 					$groups = [$groups];
 				}
 			}
+
 			$appData['groups'] = $groups;
 			$appData['canUninstall'] = !$appData['active'] && $appData['removable'];
 
@@ -136,11 +138,10 @@ class ApiController extends OCSController {
 			return $appData;
 		}, $apps);
 
-		usort($apps, $this->sortApps(...));
-
 		/**
-		 * @var list<array{id: string, name: string, description: string, ...}> $apps
+		 * @var list<array{id: string, name: string, groups: list<string>, internal: bool, isCompatible: bool, missingDependencies?: list<string>, missingMaxNextcloudVersion: bool, missingMinNextcloudVersion: bool, ...<array-key, mixed>}> $apps
 		 */
+		usort($apps, $this->sortApps(...));
 		return new DataResponse($apps);
 	}
 
@@ -174,16 +175,17 @@ class ApiController extends OCSController {
 
 			$this->installer->installApp($appId);
 
-			if (count($groups) > 0) {
+			if ($groups !== []) {
 				$this->appManager->enableAppForGroups($appId, $this->getGroupList($groups));
 			} else {
 				$this->appManager->enableApp($appId);
 			}
+
 			$updateRequired = $this->appManager->isUpgradeRequired($appId);
 			return new DataResponse(['update_required' => $updateRequired]);
-		} catch (\Throwable $e) {
-			$this->logger->error('could not enable app', ['exception' => $e]);
-			throw new OCSException('could not enable app', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
+		} catch (\Throwable $throwable) {
+			$this->logger->error('could not enable app', ['exception' => $throwable]);
+			throw new OCSException('could not enable app', Http::STATUS_INTERNAL_SERVER_ERROR, $throwable);
 		}
 	}
 
@@ -204,9 +206,9 @@ class ApiController extends OCSController {
 			$appId = $this->appManager->cleanAppId($appId);
 			$this->appManager->disableApp($appId);
 			return new DataResponse([]);
-		} catch (\Exception $e) {
-			$this->logger->error('could not disable app', ['exception' => $e]);
-			throw new OCSException('could not disable app', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
+		} catch (\Exception $exception) {
+			$this->logger->error('could not disable app', ['exception' => $exception]);
+			throw new OCSException('could not disable app', Http::STATUS_INTERNAL_SERVER_ERROR, $exception);
 		}
 	}
 
@@ -231,6 +233,7 @@ class ApiController extends OCSController {
 			$this->appManager->clearAppsCache();
 			return new DataResponse([]);
 		}
+
 		throw new OCSException('could not remove app', Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
 
@@ -255,9 +258,9 @@ class ApiController extends OCSController {
 			if ($result === false) {
 				throw new \Exception('Update failed');
 			}
-		} catch (\Exception $ex) {
+		} catch (\Exception $exception) {
 			$this->config->setSystemValue('maintenance', false);
-			throw new OCSException('could not update app', Http::STATUS_INTERNAL_SERVER_ERROR, $ex);
+			throw new OCSException('could not update app', Http::STATUS_INTERNAL_SERVER_ERROR, $exception);
 		}
 
 		return new DataResponse([]);
@@ -298,10 +301,11 @@ class ApiController extends OCSController {
 		if ($url === '') {
 			return '';
 		}
+
 		return 'https://usercontent.apps.nextcloud.com/' . base64_encode($url);
 	}
 
-	private function fetchApps() {
+	private function fetchApps(): void {
 		$appClass = new \OC_App();
 		$apps = $appClass->listAllApps();
 		foreach ($apps as $app) {
@@ -316,6 +320,7 @@ class ApiController extends OCSController {
 
 				$app['screenshot'] = $this->createProxyPreviewUrl($appScreenshot);
 			}
+
 			$this->allApps[$app['id']] = $app;
 		}
 
@@ -352,17 +357,16 @@ class ApiController extends OCSController {
 		if (empty($this->allApps)) {
 			$this->fetchApps();
 		}
+
 		return $this->allApps;
 	}
 
 	/**
 	 * Get all apps for a category from the app store
 	 *
-	 * @param string $requestedCategory
-	 * @return array
 	 * @throws \Exception
 	 */
-	private function getAppsForCategory($requestedCategory = ''): array {
+	private function getAppsForCategory(string $requestedCategory = ''): array {
 		$versionParser = new VersionParser();
 		$formattedApps = [];
 		$apps = $this->appFetcher->get();
@@ -375,6 +379,7 @@ class ApiController extends OCSController {
 						$isInCategory = true;
 					}
 				}
+
 				if (!$isInCategory) {
 					continue;
 				}
@@ -383,14 +388,17 @@ class ApiController extends OCSController {
 			if (!isset($app['releases'][0]['rawPlatformVersionSpec'])) {
 				continue;
 			}
+
 			$nextcloudVersion = $versionParser->getVersion($app['releases'][0]['rawPlatformVersionSpec']);
 			$nextcloudVersionDependencies = [];
 			if ($nextcloudVersion->getMinimumVersion() !== '') {
 				$nextcloudVersionDependencies['nextcloud']['@attributes']['min-version'] = $nextcloudVersion->getMinimumVersion();
 			}
+
 			if ($nextcloudVersion->getMaximumVersion() !== '') {
 				$nextcloudVersionDependencies['nextcloud']['@attributes']['max-version'] = $nextcloudVersion->getMaximumVersion();
 			}
+
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
 
 			try {
@@ -404,12 +412,15 @@ class ApiController extends OCSController {
 			if ($phpVersion->getMinimumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['min-version'] = $phpVersion->getMinimumVersion();
 			}
+
 			if ($phpVersion->getMaximumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['max-version'] = $phpVersion->getMaximumVersion();
 			}
+
 			if (isset($app['releases'][0]['minIntSize'])) {
 				$phpDependencies['php']['@attributes']['min-int-size'] = $app['releases'][0]['minIntSize'];
 			}
+
 			$authors = '';
 			foreach ($app['authors'] as $key => $author) {
 				$authors .= $author['name'];
@@ -474,24 +485,28 @@ class ApiController extends OCSController {
 		return $formattedApps;
 	}
 
-	private function getGroupList(array $groups) {
+	/**
+	 * @param string[] $groups - The group ids to fetch
+	 * @return list<IGroup> - The list of groups matching the given group ids
+	 */
+	private function getGroupList(array $groups): array {
 		$groupManager = Server::get(IGroupManager::class);
 		$groupsList = [];
 		foreach ($groups as $group) {
 			$groupItem = $groupManager->get($group);
 			if ($groupItem instanceof IGroup) {
-				$groupsList[] = $groupManager->get($group);
+				$groupsList[] = $groupItem;
 			}
 		}
+
 		return $groupsList;
 	}
 
-	private function sortApps($a, $b) {
-		$a = (string)$a['name'];
-		$b = (string)$b['name'];
-		if ($a === $b) {
-			return 0;
-		}
-		return ($a < $b) ? -1 : 1;
+	/**
+	 * @param array{name: string, ...} $a
+	 * @param array{name: string, ...} $b
+	 */
+	private function sortApps(array $a, array $b): int {
+		return $a['name'] <=> $b['name'];
 	}
 }

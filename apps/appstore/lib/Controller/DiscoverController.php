@@ -37,16 +37,16 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type AppStoreFetcherDiscoverElement from ResponseDefinitions
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
-class DiscoverController extends OCSController {
+final class DiscoverController extends OCSController {
 
-	private IAppData $appData;
+	private readonly IAppData $appData;
 
 	public function __construct(
 		IRequest $request,
 		IAppDataFactory $appDataFactory,
-		private IClientService $clientService,
-		private AppDiscoverFetcher $discoverFetcher,
-		private LoggerInterface $logger,
+		private readonly IClientService $clientService,
+		private readonly AppDiscoverFetcher $discoverFetcher,
+		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 		$this->appData = $appDataFactory->get(Application::APP_ID);
@@ -84,18 +84,17 @@ class DiscoverController extends OCSController {
 		$getEtag = $this->discoverFetcher->getETag() ?? date('Y-m');
 		$etag = trim($getEtag, '"');
 
-		$folder = null;
 		try {
 			$folder = $this->appData->getFolder('app-discover-cache');
 			$this->cleanUpImageCache($folder, $etag);
-		} catch (\Throwable $e) {
+		} catch (\Throwable) {
 			$folder = $this->appData->newFolder('app-discover-cache');
 		}
 
 		// Get the current cache folder
 		try {
 			$folder = $folder->getFolder($etag);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			$folder = $folder->newFolder($etag);
 		}
 
@@ -103,9 +102,7 @@ class DiscoverController extends OCSController {
 		$hashName = md5($fileName);
 		$allFiles = $folder->getDirectoryListing();
 		// Try to find the file
-		$file = array_filter($allFiles, function (ISimpleFile $file) use ($hashName) {
-			return str_starts_with($file->getName(), $hashName);
-		});
+		$file = array_filter($allFiles, fn (ISimpleFile $file): bool => str_starts_with($file->getName(), $hashName));
 		// Get the first entry
 		$file = reset($file);
 		// If not found request from Web
@@ -165,15 +162,11 @@ class DiscoverController extends OCSController {
 		// Hosts that need further verification
 		// Github is only allowed if from our organization
 		$ALLOWED_HOSTS = ['github.com', 'raw.githubusercontent.com'];
-		if (!in_array($urlInfo['host'], $ALLOWED_HOSTS)) {
+		if (!in_array($urlInfo['host'], $ALLOWED_HOSTS, true)) {
 			return false;
 		}
 
-		if (str_starts_with($urlInfo['path'], '/nextcloud/') || str_starts_with($urlInfo['path'], '/nextcloud-gmbh/')) {
-			return true;
-		}
-
-		return false;
+		return str_starts_with($urlInfo['path'], '/nextcloud/') || str_starts_with($urlInfo['path'], '/nextcloud-gmbh/');
 	}
 
 	/**
@@ -189,7 +182,7 @@ class DiscoverController extends OCSController {
 				if ($dir->getName() !== $etag) {
 					$dir->delete();
 				}
-			} catch (NotPermittedException $e) {
+			} catch (NotPermittedException) {
 				// ignore folder for now
 			}
 		}

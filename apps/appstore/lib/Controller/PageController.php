@@ -30,27 +30,22 @@ use OCP\Server;
 use OCP\Util;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
-class PageController extends Controller {
+final class PageController extends Controller {
 
 	public function __construct(
 		IRequest $request,
-		private IL10N $l10n,
-		private IConfig $config,
-		private Installer $installer,
-		private AppManager $appManager,
-		private IURLGenerator $urlGenerator,
-		private IInitialState $initialState,
-		private BundleFetcher $bundleFetcher,
-		private INavigationManager $navigationManager,
+		private readonly IL10N $l10n,
+		private readonly IConfig $config,
+		private readonly Installer $installer,
+		private readonly AppManager $appManager,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly IInitialState $initialState,
+		private readonly BundleFetcher $bundleFetcher,
+		private readonly INavigationManager $navigationManager,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
 
-	/**
-	 * @psalm-suppress UndefinedClass AppAPI is shipped since 30.0.1
-	 *
-	 * @return TemplateResponse
-	 */
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/settings/apps', root: '')]
 	#[FrontpageRoute(verb: 'GET', url: '/settings/apps/{category}', defaults: ['category' => ''], root: '')]
@@ -65,8 +60,12 @@ class PageController extends Controller {
 
 		if ($this->appManager->isEnabledForAnyone('app_api')) {
 			try {
+				/**
+				 * @psalm-suppress UndefinedClass AppAPI is shipped since 30.0.1
+				 */
 				Server::get(ExAppsPageService::class)->provideAppApiState($this->initialState);
-			} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface) {
+				// nop
 			}
 		}
 
@@ -83,19 +82,24 @@ class PageController extends Controller {
 	}
 
 
-	private function getAppsWithUpdates() {
+	private function getAppsWithUpdates(): array {
 		$appClass = new \OC_App();
 		$apps = $appClass->listAllApps();
+		/** @var array{id: string, ...} $app */
 		foreach ($apps as $key => $app) {
 			$newVersion = $this->installer->isUpdateAvailable($app['id']);
 			if ($newVersion === false) {
 				unset($apps[$key]);
 			}
 		}
+
 		return $apps;
 	}
 
-	private function getBundles() {
+	/**
+	 * @return list<array{name: string, id: string, appIdentifiers: list<string>}>
+	 */
+	private function getBundles(): array {
 		$result = [];
 		$bundles = $this->bundleFetcher->getBundles();
 		foreach ($bundles as $bundle) {
@@ -105,6 +109,7 @@ class PageController extends Controller {
 				'appIdentifiers' => $bundle->getAppIdentifiers()
 			];
 		}
+
 		return $result;
 	}
 }

@@ -17244,7 +17244,11 @@
                                                         "required": [
                                                             "id",
                                                             "name",
-                                                            "description"
+                                                            "groups",
+                                                            "internal",
+                                                            "isCompatible",
+                                                            "missingMaxNextcloudVersion",
+                                                            "missingMinNextcloudVersion"
                                                         ],
                                                         "properties": {
                                                             "id": {
@@ -17253,8 +17257,29 @@
                                                             "name": {
                                                                 "type": "string"
                                                             },
-                                                            "description": {
-                                                                "type": "string"
+                                                            "groups": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "internal": {
+                                                                "type": "boolean"
+                                                            },
+                                                            "isCompatible": {
+                                                                "type": "boolean"
+                                                            },
+                                                            "missingDependencies": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "missingMaxNextcloudVersion": {
+                                                                "type": "boolean"
+                                                            },
+                                                            "missingMinNextcloudVersion": {
+                                                                "type": "boolean"
                                                             }
                                                         }
                                                     }
