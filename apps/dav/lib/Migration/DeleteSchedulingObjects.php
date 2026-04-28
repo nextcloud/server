@@ -13,9 +13,9 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+use OCP\Migration\IRepairStepExpensive;
 
-class DeleteSchedulingObjects implements IRepairStep {
+class DeleteSchedulingObjects implements IRepairStepExpensive {
 	public function __construct(
 		private IJobList $jobList,
 		private ITimeFactory $time,
