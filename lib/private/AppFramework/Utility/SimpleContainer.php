@@ -26,6 +26,7 @@ use function class_exists;
  * SimpleContainer is a simple implementation of a container on basis of Pimple
  */
 class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
+	/** @psalm-suppress ImpureStaticProperty A static property is the only way to pass the information from config to autoload */
 	public static bool $useLazyObjects = false;
 
 	private Container $container;

@@ -237,5 +237,10 @@
 				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedTrait>
+		<PluginIssue name="ImpureStaticProperty">
+			<errorLevel type="suppress">
+				<directory name="lib/private/legacy" />
+			</errorLevel>
+		</PluginIssue>
 	</issueHandlers>
 </psalm>
