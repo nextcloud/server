@@ -7,7 +7,7 @@
 	errorLevel="1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
-	xsi:schemaLocation="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config vendor-bin/psalm/vendor/vimeo/psalm/config.xsd"
 	resolveFromConfigFile="false"
 	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
@@ -50,21 +50,11 @@
 		<file name="3rdparty/sabre/uri/lib/functions.php"/>
 	</stubs>
 	<issueHandlers>
-		<InternalClass>
-			<errorLevel type="suppress">
-				<directory name="."/>
-			</errorLevel>
-		</InternalClass>
 		<InternalMethod>
 			<errorLevel type="suppress">
 				<directory name="."/>
 			</errorLevel>
 		</InternalMethod>
-		<InternalProperty>
-			<errorLevel type="suppress">
-				<directory name="."/>
-			</errorLevel>
-		</InternalProperty>
 		<UnusedVariable>
 			<errorLevel type="suppress">
 				<file name="build/psalm/ITypedQueryBuilderTest.php"/>

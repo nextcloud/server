@@ -12,6 +12,7 @@
 	errorBaseline="build/psalm-baseline.xml"
 	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
+	strictBinaryOperands="false"
 	phpVersion="8.2"
 >
 	<plugins>
@@ -69,6 +70,7 @@
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
+			<directory name="vendor-bin"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
@@ -181,12 +183,6 @@
 				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedConstant>
-		<DeprecatedFunction>
-			<errorLevel type="suppress">
-				<directory name="lib" />
-				<directory name="apps/*/tests" />
-			</errorLevel>
-		</DeprecatedFunction>
 		<DeprecatedInterface>
 			<errorLevel type="suppress">
 				<directory name="lib" />
@@ -211,15 +207,5 @@
 				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedTrait>
-		<InternalMethod>
-			<errorLevel type="suppress">
-				<directory name="apps/*/tests" />
-			</errorLevel>
-		</InternalMethod>
-		<InternalClass>
-			<errorLevel type="suppress">
-				<directory name="apps/*/tests" />
-			</errorLevel>
-		</InternalClass>
 	</issueHandlers>
 </psalm>
