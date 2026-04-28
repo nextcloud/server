@@ -24,6 +24,7 @@ class ConvertFilecacheBigInt extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('db:convert-filecache-bigint')
@@ -53,6 +54,7 @@ class ConvertFilecacheBigInt extends Command {
 		];
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$schema = new SchemaWrapper($this->connection);
 		$isSqlite = $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE;

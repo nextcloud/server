@@ -32,6 +32,7 @@ class PreviewCommand extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('migrations:preview')
@@ -41,6 +42,7 @@ class PreviewCommand extends Command {
 		parent::configure();
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$version = $input->getArgument('version');
 		if (filter_var($version, FILTER_VALIDATE_URL)) {

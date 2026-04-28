@@ -27,6 +27,7 @@ class ExpirePreviewsJob extends TimedJob {
 		$this->setInterval(60 * 60 * 24);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		$days = $this->config->getSystemValueInt('preview_expiration_days');
 		if ($days <= 0) {

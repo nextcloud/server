@@ -21,6 +21,7 @@ class ListModules extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -30,6 +31,7 @@ class ListModules extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
 		if ($isMaintenanceModeEnabled) {

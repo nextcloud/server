@@ -28,6 +28,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('l10n:createjs')
@@ -44,6 +45,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$app = $input->getArgument('app');
 		$lang = $input->getArgument('lang');
@@ -135,6 +137,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		return [];
 	}
@@ -146,6 +149,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
 			return $this->appManager->getAllAppsInAppsFolders();

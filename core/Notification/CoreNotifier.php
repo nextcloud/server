@@ -30,6 +30,7 @@ class CoreNotifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		return 'core';
 	}
@@ -40,10 +41,12 @@ class CoreNotifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->factory->get('core')->t('Nextcloud Server');
 	}
 
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'core') {
 			throw new UnknownNotificationException();

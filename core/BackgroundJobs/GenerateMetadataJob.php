@@ -41,6 +41,7 @@ class GenerateMetadataJob extends TimedJob {
 		$this->setInterval(24 * 60 * 60);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		if ($this->appConfig->getValueBool('core', 'metadataGenerationDone', false)) {
 			return;

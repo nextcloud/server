@@ -39,6 +39,7 @@ class Repair extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('maintenance:repair')
@@ -50,6 +51,7 @@ class Repair extends Command {
 				'Use this option when you want to include resource and load expensive tasks');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$includeExpensive = (bool)$input->getOption('include-expensive');
 		$repairSteps = $this->repair::getRepairSteps($includeExpensive);

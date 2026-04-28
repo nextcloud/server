@@ -25,6 +25,7 @@ class Install extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('app:install')
@@ -55,6 +56,7 @@ class Install extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
 		$forceEnable = (bool)$input->getOption('force');

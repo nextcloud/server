@@ -34,6 +34,7 @@ class CheckApp extends Base {
 	/**
 	 * {@inheritdoc }
 	 */
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 		$this
@@ -47,6 +48,7 @@ class CheckApp extends Base {
 	/**
 	 * {@inheritdoc }
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('all') && $input->getArgument('appid')) {
 			$output->writeln('<error>Option "--all" cannot be combined with an appid</error>');

@@ -23,6 +23,7 @@ class Add extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('group:add')
@@ -40,6 +41,7 @@ class Add extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$gid = $input->getArgument('groupid');
 		$group = $this->groupManager->get($gid);

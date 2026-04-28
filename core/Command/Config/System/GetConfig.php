@@ -20,6 +20,7 @@ class GetConfig extends Base {
 		parent::__construct($systemConfig);
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -47,6 +48,7 @@ class GetConfig extends Base {
 	 * @param OutputInterface $output An OutputInterface instance
 	 * @return int 0 if everything went fine, or an error code
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = array_shift($configNames);

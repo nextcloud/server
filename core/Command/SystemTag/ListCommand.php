@@ -20,6 +20,7 @@ class ListCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('tag:list')
@@ -39,6 +40,7 @@ class ListCommand extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$tags = $this->systemTagManager->getAllTags(
 			$input->getOption('visibilityFilter'),

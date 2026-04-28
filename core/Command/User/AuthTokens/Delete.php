@@ -23,6 +23,7 @@ class Delete extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('user:auth-tokens:delete')
@@ -45,6 +46,7 @@ class Delete extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		$id = (int)$input->getArgument('id');

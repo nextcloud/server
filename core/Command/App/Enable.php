@@ -32,6 +32,7 @@ class Enable extends Command implements CompletionAwareInterface {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('app:enable')
@@ -55,6 +56,7 @@ class Enable extends Command implements CompletionAwareInterface {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appIds = $input->getArgument('app-id');
 		$groups = $this->resolveGroupIds($input->getOption('groups'));
@@ -127,6 +129,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context): array {
 		if ($optionName === 'groups') {
 			return array_map(function (IGroup $group) {
@@ -141,6 +144,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
 			$allApps = $this->appManager->getAllAppsInAppsFolders();

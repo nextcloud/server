@@ -24,6 +24,7 @@ class AddUser extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('group:adduser')
@@ -39,6 +40,7 @@ class AddUser extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$group = $this->groupManager->get($input->getArgument('group'));
 		if (is_null($group)) {
@@ -59,6 +61,7 @@ class AddUser extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'group') {
 			return array_map(static fn (IGroup $group) => $group->getGID(), $this->groupManager->search($context->getCurrentWord()));

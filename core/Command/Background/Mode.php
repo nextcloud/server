@@ -21,6 +21,7 @@ class Mode extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('background:cron')
@@ -28,6 +29,7 @@ class Mode extends Command {
 			->setDescription('Use cron, ajax or webcron to run background jobs');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var 'background:cron'|'background:ajax'|'background:webcron' $command */
 		$command = $input->getArgument('command');
