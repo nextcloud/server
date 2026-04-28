@@ -35,11 +35,11 @@ class Remove extends Command implements CompletionAwareInterface {
 			->setName('app:remove')
 			->setDescription('Remove an app from this Nextcloud instance')
 			->setHelp(
-				"Removes the specified app and, if present, runs the app's uninstall steps.\n" .
-				"\n" .
-				"By default, this command runs the app's uninstall steps (which may delete data) and then removes the app files.\n" .
-				"Use `--keep-data` to skip uninstall steps and preserve app data (database tables, configuration, and stored files).\n" .
-				"Note: Some apps may still preserve data either way, depending on their uninstall implementation.\n"
+				"Removes the specified app and, if present, runs the app's uninstall steps.\n"
+				. "\n"
+				. "By default, this command runs the app's uninstall steps (which may delete data) and then removes the app files.\n"
+				. "Use `--keep-data` to skip uninstall steps and preserve app data (database tables, configuration, and stored files).\n"
+				. "Note: Some apps may still preserve data either way, depending on their uninstall implementation.\n"
 			)
 			->addArgument(
 				'app-id',
@@ -55,8 +55,8 @@ class Remove extends Command implements CompletionAwareInterface {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$appId = (string) $input->getArgument('app-id');
-		$keepData  = (bool) $input->getOption('keep-data');
+		$appId = (string)$input->getArgument('app-id');
+		$keepData = (bool)$input->getOption('keep-data');
 
 		// Prevent removal of shipped/core apps
 		if ($this->manager->isShipped($appId)) {
@@ -111,7 +111,7 @@ class Remove extends Command implements CompletionAwareInterface {
 			$this->logger->error($message, [ 'app' => 'CLI', ]);
 			return self::FAILURE;
 		}
-		
+
 		$message = "Removed app '$appId' (version $appVersion).";
 		$output->writeln($message);
 		$this->logger->info($message, [ 'app' => 'CLI', ]);
