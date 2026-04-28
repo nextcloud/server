@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Tests\Core\Command\TaskProcessing;
 
 use OC\Core\Command\TaskProcessing\WorkerCommand;
+use OCP\IAppConfig;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\IManager;
@@ -24,6 +25,7 @@ use Test\TestCase;
 class WorkerCommandTest extends TestCase {
 	private IManager&MockObject $manager;
 	private LoggerInterface&MockObject $logger;
+	private IAppConfig&MockObject $appConfig;
 	private WorkerCommand $command;
 
 	protected function setUp(): void {
@@ -31,7 +33,8 @@ class WorkerCommandTest extends TestCase {
 
 		$this->manager = $this->createMock(IManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->command = new WorkerCommand($this->manager, $this->logger);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->command = new WorkerCommand($this->manager, $this->logger, $this->appConfig);
 	}
 
 	/**
