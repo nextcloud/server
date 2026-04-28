@@ -16,7 +16,7 @@ use OCP\SetupCheck\SetupResult;
 use OCP\TaskProcessing\IManager;
 
 class TaskProcessingPickupSpeed implements ISetupCheck {
-	public const MAX_SLOW_PERCENTAGE = 0.2;
+	public const MAX_SLOW_PERCENTAGE = 0.1;
 
 	public const MAX_DAYS = 14;
 
