@@ -106,6 +106,7 @@ class MigrationAttribute implements JsonSerializable {
 	 * @return array
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'class' => get_class($this),

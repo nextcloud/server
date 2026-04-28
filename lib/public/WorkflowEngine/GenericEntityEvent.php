@@ -44,6 +44,7 @@ class GenericEntityEvent implements IEntityEvent {
 	 *
 	 * @since 18.0.0
 	 */
+	#[\Override]
 	public function getDisplayName(): string {
 		return $this->displayName;
 	}
@@ -55,6 +56,7 @@ class GenericEntityEvent implements IEntityEvent {
 	 *
 	 * @since 18.0.0
 	 */
+	#[\Override]
 	public function getEventName(): string {
 		return $this->eventName;
 	}

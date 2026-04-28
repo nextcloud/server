@@ -32,6 +32,7 @@ class LanguageTuple implements JsonSerializable {
 	 * @since 26.0.0
 	 * @return array{from: string, fromLabel: string, to: string, toLabel: string}
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'from' => $this->from,

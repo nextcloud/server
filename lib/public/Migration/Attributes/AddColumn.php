@@ -21,6 +21,7 @@ class AddColumn extends ColumnMigrationAttribute {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function definition(): string {
 		$type = is_null($this->getType()) ? '' : ' (' . $this->getType()->value . ')';
 		return empty($this->getName())

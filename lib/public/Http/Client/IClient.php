@@ -282,6 +282,7 @@ interface IClient extends ClientInterface {
 	 * @throws \Psr\Http\Client\ClientExceptionInterface If an error happens while processing the request.
 	 * @since 34.0.0
 	 */
+	#[\Override]
 	public function sendRequest(RequestInterface $request): ResponseInterface;
 
 	/**

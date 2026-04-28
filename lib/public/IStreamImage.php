@@ -14,5 +14,6 @@ interface IStreamImage extends IImage {
 	 * @since 24.0.0
 	 * @return false|resource Returns the image resource if any
 	 */
+	#[\Override]
 	public function resource();
 }

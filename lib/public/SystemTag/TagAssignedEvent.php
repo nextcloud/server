@@ -63,6 +63,7 @@ class TagAssignedEvent extends Event implements IWebhookCompatibleEvent {
 	 * @return array{objectType: string, objectIds: list<string>, tagIds: list<int>}
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getWebhookSerializable(): array {
 		return [
 			'objectType' => $this->getObjectType(),

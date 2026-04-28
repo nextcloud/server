@@ -171,6 +171,7 @@ class TemplateResponse extends Response {
 	 * @return string the rendered html
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function render() {
 		$renderAs = self::RENDER_AS_USER;
 		if ($this->renderAs === 'blank') {

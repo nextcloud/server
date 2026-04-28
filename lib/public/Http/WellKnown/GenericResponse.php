@@ -27,6 +27,7 @@ final class GenericResponse implements IResponse {
 	/**
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function toHttpResponse(): Response {
 		return $this->response;
 	}

@@ -19,5 +19,6 @@ interface ILimitAwareCountUsersBackend extends ICountUsersBackend {
 	 * @param int $limit Limit to stop counting users if there are more than $limit. 0 to disable limiting.
 	 * @return int|false The number of users (may be limited to $limit) on success false on failure
 	 */
+	#[\Override]
 	public function countUsers(int $limit = 0): int|false;
 }

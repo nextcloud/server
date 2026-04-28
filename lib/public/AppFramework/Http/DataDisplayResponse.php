@@ -43,6 +43,7 @@ class DataDisplayResponse extends Response {
 	 * @return string
 	 * @since 8.1.0
 	 */
+	#[\Override]
 	public function render() {
 		return $this->data;
 	}

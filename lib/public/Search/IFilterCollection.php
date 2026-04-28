@@ -35,6 +35,7 @@ interface IFilterCollection extends IteratorAggregate {
 	 *
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getIterator(): \Traversable;
 
 	/**

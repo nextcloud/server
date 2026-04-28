@@ -64,6 +64,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function matchReference(string $referenceText): bool {
 		if ($this->systemConfig->getValue('reference_opengraph', true) !== true) {
 			return false;
@@ -76,6 +77,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function resolveReference(string $referenceText): ?IReference {
 		if ($this->matchReference($referenceText)) {
 			$reference = new Reference($referenceText);
@@ -90,6 +92,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function resolveReferencePublic(string $referenceText, string $sharingToken): ?IReference {
 		return $this->resolveReference($referenceText);
 	}
@@ -211,6 +214,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getCachePrefix(string $referenceId): string {
 		return $referenceId;
 	}
@@ -219,6 +223,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getCacheKey(string $referenceId): ?string {
 		return null;
 	}
@@ -227,6 +232,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getCacheKeyPublic(string $referenceId, string $sharingToken): ?string {
 		return null;
 	}

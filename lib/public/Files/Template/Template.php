@@ -84,6 +84,7 @@ final class Template implements \JsonSerializable {
 	 * }
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'templateType' => $this->templateType,

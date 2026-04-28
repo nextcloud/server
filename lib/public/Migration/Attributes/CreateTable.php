@@ -21,6 +21,7 @@ class CreateTable extends TableMigrationAttribute {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function definition(): string {
 		$definition = 'Creation of new table \'' . $this->getTable() . '\'';
 		$definition .= empty($this->getColumns()) ? '' : ' with columns ' . implode(', ', $this->getColumns());

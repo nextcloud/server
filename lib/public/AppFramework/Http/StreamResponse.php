@@ -40,6 +40,7 @@ class StreamResponse extends Response implements ICallbackResponse {
 	 * @param IOutput $output a small wrapper that handles output
 	 * @since 8.1.0
 	 */
+	#[\Override]
 	public function callback(IOutput $output) {
 		// handle caching
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {
