@@ -24,9 +24,13 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
+	/** @psalm-suppress ImpureStaticProperty legacy stuff, keep them for now */
 	private static array $scriptsInit = [];
+	/** @psalm-suppress ImpureStaticProperty */
 	private static array $scripts = [];
+	/** @psalm-suppress ImpureStaticProperty */
 	private static array $scriptDeps = [];
+	/** @psalm-suppress ImpureStaticProperty */
 	private static ?bool $needUpgradeCache = null;
 
 	/**
