@@ -86,6 +86,7 @@ const viteModuleEntries = Object.entries(modules)
 	.flat(1)
 
 export default createAppConfig(Object.fromEntries(viteModuleEntries), {
+	createEmptyCSSEntryPoints: true,
 	emptyOutputDirectory: {
 		additionalDirectories: [resolve(import.meta.dirname, '../..', 'dist')],
 	},
