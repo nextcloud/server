@@ -21,6 +21,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\Util;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Sabre\CardDAV\Backend;
@@ -53,7 +54,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 */
 	public function getChildren() {
 		if ($this->l10n === null) {
-			$this->l10n = \OC::$server->getL10N('dav');
+			$this->l10n = Util::getL10N('dav');
 		}
 		if ($this->config === null) {
 			$this->config = Server::get(IConfig::class);
