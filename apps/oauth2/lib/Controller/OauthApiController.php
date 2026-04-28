@@ -40,6 +40,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\DB\Exception;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
@@ -62,6 +63,7 @@ class OauthApiController extends Controller {
 		private LoggerInterface $logger,
 		private IThrottler $throttler,
 		private ITimeFactory $timeFactory,
+		private IDBConnection $db,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -193,27 +195,52 @@ class OauthApiController extends Controller {
 
 		// Rotate the apptoken (so the old one becomes invalid basically)
 		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_ALPHANUMERIC);
-
-		$appToken = $this->tokenProvider->rotate(
-			$appToken,
-			$decryptedToken,
-			$newToken
-		);
-
-		// Expiration is in 1 hour again
-		$appToken->setExpires($this->time->getTime() + 3600);
-		$this->tokenProvider->updateToken($appToken);
-
-		// Generate a new refresh token and encrypt the new apptoken in the DB
 		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
-		$accessToken->setHashedCode(hash('sha512', $newCode));
-		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
-		// increase the number of delivered oauth token
-		// this helps with cleaning up DB access token when authorization code has expired
-		// and it never delivered any oauth token
-		$tokenCount = $accessToken->getTokenCount();
-		$accessToken->setTokenCount($tokenCount + 1);
-		$this->accessTokenMapper->update($accessToken);
+		$newEncryptedToken = $this->crypto->encrypt($newToken, $newCode);
+		$redeemedThrottleReason = $grant_type === 'authorization_code'
+			? 'authorization_code_already_redeemed'
+			: 'refresh_token_already_redeemed';
+
+		$this->db->beginTransaction();
+		try {
+			$updatedRows = $this->accessTokenMapper->rotateToken(
+				$accessToken->getId(),
+				$code,
+				$newCode,
+				$newEncryptedToken,
+				$grant_type === 'authorization_code',
+			);
+
+			if ($updatedRows !== 1) {
+				$this->db->rollBack();
+				$response = new JSONResponse([
+					'error' => 'invalid_request',
+				], Http::STATUS_BAD_REQUEST);
+				$response->throttle(['invalid_request' => $redeemedThrottleReason]);
+				return $response;
+			}
+
+			$appToken = $this->tokenProvider->rotate(
+				$appToken,
+				$decryptedToken,
+				$newToken
+			);
+
+			// Expiration is in 1 hour again
+			$appToken->setExpires($this->time->getTime() + 3600);
+			$this->tokenProvider->updateToken($appToken);
+
+			$this->db->commit();
+		} catch (\Throwable $e) {
+			if ($this->db->inTransaction()) {
+				$this->db->rollBack();
+			}
+			// rotate() and updateToken() write the auth token to the cache,
+			// so if we are past rotate() we must invalidate the new token
+			$this->tokenProvider->invalidateToken($newToken);
+
+			throw $e;
+		}
 
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
 
