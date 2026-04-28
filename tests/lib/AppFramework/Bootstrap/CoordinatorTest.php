@@ -48,6 +48,11 @@ class CoordinatorTest extends TestCase {
 		$this->eventLogger = $this->createMock(IEventLogger::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
+		$this->appManager->expects($this->any())
+			->method('getAppNamespace')
+			->with('settings')
+			->willReturn('OCA\\Settings');
+
 		$this->coordinator = new Coordinator(
 			$this->serverContainer,
 			$this->crashReporterRegistry,

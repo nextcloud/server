@@ -104,6 +104,10 @@ class ViewControllerTest extends TestCase {
 		$this->appManager->expects($this->any())
 			->method('isAppLoaded')
 			->willReturn(true);
+		$this->appManager->expects($this->any())
+			->method('getAppNamespace')
+			->with('files')
+			->willReturn('OCA\\Files');
 
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);

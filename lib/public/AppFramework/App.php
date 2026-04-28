@@ -58,7 +58,6 @@ class App {
 			$setUpViaQuery = false;
 
 			$classNameParts = explode('\\', trim($applicationClassName, '\\'));
-
 			foreach ($e->getTrace() as $step) {
 				if (isset($step['class'], $step['function'], $step['args'][0])
 					&& $step['class'] === ServerContainer::class
@@ -69,7 +68,7 @@ class App {
 				} elseif (isset($step['class'], $step['function'], $step['args'][0])
 					&& $step['class'] === ServerContainer::class
 					&& $step['function'] === 'getAppContainer'
-					&& $step['args'][1] === $classNameParts[1]) {
+					&& $step['args'][0] === $classNameParts[0] . '\\' . $classNameParts[1]) {
 					$setUpViaQuery = true;
 					break;
 				} elseif (isset($step['class'], $step['function'], $step['args'][0])
