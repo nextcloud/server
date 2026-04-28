@@ -1827,7 +1827,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\ObjectStore\\S3ConnectionTrait' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3ConnectionTrait.php',
         'OC\\Files\\ObjectStore\\S3ObjectTrait' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3ObjectTrait.php',
         'OC\\Files\\ObjectStore\\S3Signature' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3Signature.php',
-        'OC\\Files\\ObjectStore\\StorageObjectStore' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/StorageObjectStore.php',
         'OC\\Files\\ObjectStore\\Swift' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/Swift.php',
         'OC\\Files\\ObjectStore\\SwiftFactory' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/SwiftFactory.php',
         'OC\\Files\\ObjectStore\\SwiftV2CachingAuthService' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/SwiftV2CachingAuthService.php',

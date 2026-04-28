@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace lib\Files\ObjectStore;
 
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
-use OC\Files\ObjectStore\StorageObjectStore;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\Files\ObjectStore\StorageBackedObjectStore;
 use Test\TestCase;
 
 class PrimaryObjectStoreConfigTest extends TestCase {
@@ -68,7 +68,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$this->setConfig('objectstore', [
 			'default' => 'server1',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 				],
@@ -88,14 +88,14 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$this->setConfig('objectstore', [
 			'default' => 'server2',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 					'bucket' => '1',
 				],
 			],
 			'server2' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server2',
 					'bucket' => '2',
@@ -118,7 +118,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 			'a1' => 'a2',
 			'a2' => 'server1',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 					'bucket' => '1',
@@ -132,7 +132,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$this->setConfig('objectstore', [
 			'default' => 'server1',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 					'multibucket' => true,
@@ -149,7 +149,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$this->setConfig('objectstore', [
 			'default' => 'server1',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 					'multibucket' => true,
@@ -170,7 +170,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$this->setConfig('objectstore', [
 			'default' => 'server2',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 					'multibucket' => true,
@@ -179,7 +179,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 				],
 			],
 			'server2' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server2',
 					'multibucket' => true,
@@ -200,7 +200,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 
 	public function testMultibucketOldConfig() {
 		$this->setConfig('objectstore_multibucket', [
-			'class' => StorageObjectStore::class,
+			'class' => StorageBackedObjectStore::class,
 			'arguments' => [
 				'host' => 'server1',
 				'multibucket' => true,
@@ -214,7 +214,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 			'root' => 'server1',
 			'preview' => 'server1',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 					'multibucket' => true,
@@ -227,7 +227,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 
 	public function testSingleObjectStore() {
 		$this->setConfig('objectstore', [
-			'class' => StorageObjectStore::class,
+			'class' => StorageBackedObjectStore::class,
 			'arguments' => [
 				'host' => 'server1',
 			],
@@ -238,7 +238,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 			'root' => 'server1',
 			'preview' => 'server1',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 					'multibucket' => false,
@@ -251,14 +251,14 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$this->setConfig('objectstore', [
 			'default' => 'server1',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 					'bucket' => '1',
 				],
 			],
 			'server2' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server2',
 					'bucket' => '2',
@@ -274,14 +274,14 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 			'root' => 'server2',
 			'preview' => 'server1',
 			'server1' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
 					'bucket' => '1',
 				],
 			],
 			'server2' => [
-				'class' => StorageObjectStore::class,
+				'class' => StorageBackedObjectStore::class,
 				'arguments' => [
 					'host' => 'server2',
 					'bucket' => '2',

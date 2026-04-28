@@ -8,7 +8,6 @@
 
 namespace Test\Files\ObjectStore;
 
-use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Constants;
@@ -29,7 +28,7 @@ class ObjectStoreStorageTest extends Storage {
 		parent::setUp();
 
 		$baseStorage = new Temporary();
-		$this->objectStorage = new StorageObjectStore($baseStorage);
+		$this->objectStorage = new StorageBackedObjectStore($baseStorage);
 		$config['objectstore'] = $this->objectStorage;
 		$this->instance = new ObjectStoreStorageOverwrite($config);
 	}

@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace Test\Files\ObjectStore;
 
-use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
 use OCP\Files\ObjectStore\IObjectStore;
 
@@ -18,6 +17,6 @@ class LocalTest extends ObjectStoreTestCase {
 	 */
 	protected function getInstance() {
 		$storage = new Temporary();
-		return new StorageObjectStore($storage);
+		return new StorageBackedObjectStore($storage);
 	}
 }

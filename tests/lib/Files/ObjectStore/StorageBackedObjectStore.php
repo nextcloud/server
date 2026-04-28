@@ -4,16 +4,16 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OC\Files\ObjectStore;
+namespace Test\Files\ObjectStore;
 
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\Storage\IStorage;
 use function is_resource;
 
 /**
- * Object store that wraps a storage backend, mostly for testing purposes
+ * Object store that wraps a storage backend, for testing purposes
  */
-class StorageObjectStore implements IObjectStore {
+class StorageBackedObjectStore implements IObjectStore {
 	public function __construct(
 		private IStorage $storage,
 	) {
