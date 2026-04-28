@@ -14,6 +14,7 @@ use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\QueryException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -37,6 +38,9 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var IAppConfig */
+	protected $appConfig;
+
 	public function __construct(
 		Backend\BackendInterface $carddavBackend,
 		string $principalUri,
@@ -48,6 +52,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
 		$this->l10n = Util::getL10N('dav');
 		$this->config = Server::get(IConfig::class);
+		$this->appConfig = Server::get(IAppConfig::class);
 	}
 
 	/**
@@ -61,7 +66,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
 		// add the system address book
 		$systemAddressBook = null;
-		$systemAddressBookExposed = $this->config->getAppValue('dav', 'system_addressbook_exposed', 'yes') === 'yes';
+		$systemAddressBookExposed = $this->appConfig->getValueBool('dav', 'system_addressbook_exposed', true);
 		if ($systemAddressBookExposed && is_string($principal) && $principal !== 'principals/system/system' && $this->carddavBackend instanceof CardDavBackend) {
 			$systemAddressBook = $this->carddavBackend->getAddressBooksByUri('principals/system/system', 'system');
 			if ($systemAddressBook !== null) {

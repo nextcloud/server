@@ -592,9 +592,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
     <InvalidArgument>
       <code><![CDATA[$this->principalUri]]></code>
       <code><![CDATA[$this->principalUri]]></code>
