@@ -70,6 +70,11 @@ class AmazonS3 extends Common {
 		return $path === '.';
 	}
 
+	private function getCachePath(string $path): string {
+		// normalizePath() converts '' to '.' for S3 object keys, but filecache stores the root as ''
+		return $this->isRoot($path) ? '' : $path;
+	}
+
 	private function cleanKey(string $path): string {
 		if ($this->isRoot($path)) {
 			return '/';
@@ -110,9 +115,14 @@ class AmazonS3 extends Common {
 	}
 
 	private function headObject(string $key): array|false {
-		if (!isset($this->objectCache[$key])) {
+		// Normalize only the cache key so callers can keep using the original S3 object key.
+		$cacheKey = match ($key) {
+			'', '.' => '.',
+			default => $key,
+		};
+		if (!isset($this->objectCache[$cacheKey])) {
 			try {
-				$this->objectCache[$key] = $this->getConnection()->headObject([
+				$this->objectCache[$cacheKey] = $this->getConnection()->headObject([
 					'Bucket' => $this->bucket,
 					'Key' => $key
 				] + $this->getServerSideEncryptionParameters())->toArray();
@@ -120,15 +130,15 @@ class AmazonS3 extends Common {
 				if ($e->getStatusCode() >= 500) {
 					throw $e;
 				}
-				$this->objectCache[$key] = false;
+				$this->objectCache[$cacheKey] = false;
 			}
 		}
 
-		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]['Key'])) {
+		if (is_array($this->objectCache[$cacheKey]) && !isset($this->objectCache[$cacheKey]['Key'])) {
 			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
-			$this->objectCache[$key]['Key'] = $key;
+			$this->objectCache[$cacheKey]['Key'] = $key;
 		}
-		return $this->objectCache[$key];
+		return $this->objectCache[$cacheKey];
 	}
 
 	/**
@@ -318,6 +328,25 @@ class AmazonS3 extends Common {
 		$stat['atime'] = time();
 
 		return $stat;
+	}
+
+	public function getMetaData(string $path): ?array {
+		$data = parent::getMetaData($path);
+		if ($data !== null && $data['mimetype'] === FileInfo::MIMETYPE_FOLDER) {
+			// Common::getMetaData sets storage_mtime = mtime, but for S3 virtual directories
+			// mtime may have been updated by mtime propagation while storage_mtime should
+			// reflect the actual last storage change. Without this override the scanner sees
+			// data['storage_mtime'] != cacheData['storage_mtime'] and re-writes the cache,
+			// causing View::getCacheEntry to trigger propagateChange on every read.
+			$path = $this->normalizePath($path);
+			$cacheEntry = $this->getCache()->get($this->getCachePath($path));
+			if ($cacheEntry instanceof CacheEntry) {
+				$data['storage_mtime'] = $cacheEntry->getStorageMTime();
+			} elseif (!$this->isRoot($path) && $directoryMarker = $this->headObject($path . '/')) {
+				$data['storage_mtime'] = strtotime($directoryMarker['LastModified']);
+			}
+		}
+		return $data;
 	}
 
 	public function is_dir(string $path): bool {
@@ -650,19 +679,29 @@ class AmazonS3 extends Common {
 		if ($this->versioningEnabled() && !$this->doesDirectoryExist($path)) {
 			return null;
 		}
-		$cacheEntry = $this->getCache()->get($path);
+		$cacheEntry = $this->getCache()->get($this->getCachePath($path));
 		if ($cacheEntry instanceof CacheEntry) {
 			return $cacheEntry->getData();
 		} else {
-			return [
-				'name' => basename($path),
+			// On a cache miss, prefer the real S3 directory marker metadata before falling back
+			// to synthetic folder data for prefix-only directories.
+			$directoryMarker = $path === '.' ? false : $this->headObject($path . '/');
+			if ($directoryMarker !== false) {
+				$data = $this->objectToMetaData($directoryMarker);
+			} else {
+				$data = [
+					'name' => basename($path),
+					'mtime' => time(),
+					'storage_mtime' => time(),
+					'etag' => uniqid(),
+				];
+			}
+
+			return array_replace($data, [
 				'mimetype' => FileInfo::MIMETYPE_FOLDER,
-				'mtime' => time(),
-				'storage_mtime' => time(),
-				'etag' => uniqid(),
 				'permissions' => Constants::PERMISSION_ALL,
 				'size' => -1,
-			];
+			]);
 		}
 	}
 
