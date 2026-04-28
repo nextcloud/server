@@ -12,47 +12,54 @@ namespace OCP\Files\Lock;
 use OCP\PreConditionNotMetException;
 
 /**
- * Manage app integrations with files_lock with collaborative editors
+ * Manage app integrations with the files_lock app and collaborative editors.
  *
- * The OCP parts are mainly for exposing the ability to lock/unlock for apps and
- * to give the files_lock app a way to register and then be triggered by the apps
- * while the actual locking implementation is kept in the LockProvider and DAV
- * plugin from files_lock app.
+ * This public API exposes locking operations to apps and allows a lock provider
+ * from files_lock to be registered. The actual locking implementation remains
+ * in the provider and the DAV plugin of the files_lock app.
  *
  * @since 24.0.0
  */
 interface ILockManager extends ILockProvider {
 	/**
-	 * @throws PreConditionNotMetException if there is already a lock provider registered
+	 * Register the lock provider implementation.
+	 *
+	 * @throws PreConditionNotMetException if a lock provider is already registered
 	 * @since 24.0.0
 	 * @deprecated 30.0.0 Use registerLazyLockProvider
 	 */
 	public function registerLockProvider(ILockProvider $lockProvider): void;
 
 	/**
-	 * @param string $lockProviderClass
-	 * @return void
+	 * Register a lock provider class for lazy resolution from the server container.
+	 *
+	 * @throws PreConditionNotMetException if a lock provider is already registered
 	 * @since 30.0.0
 	 */
 	public function registerLazyLockProvider(string $lockProviderClass): void;
 
 	/**
-	 * @return bool
+	 * Check whether a lock provider is currently available.
+	 *
 	 * @since 24.0.0
 	 */
 	public function isLockProviderAvailable(): bool;
 
 	/**
-	 * Run within the scope of a given lock condition
+	 * Run a callback within the scope of the given lock context.
 	 *
-	 * The callback will also be executed if no lock provider is present
+	 * The callback is also executed if no lock provider is available.
 	 *
+	 * @throws PreConditionNotMetException if another lock scope is already active
 	 * @since 24.0.0
 	 */
 	public function runInScope(LockContext $lock, callable $callback): void;
 
 	/**
-	 * @throws NoLockProviderException if there is no lock provider available
+	 * Get the lock context currently active in this scope.
+	 *
+	 * Returns null if no lock scope is active.
+	 *
 	 * @since 24.0.0
 	 */
 	public function getLockInScope(): ?LockContext;
