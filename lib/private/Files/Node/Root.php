@@ -368,6 +368,7 @@ class Root extends Folder implements IRootFolder {
 				}
 			}
 		}
+
 		$node = current($this->getByIdInPath($id, $path));
 		if (!$node) {
 			return null;

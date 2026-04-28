@@ -21,6 +21,7 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/private/Files/Cache/Storage.php',
 		$nextcloudDir . '/lib/private/Files/Cache/StorageGlobal.php',
 		$nextcloudDir . '/lib/private/Files/Storage/Wrapper/Wrapper.php',
+		$nextcloudDir . '/lib/private/Files/Storage/StorageFactory.php',
 		$nextcloudDir . '/build/psalm/ITypedQueryBuilderTest.php',
 		$nextcloudDir . '/lib/private/DB/QueryBuilder/TypedQueryBuilder.php',
 		$nextcloudDir . '/lib/public/DB/QueryBuilder/ITypedQueryBuilder.php',
