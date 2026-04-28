@@ -64,6 +64,7 @@ $authBackend = new PublicAuth(
 	Server::get(IThrottler::class),
 	Server::get(LoggerInterface::class),
 	Server::get(IURLGenerator::class),
+	Server::get(IUserSession::class),
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 

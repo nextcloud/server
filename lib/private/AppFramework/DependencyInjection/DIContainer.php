@@ -287,15 +287,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		return Server::get(IUserSession::class)->isLoggedIn();
 	}
 
-	/**
-	 * @deprecated 12.0.0 use IGroupManager->isAdmin($userId)
-	 * @return boolean
-	 */
-	public function isAdminUser() {
-		$uid = $this->getUserId();
-		return \OC_User::isAdminUser($uid);
-	}
-
 	private function getUserId(): string {
 		return $this->getServer()->get(Session::class)->getSession()->get('user_id');
 	}

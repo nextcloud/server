@@ -21,6 +21,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Util;
@@ -51,7 +52,7 @@ if (Util::needUpgrade()) {
 
 	// if a user is currently logged in, their session must be ignored to
 	// avoid side effects
-	\OC_User::setIncognitoMode(true);
+	Server::get(IUserSession::class)->setIncognitoMode(true);
 
 	$config = Server::get(IConfig::class);
 	$updater = Server::get(Updater::class);

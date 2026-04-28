@@ -19,7 +19,6 @@ use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 use OC\Http\CookieHelper;
 use OC\Security\CSRF\CsrfTokenManager;
-use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Db\TTransactional;
@@ -72,6 +71,8 @@ class Session implements IUserSession, Emitter {
 
 	/** @var User $activeUser */
 	protected $activeUser;
+
+	private bool $incognitoMode = false;
 
 	public function __construct(
 		private Manager $manager,
@@ -170,10 +171,10 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @return IUser|null Current user, otherwise null
 	 */
-	public function getUser() {
+	public function getUser(): ?IUser {
 		// FIXME: This is a quick'n dirty work-around for the incognito mode as
 		// described at https://github.com/owncloud/core/pull/12912#issuecomment-67391155
-		if (OC_User::isIncognitoMode()) {
+		if ($this->isIncognitoMode()) {
 			return null;
 		}
 		if (is_null($this->activeUser)) {
@@ -1077,5 +1078,17 @@ class Session implements IUserSession, Emitter {
 
 	public function updateTokens(string $uid, string $password) {
 		$this->tokenProvider->updatePasswords($uid, $password);
+	}
+
+	public function isIncognitoMode(): bool {
+		return $this->incognitoMode;
+	}
+
+	/**
+	 * Set whether the current session is in incognito mode or not.
+	 * @since 34.0.0
+	 */
+	public function setIncognitoMode(bool $incognitoMode): void {
+		$this->incognitoMode = $incognitoMode;
 	}
 }

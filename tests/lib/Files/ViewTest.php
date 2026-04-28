@@ -147,7 +147,7 @@ class ViewTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		\OC_User::setUserId($this->user);
+		self::setUserId($this->user);
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
 			$ids = $cache->getAll();

@@ -9,10 +9,14 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
+use OCP\Files\ISetupManager;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -35,8 +39,7 @@ class PublicAuthTest extends \Test\TestCase {
 	private LoggerInterface&MockObject $logger;
 	private IURLGenerator&MockObject $urlGenerator;
 	private PublicAuth $auth;
-
-	private bool|string $oldUser;
+	private ?IUser $oldUser;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -55,19 +58,20 @@ class PublicAuthTest extends \Test\TestCase {
 			$this->throttler,
 			$this->logger,
 			$this->urlGenerator,
+			$this->createMock(IUserSession::class),
 		);
 
 		// Store current user
-		$this->oldUser = \OC_User::getUser();
+		$this->oldUser = Server::get(IUserSession::class)->getUser() ?? null;
 	}
 
 	protected function tearDown(): void {
-		\OC_User::setIncognitoMode(false);
+		Server::get(IUserSession::class)->setIncognitoMode(false);
 
 		// Set old user
-		\OC_User::setUserId($this->oldUser);
-		if ($this->oldUser !== false) {
-			\OC_Util::setupFS($this->oldUser);
+		self::setUserId($this->oldUser?->getUID());
+		if ($this->oldUser !== null) {
+			Server::get(ISetupManager::class)->setupForUser($this->oldUser);
 		}
 
 		parent::tearDown();

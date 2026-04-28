@@ -43,7 +43,7 @@ class TagsTest extends \Test\TestCase {
 		Server::get(IUserManager::class)->registerBackend(new \Test\Util\User\Dummy());
 		$userId = $this->getUniqueID('user_');
 		Server::get(IUserManager::class)->createUser($userId, 'pass');
-		\OC_User::setUserId($userId);
+		self::setUserId($userId);
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')
 			->willReturn($userId);

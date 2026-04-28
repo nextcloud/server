@@ -29,6 +29,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
@@ -426,7 +427,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected static function loginAsUser(string $user = ''): void {
 		self::logout();
 		Filesystem::tearDown();
-		\OC_User::setUserId($user);
+		self::setUserId($user);
 		$userManager = Server::get(IUserManager::class);
 		$setupManager = Server::get(SetupManager::class);
 		$userObject = $userManager->get($user);
@@ -532,5 +533,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected function IsDatabaseAccessAllowed(): bool {
 		$annotations = $this->getGroupAnnotations();
 		return in_array('DB', $annotations) || in_array('SLOWDB', $annotations);
+	}
+
+
+	protected static function setUserId(?string $uid): void {
+		$userSession = Server::get(IUserSession::class);
+		$userManager = Server::get(IUserManager::class);
+		$user = $userManager->get($uid);
+		if ($user !== null) {
+			$userSession->setUser($user);
+		} else {
+			Server::get(ISession::class)->set('user_id', $uid);
+		}
 	}
 }

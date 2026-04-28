@@ -17,6 +17,7 @@ use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCP\App\IAppManager;
 use OCP\Encryption\IManager;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -53,19 +54,21 @@ trait EncryptionTrait {
 	 */
 	private $encryptionApp;
 
-	protected function loginWithEncryption($user = '') {
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
+	protected function loginWithEncryption(string $user = ''): void {
+		$this->setupManager->tearDown();
+		self::setUserId('');
+
 		// needed for fully logout
-		Server::get(IUserSession::class)->setUser(null);
+		$userSession = Server::get(IUserSession::class);
+		$userSession->setUser(null);
 
 		$this->setupManager->tearDown();
 
-		\OC_User::setUserId($user);
+		self::setUserId($user);
 		$this->postLogin();
-		\OC_Util::setupFS($user);
 		if ($this->userManager->userExists($user)) {
-			\OC::$server->getUserFolder($user);
+			$this->setupManager->setupForUser($this->userManager->get($user));
+			Server::get(IRootFolder::class)->getUserFolder($user);
 		}
 	}
 

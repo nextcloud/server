@@ -15,6 +15,7 @@ require_once __DIR__ . '/lib/versioncheck.php';
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Template\ITemplateManager;
 use OCP\Util;
@@ -84,7 +85,8 @@ try {
 
 	// Load the app
 	$appManager->loadApp($app);
-	OC_User::setIncognitoMode(true);
+	$userSession = Server::get(IUserSession::class);
+	$userSession->setIncognitoMode(true);
 
 	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
 	require_once $file;

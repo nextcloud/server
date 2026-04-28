@@ -486,6 +486,12 @@
     </InvalidNullableReturnType>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Auth.php">
+    <DeprecatedClass>
+      <code><![CDATA[\OC_User::handleApacheAuth()]]></code>
+    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[\OC_User::handleApacheAuth()]]></code>
+    </DeprecatedMethod>
     <LessSpecificReturnStatement>
       <code><![CDATA[$data]]></code>
     </LessSpecificReturnStatement>
@@ -1355,11 +1361,11 @@
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalClass>
-      <code><![CDATA[new View('/' . $userId . '/files_external')]]></code>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files_external')]]></code>
     </InternalClass>
     <InternalMethod>
       <code><![CDATA[getLocalFile]]></code>
-      <code><![CDATA[new View('/' . $userId . '/files_external')]]></code>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files_external')]]></code>
     </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
@@ -1712,7 +1718,6 @@
 				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))])]]></code>
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath])]]></code>
       <code><![CDATA[getUserFolder]]></code>
-      <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
     <InternalClass>
       <code><![CDATA[new View('/' . $owner)]]></code>
@@ -1724,9 +1729,9 @@
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
       <code><![CDATA[new View('/')]]></code>
       <code><![CDATA[new View('/')]]></code>
       <code><![CDATA[new View('/')]]></code>
@@ -1789,9 +1794,9 @@
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
       <code><![CDATA[new View('/')]]></code>
       <code><![CDATA[new View('/')]]></code>
       <code><![CDATA[new View('/')]]></code>
@@ -1912,9 +1917,6 @@
     </InvalidNullableReturnType>
   </file>
   <file src="apps/files_versions/lib/Storage.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
-    </DeprecatedClass>
     <DeprecatedInterface>
       <code><![CDATA[$bus]]></code>
     </DeprecatedInterface>
@@ -2185,20 +2187,10 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Settings/Personal/PersonalInfo.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
-    </DeprecatedClass>
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Settings/Personal/Security/Authtokens.php">
     <DeprecatedClass>
@@ -2978,6 +2970,14 @@
     <DeprecatedInterface>
       <code><![CDATA[private]]></code>
     </DeprecatedInterface>
+  </file>
+  <file src="core/Controller/TwoFactorChallengeController.php">
+    <DeprecatedClass>
+      <code><![CDATA[OC_User::getLogoutUrl($this->urlGenerator)]]></code>
+    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[OC_User::getLogoutUrl($this->urlGenerator)]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="core/Controller/UnifiedSearchController.php">
     <DeprecatedInterface>
@@ -3858,9 +3858,12 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_User.php">
-    <UndefinedClass>
-      <code><![CDATA[\Test\Util\User\Dummy]]></code>
-    </UndefinedClass>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[createRememberMeToken]]></code>
+      <code><![CDATA[createSessionToken]]></code>
+      <code><![CDATA[getSession]]></code>
+      <code><![CDATA[setLoginName]]></code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
     <LessSpecificReturnStatement>

@@ -69,7 +69,7 @@ class AdminSettingsControllerTest extends TestCase {
 		);
 
 		$user = Server::get(IUserManager::class)->createUser($this->adminUid, 'mylongrandompassword');
-		\OC_User::setUserId($user->getUID());
+		self::setUserId($user->getUID());
 		Server::get(IGroupManager::class)->createGroup('admin')->addUser($user);
 	}
 
@@ -77,7 +77,7 @@ class AdminSettingsControllerTest extends TestCase {
 		Server::get(IUserManager::class)
 			->get($this->adminUid)
 			->delete();
-		\OC_User::setUserId(null);
+		self::setUserId(null);
 		Server::get(IUserSession::class)->setUser(null);
 
 		parent::tearDown();

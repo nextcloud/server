@@ -9,6 +9,7 @@ namespace OCA\Files_External\Migration;
 
 use OCP\IUser;
 use OCP\IUserSession;
+use Override;
 
 class DummyUserSession implements IUserSession {
 
@@ -53,5 +54,14 @@ class DummyUserSession implements IUserSession {
 	 */
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
 		//no OP
+	}
+
+	#[Override]
+	public function setIncognitoMode(bool $incognitoMode): void {
+	}
+
+	#[Override]
+	public function isIncognitoMode(): bool {
+		return false;
 	}
 }

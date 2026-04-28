@@ -41,7 +41,7 @@ class TagServiceTest extends \Test\TestCase {
 		$this->user = static::getUniqueID('user');
 		$this->activityManager = $this->createMock(IManager::class);
 		Server::get(IUserManager::class)->createUser($this->user, 'test');
-		\OC_User::setUserId($this->user);
+		self::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
 		$user = $this->createMock(IUser::class);
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -69,7 +69,7 @@ class TagServiceTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		\OC_User::setUserId('');
+		self::setUserId('');
 		$user = Server::get(IUserManager::class)->get($this->user);
 		if ($user !== null) {
 			$user->delete();

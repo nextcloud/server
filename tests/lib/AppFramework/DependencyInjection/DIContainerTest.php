@@ -20,18 +20,14 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IRequestId;
-use PHPUnit\Framework\MockObject\MockObject;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class DIContainerTest extends \Test\TestCase {
-	private DIContainer&MockObject $container;
+	private DIContainer $container;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->container = $this->getMockBuilder(DIContainer::class)
-			->onlyMethods(['isAdminUser'])
-			->setConstructorArgs(['name'])
-			->getMock();
+		$this->container = new DIContainer('name');
 	}
 
 

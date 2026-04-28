@@ -102,7 +102,7 @@ class SessionTest extends \Test\TestCase {
 			])
 			->getMock();
 
-		\OC_User::setIncognitoMode(false);
+		$this->userSession->setIncognitoMode(false);
 	}
 
 	public static function isLoggedInData(): array {

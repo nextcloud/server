@@ -92,4 +92,16 @@ interface IUserSession {
 	 * @since 18.0.0
 	 */
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void;
+
+	/**
+	 * Returns whether the current session is in incognito mode.
+	 * @since 34.0.0
+	 */
+	public function isIncognitoMode(): bool;
+
+	/**
+	 * Set whether the current session is in incognito mode or not.
+	 * @since 34.0.0
+	 */
+	public function setIncognitoMode(bool $incognitoMode): void;
 }
