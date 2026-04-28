@@ -24,13 +24,16 @@ use OCP\Share\IShare;
 class EtagPropagationTest extends PropagationTestCase {
 
 	/**
-	 * "user1" is the admin who shares a folder "sub1/sub2/folder" with "user2" and "user3"
-	 * "user2" receives the folder and puts it in "sub1/sub2/folder"
-	 * "user3" receives the folder and puts it in "sub1/sub2/folder"
-	 * "user2" reshares the subdir "sub1/sub2/folder/inside" with "user4"
-	 * "user4" puts the received "inside" folder into "sub1/sub2/inside" (this is to check if it propagates across multiple subfolders)
+	 * Sets up a semi-complex sharing scenario with multiple users, folders, and reshares.
+	 * 
+	 * Structure Overview:
+	 * - "user1" is the owner, creates folders and files, shares with "user2" and "user3"
+	 * - "user2" and "user3" accept and organize their shares
+	 * - "user2" reshares one folder with "user4"
+	 * - "user4" places received folder at a nested location (this is to check if it propagates across multiple subfolders)
 	 */
 	protected function setUpShares() {
+		// Tracking arrays for file IDs and etags
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1] = [];
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER2] = [];
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER3] = [];
@@ -40,136 +43,152 @@ class EtagPropagationTest extends PropagationTestCase {
 		$shareManager = Server::get(\OCP\Share\IManager::class);
 
 		$this->rootView = new View('');
+
+		//
+		// --- USER 1: creates resources, and initiates shares ---
+		//
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$view1 = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+
+		// Create folder hierarchy and files
 		$view1->mkdir('/sub1/sub2/folder/inside');
 		$view1->mkdir('/directReshare');
 		$view1->mkdir('/sub1/sub2/folder/other');
 		$view1->file_put_contents('/foo.txt', 'foobar');
 		$view1->file_put_contents('/sub1/sub2/folder/file.txt', 'foobar');
 		$view1->file_put_contents('/sub1/sub2/folder/inside/file.txt', 'foobar');
-		$folderInfo = $view1->getFileInfo('/sub1/sub2/folder');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
-		$fileInfo = $view1->getFileInfo('/foo.txt');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
-		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)
-			->get('/foo.txt');
-		$share = $shareManager->newShare();
-		$share->setNode($node)
+		// Assert initial resources exist
+		$this->assertInstanceOf('\OC\Files\FileInfo', $view1->getFileInfo('/sub1/sub2/folder'));
+		$this->assertInstanceOf('\OC\Files\FileInfo', $view1->getFileInfo('/foo.txt'));
+		$this->assertInstanceOf('\OC\Files\FileInfo', $view1->getFileInfo('/directReshare'));
+
+		// Prepare shares
+		$fooNode = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/foo.txt');
+
+		$fooShareToUser2 = $shareManager->newShare();
+		$fooShareToUser2->setNode($fooNode)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE);
-		$share = $shareManager->createShare($share);
-		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
-		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)
-			->get('/sub1/sub2/folder');
+		$fooShareToUser2 = $shareManager->createShare($fooShareToUser2);
 
-		$share = $shareManager->newShare();
-		$share->setNode($node)
+		$folderNode = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder');
+
+		$folderShareToUser2 = $shareManager->newShare();
+		$folderShareToUser2->setNode($folderNode)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = $shareManager->createShare($share);
-		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
+		$folderShareToUser2 = $shareManager->createShare($folderShareToUser2);
 
-		$share = $shareManager->newShare();
-		$share->setNode($node)
+		$folderShareToUser3 = $shareManager->newShare();
+		$folderShareToUser3->setNode($folderNode)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER3)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = $shareManager->createShare($share);
-		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER3);
+		$folderShareToUser3 = $shareManager->createShare($folderShareToUser3);
 
-		$folderInfo = $view1->getFileInfo('/directReshare');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
+		$directReshareNode = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/directReshare');
 
-		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)
-			->get('/directReshare');
-		$share = $shareManager->newShare();
-		$share->setNode($node)
+		$directReshareToUser2 = $shareManager->newShare();
+		$directReshareToUser2->setNode($directReshareNode)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = $shareManager->createShare($share);
-		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
+		$directReshareToUser2 = $shareManager->createShare($directReshareToUser2);
 
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER1][''] = $view1->getFileInfo('')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER1]['sub1'] = $view1->getFileInfo('sub1')->getId();
+		// Track file ids
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER1][''] 			= $view1->getFileInfo('')->getId();
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER1]['sub1'] 		= $view1->getFileInfo('sub1')->getId();
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1]['sub1/sub2'] = $view1->getFileInfo('sub1/sub2')->getId();
 
-		/*
-		 * User 2
-		 */
+		//
+		// --- USER 2: accepts shares from user 1, organizes folders, and initiates reshares ---
+		//
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
+
+		// Accept shares from user 1
+		$this->shareManager->acceptShare($fooShareToUser2, self::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->acceptShare($folderShareToUser2, self::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->acceptShare($directReshareToUser2, self::TEST_FILES_SHARING_API_USER2);
+
+		// Organize received folders
 		$view2 = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 		$view2->mkdir('/sub1/sub2');
 		$view2->rename('/folder', '/sub1/sub2/folder');
-		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 
-		$insideInfo = $view2->getFileInfo('/sub1/sub2/folder/inside');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $insideInfo);
+		//$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 
-		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER2)
-			->get('/sub1/sub2/folder/inside');
-		$share = $shareManager->newShare();
-		$share->setNode($node)
+		$this->assertInstanceOf('\OC\Files\FileInfo', $view2->getFileInfo('/sub1/sub2/folder/inside'));
+		$this->assertInstanceOf('\OC\Files\FileInfo', $view2->getFileInfo('/directReshare'));
+
+		// Prepare reshares from user2 to user4
+		$user2InsideNode = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->get('/sub1/sub2/folder/inside');
+
+		$insideShareToUser4 = $shareManager->newShare();
+		$insideShareToUser4->setNode($user2InsideNode)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER4)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = $shareManager->createShare($share);
-		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER4);
+		$insideShareToUser4 = $shareManager->createShare($insideShareToUser4);
 
-		$folderInfo = $view2->getFileInfo('/directReshare');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
+		$user2DirectReshareNode = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->get('/directReshare');
 
-		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER2)
-			->get('/directReshare');
-		$share = $shareManager->newShare();
-		$share->setNode($node)
+		$directReshareFromUser2ToUser4 = $shareManager->newShare();
+		$directReshareFromUser2ToUser4->setNode($user2DirectReshareNode)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER4)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = $shareManager->createShare($share);
-		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER4);
+		$directReshareFromUser2ToUser4 = $shareManager->createShare($directReshareFromUser2ToUser4);
 
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER2][''] = $view2->getFileInfo('')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['sub1'] = $view2->getFileInfo('sub1')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['sub1/sub2'] = $view2->getFileInfo('sub1/sub2')->getId();
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['']			= $view2->getFileInfo('')->getId();
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['sub1']		= $view2->getFileInfo('sub1')->getId();
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['sub1/sub2']	= $view2->getFileInfo('sub1/sub2')->getId();
 
-		/*
-		 * User 3
-		 */
+		//
+		// --- USER 3: accepts share from user 1, organizes folders ---
+		//
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER3);
+		$this->shareManager->acceptShare($folderShareToUser3, self::TEST_FILES_SHARING_API_USER3);
+
 		$view3 = new View('/' . self::TEST_FILES_SHARING_API_USER3 . '/files');
 		$view3->mkdir('/sub1/sub2');
 		$view3->rename('/folder', '/sub1/sub2/folder');
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER3][''] = $view3->getFileInfo('')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER3]['sub1'] = $view3->getFileInfo('sub1')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER3]['sub1/sub2'] = $view3->getFileInfo('sub1/sub2')->getId();
 
-		/*
-		 * User 4
-		 */
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER3]['']			= $view3->getFileInfo('')->getId();
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER3]['sub1']		= $view3->getFileInfo('sub1')->getId();
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER3]['sub1/sub2']	= $view3->getFileInfo('sub1/sub2')->getId();
+
+		//
+		// --- USER 4: accepts re-shares from user 2, organizes folders ---
+		//
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER4);
+		$this->shareManager->acceptShare($insideShareToUser4, self::TEST_FILES_SHARING_API_USER4);
+		$this->shareManager->acceptShare($directReshareFromUser2ToUser4, self::TEST_FILES_SHARING_API_USER4);
+
 		$view4 = new View('/' . self::TEST_FILES_SHARING_API_USER4 . '/files');
 		$view4->mkdir('/sub1/sub2');
 		$view4->rename('/inside', '/sub1/sub2/inside');
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER4][''] = $view4->getFileInfo('')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER4]['sub1'] = $view4->getFileInfo('sub1')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER4]['sub1/sub2'] = $view4->getFileInfo('sub1/sub2')->getId();
 
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER4]['']			= $view4->getFileInfo('')->getId();
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER4]['sub1']		= $view4->getFileInfo('sub1')->getId();
+		$this->fileIds[self::TEST_FILES_SHARING_API_USER4]['sub1/sub2']	= $view4->getFileInfo('sub1/sub2')->getId();
+
+		//
+		// --- Collect initial etags for all tracked IDs ---
+		//
 		foreach ($this->fileIds as $user => $ids) {
 			$this->loginAsUser($user);
 			foreach ($ids as $id) {
 				$path = $this->rootView->getPath($id);
-				$ls = $this->rootView->getDirectoryContent($path);
+				$this->rootView->getDirectoryContent($path); // trigger mountpoints
 				$this->fileEtags[$id] = $this->rootView->getFileInfo($path)->getEtag();
 			}
 		}
