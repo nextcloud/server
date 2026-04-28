@@ -217,6 +217,14 @@ interface IQueryBuilder {
 	public function executeStatement(?IDBConnection $connection = null): int;
 
 	/**
+	 * Set to ignore conflicts on insert
+	 *
+	 * @since 34.0.0
+	 * @return self
+	 */
+	public function ignoreConflictsOnInsert(): self;
+
+	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.
 	 *
 	 * <code>

@@ -36,31 +36,33 @@ class AdapterMySQL extends Adapter {
 		return $this->collation;
 	}
 
-	public function insertIgnoreConflict(string $table, array $values): int {
+	public function insertIgnoreConflict(string $table, array $values, array $hintShardKey = []): int {
 		$builder = $this->conn->getQueryBuilder();
 		$builder->insert($table);
-		$updates = [];
 		foreach ($values as $key => $value) {
 			$builder->setValue($key, $builder->createNamedParameter($value));
 		}
 
-		/*
-		 * We can't use ON DUPLICATE KEY UPDATE here because Nextcloud use the CLIENT_FOUND_ROWS flag
-		 * With this flag the MySQL returns the number of selected rows
-		 * instead of the number of affected/modified rows
-		 * It's impossible to change this behaviour at runtime or for a single query
-		 * Then, the result is 1 if a row is inserted and also 1 if a row is updated with same or different values
-		 *
-		 * With INSERT IGNORE, the result is 1 when a row is inserted, 0 otherwise
-		 *
-		 * Risk: it can also ignore other errors like type mismatch or truncated data…
-		 */
-		$res = $this->conn->executeStatement(
-			preg_replace('/^INSERT/i', 'INSERT IGNORE', $builder->getSQL()),
-			$builder->getParameters(),
-			$builder->getParameterTypes()
-		);
+		if (isset($hintShardKey['column'], $hintShardKey['value'])) {
+			$builder->hintShardKey($hintShardKey['column'], $hintShardKey['value'], $hintShardKey['overwrite'] ?? false);
+		}
 
-		return $res;
+		$builder->ignoreConflictsOnInsert();
+		return $builder->executeStatement();
+	}
+
+	/**
+	 * We can't use ON DUPLICATE KEY UPDATE here because Nextcloud use the CLIENT_FOUND_ROWS flag
+	 * With this flag the MySQL returns the number of selected rows
+	 * instead of the number of affected/modified rows
+	 * It's impossible to change this behaviour at runtime or for a single query
+	 * Then, the result is 1 if a row is inserted and also 1 if a row is updated with same or different values
+	 *
+	 * With INSERT IGNORE, the result is 1 when a row is inserted, 0 otherwise
+	 *
+	 * Risk: it can also ignore other errors like type mismatch or truncated data…
+	 */
+	public function getInsertIgnoreSqlTransformer(): callable {
+		return fn (string $sql) => preg_replace('/^INSERT/i', 'INSERT IGNORE', $sql);
 	}
 }

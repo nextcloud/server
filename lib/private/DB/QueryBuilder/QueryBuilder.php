@@ -39,6 +39,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	private bool $nonEmptyWhere = false;
 	protected ?string $lastInsertedTable = null;
 	private array $selectedColumns = [];
+	private bool $insertIgnoreConflicts = false;
 
 	/**
 	 * Initializes a new QueryBuilder.
@@ -275,6 +276,13 @@ class QueryBuilder extends TypedQueryBuilder {
 		);
 	}
 
+	public function ignoreConflictsOnInsert(): self {
+		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::INSERT) {
+			throw new \LogicException('ignoreConflictsOnInsert() can only be used on INSERT queries');
+		}
+		$this->insertIgnoreConflicts = true;
+		return $this;
+	}
 
 	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.
@@ -289,7 +297,11 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @return string The SQL query string.
 	 */
 	public function getSQL() {
-		return $this->queryBuilder->getSQL();
+		$sql = $this->queryBuilder->getSQL();
+		if ($this->insertIgnoreConflicts && $this->connection->getInsertIgnoreSqlTransformer() !== null) {
+			return ($this->connection->getInsertIgnoreSqlTransformer())($sql);
+		}
+		return $sql;
 	}
 
 	/**

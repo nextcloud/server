@@ -77,18 +77,22 @@ class AdapterSqlite extends Adapter {
 		}
 	}
 
-	public function insertIgnoreConflict(string $table, array $values): int {
+	public function insertIgnoreConflict(string $table, array $values, array $hintShardKey = []): int {
 		$builder = $this->conn->getQueryBuilder();
 		$builder->insert($table);
-		$updates = [];
 		foreach ($values as $key => $value) {
 			$builder->setValue($key, $builder->createNamedParameter($value));
 		}
 
-		return $this->conn->executeStatement(
-			$builder->getSQL() . ' ON CONFLICT DO NOTHING',
-			$builder->getParameters(),
-			$builder->getParameterTypes()
-		);
+		if (isset($hintShardKey['column'], $hintShardKey['value'])) {
+			$builder->hintShardKey($hintShardKey['column'], $hintShardKey['value'], $hintShardKey['overwrite'] ?? false);
+		}
+
+		$builder->ignoreConflictsOnInsert();
+		return $builder->executeStatement();
+	}
+
+	public function getInsertIgnoreSqlTransformer(): callable {
+		return fn (string $sql) => $sql . ' ON CONFLICT DO NOTHING';
 	}
 }

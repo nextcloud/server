@@ -168,10 +168,12 @@ interface IDBConnection {
 	 *
 	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
 	 * @param array $values data that should be inserted into the table  (column name => value)
+	 * @param array{column: string, value: mixed, overwrite?: bool}|array{} $hintShardKey An array representing the shard key to hint
 	 * @return int number of inserted rows
+	 * @since 34.0.0 Parameter $hintShardKey was added
 	 * @since 16.0.0
 	 */
-	public function insertIgnoreConflict(string $table, array $values) : int;
+	public function insertIgnoreConflict(string $table, array $values, array $hintShardKey = []) : int;
 
 	/**
 	 * Insert or update a row value

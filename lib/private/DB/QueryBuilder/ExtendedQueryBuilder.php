@@ -47,6 +47,11 @@ abstract class ExtendedQueryBuilder extends TypedQueryBuilder {
 		return $this->builder->getState();
 	}
 
+	public function ignoreConflictsOnInsert(): self {
+		$this->builder->ignoreConflictsOnInsert();
+		return $this;
+	}
+
 	public function getSQL() {
 		return $this->builder->getSQL();
 	}

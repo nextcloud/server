@@ -548,9 +548,9 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 	}
 
-	public function insertIgnoreConflict(string $table, array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values, array $hintShardKey = []) : int {
 		try {
-			return $this->adapter->insertIgnoreConflict($table, $values);
+			return $this->adapter->insertIgnoreConflict($table, $values, $hintShardKey);
 		} catch (\Exception $e) {
 			$this->logDatabaseException($e);
 			throw $e;
@@ -960,5 +960,9 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
 		return new CrossShardMoveHelper($this->shardConnectionManager);
+	}
+
+	public function getInsertIgnoreSqlTransformer(): ?callable {
+		return $this->adapter->getInsertIgnoreSqlTransformer();
 	}
 }

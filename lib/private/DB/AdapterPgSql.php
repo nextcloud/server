@@ -23,7 +23,7 @@ class AdapterPgSql extends Adapter {
 		return $statement;
 	}
 
-	public function insertIgnoreConflict(string $table, array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values, array $hintShardKey = []) : int {
 		// "upsert" is only available since PgSQL 9.5, but the generic way
 		// would leave error logs in the DB.
 		$builder = $this->conn->getQueryBuilder();
@@ -31,7 +31,14 @@ class AdapterPgSql extends Adapter {
 		foreach ($values as $key => $value) {
 			$builder->setValue($key, $builder->createNamedParameter($value));
 		}
-		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
-		return $this->conn->executeUpdate($queryString, $builder->getParameters(), $builder->getParameterTypes());
+		if (isset($hintShardKey['column'], $hintShardKey['value'])) {
+			$builder->hintShardKey($hintShardKey['column'], $hintShardKey['value'], $hintShardKey['overwrite'] ?? false);
+		}
+		$builder->ignoreConflictsOnInsert();
+		return $builder->executeStatement();
+	}
+
+	public function getInsertIgnoreSqlTransformer(): callable {
+		return fn (string $sql) => $sql . ' ON CONFLICT DO NOTHING';
 	}
 }
