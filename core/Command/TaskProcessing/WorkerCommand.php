@@ -10,6 +10,7 @@ namespace OC\Core\Command\TaskProcessing;
 
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
+use OCP\IAppConfig;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\IManager;
@@ -23,6 +24,7 @@ class WorkerCommand extends Base {
 	public function __construct(
 		private readonly IManager $taskProcessingManager,
 		private readonly LoggerInterface $logger,
+		private readonly IAppConfig $appConfig,
 	) {
 		parent::__construct();
 	}
@@ -87,6 +89,7 @@ class WorkerCommand extends Base {
 				break;
 			}
 
+			$this->appConfig->setValueString('core', 'taskprocessing_worker_last_iteration', (string)time(), lazy: true);
 			$processedTask = $this->processNextTask($output, $taskTypes);
 
 			if ($once) {
