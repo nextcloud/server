@@ -213,6 +213,7 @@
     "Share provider does not support accepting" : "Bendrinimo teikėjas nepalaiko priėmimo",
     "Cannot change target of link share" : "Negalima pakeisti nuorodos dalijimosi tikslo",
     "Invalid share recipient" : "Neteisingas viešinio gavėjas",
+    "Unknown share recipient" : "Nežinomas bendrinimo gavėjas",
     "Group \"%s\" does not exist" : "Grupės „%s“ nėra",
     "The requested share does not exist anymore" : "Pageidaujamas bendrinimas daugiau neegzistuoja.",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Vartotojas nebuvo sukurtas, nes pasiektas vartotojų limitas. Norėdami sužinoti daugiau, peržiūrėkite pranešimus.",
