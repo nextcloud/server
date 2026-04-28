@@ -6,6 +6,9 @@
  */
 namespace OCA\WorkflowEngine;
 
+use NCU\WorkflowEngine\Events\RegisterRuntimeOperationsEvent;
+use NCU\WorkflowEngine\RuntimeOperation;
+use NCU\WorkflowEngine\RuntimeScope;
 use OCA\WorkflowEngine\Check\FileMimeType;
 use OCA\WorkflowEngine\Check\FileName;
 use OCA\WorkflowEngine\Check\FileSize;
@@ -19,6 +22,7 @@ use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Service\Logger;
 use OCA\WorkflowEngine\Service\RuleMatcher;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\Exception;
@@ -47,11 +51,28 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type WorkflowEngineRule from ResponseDefinitions
  */
 class Manager implements IManager {
-	/** @var array[] */
+	/** @var array<string, array<string, array<int, WorkflowEngineCheck>>> */
 	protected array $operations = [];
 
 	/** @var array<int, WorkflowEngineCheck> */
 	protected array $checks = [];
+
+	/** @var array<string, array<string, WorkflowEngineCheck>> */
+	protected array $registeredRuntimeChecks = [];
+
+	/**
+	 * Registered runtime operations, keyed by app ID and runtime operation ID.
+	 *
+	 * @var array<string, array<string, RuntimeOperation>>
+	 */
+	protected array $registeredRuntimeOperations = [];
+
+	/**
+	 * Registered runtime scopes, keyed by app ID and runtime operation ID.
+	 *
+	 * @var array<string, array<string, RuntimeScope>>
+	 */
+	protected array $registeredRuntimeScopes = [];
 
 	/** @var IEntity[] */
 	protected array $registeredEntities = [];
@@ -77,6 +98,7 @@ class Manager implements IManager {
 		private readonly IEventDispatcher $dispatcher,
 		private readonly IAppConfig $appConfig,
 		private readonly ICacheFactory $cacheFactory,
+		private readonly IAppManager $appManager,
 	) {
 		$this->operationsByScope = new CappedMemoryCache(64);
 	}
@@ -92,7 +114,7 @@ class Manager implements IManager {
 		);
 	}
 
-	public function getAllConfiguredEvents() {
+	public function getAllConfiguredEvents(): array {
 		$cache = $this->cacheFactory->createDistributed('flow');
 		$cached = $cache->get('events');
 		if ($cached !== null) {
@@ -125,6 +147,30 @@ class Manager implements IManager {
 		$cache->set('events', $operations, 3600);
 
 		return $operations;
+	}
+
+	/**
+	 * Returns the events configured by runtime operations, in the same structure as getAllConfiguredEvents().
+	 *
+	 * @return array<class-string<IOperation>, array<class-string<IEntity>, list<string>>>
+	 */
+	public function getAllConfiguredRuntimeEvents(): array {
+		$eventsByOperationAndEntity = [];
+		foreach ($this->registeredRuntimeOperations as $appOperations) {
+			foreach ($appOperations as $operation) {
+				$operationClass = $operation->class;
+				$entityClass = $operation->entity;
+				$eventsByOperationAndEntity[$operationClass] ??= [];
+				$eventsByOperationAndEntity[$operationClass][$entityClass] ??= [];
+				/** @var list<string> $events */
+				$events = array_unique(
+					array_merge($eventsByOperationAndEntity[$operationClass][$entityClass], $operation->events)
+				);
+				$eventsByOperationAndEntity[$operationClass][$entityClass] = $events;
+			}
+		}
+
+		return $eventsByOperationAndEntity;
 	}
 
 	/**
@@ -166,6 +212,33 @@ class Manager implements IManager {
 		}
 
 		return $this->scopesByOperation[$operationClass];
+	}
+
+	/**
+	 * Gets configured scopes for operations registered at runtime.
+	 *
+	 * @param class-string<IOperation> $operationClass
+	 * @return ScopeContext[]
+	 */
+	public function getAllConfiguredScopesForRuntimeOperation(string $operationClass): array {
+		$scopes = [];
+		foreach ($this->registeredRuntimeOperations as $appId => $appOperations) {
+			foreach ($appOperations as $operationId => $operation) {
+				if ($operation->class !== $operationClass) {
+					continue;
+				}
+
+				$runtimeScope = $this->registeredRuntimeScopes[$appId][$operationId] ?? null;
+				if ($runtimeScope === null) {
+					continue;
+				}
+
+				$scope = new ScopeContext($runtimeScope->type, $runtimeScope->value);
+				$scopes[$scope->getHash()] = $scope;
+			}
+		}
+
+		return $scopes;
 	}
 
 	public function getAllOperations(ScopeContext $scopeContext): array {
@@ -262,6 +335,115 @@ class Manager implements IManager {
 		$this->cacheFactory->createDistributed('flow')->remove('events');
 
 		return $query->getLastInsertId();
+	}
+
+	/**
+	 * Get all operations registered at runtime
+	 *
+	 * @param ScopeContext $scopeContext
+	 * @return array<class-string<IOperation>, list<RuntimeOperation>>
+	 */
+	public function getAllRuntimeOperations(ScopeContext $scopeContext, ?string $appFilter = null): array {
+		$result = [];
+		foreach ($this->registeredRuntimeOperations as $appId => $appOperations) {
+			if ($appFilter !== null && $appId !== $appFilter) {
+				continue;
+			}
+
+			foreach ($appOperations as $operationId => $operation) {
+				// scope stored per-app per-operation in registeredRuntimeScopes
+				$runtimeScope = $this->registeredRuntimeScopes[$appId][$operationId] ?? null;
+				if ($runtimeScope === null) {
+					continue;
+				}
+				// filter by provided $scopeContext
+				if ($runtimeScope->type !== $scopeContext->getScope()) {
+					continue;
+				}
+				if ($scopeContext->getScope() === IManager::SCOPE_USER && $runtimeScope->value !== $scopeContext->getScopeId()) {
+					continue;
+				}
+
+				$runtimeOperation = new RuntimeOperation($operationId,
+					$operation->class,
+					$operation->name,
+					$operation->checks,
+					$operation->operation,
+					$operation->entity,
+					$operation->events,
+					$appId,
+				);
+
+				$result[$operation->class][] = $runtimeOperation;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Return operations registered at runtime, which are not persisted in the DB nor shown in the UI.
+	 *
+	 * @param class-string<IOperation> $class
+	 * @param ScopeContext $scopeContext
+	 * @return list<RuntimeOperation>
+	 */
+	public function getRuntimeOperations(string $class, ScopeContext $scopeContext): array {
+		$operations = $this->getAllRuntimeOperations($scopeContext);
+
+		return $operations[$class] ?? [];
+	}
+
+	/**
+	 * @param string $appId
+	 * @param class-string<IOperation> $class
+	 * @param string $name
+	 * @param list<WorkflowEngineCheck> $checks
+	 * @param string $operation
+	 * @param class-string<IEntity> $entity
+	 * @param list<class-string<IEntityEvent>> $events
+	 */
+	public function addRuntimeOperation(
+		string $appId,
+		string $class,
+		string $name,
+		array $checks,
+		string $operation,
+		ScopeContext $scope,
+		string $entity,
+		array $events,
+	): void {
+		if (!$this->appManager->isEnabledForAnyone($appId)) {
+			throw new \InvalidArgumentException("App {$appId} is not enabled");
+		}
+
+		$this->validateOperation($class, $name, $checks, $operation, $scope, $entity, $events);
+
+		$checkHashes = [];
+		foreach ($checks as $check) {
+			$hash = md5($check['class'] . '::' . $check['operator'] . '::' . $check['value']);
+			$checkHashes[] = $hash;
+			$this->registeredRuntimeChecks[$appId] ??= [];
+			$this->registeredRuntimeChecks[$appId][$hash] ??= $check;
+		}
+
+		$operationId = uniqid($appId, true);
+		$runtimeOperation = new RuntimeOperation(
+			$operationId,
+			$class,
+			$name,
+			$checkHashes,
+			$operation,
+			$entity,
+			$events,
+			$appId,
+		);
+		$this->registeredRuntimeOperations[$appId] ??= [];
+		$this->registeredRuntimeOperations[$appId][$operationId] ??= $runtimeOperation;
+
+		$runtimeScope = new RuntimeScope($operationId, $scope->getScope(), $scope->getScopeId());
+		$this->registeredRuntimeScopes[$appId] ??= [];
+		$this->registeredRuntimeScopes[$appId][$operationId] ??= $runtimeScope;
 	}
 
 	/**
@@ -524,6 +706,22 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @param list<string> $checkHashes
+	 * @param string $appId
+	 * @return array<string, WorkflowEngineCheck> checks indexed by their ID
+	 */
+	public function getRuntimeChecks(array $checkHashes, string $appId): array {
+		$checks = [];
+		foreach ($checkHashes as $hash) {
+			if (!isset($this->registeredRuntimeChecks[$appId][$hash])) {
+				throw new \UnexpectedValueException("Runtime check {$hash} for app {$appId} missing");
+			}
+			$checks[$hash] = $this->registeredRuntimeChecks[$appId][$hash];
+		}
+		return $checks;
+	}
+
+	/**
 	 * @param int[] $checkIds
 	 * @return array<int, WorkflowEngineCheck>
 	 */
@@ -663,6 +861,14 @@ class Manager implements IManager {
 	#[\Override]
 	public function registerOperation(IOperation $operator): void {
 		$this->registeredOperators[get_class($operator)] = $operator;
+	}
+
+	public function reloadRuntimeOperations(): void {
+		$this->registeredRuntimeOperations = [];
+		$this->registeredRuntimeScopes = [];
+		$this->registeredRuntimeChecks = [];
+
+		$this->dispatcher->dispatchTyped(new RegisterRuntimeOperationsEvent($this));
 	}
 
 	#[\Override]
