@@ -7,6 +7,7 @@ import type { MaybeRefOrGetter } from 'vue'
 import type { IAppstoreApp, IAppstoreExApp } from '../apps.d.ts'
 
 import { computed, toValue } from 'vue'
+import { useRoute } from 'vue-router'
 import { useUserSettingsStore } from '../store/userSettings.ts'
 
 /**
@@ -16,11 +17,21 @@ import { useUserSettingsStore } from '../store/userSettings.ts'
  */
 export function useFilteredApps(apps: MaybeRefOrGetter<(IAppstoreApp | IAppstoreExApp)[]>) {
 	const store = useUserSettingsStore()
+	const route = useRoute()
 	return computed(() => {
-		if (!store.showIncompatible) {
-			return toValue(apps)
-				.filter((app) => app.isCompatible !== false)
-		}
+		const query = [route.query.q || ''].flat()[0]!
 		return toValue(apps)
+			.filter((app) => {
+				if (!store.showIncompatible && app.isCompatible === false) {
+					return false
+				}
+				if (query) {
+					const needle = query.trim().toLocaleLowerCase()
+					return app.name.toLocaleLowerCase().includes(needle)
+						|| app.id.toLocaleLowerCase().includes(needle)
+						|| app.summary.toLocaleLowerCase().includes(needle)
+				}
+				return true
+			})
 	})
 }

@@ -23,6 +23,8 @@ const currentCategory = computed(() => {
 	}
 	if (route.name === 'apps-bundles') {
 		return 'bundles'
+	} else if (route.name === 'apps-search') {
+		return 'search'
 	}
 	return 'discover'
 })
@@ -57,6 +59,7 @@ const showSidebar = computed(() => !!route.params.id)
 <style module>
 .appstoreApp__content {
 	padding-inline-end: var(--body-container-margin);
+	position: relative;
 }
 
 .appstoreApp__heading {

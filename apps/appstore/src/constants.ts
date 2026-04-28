@@ -43,6 +43,7 @@ export const APPSTORE_CATEGORY_NAMES = Object.freeze({
 	bundles: t('appstore', 'App bundles'),
 	featured: t('appstore', 'Featured apps'),
 	supported: t('appstore', 'Supported apps'), // From subscription
+	search: t('appstore', 'Search results'),
 })
 
 /**

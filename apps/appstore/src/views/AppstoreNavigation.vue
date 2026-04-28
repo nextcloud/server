@@ -4,10 +4,13 @@
 -->
 
 <script setup lang="ts">
+import { emit } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { computed, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useHotKey } from '@nextcloud/vue'
+import { watchDebounced } from '@vueuse/core'
+import { computed, ref, useTemplateRef, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
@@ -28,26 +31,52 @@ const userSettings = useUserSettingsStore()
 const categories = computed(() => store.categories)
 const categoriesLoading = computed(() => store.isLoadingCategories)
 
+const route = useRoute()
 const router = useRouter()
 
+const searchElement = useTemplateRef('search')
+
+useHotKey('f', () => {
+	if (!searchElement.value?.$refs.inputElement) {
+		emit('toggle-navigation', {
+			open: true,
+		})
+		// open animation
+		window.setTimeout(() => searchElement.value?.$refs.inputElement?.focus(), 400)
+	}
+	searchElement.value?.$refs.inputElement?.focus()
+}, { ctrl: true, stop: true, prevent: true })
+
 const search = ref('')
-watch(search, (newValue, oldValue) => {
+// initialize the search value from the query parameter on mount
+watch(() => route.query.q, (newQuery) => {
+	search.value = [newQuery || ''].flat()[0]!
+}, { immediate: true })
+// update the query parameter when the search value changes, debounced to avoid excessive updates
+watchDebounced(search, (newValue, oldValue) => {
 	if (newValue.trim() === oldValue.trim()) {
 		return
 	}
 
-	if (router.currentRoute.value.name === 'apps-search') {
-		router.replace({
+	if (router.currentRoute.value.name === 'apps-discover' || (router.currentRoute.value.name === 'apps-manage' && route.params.category === 'bundles')) {
+		router.push({
 			name: 'apps-search',
-			query: { q: newValue },
+			query: {
+				...route.query,
+				q: newValue.trim() || undefined,
+			},
 		})
 		return
 	}
-	router.push({
-		name: 'apps-search',
-		query: { q: newValue },
+
+	router.replace({
+		...route,
+		query: {
+			...route.query,
+			q: newValue.trim() || undefined,
+		},
 	})
-})
+}, { debounce: 500 })
 
 /**
  * Check if the current instance has a support subscription from the Nextcloud GmbH
@@ -62,6 +91,7 @@ const isSubscribed = computed(() => store.apps.find(({ level }) => level === 300
 	<NcAppNavigation :aria-label="t('appstore', 'Appstore categories')">
 		<template #search>
 			<NcAppNavigationSearch
+				ref="search"
 				v-model="search"
 				:label="t('appstore', 'Search apps…')" />
 		</template>

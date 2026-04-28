@@ -14,6 +14,7 @@ const AppstoreDiscover = () => import('../views/AppstoreDiscover.vue')
 const AppstoreManage = () => import('../views/AppstoreManage.vue')
 const AppstoreBundles = () => import('../views/AppstoreBundles.vue')
 const AppstoreBrowse = () => import('../views/AppstoreBrowse.vue')
+const AppstoreSearch = () => import('../views/AppstoreSearch.vue')
 
 const routes: RouteRecordRaw[] = [
 	{
@@ -47,6 +48,11 @@ const routes: RouteRecordRaw[] = [
 				path: ':category/:id?',
 				name: 'apps-category',
 				component: AppstoreBrowse,
+			},
+			{
+				path: 'search/:id?',
+				name: 'apps-search',
+				component: AppstoreSearch,
 			},
 		],
 	},

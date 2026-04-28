@@ -7,6 +7,7 @@
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AppGrid from '../components/AppGrid/AppGrid.vue'
@@ -51,8 +52,18 @@ const visibleApps = useFilteredApps(apps)
 
 		<component
 			:is="userSettings.isGridView ? AppGrid : AppTable"
+			v-if="visibleApps.length"
 			:class="$style.appstoreBrowse"
 			:apps="visibleApps" />
+		<NcEmptyContent
+			v-else
+			:name="t('appstore', 'No matching apps found')">
+			<template #action>
+				<NcButton variant="primary" @click="$router.push({ query: $route.query, name: 'apps-search' })">
+					{{ t('appstore', 'Search everywhere') }}
+				</NcButton>
+			</template>
+		</NcEmptyContent>
 	</template>
 </template>
 

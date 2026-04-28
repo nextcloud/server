@@ -5,10 +5,11 @@
 
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import NcButton from '@nextcloud/vue/components/NcButton'
+import { watchDebounced } from '@vueuse/core'
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AppGrid from '../components/AppGrid/AppGrid.vue'
 import AppTable from '../components/AppTable/AppTable.vue'
@@ -18,23 +19,26 @@ import { useAppsStore } from '../store/apps.ts'
 import { useUserSettingsStore } from '../store/userSettings.ts'
 
 const route = useRoute()
+const router = useRouter()
 const store = useAppsStore()
 const userSettings = useUserSettingsStore()
 
-const currentCategory = computed(() => route.params!.category as 'enabled' | 'installed' | 'disabled' | 'updates')
-const apps = computed(() => {
-	if (currentCategory.value === 'installed') {
-		return store.apps.filter((app) => app.installed)
-	} else if (currentCategory.value === 'enabled') {
-		return store.apps.filter((app) => app.active)
-	} else if (currentCategory.value === 'disabled') {
-		return store.apps.filter((app) => app.installed && !app.active)
-	} else if (currentCategory.value === 'updates') {
-		return store.apps.filter((app) => app.update)
-	}
-	return []
-})
-const visibleApps = useFilteredApps(apps)
+const visibleApps = useFilteredApps(() => store.apps)
+const search = ref('')
+
+watch(() => route.query.q, (newQuery) => {
+	search.value = [newQuery || ''].flat()[0]!
+}, { immediate: true })
+
+watchDebounced(search, (newValue) => {
+	router.replace({
+		...route,
+		query: {
+			...route.query,
+			q: newValue.trim(),
+		},
+	})
+}, { debounce: 500 })
 </script>
 
 <template>
@@ -51,22 +55,21 @@ const visibleApps = useFilteredApps(apps)
 
 	<component
 		:is="userSettings.isGridView ? AppGrid : AppTable"
-		v-else-if="visibleApps.length"
-		:class="$style.appstoreManage"
+		v-else-if="visibleApps.length && search.trim().length > 2"
+		:class="$style.appstoreSearch"
 		:apps="visibleApps" />
 	<NcEmptyContent
 		v-else
-		:name="t('appstore', 'No matching apps found')">
+		:name="t('appstore', 'No matching apps found')"
+		:description="search.trim().length <= 2 ? t('appstore', 'Please enter more characters to search.') : undefined">
 		<template #action>
-			<NcButton variant="primary" @click="$router.push({ query: $route.query, name: 'apps-search' })">
-				{{ t('appstore', 'Search everywhere') }}
-			</NcButton>
+			<NcInputField v-model="search" type="search" :label="t('appstore', 'Search apps')" />
 		</template>
 	</NcEmptyContent>
 </template>
 
 <style module>
-.appstoreManage {
+.appstoreSearch {
 	margin-bottom: var(--body-container-margin);
 }
 </style>
