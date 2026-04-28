@@ -29,6 +29,11 @@ class Card extends \Sabre\CardDAV\Card {
 		return (int)$this->cardData['addressbookid'];
 	}
 
+	public function getVersion(): ?string {
+		preg_match('/^VERSION:([34])\.0/mi', $this->cardData['carddata'], $matches);
+		return isset($matches[1]) ? $matches[1] . '.0' : null;
+	}
+
 	public function getPrincipalUri(): string {
 		return $this->addressBookInfo['principaluri'];
 	}
