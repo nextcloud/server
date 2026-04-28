@@ -41,6 +41,8 @@ interface ILockManager extends ILockProvider {
 	/**
 	 * Check whether a lock provider is currently available.
 	 *
+	 * If a provider class was registered lazily, this may attempt to resolve it.
+	 *
 	 * @since 24.0.0
 	 */
 	public function isLockProviderAvailable(): bool;
