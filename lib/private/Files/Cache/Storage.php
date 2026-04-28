@@ -26,6 +26,7 @@ use Psr\Log\LoggerInterface;
  * A mapping between the two storage ids is stored in the database and accessible through this class
  *
  * @package OC\Files\Cache
+ * @psalm-api
  */
 class Storage {
 	private string $storageId;

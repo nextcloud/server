@@ -15,6 +15,9 @@ use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 
+/**
+ * @psalm-api - we cannot use final as this will break unit tests
+ */
 class ExpirePreviewsJob extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,

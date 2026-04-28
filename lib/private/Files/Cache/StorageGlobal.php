@@ -21,6 +21,7 @@ use OCP\IDBConnection;
  * A mapping between the two storage ids is stored in the database and accessible through this class
  *
  * @package OC\Files\Cache
+ * @psalm-api
  */
 class StorageGlobal {
 	/** @var array<string, array{id: string, numeric_id: int, available: bool, last_checked: int}> */
