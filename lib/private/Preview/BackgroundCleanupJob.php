@@ -32,6 +32,7 @@ class BackgroundCleanupJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	public function run($argument): void {
 		foreach ($this->getDeletedFiles() as $fileId) {
 			$previewIds = [];

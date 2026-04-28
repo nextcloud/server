@@ -61,6 +61,7 @@ class Encryption extends Wrapper {
 		parent::__construct($parameters);
 	}
 
+	#[\Override]
 	public function filesize(string $path): int|float|false {
 		$fullPath = $this->getFullPath($path);
 
@@ -128,6 +129,7 @@ class Encryption extends Wrapper {
 		return $data;
 	}
 
+	#[\Override]
 	public function getMetaData(string $path): ?array {
 		$data = $this->getWrapperStorage()->getMetaData($path);
 		if (is_null($data)) {
@@ -136,6 +138,7 @@ class Encryption extends Wrapper {
 		return $this->modifyMetaData($path, $data);
 	}
 
+	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {
 		$parent = rtrim($directory, '/');
 		foreach ($this->getWrapperStorage()->getDirectoryContent($directory) as $data) {
@@ -143,6 +146,7 @@ class Encryption extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function file_get_contents(string $path): string|false {
 		$encryptionModule = $this->getEncryptionModule($path);
 
@@ -158,6 +162,7 @@ class Encryption extends Wrapper {
 		return $this->getWrapperStorage()->file_get_contents($path);
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		// file put content will always be translated to a stream write
 		$handle = $this->fopen($path, 'w');
@@ -170,6 +175,7 @@ class Encryption extends Wrapper {
 		return false;
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		$fullPath = $this->getFullPath($path);
 		if ($this->util->isExcluded($fullPath)) {
@@ -184,6 +190,7 @@ class Encryption extends Wrapper {
 		return $this->getWrapperStorage()->unlink($path);
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$result = $this->getWrapperStorage()->rename($source, $target);
 
@@ -209,6 +216,7 @@ class Encryption extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		$result = $this->getWrapperStorage()->rmdir($path);
 		$fullPath = $this->getFullPath($path);
@@ -222,6 +230,7 @@ class Encryption extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function isReadable(string $path): bool {
 		$isReadable = true;
 
@@ -239,6 +248,7 @@ class Encryption extends Wrapper {
 		return $this->getWrapperStorage()->isReadable($path) && $isReadable;
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		$sourcePath = $this->getFullPath($source);
 
@@ -252,6 +262,7 @@ class Encryption extends Wrapper {
 		return $this->copyFromStorage($this, $source, $target);
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		// check if the file is stored in the array cache, this means that we
 		// copy a file over to the versions folder, in this case we don't want to
@@ -518,6 +529,7 @@ class Encryption extends Wrapper {
 		return $data;
 	}
 
+	#[\Override]
 	public function moveFromStorage(
 		Storage\IStorage $sourceStorage,
 		string $sourceInternalPath,
@@ -561,6 +573,7 @@ class Encryption extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function copyFromStorage(
 		Storage\IStorage $sourceStorage,
 		string $sourceInternalPath,
@@ -721,6 +734,7 @@ class Encryption extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function getLocalFile(string $path): string|false {
 		if ($this->encryptionManager->isEnabled()) {
 			$cachedFile = $this->getCachedFile($path);
@@ -731,6 +745,7 @@ class Encryption extends Wrapper {
 		return $this->getWrapperStorage()->getLocalFile($path);
 	}
 
+	#[\Override]
 	public function isLocal(): bool {
 		if ($this->encryptionManager->isEnabled()) {
 			return false;
@@ -738,6 +753,7 @@ class Encryption extends Wrapper {
 		return $this->getWrapperStorage()->isLocal();
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		$stat = $this->getWrapperStorage()->stat($path);
 		if (!$stat) {
@@ -750,6 +766,7 @@ class Encryption extends Wrapper {
 		return $stat;
 	}
 
+	#[\Override]
 	public function hash(string $type, string $path, bool $raw = false): string|false {
 		$fh = $this->fopen($path, 'rb');
 		if ($fh === false) {
@@ -912,6 +929,7 @@ class Encryption extends Wrapper {
 		return $encryptionModule->shouldEncrypt($fullPath);
 	}
 
+	#[\Override]
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		// always fall back to fopen
 		$target = $this->fopen($path, 'w');

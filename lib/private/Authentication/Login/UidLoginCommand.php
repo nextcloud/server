@@ -22,6 +22,7 @@ class UidLoginCommand extends ALoginCommand {
 	 *
 	 * @return LoginResult
 	 */
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		/* @var $loginResult IUser */
 		$user = $this->userManager->checkPasswordNoLogging(

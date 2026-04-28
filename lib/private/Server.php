@@ -1355,6 +1355,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return Folder|null
 	 * @deprecated 20.0.0
 	 */
+	#[\Override]
 	public function getUserFolder($userId = null): ?Folder {
 		if ($userId === null) {
 			$user = $this->get(IUserSession::class)->getUser();
@@ -1379,6 +1380,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return string
 	 * @deprecated 20.0.0
 	 */
+	#[\Override]
 	public function getWebRoot(): string {
 		return $this->webRoot;
 	}
@@ -1391,6 +1393,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return IL10N
 	 * @deprecated 20.0.0 use DI of {@see IL10N} or {@see IFactory} instead, or {@see \OCP\Util::getL10N()} as a last resort
 	 */
+	#[\Override]
 	public function getL10N($app, $lang = null) {
 		return $this->get(IFactory::class)->get($app, $lang);
 	}

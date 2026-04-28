@@ -51,6 +51,7 @@ class Limiter implements ILimiter {
 	 * @param int $anonPeriod in seconds
 	 * @throws RateLimitExceededException
 	 */
+	#[\Override]
 	public function registerAnonRequest(
 		string $identifier,
 		int $anonLimit,
@@ -69,6 +70,7 @@ class Limiter implements ILimiter {
 	 * @param int $userPeriod in seconds
 	 * @throws RateLimitExceededException
 	 */
+	#[\Override]
 	public function registerUserRequest(
 		string $identifier,
 		int $userLimit,

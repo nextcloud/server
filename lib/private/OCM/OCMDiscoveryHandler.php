@@ -21,6 +21,7 @@ class OCMDiscoveryHandler implements IHandler {
 	) {
 	}
 
+	#[\Override]
 	public function handle(string $service, IRequestContext $context, ?IResponse $previousResponse): ?IResponse {
 		if ($service !== 'ocm') {
 			return $previousResponse;

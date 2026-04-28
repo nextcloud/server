@@ -27,14 +27,17 @@ class SearchQuery implements ISearchQuery {
 	) {
 	}
 
+	#[\Override]
 	public function getSearchOperation(): ISearchOperator {
 		return $this->searchOperation;
 	}
 
+	#[\Override]
 	public function getLimit(): int {
 		return $this->limit;
 	}
 
+	#[\Override]
 	public function getOffset(): int {
 		return $this->offset;
 	}
@@ -42,14 +45,17 @@ class SearchQuery implements ISearchQuery {
 	/**
 	 * @return ISearchOrder[]
 	 */
+	#[\Override]
 	public function getOrder(): array {
 		return $this->order;
 	}
 
+	#[\Override]
 	public function getUser(): ?IUser {
 		return $this->user;
 	}
 
+	#[\Override]
 	public function limitToHome(): bool {
 		return $this->limitToHome;
 	}

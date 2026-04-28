@@ -77,6 +77,7 @@ class JobList implements IJobList {
 		$query->executeStatement();
 	}
 
+	#[\Override]
 	public function scheduleAfter(string $job, int $runAfter, mixed $argument = null): void {
 		$this->add($job, $argument, $runAfter);
 	}
@@ -346,6 +347,7 @@ class JobList implements IJobList {
 	/**
 	 * set the job that was last ran
 	 */
+	#[\Override]
 	public function setLastJob(IJob $job): void {
 		$this->unlockJob($job);
 		$this->config->setAppValue('backgroundjob', 'lastjob', $job->getId());

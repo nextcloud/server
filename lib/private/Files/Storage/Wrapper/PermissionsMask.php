@@ -42,26 +42,32 @@ class PermissionsMask extends Wrapper {
 		return ($this->mask & $permissions) === $permissions;
 	}
 
+	#[\Override]
 	public function isUpdatable(string $path): bool {
 		return $this->checkMask(Constants::PERMISSION_UPDATE) && parent::isUpdatable($path);
 	}
 
+	#[\Override]
 	public function isCreatable(string $path): bool {
 		return $this->checkMask(Constants::PERMISSION_CREATE) && parent::isCreatable($path);
 	}
 
+	#[\Override]
 	public function isDeletable(string $path): bool {
 		return $this->checkMask(Constants::PERMISSION_DELETE) && parent::isDeletable($path);
 	}
 
+	#[\Override]
 	public function isSharable(string $path): bool {
 		return $this->checkMask(Constants::PERMISSION_SHARE) && parent::isSharable($path);
 	}
 
+	#[\Override]
 	public function getPermissions(string $path): int {
 		return $this->getWrapperStorage()->getPermissions($path) & $this->mask;
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		//This is a rename of the transfer file to the original file
 		if (dirname($source) === dirname($target) && strpos($source, '.ocTransferId') > 0) {
@@ -70,32 +76,39 @@ class PermissionsMask extends Wrapper {
 		return $this->checkMask(Constants::PERMISSION_UPDATE) && parent::rename($source, $target);
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		return $this->checkMask(Constants::PERMISSION_CREATE) && parent::copy($source, $target);
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
 		return $this->checkMask($permissions) && parent::touch($path, $mtime);
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		return $this->checkMask(Constants::PERMISSION_CREATE) && parent::mkdir($path);
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		return $this->checkMask(Constants::PERMISSION_DELETE) && parent::rmdir($path);
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		return $this->checkMask(Constants::PERMISSION_DELETE) && parent::unlink($path);
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
 		return $this->checkMask($permissions) ? parent::file_put_contents($path, $data) : false;
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		if ($mode === 'r' || $mode === 'rb') {
 			return parent::fopen($path, $mode);
@@ -105,6 +118,7 @@ class PermissionsMask extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;
@@ -113,6 +127,7 @@ class PermissionsMask extends Wrapper {
 		return new CachePermissionsMask($sourceCache, $this->mask);
 	}
 
+	#[\Override]
 	public function getMetaData(string $path): ?array {
 		$data = parent::getMetaData($path);
 
@@ -123,6 +138,7 @@ class PermissionsMask extends Wrapper {
 		return $data;
 	}
 
+	#[\Override]
 	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this->getWrapperStorage();
@@ -130,6 +146,7 @@ class PermissionsMask extends Wrapper {
 		return parent::getScanner($path, $storage);
 	}
 
+	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {
 		foreach ($this->getWrapperStorage()->getDirectoryContent($directory) as $data) {
 			$data['scan_permissions'] ??= $data['permissions'];

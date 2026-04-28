@@ -13,14 +13,17 @@ class AdapterSqlite extends Adapter {
 	/**
 	 * @param string $tableName
 	 */
+	#[\Override]
 	public function lockTable($tableName) {
 		$this->conn->executeUpdate('BEGIN EXCLUSIVE TRANSACTION');
 	}
 
+	#[\Override]
 	public function unlockTable() {
 		$this->conn->executeUpdate('COMMIT TRANSACTION');
 	}
 
+	#[\Override]
 	public function fixupStatement($statement) {
 		$statement = preg_replace('/`(\w+)` ILIKE \?/', 'LOWER($1) LIKE LOWER(?)', $statement);
 		$statement = str_replace('`', '"', $statement);
@@ -44,6 +47,7 @@ class AdapterSqlite extends Adapter {
 	 * @throws \Doctrine\DBAL\Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
+	#[\Override]
 	public function insertIfNotExist($table, $input, ?array $compare = null) {
 		if (empty($compare)) {
 			$compare = array_keys($input);
@@ -77,6 +81,7 @@ class AdapterSqlite extends Adapter {
 		}
 	}
 
+	#[\Override]
 	public function insertIgnoreConflict(string $table, array $values): int {
 		$builder = $this->conn->getQueryBuilder();
 		$builder->insert($table);

@@ -19,6 +19,7 @@ class ClearLostPasswordTokensCommand extends ALoginCommand {
 	/**
 	 * User has successfully logged in, now remove the password reset link, when it is available
 	 */
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		$this->config->deleteUserValue(
 			$loginData->getUser()->getUID(),

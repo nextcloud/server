@@ -93,6 +93,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setName(string $name): ISearchOption {
 		$this->name = $name;
 
@@ -104,6 +105,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->name;
 	}
@@ -114,6 +116,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setTitle(string $title): ISearchOption {
 		$this->title = $title;
 
@@ -125,6 +128,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getTitle(): string {
 		return $this->title;
 	}
@@ -136,6 +140,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setType(string $type): ISearchOption {
 		$this->type = $type;
 
@@ -147,6 +152,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getType(): string {
 		return $this->type;
 	}
@@ -158,6 +164,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setSize(string $size): ISearchOption {
 		$this->size = $size;
 
@@ -169,6 +176,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getSize(): string {
 		return $this->size;
 	}
@@ -179,6 +187,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setPlaceholder(string $placeholder): ISearchOption {
 		$this->placeholder = $placeholder;
 
@@ -190,6 +199,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getPlaceholder(): string {
 		return $this->placeholder;
 	}
@@ -197,6 +207,7 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	/**
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->getName(),

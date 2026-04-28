@@ -32,6 +32,7 @@ class User implements IUser {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getUserId() {
 		return $this->data['id'];
 	}
@@ -39,6 +40,7 @@ class User implements IUser {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getEmail() {
 		return $this->data['email'];
 	}
@@ -46,6 +48,7 @@ class User implements IUser {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getDisplayName() {
 		return $this->data['displayname'];
 	}
@@ -53,6 +56,7 @@ class User implements IUser {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getPhone() {
 		return $this->data['phone'];
 	}
@@ -60,6 +64,7 @@ class User implements IUser {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getAddress() {
 		return $this->data['address'];
 	}
@@ -67,6 +72,7 @@ class User implements IUser {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getWebsite() {
 		return $this->data['website'];
 	}
@@ -74,6 +80,7 @@ class User implements IUser {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getTwitter() {
 		return $this->data['twitter'] ?? '';
 	}
@@ -81,6 +88,7 @@ class User implements IUser {
 	/**
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getGroups() {
 		return $this->data['groups'];
 	}
@@ -88,6 +96,7 @@ class User implements IUser {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getLanguage() {
 		return $this->data['language'];
 	}
@@ -95,6 +104,7 @@ class User implements IUser {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getUsedSpace() {
 		return $this->data['quota']['used'];
 	}
@@ -102,6 +112,7 @@ class User implements IUser {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getFreeSpace() {
 		return $this->data['quota']['free'];
 	}
@@ -109,6 +120,7 @@ class User implements IUser {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getTotalSpace() {
 		return $this->data['quota']['total'];
 	}
@@ -116,6 +128,7 @@ class User implements IUser {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getQuota() {
 		return $this->data['quota']['quota'];
 	}

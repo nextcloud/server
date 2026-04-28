@@ -26,10 +26,12 @@ class CloudId implements ICloudId {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
 
+	#[\Override]
 	public function getDisplayId(): string {
 		if ($this->displayName === null) {
 			/** @var CloudIdManager $cloudIdManager */
@@ -50,6 +52,7 @@ class CloudId implements ICloudId {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getUser(): string {
 		return $this->user;
 	}
@@ -59,6 +62,7 @@ class CloudId implements ICloudId {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getRemote(): string {
 		return $this->remote;
 	}

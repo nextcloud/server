@@ -367,6 +367,7 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
+	#[\Override]
 	public function logData(string $message, array $data, array $context = []): void {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;

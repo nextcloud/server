@@ -23,6 +23,7 @@ class Capabilities implements IPublicCapability, IInitialStateExcludedCapability
 	/**
 	 * @return array{bruteforce: array{delay: int, allow-listed: bool}}
 	 */
+	#[\Override]
 	public function getCapabilities(): array {
 		return [
 			'bruteforce' => [

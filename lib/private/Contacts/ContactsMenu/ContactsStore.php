@@ -44,6 +44,7 @@ class ContactsStore implements IContactsStore {
 	/**
 	 * @return IEntry[]
 	 */
+	#[\Override]
 	public function getContacts(IUser $user, ?string $filter, ?int $limit = null, ?int $offset = null): array {
 		$options = [
 			'enumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes',
@@ -279,6 +280,7 @@ class ContactsStore implements IContactsStore {
 		}));
 	}
 
+	#[\Override]
 	public function findOne(IUser $user, int $shareType, string $shareWith): ?IEntry {
 		switch ($shareType) {
 			case 0:

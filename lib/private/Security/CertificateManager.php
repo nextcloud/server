@@ -34,6 +34,7 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @return ICertificate[]
 	 */
+	#[\Override]
 	public function listCertificates(): array {
 		if (!$this->config->getSystemValueBool('installed', false)) {
 			return [];
@@ -148,6 +149,7 @@ class CertificateManager implements ICertificateManager {
 	 * @param string $name the filename for the certificate
 	 * @throws \Exception If the certificate could not get added
 	 */
+	#[\Override]
 	public function addCertificate(string $certificate, string $name): ICertificate {
 		$path = $this->getPathToCertificates() . 'uploads/' . $name;
 		$directory = dirname($path);
@@ -172,6 +174,7 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * Remove the certificate and re-generate the certificate bundle
 	 */
+	#[\Override]
 	public function removeCertificate(string $name): bool {
 		$path = $this->getPathToCertificates() . 'uploads/' . $name;
 
@@ -192,6 +195,7 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * Get the path to the certificate bundle
 	 */
+	#[\Override]
 	public function getCertificateBundle(): string {
 		return $this->getPathToCertificates() . 'rootcerts.crt';
 	}
@@ -200,6 +204,7 @@ class CertificateManager implements ICertificateManager {
 	 * Get the full local path to the certificate bundle
 	 * @throws \Exception when getting bundle path fails
 	 */
+	#[\Override]
 	public function getAbsoluteBundlePath(): string {
 		try {
 			if ($this->bundlePath === null) {
@@ -249,6 +254,7 @@ class CertificateManager implements ICertificateManager {
 		return filemtime($this->getDefaultCertificatesBundlePath());
 	}
 
+	#[\Override]
 	public function getDefaultCertificatesBundlePath(): string {
 		return $this->config->getSystemValueString('default_certificates_bundle_path', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 	}

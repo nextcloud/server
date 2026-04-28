@@ -179,6 +179,7 @@ class RegistrationContext {
 			) {
 			}
 
+			#[\Override]
 			public function registerCapability(string $capability): void {
 				$this->context->registerCapability(
 					$this->appId,
@@ -186,6 +187,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerCrashReporter(string $reporterClass): void {
 				$this->context->registerCrashReporter(
 					$this->appId,
@@ -193,6 +195,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerDashboardWidget(string $widgetClass): void {
 				$this->context->registerDashboardPanel(
 					$this->appId,
@@ -200,6 +203,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerService(string $name, callable $factory, bool $shared = true): void {
 				$this->context->registerService(
 					$this->appId,
@@ -209,6 +213,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerServiceAlias(string $alias, string $target): void {
 				$this->context->registerServiceAlias(
 					$this->appId,
@@ -217,6 +222,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerParameter(string $name, $value): void {
 				$this->context->registerParameter(
 					$this->appId,
@@ -225,6 +231,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerEventListener(string $event, string $listener, int $priority = 0): void {
 				$this->context->registerEventListener(
 					$this->appId,
@@ -234,6 +241,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerMiddleware(string $class, bool $global = false): void {
 				$this->context->registerMiddleware(
 					$this->appId,
@@ -242,6 +250,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerSearchProvider(string $class): void {
 				$this->context->registerSearchProvider(
 					$this->appId,
@@ -249,6 +258,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerAlternativeLogin(string $class): void {
 				$this->context->registerAlternativeLogin(
 					$this->appId,
@@ -264,6 +274,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerInitialStateProvider(string $class): void {
 				$this->context->registerInitialState(
 					$this->appId,
@@ -271,6 +282,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerWellKnownHandler(string $class): void {
 				$this->context->registerWellKnown(
 					$this->appId,
@@ -278,12 +290,14 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerSpeechToTextProvider(string $providerClass): void {
 				$this->context->registerSpeechToTextProvider(
 					$this->appId,
 					$providerClass
 				);
 			}
+			#[\Override]
 			public function registerTextProcessingProvider(string $providerClass): void {
 				$this->context->registerTextProcessingProvider(
 					$this->appId,
@@ -291,6 +305,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTextToImageProvider(string $providerClass): void {
 				$this->context->registerTextToImageProvider(
 					$this->appId,
@@ -298,6 +313,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTemplateProvider(string $providerClass): void {
 				$this->context->registerTemplateProvider(
 					$this->appId,
@@ -305,6 +321,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTranslationProvider(string $providerClass): void {
 				$this->context->registerTranslationProvider(
 					$this->appId,
@@ -312,6 +329,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerNotifierService(string $notifierClass): void {
 				$this->context->registerNotifierService(
 					$this->appId,
@@ -319,6 +337,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTwoFactorProvider(string $twoFactorProviderClass): void {
 				$this->context->registerTwoFactorProvider(
 					$this->appId,
@@ -326,6 +345,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerPreviewProvider(string $previewProviderClass, string $mimeTypeRegex): void {
 				$this->context->registerPreviewProvider(
 					$this->appId,
@@ -334,6 +354,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerCalendarProvider(string $class): void {
 				$this->context->registerCalendarProvider(
 					$this->appId,
@@ -341,6 +362,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerReferenceProvider(string $class): void {
 				$this->context->registerReferenceProvider(
 					$this->appId,
@@ -348,6 +370,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerProfileLinkAction(string $actionClass): void {
 				$this->context->registerProfileLinkAction(
 					$this->appId,
@@ -355,6 +378,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTalkBackend(string $backend): void {
 				$this->context->registerTalkBackend(
 					$this->appId,
@@ -362,6 +386,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerCalendarResourceBackend(string $class): void {
 				$this->context->registerCalendarResourceBackend(
 					$this->appId,
@@ -369,6 +394,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTeamResourceProvider(string $class) : void {
 				$this->context->registerTeamResourceProvider(
 					$this->appId,
@@ -376,6 +402,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerCalendarRoomBackend(string $class): void {
 				$this->context->registerCalendarRoomBackend(
 					$this->appId,
@@ -383,6 +410,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerUserMigrator(string $migratorClass): void {
 				$this->context->registerUserMigrator(
 					$this->appId,
@@ -390,6 +418,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerSensitiveMethods(string $class, array $methods): void {
 				$this->context->registerSensitiveMethods(
 					$this->appId,
@@ -398,6 +427,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerPublicShareTemplateProvider(string $class): void {
 				$this->context->registerPublicShareTemplateProvider(
 					$this->appId,
@@ -405,6 +435,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerSetupCheck(string $setupCheckClass): void {
 				$this->context->registerSetupCheck(
 					$this->appId,
@@ -412,6 +443,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerDeclarativeSettings(string $declarativeSettingsClass): void {
 				$this->context->registerDeclarativeSettings(
 					$this->appId,
@@ -419,6 +451,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTaskProcessingProvider(string $taskProcessingProviderClass): void {
 				$this->context->registerTaskProcessingProvider(
 					$this->appId,
@@ -426,6 +459,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerTaskProcessingTaskType(string $taskProcessingTaskTypeClass): void {
 				$this->context->registerTaskProcessingTaskType(
 					$this->appId,
@@ -433,6 +467,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerFileConversionProvider(string $class): void {
 				$this->context->registerFileConversionProvider(
 					$this->appId,
@@ -440,6 +475,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerMailProvider(string $class): void {
 				$this->context->registerMailProvider(
 					$this->appId,
@@ -447,6 +483,7 @@ class RegistrationContext {
 				);
 			}
 
+			#[\Override]
 			public function registerConfigLexicon(string $configLexiconClass): void {
 				$this->context->registerConfigLexicon(
 					$this->appId,

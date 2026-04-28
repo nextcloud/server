@@ -100,6 +100,7 @@ class ServerContainer extends SimpleContainer {
 		throw new QueryException();
 	}
 
+	#[\Override]
 	public function has($id, bool $noRecursion = false): bool {
 		if (!$noRecursion && ($appContainer = $this->getAppContainerForService($id)) !== null) {
 			return $appContainer->has($id);
@@ -119,6 +120,7 @@ class ServerContainer extends SimpleContainer {
 	 * @throws QueryException
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
+	#[\Override]
 	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		$name = $this->sanitizeName($name);
 

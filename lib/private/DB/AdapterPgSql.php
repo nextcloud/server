@@ -9,6 +9,7 @@ namespace OC\DB;
 
 class AdapterPgSql extends Adapter {
 
+	#[\Override]
 	public function lastInsertId($table) {
 		$result = $this->conn->executeQuery('SELECT lastval()');
 		$val = $result->fetchOne();
@@ -17,12 +18,14 @@ class AdapterPgSql extends Adapter {
 	}
 
 	public const UNIX_TIMESTAMP_REPLACEMENT = 'cast(extract(epoch from current_timestamp) as integer)';
+	#[\Override]
 	public function fixupStatement($statement) {
 		$statement = str_replace('`', '"', $statement);
 		$statement = str_ireplace('UNIX_TIMESTAMP()', self::UNIX_TIMESTAMP_REPLACEMENT, $statement);
 		return $statement;
 	}
 
+	#[\Override]
 	public function insertIgnoreConflict(string $table, array $values) : int {
 		// "upsert" is only available since PgSQL 9.5, but the generic way
 		// would leave error logs in the DB.

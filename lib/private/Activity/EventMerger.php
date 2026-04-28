@@ -47,6 +47,7 @@ class EventMerger implements IEventMerger {
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 */
+	#[\Override]
 	public function mergeEvents($mergeParameter, IEvent $event, ?IEvent $previousEvent = null) {
 		// No second event => can not combine
 		if (!$previousEvent instanceof IEvent) {

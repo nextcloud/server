@@ -161,6 +161,7 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return IMemcache
 	 */
+	#[\Override]
 	public function createLocking(string $prefix = ''): IMemcache {
 		$cache = new $this->lockingCacheClass($this->getGlobalPrefix() . '/' . $prefix);
 		if ($this->lockingCacheClass === Redis::class) {
@@ -183,6 +184,7 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return ICache
 	 */
+	#[\Override]
 	public function createDistributed(string $prefix = ''): ICache {
 		$cache = new $this->distributedCacheClass($this->getGlobalPrefix() . '/' . $prefix);
 		if ($this->distributedCacheClass === Redis::class) {
@@ -205,6 +207,7 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return ICache
 	 */
+	#[\Override]
 	public function createLocal(string $prefix = ''): ICache {
 		$cache = new $this->localCacheClass($this->getGlobalPrefix() . '/' . $prefix);
 		if ($this->localCacheClass === Redis::class) {
@@ -226,10 +229,12 @@ class Factory implements ICacheFactory {
 	 *
 	 * @return bool
 	 */
+	#[\Override]
 	public function isAvailable(): bool {
 		return $this->distributedCacheClass !== self::NULL_CACHE;
 	}
 
+	#[\Override]
 	public function createInMemory(int $capacity = 512): ICache {
 		return new CappedMemoryCache($capacity);
 	}
@@ -239,6 +244,7 @@ class Factory implements ICacheFactory {
 	 *
 	 * @return bool
 	 */
+	#[\Override]
 	public function isLocalCacheAvailable(): bool {
 		return $this->localCacheClass !== self::NULL_CACHE;
 	}

@@ -119,6 +119,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * Countable method
 	 * @return int
 	 */
+	#[\Override]
 	public function count(): int {
 		return \count($this->items['parameters']);
 	}
@@ -143,6 +144,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $offset The key to lookup
 	 * @return boolean
 	 */
+	#[\Override]
 	public function offsetExists($offset): bool {
 		return isset($this->items['parameters'][$offset]);
 	}
@@ -152,6 +154,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $offset
 	 * @return mixed
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->items['parameters'][$offset] ?? null;
@@ -162,6 +165,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $offset
 	 * @param mixed $value
 	 */
+	#[\Override]
 	public function offsetSet($offset, $value): void {
 		throw new \RuntimeException('You cannot change the contents of the request object');
 	}
@@ -170,6 +174,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @see offsetExists
 	 * @param string $offset
 	 */
+	#[\Override]
 	public function offsetUnset($offset): void {
 		throw new \RuntimeException('You cannot change the contents of the request object');
 	}
@@ -254,6 +259,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $name
 	 * @return string
 	 */
+	#[\Override]
 	public function getHeader(string $name): string {
 		$name = strtoupper(str_replace('-', '_', $name));
 		if (isset($this->server['HTTP_' . $name])) {
@@ -288,6 +294,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param mixed $default If the key is not found, this value will be returned
 	 * @return mixed the content of the array
 	 */
+	#[\Override]
 	public function getParam(string $key, $default = null) {
 		return isset($this->parameters[$key])
 			? $this->parameters[$key]
@@ -299,6 +306,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * (as GET or POST) or through the URL by the route
 	 * @return array the array with all parameters
 	 */
+	#[\Override]
 	public function getParams(): array {
 		return is_array($this->parameters) ? $this->parameters : [];
 	}
@@ -307,6 +315,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * Returns the method of the request
 	 * @return string the method of the request (POST, GET, etc)
 	 */
+	#[\Override]
 	public function getMethod(): string {
 		return $this->method;
 	}
@@ -316,6 +325,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $key the key that will be taken from the $_FILES array
 	 * @return array the file in the $_FILES element
 	 */
+	#[\Override]
 	public function getUploadedFile(string $key) {
 		return isset($this->files[$key]) ? $this->files[$key] : null;
 	}
@@ -325,6 +335,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $key the key that will be taken from the $_ENV array
 	 * @return array the value in the $_ENV element
 	 */
+	#[\Override]
 	public function getEnv(string $key) {
 		return isset($this->env[$key]) ? $this->env[$key] : null;
 	}
@@ -334,6 +345,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $key the key that will be taken from the $_COOKIE array
 	 * @return string the value in the $_COOKIE element
 	 */
+	#[\Override]
 	public function getCookie(string $key) {
 		return isset($this->cookies[$key]) ? $this->cookies[$key] : null;
 	}
@@ -416,6 +428,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$this->contentDecoded = true;
 	}
 
+	#[\Override]
 	public function throwDecodingExceptionIfAny(): void {
 		if ($this->decodingException !== null) {
 			throw $this->decodingException;
@@ -427,6 +440,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * Checks if the CSRF check was correct
 	 * @return bool true if CSRF check passed
 	 */
+	#[\Override]
 	public function passesCSRFCheck(): bool {
 		if ($this->csrfTokenManager === null) {
 			return false;
@@ -503,6 +517,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function passesStrictCookieCheck(): bool {
 		if (!$this->cookieCheckRequired()) {
 			return true;
@@ -523,6 +538,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function passesLaxCookieCheck(): bool {
 		if (!$this->cookieCheckRequired()) {
 			return true;
@@ -541,6 +557,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * If `mod_unique_id` is installed this value will be taken.
 	 * @return string
 	 */
+	#[\Override]
 	public function getId(): string {
 		return $this->requestId->getId();
 	}
@@ -568,6 +585,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * Do always use this instead of $_SERVER['REMOTE_ADDR']
 	 * @return string IP address
 	 */
+	#[\Override]
 	public function getRemoteAddress(): string {
 		$remoteAddress = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
@@ -630,6 +648,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 *
 	 * @return string Server protocol (http or https)
 	 */
+	#[\Override]
 	public function getServerProtocol(): string {
 		$proto = 'http';
 
@@ -669,6 +688,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 *
 	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
 	 */
+	#[\Override]
 	public function getHttpProtocol(): string {
 		$claimedProtocol = $this->server['SERVER_PROTOCOL'] ?? '';
 
@@ -694,6 +714,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * reverse proxies
 	 * @return string
 	 */
+	#[\Override]
 	public function getRequestUri(): string {
 		$uri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
 		if ($this->config->getSystemValueString('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
@@ -707,6 +728,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @throws \Exception
 	 * @return string Path info
 	 */
+	#[\Override]
 	public function getRawPathInfo(): string {
 		$requestUri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
 		// remove too many slashes - can be caused by reverse proxy configuration
@@ -752,6 +774,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @throws \Exception
 	 * @return string|false Path info or false when not found
 	 */
+	#[\Override]
 	public function getPathInfo(): string|false {
 		$pathInfo = $this->getRawPathInfo();
 		return \Sabre\HTTP\decodePath($pathInfo);
@@ -762,6 +785,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * reverse proxies
 	 * @return string the script name
 	 */
+	#[\Override]
 	public function getScriptName(): string {
 		$name = $this->server['SCRIPT_NAME'] ?? '';
 		$overwriteWebRoot = $this->config->getSystemValueString('overwritewebroot');
@@ -779,6 +803,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param array $agent array of agent names
 	 * @return bool true if at least one of the given agent matches, false otherwise
 	 */
+	#[\Override]
 	public function isUserAgent(array $agent): bool {
 		if (!isset($this->server['HTTP_USER_AGENT'])) {
 			return false;
@@ -796,6 +821,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * whether it is a trusted domain
 	 * @return string Server host
 	 */
+	#[\Override]
 	public function getInsecureServerHost(): string {
 		if ($this->fromTrustedProxy() && $this->getOverwriteHost() !== null) {
 			return $this->getOverwriteHost();
@@ -826,6 +852,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * trusted domain if the host isn't in the trusted list
 	 * @return string Server host
 	 */
+	#[\Override]
 	public function getServerHost(): string {
 		// overwritehost is always trusted
 		$host = $this->getOverwriteHost();
@@ -872,6 +899,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return \is_array($trustedProxies) && $this->isTrustedProxy($trustedProxies, $remoteAddress);
 	}
 
+	#[\Override]
 	public function getFormat(): ?string {
 		$format = $this->getParam('format');
 		if ($format !== null) {

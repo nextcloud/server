@@ -19,6 +19,7 @@ abstract class Office extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		return is_string($this->options['officeBinary']);
 	}
@@ -26,6 +27,7 @@ abstract class Office extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		if (!$this->isAvailable($file)) {
 			return null;

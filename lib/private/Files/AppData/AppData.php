@@ -85,6 +85,7 @@ class AppData implements IAppData {
 		return $this->folder;
 	}
 
+	#[\Override]
 	public function getFolder(string $name): ISimpleFolder {
 		$key = $this->appId . '/' . $name;
 		if ($cachedFolder = $this->folders->get($key)) {
@@ -113,6 +114,7 @@ class AppData implements IAppData {
 		return $folder;
 	}
 
+	#[\Override]
 	public function newFolder(string $name): ISimpleFolder {
 		$key = $this->appId . '/' . $name;
 		$folder = $this->getAppDataFolder()->newFolder($name);
@@ -122,6 +124,7 @@ class AppData implements IAppData {
 		return $simpleFolder;
 	}
 
+	#[\Override]
 	public function getDirectoryListing(): array {
 		$listing = $this->getAppDataFolder()->getDirectoryListing();
 

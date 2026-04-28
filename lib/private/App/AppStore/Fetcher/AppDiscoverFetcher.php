@@ -47,6 +47,7 @@ class AppDiscoverFetcher extends Fetcher {
 	 *
 	 * @param bool $allowUnstable Include also upcoming entries
 	 */
+	#[\Override]
 	public function get($allowUnstable = false) {
 		$entries = parent::get(false);
 		$now = new DateTimeImmutable();

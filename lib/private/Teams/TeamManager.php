@@ -32,10 +32,12 @@ class TeamManager implements ITeamManager {
 	) {
 	}
 
+	#[\Override]
 	public function hasTeamSupport(): bool {
 		return $this->circlesManager !== null;
 	}
 
+	#[\Override]
 	public function getProviders(): array {
 		if (!$this->hasTeamSupport()) {
 			return [];
@@ -57,6 +59,7 @@ class TeamManager implements ITeamManager {
 		return $this->providers;
 	}
 
+	#[\Override]
 	public function getProvider(string $providerId): ITeamResourceProvider {
 		$providers = $this->getProviders();
 		if (isset($providers[$providerId])) {
@@ -66,6 +69,7 @@ class TeamManager implements ITeamManager {
 		throw new \RuntimeException('No provider found for id ' . $providerId);
 	}
 
+	#[\Override]
 	public function getSharedWith(string $teamId, string $userId): array {
 		if (!$this->hasTeamSupport()) {
 			return [];
@@ -84,6 +88,7 @@ class TeamManager implements ITeamManager {
 		return array_values($resources);
 	}
 
+	#[\Override]
 	public function getSharedWithList(array $teams, string $userId, string $resourceId): array {
 		if (!$this->hasTeamSupport()) {
 			return [];
@@ -103,6 +108,7 @@ class TeamManager implements ITeamManager {
 		return array_merge_recursive(...$resources);
 	}
 
+	#[\Override]
 	public function getTeamsForResource(string $providerId, string $resourceId, string $userId): array {
 		if (!$this->hasTeamSupport()) {
 			return [];
@@ -137,6 +143,7 @@ class TeamManager implements ITeamManager {
 	 *
 	 * @return array<string, string> userId => displayName
 	 */
+	#[\Override]
 	public function getMembersOfTeam(string $teamId, string $userId): array {
 		$team = $this->getTeam($teamId, $userId);
 		if ($team === null) {
@@ -163,6 +170,7 @@ class TeamManager implements ITeamManager {
 		return $this->circlesManager->getCirclesByIds($teams);
 	}
 
+	#[\Override]
 	public function getTeamsForUser(string $userId): array {
 		if (!$this->hasTeamSupport()) {
 			return [];

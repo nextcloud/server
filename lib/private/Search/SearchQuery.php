@@ -29,36 +29,44 @@ class SearchQuery implements ISearchQuery {
 	) {
 	}
 
+	#[\Override]
 	public function getTerm(): string {
 		return $this->getFilter('term')?->get() ?? '';
 	}
 
+	#[\Override]
 	public function getFilter(string $name): ?IFilter {
 		return $this->filters->has($name)
 			? $this->filters->get($name)
 			: null;
 	}
 
+	#[\Override]
 	public function getFilters(): IFilterCollection {
 		return $this->filters;
 	}
 
+	#[\Override]
 	public function getSortOrder(): int {
 		return $this->sortOrder;
 	}
 
+	#[\Override]
 	public function getLimit(): int {
 		return $this->limit;
 	}
 
+	#[\Override]
 	public function getCursor(): int|string|null {
 		return $this->cursor;
 	}
 
+	#[\Override]
 	public function getRoute(): string {
 		return $this->route;
 	}
 
+	#[\Override]
 	public function getRouteParameters(): array {
 		return $this->routeParameters;
 	}

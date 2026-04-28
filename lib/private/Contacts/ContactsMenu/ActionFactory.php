@@ -14,6 +14,7 @@ class ActionFactory implements IActionFactory {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function newLinkAction(string $icon, string $name, string $href, string $appId = ''): ILinkAction {
 		$action = new LinkAction();
 		$action->setName($name);
@@ -26,6 +27,7 @@ class ActionFactory implements IActionFactory {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function newEMailAction(string $icon, string $name, string $email, string $appId = ''): ILinkAction {
 		return $this->newLinkAction($icon, $name, 'mailto:' . $email, $appId);
 	}

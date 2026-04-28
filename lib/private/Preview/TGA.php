@@ -13,6 +13,7 @@ class TGA extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/(x-)?t(ar)?ga/';
 	}
@@ -20,6 +21,7 @@ class TGA extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/image\/(x-)?t(ar)?ga/';
 	}

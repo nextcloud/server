@@ -12,6 +12,7 @@ class SocialSharingBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l10n->t('Social sharing bundle');
 	}
@@ -19,6 +20,7 @@ class SocialSharingBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAppIdentifiers() {
 		return [
 			'socialsharing_twitter',

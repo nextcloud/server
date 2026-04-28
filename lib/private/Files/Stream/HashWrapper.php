@@ -34,20 +34,24 @@ class HashWrapper extends Wrapper {
 		return true;
 	}
 
+	#[\Override]
 	public function dir_opendir($path, $options) {
 		return $this->open();
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		return $this->open();
 	}
 
+	#[\Override]
 	public function stream_read($count) {
 		$result = parent::stream_read($count);
 		hash_update($this->hash, $result);
 		return $result;
 	}
 
+	#[\Override]
 	public function stream_close() {
 		if (is_callable($this->callback)) {
 			// if the stream is closed as a result of the end-of-request GC, the hash context might be cleaned up before this stream

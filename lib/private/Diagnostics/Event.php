@@ -23,22 +23,27 @@ class Event implements IEvent {
 		$this->end = $time;
 	}
 
+	#[\Override]
 	public function getStart(): float {
 		return $this->start;
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->description;
 	}
 
+	#[\Override]
 	public function getEnd(): float {
 		return $this->end ?? -1;
 	}
 
+	#[\Override]
 	public function getDuration(): float {
 		if (!$this->end) {
 			$this->end = microtime(true);

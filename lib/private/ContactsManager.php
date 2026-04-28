@@ -31,6 +31,7 @@ class ContactsManager implements IManager {
 	 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, enumeration?: bool, fullmatch?: bool, strict_search?: bool} $options
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 */
+	#[\Override]
 	public function search($pattern, $searchProperties = [], $options = []) {
 		$this->loadAddressBooks();
 		$result = [];
@@ -78,6 +79,7 @@ class ContactsManager implements IManager {
 	 * @param string $addressBookKey identifier of the address book in which the contact shall be deleted
 	 * @return bool successful or not
 	 */
+	#[\Override]
 	public function delete($id, $addressBookKey) {
 		$addressBook = $this->getAddressBook($addressBookKey);
 		if (!$addressBook) {
@@ -99,6 +101,7 @@ class ContactsManager implements IManager {
 	 * @param string $addressBookKey identifier of the address book in which the contact shall be created or updated
 	 * @return ?array representing the contact just created or updated
 	 */
+	#[\Override]
 	public function createOrUpdate($properties, $addressBookKey) {
 		$addressBook = $this->getAddressBook($addressBookKey);
 		if (!$addressBook) {
@@ -117,6 +120,7 @@ class ContactsManager implements IManager {
 	 *
 	 * @return bool true if enabled, false if not
 	 */
+	#[\Override]
 	public function isEnabled(): bool {
 		return !empty($this->addressBooks) || !empty($this->addressBookLoaders);
 	}
@@ -124,6 +128,7 @@ class ContactsManager implements IManager {
 	/**
 	 * @param IAddressBook $addressBook
 	 */
+	#[\Override]
 	public function registerAddressBook(IAddressBook $addressBook) {
 		$this->addressBooks[$addressBook->getKey()] = $addressBook;
 	}
@@ -131,6 +136,7 @@ class ContactsManager implements IManager {
 	/**
 	 * @param IAddressBook $addressBook
 	 */
+	#[\Override]
 	public function unregisterAddressBook(IAddressBook $addressBook) {
 		unset($this->addressBooks[$addressBook->getKey()]);
 	}
@@ -141,6 +147,7 @@ class ContactsManager implements IManager {
 	 * @return IAddressBook[]
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getUserAddressBooks(): array {
 		$this->loadAddressBooks();
 		return $this->addressBooks;
@@ -149,6 +156,7 @@ class ContactsManager implements IManager {
 	/**
 	 * removes all registered address book instances
 	 */
+	#[\Override]
 	public function clear() {
 		$this->addressBooks = [];
 		$this->addressBookLoaders = [];
@@ -170,6 +178,7 @@ class ContactsManager implements IManager {
 	 *
 	 * @param \Closure $callable
 	 */
+	#[\Override]
 	public function register(\Closure $callable) {
 		$this->addressBookLoaders[] = $callable;
 	}

@@ -204,6 +204,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	/**
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function connect($connectionName = null) {
 		try {
 			if ($this->_conn) {
@@ -228,6 +229,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 	}
 
+	#[\Override]
 	protected function performConnect(?string $connectionName = null): bool {
 		if (($connectionName ?? 'replica') === 'replica'
 			&& count($this->params['replica']) === 1
@@ -286,6 +288,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @return \Doctrine\DBAL\Query\QueryBuilder
 	 * @deprecated 8.0.0 please use $this->getQueryBuilder() instead
 	 */
+	#[\Override]
 	public function createQueryBuilder() {
 		$backtrace = $this->getCallerBacktrace();
 		$this->logger->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
@@ -299,6 +302,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @return \Doctrine\DBAL\Query\Expression\ExpressionBuilder
 	 * @deprecated 8.0.0 please use $this->getQueryBuilder()->expr() instead
 	 */
+	#[\Override]
 	public function getExpressionBuilder() {
 		$backtrace = $this->getCallerBacktrace();
 		$this->logger->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
@@ -337,6 +341,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @return Statement The prepared statement.
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function prepare($sql, $limit = null, $offset = null): Statement {
 		if ($limit === -1 || $limit === null) {
 			$limit = null;
@@ -370,6 +375,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 *
 	 * @throws \Doctrine\DBAL\Exception
 	 */
+	#[\Override]
 	public function executeQuery(string $sql, array $params = [], $types = [], ?QueryCacheProfile $qcp = null): Result {
 		$tables = $this->getQueriedTables($sql);
 		$now = $this->clock->now()->getTimestamp();
@@ -431,6 +437,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	/**
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
 		return $this->executeStatement($sql, $params, $types);
 	}
@@ -449,6 +456,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 *
 	 * @throws \Doctrine\DBAL\Exception
 	 */
+	#[\Override]
 	public function executeStatement($sql, array $params = [], array $types = []): int {
 		$tables = $this->getQueriedTables($sql);
 		foreach ($tables as $table) {
@@ -510,6 +518,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @return int the last inserted ID.
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function lastInsertId($name = null): int {
 		if ($name) {
 			$name = $this->replaceTablePrefix($name);
@@ -827,6 +836,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 	}
 
+	#[\Override]
 	public function beginTransaction() {
 		if (!$this->inTransaction()) {
 			$this->transactionBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -835,6 +845,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		return parent::beginTransaction();
 	}
 
+	#[\Override]
 	public function commit() {
 		$result = parent::commit();
 		if ($this->getTransactionNestingLevel() === 0) {
@@ -861,6 +872,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		return $result;
 	}
 
+	#[\Override]
 	public function rollBack() {
 		$result = parent::rollBack();
 		if ($this->getTransactionNestingLevel() === 0) {

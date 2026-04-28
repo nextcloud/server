@@ -13,10 +13,12 @@ use OCP\Security\Ip\IFactory;
 use OCP\Security\Ip\IRange;
 
 class Factory implements IFactory {
+	#[\Override]
 	public function rangeFromString(string $range): IRange {
 		return new Range($range);
 	}
 
+	#[\Override]
 	public function addressFromString(string $ip): IAddress {
 		return new Address($ip);
 	}

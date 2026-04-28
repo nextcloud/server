@@ -29,6 +29,7 @@ class CleanPreviewsBackgroundJob extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	#[\Override]
 	public function run($argument): void {
 		$uid = $argument['uid'];
 		if (!$this->userManager->userExists($uid)) {

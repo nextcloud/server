@@ -35,40 +35,49 @@ class PreparedStatement implements IPreparedStatement {
 		$this->statement = $statement;
 	}
 
+	#[\Override]
 	public function closeCursor(): bool {
 		$this->getResult()->closeCursor();
 
 		return true;
 	}
 
+	#[\Override]
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC) {
 		return $this->getResult()->fetch($fetchMode);
 	}
 
+	#[\Override]
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array {
 		return $this->getResult()->fetchAll($fetchMode);
 	}
 
+	#[\Override]
 	public function fetchColumn() {
 		return $this->getResult()->fetchOne();
 	}
 
+	#[\Override]
 	public function fetchOne() {
 		return $this->getResult()->fetchOne();
 	}
 
+	#[\Override]
 	public function bindValue($param, $value, $type = ParameterType::STRING): bool {
 		return $this->statement->bindValue($param, $value, $type);
 	}
 
+	#[\Override]
 	public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null): bool {
 		return $this->statement->bindParam($param, $variable, $type, $length);
 	}
 
+	#[\Override]
 	public function execute($params = null): IResult {
 		return ($this->result = new ResultAdapter($this->statement->execute($params)));
 	}
 
+	#[\Override]
 	public function rowCount(): int {
 		return $this->getResult()->rowCount();
 	}

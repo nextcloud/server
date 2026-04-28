@@ -20,6 +20,7 @@ class ShareAttributes implements IAttributes {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setAttribute(string $scope, string $key, mixed $value): IAttributes {
 		if (!\array_key_exists($scope, $this->attributes)) {
 			$this->attributes[$scope] = [];
@@ -31,6 +32,7 @@ class ShareAttributes implements IAttributes {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAttribute(string $scope, string $key): mixed {
 		if (\array_key_exists($scope, $this->attributes)
 			&& \array_key_exists($key, $this->attributes[$scope])) {
@@ -42,6 +44,7 @@ class ShareAttributes implements IAttributes {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function toArray(): array {
 		$result = [];
 		foreach ($this->attributes as $scope => $keys) {

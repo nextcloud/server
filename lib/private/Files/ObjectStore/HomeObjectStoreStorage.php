@@ -28,14 +28,17 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements IHomeStorage 
 		parent::__construct($parameters);
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'object::user:' . $this->user->getUID();
 	}
 
+	#[\Override]
 	public function getOwner(string $path): string|false {
 		return $this->user->getUID();
 	}
 
+	#[\Override]
 	public function getUser(): IUser {
 		return $this->user;
 	}

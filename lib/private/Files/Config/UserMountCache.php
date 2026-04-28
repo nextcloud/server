@@ -62,6 +62,7 @@ class UserMountCache implements IUserMountCache {
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
+	#[\Override]
 	public function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null) {
 		$this->eventLogger->start('fs:setup:user:register', 'Registering mounts for user');
 		/** @var array<string, ICachedMountInfo> $newMounts */
@@ -249,6 +250,7 @@ class UserMountCache implements IUserMountCache {
 	 * @param IUser $user
 	 * @return ICachedMountInfo[]
 	 */
+	#[\Override]
 	public function getMountsForUser(IUser $user) {
 		$userUID = $user->getUID();
 		if (!$this->userManager->userExists($userUID)) {
@@ -294,6 +296,7 @@ class UserMountCache implements IUserMountCache {
 	 * @param string|null $user limit the results to a single user
 	 * @return CachedMountInfo[]
 	 */
+	#[\Override]
 	public function getMountsForStorageId($numericStorageId, $user = null) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
@@ -316,6 +319,7 @@ class UserMountCache implements IUserMountCache {
 	 * @param int $rootFileId
 	 * @return CachedMountInfo[]
 	 */
+	#[\Override]
 	public function getMountsForRootId($rootFileId) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
@@ -365,6 +369,7 @@ class UserMountCache implements IUserMountCache {
 	 * @return ICachedMountFileInfo[]
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getMountsForFileId($fileId, $user = null) {
 		try {
 			[$storageId, $internalPath] = $this->getCacheInfoFromFileId($fileId);
@@ -427,6 +432,7 @@ class UserMountCache implements IUserMountCache {
 	 *
 	 * @param IUser $user
 	 */
+	#[\Override]
 	public function removeUserMounts(IUser $user) {
 		$builder = $this->connection->getQueryBuilder();
 
@@ -435,6 +441,7 @@ class UserMountCache implements IUserMountCache {
 		$query->executeStatement();
 	}
 
+	#[\Override]
 	public function removeUserStorageMount($storageId, $userId) {
 		$builder = $this->connection->getQueryBuilder();
 
@@ -444,6 +451,7 @@ class UserMountCache implements IUserMountCache {
 		$query->executeStatement();
 	}
 
+	#[\Override]
 	public function remoteStorageMounts($storageId) {
 		$builder = $this->connection->getQueryBuilder();
 
@@ -456,6 +464,7 @@ class UserMountCache implements IUserMountCache {
 	 * @param array $users
 	 * @return array
 	 */
+	#[\Override]
 	public function getUsedSpaceForUsers(array $users) {
 		$builder = $this->connection->getQueryBuilder();
 
@@ -482,11 +491,13 @@ class UserMountCache implements IUserMountCache {
 		return $results;
 	}
 
+	#[\Override]
 	public function clear(): void {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
+	#[\Override]
 	public function getMountForPath(IUser $user, string $path): ICachedMountInfo {
 		$searchPaths = [];
 		$current = rtrim($path, '/');
@@ -533,6 +544,7 @@ class UserMountCache implements IUserMountCache {
 		throw new NotFoundException('No cached mount for path ' . $path);
 	}
 
+	#[\Override]
 	public function getMountsInPath(IUser $user, string $path): array {
 		$path = rtrim($path, '/') . '/';
 		$result = [];
@@ -545,6 +557,7 @@ class UserMountCache implements IUserMountCache {
 		return $result;
 	}
 
+	#[\Override]
 	public function removeMount(string $mountPoint, ?IUser $user = null): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('mounts')
@@ -561,6 +574,7 @@ class UserMountCache implements IUserMountCache {
 		}
 	}
 
+	#[\Override]
 	public function addMount(
 		IUser $user,
 		string $mountPoint,
@@ -599,6 +613,7 @@ class UserMountCache implements IUserMountCache {
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
+	#[\Override]
 	public function getMountAtPath(IUser $user, string $mountPoint): ?ICachedMountInfo {
 		if (isset($this->mountsForUsers[$user->getUID()])) {
 			foreach ($this->mountsForUsers[$user->getUID()] as $mount) {

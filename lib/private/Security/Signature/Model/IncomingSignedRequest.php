@@ -191,6 +191,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @return IRequest
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getRequest(): IRequest {
 		return $this->request;
 	}
@@ -213,6 +214,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws IncomingRequestException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOrigin(): string {
 		if ($this->origin === '') {
 			throw new IncomingRequestException('empty origin');
@@ -228,6 +230,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws SignatureElementNotFoundException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getKeyId(): string {
 		return $this->getSigningElement('keyId');
 	}
@@ -239,6 +242,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws SignatoryNotFoundException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function verify(): void {
 		$publicKey = $this->getSignatory()->getPublicKey();
 		if ($publicKey === '') {
@@ -256,6 +260,7 @@ class IncomingSignedRequest extends SignedRequest implements
 		}
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return array_merge(
 			parent::jsonSerialize(),

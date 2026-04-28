@@ -19,10 +19,12 @@ class RemoveLegacyDatadirFile implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Remove legacy ".ocdata" file';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$ocdata = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata';
 		if (file_exists($ocdata)) {

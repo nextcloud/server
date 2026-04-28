@@ -13,6 +13,7 @@ class PNG extends Image {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/png/';
 	}

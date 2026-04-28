@@ -51,6 +51,7 @@ class TagManager implements ITagManager, IEventListener {
 	 *
 	 * since 20.0.0 $includeShared isn't used anymore
 	 */
+	#[\Override]
 	public function load($type, $defaultTags = [], $includeShared = false, $userId = null) {
 		if (is_null($userId)) {
 			$user = $this->userSession->getUser();
@@ -87,6 +88,7 @@ class TagManager implements ITagManager, IEventListener {
 		return $users;
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof UserDeletedEvent)) {
 			return;

@@ -18,10 +18,12 @@ class InitialState implements IInitialState {
 	) {
 	}
 
+	#[\Override]
 	public function provideInitialState(string $key, $data): void {
 		$this->state->provideInitialState($this->appName, $key, $data);
 	}
 
+	#[\Override]
 	public function provideLazyInitialState(string $key, \Closure $closure): void {
 		$this->state->provideLazyInitialState($this->appName, $key, $closure);
 	}

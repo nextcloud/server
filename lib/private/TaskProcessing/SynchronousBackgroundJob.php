@@ -30,6 +30,7 @@ class SynchronousBackgroundJob extends QueuedJob {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$providers = $this->taskProcessingManager->getProviders();
 

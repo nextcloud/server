@@ -35,6 +35,7 @@ abstract class Bitmap extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$tmpPath = $this->getLocalFile($file);
 		if ($tmpPath === false) {

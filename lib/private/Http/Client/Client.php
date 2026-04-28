@@ -208,6 +208,7 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
+	#[\Override]
 	public function get(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('get', $uri, $this->buildRequestOptions($options));
@@ -239,6 +240,7 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
+	#[\Override]
 	public function head(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('head', $uri, $this->buildRequestOptions($options));
@@ -274,6 +276,7 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
+	#[\Override]
 	public function post(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 
@@ -315,6 +318,7 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
+	#[\Override]
 	public function put(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('put', $uri, $this->buildRequestOptions($options));
@@ -350,6 +354,7 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
+	#[\Override]
 	public function patch(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('patch', $uri, $this->buildRequestOptions($options));
@@ -385,6 +390,7 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
+	#[\Override]
 	public function delete(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('delete', $uri, $this->buildRequestOptions($options));
@@ -420,6 +426,7 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
+	#[\Override]
 	public function options(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('options', $uri, $this->buildRequestOptions($options));
@@ -434,6 +441,7 @@ class Client implements IClient {
 	 * @throws \Throwable When $e did not have a response
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getResponseFromThrowable(\Throwable $e): IResponse {
 		if (method_exists($e, 'hasResponse') && method_exists($e, 'getResponse') && $e->hasResponse()) {
 			return new Response($e->getResponse());
@@ -472,6 +480,7 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
+	#[\Override]
 	public function request(string $method, string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request($method, $uri, $this->buildRequestOptions($options));
@@ -479,6 +488,7 @@ class Client implements IClient {
 		return new Response($response, $isStream);
 	}
 
+	#[\Override]
 	public function sendRequest(RequestInterface $request): ResponseInterface {
 		$this->preventLocalAddress((string)$request->getUri(), []);
 		return $this->client->send($request, $this->buildRequestOptions([]));
@@ -519,6 +529,7 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
+	#[\Override]
 	public function getAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('get', $uri, $this->buildRequestOptions($options));
@@ -548,6 +559,7 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
+	#[\Override]
 	public function headAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('head', $uri, $this->buildRequestOptions($options));
@@ -582,6 +594,7 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
+	#[\Override]
 	public function postAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 
@@ -621,6 +634,7 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
+	#[\Override]
 	public function putAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('put', $uri, $this->buildRequestOptions($options));
@@ -655,6 +669,7 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
+	#[\Override]
 	public function deleteAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('delete', $uri, $this->buildRequestOptions($options));
@@ -689,6 +704,7 @@ class Client implements IClient {
 	 *                       'timeout' => 5,
 	 * @return IPromise
 	 */
+	#[\Override]
 	public function optionsAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('options', $uri, $this->buildRequestOptions($options));

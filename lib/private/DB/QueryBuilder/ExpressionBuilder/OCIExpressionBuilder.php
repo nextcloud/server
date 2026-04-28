@@ -19,6 +19,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	 * @param mixed|null $type
 	 * @return array|IQueryFunction|string
 	 */
+	#[\Override]
 	protected function prepareColumn($column, $type) {
 		if ($type === IQueryBuilder::PARAM_STR && !is_array($column) && !($column instanceof IParameter) && !($column instanceof ILiteral)) {
 			$column = $this->castColumn($column, $type);
@@ -30,6 +31,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function eq($x, $y, $type = null): string {
 		if ($type === IQueryBuilder::PARAM_JSON) {
 			$x = $this->prepareColumn($x, $type);
@@ -43,6 +45,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function neq($x, $y, $type = null): string {
 		if ($type === IQueryBuilder::PARAM_JSON) {
 			$x = $this->prepareColumn($x, $type);
@@ -56,6 +59,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function in($x, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
@@ -66,6 +70,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function notIn($x, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
@@ -80,6 +85,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	 * @return string
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function emptyString($x): string {
 		return $this->isNull($x);
 	}
@@ -91,6 +97,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	 * @return string
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function nonEmptyString($x): string {
 		return $this->isNotNull($x);
 	}
@@ -103,6 +110,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	 * @psalm-param IQueryBuilder::PARAM_* $type
 	 * @return IQueryFunction
 	 */
+	#[\Override]
 	public function castColumn($column, $type): IQueryFunction {
 		if ($type === IQueryBuilder::PARAM_STR) {
 			$column = $this->helper->quoteColumnName($column);
@@ -119,6 +127,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function like($x, $y, $type = null): string {
 		return parent::like($x, $y, $type) . " ESCAPE '\\'";
 	}
@@ -126,6 +135,7 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function iLike($x, $y, $type = null): string {
 		return $this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
 	}

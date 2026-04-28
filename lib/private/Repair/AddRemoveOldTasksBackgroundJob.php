@@ -21,10 +21,12 @@ class AddRemoveOldTasksBackgroundJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add AI tasks cleanup jobs';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->jobList->add(RemoveOldTextProcessingTasksBackgroundJob::class);
 		$this->jobList->add(RemoveOldTextToImageTasksBackgroundJob::class);

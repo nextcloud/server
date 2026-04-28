@@ -18,6 +18,7 @@ class PostgreSQL extends AbstractDatabase {
 	/**
 	 * @throws DatabaseSetupException
 	 */
+	#[\Override]
 	public function setupDatabase(): void {
 		try {
 			$connection = $this->connect([

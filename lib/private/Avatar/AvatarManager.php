@@ -50,6 +50,7 @@ class AvatarManager implements IAvatarManager {
 	 * @throws \Exception In case the username is potentially dangerous
 	 * @throws NotFoundException In case there is no user folder yet
 	 */
+	#[\Override]
 	public function getAvatar(string $userId): IAvatar {
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
@@ -128,6 +129,7 @@ class AvatarManager implements IAvatarManager {
 	 *
 	 * @param string $name The guest name, e.g. "Albert".
 	 */
+	#[\Override]
 	public function getGuestAvatar(string $name): IAvatar {
 		return new GuestAvatar($name, $this->config, $this->logger);
 	}

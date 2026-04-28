@@ -33,6 +33,7 @@ class ManagerFactory implements ICommentsManagerFactory {
 	 * @return ICommentsManager
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getManager() {
 		return $this->serverContainer->get(Manager::class);
 	}

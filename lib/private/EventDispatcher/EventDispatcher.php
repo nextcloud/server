@@ -33,17 +33,20 @@ class EventDispatcher implements IEventDispatcher {
 		}
 	}
 
+	#[\Override]
 	public function addListener(string $eventName,
 		callable $listener,
 		int $priority = 0): void {
 		$this->dispatcher->addListener($eventName, $listener, $priority);
 	}
 
+	#[\Override]
 	public function removeListener(string $eventName,
 		callable $listener): void {
 		$this->dispatcher->removeListener($eventName, $listener);
 	}
 
+	#[\Override]
 	public function addServiceListener(string $eventName,
 		string $className,
 		int $priority = 0): void {
@@ -56,6 +59,7 @@ class EventDispatcher implements IEventDispatcher {
 		$this->addListener($eventName, $listener, $priority);
 	}
 
+	#[\Override]
 	public function hasListeners(string $eventName): bool {
 		return $this->dispatcher->hasListeners($eventName);
 	}
@@ -63,6 +67,7 @@ class EventDispatcher implements IEventDispatcher {
 	/**
 	 * @deprecated
 	 */
+	#[\Override]
 	public function dispatch(string $eventName,
 		Event $event): void {
 		$this->dispatcher->dispatch($event, $eventName);
@@ -76,6 +81,7 @@ class EventDispatcher implements IEventDispatcher {
 		}
 	}
 
+	#[\Override]
 	public function dispatchTyped(Event $event): void {
 		$this->dispatch(get_class($event), $event);
 	}

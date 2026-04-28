@@ -77,6 +77,7 @@ class Manager implements IManager {
 	 *                         \InvalidArgumentException is thrown later
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function registerApp(string $appClass): void {
 		// other apps may want to rely on the 'main' notification app so make it deterministic that
 		// the 'main' notification app adds it's notifications first and removes it's notifications last
@@ -95,6 +96,7 @@ class Manager implements IManager {
 	 *                                \InvalidArgumentException is thrown later
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function registerNotifierService(string $notifierService): void {
 		$this->notifierClasses[] = $notifierService;
 	}
@@ -136,6 +138,7 @@ class Manager implements IManager {
 	/**
 	 * @return INotifier[]
 	 */
+	#[\Override]
 	public function getNotifiers(): array {
 		if (!$this->parsedRegistrationContext) {
 			$notifierServices = $this->coordinator->getRegistrationContext()->getNotifierServices();
@@ -197,6 +200,7 @@ class Manager implements IManager {
 	 * @return INotification
 	 * @since 8.2.0
 	 */
+	#[\Override]
 	public function createNotification(): INotification {
 		return new Notification($this->validator, $this->richTextFormatter);
 	}
@@ -205,6 +209,7 @@ class Manager implements IManager {
 	 * @return bool
 	 * @since 8.2.0
 	 */
+	#[\Override]
 	public function hasNotifiers(): bool {
 		return !empty($this->notifiers)
 			|| !empty($this->notifierClasses)
@@ -215,6 +220,7 @@ class Manager implements IManager {
 	 * @param bool $preparingPushNotification
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setPreparingPushNotification(bool $preparingPushNotification): void {
 		$this->preparingPushNotification = $preparingPushNotification;
 	}
@@ -223,6 +229,7 @@ class Manager implements IManager {
 	 * @return bool
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function isPreparingPushNotification(): bool {
 		return $this->preparingPushNotification;
 	}
@@ -232,6 +239,7 @@ class Manager implements IManager {
 	 * @return bool
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function defer(): bool {
 		$alreadyDeferring = $this->deferPushing;
 		$this->deferPushing = true;
@@ -250,6 +258,7 @@ class Manager implements IManager {
 	/**
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function flush(): void {
 		$apps = array_reverse($this->getApps());
 
@@ -270,6 +279,7 @@ class Manager implements IManager {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isFairUseOfFreePushService(): bool {
 		$pushAllowed = $this->cache->get('push_fair_use');
 		if ($pushAllowed === null) {
@@ -288,6 +298,7 @@ class Manager implements IManager {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function notify(INotification $notification): void {
 		if (!$notification->isValid()) {
 			throw new IncompleteNotificationException('The given notification is invalid');
@@ -312,6 +323,7 @@ class Manager implements IManager {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		return 'core';
 	}
@@ -322,6 +334,7 @@ class Manager implements IManager {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'core';
 	}
@@ -329,6 +342,7 @@ class Manager implements IManager {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		$notifiers = $this->getNotifiers();
 
@@ -360,6 +374,7 @@ class Manager implements IManager {
 		return $notification;
 	}
 
+	#[\Override]
 	public function preloadDataForParsing(
 		array $notifications,
 		string $languageCode,
@@ -378,6 +393,7 @@ class Manager implements IManager {
 	/**
 	 * @param INotification $notification
 	 */
+	#[\Override]
 	public function markProcessed(INotification $notification): void {
 		$apps = array_reverse($this->getApps());
 
@@ -390,6 +406,7 @@ class Manager implements IManager {
 	 * @param INotification $notification
 	 * @return int
 	 */
+	#[\Override]
 	public function getCount(INotification $notification): int {
 		$apps = array_reverse($this->getApps());
 
@@ -404,6 +421,7 @@ class Manager implements IManager {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function dismissNotification(INotification $notification): void {
 		$notifiers = $this->getNotifiers();
 

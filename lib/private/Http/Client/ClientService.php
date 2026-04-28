@@ -39,6 +39,7 @@ class ClientService implements IClientService {
 	) {
 	}
 
+	#[\Override]
 	public function newClient(): IClient {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);

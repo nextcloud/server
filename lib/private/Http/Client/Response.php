@@ -18,16 +18,19 @@ class Response implements IResponse {
 	) {
 	}
 
+	#[\Override]
 	public function getBody() {
 		return $this->stream
 			? $this->response->getBody()->detach()
 			:$this->response->getBody()->getContents();
 	}
 
+	#[\Override]
 	public function getStatusCode(): int {
 		return $this->response->getStatusCode();
 	}
 
+	#[\Override]
 	public function getHeader(string $key): string {
 		$headers = $this->response->getHeader($key);
 
@@ -38,6 +41,7 @@ class Response implements IResponse {
 		return $headers[0];
 	}
 
+	#[\Override]
 	public function getHeaders(): array {
 		return $this->response->getHeaders();
 	}

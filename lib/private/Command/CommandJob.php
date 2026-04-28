@@ -18,6 +18,7 @@ use Test\Command\StateFullCommand;
  * Wrap a command in the background job interface
  */
 class CommandJob extends QueuedJob {
+	#[\Override]
 	protected function run($argument) {
 		$command = unserialize($argument, ['allowed_classes' => [
 			SimpleCommand::class,

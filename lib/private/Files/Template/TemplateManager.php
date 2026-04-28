@@ -295,6 +295,7 @@ class TemplateManager implements ITemplateManager {
 		];
 	}
 
+	#[\Override]
 	public function hasTemplateDirectory(): bool {
 		try {
 			$this->getTemplateFolder();

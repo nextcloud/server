@@ -40,6 +40,7 @@ class CoreCapabilities implements ICapability {
 	 *     },
 	 * }
 	 */
+	#[\Override]
 	public function getCapabilities(): array {
 		return [
 			'core' => [

@@ -104,6 +104,7 @@ class AppManager implements IAppManager {
 		return $this->navigationManager;
 	}
 
+	#[\Override]
 	public function getAppIcon(string $appId, bool $dark = false): ?string {
 		$possibleIcons = $dark ? [$appId . '-dark.svg', 'app-dark.svg'] : [$appId . '.svg', 'app.svg'];
 		$icon = null;
@@ -168,6 +169,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getInstalledApps() {
 		return $this->getEnabledApps();
 	}
@@ -177,6 +179,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @return list<string>
 	 */
+	#[\Override]
 	public function getEnabledApps(): array {
 		return array_keys($this->getEnabledAppsValues());
 	}
@@ -186,6 +189,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @return list<string> an array of app names (string IDs)
 	 */
+	#[\Override]
 	public function getAllAppsInAppsFolders(): array {
 		$apps = [];
 
@@ -218,6 +222,7 @@ class AppManager implements IAppManager {
 	 * @param IUser $user
 	 * @return list<string>
 	 */
+	#[\Override]
 	public function getEnabledAppsForUser(IUser $user) {
 		$apps = $this->getEnabledAppsValues();
 		$appsForUser = array_filter($apps, function ($enabled) use ($user) {
@@ -226,6 +231,7 @@ class AppManager implements IAppManager {
 		return array_keys($appsForUser);
 	}
 
+	#[\Override]
 	public function getEnabledAppsForGroup(IGroup $group): array {
 		$apps = $this->getEnabledAppsValues();
 		$appsForGroups = array_filter($apps, function ($enabled) use ($group) {
@@ -246,6 +252,7 @@ class AppManager implements IAppManager {
 	 *
 	 * if $types is set to non-empty array, only apps of those types will be loaded
 	 */
+	#[\Override]
 	public function loadApps(array $types = []): bool {
 		if ($this->config->getSystemValueBool('maintenance', false)) {
 			return false;
@@ -295,6 +302,7 @@ class AppManager implements IAppManager {
 	 * @param array $types
 	 * @return bool
 	 */
+	#[\Override]
 	public function isType(string $app, array $types): bool {
 		$appTypes = $this->getAppTypes($app);
 		foreach ($types as $type) {
@@ -331,6 +339,7 @@ class AppManager implements IAppManager {
 		return $this->autoDisabledApps;
 	}
 
+	#[\Override]
 	public function getAppRestriction(string $appId): array {
 		$values = $this->getEnabledAppsValues();
 
@@ -351,6 +360,7 @@ class AppManager implements IAppManager {
 	 * @param IUser|null $user (optional) if not defined, the currently logged in user will be used
 	 * @return bool
 	 */
+	#[\Override]
 	public function isEnabledForUser($appId, $user = null) {
 		if ($this->isAlwaysEnabled($appId)) {
 			return true;
@@ -425,10 +435,12 @@ class AppManager implements IAppManager {
 	 *
 	 * @param string $appId
 	 */
+	#[\Override]
 	public function isInstalled($appId): bool {
 		return $this->isEnabledForAnyone($appId);
 	}
 
+	#[\Override]
 	public function isEnabledForAnyone(string $appId): bool {
 		$enabledAppsValues = $this->getEnabledAppsValues();
 		return isset($enabledAppsValues[$appId]);
@@ -455,6 +467,7 @@ class AppManager implements IAppManager {
 		$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
 	}
 
+	#[\Override]
 	public function loadApp(string $app): void {
 		if (isset($this->loadedApps[$app])) {
 			return;
@@ -569,6 +582,7 @@ class AppManager implements IAppManager {
 	 * @param string $app app id
 	 * @since 26.0.0
 	 */
+	#[\Override]
 	public function isAppLoaded(string $app): bool {
 		return isset($this->loadedApps[$app]);
 	}
@@ -581,6 +595,7 @@ class AppManager implements IAppManager {
 	 * @throws AppPathNotFoundException
 	 * @throws \InvalidArgumentException if the application is not installed yet
 	 */
+	#[\Override]
 	public function enableApp(string $appId, bool $forceEnable = false): void {
 		// Check if app exists
 		$this->getAppPath($appId);
@@ -610,6 +625,7 @@ class AppManager implements IAppManager {
 	 * @param string[] $types
 	 * @return bool
 	 */
+	#[\Override]
 	public function hasProtectedAppType($types) {
 		if (empty($types)) {
 			return false;
@@ -628,6 +644,7 @@ class AppManager implements IAppManager {
 	 * @throws \InvalidArgumentException if app can't be enabled for groups
 	 * @throws AppPathNotFoundException
 	 */
+	#[\Override]
 	public function enableAppForGroups(string $appId, array $groups, bool $forceEnable = false): void {
 		// Check if app exists
 		$this->getAppPath($appId);
@@ -671,6 +688,7 @@ class AppManager implements IAppManager {
 	 * @param bool $automaticDisabled
 	 * @throws \Exception if app can't be disabled
 	 */
+	#[\Override]
 	public function disableApp($appId, $automaticDisabled = false): void {
 		if ($this->isAlwaysEnabled($appId)) {
 			throw new \Exception("$appId can't be disabled.");
@@ -707,6 +725,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @throws AppPathNotFoundException if app folder can't be found
 	 */
+	#[\Override]
 	public function getAppPath(string $appId, bool $ignoreCache = false): string {
 		$appId = $this->cleanAppId($appId);
 		if ($appId === '') {
@@ -726,6 +745,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @throws AppPathNotFoundException if app path can't be found
 	 */
+	#[\Override]
 	public function getAppWebPath(string $appId): string {
 		if (($dir = $this->findAppInDirectories($appId)) != false) {
 			return \OC::$WEBROOT . $dir['url'] . '/' . $appId;
@@ -787,6 +807,7 @@ class AppManager implements IAppManager {
 	/**
 	 * Clear the cached list of apps when enabling/disabling an app
 	 */
+	#[\Override]
 	public function clearAppsCache(): void {
 		$this->appInfos = [];
 	}
@@ -823,6 +844,7 @@ class AppManager implements IAppManager {
 	 * @param string|null $lang
 	 * @return array|null app info
 	 */
+	#[\Override]
 	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
 		if ($path) {
 			throw new \InvalidArgumentException('Calling IAppManager::getAppInfo() with a path is no longer supported. Please call IAppManager::getAppInfoByPath() instead and verify that the path is good before calling.');
@@ -846,6 +868,7 @@ class AppManager implements IAppManager {
 		return $data;
 	}
 
+	#[\Override]
 	public function getAppInfoByPath(string $path, ?string $lang = null): ?array {
 		if (!str_ends_with($path, '/appinfo/info.xml')) {
 			return null;
@@ -861,6 +884,7 @@ class AppManager implements IAppManager {
 		return $data;
 	}
 
+	#[\Override]
 	public function getAppVersion(string $appId, bool $useCache = true): string {
 		if (!$useCache || !isset($this->appVersions[$appId])) {
 			if ($appId === 'core') {
@@ -878,6 +902,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @return array<string, string>
 	 */
+	#[\Override]
 	public function getAppInstalledVersions(bool $onlyEnabled = false): array {
 		return $this->getAppConfig()->getAppInstalledVersions($onlyEnabled);
 	}
@@ -909,6 +934,7 @@ class AppManager implements IAppManager {
 	 * @inheritdoc
 	 * In case you change this method, also change \OC\App\CodeChecker\InfoChecker::isShipped()
 	 */
+	#[\Override]
 	public function isShipped($appId) {
 		$this->loadShippedJson();
 		return in_array($appId, $this->shippedApps, true);
@@ -943,6 +969,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAlwaysEnabledApps() {
 		$this->loadShippedJson();
 		return $this->alwaysEnabled;
@@ -951,6 +978,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function isDefaultEnabled(string $appId): bool {
 		return (in_array($appId, $this->getDefaultEnabledApps()));
 	}
@@ -958,6 +986,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getDefaultEnabledApps(): array {
 		$this->loadShippedJson();
 
@@ -967,6 +996,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getDefaultAppForUser(?IUser $user = null, bool $withFallbacks = true): string {
 		$id = $this->getNavigationManager()->getDefaultEntryIdForUser($user, $withFallbacks);
 		$entry = $this->getNavigationManager()->get($id);
@@ -976,6 +1006,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getDefaultApps(): array {
 		$ids = $this->getNavigationManager()->getDefaultEntryIds();
 
@@ -988,6 +1019,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setDefaultApps(array $defaultApps): void {
 		$entries = $this->getNavigationManager()->getAll();
 		$ids = [];
@@ -1002,6 +1034,7 @@ class AppManager implements IAppManager {
 		$this->getNavigationManager()->setDefaultEntryIds($ids);
 	}
 
+	#[\Override]
 	public function isBackendRequired(string $backend): bool {
 		foreach ($this->appInfos as $appInfo) {
 			if (
@@ -1031,6 +1064,7 @@ class AppManager implements IAppManager {
 	 * @psalm-taint-escape sql
 	 * @psalm-taint-escape unserialize
 	 */
+	#[\Override]
 	public function cleanAppId(string $app): string {
 		/* Only lowercase alphanumeric is allowed */
 		$cleanAppId = preg_replace('/(^[0-9_-]+|[^a-z0-9_-]+|[_-]+$)/', '', $app, -1, $count);
@@ -1068,6 +1102,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @throws AppPathNotFoundException if app folder can't be found
 	 */
+	#[\Override]
 	public function upgradeApp(string $appId): bool {
 		// for apps distributed with core, we refresh app path in case the downloaded version
 		// have been installed in custom apps and not in the default path
@@ -1138,6 +1173,7 @@ class AppManager implements IAppManager {
 		return true;
 	}
 
+	#[\Override]
 	public function isUpgradeRequired(string $appId): bool {
 		$versions = $this->getAppInstalledVersions();
 		$currentVersion = $this->getAppVersion($appId);
@@ -1157,6 +1193,7 @@ class AppManager implements IAppManager {
 		return false;
 	}
 
+	#[\Override]
 	public function isAppCompatible(string $serverVersion, array $appInfo, bool $ignoreMax = false): bool {
 		return count($this->dependencyAnalyzer->analyzeServerVersion($serverVersion, $appInfo, $ignoreMax)) === 0;
 	}

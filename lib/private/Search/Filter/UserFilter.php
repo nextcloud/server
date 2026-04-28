@@ -28,6 +28,7 @@ class UserFilter implements IFilter {
 		$this->user = $user;
 	}
 
+	#[\Override]
 	public function get(): IUser {
 		return $this->user;
 	}

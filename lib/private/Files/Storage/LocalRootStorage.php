@@ -13,6 +13,7 @@ use OCP\Files\Cache\IScanner;
 use OCP\Files\Storage\IStorage;
 
 class LocalRootStorage extends Local {
+	#[\Override]
 	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;

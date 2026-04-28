@@ -19,6 +19,7 @@ class CachePermissionsMask extends CacheWrapper {
 		parent::__construct($cache);
 	}
 
+	#[\Override]
 	protected function formatCacheEntry($entry) {
 		if (isset($entry['permissions'])) {
 			$entry['scan_permissions'] ??= $entry['permissions'];
