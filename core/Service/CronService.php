@@ -167,20 +167,19 @@ class CronService {
 			$jobDetails = get_class($job) . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
 			$this->logger->debug('CLI cron call has selected job ' . $jobDetails, ['app' => 'cron']);
 
-			$timeBefore = time();
-			$memoryBefore = memory_get_usage();
-			$memoryPeakBefore = memory_get_peak_usage();
-
 			$this->verboseOutput('Starting job ' . $jobDetails);
+
+			$startTime = microtime(true);
+			$referenceMemory = memory_get_usage();
+			memory_reset_peak_usage();
 
 			$job->start($this->jobList);
 
-			$timeAfter = time();
-			$memoryAfter = memory_get_usage();
-			$memoryPeakAfter = memory_get_peak_usage();
+			$memoryIncrease = memory_get_usage() - $referenceMemory;
+			$timeSpent = microtime(true) - $startTime;
+			$jobMemoryPeak = memory_get_peak_usage() - $referenceMemory;
 
 			$cronInterval = 5 * 60;
-			$timeSpent = $timeAfter - $timeBefore;
 			if ($timeSpent > $cronInterval) {
 				$logLevel = match (true) {
 					$timeSpent > $cronInterval * 128 => ILogger::FATAL,
@@ -196,13 +195,13 @@ class CronService {
 				);
 			}
 
-			if ($memoryAfter - $memoryBefore > 50_000_000) {
-				$message = 'Used memory grew by more than 50 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter) . ' (before: ' . Util::humanFileSize($memoryBefore) . ')';
+			if ($memoryIncrease > 50 * 1024 * 1024) {
+				$message = 'Memory leak detected after executing job ' . $jobDetails . '. Memory usage grew by ' . Util::humanFileSize($memoryIncrease) . '.';
 				$this->logger->warning($message, ['app' => 'cron']);
 				$this->verboseOutput($message);
 			}
-			if ($memoryPeakAfter > 300_000_000 && $memoryPeakBefore <= 300_000_000) {
-				$message = 'Cron job used more than 300 MB of ram after executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryPeakAfter) . ' (before: ' . Util::humanFileSize($memoryPeakBefore) . ')';
+			if ($jobMemoryPeak > 300 * 1024 * 1024) {
+				$message = 'Cron job used more than 300 MiB of RAM after executing job ' . $jobDetails . ': ' . Util::humanFileSize($jobMemoryPeak) . ')';
 				$this->logger->warning($message, ['app' => 'cron']);
 				$this->verboseOutput($message);
 			}
@@ -211,13 +210,13 @@ class CronService {
 			$this->setupManager->tearDown();
 			$this->tempManager->clean();
 
-			$this->verboseOutput('Job ' . $jobDetails . ' done in ' . ($timeAfter - $timeBefore) . ' seconds');
+			$this->verboseOutput('Job ' . $jobDetails . ' done in ' . number_format($timeSpent, 2) . ' seconds');
 
 			$this->jobList->setLastJob($job);
 			$executedJobs[$job->getId()] = true;
 			unset($job);
 
-			if ($timeAfter > $endTime) {
+			if (time() > $endTime) {
 				break;
 			}
 		}
