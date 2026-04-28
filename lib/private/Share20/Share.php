@@ -34,8 +34,9 @@ class Share implements IShare {
 	private $shareType;
 	/** @var string */
 	private $sharedWith;
-	/** @var string */
-	private $sharedWithDisplayName;
+	private ?string $sharedWithDisplayName = null;
+	/** @var ?callable */
+	private $sharedWithDisplayNameCallback = null;
 	/** @var string */
 	private $sharedWithAvatar;
 	/** @var string */
@@ -250,10 +251,20 @@ class Share implements IShare {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @param callable(IShare):?string $callback
+	 * @return $this
 	 */
+	public function setSharedWithDisplayNameCallback(callable $callback) {
+		$this->sharedWithDisplayNameCallback = $callback;
+		return $this;
+	}
+
 	public function getSharedWithDisplayName() {
-		return $this->sharedWithDisplayName;
+		if ($this->sharedWithDisplayNameCallback !== null) {
+			$this->sharedWithDisplayName = ($this->sharedWithDisplayNameCallback)($this);
+			$this->sharedWithDisplayNameCallback = null;
+		}
+		return $this->sharedWithDisplayName ?? $this->sharedWith;
 	}
 
 	/**
