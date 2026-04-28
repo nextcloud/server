@@ -12,6 +12,7 @@
 	errorBaseline="build/psalm-baseline.xml"
 	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
+	findUnusedIssueHandlerSuppression="false"
 	strictBinaryOperands="false"
 	phpVersion="8.2"
 >
