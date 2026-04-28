@@ -41,6 +41,7 @@
 
 	<commands>
 		<command>OCA\WorkflowEngine\Command\Index</command>
+		<command>OCA\WorkflowEngine\Command\Runtime</command>
 	</commands>
 
 	<settings>
