@@ -108,6 +108,7 @@
 import { FileType, formatFileSize } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import CustomElementRender from './CustomElementRender.vue'
@@ -165,23 +166,26 @@ export default defineComponent({
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
 
+		const activeStore = useActiveStore()
 		const {
 			activeFolder,
 			activeNode,
 			activeView,
-		} = useActiveStore()
+		} = storeToRefs(activeStore)
 
 		const actions = useFileActions()
 
 		return {
 			actions,
-			actionsMenuStore,
 			activeFolder,
 			activeNode,
 			activeView,
 			currentRouteFileId,
-			draggingStore,
 			isNarrow,
+
+			activeStore,
+			actionsMenuStore,
+			draggingStore,
 			filesStore,
 			renamingStore,
 			selectionStore,
