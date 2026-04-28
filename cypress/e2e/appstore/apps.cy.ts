@@ -1,5 +1,5 @@
-/**
- * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+/*
+ * SPDX-FileCopyrightText: 2023-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -19,7 +19,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.login(admin)
 
 		// Intercept the apps list request
-		cy.intercept('GET', '**/ocs/v2.php/apps/appstore/api/v1/apps').as('fetchAppsList')
+		cy.intercept('GET', '/ocs/v2.php/apps/appstore/api/v1/apps').as('fetchAppsList')
 
 		// I open the Apps management
 		cy.visit('/settings/apps/installed')
@@ -29,70 +29,96 @@ describe('Settings: App management', { testIsolation: true }, () => {
 	})
 
 	it('Can enable an installed app', () => {
-		cy.intercept('POST', '**/ocs/v2.php/apps/appstore/api/v1/apps/enable').as('enableApp')
-		cy.get('#apps-list').should('exist')
+		cy.intercept('POST', '/ocs/v2.php/apps/appstore/api/v1/apps/enable').as('enableApp')
+
+		cy.findByRole('table').should('exist')
 			// Wait for the app list to load
 			.contains('tr', 'QA testing', { timeout: 10000 })
 			.should('exist')
+			.findByRole('button', { name: 'Enable' })
 			// I enable the "QA testing" app
-			.contains('button', 'Enable')
 			.click({ force: true })
 
 		handlePasswordConfirmation(admin.password)
+
 		cy.wait('@enableApp')
 
 		// Wait until we see the disable button for the app
-		cy.get('#apps-list').should('exist')
+		cy.findByRole('table').should('exist')
 			.contains('tr', 'QA testing')
 			.should('exist')
 			// I see the disable button for the app
-			.contains('button', 'Disable', { timeout: 10000 })
+			.findByRole('button', { name: 'Disable' })
+			.should('be.visible')
 
 		// Change to enabled apps view
-		cy.get('#app-category-enabled a').click({ force: true })
+		cy.findByRole('navigation', { name: 'Appstore categories' })
+			.within(() => {
+				cy.findByRole('link', { name: 'Active apps' })
+					.should('be.visible')
+					.click({ force: true })
+			})
+
 		cy.url().should('match', /settings\/apps\/enabled$/)
 		// I see that the "QA testing" app has been enabled
-		cy.get('#apps-list').contains('tr', 'QA testing')
+		cy.findByRole('table')
+			.contains('tr', 'QA testing')
 	})
 
 	it('Can disable an installed app', () => {
-		cy.intercept('POST', '**/ocs/v2.php/apps/appstore/api/v1/apps/disable').as('disableApp')
-		cy.get('#apps-list')
+		cy.intercept('POST', '/ocs/v2.php/apps/appstore/api/v1/apps/disable').as('disableApp')
+
+		cy.findByRole('table')
 			.should('exist')
 			// Wait for the app list to load
 			.contains('tr', 'Update notification', { timeout: 10000 })
 			.should('exist')
 			// I disable the "Update notification" app
-			.contains('button', 'Disable')
+			.findByRole('button', { name: 'Disable' })
 			.click({ force: true })
 
 		handlePasswordConfirmation(admin.password)
 		cy.wait('@disableApp')
 
 		// Wait until we see the disable button for the app
-		cy.get('#apps-list').should('exist')
+		cy.findByRole('table').should('exist')
 			.contains('tr', 'Update notification')
 			.should('exist')
 			// I see the enable button for the app
-			.contains('button', 'Enable', { timeout: 10000 })
+			.findByRole('button', { name: 'Enable' })
+			.should('exist')
 
 		// Change to disabled apps view
-		cy.get('#app-category-disabled a').click({ force: true })
+		cy.findByRole('navigation', { name: 'Appstore categories' })
+			.within(() => {
+				cy.findByRole('link', { name: 'Disabled apps' }).click({ force: true })
+			})
 		cy.url().should('match', /settings\/apps\/disabled$/)
+
 		// I see that the "Update notification" app has been disabled
-		cy.get('#apps-list').contains('tr', 'Update notification')
+		cy.findByRole('table')
+			.contains('tr', 'Update notification')
 	})
 
 	it('Browse enabled apps', () => {
 		// When I open the "Active apps" section
-		cy.get('#app-category-enabled a')
-			.should('contain', 'Active apps')
-			.click({ force: true })
+		cy.findByRole('navigation', { name: 'Appstore categories' })
+			.within(() => {
+				cy.findByRole('link', { name: 'Active apps' })
+					.should('be.visible')
+					.click({ force: true })
+			})
+
 		// Then I see that the current section is "Active apps"
 		cy.url().should('match', /settings\/apps\/enabled$/)
-		cy.get('#app-category-enabled').find('.active').should('exist')
+		cy.findByRole('navigation', { name: 'Appstore categories' })
+			.within(() => {
+				cy.findByRole('link', { name: 'Active apps', current: 'page' })
+					.should('be.visible')
+			})
+
 		// I see that there are only enabled apps
-		cy.get('#apps-list')
+		cy.findByRole('table')
 			.should('exist')
 			.find('tr button')
 			.each(($action) => {
@@ -101,15 +127,27 @@ describe('Settings: App management', { testIsolation: true }, () => {
 	})
 
 	it('Browse disabled apps', () => {
-		// When I open the "Active apps" section
-		cy.get('#app-category-disabled a')
-			.should('contain', 'Disabled apps')
-			.click({ force: true })
-		// Then I see that the current section is "Active apps"
+		// When I open the "Active Disabled" section
+		cy.findByRole('navigation', { name: 'Appstore categories' })
+			.within(() => {
+				cy.findByRole('link', { name: 'Disabled apps' })
+					.as('disabledAppsLink')
+					.should('be.visible')
+					.and('not.have.attr', 'aria-current')
+				cy.get('@disabledAppsLink')
+					.click({ force: true })
+			})
+
+		// Then I see that the current section is "Disabled apps"
 		cy.url().should('match', /settings\/apps\/disabled$/)
-		cy.get('#app-category-disabled').find('.active').should('exist')
+		cy.findByRole('navigation', { name: 'Appstore categories' })
+			.within(() => {
+				cy.findByRole('link', { name: 'Disabled apps', current: 'page' })
+					.should('be.visible')
+			})
+
 		// I see that there are only disabled apps
-		cy.get('#apps-list')
+		cy.findByRole('table')
 			.should('exist')
 			.find('tr button')
 			.each(($action) => {
@@ -119,61 +157,112 @@ describe('Settings: App management', { testIsolation: true }, () => {
 
 	it('Browse app bundles', () => {
 		// When I open the "App bundles" section
-		cy.get('#app-category-your-bundles a')
-			.should('contain', 'App bundles')
-			.click({ force: true })
+		cy.findByRole('navigation', { name: 'Appstore categories' })
+			.within(() => {
+				cy.findByRole('link', { name: 'App bundles' })
+					.as('appBundlesLink')
+					.should('be.visible')
+					.and('not.have.attr', 'aria-current')
+				cy.get('@appBundlesLink')
+					.click({ force: true })
+			})
+
 		// Then I see that the current section is "App bundles"
-		cy.url().should('match', /settings\/apps\/app-bundles$/)
-		cy.get('#app-category-your-bundles').find('.active').should('exist')
+		cy.url().should('match', /settings\/apps\/bundles$/)
+		cy.findByRole('navigation', { name: 'Appstore categories' })
+			.within(() => {
+				cy.findByRole('link', { name: 'App bundles', current: 'page' })
+					.should('be.visible')
+			})
+
 		// I see the app bundles
-		cy.get('#apps-list').contains('tr', 'Enterprise bundle')
-		cy.get('#apps-list').contains('tr', 'Education bundle')
-		// I see that the "Enterprise bundle" is disabled
-		cy.get('#apps-list').contains('tr', 'Enterprise bundle').contains('button', 'Download and enable all')
+		cy.findByRole('heading', { name: 'Enterprise bundle' })
+			.should('be.visible')
+		cy.findByRole('heading', { name: 'Education bundle' })
+			.should('be.visible')
 	})
 
 	it('View app details', () => {
 		// When I click on the "QA testing" app
-		cy.get('#apps-list').contains('a', 'QA testing').click({ force: true })
+		cy.findByRole('table')
+			.contains('a', 'QA testing')
+			.click({ force: true })
 		// I see that the app details are shown
 		cy.get('#app-sidebar-vue')
 			.should('be.visible')
 			.find('.app-sidebar-header__info')
 			.should('contain', 'QA testing')
 		cy.get('#app-sidebar-vue').contains('a', 'View in store').should('exist')
-		cy.get('#app-sidebar-vue').findByRole('button', { name: 'Enable' }).should('be.visible')
+		cy.get('#app-sidebar-vue')
+			.findByRole('button', { name: 'Enable' })
+			.should('be.visible')
+		cy.get('#app-sidebar-vue')
+			.findByRole('button', { name: 'Remove' })
+			.should('be.visible')
 		cy.get('#app-sidebar-vue').contains(/Version \d+\.\d+\.\d+/).should('be.visible')
 	})
 
-	it.skip('Limit app usage to group', () => {
+	it('Limit app usage to group', () => {
 		// When I open the "Active apps" section
-		cy.get('#app-category-enabled a')
-			.should('contain', 'Active apps')
-			.click({ force: true })
+		cy.findByRole('navigation', { name: 'Appstore categories' })
+			.within(() => {
+				cy.findByRole('link', { name: 'Active apps' })
+					.should('be.visible')
+					.click({ force: true })
+			})
+
 		// Then I see that the current section is "Active apps"
 		cy.url().should('match', /settings\/apps\/enabled$/)
-		cy.get('#app-category-enabled').find('.active').should('exist')
+
 		// Then I select the app
-		cy.get('#apps-list')
+		cy.findByRole('table')
 			.should('exist')
-			.contains('tr', 'Dashboard', { timeout: 10000 })
+			.contains('tr a', 'Dashboard', { timeout: 10000 })
 			.click()
+
 		// Then I enable "limit app to group"
-		cy.get('[for="groups_enable_dashboard"]').click()
+		cy.findByRole('button', { name: 'Limit to groups' })
+			.click()
+
 		// Then I select a group
-		cy.get('#limitToGroups').click()
-		cy.get('ul[role="listbox"]')
-			.find('span')
-			.contains('admin')
+		cy.findByRole('dialog')
+			.should('be.visible')
+			.within(() => {
+				cy.get('input')
+					.should('be.focused')
+					.type('admin')
+			})
+		cy.findByRole('option', { name: /admin/ })
+			.click()
+		cy.findByRole('button', { name: 'Save' })
 			.click()
 
 		handlePasswordConfirmation(admin.password)
 
-		cy.get('span.name-parts__first')
-			.contains('admin')
+		cy.get('#app-sidebar-vue')
+			.findByRole('list', { name: 'Limited to groups' })
+			.findByRole('listitem', { name: /admin/ })
 			.should('be.visible')
+
 		// Then I disable the group limitation
-		cy.get('button[title="Deselect admin"]').click()
+		cy.get('#app-sidebar-vue')
+			.findByRole('button', { name: 'Limit to groups' })
+			.click()
+		cy.findByRole('dialog')
+			.should('be.visible')
+			.within(() => {
+				cy.findByRole('button', { name: 'Deselect admin' })
+					.should('be.visible')
+					.click()
+				cy.findByRole('button', { name: 'Save' })
+					.click()
+			})
+
+		handlePasswordConfirmation(admin.password)
+
+		cy.get('#app-sidebar-vue')
+			.findByRole('list', { name: 'Limited to groups' })
+			.should('not.exist')
 	})
 
 	/*

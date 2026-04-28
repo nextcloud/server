@@ -5,8 +5,8 @@
 
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 
+import { handlePasswordConfirmation } from '../core-utils.ts'
 import { getInlineActionEntryForFile, getRowForFile, navigateToFolder, triggerInlineActionForFile } from '../files/FilesUtils.ts'
-import { handlePasswordConfirmation } from '../settings/usersUtils.ts'
 import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageUtils.ts'
 
 const ACTION_CREDENTIALS_EXTERNAL_STORAGE = 'credentials-external-storage'
