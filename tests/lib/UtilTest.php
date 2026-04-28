@@ -372,11 +372,14 @@ class UtilTest extends \Test\TestCase {
 
 	public static function providesComputerFileSize(): array {
 		return [
-			[0.0, '0 B'],
-			[1024.0, '1 KB'],
-			[1395864371.0, '1.3 GB'],
-			[9961472.0, '9.5 MB'],
-			[500041567437.0, '465.7 GB'],
+			[0., '0 B'],
+			[5., '5 B'],
+			[1024., '1 KiB'],
+			[1000., '1 KB'],
+			[1395864371., '1.3 GiB'],
+			[9961472., '9.5 MiB'],
+			[500041567437., '465.7 GiB'],
+			[465785000000., '465.785 GB'],
 			[false, '12 GB etfrhzui']
 		];
 	}

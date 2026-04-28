@@ -348,31 +348,28 @@ class Util {
 	 * @param string $str file size in a fancy format
 	 * @return false|int|float a file size in bytes
 	 * @since 4.0.0
+	 * @since 34.0.0 Supports IEC and SI units instead of assuming IEC units
 	 */
 	public static function computerFileSize(string $str): false|int|float {
-		$str = strtolower($str);
 		if (is_numeric($str)) {
 			return Util::numericToNumber($str);
 		}
 
-		$bytes_array = [
-			'b' => 1,
-			'k' => 1024,
-			'kb' => 1024,
-			'mb' => 1024 * 1024,
-			'm' => 1024 * 1024,
-			'gb' => 1024 * 1024 * 1024,
-			'g' => 1024 * 1024 * 1024,
-			'tb' => 1024 * 1024 * 1024 * 1024,
-			't' => 1024 * 1024 * 1024 * 1024,
-			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
-			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
+		$str = strtolower($str);
+		$supportedUnits = [
+			'' => 0,
+			'k' => 1,
+			'm' => 2,
+			'g' => 3,
+			't' => 4,
+			'p' => 5,
 		];
 
 		$bytes = (float)$str;
 
-		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && isset($bytes_array[$matches[1]])) {
-			$bytes *= $bytes_array[$matches[1]];
+		if (preg_match('#([kmgtp]?)(i)?b$#si', $str, $matches) && isset($supportedUnits[$matches[1]])) {
+			$base = ($matches[2] ?? '') === 'i' ? 1024 : 1000;
+			$bytes *= $base ** $supportedUnits[$matches[1]];
 		} else {
 			return false;
 		}
