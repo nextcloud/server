@@ -138,6 +138,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\SystemIs64bit' => $baseDir . '/../lib/SetupChecks/SystemIs64bit.php',
     'OCA\\Settings\\SetupChecks\\TaskProcessingPickupSpeed' => $baseDir . '/../lib/SetupChecks/TaskProcessingPickupSpeed.php',
     'OCA\\Settings\\SetupChecks\\TaskProcessingSuccessRate' => $baseDir . '/../lib/SetupChecks/TaskProcessingSuccessRate.php',
+    'OCA\\Settings\\SetupChecks\\TaskProcessingWorkerIsRunning' => $baseDir . '/../lib/SetupChecks/TaskProcessingWorkerIsRunning.php',
     'OCA\\Settings\\SetupChecks\\TempSpaceAvailable' => $baseDir . '/../lib/SetupChecks/TempSpaceAvailable.php',
     'OCA\\Settings\\SetupChecks\\TransactionIsolation' => $baseDir . '/../lib/SetupChecks/TransactionIsolation.php',
     'OCA\\Settings\\SetupChecks\\TwoFactorConfiguration' => $baseDir . '/../lib/SetupChecks/TwoFactorConfiguration.php',
