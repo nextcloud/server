@@ -39,6 +39,7 @@ class RootCollection extends AbstractPrincipalCollection {
 		CleanupService $cleanupService) {
 		parent::__construct($principalBackend, $principalPrefix);
 		$this->cleanupService = $cleanupService;
+		$this->disableListing = true;
 	}
 
 	/**
