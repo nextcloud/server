@@ -64,6 +64,7 @@ class JSONResponse extends Response {
 	 */
 	#[\Override]
 	public function render() {
+		/** @psalm-suppress FalsableReturnStatement */
 		return json_encode($this->data, JSON_HEX_TAG | JSON_THROW_ON_ERROR | $this->encodeFlags, 2048);
 	}
 

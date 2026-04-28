@@ -36,7 +36,7 @@ class GenericMigrationAttribute extends MigrationAttribute {
 	 */
 	#[\Override]
 	public function definition(): string {
-		return json_encode($this->jsonSerialize(), JSON_UNESCAPED_SLASHES);
+		return json_encode($this->jsonSerialize(), JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
 	}
 
 	/**
