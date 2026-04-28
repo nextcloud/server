@@ -45,6 +45,9 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		private ?IGroupManager $groupManager,
 	) {
 		parent::__construct($carddavBackend, $principalUri);
+
+		$this->l10n = Util::getL10N('dav');
+		$this->config = Server::get(IConfig::class);
 	}
 
 	/**
@@ -53,13 +56,6 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 * @return IAddressBook[]
 	 */
 	public function getChildren() {
-		if ($this->l10n === null) {
-			$this->l10n = Util::getL10N('dav');
-		}
-		if ($this->config === null) {
-			$this->config = Server::get(IConfig::class);
-		}
-
 		/** @var string|array $principal */
 		$principal = $this->principalUri;
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
