@@ -54,11 +54,18 @@ class TaskProcessingWorkerIsRunning implements ISetupCheck {
 		$lastIteration = (int)$this->appConfig->getValueString('core', 'taskprocessing_worker_last_iteration', lazy: true);
 		if ($lastIteration > $this->timeFactory->now()->getTimestamp() - (60 * self::IS_RUNNING_IN_LAST_X_MINUTES)) {
 			return SetupResult::success(
-				$this->l10n->n('The Task Processing worker has run in the last minute.', 'The Task Processing worker has run in the last %n minute.', self::IS_RUNNING_IN_LAST_X_MINUTES)
+				$this->l10n->n('The Task Processing worker has run in the last minute.', 'The Task Processing worker has run in the last %n minutes.', self::IS_RUNNING_IN_LAST_X_MINUTES)
 			);
 		}
+
+		if ($lastIteration > 0) {
+			return SetupResult::warning(
+				$this->l10n->t('The Task Processing worker does not seem to be running. The last run was at %s.', [date('Y-m-d H:i:s', $lastIteration)])
+			);
+		}
+
 		return SetupResult::warning(
-			$this->l10n->t('The Task Processing worker does not seem to be running. The last run was at %s.', [date('Y-m-d H:i:s', (int)$this->appConfig->getValueString('core', 'taskprocessing_worker_last_iteration'))])
+			$this->l10n->t('The Task Processing worker does not seem to be running. It seems it has never run so far.')
 		);
 	}
 }

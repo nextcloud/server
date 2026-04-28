@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests;
@@ -53,7 +53,7 @@ class TaskProcessingWorkerIsRunningTest extends TestCase {
 			$tasks[] = $task;
 		}
 		$this->taskProcessingManager->method('getTasks')->willReturn($tasks);
-
+		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
 		$this->appConfig->method('getValueString')->willReturn((string)$this->timeFactory->now()->getTimestamp());
 
 		$this->assertEquals(SetupResult::SUCCESS, $this->check->run()->getSeverity());
@@ -70,7 +70,7 @@ class TaskProcessingWorkerIsRunningTest extends TestCase {
 			$tasks[] = $task;
 		}
 		$this->taskProcessingManager->method('getTasks')->willReturn($tasks);
-
+		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
 		$this->appConfig->method('getValueString')->willReturn((string)($this->timeFactory->now()->getTimestamp() - 60 * 10));
 
 		$this->assertEquals(SetupResult::WARNING, $this->check->run()->getSeverity());
