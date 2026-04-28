@@ -2313,6 +2313,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\User\\PartiallyDeletedUsersBackend' => __DIR__ . '/../../..' . '/lib/private/User/PartiallyDeletedUsersBackend.php',
         'OC\\User\\Session' => __DIR__ . '/../../..' . '/lib/private/User/Session.php',
         'OC\\User\\User' => __DIR__ . '/../../..' . '/lib/private/User/User.php',
+        'OC\\WorkflowEngine\\Events\\RegisterRuntimeOperationsEvent' => __DIR__ . '/../../..' . '/lib/private/WorkflowEngine/Events/RegisterRuntimeOperationsEvent.php',
         'OC_App' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_App.php',
         'OC_Defaults' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Defaults.php',
         'OC_Helper' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Helper.php',

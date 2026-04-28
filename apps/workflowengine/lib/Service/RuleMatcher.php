@@ -112,10 +112,12 @@ class RuleMatcher implements IRuleMatcher {
 		$operations = [];
 		foreach ($scopes as $scope) {
 			$operations = array_merge($operations, $this->manager->getOperations($class, $scope));
+			$operations = array_merge($operations, $this->manager->getRuntimeOperations($class, $scope));
 		}
 
 		if ($this->entity instanceof IEntity) {
-			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
+			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class)
+				+ $this->manager->getAllConfiguredScopesForRuntimeOperation($class);
 			foreach ($additionalScopes as $hash => $scopeCandidate) {
 				if ($scopeCandidate->getScope() !== IManager::SCOPE_USER || in_array($scopeCandidate, $scopes)) {
 					continue;
@@ -128,6 +130,7 @@ class RuleMatcher implements IRuleMatcher {
 						->setOperation($this->operation);
 					$this->logger->logScopeExpansion($ctx);
 					$operations = array_merge($operations, $this->manager->getOperations($class, $scopeCandidate));
+					$operations = array_merge($operations, $this->manager->getRuntimeOperations($class, $scopeCandidate));
 				}
 			}
 		}
@@ -140,7 +143,11 @@ class RuleMatcher implements IRuleMatcher {
 			}
 
 			$checkIds = json_decode($operation['checks'], true);
-			$checks = $this->manager->getChecks($checkIds);
+			if (($operation['runtime'] ?? null) === true) {
+				$checks = $this->manager->getRuntimeChecks($checkIds, $operation['appId']);
+			} else {
+				$checks = $this->manager->getChecks($checkIds);
+			}
 
 			foreach ($checks as $check) {
 				if (!$this->check($check)) {

@@ -10,6 +10,7 @@ use OC\Files\Config\UserMountCache;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\EventDispatcher\Event;
@@ -33,6 +34,7 @@ use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -84,6 +86,7 @@ class ManagerTest extends TestCase {
 	protected IEventDispatcher&MockObject $dispatcher;
 	protected IAppConfig&MockObject $config;
 	protected ICacheFactory&MockObject $cacheFactory;
+	protected IAppManager&MockObject $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -101,6 +104,7 @@ class ManagerTest extends TestCase {
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->config = $this->createMock(IAppConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->manager = new Manager(
 			$this->db,
@@ -110,7 +114,8 @@ class ManagerTest extends TestCase {
 			$this->session,
 			$this->dispatcher,
 			$this->config,
-			$this->cacheFactory
+			$this->cacheFactory,
+			$this->appManager,
 		);
 		$this->clearTables();
 	}
@@ -735,6 +740,125 @@ class ManagerTest extends TestCase {
 		} catch (\UnexpectedValueException $e) {
 			$this->assertSame('The provided operation data is too long', $e->getMessage());
 		}
+	}
+
+	private function prepareContainerForRuntimeOperation(): void {
+		$operationMock = $this->createMock(IOperation::class);
+		$operationMock->method('isAvailableForScope')->willReturn(true);
+
+		$myEventMock = $this->createMock(IEntityEvent::class);
+		$myEventMock->method('getEventName')->willReturn('MyEvent');
+		$otherEventMock = $this->createMock(IEntityEvent::class);
+		$otherEventMock->method('getEventName')->willReturn('OtherEvent');
+
+		$entityMock = $this->createMock(IEntity::class);
+		$entityMock->method('getEvents')->willReturn([$myEventMock, $otherEventMock]);
+
+		$checkMock = $this->createMock(ICheck::class);
+		$checkMock->method('supportedEntities')->willReturn([]);
+
+		$this->container->expects($this->any())
+			->method('get')
+			->willReturnCallback(fn ($class) => match ($class) {
+				IOperation::class => $operationMock,
+				IEntity::class => $entityMock,
+				ICheck::class => $checkMock,
+				default => $this->createMock($class),
+			});
+	}
+
+	public function testAddRuntimeOperationRejectsUnknownApp(): void {
+		$this->appManager->method('isEnabledForAnyone')->willReturn(false);
+		$this->expectException(\InvalidArgumentException::class);
+
+		$scope = $this->buildScope();
+		$check = ['class' => ICheck::class, 'operator' => 'is', 'value' => 'test'];
+		$this->manager->addRuntimeOperation('unknownapp', IOperation::class, 'Test', [$check], '', $scope, IEntity::class, ['MyEvent']);
+	}
+
+	public function testGetAllConfiguredRuntimeEventsEmpty(): void {
+		$this->assertSame([], $this->manager->getAllConfiguredRuntimeEvents());
+	}
+
+	public function testGetAllConfiguredRuntimeEvents(): void {
+		$this->appManager->method('isEnabledForAnyone')->willReturn(true);
+		$this->prepareContainerForRuntimeOperation();
+
+		$scope = $this->buildScope();
+		$check = ['class' => ICheck::class, 'operator' => 'is', 'value' => 'test'];
+
+		$this->manager->addRuntimeOperation('testapp', IOperation::class, 'Op1', [$check], '', $scope, IEntity::class, ['MyEvent']);
+		$this->manager->addRuntimeOperation('testapp', IOperation::class, 'Op2', [$check], '', $scope, IEntity::class, ['MyEvent', 'OtherEvent']);
+
+		$events = $this->manager->getAllConfiguredRuntimeEvents();
+
+		$this->assertArrayHasKey(IOperation::class, $events);
+		$this->assertArrayHasKey(IEntity::class, $events[IOperation::class]);
+		$eventNames = $events[IOperation::class][IEntity::class];
+		$this->assertContains('MyEvent', $eventNames);
+		$this->assertContains('OtherEvent', $eventNames);
+		$this->assertCount(2, $eventNames);
+	}
+
+	public function testRuntimeOperationScopeIsolation(): void {
+		$this->appManager->method('isEnabledForAnyone')->willReturn(true);
+		$this->prepareContainerForRuntimeOperation();
+
+		$adminScope = $this->buildScope();
+		$userScope = $this->buildScope('alice');
+		$check = ['class' => ICheck::class, 'operator' => 'is', 'value' => 'test'];
+
+		$this->manager->addRuntimeOperation('testapp', IOperation::class, 'AdminOp', [$check], '', $adminScope, IEntity::class, ['MyEvent']);
+		$this->manager->addRuntimeOperation('testapp', IOperation::class, 'UserOp', [$check], '', $userScope, IEntity::class, ['MyEvent']);
+
+		$adminOps = $this->manager->getRuntimeOperations(IOperation::class, $adminScope);
+		$userOps = $this->manager->getRuntimeOperations(IOperation::class, $userScope);
+		$this->assertCount(1, $adminOps);
+		$this->assertSame('AdminOp', $adminOps[0]['name']);
+		$this->assertCount(1, $userOps);
+		$this->assertSame('UserOp', $userOps[0]['name']);
+
+		$scopes = $this->manager->getAllConfiguredScopesForRuntimeOperation(IOperation::class);
+		$this->assertCount(2, $scopes);
+		$scopeTypes = array_map(fn ($s) => $s->getScope(), array_values($scopes));
+		$this->assertContains(IManager::SCOPE_ADMIN, $scopeTypes);
+		$this->assertContains(IManager::SCOPE_USER, $scopeTypes);
+	}
+
+	public static function dataGetRuntimeChecks(): array {
+		return [
+			'single operation' => [1],
+			'two operations with same check are deduplicated' => [2],
+		];
+	}
+
+	#[DataProvider(methodName: 'dataGetRuntimeChecks')]
+	public function testGetRuntimeChecks(int $opCount): void {
+		$this->appManager->method('isEnabledForAnyone')->willReturn(true);
+		$this->prepareContainerForRuntimeOperation();
+
+		$scope = $this->buildScope();
+		$check = ['class' => ICheck::class, 'operator' => 'is', 'value' => 'testvalue'];
+
+		for ($i = 0; $i < $opCount; $i++) {
+			$this->manager->addRuntimeOperation('myapp', IOperation::class, "Op{$i}", [$check], '', $scope, IEntity::class, ['MyEvent']);
+		}
+
+		$ops = $this->manager->getRuntimeOperations(IOperation::class, $scope);
+		$this->assertCount($opCount, $ops);
+
+		$hash = md5(ICheck::class . '::is::testvalue');
+		$resolved = $this->manager->getRuntimeChecks([$hash], 'myapp');
+		$this->assertCount(1, $resolved);
+		$this->assertArrayHasKey($hash, $resolved);
+		$this->assertSame(ICheck::class, $resolved[$hash]['class']);
+		$this->assertSame('is', $resolved[$hash]['operator']);
+		$this->assertSame('testvalue', $resolved[$hash]['value']);
+	}
+
+	public function testGetRuntimeChecksThrowsForUnknownHash(): void {
+		$this->expectException(\UnexpectedValueException::class);
+		$this->manager->getRuntimeChecks(['unknownhash'], 'myapp');
 	}
 
 	public function testValidateOperationScopeNotAvailable(): void {

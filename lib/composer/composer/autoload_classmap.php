@@ -2272,6 +2272,7 @@ return array(
     'OC\\User\\PartiallyDeletedUsersBackend' => $baseDir . '/lib/private/User/PartiallyDeletedUsersBackend.php',
     'OC\\User\\Session' => $baseDir . '/lib/private/User/Session.php',
     'OC\\User\\User' => $baseDir . '/lib/private/User/User.php',
+    'OC\\WorkflowEngine\\Events\\RegisterRuntimeOperationsEvent' => $baseDir . '/lib/private/WorkflowEngine/Events/RegisterRuntimeOperationsEvent.php',
     'OC_App' => $baseDir . '/lib/private/legacy/OC_App.php',
     'OC_Defaults' => $baseDir . '/lib/private/legacy/OC_Defaults.php',
     'OC_Helper' => $baseDir . '/lib/private/legacy/OC_Helper.php',
