@@ -58,7 +58,7 @@ interface ISimpleFile {
 	 * @throws NotPermittedException
 	 * @since 11.0.0
 	 */
-	public function getContent(): string;
+	public function getContent(): string|bool;
 
 	/**
 	 * Overwrite the file

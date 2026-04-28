@@ -9,6 +9,7 @@ namespace OC\Files\Node;
 
 use OCP\Constants;
 use OCP\Files\GenericFileException;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 
@@ -35,7 +36,7 @@ class File extends Node implements \OCP\Files\File {
 		if ($this->checkPermissions(Constants::PERMISSION_READ)) {
 			$content = $this->view->file_get_contents($this->path);
 			if ($content === false) {
-				throw new GenericFileException();
+				throw new GenericFileException('file_get_contents failed');
 			}
 			return $content;
 		} else {
@@ -66,6 +67,7 @@ class File extends Node implements \OCP\Files\File {
 	/**
 	 * @param string $mode
 	 * @return resource|false
+	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 * @throws LockedException
 	 */
