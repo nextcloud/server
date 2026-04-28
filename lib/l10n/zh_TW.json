@@ -213,6 +213,7 @@
     "Share provider does not support accepting" : "分享提供者不支援接受",
     "Cannot change target of link share" : "無法變更連結分享的目標",
     "Invalid share recipient" : "無效的分享接收者",
+    "Unknown share recipient" : "未知的分享接收者",
     "Group \"%s\" does not exist" : "群組「%s」不存在",
     "The requested share does not exist anymore" : "請求的分享已不存在",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "未建立使用者，因為已達使用者上限。請檢查您的通知以深入瞭解。",

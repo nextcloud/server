@@ -55,6 +55,7 @@ OC.L10N.register(
     "Administration" : "Administración",
     "Users" : "Usuarios",
     "Additional settings" : "Configuraciones adicionales",
+    "Assistant" : "Asistente",
     "Basic settings" : "Configuraciones  básicas",
     "Sharing" : "Compartiendo",
     "Calendar" : "Calendario",
