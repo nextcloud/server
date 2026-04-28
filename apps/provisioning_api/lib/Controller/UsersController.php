@@ -952,7 +952,7 @@ class UsersController extends AUserDataOCSController {
 		$isSubAdminAccessible = !$isSelf && $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser);
 
 		$canEditOther = $isAdmin
-			|| ($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin'))
+			|| ($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID()))
 			|| $isSubAdminAccessible;
 
 		if (!$isSelf && !$canEditOther) {
