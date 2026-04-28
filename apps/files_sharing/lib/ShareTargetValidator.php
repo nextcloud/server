@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
-use OC\Files\SetupManager;
 use OC\Files\View;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Mount\IMountManager;
+use OCP\Files\Config\ICachedMountInfo;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 use OCP\Share\Events\VerifyMountPointEvent;
@@ -29,8 +29,7 @@ class ShareTargetValidator {
 	public function __construct(
 		private readonly IManager $shareManager,
 		private readonly IEventDispatcher $eventDispatcher,
-		private readonly SetupManager $setupManager,
-		private readonly IMountManager $mountManager,
+		private readonly IRootFolder $rootFolder,
 	) {
 		$this->folderExistsCache = new CappedMemoryCache();
 	}
@@ -46,28 +45,30 @@ class ShareTargetValidator {
 	/**
 	 * check if the parent folder exists otherwise move the mount point up
 	 *
-	 * @param array<string, IMountPoint> $allCachedMounts Other mounts for the user, indexed by path
+	 * @param callable(string):?ICachedMountInfo $getMountByPath
 	 * @param IShare[] $childShares
 	 * @return string
 	 */
 	public function verifyMountPoint(
 		IUser $user,
 		IShare &$share,
-		array $allCachedMounts,
+		callable $getMountByPath,
 		array $childShares,
 	): string {
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
 
 		$recipientView = $this->getViewForUser($user);
-		$event = new VerifyMountPointEvent($share, $recipientView, $parent);
+		$event = new VerifyMountPointEvent($share, $recipientView, $parent, $user);
 		$this->eventDispatcher->dispatchTyped($event);
 		$parent = $event->getParent();
 
 		/** @psalm-suppress InternalMethod */
 		$absoluteParent = $recipientView->getAbsolutePath($parent);
-		$this->setupManager->setupForPath($absoluteParent);
-		$parentMount = $this->mountManager->find($absoluteParent);
+
+		// the share target always has to be in the users home
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$parentMount = $userFolder->getMountPoint();
 
 		$cached = $this->folderExistsCache->get($parent);
 		if ($cached !== null) {
@@ -78,16 +79,22 @@ class ShareTargetValidator {
 			$this->folderExistsCache->set($parent, $parentExists);
 		}
 		if (!$parentExists) {
-			$parent = Helper::getShareFolder($recipientView, $user->getUID());
-			/** @psalm-suppress InternalMethod */
-			$absoluteParent = $recipientView->getAbsolutePath($parent);
+			if ($event->createParent()) {
+				$internalPath = $parentMount->getInternalPath($absoluteParent);
+				$parentMount->getStorage()->mkdir($internalPath);
+				$parentMount->getStorage()->getUpdater()->update($internalPath);
+			} else {
+				$parent = Helper::getShareFolder($recipientView, $user->getUID());
+				/** @psalm-suppress InternalMethod */
+				$absoluteParent = $recipientView->getAbsolutePath($parent);
+			}
 		}
 
 		$newAbsoluteMountPoint = $this->generateUniqueTarget(
 			$share->getNodeId(),
 			Filesystem::normalizePath($absoluteParent . '/' . $mountPoint),
 			$parentMount,
-			$allCachedMounts,
+			$getMountByPath,
 		);
 
 		/** @psalm-suppress InternalMethod */
@@ -105,13 +112,13 @@ class ShareTargetValidator {
 
 
 	/**
-	 * @param IMountPoint[] $allCachedMounts
+	 * @param callable(string):?ICachedMountInfo $getMountByPath
 	 */
 	public function generateUniqueTarget(
 		int $shareNodeId,
 		string $absolutePath,
 		IMountPoint $parentMount,
-		array $allCachedMounts,
+		callable $getMountByPath,
 	): string {
 		$pathInfo = pathinfo($absolutePath);
 		$ext = isset($pathInfo['extension']) ? '.' . $pathInfo['extension'] : '';
@@ -121,7 +128,7 @@ class ShareTargetValidator {
 		$i = 2;
 		$parentCache = $parentMount->getStorage()->getCache();
 		$internalPath = $parentMount->getInternalPath($absolutePath);
-		while ($parentCache->inCache($internalPath) || $this->hasConflictingMount($shareNodeId, $allCachedMounts, $absolutePath)) {
+		while ($parentCache->inCache($internalPath) || $this->hasConflictingMount($shareNodeId, $getMountByPath, $absolutePath)) {
 			$absolutePath = Filesystem::normalizePath($dir . '/' . $name . ' (' . $i . ')' . $ext);
 			$internalPath = $parentMount->getInternalPath($absolutePath);
 			$i++;
@@ -131,15 +138,15 @@ class ShareTargetValidator {
 	}
 
 	/**
-	 * @param IMountPoint[] $allCachedMounts
+	 * @param callable(string):?ICachedMountInfo $getMountByPath
 	 */
-	private function hasConflictingMount(int $shareNodeId, array $allCachedMounts, string $absolutePath): bool {
-		if (!isset($allCachedMounts[$absolutePath . '/'])) {
+	private function hasConflictingMount(int $shareNodeId, callable $getMountByPath, string $absolutePath): bool {
+		$mount = $getMountByPath($absolutePath . '/');
+		if ($mount === null) {
 			return false;
 		}
 
-		$mount = $allCachedMounts[$absolutePath . '/'];
-		if ($mount instanceof SharedMount && $mount->getShare()->getNodeId() === $shareNodeId) {
+		if ($mount->getMountProvider() === MountProvider::class && $mount->getRootId() === $shareNodeId) {
 			// "conflicting" mount is a mount for the current share
 			return false;
 		}
