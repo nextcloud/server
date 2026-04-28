@@ -29,6 +29,7 @@ use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\InsufficientStorage;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\ICollection;
@@ -67,12 +68,22 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 * @inheritdoc
 	 */
 	public function initialize(Server $server) {
-		$server->on('afterMethod:MKCOL', [$this, 'afterMkcol']);
+		$server->on('beforeMethod:GET', $this->beforeGet(...));
 		$server->on('beforeMethod:PUT', [$this, 'beforePut']);
 		$server->on('beforeMethod:DELETE', [$this, 'beforeDelete']);
 		$server->on('beforeMove', [$this, 'beforeMove'], 90);
+		$server->on('afterMethod:MKCOL', [$this, 'afterMkcol']);
 
 		$this->server = $server;
+	}
+
+	protected function beforeGet(RequestInterface $request) {
+		$sourceNode = $this->server->tree->getNodeForPath($request->getPath());
+		if (($sourceNode instanceof FutureFile) || ($sourceNode instanceof UploadFile)) {
+			throw new MethodNotAllowed('Reading intermediate uploads is not allowed');
+		}
+
+		return true;
 	}
 
 	/**
