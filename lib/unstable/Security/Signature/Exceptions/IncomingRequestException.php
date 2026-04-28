@@ -13,5 +13,5 @@ namespace NCU\Security\Signature\Exceptions;
  * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Exceptions\IncomingRequestException}
  * @psalm-suppress DeprecatedClass
  */
-class IncomingRequestException extends SignatureException {
+final class IncomingRequestException extends SignatureException {
 }

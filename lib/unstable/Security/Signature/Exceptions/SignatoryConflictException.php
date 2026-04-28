@@ -13,5 +13,5 @@ namespace NCU\Security\Signature\Exceptions;
  * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Exceptions\SignatoryConflictException}
  * @psalm-suppress DeprecatedClass
  */
-class SignatoryConflictException extends SignatoryException {
+final class SignatoryConflictException extends SignatoryException {
 }

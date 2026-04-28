@@ -13,5 +13,5 @@ namespace NCU\Security\Signature\Exceptions;
  * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Exceptions\SignatureNotFoundException}
  * @psalm-suppress DeprecatedClass
  */
-class SignatureNotFoundException extends SignatureException {
+final class SignatureNotFoundException extends SignatureException {
 }

@@ -49,7 +49,7 @@ use OCP\AppFramework\Db\Entity;
  * @method int getLastUpdated()
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class Signatory extends Entity implements JsonSerializable {
+final class Signatory extends Entity implements JsonSerializable {
 	protected string $keyId = '';
 	protected string $keyIdSum = '';
 	protected string $providerId = '';
@@ -103,7 +103,7 @@ class Signatory extends Entity implements JsonSerializable {
 
 			// removing /index.php from generated url
 			$path = parse_url($keyId, PHP_URL_PATH);
-			if (str_starts_with($path, '/index.php/')) {
+			if ($path !== null && $path !== false && str_starts_with($path, '/index.php/')) {
 				$pos = strpos($keyId, '/index.php');
 				if ($pos !== false) {
 					$keyId = substr_replace($keyId, '', $pos, 10);
@@ -182,6 +182,7 @@ class Signatory extends Entity implements JsonSerializable {
 	 * @experimental 31.0.0
 	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'keyId' => $this->getKeyId(),

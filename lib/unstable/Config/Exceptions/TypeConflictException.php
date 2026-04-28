@@ -15,5 +15,5 @@ use Exception;
  * @deprecated 32.0.0  use \OCP\Config\Exceptions\TypeConflictException
  * @see \OCP\Config\Exceptions\TypeConflictException
  */
-class TypeConflictException extends Exception {
+final class TypeConflictException extends Exception {
 }

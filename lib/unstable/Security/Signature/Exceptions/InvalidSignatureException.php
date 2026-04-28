@@ -13,5 +13,5 @@ namespace NCU\Security\Signature\Exceptions;
  * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Exceptions\InvalidSignatureException}
  * @psalm-suppress DeprecatedClass
  */
-class InvalidSignatureException extends SignatureException {
+final class InvalidSignatureException extends SignatureException {
 }
