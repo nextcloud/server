@@ -39,7 +39,7 @@ class ClientService implements IClientService {
 	) {
 	}
 
-	public function newClient(): IClient {
+	public function newClient(array $baseConfig = []): IClient {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		if ($this->config->getSystemValueBool('dns_pinning', true)) {
@@ -51,7 +51,8 @@ class ClientService implements IClientService {
 			$this->eventLogger->end('http:request');
 		}), 'event logger');
 
-		$client = new GuzzleClient(['handler' => $stack]);
+		$config = array_merge($baseConfig, ['handler' => $stack]);
+		$client = new GuzzleClient($config);
 
 		return new Client(
 			$this->config,
