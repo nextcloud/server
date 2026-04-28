@@ -22,6 +22,7 @@ class DummyUser extends User {
 		parent::__construct($this->uid, null, Server::get(IEventDispatcher::class));
 	}
 
+	#[\Override]
 	public function getUID(): string {
 		return $this->uid;
 	}

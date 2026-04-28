@@ -22,6 +22,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	protected $connection;
 	protected $schemaSetup = false;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

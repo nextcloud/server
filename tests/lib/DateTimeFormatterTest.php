@@ -20,6 +20,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	protected static $defaultTimeZone;
 
+	#[\Override]
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 		self::$defaultTimeZone = date_default_timezone_get();
@@ -29,11 +30,13 @@ class DateTimeFormatterTest extends TestCase {
 		self::$oneYear = self::$oneDay * 365;
 	}
 
+	#[\Override]
 	public static function tearDownAfterClass(): void {
 		date_default_timezone_set(self::$defaultTimeZone);
 		parent::tearDownAfterClass();
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->formatter = new DateTimeFormatter(new \DateTimeZone('UTC'), Util::getL10N('lib', 'en'));

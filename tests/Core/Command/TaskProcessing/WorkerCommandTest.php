@@ -26,6 +26,7 @@ class WorkerCommandTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private WorkerCommand $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -42,6 +42,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	private ITimeFactory&MockObject $timeFactory;
 	private IProvider&MockObject $tokenProvider;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 

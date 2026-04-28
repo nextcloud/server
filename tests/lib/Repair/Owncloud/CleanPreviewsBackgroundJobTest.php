@@ -27,6 +27,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private CleanPreviewsBackgroundJob $job;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 

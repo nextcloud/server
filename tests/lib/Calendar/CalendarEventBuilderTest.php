@@ -22,6 +22,7 @@ class CalendarEventBuilderTest extends TestCase {
 	private CalendarEventBuilder $calendarEventBuilder;
 	private ITimeFactory&MockObject $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

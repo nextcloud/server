@@ -39,6 +39,7 @@ class SubAdminTest extends \Test\TestCase {
 	/** @var IGroup[] */
 	private $groups;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -84,6 +85,7 @@ class SubAdminTest extends \Test\TestCase {
 			->executeStatement();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->users as $user) {
 			$user->delete();

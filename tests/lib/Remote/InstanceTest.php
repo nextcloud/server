@@ -19,6 +19,7 @@ class InstanceTest extends TestCase {
 	/** @var ICache */
 	private $cache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

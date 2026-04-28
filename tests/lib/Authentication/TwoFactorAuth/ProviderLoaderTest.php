@@ -32,6 +32,7 @@ class ProviderLoaderTest extends TestCase {
 	/** @var ProviderLoader */
 	private $loader;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

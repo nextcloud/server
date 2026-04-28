@@ -24,6 +24,7 @@ class AppsEnableTest extends TestCase {
 	/** @var CommandTester */
 	private $commandTester;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

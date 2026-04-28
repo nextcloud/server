@@ -14,6 +14,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 
 class ImageTest extends \Test\TestCase {
+	#[\Override]
 	public static function tearDownAfterClass(): void {
 		@unlink(OC::$SERVERROOT . '/tests/data/testimage2.png');
 		@unlink(OC::$SERVERROOT . '/tests/data/testimage2.jpg');

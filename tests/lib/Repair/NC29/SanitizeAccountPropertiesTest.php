@@ -18,6 +18,7 @@ class SanitizeAccountPropertiesTest extends TestCase {
 	private IJobList&MockObject $jobList;
 	private SanitizeAccountProperties $repairStep;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->jobList = $this->createMock(IJobList::class);
 

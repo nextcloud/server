@@ -19,6 +19,7 @@ use PHPUnit\Framework\Attributes\Group;
 
 #[Group('DB')]
 class FilesByTypeTest extends ExporterTestCase {
+	#[\Override]
 	protected function getExporter():IMetricFamily {
 		return new FilesByType(
 			Server::get(ICacheFactory::class),

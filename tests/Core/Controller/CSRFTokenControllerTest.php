@@ -25,6 +25,7 @@ class CSRFTokenControllerTest extends TestCase {
 	/** @var CsrfTokenManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tokenManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

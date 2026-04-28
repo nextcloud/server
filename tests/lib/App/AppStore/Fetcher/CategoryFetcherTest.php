@@ -12,6 +12,7 @@ namespace Test\App\AppStore\Fetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 
 class CategoryFetcherTest extends FetcherBase {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->fileName = 'categories.json';

@@ -26,6 +26,7 @@ class MessageTest extends TestCase {
 	/** @var Attachment&MockObject */
 	private Attachment $attachment2;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

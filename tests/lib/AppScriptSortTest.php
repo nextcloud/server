@@ -21,6 +21,7 @@ use Psr\Log\LoggerInterface;
 class AppScriptSortTest extends \Test\TestCase {
 	private $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()

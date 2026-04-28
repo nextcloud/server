@@ -39,6 +39,7 @@ class InstallerTest extends TestCase {
 	private AppManager&MockObject $appManager;
 	private IFactory&MockObject $l10nFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -70,6 +71,7 @@ class InstallerTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$installer = Server::get(Installer::class);
 		$installer->removeApp(self::$appid);

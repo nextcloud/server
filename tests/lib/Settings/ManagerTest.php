@@ -44,6 +44,7 @@ class ManagerTest extends TestCase {
 	/** @var ISubAdmin|MockObject */
 	private $subAdmin;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

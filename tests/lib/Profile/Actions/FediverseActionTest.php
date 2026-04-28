@@ -29,6 +29,7 @@ class FediverseActionTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private IURLGenerator&MockObject $urlGenerator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

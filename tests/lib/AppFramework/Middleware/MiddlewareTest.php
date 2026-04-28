@@ -31,6 +31,7 @@ class MiddlewareTest extends \Test\TestCase {
 	/** @var Response */
 	private $response;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -9,6 +9,7 @@
 namespace Test;
 
 class TemplateFunctionsTest extends \Test\TestCase {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -39,6 +39,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	private QueryBuilder $queryBuilder;
 	private IDBConnection $connection;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

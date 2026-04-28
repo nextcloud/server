@@ -22,6 +22,7 @@ class PreviewServiceTest extends TestCase {
 	private PreviewService $previewService;
 	private PreviewMapper $previewMapper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->previewService = Server::get(PreviewService::class);
@@ -29,6 +30,7 @@ class PreviewServiceTest extends TestCase {
 		$this->previewService->deleteAll();
 	}
 
+	#[\Override]
 	public function tearDown(): void {
 		$this->previewService->deleteAll();
 		parent::tearDown();

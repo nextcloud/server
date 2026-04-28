@@ -23,6 +23,7 @@ class NotificationTest extends TestCase {
 	protected IValidator&MockObject $validator;
 	protected IRichTextFormatter&MockObject $richTextFormatter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->validator = $this->createMock(IValidator::class);

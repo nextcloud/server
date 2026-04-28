@@ -44,6 +44,7 @@ class ContactsStoreTest extends TestCase {
 	/** @var IL10NFactory */
 	private $l10nFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

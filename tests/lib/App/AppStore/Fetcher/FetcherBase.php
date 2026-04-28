@@ -38,6 +38,7 @@ abstract class FetcherBase extends TestCase {
 	protected string $fileName;
 	protected string $endpoint;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appDataFactory = $this->createMock(Factory::class);

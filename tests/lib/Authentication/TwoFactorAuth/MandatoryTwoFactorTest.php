@@ -27,6 +27,7 @@ class MandatoryTwoFactorTest extends TestCase {
 	/** @var MandatoryTwoFactor */
 	private $mandatoryTwoFactor;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

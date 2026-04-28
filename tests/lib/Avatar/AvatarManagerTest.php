@@ -48,6 +48,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	/** @var KnownUserService | \PHPUnit\Framework\MockObject\MockObject */
 	private $knownUserService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -28,6 +28,7 @@ class UserAvatarTest extends \Test\TestCase {
 	private IConfig&MockObject $config;
 	private User&MockObject $user;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

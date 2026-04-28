@@ -73,6 +73,7 @@ class ManagerTest extends TestCase {
 	/** @var IEventDispatcher|MockObject */
 	private $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

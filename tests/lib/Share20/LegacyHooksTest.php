@@ -46,6 +46,7 @@ class LegacyHooksTest extends TestCase {
 	private IEventDispatcher $eventDispatcher;
 	private IShareManager $manager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -20,6 +20,7 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 class ContentSecurityPolicyTest extends \Test\TestCase {
 	private ContentSecurityPolicy $contentSecurityPolicy;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->contentSecurityPolicy = new ContentSecurityPolicy();

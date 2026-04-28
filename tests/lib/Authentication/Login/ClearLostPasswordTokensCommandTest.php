@@ -17,6 +17,7 @@ class ClearLostPasswordTokensCommandTest extends ALoginTestCommand {
 	/** @var IConfig|MockObject */
 	private $config;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

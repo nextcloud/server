@@ -16,31 +16,38 @@ class FailWriteObjectStore implements IObjectStore {
 	) {
 	}
 
+	#[\Override]
 	public function getStorageId() {
 		return $this->objectStore->getStorageId();
 	}
 
+	#[\Override]
 	public function readObject($urn) {
 		return $this->objectStore->readObject($urn);
 	}
 
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		// emulate a failed write that didn't throw an error
 		return true;
 	}
 
+	#[\Override]
 	public function deleteObject($urn) {
 		$this->objectStore->deleteObject($urn);
 	}
 
+	#[\Override]
 	public function objectExists($urn) {
 		return $this->objectStore->objectExists($urn);
 	}
 
+	#[\Override]
 	public function copyObject($from, $to) {
 		$this->objectStore->copyObject($from, $to);
 	}
 
+	#[\Override]
 	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
 		return null;
 	}

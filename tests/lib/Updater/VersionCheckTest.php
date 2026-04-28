@@ -29,6 +29,7 @@ class VersionCheckTest extends \Test\TestCase {
 	private LoggerInterface&MockObject $logger;
 	private ITimeFactory&MockObject $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->serverVersion = $this->createMock(ServerVersion::class);

@@ -26,6 +26,7 @@ class AppEnabledTest extends ExporterTestCase {
 		'appA', 'appB', 'appD'
 	];
 
+	#[\Override]
 	protected function getExporter():IMetricFamily {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appManager->method('getAppInstalledVersions')

@@ -30,6 +30,7 @@ class BrokerTest extends TestCase {
 
 	private Broker $broker;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

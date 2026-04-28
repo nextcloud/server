@@ -42,6 +42,7 @@ class DecryptAllTest extends TestCase {
 
 	private DecryptAll $instance;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

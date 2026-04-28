@@ -40,6 +40,7 @@ class ManagerTest extends TestCase {
 	private IDBConnection $connection;
 	private IRootFolder&MockObject $rootFolder;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

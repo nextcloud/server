@@ -14,6 +14,7 @@ use OC\AppFramework\Utility\TimeFactory;
 class TimeFactoryTest extends \Test\TestCase {
 	protected TimeFactory $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->timeFactory = new TimeFactory();
 	}

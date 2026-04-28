@@ -33,6 +33,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 
 	private TemplateLayout $templateLayout;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

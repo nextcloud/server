@@ -45,6 +45,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	private static bool $wasDatabaseAllowed = false;
 	protected array $services = [];
 
+	#[\Override]
 	protected function onNotSuccessfulTest(\Throwable $t): never {
 		$this->restoreAllServices();
 
@@ -124,6 +125,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		});
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		// overwrite the command bus with one we can run ourselves
 		$this->commandBus = new QueueBus();
@@ -152,6 +154,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->restoreAllServices();
 
@@ -275,6 +278,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		return $methods;
 	}
 
+	#[\Override]
 	public static function tearDownAfterClass(): void {
 		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
 			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,

@@ -17,6 +17,7 @@ class FakeFactory implements ICommentsManagerFactory {
 	public function __construct(IServerContainer $serverContainer) {
 	}
 
+	#[\Override]
 	public function getManager() {
 		return new FakeManager();
 	}

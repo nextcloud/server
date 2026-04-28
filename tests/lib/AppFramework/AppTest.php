@@ -41,6 +41,7 @@ class AppTest extends \Test\TestCase {
 	private $controllerMethod;
 	private $appPath;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -106,6 +107,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
+	#[\Override]
 	protected function tearDown(): void {
 		rrmdir($this->appPath);
 		parent::tearDown();

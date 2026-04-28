@@ -19,6 +19,7 @@ class CombinedTests extends TestCase {
 	}
 	private QueryOptimizer $optimizer;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

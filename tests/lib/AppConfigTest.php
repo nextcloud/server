@@ -36,6 +36,7 @@ class AppConfigTest extends TestCase {
 	private CacheFactory&MockObject $cacheFactory;
 	private ICache&MockObject $localCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

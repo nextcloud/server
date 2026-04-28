@@ -43,6 +43,7 @@ class RootTest extends \Test\TestCase {
 	protected ICacheFactory&MockObject $cacheFactory;
 	protected IAppConfig&MockObject $appConfig;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

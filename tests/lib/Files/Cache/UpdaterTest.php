@@ -46,6 +46,7 @@ class UpdaterTest extends \Test\TestCase {
 	 */
 	protected $updater;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -56,6 +57,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->cache = $this->storage->getCache();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->logout();
 		parent::tearDown();

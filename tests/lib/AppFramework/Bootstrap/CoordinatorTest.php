@@ -36,6 +36,7 @@ class CoordinatorTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private Coordinator $coordinator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -88,9 +89,11 @@ class CoordinatorTest extends TestCase {
 				parent::__construct('test', []);
 			}
 
+			#[\Override]
 			public function register(IRegistrationContext $context): void {
 			}
 
+			#[\Override]
 			public function boot(IBootContext $context): void {
 			}
 		};

@@ -28,6 +28,7 @@ class GeneratorTest extends TestCase {
 	private IConfig&MockObject $config;
 	private ISequence&MockObject $sequence;
 
+	#[\Override]
 	public function setUp():void {
 		$this->decoder = new SnowflakeDecoder();
 

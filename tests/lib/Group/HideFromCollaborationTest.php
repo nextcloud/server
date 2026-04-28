@@ -26,6 +26,7 @@ class HideFromCollaborationTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private IEventDispatcher&MockObject $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

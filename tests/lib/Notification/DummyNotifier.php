@@ -19,6 +19,7 @@ class DummyNotifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		// TODO: Implement getID() method.
 	}
@@ -29,6 +30,7 @@ class DummyNotifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		// TODO: Implement getName() method.
 	}
@@ -41,6 +43,7 @@ class DummyNotifier implements INotifier {
 	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		// TODO: Implement prepare() method.
 	}

@@ -30,6 +30,7 @@ class EncryptAllTest extends TestCase {
 
 	private EncryptAll $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

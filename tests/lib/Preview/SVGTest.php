@@ -19,6 +19,7 @@ use OCP\Files\File;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class SVGTest extends Provider {
+	#[\Override]
 	protected function setUp(): void {
 		$checkImagick = new \Imagick();
 		if (count($checkImagick->queryFormats('SVG')) === 1) {

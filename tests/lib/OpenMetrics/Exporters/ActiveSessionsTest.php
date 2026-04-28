@@ -17,6 +17,7 @@ use PHPUnit\Framework\Attributes\Group;
 
 #[Group('DB')]
 class ActiveSessionsTest extends ExporterTestCase {
+	#[\Override]
 	protected function getExporter():IMetricFamily {
 		return new ActiveSessions(Server::get(IDBConnection::class));
 	}

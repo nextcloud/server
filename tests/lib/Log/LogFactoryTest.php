@@ -32,6 +32,7 @@ class LogFactoryTest extends TestCase {
 	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $systemConfig;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

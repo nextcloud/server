@@ -28,6 +28,7 @@ class CheckServerResponseTraitTest extends TestCase {
 
 	private CheckServerResponseTraitImplementation $trait;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

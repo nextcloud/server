@@ -22,6 +22,7 @@ abstract class StoragesTestCase extends TestCase {
 	 */
 	protected $storage2;
 
+	#[\Override]
 	protected function tearDown(): void {
 		if (is_null($this->storage1) && is_null($this->storage2)) {
 			return;

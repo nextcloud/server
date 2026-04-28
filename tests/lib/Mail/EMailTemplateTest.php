@@ -24,6 +24,7 @@ class EMailTemplateTest extends TestCase {
 	/** @var EMailTemplate */
 	private $emailTemplate;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

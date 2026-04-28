@@ -23,6 +23,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 	private IAppManager&MockObject $appManager;
 	private PrimaryObjectStoreConfig $objectStoreConfig;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

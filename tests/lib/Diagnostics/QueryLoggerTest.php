@@ -14,6 +14,7 @@ use Test\TestCase;
 class QueryLoggerTest extends TestCase {
 	private QueryLogger $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

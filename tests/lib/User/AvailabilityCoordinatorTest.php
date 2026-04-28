@@ -31,6 +31,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 	private LoggerInterface $logger;
 	private MockObject|TimezoneService $timezoneService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

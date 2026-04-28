@@ -25,6 +25,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 	/** @var ContentSecurityPolicyManager */
 	private $contentSecurityPolicyManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->dispatcher = Server::get(IEventDispatcher::class);

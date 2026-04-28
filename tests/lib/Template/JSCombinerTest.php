@@ -34,6 +34,7 @@ class JSCombinerTest extends \Test\TestCase {
 
 	private JSCombiner $jsCombiner;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

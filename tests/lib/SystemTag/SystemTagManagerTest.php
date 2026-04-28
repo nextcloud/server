@@ -37,6 +37,7 @@ class SystemTagManagerTest extends TestCase {
 	private IAppConfig $appConfig;
 	private IEventDispatcher $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -57,6 +58,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->pruneTagsTables();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->pruneTagsTables();
 		\OC::$CLI = true;

@@ -36,6 +36,7 @@ class UpdaterTest extends TestCase {
 	private $installer;
 	private IAppManager&MockObject $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->serverVersion = $this->createMock(ServerVersion::class);

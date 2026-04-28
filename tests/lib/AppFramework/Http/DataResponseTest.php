@@ -18,6 +18,7 @@ use OCP\Server;
 class DataResponseTest extends \Test\TestCase {
 	private DataResponse $response;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->response = new DataResponse();

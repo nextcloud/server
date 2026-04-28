@@ -16,6 +16,7 @@ class LocalTest extends ObjectStoreTestCase {
 	/**
 	 * @return IObjectStore
 	 */
+	#[\Override]
 	protected function getInstance() {
 		$storage = new Temporary();
 		return new StorageObjectStore($storage);

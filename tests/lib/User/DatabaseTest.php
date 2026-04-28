@@ -29,12 +29,14 @@ class DatabaseTest extends Backend {
 	/** @var Database */
 	protected $backend;
 
+	#[\Override]
 	public function getUser() {
 		$user = parent::getUser();
 		$this->users[] = $user;
 		return $user;
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -43,6 +45,7 @@ class DatabaseTest extends Backend {
 		$this->backend = new Database($this->eventDispatcher);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if (!isset($this->users)) {
 			return;
@@ -109,6 +112,7 @@ class DatabaseTest extends Backend {
 		$this->assertTrue($this->backend->userExists($user1));
 	}
 
+	#[\Override]
 	public function testSearch(): void {
 		parent::testSearch();
 

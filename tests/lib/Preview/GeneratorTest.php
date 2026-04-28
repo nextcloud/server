@@ -47,6 +47,7 @@ class GeneratorTest extends TestCase {
 	private PreviewMapper&MockObject $previewMapper;
 	private PreviewMigrationService&MockObject $migrationService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

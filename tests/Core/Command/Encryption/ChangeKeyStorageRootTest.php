@@ -49,6 +49,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	/** @var UserInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userInterface;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

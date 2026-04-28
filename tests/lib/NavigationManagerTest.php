@@ -45,6 +45,7 @@ class NavigationManagerTest extends TestCase {
 	protected $navigationManager;
 	protected LoggerInterface $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

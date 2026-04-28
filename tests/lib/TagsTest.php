@@ -36,6 +36,7 @@ class TagsTest extends \Test\TestCase {
 	protected TagMapper $tagMapper;
 	protected TagManager $tagMgr;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -83,6 +84,7 @@ class TagsTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$conn = Server::get(IDBConnection::class);
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory_to_object`');

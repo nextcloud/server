@@ -16,6 +16,7 @@ class ActionTest extends TestCase {
 	/** @var IAction */
 	protected $action;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->action = new Action();
