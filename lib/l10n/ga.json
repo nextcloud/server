@@ -213,6 +213,7 @@
     "Share provider does not support accepting" : "Ní thacaíonn soláthraí scaireanna le glacadh",
     "Cannot change target of link share" : "Ní féidir an sprioc maidir le comhroinnt naisc a athrú",
     "Invalid share recipient" : "Faighteoir scaireanna neamhbhailí",
+    "Unknown share recipient" : "Faighteoir comhroinnte anaithnid",
     "Group \"%s\" does not exist" : "Níl grúpa \"%s\" ann",
     "The requested share does not exist anymore" : "Níl an sciar iarrtha ann a thuilleadh",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Níor cruthaíodh an t-úsáideoir toisc go bhfuil an teorainn úsáideora bainte amach. Seiceáil d'fhógraí chun tuilleadh a fhoghlaim.",
