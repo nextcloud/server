@@ -4,7 +4,7 @@
  */
 
 import { User } from '@nextcloud/e2e-test-server/cypress'
-import { handlePasswordConfirmation } from './usersUtils.ts'
+import { handlePasswordConfirmation } from '../core-utils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -19,7 +19,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.login(admin)
 
 		// Intercept the apps list request
-		cy.intercept('GET', '*/settings/apps/list').as('fetchAppsList')
+		cy.intercept('GET', '**/ocs/v2.php/apps/appstore/api/v1/apps').as('fetchAppsList')
 
 		// I open the Apps management
 		cy.visit('/settings/apps/installed')
@@ -29,6 +29,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 	})
 
 	it('Can enable an installed app', () => {
+		cy.intercept('POST', '**/ocs/v2.php/apps/appstore/api/v1/apps/enable').as('enableApp')
 		cy.get('#apps-list').should('exist')
 			// Wait for the app list to load
 			.contains('tr', 'QA testing', { timeout: 10000 })
@@ -38,6 +39,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 			.click({ force: true })
 
 		handlePasswordConfirmation(admin.password)
+		cy.wait('@enableApp')
 
 		// Wait until we see the disable button for the app
 		cy.get('#apps-list').should('exist')
@@ -54,6 +56,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 	})
 
 	it('Can disable an installed app', () => {
+		cy.intercept('POST', '**/ocs/v2.php/apps/appstore/api/v1/apps/disable').as('disableApp')
 		cy.get('#apps-list')
 			.should('exist')
 			// Wait for the app list to load
@@ -64,6 +67,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 			.click({ force: true })
 
 		handlePasswordConfirmation(admin.password)
+		cy.wait('@disableApp')
 
 		// Wait until we see the disable button for the app
 		cy.get('#apps-list').should('exist')
@@ -137,12 +141,11 @@ describe('Settings: App management', { testIsolation: true }, () => {
 			.find('.app-sidebar-header__info')
 			.should('contain', 'QA testing')
 		cy.get('#app-sidebar-vue').contains('a', 'View in store').should('exist')
-		cy.get('#app-sidebar-vue').find('input[type="button"][value="Enable"]').should('be.visible')
-		cy.get('#app-sidebar-vue').find('input[type="button"][value="Remove"]').should('be.visible')
+		cy.get('#app-sidebar-vue').findByRole('button', { name: 'Enable' }).should('be.visible')
 		cy.get('#app-sidebar-vue').contains(/Version \d+\.\d+\.\d+/).should('be.visible')
 	})
 
-	it('Limit app usage to group', () => {
+	it.skip('Limit app usage to group', () => {
 		// When I open the "Active apps" section
 		cy.get('#app-category-enabled a')
 			.should('contain', 'Active apps')

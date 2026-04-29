@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { IAppstoreApp, IAppstoreCategory } from '../app-types.ts'
 
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import APPSTORE_CATEGORY_ICONS from '../constants/AppstoreCategoryIcons.ts'
 import logger from '../utils/logger.ts'
@@ -37,8 +38,10 @@ export const useAppsStore = defineStore('appstore-apps', {
 
 			try {
 				this.loading.categories = true
-				const { data: categories } = await axios.get<IAppstoreCategory[]>(generateUrl('settings/apps/categories'))
+				const url = generateOcsUrl('apps/appstore/api/v1/apps/categories')
+				const { data } = await axios.get<OCSResponse<IAppstoreCategory[]>>(url)
 
+				const categories = data.ocs.data
 				for (const category of categories) {
 					category.icon = APPSTORE_CATEGORY_ICONS[category.id] ?? ''
 				}
@@ -61,10 +64,11 @@ export const useAppsStore = defineStore('appstore-apps', {
 
 			try {
 				this.loading.apps = true
-				const { data } = await axios.get<{ apps: IAppstoreApp[] }>(generateUrl('settings/apps/list'))
+				const url = generateOcsUrl('apps/appstore/api/v1/apps')
+				const { data } = await axios.get<OCSResponse<IAppstoreApp[]>>(url)
 
 				this.$patch({
-					apps: data.apps,
+					apps: data.ocs.data,
 				})
 			} catch (error) {
 				logger.error(error as Error)

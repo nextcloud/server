@@ -66,7 +66,7 @@ import type { PropType } from 'vue'
 import type { IAppDiscoverPost } from '../../constants/AppDiscoverTypes.ts'
 
 import { mdiPlayCircleOutline } from '@mdi/js'
-import { generateUrl } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import { useElementSize, useElementVisibility } from '@vueuse/core'
 import { computed, defineComponent, ref, watchEffect } from 'vue'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
@@ -144,7 +144,9 @@ export default defineComponent({
 		 *
 		 * @param url The URL to resolve
 		 */
-		const generatePrivacyUrl = (url: string) => url.startsWith('/') ? url : generateUrl('/settings/api/apps/media?fileName={fileName}', { fileName: url })
+		const generatePrivacyUrl = (url: string) => url.startsWith('/')
+			? url
+			: generateOcsUrl('/apps/appstore/api/v1/discover/media?fileName={fileName}', { fileName: url })
 
 		const mediaElement = ref<HTMLVideoElement | HTMLPictureElement>()
 		const mediaIsVisible = useElementVisibility(mediaElement, { threshold: 0.3 })

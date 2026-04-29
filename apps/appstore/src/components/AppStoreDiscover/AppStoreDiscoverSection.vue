@@ -38,13 +38,13 @@ import { mdiEyeOffOutline } from '@mdi/js'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import { defineAsyncComponent, defineComponent, onBeforeMount, ref } from 'vue'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import logger from '../../utils/logger.ts'
 import { filterElements, parseApiResponse } from '../../utils/appDiscoverParser.ts'
+import logger from '../../utils/logger.ts'
 
 const PostType = defineAsyncComponent(() => import('./PostType.vue'))
 const CarouselType = defineAsyncComponent(() => import('./CarouselType.vue'))
