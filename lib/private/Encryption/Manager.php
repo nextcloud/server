@@ -17,10 +17,12 @@ use OC\Memcache\ArrayCache;
 use OC\ServiceUnavailableException;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
@@ -49,8 +51,17 @@ class Manager implements IManager {
 			return false;
 		}
 
-		$enabled = $this->config->getAppValue('core', 'encryption_enabled', 'no');
-		return $enabled === 'yes';
+		try {
+			return Server::get(\OCP\IAppConfig::class)->getValueBool('core', 'encryption_enabled', false);
+		} catch (AppConfigTypeConflictException) {
+			// Stored as VALUE_STRING from a pre-upgrade installation.
+			// RetypeEncryptionConfigKeys repair step will fix the type on occ upgrade.
+			$raw = Server::get(\OCP\IAppConfig::class)->getValueString('core', 'encryption_enabled', 'no');
+			return in_array(strtolower(trim($raw)), ['1', 'true', 'yes', 'on'], true);
+		} catch (\Throwable) {
+			// DB not ready (e.g. oc_appconfig does not yet exist during install).
+			return false;
+		}
 	}
 
 	/**
