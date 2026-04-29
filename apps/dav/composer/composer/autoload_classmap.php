@@ -218,7 +218,6 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\Auth' => $baseDir . '/../lib/Connector/Sabre/Auth.php',
     'OCA\\DAV\\Connector\\Sabre\\BearerAuth' => $baseDir . '/../lib/Connector/Sabre/BearerAuth.php',
     'OCA\\DAV\\Connector\\Sabre\\BlockLegacyClientPlugin' => $baseDir . '/../lib/Connector/Sabre/BlockLegacyClientPlugin.php',
-    'OCA\\DAV\\Connector\\Sabre\\ByteCounterFilter' => $baseDir . '/../lib/Connector/Sabre/ByteCounterFilter.php',
     'OCA\\DAV\\Connector\\Sabre\\CachingTree' => $baseDir . '/../lib/Connector/Sabre/CachingTree.php',
     'OCA\\DAV\\Connector\\Sabre\\ChecksumList' => $baseDir . '/../lib/Connector/Sabre/ChecksumList.php',
     'OCA\\DAV\\Connector\\Sabre\\ChecksumUpdatePlugin' => $baseDir . '/../lib/Connector/Sabre/ChecksumUpdatePlugin.php',

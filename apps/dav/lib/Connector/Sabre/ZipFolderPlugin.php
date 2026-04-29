@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use Icewind\Streams\CountWrapper;
 use OC\Streamer;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -15,9 +16,11 @@ use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File as NcFile;
 use OCP\Files\Folder as NcFolder;
 use OCP\Files\Node as NcNode;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IL10N;
+use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -57,10 +60,6 @@ class ZipFolderPlugin extends ServerPlugin {
 		private IL10N $l10n,
 	) {
 		$this->reportMissingFiles = $this->config->getSystemValueBool('archive_report_missing_files', false);
-
-		if ($this->reportMissingFiles) {
-			stream_filter_register('count.bytes', ByteCounterFilter::class);
-		}
 	}
 
 	/**
@@ -82,6 +81,7 @@ class ZipFolderPlugin extends ServerPlugin {
 	/**
 	 * Adding a node to the archive streamer.
 	 * @return ?string an error message if an error occurred and reporting is enabled, null otherwise
+	 * @throws NotPermittedException|LockedException
 	 */
 	protected function streamNode(Streamer $streamer, NcNode $node, string $rootPath): ?string {
 		// Remove the root path from the filename to make it relative to the requested folder
@@ -95,39 +95,27 @@ class ZipFolderPlugin extends ServerPlugin {
 
 		if ($node instanceof NcFile) {
 			$nodeSize = $node->getSize();
-			try {
-				$stream = $node->fopen('rb');
-			} catch (\Exception $e) {
-				// opening failed, log the failure as reason for the missing file
-				if ($this->reportMissingFiles) {
-					$exceptionClass = get_class($e);
-					return $this->l10n->t('Error while opening the file: %s', [$exceptionClass]);
-				}
+			$stream = $node->fopen('rb');
 
-				throw $e;
+			if ($stream === false) {
+				return $this->l10n->t('File could not be opened (fopen). Please check the server logs for more information.');
 			}
 
-			if ($this->reportMissingFiles) {
-				if ($stream === false) {
-					return $this->l10n->t('File could not be opened (fopen). Please check the server logs for more information.');
-				}
+			$read = 0;
+			$stream = CountWrapper::wrap($stream, function (int $written) use (&$read) {
+				return $read += $written;
+			});
 
-				$byteCounter = new StreamByteCounter();
-				$wrapped = stream_filter_append($stream, 'count.bytes', STREAM_FILTER_READ, ['counter' => $byteCounter]);
-				if ($wrapped === false) {
-					return $this->l10n->t('Unable to check file for consistency check');
-				}
+			if ($stream === false) {
+				return $this->l10n->t('Unable to check file for consistency check');
 			}
 
 			$fileAddedToStream = $streamer->addFileFromStream($stream, $filename, $nodeSize, $mtime);
-			if ($this->reportMissingFiles) {
-				if (!$fileAddedToStream) {
-					return $this->l10n->t('The archive was already finalized');
-				}
-
-				return $this->logStreamErrors($stream, $filename, $nodeSize, $byteCounter->bytes);
+			if (!$fileAddedToStream) {
+				return $this->l10n->t('The archive was already finalized');
 			}
 
+			return $this->logStreamErrors($stream, $filename, $nodeSize, $read);
 		}
 
 		return null;
@@ -260,7 +248,20 @@ class ZipFolderPlugin extends ServerPlugin {
 				continue;
 			}
 
-			$streamError = $this->streamNode($streamer, $node, $rootPath);
+			try {
+				$streamError = $this->streamNode($streamer, $node, $rootPath);
+			} catch (\Exception $e) {
+				if (!$this->reportMissingFiles) {
+					throw $e;
+				}
+
+				$logMessage = $this->l10n->t('Error while streaming the file');
+				$this->logger->error($logMessage, ['exception' => $e]);
+				$reason = $this->l10n->t('File could not be added to the archive. Please check the server logs for more information.');
+				$this->missingInfo[$filename] = $reason;
+				continue;
+			}
+
 			if ($this->reportMissingFiles && $streamError !== null) {
 				$this->missingInfo[$filename] = $streamError;
 			}

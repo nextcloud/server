@@ -153,7 +153,7 @@ class ZipFolderPluginTest extends TestCase {
 				'children' => ['allowed.txt' => 'allowed', 'blocked.txt' => 'blocked', 'error.txt' => new \RuntimeException('read error')],
 				'filesFilter' => [],
 				'downloadBlocked' => [ 'blocked.txt' ],
-				'expectedMissingFiles' => [ 'blocked.txt' => 'blocked', 'error.txt' => 'Error while opening the file: RuntimeException' ],
+				'expectedMissingFiles' => [ 'blocked.txt' => 'blocked', 'error.txt' => 'File could not be added to the archive. Please check the server logs for more information.' ],
 			],
 			// files filtered out should not be reported as missing
 			'filtering some files' => [
