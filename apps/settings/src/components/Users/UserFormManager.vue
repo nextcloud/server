@@ -34,20 +34,28 @@ export default {
 		return {
 			possibleManagers: [],
 			loading: false,
+			searchTimeout: null,
 		}
 	},
 
 	computed: {
-		/** Map internal formData.manager to NcSelectUsersModel shape */
+		/**
+		 * Map internal formData.manager to NcSelectUsersModel shape.
+		 * Cached to keep object identity stable across reads, so NcSelectUsers
+		 * doesn't see a fresh :modelValue on every parent re-render.
+		 */
 		managerModel() {
 			const m = this.formData.manager
 			if (!m) {
 				return null
 			}
-			return {
-				id: typeof m === 'object' ? m.id : m,
-				displayName: typeof m === 'object' ? (m.displayname ?? m.id) : m,
+			const id = typeof m === 'object' ? m.id : m
+			const displayName = typeof m === 'object' ? (m.displayname ?? m.id) : m
+			if (this._managerModelCache?.id === id && this._managerModelCache?.displayName === displayName) {
+				return this._managerModelCache
 			}
+			this._managerModelCache = { id, displayName }
+			return this._managerModelCache
 		},
 
 		/** Map API users to NcSelectUsersModel shape */
@@ -60,8 +68,8 @@ export default {
 		},
 	},
 
-	mounted() {
-		this.searchUserManager('')
+	beforeDestroy() {
+		clearTimeout(this.searchTimeout)
 	},
 
 	methods: {
@@ -72,7 +80,13 @@ export default {
 				: ''
 		},
 
-		async searchUserManager(query) {
+		/** Debounce keystrokes so a 10-char query produces 1-2 requests, not 10. */
+		searchUserManager(query) {
+			clearTimeout(this.searchTimeout)
+			this.searchTimeout = setTimeout(() => this.fetchManagers(query), 200)
+		},
+
+		async fetchManagers(query) {
 			this.loading = true
 			try {
 				const response = await this.$store.dispatch('searchUsers', {
