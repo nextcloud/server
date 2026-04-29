@@ -93,7 +93,7 @@ class WorkerCommand extends Base {
 			}
 
 			if ($lastConfigStorageTime < $this->timeFactory->now()->getTimestamp() - 60) {
-				$this->appConfig->setValueString('core', 'taskprocessing_worker_last_iteration', (string)$this->timeFactory->now()->getTimestamp(), lazy: true);
+				$this->appConfig->setValueString('core', 'ai.taskprocessing_worker_last_iteration', (string)$this->timeFactory->now()->getTimestamp(), lazy: true);
 				$lastConfigStorageTime = $this->timeFactory->now()->getTimestamp();
 			}
 			$processedTask = $this->processNextTask($output, $taskTypes);
