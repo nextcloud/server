@@ -37,7 +37,7 @@ class WorkerCommandTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->timeFactory->method('now')->willReturnCallback(fn() => new \DateTimeImmutable());
+		$this->timeFactory->method('now')->willReturnCallback(fn () => new \DateTimeImmutable());
 		$this->command = new WorkerCommand($this->manager, $this->logger, $this->appConfig, $this->timeFactory);
 	}
 
