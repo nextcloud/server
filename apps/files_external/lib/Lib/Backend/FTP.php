@@ -23,7 +23,7 @@ class FTP extends Backend {
 			->setIdentifier('ftp')
 			->addIdentifierAlias('\OC\Files\Storage\FTP') // legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\FTP')
-			->setText($l->t('FTP'))
+			->setText($l->t('FTP / FTPS'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('port', $l->t('Port')))
