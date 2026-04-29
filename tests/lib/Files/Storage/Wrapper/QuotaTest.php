@@ -235,4 +235,25 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$fh = $instance->fopen('files/test.txt', 'w');
 		$this->assertFalse($fh);
 	}
+
+	public function testNoWriteStreamQuota(): void {
+		$instance = $this->getLimitedStorage(5.0);
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foo');
+		rewind($stream);
+		$instance->writeStream('files/test.txt', $stream);
+
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foobar');
+		rewind($stream);
+		$this->expectException(Files\NotEnoughSpaceException::class);
+		$instance->writeStream('files/test.txt', $stream);
+	}
+
+	public function testNoWriteStreamQuotaZero(): void {
+		$instance = $this->getLimitedStorage(0.0);
+		$stream = fopen('php://temp', 'w+');
+		$this->expectException(Files\NotEnoughSpaceException::class);
+		$instance->writeStream('files/test.txt', $stream);
+	}
 }
