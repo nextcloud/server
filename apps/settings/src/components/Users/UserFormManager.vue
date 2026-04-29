@@ -44,6 +44,7 @@ export default {
 		 * Cached to keep object identity stable across reads, so NcSelectUsers
 		 * doesn't see a fresh :modelValue on every parent re-render.
 		 */
+
 		managerModel() {
 			const m = this.formData.manager
 			if (!m) {
@@ -54,6 +55,7 @@ export default {
 			if (this._managerModelCache?.id === id && this._managerModelCache?.displayName === displayName) {
 				return this._managerModelCache
 			}
+			// eslint-disable-next-line vue/no-side-effects-in-computed-properties
 			this._managerModelCache = { id, displayName }
 			return this._managerModelCache
 		},
@@ -68,7 +70,7 @@ export default {
 		},
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		clearTimeout(this.searchTimeout)
 	},
 
