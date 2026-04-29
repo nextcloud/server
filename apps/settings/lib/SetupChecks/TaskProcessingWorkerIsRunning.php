@@ -29,14 +29,17 @@ class TaskProcessingWorkerIsRunning implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'ai';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Task Processing worker status');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$lastNDays = self::HAS_TASKS_IN_LAST_X_DAYS;
 		$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays));
