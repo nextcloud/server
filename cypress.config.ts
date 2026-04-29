@@ -32,6 +32,12 @@ export default defineConfig({
 		openMode: 0,
 	},
 
+	// Avoid renderer OOMs on memory-tight CI runners. The memory
+	// management flag is harmless; dropping retained snapshots only
+	// affects CI so local `cypress open` keeps full time-travel UI.
+	experimentalMemoryManagement: true,
+	numTestsKeptInMemory: process.env.CI ? 0 : 50,
+
 	// Needed to trigger `after:run` events with cypress open
 	experimentalInteractiveRunEvents: true,
 
