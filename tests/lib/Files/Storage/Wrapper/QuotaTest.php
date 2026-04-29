@@ -229,4 +229,10 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(0.0);
 		$this->assertFalse($instance->touch('foobar'));
 	}
+
+	public function testNoFopenQuotaZero(): void {
+		$instance = $this->getLimitedStorage(0.0);
+		$fh = $instance->fopen('files/test.txt', 'w');
+		$this->assertFalse($fh);
+	}
 }
