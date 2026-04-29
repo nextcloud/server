@@ -34,7 +34,7 @@ trait EncryptionTrait {
 	abstract protected static function markTestSkipped(string $message = ''): void;
 	abstract protected static function assertTrue($condition, string $message = ''): void;
 
-	private $encryptionWasEnabled;
+	private bool $encryptionWasEnabled = false;
 
 	private $originalEncryptionModule;
 
@@ -109,18 +109,27 @@ trait EncryptionTrait {
 		$this->encryptionApp = new Application([], $isReady);
 
 		$this->config = Server::get(IConfig::class);
-		$this->encryptionWasEnabled = $this->config->getAppValue('core', 'encryption_enabled', 'no');
-		$this->originalEncryptionModule = $this->config->getAppValue('core', 'default_encryption_module');
-		$this->config->setAppValue('core', 'default_encryption_module', Encryption::ID);
-		$this->config->setAppValue('core', 'encryption_enabled', 'yes');
+		$appConfig = Server::get(\OCP\IAppConfig::class);
+		$this->encryptionWasEnabled = $appConfig->getValueBool('core', 'encryption_enabled', false);
+		$this->originalEncryptionModule = $appConfig->getValueString('core', 'default_encryption_module', '');
+		$appConfig->setValueString('core', 'default_encryption_module', Encryption::ID);
+		$appConfig->setValueBool('core', 'encryption_enabled', true);
 		$this->assertTrue(Server::get(\OCP\Encryption\IManager::class)->isEnabled());
+
+		// Ensure system-wide share/master keys exist in the keystore.
+		// Setup::setupSystem() is cache-gated on 'keys-validated' and may no-op
+		// when the cache was primed while encryption was disabled.
+		$keyManager = Server::get(KeyManager::class);
+		$keyManager->validateShareKey();
+		$keyManager->validateMasterKey();
 	}
 
 	protected function tearDownEncryptionTrait() {
 		if ($this->config) {
-			$this->config->setAppValue('core', 'encryption_enabled', $this->encryptionWasEnabled);
-			$this->config->setAppValue('core', 'default_encryption_module', $this->originalEncryptionModule);
-			$this->config->deleteAppValue('encryption', 'useMasterKey');
+			$appConfig = Server::get(\OCP\IAppConfig::class);
+			$appConfig->setValueBool('core', 'encryption_enabled', $this->encryptionWasEnabled);
+			$appConfig->setValueString('core', 'default_encryption_module', $this->originalEncryptionModule);
+			$appConfig->deleteKey('encryption', 'useMasterKey');
 		}
 	}
 }
