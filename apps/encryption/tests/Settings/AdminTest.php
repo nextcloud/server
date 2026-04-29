@@ -62,15 +62,13 @@ class AdminTest extends TestCase {
 		$this->appConfig
 			->method('getValueBool')
 			->willReturnMap([
-				['encryption', 'recoveryAdminEnabled', true]
+				['encryption', 'recoveryAdminEnabled', true],
+				['encryption', 'encryptHomeStorage', true, true],
 			]);
 		$this->config
 			->method('getAppValue')
 			->willReturnCallback(function ($app, $key, $default) {
 				if ($app === 'encryption' && $key === 'recoveryAdminEnabled' && $default === '0') {
-					return '1';
-				}
-				if ($app === 'encryption' && $key === 'encryptHomeStorage' && $default === '1') {
 					return '1';
 				}
 				return $default;

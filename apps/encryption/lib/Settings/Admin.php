@@ -53,6 +53,7 @@ class Admin implements ISettings {
 			$crypt,
 			$this->userSession,
 			$this->config,
+			$this->appConfig,
 			$this->userManager);
 
 		// Check if an adminRecovery account is enabled for recovering files after lost pwd
