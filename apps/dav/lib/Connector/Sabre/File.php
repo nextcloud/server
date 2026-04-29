@@ -604,6 +604,9 @@ class File extends Node implements IFile {
 		if ($e instanceof NotFoundException) {
 			throw new NotFound($this->l10n->t('File not found: %1$s', [$e->getMessage()]), 0, $e);
 		}
+		if ($e instanceof Files\NotEnoughSpaceException) {
+			throw new EntityTooLarge($this->l10n->t('Insufficient space'), 0, $e);
+		}
 
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);
 	}
