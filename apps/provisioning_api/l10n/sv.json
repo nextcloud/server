@@ -19,7 +19,7 @@
     "Email was already removed from account and cannot be confirmed anymore." : "E-postadress har redan tagits bort från konto och kan inte längre verifieras.",
     "Could not verify mail because the token is expired." : "Kunde inte verifiera e-postadressen eftersom giltighetstiden för verifikationskoden har gått ut.",
     "Could not verify mail because the token is invalid." : "Kunde inte verifiera e-postadressen eftersom verifikationskoden är inkorrekt.",
-    "An unexpected error occurred. Please contact your admin." : "Ett oväntat fel har uppkommit. Vänligen kontakta din administratör.",
+    "An unexpected error occurred. Please contact your admin." : "Ett oväntat fel har uppkommit. Kontakta din administratör.",
     "Email confirmation successful" : "E-postbekräftelsen lyckades",
     "Provisioning API" : "Distribuerings API"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
