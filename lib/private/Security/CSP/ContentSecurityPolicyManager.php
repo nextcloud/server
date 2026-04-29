@@ -25,6 +25,7 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 	}
 
 	/** {@inheritdoc} */
+	#[\Override]
 	public function addDefaultPolicy(EmptyContentSecurityPolicy $policy): void {
 		$this->policies[] = $policy;
 	}

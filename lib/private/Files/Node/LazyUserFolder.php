@@ -66,6 +66,7 @@ class LazyUserFolder extends LazyFolder {
 		);
 	}
 
+	#[\Override]
 	public function getMountPoint() {
 		if ($this->folder !== null) {
 			return $this->folder->getMountPoint();

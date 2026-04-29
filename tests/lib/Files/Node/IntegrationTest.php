@@ -49,6 +49,7 @@ class IntegrationTest extends \Test\TestCase {
 	 */
 	private $view;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -85,6 +86,7 @@ class IntegrationTest extends \Test\TestCase {
 		$manager->removeMount('/' . $user->getUID());
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->storages as $storage) {
 			$storage->getCache()->clear();

@@ -27,6 +27,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_SENSITIVE);
 	}
 
+	#[\Override]
 	public function run($argument): void {
 		$this->resourceManager->update();
 		$this->roomManager->update();

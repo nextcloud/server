@@ -62,6 +62,7 @@ class CommentsPlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		if (!str_starts_with($this->server->getRequestUri(), 'comments/')) {
@@ -121,6 +122,7 @@ class CommentsPlugin extends ServerPlugin {
 	 * @param string $uri
 	 * @return array
 	 */
+	#[\Override]
 	public function getSupportedReportSet($uri) {
 		return [self::REPORT_NAME];
 	}

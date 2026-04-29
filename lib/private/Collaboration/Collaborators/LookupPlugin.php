@@ -33,6 +33,7 @@ class LookupPlugin implements ISearchPlugin {
 		$this->currentUserRemote = $cloudIdManager->resolveCloudId($currentUserCloudId)->getRemote();
 	}
 
+	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';

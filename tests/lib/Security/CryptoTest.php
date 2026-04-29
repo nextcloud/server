@@ -26,6 +26,7 @@ class CryptoTest extends \Test\TestCase {
 	/** @var Crypto */
 	protected $crypto;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->crypto = new Crypto(Server::get(IConfig::class));

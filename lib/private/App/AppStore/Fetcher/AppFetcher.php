@@ -51,6 +51,7 @@ class AppFetcher extends Fetcher {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	protected function fetch($ETag, $content, $allowUnstable = false) {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
@@ -145,12 +146,14 @@ class AppFetcher extends Fetcher {
 	 * @param string $fileName
 	 * @param bool $ignoreMaxVersion
 	 */
+	#[\Override]
 	public function setVersion(string $version, string $fileName = 'apps.json', bool $ignoreMaxVersion = true) {
 		parent::setVersion($version);
 		$this->fileName = $fileName;
 		$this->ignoreMaxVersion = $ignoreMaxVersion;
 	}
 
+	#[\Override]
 	public function get($allowUnstable = false): array {
 		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
 

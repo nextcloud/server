@@ -37,6 +37,7 @@ class UtilTest extends TestCase {
 	private $config;
 	private Util $util;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->view = $this->getMockBuilder(View::class)

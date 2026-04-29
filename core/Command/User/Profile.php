@@ -28,6 +28,7 @@ class Profile extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 		$this
@@ -125,6 +126,7 @@ class Profile extends Base {
 		return $user;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$user = $this->checkInput($input);
@@ -213,6 +215,7 @@ class Profile extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'uid') {
 			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->searchDisplayName($context->getCurrentWord()));

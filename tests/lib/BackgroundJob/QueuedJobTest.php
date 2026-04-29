@@ -15,6 +15,7 @@ use OCP\Server;
 class TestQueuedJobNew extends QueuedJob {
 	public bool $ran = false;
 
+	#[\Override]
 	public function run($argument) {
 		$this->ran = true;
 	}
@@ -23,6 +24,7 @@ class TestQueuedJobNew extends QueuedJob {
 class QueuedJobTest extends \Test\TestCase {
 	private DummyJobList $jobList;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

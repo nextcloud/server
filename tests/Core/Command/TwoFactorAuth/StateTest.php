@@ -27,6 +27,7 @@ class StateTest extends TestCase {
 	/** @var CommandTester|MockObject */
 	private $cmd;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

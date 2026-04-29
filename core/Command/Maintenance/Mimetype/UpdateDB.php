@@ -25,6 +25,7 @@ class UpdateDB extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('maintenance:mimetype:update-db')
@@ -38,6 +39,7 @@ class UpdateDB extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$mappings = $this->mimetypeDetector->getAllMappings();
 

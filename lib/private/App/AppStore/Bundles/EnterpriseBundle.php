@@ -12,6 +12,7 @@ class EnterpriseBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Enterprise bundle');
 	}
@@ -19,6 +20,7 @@ class EnterpriseBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAppIdentifiers(): array {
 		return [
 			'admin_audit',

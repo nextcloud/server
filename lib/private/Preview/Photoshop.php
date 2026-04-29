@@ -14,6 +14,7 @@ class Photoshop extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/x-photoshop/';
 	}
@@ -21,6 +22,7 @@ class Photoshop extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/(application|image)\/(x-photoshop|x-psd)/';
 	}

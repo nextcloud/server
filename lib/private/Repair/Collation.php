@@ -25,6 +25,7 @@ class Collation implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Repair MySQL collation';
 	}
@@ -32,6 +33,7 @@ class Collation implements IRepairStep {
 	/**
 	 * Fix mime types
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
 			$output->info('Not a mysql database -> nothing to do');

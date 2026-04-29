@@ -22,6 +22,7 @@ class ConfigTest extends TestCase {
 	/** @var string */
 	private $randomTmpDir;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -30,6 +31,7 @@ class ConfigTest extends TestCase {
 		file_put_contents($this->configFile, self::TESTCONTENT);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		unlink($this->configFile);
 		parent::tearDown();

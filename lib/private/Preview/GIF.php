@@ -13,6 +13,7 @@ class GIF extends Image {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/gif/';
 	}

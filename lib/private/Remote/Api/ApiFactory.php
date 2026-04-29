@@ -19,6 +19,7 @@ class ApiFactory implements IApiFactory {
 	) {
 	}
 
+	#[\Override]
 	public function getApiCollection(IInstance $instance, ICredentials $credentials) {
 		return new ApiCollection($instance, $credentials, $this->clientService);
 	}

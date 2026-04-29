@@ -23,6 +23,7 @@ class BuildSocialSearchIndex implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Register building of social profile search index as background job';
 	}
@@ -30,6 +31,7 @@ class BuildSocialSearchIndex implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		// only run once
 		if ($this->config->getValueBool('dav', 'builtSocialSearchIndex')) {

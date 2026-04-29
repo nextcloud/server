@@ -77,6 +77,7 @@ class AuthMechanism implements \JsonSerializable, IIdentifier, IFrontendDefiniti
 	/**
 	 * Serialize into JSON for client-side JS
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$data = $this->jsonSerializeDefinition();
 		$data += $this->jsonSerializeIdentifier();

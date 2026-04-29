@@ -68,6 +68,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$server->on('beforeMethod:GET', $this->beforeGet(...));
 		$server->on('beforeMethod:PUT', [$this, 'beforePut']);

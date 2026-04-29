@@ -40,6 +40,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 	private ControllerMethodReflector&MockObject $reflector;
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

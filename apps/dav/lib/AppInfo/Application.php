@@ -118,6 +118,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
 		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
@@ -235,6 +236,7 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		// Load all dav apps
 		$context->getServerContainer()->get(IAppManager::class)->loadApps(['dav']);

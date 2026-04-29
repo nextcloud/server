@@ -20,18 +20,22 @@ class SyncClients implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon() {
 		return $this->urlGenerator->imagePath('core', 'clients/phone.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'sync-clients';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Mobile & desktop');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 15;
 	}

@@ -14,6 +14,7 @@ use OCP\Command\ICommand;
 use Test\TestCase;
 
 class SimpleCommand implements ICommand {
+	#[\Override]
 	public function handle() {
 		AsyncBusTestCase::$lastCommand = 'SimpleCommand';
 	}
@@ -25,6 +26,7 @@ class StateFullCommand implements ICommand {
 	) {
 	}
 
+	#[\Override]
 	public function handle() {
 		AsyncBusTestCase::$lastCommand = $this->state;
 	}
@@ -33,6 +35,7 @@ class StateFullCommand implements ICommand {
 class FilesystemCommand implements ICommand {
 	use FileAccess;
 
+	#[\Override]
 	public function handle() {
 		AsyncBusTestCase::$lastCommand = 'FileAccess';
 	}
@@ -70,6 +73,7 @@ abstract class AsyncBusTestCase extends TestCase {
 	 */
 	abstract protected function createBus();
 
+	#[\Override]
 	protected function setUp(): void {
 		self::$lastCommand = '';
 	}

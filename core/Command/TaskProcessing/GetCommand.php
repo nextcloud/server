@@ -21,6 +21,7 @@ class GetCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('taskprocessing:task:get')
@@ -33,6 +34,7 @@ class GetCommand extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$taskId = (int)$input->getArgument('task-id');
 		$task = $this->taskProcessingManager->getTask($taskId);

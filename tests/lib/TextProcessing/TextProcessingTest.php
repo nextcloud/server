@@ -40,15 +40,18 @@ use Test\BackgroundJob\DummyJobList;
 class SuccessfulSummaryProvider implements IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Vanilla LLM Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		return $prompt . ' Summarize';
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return SummaryTaskType::class;
 	}
@@ -57,15 +60,18 @@ class SuccessfulSummaryProvider implements IProvider {
 class FailingSummaryProvider implements IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Vanilla LLM Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		throw new \Exception('ERROR');
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return SummaryTaskType::class;
 	}
@@ -74,15 +80,18 @@ class FailingSummaryProvider implements IProvider {
 class FreePromptProvider implements IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Free Prompt Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		return $prompt . ' Free Prompt';
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return FreePromptTaskType::class;
 	}
@@ -101,6 +110,7 @@ class TextProcessingTest extends \Test\TestCase {
 	private array $tasksDb;
 	private IJobList $jobList;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

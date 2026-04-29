@@ -28,6 +28,7 @@ class JobWorker extends JobBase {
 	) {
 		parent::__construct($jobList, $logger);
 	}
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -61,6 +62,7 @@ class JobWorker extends JobBase {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$startTime = time();
 		$stopAfterOptionValue = $input->getOption('stop_after');

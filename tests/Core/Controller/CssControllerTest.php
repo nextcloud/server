@@ -31,6 +31,7 @@ class CssControllerTest extends TestCase {
 	/** @var CssController */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

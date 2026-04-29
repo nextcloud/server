@@ -144,6 +144,7 @@ class SeekableHttpStream implements File {
 		return is_resource($this->current);
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$options = stream_context_get_options($this->context)[self::PROTOCOL];
 		$this->openCallback = $options['callback'];
@@ -151,6 +152,7 @@ class SeekableHttpStream implements File {
 		return $this->reconnect(0);
 	}
 
+	#[\Override]
 	public function stream_read($count) {
 		if (!$this->getCurrent()) {
 			return false;
@@ -160,6 +162,7 @@ class SeekableHttpStream implements File {
 		return $ret;
 	}
 
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		switch ($whence) {
 			case SEEK_SET:
@@ -195,10 +198,12 @@ class SeekableHttpStream implements File {
 		return true;
 	}
 
+	#[\Override]
 	public function stream_tell() {
 		return $this->offset;
 	}
 
+	#[\Override]
 	public function stream_stat() {
 		if ($this->getCurrent()) {
 			$stat = fstat($this->getCurrent());
@@ -211,6 +216,7 @@ class SeekableHttpStream implements File {
 		}
 	}
 
+	#[\Override]
 	public function stream_eof() {
 		if ($this->getCurrent()) {
 			return feof($this->getCurrent());
@@ -219,6 +225,7 @@ class SeekableHttpStream implements File {
 		}
 	}
 
+	#[\Override]
 	public function stream_close() {
 		if ($this->hasOpenStream()) {
 			fclose($this->current);
@@ -226,22 +233,27 @@ class SeekableHttpStream implements File {
 		$this->current = null;
 	}
 
+	#[\Override]
 	public function stream_write($data) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_set_option($option, $arg1, $arg2) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_truncate($size) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_lock($operation) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_flush() {
 		return; //noop because readonly stream
 	}

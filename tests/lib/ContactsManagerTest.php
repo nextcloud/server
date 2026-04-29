@@ -14,6 +14,7 @@ use OCP\IAddressBook;
 class ContactsManagerTest extends \Test\TestCase {
 	private ContactsManager $cm;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->cm = new ContactsManager();

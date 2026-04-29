@@ -26,6 +26,7 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('migrations:execute')
@@ -41,6 +42,7 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 	 * @param OutputInterface $output
 	 * @return int
 	 */
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
@@ -66,6 +68,7 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		return [];
 	}
@@ -75,6 +78,7 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
 			$allApps = \OC_App::getAllApps();

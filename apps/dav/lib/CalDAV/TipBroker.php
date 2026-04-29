@@ -41,6 +41,7 @@ class TipBroker extends Broker {
 	 *
 	 * @return VCalendar|null
 	 */
+	#[\Override]
 	protected function processMessageCancel(Message $itipMessage, ?VCalendar $existingObject = null) {
 		if ($existingObject === null) {
 			return null;
@@ -88,6 +89,7 @@ class TipBroker extends Broker {
 	 *
 	 * @return array<int,Message>
 	 */
+	#[\Override]
 	protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo) {
 
 		$messages = [];

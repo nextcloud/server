@@ -31,6 +31,7 @@ class CleanupFileLocks extends TimedJob {
 	 * @param array $argument unused argument
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function run($argument) {
 		$lockingProvider = Server::get(ILockingProvider::class);
 		if ($lockingProvider instanceof DBLockingProvider) {

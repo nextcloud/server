@@ -25,14 +25,17 @@ class SystemAddressBookSize implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('DAV system address book size');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'dav';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (!$this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED)) {
 			return SetupResult::success($this->l10n->t('The system address book is disabled'));

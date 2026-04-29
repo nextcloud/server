@@ -38,6 +38,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setEnabled(bool $enabled): static {
 		$this->enabled = $enabled;
 
@@ -47,6 +48,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function isEnabled(): bool {
 		return $this->enabled;
 	}
@@ -56,6 +58,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setApiVersion(string $apiVersion): static {
 		$this->apiVersion = $apiVersion;
 
@@ -65,6 +68,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getApiVersion(): string {
 		return $this->apiVersion;
 	}
@@ -75,6 +79,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return string
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getInviteAcceptDialog(): string {
 		return $this->inviteAcceptDialog;
 	}
@@ -87,6 +92,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return $this
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function setInviteAcceptDialog(string $inviteAcceptDialog): static {
 		$this->inviteAcceptDialog = $inviteAcceptDialog;
 
@@ -98,6 +104,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setEndPoint(string $endPoint): static {
 		$this->endPoint = $endPoint;
 
@@ -107,6 +114,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getEndPoint(): string {
 		return $this->endPoint;
 	}
@@ -114,6 +122,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getProvider(): string {
 		return $this->provider;
 	}
@@ -123,6 +132,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setCapabilities(array $capabilities): static {
 		$this->capabilities = array_unique(array_merge(
 			$this->capabilities,
@@ -134,6 +144,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return array
 	 */
+	#[\Override]
 	public function getCapabilities(): array {
 		return $this->capabilities;
 	}
@@ -142,6 +153,7 @@ class OCMProvider implements IOCMProvider {
 	 * @param string $capability
 	 * @return bool
 	 */
+	#[\Override]
 	public function hasCapability(string $capability): bool {
 		return (in_array($this->normalizeCapability($capability), $this->capabilities, true));
 	}
@@ -155,6 +167,7 @@ class OCMProvider implements IOCMProvider {
 	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
 	 * @return IOCMResource
 	 */
+	#[\Override]
 	public function createNewResourceType(): IOCMResource {
 		return new OCMResource();
 	}
@@ -164,6 +177,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function addResourceType(IOCMResource $resource): static {
 		$this->resourceTypes[] = $resource;
 
@@ -175,6 +189,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setResourceTypes(array $resourceTypes): static {
 		$this->resourceTypes = $resourceTypes;
 
@@ -184,6 +199,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return IOCMResource[]
 	 */
+	#[\Override]
 	public function getResourceTypes(): array {
 		return $this->resourceTypes;
 	}
@@ -195,6 +211,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return string
 	 * @throws OCMArgumentException
 	 */
+	#[\Override]
 	public function extractProtocolEntry(string $resourceName, string $protocol): string {
 		foreach ($this->getResourceTypes() as $resource) {
 			if ($resource->getName() === $resourceName) {
@@ -226,6 +243,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return OCMProvider&static
 	 * @throws OCMProviderException in case a descent provider cannot be generated from data
 	 */
+	#[\Override]
 	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
 			// Fall back to old apiVersion for Nextcloud 30 compatibility
@@ -269,6 +287,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$resourceTypes = [];
 		foreach ($this->getResourceTypes() as $res) {

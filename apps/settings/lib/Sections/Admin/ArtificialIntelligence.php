@@ -20,18 +20,22 @@ class ArtificialIntelligence implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('settings', 'ai.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'ai';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Assistant');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 40;
 	}

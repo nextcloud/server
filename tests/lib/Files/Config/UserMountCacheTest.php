@@ -40,6 +40,7 @@ class UserMountCacheTest extends TestCase {
 	private UserMountCache $cache;
 	private array $fileIds = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -76,6 +77,7 @@ class UserMountCacheTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$builder = $this->connection->getQueryBuilder();
 

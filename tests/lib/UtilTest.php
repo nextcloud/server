@@ -174,6 +174,7 @@ class UtilTest extends \Test\TestCase {
 		$this->assertNotEmpty($errors);
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -181,6 +182,7 @@ class UtilTest extends \Test\TestCase {
 		self::invokePrivate(Util::class, 'scripts', [[]]);
 		self::invokePrivate(Util::class, 'scriptDeps', [[]]);
 	}
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 

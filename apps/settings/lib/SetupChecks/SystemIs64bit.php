@@ -21,10 +21,12 @@ class SystemIs64bit implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Architecture');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
@@ -37,6 +39,7 @@ class SystemIs64bit implements ISetupCheck {
 		}
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->is64bit()) {
 			return SetupResult::success($this->l10n->t('64-bit'));

@@ -41,6 +41,7 @@ class TranslationManager implements ITranslationManager {
 	) {
 	}
 
+	#[\Override]
 	public function getLanguages(): array {
 		$languages = [];
 		foreach ($this->getProviders() as $provider) {
@@ -49,6 +50,7 @@ class TranslationManager implements ITranslationManager {
 		return $languages;
 	}
 
+	#[\Override]
 	public function translate(string $text, ?string &$fromLanguage, string $toLanguage): string {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No translation providers available');
@@ -112,6 +114,7 @@ class TranslationManager implements ITranslationManager {
 		throw new CouldNotTranslateException($fromLanguage);
 	}
 
+	#[\Override]
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
 
@@ -134,11 +137,13 @@ class TranslationManager implements ITranslationManager {
 		return $this->providers;
 	}
 
+	#[\Override]
 	public function hasProviders(): bool {
 		$context = $this->coordinator->getRegistrationContext();
 		return !empty($context->getTranslationProviders());
 	}
 
+	#[\Override]
 	public function canDetectLanguage(): bool {
 		foreach ($this->getProviders() as $provider) {
 			if ($provider instanceof IDetectLanguageProvider) {

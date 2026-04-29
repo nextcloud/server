@@ -18,6 +18,7 @@ class EMailProvider implements IProvider {
 	) {
 	}
 
+	#[\Override]
 	public function process(IEntry $entry): void {
 		$iconUrl = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mail.svg'));
 		foreach ($entry->getEMailAddresses() as $address) {

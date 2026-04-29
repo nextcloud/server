@@ -37,6 +37,7 @@ class TemplateManagerTest extends TestCase {
 
 	private TemplateManager $templateManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

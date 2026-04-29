@@ -32,6 +32,7 @@ class PropFindPlugin extends ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$server->on('preloadCollection', $this->preloadCollection(...));
 		$server->on('propFind', [$this, 'propFind']);

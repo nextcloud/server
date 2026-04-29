@@ -101,6 +101,7 @@ abstract class Node implements INode {
 	/**
 	 *  Returns the name of the node
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->info->getName();
 	}
@@ -129,6 +130,7 @@ abstract class Node implements INode {
 	 * @throws PreConditionNotMetException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function setName($name): void {
 		if (!$this->canRename()) {
 			throw new Forbidden('');
@@ -157,6 +159,7 @@ abstract class Node implements INode {
 	 *
 	 * @return int timestamp as integer
 	 */
+	#[\Override]
 	public function getLastModified(): int {
 		return $this->info->getMtime();
 	}

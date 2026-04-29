@@ -16,6 +16,7 @@ class RouteParserTest extends \Test\TestCase {
 
 	protected RouteParser $parser;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->parser = new RouteParser();
 	}

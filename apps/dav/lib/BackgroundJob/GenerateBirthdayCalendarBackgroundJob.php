@@ -23,6 +23,7 @@ class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$userId = $argument['userId'];
 		$purgeBeforeGenerating = $argument['purgeBeforeGenerating'] ?? false;

@@ -19,10 +19,12 @@ class AddCleanupLoginFlowV2BackgroundJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add background job to cleanup login flow v2 tokens';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->jobList->add(CleanupLoginFlowV2::class);
 	}

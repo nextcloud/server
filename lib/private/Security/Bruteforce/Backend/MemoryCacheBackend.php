@@ -51,6 +51,7 @@ class MemoryCacheBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAttempts(
 		string $ipSubnet,
 		int $maxAgeTimestamp,
@@ -80,6 +81,7 @@ class MemoryCacheBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function resetAttempts(
 		string $ipSubnet,
 		?string $action = null,
@@ -116,6 +118,7 @@ class MemoryCacheBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function registerAttempt(
 		string $ip,
 		string $ipSubnet,

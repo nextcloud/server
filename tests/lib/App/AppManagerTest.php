@@ -104,6 +104,7 @@ class AppManagerTest extends TestCase {
 
 	protected AppManager $manager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

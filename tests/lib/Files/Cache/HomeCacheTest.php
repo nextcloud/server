@@ -23,6 +23,7 @@ class DummyUser extends User {
 	) {
 	}
 
+	#[\Override]
 	public function getHome(): string {
 		return $this->home;
 	}
@@ -30,6 +31,7 @@ class DummyUser extends User {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getUID(): string {
 		return $this->uid;
 	}
@@ -41,6 +43,7 @@ class HomeCacheTest extends TestCase {
 	private ICache $cache;
 	private User $user;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

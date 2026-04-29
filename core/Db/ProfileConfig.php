@@ -98,6 +98,7 @@ class ProfileConfig extends Entity implements JsonSerializable {
 		$this->setVisibilityMap($visibilityMap);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'userId' => $this->userId,

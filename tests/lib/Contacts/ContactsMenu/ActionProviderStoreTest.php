@@ -30,6 +30,7 @@ class ActionProviderStoreTest extends TestCase {
 
 	private ActionProviderStore $actionProviderStore;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

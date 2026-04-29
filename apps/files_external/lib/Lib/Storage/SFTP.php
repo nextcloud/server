@@ -142,6 +142,7 @@ class SFTP extends Common {
 		return $this->client;
 	}
 
+	#[\Override]
 	public function test(): bool {
 		if (
 			!isset($this->host)
@@ -152,6 +153,7 @@ class SFTP extends Common {
 		return $this->getConnection()->nlist() !== false;
 	}
 
+	#[\Override]
 	public function getId(): string {
 		$id = 'sftp::' . $this->user . '@' . $this->host;
 		if ($this->port !== 22) {
@@ -234,6 +236,7 @@ class SFTP extends Common {
 		return [];
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		try {
 			return $this->getConnection()->mkdir($this->absPath($path));
@@ -242,6 +245,7 @@ class SFTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		try {
 			$result = $this->getConnection()->delete($this->absPath($path), true);
@@ -254,6 +258,7 @@ class SFTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		try {
 			$list = $this->getConnection()->nlist($this->absPath($path));
@@ -274,6 +279,7 @@ class SFTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		try {
 			$stat = $this->getConnection()->stat($this->absPath($path));
@@ -292,6 +298,7 @@ class SFTP extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		try {
 			return $this->getConnection()->stat($this->absPath($path)) !== false;
@@ -300,6 +307,7 @@ class SFTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		try {
 			return $this->getConnection()->delete($this->absPath($path), true);
@@ -308,6 +316,7 @@ class SFTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$path = $this->cleanPath($path);
 		try {
@@ -356,6 +365,7 @@ class SFTP extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 
 		$result = $this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
@@ -377,6 +387,7 @@ class SFTP extends Common {
 		$this->getConnection()->get($path, $target);
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		try {
 			if ($this->file_exists($target)) {
@@ -394,6 +405,7 @@ class SFTP extends Common {
 	/**
 	 * @return array{mtime: int, size: int, ctime: int}|false
 	 */
+	#[\Override]
 	public function stat(string $path): array|false {
 		try {
 			$path = $this->cleanPath($path);
@@ -425,6 +437,7 @@ class SFTP extends Common {
 		return $url;
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $data);
@@ -438,6 +451,7 @@ class SFTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
 			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size): void {
@@ -463,6 +477,7 @@ class SFTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		if ($this->is_dir($source) || $this->is_dir($target)) {
 			return parent::copy($source, $target);
@@ -490,6 +505,7 @@ class SFTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function getPermissions(string $path): int {
 		$stat = $this->getConnection()->stat($this->absPath($path));
 		if (!$stat) {
@@ -502,6 +518,7 @@ class SFTP extends Common {
 		}
 	}
 
+	#[\Override]
 	public function getMetaData(string $path): ?array {
 		$stat = $this->getConnection()->stat($this->absPath($path));
 		if (!$stat) {

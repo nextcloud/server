@@ -68,6 +68,7 @@ abstract class AbstractCalendarObjectEvent extends Event implements IWebhookComp
 	 * @return array
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getWebhookSerializable(): array {
 		return [
 			'calendarId' => $this->getCalendarId(),

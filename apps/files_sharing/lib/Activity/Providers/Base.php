@@ -44,6 +44,7 @@ abstract class Base implements IProvider {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files_sharing') {
 			throw new UnknownActivityException();

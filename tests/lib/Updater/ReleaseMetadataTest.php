@@ -15,6 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ReleaseMetadataTest extends \Test\TestCase {
 	private IClientService|MockObject $clientService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->clientService = $this->createMock(IClientService::class);

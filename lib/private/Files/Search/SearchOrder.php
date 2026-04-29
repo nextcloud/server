@@ -22,6 +22,7 @@ class SearchOrder implements ISearchOrder {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getDirection(): string {
 		return $this->direction;
 	}
@@ -29,6 +30,7 @@ class SearchOrder implements ISearchOrder {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getField(): string {
 		return $this->field;
 	}
@@ -37,10 +39,12 @@ class SearchOrder implements ISearchOrder {
 	 * @return string
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getExtra(): string {
 		return $this->extra;
 	}
 
+	#[\Override]
 	public function sortFileInfo(FileInfo $a, FileInfo $b): int {
 		$cmp = $this->sortFileInfoNoDirection($a, $b);
 		return $cmp * ($this->direction === ISearchOrder::DIRECTION_ASCENDING ? 1 : -1);

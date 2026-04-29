@@ -23,6 +23,7 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<BeforePreviewFetchedEvent|VersionRestoredEvent>
  */
 class FileEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof BeforePreviewFetchedEvent) {
 			$this->beforePreviewFetched($event);

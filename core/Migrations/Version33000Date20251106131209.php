@@ -22,6 +22,7 @@ class Version33000Date20251106131209 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('share')

@@ -50,6 +50,7 @@ class PushProvider extends AbstractProvider {
 	 * @param IUser[] $users
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function send(VEvent $vevent,
 		?string $calendarDisplayName,
 		array $principalEmailAddresses,

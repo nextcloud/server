@@ -32,6 +32,7 @@ class Broker implements IBroker {
 	) {
 	}
 
+	#[\Override]
 	public function hasBackend(): bool {
 		if ($this->hasBackend !== null) {
 			return $this->hasBackend;
@@ -66,10 +67,12 @@ class Broker implements IBroker {
 		}
 	}
 
+	#[\Override]
 	public function newConversationOptions(): IConversationOptions {
 		return ConversationOptions::default();
 	}
 
+	#[\Override]
 	public function createConversation(string $name,
 		array $moderators,
 		?IConversationOptions $options = null): IConversation {
@@ -84,6 +87,7 @@ class Broker implements IBroker {
 		);
 	}
 
+	#[\Override]
 	public function deleteConversation(string $id): void {
 		if (!$this->hasBackend()) {
 			throw new NoBackendException('The Talk broker has no registered backend');

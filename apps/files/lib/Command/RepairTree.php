@@ -24,6 +24,7 @@ class RepairTree extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:repair-tree')
@@ -33,6 +34,7 @@ class RepairTree extends Command {
 			->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'If set, only repair files within the given path', null);
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$rows = $this->findBrokenTreeBits(
 			$input->getOption('storage-id'),

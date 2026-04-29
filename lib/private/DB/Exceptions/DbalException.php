@@ -59,6 +59,7 @@ class DbalException extends Exception {
 		return $this->original instanceof RetryableException;
 	}
 
+	#[\Override]
 	public function getReason(): ?int {
 		/**
 		 * Constraint errors

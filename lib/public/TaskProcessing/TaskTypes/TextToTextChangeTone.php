@@ -38,6 +38,7 @@ class TextToTextChangeTone implements ITaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Change Tone');
 	}
@@ -46,6 +47,7 @@ class TextToTextChangeTone implements ITaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Change the tone of a piece of text.');
 	}
@@ -54,6 +56,7 @@ class TextToTextChangeTone implements ITaskType {
 	 * @return string
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -62,6 +65,7 @@ class TextToTextChangeTone implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -81,6 +85,7 @@ class TextToTextChangeTone implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

@@ -29,6 +29,7 @@ class LoadAdditionalScriptsListener implements IEventListener {
 		$this->appManager = $appManager;
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$event instanceof LoadAdditionalScriptsEvent) {
 			return;

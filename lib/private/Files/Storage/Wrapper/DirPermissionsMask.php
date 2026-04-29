@@ -47,6 +47,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $path === $this->path || substr($path, 0, $this->pathLength + 1) === $this->path . '/';
 	}
 
+	#[\Override]
 	public function isUpdatable($path): bool {
 		if ($this->checkPath($path)) {
 			return parent::isUpdatable($path);
@@ -55,6 +56,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->isUpdatable($path);
 	}
 
+	#[\Override]
 	public function isCreatable($path): bool {
 		if ($this->checkPath($path)) {
 			return parent::isCreatable($path);
@@ -63,6 +65,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->isCreatable($path);
 	}
 
+	#[\Override]
 	public function isDeletable($path): bool {
 		if ($this->checkPath($path)) {
 			return parent::isDeletable($path);
@@ -71,6 +74,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->isDeletable($path);
 	}
 
+	#[\Override]
 	public function isSharable($path): bool {
 		if ($this->checkPath($path)) {
 			return parent::isSharable($path);
@@ -79,6 +83,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->isSharable($path);
 	}
 
+	#[\Override]
 	public function getPermissions($path): int {
 		if ($this->checkPath($path)) {
 			return parent::getPermissions($path);
@@ -87,6 +92,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->getPermissions($path);
 	}
 
+	#[\Override]
 	public function rename($source, $target): bool {
 		if (!$this->isUpdatable($source)) {
 			return false;
@@ -110,6 +116,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return false;
 	}
 
+	#[\Override]
 	public function copy($source, $target): bool {
 		if (!$this->isReadable($source)) {
 			return false;
@@ -133,6 +140,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return false;
 	}
 
+	#[\Override]
 	public function touch($path, $mtime = null): bool {
 		if ($this->checkPath($path)) {
 			return parent::touch($path);
@@ -141,6 +149,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->touch($path);
 	}
 
+	#[\Override]
 	public function mkdir($path): bool {
 		// Always allow creating the path of the dir mask.
 		if ($path !== $this->path && $this->checkPath($path)) {
@@ -150,6 +159,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->mkdir($path);
 	}
 
+	#[\Override]
 	public function rmdir($path): bool {
 		if ($this->checkPath($path)) {
 			return parent::rmdir($path);
@@ -158,6 +168,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->rmdir($path);
 	}
 
+	#[\Override]
 	public function unlink($path): bool {
 		if ($this->checkPath($path)) {
 			return parent::unlink($path);
@@ -166,6 +177,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->unlink($path);
 	}
 
+	#[\Override]
 	public function file_put_contents($path, $data): int|float|false {
 		if ($this->checkPath($path)) {
 			return parent::file_put_contents($path, $data);
@@ -174,6 +186,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->file_put_contents($path, $data);
 	}
 
+	#[\Override]
 	public function fopen($path, $mode) {
 		if ($this->checkPath($path)) {
 			return parent::fopen($path, $mode);
@@ -182,6 +195,7 @@ class DirPermissionsMask extends PermissionsMask {
 		return $this->storage->fopen($path, $mode);
 	}
 
+	#[\Override]
 	public function getCache($path = '', $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;

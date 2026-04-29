@@ -34,6 +34,7 @@ class ManagerTest extends TestCase {
 	private ICache&MockObject $cache;
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

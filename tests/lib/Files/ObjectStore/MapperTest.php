@@ -15,6 +15,7 @@ class MapperTest extends \Test\TestCase {
 	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

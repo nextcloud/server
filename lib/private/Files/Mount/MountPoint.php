@@ -99,6 +99,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getMountPoint() {
 		return $this->mountPoint;
 	}
@@ -108,6 +109,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @param string $mountPoint new mount point
 	 */
+	#[\Override]
 	public function setMountPoint($mountPoint) {
 		$this->mountPoint = $this->formatPath($mountPoint);
 	}
@@ -147,6 +149,7 @@ class MountPoint implements IMountPoint {
 	/**
 	 * @return IStorage|null
 	 */
+	#[\Override]
 	public function getStorage() {
 		if (is_null($this->storage)) {
 			$this->createStorage();
@@ -157,6 +160,7 @@ class MountPoint implements IMountPoint {
 	/**
 	 * @return string|null
 	 */
+	#[\Override]
 	public function getStorageId() {
 		if (!$this->storageId) {
 			$storage = $this->getStorage();
@@ -174,6 +178,7 @@ class MountPoint implements IMountPoint {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getNumericStorageId() {
 		if (is_null($this->numericStorageId)) {
 			$storage = $this->getStorage();
@@ -189,6 +194,7 @@ class MountPoint implements IMountPoint {
 	 * @param string $path
 	 * @return string
 	 */
+	#[\Override]
 	public function getInternalPath($path) {
 		$path = Filesystem::normalizePath($path, true, false, true);
 		if ($this->mountPoint === $path || $this->mountPoint . '/' === $path) {
@@ -215,6 +221,7 @@ class MountPoint implements IMountPoint {
 	/**
 	 * @param callable $wrapper
 	 */
+	#[\Override]
 	public function wrapStorage($wrapper) {
 		$storage = $this->getStorage();
 		// storage can be null if it couldn't be initialized
@@ -230,6 +237,7 @@ class MountPoint implements IMountPoint {
 	 * @param mixed $default Default value for the mount option
 	 * @return mixed
 	 */
+	#[\Override]
 	public function getOption($name, $default) {
 		return $this->mountOptions[$name] ?? $default;
 	}
@@ -239,6 +247,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getOptions() {
 		return $this->mountOptions;
 	}
@@ -248,6 +257,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getStorageRootId() {
 		if (is_null($this->rootId) || $this->rootId === -1) {
 			$storage = $this->getStorage();
@@ -261,14 +271,17 @@ class MountPoint implements IMountPoint {
 		return $this->rootId;
 	}
 
+	#[\Override]
 	public function getMountId() {
 		return $this->mountId;
 	}
 
+	#[\Override]
 	public function getMountType() {
 		return '';
 	}
 
+	#[\Override]
 	public function getMountProvider(): string {
 		return $this->mountProvider;
 	}

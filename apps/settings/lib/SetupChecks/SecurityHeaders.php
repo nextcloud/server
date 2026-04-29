@@ -31,14 +31,17 @@ class SecurityHeaders implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('HTTP headers');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$urls = [
 			['get', $this->urlGenerator->linkToRoute('heartbeat'), [200]],

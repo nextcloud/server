@@ -27,6 +27,7 @@ class TestRepairStep implements IRepairStep {
 	 * @return string
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getName() {
 		return 'A test repair step';
 	}
@@ -38,6 +39,7 @@ class TestRepairStep implements IRepairStep {
 	 * @since 9.1.0
 	 * @throws \Exception in case of failure
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		// TODO: Implement run() method.
 	}
@@ -52,6 +54,7 @@ class BackgroundRepairTest extends TestCase {
 	private IAppManager $appManager;
 	private Repair $repair;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

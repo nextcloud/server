@@ -27,6 +27,7 @@ class SearchComparison implements ISearchComparison {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getType(): string {
 		return $this->type;
 	}
@@ -34,10 +35,12 @@ class SearchComparison implements ISearchComparison {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getField(): string {
 		return $this->field;
 	}
 
+	#[\Override]
 	public function getValue(): string|int|bool|\DateTime|array {
 		return $this->value;
 	}
@@ -46,14 +49,17 @@ class SearchComparison implements ISearchComparison {
 	 * @return string
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getExtra(): string {
 		return $this->extra;
 	}
 
+	#[\Override]
 	public function getQueryHint(string $name, $default) {
 		return $this->hints[$name] ?? $default;
 	}
 
+	#[\Override]
 	public function setQueryHint(string $name, $value): void {
 		$this->hints[$name] = $value;
 	}

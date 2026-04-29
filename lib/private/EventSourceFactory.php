@@ -19,6 +19,7 @@ class EventSourceFactory implements IEventSourceFactory {
 	) {
 	}
 
+	#[\Override]
 	public function create(): IEventSource {
 		return new EventSource($this->request);
 	}

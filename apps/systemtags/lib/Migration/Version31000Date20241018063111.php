@@ -23,6 +23,7 @@ use OCP\Migration\SimpleMigrationStep;
 #[AddColumn(table: 'systemtag', name: 'etag', type: ColumnType::STRING, description: 'Adding etag for systemtag table to prevent conflicts')]
 class Version31000Date20241018063111 extends SimpleMigrationStep {
 
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

@@ -25,6 +25,7 @@ class OldGroupMembershipShares implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Remove shares of old group memberships';
 	}
@@ -35,6 +36,7 @@ class OldGroupMembershipShares implements IRepairStep {
 	 *
 	 * @throws \Exception in case of failure
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		$deletedEntries = 0;
 

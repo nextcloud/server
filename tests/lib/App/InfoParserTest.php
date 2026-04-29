@@ -17,6 +17,7 @@ use Test\TestCase;
 class InfoParserTest extends TestCase {
 	private static CappedMemoryCache $cache;
 
+	#[\Override]
 	public static function setUpBeforeClass(): void {
 		self::$cache = new CappedMemoryCache();
 	}

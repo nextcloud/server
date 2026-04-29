@@ -37,6 +37,7 @@ class ResetToken extends TimedJob {
 	/**
 	 * @param $argument
 	 */
+	#[\Override]
 	protected function run($argument) {
 		if ($this->config->getSystemValueBool('config_is_read_only')) {
 			$this->logger->debug('Skipping `updater.secret` reset since config_is_read_only is set', ['app' => 'updatenotification']);

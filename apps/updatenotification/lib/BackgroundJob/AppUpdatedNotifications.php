@@ -38,6 +38,7 @@ class AppUpdatedNotifications extends QueuedJob {
 	/**
 	 * @param array{appId: string, timestamp: int} $argument
 	 */
+	#[\Override]
 	protected function run(mixed $argument): void {
 		$appId = $argument['appId'];
 		$timestamp = $argument['timestamp'];

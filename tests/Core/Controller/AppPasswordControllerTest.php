@@ -61,6 +61,7 @@ class AppPasswordControllerTest extends TestCase {
 	/** @var AppPasswordController */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

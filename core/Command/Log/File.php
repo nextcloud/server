@@ -25,6 +25,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('log:file')
@@ -50,6 +51,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$toBeSet = [];
 
@@ -113,6 +115,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'file') {
 			$helper = new ShellPathCompletion(
@@ -132,6 +135,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		return [];
 	}

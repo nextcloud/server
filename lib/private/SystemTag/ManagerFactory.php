@@ -38,6 +38,7 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 *
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getManager(): ISystemTagManager {
 		return new SystemTagManager(
 			$this->serverContainer->get(IDBConnection::class),
@@ -54,6 +55,7 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 *
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getObjectMapper(): ISystemTagObjectMapper {
 		return new SystemTagObjectMapper(
 			$this->serverContainer->get(IDBConnection::class),

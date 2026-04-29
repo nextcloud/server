@@ -39,10 +39,12 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getShareType(): string {
 		return self::PROVIDER_ID;
 	}
 
+	#[\Override]
 	public function shareReceived(ICloudFederationShare $share): string {
 		if (!$this->calendarFederationConfig->isFederationEnabled()) {
 			$this->logger->debug('Received a federation invite but federation is disabled');
@@ -152,6 +154,7 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 		return (string)$calendar->getId();
 	}
 
+	#[\Override]
 	public function notificationReceived(
 		$notificationType,
 		$providerId,
@@ -172,6 +175,7 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 	/**
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getSupportedShareTypes(): array {
 		return [self::USER_SHARE_TYPE];
 	}

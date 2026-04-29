@@ -21,12 +21,14 @@ class DataFingerprint extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('maintenance:data-fingerprint')
 			->setDescription('update the systems data-fingerprint after a backup is restored');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$fingerPrint = md5($this->timeFactory->getTime());
 		$this->config->setSystemValue('data-fingerprint', $fingerPrint);

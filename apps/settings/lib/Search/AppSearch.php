@@ -23,18 +23,22 @@ class AppSearch implements IProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'settings_apps';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Apps');
 	}
 
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): int {
 		return $route === 'settings.AppSettings.viewApps' ? -50 : 100;
 	}
 
+	#[\Override]
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$entries = $this->navigationManager->getAll('all');
 

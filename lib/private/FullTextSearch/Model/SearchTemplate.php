@@ -68,6 +68,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setIcon(string $class): ISearchTemplate {
 		$this->icon = $class;
 
@@ -77,6 +78,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	/**
 	 * Get the class of the icon.
 	 */
+	#[\Override]
 	public function getIcon(): string {
 		return $this->icon;
 	}
@@ -87,6 +89,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setCss(string $css): ISearchTemplate {
 		$this->css = $css;
 
@@ -98,6 +101,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getCss(): string {
 		return $this->css;
 	}
@@ -111,6 +115,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setTemplate(string $template): ISearchTemplate {
 		$this->template = $template;
 
@@ -122,6 +127,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getTemplate(): string {
 		return $this->template;
 	}
@@ -135,6 +141,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function addPanelOption(ISearchOption $option): ISearchTemplate {
 		$this->panelOptions[] = $option;
 
@@ -148,6 +155,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @return SearchOption[]
 	 */
+	#[\Override]
 	public function getPanelOptions(): array {
 		return $this->panelOptions;
 	}
@@ -160,6 +168,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function addNavigationOption(ISearchOption $option): ISearchTemplate {
 		$this->navigationOptions[] = $option;
 
@@ -171,6 +180,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getNavigationOptions(): array {
 		return $this->navigationOptions;
 	}
@@ -179,6 +189,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	/**
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'icon' => $this->getIcon(),

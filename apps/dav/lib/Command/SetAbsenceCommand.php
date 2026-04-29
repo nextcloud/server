@@ -25,6 +25,7 @@ class SetAbsenceCommand extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setName('dav:absence:set');
 		$this->addArgument(
@@ -59,6 +60,7 @@ class SetAbsenceCommand extends Command {
 		);
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('user-id');
 

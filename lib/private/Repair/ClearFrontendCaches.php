@@ -20,10 +20,12 @@ class ClearFrontendCaches implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clear frontend caches';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		try {
 			$c = $this->cacheFactory->createDistributed('imagePath');

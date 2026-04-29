@@ -24,6 +24,7 @@ class ContentSecurityPolicyNonceManagerTest extends TestCase {
 	/** @var ContentSecurityPolicyNonceManager */
 	private $nonceManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->CSRFTokenManager = $this->createMock(CsrfTokenManager::class);
 		$this->request = $this->createMock(Request::class);

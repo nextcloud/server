@@ -45,6 +45,7 @@ class SanitizeFilenames extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -70,6 +71,7 @@ class SanitizeFilenames extends Base {
 
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->charReplacement = $input->getOption('char-replacement');
 		// check if replacement is needed

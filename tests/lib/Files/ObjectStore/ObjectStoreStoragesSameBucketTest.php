@@ -21,6 +21,7 @@ class ObjectStoreStoragesSameBucketTest extends StoragesTestCase {
 	 */
 	private $objectStore;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

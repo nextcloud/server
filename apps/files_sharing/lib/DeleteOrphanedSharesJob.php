@@ -46,6 +46,7 @@ class DeleteOrphanedSharesJob extends TimedJob {
 	 *
 	 * @param array $argument unused argument
 	 */
+	#[\Override]
 	public function run($argument) {
 		if ($this->db->getShardDefinition('filecache')) {
 			$this->shardingCleanup();

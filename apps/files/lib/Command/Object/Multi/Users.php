@@ -26,6 +26,7 @@ class Users extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -36,6 +37,7 @@ class Users extends Base {
 			->addOption('user', 'u', InputOption::VALUE_REQUIRED, 'Only show the mapping for the specified user, ignores all other options');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		if ($userId = $input->getOption('user')) {
 			$user = $this->userManager->get($userId);

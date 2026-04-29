@@ -25,6 +25,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	/** @var CompressionMiddleware */
 	private $middleWare;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

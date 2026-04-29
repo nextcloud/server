@@ -20,6 +20,7 @@ class EncryptionLegacyCipher implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Keep legacy encryption enabled';
 	}
@@ -29,6 +30,7 @@ class EncryptionLegacyCipher implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '20.0.0.0', '<=');
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if (!$this->shouldRun()) {
 			return;

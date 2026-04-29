@@ -23,14 +23,17 @@ class LoggingLevel implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Logging level');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$configLogLevel = $this->config->getSystemValue('loglevel', ILogger::WARN);
 		if (!is_int($configLogLevel)

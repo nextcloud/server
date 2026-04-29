@@ -14,6 +14,7 @@ class PDF extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/pdf/';
 	}
@@ -21,6 +22,7 @@ class PDF extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/application\/pdf/';
 	}

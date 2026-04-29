@@ -36,6 +36,7 @@ class StoreTest extends TestCase {
 	/** @var Store */
 	private $store;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

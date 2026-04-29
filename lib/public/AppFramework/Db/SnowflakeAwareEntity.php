@@ -51,7 +51,9 @@ abstract class SnowflakeAwareEntity extends Entity {
 		}
 
 		if ($this->snowflake === null) {
-			$this->snowflake = Server::get(ISnowflakeDecoder::class)->decode($this->getId());
+			/** @var string $id */
+			$id = $this->getId();
+			$this->snowflake = Server::get(ISnowflakeDecoder::class)->decode($id);
 		}
 
 		return $this->snowflake;

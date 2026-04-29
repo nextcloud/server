@@ -80,6 +80,7 @@ class Sync extends TimedJob {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument) {
 		$isBackgroundJobModeAjax = $this->globalAppConfig
 			->getValueString('core', 'backgroundjobs_mode', 'ajax') === 'ajax';

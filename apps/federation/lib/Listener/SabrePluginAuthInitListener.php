@@ -24,6 +24,7 @@ class SabrePluginAuthInitListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof SabrePluginAuthInitEvent)) {
 			return;

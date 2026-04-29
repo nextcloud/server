@@ -71,6 +71,7 @@ class Quota extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function free_space(string $path): int|float|false {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->free_space($path);
@@ -91,6 +92,7 @@ class Quota extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->file_put_contents($path, $data);
@@ -103,6 +105,7 @@ class Quota extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->copy($source, $target);
@@ -115,6 +118,7 @@ class Quota extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->fopen($path, $mode);
@@ -154,6 +158,7 @@ class Quota extends Wrapper {
 		return str_starts_with(ltrim($path, '/'), 'files/');
 	}
 
+	#[\Override]
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
@@ -166,6 +171,7 @@ class Quota extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
@@ -178,6 +184,7 @@ class Quota extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->mkdir($path);
@@ -190,6 +197,7 @@ class Quota extends Wrapper {
 		return parent::mkdir($path);
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		if (!$this->hasQuota()) {
 			return $this->getWrapperStorage()->touch($path, $mtime);

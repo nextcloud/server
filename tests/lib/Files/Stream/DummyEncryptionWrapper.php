@@ -18,6 +18,7 @@ class DummyEncryptionWrapper extends Encryption {
 	 * @param int $position
 	 * @return bool
 	 */
+	#[\Override]
 	protected function parentStreamSeek($position) {
 		return false;
 	}

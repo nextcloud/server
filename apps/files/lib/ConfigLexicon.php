@@ -27,10 +27,12 @@ class ConfigLexicon implements ILexicon {
 	public const RECENT_FILES_GROUP_MIME_TYPES = 'recent_files_group_mime_types';
 	public const RECENT_FILES_GROUP_TIMESPAN_MINUTES = 'recent_files_group_timespan_minutes';
 
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
 			new Entry(
@@ -72,6 +74,7 @@ class ConfigLexicon implements ILexicon {
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [];
 	}

@@ -28,10 +28,12 @@ class Notifier implements INotifier {
 	) {
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return Application::APP_ID;
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10nFactory->get(Application::APP_ID)->t('File reminders');
 	}
@@ -39,6 +41,7 @@ class Notifier implements INotifier {
 	/**
 	 * @throws UnknownNotificationException
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		$l = $this->l10nFactory->get(Application::APP_ID, $languageCode);
 

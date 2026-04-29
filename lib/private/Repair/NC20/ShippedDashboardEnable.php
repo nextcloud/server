@@ -18,10 +18,12 @@ class ShippedDashboardEnable implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Remove old dashboard app config data';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$version = $this->config->getAppValue('dashboard', 'version', '7.0.0');
 		if (version_compare($version, '7.0.0', '<')) {

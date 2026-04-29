@@ -25,14 +25,17 @@ class LdapConnection implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'ldap';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('LDAP Connection');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$inactiveConfigurations = [];

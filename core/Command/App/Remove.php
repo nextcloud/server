@@ -30,6 +30,7 @@ class Remove extends Command implements CompletionAwareInterface {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('app:remove')
@@ -54,6 +55,7 @@ class Remove extends Command implements CompletionAwareInterface {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = (string)$input->getArgument('app-id');
 		$keepData = (bool)$input->getOption('keep-data');
@@ -124,6 +126,7 @@ class Remove extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context): array {
 		return [];
 	}
@@ -133,6 +136,7 @@ class Remove extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
 			// TODO: Include disabled apps too

@@ -21,10 +21,12 @@ class AddMissingSecretJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add possibly missing system config';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$passwordSalt = $this->config->getSystemValueString('passwordsalt', '');
 		if ($passwordSalt === '') {

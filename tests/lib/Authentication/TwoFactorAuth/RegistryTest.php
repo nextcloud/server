@@ -28,6 +28,7 @@ class RegistryTest extends TestCase {
 	private IEventDispatcher&MockObject $dispatcher;
 	private Registry $registry;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

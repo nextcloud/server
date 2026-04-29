@@ -42,6 +42,7 @@ class ClientTest extends \Test\TestCase {
 	/** @var array */
 	private $defaultRequestOptions;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);

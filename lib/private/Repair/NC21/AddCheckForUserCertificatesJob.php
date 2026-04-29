@@ -21,6 +21,7 @@ class AddCheckForUserCertificatesJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Queue a one-time job to check for user uploaded certificates';
 	}
@@ -32,6 +33,7 @@ class AddCheckForUserCertificatesJob implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '21.0.0.2', '<');
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			$this->config->setAppValue('files_external', 'user_certificate_scan', 'not-run-yet');

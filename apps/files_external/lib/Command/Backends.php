@@ -23,6 +23,7 @@ class Backends extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:backends')
@@ -39,6 +40,7 @@ class Backends extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$authBackends = $this->backendService->getAuthMechanisms();
 		$storageBackends = $this->backendService->getBackends();

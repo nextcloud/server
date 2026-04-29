@@ -19,6 +19,7 @@ class NullStorageTest extends TestCase {
 	/** @var NullStorage */
 	private $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -20,18 +20,22 @@ class Presets implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('settings', 'library_add_check.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'presets';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Quick presets');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}

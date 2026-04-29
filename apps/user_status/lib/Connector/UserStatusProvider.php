@@ -27,6 +27,7 @@ class UserStatusProvider implements IProvider, ISettableProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getUserStatuses(array $userIds): array {
 		$statuses = $this->service->findByUserIds($userIds);
 
@@ -38,14 +39,17 @@ class UserStatusProvider implements IProvider, ISettableProvider {
 		return $userStatuses;
 	}
 
+	#[\Override]
 	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup, ?string $customMessage = null): void {
 		$this->service->setUserStatus($userId, $status, $messageId, $createBackup, $customMessage);
 	}
 
+	#[\Override]
 	public function revertUserStatus(string $userId, string $messageId, string $status): void {
 		$this->service->revertUserStatus($userId, $messageId);
 	}
 
+	#[\Override]
 	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {
 		$this->service->revertMultipleUserStatus($userIds, $messageId);
 	}

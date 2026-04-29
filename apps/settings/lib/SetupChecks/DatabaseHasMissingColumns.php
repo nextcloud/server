@@ -25,10 +25,12 @@ class DatabaseHasMissingColumns implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database missing columns');
 	}
@@ -55,6 +57,7 @@ class DatabaseHasMissingColumns implements ISetupCheck {
 		return $columnInfo->getListOfMissingColumns();
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$missingColumns = $this->getMissingColumns();
 		if (empty($missingColumns)) {

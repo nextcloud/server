@@ -18,6 +18,7 @@ class MergeDistributiveOperationsTest extends TestCase {
 	private $optimizer;
 	private $simplifier;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

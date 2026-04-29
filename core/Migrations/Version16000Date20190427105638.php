@@ -25,6 +25,7 @@ class Version16000Date20190427105638 extends SimpleMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
+	#[\Override]
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
 		$this->connection
 			->getQueryBuilder()
@@ -39,6 +40,7 @@ class Version16000Date20190427105638 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

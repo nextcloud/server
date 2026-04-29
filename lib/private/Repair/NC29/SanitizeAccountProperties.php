@@ -19,10 +19,12 @@ class SanitizeAccountProperties implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Validate account properties and store phone numbers in a known format for search';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->jobList->add(SanitizeAccountPropertiesJob::class, null);
 		$output->info('Queued background to validate account properties.');

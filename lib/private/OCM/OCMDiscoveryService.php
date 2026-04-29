@@ -79,6 +79,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @throws OCMProviderException if no valid discovery data can be returned
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
 		if (!str_starts_with($remote, 'http://') && !str_starts_with($remote, 'https://')) {
@@ -180,6 +181,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @return IOCMProvider
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function getLocalOCMProvider(bool $fullDetails = true): IOCMProvider {
 		if ($this->localProvider !== null) {
 			return $this->localProvider;
@@ -249,6 +251,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @throws IncomingRequestException
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function getIncomingSignedRequest(): ?IIncomingSignedRequest {
 		try {
 			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
@@ -291,6 +294,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @throws OCMRequestException on internal issue
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function requestRemoteOcmEndpoint(
 		?string $capability,
 		string $remote,

@@ -28,6 +28,7 @@ class RemoteHostValidatorTest extends TestCase {
 	private LoggerInterface $logger;
 	private RemoteHostValidator $validator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

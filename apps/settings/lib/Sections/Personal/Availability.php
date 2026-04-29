@@ -21,18 +21,22 @@ class Availability implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('dav', 'schedule.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'availability';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Availability');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 50;
 	}

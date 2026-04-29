@@ -22,23 +22,28 @@ class PartiallyDeletedUsersBackend extends Backend implements IGetHomeBackend, I
 	) {
 	}
 
+	#[\Override]
 	public function deleteUser($uid): bool {
 		// fake true, deleting failed users is automatically handled by User::delete()
 		return true;
 	}
 
+	#[\Override]
 	public function getBackendName(): string {
 		return 'deleted users';
 	}
 
+	#[\Override]
 	public function userExists($uid) {
 		return $this->config->getUserValue($uid, 'core', 'deleted') === 'true';
 	}
 
+	#[\Override]
 	public function getHome(string $uid): string|false {
 		return $this->config->getUserValue($uid, 'core', 'deleted.home-path') ?: false;
 	}
 
+	#[\Override]
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		return $this->config->getUsersForUserValue('core', 'deleted', 'true');
 	}

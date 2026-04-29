@@ -20,10 +20,12 @@ class LDAPProviderFactory implements ILDAPProviderFactory {
 	) {
 	}
 
+	#[\Override]
 	public function getLDAPProvider(): ILDAPProvider {
 		return $this->serverContainer->get(LDAPProvider::class);
 	}
 
+	#[\Override]
 	public function isAvailable(): bool {
 		return true;
 	}

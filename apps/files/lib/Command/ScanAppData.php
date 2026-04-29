@@ -44,6 +44,7 @@ class ScanAppData extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -137,6 +138,7 @@ class ScanAppData extends Base {
 	}
 
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		# restrict the verbosity level to VERBOSITY_VERBOSE
 		if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {

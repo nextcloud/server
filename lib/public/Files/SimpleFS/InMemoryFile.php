@@ -42,6 +42,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @inheritdoc
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->name;
 	}
@@ -50,6 +51,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @inheritdoc
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getSize(): int|float {
 		return strlen($this->contents);
 	}
@@ -58,6 +60,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @inheritdoc
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getETag(): string {
 		return '';
 	}
@@ -66,6 +69,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @inheritdoc
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getMTime(): int {
 		return time();
 	}
@@ -74,6 +78,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @inheritdoc
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getContent(): string {
 		return $this->contents;
 	}
@@ -82,6 +87,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @inheritdoc
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function putContent($data): void {
 		$this->contents = $data;
 	}
@@ -91,6 +97,7 @@ class InMemoryFile implements ISimpleFile {
 	 *
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function delete(): void {
 		// unimplemented for in memory files
 	}
@@ -99,6 +106,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @inheritdoc
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		$fileInfo = new \finfo(FILEINFO_MIME_TYPE);
 		return $fileInfo->buffer($this->contents);
@@ -108,6 +116,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @inheritDoc
 	 * @since 24.0.0
 	 */
+	#[\Override]
 	public function getExtension(): string {
 		return \pathinfo($this->name, PATHINFO_EXTENSION);
 	}
@@ -117,6 +126,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @since 16.0.0
 	 * @since 34.0.0 - return in-memory stream of contents
 	 */
+	#[\Override]
 	public function read() {
 		$stream = fopen('php://memory', 'r+');
 		fwrite($stream, $this->contents);
@@ -130,6 +140,7 @@ class InMemoryFile implements ISimpleFile {
 	 * @throws NotPermittedException
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function write() {
 		throw new NotPermittedException(
 			'Stream writing is unsupported for in memory files'

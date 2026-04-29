@@ -17,10 +17,12 @@ class Credentials implements ICredentials {
 	) {
 	}
 
+	#[\Override]
 	public function getUsername(): string {
 		return $this->user;
 	}
 
+	#[\Override]
 	public function getPassword(): string {
 		return $this->password;
 	}

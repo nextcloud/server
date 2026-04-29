@@ -13,10 +13,12 @@ use OCP\Translation\LanguageTuple;
 
 class FakeTranslationProvider implements ITranslationProvider {
 
+	#[\Override]
 	public function getName(): string {
 		return 'Fake translation';
 	}
 
+	#[\Override]
 	public function getAvailableLanguages(): array {
 		return [
 			new LanguageTuple('de', 'German', 'en', 'English'),
@@ -24,6 +26,7 @@ class FakeTranslationProvider implements ITranslationProvider {
 		];
 	}
 
+	#[\Override]
 	public function translate(?string $fromLanguage, string $toLanguage, string $text): string {
 		return $this->mb_strrev($text);
 	}

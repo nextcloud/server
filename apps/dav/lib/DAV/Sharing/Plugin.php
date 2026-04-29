@@ -53,6 +53,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getFeatures() {
 		return ['oc-resource-sharing'];
 	}
@@ -65,6 +66,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getPluginName() {
 		return 'oc-resource-sharing';
 	}
@@ -80,6 +82,7 @@ class Plugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}share'] = ShareRequest::class;

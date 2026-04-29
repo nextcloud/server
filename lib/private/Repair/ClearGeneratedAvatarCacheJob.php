@@ -20,6 +20,7 @@ class ClearGeneratedAvatarCacheJob extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$this->avatarManager->clearCachedAvatars();
 	}

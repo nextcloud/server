@@ -74,6 +74,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @param Server $server
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 15);
@@ -123,6 +124,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getFeatures():array {
 		return ['nc-calendar-webcal-cache'];
 	}
@@ -135,6 +137,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getPluginName():string {
 		return 'nc-calendar-webcal-cache';
 	}

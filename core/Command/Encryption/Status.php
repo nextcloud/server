@@ -21,6 +21,7 @@ class Status extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -30,6 +31,7 @@ class Status extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->writeArrayInOutputFormat($input, $output, [
 			'enabled' => $this->encryptionManager->isEnabled(),

@@ -31,6 +31,7 @@ class SignApp extends Command {
 		parent::__construct(null);
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('integrity:sign-app')
@@ -43,6 +44,7 @@ class SignApp extends Command {
 	/**
 	 * {@inheritdoc }
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$path = $input->getOption('path');
 		$privateKeyPath = $input->getOption('privateKey');

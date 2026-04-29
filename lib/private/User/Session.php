@@ -98,6 +98,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $method
 	 * @param callable $callback
 	 */
+	#[\Override]
 	public function listen($scope, $method, callable $callback) {
 		$this->manager->listen($scope, $method, $callback);
 	}
@@ -107,6 +108,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
+	#[\Override]
 	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->manager->removeListener($scope, $method, $callback);
 	}
@@ -147,6 +149,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param IUser|null $user
 	 */
+	#[\Override]
 	public function setUser($user) {
 		if (is_null($user)) {
 			$this->session->remove('user_id');
@@ -161,6 +164,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param IUser|null $user
 	 */
+	#[\Override]
 	public function setVolatileActiveUser(?IUser $user): void {
 		$this->activeUser = $user;
 	}
@@ -170,6 +174,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @return IUser|null Current user, otherwise null
 	 */
+	#[\Override]
 	public function getUser() {
 		// FIXME: This is a quick'n dirty work-around for the incognito mode as
 		// described at https://github.com/owncloud/core/pull/12912#issuecomment-67391155
@@ -221,6 +226,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @return bool if logged in
 	 */
+	#[\Override]
 	public function isLoggedIn() {
 		$user = $this->getUser();
 		if (is_null($user)) {
@@ -265,10 +271,12 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * @return null|string
 	 */
+	#[\Override]
 	public function getImpersonatingUserID(): ?string {
 		return $this->session->get('oldUserId');
 	}
 
+	#[\Override]
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
 		if ($useCurrentUser === false) {
 			$this->session->remove('oldUserId');
@@ -303,6 +311,7 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean|null
 	 * @throws LoginException
 	 */
+	#[\Override]
 	public function login($uid, $password) {
 		$this->session->regenerateId();
 		if ($this->validateToken($password, $uid)) {
@@ -962,6 +971,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * logout the user from the session
 	 */
+	#[\Override]
 	public function logout() {
 		$user = $this->getUser();
 		$this->manager->emit('\OC\User', 'logout', [$user]);

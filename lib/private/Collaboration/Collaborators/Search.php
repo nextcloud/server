@@ -29,6 +29,7 @@ class Search implements ISearch {
 	 * @param int|null $offset
 	 * @throws QueryException
 	 */
+	#[\Override]
 	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {
 		$hasMoreResults = false;
 
@@ -81,6 +82,7 @@ class Search implements ISearch {
 		return [$searchResult->asArray(), $hasMoreResults];
 	}
 
+	#[\Override]
 	public function registerPlugin(array $pluginInfo): void {
 		$shareType = constant(IShare::class . '::' . substr($pluginInfo['shareType'], strlen('SHARE_')));
 		if ($shareType === null) {

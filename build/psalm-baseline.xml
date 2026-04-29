@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.16.1@f1f5de594dc76faf8784e02d3dc4716c91c6f6ac">
   <file src="apps/admin_audit/lib/AppInfo/Application.php">
     <DeprecatedClass>
       <code><![CDATA[Share::class]]></code>
@@ -64,6 +64,11 @@
       <code><![CDATA[CommentsEvent::EVENT_PRE_UPDATE]]></code>
     </DeprecatedConstant>
   </file>
+  <file src="apps/contactsinteraction/lib/Db/CardSearchDao.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[stream_get_contents($card)]]></code>
+    </FalsableReturnStatement>
+  </file>
   <file src="apps/dav/appinfo/v1/publicwebdav.php">
     <InternalMethod>
       <code><![CDATA[Filesystem::logWarningWhenAddingStorageWrapper($previousLog)]]></code>
@@ -116,6 +121,33 @@
     <DeprecatedMethod>
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$available->RRULE]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/BulkUpload/MultipartRequestParser.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[fread($this->stream, strlen($this->boundary))]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Activity/Provider/Event.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[preg_replace_callback(
+			'/%[0-9A-F]{2}/',
+			static fn (array $matches) => strtolower($matches[0]),
+			urlencode($raw),
+		)]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/CalDAV/AppCalendar/CalendarObject.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$base->UID]]></code>
+      <code><![CDATA[$this->vobject->getBaseComponent()->{'LAST-MODIFIED'}]]></code>
+      <code><![CDATA[$this->vobject->getBaseComponent()->{'LAST-MODIFIED'}]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CalDAV/BirthdayCalendar/EnablePlugin.php">
     <DeprecatedMethod>
@@ -128,16 +160,20 @@
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
-    <UndefinedMethod>
-      <code><![CDATA[setDateTime]]></code>
-      <code><![CDATA[setDateTime]]></code>
-    </UndefinedMethod>
-    <UndefinedPropertyFetch>
-      <code><![CDATA[$existingBirthday->VEVENT->DTSTART]]></code>
-      <code><![CDATA[$existingBirthday->VEVENT->SUMMARY]]></code>
-      <code><![CDATA[$newCalendarData->VEVENT->DTSTART]]></code>
-      <code><![CDATA[$newCalendarData->VEVENT->SUMMARY]]></code>
-    </UndefinedPropertyFetch>
+    <UndefinedMagicPropertyAssignment>
+      <code><![CDATA[$vCal->PRODID]]></code>
+      <code><![CDATA[$vCal->VERSION]]></code>
+      <code><![CDATA[$vEvent->DTEND]]></code>
+      <code><![CDATA[$vEvent->DTSTART]]></code>
+    </UndefinedMagicPropertyAssignment>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$doc->UID]]></code>
+      <code><![CDATA[$existingBirthday->VEVENT]]></code>
+      <code><![CDATA[$newCalendarData->VEVENT]]></code>
+      <code><![CDATA[$vEvent->DTEND]]></code>
+      <code><![CDATA[$vEvent->DTSTART]]></code>
+      <code><![CDATA[$vEvent->{'SUMMARY'}]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CalDAV/CachedSubscriptionObject.php">
     <NullableReturnStatement>
@@ -203,10 +239,39 @@
       <code><![CDATA[$principal]]></code>
     </ParamNameMismatch>
   </file>
+  <file src="apps/dav/lib/CalDAV/EventReader.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$this->baseEvent->DTSTART]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
   <file src="apps/dav/lib/CalDAV/ICSExportPlugin/ICSExportPlugin.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Import/ImportService.php">
+    <UndefinedMagicPropertyAssignment>
+      <code><![CDATA[$vObject->PRODID]]></code>
+      <code><![CDATA[$vObject->VERSION]]></code>
+    </UndefinedMagicPropertyAssignment>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$base->UID]]></code>
+      <code><![CDATA[$importer->PRODID]]></code>
+      <code><![CDATA[$importer->VERSION]]></code>
+      <code><![CDATA[$importer->VTIMEZONE]]></code>
+      <code><![CDATA[$vObject->VTIMEZONE]]></code>
+      <code><![CDATA[$vObject->VTIMEZONE]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Import/TextImporter.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[fread($this->source, $end - $start)]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Import/XmlImporter.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[fread($this->source, $end - $start)]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="apps/dav/lib/CalDAV/InvitationResponse/InvitationResponseServer.php">
     <DeprecatedMethod>
@@ -244,11 +309,11 @@
     <LessSpecificReturnStatement>
       <code><![CDATA[$vevent->DTEND]]></code>
     </LessSpecificReturnStatement>
-    <UndefinedMethod>
-      <code><![CDATA[hasTime]]></code>
-      <code><![CDATA[isFloating]]></code>
-      <code><![CDATA[isFloating]]></code>
-    </UndefinedMethod>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vevent->DTSTART]]></code>
+      <code><![CDATA[$vevent->DTSTART]]></code>
+      <code><![CDATA[$vevent->STATUS]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/EmailProvider.php">
     <LessSpecificReturnStatement>
@@ -257,16 +322,19 @@
     <MoreSpecificReturnType>
       <code><![CDATA[array<string, array{LANG?: string}>]]></code>
     </MoreSpecificReturnType>
-    <UndefinedMethod>
-      <code><![CDATA[getDateTime]]></code>
-      <code><![CDATA[getDateTime]]></code>
-      <code><![CDATA[isFloating]]></code>
-    </UndefinedMethod>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vevent->DTSTART]]></code>
+      <code><![CDATA[$vevent->ORGANIZER]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/PushProvider.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vevent->DTSTART]]></code>
+      <code><![CDATA[$vevent->UID]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProviderManager.php">
     <UndefinedConstant>
@@ -291,8 +359,34 @@
       <code><![CDATA[VObject\Component\VCalendar|null]]></code>
       <code><![CDATA[VObject\Component\VEvent[]]]></code>
     </MoreSpecificReturnType>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$child->DTSTART]]></code>
+      <code><![CDATA[$event->VALARM]]></code>
+      <code><![CDATA[$event->VALARM]]></code>
+      <code><![CDATA[$valarm->ACTION]]></code>
+      <code><![CDATA[$valarm->ACTION]]></code>
+      <code><![CDATA[$valarm->ACTION]]></code>
+      <code><![CDATA[$valarm->DURATION]]></code>
+      <code><![CDATA[$valarm->DURATION]]></code>
+      <code><![CDATA[$valarm->REPEAT]]></code>
+      <code><![CDATA[$valarm->TRIGGER]]></code>
+      <code><![CDATA[$valarm->TRIGGER]]></code>
+      <code><![CDATA[$vevent->DTEND]]></code>
+      <code><![CDATA[$vevent->DTSTART]]></code>
+      <code><![CDATA[$vevent->DTSTART]]></code>
+      <code><![CDATA[$vevent->DURATION]]></code>
+      <code><![CDATA[$vevent->EXDATE]]></code>
+      <code><![CDATA[$vevent->RDATE]]></code>
+      <code><![CDATA[$vevent->RRULE]]></code>
+      <code><![CDATA[$vevent->STATUS]]></code>
+      <code><![CDATA[$vevent->{'RECURRENCE-ID'}]]></code>
+      <code><![CDATA[$vevent->{'RECURRENCE-ID'}]]></code>
+      <code><![CDATA[$vevent->{'RECURRENCE-ID'}]]></code>
+      <code><![CDATA[$vevents[0]->UID]]></code>
+      <code><![CDATA[$vevents[0]->UID]]></code>
+      <code><![CDATA[$vtimezoneObj->VTIMEZONE]]></code>
+    </UndefinedMagicPropertyFetch>
     <UndefinedMethod>
-      <code><![CDATA[getDateTime]]></code>
       <code><![CDATA[getDateTime]]></code>
     </UndefinedMethod>
     <UndefinedPropertyFetch>
@@ -328,6 +422,16 @@
       <code><![CDATA[is_array($modified['old'])]]></code>
     </RedundantCondition>
   </file>
+  <file src="apps/dav/lib/CalDAV/Schedule/IMipService.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$component->DTSTART]]></code>
+      <code><![CDATA[$component->UID]]></code>
+      <code><![CDATA[$iTipMessage->message->VEVENT]]></code>
+      <code><![CDATA[$iTipMessage->message->VEVENT]]></code>
+      <code><![CDATA[$vObject->VEVENT]]></code>
+      <code><![CDATA[$vevent->{'UID'}]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
   <file src="apps/dav/lib/CalDAV/Schedule/Plugin.php">
     <DeprecatedMethod>
       <code><![CDATA[getPropertiesForPath]]></code>
@@ -343,11 +447,17 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[getChildren]]></code>
     </UndefinedInterfaceMethod>
+    <UndefinedMagicPropertyAssignment>
+      <code><![CDATA[$vcalendar->METHOD]]></code>
+    </UndefinedMagicPropertyAssignment>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$iTipMessage->message->VEVENT]]></code>
+      <code><![CDATA[$vevent->DTSTART]]></code>
+      <code><![CDATA[$vevent->DTSTART]]></code>
+      <code><![CDATA[$vevent->DTSTART]]></code>
+      <code><![CDATA[$vevent->UID]]></code>
+    </UndefinedMagicPropertyFetch>
     <UndefinedMethod>
-      <code><![CDATA[getDateTime]]></code>
-      <code><![CDATA[hasTime]]></code>
-      <code><![CDATA[isFloating]]></code>
-      <code><![CDATA[isFloating]]></code>
       <code><![CDATA[principalSearch]]></code>
     </UndefinedMethod>
   </file>
@@ -380,6 +490,29 @@
       <code><![CDATA[!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])]]></code>
     </TypeDoesNotContainType>
   </file>
+  <file src="apps/dav/lib/CalDAV/TimezoneService.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vCalendar->VTIMEZONE]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/TipBroker.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$component->ATTENDEE]]></code>
+      <code><![CDATA[$component->ORGANIZER]]></code>
+      <code><![CDATA[$component->SEQUENCE]]></code>
+      <code><![CDATA[$vObject->METHOD]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/WebcalCaching/RefreshWebcalService.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vCalendar->{'X-PUBLISHED-TTL'}]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/CardDAV/Activity/Backend.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vObject->UID]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
   <file src="apps/dav/lib/CardDAV/AddressBookImpl.php">
     <InvalidArgument>
       <code><![CDATA[$this->getKey()]]></code>
@@ -391,6 +524,9 @@
     <MoreSpecificReturnType>
       <code><![CDATA[VCard]]></code>
     </MoreSpecificReturnType>
+    <UndefinedMagicPropertyAssignment>
+      <code><![CDATA[$vCard->UID]]></code>
+    </UndefinedMagicPropertyAssignment>
   </file>
   <file src="apps/dav/lib/CardDAV/AddressBookRoot.php">
     <ParamNameMismatch>
@@ -410,21 +546,43 @@
     <TypeDoesNotContainType>
       <code><![CDATA[$addressBooks[$row['id']][$readOnlyPropertyName] === 0]]></code>
     </TypeDoesNotContainType>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vCard->UID]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CardDAV/Converter.php">
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
+    <UndefinedMagicPropertyAssignment>
+      <code><![CDATA[$vCard->UID]]></code>
+      <code><![CDATA[$vCard->VERSION]]></code>
+    </UndefinedMagicPropertyAssignment>
+  </file>
+  <file src="apps/dav/lib/CardDAV/HasPhotoPlugin.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vcard->PHOTO]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CardDAV/MultiGetExportPlugin.php">
     <InvalidNullableReturnType>
       <code><![CDATA[bool]]></code>
     </InvalidNullableReturnType>
   </file>
+  <file src="apps/dav/lib/CardDAV/PhotoCache.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vObject->PHOTO]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
   <file src="apps/dav/lib/CardDAV/Plugin.php">
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[string|null]]></code>
     </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="apps/dav/lib/CardDAV/SyncService.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vCard->UID]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CardDAV/SystemAddressbook.php">
     <DeprecatedMethod>
@@ -692,9 +850,9 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Controller/InvitationResponseController.php">
-    <UndefinedPropertyAssignment>
-      <code><![CDATA[$vEvent->DTSTAMP]]></code>
-    </UndefinedPropertyAssignment>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vObject->{'VEVENT'}]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/DAV/GroupPrincipalBackend.php">
     <InvalidNullableReturnType>
@@ -771,6 +929,12 @@
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
+  <file src="apps/dav/lib/Listener/CalendarContactInteractionListener.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$calendar->VEVENT]]></code>
+      <code><![CDATA[$vevent->ATTENDEE]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
   <file src="apps/dav/lib/Listener/CalendarDeletionDefaultUpdaterListener.php">
     <DeprecatedMethod>
       <code><![CDATA[deleteUserValue]]></code>
@@ -823,32 +987,45 @@
       <code><![CDATA[getL10N]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/dav/lib/Search/ACalendarSearchProvider.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$component->{'RECURRENCE-ID'}]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
   <file src="apps/dav/lib/Search/ContactsSearchProvider.php">
     <InvalidOperand>
       <code><![CDATA[$query->getCursor()]]></code>
     </InvalidOperand>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vCard->FN]]></code>
+      <code><![CDATA[$vCard->PHOTO]]></code>
+      <code><![CDATA[$vCard->TEL]]></code>
+      <code><![CDATA[$vCard->UID]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/Search/EventsSearchProvider.php">
     <InvalidOperand>
       <code><![CDATA[$query->getCursor()]]></code>
     </InvalidOperand>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$component->DTSTART]]></code>
+      <code><![CDATA[$eventComponent->DTSTART]]></code>
+      <code><![CDATA[$eventComponent->DTSTART]]></code>
+      <code><![CDATA[$eventComponent->DTSTART]]></code>
+      <code><![CDATA[$eventComponent->DTSTART]]></code>
+    </UndefinedMagicPropertyFetch>
     <UndefinedMethod>
       <code><![CDATA[getDateTime]]></code>
-      <code><![CDATA[getDateTime]]></code>
-      <code><![CDATA[hasTime]]></code>
-      <code><![CDATA[isFloating]]></code>
-      <code><![CDATA[isFloating]]></code>
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/Search/TasksSearchProvider.php">
     <InvalidOperand>
       <code><![CDATA[$query->getCursor()]]></code>
     </InvalidOperand>
-    <UndefinedMethod>
-      <code><![CDATA[getDateTime]]></code>
-      <code><![CDATA[getDateTime]]></code>
-      <code><![CDATA[hasTime]]></code>
-    </UndefinedMethod>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$taskComponent->COMPLETED]]></code>
+      <code><![CDATA[$taskComponent->DUE]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/Server.php">
     <DeprecatedMethod>
@@ -861,6 +1038,20 @@
       <code><![CDATA[getUserFolder]]></code>
       <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="apps/dav/lib/Service/ExampleContactService.php">
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$vcard->Note]]></code>
+      <code><![CDATA[$vcard->REV]]></code>
+      <code><![CDATA[$vcard->UID]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/Service/ExampleEventService.php">
+    <UndefinedMagicPropertyAssignment>
+      <code><![CDATA[$vEvent->DTEND]]></code>
+      <code><![CDATA[$vEvent->DTSTART]]></code>
+      <code><![CDATA[$vEvent->UID]]></code>
+    </UndefinedMagicPropertyAssignment>
   </file>
   <file src="apps/dav/lib/Settings/AvailabilitySettings.php">
     <DeprecatedMethod>
@@ -903,6 +1094,8 @@
   </file>
   <file src="apps/dav/lib/Upload/AssemblyStream.php">
     <FalsableReturnStatement>
+      <code><![CDATA[$tmp]]></code>
+      <code><![CDATA[$wrapped]]></code>
       <code><![CDATA[false]]></code>
     </FalsableReturnStatement>
     <InvalidPropertyAssignmentValue>
@@ -956,6 +1149,9 @@
     <MoreSpecificReturnType>
       <code><![CDATA[array{name: string, displayName: string, description: ?string, vCards: VCard[]}]]></code>
     </MoreSpecificReturnType>
+    <UndefinedMagicPropertyAssignment>
+      <code><![CDATA[$vCard->PRODID]]></code>
+    </UndefinedMagicPropertyAssignment>
   </file>
   <file src="apps/encryption/lib/Command/DropLegacyFileKey.php">
     <InternalClass>
@@ -1069,7 +1265,7 @@
       <code><![CDATA[getFileInfo]]></code>
     </InternalMethod>
     <InvalidThrow>
-      <code><![CDATA[throw $exception;]]></code>
+      <code><![CDATA[throw $exception]]></code>
     </InvalidThrow>
   </file>
   <file src="apps/encryption/lib/Migration/SetMasterKeyStatus.php">
@@ -1310,6 +1506,12 @@
       <code><![CDATA[unlink]]></code>
       <code><![CDATA[verifyPath]]></code>
     </InternalMethod>
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[preg_replace('/-{2,}/s', '-', $name)]]></code>
+    </NullableReturnStatement>
     <UndefinedInterfaceMethod>
       <code><![CDATA[isReadyForUser]]></code>
     </UndefinedInterfaceMethod>
@@ -1431,6 +1633,9 @@
       <code><![CDATA[query]]></code>
       <code><![CDATA[query]]></code>
     </DeprecatedMethod>
+    <RedundantCondition>
+      <code><![CDATA[$event instanceof OldGenericEvent]]></code>
+    </RedundantCondition>
   </file>
   <file src="apps/files_sharing/lib/Capabilities.php">
     <DeprecatedMethod>
@@ -1569,6 +1774,14 @@
     <InternalMethod>
       <code><![CDATA[new View('/' . $owner . '/files')]]></code>
     </InternalMethod>
+  </file>
+  <file src="apps/files_sharing/lib/Repair/CleanupShareTarget.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[preg_replace('/( \([2-9]\)){2,}/', '', $target)]]></code>
+    </NullableReturnStatement>
   </file>
   <file src="apps/files_sharing/lib/Scanner.php">
     <DeprecatedInterface>
@@ -2083,7 +2296,6 @@
   <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
     <DeprecatedMethod>
       <code><![CDATA[hasAnnotation]]></code>
-      <code><![CDATA[hasAnnotation]]></code>
     </DeprecatedMethod>
     <InvalidReturnType>
       <code><![CDATA[Response]]></code>
@@ -2265,6 +2477,14 @@
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
+    <FalsableReturnStatement>
+      <code><![CDATA[json_encode([
+			'id' => $tag->getId(),
+			'name' => $tag->getName(),
+			'assignable' => $tag->isUserAssignable(),
+			'visible' => $tag->isUserVisible(),
+		])]]></code>
+    </FalsableReturnStatement>
     <InvalidArgument>
       <code><![CDATA[$event->getObjectId()]]></code>
       <code><![CDATA[$event->getObjectId()]]></code>
@@ -2311,6 +2531,11 @@
       <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="apps/testing/lib/Conversion/ConversionProvider.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[ob_get_clean()]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="apps/testing/lib/Listener/GetDeclarativeSettingsValueListener.php">
     <DeprecatedMethod>
@@ -2464,12 +2689,18 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[array_values($color->getRgb())]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[array{0: int, 1: int, 2: int}]]></code>
     </InvalidReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$svg]]></code>
+    </NullableReturnStatement>
   </file>
   <file src="apps/twofactor_backupcodes/lib/Migration/Version1002Date20170919123342.php">
     <DeprecatedMethod>
@@ -2480,6 +2711,9 @@
     <DeprecatedMethod>
       <code><![CDATA[emit]]></code>
     </DeprecatedMethod>
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[$uuid]]></code>
       <code><![CDATA[$values]]></code>
@@ -2487,6 +2721,9 @@
     <InvalidReturnType>
       <code><![CDATA[string[]]]></code>
     </InvalidReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$name]]></code>
+    </NullableReturnStatement>
     <RedundantCast>
       <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
@@ -2511,6 +2748,9 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
+    <FalsableReturnStatement>
+      <code><![CDATA[$value]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="apps/user_ldap/lib/Connection.php">
     <NoValue>
@@ -2543,6 +2783,12 @@
     <InvalidOperand>
       <code><![CDATA[$i]]></code>
     </InvalidOperand>
+  </file>
+  <file src="apps/user_ldap/lib/LDAPProvider.php">
+    <NullableReturnStatement>
+      <code><![CDATA[array_shift($bases)]]></code>
+      <code><![CDATA[array_shift($bases)]]></code>
+    </NullableReturnStatement>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
     <DeprecatedMethod>
@@ -2646,6 +2892,16 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/webhook_listeners/lib/Command/ListWebhooks.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[is_array($value) ? json_encode($value) : $value]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="apps/workflowengine/lib/AppInfo/Application.php">
+    <RedundantCondition>
+      <code><![CDATA[$event instanceof Event]]></code>
+    </RedundantCondition>
+  </file>
   <file src="apps/workflowengine/lib/Entity/File.php">
     <DeprecatedConstant>
       <code><![CDATA[MapperEvent::EVENT_ASSIGN]]></code>
@@ -2704,6 +2960,10 @@
       <code><![CDATA[deleteAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
+    <FalsableReturnStatement>
+      <code><![CDATA[$content]]></code>
+      <code><![CDATA[file_get_contents($importFile)]]></code>
+    </FalsableReturnStatement>
     <InvalidScalarArgument>
       <code><![CDATA[0]]></code>
       <code><![CDATA[1]]></code>
@@ -3048,6 +3308,11 @@
       <code><![CDATA[$restrictions]]></code>
     </InvalidArgument>
   </file>
+  <file src="lib/private/Accounts/AccountManager.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[json_encode($preparedData)]]></code>
+    </FalsableReturnStatement>
+  </file>
   <file src="lib/private/Activity/Manager.php">
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->filterClasses]]></code>
@@ -3060,6 +3325,31 @@
     <MoreSpecificReturnType>
       <code><![CDATA[ActivitySettings[]]]></code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/App/AppManager.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->enabledAppsCache]]></code>
+    </InvalidPropertyAssignmentValue>
+    <NullableReturnStatement>
+      <code><![CDATA[$cleanAppId]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/App/Platform.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[phpversion()]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="lib/private/App/PlatformRepository.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$version]]></code>
+      <code><![CDATA[$version]]></code>
+    </NullableReturnStatement>
   </file>
   <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
     <UndefinedMethod>
@@ -3077,6 +3367,9 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/AppFramework/Http/Request.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[fopen($this->inputStream, 'rb')]]></code>
+    </FalsableReturnStatement>
     <NullableReturnStatement>
       <code><![CDATA[$this->getOverwriteHost()]]></code>
       <code><![CDATA[isset($this->cookies[$key]) ? $this->cookies[$key] : null]]></code>
@@ -3089,6 +3382,11 @@
     <UndefinedFunction>
       <code><![CDATA[\Sabre\HTTP\decodePath($pathInfo)]]></code>
     </UndefinedFunction>
+  </file>
+  <file src="lib/private/AppFramework/Middleware/CompressionMiddleware.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[gzencode($output)]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="lib/private/AppFramework/Middleware/OCSMiddleware.php">
     <InternalMethod>
@@ -3106,6 +3404,24 @@
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
   </file>
+  <file src="lib/private/AppFramework/OCS/BaseResponse.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[\json_encode($array, \JSON_HEX_TAG)]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="lib/private/AppFramework/Routing/RouteParser.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[preg_replace_callback(
+			$pattern,
+			function ($matches) {
+				return strtoupper(ltrim($matches[0], '_'));
+			},
+			$str)]]></code>
+    </NullableReturnStatement>
+  </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$default]]></code>
@@ -3118,6 +3434,9 @@
     <RedundantCast>
       <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
+    <UndefinedThisPropertyFetch>
+      <code><![CDATA[$this->appName]]></code>
+    </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/Archive/TAR.php">
     <UndefinedDocblockClass>
@@ -3167,6 +3486,19 @@
       <code><![CDATA[$this->providers]]></code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="lib/private/Authentication/WebAuthn/Manager.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[preg_replace('/(:\d+$)/', '', $serverHost)]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/Avatar/Avatar.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$data]]></code>
+    </FalsableReturnStatement>
+  </file>
   <file src="lib/private/Cache/File.php">
     <LessSpecificImplementedReturnType>
       <code><![CDATA[bool|mixed]]></code>
@@ -3209,6 +3541,18 @@
 				return $provider->getCalendars($principalUri, $calendarUris);
 			}, $context->getCalendarProviders())]]></code>
     </NamedArgumentNotAllowed>
+    <UndefinedMagicPropertyAssignment>
+      <code><![CDATA[$request->METHOD]]></code>
+    </UndefinedMagicPropertyAssignment>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$freeBusyResponseData->VFREEBUSY]]></code>
+      <code><![CDATA[$request->VFREEBUSY]]></code>
+    </UndefinedMagicPropertyFetch>
+  </file>
+  <file src="lib/private/Command/AsyncBus.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[class_uses($command)]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="lib/private/Command/CommandJob.php">
     <UndefinedClass>
@@ -3375,6 +3719,9 @@
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/Cache/Cache.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[current($this->querySearchHelper->searchInCaches($query, [$this]))]]></code>
+    </FalsableReturnStatement>
     <InvalidNullableReturnType>
       <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
@@ -3407,6 +3754,11 @@
       <code><![CDATA[self::SCAN_RECURSIVE_INCOMPLETE]]></code>
     </InvalidArgument>
   </file>
+  <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[current($this->querySearchHelper->searchInCaches($query, [$this]))]]></code>
+    </FalsableReturnStatement>
+  </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
       <code><![CDATA[$user]]></code>
@@ -3426,6 +3778,14 @@
     <MoreSpecificReturnType>
       <code><![CDATA[array{int, string, int}]]></code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/Files/Filesystem.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$path]]></code>
+    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Mount/MountPoint.php">
     <UndefinedInterfaceMethod>
@@ -3549,6 +3909,9 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$firstBlock]]></code>
+    </FalsableReturnStatement>
     <InvalidReturnStatement>
       <code><![CDATA[$result]]></code>
     </InvalidReturnStatement>
@@ -3559,6 +3922,11 @@
       <code><![CDATA[$lastChunkPos]]></code>
       <code><![CDATA[$size]]></code>
     </InvalidScalarArgument>
+  </file>
+  <file src="lib/private/Files/Stream/Encryption.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$wrapped]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <InvalidReturnType>
@@ -3592,6 +3960,11 @@
       <code><![CDATA[getGroupDetails]]></code>
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Image.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[ob_get_clean()]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="lib/private/InitialStateService.php">
     <UndefinedInterfaceMethod>
@@ -3627,6 +4000,9 @@
     </LessSpecificImplementedReturnType>
   </file>
   <file src="lib/private/LargeFileHelper.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$result]]></code>
+    </FalsableReturnStatement>
     <InvalidOperand>
       <code><![CDATA[$matches[1]]]></code>
     </InvalidOperand>
@@ -3647,10 +4023,23 @@
       <code><![CDATA[$sessionCallback]]></code>
     </InvalidPropertyAssignmentValue>
   </file>
+  <file src="lib/private/Log/ErrorHandler.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[preg_replace('#//(.*):(.*)@#', '//xxx:xxx@', $msg)]]></code>
+    </NullableReturnStatement>
+  </file>
   <file src="lib/private/Log/File.php">
     <TypeDoesNotContainNull>
       <code><![CDATA[$limit === null]]></code>
     </TypeDoesNotContainNull>
+  </file>
+  <file src="lib/private/Log/LogDetails.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[json_encode($entry, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES)]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="lib/private/Log/Systemdlog.php">
     <UndefinedFunction>
@@ -3674,6 +4063,21 @@
       <code><![CDATA[mixed]]></code>
       <code><![CDATA[mixed]]></code>
     </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/private/Memcache/Redis.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[is_int($value) ? (string)$value : json_encode($value)]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="lib/private/Preview/Storage/LocalPreviewStorage.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[file_put_contents($previewPath, $stream)]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="lib/private/Preview/Storage/PreviewFile.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[stream_get_contents($stream)]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="lib/private/Profile/Actions/FediverseAction.php">
     <NoValue>
@@ -3716,6 +4120,11 @@
       <code><![CDATA[\strlen($this->value)]]></code>
     </InvalidArgument>
   </file>
+  <file src="lib/private/Security/CertificateManager.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[filemtime($this->getDefaultCertificatesBundlePath())]]></code>
+    </FalsableReturnStatement>
+  </file>
   <file src="lib/private/Security/Crypto.php">
     <InternalMethod>
       <code><![CDATA[decrypt]]></code>
@@ -3725,6 +4134,11 @@
       <code><![CDATA[setPassword]]></code>
       <code><![CDATA[setPassword]]></code>
     </InternalMethod>
+  </file>
+  <file src="lib/private/Security/Normalizer/IpAddress.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[inet_ntop(substr($binary, -4))]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="lib/private/ServerContainer.php">
     <InvalidPropertyAssignmentValue>
@@ -3762,6 +4176,11 @@
       <code><![CDATA[$this->dbprettyname]]></code>
       <code><![CDATA[$this->dbprettyname]]></code>
     </UndefinedThisPropertyFetch>
+  </file>
+  <file src="lib/private/Share20/DefaultShareProvider.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[\json_encode($compressedAttributes)]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="lib/private/Share20/ProviderFactory.php">
     <InvalidReturnStatement>
@@ -3801,6 +4220,11 @@
     <UndefinedDocblockClass>
       <code><![CDATA[Circle]]></code>
     </UndefinedDocblockClass>
+  </file>
+  <file src="lib/private/Template/Base.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$data]]></code>
+    </FalsableReturnStatement>
   </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>

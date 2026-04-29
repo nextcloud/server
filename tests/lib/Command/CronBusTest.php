@@ -19,16 +19,19 @@ class CronBusTest extends AsyncBusTestCase {
 	private $jobList;
 
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->jobList = new DummyJobList();
 	}
 
+	#[\Override]
 	protected function createBus() {
 		return new CronBus($this->jobList);
 	}
 
+	#[\Override]
 	protected function runJobs() {
 		$jobs = $this->jobList->getAll();
 		foreach ($jobs as $job) {

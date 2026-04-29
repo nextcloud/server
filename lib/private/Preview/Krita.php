@@ -15,6 +15,7 @@ class Krita extends Bundled {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/x-krita/';
 	}
@@ -23,6 +24,7 @@ class Krita extends Bundled {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$image = $this->extractThumbnail($file, 'mergedimage.png');
 		if (($image !== null) && $image->valid()) {

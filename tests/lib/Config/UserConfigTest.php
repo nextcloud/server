@@ -174,6 +174,7 @@ class UserConfigTest extends TestCase {
 
 		];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -251,6 +252,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$sql = $this->connection->getQueryBuilder();
 		$sql->delete('preferences');

@@ -26,6 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileTest extends NodeTestCase {
+	#[\Override]
 	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): File {
 		if ($data || $internalPath || $storage) {
 			return new File($root, $view, $path, $this->getFileInfo($data, $internalPath, $storage));
@@ -34,14 +35,17 @@ class FileTest extends NodeTestCase {
 		}
 	}
 
+	#[\Override]
 	protected function getNodeClass(): string {
 		return File::class;
 	}
 
+	#[\Override]
 	protected function getNonExistingNodeClass(): string {
 		return NonExistingFile::class;
 	}
 
+	#[\Override]
 	protected function getViewDeleteMethod(): string {
 		return 'unlink';
 	}

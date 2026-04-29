@@ -51,6 +51,7 @@ class SystemTagManager implements ISystemTagManager {
 			->andWhere($query->expr()->eq('editable', $query->createParameter('editable')));
 	}
 
+	#[\Override]
 	public function getTagsByIds($tagIds, ?IUser $user = null): array {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -95,6 +96,7 @@ class SystemTagManager implements ISystemTagManager {
 		return $tags;
 	}
 
+	#[\Override]
 	public function getAllTags($visibilityFilter = null, $nameSearchPattern = null): array {
 		$tags = [];
 
@@ -130,6 +132,7 @@ class SystemTagManager implements ISystemTagManager {
 		return $tags;
 	}
 
+	#[\Override]
 	public function getTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
 		// Length of name column is 64
 		$truncatedTagName = substr($tagName, 0, 64);
@@ -159,6 +162,7 @@ class SystemTagManager implements ISystemTagManager {
 		}
 	}
 
+	#[\Override]
 	public function createTag(string $tagName, bool $userVisible, bool $userAssignable, ?IUser $user = null): ISystemTag {
 		$user ??= $this->userSession->getUser();
 		if (!$this->canUserCreateTag($user)) {
@@ -213,6 +217,7 @@ class SystemTagManager implements ISystemTagManager {
 		return $tag;
 	}
 
+	#[\Override]
 	public function updateTag(
 		string $tagId,
 		string $newName,
@@ -291,6 +296,7 @@ class SystemTagManager implements ISystemTagManager {
 		));
 	}
 
+	#[\Override]
 	public function deleteTags($tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -340,6 +346,7 @@ class SystemTagManager implements ISystemTagManager {
 		}
 	}
 
+	#[\Override]
 	public function canUserAssignTag(ISystemTag $tag, ?IUser $user): bool {
 		if ($user === null) {
 			return false;
@@ -369,6 +376,7 @@ class SystemTagManager implements ISystemTagManager {
 		return false;
 	}
 
+	#[\Override]
 	public function canUserCreateTag(?IUser $user): bool {
 		if ($user === null) {
 			// If no user given, allows only calls from CLI
@@ -382,11 +390,13 @@ class SystemTagManager implements ISystemTagManager {
 		return $this->groupManager->isAdmin($user->getUID());
 	}
 
+	#[\Override]
 	public function canUserUpdateTag(?IUser $user): bool {
 		// We currently have no different permissions for updating tags than for creating them
 		return $this->canUserCreateTag($user);
 	}
 
+	#[\Override]
 	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool {
 		// If no user, then we only show public tags
 		if (!$user && $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC) {
@@ -413,6 +423,7 @@ class SystemTagManager implements ISystemTagManager {
 		return new SystemTag((string)$row['id'], $row['name'], (bool)$row['visibility'], (bool)$row['editable'], $row['etag'], $row['color']);
 	}
 
+	#[\Override]
 	public function setTagGroups(ISystemTag $tag, array $groupIds): void {
 		// delete relationships first
 		$this->connection->beginTransaction();
@@ -444,6 +455,7 @@ class SystemTagManager implements ISystemTagManager {
 		}
 	}
 
+	#[\Override]
 	public function getTagGroups(ISystemTag $tag): array {
 		$groupIds = [];
 		$query = $this->connection->getQueryBuilder();

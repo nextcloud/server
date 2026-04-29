@@ -70,6 +70,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function getObjectIdsForTags($tagIds, string $objectType, int $limit = 0, string $offset = ''): array {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -232,6 +233,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function haveTag($objIds, string $objectType, string $tagId, bool $all = true): bool {
 		$this->assertTagsExist([$tagId]);
 
@@ -296,6 +298,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function setObjectIdsForTag(string $tagId, string $objectType, array $objectIds): void {
 		$currentObjectIds = $this->getObjectIdsForTags($tagId, $objectType);
 		$removedObjectIds = array_diff($currentObjectIds, $objectIds);
@@ -369,6 +372,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function getAvailableObjectTypes(): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->selectDistinct('objecttype')

@@ -27,6 +27,7 @@ class WorkerCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('taskprocessing:worker')
@@ -60,6 +61,7 @@ class WorkerCommand extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$startTime = time();
 		$timeout = (int)$input->getOption('timeout');

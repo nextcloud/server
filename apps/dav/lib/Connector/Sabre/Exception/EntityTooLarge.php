@@ -22,6 +22,7 @@ class EntityTooLarge extends \Sabre\DAV\Exception {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getHTTPCode() {
 		return 413;
 	}

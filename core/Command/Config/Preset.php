@@ -24,6 +24,7 @@ class Preset extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 		$this->setName('config:preset')
@@ -34,6 +35,7 @@ class Preset extends Base {
 			->addOption('compare', '', InputOption::VALUE_NONE, 'compare preset');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('list')) {
 			$this->getEnum('', $list);

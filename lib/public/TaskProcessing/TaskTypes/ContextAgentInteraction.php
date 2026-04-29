@@ -38,6 +38,7 @@ class ContextAgentInteraction implements IInternalTaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'ContextAgent'; // We do not translate this
 	}
@@ -46,6 +47,7 @@ class ContextAgentInteraction implements IInternalTaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Chat with an agent');
 	}
@@ -54,6 +56,7 @@ class ContextAgentInteraction implements IInternalTaskType {
 	 * @return string
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -62,6 +65,7 @@ class ContextAgentInteraction implements IInternalTaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -86,6 +90,7 @@ class ContextAgentInteraction implements IInternalTaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

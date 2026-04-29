@@ -31,6 +31,7 @@ class PaginatePlugin extends ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$server->on('beforeMultiStatus', [$this, 'onMultiStatus']);
@@ -39,6 +40,7 @@ class PaginatePlugin extends ServerPlugin {
 		$server->on('method:REPORT', [$this, 'onMethod'], 1);
 	}
 
+	#[\Override]
 	public function getFeatures(): array {
 		return ['nc-paginate'];
 	}

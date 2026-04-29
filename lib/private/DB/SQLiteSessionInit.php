@@ -35,6 +35,7 @@ class SQLiteSessionInit implements EventSubscriber {
 		}
 	}
 
+	#[\Override]
 	public function getSubscribedEvents(): array {
 		return [Events::postConnect];
 	}

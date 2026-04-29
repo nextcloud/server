@@ -37,6 +37,7 @@ class EtagTest extends \Test\TestCase {
 	 */
 	private $userBackend;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -53,6 +54,7 @@ class EtagTest extends \Test\TestCase {
 		Server::get(IUserManager::class)->registerBackend($this->userBackend);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Server::get(IConfig::class)->setSystemValue('datadirectory', $this->datadir);
 

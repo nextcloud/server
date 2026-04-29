@@ -31,14 +31,17 @@ class WebdavEndpoint implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('WebDAV endpoint');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$urls = [
 			['propfind', '/remote.php/webdav', [207, 401]],

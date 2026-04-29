@@ -25,12 +25,14 @@ class DeleteAll extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setName('tag:files:delete-all')
 			->setDescription('Delete all system-tags from a file or folder')
 			->addArgument('target', InputArgument::REQUIRED, 'file id or path');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$targetInput = $input->getArgument('target');
 		$targetNode = $this->fileUtils->getNode($targetInput);

@@ -53,6 +53,7 @@ class SetupManagerTest extends TestCase {
 	private string $path;
 	private string $mountPoint;
 
+	#[\Override]
 	protected function setUp(): void {
 		$eventLogger = $this->createMock(IEventLogger::class);
 		$eventLogger->method('start');
@@ -652,16 +653,19 @@ class SetupManagerTest extends TestCase {
 }
 
 class SetupManagerTestPartialMountProvider implements IPartialMountProvider {
+	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getMountsForPath(string $path, bool $forChildren, array $mountProviderArgs, IStorageFactory $loader): array {
 		return [];
 	}
 }
 
 class SetupManagerTestFullMountProvider implements IMountProvider {
+	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		return [];
 	}

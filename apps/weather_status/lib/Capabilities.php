@@ -29,6 +29,7 @@ class Capabilities implements ICapability {
 	/**
 	 * @return array{weather_status: array{enabled: bool}}
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			Application::APP_ID => [

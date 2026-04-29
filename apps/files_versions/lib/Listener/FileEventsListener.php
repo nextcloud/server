@@ -65,6 +65,7 @@ class FileEventsListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof NodeCreatedEvent) {
 			$this->created($event->getNode());

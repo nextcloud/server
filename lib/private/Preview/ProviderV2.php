@@ -28,6 +28,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	/**
 	 * @return string Regex with the mimetypes that are supported by this provider
 	 */
+	#[\Override]
 	abstract public function getMimeType(): string ;
 
 	/**
@@ -36,6 +37,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	 * @param FileInfo $file
 	 * @return bool
 	 */
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		return true;
 	}
@@ -49,6 +51,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	 * @return null|IImage null if no preview was generated
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	abstract public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage;
 
 	protected function useTempFile(File $file): bool {

@@ -33,6 +33,7 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 
 	private S3 $instance;
 
+	#[\Override]
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
@@ -47,6 +48,7 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 		}
 	}
 
+	#[\Override]
 	protected function getInstance() {
 		if (!isset($this->instance)) {
 			$config = Server::get(IConfig::class)->getSystemValue('objectstore');

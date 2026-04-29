@@ -42,6 +42,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 		'/^\.webapp-nextcloud-(\d+\.){2}(\d+)(-r\d+)?$/', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
 	];
 
+	#[\Override]
 	public function accept(): bool {
 		/** @var \SplFileInfo $current */
 		$current = $this->current();

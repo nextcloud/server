@@ -54,6 +54,7 @@ class L10NString implements \JsonSerializable {
 		return vsprintf($text, $this->parameters);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): string {
 		return $this->__toString();
 	}

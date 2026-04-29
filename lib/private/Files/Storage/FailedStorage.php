@@ -29,166 +29,207 @@ class FailedStorage extends Common {
 		}
 	}
 
+	#[\Override]
 	public function getId(): string {
 		// we can't return anything sane here
 		return 'failedstorage';
 	}
 
+	#[\Override]
 	public function mkdir(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function rmdir(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function opendir(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function is_dir(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function is_file(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function stat(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function filetype(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function filesize(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function isCreatable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function isReadable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function isUpdatable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function isDeletable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function isSharable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function getPermissions(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function file_exists(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function filemtime(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function file_get_contents(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function unlink(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function getMimeType(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function hash(string $type, string $path, bool $raw = false): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function free_space(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function getLocalFile(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function hasUpdated(string $path, int $time): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function getETag(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function getDirectDownload(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function getDirectDownloadById(string $fileId): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function verifyPath(string $path, string $fileName): void {
 	}
 
+	#[\Override]
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function acquireLock(string $path, int $type, ILockingProvider $provider): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function releaseLock(string $path, int $type, ILockingProvider $provider): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function changeLock(string $path, int $type, ILockingProvider $provider): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function getAvailability(): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function setAvailability(bool $isAvailable): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	#[\Override]
 	public function getCache(string $path = '', ?IStorage $storage = null): FailedCache {
 		return new FailedCache();
 	}

@@ -29,10 +29,12 @@ class Address implements IAddress {
 		$this->ip = $ip;
 	}
 
+	#[\Override]
 	public static function isValid(string $ip): bool {
 		return Factory::parseAddressString($ip, ParseStringFlag::MAY_INCLUDE_ZONEID) !== null;
 	}
 
+	#[\Override]
 	public function matches(IRange ... $ranges): bool {
 		foreach ($ranges as $range) {
 			if ($range->contains($this)) {

@@ -23,25 +23,30 @@ class ConversationOptions implements IConversationOptions {
 		return new self(false);
 	}
 
+	#[\Override]
 	public function setPublic(bool $isPublic = true): IConversationOptions {
 		$this->isPublic = $isPublic;
 		return $this;
 	}
 
+	#[\Override]
 	public function isPublic(): bool {
 		return $this->isPublic;
 	}
 
+	#[\Override]
 	public function setMeetingDate(\DateTimeInterface $meetingStartDate, \DateTimeInterface $meetingEndDate): IConversationOptions {
 		$this->meetingStartDate = $meetingStartDate;
 		$this->meetingEndDate = $meetingEndDate;
 		return $this;
 	}
 
+	#[\Override]
 	public function getMeetingStartDate(): ?\DateTimeInterface {
 		return $this->meetingStartDate;
 	}
 
+	#[\Override]
 	public function getMeetingEndDate(): ?\DateTimeInterface {
 		return $this->meetingEndDate;
 	}

@@ -104,6 +104,7 @@ class TaskMapper extends QBMapper {
 		return $deletedTasks;
 	}
 
+	#[\Override]
 	public function update(Entity $entity): Entity {
 		$entity->setLastUpdated($this->timeFactory->getDateTime());
 		return parent::update($entity);

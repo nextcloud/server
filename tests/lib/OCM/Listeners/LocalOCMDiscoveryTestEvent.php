@@ -18,6 +18,7 @@ class LocalOCMDiscoveryTestEvent implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof LocalOCMDiscoveryEvent)) {
 			return;

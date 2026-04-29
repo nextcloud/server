@@ -32,6 +32,7 @@ class ManagerTest extends TestCase {
 	/** @var IService&MockObject */
 	private IService $service;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -35,38 +35,47 @@ class AuditLogger implements IAuditLogger {
 		$this->parentLogger = $logFactory->getCustomPsrLogger($logFile, $auditType, $auditTag);
 	}
 
+	#[\Override]
 	public function emergency($message, array $context = []): void {
 		$this->parentLogger->emergency($message, $context);
 	}
 
+	#[\Override]
 	public function alert($message, array $context = []): void {
 		$this->parentLogger->alert($message, $context);
 	}
 
+	#[\Override]
 	public function critical($message, array $context = []): void {
 		$this->parentLogger->critical($message, $context);
 	}
 
+	#[\Override]
 	public function error($message, array $context = []): void {
 		$this->parentLogger->error($message, $context);
 	}
 
+	#[\Override]
 	public function warning($message, array $context = []): void {
 		$this->parentLogger->warning($message, $context);
 	}
 
+	#[\Override]
 	public function notice($message, array $context = []): void {
 		$this->parentLogger->notice($message, $context);
 	}
 
+	#[\Override]
 	public function info($message, array $context = []): void {
 		$this->parentLogger->info($message, $context);
 	}
 
+	#[\Override]
 	public function debug($message, array $context = []): void {
 		$this->parentLogger->debug($message, $context);
 	}
 
+	#[\Override]
 	public function log($level, $message, array $context = []): void {
 		$this->parentLogger->log($level, $message, $context);
 	}

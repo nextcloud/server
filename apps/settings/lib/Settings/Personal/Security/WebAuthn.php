@@ -25,6 +25,7 @@ class WebAuthn implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm() {
 		$this->initialStateService->provideInitialState(
 			Application::APP_ID,
@@ -35,6 +36,7 @@ class WebAuthn implements ISettings {
 		return new TemplateResponse('settings', 'settings/personal/security/webauthn');
 	}
 
+	#[\Override]
 	public function getSection(): ?string {
 		if (!$this->manager->isWebAuthnAvailable()) {
 			return null;
@@ -43,6 +45,7 @@ class WebAuthn implements ISettings {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 20;
 	}

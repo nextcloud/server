@@ -37,6 +37,7 @@ class RequestManager {
 			) {
 			}
 
+			#[\Override]
 			public function getHttpRequest(): IRequest {
 				return $this->request;
 			}

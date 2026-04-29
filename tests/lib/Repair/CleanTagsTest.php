@@ -32,6 +32,7 @@ class CleanTagsTest extends \Test\TestCase {
 	private IUserManager&MockObject $userManager;
 	private IOutput&MockObject $outputMock;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -48,6 +49,7 @@ class CleanTagsTest extends \Test\TestCase {
 		$this->cleanUpTables();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->cleanUpTables();
 

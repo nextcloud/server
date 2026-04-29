@@ -14,10 +14,12 @@ class WebP extends Image {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/webp/';
 	}
 
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		return (bool)(imagetypes() & IMG_WEBP);
 	}

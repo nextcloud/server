@@ -23,6 +23,7 @@ class Factory implements IAppDataFactory {
 	) {
 	}
 
+	#[\Override]
 	public function get(string $appId): IAppData {
 		if (!isset($this->folders[$appId])) {
 			$this->folders[$appId] = new AppData($this->rootFolder, $this->config, $appId);

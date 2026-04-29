@@ -20,6 +20,7 @@ class SearchTermFilter implements XmlDeserializable {
 	 * @throws BadRequest
 	 * @return string
 	 */
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
 		$value = $reader->parseInnerTree();
 		if (!is_string($value)) {

@@ -65,6 +65,7 @@ class SystemTagObjectMapperTest extends TestCase {
 	 */
 	private $tag3;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -106,6 +107,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->tagMapper->assignTags('3', 'anothertype', $this->tag1->getId());
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->pruneTagsTables();
 		parent::tearDown();

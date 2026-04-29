@@ -42,6 +42,7 @@ class GenerateEmoji implements ITaskType {
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Emoji generator');
 	}
@@ -50,6 +51,7 @@ class GenerateEmoji implements ITaskType {
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Takes text and generates a representative emoji for it.');
 	}
@@ -58,6 +60,7 @@ class GenerateEmoji implements ITaskType {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -66,6 +69,7 @@ class GenerateEmoji implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -80,6 +84,7 @@ class GenerateEmoji implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

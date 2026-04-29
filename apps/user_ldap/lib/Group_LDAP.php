@@ -64,6 +64,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function inGroup($uid, $gid): bool {
 		if (!$this->enabled) {
 			return false;
@@ -658,6 +659,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function getUserGroups($uid): array {
 		if (!$this->enabled) {
 			return [];
@@ -862,6 +864,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if (!$this->enabled) {
 			return [];
@@ -1082,6 +1085,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * (active directory has a limit of 1000 by default)
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		if (!$this->enabled) {
 			return [];
@@ -1121,6 +1125,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @return bool
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function groupExists($gid) {
 		return $this->groupExistsOnLDAP($gid, false);
 	}
@@ -1197,6 +1202,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * Returns the supported actions as int to be
 	 * compared with GroupInterface::CREATE_GROUP etc.
 	 */
+	#[\Override]
 	public function implementsActions($actions): bool {
 		return (bool)((GroupInterface::COUNT_USERS
 				| GroupInterface::DELETE_GROUP
@@ -1209,6 +1215,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 *
 	 * @return Access instance of Access for LDAP interaction
 	 */
+	#[\Override]
 	public function getLDAPAccess($gid) {
 		return $this->access;
 	}
@@ -1248,6 +1255,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @param string $gid gid of the group to delete
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function deleteGroup(string $gid): bool {
 		if ($this->groupPluginManager->canDeleteGroup()) {
 			if ($ret = $this->groupPluginManager->deleteGroup($gid)) {
@@ -1335,6 +1343,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @return \LDAP\Connection The LDAP connection
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function getNewLDAPConnection($gid): \LDAP\Connection {
 		$connection = clone $this->access->getConnection();
 		return $connection->getConnectionResource();
@@ -1343,6 +1352,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	/**
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function getDisplayName(string $gid): string {
 		if ($this->groupPluginManager instanceof IGetDisplayNameBackend) {
 			return $this->groupPluginManager->getDisplayName($gid);
@@ -1408,6 +1418,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	/**
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function isAdmin(string $uid): bool {
 		if (!$this->enabled) {
 			return false;

@@ -38,6 +38,7 @@ class PublicLinkCheckPlugin extends ServerPlugin {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
 	}

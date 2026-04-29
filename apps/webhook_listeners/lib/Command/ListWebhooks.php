@@ -22,6 +22,7 @@ class ListWebhooks extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -29,6 +30,7 @@ class ListWebhooks extends Base {
 			->setDescription('Lists configured webhook listeners');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$webhookListeners = array_map(
 			fn (WebhookListener $listener): array => array_map(

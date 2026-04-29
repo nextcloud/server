@@ -23,6 +23,7 @@ abstract class ABackend implements IUserBackend, UserInterface {
 	 * @param int $actions The action to check for
 	 * @return bool
 	 */
+	#[\Override]
 	public function implementsActions($actions): bool {
 		$implements = 0;
 

@@ -36,6 +36,7 @@ class TestScanner extends Scanner {
 		$this->mounts[] = $mount;
 	}
 
+	#[\Override]
 	protected function getMounts($dir) {
 		return $this->mounts;
 	}
@@ -54,6 +55,7 @@ class ScannerTest extends \Test\TestCase {
 	 */
 	private $userBackend;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -62,6 +64,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->loginAsUser();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->logout();
 		Server::get(IUserManager::class)->removeBackend($this->userBackend);

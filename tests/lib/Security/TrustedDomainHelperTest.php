@@ -20,6 +20,7 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	/** @var IConfig */
 	protected $config;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -21,10 +21,12 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'Populating added database structures for workflows';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$result = $this->getIdsWithoutScope();
 

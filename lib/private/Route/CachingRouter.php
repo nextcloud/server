@@ -46,6 +46,7 @@ class CachingRouter extends Router {
 	 * @param bool $absolute
 	 * @return string
 	 */
+	#[\Override]
 	public function generate($name, $parameters = [], $absolute = false) {
 		asort($parameters);
 		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . $name . sha1(json_encode($parameters)) . (int)$absolute;
@@ -73,6 +74,7 @@ class CachingRouter extends Router {
 	 * @throws \Exception
 	 * @return array
 	 */
+	#[\Override]
 	public function findMatchingRoute(string $url): array {
 		$this->eventLogger->start('cacheroute:match', 'Match route');
 		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . '#rootCollection';
@@ -117,6 +119,7 @@ class CachingRouter extends Router {
 	/**
 	 * @param array{action:mixed, ...} $parameters
 	 */
+	#[\Override]
 	protected function callLegacyActionRoute(array $parameters): void {
 		/*
 		 * Closures cannot be serialized to cache, so for legacy routes calling an action we have to include the routes.php file again
@@ -138,6 +141,7 @@ class CachingRouter extends Router {
 	 * @param array $defaults An array of default parameter values
 	 * @param array $requirements An array of requirements for parameters (regexes)
 	 */
+	#[\Override]
 	public function create($name, $pattern, array $defaults = [], array $requirements = []): Route {
 		$this->legacyCreatedRoutes[] = $name;
 		return parent::create($name, $pattern, $defaults, $requirements);
@@ -146,6 +150,7 @@ class CachingRouter extends Router {
 	/**
 	 * Require a routes.php file
 	 */
+	#[\Override]
 	protected function requireRouteFile(string $file, string $appName): void {
 		$this->legacyCreatedRoutes = [];
 		parent::requireRouteFile($file, $appName);

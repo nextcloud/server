@@ -24,6 +24,7 @@ class Memory extends Session {
 	 * @param string $key
 	 * @param integer $value
 	 */
+	#[\Override]
 	public function set(string $key, $value) {
 		$this->data[$key] = $value;
 	}
@@ -32,6 +33,7 @@ class Memory extends Session {
 	 * @param string $key
 	 * @return mixed
 	 */
+	#[\Override]
 	public function get(string $key) {
 		if (!$this->exists($key)) {
 			return null;
@@ -43,6 +45,7 @@ class Memory extends Session {
 	 * @param string $key
 	 * @return bool
 	 */
+	#[\Override]
 	public function exists(string $key): bool {
 		return isset($this->data[$key]);
 	}
@@ -50,10 +53,12 @@ class Memory extends Session {
 	/**
 	 * @param string $key
 	 */
+	#[\Override]
 	public function remove(string $key) {
 		unset($this->data[$key]);
 	}
 
+	#[\Override]
 	public function clear() {
 		$this->data = [];
 	}
@@ -63,6 +68,7 @@ class Memory extends Session {
 	 *
 	 * @param bool $deleteOldSession
 	 */
+	#[\Override]
 	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
 	}
 
@@ -73,6 +79,7 @@ class Memory extends Session {
 	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		throw new SessionNotAvailableException('Memory session does not have an ID');
 	}
@@ -80,6 +87,7 @@ class Memory extends Session {
 	/**
 	 * Helper function for PHPUnit execution - don't use in non-test code
 	 */
+	#[\Override]
 	public function reopen(): bool {
 		$reopened = $this->sessionClosed;
 		$this->sessionClosed = false;

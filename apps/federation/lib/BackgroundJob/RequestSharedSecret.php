@@ -58,6 +58,7 @@ class RequestSharedSecret extends Job {
 	/**
 	 * run the job, then remove it from the joblist
 	 */
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		$target = $this->argument['url'];
 		// only execute if target is still in the list of trusted domains
@@ -84,6 +85,7 @@ class RequestSharedSecret extends Job {
 	 * @param array $argument
 	 * @return void
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$target = $argument['url'];
 		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();

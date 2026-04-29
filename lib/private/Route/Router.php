@@ -233,6 +233,7 @@ class Router implements IRouter {
 	 * @param array $requirements An array of requirements for parameters (regexes)
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function create($name,
 		$pattern,
 		array $defaults = [],

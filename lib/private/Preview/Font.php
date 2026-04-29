@@ -14,6 +14,7 @@ class Font extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/(?:font-sfnt|x-font$)/';
 	}
@@ -21,6 +22,7 @@ class Font extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/(application|image)\/(?:font-sfnt|x-font|x-otf|x-ttf|x-pfb$)/';
 	}

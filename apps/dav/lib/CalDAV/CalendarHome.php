@@ -67,6 +67,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function createExtendedCollection($name, MkCol $mkCol): void {
 		$reservedNames = [
 			BirthdayService::BIRTHDAY_CALENDAR_URI,
@@ -83,6 +84,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChildren() {
 		if ($this->cachedChildren) {
 			return $this->cachedChildren;
@@ -144,6 +146,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	 *
 	 * @return INode
 	 */
+	#[\Override]
 	public function getChild($name) {
 		// Special nodes
 		if ($name === 'inbox' && $this->caldavBackend instanceof SchedulingSupport) {

@@ -33,6 +33,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function put($data) {
 		throw new Forbidden('Permission denied to put into this file');
 	}
@@ -40,6 +41,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function get() {
 		$nodes = $this->root->getChildren();
 		return AssemblyStream::wrap($nodes);
@@ -52,6 +54,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getContentType() {
 		return 'application/octet-stream';
 	}
@@ -59,6 +62,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getETag() {
 		return $this->root->getETag();
 	}
@@ -66,6 +70,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSize() {
 		$children = $this->root->getChildren();
 		$sizes = array_map(function ($node) {
@@ -79,6 +84,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function delete() {
 		$this->root->delete();
 	}
@@ -86,6 +92,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->name;
 	}
@@ -93,6 +100,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this file');
 	}
@@ -100,6 +108,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return $this->root->getLastModified();
 	}

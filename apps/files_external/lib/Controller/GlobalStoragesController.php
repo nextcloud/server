@@ -180,16 +180,19 @@ class GlobalStoragesController extends StoragesController {
 
 	// PHP attributes are not inherited, so these methods override the parent
 	// solely to attach #[AuthorizedAdminSetting] and expose them to delegated admins.
+	#[\Override]
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function index() {
 		return parent::index();
 	}
 
+	#[\Override]
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function show(int $id, $testOnly = true) {
 		return parent::show($id, $testOnly);
 	}
 
+	#[\Override]
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function destroy(int $id) {

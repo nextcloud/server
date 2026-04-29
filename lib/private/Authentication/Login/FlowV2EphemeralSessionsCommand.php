@@ -21,6 +21,7 @@ class FlowV2EphemeralSessionsCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		$loginV2GrantRoute = $this->urlGenerator->linkToRoute('core.ClientFlowLoginV2.grantPage');
 		if (str_starts_with($loginData->getRedirectUrl() ?? '', $loginV2GrantRoute)) {

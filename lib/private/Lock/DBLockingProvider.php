@@ -37,6 +37,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	protected function markAcquire(string $path, int $targetType): void {
 		parent::markAcquire($path, $targetType);
 		if ($this->cacheSharedLocks) {
@@ -49,6 +50,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	/**
 	 * Change the type of an existing tracked lock
 	 */
+	#[\Override]
 	protected function markChange(string $path, int $targetType): void {
 		parent::markChange($path, $targetType);
 		if ($this->cacheSharedLocks) {
@@ -77,6 +79,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function isLocked(string $path, int $type): bool {
 		if ($this->hasAcquiredLock($path, $type)) {
 			return true;
@@ -102,6 +105,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function acquireLock(string $path, int $type, ?string $readablePath = null): void {
 		$expire = $this->getExpireTime();
 		if ($type === self::LOCK_SHARED) {
@@ -142,6 +146,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function releaseLock(string $path, int $type): void {
 		$this->markRelease($path, $type);
 
@@ -164,6 +169,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function changeLock(string $path, int $targetType): void {
 		$expire = $this->getExpireTime();
 		if ($targetType === self::LOCK_SHARED) {
@@ -212,6 +218,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function releaseAll(): void {
 		parent::releaseAll();
 

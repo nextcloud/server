@@ -22,6 +22,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 	/** @var ProviderUserAssignmentDao */
 	private $dao;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

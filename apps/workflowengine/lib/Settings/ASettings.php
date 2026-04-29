@@ -36,6 +36,7 @@ abstract class ASettings implements ISettings {
 
 	abstract public function getScope(): int;
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->eventDispatcher->dispatchTyped(new LoadSettingsScriptsEvent());
 
@@ -78,6 +79,7 @@ abstract class ASettings implements ISettings {
 	/**
 	 * @return string|null the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection(): ?string {
 		return 'workflow';
 	}
@@ -89,6 +91,7 @@ abstract class ASettings implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}

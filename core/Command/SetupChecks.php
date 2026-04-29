@@ -22,6 +22,7 @@ class SetupChecks extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -31,6 +32,7 @@ class SetupChecks extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$results = $this->setupCheckManager->runAll();
 		switch ($input->getOption('output')) {

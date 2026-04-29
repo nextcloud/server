@@ -23,14 +23,17 @@ class LdapInvalidUuids implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'ldap';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Invalid LDAP UUIDs');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (count($this->userMapping->getList(0, 1, true)) === 0
 			&& count($this->groupMapping->getList(0, 1, true)) === 0) {

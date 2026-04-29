@@ -32,6 +32,7 @@ class Personal implements ISettings {
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getForm() {
 		$recoveryAdminEnabled = $this->appConfig->getValueBool('encryption', 'recoveryAdminEnabled');
 		$privateKeySet = $this->session->isPrivateKeySet();
@@ -55,6 +56,7 @@ class Personal implements ISettings {
 		return new TemplateResponse(Application::APP_ID, 'settings', renderAs: '');
 	}
 
+	#[\Override]
 	public function getSection() {
 		if (!$this->manager->isEnabled()) {
 			return null;
@@ -71,6 +73,7 @@ class Personal implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 80;
 	}

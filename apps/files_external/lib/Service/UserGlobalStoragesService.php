@@ -115,6 +115,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		return $applicableGroups ? 1 : 0;
 	}
 
+	#[\Override]
 	protected function isApplicable(StorageConfig $config): bool {
 		$applicableUsers = $config->getApplicableUsers();
 		$applicableGroups = $config->getApplicableGroups();

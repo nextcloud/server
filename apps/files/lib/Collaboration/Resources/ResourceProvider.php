@@ -47,6 +47,7 @@ class ResourceProvider implements IProvider {
 	 * @return array
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getResourceRichObject(IResource $resource): array {
 		if (isset($this->nodes[(int)$resource->getId()])) {
 			$node = $this->nodes[(int)$resource->getId()]->getPath();
@@ -81,6 +82,7 @@ class ResourceProvider implements IProvider {
 	 * @return bool
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function canAccessResource(IResource $resource, ?IUser $user = null): bool {
 		if (!$user instanceof IUser) {
 			return false;
@@ -103,6 +105,7 @@ class ResourceProvider implements IProvider {
 	 * @return string
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getType(): string {
 		return self::RESOURCE_TYPE;
 	}

@@ -45,6 +45,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 	/**
 	 * @throws NotConfirmedException
 	 */
+	#[\Override]
 	public function beforeController(Controller $controller, string $methodName) {
 		if (!$this->needsPasswordConfirmation()) {
 			return;

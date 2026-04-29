@@ -23,6 +23,7 @@ class Version011901Date20240829164356 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		$qbUpdate = $this->connection->getQueryBuilder();
 		$qbUpdate->update('oauth2_clients')

@@ -43,6 +43,7 @@ class CheckerTest extends TestCase {
 
 	private Checker $checker;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->serverVersion = $this->createMock(ServerVersion::class);

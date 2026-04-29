@@ -25,6 +25,7 @@ class UserDeletedTokenCleanupListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof UserDeletedEvent)) {
 			// Unrelated

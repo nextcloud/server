@@ -18,38 +18,47 @@ class ContentManager implements IContentManager {
 	) {
 	}
 
+	#[\Override]
 	public function isContextChatAvailable(): bool {
 		return $this->contentManager !== null;
 	}
 
+	#[\Override]
 	public function registerContentProvider(string $appId, string $providerId, string $providerClass): void {
 		$this->contentManager?->registerContentProvider($appId, $providerId, $providerClass);
 	}
 
+	#[\Override]
 	public function collectAllContentProviders(): void {
 		$this->contentManager?->collectAllContentProviders();
 	}
 
+	#[\Override]
 	public function submitContent(string $appId, array $items): void {
 		$this->contentManager?->submitContent($appId, $items);
 	}
 
+	#[\Override]
 	public function updateAccess(string $appId, string $providerId, string $itemId, string $op, array $userIds): void {
 		$this->contentManager?->updateAccess($appId, $providerId, $itemId, $op, $userIds);
 	}
 
+	#[\Override]
 	public function updateAccessProvider(string $appId, string $providerId, string $op, array $userIds): void {
 		$this->contentManager?->updateAccessProvider($appId, $providerId, $op, $userIds);
 	}
 
+	#[\Override]
 	public function updateAccessDeclarative(string $appId, string $providerId, string $itemId, array $userIds): void {
 		$this->contentManager?->updateAccessDeclarative($appId, $providerId, $itemId, $op, $userIds);
 	}
 
+	#[\Override]
 	public function deleteProvider(string $appId, string $providerId): void {
 		$this->contentManager?->deleteProvider($appId, $providerId);
 	}
 
+	#[\Override]
 	public function deleteContent(string $appId, string $providerId, array $itemIds): void {
 		$this->contentManager?->deleteContent($appId, $providerId, $itemIds);
 	}

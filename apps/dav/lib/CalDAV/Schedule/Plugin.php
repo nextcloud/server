@@ -68,6 +68,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		parent::initialize($server);
 		$server->on('propFind', [$this, 'propFindDefaultCalendarUrl'], 90);
@@ -85,6 +86,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	/**
 	 * Returns an instance of the iTip\Broker.
 	 */
+	#[\Override]
 	protected function createITipBroker(): TipBroker {
 		return new TipBroker();
 	}
@@ -108,6 +110,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param INode $node
 	 * @return void
 	 */
+	#[\Override]
 	public function propFind(PropFind $propFind, INode $node) {
 		if ($node instanceof IPrincipal) {
 			// overwrite Sabre/Dav's implementation
@@ -133,6 +136,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param string $principal
 	 * @return array
 	 */
+	#[\Override]
 	public function getAddressesForPrincipal($principal) {
 		$result = parent::getAddressesForPrincipal($principal);
 
@@ -156,6 +160,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param mixed $modified
 	 * @param mixed $isNew
 	 */
+	#[\Override]
 	public function calendarObjectChange(RequestInterface $request, ResponseInterface $response, VCalendar $vCal, $calendarPath, &$modified, $isNew) {
 		// Save the first path we get as a calendar-object-change request
 		if (!$this->pathOfCalendarObjectChange) {
@@ -220,6 +225,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function beforeUnbind($path): void {
 
 		// Do not generate iTip and iMip messages if scheduling is disabled for this message
@@ -245,6 +251,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function scheduleLocalDelivery(ITip\Message $iTipMessage):void {
 		/** @var VEvent|null $vevent */
 		$vevent = $iTipMessage->message->VEVENT ?? null;

@@ -13,6 +13,7 @@ use OCP\IConfig;
 use OCP\Server;
 
 class MultiPartUploadS3 extends S3 {
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
 			'mup_threshold' => 1,
@@ -30,15 +31,18 @@ class NonSeekableStream extends Wrapper {
 		return Wrapper::wrapSource($source, $context, 'nonseek', self::class);
 	}
 
+	#[\Override]
 	public function dir_opendir($path, $options) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$this->loadContext('nonseek');
 		return true;
 	}
 
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		return false;
 	}
@@ -46,12 +50,14 @@ class NonSeekableStream extends Wrapper {
 
 #[\PHPUnit\Framework\Attributes\Group('PRIMARY-s3')]
 class S3Test extends ObjectStoreTestCase {
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 		$s3 = $this->getInstance();
 		$s3->deleteObject('multiparttest');
 	}
 
+	#[\Override]
 	protected function getInstance() {
 		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== S3::class) {

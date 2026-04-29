@@ -52,6 +52,7 @@ class Application extends App implements IBootstrap {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		// Register OCS Capabilities
 		$context->registerCapability(Capabilities::class);
@@ -77,6 +78,7 @@ class Application extends App implements IBootstrap {
 		}
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		/** @var IManager $userStatusManager */
 		$userStatusManager = $context->getServerContainer()->get(IManager::class);

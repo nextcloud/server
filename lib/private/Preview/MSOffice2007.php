@@ -14,6 +14,7 @@ class MSOffice2007 extends Office {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/vnd.openxmlformats-officedocument.*/';
 	}

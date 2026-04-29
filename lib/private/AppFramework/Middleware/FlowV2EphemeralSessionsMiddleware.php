@@ -34,6 +34,7 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function beforeController(Controller $controller, string $methodName) {
 		$sessionCreationTime = $this->session->get(ClientFlowLoginV2Controller::EPHEMERAL_NAME);
 

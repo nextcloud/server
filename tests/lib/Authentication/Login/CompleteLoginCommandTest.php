@@ -17,6 +17,7 @@ class CompleteLoginCommandTest extends ALoginTestCommand {
 	/** @var Session|MockObject */
 	private $session;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

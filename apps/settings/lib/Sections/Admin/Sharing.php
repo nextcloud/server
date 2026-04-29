@@ -20,18 +20,22 @@ class Sharing implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('core', 'actions/share.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'sharing';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Sharing');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 5;
 	}

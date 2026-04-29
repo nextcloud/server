@@ -43,6 +43,7 @@ class File extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('info:file')
@@ -52,6 +53,7 @@ class File extends Command {
 			->addOption('storage-tree', null, InputOption::VALUE_NONE, 'Show storage and cache wrapping tree');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument('file');
 		$showChildren = $input->getOption('children');

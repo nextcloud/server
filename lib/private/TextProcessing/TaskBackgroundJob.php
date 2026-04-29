@@ -33,6 +33,7 @@ class TaskBackgroundJob extends QueuedJob {
 	 * @param array{taskId: int} $argument
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$taskId = $argument['taskId'];
 		$task = $this->textProcessingManager->getTask($taskId);

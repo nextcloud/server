@@ -25,6 +25,7 @@ class Change implements IChange {
 	 *
 	 * @return IChange::ADDED|IChange::REMOVED|IChange::MODIFIED|IChange::RENAMED
 	 */
+	#[\Override]
 	public function getType(): int {
 		return $this->type;
 	}
@@ -34,6 +35,7 @@ class Change implements IChange {
 	 *
 	 * Note, for rename changes this path is the old path for the file
 	 */
+	#[\Override]
 	public function getPath(): string {
 		return $this->path;
 	}

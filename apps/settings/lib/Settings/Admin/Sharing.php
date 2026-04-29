@@ -35,6 +35,7 @@ class Sharing implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 		$linksExcludedGroups = $this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '');
@@ -99,6 +100,7 @@ class Sharing implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'sharing';
 	}
@@ -110,16 +112,19 @@ class Sharing implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 0;
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
 			'core' => ['/shareapi_.*/'],
 		];
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return null;
 	}

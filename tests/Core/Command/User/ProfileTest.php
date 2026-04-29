@@ -29,6 +29,7 @@ class ProfileTest extends TestCase {
 	protected InputInterface&MockObject $consoleInput;
 	protected OutputInterface&MockObject $consoleOutput;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

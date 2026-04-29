@@ -222,12 +222,14 @@ class Repair implements IOutput {
 		];
 	}
 
+	#[\Override]
 	public function debug(string $message): void {
 	}
 
 	/**
 	 * @param string $message
 	 */
+	#[\Override]
 	public function info($message): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairInfoEvent($message));
@@ -236,6 +238,7 @@ class Repair implements IOutput {
 	/**
 	 * @param string $message
 	 */
+	#[\Override]
 	public function warning($message): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairWarningEvent($message));
@@ -244,6 +247,7 @@ class Repair implements IOutput {
 	/**
 	 * @param int $max
 	 */
+	#[\Override]
 	public function startProgress($max = 0): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairStartEvent($max, $this->currentStep));
@@ -253,11 +257,13 @@ class Repair implements IOutput {
 	 * @param int $step number of step to advance
 	 * @param string $description
 	 */
+	#[\Override]
 	public function advance($step = 1, $description = ''): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairAdvanceEvent($step, $description));
 	}
 
+	#[\Override]
 	public function finishProgress(): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairFinishEvent());

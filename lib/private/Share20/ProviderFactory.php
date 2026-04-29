@@ -46,6 +46,7 @@ class ProviderFactory implements IProviderFactory {
 	) {
 	}
 
+	#[\Override]
 	public function registerProvider(string $shareProviderClass): void {
 		$this->registeredShareProviders[] = $shareProviderClass;
 	}
@@ -128,6 +129,7 @@ class ProviderFactory implements IProviderFactory {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getProvider($id) {
 		$provider = null;
 		if (isset($this->shareProviders[$id])) {
@@ -171,6 +173,7 @@ class ProviderFactory implements IProviderFactory {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getProviderForType($shareType) {
 		$provider = null;
 
@@ -199,6 +202,7 @@ class ProviderFactory implements IProviderFactory {
 		return $provider;
 	}
 
+	#[\Override]
 	public function getAllProviders() {
 		$shares = [$this->defaultShareProvider(), $this->federatedShareProvider()];
 		$shareByMail = $this->getShareByMailProvider();

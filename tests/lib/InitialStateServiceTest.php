@@ -24,6 +24,7 @@ class InitialStateServiceTest extends TestCase {
 	/** @var MockObject|LoggerInterface|(LoggerInterface&MockObject) */
 	protected $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -42,6 +43,7 @@ class InitialStateServiceTest extends TestCase {
 			[23],
 			[2.3],
 			[new class implements JsonSerializable {
+				#[\Override]
 				public function jsonSerialize(): int {
 					return 3;
 				}

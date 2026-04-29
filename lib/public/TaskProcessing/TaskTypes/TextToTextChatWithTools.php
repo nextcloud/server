@@ -38,6 +38,7 @@ class TextToTextChatWithTools implements IInternalTaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		// TRANSLATORS Tool calling, also known as function calling, is a structured way to give LLMs the ability to make requests back to the application that called it. You define the tools you want to make available to the model, and the model will make tool requests to your app as necessary to fulfill the prompts you give it.
 		return $this->l->t('Chat with tools');
@@ -47,6 +48,7 @@ class TextToTextChatWithTools implements IInternalTaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		// TRANSLATORS Tool calling, also known as function calling, is a structured way to give LLMs the ability to make requests back to the application that called it. You define the tools you want to make available to the model, and the model will make tool requests to your app as necessary to fulfill the prompts you give it.
 		return $this->l->t('Chat with the language model with tool calling support.');
@@ -56,6 +58,7 @@ class TextToTextChatWithTools implements IInternalTaskType {
 	 * @return string
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -64,6 +67,7 @@ class TextToTextChatWithTools implements IInternalTaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'system_prompt' => new ShapeDescriptor(
@@ -100,6 +104,7 @@ class TextToTextChatWithTools implements IInternalTaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

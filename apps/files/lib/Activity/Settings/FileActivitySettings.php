@@ -20,10 +20,12 @@ abstract class FileActivitySettings extends ActivitySettings {
 	) {
 	}
 
+	#[\Override]
 	public function getGroupIdentifier() {
 		return 'files';
 	}
 
+	#[\Override]
 	public function getGroupName() {
 		return $this->l->t('Files');
 	}

@@ -30,6 +30,7 @@ class BruteforceAllowListTest extends TestCase {
 	/** @var BruteforceAllowList */
 	private $allowList;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -21,6 +21,7 @@ class DropIndex extends IndexMigrationAttribute {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function definition(): string {
 		return 'Deletion of an index from table \'' . $this->getTable() . '\'';
 	}

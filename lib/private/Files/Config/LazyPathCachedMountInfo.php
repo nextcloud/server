@@ -39,6 +39,7 @@ class LazyPathCachedMountInfo extends CachedMountInfo {
 		$this->rootInternalPathCallback = $rootInternalPathCallback;
 	}
 
+	#[\Override]
 	public function getRootInternalPath(): string {
 		if ($this->rootInternalPath === self::PATH_PLACEHOLDER) {
 			$this->rootInternalPath = ($this->rootInternalPathCallback)($this);

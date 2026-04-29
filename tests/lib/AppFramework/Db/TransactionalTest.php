@@ -17,6 +17,7 @@ use Test\TestCase;
 class TransactionalTest extends TestCase {
 	private IDBConnection&MockObject $db;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

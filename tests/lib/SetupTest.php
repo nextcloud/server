@@ -31,6 +31,7 @@ class SetupTest extends \Test\TestCase {
 	protected Installer $installer;
 	protected IEventDispatcher $eventDispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -103,6 +103,7 @@ class DispatcherTest extends \Test\TestCase {
 	/** @var ContainerInterface|MockObject */
 	private $container;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->controllerMethod = 'test';

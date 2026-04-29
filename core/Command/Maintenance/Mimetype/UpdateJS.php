@@ -20,12 +20,14 @@ class UpdateJS extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('maintenance:mimetype:update-js')
 			->setDescription('Update mimetypelist.js');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// Fetch all the aliases
 		$aliases = $this->mimetypeDetector->getAllAliases();

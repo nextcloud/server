@@ -45,6 +45,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 	 * write a message in the log
 	 * @param string|array $message
 	 */
+	#[\Override]
 	public function write(string $app, $message, int $level): void {
 		$entry = $this->logDetailsAsJSON($app, $message, $level);
 		$handle = @fopen($this->logFile, 'a');
@@ -69,6 +70,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 	/**
 	 * get entries from the log in reverse chronological order
 	 */
+	#[\Override]
 	public function getEntries(int $limit = 50, int $offset = 0): array {
 		$minLevel = $this->config->getValue('loglevel', ILogger::WARN);
 		$entries = [];
@@ -111,6 +113,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 		return $entries;
 	}
 
+	#[\Override]
 	public function getLogFilePath():string {
 		return $this->logFile;
 	}

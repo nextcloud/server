@@ -33,6 +33,7 @@ abstract class Provider extends \Test\TestCase {
 	protected View $rootView;
 	protected Storage $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -55,6 +56,7 @@ abstract class Provider extends \Test\TestCase {
 		$this->userId = $userId;
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->logout();
 

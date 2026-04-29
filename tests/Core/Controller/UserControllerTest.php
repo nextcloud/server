@@ -21,6 +21,7 @@ class UserControllerTest extends TestCase {
 	/** @var UserController */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

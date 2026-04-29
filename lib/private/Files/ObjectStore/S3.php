@@ -26,10 +26,12 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 	 * @return string the container or bucket name where objects are stored
 	 * @since 7.0.0
 	 */
+	#[\Override]
 	public function getStorageId() {
 		return $this->id;
 	}
 
+	#[\Override]
 	public function initiateMultipartUpload(string $urn): string {
 		$upload = $this->getConnection()->createMultipartUpload([
 			'Bucket' => $this->bucket,
@@ -42,6 +44,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		return (string)$uploadId;
 	}
 
+	#[\Override]
 	public function uploadMultipartPart(string $urn, string $uploadId, int $partId, $stream, $size): Result {
 		return $this->getConnection()->uploadPart([
 			'Body' => $stream,
@@ -53,6 +56,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		] + $this->getServerSideEncryptionParameters());
 	}
 
+	#[\Override]
 	public function getMultipartUploads(string $urn, string $uploadId): array {
 		$parts = [];
 		$isTruncated = true;
@@ -74,6 +78,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		return $parts;
 	}
 
+	#[\Override]
 	public function completeMultipartUpload(string $urn, string $uploadId, array $result): int {
 		$this->getConnection()->completeMultipartUpload([
 			'Bucket' => $this->bucket,
@@ -88,6 +93,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		return (int)$stat->get('ContentLength');
 	}
 
+	#[\Override]
 	public function abortMultipartUpload($urn, $uploadId): void {
 		$this->getConnection()->abortMultipartUpload([
 			'Bucket' => $this->bucket,
@@ -109,6 +115,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		return $result;
 	}
 
+	#[\Override]
 	public function getObjectMetaData(string $urn): array {
 		$object = $this->getConnection()->headObject([
 			'Bucket' => $this->bucket,
@@ -121,6 +128,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		] + $this->parseS3Metadata($object['Metadata'] ?? []);
 	}
 
+	#[\Override]
 	public function listObjects(string $prefix = ''): \Iterator {
 		$results = $this->getConnection()->getPaginator('ListObjectsV2', [
 			'Bucket' => $this->bucket,

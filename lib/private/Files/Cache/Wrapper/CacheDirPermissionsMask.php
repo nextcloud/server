@@ -25,6 +25,7 @@ class CacheDirPermissionsMask extends CachePermissionsMask {
 		parent::__construct($cache, $mask);
 	}
 
+	#[\Override]
 	protected function formatCacheEntry($entry): ICacheEntry|false {
 		$checkPath = $this->checkPath;
 		if ($checkPath($entry['path'])) {

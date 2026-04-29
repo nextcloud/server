@@ -32,6 +32,7 @@ class ManagerTest extends TestCase {
 	/** @var Manager */
 	private $manager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

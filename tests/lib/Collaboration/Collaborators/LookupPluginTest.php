@@ -38,6 +38,7 @@ class LookupPluginTest extends TestCase {
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

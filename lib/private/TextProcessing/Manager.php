@@ -62,6 +62,7 @@ class Manager implements IManager {
 	) {
 	}
 
+	#[\Override]
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -88,6 +89,7 @@ class Manager implements IManager {
 		return $this->providers;
 	}
 
+	#[\Override]
 	public function hasProviders(): bool {
 		// check if task processing equivalent types are available
 		$taskTaskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
@@ -107,6 +109,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getAvailableTaskTypes(): array {
 		$tasks = [];
 		foreach ($this->getProviders() as $provider) {
@@ -131,6 +134,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function runTask(OCPTask $task): string {
 		// try to run a task processing task if possible
 		$taskTypeClass = $task->getType();
@@ -215,6 +219,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function scheduleTask(OCPTask $task): void {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
@@ -245,6 +250,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function runOrScheduleTask(OCPTask $task): bool {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
@@ -264,6 +270,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function deleteTask(Task $task): void {
 		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->delete($taskEntity);
@@ -280,6 +287,7 @@ class Manager implements IManager {
 	 * @throws RuntimeException If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 */
+	#[\Override]
 	public function getTask(int $id): OCPTask {
 		try {
 			$taskEntity = $this->taskMapper->find($id);
@@ -303,6 +311,7 @@ class Manager implements IManager {
 	 * @throws RuntimeException If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 */
+	#[\Override]
 	public function getUserTask(int $id, ?string $userId): OCPTask {
 		try {
 			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
@@ -326,6 +335,7 @@ class Manager implements IManager {
 	 * @param string|null $identifier
 	 * @return array
 	 */
+	#[\Override]
 	public function getUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);

@@ -17,6 +17,7 @@ use OCP\IDBConnection;
 class MySQL extends AbstractDatabase {
 	public string $dbprettyname = 'MySQL/MariaDB';
 
+	#[\Override]
 	public function setupDatabase(): void {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);

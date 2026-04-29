@@ -32,6 +32,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	/**
 	 * @return array
 	 */
+	#[\Override]
 	public function getACL() {
 		return [
 			[
@@ -65,6 +66,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	/**
 	 * @return array
 	 */
+	#[\Override]
 	public function getChildACL() {
 		return [
 			[
@@ -89,6 +91,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	/**
 	 * @return null|string
 	 */
+	#[\Override]
 	public function getOwner() {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return $this->calendarInfo['{http://owncloud.org/ns}owner-principal'];
@@ -97,6 +100,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	}
 
 
+	#[\Override]
 	public function delete() {
 		$this->caldavBackend->deleteSubscription($this->calendarInfo['id']);
 	}
@@ -104,6 +108,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	/**
 	 * @param PropPatch $propPatch
 	 */
+	#[\Override]
 	public function propPatch(PropPatch $propPatch) {
 		$this->caldavBackend->updateSubscription($this->calendarInfo['id'], $propPatch);
 	}
@@ -113,6 +118,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	 * @return CalendarObject|\Sabre\CalDAV\ICalendarObject
 	 * @throws NotFound
 	 */
+	#[\Override]
 	public function getChild($name) {
 		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 		if (!$obj) {
@@ -126,6 +132,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	/**
 	 * @return INode[]
 	 */
+	#[\Override]
 	public function getChildren(): array {
 		$objs = $this->caldavBackend->getCalendarObjects($this->calendarInfo['id'], CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 
@@ -141,6 +148,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	 * @param array $paths
 	 * @return array
 	 */
+	#[\Override]
 	public function getMultipleChildren(array $paths):array {
 		$objs = $this->caldavBackend->getMultipleCalendarObjects($this->calendarInfo['id'], $paths, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 
@@ -158,6 +166,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	 * @return null|string
 	 * @throws MethodNotAllowed
 	 */
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new MethodNotAllowed('Creating objects in cached subscription is not allowed');
 	}
@@ -166,6 +175,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	 * @param string $name
 	 * @return bool
 	 */
+	#[\Override]
 	public function childExists($name):bool {
 		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 		if (!$obj) {
@@ -179,6 +189,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	 * @param array $filters
 	 * @return array
 	 */
+	#[\Override]
 	public function calendarQuery(array $filters):array {
 		return $this->caldavBackend->calendarQuery($this->calendarInfo['id'], $filters, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 	}
@@ -186,6 +197,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getChanges($syncToken, $syncLevel, $limit = null) {
 		if (!$syncToken && $limit) {
 			throw new UnsupportedLimitOnInitialSyncException();

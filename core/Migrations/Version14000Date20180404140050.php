@@ -22,10 +22,12 @@ class Version14000Date20180404140050 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function name(): string {
 		return 'Add lowercase user id column to users table';
 	}
 
+	#[\Override]
 	public function description(): string {
 		return 'Adds "uid_lower" column to the users table and fills the column to allow indexed case-insensitive searches';
 	}
@@ -36,6 +38,7 @@ class Version14000Date20180404140050 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -57,6 +60,7 @@ class Version14000Date20180404140050 extends SimpleMigrationStep {
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
+	#[\Override]
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		$qb = $this->connection->getQueryBuilder();
 

@@ -25,14 +25,17 @@ class MysqlRowFormat implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('MySQL row format');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$provider = $this->connection->getDatabaseProvider();
 		if (!in_array($provider, [IDBConnection::PLATFORM_MYSQL, IDBConnection::PLATFORM_MARIADB], true)) {

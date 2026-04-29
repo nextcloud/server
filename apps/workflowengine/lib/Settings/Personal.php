@@ -11,10 +11,12 @@ namespace OCA\WorkflowEngine\Settings;
 use OCP\WorkflowEngine\IManager;
 
 class Personal extends ASettings {
+	#[\Override]
 	public function getScope(): int {
 		return IManager::SCOPE_USER;
 	}
 
+	#[\Override]
 	public function getSection(): ?string {
 		return $this->manager->isUserScopeEnabled() ? 'workflow' : null;
 	}

@@ -20,6 +20,7 @@ class RetentionCleanupCommand extends Command {
 		parent::__construct('dav:retention:clean-up');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->service->cleanUp();
 

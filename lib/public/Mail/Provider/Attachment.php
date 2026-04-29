@@ -45,6 +45,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setName(string $value): self {
 		$this->name = $value;
 		return $this;
@@ -57,6 +58,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return string | null returns the attachment file name or null if not set
 	 */
+	#[\Override]
 	public function getName(): ?string {
 		return $this->name;
 	}
@@ -70,6 +72,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setType(string $value): self {
 		$this->type = $value;
 		return $this;
@@ -82,6 +85,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return string | null returns the attachment mime type or null if not set
 	 */
+	#[\Override]
 	public function getType(): ?string {
 		return $this->type;
 	}
@@ -95,6 +99,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setContents(string $value): self {
 		$this->contents = $value;
 		return $this;
@@ -107,6 +112,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return string | null returns the attachment contents or null if not set
 	 */
+	#[\Override]
 	public function getContents(): ?string {
 		return $this->contents;
 	}
@@ -120,6 +126,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setEmbedded(bool $value): self {
 		$this->embedded = $value;
 		return $this;
@@ -132,6 +139,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return bool embedded status of the attachment
 	 */
+	#[\Override]
 	public function getEmbedded(): bool {
 		return $this->embedded;
 	}

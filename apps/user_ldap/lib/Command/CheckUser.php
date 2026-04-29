@@ -27,6 +27,7 @@ class CheckUser extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:check-user')
@@ -51,6 +52,7 @@ class CheckUser extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$this->assertAllowed($input->getOption('force'));

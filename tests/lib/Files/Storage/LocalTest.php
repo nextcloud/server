@@ -29,6 +29,7 @@ class LocalTest extends Storage {
 	 */
 	private $tmpDir;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -36,6 +37,7 @@ class LocalTest extends Storage {
 		$this->instance = new Local(['datadir' => $this->tmpDir]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Files::rmdirr($this->tmpDir);
 		parent::tearDown();

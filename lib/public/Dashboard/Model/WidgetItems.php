@@ -68,6 +68,7 @@ class WidgetItems implements JsonSerializable {
 	/**
 	 * @since 27.1.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$items = array_map(static function (WidgetItem $item) {
 			return $item->jsonSerialize();

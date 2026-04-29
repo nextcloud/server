@@ -65,6 +65,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * @return string with the LDAP DN
 	 * @throws \Exception if translation was unsuccessful
 	 */
+	#[\Override]
 	public function getUserDN(string $uid): string {
 		if (!$this->userBackend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
@@ -80,6 +81,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Translate a group id to LDAP DN.
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function getGroupDN(string $gid): string {
 		if (!$this->groupBackend->groupExists($gid)) {
 			throw new \Exception('Group id not found in LDAP');
@@ -97,6 +99,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * @return string the internal user name
 	 * @throws \Exception if translation was unsuccessful
 	 */
+	#[\Override]
 	public function getUserName(string $dn): string {
 		$result = $this->userBackend->dn2UserName($dn);
 		if (!$result) {
@@ -108,6 +111,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	/**
 	 * Convert a stored DN so it can be used as base parameter for LDAP queries.
 	 */
+	#[\Override]
 	public function DNasBaseParameter(string $dn): string {
 		return $this->helper->DNasBaseParameter($dn);
 	}
@@ -115,6 +119,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	/**
 	 * Sanitize a DN received from the LDAP server.
 	 */
+	#[\Override]
 	public function sanitizeDN(array|string $dn): array|string {
 		return $this->helper->sanitizeDN($dn);
 	}
@@ -124,6 +129,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * The connection must be closed manually.
 	 * @throws \Exception if user id was not found in LDAP
 	 */
+	#[\Override]
 	public function getLDAPConnection(string $uid): Connection {
 		if (!$this->userBackend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
@@ -136,6 +142,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * The connection must be closed manually.
 	 * @throws \Exception if group id was not found in LDAP
 	 */
+	#[\Override]
 	public function getGroupLDAPConnection(string $gid): Connection {
 		if (!$this->groupBackend->groupExists($gid)) {
 			throw new \Exception('Group id not found in LDAP');
@@ -147,6 +154,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Get the LDAP base for users.
 	 * @throws \Exception if user id was not found in LDAP
 	 */
+	#[\Override]
 	public function getLDAPBaseUsers(string $uid): string {
 		if (!$this->userBackend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
@@ -175,6 +183,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Get the LDAP base for groups.
 	 * @throws \Exception if user id was not found in LDAP
 	 */
+	#[\Override]
 	public function getLDAPBaseGroups(string $uid): string {
 		if (!$this->userBackend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
@@ -187,6 +196,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Clear the cache if a cache is used, otherwise do nothing.
 	 * @throws \Exception if user id was not found in LDAP
 	 */
+	#[\Override]
 	public function clearCache(string $uid): void {
 		if (!$this->userBackend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
@@ -199,6 +209,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Acts on the LDAP connection of a group
 	 * @throws \Exception if user id was not found in LDAP
 	 */
+	#[\Override]
 	public function clearGroupCache(string $gid): void {
 		if (!$this->groupBackend->groupExists($gid)) {
 			throw new \Exception('Group id not found in LDAP');
@@ -209,6 +220,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	/**
 	 * Check whether a LDAP DN exists
 	 */
+	#[\Override]
 	public function dnExists(string $dn): bool {
 		$result = $this->userBackend->dn2UserName($dn);
 		return !$result ? false : true;
@@ -217,6 +229,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	/**
 	 * Flag record for deletion.
 	 */
+	#[\Override]
 	public function flagRecord(string $uid): void {
 		$this->deletedUsersIndex->markUser($uid);
 	}
@@ -224,6 +237,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	/**
 	 * Unflag record for deletion.
 	 */
+	#[\Override]
 	public function unflagRecord(string $uid): void {
 		//do nothing
 	}
@@ -232,6 +246,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Get the LDAP attribute name for the user's display name
 	 * @throws \Exception if user id was not found in LDAP
 	 */
+	#[\Override]
 	public function getLDAPDisplayNameField(string $uid): string {
 		if (!$this->userBackend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
@@ -243,6 +258,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Get the LDAP attribute name for the email
 	 * @throws \Exception if user id was not found in LDAP
 	 */
+	#[\Override]
 	public function getLDAPEmailField(string $uid): string {
 		if (!$this->userBackend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
@@ -254,6 +270,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Get the LDAP type of association between users and groups
 	 * @throws \Exception if group id was not found in LDAP
 	 */
+	#[\Override]
 	public function getLDAPGroupMemberAssoc(string $gid): string {
 		if (!$this->groupBackend->groupExists($gid)) {
 			throw new \Exception('Group id not found in LDAP');
@@ -266,6 +283,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 *
 	 * @throws \Exception if user id was not found in LDAP
 	 */
+	#[\Override]
 	public function getUserAttribute(string $uid, string $attribute): ?string {
 		$values = $this->getMultiValueUserAttribute($uid, $attribute);
 		if (count($values) === 0) {
@@ -279,6 +297,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 *
 	 * @throws \Exception if user id was not found in LDAP
 	 */
+	#[\Override]
 	public function getMultiValueUserAttribute(string $uid, string $attribute): array {
 		if (!$this->userBackend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');

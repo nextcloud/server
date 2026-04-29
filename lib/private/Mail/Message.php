@@ -39,6 +39,7 @@ class Message implements IMessage {
 	 * @since 13.0.0
 	 * @return $this
 	 */
+	#[\Override]
 	public function attach(IAttachment $attachment): IMessage {
 		/** @var Attachment $attachment */
 		$attachment->attach($this->symfonyEmail);
@@ -50,6 +51,7 @@ class Message implements IMessage {
 	 * {@inheritDoc}
 	 * @since 26.0.0
 	 */
+	#[\Override]
 	public function attachInline(string $body, string $name, ?string $contentType = null): IMessage {
 		# To be sure this works with iCalendar messages, we encode with 8bit instead of
 		# quoted-printable encoding. We save the current encoder, replace the current
@@ -94,6 +96,7 @@ class Message implements IMessage {
 	 * @param array $addresses Example: array('sender@domain.org', 'other@domain.org' => 'A name')
 	 * @return $this
 	 */
+	#[\Override]
 	public function setFrom(array $addresses): IMessage {
 		$this->from = $addresses;
 		return $this;
@@ -110,6 +113,7 @@ class Message implements IMessage {
 	 * Set the Reply-To address of this message
 	 * @return $this
 	 */
+	#[\Override]
 	public function setReplyTo(array $addresses): IMessage {
 		$this->replyTo = $addresses;
 		return $this;
@@ -128,6 +132,7 @@ class Message implements IMessage {
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
 	 * @return $this
 	 */
+	#[\Override]
 	public function setTo(array $recipients): IMessage {
 		$this->to = $recipients;
 		return $this;
@@ -146,6 +151,7 @@ class Message implements IMessage {
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
 	 * @return $this
 	 */
+	#[\Override]
 	public function setCc(array $recipients): IMessage {
 		$this->cc = $recipients;
 		return $this;
@@ -164,6 +170,7 @@ class Message implements IMessage {
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
 	 * @return $this
 	 */
+	#[\Override]
 	public function setBcc(array $recipients): IMessage {
 		$this->bcc = $recipients;
 		return $this;
@@ -179,6 +186,7 @@ class Message implements IMessage {
 	/**
 	 * @return $this
 	 */
+	#[\Override]
 	public function setSubject(string $subject): IMessage {
 		$this->symfonyEmail->subject($subject);
 		return $this;
@@ -194,6 +202,7 @@ class Message implements IMessage {
 	/**
 	 * @return $this
 	 */
+	#[\Override]
 	public function setPlainBody(string $body): IMessage {
 		$this->symfonyEmail->text($body);
 		return $this;
@@ -211,6 +220,7 @@ class Message implements IMessage {
 	/**
 	 * @return $this
 	 */
+	#[\Override]
 	public function setHtmlBody(string $body): IMessage {
 		if (!$this->plainTextOnly) {
 			$this->symfonyEmail->html($body);
@@ -275,6 +285,7 @@ class Message implements IMessage {
 	/**
 	 * @return $this
 	 */
+	#[\Override]
 	public function useTemplate(IEMailTemplate $emailTemplate): IMessage {
 		$this->setSubject($emailTemplate->renderSubject());
 		$this->setPlainBody($emailTemplate->renderText());
@@ -291,6 +302,7 @@ class Message implements IMessage {
 	 * @param AutoSubmitted::VALUE_* $value (one of AutoSubmitted::VALUE_NO, AutoSubmitted::VALUE_AUTO_GENERATED, AutoSubmitted::VALUE_AUTO_REPLIED)
 	 * @return $this
 	 */
+	#[\Override]
 	public function setAutoSubmitted(string $value): IMessage {
 		$headers = $this->symfonyEmail->getHeaders();
 

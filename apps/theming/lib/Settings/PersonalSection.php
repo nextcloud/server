@@ -35,6 +35,7 @@ class PersonalSection implements IIconSection {
 	 * @returns string
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getIcon() {
 		return $this->urlGenerator->imagePath(Application::APP_ID, 'accessibility-dark.svg');
 	}
@@ -46,6 +47,7 @@ class PersonalSection implements IIconSection {
 	 * @returns string
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getID() {
 		return Application::APP_ID;
 	}
@@ -57,6 +59,7 @@ class PersonalSection implements IIconSection {
 	 * @return string
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('Appearance and accessibility');
 	}
@@ -69,6 +72,7 @@ class PersonalSection implements IIconSection {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 15;
 	}

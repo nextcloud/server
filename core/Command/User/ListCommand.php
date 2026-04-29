@@ -22,6 +22,7 @@ class ListCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:list')
@@ -57,6 +58,7 @@ class ListCommand extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$limit = (int)$input->getOption('limit');
 		$offset = (int)$input->getOption('offset');

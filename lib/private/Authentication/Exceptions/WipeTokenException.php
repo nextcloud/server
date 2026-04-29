@@ -20,6 +20,7 @@ class WipeTokenException extends \OCP\Authentication\Exceptions\WipeTokenExcepti
 		parent::__construct($token);
 	}
 
+	#[\Override]
 	public function getToken(): IToken {
 		$token = parent::getToken();
 		/** @var IToken $token We know that we passed OC interface from constructor */

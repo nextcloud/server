@@ -85,6 +85,7 @@ class ShareController extends AuthPublicShareController {
 	 * Show the authentication page
 	 * The form has to submit to the authenticate method route
 	 */
+	#[\Override]
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showAuthenticate(): TemplateResponse {
@@ -98,6 +99,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * The template to show when authentication failed
 	 */
+	#[\Override]
 	protected function showAuthFailed(): TemplateResponse {
 		$templateParameters = ['share' => $this->share, 'wrongpw' => true];
 
@@ -109,6 +111,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * The template to show after user identification
 	 */
+	#[\Override]
 	protected function showIdentificationResult(bool $success = false): TemplateResponse {
 		$templateParameters = ['share' => $this->share, 'identityOk' => $success];
 
@@ -123,6 +126,7 @@ class ShareController extends AuthPublicShareController {
 	 * @param ?string $identityToken
 	 * @return bool
 	 */
+	#[\Override]
 	protected function validateIdentity(?string $identityToken = null): bool {
 		if ($this->share->getShareType() !== IShare::TYPE_EMAIL) {
 			return false;
@@ -138,6 +142,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * Generates a password for the share, respecting any password policy defined
 	 */
+	#[\Override]
 	protected function generatePassword(): void {
 		$event = new GenerateSecurePasswordEvent(PasswordContext::SHARING);
 		$this->eventDispatcher->dispatchTyped($event);
@@ -147,14 +152,17 @@ class ShareController extends AuthPublicShareController {
 		$this->shareManager->updateShare($this->share);
 	}
 
+	#[\Override]
 	protected function verifyPassword(string $password): bool {
 		return $this->shareManager->checkPassword($this->share, $password);
 	}
 
+	#[\Override]
 	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 
+	#[\Override]
 	public function isValidToken(): bool {
 		try {
 			$this->share = $this->shareManager->getShareByToken($this->getToken());
@@ -165,10 +173,12 @@ class ShareController extends AuthPublicShareController {
 		return true;
 	}
 
+	#[\Override]
 	protected function isPasswordProtected(): bool {
 		return $this->share->getPassword() !== null;
 	}
 
+	#[\Override]
 	protected function authSucceeded() {
 		if ($this->share === null) {
 			throw new NotFoundException();
@@ -183,6 +193,7 @@ class ShareController extends AuthPublicShareController {
 		$this->session->set(PublicAuth::DAV_AUTHENTICATED, array_merge($allowedShareIds, [$this->share->getId()]));
 	}
 
+	#[\Override]
 	protected function authFailed() {
 		$this->emitAccessShareHook($this->share, 403, 'Wrong password');
 		$this->emitShareAccessEvent($this->share, self::SHARE_AUTH, 403, 'Wrong password');
@@ -271,6 +282,7 @@ class ShareController extends AuthPublicShareController {
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
+	#[\Override]
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showShare($path = ''): TemplateResponse {

@@ -25,10 +25,12 @@ class FileLocking implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Transactional File Locking');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
@@ -41,6 +43,7 @@ class FileLocking implements ISetupCheck {
 		return ($this->lockingProvider instanceof DBLockingProvider);
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (!$this->hasWorkingFileLocking()) {
 			return SetupResult::error(

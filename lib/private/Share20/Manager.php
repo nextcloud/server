@@ -1349,6 +1349,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getSharedWithByPath(string $userId, int $shareType, string $path, bool $forChildren, int $limit = 50, int $offset = 0): iterable {
 		try {
 			$provider = $this->factory->getProviderForType($shareType);
@@ -1842,6 +1843,7 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
 	}
 
+	#[\Override]
 	public function matchDisplayName(): bool {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_displayname', 'yes') === 'yes';
 	}
@@ -1924,6 +1926,7 @@ class Manager implements IManager {
 		return true;
 	}
 
+	#[\Override]
 	public function registerShareProvider(string $shareProviderClass): void {
 		$this->factory->registerProvider($shareProviderClass);
 	}
@@ -1993,6 +1996,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function getUsersForShare(IShare $share): iterable {
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		if ($provider instanceof IShareProviderGetUsers) {

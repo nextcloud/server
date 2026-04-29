@@ -22,6 +22,7 @@ class Test extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('broadcast:test')
@@ -39,6 +40,7 @@ class Test extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$name = $input->getArgument('name');
 		$uid = $input->getArgument('uid');
@@ -51,16 +53,19 @@ class Test extends Command {
 				parent::__construct();
 			}
 
+			#[\Override]
 			public function broadcastAs(): string {
 				return $this->name;
 			}
 
+			#[\Override]
 			public function getUids(): array {
 				return [
 					$this->uid,
 				];
 			}
 
+			#[\Override]
 			public function jsonSerialize(): array {
 				return [
 					'description' => 'this is a test event',

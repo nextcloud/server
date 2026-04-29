@@ -30,16 +30,19 @@ class RemoteAddress implements IRemoteAddress, IAddress {
 			: new Address($remoteAddress);
 	}
 
+	#[\Override]
 	public static function isValid(string $ip): bool {
 		return Address::isValid($ip);
 	}
 
+	#[\Override]
 	public function matches(IRange ... $ranges): bool {
 		return $this->ip === null
 			? true
 			: $this->ip->matches(... $ranges);
 	}
 
+	#[\Override]
 	public function allowsAdminActions(): bool {
 		if ($this->ip === null) {
 			return true;

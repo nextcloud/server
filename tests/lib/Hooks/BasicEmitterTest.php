@@ -40,6 +40,7 @@ class BasicEmitterTest extends \Test\TestCase {
 	 */
 	protected $emitter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->emitter = new DummyEmitter();

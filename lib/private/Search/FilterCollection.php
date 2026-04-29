@@ -27,20 +27,24 @@ class FilterCollection implements IFilterCollection {
 		$this->filters = $filters;
 	}
 
+	#[\Override]
 	public function has(string $name): bool {
 		return isset($this->filters[$name]);
 	}
 
+	#[\Override]
 	public function get(string $name): ?IFilter {
 		return $this->filters[$name] ?? null;
 	}
 
+	#[\Override]
 	public function getIterator(): Generator {
 		foreach ($this->filters as $k => $v) {
 			yield $k => $v;
 		}
 	}
 
+	#[\Override]
 	public function count(): int {
 		return count($this->filters);
 	}

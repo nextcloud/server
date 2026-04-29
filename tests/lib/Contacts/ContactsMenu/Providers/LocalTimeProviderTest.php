@@ -39,6 +39,7 @@ class LocalTimeProviderTest extends TestCase {
 
 	private LocalTimeProvider $provider;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

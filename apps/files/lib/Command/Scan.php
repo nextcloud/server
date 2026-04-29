@@ -55,6 +55,7 @@ class Scan extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -196,6 +197,7 @@ class Scan extends Base {
 		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$inputPath = $input->getOption('path');
 		if ($inputPath) {

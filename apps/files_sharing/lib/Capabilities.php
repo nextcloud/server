@@ -97,6 +97,7 @@ class Capabilities implements ICapability {
 	 *	   },
 	 * }
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		$res = [];
 

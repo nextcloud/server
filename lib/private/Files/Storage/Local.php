@@ -78,10 +78,12 @@ class Local extends Common {
 	public function __destruct() {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'local::' . $this->datadir;
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		$sourcePath = $this->getSourcePath($path);
 		$oldMask = umask($this->defUMask);
@@ -90,6 +92,7 @@ class Local extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		if (!$this->isDeletable($path)) {
 			return false;
@@ -129,10 +132,12 @@ class Local extends Common {
 		}
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		return opendir($this->getSourcePath($path));
 	}
 
+	#[\Override]
 	public function is_dir(string $path): bool {
 		if ($this->caseInsensitive && !$this->file_exists($path)) {
 			return false;
@@ -143,6 +148,7 @@ class Local extends Common {
 		return is_dir($this->getSourcePath($path));
 	}
 
+	#[\Override]
 	public function is_file(string $path): bool {
 		if ($this->caseInsensitive && !$this->file_exists($path)) {
 			return false;
@@ -150,6 +156,7 @@ class Local extends Common {
 		return is_file($this->getSourcePath($path));
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
@@ -168,6 +175,7 @@ class Local extends Common {
 		return $statResult;
 	}
 
+	#[\Override]
 	public function getMetaData(string $path): ?array {
 		try {
 			$stat = $this->stat($path);
@@ -217,6 +225,7 @@ class Local extends Common {
 		return $data;
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		$filetype = @filetype($this->getSourcePath($path));
 		if ($filetype === 'link') {
@@ -225,6 +234,7 @@ class Local extends Common {
 		return $filetype;
 	}
 
+	#[\Override]
 	public function filesize(string $path): int|float|false {
 		$type = $this->filetype($path);
 		if ($type === false) {
@@ -241,14 +251,17 @@ class Local extends Common {
 		return filesize($fullPath);
 	}
 
+	#[\Override]
 	public function isReadable(string $path): bool {
 		return is_readable($this->getSourcePath($path));
 	}
 
+	#[\Override]
 	public function isUpdatable(string $path): bool {
 		return is_writable($this->getSourcePath($path));
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		if ($this->caseInsensitive) {
 			$fullPath = $this->getSourcePath($path);
@@ -263,6 +276,7 @@ class Local extends Common {
 		}
 	}
 
+	#[\Override]
 	public function filemtime(string $path): int|false {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
@@ -276,6 +290,7 @@ class Local extends Common {
 		return filemtime($fullPath);
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		// sets the modification time of the file to the given value.
 		// If mtime is nil the current time is set.
@@ -297,10 +312,12 @@ class Local extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function file_get_contents(string $path): string|false {
 		return file_get_contents($this->getSourcePath($path));
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		$oldMask = umask($this->defUMask);
 		if ($this->unlinkOnTruncate) {
@@ -311,6 +328,7 @@ class Local extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
@@ -331,6 +349,7 @@ class Local extends Common {
 		}
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$srcParent = dirname($source);
 		$dstParent = dirname($target);
@@ -374,6 +393,7 @@ class Local extends Common {
 		return $this->copy($source, $target) && $this->unlink($source);
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		if ($this->is_dir($source)) {
 			return parent::copy($source, $target);
@@ -393,6 +413,7 @@ class Local extends Common {
 		}
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$sourcePath = $this->getSourcePath($path);
 		if (!file_exists($sourcePath) && $mode === 'r') {
@@ -407,10 +428,12 @@ class Local extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function hash(string $type, string $path, bool $raw = false): string|false {
 		return hash_file($type, $this->getSourcePath($path), $raw);
 	}
 
+	#[\Override]
 	public function free_space(string $path): int|float|false {
 		$sourcePath = $this->getSourcePath($path);
 		// using !is_dir because $sourcePath might be a part file or
@@ -431,10 +454,12 @@ class Local extends Common {
 		return $this->searchInDir($query);
 	}
 
+	#[\Override]
 	public function getLocalFile(string $path): string|false {
 		return $this->getSourcePath($path);
 	}
 
+	#[\Override]
 	protected function searchInDir(string $query, string $dir = ''): array {
 		$files = [];
 		$physicalDir = $this->getSourcePath($dir);
@@ -454,6 +479,7 @@ class Local extends Common {
 		return $files;
 	}
 
+	#[\Override]
 	public function hasUpdated(string $path, int $time): bool {
 		if ($this->file_exists($path)) {
 			return $this->filemtime($path) > $time;
@@ -499,10 +525,12 @@ class Local extends Common {
 		throw new ForbiddenException('Following symlinks is not allowed', false);
 	}
 
+	#[\Override]
 	public function isLocal(): bool {
 		return true;
 	}
 
+	#[\Override]
 	public function getETag(string $path): string|false {
 		return $this->calculateEtag($path, $this->stat($path));
 	}
@@ -546,6 +574,7 @@ class Local extends Common {
 			&& !$sourceStorage->instanceOfStorage(Encryption::class);
 	}
 
+	#[\Override]
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			// resolve any jailed paths
@@ -566,6 +595,7 @@ class Local extends Common {
 		}
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			// resolve any jailed paths
@@ -586,6 +616,7 @@ class Local extends Common {
 		}
 	}
 
+	#[\Override]
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		/** @var int|false $result We consider here that returned size will never be a float because we write less than 4GB */
 		$result = $this->file_put_contents($path, $stream);

@@ -34,6 +34,7 @@ class VerificationTokenTest extends TestCase {
 	/** @var IJobList|MockObject */
 	protected $jobList;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

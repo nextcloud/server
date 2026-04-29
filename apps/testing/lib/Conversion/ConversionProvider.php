@@ -20,6 +20,7 @@ class ConversionProvider implements IConversionProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getSupportedMimeTypes(): array {
 		return [
 			new ConversionMimeProvider('image/jpeg', 'image/png', 'png', $this->l10n->t('Image (.png)')),
@@ -27,6 +28,7 @@ class ConversionProvider implements IConversionProvider {
 		];
 	}
 
+	#[\Override]
 	public function convertFile(File $file, string $targetMimeType): mixed {
 		$image = imagecreatefromstring($file->getContent());
 		imagepalettetotruecolor($image);

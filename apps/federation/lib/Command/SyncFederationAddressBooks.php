@@ -23,6 +23,7 @@ class SyncFederationAddressBooks extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('federation:sync-addressbooks')
@@ -30,6 +31,7 @@ class SyncFederationAddressBooks extends Command {
 			->addOption('full', null, InputOption::VALUE_NONE, 'Perform a full sync instead of a delta sync');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$progress = new ProgressBar($output);
 		$progress->start();

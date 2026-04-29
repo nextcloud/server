@@ -90,6 +90,7 @@ class SignatureManager implements ISignatureManager {
 	 * @throws SignatureException if signature could not be confirmed
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getIncomingSignedRequest(
 		ISignatoryManager $signatoryManager,
 		?string $body = null,
@@ -191,6 +192,7 @@ class SignatureManager implements ISignatureManager {
 	 * @throws SignatoryNotFoundException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOutgoingSignedRequest(
 		ISignatoryManager $signatoryManager,
 		string $content,
@@ -222,6 +224,7 @@ class SignatureManager implements ISignatureManager {
 	 * @return array new payload to be sent, including original payload and signature elements in headers
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function signOutgoingRequestIClientPayload(
 		ISignatoryManager $signatoryManager,
 		array $payload,
@@ -245,6 +248,7 @@ class SignatureManager implements ISignatureManager {
 	 * @throws SignatoryNotFoundException if entry does not exist in local database
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getSignatory(string $host, string $account = ''): Signatory {
 		return $this->mapper->getByHost($host, $account);
 	}
@@ -261,6 +265,7 @@ class SignatureManager implements ISignatureManager {
 	 * @throws IdentityNotFoundException is identity is not set in app config
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function generateKeyIdFromConfig(string $path): string {
 		if (!$this->appConfig->hasKey('core', self::APPCONFIG_IDENTITY, true)) {
 			throw new IdentityNotFoundException(self::APPCONFIG_IDENTITY . ' not set');
@@ -280,6 +285,7 @@ class SignatureManager implements ISignatureManager {
 	 * @throws IdentityNotFoundException if identity cannot be extracted
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function extractIdentityFromUri(string $uri): string {
 		return Signatory::extractIdentityFromUri($uri);
 	}

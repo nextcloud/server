@@ -27,6 +27,7 @@ class HasPhotoPlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$server->on('propFind', [$this, 'propFind']);
 	}
@@ -62,6 +63,7 @@ class HasPhotoPlugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getPluginName() {
 		return 'vcard-has-photo';
 	}
@@ -77,6 +79,7 @@ class HasPhotoPlugin extends ServerPlugin {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getPluginInfo() {
 		return [
 			'name' => $this->getPluginName(),

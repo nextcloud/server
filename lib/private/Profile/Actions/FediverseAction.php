@@ -27,6 +27,7 @@ class FediverseAction implements ILinkAction {
 	) {
 	}
 
+	#[\Override]
 	public function preload(IUser $targetUser): void {
 		try {
 			$account = $this->accountManager->getAccount($targetUser);
@@ -37,31 +38,38 @@ class FediverseAction implements ILinkAction {
 		}
 	}
 
+	#[\Override]
 	public function getAppId(): string {
 		return 'core';
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return IAccountManager::PROPERTY_FEDIVERSE;
 	}
 
+	#[\Override]
 	public function getDisplayId(): string {
 		return $this->l10nFactory->get('lib')->t('Fediverse');
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		$displayUsername = $this->value[0] === '@' ? $this->value : '@' . $this->value;
 		return $this->l10nFactory->get('lib')->t('View %s on the fediverse', [$displayUsername]);
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 50;
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mastodon.svg'));
 	}
 
+	#[\Override]
 	public function getTarget(): ?string {
 		if ($this->value === '') {
 			return null;

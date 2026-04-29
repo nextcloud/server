@@ -43,6 +43,7 @@ class Storage extends Wrapper {
 		parent::__construct($parameters);
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		if ($this->trashEnabled) {
 			try {
@@ -60,6 +61,7 @@ class Storage extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		if ($this->trashEnabled) {
 			return $this->doDelete($path, 'rmdir');
@@ -175,6 +177,7 @@ class Storage extends Wrapper {
 		return $this->mountPoint;
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$sourceIsTrashbin = $sourceStorage->instanceOfStorage(Storage::class);
 		try {

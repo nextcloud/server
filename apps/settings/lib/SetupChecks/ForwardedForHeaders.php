@@ -25,14 +25,17 @@ class ForwardedForHeaders implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Forwarded for headers');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
 		$remoteAddress = $this->request->getHeader('REMOTE_ADDR');

@@ -22,6 +22,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 
 	protected ClearFrontendCaches $repair;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

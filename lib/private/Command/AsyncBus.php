@@ -26,6 +26,7 @@ abstract class AsyncBus implements IBus {
 	/**
 	 * Schedule a command to be fired
 	 */
+	#[\Override]
 	public function push(ICommand $command): void {
 		if ($this->canRunAsync($command)) {
 			$this->queueCommand($command);
@@ -44,6 +45,7 @@ abstract class AsyncBus implements IBus {
 	 *
 	 * @param string $trait
 	 */
+	#[\Override]
 	public function requireSync(string $trait): void {
 		$this->syncTraits[] = trim($trait, '\\');
 	}

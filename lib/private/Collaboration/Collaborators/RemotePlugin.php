@@ -37,6 +37,7 @@ class RemotePlugin implements ISearchPlugin {
 	}
 
 
+	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$result = ['wide' => [], 'exact' => []];
 		$resultType = new SearchResultType('remotes');

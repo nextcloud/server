@@ -24,6 +24,7 @@ class LogFactory implements ILogFactory {
 	/**
 	 * @throws QueryException
 	 */
+	#[\Override]
 	public function get(string $type):IWriter {
 		return match (strtolower($type)) {
 			'errorlog' => new Errorlog($this->systemConfig),
@@ -43,6 +44,7 @@ class LogFactory implements ILogFactory {
 		};
 	}
 
+	#[\Override]
 	public function getCustomPsrLogger(string $path, string $type = 'file', string $tag = 'Nextcloud'): LoggerInterface {
 		$log = $this->createNewLogger($type, $tag, $path);
 		return new PsrLoggerAdapter(

@@ -25,6 +25,7 @@ class Index extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('workflows:list')
@@ -51,6 +52,7 @@ class Index extends Command {
 		};
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$ops = $this->manager->getAllOperations(
 			new ScopeContext(

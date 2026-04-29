@@ -19,6 +19,7 @@ class NodeAddedToFavoriteListener implements IEventListener {
 		private IActivityManager $activityManager,
 	) {
 	}
+	#[\Override]
 	public function handle(Event $event):void {
 		if (!($event instanceof NodeAddedToFavorite)) {
 			return;
