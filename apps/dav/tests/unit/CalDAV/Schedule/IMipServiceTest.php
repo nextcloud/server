@@ -2519,7 +2519,7 @@ class IMipServiceTest extends TestCase {
 		$actualHtmlValues = [];
 		$template
 			->method('addBodyListItem')
-			->willReturnCallback(function (string $html) use (&$actualHtmlValues) {
+			->willReturnCallback(function (string $html) use (&$actualHtmlValues): void {
 				$actualHtmlValues[] = $html;
 			});
 
@@ -2558,7 +2558,7 @@ class IMipServiceTest extends TestCase {
 		$actualHtmlValues = [];
 		$template
 			->method('addBodyListItem')
-			->willReturnCallback(function (string $html) use (&$actualHtmlValues) {
+			->willReturnCallback(function (string $html) use (&$actualHtmlValues): void {
 				$actualHtmlValues[] = $html;
 			});
 

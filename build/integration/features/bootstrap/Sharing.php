@@ -5,9 +5,9 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
+use OCA\Files_Sharing\MountProvider;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
@@ -805,7 +805,7 @@ trait Sharing {
 			}
 			$this->runOcc(['files:mount:list', '--output', 'json', '--cached-only', $user]);
 			$mounts = json_decode($this->lastStdOut, true)['cached'];
-			$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === \OCA\Files_Sharing\MountProvider::class);
+			$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === MountProvider::class);
 			$actual = array_values(array_map(fn (array $data) => $data['mountpoint'], $shareMounts));
 			Assert::assertEquals($expected, $actual);
 		}
@@ -817,7 +817,7 @@ trait Sharing {
 	public function checkShareMountsEmpty(string $user) {
 		$this->runOcc(['files:mount:list', '--output', 'json', '--cached-only', $user]);
 		$mounts = json_decode($this->lastStdOut, true)['cached'];
-		$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === \OCA\Files_Sharing\MountProvider::class);
+		$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === MountProvider::class);
 		$actual = array_values(array_map(fn (array $data) => $data['mountpoint'], $shareMounts));
 		Assert::assertEquals([], $actual);
 	}
