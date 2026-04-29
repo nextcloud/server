@@ -51,8 +51,12 @@ describe('Settings: User Manager Management', function() {
 	})
 
 	it('Can remove a manager through the edit dialog', function() {
-		// Set manager via backend first
-		cy.runOccCommand(`user:setting '${user.userId}' settings manager '${manager.userId}'`)
+		// Set manager via backend first.
+		// User::getManagerUids() decodes this with JSON_THROW_ON_ERROR, so we
+		// must store a JSON array, matching what setManagerUids() writes.
+		// Double-quotes are escaped because runOccCommand passes the command
+		// through `bash -c "..."`, which would otherwise eat them.
+		cy.runOccCommand(`user:setting '${user.userId}' settings manager '[\\"${manager.userId}\\"]'`)
 
 		cy.visit('/settings/users')
 
