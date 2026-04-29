@@ -329,12 +329,19 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 			/** @var IWriteStreamStorage $storage */
 			return $storage->writeStream($path, $stream, $size);
 		} else {
-			$target = $this->fopen($path, 'w');
-			$count = Files::streamCopy($stream, $target);
-			fclose($stream);
-			fclose($target);
-			return $count;
+			return $this->writeStreamFallback($path, $stream);
 		}
+	}
+
+	/**
+	 * @param resource $stream
+	 */
+	protected function writeStreamFallback(string $path, $stream): int {
+		$target = $this->fopen($path, 'w');
+		$count = Files::streamCopy($stream, $target);
+		fclose($stream);
+		fclose($target);
+		return $count;
 	}
 
 	public function getDirectoryContent(string $directory): \Traversable {
