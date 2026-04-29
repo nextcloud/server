@@ -8,18 +8,27 @@
 
 namespace Test\Traits;
 
+use OC\User\Manager;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\UserInterface;
 
 class DummyUser extends User {
 	public function __construct(
 		private string $uid,
 	) {
-		parent::__construct($this->uid, null, Server::get(IEventDispatcher::class));
+		parent::__construct(
+			$this->uid,
+			null,
+			Server::get(IEventDispatcher::class),
+			Server::get(Manager::class),
+			Server::get(IConfig::class),
+			Server::get(IURLGenerator::class),
+		);
 	}
 
 	#[\Override]
