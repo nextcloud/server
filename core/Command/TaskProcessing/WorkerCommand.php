@@ -10,6 +10,8 @@ namespace OC\Core\Command\TaskProcessing;
 
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\IManager;
@@ -23,6 +25,8 @@ class WorkerCommand extends Base {
 	public function __construct(
 		private readonly IManager $taskProcessingManager,
 		private readonly LoggerInterface $logger,
+		private readonly IAppConfig $appConfig,
+		private readonly ITimeFactory $timeFactory,
 	) {
 		parent::__construct();
 	}
@@ -63,12 +67,13 @@ class WorkerCommand extends Base {
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$startTime = time();
+		$startTime = $this->timeFactory->now()->getTimestamp();
 		$timeout = (int)$input->getOption('timeout');
 		$interval = (int)$input->getOption('interval');
 		$once = $input->getOption('once') === true;
 		/** @var list<string> $taskTypes */
 		$taskTypes = $input->getOption('taskTypes');
+		$lastConfigStorageTime = 0;
 
 		if ($timeout > 0) {
 			$output->writeln('<info>Task processing worker will stop after ' . $timeout . ' seconds</info>');
@@ -76,7 +81,7 @@ class WorkerCommand extends Base {
 
 		while (true) {
 			// Stop if timeout exceeded
-			if ($timeout > 0 && ($startTime + $timeout) < time()) {
+			if ($timeout > 0 && ($startTime + $timeout) < $this->timeFactory->now()->getTimestamp()) {
 				$output->writeln('Timeout reached, exiting...', OutputInterface::VERBOSITY_VERBOSE);
 				break;
 			}
@@ -84,11 +89,15 @@ class WorkerCommand extends Base {
 			// Handle SIGTERM/SIGINT gracefully
 			try {
 				$this->abortIfInterrupted();
-			} catch (InterruptedException $e) {
+			} catch (InterruptedException) {
 				$output->writeln('<info>Task processing worker stopped</info>');
 				break;
 			}
 
+			if ($lastConfigStorageTime < $this->timeFactory->now()->getTimestamp() - 60) {
+				$this->appConfig->setValueString('core', 'ai.taskprocessing_worker_last_iteration', (string)$this->timeFactory->now()->getTimestamp(), lazy: true);
+				$lastConfigStorageTime = $this->timeFactory->now()->getTimestamp();
+			}
 			$processedTask = $this->processNextTask($output, $taskTypes);
 
 			if ($once) {

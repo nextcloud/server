@@ -153,6 +153,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\SystemIs64bit' => __DIR__ . '/..' . '/../lib/SetupChecks/SystemIs64bit.php',
         'OCA\\Settings\\SetupChecks\\TaskProcessingPickupSpeed' => __DIR__ . '/..' . '/../lib/SetupChecks/TaskProcessingPickupSpeed.php',
         'OCA\\Settings\\SetupChecks\\TaskProcessingSuccessRate' => __DIR__ . '/..' . '/../lib/SetupChecks/TaskProcessingSuccessRate.php',
+        'OCA\\Settings\\SetupChecks\\TaskProcessingWorkerIsRunning' => __DIR__ . '/..' . '/../lib/SetupChecks/TaskProcessingWorkerIsRunning.php',
         'OCA\\Settings\\SetupChecks\\TempSpaceAvailable' => __DIR__ . '/..' . '/../lib/SetupChecks/TempSpaceAvailable.php',
         'OCA\\Settings\\SetupChecks\\TransactionIsolation' => __DIR__ . '/..' . '/../lib/SetupChecks/TransactionIsolation.php',
         'OCA\\Settings\\SetupChecks\\TwoFactorConfiguration' => __DIR__ . '/..' . '/../lib/SetupChecks/TwoFactorConfiguration.php',
