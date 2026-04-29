@@ -1485,6 +1485,7 @@ return array(
     'OC\\Core\\Controller\\TwoFactorChallengeController' => $baseDir . '/core/Controller/TwoFactorChallengeController.php',
     'OC\\Core\\Controller\\UnifiedSearchController' => $baseDir . '/core/Controller/UnifiedSearchController.php',
     'OC\\Core\\Controller\\UnsupportedBrowserController' => $baseDir . '/core/Controller/UnsupportedBrowserController.php',
+    'OC\\Core\\Controller\\UpdateController' => $baseDir . '/core/Controller/UpdateController.php',
     'OC\\Core\\Controller\\UserController' => $baseDir . '/core/Controller/UserController.php',
     'OC\\Core\\Controller\\WalledGardenController' => $baseDir . '/core/Controller/WalledGardenController.php',
     'OC\\Core\\Controller\\WebAuthnController' => $baseDir . '/core/Controller/WebAuthnController.php',

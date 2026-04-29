@@ -14,7 +14,7 @@ import {
 } from '@mdi/js'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { generateFilePath } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import { NcButton, NcIconSvgWrapper, NcLoadingIcon } from '@nextcloud/vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import NcGuestContent from '@nextcloud/vue/components/NcGuestContent'
@@ -92,7 +92,7 @@ async function onStartUpdate() {
 	}
 
 	isUpdateRunning.value = true
-	const eventSource = new OCEventSource(generateFilePath('core', '', 'ajax/update.php'))
+	const eventSource = new OCEventSource(generateOcsUrl('/core/update'))
 	eventSource.listen('success', (message) => {
 		messages.value.push({ message, type: 'success' })
 	})
