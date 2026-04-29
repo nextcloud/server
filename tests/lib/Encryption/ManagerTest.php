@@ -14,8 +14,10 @@ use OC\Encryption\Util;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Encryption\IEncryptionModule;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -73,10 +75,18 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->isEnabled());
 	}
 
+	/**
+	 * @group DB
+	 */
 	public function testManagerIsEnabled(): void {
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->setValueBool('core', 'encryption_enabled', true);
+
 		$this->config->expects($this->any())->method('getSystemValueBool')->willReturn(true);
-		$this->config->expects($this->any())->method('getAppValue')->willReturn('yes');
-		$this->assertTrue($this->manager->isEnabled());
+		$result = $this->manager->isEnabled();
+
+		$appConfig->deleteKey('core', 'encryption_enabled');
+		$this->assertTrue($result);
 	}
 
 	public function testModuleRegistration() {

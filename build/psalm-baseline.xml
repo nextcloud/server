@@ -1312,9 +1312,7 @@
   <file src="apps/encryption/lib/Util.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
     <InternalMethod>
@@ -3004,19 +3002,6 @@
     </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/Encryption/Disable.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/Encryption/Enable.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/Encryption/MigrateKeyStorage.php">

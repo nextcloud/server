@@ -11,6 +11,7 @@ use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -25,6 +26,7 @@ class Util {
 		private Crypt $crypt,
 		IUserSession $userSession,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IUserManager $userManager,
 	) {
 		$this->user = $userSession->isLoggedIn() ? $userSession->getUser() : false;
@@ -51,13 +53,7 @@ class Util {
 	 * @return bool
 	 */
 	public function shouldEncryptHomeStorage() {
-		$encryptHomeStorage = $this->config->getAppValue(
-			'encryption',
-			'encryptHomeStorage',
-			'1'
-		);
-
-		return ($encryptHomeStorage === '1');
+		return $this->appConfig->getValueBool('encryption', 'encryptHomeStorage', true);
 	}
 
 	/**
@@ -66,12 +62,7 @@ class Util {
 	 * @param bool $encryptHomeStorage
 	 */
 	public function setEncryptHomeStorage($encryptHomeStorage) {
-		$value = $encryptHomeStorage ? '1' : '0';
-		$this->config->setAppValue(
-			'encryption',
-			'encryptHomeStorage',
-			$value
-		);
+		$this->appConfig->setValueBool('encryption', 'encryptHomeStorage', (bool)$encryptHomeStorage);
 	}
 
 	/**
