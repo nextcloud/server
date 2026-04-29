@@ -27,6 +27,7 @@ use OC\User\Session;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -194,6 +195,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			if (method_exists($this, $methodName)) {
 				call_user_func([$this, $methodName]);
 			}
+		}
+
+		// Clean up encryption state to prevent test pollution
+		// This ensures encryption_enabled is reset after each test, preventing
+		// MultiKeyEncryptException failures in subsequent tests when encryption
+		// is left enabled but user keys don't exist
+		try {
+			$appConfig = Server::get(IAppConfig::class);
+			$currentValue = $appConfig->getValueBool('core', 'encryption_enabled', false);
+			if ($currentValue) {
+				$appConfig->setValueBool('core', 'encryption_enabled', false);
+				$appConfig->deleteKey('core', 'default_encryption_module');
+				$appConfig->deleteKey('encryption', 'useMasterKey');
+			}
+		} catch (\Throwable $e) {
+			// Ignore - may be called before bootstrap completes
 		}
 	}
 
