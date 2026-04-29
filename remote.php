@@ -54,16 +54,17 @@ function handleException(Exception|Error $e): void {
 			});
 			$server->exec();
 		} else {
-			$statusCode = 500;
-			if ($e instanceof ServiceUnavailableException) {
-				$statusCode = 503;
-			}
 			if ($e instanceof RemoteException) {
 				// we shall not log on RemoteException
 				\OCP\Server::get(ITemplateManager::class)->printErrorPage($e->getMessage(), '', $e->getCode());
 			} else {
+				if ($e->getCode() > 0) {
+					$status = $e->getCode();
+				} else {
+					$status = $e instanceof ServiceUnavailableException ? 503 : 500;
+				}
 				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
-				\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $statusCode);
+				\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $status);
 			}
 		}
 	} catch (\Exception $e) {
