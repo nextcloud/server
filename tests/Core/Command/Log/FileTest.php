@@ -68,8 +68,10 @@ class FileTest extends TestCase {
 		return [
 			['42', 42],
 			['0', 0],
-			['1 kB', 1024],
-			['5MB', 5 * 1024 * 1024],
+			['1 kiB', 1024],
+			['1 kB', 1000],
+			['5MiB', 5 * 1024 * 1024],
+			['5MB', 5 * 1000 * 1000],
 		];
 	}
 
@@ -99,7 +101,7 @@ class FileTest extends TestCase {
 		$calls = [
 			['Log backend file: disabled'],
 			['Log file: /var/log/nextcloud.log'],
-			['Rotate at: 5 MB'],
+			['Rotate at: 5 MiB'],
 		];
 		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')

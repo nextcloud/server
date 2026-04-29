@@ -597,8 +597,13 @@ class User implements IUser {
 				throw new InvalidArgumentException('Failed to set quota to invalid value ' . $quota);
 			}
 			$quota = Util::humanFileSize($bytesQuota);
+			$bytesOldQuota = Util::computerFileSize((string)$oldQuota);
+			$changed = $bytesOldQuota !== $bytesQuota;
+		} else {
+			$changed = $quota != $oldQuota;
 		}
-		if ($quota !== $oldQuota) {
+
+		if ($changed === true) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
