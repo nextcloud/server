@@ -36,6 +36,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -81,6 +82,7 @@ class UsersController extends AUserDataOCSController {
 		private IEventDispatcher $eventDispatcher,
 		private IPhoneNumberUtil $phoneNumberUtil,
 		private IAppManager $appManager,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct(
 			$appName,
@@ -294,8 +296,9 @@ class UsersController extends AUserDataOCSController {
 	 *
 	 * 200: Users details returned based on last logged in information
 	 */
-	#[AuthorizedAdminSetting(settings:Users::class)]
-	public function getLastLoggedInUsers(string $search = '',
+	#[AuthorizedAdminSetting(settings: Users::class)]
+	public function getLastLoggedInUsers(
+		string $search = '',
 		?int $limit = null,
 		int $offset = 0,
 	): DataResponse {
@@ -897,6 +900,277 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
+	 * Update multiple user account fields atomically.
+	 * All submitted fields are validated first; if any fail, no changes are applied.
+	 *
+	 * Unlike editUser (which updates one field at a time via key/value),
+	 * this method accepts named fields and applies them all in a single request.
+	 *
+	 * @param string $userId The user to update
+	 * @param string|null $displayName New display name (null = no change)
+	 * @param string|null $password New password (null = no change)
+	 * @param string|null $email New primary email (null = no change, '' = clear)
+	 * @param string|null $quota New quota e.g. "5 GB" (null = no change)
+	 * @param string|null $language Language code e.g. "de" (null = no change)
+	 * @param string|null $manager Manager user ID (null = no change, '' = clear)
+	 * @param list<string>|null $groups Group IDs to assign (null = no change, [] = remove all)
+	 * @param list<string>|null $subadminGroups Subadmin group IDs (null = no change, [] = remove all)
+	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIUserDetails, array{}>|DataResponse<Http::STATUS_UNPROCESSABLE_ENTITY, array{errors: array<string, string>}, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: User updated successfully
+	 * 422: One or more submitted fields failed validation
+	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
+	#[UserRateLimit(limit: 50, period: 600)]
+	public function editUserMultiField(
+		string $userId,
+		?string $displayName = null,
+		?string $password = null,
+		?string $email = null,
+		?string $quota = null,
+		?string $language = null,
+		?string $manager = null,
+		?array $groups = null,
+		?array $subadminGroups = null,
+	): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
+
+		$targetUser = $this->userManager->get($userId);
+		if ($targetUser === null) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		$isSelf = $targetUser->getUID() === $currentLoggedInUser->getUID();
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		$isSubAdminAccessible = !$isSelf && $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser);
+
+		$canEditOther = $isAdmin
+			|| ($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID()))
+			|| $isSubAdminAccessible;
+
+		if (!$isSelf && !$canEditOther) {
+			// OCSForbiddenException used here (rather than the older OCSException pattern in editUser)
+			// because it is semantically correct: the caller is authenticated but lacks permission.
+			throw new OCSForbiddenException('Insufficient permissions to edit this user');
+		}
+
+		// Validate all submitted fields — collect errors before applying anything
+		$errors = [];
+
+		if ($displayName !== null) {
+			$backend = $targetUser->getBackend();
+			if (!$isSelf) {
+				$canSetDisplayName = $backend instanceof ISetDisplayNameBackend
+					|| ($backend !== null && $backend->implementsActions(Backend::SET_DISPLAYNAME));
+			} else {
+				$canSetDisplayName = $targetUser->canChangeDisplayName();
+			}
+			if (!$canSetDisplayName) {
+				$errors['displayName'] = $this->l10n->t('Cannot change display name for this user');
+			}
+		}
+
+		if ($password !== null) {
+			if (($error = $this->validatePasswordChange($targetUser, $password)) !== null) {
+				$errors['password'] = $error[0];
+			}
+		}
+
+		if ($email !== null && $email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$errors['email'] = $this->l10n->t('Invalid email address');
+		}
+
+		if ($language !== null) {
+			$forceLanguage = $this->config->getSystemValue('force_language', false);
+			if ($forceLanguage !== false && !$isAdmin && !$isDelegatedAdmin) {
+				$errors['language'] = $this->l10n->t('Language change is not allowed on this instance');
+			} elseif (!$this->l10nFactory->languageExists(null, $language)) {
+				$errors['language'] = $this->l10n->t('Invalid language');
+			}
+		}
+
+		if ($quota !== null) {
+			if (!$canEditOther) {
+				$errors['quota'] = $this->l10n->t('Insufficient permissions to change quota');
+			} else {
+				try {
+					$quota = $this->parseAndValidateQuota($quota);
+				} catch (\InvalidArgumentException $e) {
+					$errors['quota'] = $e->getMessage();
+				}
+			}
+		}
+
+		if ($groups !== null) {
+			if (!$isAdmin && !$isDelegatedAdmin) {
+				$errors['groups'] = $this->l10n->t('Insufficient permissions to change groups');
+			} else {
+				foreach ($groups as $gid) {
+					if (!$this->groupManager->groupExists($gid)) {
+						$errors['groups'] = $this->l10n->t('Group %s does not exist', [$gid]);
+						break;
+					}
+				}
+			}
+		}
+
+		if ($subadminGroups !== null) {
+			if (!$isAdmin && !$isDelegatedAdmin) {
+				$errors['subadminGroups'] = $this->l10n->t('Insufficient permissions to change sub-admin groups');
+			} else {
+				foreach ($subadminGroups as $gid) {
+					if (!$this->groupManager->groupExists($gid)) {
+						$errors['subadminGroups'] = $this->l10n->t('Group %s does not exist', [$gid]);
+						break;
+					}
+				}
+			}
+		}
+
+		if ($manager !== null && !$canEditOther) {
+			$errors['manager'] = $this->l10n->t('Insufficient permissions to change manager');
+		}
+
+		if (!empty($errors)) {
+			return new DataResponse(['errors' => $errors], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		// Apply password first — it's the only setter that can fail at runtime
+		// (password policy plugins) after pre-flight validation passes.
+		// If it throws, no other fields have been touched yet.
+		if ($password !== null) {
+			try {
+				$targetUser->setPassword($password);
+			} catch (HintException $e) {
+				return new DataResponse(['errors' => ['password' => $e->getHint()]], Http::STATUS_UNPROCESSABLE_ENTITY);
+			}
+		}
+
+		// Apply remaining changes — all fully validated, setters won't throw
+		if ($displayName !== null) {
+			// OC\User\User::setDisplayName() rejects empty strings (!empty check),
+			// so "clear display name" means "reset to userId" — the default.
+			$targetUser->setDisplayName($displayName !== '' ? $displayName : $userId);
+		}
+
+		if ($email !== null) {
+			$targetUser->setSystemEMailAddress(mb_strtolower(trim($email)));
+		}
+
+		if ($quota !== null) {
+			$targetUser->setQuota($quota);
+		}
+
+		if ($language !== null) {
+			$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $language);
+		}
+
+		if ($manager !== null) {
+			$targetUser->setManagerUids(array_filter([$manager]));
+		}
+
+		if ($groups !== null) {
+			$currentGroups = $this->groupManager->getUserGroups($targetUser);
+			$currentGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentGroups);
+			foreach (array_diff($currentGroupIds, $groups) as $gid) {
+				$this->groupManager->get($gid)?->removeUser($targetUser);
+			}
+			foreach (array_diff($groups, $currentGroupIds) as $gid) {
+				// Only full admins can add users to the admin group
+				if (!$isAdmin && $gid === 'admin') {
+					continue;
+				}
+				$this->groupManager->get($gid)?->addUser($targetUser);
+			}
+		}
+
+		if ($subadminGroups !== null) {
+			$currentSubAdminGroups = $subAdminManager->getSubAdminsGroups($targetUser);
+			$currentSubAdminGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentSubAdminGroups);
+			foreach (array_diff($currentSubAdminGroupIds, $subadminGroups) as $gid) {
+				$group = $this->groupManager->get($gid);
+				if ($group !== null) {
+					$subAdminManager->deleteSubAdmin($targetUser, $group);
+				}
+			}
+			foreach (array_diff($subadminGroups, $currentSubAdminGroupIds) as $gid) {
+				// Cannot create sub-admins for the admin group
+				if ($gid === 'admin') {
+					continue;
+				}
+				$group = $this->groupManager->get($gid);
+				if ($group !== null && !$subAdminManager->isSubAdminOfGroup($targetUser, $group)) {
+					$subAdminManager->createSubAdmin($targetUser, $group);
+				}
+			}
+		}
+
+		/** @var Provisioning_APIUserDetails $data */
+		$data = $this->getUserData($userId);
+		return new DataResponse($data);
+	}
+
+	/**
+	 * Validate and parse a quota string into the form expected by IUser::setQuota().
+	 *
+	 * Accepts: 'none', 'default', a numeric byte count, or a human-readable size like '5 GB'.
+	 * Enforces max_quota and allow_unlimited_quota policies.
+	 *
+	 * @return string Parsed quota: 'none', 'default', or humanFileSize string (e.g. '5 GB')
+	 * @throws \InvalidArgumentException With l10n'd user-facing error message
+	 */
+	private function parseAndValidateQuota(string $value): string {
+		if ($value === 'default') {
+			return 'default';
+		}
+
+		if ($value !== 'none') {
+			$bytes = is_numeric($value) ? (float)$value : Util::computerFileSize($value);
+			if ($bytes === false) {
+				throw new \InvalidArgumentException($this->l10n->t('Invalid quota value: %1$s', [$value]));
+			}
+			if ($bytes !== -1) {
+				$maxQuota = $this->appConfig->getValueInt('files', 'max_quota', -1);
+				if ($maxQuota !== -1 && $bytes > $maxQuota) {
+					throw new \InvalidArgumentException($this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$value]));
+				}
+				return Util::humanFileSize($bytes);
+			}
+		}
+
+		$allowUnlimitedQuota = $this->appConfig->getValueString('files', 'allow_unlimited_quota', '1') === '1';
+		if (!$allowUnlimitedQuota) {
+			throw new \InvalidArgumentException($this->l10n->t('Unlimited quota is forbidden on this instance'));
+		}
+		return 'none';
+	}
+
+	/**
+	 * Validate that a new password can be set on the target user.
+	 *
+	 * Does not apply the password — only checks backend support and length.
+	 *
+	 * @return array{0: string, 1: int}|null Tuple of [error message, OCS code] or null on success.
+	 *                                       Code 112: backend not supported. Code 101: invalid value.
+	 */
+	private function validatePasswordChange(IUser $targetUser, string $password): ?array {
+		if (!$targetUser->canChangePassword()) {
+			return [$this->l10n->t('Setting the password is not supported by the users backend'), 112];
+		}
+		if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
+			return [$this->l10n->t('Invalid password value'), 101];
+		}
+		return null;
+	}
+
+	/**
 	 * @NoSubAdminRequired
 	 *
 	 * Update a value of the user's details
@@ -1024,32 +1298,10 @@ class UsersController extends AUserDataOCSController {
 				}
 				break;
 			case self::USER_FIELD_QUOTA:
-				$quota = $value;
-				if ($quota !== 'none' && $quota !== 'default') {
-					if (is_numeric($quota)) {
-						$quota = (float)$quota;
-					} else {
-						$quota = Util::computerFileSize($quota);
-					}
-					if ($quota === false) {
-						throw new OCSException($this->l10n->t('Invalid quota value: %1$s', [$value]), 101);
-					}
-					if ($quota === -1) {
-						$quota = 'none';
-					} else {
-						$maxQuota = (int)$this->config->getAppValue('files', 'max_quota', '-1');
-						if ($maxQuota !== -1 && $quota > $maxQuota) {
-							throw new OCSException($this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$value]), 101);
-						}
-						$quota = Util::humanFileSize($quota);
-					}
-				}
-				// no else block because quota can be set to 'none' in previous if
-				if ($quota === 'none') {
-					$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
-					if (!$allowUnlimitedQuota) {
-						throw new OCSException($this->l10n->t('Unlimited quota is forbidden on this instance'), 101);
-					}
+				try {
+					$quota = $this->parseAndValidateQuota($value);
+				} catch (\InvalidArgumentException $e) {
+					throw new OCSException($e->getMessage(), 101);
 				}
 				$targetUser->setQuota($quota);
 				break;
@@ -1058,11 +1310,8 @@ class UsersController extends AUserDataOCSController {
 				break;
 			case self::USER_FIELD_PASSWORD:
 				try {
-					if (strlen($value) > IUserManager::MAX_PASSWORD_LENGTH) {
-						throw new OCSException($this->l10n->t('Invalid password value'), 101);
-					}
-					if (!$targetUser->canChangePassword()) {
-						throw new OCSException($this->l10n->t('Setting the password is not supported by the users backend'), 112);
+					if (($error = $this->validatePasswordChange($targetUser, $value)) !== null) {
+						throw new OCSException($error[0], $error[1]);
 					}
 					$targetUser->setPassword($value);
 				} catch (HintException $e) { // password policy error
@@ -1070,8 +1319,7 @@ class UsersController extends AUserDataOCSController {
 				}
 				break;
 			case self::USER_FIELD_LANGUAGE:
-				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
-				if (!in_array($value, $languagesCodes, true) && $value !== 'en') {
+				if (!$this->l10nFactory->languageExists(null, $value)) {
 					throw new OCSException($this->l10n->t('Invalid language'), 101);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
@@ -1643,7 +1891,7 @@ class UsersController extends AUserDataOCSController {
 	 *
 	 * 200: User added as group subadmin successfully
 	 */
-	#[AuthorizedAdminSetting(settings:Users::class)]
+	#[AuthorizedAdminSetting(settings: Users::class)]
 	#[PasswordConfirmationRequired]
 	public function addSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
@@ -1683,7 +1931,7 @@ class UsersController extends AUserDataOCSController {
 	 *
 	 * 200: User removed as group subadmin successfully
 	 */
-	#[AuthorizedAdminSetting(settings:Users::class)]
+	#[AuthorizedAdminSetting(settings: Users::class)]
 	#[PasswordConfirmationRequired]
 	public function removeSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
@@ -1717,7 +1965,7 @@ class UsersController extends AUserDataOCSController {
 	 *
 	 * 200: User subadmin groups returned
 	 */
-	#[AuthorizedAdminSetting(settings:Users::class)]
+	#[AuthorizedAdminSetting(settings: Users::class)]
 	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$groups = $this->getUserSubAdminGroupsData($userId);
 		return new DataResponse($groups);

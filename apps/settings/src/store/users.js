@@ -216,6 +216,34 @@ const mutations = {
 	},
 
 	/**
+	 * Apply multiple updated fields to a user in the local store.
+	 *
+	 * @param {object} state Store state
+	 * @param {object} options destructuring object
+	 * @param {string} options.userid User id
+	 * @param {object} options.data Updated user data from server
+	 */
+	editUserMultiField(state, { userid, data }) {
+		const index = state.users.findIndex((user) => user.id === userid)
+		if (index === -1) {
+			return
+		}
+
+		// Delegate group membership changes so sidebar usercount stays in sync.
+		if (Array.isArray(data.groups)) {
+			const prevGids = state.users[index].groups ?? []
+			for (const gid of data.groups.filter((g) => !prevGids.includes(g))) {
+				this.commit('addUserGroup', { userid, gid })
+			}
+			for (const gid of prevGids.filter((g) => !data.groups.includes(g))) {
+				this.commit('removeUserGroup', { userid, gid })
+			}
+		}
+
+		state.users.splice(index, 1, { ...state.users[index], ...data })
+	},
+
+	/**
 	 * Reset users list
 	 *
 	 * @param {object} state the store state
@@ -777,6 +805,29 @@ const actions = {
 			await api.requireAdmin()
 			await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
 			return context.commit('setUserData', { userid, key, value })
+		} catch (error) {
+			context.commit('API_FAILURE', { userid, error })
+			throw error
+		}
+	},
+
+	/**
+	 * Update multiple user fields atomically via the new bulk endpoint.
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {string} options.userid User id
+	 * @param {object} options.payload Changed fields to send
+	 * @return {Promise}
+	 */
+	async editUserMultiField(context, { userid, payload }) {
+		try {
+			await api.requireAdmin()
+			const response = await api.patch(
+				generateOcsUrl('cloud/users/{userid}', { userid }),
+				payload,
+			)
+			context.commit('editUserMultiField', { userid, data: response.data.ocs.data })
 		} catch (error) {
 			context.commit('API_FAILURE', { userid, error })
 			throw error

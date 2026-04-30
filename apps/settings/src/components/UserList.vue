@@ -10,8 +10,13 @@
 			:loading="loading"
 			:new-user="newUser"
 			:quota-options="quotaOptions"
-			@reset="resetForm"
 			@closing="closeDialog" />
+
+		<EditUserDialog
+			v-if="editingUser"
+			:user="editingUser"
+			:quota-options="quotaOptions"
+			@closing="editingUser = null" />
 
 		<NcEmptyContent
 			v-if="filteredUsers.length === 0"
@@ -40,6 +45,7 @@
 				quotaOptions,
 				languages,
 				externalActions,
+				onEditUser: openEditDialog,
 			}"
 			@scroll-end="handleScrollEnd">
 			<template #before>
@@ -64,11 +70,11 @@
 <script>
 import { mdiAccountGroupOutline } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
-import Vue from 'vue'
 import { Fragment } from 'vue-frag'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import EditUserDialog from './Users/EditUserDialog.vue'
 import NewUserDialog from './Users/NewUserDialog.vue'
 import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
@@ -78,13 +84,13 @@ import logger from '../logger.ts'
 import { defaultQuota, unlimitedQuota } from '../utils/userUtils.ts'
 
 const newUser = Object.freeze({
-	id: '',
+	username: '',
 	displayName: '',
 	password: '',
-	mailAddress: '',
+	email: '',
 	groups: [],
 	manager: '',
-	subAdminsGroups: [],
+	subadminGroups: [],
 	quota: defaultQuota,
 	language: {
 		code: 'en',
@@ -96,6 +102,7 @@ export default {
 	name: 'UserList',
 
 	components: {
+		EditUserDialog,
 		Fragment,
 		NcEmptyContent,
 		NcIconSvgWrapper,
@@ -137,6 +144,7 @@ export default {
 			},
 
 			newUser: { ...newUser },
+			editingUser: null,
 			isInitialLoad: true,
 		}
 	},
@@ -258,7 +266,7 @@ export default {
 		/**
 		 * Reset and init new user form
 		 */
-		this.resetForm()
+		this.initForm()
 
 		/**
 		 * If disabled group but empty, redirect
@@ -267,6 +275,10 @@ export default {
 	},
 
 	methods: {
+		openEditDialog(user) {
+			this.editingUser = user
+		},
+
 		async handleScrollEnd() {
 			await this.loadUsers()
 		},
@@ -308,27 +320,35 @@ export default {
 				key: 'showNewUserForm',
 				value: false,
 			})
+			this.resetForm()
 		},
 
+		/**
+		 * Reset the new user form to its initial state.
+		 * Uses in-place mutation (Object.assign + splice) so the
+		 * provide/inject reference stays intact.
+		 */
 		resetForm() {
-			// revert form to original state
-			this.newUser = { ...newUser }
+			Object.assign(this.newUser, {
+				...newUser,
+				groups: [],
+				subadminGroups: [],
+			})
+			this.newUser.groups.splice(0)
+			this.newUser.subadminGroups.splice(0)
+			this.initForm()
+		},
 
+		initForm() {
 			/**
 			 * Init default language from server data. The use of this.settings
 			 * requires a computed variable, which break the v-model binding of the form,
 			 * this is a much easier solution than getter and setter on a computed var
 			 */
 			if (this.settings.defaultLanguage) {
-				Vue.set(this.newUser.language, 'code', this.settings.defaultLanguage)
+				this.newUser.language.code = this.settings.defaultLanguage
 			}
-
-			/**
-			 * In case the user directly loaded the user list within a group
-			 * the watch won't be triggered. We need to initialize it.
-			 */
 			this.setNewUserDefaultGroup(this.selectedGroup)
-
 			this.loading.all = false
 		},
 

@@ -5,7 +5,7 @@
 
 import { User } from '@nextcloud/e2e-test-server/cypress'
 import { clearState } from '../../support/commonUtils.ts'
-import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils.ts'
+import { handlePasswordConfirmation, openEditDialog, saveEditDialog } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -21,95 +21,96 @@ describe('Settings: Change user properties', function() {
 	})
 
 	it('Can change the display name', function() {
-		// open the User settings as admin
 		cy.visit('/settings/users')
 
-		// toggle edit button into edit mode
-		toggleEditButton(user, true)
+		openEditDialog(user)
 
-		getUserListRow(user.userId).within(() => {
-			// set the display name
-			cy.get('[data-cy-user-list-input-displayname]').should('exist').and('have.value', user.userId)
-			cy.get('[data-cy-user-list-input-displayname]').clear()
-			cy.get('[data-cy-user-list-input-displayname]').type('John Doe')
-			cy.get('[data-cy-user-list-input-displayname]').should('have.value', 'John Doe')
-			cy.get('[data-cy-user-list-input-displayname] ~ button').click()
-
-			// Make sure no confirmation modal is shown
-			handlePasswordConfirmation(admin.password)
-
-			// see that the display name cell is done loading
-			waitLoading('[data-cy-user-list-input-displayname]')
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
+			cy.get('input[data-test="displayName"]').should('have.value', user.userId)
+			cy.get('input[data-test="displayName"]').clear()
+			cy.get('input[data-test="displayName"]').type('John Doe')
+			cy.get('input[data-test="displayName"]').should('have.value', 'John Doe')
 		})
 
-		// Success message is shown
-		cy.get('.toastify.toast-success').contains(/Display.+name.+was.+successfully.+changed/i).should('exist')
+		handlePasswordConfirmation(admin.password)
+		saveEditDialog()
+
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
+
+		// Verify backend
+		cy.runOccCommand(`user:info --output=json '${user.userId}'`).then(($result) => {
+			expect($result.exitCode).to.equal(0)
+			const info = JSON.parse($result.stdout)
+			expect(info?.display_name).to.equal('John Doe')
+		})
+	})
+
+	it('Can change the password', function() {
+		cy.visit('/settings/users')
+
+		openEditDialog(user)
+
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
+			cy.get('input[data-test="password"]').should('have.value', '')
+			cy.get('input[data-test="password"]').type('newpassword123')
+		})
+
+		handlePasswordConfirmation(admin.password)
+		saveEditDialog()
+
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
+
+		// Verify by logging in with the new password
+		cy.login(new User(user.userId, 'newpassword123'))
+		cy.visit('/apps/dashboard')
+		cy.url().should('include', '/apps/dashboard')
 	})
 
 	it('Can change the email address', function() {
-		// open the User settings as admin
 		cy.visit('/settings/users')
 
-		// toggle edit button into edit mode
-		toggleEditButton(user, true)
+		openEditDialog(user)
 
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-email]').within(() => {
-			// see that the email of user is ""
-			cy.get('input').should('exist').and('have.value', '')
-			// set the email for user to mymail@example.com
-			cy.get('input').type('mymail@example.com')
-			// When I set the password for user to mymail@example.com
-			cy.get('input').should('have.value', 'mymail@example.com')
-			cy.get('input ~ button').click()
-
-			// Make sure no confirmation modal is shown
-			handlePasswordConfirmation(admin.password)
-
-			// see that the password cell for user is done loading
-			waitLoading('[data-cy-user-list-input-email]')
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
+			cy.get('input[data-test="email"]').should('have.value', '')
+			cy.get('input[data-test="email"]').type('mymail@example.com')
+			cy.get('input[data-test="email"]').should('have.value', 'mymail@example.com')
 		})
 
-		// Success message is shown
-		cy.get('.toastify.toast-success').contains(/Email.+successfully.+changed/i).should('exist')
+		handlePasswordConfirmation(admin.password)
+		saveEditDialog()
+
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
+
+		// Verify backend
+		cy.runOccCommand(`user:info --output=json '${user.userId}'`).then(($result) => {
+			expect($result.exitCode).to.equal(0)
+			const info = JSON.parse($result.stdout)
+			expect(info?.email).to.equal('mymail@example.com')
+		})
 	})
 
 	it('Can change the user quota to a predefined one', function() {
-		// open the User settings as admin
 		cy.visit('/settings/users')
 
-		// toggle edit button into edit mode
-		toggleEditButton(user, true)
+		openEditDialog(user)
 
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-quota]').scrollIntoView()
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-quota] [data-cy-user-list-input-quota]').within(() => {
-			// see that the quota of user is unlimited
-			cy.get('.vs__selected').should('exist').and('contain.text', 'Unlimited')
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
 			// Open the quota selector
-			cy.get('[role="combobox"]').click({ force: true })
-			// see that there are default options for the quota
-			cy.get('li').then(($options) => {
-				expect($options).to.have.length(5)
-				cy.wrap($options).contains('Default quota')
-				cy.wrap($options).contains('Unlimited')
-				cy.wrap($options).contains('1 GB')
-				cy.wrap($options).contains('10 GB')
-				// select 5 GB
-				cy.wrap($options).contains('5 GB').click({ force: true })
-
-				// Make sure no confirmation modal is shown
-				handlePasswordConfirmation(admin.password)
-			})
-			// see that the quota of user is 5 GB
-			cy.get('.vs__selected').should('exist').and('contain.text', '5 GB')
+			cy.get('.vs__selected').contains('Unlimited').should('exist')
+			cy.findByRole('combobox', { name: /Quota/i }).click({ force: true })
 		})
 
-		// see that the changes are loading
-		waitLoading('[data-cy-user-list-input-quota]')
+		// Dropdown is floating outside the form — select 5 GB
+		cy.get('.vs__dropdown-menu').should('be.visible')
+			.contains('li', '5 GB').click({ force: true })
 
-		// finish editing the user
-		toggleEditButton(user, false)
+		handlePasswordConfirmation(admin.password)
+		saveEditDialog()
 
-		// I see that the quota was set on the backend
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
+
+		// Verify backend
 		cy.runOccCommand(`user:info --output=json '${user.userId}'`).then(($result) => {
 			expect($result.exitCode).to.equal(0)
 			const info = JSON.parse($result.stdout)
@@ -118,77 +119,53 @@ describe('Settings: Change user properties', function() {
 	})
 
 	it('Can change the user quota to a custom value', function() {
-		// open the User settings as admin
 		cy.visit('/settings/users')
 
-		// toggle edit button into edit mode
-		toggleEditButton(user, true)
+		openEditDialog(user)
 
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-quota]').scrollIntoView()
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-quota]').within(() => {
-			// see that the quota of user is unlimited
-			cy.get('.vs__selected').should('exist').and('contain.text', 'Unlimited')
-			// set the quota to 4 MB
-			cy.get('[data-cy-user-list-input-quota] input').type('4 MB{enter}')
-
-			// Make sure no confirmation modal is shown
-			handlePasswordConfirmation(admin.password)
-
-			// see that the quota of user is 4 MB
-			// TODO: Enable this after the file size handling is fixed
-			// cy.get('.vs__selected').should('exist').and('contain.text', '4 MB')
-
-			// see that the changes are loading
-			waitLoading('[data-cy-user-list-input-quota]')
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
+			// Type a custom quota value
+			cy.findByRole('combobox', { name: /Quota/i }).type('4 MB{enter}')
 		})
 
-		// finish editing the user
-		toggleEditButton(user, false)
+		handlePasswordConfirmation(admin.password)
+		saveEditDialog()
 
-		// I see that the quota was set on the backend
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
+
+		// Verify backend
 		cy.runOccCommand(`user:info --output=json '${user.userId}'`).then(($result) => {
 			expect($result.exitCode).to.equal(0)
-			// TODO: Enable this after the file size handling is fixed!!!!!!
-			// const info = JSON.parse($result.stdout)
-			// expect(info?.quota).to.equal('4 MB')
+			// Quota value is stored as bytes, verify it was set
+			const info = JSON.parse($result.stdout)
+			expect(info?.quota).to.not.equal('none')
 		})
 	})
 
 	it('Can make user a subadmin of a group', function() {
-		// create a group
 		const groupName = 'userstestgroup'
 		cy.runOccCommand(`group:add '${groupName}'`)
 
-		// open the User settings as admin
 		cy.visit('/settings/users')
 
-		// toggle edit button into edit mode
-		toggleEditButton(user, true)
+		openEditDialog(user)
 
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-subadmins]').scrollIntoView()
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-subadmins]').within(() => {
-			// see that the user is no subadmin
-			cy.get('.vs__selected').should('not.exist')
-			// Open the dropdown menu
-			cy.get('[role="combobox"]').click({ force: true })
-			// Search for the group
-			cy.get('[role="combobox"]').type('userstestgroup')
-			// select the group
-			cy.contains('li', groupName).click({ force: true })
-
-			// handle password confirmation on time out
-			handlePasswordConfirmation(admin.password)
-
-			// see that the user is subadmin of the group
-			cy.get('.vs__selected').should('exist').and('contain.text', groupName)
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
+			// Find the subadmin NcSelect by its label and open the dropdown
+			cy.findByRole('combobox', { name: /Admin of the following groups/i }).click({ force: true })
+			cy.findByRole('combobox', { name: /Admin of the following groups/i }).type('userstestgroup')
 		})
 
-		waitLoading('[data-cy-user-list-input-subadmins]')
+		// Select the group from the floating dropdown
+		cy.get('.vs__dropdown-menu').should('be.visible')
+			.contains('li', groupName).click({ force: true })
 
-		// finish editing the user
-		toggleEditButton(user, false)
+		handlePasswordConfirmation(admin.password)
+		saveEditDialog()
 
-		// I see that the quota was set on the backend
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
+
+		// Verify backend
 		cy.getUserData(user).then(($response) => {
 			expect($response.status).to.equal(200)
 			const dom = (new DOMParser()).parseFromString($response.body, 'text/xml')
