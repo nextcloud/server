@@ -163,7 +163,8 @@ class TemplateLayout {
 				$page->assign('appid', $appId);
 				$page->assign('bodyid', 'body-public');
 
-				$this->initialState->provideInitialState('core', 'apps', [$this->navigationManager->get($appId)]);
+				$currentAppData = $this->navigationManager->get($appId);
+				$this->initialState->provideInitialState('core', 'apps', $currentAppData === null ? [] : [$currentAppData]);
 
 				// Set logo link target
 				$logoUrl = $this->config->getSystemValueString('logo_url', '');
