@@ -13,6 +13,7 @@ namespace OC\Core\Service;
 
 use OC;
 use OC\Authentication\LoginCredentials\Store;
+use OC\DB\Connection;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Session\CryptoWrapper;
 use OC\Session\Memory;
@@ -38,6 +39,7 @@ class CronService {
 		private readonly IAppManager $appManager,
 		private readonly ISession $session,
 		private readonly Session $userSession,
+		private readonly Connection $connection,
 		private readonly CryptoWrapper $cryptoWrapper,
 		private readonly Store $store,
 		private readonly SessionStorage $sessionStorage,
@@ -210,6 +212,12 @@ class CronService {
 			// clean up after unclean jobs
 			$this->setupManager->tearDown();
 			$this->tempManager->clean();
+			if ($this->connection->inTransaction()) {
+				$this->connection->rollBack();
+				$message = 'Cron job left a transaction opened after executing job ' . $jobDetails . '. The transaction was rolled back.';
+				$this->logger->warning($message, ['app' => 'cron']);
+				$this->verboseOutput($message);
+			}
 
 			$this->verboseOutput('Job ' . $jobDetails . ' done in ' . ($timeAfter - $timeBefore) . ' seconds');
 
