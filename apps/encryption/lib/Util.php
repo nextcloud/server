@@ -61,8 +61,8 @@ class Util {
 	 *
 	 * @param bool $encryptHomeStorage
 	 */
-	public function setEncryptHomeStorage($encryptHomeStorage) {
-		$this->appConfig->setValueBool('encryption', 'encryptHomeStorage', (bool)$encryptHomeStorage);
+	public function setEncryptHomeStorage(bool $encryptHomeStorage) {
+		$this->appConfig->setValueBool('encryption', 'encryptHomeStorage', $encryptHomeStorage);
 	}
 
 	/**
