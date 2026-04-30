@@ -70,9 +70,34 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 						'admin',
 						'admin',
 					],
+					'headers' => [
+						'X-NC-CalDAV-No-Trashbin' => '1',
+					]
 				]
 			);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		}
+	}
+
+	/** @AfterScenario @caldav-delegation */
+	public function afterDelegationScenario() {
+		foreach (['calendar-proxy-read', 'calendar-proxy-write'] as $proxyType) {
+			try {
+				$propPatch = new \Sabre\DAV\Xml\Request\PropPatch();
+				$propPatch->properties = ['{DAV:}group-member-set' => new \Sabre\DAV\Xml\Property\Href([])];
+				$xml = new \Sabre\Xml\Service();
+				$body = $xml->write('{DAV:}propertyupdate', $propPatch, '/');
+				$this->client->request(
+					'PROPPATCH',
+					$this->baseUrl . '/remote.php/dav/principals/users/admin/' . $proxyType,
+					[
+						'headers' => ['Content-Type' => 'application/xml; charset=UTF-8'],
+						'body' => $body,
+						'auth' => ['admin', 'admin'],
+					]
+				);
+			} catch (\GuzzleHttp\Exception\ClientException $e) {
+			}
 		}
 	}
 
@@ -99,6 +124,80 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 			);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Then The CalDAV response should contain a property :key
+	 * @throws \Exception
+	 */
+	public function theCaldavResponseShouldContainAProperty(string $key) {
+		/** @var \Sabre\DAV\Xml\Response\MultiStatus $multiStatus */
+		$multiStatus = $this->responseXml['value'];
+		$responses = $multiStatus->getResponses()[0]->getResponseProperties();
+		if (!isset($responses[200])) {
+			throw new \Exception(
+				sprintf(
+					'Expected code 200 got [%s]',
+					implode(',', array_keys($responses)),
+				)
+			);
+		}
+
+		$props = $responses[200];
+		if (!array_key_exists($key, $props)) {
+			throw new \Exception(
+				sprintf(
+					'Expected property %s in %s',
+					$key,
+					json_encode($props, JSON_PRETTY_PRINT),
+				)
+			);
+		}
+	}
+
+	/**
+	 * @Then The CalDAV response should contain an href :href
+	 * @throws \Exception
+	 */
+	public function theCaldavResponseShouldContainAnHref(string $href) {
+		/** @var \Sabre\DAV\Xml\Response\MultiStatus $multiStatus */
+		$multiStatus = $this->responseXml['value'];
+		foreach ($multiStatus->getResponses() as $response) {
+			if ($response->getHref() === $href) {
+				return;
+			}
+		}
+		throw new \Exception(
+			sprintf(
+				'Expected href %s not found in response',
+				$href,
+			)
+		);
+	}
+
+	/**
+	 * @Then The CalDAV response should be multi status
+	 * @throws \Exception
+	 */
+	public function theCaldavResponseShouldBeMultiStatus() {
+		if ($this->response->getStatusCode() !== 207) {
+			throw new \Exception(
+				sprintf(
+					'Expected code 207 got %s',
+					$this->response->getStatusCode()
+				)
+			);
+		}
+
+		$body = $this->response->getBody()->getContents();
+		if ($body && substr($body, 0, 1) === '<') {
+			$reader = new Sabre\Xml\Reader();
+			$reader->xml($body);
+			$reader->elementMap['{DAV:}multistatus'] = \Sabre\DAV\Xml\Response\MultiStatus::class;
+			$reader->elementMap['{DAV:}response'] = \Sabre\DAV\Xml\Element\Response::class;
+			$reader->elementMap['{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL'] = \Sabre\DAV\Xml\Property\Href::class;
+			$this->responseXml = $reader->parse();
 		}
 	}
 
@@ -229,6 +328,44 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 					$actual
 				)
 			);
+		}
+	}
+	/**
+	 * @Given :user updates property :key to href :value of principal :principal on the endpoint :endpoint
+	 */
+	public function updatesHrefPropertyOfPrincipal(
+		string $user,
+		string $key,
+		string $value,
+		string $principal,
+		string $endpoint
+	) {
+		$davUrl = $this->baseUrl . $endpoint . $principal;
+		$password = ($user === 'admin') ? 'admin' : '123456';
+
+		$propPatch = new \Sabre\DAV\Xml\Request\PropPatch();
+		$propPatch->properties = [$key => new \Sabre\DAV\Xml\Property\Href($value)];
+
+		$xml = new \Sabre\Xml\Service();
+		$body = $xml->write('{DAV:}propertyupdate', $propPatch, '/');
+
+		try {
+			$this->response = $this->client->request(
+				'PROPPATCH',
+				$davUrl,
+				[
+					'headers' => [
+						'Content-Type' => 'application/xml; charset=UTF-8',
+					],
+					'body' => $body,
+					'auth' => [
+						$user,
+						$password,
+					],
+				]
+			);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
 		}
 	}
 }
