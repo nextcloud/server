@@ -1158,6 +1158,32 @@ trigger:
 
 ---
 kind: pipeline
+name: integration-caldav-delegation
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: integration-caldav-delegation
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
+  commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
+    - bash tests/drone-run-integration-tests.sh || exit 0
+    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+    - cd build/integration
+    - ./run.sh features/caldav-delegation.feature
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
 name: integration-comments
 
 steps:
@@ -2382,6 +2408,6 @@ trigger:
 #    - push
 ---
 kind: signature
-hmac: 3bc8bb5aec76a1d247441a0a500b326d069e964c4e8bbf1fed2dd37c9abcefa5
+hmac: 0e3b27ceabbdede509f4b3dd5cba9cf5a55c4a3720a9c97dcccacf7f28aa5dc2
 
 ...
