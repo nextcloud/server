@@ -37,6 +37,7 @@ const store = useUserConfigStore()
 		</NcFormBox>
 		<NcRadioGroup
 			v-model="store.userConfig.default_view"
+			name="default_view"
 			:label="t('files', 'Default view')"
 			@update:modelValue="store.update('default_view', $event)">
 			<NcRadioGroupButton :label="t('files', 'All files')" value="files">
