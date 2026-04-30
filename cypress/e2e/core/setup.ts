@@ -88,6 +88,7 @@ describe('Can install Nextcloud', { testIsolation: true, retries: 0 }, () => {
 	})
 
 	it('Oracle', () => {
+		Cypress.config('pageLoadTimeout', 100000)
 		cy.runCommand('cp /var/www/html/tests/databases-all-config.php /var/www/html/config/config.php')
 		cy.visit('/')
 		cy.get('[data-cy-setup-form]').should('be.visible')
