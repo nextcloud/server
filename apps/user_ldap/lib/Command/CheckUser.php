@@ -11,7 +11,6 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_Proxy;
-use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -58,6 +57,19 @@ class CheckUser extends Command {
 				InputOption::VALUE_NONE,
 				'sync all seen users instead of only one'
 			)
+			->addOption(
+				'limit',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'limit the number of user to process for --all-seen-users'
+			)
+			->addOption(
+				'offset',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'offset to apply for --all-seen-users',
+				0
+			)
 		;
 	}
 
@@ -70,18 +82,20 @@ class CheckUser extends Command {
 			if ($uid !== null) {
 				return $this->checkUser($input, $output, $uid);
 			} elseif ($input->getOption('all-seen-users')) {
-				$this->userManager->callForSeenUsers(
-					function (IUser $user) use ($input, $output): true {
-						try {
-							$output->writeln('<info>Checking ' . $user->getUID() . '…</info>', OutputInterface::VERBOSITY_VERBOSE);
-							$this->checkUser($input, $output, $user->getUID());
-						} catch (\Exception $e) {
-							$output->writeln('<error> ' . $user->getUID() . ': ' . $e->getMessage() . '</error>');
-						}
-						/* Always continue */
-						return true;
+				$offset = (int)$input->getOption('offset');
+				$limit = $input->getOption('limit');
+				if ($limit !== null) {
+					$limit = (int)$limit;
+				}
+				$userIterator = $this->userManager->getSeenUsers($offset, $limit);
+				foreach ($userIterator as $user) {
+					try {
+						$output->writeln('<info>Checking ' . $user->getUID() . '…</info>', OutputInterface::VERBOSITY_VERBOSE);
+						$this->checkUser($input, $output, $user->getUID());
+					} catch (\Exception $e) {
+						$output->writeln('<error> ' . $user->getUID() . ': ' . $e->getMessage() . '</error>');
 					}
-				);
+				}
 				$output->writeln('<info>Finished checking all seen users.</info>', OutputInterface::VERBOSITY_VERBOSE);
 				return self::SUCCESS;
 			} else {
