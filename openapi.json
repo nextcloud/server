@@ -27887,7 +27887,11 @@
                         "schema": {
                             "type": "string",
                             "nullable": true,
-                            "default": null
+                            "default": null,
+                            "enum": [
+                                "enabled",
+                                "disabled"
+                            ]
                         }
                     },
                     {
