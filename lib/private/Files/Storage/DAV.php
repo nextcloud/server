@@ -48,6 +48,7 @@ class DAV extends Common {
 	protected $host;
 	/** @var bool */
 	protected $secure;
+	protected bool $verify;
 	/** @var string */
 	protected $root;
 	/** @var string */
@@ -102,12 +103,14 @@ class DAV extends Common {
 				$this->authType = $params['authType'];
 			}
 			if (isset($params['secure'])) {
+				$this->verify = $params['verify'] ?? true;
 				if (is_string($params['secure'])) {
 					$this->secure = ($params['secure'] === 'true');
 				} else {
 					$this->secure = (bool) $params['secure'];
 				}
 			} else {
+				$this->verify = false;
 				$this->secure = false;
 			}
 			if ($this->secure === true) {
@@ -151,6 +154,9 @@ class DAV extends Common {
 		$this->client->setThrowExceptions(true);
 
 		if ($this->secure === true) {
+			if ($this->verify === false) {
+				$this->client->addCurlSetting(CURLOPT_SSL_VERIFYPEER, false);
+			}
 			$certPath = $this->certManager->getAbsoluteBundlePath();
 			if (file_exists($certPath)) {
 				$this->certPath = $certPath;
@@ -162,13 +168,13 @@ class DAV extends Common {
 
 		$lastRequestStart = 0;
 		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
-			$this->logger->debug('sending dav ' . $request->getMethod() .  ' request to external storage: ' . $request->getAbsoluteUrl(), ['app' => 'dav']);
+			$this->logger->debug('sending dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl(), ['app' => 'dav']);
 			$lastRequestStart = microtime(true);
 			$this->eventLogger->start('fs:storage:dav:request', 'Sending dav request to external storage');
 		});
 		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
 			$elapsed = microtime(true) - $lastRequestStart;
-			$this->logger->debug('dav ' . $request->getMethod() .  ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
+			$this->logger->debug('dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
 			$this->eventLogger->end('fs:storage:dav:request');
 		});
 	}
@@ -338,7 +344,8 @@ class DAV extends Common {
 							'auth' => [$this->user, $this->password],
 							'stream' => true,
 							// set download timeout for users with slow connections or large files
-							'timeout' => $this->timeout
+							'timeout' => $this->timeout,
+							'verify' => $this->verify,
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -494,7 +501,8 @@ class DAV extends Common {
 				'body' => $source,
 				'auth' => [$this->user, $this->password],
 				// set upload timeout for users with slow connections or large files
-				'timeout' => $this->timeout
+				'timeout' => $this->timeout,
+				'verify' => $this->verify,
 			]);
 
 		$this->removeCachedFile($target);
