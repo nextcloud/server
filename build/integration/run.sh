@@ -26,7 +26,7 @@ else
 fi
 NC_DATADIR=$($OCC config:system:get datadirectory)
 
-composer install
+composer install --no-audit
 
 # avoid port collision on jenkins - use $EXECUTOR_NUMBER
 if [ -z "$EXECUTOR_NUMBER" ]; then
