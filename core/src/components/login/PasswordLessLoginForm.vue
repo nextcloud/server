@@ -122,7 +122,7 @@ export default {
 			this.$emit('update:username', this.user)
 		},
 		completeAuthentication(challenge) {
-			const redirectUrl = this.redirectUrl
+			let redirectUrl = this.redirectUrl
 
 			return finishAuthentication(challenge)
 				.then(({ defaultRedirectUrl }) => {
