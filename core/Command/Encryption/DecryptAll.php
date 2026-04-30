@@ -9,7 +9,6 @@
 namespace OC\Core\Command\Encryption;
 
 use OCP\App\IAppManager;
-use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
@@ -92,16 +91,11 @@ class DecryptAll extends Command {
 			return 1;
 		}
 
-		try {
-			$originallyEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled', false);
-		} catch (AppConfigTypeConflictException) {
-			$raw = $this->appConfig->getValueString('core', 'encryption_enabled', 'no');
-			$originallyEnabled = in_array(strtolower(trim($raw)), ['1', 'true', 'yes', 'on'], true);
-		}
+		$originallyEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled', false);
 		try {
 			if ($originallyEnabled) {
 				$output->write('Disable server side encryption... ');
-				$this->writeEncryptionEnabled(false);
+				$this->appConfig->setValueBool('core', 'encryption_enabled', false);
 				$output->writeln('done.');
 			} else {
 				$output->writeln('Server side encryption not enabled. Nothing to do.');
@@ -129,18 +123,18 @@ class DecryptAll extends Command {
 					$output->writeln(' aborted.');
 					if ($originallyEnabled) {
 						$output->writeln('Server side encryption remains enabled');
-						$this->writeEncryptionEnabled(true);
+						$this->appConfig->setValueBool('core', 'encryption_enabled', true);
 					}
 				} elseif (($uid !== '') && $originallyEnabled) {
 					$output->writeln('Server side encryption remains enabled');
-					$this->writeEncryptionEnabled(true);
+					$this->appConfig->setValueBool('core', 'encryption_enabled', true);
 				}
 				$this->resetMaintenanceAndTrashbin();
 				return 0;
 			}
 			if ($originallyEnabled) {
 				$output->write('Enable server side encryption... ');
-				$this->writeEncryptionEnabled(true);
+				$this->appConfig->setValueBool('core', 'encryption_enabled', true);
 				$output->writeln('done.');
 			}
 			$output->writeln('aborted');
@@ -148,18 +142,10 @@ class DecryptAll extends Command {
 		} catch (\Exception $e) {
 			// enable server side encryption again if something went wrong
 			if ($originallyEnabled) {
-				$this->writeEncryptionEnabled(true);
+				$this->appConfig->setValueBool('core', 'encryption_enabled', true);
 			}
 			$this->resetMaintenanceAndTrashbin();
 			throw $e;
-		}
-	}
-
-	private function writeEncryptionEnabled(bool $enabled): void {
-		try {
-			$this->appConfig->setValueBool('core', 'encryption_enabled', $enabled);
-		} catch (AppConfigTypeConflictException) {
-			$this->appConfig->setValueString('core', 'encryption_enabled', $enabled ? 'yes' : 'no');
 		}
 	}
 }
