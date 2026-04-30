@@ -3247,6 +3247,24 @@
       <code><![CDATA[findMatchingRoute]]></code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="core/Controller/UpdateController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="core/Controller/WebAuthnController.php">
     <DeprecatedMethod>
       <code><![CDATA[PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN))]]></code>
@@ -3278,24 +3296,6 @@
       <code><![CDATA[IToken::DO_NOT_REMEMBER]]></code>
       <code><![CDATA[IToken::PERMANENT_TOKEN]]></code>
     </DeprecatedClass>
-  </file>
-  <file src="core/ajax/update.php">
-    <DeprecatedMethod>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="core/templates/publicshareauth.php">
     <DeprecatedMethod>

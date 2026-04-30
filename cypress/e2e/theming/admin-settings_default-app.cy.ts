@@ -8,6 +8,8 @@ import { NavigationHeader } from '../../pages/NavigationHeader.ts'
 
 const admin = new User('admin', 'admin')
 
+after(() => cy.resetAdminTheming())
+
 describe('Admin theming set default apps', () => {
 	const navigationHeader = new NavigationHeader()
 

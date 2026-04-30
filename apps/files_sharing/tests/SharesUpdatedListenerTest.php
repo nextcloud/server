@@ -84,7 +84,7 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 		$this->shareRecipientUpdater
 			->expects($this->exactly(2))
 			->method('updateForAddedShare')
-			->willReturnCallback(function (IUser $user, IShare $eventShare) use ($user1, $user2, $share) {
+			->willReturnCallback(function (IUser $user, IShare $eventShare) use ($user1, $user2, $share): void {
 				$this->assertContains($user, [$user1, $user2]);
 				$this->assertEquals($share, $eventShare);
 			});
@@ -107,7 +107,7 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 		$this->shareRecipientUpdater
 			->expects($this->exactly(1))
 			->method('updateForAddedShare')
-			->willReturnCallback(function (IUser $user, IShare $eventShare) use ($user2, $share) {
+			->willReturnCallback(function (IUser $user, IShare $eventShare) use ($user2, $share): void {
 				$this->assertEquals($user, $user2);
 				$this->assertEquals($share, $eventShare);
 			});
@@ -124,7 +124,7 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 		$this->shareRecipientUpdater
 			->expects($this->exactly(2))
 			->method('updateForUser')
-			->willReturnCallback(function (IUser $user) use ($user1, $user2) {
+			->willReturnCallback(function (IUser $user) use ($user1, $user2): void {
 				$this->assertContains($user, [$user1, $user2]);
 			});
 
@@ -144,7 +144,7 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 		$this->shareRecipientUpdater
 			->expects($this->exactly(2))
 			->method('updateForDeletedShare')
-			->willReturnCallback(function (IUser $user) use ($user1, $user2, $share) {
+			->willReturnCallback(function (IUser $user) use ($user1, $user2, $share): void {
 				$this->assertContains($user, [$user1, $user2]);
 			});
 

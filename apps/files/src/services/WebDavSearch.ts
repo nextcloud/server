@@ -9,6 +9,7 @@ import type { ResponseDataDetailed, SearchResult } from 'webdav'
 import { getCurrentUser } from '@nextcloud/auth'
 import { defaultRootPath, getDavNameSpaces, getDavProperties, resultToNode } from '@nextcloud/files/dav'
 import { getBaseUrl } from '@nextcloud/router'
+import escapeHTML from 'escape-html'
 import { logger } from '../utils/logger.ts'
 import { client } from './WebdavClient.ts'
 
@@ -56,7 +57,7 @@ export async function searchNodes(query: string, { dir, signal }: SearchNodesOpt
 		 </d:select>
 		 <d:from>
 			 <d:scope>
-				 <d:href>/files/${user.uid}${dir || ''}</d:href>
+				 <d:href>/files/${user.uid}${dir ? escapeHTML(dir) : ''}</d:href>
 				 <d:depth>infinity</d:depth>
 			 </d:scope>
 		 </d:from>

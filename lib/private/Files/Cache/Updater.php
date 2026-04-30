@@ -225,7 +225,7 @@ class Updater implements IUpdater {
 	private function correctParentStorageMtime(string $internalPath): void {
 		$parentId = $this->cache->getParentId($internalPath);
 		$parent = dirname($internalPath);
-		if ($parentId != -1) {
+		if ($parentId !== -1) {
 			$mtime = $this->storage->filemtime($parent);
 			if ($mtime !== false) {
 				try {

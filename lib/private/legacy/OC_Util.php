@@ -7,9 +7,9 @@
  */
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
-use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
+use OC\Files\Template\TemplateManager;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\App\IAppManager;
@@ -17,7 +17,6 @@ use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\Files\Template\ITemplateManager;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -27,7 +26,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IManager;
@@ -116,49 +114,10 @@ class OC_Util {
 	 * @param Folder $userDirectory
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
-	 * @suppress PhanDeprecatedFunction
+	 * @deprecated 34.0.0 Not needed anymore, triggered automatically when UserFirstTimeLoggedInEvent is triggered
 	 */
 	public static function copySkeleton($userId, Folder $userDirectory) {
-		/** @var LoggerInterface $logger */
-		$logger = Server::get(LoggerInterface::class);
-
-		$plainSkeletonDirectory = Server::get(IConfig::class)->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
-		$userLang = Server::get(IFactory::class)->findLanguage();
-		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
-
-		if (!file_exists($skeletonDirectory)) {
-			$dialectStart = strpos($userLang, '_');
-			if ($dialectStart !== false) {
-				$skeletonDirectory = str_replace('{lang}', substr($userLang, 0, $dialectStart), $plainSkeletonDirectory);
-			}
-			if ($dialectStart === false || !file_exists($skeletonDirectory)) {
-				$skeletonDirectory = str_replace('{lang}', 'default', $plainSkeletonDirectory);
-			}
-			if (!file_exists($skeletonDirectory)) {
-				$skeletonDirectory = '';
-			}
-		}
-
-		$instanceId = Server::get(IConfig::class)->getSystemValue('instanceid', '');
-
-		if ($instanceId === null) {
-			throw new \RuntimeException('no instance id!');
-		}
-		$appdata = 'appdata_' . $instanceId;
-		if ($userId === $appdata) {
-			throw new \RuntimeException('username is reserved name: ' . $appdata);
-		}
-
-		if (!empty($skeletonDirectory)) {
-			$logger->debug('copying skeleton for ' . $userId . ' from ' . $skeletonDirectory . ' to ' . $userDirectory->getFullPath('/'), ['app' => 'files_skeleton']);
-			self::copyr($skeletonDirectory, $userDirectory);
-			// update the file cache
-			$userDirectory->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
-
-			/** @var ITemplateManager $templateManager */
-			$templateManager = Server::get(ITemplateManager::class);
-			$templateManager->initializeTemplateDirectory(null, $userId);
-		}
+		Server::get(TemplateManager::class)->copySkeleton($userId);
 	}
 
 	/**
@@ -167,6 +126,7 @@ class OC_Util {
 	 * @param string $source
 	 * @param Folder $target
 	 * @return void
+	 * @deprecated 34.0.0 Unused, if you really need this functionality, open an issue on GitHub
 	 */
 	public static function copyr($source, Folder $target) {
 		$logger = Server::get(LoggerInterface::class);

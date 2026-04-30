@@ -10,9 +10,4 @@ use OC\Route\Router;
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 /** @var Router $this */
-// Core ajax actions
-// Routing
-$this->create('core_ajax_update', '/core/ajax/update.php')
-	->actionInclude('core/ajax/update.php');
-
 $this->create('heartbeat', '/heartbeat')->get();
