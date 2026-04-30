@@ -1161,6 +1161,7 @@ return array(
     'OC\\App\\AppStore\\Fetcher\\AppFetcher' => $baseDir . '/lib/private/App/AppStore/Fetcher/AppFetcher.php',
     'OC\\App\\AppStore\\Fetcher\\CategoryFetcher' => $baseDir . '/lib/private/App/AppStore/Fetcher/CategoryFetcher.php',
     'OC\\App\\AppStore\\Fetcher\\Fetcher' => $baseDir . '/lib/private/App/AppStore/Fetcher/Fetcher.php',
+    'OC\\App\\AppStore\\Fetcher\\ResponseDefinitions' => $baseDir . '/lib/private/App/AppStore/Fetcher/ResponseDefinitions.php',
     'OC\\App\\AppStore\\Version\\Version' => $baseDir . '/lib/private/App/AppStore/Version/Version.php',
     'OC\\App\\AppStore\\Version\\VersionParser' => $baseDir . '/lib/private/App/AppStore/Version/VersionParser.php',
     'OC\\App\\CompareVersion' => $baseDir . '/lib/private/App/CompareVersion.php',
