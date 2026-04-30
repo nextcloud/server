@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -46,6 +47,7 @@ use OCP\Files;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -98,20 +100,24 @@ class Manager {
 	/** @var LoggerInterface */
 	private $logger;
 
+	/** @var IConfig */
+	private $config;
+
 	public function __construct(
-		IDBConnection                   $connection,
-		\OC\Files\Mount\Manager         $mountManager,
-		IStorageFactory                 $storageLoader,
-		IClientService                  $clientService,
-		IManager                        $notificationManager,
-		IDiscoveryService               $discoveryService,
+		IDBConnection $connection,
+		\OC\Files\Mount\Manager $mountManager,
+		IStorageFactory $storageLoader,
+		IClientService $clientService,
+		IManager $notificationManager,
+		IDiscoveryService $discoveryService,
 		ICloudFederationProviderManager $cloudFederationProviderManager,
-		ICloudFederationFactory         $cloudFederationFactory,
-		IGroupManager                   $groupManager,
-		IUserManager                    $userManager,
-		IUserSession                    $userSession,
-		IEventDispatcher                $eventDispatcher,
-		LoggerInterface                 $logger
+		ICloudFederationFactory $cloudFederationFactory,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IEventDispatcher $eventDispatcher,
+		LoggerInterface $logger,
+		IConfig $config,
 	) {
 		$user = $userSession->getUser();
 		$this->connection = $connection;
@@ -127,6 +133,7 @@ class Manager {
 		$this->userManager = $userManager;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
+		$this->config = $config;
 	}
 
 	/**
@@ -193,7 +200,8 @@ class Manager {
 			'token' => $token,
 			'password' => $password,
 			'mountpoint' => $mountPoint,
-			'owner' => $owner
+			'owner' => $owner,
+			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
 		];
 		return $this->mountShare($options);
 	}
@@ -733,12 +741,12 @@ class Manager {
 			$qb = $this->connection->getQueryBuilder();
 			// delete group share entry and matching sub-entries
 			$qb->delete('share_external')
-			   ->where(
-			   	$qb->expr()->orX(
-			   		$qb->expr()->eq('id', $qb->createParameter('share_id')),
-			   		$qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
-			   	)
-			   );
+				->where(
+					$qb->expr()->orX(
+						$qb->expr()->eq('id', $qb->createParameter('share_id')),
+						$qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
+					)
+				);
 
 			foreach ($shares as $share) {
 				$qb->setParameter('share_id', $share['id']);
