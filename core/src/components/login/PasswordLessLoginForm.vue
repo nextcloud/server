@@ -144,7 +144,7 @@ export default defineComponent({
 		},
 
 		completeAuthentication(challenge) {
-			const redirectUrl = this.redirectUrl
+			let redirectUrl = this.redirectUrl
 
 			return finishAuthentication(challenge)
 				.then(({ defaultRedirectUrl }) => {
