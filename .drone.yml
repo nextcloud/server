@@ -964,6 +964,31 @@ trigger:
 
 ---
 kind: pipeline
+name: integration-caldav-delegation
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: integration-caldav-delegation
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
+    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+    - cd build/integration
+    - ./run.sh features/caldav-delegation.feature
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
 name: integration-comments
 
 steps:
@@ -2033,4 +2058,6 @@ trigger:
     - push
 ---
 kind: signature
-hmac: fd19490e3939e1da07aae543ff0bc5bb920df2cdc7bc81d224faf9cc5b6c444a
+hmac: 3b856c3a173b1df862572509f7cb1465b216faedfb6f14889778ca471702ba58
+
+...
