@@ -204,7 +204,7 @@ export default {
 		completeAuthentication(challenge) {
 			console.debug('TIME TO COMPLETE')
 
-			const redirectUrl = this.redirectUrl
+			let redirectUrl = this.redirectUrl
 
 			return finishAuthentication(JSON.stringify(challenge))
 				.then(({ defaultRedirectUrl }) => {
