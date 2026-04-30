@@ -45,6 +45,9 @@
 	<extraFiles>
 		<directory name="apps/dav/lib"/>
 		<directory name="apps/settings/lib"/>
+		<!-- As long as the files are not in the projectFiles list, we need to include them here to make psalm aware of our interfaces -->
+		<directory name="lib/private"/>
+		<directory name="lib/public"/>
 		<directory name="3rdparty"/>
 	</extraFiles>
 	<stubs>
