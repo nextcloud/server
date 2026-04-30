@@ -20,6 +20,7 @@
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
 		<plugin filename="build/psalm/AttributeNamedParameters.php" />
 		<plugin filename="build/psalm/LogicalOperatorChecker.php" />
+		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>

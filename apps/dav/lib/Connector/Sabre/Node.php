@@ -28,6 +28,7 @@ use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use RuntimeException;
 use Sabre\DAV\Exception;
@@ -297,7 +298,7 @@ abstract class Node implements INode {
 		$attributes = [];
 		if ($storage->instanceOfStorage(ISharedStorage::class)) {
 			$attributes = $storage->getShare()->getAttributes();
-			if ($attributes === null) {
+			if (!$attributes instanceof IAttributes) {
 				return [];
 			}
 

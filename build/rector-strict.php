@@ -25,6 +25,10 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/private/DB/QueryBuilder/TypedQueryBuilder.php',
 		$nextcloudDir . '/lib/public/DB/QueryBuilder/ITypedQueryBuilder.php',
 	])
+	->withAutoloadPaths([
+		// ensure rector properly autoload the public interfaces
+		$nextcloudDir . '/lib/public',
+	])
 	->withPreparedSets(
 		deadCode: true,
 		codeQuality: true,
