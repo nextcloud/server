@@ -157,6 +157,7 @@ OC.L10N.register(
     "Add" : "Guardar",
     "Change" : "Cambiar",
     "Delete" : "Borrar",
+    "Save" : "Guardar",
     "Email" : "Correo electrónico",
     "Language" : "Idioma",
     "Avatar" : "Avatar",
@@ -164,6 +165,8 @@ OC.L10N.register(
     "Storage location" : "Úbicación del almacenamiento",
     "Last login" : "Último inicio de sesión",
     "Account actions" : "Acciones de la cuenta",
+    "Unknown" : "Desconocido",
+    "Never" : "Nunca",
     "{size} used" : "{size} usado",
     "Edit" : "Editar",
     "Show last login" : "Mostrar último inicio de sesión",
@@ -205,8 +208,6 @@ OC.L10N.register(
     "App bundles" : "Paquetes de aplicación",
     "Hide" : "Ocultar",
     "Disable" : "Deshabilitar",
-    "Unknown" : "Desconocido",
-    "Never" : "Nunca",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "La aplicación ha sido habilitada pero necesita ser actualizada. Serás redireccionado a la página de actualización en 5 segundos. ",
     "Error" : "Error",
     "Forum" : "Foro",
@@ -227,7 +228,6 @@ OC.L10N.register(
     "Email sent" : "Correo electrónico enviado",
     "SSL" : "SSL",
     "Credentials" : "Credenciales",
-    "SMTP Password" : "Contraseña SMTP",
-    "Save" : "Guardar"
+    "SMTP Password" : "Contraseña SMTP"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
