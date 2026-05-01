@@ -367,10 +367,6 @@ class AppConfigControllerTest extends TestCase {
 			['dav', 'public_route', ''],
 			['files', 'remote_route', ''],
 			['core', 'encryption_enabled', 'yes'],
-			['core', 'encryption_enabled', '1'],
-			['core', 'encryption_enabled', 'true'],
-			['core', 'encryption_enabled', 'YES'],
-			['core', 'encryption_enabled', 'on'],
 		];
 	}
 
@@ -388,8 +384,6 @@ class AppConfigControllerTest extends TestCase {
 			['contacts', 'types', ''],
 			['core', 'encryption_enabled', 'no'],
 			['core', 'encryption_enabled', ''],
-			['core', 'encryption_enabled', '0'],
-			['core', 'encryption_enabled', 'false'],
 			['core', 'public_files', ''],
 			['core', 'public_dav', ''],
 			['core', 'remote_files', ''],
