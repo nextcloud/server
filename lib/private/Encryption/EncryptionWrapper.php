@@ -14,7 +14,6 @@ use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Encryption\IFile;
 use OCP\Encryption\Keys\IStorage as EncryptionKeysStorage;
-use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
@@ -40,6 +39,7 @@ class EncryptionWrapper {
 	public function __construct(
 		private ArrayCache $arrayCache,
 		private Manager $manager,
+		private IAppConfig $appConfig,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -73,7 +73,8 @@ class EncryptionWrapper {
 			}
 
 			// Skip encryption for home mounts if encryptHomeStorage is disabled
-			if ($mount instanceof HomeMountPoint && !$this->shouldEncryptHomeStorage()) {
+			if ($mount instanceof HomeMountPoint &&
+				!$this->appConfig->getValueBool('encryption', 'encryptHomeStorage', true)) {
 				return $storage;
 			}
 		}
@@ -102,25 +103,5 @@ class EncryptionWrapper {
 			$mountManager,
 			$this->arrayCache
 		);
-	}
-
-	private function shouldEncryptHomeStorage(): bool {
-		$appConfig = Server::get(IAppConfig::class);
-		try {
-			return $appConfig->getValueBool('encryption', 'encryptHomeStorage', true);
-		} catch (AppConfigTypeConflictException) {
-			// Stored as VALUE_STRING from a pre-upgrade installation.
-			// RetypeEncryptionConfigKeys repair step will fix the type on occ upgrade.
-			return $this->parseLegacyBoolString(
-				$appConfig->getValueString('encryption', 'encryptHomeStorage', '1')
-			);
-		} catch (\Throwable) {
-			// DB not ready (e.g. oc_appconfig does not yet exist during install).
-			return true;
-		}
-	}
-
-	private function parseLegacyBoolString(string $value): bool {
-		return in_array(strtolower(trim($value)), ['1', 'true', 'yes', 'on'], true);
 	}
 }
