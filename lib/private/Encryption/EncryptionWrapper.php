@@ -39,7 +39,6 @@ class EncryptionWrapper {
 	public function __construct(
 		private ArrayCache $arrayCache,
 		private Manager $manager,
-		private IAppConfig $appConfig,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -73,8 +72,8 @@ class EncryptionWrapper {
 			}
 
 			// Skip encryption for home mounts if encryptHomeStorage is disabled
-			if ($mount instanceof HomeMountPoint &&
-				!$this->appConfig->getValueBool('encryption', 'encryptHomeStorage', true)) {
+			if ($mount instanceof HomeMountPoint
+				&& !Server::get(IAppConfig::class)->getValueBool('encryption', 'encryptHomeStorage', true)) {
 				return $storage;
 			}
 		}

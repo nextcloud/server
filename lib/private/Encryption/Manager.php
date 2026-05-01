@@ -18,7 +18,6 @@ use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
-use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
@@ -33,7 +32,6 @@ class Manager implements IManager {
 		protected View $rootView,
 		protected Util $util,
 		protected ArrayCache $arrayCache,
-		protected IAppConfig $appConfig,
 	) {
 		$this->encryptionModules = [];
 	}
@@ -207,13 +205,13 @@ class Manager implements IManager {
 	public function setupStorage() {
 		// If encryption is disabled and there are no loaded modules it makes no sense to load the wrapper
 		if (!empty($this->encryptionModules) || $this->isEnabled()) {
-			$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->appConfig, $this->logger);
+			$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
 			Filesystem::addStorageWrapper('oc_encryption', [$encryptionWrapper, 'wrapStorage'], 2);
 		}
 	}
 
 	public function forceWrapStorage(IMountPoint $mountPoint, IStorage $storage) {
-		$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->appConfig, $this->logger);
+		$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
 		return $encryptionWrapper->wrapStorage($mountPoint->getMountPoint(), $storage, $mountPoint, true);
 	}
 

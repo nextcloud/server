@@ -372,8 +372,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getL10N('core'),
 				new View(),
 				$util,
-				new ArrayCache(),
-				$c->get(IAppConfig::class),
+				new ArrayCache()
 			);
 		});
 		$this->registerAlias(\OCP\Encryption\IManager::class, Encryption\Manager::class);
