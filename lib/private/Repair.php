@@ -56,7 +56,6 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
-use OC\Repair\RetypeEncryptionConfigKeys;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -158,7 +157,6 @@ class Repair implements IOutput {
 	 */
 	public static function getRepairSteps(bool $includeExpensive = false): array {
 		$repairSteps = [
-			Server::get(RetypeEncryptionConfigKeys::class),
 			new Collation(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(IDBConnection::class), false),
 			Server::get(CleanTags::class),
 			Server::get(RepairInvalidShares::class),
