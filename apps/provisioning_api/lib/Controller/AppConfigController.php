@@ -203,8 +203,7 @@ class AppConfigController extends OCSController {
 			throw new \InvalidArgumentException('The given key can not be set');
 		}
 
-		if ($app === 'core' && $key === 'encryption_enabled'
-			&& !in_array(strtolower(trim($value)), ['yes', '1', 'true', 'on'], true)) {
+		if ($app === 'core' && $key === 'encryption_enabled' && $value !== 'yes') {
 			throw new \InvalidArgumentException('The given key can not be set');
 		}
 
