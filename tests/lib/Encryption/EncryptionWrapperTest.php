@@ -15,7 +15,6 @@ use OC\Memcache\ArrayCache;
 use OCA\Files_Trashbin\Storage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
-use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -32,9 +31,6 @@ class EncryptionWrapperTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ArrayCache */
 	private $arrayCache;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IAppConfig */
-	private $appConfig;
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,9 +38,8 @@ class EncryptionWrapperTest extends TestCase {
 		$this->arrayCache = $this->createMock(ArrayCache::class);
 		$this->manager = $this->createMock(Manager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
 
-		$this->instance = new EncryptionWrapper($this->arrayCache, $this->manager, $this->appConfig, $this->logger);
+		$this->instance = new EncryptionWrapper($this->arrayCache, $this->manager, $this->logger);
 	}
 
 
