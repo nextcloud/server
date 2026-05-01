@@ -139,6 +139,7 @@
     "Column headers with buttons are sortable." : "Stolpce z gumbi je mogoče razvrščati.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Seznam datotek ni v celoti izpisan zaradi zagotavljanja hitrosti in odzivnosti sistema. Predmeti se bodo dopolnjevali med brskanjem.",
     "File not found" : "Datoteke ni mogoče najti",
+    "_{count} selected_::_{count} selected_" : ["{count} izbrana","{count} izbrani","{count} izbranih","{count} izbranih"],
     "Views" : "Pogledi",
     "Owner" : "Lastnik",
     "{usedQuotaByte} used" : "Zasedeno {usedQuotaByte}",

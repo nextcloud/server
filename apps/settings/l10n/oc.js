@@ -146,11 +146,14 @@ OC.L10N.register(
     "Default language" : "Lenga per defaut",
     "Common languages" : "Lengas comunas",
     "Other languages" : "Autras lengas",
+    "Save" : "Salvar",
     "Email" : "Adreça corrièl",
-    "Quota" : "Quota",
     "Language" : "Lenga",
+    "Quota" : "Quota",
     "Avatar" : "Avatar",
     "Last login" : "Darrièra connexion",
+    "Unknown" : "Desconegut",
+    "Never" : "Pas jamais",
     "{size} used" : "{size} utilizat",
     "Resend welcome email" : "Tornar enviar l’email de benvenguda",
     "Account deletion" : "Supression de compte",
@@ -202,8 +205,6 @@ OC.L10N.register(
     "Show to everyone" : "Afichar a tot lo monde",
     "Hide" : "Amagar",
     "Disable" : "Desactivar",
-    "Unknown" : "Desconegut",
-    "Never" : "Pas jamais",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "I a agut tròp de requèstas a partir de vòstre ret. Tornatz ensajar mai tard o contactatz vòstre administrator s’aquò es una error.",
     "Error" : "Error",
     "Forum" : "Forum",
@@ -224,7 +225,6 @@ OC.L10N.register(
     "Sending…" : "Mandadís…",
     "Email sent" : "Corrièl mandat",
     "Credentials" : "Informacions d'identificacion",
-    "SMTP Password" : "Senhal SMTP",
-    "Save" : "Salvar"
+    "SMTP Password" : "Senhal SMTP"
 },
 "nplurals=2; plural=(n > 1);");
