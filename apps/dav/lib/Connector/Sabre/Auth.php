@@ -81,6 +81,9 @@ class Auth extends AbstractBasic {
 			$this->session->close();
 			return true;
 		} else {
+			if ($username === '' || $password === '') {
+				return false;
+			}
 			try {
 				if ($this->userSession->logClientIn($username, $password, $this->request, $this->throttler)) {
 					$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
