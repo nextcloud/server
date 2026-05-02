@@ -560,8 +560,8 @@ class AppManager implements IAppManager {
 
 		if (!empty($info['collaboration']['plugins'])) {
 			// deal with one or many plugin entries
-			$plugins = isset($info['collaboration']['plugins']['plugin']['@value'])
-				? [$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
+			$plugins = isset($info['collaboration']['plugins']['@value'])
+				? [$info['collaboration']['plugins']] : $info['collaboration']['plugins'];
 			$collaboratorSearch = null;
 			$autoCompleteManager = null;
 			foreach ($plugins as $plugin) {
