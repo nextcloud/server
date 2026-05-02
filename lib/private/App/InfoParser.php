@@ -293,26 +293,29 @@ class InfoParser {
 	 * @return AppInfoDefinition
 	 */
 	public function applyL10N(array $data, string $lang): array {
-		if (isset($data['name'])) {
-			if (is_array($data['name'])) {
-				$data['name'] = $this->findBestL10NOption($data['name'], $lang);
-			}
-			$data['name'] = trim($data['name']);
+		// Ensure name is set and convert arrays to strings
+		if (!isset($data['name'])) {
+			$data['name'] = '';
+		} elseif (is_array($data['name'])) {
+			$data['name'] = $this->findBestL10NOption($data['name'], $lang);
 		}
-		if (isset($data['summary'])) {
-			if (is_array($data['summary'])) {
-				$data['summary'] = $this->findBestL10NOption($data['summary'], $lang);
-			}
-			$data['summary'] = trim($data['summary']);
-		}
-		if (isset($data['description'])) {
-			if (is_array($data['description'])) {
-				$data['description'] = trim($this->findBestL10NOption($data['description'], $lang));
-			}
-			$data['description'] = trim($data['description']);
-		}
+		$data['name'] = trim((string)$data['name']);
 
-		/** @var AppInfoDefinition $data */
+		if (!isset($data['summary'])) {
+			$data['summary'] = '';
+		} elseif (is_array($data['summary'])) {
+			$data['summary'] = $this->findBestL10NOption($data['summary'], $lang);
+		}
+		$data['summary'] = trim((string)$data['summary']);
+
+		// Ensure description is set and convert arrays to strings
+		if (!isset($data['description'])) {
+			$data['description'] = '';
+		} elseif (is_array($data['description'])) {
+			$data['description'] = trim($this->findBestL10NOption($data['description'], $lang));
+		}
+		$data['description'] = trim((string)$data['description']);
+
 		return $data;
 	}
 

@@ -5,7 +5,7 @@
   - SPDX-License-Identifier: AGPL-3.0-only
 -->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
-	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	  xsi:noNamespaceSchemaLocation="../../../resources/app-info-shipped.xsd">
 	<id>files_sharing</id>
 	<name>File sharing</name>
 	<summary>File sharing</summary>
@@ -86,11 +86,11 @@ Turning the feature off removes shared files and folders on the server for all s
 		</plugins>
 	</collaboration>
 
-	<public>
-		<files>public.php</files>
-	</public>
-
 	<openmetrics>
 		<exporter>OCA\Files_Sharing\OpenMetrics\SharesCountMetric</exporter>
 	</openmetrics>
+
+	<public>
+		<files>public.php</files>
+	</public>
 </info>

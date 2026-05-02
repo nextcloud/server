@@ -13,19 +13,19 @@ namespace OCP\App;
  *     '@attributes'?: array{
  *         lang?: non-empty-string,
  *     },
- *     '@value': non-empty-string,
+ *     '@value': string,
  * }
  *
  * @psalm-type AppInfoLocalizedData = array{
- *     'name': non-empty-string,
- *     'summary': non-empty-string,
- *     'description': non-empty-string,
+ *     'name': string,
+ *     'summary': string,
+ *     'description': string,
  * }
  *
  * @psalm-type AppInfoRawXmlData = array{
- *     'name': non-empty-string|AppInfoLocalizedEntry|list<string|AppInfoLocalizedEntry>,
- *     'summary': non-empty-string|AppInfoLocalizedEntry|list<string|AppInfoLocalizedEntry>,
- *     'description': non-empty-string|AppInfoLocalizedEntry|list<string|AppInfoLocalizedEntry>,
+ *     'name': string|AppInfoLocalizedEntry|list<string|AppInfoLocalizedEntry>,
+ *     'summary': string|AppInfoLocalizedEntry|list<string|AppInfoLocalizedEntry>,
+ *     'description': string|AppInfoLocalizedEntry|list<string|AppInfoLocalizedEntry>,
  * }
  *
  * The enum definitions as per info.xsd:
