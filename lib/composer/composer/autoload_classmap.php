@@ -150,6 +150,7 @@ return array(
     'OCP\\AppFramework\\Services\\InitialStateProvider' => $baseDir . '/lib/public/AppFramework/Services/InitialStateProvider.php',
     'OCP\\AppFramework\\Utility\\IControllerMethodReflector' => $baseDir . '/lib/public/AppFramework/Utility/IControllerMethodReflector.php',
     'OCP\\AppFramework\\Utility\\ITimeFactory' => $baseDir . '/lib/public/AppFramework/Utility/ITimeFactory.php',
+    'OCP\\App\\AppInfoDefinition' => $baseDir . '/lib/public/App/AppInfoDefinition.php',
     'OCP\\App\\AppPathNotFoundException' => $baseDir . '/lib/public/App/AppPathNotFoundException.php',
     'OCP\\App\\Events\\AppDisableEvent' => $baseDir . '/lib/public/App/Events/AppDisableEvent.php',
     'OCP\\App\\Events\\AppEnableEvent' => $baseDir . '/lib/public/App/Events/AppEnableEvent.php',

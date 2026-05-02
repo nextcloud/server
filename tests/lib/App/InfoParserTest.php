@@ -22,7 +22,7 @@ class InfoParserTest extends TestCase {
 		self::$cache = new CappedMemoryCache();
 	}
 
-	public function parserTest($expectedJson, $xmlFile, $cache = null) {
+	protected function parserTest($expectedJson, $xmlFile, $cache = null) {
 		$parser = new InfoParser($cache);
 
 		$expectedData = null;
@@ -44,6 +44,12 @@ class InfoParserTest extends TestCase {
 		$this->parserTest($expectedJson, $xmlFile, self::$cache);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DataProvider('appDataProvider')]
+	public function testApplyL10N(array $data, array $expected, string $language): void {
+		$parser = new InfoParser();
+		$this->assertSame($expected, $parser->applyL10N($data, $language));
+	}
+
 	public static function providesInfoXml(): array {
 		return [
 			['expected-info.json', 'valid-info.xml'],
@@ -58,52 +64,63 @@ class InfoParserTest extends TestCase {
 	 * Providers for the app data values
 	 */
 	public static function appDataProvider(): array {
+		$FULL_TRANSLATED = [
+			'name' => [
+				['@attributes' => ['lang' => 'en'], '@value' => 'App'],
+				['@attributes' => ['lang' => 'fr'], '@value' => 'Application']
+			],
+			'summary' => [
+				'Summary',
+				['@attributes' => ['lang' => 'fr'], '@value' => 'Résumé']
+			],
+			'description' => [
+				['@attributes' => ['lang' => 'en'], '@value' => 'Description'],
+				['@attributes' => ['lang' => 'fr'], '@value' => 'Description (fr)']
+			]
+		];
+
 		return [
+			// test trimming
 			[
 				['description' => " \t  This is a multiline \n test with \n \t \n \n some new lines   "],
 				['description' => "This is a multiline \n test with \n \t \n \n some new lines"],
+				'en'
 			],
 			[
 				['description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
 				['description' => "This is a multiline \n test with \n \t   some new lines"],
+				'en'
 			],
 			[
 				['description' => hex2bin('5065726d657420646520732761757468656e7469666965722064616e732070697769676f20646972656374656d656e74206176656320736573206964656e74696669616e7473206f776e636c6f75642073616e73206c65732072657461706572206574206d657420c3a0206a6f757273206365757820636920656e20636173206465206368616e67656d656e74206465206d6f742064652070617373652e0d0a0d')],
 				['description' => "Permet de s'authentifier dans piwigo directement avec ses identifiants owncloud sans les retaper et met à jours ceux ci en cas de changement de mot de passe."],
+				'fr'
 			],
+			// test proper translation handling
+			// just strings:
 			[
-				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
-				[
-					'not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   ",
-					'description' => '',
-				],
+				['name' => 'App', 'summary' => 'Summary', 'description' => 'Description'],
+				['name' => 'App', 'summary' => 'Summary', 'description' => 'Description'],
+				'en'
 			],
+			// translated and requesting English:
 			[
-				['description' => [100, 'bla']],
-				['description' => ''],
+				$FULL_TRANSLATED,
+				['name' => 'App', 'summary' => 'Summary', 'description' => 'Description'],
+				'en'
 			],
+			// translated and requesting translation:
+			[
+				$FULL_TRANSLATED,
+				['name' => 'Application', 'summary' => 'Résumé', 'description' => 'Description (fr)'],
+				'fr'
+			],
+			// translated but requesting non existing translation, should fallback to English:
+			[
+				$FULL_TRANSLATED,
+				['name' => 'App', 'summary' => 'Summary', 'description' => 'Description'],
+				'de'
+			]
 		];
-	}
-
-	/**
-	 * Test app info parser
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('appDataProvider')]
-	public function testApplyL10NNoLanguage(array $data, array $expected): void {
-		$parser = new InfoParser();
-		$this->assertSame($expected, $parser->applyL10N($data));
-	}
-
-	public function testApplyL10N(): void {
-		$parser = new InfoParser();
-		$data = $parser->parse(\OC::$SERVERROOT . '/tests/data/app/description-multi-lang.xml');
-		$this->assertEquals('English', $parser->applyL10N($data, 'en')['description']);
-		$this->assertEquals('German', $parser->applyL10N($data, 'de')['description']);
-	}
-
-	public function testApplyL10NSingleLanguage(): void {
-		$parser = new InfoParser();
-		$data = $parser->parse(\OC::$SERVERROOT . '/tests/data/app/description-single-lang.xml');
-		$this->assertEquals('English', $parser->applyL10N($data, 'en')['description']);
 	}
 }
