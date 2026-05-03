@@ -164,7 +164,8 @@ class {{classname}} extends SimpleMigrationStep {
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
 			$allApps = $this->appManager->getAllAppsInAppsFolders();
-			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
+			$enabledApps = $this->appManager->getEnabledApps();
+			return array_diff($allApps, $enabledApps);
 		}
 
 		if ($argumentName === 'version') {

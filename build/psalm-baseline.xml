@@ -2954,7 +2954,6 @@
   </file>
   <file src="core/Command/Config/ListConfigs.php">
     <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
       <code><![CDATA[getFilteredValues]]></code>
       <code><![CDATA[getValues]]></code>
     </DeprecatedMethod>
@@ -2977,24 +2976,9 @@
       <code><![CDATA[getDatabasePlatform]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Command/Db/Migrations/ExecuteCommand.php">
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Command/Db/Migrations/GenerateCommand.php">
     <DeprecatedMethod>
       <code><![CDATA[Util::getVersion()]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/Db/Migrations/MigrateCommand.php">
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/Db/Migrations/StatusCommand.php">
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/Encryption/ChangeKeyStorageRoot.php">

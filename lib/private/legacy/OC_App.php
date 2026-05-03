@@ -528,7 +528,7 @@ class OC_App {
 	 * @param string $appId
 	 * @param string[] $steps
 	 * @throws NeedsUpdateException
-	 * @deprecated 34.0.0 Use {@see \OC\App\AppManager::upgradeApp}
+	 * @deprecated 34.0.0 Use {@see \OC\App\AppManager::executeRepairSteps}
 	 */
 	public static function executeRepairSteps(string $appId, array $steps) {
 		Server::get(AppManager::class)->executeRepairSteps($appId, $steps);
