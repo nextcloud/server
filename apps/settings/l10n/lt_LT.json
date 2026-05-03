@@ -106,7 +106,7 @@
     "Artificial Intelligence" : "Dirbtinis intelektas",
     "None / STARTTLS" : "Nėra/STARTTLS",
     "Email server" : "El. pašto serveris",
-    "Mail Providers" : "Pašto paslaugų teikėjai",
+    "Mail Providers" : "Pašto paslaugų tiekėjai",
     "Mail provider enables sending emails directly through the user's personal email account. At present, this functionality is limited to calendar invitations. It requires Nextcloud Mail 4.1 and an email account in Nextcloud Mail that matches the user's email address in Nextcloud." : "Pašto paslauga leidžia siųsti el. laiškus tiesiogiai per vartotojo asmeninę el. pašto paskyrą. Šiuo metu ši funkcija taikoma tik kalendoriaus kvietimams. Tam reikalinga „Nextcloud Mail“ 4.1 versija ir „Nextcloud Mail“ el. pašto paskyra, kurios adresas atitinka vartotojo el. pašto adresą „Nextcloud“ sistemoje.",
     "Send emails using" : "Siųskite el. laiškus naudodami",
     "User's email account" : "Naudotojo el. pašto paskyra",

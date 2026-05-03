@@ -642,7 +642,7 @@ OC.L10N.register(
     "Enter your date of birth" : "Saisissez votre date de naissance",
     "Bluesky handle" : "Pseudo Bluesky",
     "You are using {s}{usage}{/s}" : "Vous utilisez {s}{usage}{/s}",
-    "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "Vous utilisez {s}{usage}{/s} de {s}{totalSpace}{/s}({s}{usageRelative}%{/s})",
+    "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "Vous utilisez {s}{usage}{/s} sur {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})",
     "You are a member of the following groups:" : "Vous êtes membre des groupes suivants :",
     "Your full name" : "Votre nom complet",
     "Unable to update primary email address" : "Impossible de modifier l'adresse e-mail principale",

@@ -162,7 +162,7 @@ OC.L10N.register(
     "Location:" : "Ort:",
     "Link:" : "Link:",
     "Occurring:" : "Findet statt:",
-    "Accept" : "Akzeptieren",
+    "Accept" : "Annehmen",
     "Decline" : "Ablehnen",
     "More options …" : "Weitere Optionen …",
     "More options at %s" : "Weitere Optionen unter %s",
