@@ -56,7 +56,7 @@
     "Favorite files" : "Favorisierte Dateien",
     "No favorites" : "Keine Favoriten",
     "More favorites" : "Weitere Favoriten",
-    "Accept" : "Akzeptieren",
+    "Accept" : "Annehmen",
     "Reject" : "Ablehnen",
     "Incoming ownership transfer from {user}" : "Eingehende Besitzübertragung von {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Soll {path} angenommen werden?\n\nInfo: Der Übertragungsprozess nach der Annahme kann bis zu einer Stunde dauern.",
