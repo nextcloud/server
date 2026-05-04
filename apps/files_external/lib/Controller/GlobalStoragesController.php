@@ -7,6 +7,7 @@
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
@@ -43,6 +44,7 @@ class GlobalStoragesController extends StoragesController {
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IConfig $config,
+		BackendService $backendService,
 	) {
 		parent::__construct(
 			$AppName,
@@ -52,7 +54,8 @@ class GlobalStoragesController extends StoragesController {
 			$logger,
 			$userSession,
 			$groupManager,
-			$config
+			$config,
+			$backendService
 		);
 	}
 
