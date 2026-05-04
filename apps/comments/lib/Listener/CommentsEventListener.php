@@ -40,6 +40,7 @@ class CommentsEventListener implements IEventListener {
 			|| $event instanceof CommentUpdatedEvent
 			|| $event instanceof CommentDeletedEvent
 			|| $event instanceof BeforeCommentUpdatedEvent) {
+			// Dispatch the deprecated event name for backward compatibility
 			$this->eventDispatcher->dispatchTyped(new CommentsEvent($event->getEvent(), $event->getComment()));
 		}
 
