@@ -211,4 +211,14 @@ class LazyUser implements IUser {
 	public function setManagerUids(array $uids): void {
 		$this->getUser()->setManagerUids($uids);
 	}
+
+	#[\Override]
+	public function getUserAvatarUrlLight(int $size): string {
+		return $this->getUser()->getUserAvatarUrlLight($size);
+	}
+
+	#[\Override]
+	public function getUserAvatarUrlDark(int $size): string {
+		return $this->getUser()->getUserAvatarUrlDark($size);
+	}
 }
