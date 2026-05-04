@@ -96,6 +96,7 @@ class Broker implements IBroker {
 		$this->backend->deleteConversation($id);
 	}
 
+	#[\Override]
 	public function isAllowedToCreateConversations(): bool {
 		if (!$this->isEnabledForUser()) {
 			return false;
@@ -104,6 +105,7 @@ class Broker implements IBroker {
 		return $this->backend->isAllowedToCreateConversations();
 	}
 
+	#[\Override]
 	public function isEnabledForUser(): bool {
 		if (!$this->hasBackend()) {
 			return false;
