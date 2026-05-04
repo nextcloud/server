@@ -1,0 +1,52 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OC\Core\Sharing\Property;
+
+use OC\Core\AppInfo\Application;
+use OCP\L10N\IFactory;
+use OCP\Sharing\Property\AStringSharePropertyType;
+
+final class NoteSharePropertyType extends AStringSharePropertyType {
+	#[\Override]
+	public function getDisplayName(IFactory $l10nFactory): string {
+		return $l10nFactory->get(Application::APP_ID)->t('Note to recipients');
+	}
+
+	#[\Override]
+	public function getHint(IFactory $l10nFactory): ?string {
+		return null;
+	}
+
+	#[\Override]
+	public function getPriority(): int {
+		// TODO: Implement getPriority() method.
+		return 1;
+	}
+
+	#[\Override]
+	public function getMinLength(): int {
+		return 1;
+	}
+
+	#[\Override]
+	public function getMaxLength(): int {
+		return 1000;
+	}
+
+	#[\Override]
+	public function getRequired(): bool {
+		return false;
+	}
+
+	#[\Override]
+	public function getDefaultValue(): ?string {
+		return null;
+	}
+}

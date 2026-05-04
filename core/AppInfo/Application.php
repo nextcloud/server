@@ -23,6 +23,12 @@ use OC\Core\Listener\AddMissingPrimaryKeyListener;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Notification\CoreNotifier;
+use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
+use OC\Core\Sharing\Property\NoteSharePropertyType;
+use OC\Core\Sharing\Property\PasswordSharePropertyType;
+use OC\Core\Sharing\Recipient\GroupShareRecipientType;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
+use OC\Core\Sharing\Recipient\UserShareRecipientType;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\OCM\OCMJwksHandler;
 use OC\TagManager;
@@ -39,6 +45,7 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use OCP\Sharing\ISharingRegistry;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -97,6 +104,25 @@ class Application extends App implements IBootstrap {
 		$context->registerWellKnownHandler(OCMDiscoveryHandler::class);
 		$context->registerWellKnownHandler(OCMJwksHandler::class);
 		$context->registerCapability(Capabilities::class);
+
+		$registry = Server::get(ISharingRegistry::class);
+
+		$registry->registerRecipientType(new GroupShareRecipientType());
+		$registry->registerRecipientType(new UserShareRecipientType());
+		$registry->registerRecipientType(new TokenShareRecipientType());
+
+		$registry->registerPropertyType(new ExpirationDateSharePropertyType());
+		$registry->markPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, UserShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, GroupShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPropertyType(new NoteSharePropertyType());
+		$registry->markPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, UserShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, GroupShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPropertyType(new PasswordSharePropertyType());
+		$registry->markPropertyTypeCompatibleWithRecipientType(PasswordSharePropertyType::class, TokenShareRecipientType::class);
 	}
 
 	#[\Override]
