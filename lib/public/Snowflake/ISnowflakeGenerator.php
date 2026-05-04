@@ -40,6 +40,8 @@ interface ISnowflakeGenerator {
 	 *
 	 * Each call to this method is guaranteed to return a different ID.
 	 *
+	 * @return non-empty-string
+	 *
 	 * @since 33.0
 	 */
 	public function nextId(): string;

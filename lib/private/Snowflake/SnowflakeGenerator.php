@@ -13,6 +13,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
+use RuntimeException;
 
 /**
  * Nextcloud Snowflake ID generator
@@ -68,6 +69,9 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 	/**
 	 * Mostly copied from Symfony:
 	 * https://github.com/symfony/symfony/blob/v7.3.4/src/Symfony/Component/Uid/BinaryUtil.php#L49
+	 *
+	 * @param non-empty-list<non-negative-int> $bytes
+	 * @return non-empty-string
 	 */
 	private function convertToDecimal(array $bytes): string {
 		$base = 10;
@@ -89,6 +93,10 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 
 			$digits = $remainder . $digits;
 			$bytes = $quotient;
+		}
+
+		if ($digits === '') {
+			throw new RuntimeException('Empty digits: ' . var_export($bytes, true));
 		}
 
 		return $digits;
