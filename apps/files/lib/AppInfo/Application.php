@@ -10,6 +10,10 @@ declare(strict_types=1);
 namespace OCA\Files\AppInfo;
 
 use Closure;
+use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
+use OC\Core\Sharing\Property\NoteSharePropertyType;
+use OC\Core\Sharing\Property\PasswordSharePropertyType;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OCA\Files\AdvancedCapabilities;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
@@ -28,6 +32,13 @@ use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Listener\UserFirstTimeLoggedInListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
+use OCA\Files\Sharing\Permission\NodeCreateSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeDeleteSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
+use OCA\Files\Sharing\Property\NodeGridViewSharePropertyType;
+use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -41,6 +52,8 @@ use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\NodeAddedToFavorite;
 use OCP\Files\Events\NodeRemovedFromFavorite;
+use OCP\Server;
+use OCP\Sharing\ISharingRegistry;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
 
@@ -79,6 +92,22 @@ class Application extends App implements IBootstrap {
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
+		$registry = Server::get(ISharingRegistry::class);
+
+		$registry->registerSourceType(new NodeShareSourceType());
+		$registry->markPropertyTypeCompatibleWithSourceType(ExpirationDateSharePropertyType::class, NodeShareSourceType::class);
+		$registry->markPropertyTypeCompatibleWithSourceType(NoteSharePropertyType::class, NodeShareSourceType::class);
+		$registry->markPropertyTypeCompatibleWithSourceType(PasswordSharePropertyType::class, NodeShareSourceType::class);
+
+		$registry->registerPropertyType(new NodeGridViewSharePropertyType());
+		$registry->markPropertyTypeCompatibleWithSourceType(NodeGridViewSharePropertyType::class, NodeShareSourceType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NodeGridViewSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeCreateSharePermissionType());
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeReadSharePermissionType());
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeUpdateSharePermissionType());
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeDeleteSharePermissionType());
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeDownloadSharePermissionType());
 	}
 
 	#[\Override]
