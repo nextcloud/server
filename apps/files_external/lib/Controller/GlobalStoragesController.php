@@ -81,16 +81,6 @@ class GlobalStoragesController extends StoragesController {
 		$applicableGroups,
 		$priority,
 	) {
-		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
-		if (!$canCreateNewLocalStorage && $backend === 'local') {
-			return new DataResponse(
-				[
-					'message' => $this->l10n->t('Forbidden to manage local mounts')
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
 		$newStorage = $this->createStorage(
 			$mountPoint,
 			$backend,
