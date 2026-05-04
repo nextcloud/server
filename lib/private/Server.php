@@ -1151,6 +1151,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IJobRuns::class, JobRuns::class);
 		$this->registerAlias(IServerInfo::class, ServerInfo::class);
 
+		$this->registerAlias(\OCP\Sharing\ISharingRegistry::class, \OC\Sharing\SharingRegistry::class);
+		$this->registerAlias(\OCP\Sharing\ISharingManager::class, \OC\Sharing\SharingManager::class);
+
 		$this->connectDispatcher();
 	}
 

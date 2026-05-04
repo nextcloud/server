@@ -106,6 +106,7 @@
 	<extraFiles>
 		<directory name="3rdparty"/>
 		<directory name="vendor-bin/phpunit/vendor/phpunit"/>
+		<directory name="tests/lib/Sharing"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>
