@@ -2445,9 +2445,28 @@ $CONFIG = [
 	'localstorage.unlink_on_truncate' => false,
 
 	/**
-	 * EXPERIMENTAL: Include external storage in quota calculations.
+	 * Include external storage mounts in quota calculations.
 	 *
-	 * Defaults to ``false``
+	 * When enabled, user storage quotas will also include files stored on
+	 * external storage mounts (such as SMB, SFTP, S3, etc.) that are
+	 * configured for the user (either as personal or global/system mounts).
+	 *
+	 * Only files visible to the user at these mount points are counted towards
+	 * their quota. Files only visible to other users (on their own mounts) are
+	 * not counted.
+	 *
+	 * By default, system/global external storage mounts are shared: every user
+	 * given access sees the same files and folders from the external storage. To
+	 * have per-user isolation, configure the mount with user-specific path or
+	 * credentials, or utilize a personal mount.
+	 *
+	 * Enabling this option may impact performance if external storages are slow
+	 * or unreliable.
+	 *
+	 * Warning: This setting is considered EXPERIMENTAL and may not work with all
+	 * external storage backends.
+	 *
+	 * Defaults to ``false``.
 	 */
 	'quota_include_external_storage' => false,
 
