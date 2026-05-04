@@ -19,6 +19,9 @@ class L10NString implements \JsonSerializable {
 	) {
 	}
 
+	/**
+	 * @return non-empty-string
+	 */
 	public function __toString(): string {
 		$translations = $this->l10n->getTranslations();
 		$identityTranslator = $this->l10n->getIdentityTranslator();
@@ -51,7 +54,12 @@ class L10NString implements \JsonSerializable {
 		// $count as %count% as per \Symfony\Contracts\Translation\TranslatorInterface
 		$text = $identityTranslator->trans($identity, $parameters);
 
-		return vsprintf($text, $this->parameters);
+		$text = vsprintf($text, $this->parameters);
+		if ($text === '') {
+			throw new \RuntimeException('The translated text is empty: ' . $this->text);
+		}
+
+		return $text;
 	}
 
 	#[\Override]

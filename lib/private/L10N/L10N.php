@@ -56,15 +56,6 @@ class L10N implements IL10N {
 		return $this->locale ?? '';
 	}
 
-	/**
-	 * Translating
-	 * @param string $text The text we need a translation for
-	 * @param array|string $parameters default:array() Parameters for sprintf
-	 * @return string Translation or the same text
-	 *
-	 * Returns the translation. If no translation is found, $text will be
-	 * returned.
-	 */
 	#[\Override]
 	public function t(string $text, $parameters = []): string {
 		if (!\is_array($parameters)) {
