@@ -54,6 +54,7 @@ class User implements IUser {
 	private IURLGenerator $urlGenerator;
 	protected ?IAccountManager $accountManager = null;
 
+	/** @var ?non-empty-string $displayName */
 	private ?string $displayName = null;
 	private ?bool $enabled = null;
 	private ?string $home = null;
@@ -63,6 +64,7 @@ class User implements IUser {
 	private ?IAvatarManager $avatarManager = null;
 
 	public function __construct(
+		/** @var non-empty-string $uid */
 		private string $uid,
 		private ?UserInterface $backend,
 		private IEventDispatcher $dispatcher,

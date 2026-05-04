@@ -37,6 +37,9 @@ class DisplayNameCache implements IEventListener {
 		$this->memCache = $cacheFactory->createDistributed('displayNameMappingCache');
 	}
 
+	/**
+	 * @return ?non-empty-string
+	 */
 	public function getDisplayName(string $userId): ?string {
 		if (isset($this->cache[$userId])) {
 			return $this->cache[$userId];

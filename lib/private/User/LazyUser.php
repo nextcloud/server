@@ -16,8 +16,10 @@ class LazyUser implements IUser {
 	private ?IUser $user = null;
 
 	public function __construct(
+		/** @var non-empty-string $uid */
 		private string $uid,
 		private IUserManager $userManager,
+		/** @var ?non-empty-string $displayName */
 		private ?string $displayName = null,
 		private ?UserInterface $backend = null,
 	) {
