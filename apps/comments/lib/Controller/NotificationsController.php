@@ -79,7 +79,10 @@ class NotificationsController extends Controller {
 
 			$url = $this->urlGenerator->linkToRouteAbsolute(
 				'files.viewcontroller.showFile',
-				[ 'fileid' => $comment->getObjectId() ]
+				[
+					'fileid' => $comment->getObjectId(),
+					'opendetails' => 'true',
+				]
 			);
 
 			return new RedirectResponse($url);
