@@ -181,6 +181,36 @@ Cypress.Commands.add('uploadContent', (user: User, blob: Blob, mimeType: string,
 	})
 })
 
+Cypress.Commands.add('createShare', (sharer: User, path: string, shareType: number, shareWith: string) => {
+	return cy.clearCookies()
+		.then(async () => {
+			try {
+				const url = `${Cypress.env('baseUrl')}/ocs/v2.php/apps/files_sharing/api/v1/shares`
+				const response = await axios({
+					url,
+					method: 'POST',
+					auth: {
+						username: sharer.userId,
+						password: sharer.password,
+					},
+					headers: {
+						'OCS-ApiRequest': 'true',
+					},
+					data: {
+						path,
+						shareType,
+						shareWith,
+					},
+				})
+				cy.log(`Created share for ${path} of type ${shareType} with ${shareWith}`, response)
+				return response
+			} catch (cause) {
+				cy.log('error', cause)
+				throw new Error(`Unable to create share for ${path} of type ${shareType} with ${shareWith}`, { cause })
+			}
+		})
+})
+
 /**
  * Reset the admin theming entirely
  */
