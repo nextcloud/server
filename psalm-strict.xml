@@ -39,6 +39,8 @@
 		<directory name="lib/private/Sharing"/>
 		<directory name="tests/lib/Sharing"/>
 		<directory name="apps/sharing"/>
+		<directory name="core/Sharing"/>
+		<directory name="tests/Core/Sharing"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="lib/composer"/>

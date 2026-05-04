@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\AppInfo;
 
 use OC\Authentication\Events\RemoteWipeFinished;
@@ -22,8 +23,20 @@ use OC\Core\Listener\AddMissingPrimaryKeyListener;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Notification\CoreNotifier;
+use OC\Core\Sharing\Permission\CreateSharePermissionCategoryType;
+use OC\Core\Sharing\Permission\DeleteSharePermissionCategoryType;
+use OC\Core\Sharing\Permission\ReadSharePermissionCategoryType;
+use OC\Core\Sharing\Permission\UpdateSharePermissionCategoryType;
+use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
+use OC\Core\Sharing\Property\LabelSharePropertyType;
+use OC\Core\Sharing\Property\NoteSharePropertyType;
+use OC\Core\Sharing\Property\PasswordSharePropertyType;
+use OC\Core\Sharing\Recipient\GroupShareRecipientType;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
+use OC\Core\Sharing\Recipient\UserShareRecipientType;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
+use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -32,6 +45,8 @@ use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
+use OCP\Server;
+use OCP\Sharing\IRegistry;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -89,6 +104,39 @@ class Application extends App implements IBootstrap {
 
 		$context->registerWellKnownHandler(OCMDiscoveryHandler::class);
 		$context->registerCapability(Capabilities::class);
+
+		$registry = Server::get(IRegistry::class);
+
+		$registry->registerRecipientType(new GroupShareRecipientType());
+		$registry->registerRecipientType(new UserShareRecipientType());
+		$registry->registerRecipientType(new TokenShareRecipientType());
+
+		$registry->registerPropertyType(new ExpirationDateSharePropertyType());
+		$registry->registerPropertyTypeCompatibleWithSourceType(ExpirationDateSharePropertyType::class, NodeShareSourceType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, UserShareRecipientType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, GroupShareRecipientType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPropertyType(new LabelSharePropertyType());
+		$registry->registerPropertyTypeCompatibleWithSourceType(LabelSharePropertyType::class, NodeShareSourceType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(LabelSharePropertyType::class, UserShareRecipientType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(LabelSharePropertyType::class, GroupShareRecipientType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(LabelSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPropertyType(new NoteSharePropertyType());
+		$registry->registerPropertyTypeCompatibleWithSourceType(NoteSharePropertyType::class, NodeShareSourceType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, UserShareRecipientType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, GroupShareRecipientType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPropertyType(new PasswordSharePropertyType());
+		$registry->registerPropertyTypeCompatibleWithSourceType(PasswordSharePropertyType::class, NodeShareSourceType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(PasswordSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPermissionCategoryType(new CreateSharePermissionCategoryType());
+		$registry->registerPermissionCategoryType(new ReadSharePermissionCategoryType());
+		$registry->registerPermissionCategoryType(new UpdateSharePermissionCategoryType());
+		$registry->registerPermissionCategoryType(new DeleteSharePermissionCategoryType());
 	}
 
 	#[\Override]
