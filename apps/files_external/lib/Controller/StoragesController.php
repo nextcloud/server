@@ -31,9 +31,11 @@ namespace OCA\Files_External\Controller;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\Backend\Local;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\StoragesService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -86,6 +88,11 @@ abstract class StoragesController extends Controller {
 	protected $config;
 
 	/**
+	 * @var BackendService
+	 */
+	protected $backendService;
+
+	/**
 	 * Creates a new storages controller.
 	 *
 	 * @param string $AppName application name
@@ -102,7 +109,8 @@ abstract class StoragesController extends Controller {
 		ILogger $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IConfig $config
+		IConfig $config,
+		BackendService $backendService
 	) {
 		parent::__construct($AppName, $request);
 		$this->l10n = $l10n;
@@ -111,6 +119,7 @@ abstract class StoragesController extends Controller {
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 		$this->config = $config;
+		$this->backendService = $backendService;
 	}
 
 	/**
@@ -138,7 +147,7 @@ abstract class StoragesController extends Controller {
 		$priority = null
 	) {
 		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
-		if (!$canCreateNewLocalStorage && $backend === 'local') {
+		if (!$canCreateNewLocalStorage && $this->backendService->getBackend($backend) instanceof Local) {
 			return new DataResponse(
 				[
 					'message' => $this->l10n->t('Forbidden to manage local mounts')
