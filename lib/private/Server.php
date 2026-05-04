@@ -1327,6 +1327,9 @@ class Server extends ServerContainer implements IServerContainer {
 		}, false);
 		$this->registerAlias(ISnowflakeDecoder::class, SnowflakeDecoder::class);
 
+		$this->registerAlias(\OCP\Sharing\IRegistry::class, \OC\Sharing\Registry::class);
+		$this->registerAlias(\OCP\Sharing\IManager::class, \OC\Sharing\Manager::class);
+
 		$this->connectDispatcher();
 	}
 

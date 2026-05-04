@@ -35,6 +35,9 @@
 		<file name="lib/public/DB/QueryBuilder/ITypedQueryBuilder.php"/>
 		<file name="lib/private/Share20/ShareHelper.php"/>
 		<file name="lib/public/Share/IShareHelper.php"/>
+		<directory name="lib/public/Sharing"/>
+		<directory name="lib/private/Sharing"/>
+		<directory name="tests/lib/Sharing"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="lib/composer"/>
@@ -49,6 +52,8 @@
 		<directory name="lib/private"/>
 		<directory name="lib/public"/>
 		<directory name="3rdparty"/>
+		<directory name="tests/lib"/>
+		<directory name="vendor-bin/phpunit/vendor/phpunit/phpunit"/>
 	</extraFiles>
 	<stubs>
 		<!-- Psalm does not find methods in here through <extraFiles/> 🤷‍♀️ -->
