@@ -40,6 +40,7 @@ node_modules/
 !/apps/provisioning_api
 !/apps/settings
 !/apps/sharebymail
+!/apps/sharing
 !/apps/systemtags
 !/apps/testing
 !/apps/updatenotification

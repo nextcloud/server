@@ -40,6 +40,7 @@
 		<directory name="lib/public/Sharing"/>
 		<directory name="lib/private/Sharing"/>
 		<directory name="tests/lib/Sharing"/>
+		<directory name="apps/sharing"/>
 		<ignoreFiles>
 			<!-- Missing types of the AppFetcher and the OC_Apps class for return types -->
 			<file name="apps/appstore/lib/Controller/ApiController.php" />
