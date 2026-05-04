@@ -6,9 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\AppInfo;
 
 use Closure;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OCA\Files\AdvancedCapabilities;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
@@ -31,6 +33,13 @@ use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
+use OCA\Files\Sharing\Permission\NodeCreateSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeDeleteSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
+use OCA\Files\Sharing\Property\NodeGridViewSharePropertyType;
+use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -53,7 +62,9 @@ use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\Share\IManager as IShareManager;
+use OCP\Sharing\IRegistry;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
@@ -133,6 +144,16 @@ class Application extends App implements IBootstrap {
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
+		$registry = Server::get(IRegistry::class);
+		$registry->registerSourceType(new NodeShareSourceType());
+		$registry->registerPropertyType(new NodeGridViewSharePropertyType());
+		$registry->registerPropertyTypeCompatibleWithSourceType(NodeGridViewSharePropertyType::class, NodeShareSourceType::class);
+		$registry->registerPropertyTypeCompatibleWithRecipientType(NodeGridViewSharePropertyType::class, TokenShareRecipientType::class);
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeCreateSharePermissionType());
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeReadSharePermissionType());
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeUpdateSharePermissionType());
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeDeleteSharePermissionType());
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeDownloadSharePermissionType());
 	}
 
 	#[\Override]

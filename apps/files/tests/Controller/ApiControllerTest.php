@@ -36,7 +36,7 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
- * Class ApiController
+ * Class ApiV1Controller
  *
  * @package OCA\Files\Controller
  */

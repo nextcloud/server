@@ -96,4 +96,11 @@ return array(
     'OCA\\Files\\Service\\ViewConfig' => $baseDir . '/../lib/Service/ViewConfig.php',
     'OCA\\Files\\Settings\\AdminSettings' => $baseDir . '/../lib/Settings/AdminSettings.php',
     'OCA\\Files\\Settings\\PersonalSettings' => $baseDir . '/../lib/Settings/PersonalSettings.php',
+    'OCA\\Files\\Sharing\\Permission\\NodeCreateSharePermissionType' => $baseDir . '/../lib/Sharing/Permission/NodeCreateSharePermissionType.php',
+    'OCA\\Files\\Sharing\\Permission\\NodeDeleteSharePermissionType' => $baseDir . '/../lib/Sharing/Permission/NodeDeleteSharePermissionType.php',
+    'OCA\\Files\\Sharing\\Permission\\NodeDownloadSharePermissionType' => $baseDir . '/../lib/Sharing/Permission/NodeDownloadSharePermissionType.php',
+    'OCA\\Files\\Sharing\\Permission\\NodeReadSharePermissionType' => $baseDir . '/../lib/Sharing/Permission/NodeReadSharePermissionType.php',
+    'OCA\\Files\\Sharing\\Permission\\NodeUpdateSharePermissionType' => $baseDir . '/../lib/Sharing/Permission/NodeUpdateSharePermissionType.php',
+    'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => $baseDir . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
+    'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceType.php',
 );

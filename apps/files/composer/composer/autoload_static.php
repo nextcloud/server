@@ -111,6 +111,13 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Service\\ViewConfig' => __DIR__ . '/..' . '/../lib/Service/ViewConfig.php',
         'OCA\\Files\\Settings\\AdminSettings' => __DIR__ . '/..' . '/../lib/Settings/AdminSettings.php',
         'OCA\\Files\\Settings\\PersonalSettings' => __DIR__ . '/..' . '/../lib/Settings/PersonalSettings.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeCreateSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeCreateSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeDeleteSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeDeleteSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeDownloadSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeDownloadSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeReadSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeReadSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeUpdateSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeUpdateSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => __DIR__ . '/..' . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
+        'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceType.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
