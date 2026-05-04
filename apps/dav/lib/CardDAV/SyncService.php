@@ -355,4 +355,15 @@ class SyncService {
 	public static function getCardUri(IUser $user): string {
 		return $user->getBackendClassName() . ':' . $user->getUID() . '.vcf';
 	}
+
+	public function markCardsAsPending(int $addressBookId): void {
+		$this->backend->markCardsAsPending($addressBookId);
+	}
+
+	public function deletePendingCards(int $addressBookId): void {
+		$cards = $this->backend->getPendingCards($addressBookId);
+		foreach ($cards as $card) {
+			$this->backend->deleteCard($addressBookId, $card['uri']);
+		}
+	}
 }
