@@ -14,6 +14,7 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -50,6 +51,7 @@ class UserGlobalStoragesController extends StoragesController {
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IConfig $config,
+		BackendService $backendService,
 	) {
 		parent::__construct(
 			$appName,
@@ -59,7 +61,8 @@ class UserGlobalStoragesController extends StoragesController {
 			$logger,
 			$userSession,
 			$groupManager,
-			$config
+			$config,
+			$backendService,
 		);
 	}
 
