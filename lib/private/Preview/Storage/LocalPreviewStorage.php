@@ -281,7 +281,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 
 				// Move old flat preview to new nested directory format.
 				$dirName = str_replace($this->getPreviewRootFolder(), '', $item['filePath']);
-				if (preg_match('/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9]+/', $dirName) !== 1) {
+				if (preg_match('/([[:xdigit:]]\/){7}[0-9]+/', $dirName) !== 1) {
 					$previewPath = $this->constructPath($preview);
 					$this->createParentFiles($previewPath);
 					$ok = rename($item['realPath'], $previewPath);
