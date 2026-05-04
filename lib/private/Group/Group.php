@@ -41,12 +41,14 @@ class Group implements IGroup {
 	private bool $usersLoaded = false;
 
 	public function __construct(
+		/** @var non-empty-string $gid */
 		private string $gid,
 		/** @var list<GroupInterface> */
 		private array $backends,
 		private IEventDispatcher $dispatcher,
 		private IUserManager $userManager,
 		private ?PublicEmitter $emitter = null,
+		/** @var ?non-empty-string $displayName */
 		protected ?string $displayName = null,
 	) {
 	}
@@ -62,7 +64,7 @@ class Group implements IGroup {
 			foreach ($this->backends as $backend) {
 				if ($backend instanceof IGetDisplayNameBackend) {
 					$displayName = $backend->getDisplayName($this->gid);
-					if (trim($displayName) !== '') {
+					if ($displayName !== '') {
 						$this->displayName = $displayName;
 						return $this->displayName;
 					}
