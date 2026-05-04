@@ -93,7 +93,7 @@ export default {
 			if (!this.isShareOwner && this.share.ownerDisplayName) {
 				title += ' ' + t('files_sharing', 'by {initiator}', {
 					initiator: this.share.ownerDisplayName,
-				})
+				}, undefined, { escape: false })
 			}
 			return title
 		},
@@ -107,12 +107,12 @@ export default {
 					owner: this.share.ownerDisplayName,
 				}
 				if (this.share.type === ShareType.Group) {
-					return t('files_sharing', 'Shared with the group {user} by {owner}', data)
+					return t('files_sharing', 'Shared with the group {user} by {owner}', data, undefined, { escape: false })
 				} else if (this.share.type === ShareType.Room) {
-					return t('files_sharing', 'Shared with the conversation {user} by {owner}', data)
+					return t('files_sharing', 'Shared with the conversation {user} by {owner}', data, undefined, { escape: false })
 				}
 
-				return t('files_sharing', 'Shared with {user} by {owner}', data)
+				return t('files_sharing', 'Shared with {user} by {owner}', data, undefined, { escape: false })
 			}
 			return null
 		},

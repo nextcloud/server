@@ -47,7 +47,7 @@ export const action: IFileAction = {
 		const node = nodes[0]!
 		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
 			const ownerDisplayName = node?.attributes?.['owner-display-name']
-			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName })
+			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName }, undefined, { escape: false })
 		}
 
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
@@ -64,9 +64,9 @@ export const action: IFileAction = {
 		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate
 		switch (sharee?.type) {
 			case ShareType.User:
-				return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
+				return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] }, undefined, { escape: false })
 			case ShareType.Group:
-				return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
+				return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id }, undefined, { escape: false })
 			default:
 				return t('files_sharing', 'Shared with others')
 		}
