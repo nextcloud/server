@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>sharing</id>
+	<name>Sharing</name>
+	<summary>TODO</summary>
+	<description>TODO</description>
+	<version>1.0.0</version>
+	<licence>AGPL-3.0-or-later</licence>
+	<author>Kate Döen</author>
+	<namespace>Sharing</namespace>
+	<category>customization</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="34" max-version="34"/>
+	</dependencies>
+	<commands>
+		<command>\OCA\Sharing\Command\AddShareRecipient</command>
+		<command>\OCA\Sharing\Command\AddShareSource</command>
+		<command>\OCA\Sharing\Command\CreateShare</command>
+		<command>\OCA\Sharing\Command\DeleteShare</command>
+		<command>\OCA\Sharing\Command\GetShare</command>
+		<command>\OCA\Sharing\Command\ListShares</command>
+		<command>\OCA\Sharing\Command\RemoveShareRecipient</command>
+		<command>\OCA\Sharing\Command\RemoveShareSource</command>
+		<command>\OCA\Sharing\Command\UpdateSharePermission</command>
+		<command>\OCA\Sharing\Command\UpdateShareProperty</command>
+		<command>\OCA\Sharing\Command\UpdateShareState</command>
+	</commands>
+</info>

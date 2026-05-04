@@ -38,6 +38,7 @@ node_modules/
 !/apps/profile
 !/apps/provisioning_api
 !/apps/settings
+!/apps/sharing
 !/apps/systemtags
 !/apps/testing
 !/apps/admin_audit

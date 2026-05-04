@@ -38,11 +38,13 @@
 		<directory name="lib/public/Sharing"/>
 		<directory name="lib/private/Sharing"/>
 		<directory name="tests/lib/Sharing"/>
+		<directory name="apps/sharing"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
+			<file name="lib/public/AppFramework/OCSController.php"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
