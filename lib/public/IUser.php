@@ -27,6 +27,7 @@ interface IUser {
 	/**
 	 * get the user id
 	 *
+	 * @return non-empty-string
 	 * @since 8.0.0
 	 */
 	public function getUID(): string;
@@ -34,6 +35,7 @@ interface IUser {
 	/**
 	 * get the display name for the user, if no specific display name is set it will fallback to the user id
 	 *
+	 * @return non-empty-string
 	 * @since 8.0.0
 	 */
 	public function getDisplayName(): string;
