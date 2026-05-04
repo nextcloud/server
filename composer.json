@@ -33,7 +33,6 @@
 		"ext-dom": "*",
 		"ext-fileinfo": "*",
 		"ext-gd": "*",
-		"ext-json": "*",
 		"ext-libxml": "*",
 		"ext-mbstring": "*",
 		"ext-openssl": "*",
