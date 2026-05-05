@@ -101,6 +101,7 @@ OC.L10N.register(
     "Stroke" : "선",
     "Save image as" : "이미지를 다른 이름으로 저장",
     "Extension" : "확장자",
+    "Format" : "형식",
     "Name is required." : "이름이 필요합니다.",
     "Quality" : "품질",
     "Saved image size (width x height)" : "저장된 이미지 크기 (너비 x 높이)",
