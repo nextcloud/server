@@ -37,12 +37,6 @@ class TrashbinHome implements IACL, ICollection, IProperties {
 		return $this->principalInfo['uri'];
 	}
 
-	/**
-	 * Grant calendar-proxy delegates read access to the trashbin so a delegate's
-	 * PROPFIND on the owner's calendar home does not 404 when this collection is
-	 * enumerated. Without this, DavAclPlugin maps "no access" to NotFound and
-	 * aborts the whole PROPFIND.
-	 */
 	#[\Override]
 	public function getACL(): array {
 		$ownerPrincipal = $this->principalInfo['uri'];
