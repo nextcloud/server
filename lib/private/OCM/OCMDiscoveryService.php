@@ -199,10 +199,15 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 			return $provider;
 		}
 
+		$signingEnabled = !$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true);
+
 		$provider->setEnabled(true);
 		$provider->setApiVersion(self::API_VERSION);
 		$provider->setEndPoint(substr($url, 0, $pos));
 		$provider->setCapabilities(['invite-accepted', 'notifications', 'shares']);
+		if ($signingEnabled) {
+			$provider->setCapabilities(['http-sig']);
+		}
 
 		// The inviteAcceptDialog is available from the contacts app, if this config value is set
 		$inviteAcceptDialog = $this->appConfig->getValueString('core', ConfigLexicon::OCM_INVITE_ACCEPT_DIALOG);
@@ -217,9 +222,8 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->addResourceType($resource);
 
 		if ($fullDetails) {
-			// Adding a public key to the ocm discovery
 			try {
-				if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				if ($signingEnabled) {
 					/**
 					 * @experimental 31.0.0
 					 * @psalm-suppress UndefinedInterfaceMethod
@@ -342,10 +346,11 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	}
 
 	/**
-	 * add entries to the payload to auth the whole request
+	 * Sign the outgoing payload using the scheme the remote advertises
+	 * (RFC 9421 if `http-sig`, else cavage if a `publicKey` is present).
+	 * APPCONFIG_SIGN_ENFORCED / APPCONFIG_SIGN_DISABLED still apply.
 	 *
 	 * @throws OCMProviderException
-	 * @return array
 	 */
 	private function prepareOcmPayload(string $uri, string $method, array $options, string $payload, bool $signed): array {
 		$payload = array_merge($this->generateRequestOptions($options), ['body' => $payload]);
@@ -353,20 +358,31 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 			return $payload;
 		}
 
-		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true)
-			&& $this->signatoryManager->getRemoteSignatory($this->signatureManager->extractIdentityFromUri($uri)) === null) {
+		$origin = $this->signatureManager->extractIdentityFromUri($uri);
+		$ocmProvider = $this->discover($origin);
+
+		$useRfc9421 = $ocmProvider->hasCapability('http-sig');
+		$hasPublicKey = $this->signatoryManager->getRemoteSignatory($origin) !== null;
+
+		if (!$useRfc9421 && !$hasPublicKey
+			&& $this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true)) {
 			throw new OCMProviderException('remote endpoint does not support signed request');
 		}
 
-		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
-			$signedPayload = $this->signatureManager->signOutgoingRequestIClientPayload(
-				$this->signatoryManager,
-				$payload,
-				$method, $uri
-			);
+		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			return $payload;
 		}
 
-		return $signedPayload ?? $payload;
+		$signatoryManager = $useRfc9421
+			? new Rfc9421SignatoryManager($this->signatoryManager)
+			: $this->signatoryManager;
+
+		return $this->signatureManager->signOutgoingRequestIClientPayload(
+			$signatoryManager,
+			$payload,
+			$method,
+			$uri,
+		);
 	}
 
 	private function generateRequestOptions(array $options): array {
