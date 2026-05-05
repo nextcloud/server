@@ -128,6 +128,13 @@ class DiscoveryServiceTest extends TestCase {
 		$this->assertEmpty(array_diff(['notifications', 'shares'], $local->getCapabilities()));
 	}
 
+	public function testLocalCapabilitiesAdvertiseHttpSigByDefault(): void {
+		// `http-sig` is the OCM-spec flag signalling RFC 9421 support backed
+		// by /.well-known/jwks.json. Advertised whenever signing is not
+		// disabled outright.
+		$local = $this->discoveryService->getLocalOCMProvider();
+		$this->assertTrue($local->hasCapability('http-sig'));
+	}
 
 	public function testLocalAddedCapability(): void {
 		$this->context->for('ocm-capability-app')->registerEventListener(LocalOCMDiscoveryEvent::class, LocalOCMDiscoveryTestEvent::class);
