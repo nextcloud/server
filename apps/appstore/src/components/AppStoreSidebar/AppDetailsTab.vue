@@ -12,103 +12,6 @@
 			<NcIconSvgWrapper :path="mdiTextBoxOutline" />
 		</template>
 		<div class="app-details">
-			<div class="app-details__actions">
-				<div v-if="app.active && canLimitToGroups(app)" class="app-details__actions-groups">
-					<input
-						:id="`groups_enable_${app.id}`"
-						v-model="groupCheckedAppsData"
-						type="checkbox"
-						:value="app.id"
-						class="groups-enable__checkbox checkbox"
-						@change="setGroupLimit">
-					<label :for="`groups_enable_${app.id}`">{{ t('appstore', 'Limit to groups') }}</label>
-					<input
-						type="hidden"
-						class="group_select"
-						:title="t('appstore', 'All')"
-						value="">
-					<br>
-					<label for="limitToGroups">
-						<span>{{ t('appstore', 'Limit app usage to groups') }}</span>
-					</label>
-					<NcSelect
-						v-if="isLimitedToGroups(app)"
-						input-id="limitToGroups"
-						:options="groups"
-						:model-value="appGroups"
-						:limit="5"
-						label="name"
-						:multiple="true"
-						keep-open
-						@option:selected="addGroupLimitation"
-						@option:deselected="removeGroupLimitation"
-						@search="asyncFindGroup">
-						<span slot="noResult">{{ t('appstore', 'No results') }}</span>
-					</NcSelect>
-				</div>
-				<div class="app-details__actions-manage">
-					<input
-						v-if="app.update"
-						class="update primary"
-						type="button"
-						:value="t('appstore', 'Update to {version}', { version: app.update })"
-						:disabled="installing || isLoading || isManualInstall"
-						@click="update(app.id)">
-					<input
-						v-if="app.canUnInstall"
-						class="uninstall"
-						type="button"
-						:value="t('appstore', 'Remove')"
-						:disabled="installing || isLoading"
-						@click="remove(app.id, removeData)">
-					<input
-						v-if="app.active"
-						class="enable"
-						type="button"
-						:value="disableButtonText"
-						:disabled="installing || isLoading || isInitializing || isDeploying"
-						@click="disable(app.id)">
-					<input
-						v-if="!app.active && (app.canInstall || app.isCompatible)"
-						:title="enableButtonTooltip"
-						:aria-label="enableButtonTooltip"
-						class="enable primary"
-						type="button"
-						:value="enableButtonText"
-						:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
-						@click="enableButtonAction">
-					<input
-						v-else-if="!app.active && !app.canInstall"
-						:title="forceEnableButtonTooltip"
-						:aria-label="forceEnableButtonTooltip"
-						class="enable force"
-						type="button"
-						:value="forceEnableButtonText"
-						:disabled="installing || isLoading"
-						@click="forceEnable(app.id)">
-					<NcButton
-						v-if="app?.app_api && (app.canInstall || app.isCompatible)"
-						:aria-label="t('appstore', 'Advanced deploy options')"
-						variant="secondary"
-						@click="() => showDeployOptionsModal = true">
-						<template #icon>
-							<NcIconSvgWrapper :path="mdiToyBrickPlusOutline" />
-						</template>
-						{{ t('appstore', 'Deploy options') }}
-					</NcButton>
-				</div>
-				<p v-if="!defaultDeployDaemonAccessible" class="warning">
-					{{ t('appstore', 'Default Deploy daemon is not accessible') }}
-				</p>
-				<NcCheckboxRadioSwitch
-					v-if="app.canUnInstall"
-					:model-value="removeData"
-					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
-					@update:modelValue="toggleRemoveData">
-					{{ t('appstore', 'Delete data on remove') }}
-				</NcCheckboxRadioSwitch>
-			</div>
-
 			<ul class="app-details__dependencies">
 				<li v-if="app.missingMinOwnCloudVersion">
 					{{ t('appstore', 'This app has no minimum {productName} version assigned. This will be an error in the future.', { productName }) }}
@@ -208,10 +111,6 @@
 				</div>
 			</div>
 
-			<AppDeployOptionsModal
-				v-if="app?.app_api"
-				:show.sync="showDeployOptionsModal"
-				:app="app" />
 			<DaemonSelectionDialog
 				v-if="app?.app_api"
 				:show.sync="showSelectDaemonModal"
@@ -226,14 +125,10 @@ import { mdiBugOutline, mdiFeatureSearchOutline, mdiStar, mdiTextBoxOutline, mdi
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
 import DaemonSelectionDialog from '../AppAPI/DaemonSelectionDialog.vue'
-import AppDeployOptionsModal from './AppDeployOptionsModal.vue'
 import AppManagement from '../../mixins/AppManagement.js'
-import { useAppApiStore } from '../../store/app-api-store.js'
 import { useAppsStore } from '../../store/apps-store.js'
 
 export default {
@@ -244,9 +139,6 @@ export default {
 		NcButton,
 		NcDateTime,
 		NcIconSvgWrapper,
-		NcSelect,
-		NcCheckboxRadioSwitch,
-		AppDeployOptionsModal,
 		DaemonSelectionDialog,
 	},
 
@@ -261,11 +153,9 @@ export default {
 
 	setup() {
 		const store = useAppsStore()
-		const appApiStore = useAppApiStore()
 
 		return {
 			store,
-			appApiStore,
 
 			productName: window.OC.theme.productName,
 
@@ -386,12 +276,6 @@ export default {
 				return { id: group, name: group }
 			})
 		},
-
-		groups() {
-			return this.$store.getters.getGroups
-				.filter((group) => group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
-		},
 	},
 
 	beforeUnmount() {
@@ -409,28 +293,9 @@ export default {
 	},
 
 	methods: {
-		toggleRemoveData() {
-			this.removeData = !this.removeData
-		},
-
 		showSelectionModal(deployOptions = null) {
 			this.deployOptions = deployOptions
 			this.showSelectDaemonModal = true
-		},
-
-		async enableButtonAction() {
-			if (!this.app?.app_api) {
-				this.enable(this.app.id)
-				return
-			}
-			await this.appApiStore.fetchDockerDaemons()
-			if (this.appApiStore.dockerDaemons.length === 1 && this.app.needsDownload) {
-				this.enable(this.app.id, this.appApiStore.dockerDaemons[0])
-			} else if (this.app.needsDownload) {
-				this.showSelectionModal()
-			} else {
-				this.enable(this.app.id, this.app.daemon)
-			}
 		},
 	},
 }
@@ -440,21 +305,6 @@ export default {
 .app-details {
 	padding: 20px;
 
-	&__actions {
-		// app management
-		&-manage {
-			// if too many, shrink them and ellipsis
-			display: flex;
-			align-items: center;
-			input {
-				flex: 0 1 auto;
-				min-width: 0;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-				overflow: hidden;
-			}
-		}
-	}
 	&__authors {
 		color: var(--color-text-maxcontrast);
 	}

@@ -25,11 +25,16 @@
 		</template>
 
 		<template #description>
-			<!-- Featured/Supported badges -->
-			<div class="app-sidebar__badges">
-				<AppLevelBadge :level="app.level" />
-				<AppDaemonBadge v-if="app.app_api && app.daemon" :daemon="app.daemon" />
-				<AppScore v-if="hasRating" :score="rating" />
+			<div class="app-sidebar__description">
+				<!-- Featured/Supported badges -->
+				<div class="app-sidebar__badges">
+					<AppLevelBadge :level="app.level" />
+					<AppDaemonBadge v-if="app.app_api && app.daemon" :daemon="app.daemon" />
+				</div>
+				<div v-if="hasRating" class="app-sidebar__score">
+					<AppScore :score="rating" />
+				</div>
+				<AppStoreSidebarActions :key="app.id" :app="app" />
 			</div>
 		</template>
 
@@ -54,6 +59,7 @@ import AppDeployDaemonTab from '../components/AppStoreSidebar/AppDeployDaemonTab
 import AppDescriptionTab from '../components/AppStoreSidebar/AppDescriptionTab.vue'
 import AppDetailsTab from '../components/AppStoreSidebar/AppDetailsTab.vue'
 import AppReleasesTab from '../components/AppStoreSidebar/AppReleasesTab.vue'
+import AppStoreSidebarActions from '../components/AppStoreSidebar/AppStoreSidebarActions.vue'
 import { useAppIcon } from '../composables/useAppIcon.ts'
 import { useAppApiStore } from '../store/app-api-store.ts'
 import { useAppsStore } from '../store/apps-store.ts'
@@ -149,10 +155,22 @@ onMounted(loadScreenshot)
 		height: 100%;
 	}
 
+	&__description {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
 	&__badges {
 		display: flex;
 		flex-direction: row;
+		flex-wrap: wrap;
 		gap: 12px;
+	}
+
+	&__score {
+		display: flex;
+		align-items: center;
 	}
 
 	&__version {
