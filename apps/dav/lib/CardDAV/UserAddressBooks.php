@@ -14,6 +14,7 @@ use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\QueryException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -21,6 +22,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\Util;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Sabre\CardDAV\Backend;
@@ -36,6 +38,9 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var IAppConfig */
+	protected $appConfig;
+
 	public function __construct(
 		Backend\BackendInterface $carddavBackend,
 		string $principalUri,
@@ -44,6 +49,10 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		private ?IGroupManager $groupManager,
 	) {
 		parent::__construct($carddavBackend, $principalUri);
+
+		$this->l10n = Util::getL10N('dav');
+		$this->config = Server::get(IConfig::class);
+		$this->appConfig = Server::get(IAppConfig::class);
 	}
 
 	/**
@@ -52,19 +61,12 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 * @return IAddressBook[]
 	 */
 	public function getChildren() {
-		if ($this->l10n === null) {
-			$this->l10n = \OC::$server->getL10N('dav');
-		}
-		if ($this->config === null) {
-			$this->config = Server::get(IConfig::class);
-		}
-
 		/** @var string|array $principal */
 		$principal = $this->principalUri;
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
 		// add the system address book
 		$systemAddressBook = null;
-		$systemAddressBookExposed = $this->config->getAppValue('dav', 'system_addressbook_exposed', 'yes') === 'yes';
+		$systemAddressBookExposed = $this->appConfig->getValueBool('dav', 'system_addressbook_exposed', true);
 		if ($systemAddressBookExposed && is_string($principal) && $principal !== 'principals/system/system' && $this->carddavBackend instanceof CardDavBackend) {
 			$systemAddressBook = $this->carddavBackend->getAddressBooksByUri('principals/system/system', 'system');
 			if ($systemAddressBook !== null) {
