@@ -1440,6 +1440,61 @@ $CONFIG = [
 	'activity_use_cached_mountpoints' => false,
 
 	/**
+	 * Dedicated database connection for the Activity app.
+	 *
+	 * On busy installations the ``*_activity`` table is often the fastest-growing
+	 * table in the database. Offloading it to a separate database server or
+	 * instance reduces I/O contention on the main database.
+	 *
+	 * When any of the ``activity_db*`` keys below is present, the Activity app
+	 * opens a second connection using those values, falling back to the
+	 * corresponding main-connection value for any key that is omitted.  The
+	 * database type (``dbtype``) and table prefix (``dbtableprefix``) are always
+	 * inherited from the main connection and cannot be overridden.
+	 *
+	 * All four keys must point to a database that already contains the activity
+	 * tables; run ``occ db:migrate activity`` after setting up the new database.
+	 */
+
+	/**
+	 * Hostname (and optional port) of the dedicated Activity database server.
+	 * Port can be appended with a colon, e.g. ``db-activity.example.com:3306``.
+	 * Defaults to the value of ``dbhost``.
+	 */
+	// 'activity_dbhost' => '',
+
+	/**
+	 * Name of the dedicated Activity database.
+	 * Defaults to the value of ``dbname``.
+	 */
+	// 'activity_dbname' => '',
+
+	/**
+	 * Username for the dedicated Activity database connection.
+	 * Defaults to the value of ``dbuser``.
+	 */
+	// 'activity_dbuser' => '',
+
+	/**
+	 * Password for the dedicated Activity database connection.
+	 * Defaults to the value of ``dbpassword``.
+	 */
+	// 'activity_dbpassword' => '',
+
+	/**
+	 * Low-level PDO driver options for the dedicated Activity database connection,
+	 * e.g. TLS/SSL parameters for MySQL. Defaults to the value of ``dbdriveroptions``.
+	 *
+	 * Example for MySQL with TLS::
+	 *
+	 *  'activity_dbdriveroptions' => [
+	 *      PDO::MYSQL_ATTR_SSL_CA  => '/etc/ssl/certs/ca-certificates.crt',
+	 *      PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true,
+	 *  ],
+	 */
+	// 'activity_dbdriveroptions' => [],
+
+	/**
 	 * Apps
 	 *
 	 * Options for the Apps folder, Apps store, and App code checker.
