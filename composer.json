@@ -41,6 +41,7 @@
 		"ext-posix": "*",
 		"ext-session": "*",
 		"ext-simplexml": "*",
+		"ext-sodium": "*",
 		"ext-xml": "*",
 		"ext-xmlreader": "*",
 		"ext-xmlwriter": "*",
