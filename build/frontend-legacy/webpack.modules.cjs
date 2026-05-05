@@ -5,9 +5,6 @@
 const path = require('path')
 
 module.exports = {
-	appstore: {
-		main: path.join(__dirname, 'apps/appstore/src', 'main.ts'),
-	},
 	core: {
 		'ajax-cron': path.join(__dirname, 'core/src', 'ajax-cron.ts'),
 		install: path.join(__dirname, 'core/src', 'install.ts'),

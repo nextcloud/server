@@ -72,5 +72,3 @@ export function saveEditDialog() {
 	// Wait for dialog to close
 	cy.get('.edit-dialog').should('not.exist')
 }
-
-export { handlePasswordConfirmation } from '../core-utils.ts'

@@ -4,17 +4,11 @@
  */
 
 import { generateUrl } from '@nextcloud/router'
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes.ts'
 
-Vue.use(Router)
-
-const router = new Router({
-	mode: 'history',
-	// if index.php is in the url AND we got this far, then it's working:
-	// let's keep using index.php in the url
-	base: generateUrl(''),
+const router = createRouter({
+	history: createWebHistory(generateUrl('')),
 	linkActiveClass: 'active',
 	routes,
 })

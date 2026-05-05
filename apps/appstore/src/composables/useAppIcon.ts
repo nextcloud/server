@@ -1,13 +1,14 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Ref } from 'vue'
-import type { IAppstoreApp } from '../app-types.ts'
+import type { IAppstoreApp, IAppstoreExApp } from '../apps.d.ts'
 
 import { mdiCog, mdiCogOutline } from '@mdi/js'
 import { computed, ref, watchEffect } from 'vue'
-import AppstoreCategoryIcons from '../constants/AppstoreCategoryIcons.ts'
+import { APPSTORE_CATEGORY_ICONS } from '../constants.ts'
 import logger from '../utils/logger.ts'
 
 /**
@@ -16,7 +17,7 @@ import logger from '../utils/logger.ts'
  *
  * @param app The app to get the icon for
  */
-export function useAppIcon(app: Ref<IAppstoreApp>) {
+export function useAppIcon(app: Ref<IAppstoreApp | IAppstoreExApp | null>) {
 	const appIcon = ref<string | null>(null)
 
 	/**
@@ -29,7 +30,7 @@ export function useAppIcon(app: Ref<IAppstoreApp>) {
 			path = mdiCogOutline
 		} else {
 			path = [app.value?.category ?? []].flat()
-				.map((name) => AppstoreCategoryIcons[name])
+				.map((name) => APPSTORE_CATEGORY_ICONS[name])
 				.filter((icon) => !!icon)
 				.at(0)
 				?? (!app.value?.app_api ? mdiCog : mdiCogOutline)
@@ -39,13 +40,13 @@ export function useAppIcon(app: Ref<IAppstoreApp>) {
 
 	watchEffect(async () => {
 		// Note: Only variables until the first `await` will be watched!
-		if (!app.value?.preview) {
+		if (!app.value?.icon) {
 			appIcon.value = categoryIcon.value
 		} else {
 			appIcon.value = null
 			// Now try to load the real app icon
 			try {
-				const response = await window.fetch(app.value.preview)
+				const response = await window.fetch(app.value.icon)
 				const blob = await response.blob()
 				const rawSvg = await blob.text()
 				appIcon.value = rawSvg.replaceAll(/fill="#(fff|ffffff)([a-z0-9]{1,2})?"/ig, 'fill="currentColor"')

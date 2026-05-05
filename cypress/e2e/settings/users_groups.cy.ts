@@ -6,7 +6,8 @@
 import { User } from '@nextcloud/e2e-test-server/cypress'
 import { clearState } from '../../support/commonUtils.ts'
 import { randomString } from '../../support/utils/randomString.ts'
-import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, openEditDialog, saveEditDialog } from './usersUtils.ts'
+import { handlePasswordConfirmation } from '../core-utils.ts'
+import { assertNotExistOrNotVisible, getUserListRow, openEditDialog, saveEditDialog } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 

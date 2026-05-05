@@ -82,12 +82,13 @@ class ApiController extends OCSController {
 	/**
 	 * Get all available apps
 	 *
+	 * @param bool $details - Whether to include detailed appstore information about the app
 	 * @return DataResponse<Http::STATUS_OK, list<array{id: string, name: string, groups: list<string>, internal: bool, isCompatible: bool, missingDependencies?: list<string>, missingMaxNextcloudVersion: bool, missingMinNextcloudVersion: bool, ...<array-key, mixed>}>, array{}>
 	 *
 	 * 200: The apps were found successfully
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/apps')]
-	public function listApps(): DataResponse {
+	public function listApps(bool $details = false): DataResponse {
 		$apps = $this->getAllApps();
 
 		/** @var array<string>|mixed $ignoreMaxApps */
@@ -98,12 +99,16 @@ class ApiController extends OCSController {
 		}
 
 		// Extend existing app details
-		$apps = array_map(function (array $appData) use ($ignoreMaxApps): array {
+		$apps = array_map(function (array $appData) use ($ignoreMaxApps, $details): array {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
 				$appData['screenshot'] = $this->createProxyPreviewUrl($appstoreData['screenshots'][0]['url'] ?? '');
 				$appData['category'] = $appstoreData['categories'];
 				$appData['releases'] = $appstoreData['releases'];
+
+				if (!$details) {
+					unset($appData['appstoreData']);
+				}
 			}
 
 			$newVersion = $this->installer->isUpdateAvailable($appData['id']);
@@ -123,17 +128,15 @@ class ApiController extends OCSController {
 			}
 
 			$appData['groups'] = $groups;
-			$appData['canUninstall'] = !$appData['active'] && $appData['removable'];
-
 			// analyze dependencies
 			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
 			$missing = $this->dependencyAnalyzer->analyze($appData, $ignoreMax);
-			$appData['canInstall'] = empty($missing);
 			$appData['missingDependencies'] = $missing;
 
 			$appData['missingMinNextcloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['min-version']);
 			$appData['missingMaxNextcloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['max-version']);
 			$appData['isCompatible'] = $this->dependencyAnalyzer->isMarkedCompatible($appData);
+			$appData['internal'] = in_array($appData['id'], $this->appManager->getAlwaysEnabledApps());
 
 			return $appData;
 		}, $apps);
@@ -204,6 +207,7 @@ class ApiController extends OCSController {
 	public function disableApp(string $appId): DataResponse {
 		try {
 			$appId = $this->appManager->cleanAppId($appId);
+			$this->appManager->removeOverwriteNextcloudRequirement($appId);
 			$this->appManager->disableApp($appId);
 			return new DataResponse([]);
 		} catch (\Exception $exception) {
@@ -214,7 +218,6 @@ class ApiController extends OCSController {
 
 	/**
 	 * Uninstall an app.
-	 * This will disable the app - if needed - and then remove the app from the system
 	 *
 	 * @param string $appId - The app to uninstall
 	 * @return DataResponse<Http::STATUS_OK, array{}, array{}>
@@ -226,6 +229,10 @@ class ApiController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/api/v1/apps/uninstall')]
 	public function uninstallApp(string $appId): DataResponse {
 		$appId = $this->appManager->cleanAppId($appId);
+		if ($this->appManager->isEnabledForAnyone($appId)) {
+			$this->disableApp($appId);
+		}
+
 		$result = $this->installer->removeApp($appId);
 		if ($result !== false) {
 			// If this app was force enabled, remove the force-enabled-state
@@ -452,6 +459,7 @@ class ApiController extends OCSController {
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => $this->appManager->isShipped($app['id']),
+				'internal' => in_array($app['id'], $this->appManager->getAlwaysEnabledApps()),
 				'version' => $currentVersion,
 				'types' => [],
 				'documentation' => [
@@ -468,11 +476,9 @@ class ApiController extends OCSController {
 				'level' => ($app['isFeatured'] === true) ? 200 : 100,
 				'missingMaxNextcloudVersion' => false,
 				'missingMinNextcloudVersion' => false,
-				'canInstall' => true,
 				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($app['screenshots'][0]['url']) : '',
-				'score' => $app['ratingOverall'],
+				'ratingOverall' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],
-				'ratingNumThresholdReached' => $app['ratingNumOverall'] > 5,
 				'removable' => $existsLocally,
 				'active' => $this->appManager->isEnabledForUser($app['id']),
 				'needsDownload' => !$existsLocally,

@@ -83,7 +83,7 @@ export default defineComponent({
 		 */
 		supportsLocalSearch() {
 			// TODO: Make this an API
-			const providerPaths = ['/apps/deck', '/settings/apps']
+			const providerPaths = ['/apps/deck']
 			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
 		},
 
@@ -93,7 +93,7 @@ export default defineComponent({
 		 */
 		appHandlesSearchShortcut() {
 			// TODO: Make this an API
-			const providerPaths = ['/settings/users']
+			const providerPaths = ['/settings/users', '/settings/apps']
 			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
 		},
 	},
