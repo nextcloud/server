@@ -30,6 +30,10 @@ export const action: IFileAction = {
 			return false
 		}
 
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
+			return false
+		}
+
 		const node = nodes[0]
 		const filesStore = useFilesStore(getPinia())
 		const parentNode = node.dirname === '/'

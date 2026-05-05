@@ -19,7 +19,7 @@ export const action: IFileAction = {
 	iconSvgInline: () => InformationSvg,
 
 	// Sidebar currently supports user folder only, /files/USER
-	enabled: ({ nodes }) => {
+	enabled: ({ nodes, view }) => {
 		const node = nodes[0]
 		if (nodes.length !== 1 || !node) {
 			return false
@@ -31,6 +31,10 @@ export const action: IFileAction = {
 		}
 
 		if (isPublicShare()) {
+			return false
+		}
+
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
 			return false
 		}
 

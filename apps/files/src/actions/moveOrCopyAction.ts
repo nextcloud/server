@@ -49,6 +49,9 @@ export const action: IFileAction = {
 		if (view.id === 'public-file-share') {
 			return false
 		}
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
+			return false
+		}
 		// We only support moving/copying files within the user folder
 		if (!nodes.every((node) => node.root?.startsWith('/files/'))) {
 			return false

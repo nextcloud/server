@@ -39,6 +39,10 @@ export const action: IFileAction = {
 	},
 
 	enabled({ nodes, view }) {
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
+			return false
+		}
+
 		if (view.id === TRASHBIN_VIEW_ID) {
 			const config = loadState('files_trashbin', 'config', { allow_delete: true })
 			if (config.allow_delete === false) {

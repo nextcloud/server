@@ -22,9 +22,13 @@ export const action: IFileAction = {
 	},
 	iconSvgInline: () => FolderSvg,
 
-	enabled({ nodes }) {
+	enabled({ nodes, view }) {
 		// Only works on single node
 		if (nodes.length !== 1 || !nodes[0]) {
+			return false
+		}
+
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
 			return false
 		}
 

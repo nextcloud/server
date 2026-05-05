@@ -28,6 +28,10 @@ export const action: IFileAction = {
 			return false
 		}
 
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
+			return false
+		}
+
 		// Only works on single node
 		if (nodes.length !== 1 || !nodes[0]) {
 			return false

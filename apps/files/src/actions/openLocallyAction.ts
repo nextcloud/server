@@ -23,7 +23,7 @@ export const action: IFileAction = {
 	iconSvgInline: () => LaptopSvg,
 
 	// Only works on single files
-	enabled({ nodes }) {
+	enabled({ nodes, view }) {
 		// Only works on single node
 		if (nodes.length !== 1 || !nodes[0]) {
 			return false
@@ -31,6 +31,10 @@ export const action: IFileAction = {
 
 		// does not work with shares
 		if (isPublicShare()) {
+			return false
+		}
+
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
 			return false
 		}
 

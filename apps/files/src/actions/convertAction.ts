@@ -31,9 +31,12 @@ export function registerConvertActions() {
 		id: `convert-${from}-${to}`,
 		displayName: () => t('files', 'Save as {displayName}', { displayName }),
 		iconSvgInline: () => generateIconSvg(to),
-		enabled: ({ nodes, folder }) => {
+		enabled: ({ nodes, folder, view }) => {
 			if (isPublicShare() && !(folder.permissions & Permission.CREATE)) {
 				// cannot create the converted file in a public share if we don't have create permissions
+				return false
+			}
+			if (view.id === 'pendingshares' || view.id === 'deletedshares') {
 				return false
 			}
 			// Check that all nodes have the same mime type
