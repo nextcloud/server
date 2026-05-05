@@ -13,6 +13,7 @@ use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
 use OC\Authentication\TwoFactorAuth\Registry;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\IStatelessProvider;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderDisabled;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
@@ -77,6 +78,18 @@ class RegistryTest extends TestCase {
 		$this->registry->enableProviderFor($provider, $user);
 	}
 
+	public function testEnableStatelessProvider(): void {
+		$user = $this->createMock(IUser::class);
+		$provider = $this->createMock(IStatelessProvider::class);
+
+		$this->dao->expects($this->never())->method('persist');
+
+		$this->dispatcher->expects($this->never())->method('dispatch');
+		$this->dispatcher->expects($this->never())->method('dispatchTyped');
+
+		$this->registry->enableProviderFor($provider, $user);
+	}
+
 	public function testDisableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
@@ -100,6 +113,18 @@ class RegistryTest extends TestCase {
 				$user,
 				$provider,
 			));
+
+		$this->registry->disableProviderFor($provider, $user);
+	}
+
+	public function testDisableStatelessProvider(): void {
+		$user = $this->createMock(IUser::class);
+		$provider = $this->createMock(IStatelessProvider::class);
+
+		$this->dao->expects($this->never())->method('persist');
+
+		$this->dispatcher->expects($this->never())->method('dispatch');
+		$this->dispatcher->expects($this->never())->method('dispatchTyped');
 
 		$this->registry->disableProviderFor($provider, $user);
 	}

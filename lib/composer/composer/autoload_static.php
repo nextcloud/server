@@ -224,6 +224,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Authentication\\TwoFactorAuth\\IProvidesIcons' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IProvidesIcons.php',
         'OCP\\Authentication\\TwoFactorAuth\\IProvidesPersonalSettings' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IProvidesPersonalSettings.php',
         'OCP\\Authentication\\TwoFactorAuth\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IRegistry.php',
+        'OCP\\Authentication\\TwoFactorAuth\\IStatelessProvider' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IStatelessProvider.php',
         'OCP\\Authentication\\TwoFactorAuth\\RegistryEvent' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/RegistryEvent.php',
         'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',
         'OCP\\Authentication\\TwoFactorAuth\\TwoFactorProviderChallengeFailed' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/TwoFactorProviderChallengeFailed.php',
