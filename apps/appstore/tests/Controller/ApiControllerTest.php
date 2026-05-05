@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 final class ApiControllerTest extends TestCase {
 	private IRequest&MockObject $request;
 
@@ -52,6 +52,7 @@ final class ApiControllerTest extends TestCase {
 
 	private ApiController $apiController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

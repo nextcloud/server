@@ -22,7 +22,7 @@ use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 final class PageControllerTest extends TestCase {
 	private IRequest&MockObject $request;
 
@@ -44,6 +44,7 @@ final class PageControllerTest extends TestCase {
 
 	private PageController $pageController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
