@@ -102,8 +102,8 @@ class ZipFolderPlugin extends ServerPlugin {
 			}
 
 			$read = 0;
-			$stream = CountWrapper::wrap($stream, function (int $written) use (&$read) {
-				return $read += $written;
+			$stream = CountWrapper::wrap($stream, function (int $readCount) use (&$read) {
+				$read = $readCount;
 			});
 
 			if ($stream === false) {
@@ -115,29 +115,19 @@ class ZipFolderPlugin extends ServerPlugin {
 				return $this->l10n->t('The archive was already finalized');
 			}
 
-			return $this->logStreamErrors($stream, $filename, $nodeSize, $read);
-		}
+			$streamMetadata = stream_get_meta_data($stream);
+			if (get_resource_type($stream) !== 'stream') {
+				return $this->l10n->t('Resource is not a stream or is closed.');
+			}
+			fclose($stream);
 
-		return null;
-	}
+			if ($streamMetadata['timed_out'] ?? false) {
+				return $this->l10n->t('Timeout while reading from stream.');
+			}
 
-	/**
-	 * Checks whether $stream was fully streamed or if there were other issues
-	 * with the stream, logging the error if necessary.
-	 *
-	 */
-	private function logStreamErrors(mixed $stream, string $path, float|int $expectedFileSize, float|int $readFileSize): ?string {
-		$streamMetadata = stream_get_meta_data($stream);
-		if (!is_resource($stream) || get_resource_type($stream) !== 'stream') {
-			return $this->l10n->t('Resource is not a stream or is closed.');
-		}
-
-		if ($streamMetadata['timed_out'] ?? false) {
-			return $this->l10n->t('Timeout while reading from stream.');
-		}
-
-		if (!($streamMetadata['eof'] ?? true) || $readFileSize != $expectedFileSize) {
-			return $this->l10n->t('Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.', [$readFileSize, $expectedFileSize]);
+			if (!($streamMetadata['eof'] ?? true) || $read != $nodeSize) {
+				return $this->l10n->t('Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.', [$read, $nodeSize]);
+			}
 		}
 
 		return null;
