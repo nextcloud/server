@@ -321,6 +321,23 @@ class ClientTest extends \Test\TestCase {
 		$this->assertEquals(418, $this->client->get('http://localhost/', [])->getStatusCode());
 	}
 
+	public function testGetStreamUsesHttp11(): void {
+		$this->setUpDefaultRequestOptions();
+
+		$options = array_merge($this->defaultRequestOptions, [
+			'stream' => true,
+			'version' => '1.1',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_1_1,
+			],
+		]);
+
+		$this->guzzleClient->method('request')
+			->with('get', 'http://localhost/', $options)
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->get('http://localhost/', ['stream' => true])->getStatusCode());
+	}
+
 	public function testGetWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
@@ -520,6 +537,57 @@ class ClientTest extends \Test\TestCase {
 				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+	}
+
+	public function testSetDefaultOptionsWithStream(): void {
+		$this->config
+			->expects($this->exactly(3))
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['installed', false, true],
+				['allow_local_remote_servers', false, false],
+				['http_client_add_user_agent_url', false, false],
+			]);
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValueString')
+			->willReturnMap([
+				['proxy', '', ''],
+				['overwrite.cli.url', '', ''],
+			]);
+		$this->certificateManager
+			->expects($this->once())
+			->method('getAbsoluteBundlePath')
+			->with()
+			->willReturn('/my/path.crt');
+
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
+		$this->assertEquals([
+			'verify' => '/my/path.crt',
+			'headers' => [
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
+				'Accept-Encoding' => 'gzip',
+			],
+			'timeout' => 30,
+			'nextcloud' => [
+				'allow_local_address' => false,
+			],
+			'allow_redirects' => [
+				'on_redirect' => function (
+					\Psr\Http\Message\RequestInterface $request,
+					\Psr\Http\Message\ResponseInterface $response,
+					\Psr\Http\Message\UriInterface $uri,
+				): void {
+				},
+			],
+			'stream' => true,
+			'version' => '1.1',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_1_1,
+			],
+		], self::invokePrivate($this->client, 'buildRequestOptions', [['stream' => true]]));
 	}
 
 	public function testSetDefaultOptionsWithProxy(): void {

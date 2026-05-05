@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\Utils;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -41,7 +41,9 @@ class ClientService implements IClientService {
 
 	#[\Override]
 	public function newClient(): IClient {
-		$handler = new CurlHandler();
+		// allows using a StreamHandler if streaming is enabled in the request options
+		// and allow_url_fopen is enabled in the Php config
+		$handler = Utils::chooseHandler();
 		$stack = HandlerStack::create($handler);
 		if ($this->config->getSystemValueBool('dns_pinning', true)) {
 			$stack->push($this->dnsPinMiddleware->addDnsPinning());

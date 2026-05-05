@@ -41,15 +41,19 @@ class Client implements IClient {
 	}
 
 	private function buildRequestOptions(array $options): array {
+		$streamResponse = !empty($options[RequestOptions::STREAM]);
 		$proxy = $this->getProxyUri();
 
 		$defaults = [
 			RequestOptions::VERIFY => $this->getCertBundle(),
 			RequestOptions::TIMEOUT => IClient::DEFAULT_REQUEST_TIMEOUT,
-			// Prefer HTTP/2 globally (PSR-7 request version)
-			RequestOptions::VERSION => '2.0',
+			// Guzzle's StreamHandler only supports HTTP/1.x, so streamed
+			// responses must not force the default HTTP/2 transport settings.
+			RequestOptions::VERSION => $streamResponse ? '1.1' : '2.0',
 		];
-		$defaults['curl'][\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_2TLS;
+		$defaults['curl'][\CURLOPT_HTTP_VERSION] = $streamResponse
+			? \CURL_HTTP_VERSION_1_1
+			: \CURL_HTTP_VERSION_2TLS;
 
 		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
 		if ($options['nextcloud']['allow_local_address'] === false) {
@@ -74,6 +78,12 @@ class Client implements IClient {
 		}
 
 		$options = array_merge($defaults, $options);
+
+		if ($streamResponse) {
+			$options[RequestOptions::VERSION] = '1.1';
+			$options['curl'] ??= [];
+			$options['curl'][\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_1_1;
+		}
 
 		if (!isset($options[RequestOptions::HEADERS]['User-Agent'])) {
 			$userAgent = 'Nextcloud-Server-Crawler/' . $this->serverVersion->getVersionString();
