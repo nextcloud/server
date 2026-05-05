@@ -11,6 +11,9 @@ namespace OC\Security\Signature;
 use OC\Security\Signature\Db\SignatoryMapper;
 use OC\Security\Signature\Model\IncomingSignedRequest;
 use OC\Security\Signature\Model\OutgoingSignedRequest;
+use OC\Security\Signature\Model\Rfc9421IncomingSignedRequest;
+use OC\Security\Signature\Model\Rfc9421OutgoingSignedRequest;
+use OC\Security\Signature\Rfc9421\IJwkResolvingSignatoryManager;
 use OCP\DB\Exception as DBException;
 use OCP\IAppConfig;
 use OCP\IRequest;
@@ -101,6 +104,11 @@ class SignatureManager implements ISignatureManager {
 			throw new IncomingRequestException('content of request is too big');
 		}
 
+		// `Signature-Input` is unique to RFC 9421; cavage uses `Signature` only.
+		if ($this->request->getHeader('Signature-Input') !== '') {
+			return $this->getRfc9421IncomingSignedRequest($signatoryManager, $body, $options);
+		}
+
 		// generate IncomingSignedRequest based on body and request
 		$signedRequest = new IncomingSignedRequest($body, $this->request, $options);
 
@@ -113,6 +121,45 @@ class SignatureManager implements ISignatureManager {
 					'exception' => $e,
 					'signedRequest' => $signedRequest,
 					'signatoryManager' => get_class($signatoryManager)
+				]
+			);
+			throw $e;
+		}
+
+		return $signedRequest;
+	}
+
+	/**
+	 * RFC 9421 inbound path. Requires {@see IJwkResolvingSignatoryManager}.
+	 *
+	 * @throws IncomingRequestException
+	 * @throws SignatureException
+	 * @throws SignatureNotFoundException
+	 */
+	private function getRfc9421IncomingSignedRequest(
+		ISignatoryManager $signatoryManager,
+		string $body,
+		array $options,
+	): IIncomingSignedRequest {
+		if (!($signatoryManager instanceof IJwkResolvingSignatoryManager)) {
+			throw new IncomingRequestException('RFC 9421 inbound is not supported by ' . get_class($signatoryManager));
+		}
+
+		$signedRequest = new Rfc9421IncomingSignedRequest($body, $this->request, $options);
+
+		try {
+			$key = $signatoryManager->getRemoteKey($signedRequest->getOrigin(), $signedRequest->getKeyId());
+			if ($key === null) {
+				throw new SignatoryNotFoundException('no JWK resolved for keyid ' . $signedRequest->getKeyId());
+			}
+			$signedRequest->setKey($key);
+			$signedRequest->verify();
+		} catch (SignatureException $e) {
+			$this->logger->warning(
+				'RFC 9421 signature could not be verified', [
+					'exception' => $e,
+					'signedRequest' => $signedRequest,
+					'signatoryManager' => get_class($signatoryManager),
 				]
 			);
 			throw $e;
@@ -199,13 +246,22 @@ class SignatureManager implements ISignatureManager {
 		string $method,
 		string $uri,
 	): IOutgoingSignedRequest {
-		$signedRequest = new OutgoingSignedRequest(
-			$content,
-			$signatoryManager,
-			$this->extractIdentityFromUri($uri),
-			$method,
-			parse_url($uri, PHP_URL_PATH) ?? '/'
-		);
+		$options = $signatoryManager->getOptions();
+		$signedRequest = ($options['rfc9421.format'] ?? false)
+			? new Rfc9421OutgoingSignedRequest(
+				$content,
+				$signatoryManager,
+				$this->extractIdentityFromUri($uri),
+				$method,
+				$uri,
+			)
+			: new OutgoingSignedRequest(
+				$content,
+				$signatoryManager,
+				$this->extractIdentityFromUri($uri),
+				$method,
+				parse_url($uri, PHP_URL_PATH) ?? '/',
+			);
 
 		$signedRequest->sign();
 
