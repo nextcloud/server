@@ -225,7 +225,7 @@ class ZipFolderPluginTest extends TestCase {
 
 	private function createPlugin(bool $reportMissingFiles): ZipFolderPlugin {
 		$this->config->method('getSystemValueBool')
-			->with('archive_report_missing_files', false)
+			->with('archive_report_missing_files', true)
 			->willReturn($reportMissingFiles);
 
 		return new ZipFolderPlugin(

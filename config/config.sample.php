@@ -394,7 +394,7 @@ $CONFIG = [
 	 * they are logged in a `missing_files.json` within the archive, along with
 	 * the cause.
 	 */
-	'archive_report_missing_files' => false,
+	'archive_report_missing_files' => true,
 
 	/**
 	 * Enable or disable the automatic logout after session_lifetime, even if session

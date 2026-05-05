@@ -59,7 +59,7 @@ class ZipFolderPlugin extends ServerPlugin {
 		private IConfig $config,
 		private IL10N $l10n,
 	) {
-		$this->reportMissingFiles = $this->config->getSystemValueBool('archive_report_missing_files', false);
+		$this->reportMissingFiles = $this->config->getSystemValueBool('archive_report_missing_files', true);
 	}
 
 	/**
