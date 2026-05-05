@@ -28,12 +28,14 @@ use Test\TestCase;
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		Server::get(IUserManager::class)->createUser('dummy', '456');
 		Server::get(IUserSession::class)->setUser(Server::get(IUserManager::class)->get('dummy'));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Server::get(IUserManager::class)->get('dummy')->delete();
 		parent::tearDown();
