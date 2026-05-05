@@ -21,7 +21,6 @@ use OCA\Settings\Listener\UserAddedToGroupActivityListener;
 use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
-use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
 use OCA\Settings\Settings\Admin\MailProvider;
@@ -119,7 +118,6 @@ class Application extends App implements IBootstrap {
 		$context->registerServiceAlias('SubadminMiddleware', SubadminMiddleware::class);
 		$context->registerMiddleware(SubadminMiddleware::class);
 		$context->registerSearchProvider(SectionSearch::class);
-		$context->registerSearchProvider(AppSearch::class);
 		$context->registerSearchProvider(UserSearch::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);

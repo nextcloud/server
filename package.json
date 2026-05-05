@@ -60,9 +60,11 @@
     "@vueuse/integrations": "^14.1.0",
     "color": "^5.0.3",
     "debounce": "^3.0.0",
+    "marked": "^17.0.1",
     "pinia": "^3.0.4",
     "sortablejs": "^1.15.7",
     "vue": "^3.5.33",
+    "vue-router": "^5.0.6",
     "vuex": "^4.1.0",
     "webdav": "^5.9.0"
   },
