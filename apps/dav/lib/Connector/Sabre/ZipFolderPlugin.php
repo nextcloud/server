@@ -137,7 +137,7 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		if (!($streamMetadata['eof'] ?? true) || $readFileSize != $expectedFileSize) {
-			return $this->l10n->t('Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.', [$expectedFileSize, $readFileSize]);
+			return $this->l10n->t('Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.', [$readFileSize, $expectedFileSize]);
 		}
 
 		return null;
