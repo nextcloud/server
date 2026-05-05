@@ -116,9 +116,11 @@
 		<file name="build/stubs/SensitiveParameter.phpstub"/>
 		<file name="build/stubs/ldap.php"/>
 		<file name="build/stubs/memcached.php"/>
+		<file name="build/stubs/openssl.php"/>
 		<file name="build/stubs/redis.php"/>
 		<file name="build/stubs/redis_cluster.php"/>
 		<file name="build/stubs/sftp.php"/>
+		<file name="build/stubs/sodium.php"/>
 		<file name="build/stubs/ssh2.php"/>
 		<file name="build/stubs/xsl.php"/>
 		<file name="build/stubs/ftp.php"/>
