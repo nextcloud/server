@@ -83,7 +83,7 @@ class ApiController extends OCSController {
 	 * Get all available apps
 	 *
 	 * @param bool $details - Whether to include detailed appstore information about the app
-	 * @return DataResponse<Http::STATUS_OK, list<array{id: string, name: string, groups: list<string>, internal: bool, isCompatible: bool, missingDependencies?: list<string>, missingMaxNextcloudVersion: bool, missingMinNextcloudVersion: bool, ...<array-key, mixed>}>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<array{id: string, name: string, groups: list<string>, internal: bool, isCompatible: bool, missingDependencies?: list<string>, ...<array-key, mixed>}>, array{}>
 	 *
 	 * 200: The apps were found successfully
 	 */
@@ -132,9 +132,6 @@ class ApiController extends OCSController {
 			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
 			$missing = $this->dependencyAnalyzer->analyze($appData, $ignoreMax);
 			$appData['missingDependencies'] = $missing;
-
-			$appData['missingMinNextcloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['min-version']);
-			$appData['missingMaxNextcloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['max-version']);
 			$appData['isCompatible'] = $this->dependencyAnalyzer->isMarkedCompatible($appData);
 			$appData['internal'] = in_array($appData['id'], $this->appManager->getAlwaysEnabledApps());
 
@@ -142,7 +139,7 @@ class ApiController extends OCSController {
 		}, $apps);
 
 		/**
-		 * @var list<array{id: string, name: string, groups: list<string>, internal: bool, isCompatible: bool, missingDependencies?: list<string>, missingMaxNextcloudVersion: bool, missingMinNextcloudVersion: bool, ...<array-key, mixed>}> $apps
+		 * @var list<array{id: string, name: string, groups: list<string>, internal: bool, isCompatible: bool, missingDependencies?: list<string>, ...<array-key, mixed>}> $apps
 		 */
 		usort($apps, $this->sortApps(...));
 		return new DataResponse($apps);
@@ -474,8 +471,6 @@ class ApiController extends OCSController {
 					$phpDependencies
 				),
 				'level' => ($app['isFeatured'] === true) ? 200 : 100,
-				'missingMaxNextcloudVersion' => false,
-				'missingMinNextcloudVersion' => false,
 				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($app['screenshots'][0]['url']) : '',
 				'ratingOverall' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],

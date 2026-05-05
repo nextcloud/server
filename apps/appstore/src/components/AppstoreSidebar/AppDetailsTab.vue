@@ -7,7 +7,6 @@
 import type { IAppstoreApp, IAppstoreExApp } from '../../apps.d.ts'
 
 import { mdiTextBoxOutline } from '@mdi/js'
-import { getCapabilities } from '@nextcloud/capabilities'
 import { t } from '@nextcloud/l10n'
 import { computed, useId } from 'vue'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
@@ -23,8 +22,6 @@ const { app } = defineProps<{ app: IAppstoreApp | IAppstoreExApp }>()
 
 const store = useAppsStore()
 
-// @ts-expect-error - missing types
-const productName = getCapabilities().theming.productName as string
 const idLimitedToGroups = useId()
 
 const lastModified = computed(() => app.releases
@@ -137,15 +134,6 @@ function authorName(xmlNode): string {
 				<BadgeAppDaemon v-if="app.app_api && app.daemon" :daemon="app.daemon" />
 				<BadgeAppScore :app />
 			</div>
-
-			<NcNoteCard v-if="app.missingMinNextcloudVersion || app.missingMaxNextcloudVersion" type="warning">
-				<template v-if="app.missingMinNextcloudVersion">
-					{{ t('appstore', 'This app has no minimum {productName} version assigned. This will be an error in the future.', { productName }) }}
-				</template>
-				<template v-if="app.missingMaxNextcloudVersion">
-					{{ t('appstore', 'This app has no maximum {productName} version assigned. This will be an error in the future.', { productName }) }}
-				</template>
-			</NcNoteCard>
 
 			<NcNoteCard v-if="!app.isCompatible && app.missingDependencies && app.missingDependencies.length" type="error">
 				{{ t('appstore', 'This app cannot be installed because the following dependencies are not fulfilled:') }}
