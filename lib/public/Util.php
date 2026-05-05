@@ -449,7 +449,6 @@ class Util {
 				return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 			}, $value);
 		}
-		// Specify encoding for PHP<5.4
 		return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 	}
 

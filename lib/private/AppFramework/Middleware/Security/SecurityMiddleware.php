@@ -196,7 +196,7 @@ class SecurityMiddleware extends Middleware {
 			}
 		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
-		Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
+		Server::get(CsrfTokenManager::class)->generateSessionToken();
 		if ($this->isInvalidCSRFRequired($reflectionMethod)) {
 			/*
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
