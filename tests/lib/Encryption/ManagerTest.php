@@ -75,9 +75,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->isEnabled());
 	}
 
-	/**
-	 * @group DB
-	 */
+	#[Group(name: 'DB')]
 	public function testManagerIsEnabled(): void {
 		$appConfig = Server::get(IAppConfig::class);
 		$appConfig->setValueBool('core', 'encryption_enabled', true);
