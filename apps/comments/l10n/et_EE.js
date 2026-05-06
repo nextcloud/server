@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Failid",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Sind mainiti \"{file}\" kommentaarides konto poolt, mis on nüüdseks kustutatud",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mainis sind faili \"{file}\" kommentaaris",
+    "Go to file" : "Mine faili juurde",
     "Files app plugin to add comments to files" : "Failid rakenduse laiendus failidele kommentaaride lisamiseks",
     "Edit comment" : "Muuda kommentaari",
     "Delete comment" : "Kustuta kommentaar",

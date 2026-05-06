@@ -242,6 +242,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Fehler beim Aufheben der Verknüpfung: %1$s",
     "Failed to write file contents: %1$s" : "Fehler beim Schreiben des Dateiinhalts: %1$s",
     "File not found: %1$s" : "Datei nicht gefunden: %1$s",
+    "Insufficient space" : "Platz nicht ausreichend",
     "Invalid target path" : "Ungültiger Ziel-Pfad",
     "System is in maintenance mode." : "Das System befindet sich im Wartungsmodus.",
     "Upgrade needed" : "Aktualisierung erforderlich",

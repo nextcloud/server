@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "文件",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "你在文件 “{file}” 内被一个已删除的账号评论提及",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} 在 “{file}” 的评论中提到了你",
+    "Go to file" : "前往文件",
     "Files app plugin to add comments to files" : "文件应用插件可向文件添加评论",
     "Edit comment" : "编辑评论",
     "Delete comment" : "删除评论",

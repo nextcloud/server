@@ -10,6 +10,7 @@
     "Files" : "Fájlok",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt fiók hozzászólásában",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} megemlítette egy hozzászólásban ennél: „{file}”",
+    "Go to file" : "Ugrás a fájlhoz",
     "Files app plugin to add comments to files" : "A Fájlok alkalmazás bővítménye, amellyel megjegyzések adhatóak a fájlokhoz",
     "Edit comment" : "Hozzászólás szerkesztése",
     "Delete comment" : "Hozzászólás törlése",

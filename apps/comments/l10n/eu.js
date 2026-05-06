@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Fitxategiak",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "\"{file}\"-n aipatu zaituzte, dagoeneko ezabatu den kontu baten iruzkin batean",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} erabiltzaileak aipatu zaitu \"{file}\"-eko iruzkin batean",
+    "Go to file" : "Joan fitxategira",
     "Files app plugin to add comments to files" : "Fitxategiak aplikazioko plugina, fitxategiei iruzkinak gehitzeko",
     "Edit comment" : "Editatu iruzkina",
     "Delete comment" : "Ezabatu iruzkina",
