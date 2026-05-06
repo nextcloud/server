@@ -44,6 +44,11 @@ class Card implements ICard, IACL {
 				'principal' => $this->getOwner(),
 				'protected' => true,
 			],
+			[
+				'privilege' => '{DAV:}write-properties',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			],
 		];
 	}
 
