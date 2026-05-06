@@ -40,7 +40,7 @@
 						ref="items"
 						:app="item"
 						:outlined="item.id === 'more-apps' || item.id === 'app-store'"
-						:newTab="item.id === 'more-apps' || item.id === 'app-store'"
+						:newTab="item.id === 'app-store'"
 						:tabindex="i === focusedIndex ? 0 : -1" />
 				</div>
 			</div>
