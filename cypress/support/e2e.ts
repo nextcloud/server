@@ -13,3 +13,16 @@ import 'core-js/actual/promise/with-resolvers.js'
 // @see https://github.com/cypress-io/cypress/issues/20341
 Cypress.on('uncaught:exception', (err) => !err.message.includes('ResizeObserver loop limit exceeded'))
 Cypress.on('uncaught:exception', (err) => !err.message.includes('ResizeObserver loop completed with undelivered notifications'))
+
+// Defer ResizeObserver callbacks one frame to break floating UI sync loops
+// that otherwise tank the renderer and trigger Electron's unresponsive kill.
+Cypress.on('window:before:load', (win) => {
+	const Original = win.ResizeObserver
+	win.ResizeObserver = class extends Original {
+		constructor(callback: ResizeObserverCallback) {
+			super((entries, observer) => {
+				win.requestAnimationFrame(() => callback(entries, observer))
+			})
+		}
+	}
+})
