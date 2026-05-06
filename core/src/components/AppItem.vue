@@ -77,7 +77,6 @@ const unreadLabel = computed(() => {
 .app-item {
 	--app-item-circle-size: calc(var(--default-grid-baseline) * 10);
 	--app-item-icon-size: 22px;
-
 	display: flex;
 	flex-direction: column;
 	align-items: center;
