@@ -20,7 +20,7 @@ OC.L10N.register(
     "Failed to send share by email" : "Échec lors de l'envoi du partage par e-mail",
     "%1$s shared %2$s with you" : "%1$s a partagé %2$s avec vous",
     "Note:" : "Note :",
-    "This share is valid until %s at midnight" : "Ce partage est valable jusqu'à minuit le %s",
+    "This share is valid until %s at midnight" : "Ce partage est valable jusqu'au %s à minuit",
     "Expiration:" : "Expiration:",
     "Open shared item" : "Ouvrir l'élément partagé",
     "%1$s via %2$s" : "%1$s via %2$s",
