@@ -43,12 +43,4 @@ describe('core: AppItem', () => {
 		const wrapper = mount(AppItem, { propsData: { app: makeApp({ active: true }) } })
 		expect(wrapper.attributes('aria-current')).toBe('page')
 	})
-
-	it('newTab prop renders target="_blank" rel="noopener noreferrer"', () => {
-		const wrapper = mount(AppItem, {
-			propsData: { app: makeApp(), newTab: true },
-		})
-		expect(wrapper.attributes('target')).toBe('_blank')
-		expect(wrapper.attributes('rel')).toBe('noopener noreferrer')
-	})
 })

@@ -11,8 +11,6 @@
 			'app-item--outlined': outlined,
 		}"
 		:href="app.href"
-		:target="newTab ? '_blank' : undefined"
-		:rel="newTab ? 'noopener noreferrer' : undefined"
 		:aria-current="app.active ? 'page' : undefined"
 		:tabindex="tabindex"
 		:title="app.name"
@@ -43,8 +41,6 @@ import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
 	app: INavigationEntry
-	/** When true, the link opens in a new tab. Launcher uses true; Dashboard reuse will use false. */
-	newTab?: boolean
 	/** When true, render the circle as an outline only (used for "More apps" / utility entries). */
 	outlined?: boolean
 	/**
@@ -54,7 +50,6 @@ const props = withDefaults(defineProps<{
 	 */
 	tabindex?: number
 }>(), {
-	newTab: false,
 	outlined: false,
 	tabindex: -1,
 })

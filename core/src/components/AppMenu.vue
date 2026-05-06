@@ -39,7 +39,6 @@
 						:key="item.id"
 						ref="items"
 						:app="item"
-						:newTab="openInNewTab"
 						:outlined="item.id === 'more-apps'"
 						:tabindex="i === focusedIndex ? 0 : -1" />
 				</div>
@@ -132,10 +131,6 @@ export default defineComponent({
 	computed: {
 		currentApp(): INavigationEntry | undefined {
 			return this.appList.find((app) => app.active)
-		},
-
-		openInNewTab(): boolean {
-			return this.currentApp?.id !== 'dashboard'
 		},
 
 		// Stable-ordered list that focusedIndex indexes into; adds "More apps" for admins.
