@@ -875,11 +875,12 @@ class CardDavBackendTest extends TestCase {
 		$this->backend->createCard($addressBookId, $uri, $this->vcardTest0);
 		$this->backend->updateCard($addressBookId, $uri, $this->vcardTest1);
 
-		// Do not delete anything if week data as old as ts=0
-		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
+		// Keep everything by using a retention duration larger than the row age
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, time());
 		self::assertSame(0, $deleted);
 
-		$deleted = $this->backend->pruneOutdatedSyncTokens(0, time());
+		// A retention duration of 0 means everything older than "now" is eligible
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
 		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 1);
@@ -911,7 +912,7 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEmpty($changes['deleted']);
 
 		// Delete all but last change
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, 0);
 		$this->assertEquals(1, $deleted); // We had two changes before, now one
 
 		// Only update should remain
@@ -921,6 +922,6 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEmpty($changes['deleted']);
 
 		// Check that no crash occurs when prune is called without current changes
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, 0);
 	}
 }
