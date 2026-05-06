@@ -54,8 +54,6 @@ const props = withDefaults(defineProps<{
 	 */
 	tabindex?: number
 }>(), {
-	newTab: false,
-	outlined: false,
 	tabindex: -1,
 })
 
