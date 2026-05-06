@@ -62,7 +62,13 @@ export function registerTemplateEntries() {
 			iconClass: provider.iconClass || 'icon-file',
 			iconSvgInline: provider.iconSvgInline,
 			enabled(context: Folder): boolean {
-				return (context.permissions & Permission.CREATE) !== 0
+				if (context.attributes['is-encrypted']) {
+					return false
+				}
+
+				// templates are only supported in folders where the user has read and create permissions
+				return (context.permissions & Permission.READ) !== 0
+					&& (context.permissions & Permission.CREATE) !== 0
 			},
 			order: 11,
 			async handler(context: Folder, content: Node[]) {
