@@ -33,12 +33,14 @@ class TwoFactor implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		return new TemplateResponse('settings', 'settings/personal/security/twofactor', [
 			'twoFactorProviderData' => $this->getTwoFactorProviderData(),
 		]);
 	}
 
+	#[\Override]
 	public function getSection(): ?string {
 		if (!$this->shouldShow()) {
 			return null;
@@ -46,6 +48,7 @@ class TwoFactor implements ISettings {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 15;
 	}

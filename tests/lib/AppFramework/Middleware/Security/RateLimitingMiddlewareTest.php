@@ -41,6 +41,7 @@ class RateLimitingMiddlewareTest extends TestCase {
 	private LoggerInterface|MockObject $logger;
 	private RateLimitingMiddleware $rateLimitingMiddleware;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -120,7 +120,7 @@ class Entry {
 	 * @since 32.0.0
 	 */
 	private function convertFromArray(array $default): string {
-		return json_encode($default);
+		return json_encode($default, JSON_THROW_ON_ERROR);
 	}
 
 	/**

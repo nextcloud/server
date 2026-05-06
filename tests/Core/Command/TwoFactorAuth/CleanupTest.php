@@ -26,6 +26,7 @@ class CleanupTest extends TestCase {
 	/** @var CommandTester */
 	private $cmd;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

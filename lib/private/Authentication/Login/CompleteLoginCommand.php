@@ -16,6 +16,7 @@ class CompleteLoginCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		$this->userSession->completeLogin(
 			$loginData->getUser(),

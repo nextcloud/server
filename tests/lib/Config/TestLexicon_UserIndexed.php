@@ -16,15 +16,18 @@ use OCP\Config\ValueType;
 
 class TestLexicon_UserIndexed implements ILexicon {
 	public const APPID = 'lexicon_user_indexed';
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::EXCEPTION;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [
 			new Entry(key: 'key1', type: ValueType::STRING, defaultRaw: '', definition: 'test key', flags: IUserConfig::FLAG_INDEXED),

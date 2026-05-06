@@ -22,6 +22,7 @@ class PreviewMapperTest extends TestCase {
 	private IDBConnection $connection;
 	private ISnowflakeGenerator $snowflake;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 		$this->previewMapper = Server::get(PreviewMapper::class);
@@ -38,6 +39,7 @@ class PreviewMapperTest extends TestCase {
 		$qb->delete('previews')->executeStatement();
 	}
 
+	#[\Override]
 	public function tearDown(): void {
 		$this->previewMapper->deleteAll();
 		parent::tearDown();

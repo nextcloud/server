@@ -9,9 +9,9 @@ namespace OCA\DAV\Migration;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+use OCP\Migration\IRepairStepExpensive;
 
-class RemoveObjectProperties implements IRepairStep {
+class RemoveObjectProperties implements IRepairStepExpensive {
 	private const RESOURCE_TYPE_PROPERTY = '{DAV:}resourcetype';
 	private const ME_CARD_PROPERTY = '{http://calendarserver.org/ns/}me-card';
 	private const CALENDAR_TRANSP_PROPERTY = '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp';
@@ -21,10 +21,12 @@ class RemoveObjectProperties implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Remove invalid object properties';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$query = $this->connection->getQueryBuilder();
 		$updated = $query->delete('properties')

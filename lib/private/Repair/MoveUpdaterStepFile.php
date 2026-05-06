@@ -19,10 +19,12 @@ class MoveUpdaterStepFile implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Move .step file of updater to backup location';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValueString('instanceid');

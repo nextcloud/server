@@ -32,6 +32,7 @@ class LockPlugin extends ServerPlugin {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		$this->server->on('beforeMethod:*', [$this, 'getLock'], 50);

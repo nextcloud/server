@@ -20,18 +20,22 @@ class BroadcastEvent extends Event implements IBroadcastEvent {
 		parent::__construct();
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->event->broadcastAs();
 	}
 
+	#[\Override]
 	public function getUids(): array {
 		return $this->event->getUids();
 	}
 
+	#[\Override]
 	public function getPayload(): JsonSerializable {
 		return $this->event;
 	}
 
+	#[\Override]
 	public function setBroadcasted(): void {
 		$this->event->setBroadcasted();
 	}

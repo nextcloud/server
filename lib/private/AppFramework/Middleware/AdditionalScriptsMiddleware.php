@@ -25,6 +25,7 @@ class AdditionalScriptsMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response): Response {
 		if ($response instanceof TemplateResponse) {
 			if ($controller instanceof LoginController) {

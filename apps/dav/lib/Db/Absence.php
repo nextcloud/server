@@ -85,6 +85,7 @@ class Absence extends Entity implements JsonSerializable {
 		);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'userId' => $this->userId,

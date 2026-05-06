@@ -38,6 +38,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user user to be SubAdmin
 	 * @param IGroup $group group $user becomes subadmin of
 	 */
+	#[\Override]
 	public function createSubAdmin(IUser $user, IGroup $group): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -59,6 +60,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user the user that is the SubAdmin
 	 * @param IGroup $group the group
 	 */
+	#[\Override]
 	public function deleteSubAdmin(IUser $user, IGroup $group): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -78,6 +80,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user the SubAdmin
 	 * @return IGroup[]
 	 */
+	#[\Override]
 	public function getSubAdminsGroups(IUser $user): array {
 		$groupIds = $this->getSubAdminsGroupIds($user);
 
@@ -130,6 +133,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IGroup $group the group
 	 * @return IUser[]
 	 */
+	#[\Override]
 	public function getGroupsSubAdmins(IGroup $group): array {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -183,6 +187,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IGroup $group
 	 * @return bool
 	 */
+	#[\Override]
 	public function isSubAdminOfGroup(IUser $user, IGroup $group): bool {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -207,6 +212,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user
 	 * @return bool
 	 */
+	#[\Override]
 	public function isSubAdmin(IUser $user): bool {
 		// Check if the user is already an admin
 		if ($this->groupManager->isAdmin($user->getUID())) {
@@ -238,6 +244,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user
 	 * @return bool
 	 */
+	#[\Override]
 	public function isUserAccessible(IUser $subadmin, IUser $user): bool {
 		if ($subadmin->getUID() === $user->getUID()) {
 			return true;

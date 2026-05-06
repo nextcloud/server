@@ -19,10 +19,12 @@ class AddLogRotateJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add log rotate job';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->jobList->add(Rotate::class);
 	}

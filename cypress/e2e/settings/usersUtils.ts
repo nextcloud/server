@@ -51,48 +51,24 @@ export function waitLoading(selector: string) {
 }
 
 /**
- * Toggle the edit button of the user row
+ * Open the edit dialog for a user by clicking the Edit action on their row
  *
- * @param user The user row to edit
- * @param toEdit True if it should be switch to edit mode, false to switch to read-only
+ * @param user The user whose edit dialog to open
  */
-export function toggleEditButton(user: User, toEdit = true) {
-	// see that the list of users contains the user
+export function openEditDialog(user: User) {
 	getUserListRow(user.userId).should('exist')
-		// toggle the edit mode for the user
-		.find('[data-cy-user-list-cell-actions]')
-		.find(`[data-cy-user-list-action-toggle-edit="${!toEdit}"]`)
-		.if()
+		.find('[data-cy-user-list-action-edit]')
 		.click({ force: true })
-		.else()
-		// otherwise ensure the button is already in edit mode
-		.then(() => getUserListRow(user.userId)
-			.find(`[data-cy-user-list-action-toggle-edit="${toEdit}"]`)
-			.should('exist'))
+	// Wait for the dialog to appear
+	cy.get('.edit-dialog [data-test="form"]').should('be.visible')
 }
 
 /**
- * Handle the confirm password dialog (if needed)
- *
- * @param adminPassword The admin password for the dialog
+ * Save the currently open edit dialog by clicking the Save button
+ * and wait for the dialog to close
  */
-export function handlePasswordConfirmation(adminPassword = 'admin') {
-	const handleModal = (context: Cypress.Chainable) => {
-		return context.contains('.modal-container', 'Authentication required')
-			.if()
-			.within(() => {
-				cy.get('input[type="password"]')
-					.type(adminPassword)
-				cy.findByRole('button', { name: 'Confirm' })
-					.click()
-			})
-	}
-
-	return cy.get('body')
-		.if()
-		.then(() => handleModal(cy.get('body')))
-		.else()
-		// Handle if inside a cy.within
-		.root().closest('body')
-		.then(($body) => handleModal(cy.wrap($body)))
+export function saveEditDialog() {
+	cy.get('[data-test="submit"]').click()
+	// Wait for dialog to close
+	cy.get('.edit-dialog').should('not.exist')
 }

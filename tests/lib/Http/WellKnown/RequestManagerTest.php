@@ -39,6 +39,7 @@ class RequestManagerTest extends TestCase {
 	/** @var RequestManager */
 	private $manager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -132,6 +133,7 @@ class RequestManagerTest extends TestCase {
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$handler = new class implements IHandler {
+			#[\Override]
 			public function handle(string $service, IRequestContext $context, ?IResponse $previousResponse): ?IResponse {
 				return (new JrdResponse($service))->addAlias('alias');
 			}

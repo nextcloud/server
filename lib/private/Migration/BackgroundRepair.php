@@ -35,6 +35,7 @@ class BackgroundRepair extends TimedJob {
 	 * @param array $argument
 	 * @throws \Exception
 	 */
+	#[\Override]
 	protected function run($argument): void {
 		if (!isset($argument['app']) || !isset($argument['step'])) {
 			// remove the job - we can never execute it

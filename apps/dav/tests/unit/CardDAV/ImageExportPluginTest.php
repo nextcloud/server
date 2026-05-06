@@ -171,4 +171,64 @@ class ImageExportPluginTest extends TestCase {
 		$result = $this->plugin->httpGet($this->request, $this->response);
 		$this->assertFalse($result);
 	}
+
+	public function testCardWithSpecialCharactersInName(): void {
+		$this->request->method('getQueryParameters')
+			->willReturn(['photo' => null]);
+		$this->request->method('getPath')
+			->willReturn('user/book/card');
+
+		$card = $this->createMock(Card::class);
+		$card->method('getETag')
+			->willReturn('"myEtag"');
+		$card->method('getName')
+			->willReturn('contact "with" special;chars');
+		$book = $this->createMock(AddressBook::class);
+		$book->method('getResourceId')
+			->willReturn(1);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnCallback(function ($path) use ($card, $book) {
+				if ($path === 'user/book/card') {
+					return $card;
+				} elseif ($path === 'user/book') {
+					return $book;
+				}
+				$this->fail();
+			});
+
+		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getMimeType')
+			->willReturn('image/png');
+		$file->method('getContent')
+			->willReturn('imgdata');
+
+		$this->cache->method('get')
+			->with(1, 'contact "with" special;chars', -1, $card)
+			->willReturn($file);
+
+		// When special characters are present, they should be properly quoted in the filename parameter
+		$setHeaderCalls = [
+			['Cache-Control', 'private, max-age=3600, must-revalidate'],
+			['Etag', '"myEtag"'],
+			['Content-Type', 'image/png'],
+			['Content-Disposition', 'attachment; filename="contact \"with\" special;chars.png"'],
+		];
+		$this->response->expects($this->exactly(count($setHeaderCalls)))
+			->method('setHeader')
+			->willReturnCallback(function () use (&$setHeaderCalls): void {
+				$expected = array_shift($setHeaderCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
+
+		$this->response->expects($this->once())
+			->method('setStatus')
+			->with(200);
+		$this->response->expects($this->once())
+			->method('setBody')
+			->with('imgdata');
+
+		$result = $this->plugin->httpGet($this->request, $this->response);
+		$this->assertFalse($result);
+	}
 }

@@ -35,6 +35,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$this->setInitialState();
 
@@ -53,6 +54,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'externalstorages';
 	}
@@ -64,14 +66,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 40;
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('External storage');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		// No app config keys require delegation for external storage.
 		return [];

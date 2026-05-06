@@ -25,6 +25,7 @@ use OCA\Files\Listener\NodeAddedToFavoriteListener;
 use OCA\Files\Listener\NodeRemovedFromFavoriteListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
 use OCA\Files\Listener\SyncLivePhotosListener;
+use OCA\Files\Listener\UserFirstTimeLoggedInListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
@@ -53,6 +54,7 @@ use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
+use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -64,6 +66,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		/**
 		 * Controllers
@@ -121,6 +124,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(LoadSearchPlugins::class, LoadSearchPluginsListener::class);
 		$context->registerEventListener(NodeAddedToFavorite::class, NodeAddedToFavoriteListener::class);
 		$context->registerEventListener(NodeRemovedFromFavorite::class, NodeRemovedFromFavoriteListener::class);
+		$context->registerEventListener(UserFirstTimeLoggedInEvent::class, UserFirstTimeLoggedInListener::class);
+
 		$context->registerSearchProvider(FilesSearchProvider::class);
 
 		$context->registerNotifierService(Notifier::class);
@@ -130,6 +135,7 @@ class Application extends App implements IBootstrap {
 
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCollaboration']));
 		$context->injectFn([Listener::class, 'register']);

@@ -16,6 +16,7 @@ use OCP\Files\Search\ISearchOperator;
  * transform IN (1000+ element) into (IN (1000 elements) OR IN(...))
  */
 class SplitLargeIn extends ReplacingOptimizerStep {
+	#[\Override]
 	public function processOperator(ISearchOperator &$operator): bool {
 		if (
 			$operator instanceof ISearchComparison

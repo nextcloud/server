@@ -29,12 +29,14 @@ class WatcherTest extends TestCase {
 	 */
 	private array $storages = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->loginAsUser();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();

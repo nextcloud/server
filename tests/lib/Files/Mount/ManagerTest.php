@@ -13,6 +13,7 @@ use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\Temporary;
 
 class LongId extends Temporary {
+	#[\Override]
 	public function getId(): string {
 		return 'long:' . str_repeat('foo', 50) . parent::getId();
 	}
@@ -24,6 +25,7 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	private $manager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->manager = new \OC\Files\Mount\Manager($this->createMock(SetupManagerFactory::class));

@@ -13,6 +13,7 @@ use OC\Memcache\APCu;
 #[\PHPUnit\Framework\Attributes\Group('Memcache')]
 #[\PHPUnit\Framework\Attributes\Group('APCu')]
 class APCuTest extends Cache {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

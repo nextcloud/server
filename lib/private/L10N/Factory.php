@@ -92,6 +92,7 @@ class Factory implements IFactory {
 	 * @param string|null $locale
 	 * @return IL10N
 	 */
+	#[\Override]
 	public function get($app, $lang = null, $locale = null) {
 		return new LazyL10N(function () use ($app, $lang, $locale) {
 			$app = $this->appManager->cleanAppId($app);
@@ -179,6 +180,7 @@ class Factory implements IFactory {
 	 *
 	 * @return string language If nothing works it returns 'en'
 	 */
+	#[\Override]
 	public function findLanguage(?string $appId = null): string {
 		// Step 1: Forced language always has precedence over anything else
 		$forceLang = $this->cleanLanguage($this->request->getParam('forceLanguage')) ?? $this->config->getSystemValue('force_language', false);
@@ -236,6 +238,7 @@ class Factory implements IFactory {
 		return 'en';
 	}
 
+	#[\Override]
 	public function findGenericLanguage(?string $appId = null): string {
 		// Step 1: Forced language always has precedence over anything else
 		$forcedLanguage = $this->cleanLanguage($this->request->getParam('forceLanguage')) ?? $this->config->getSystemValue('force_language', false);
@@ -259,6 +262,7 @@ class Factory implements IFactory {
 	 * @param string $lang
 	 * @return null|string
 	 */
+	#[\Override]
 	public function findLocale($lang = null) {
 		$forceLocale = $this->config->getSystemValue('force_locale', false);
 		if (is_string($forceLocale) && $this->localeExists($forceLocale)) {
@@ -302,6 +306,7 @@ class Factory implements IFactory {
 	 * @param string $locale
 	 * @return null|string
 	 */
+	#[\Override]
 	public function findLanguageFromLocale(string $app = 'core', ?string $locale = null) {
 		if ($this->languageExists($app, $locale)) {
 			return $locale;
@@ -320,6 +325,7 @@ class Factory implements IFactory {
 	 * @param string|null $app App id or null for core
 	 * @return string[] an array of available languages
 	 */
+	#[\Override]
 	public function findAvailableLanguages($app = null): array {
 		$key = $app;
 		if ($key === null) {
@@ -373,6 +379,7 @@ class Factory implements IFactory {
 	/**
 	 * @return array|mixed
 	 */
+	#[\Override]
 	public function findAvailableLocales() {
 		if (!empty($this->availableLocales)) {
 			return $this->availableLocales;
@@ -389,6 +396,7 @@ class Factory implements IFactory {
 	 * @param string $lang
 	 * @return bool
 	 */
+	#[\Override]
 	public function languageExists($app, $lang) {
 		if ($lang === 'en') { //english is always available
 			return true;
@@ -398,6 +406,7 @@ class Factory implements IFactory {
 		return in_array($lang, $languages);
 	}
 
+	#[\Override]
 	public function getLanguageDirection(string $language): string {
 		if (in_array($language, self::RTL_LANGUAGES, true)) {
 			return 'rtl';
@@ -406,6 +415,7 @@ class Factory implements IFactory {
 		return 'ltr';
 	}
 
+	#[\Override]
 	public function getLanguageIterator(?IUser $user = null): ILanguageIterator {
 		$user = $user ?? $this->userSession->getUser();
 		if ($user === null) {
@@ -421,6 +431,7 @@ class Factory implements IFactory {
 	 * @return string
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function getUserLanguage(?IUser $user = null): string {
 		$language = $this->config->getSystemValue('force_language', false);
 		if ($language !== false) {
@@ -455,6 +466,7 @@ class Factory implements IFactory {
 	 * @param string $locale
 	 * @return bool
 	 */
+	#[\Override]
 	public function localeExists($locale) {
 		if ($locale === 'en') { //english is always available
 			return true;
@@ -607,6 +619,7 @@ class Factory implements IFactory {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getLanguages(): array {
 		$forceLanguage = $this->config->getSystemValue('force_language', false);
 		if ($forceLanguage !== false) {

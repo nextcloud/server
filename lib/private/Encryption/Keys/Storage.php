@@ -42,6 +42,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getUserKey($uid, $keyId, $encryptionModuleId) {
 		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
 		return base64_decode($this->getKeyWithUid($path, $uid));
@@ -50,6 +51,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getFileKey($path, $keyId, $encryptionModuleId) {
 		$realFile = $this->util->stripPartialFileExtension($path);
 		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $realFile);
@@ -69,6 +71,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSystemUserKey($keyId, $encryptionModuleId) {
 		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, null);
 		return base64_decode($this->getKeyWithUid($path, null));
@@ -77,6 +80,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setUserKey($uid, $keyId, $key, $encryptionModuleId) {
 		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
 		return $this->setKey($path, [
@@ -88,6 +92,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setFileKey($path, $keyId, $key, $encryptionModuleId) {
 		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 		return $this->setKey($keyDir . $keyId, [
@@ -98,6 +103,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setSystemUserKey($keyId, $key, $encryptionModuleId) {
 		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, null);
 		return $this->setKey($path, [
@@ -109,6 +115,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function deleteUserKey($uid, $keyId, $encryptionModuleId) {
 		try {
 			$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
@@ -130,6 +137,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function deleteFileKey($path, $keyId, $encryptionModuleId) {
 		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 		return !$this->view->file_exists($keyDir . $keyId) || $this->view->unlink($keyDir . $keyId);
@@ -138,6 +146,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function deleteAllFileKeys($path) {
 		$keyDir = $this->util->getFileKeyDir('', $path);
 		return !$this->view->file_exists($keyDir) || $this->view->deleteAll($keyDir);
@@ -146,6 +155,7 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function deleteSystemUserKey($keyId, $encryptionModuleId) {
 		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, null);
 		return !$this->view->file_exists($path) || $this->view->unlink($path);
@@ -316,6 +326,7 @@ class Storage implements IStorage {
 	 * @param string $target
 	 * @return boolean
 	 */
+	#[\Override]
 	public function renameKeys($source, $target) {
 		$sourcePath = $this->getPathToKeys($source);
 		$targetPath = $this->getPathToKeys($target);
@@ -338,6 +349,7 @@ class Storage implements IStorage {
 	 * @param string $target
 	 * @return boolean
 	 */
+	#[\Override]
 	public function copyKeys($source, $target) {
 		$sourcePath = $this->getPathToKeys($source);
 		$targetPath = $this->getPathToKeys($target);
@@ -360,6 +372,7 @@ class Storage implements IStorage {
 	 * @return bool
 	 * @since 12.0.0
 	 */
+	#[\Override]
 	public function backupUserKeys($encryptionModuleId, $purpose, $uid) {
 		$source = $uid . $this->encryption_base_dir . '/' . $encryptionModuleId;
 		$backupDir = $uid . $this->backup_base_dir;

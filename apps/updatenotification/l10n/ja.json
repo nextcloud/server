@@ -57,6 +57,6 @@
     "The selected update channel does not support updates of the server." : "選択したチャンネルでは、サーバーのアップデートをサポートしていません。",
     "Changelog for app {app}" : "アプリケーション{app}の変更ログ",
     "What's new in {app} version {version}" : "{app}バージョン{version}の新機能",
-    "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。"
+    "{version} is available. Get more information on how to update." : "{version} が利用可能になりました。アップデート方法について詳細情報を確認してください。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

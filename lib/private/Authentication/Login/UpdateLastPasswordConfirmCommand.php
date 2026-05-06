@@ -16,6 +16,7 @@ class UpdateLastPasswordConfirmCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		$this->session->set(
 			'last-password-confirm',

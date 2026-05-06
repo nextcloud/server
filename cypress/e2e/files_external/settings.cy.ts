@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { handlePasswordConfirmation } from '../settings/usersUtils.ts'
+import { handlePasswordConfirmation } from '../core-utils.ts'
 
 describe('files_external settings', () => {
 	before(() => {
@@ -63,8 +63,7 @@ describe('files_external settings', () => {
 					.click()
 				cy.root().closest('body')
 					.findByRole('option', { name: 'WebDAV' })
-					.should('be.visible')
-					.click()
+					.click({ force: true }) // forced due to ordering + `position: fixed` usage
 
 				getComboBox(/Authentication/)
 					.should('be.visible')

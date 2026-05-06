@@ -101,6 +101,7 @@ class CleanUp extends TimedJob {
 	 * makes the background job do its work
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->setArguments($argument);
 

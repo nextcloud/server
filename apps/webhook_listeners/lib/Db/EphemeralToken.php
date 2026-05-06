@@ -41,6 +41,7 @@ class EphemeralToken extends Entity implements \JsonSerializable {
 		$this->addType('createdAt', 'integer');
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		$fields = array_keys($this->getFieldTypes());
 		return array_combine(

@@ -19,10 +19,12 @@ class AddTokenCleanupJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add token cleanup job';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->jobList->add(TokenCleanupJob::class);
 	}

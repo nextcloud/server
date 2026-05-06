@@ -30,6 +30,7 @@ class Personal implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
 
@@ -91,6 +92,7 @@ class Personal implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getSection(): string {
 		return Application::APP_ID;
 	}
@@ -103,6 +105,7 @@ class Personal implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 40;
 	}

@@ -23,6 +23,7 @@ abstract class Session implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @return bool
 	 */
+	#[\Override]
 	public function offsetExists($offset): bool {
 		return $this->exists($offset);
 	}
@@ -31,6 +32,7 @@ abstract class Session implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @return mixed
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->get($offset);
@@ -40,6 +42,7 @@ abstract class Session implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @param mixed $value
 	 */
+	#[\Override]
 	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
@@ -47,6 +50,7 @@ abstract class Session implements \ArrayAccess, ISession {
 	/**
 	 * @param mixed $offset
 	 */
+	#[\Override]
 	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}
@@ -54,6 +58,7 @@ abstract class Session implements \ArrayAccess, ISession {
 	/**
 	 * Close the session and release the lock
 	 */
+	#[\Override]
 	public function close() {
 		$this->sessionClosed = true;
 	}

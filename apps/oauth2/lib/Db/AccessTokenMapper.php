@@ -82,4 +82,31 @@ class AccessTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->lt('code_created_at', $qb->createNamedParameter($maxTokenCreationTs, IQueryBuilder::PARAM_INT)));
 		$qb->executeStatement();
 	}
+
+	/**
+	 * Rotate an access token only if it still matches the caller's previously-read state.
+	 *
+	 * @param int $id
+	 * @param string $oldCode
+	 * @param string $newCode
+	 * @param string $encryptedToken
+	 * @param bool $expectAuthorizationCodeState Require the token to still be unused
+	 * @return int Number of updated rows
+	 */
+	public function rotateToken(int $id, string $oldCode, string $newCode, string $encryptedToken, bool $expectAuthorizationCodeState): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb
+			->update($this->tableName)
+			->set('hashed_code', $qb->createNamedParameter(hash('sha512', $newCode)))
+			->set('encrypted_token', $qb->createNamedParameter($encryptedToken))
+			->set('token_count', $qb->createFunction('token_count + 1'))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('hashed_code', $qb->createNamedParameter(hash('sha512', $oldCode))));
+
+		if ($expectAuthorizationCodeState) {
+			$qb->andWhere($qb->expr()->eq('token_count', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+		}
+
+		return $qb->executeStatement();
+	}
 }

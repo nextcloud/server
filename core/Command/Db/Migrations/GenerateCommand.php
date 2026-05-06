@@ -84,6 +84,7 @@ class {{classname}} extends SimpleMigrationStep {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('migrations:generate')
@@ -94,6 +95,7 @@ class {{classname}} extends SimpleMigrationStep {
 		parent::configure();
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$version = $input->getArgument('version');
@@ -148,6 +150,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		return [];
 	}
@@ -157,6 +160,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
 			$allApps = $this->appManager->getAllAppsInAppsFolders();

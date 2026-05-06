@@ -41,6 +41,7 @@ class ManagerTest extends TestCase {
 	/** @var ArrayCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $arrayCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);

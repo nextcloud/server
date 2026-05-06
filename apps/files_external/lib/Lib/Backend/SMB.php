@@ -30,7 +30,7 @@ class SMB extends Backend {
 			->setIdentifier('smb')
 			->addIdentifierAlias('\OC\Files\Storage\SMB')// legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
-			->setText($l->t('SMB/CIFS'))
+			->setText($l->t('SMB / CIFS (Windows network share)'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
 				new DefinitionParameter('share', $l->t('Share')),
@@ -60,6 +60,7 @@ class SMB extends Backend {
 			->setLegacyAuthMechanism($legacyAuth);
 	}
 
+	#[\Override]
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null): void {
 		$auth = $storage->getAuthMechanism();
 		if ($auth->getScheme() === AuthMechanism::SCHEME_PASSWORD) {
@@ -122,6 +123,7 @@ class SMB extends Backend {
 		$storage->setBackendOption('auth', $smbAuth);
 	}
 
+	#[\Override]
 	public function checkDependencies(): array {
 		$system = \OCP\Server::get(SystemBridge::class);
 		if (NativeServer::available($system)) {

@@ -23,6 +23,7 @@ class DavAdminSettingsListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 
 		/** @var DeclarativeSettingsGetValueEvent|DeclarativeSettingsSetValueEvent $event */

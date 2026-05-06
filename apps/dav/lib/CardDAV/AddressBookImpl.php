@@ -41,6 +41,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	 * @return string defining the technical unique key
 	 * @since 5.0.0
 	 */
+	#[\Override]
 	public function getKey() {
 		return (string)$this->addressBookInfo['id'];
 	}
@@ -49,6 +50,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	 * @return string defining the unique uri
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getUri(): string {
 		return $this->addressBookInfo['uri'];
 	}
@@ -59,6 +61,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	 * @return mixed
 	 * @since 5.0.0
 	 */
+	#[\Override]
 	public function getDisplayName() {
 		return $this->addressBookInfo['{DAV:}displayname'];
 	}
@@ -82,6 +85,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	 *               ]
 	 * @since 5.0.0
 	 */
+	#[\Override]
 	public function search($pattern, $searchProperties, $options) {
 		$results = $this->backend->search($this->getKey(), $pattern, $searchProperties, $options);
 
@@ -100,6 +104,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	 * @return array an array representing the contact just created or updated
 	 * @since 5.0.0
 	 */
+	#[\Override]
 	public function createOrUpdate($properties) {
 		$update = false;
 		if (!isset($properties['URI'])) { // create a new contact
@@ -149,6 +154,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	 * @return mixed
 	 * @since 5.0.0
 	 */
+	#[\Override]
 	public function getPermissions() {
 		$permissions = $this->addressBook->getACL();
 		$result = 0;
@@ -179,6 +185,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	 * @return bool successful or not
 	 * @since 5.0.0
 	 */
+	#[\Override]
 	public function delete($id) {
 		$uri = $this->backend->getCardUri($id);
 		return $this->backend->deleteCard($this->addressBookInfo['id'], $uri);
@@ -298,6 +305,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isShared(): bool {
 		if (!isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;
@@ -310,6 +318,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function isSystemAddressBook(): bool {
 		return $this->addressBookInfo['principaluri'] === 'principals/system/system' && (
 			$this->addressBookInfo['uri'] === 'system'
@@ -317,6 +326,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 		);
 	}
 
+	#[\Override]
 	public function isEnabled(): bool {
 		if (!$this->userId) {
 			return true;
@@ -338,6 +348,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 		return true;
 	}
 
+	#[\Override]
 	public function createFromString(string $name, string $vcfData): void {
 		$this->backend->createCard($this->getKey(), $name, $vcfData);
 	}

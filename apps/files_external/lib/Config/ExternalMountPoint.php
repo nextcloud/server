@@ -24,6 +24,7 @@ class ExternalMountPoint extends MountPoint {
 		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId, ConfigAdapter::class);
 	}
 
+	#[\Override]
 	public function getMountType() {
 		return ($this->storageConfig->getAuthMechanism() instanceof SessionCredentials) ? 'external-session' : 'external';
 	}

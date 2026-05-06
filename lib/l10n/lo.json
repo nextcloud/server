@@ -214,7 +214,6 @@
     "Invalid share recipient" : "Invalid share recipient",
     "Group \"%s\" does not exist" : "Group \"%s\" does not exist",
     "The requested share does not exist anymore" : "The requested share does not exist anymore",
-    "The requested share comes from a disabled user" : "The requested share comes from a disabled user",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "The user was not created because the user limit has been reached. Check your notifications to learn more.",
     "Could not find category \"%s\"" : "Could not find category \"%s\"",
     "Input text" : "Input text",

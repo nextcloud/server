@@ -10,7 +10,6 @@ namespace OCA\Provisioning_API\Controller;
 
 use OC\App\AppStore\AppNotFoundException;
 use OC\Installer;
-use OC_App;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -46,35 +45,31 @@ class AppsController extends OCSController {
 	/**
 	 * Get a list of installed apps
 	 *
-	 * @param ?string $filter Filter for enabled or disabled apps
+	 * @param 'enabled'|'disabled'|null $filter Filter for enabled or disabled apps
 	 * @return DataResponse<Http::STATUS_OK, array{apps: list<string>}, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Installed apps returned
 	 */
 	public function getApps(?string $filter = null): DataResponse {
-		$apps = (new OC_App())->listAllApps();
-		/** @var list<string> $list */
-		$list = [];
-		foreach ($apps as $app) {
-			$list[] = $app['id'];
-		}
-		if ($filter) {
-			switch ($filter) {
-				case 'enabled':
-					return new DataResponse(['apps' => \OC_App::getEnabledApps()]);
-					break;
-				case 'disabled':
-					$enabled = OC_App::getEnabledApps();
-					return new DataResponse(['apps' => array_values(array_diff($list, $enabled))]);
-					break;
-				default:
-					// Invalid filter variable
-					throw new OCSException('', 101);
+		if ($filter !== null) {
+			$enabledApps = $this->appManager->getEnabledApps();
+			if ($filter === 'enabled') {
+				return new DataResponse(['apps' => $enabledApps]);
+			} elseif ($filter === 'disabled') {
+				$allApps = $this->appManager->getAllAppsInAppsFolders();
+				$coreApps = $this->appManager->getAlwaysEnabledApps();
+				$disabledApps = array_diff($allApps, $enabledApps, $coreApps);
+				return new DataResponse(['apps' => array_values($disabledApps)]);
+			} else {
+				throw new OCSException('Invalid filter', 101);
 			}
-		} else {
-			return new DataResponse(['apps' => $list]);
 		}
+
+		$allApps = $this->appManager->getAllAppsInAppsFolders();
+		$coreApps = $this->appManager->getAlwaysEnabledApps();
+		$apps = array_diff($allApps, $coreApps);
+		return new DataResponse(['apps' => array_values($apps)]);
 	}
 
 	/**
@@ -109,7 +104,7 @@ class AppsController extends OCSController {
 	 *
 	 * 200: App enabled successfully
 	 */
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function enable(string $app): DataResponse {
 		try {
 			$app = $this->verifyAppId($app);

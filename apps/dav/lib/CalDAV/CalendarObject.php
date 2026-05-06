@@ -38,6 +38,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function get() {
 		$data = parent::get();
 
@@ -148,6 +149,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		return $this->calendarInfo['principaluri'];
 	}
 
+	#[\Override]
 	public function getOwner(): ?string {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return $this->calendarInfo['{http://owncloud.org/ns}owner-principal'];

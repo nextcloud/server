@@ -42,6 +42,7 @@ class Plugin extends ServerPlugin {
 		$this->disableTrashbin = $request->getHeader('X-NC-CalDAV-No-Trashbin') === '1';
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
@@ -104,10 +105,12 @@ class Plugin extends ServerPlugin {
 		}
 	}
 
+	#[\Override]
 	public function getFeatures(): array {
 		return ['nc-calendar-trashbin'];
 	}
 
+	#[\Override]
 	public function getPluginName(): string {
 		return 'nc-calendar-trashbin';
 	}

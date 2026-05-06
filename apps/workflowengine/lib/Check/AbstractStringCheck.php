@@ -33,6 +33,7 @@ abstract class AbstractStringCheck implements ICheck {
 	 * @param string $value
 	 * @return bool
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value) {
 		$actualValue = $this->getActualValue();
 		return $this->executeStringCheck($operator, $value, $actualValue);
@@ -64,6 +65,7 @@ abstract class AbstractStringCheck implements ICheck {
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
+	#[\Override]
 	public function validateCheck($operator, $value): void {
 		if (!in_array($operator, ['is', '!is', 'matches', '!matches'])) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
@@ -75,11 +77,13 @@ abstract class AbstractStringCheck implements ICheck {
 		}
 	}
 
+	#[\Override]
 	public function supportedEntities(): array {
 		// universal by default
 		return [];
 	}
 
+	#[\Override]
 	public function isAvailableForScope(int $scope): bool {
 		// admin only by default
 		return $scope === IManager::SCOPE_ADMIN;

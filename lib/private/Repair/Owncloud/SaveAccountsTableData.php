@@ -28,10 +28,12 @@ class SaveAccountsTableData implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Copy data from accounts table when migrating from ownCloud';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if (!$this->shouldRun()) {
 			return;

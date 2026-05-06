@@ -64,6 +64,7 @@ class SFTPReadStream implements File {
 		return $context;
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		[, $path] = explode('://', $path);
 		$path = '/' . ltrim($path);
@@ -103,6 +104,7 @@ class SFTPReadStream implements File {
 		return true;
 	}
 
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		switch ($whence) {
 			case SEEK_SET:
@@ -125,10 +127,12 @@ class SFTPReadStream implements File {
 		$this->request_chunk(256 * 1024);
 	}
 
+	#[\Override]
 	public function stream_tell() {
 		return $this->readPosition;
 	}
 
+	#[\Override]
 	public function stream_read($count) {
 		if (!$this->eof && strlen($this->buffer) < $count) {
 			$chunk = $this->read_chunk();
@@ -176,34 +180,42 @@ class SFTPReadStream implements File {
 		}
 	}
 
+	#[\Override]
 	public function stream_write($data) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_set_option($option, $arg1, $arg2) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_truncate($size) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_stat() {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_lock($operation) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_flush() {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_eof() {
 		return $this->eof;
 	}
 
+	#[\Override]
 	public function stream_close() {
 		// we still have a read request incoming that needs to be handled before we can close
 		if ($this->pendingRead) {

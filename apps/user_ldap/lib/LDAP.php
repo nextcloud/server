@@ -38,6 +38,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function bind($link, $dn, $password) {
 		return $this->invokeLDAPMethod('bind', $link, $dn, $password);
 	}
@@ -45,6 +46,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function connect($host, $port) {
 		$pos = strpos($host, '://');
 		if ($pos === false) {
@@ -61,6 +63,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function controlPagedResultResponse($link, $result, &$cookie): bool {
 		$errorCode = 0;
 		$errorMsg = '';
@@ -91,6 +94,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function countEntries($link, $result) {
 		return $this->invokeLDAPMethod('count_entries', $link, $result);
 	}
@@ -98,6 +102,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function errno($link) {
 		return $this->invokeLDAPMethod('errno', $link);
 	}
@@ -105,6 +110,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function error($link) {
 		return $this->invokeLDAPMethod('error', $link);
 	}
@@ -116,6 +122,7 @@ class LDAP implements ILDAPWrapper {
 	 * @return array|false
 	 * @link https://www.php.net/manual/en/function.ldap-explode-dn.php
 	 */
+	#[\Override]
 	public function explodeDN($dn, $withAttrib) {
 		return $this->invokeLDAPMethod('explode_dn', $dn, $withAttrib);
 	}
@@ -123,6 +130,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function firstEntry($link, $result) {
 		return $this->invokeLDAPMethod('first_entry', $link, $result);
 	}
@@ -130,6 +138,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAttributes($link, $result) {
 		return $this->invokeLDAPMethod('get_attributes', $link, $result);
 	}
@@ -137,6 +146,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getDN($link, $result) {
 		return $this->invokeLDAPMethod('get_dn', $link, $result);
 	}
@@ -144,6 +154,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getEntries($link, $result) {
 		return $this->invokeLDAPMethod('get_entries', $link, $result);
 	}
@@ -151,6 +162,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function nextEntry($link, $result) {
 		return $this->invokeLDAPMethod('next_entry', $link, $result);
 	}
@@ -158,6 +170,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function read($link, $baseDN, $filter, $attr) {
 		return $this->invokeLDAPMethod('read', $link, $baseDN, $filter, $attr, 0, -1);
 	}
@@ -165,6 +178,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0, int $pageSize = 0, string $cookie = '') {
 		if ($pageSize > 0 || $cookie !== '') {
 			$serverControls = [[
@@ -201,6 +215,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function modReplace($link, $userDN, $password) {
 		return $this->invokeLDAPMethod('mod_replace', $link, $userDN, ['userPassword' => $password]);
 	}
@@ -208,6 +223,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function exopPasswd($link, string $userDN, string $oldPassword, string $password) {
 		return $this->invokeLDAPMethod('exop_passwd', $link, $userDN, $oldPassword, $password);
 	}
@@ -215,6 +231,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setOption($link, $option, $value) {
 		return $this->invokeLDAPMethod('set_option', $link, $option, $value);
 	}
@@ -222,6 +239,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function startTls($link) {
 		return $this->invokeLDAPMethod('start_tls', $link);
 	}
@@ -229,6 +247,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function unbind($link) {
 		return $this->invokeLDAPMethod('unbind', $link);
 	}
@@ -237,6 +256,7 @@ class LDAP implements ILDAPWrapper {
 	 * Checks whether the server supports LDAP
 	 * @return boolean if it the case, false otherwise
 	 * */
+	#[\Override]
 	public function areLDAPFunctionsAvailable() {
 		return function_exists('ldap_connect');
 	}
@@ -244,6 +264,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isResource($resource) {
 		return is_resource($resource) || is_object($resource);
 	}

@@ -11,26 +11,32 @@ use OCA\Theming\ITheme;
 
 class DyslexiaFont extends DefaultTheme implements ITheme {
 
+	#[\Override]
 	public function getId(): string {
 		return 'opendyslexic';
 	}
 
+	#[\Override]
 	public function getType(): int {
 		return ITheme::TYPE_FONT;
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('Dyslexia font');
 	}
 
+	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable dyslexia font');
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia.');
 	}
 
+	#[\Override]
 	public function getCSSVariables(): array {
 		$variables = parent::getCSSVariables();
 		$originalFontFace = $variables['--font-face'];
@@ -42,6 +48,7 @@ class DyslexiaFont extends DefaultTheme implements ITheme {
 		return $variables;
 	}
 
+	#[\Override]
 	public function getCustomCss(): string {
 		$fontPathOtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Regular.otf');
 		$boldFontPathOtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Bold.otf');

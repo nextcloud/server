@@ -32,6 +32,7 @@ class PreviewControllerTest extends \Test\TestCase {
 	private IPreview&MockObject $previewManager;
 	private IRequest&MockObject $request;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -21,11 +21,15 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
@@ -65,6 +69,7 @@ class UsersControllerTest extends TestCase {
 	private IRootFolder $rootFolder;
 	private IPhoneNumberUtil $phoneNumberUtil;
 	private IAppManager $appManager;
+	private IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -86,6 +91,7 @@ class UsersControllerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$l10n = $this->createMock(IL10N::class);
@@ -113,6 +119,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -502,6 +509,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -2125,15 +2133,11 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserAdminUserSelfEditChangeValidQuota(): void {
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('getAppValue')
-			->willReturnCallback(function ($appid, $key, $default) {
-				if ($key === 'max_quota') {
-					return '-1';
-				}
-				return null;
-			});
+			->method('getValueInt')
+			->with('files', 'max_quota', -1)
+			->willReturn(-1);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())
@@ -2213,15 +2217,11 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserAdminUserEditChangeValidQuota(): void {
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('getAppValue')
-			->willReturnCallback(function ($appid, $key, $default) {
-				if ($key === 'max_quota') {
-					return '-1';
-				}
-				return null;
-			});
+			->method('getValueInt')
+			->with('files', 'max_quota', -1)
+			->willReturn(-1);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())
@@ -2268,8 +2268,8 @@ class UsersControllerTest extends TestCase {
 
 	public function testEditUserSelfEditChangeLanguage(): void {
 		$this->l10nFactory->expects($this->once())
-			->method('findAvailableLanguages')
-			->willReturn(['en', 'de', 'sv']);
+			->method('languageExists')
+			->willReturnCallback(fn ($app, $lang) => in_array($lang, ['en', 'de', 'sv'], true));
 		$this->config->expects($this->any())
 			->method('getSystemValue')
 			->willReturnMap([
@@ -2370,8 +2370,8 @@ class UsersControllerTest extends TestCase {
 
 	public function testEditUserAdminEditChangeLanguage(): void {
 		$this->l10nFactory->expects($this->once())
-			->method('findAvailableLanguages')
-			->willReturn(['en', 'de', 'sv']);
+			->method('languageExists')
+			->willReturnCallback(fn ($app, $lang) => in_array($lang, ['en', 'de', 'sv'], true));
 
 		$loggedInUser = $this->createMock(IUser::class);
 		$loggedInUser
@@ -2421,8 +2421,8 @@ class UsersControllerTest extends TestCase {
 
 
 		$this->l10nFactory->expects($this->once())
-			->method('findAvailableLanguages')
-			->willReturn(['en', 'de', 'sv']);
+			->method('languageExists')
+			->willReturnCallback(fn ($app, $lang) => in_array($lang, ['en', 'de', 'sv'], true));
 
 		$loggedInUser = $this->createMock(IUser::class);
 		$loggedInUser
@@ -2466,15 +2466,11 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserSubadminUserAccessible(): void {
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('getAppValue')
-			->willReturnCallback(function ($appid, $key, $default) {
-				if ($key === 'max_quota') {
-					return '-1';
-				}
-				return null;
-			});
+			->method('getValueInt')
+			->with('files', 'max_quota', -1)
+			->willReturn(-1);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())
@@ -2557,6 +2553,318 @@ class UsersControllerTest extends TestCase {
 			->willReturn('UID');
 
 		$this->api->editUser('UserToEdit', 'quota', 'value');
+	}
+
+
+	public function testUpdateUserAsAdminMultipleFields(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('canChangeDisplayName')->willReturn(true);
+		$backend = $this->createMock(UserInterface::class);
+		$backend->method('implementsActions')->willReturn(true);
+		$targetUser->method('getBackend')->willReturn($backend);
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('isUserAccessible')->willReturn(false);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		$targetUser->expects($this->once())->method('setDisplayName')->with('New Name')->willReturn(true);
+		$targetUser->expects($this->once())->method('setSystemEMailAddress')->with('new@example.com');
+
+		$result = $this->api->editUserMultiField('targetuser', displayName: 'New Name', email: 'new@example.com');
+
+		$this->assertInstanceOf(DataResponse::class, $result);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserValidationErrorsCollected(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		$longPassword = str_repeat('a', 470);
+
+		$result = $this->api->editUserMultiField('targetuser', password: $longPassword, email: 'not-an-email');
+
+		$this->assertInstanceOf(DataResponse::class, $result);
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$data = $result->getData();
+		$this->assertArrayHasKey('errors', $data);
+		$this->assertArrayHasKey('password', $data['errors']);
+		$this->assertArrayHasKey('email', $data['errors']);
+	}
+
+	public function testUpdateUserEmptyPayloadSucceeds(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		$targetUser->expects($this->never())->method('setDisplayName');
+		$targetUser->expects($this->never())->method('setPassword');
+
+		$result = $this->api->editUserMultiField('targetuser');
+
+		$this->assertInstanceOf(DataResponse::class, $result);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserUnauthorized(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('regularuser');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('anotheruser');
+		$this->userManager->method('get')->with('anotheruser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('isUserAccessible')->willReturn(false);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		// editUserMultiField uses OCSForbiddenException (not OCSException) for
+		// permission failures — more semantically correct than the older editUser pattern.
+		$this->expectException(OCSForbiddenException::class);
+		$this->api->editUserMultiField('anotheruser', displayName: 'Hacked');
+	}
+
+	public function testUpdateUserNotFound(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$this->userManager->method('get')->with('ghost')->willReturn(null);
+
+		$this->expectExceptionCode(OCSController::RESPOND_NOT_FOUND);
+		$this->expectException(OCSException::class);
+		$this->api->editUserMultiField('ghost', displayName: 'Ghost');
+	}
+
+	public function testUpdateUserGroupDiff(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		$oldGroup = $this->createMock(IGroup::class);
+		$oldGroup->method('getGID')->willReturn('oldgroup');
+		$newGroup = $this->createMock(IGroup::class);
+		$newGroup->method('getGID')->willReturn('newgroup');
+
+		$this->groupManager->method('getUserGroups')->willReturn([$oldGroup]);
+		$this->groupManager->method('groupExists')->willReturn(true);
+		$this->groupManager->method('get')->willReturnMap([
+			['newgroup', $newGroup],
+			['oldgroup', $oldGroup],
+		]);
+
+		$oldGroup->expects($this->once())->method('removeUser')->with($targetUser);
+		$newGroup->expects($this->once())->method('addUser')->with($targetUser);
+		$oldGroup->expects($this->never())->method('addUser');
+		$newGroup->expects($this->never())->method('removeUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['newgroup']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserSelfEditCannotChangeQuota(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('regularuser');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('regularuser');
+		$this->userManager->method('get')->with('regularuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('isUserAccessible')->willReturn(false);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		$targetUser->expects($this->never())->method('setQuota');
+
+		$result = $this->api->editUserMultiField('regularuser', quota: 'none');
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertArrayHasKey('quota', $result->getData()['errors']);
+	}
+
+	public function testUpdateUserSelfEditCannotChangeManager(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('regularuser');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('regularuser');
+		$this->userManager->method('get')->with('regularuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('isUserAccessible')->willReturn(false);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		$targetUser->expects($this->never())->method('setManagerUids');
+
+		$result = $this->api->editUserMultiField('regularuser', manager: 'boss');
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertArrayHasKey('manager', $result->getData()['errors']);
+	}
+
+	public function testUpdateUserDelegatedAdminCannotAddToAdminGroup(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('delegatedadmin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->with('delegatedadmin')->willReturn(true);
+		$this->groupManager->method('isInGroup')->with('targetuser', 'admin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+		$this->groupManager->method('groupExists')->willReturn(true);
+
+		$this->groupManager->method('getUserGroups')->willReturn([]);
+
+		$adminGroup = $this->createMock(IGroup::class);
+		$adminGroup->method('getGID')->willReturn('admin');
+		// The admin group's addUser must never be called
+		$adminGroup->expects($this->never())->method('addUser');
+
+		$normalGroup = $this->createMock(IGroup::class);
+		$normalGroup->method('getGID')->willReturn('staff');
+		$normalGroup->expects($this->once())->method('addUser')->with($targetUser);
+
+		$this->groupManager->method('get')->willReturnMap([
+			['admin', $adminGroup],
+			['staff', $normalGroup],
+		]);
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['admin', 'staff']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserCannotCreateSubAdminOfAdminGroup(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('getSubAdminsGroups')->willReturn([]);
+		$subAdmin->method('isSubAdminOfGroup')->willReturn(false);
+		// createSubAdmin must never be called for the admin group
+		$subAdmin->expects($this->never())->method('createSubAdmin');
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		$this->groupManager->method('groupExists')->willReturn(true);
+		$this->groupManager->method('getUserGroups')->willReturn([]);
+
+		$adminGroup = $this->createMock(IGroup::class);
+		$adminGroup->method('getGID')->willReturn('admin');
+		$this->groupManager->method('get')->willReturnMap([
+			['admin', $adminGroup],
+		]);
+
+		$result = $this->api->editUserMultiField('targetuser', subadminGroups: ['admin']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserForceLanguageBlocksNonAdmin(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('regularuser');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('regularuser');
+		$this->userManager->method('get')->with('regularuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('isUserAccessible')->willReturn(false);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		// force_language is set — regular users cannot change language
+		$this->config->method('getSystemValue')
+			->with('force_language', false)
+			->willReturn('en');
+
+		$result = $this->api->editUserMultiField('regularuser', language: 'de');
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertArrayHasKey('language', $result->getData()['errors']);
+	}
+
+	public function testEditUserMultiFieldClearDisplayNameResetsToUserId(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('canChangeDisplayName')->willReturn(true);
+		$backend = $this->createMock(UserInterface::class);
+		$backend->method('implementsActions')->willReturn(true);
+		$targetUser->method('getBackend')->willReturn($backend);
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('admin')->willReturn(true);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		// Clearing display name (empty string) should reset to userId
+		$targetUser->expects($this->once())->method('setDisplayName')->with('targetuser')->willReturn(true);
+
+		$result = $this->api->editUserMultiField('targetuser', displayName: '');
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
 	}
 
 
@@ -3842,6 +4150,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -3936,6 +4245,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();

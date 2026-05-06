@@ -11,6 +11,7 @@ use OCP\Settings\DeclarativeSettingsTypes;
 use OCP\Settings\IDeclarativeSettingsForm;
 
 class DeclarativeSettingsForm implements IDeclarativeSettingsForm {
+	#[\Override]
 	public function getSchema(): array {
 		return [
 			'id' => 'test_declarative_form',

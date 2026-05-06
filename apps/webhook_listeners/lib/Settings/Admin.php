@@ -20,23 +20,28 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * Empty template response
 	 */
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		throw new \Exception('Admin delegation settings should never be rendered');
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return Application::APP_ID . '-admin';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		/* Use section name alone */
 		return null;
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [];
 	}

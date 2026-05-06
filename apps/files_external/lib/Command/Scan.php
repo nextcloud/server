@@ -30,6 +30,7 @@ class Scan extends StorageAuthBase {
 		parent::__construct($globalService, $userManager);
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:scan')
@@ -63,6 +64,7 @@ class Scan extends StorageAuthBase {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		[, $storage] = $this->createStorage($input, $output);
 		if ($storage === null) {

@@ -79,6 +79,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function releaseAll(): void {
 		foreach ($this->acquiredLocks['shared'] as $path => $count) {
 			for ($i = 0; $i < $count; $i++) {

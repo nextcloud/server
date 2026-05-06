@@ -102,6 +102,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @return string|null type in the type parameters (@param int $something)
 	 *                     would return int or null if not existing
 	 */
+	#[\Override]
 	public function getType(string $parameter) {
 		if (array_key_exists($parameter, $this->types)) {
 			return $this->types[$parameter];
@@ -121,6 +122,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	/**
 	 * @return array the arguments of the method with key => default value
 	 */
+	#[\Override]
 	public function getParameters(): array {
 		return $this->parameters;
 	}
@@ -130,6 +132,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 *
 	 * @param class-string<T> $attributeClass
 	 */
+	#[\Override]
 	public function hasAnnotationOrAttribute(?string $annotationName, string $attributeClass): bool {
 		if (!empty($this->reflectionMethod->getAttributes($attributeClass))) {
 			return true;
@@ -148,6 +151,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @param string $name the name of the annotation
 	 * @return bool true if the annotation is found
 	 */
+	#[\Override]
 	public function hasAnnotation(string $name): bool {
 		$name = strtolower($name);
 		return array_key_exists($name, $this->annotations);

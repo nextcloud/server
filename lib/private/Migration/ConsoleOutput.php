@@ -27,6 +27,7 @@ class ConsoleOutput implements IOutput {
 	) {
 	}
 
+	#[\Override]
 	public function debug(string $message): void {
 		$this->output->writeln($message, OutputInterface::VERBOSITY_VERBOSE);
 	}
@@ -34,6 +35,7 @@ class ConsoleOutput implements IOutput {
 	/**
 	 * @param string $message
 	 */
+	#[\Override]
 	public function info($message): void {
 		$this->output->writeln("<info>$message</info>");
 	}
@@ -41,6 +43,7 @@ class ConsoleOutput implements IOutput {
 	/**
 	 * @param string $message
 	 */
+	#[\Override]
 	public function warning($message): void {
 		$this->output->writeln("<comment>$message</comment>");
 	}
@@ -48,6 +51,7 @@ class ConsoleOutput implements IOutput {
 	/**
 	 * @param int $max
 	 */
+	#[\Override]
 	public function startProgress($max = 0): void {
 		if (!is_null($this->progressBar)) {
 			$this->progressBar->finish();
@@ -60,6 +64,7 @@ class ConsoleOutput implements IOutput {
 	 * @param int $step
 	 * @param string $description
 	 */
+	#[\Override]
 	public function advance($step = 1, $description = ''): void {
 		if (is_null($this->progressBar)) {
 			$this->progressBar = new ProgressBar($this->output);
@@ -71,6 +76,7 @@ class ConsoleOutput implements IOutput {
 		}
 	}
 
+	#[\Override]
 	public function finishProgress(): void {
 		if (is_null($this->progressBar)) {
 			return;

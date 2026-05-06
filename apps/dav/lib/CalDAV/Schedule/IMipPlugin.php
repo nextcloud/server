@@ -69,6 +69,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		parent::__construct('');
 	}
 
+	#[\Override]
 	public function initialize(DAV\Server $server): void {
 		parent::initialize($server);
 		$server->on('beforeWriteContent', [$this, 'beforeWriteContent'], 10);
@@ -97,6 +98,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param Message $iTipMessage
 	 * @return void
 	 */
+	#[\Override]
 	public function schedule(Message $iTipMessage) {
 
 		// Not sending any emails if the system considers the update insignificant

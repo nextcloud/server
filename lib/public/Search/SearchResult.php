@@ -83,6 +83,7 @@ final class SearchResult implements JsonSerializable {
 	 *
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->name,

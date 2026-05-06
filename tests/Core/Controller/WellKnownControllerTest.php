@@ -27,6 +27,7 @@ class WellKnownControllerTest extends TestCase {
 	/** @var WellKnownController */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

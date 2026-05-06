@@ -23,6 +23,7 @@ use OCP\User\Events\UserIdUnassignedEvent;
  * @template-implements IEventListener<UserCreatedEvent|UserDeletedEvent|UserChangedEvent|PasswordUpdatedEvent|UserIdAssignedEvent|UserIdUnassignedEvent>
  */
 class UserManagementEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof UserCreatedEvent) {
 			$this->userCreated($event);

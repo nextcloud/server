@@ -18,6 +18,7 @@ class SystemAddressBookSettings implements IDeclarativeSettingsForm {
 	) {
 	}
 
+	#[\Override]
 	public function getSchema(): array {
 		return [
 			'id' => 'dav-admin-system-address-book',

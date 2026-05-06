@@ -28,6 +28,7 @@ class UpdateLanguageCodesTest extends TestCase {
 	protected IDBConnection $connection;
 	private IConfig&MockObject $config;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

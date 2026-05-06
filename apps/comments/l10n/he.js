@@ -11,6 +11,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>תגובות</strong> על קבצים",
     "Files" : "קבצים",
     "{user} mentioned you in a comment on \"{file}\"" : "אוזכרת על ידי {user} בהערה בתוך „{file}”",
+    "Go to file" : "מעבר לקובץ",
     "Files app plugin to add comments to files" : "תוסף ליישומון הקבצים כדי להוסיף הערות על קבצים",
     "Edit comment" : "עריכת תגובה",
     "Delete comment" : "מחיקת תגובה",

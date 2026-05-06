@@ -20,6 +20,7 @@ class Delete extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('tag:delete')
@@ -31,6 +32,7 @@ class Delete extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$this->systemTagManager->deleteTags($input->getArgument('id'));

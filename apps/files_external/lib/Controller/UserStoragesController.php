@@ -53,6 +53,7 @@ class UserStoragesController extends StoragesController {
 		);
 	}
 
+	#[\Override]
 	protected function manipulateStorageConfig(StorageConfig $storage): void {
 		/** @var AuthMechanism */
 		$authMechanism = $storage->getAuthMechanism();

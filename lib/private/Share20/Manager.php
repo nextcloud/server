@@ -10,7 +10,6 @@ namespace OC\Share20;
 use ArrayIterator;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Filesystem;
-use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share\Constants as ShareConstants;
 use OC\Share20\Exception\ProviderException;
@@ -26,6 +25,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -51,6 +51,7 @@ use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -241,7 +242,7 @@ class Manager implements IManager {
 		$permissions = 0;
 		$nodesForUser = $userFolder->getById($share->getNodeId());
 		foreach ($nodesForUser as $node) {
-			if ($node->getInternalPath() === '' && !$node->getMountPoint() instanceof MoveableMount) {
+			if ($node->getInternalPath() === '' && !$node->getMountPoint() instanceof IMovableMount) {
 				// for the root of non-movable mount, the permissions we see if limited by the mount itself,
 				// so we instead use the "raw" permissions from the storage
 				$permissions |= $node->getStorage()->getPermissions('');
@@ -790,7 +791,7 @@ class Manager implements IManager {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$this->userCreateChecks($share);
 
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
@@ -798,7 +799,7 @@ class Manager implements IManager {
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$this->groupCreateChecks($share);
 
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
@@ -834,13 +835,13 @@ class Manager implements IManager {
 				}
 			}
 
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateLink($share);
 				$expirationDateUpdated = true;
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
@@ -1185,13 +1186,16 @@ class Manager implements IManager {
 		if ($share->getShareType() === IShare::TYPE_USER && $share->getSharedWith() !== $recipientId) {
 			throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 		}
+		$recipient = $this->userManager->get($recipientId);
+		if (!$recipient) {
+			throw new \InvalidArgumentException($this->l->t('Unknown share recipient'));
+		}
 
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			if (is_null($sharedWith)) {
 				throw new \InvalidArgumentException($this->l->t('Group "%s" does not exist', [$share->getSharedWith()]));
 			}
-			$recipient = $this->userManager->get($recipientId);
 			if (!$sharedWith->inGroup($recipient)) {
 				throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 			}
@@ -1200,7 +1204,11 @@ class Manager implements IManager {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		return $provider->move($share, $recipientId);
+		$result = $provider->move($share, $recipientId);
+
+		$this->dispatchEvent(new ShareMovedEvent($share, $recipient), 'share moved');
+
+		return $result;
 	}
 
 	#[Override]
@@ -1341,6 +1349,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getSharedWithByPath(string $userId, int $shareType, string $path, bool $forChildren, int $limit = 50, int $offset = 0): iterable {
 		try {
 			$provider = $this->factory->getProviderForType($shareType);
@@ -1495,7 +1504,7 @@ class Manager implements IManager {
 			foreach ($uids as $uid) {
 				$user = $this->userManager->get($uid);
 				if ($user?->isEnabled() === false) {
-					throw new ShareNotFound($this->l->t('The requested share comes from a disabled user'));
+					throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 				}
 			}
 		}
@@ -1834,6 +1843,7 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
 	}
 
+	#[\Override]
 	public function matchDisplayName(): bool {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_displayname', 'yes') === 'yes';
 	}
@@ -1916,6 +1926,7 @@ class Manager implements IManager {
 		return true;
 	}
 
+	#[\Override]
 	public function registerShareProvider(string $shareProviderClass): void {
 		$this->factory->registerProvider($shareProviderClass);
 	}
@@ -1985,6 +1996,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function getUsersForShare(IShare $share): iterable {
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		if ($provider instanceof IShareProviderGetUsers) {

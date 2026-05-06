@@ -2404,9 +2404,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.1.83``
+	 * Defaults to ``3.2.50``
 	 */
-	'minimum.supported.desktop.version' => '3.1.83',
+	'minimum.supported.desktop.version' => '3.2.50',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this
@@ -2445,9 +2445,28 @@ $CONFIG = [
 	'localstorage.unlink_on_truncate' => false,
 
 	/**
-	 * EXPERIMENTAL: Include external storage in quota calculations.
+	 * Include external storage mounts in quota calculations.
 	 *
-	 * Defaults to ``false``
+	 * When enabled, user storage quotas will also include files stored on
+	 * external storage mounts (such as SMB, SFTP, S3, etc.) that are
+	 * configured for the user (either as personal or global/system mounts).
+	 *
+	 * Only files visible to the user at these mount points are counted towards
+	 * their quota. Files only visible to other users (on their own mounts) are
+	 * not counted.
+	 *
+	 * By default, system/global external storage mounts are shared: every user
+	 * given access sees the same files and folders from the external storage. To
+	 * have per-user isolation, configure the mount with user-specific path or
+	 * credentials, or utilize a personal mount.
+	 *
+	 * Enabling this option may impact performance if external storages are slow
+	 * or unreliable.
+	 *
+	 * Warning: This setting is considered EXPERIMENTAL and may not work with all
+	 * external storage backends.
+	 *
+	 * Defaults to ``false``.
 	 */
 	'quota_include_external_storage' => false,
 
@@ -2830,9 +2849,23 @@ $CONFIG = [
 	'diagnostics.logging.threshold' => 0,
 
 	/**
-	 * Enable profiling globally.
+	 * Toggle availability of user profiles.
 	 *
-	 * Defaults to ``true``
+	 * User profile pages contain information that can be shared with other users,
+	 * such as full name, phone number, organization, role, and similar fields.
+	 *
+	 * Profiles are enabled by default, and profile data may be used by other
+	 * features (for example, the system address book).
+	 *
+	 * Profile visibility is layered: what is shared depends on a combination of
+	 * system-wide and account-level privacy controls, and each field's visibility
+	 * can be configured.
+	 *
+	 * When set to false, profile functionality is disabled instance-wide.
+	 *
+	 * Note: This affects user account profiles, not the developer performance profiler.
+	 *
+	 * Defaults to `true`
 	 */
 	'profile.enabled' => true,
 

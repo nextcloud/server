@@ -38,6 +38,7 @@ class Orphans extends Base {
 		return $this->query;
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -46,6 +47,7 @@ class Orphans extends Base {
 			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket to list the objects from, only required in cases where it can't be determined from the config");
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$objectStore = $this->objectUtils->getObjectStore($input->getOption('bucket'), $output);
 		if (!$objectStore) {

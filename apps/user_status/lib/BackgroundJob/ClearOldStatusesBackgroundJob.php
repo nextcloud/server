@@ -38,6 +38,7 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$now = $this->time->getTime();
 

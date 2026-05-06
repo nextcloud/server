@@ -27,6 +27,7 @@ class Base extends Command implements CompletionAwareInterface {
 	private bool $php_pcntl_signal = false;
 	private bool $interrupted = false;
 
+	#[\Override]
 	protected function configure() {
 		// Some of our commands do not extend this class; and some of those that do do not call parent::configure()
 		$defaultHelp = 'More extensive and thorough documentation may be found at ' . Server::get(Defaults::class)->getDocBaseUrl() . PHP_EOL;
@@ -208,6 +209,7 @@ class Base extends Command implements CompletionAwareInterface {
 		$this->interrupted = true;
 	}
 
+	#[\Override]
 	public function run(InputInterface $input, OutputInterface $output): int {
 		// check if the php pcntl_signal functions are accessible
 		$this->php_pcntl_signal = function_exists('pcntl_signal');
@@ -225,6 +227,7 @@ class Base extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'output') {
 			return ['plain', 'json', 'json_pretty'];
@@ -237,6 +240,7 @@ class Base extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		return [];
 	}

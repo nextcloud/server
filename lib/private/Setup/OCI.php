@@ -14,6 +14,7 @@ class OCI extends AbstractDatabase {
 
 	protected $dbtablespace;
 
+	#[\Override]
 	public function initialize(array $config): void {
 		parent::initialize($config);
 		if (array_key_exists('dbtablespace', $config)) {
@@ -30,6 +31,7 @@ class OCI extends AbstractDatabase {
 		]);
 	}
 
+	#[\Override]
 	public function validate(array $config): array {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
@@ -42,6 +44,7 @@ class OCI extends AbstractDatabase {
 		return $errors;
 	}
 
+	#[\Override]
 	public function setupDatabase(): void {
 		try {
 			$this->connect();

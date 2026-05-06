@@ -211,7 +211,6 @@
     "Invalid share recipient" : "Vigane jaosmeedia vastuvõtja",
     "Group \"%s\" does not exist" : "„%s“ gruppi pole olemas",
     "The requested share does not exist anymore" : "Soovitud jagamist enam ei eksisteeri",
-    "The requested share comes from a disabled user" : "Soovitud jaosmeedia on loonud blokeeritud kasutaja",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Kuna kasutajate arvu ülempiir on käes, siis uus kasutaja jäi lisamata. Lisateavet leiad oma teavitustest.",
     "Could not find category \"%s\"" : "Ei leia kategooriat „%s“",
     "Input text" : "Sisendtekst",

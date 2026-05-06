@@ -29,6 +29,7 @@ class SignCore extends Command {
 		parent::__construct(null);
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('integrity:sign-core')
@@ -41,6 +42,7 @@ class SignCore extends Command {
 	/**
 	 * {@inheritdoc }
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$privateKeyPath = $input->getOption('privateKey');
 		$keyBundlePath = $input->getOption('certificate');

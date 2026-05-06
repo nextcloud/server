@@ -210,6 +210,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		self::$initDepth--;
 	}
 
+	#[\Override]
 	public function instanceOfStorage(string $class): bool {
 		if ($class === '\OC\Files\Storage\Common' || $class == Common::class) {
 			return true;
@@ -238,10 +239,12 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $this->getSourceRootInfo() && ($this->getSourceRootInfo()->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'shared::' . $this->getMountPoint();
 	}
 
+	#[\Override]
 	public function getPermissions(string $path = ''): int {
 		if (!$this->isValid()) {
 			return 0;
@@ -260,10 +263,12 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $permissions;
 	}
 
+	#[\Override]
 	public function isCreatable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_CREATE);
 	}
 
+	#[\Override]
 	public function isReadable(string $path): bool {
 		if (!$this->isValid()) {
 			return false;
@@ -277,14 +282,17 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $storage->isReadable($internalPath);
 	}
 
+	#[\Override]
 	public function isUpdatable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_UPDATE);
 	}
 
+	#[\Override]
 	public function isDeletable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_DELETE);
 	}
 
+	#[\Override]
 	public function isSharable(string $path): bool {
 		if ($this->shareManager->sharingDisabledForUser(Server::get(IUserSession::class)->getUser()?->getUID())
 			|| !$this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true)) {
@@ -293,6 +301,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$source = $this->getUnjailedPath($path);
 		switch ($mode) {
@@ -345,6 +354,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $this->nonMaskedStorage->fopen($this->getUnjailedPath($path), $mode);
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$this->init();
 		$isPartFile = pathinfo($source, PATHINFO_EXTENSION) === 'part';
@@ -390,6 +400,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $this->superShare->getShareOwner();
 	}
 
+	#[\Override]
 	public function getShare(): IShare {
 		return $this->superShare;
 	}
@@ -403,6 +414,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $this->superShare->getNodeType();
 	}
 
+	#[\Override]
 	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if ($this->cache) {
 			return $this->cache;
@@ -424,6 +436,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $this->cache;
 	}
 
+	#[\Override]
 	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
@@ -431,10 +444,12 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return new Scanner($storage);
 	}
 
+	#[\Override]
 	public function getOwner(string $path): string|false {
 		return $this->superShare->getShareOwner();
 	}
 
+	#[\Override]
 	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher {
 		if ($this->watcher) {
 			return $this->watcher;
@@ -473,6 +488,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return true;
 	}
 
+	#[\Override]
 	public function acquireLock(string $path, int $type, ILockingProvider $provider): void {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
@@ -484,6 +500,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		}
 	}
 
+	#[\Override]
 	public function releaseLock(string $path, int $type, ILockingProvider $provider): void {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
@@ -495,12 +512,14 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		}
 	}
 
+	#[\Override]
 	public function changeLock(string $path, int $type, ILockingProvider $provider): void {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
 		$targetStorage->changeLock($targetInternalPath, $type, $provider);
 	}
 
+	#[\Override]
 	public function getAvailability(): array {
 		// shares do not participate in availability logic
 		return [
@@ -509,6 +528,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		];
 	}
 
+	#[\Override]
 	public function setAvailability(bool $isAvailable): void {
 		// shares do not participate in availability logic
 	}
@@ -518,6 +538,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $this->nonMaskedStorage;
 	}
 
+	#[\Override]
 	public function getWrapperStorage(): Storage {
 		$this->init();
 
@@ -533,6 +554,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $this->storage;
 	}
 
+	#[\Override]
 	public function file_get_contents(string $path): string|false {
 		$info = [
 			'target' => $this->getMountPoint() . '/' . $path,
@@ -542,6 +564,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return parent::file_get_contents($path);
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		$info = [
 			'target' => $this->getMountPoint() . '/' . $path,
@@ -556,6 +579,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		$this->mountOptions = $options;
 	}
 
+	#[\Override]
 	public function getUnjailedPath(string $path): string {
 		$this->init();
 		return parent::getUnjailedPath($path);

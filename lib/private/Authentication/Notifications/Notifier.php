@@ -22,6 +22,7 @@ class Notifier implements INotifier {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'auth') {
 			// Not my app => throw
@@ -60,6 +61,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		return 'auth';
 	}
@@ -70,6 +72,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->factory->get('lib')->t('Authentication');
 	}

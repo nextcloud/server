@@ -23,14 +23,19 @@ use OCP\Files\Storage\IStorage;
  * All paths passed to the storage are relative to the storage and should NOT have a leading slash.
  */
 interface Storage extends IStorage, ILockingStorage {
+	#[\Override]
 	public function getCache(string $path = '', ?IStorage $storage = null): ICache;
 
+	#[\Override]
 	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner;
 
+	#[\Override]
 	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher;
 
+	#[\Override]
 	public function getPropagator(?IStorage $storage = null): IPropagator;
 
+	#[\Override]
 	public function getUpdater(?IStorage $storage = null): IUpdater;
 
 	public function getStorageCache(): \OC\Files\Cache\Storage;

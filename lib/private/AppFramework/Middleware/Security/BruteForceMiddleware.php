@@ -44,6 +44,7 @@ class BruteForceMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		parent::beforeController($controller, $methodName);
 
@@ -70,6 +71,7 @@ class BruteForceMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response) {
 		if ($response->isThrottled()) {
 			try {
@@ -123,6 +125,7 @@ class BruteForceMiddleware extends Middleware {
 	 * @throws \Exception
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if ($exception instanceof MaxDelayReached) {
 			if ($controller instanceof OCSController) {

@@ -19,6 +19,7 @@ class UserDisabledCheckCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		$user = $this->userManager->get($loginData->getUsername());
 		if ($user !== null && $user->isEnabled() === false) {

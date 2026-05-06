@@ -16,12 +16,14 @@ abstract class ActivitySettings implements ISetting {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	abstract public function getIdentifier();
 
 	/**
 	 * @return string A translated string
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	abstract public function getName();
 
 	/**
@@ -42,12 +44,14 @@ abstract class ActivitySettings implements ISetting {
 	 *             priority values. It is required to return a value between 0 and 100.
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	abstract public function getPriority();
 
 	/**
 	 * @return bool True when the option can be changed for the mail
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function canChangeMail() {
 		return true;
 	}
@@ -64,6 +68,7 @@ abstract class ActivitySettings implements ISetting {
 	 * @return bool Whether or not an activity email should be send by default
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledMail() {
 		return false;
 	}
@@ -82,6 +87,7 @@ abstract class ActivitySettings implements ISetting {
 	 * @return bool
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function canChangeStream() {
 		return false;
 	}
@@ -92,6 +98,7 @@ abstract class ActivitySettings implements ISetting {
 	 * @return bool
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledStream() {
 		return true;
 	}

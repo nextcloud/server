@@ -26,6 +26,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$offset = (int)$argument['offset'];
 		$stopAt = (int)$argument['stopAt'];

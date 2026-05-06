@@ -215,7 +215,6 @@
     "Invalid share recipient" : "Destinatario de compartición incorrecto",
     "Group \"%s\" does not exist" : "O grupo «%s» non existe",
     "The requested share does not exist anymore" : "A compartición solicitada xa non existe",
-    "The requested share comes from a disabled user" : "A compartición solicitada procede dun usuario desactivado",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Non se creou o usuario porque acadouse o límite de usuarios. Consulte as súas notificacións para obter máis información.",
     "Could not find category \"%s\"" : "Non foi posíbel atopar a categoría «%s»",
     "Input text" : "Texto de entrada",

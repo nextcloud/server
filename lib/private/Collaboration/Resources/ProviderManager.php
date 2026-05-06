@@ -27,6 +27,7 @@ class ProviderManager implements IProviderManager {
 	) {
 	}
 
+	#[\Override]
 	public function getResourceProviders(): array {
 		if ($this->providers !== []) {
 			foreach ($this->providers as $provider) {
@@ -44,6 +45,7 @@ class ProviderManager implements IProviderManager {
 		return $this->providerInstances;
 	}
 
+	#[\Override]
 	public function registerResourceProvider(string $provider): void {
 		$this->providers[] = $provider;
 	}

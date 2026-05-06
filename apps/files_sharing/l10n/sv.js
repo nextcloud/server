@@ -181,7 +181,7 @@ OC.L10N.register(
     "Choose a default folder for accepted shares" : "Välj en standardmapp för accepterade delningar",
     "Invalid path selected" : "Ogiltigt sökväg vald",
     "Unknown error" : "Okänt fel",
-    "Set default folder for accepted shares" : "Sätt standardmapp för accepterade delningar",
+    "Set default folder for accepted shares" : "Ange standardmapp för accepterade delningar",
     "Reset" : "Återställ",
     "Reset folder to system default" : "Återställ mapp till system-standard",
     "Share expiration: {date}" : "Delningens utgång: {date}",

@@ -60,6 +60,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @param string $displayName user facing name of the federated share provider
 	 * @param callable $callback
 	 */
+	#[\Override]
 	public function addCloudFederationProvider($resourceType, $displayName, callable $callback) {
 		$this->cloudFederationProvider[$resourceType] = [
 			'resourceType' => $resourceType,
@@ -73,6 +74,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 *
 	 * @param string $providerId
 	 */
+	#[\Override]
 	public function removeCloudFederationProvider($providerId) {
 		unset($this->cloudFederationProvider[$providerId]);
 	}
@@ -82,6 +84,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 *
 	 * @return array [resourceType => ['resourceType' => $resourceType, 'displayName' => $displayName, 'callback' => callback]]
 	 */
+	#[\Override]
 	public function getAllCloudFederationProviders() {
 		return $this->cloudFederationProvider;
 	}
@@ -93,6 +96,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @return ICloudFederationProvider
 	 * @throws ProviderDoesNotExistsException
 	 */
+	#[\Override]
 	public function getCloudFederationProvider($resourceType) {
 		if (isset($this->cloudFederationProvider[$resourceType])) {
 			return call_user_func($this->cloudFederationProvider[$resourceType]['callback']);
@@ -104,6 +108,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/**
 	 * @deprecated 29.0.0 - Use {@see sendCloudShare()} instead and handle errors manually
 	 */
+	#[\Override]
 	public function sendShare(ICloudFederationShare $share) {
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
 		try {
@@ -135,6 +140,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @return IResponse
 	 * @throws OCMProviderException
 	 */
+	#[\Override]
 	public function sendCloudShare(ICloudFederationShare $share): IResponse {
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
 		$client = $this->httpClientService->newClient();
@@ -156,6 +162,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @return array|false
 	 * @deprecated 29.0.0 - Use {@see sendCloudNotification()} instead and handle errors manually
 	 */
+	#[\Override]
 	public function sendNotification($url, ICloudFederationNotification $notification) {
 		try {
 			try {
@@ -181,6 +188,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @return IResponse
 	 * @throws OCMProviderException
 	 */
+	#[\Override]
 	public function sendCloudNotification(string $url, ICloudFederationNotification $notification): IResponse {
 		$client = $this->httpClientService->newClient();
 		try {
@@ -200,6 +208,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 *
 	 * @return bool
 	 */
+	#[\Override]
 	public function isReady() {
 		return $this->appManager->isEnabledForUser('cloud_federation_api');
 	}

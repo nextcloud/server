@@ -31,5 +31,6 @@ interface ISynchronousWatermarkingProvider extends ISynchronousProvider {
 	 * @throws ProcessingException
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress, bool $includeWatermark = true): array;
 }

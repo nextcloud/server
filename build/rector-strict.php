@@ -12,6 +12,7 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/build/rector-strict.php',
 		$nextcloudDir . '/core/BackgroundJobs/ExpirePreviewsJob.php',
 		$nextcloudDir . '/lib/public/IContainer.php',
+		$nextcloudDir . '/apps/appstore',
 		$nextcloudDir . '/apps/dav/lib/Connector/Sabre/Node.php',
 		$nextcloudDir . '/apps/files_versions/lib/Versions/IMetadataVersion.php',
 		$nextcloudDir . '/lib/private/Settings/AuthorizedGroup.php',
@@ -24,6 +25,10 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/build/psalm/ITypedQueryBuilderTest.php',
 		$nextcloudDir . '/lib/private/DB/QueryBuilder/TypedQueryBuilder.php',
 		$nextcloudDir . '/lib/public/DB/QueryBuilder/ITypedQueryBuilder.php',
+	])
+	->withAutoloadPaths([
+		// ensure rector properly autoload the public interfaces
+		$nextcloudDir . '/lib/public',
 	])
 	->withPreparedSets(
 		deadCode: true,

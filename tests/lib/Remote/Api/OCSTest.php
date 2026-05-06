@@ -22,6 +22,7 @@ class OCSTest extends TestCase {
 	/** @var IInstanceFactory */
 	private $instanceFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

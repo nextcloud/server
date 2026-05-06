@@ -22,6 +22,7 @@ class SearchTest extends TestCase {
 	/** @var ISearch */
 	protected $search;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

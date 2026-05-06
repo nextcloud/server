@@ -30,6 +30,7 @@ class AppConfig implements IAppConfig {
 	 * @return string[] list of stored config keys
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function getAppKeys(): array {
 		return $this->appConfig->getKeys($this->appName);
 	}
@@ -43,6 +44,7 @@ class AppConfig implements IAppConfig {
 	 * @return bool TRUE if key exists
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function hasAppKey(string $key, ?bool $lazy = false): bool {
 		return $this->appConfig->hasKey($this->appName, $key, $lazy);
 	}
@@ -55,6 +57,7 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigUnknownKeyException if config key is not known
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function isSensitive(string $key, ?bool $lazy = false): bool {
 		return $this->appConfig->isSensitive($this->appName, $key, $lazy);
 	}
@@ -69,6 +72,7 @@ class AppConfig implements IAppConfig {
 	 * @see \OCP\IAppConfig for details about lazy loading
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function isLazy(string $key): bool {
 		return $this->appConfig->isLazy($this->appName, $key);
 	}
@@ -82,6 +86,7 @@ class AppConfig implements IAppConfig {
 	 * @return array<string, string|int|float|bool|array> [configKey => configValue]
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getAllAppValues(string $key = '', bool $filtered = false): array {
 		return $this->appConfig->getAllValues($this->appName, $key, $filtered);
 	}
@@ -94,6 +99,7 @@ class AppConfig implements IAppConfig {
 	 * @since 20.0.0
 	 * @deprecated 29.0.0 use {@see setAppValueString()}
 	 */
+	#[\Override]
 	public function setAppValue(string $key, string $value): void {
 		/** @psalm-suppress InternalMethod */
 		$this->appConfig->setValueMixed($this->appName, $key, $value);
@@ -112,6 +118,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setAppValueString(
 		string $key,
 		string $value,
@@ -134,6 +141,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setAppValueInt(
 		string $key,
 		int $value,
@@ -156,6 +164,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setAppValueFloat(
 		string $key,
 		float $value,
@@ -177,6 +186,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setAppValueBool(
 		string $key,
 		bool $value,
@@ -199,6 +209,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setAppValueArray(
 		string $key,
 		array $value,
@@ -216,6 +227,7 @@ class AppConfig implements IAppConfig {
 	 * @deprecated 29.0.0 use {@see getAppValueString()}
 	 * @return string
 	 */
+	#[\Override]
 	public function getAppValue(string $key, string $default = ''): string {
 		/** @psalm-suppress InternalMethod */
 		/** @psalm-suppress UndefinedInterfaceMethod */
@@ -235,6 +247,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getAppValueString(string $key, string $default = '', bool $lazy = false): string {
 		return $this->appConfig->getValueString($this->appName, $key, $default, $lazy);
 	}
@@ -252,6 +265,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getAppValueInt(string $key, int $default = 0, bool $lazy = false): int {
 		return $this->appConfig->getValueInt($this->appName, $key, $default, $lazy);
 	}
@@ -269,6 +283,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getAppValueFloat(string $key, float $default = 0, bool $lazy = false): float {
 		return $this->appConfig->getValueFloat($this->appName, $key, $default, $lazy);
 	}
@@ -286,6 +301,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getAppValueBool(string $key, bool $default = false, bool $lazy = false): bool {
 		return $this->appConfig->getValueBool($this->appName, $key, $default, $lazy);
 	}
@@ -303,6 +319,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see \OCP\IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getAppValueArray(string $key, array $default = [], bool $lazy = false): array {
 		return $this->appConfig->getValueArray($this->appName, $key, $default, $lazy);
 	}
@@ -313,6 +330,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function deleteAppValue(string $key): void {
 		$this->appConfig->deleteKey($this->appName, $key);
 	}
@@ -322,18 +340,22 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function deleteAppValues(): void {
 		$this->appConfig->deleteApp($this->appName);
 	}
 
+	#[\Override]
 	public function setUserValue(string $userId, string $key, string $value, ?string $preCondition = null): void {
 		$this->config->setUserValue($userId, $this->appName, $key, $value, $preCondition);
 	}
 
+	#[\Override]
 	public function getUserValue(string $userId, string $key, string $default = ''): string {
 		return $this->config->getUserValue($userId, $this->appName, $key, $default);
 	}
 
+	#[\Override]
 	public function deleteUserValue(string $userId, string $key): void {
 		$this->config->deleteUserValue($userId, $this->appName, $key);
 	}

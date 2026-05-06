@@ -53,6 +53,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -84,6 +85,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function hasProviders(): bool {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -95,6 +97,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function runTask(Task $task): void {
 		$this->logger->debug('Running TextToImage Task');
 		if (!$this->hasProviders()) {
@@ -191,6 +194,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function scheduleTask(Task $task): void {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
@@ -211,6 +215,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function runOrScheduleTask(Task $task) : void {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
@@ -228,6 +233,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function deleteTask(Task $task): void {
 		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->delete($taskEntity);
@@ -244,6 +250,7 @@ class Manager implements IManager {
 	 * @throws RuntimeException If the query failed
 	 * @throws TaskNotFoundException If the task could not be found
 	 */
+	#[\Override]
 	public function getTask(int $id): Task {
 		try {
 			$taskEntity = $this->taskMapper->find($id);
@@ -267,6 +274,7 @@ class Manager implements IManager {
 	 * @throws RuntimeException If the query failed
 	 * @throws TaskNotFoundException If the task could not be found
 	 */
+	#[\Override]
 	public function getUserTask(int $id, ?string $userId): Task {
 		try {
 			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
@@ -291,6 +299,7 @@ class Manager implements IManager {
 	 * @return Task[]
 	 * @throws RuntimeException
 	 */
+	#[\Override]
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);

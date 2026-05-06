@@ -67,6 +67,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	/** @var TimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -116,6 +117,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarFile->method('getMTime')->willReturn(42);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 	}

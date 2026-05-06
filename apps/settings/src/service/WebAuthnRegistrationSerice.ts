@@ -28,11 +28,11 @@ export async function startRegistration() {
 	} catch (e) {
 		logger.error(e as Error)
 		if (isAxiosError(e)) {
-			throw new Error(t('settings', 'Could not register device: Network error'))
+			throw new Error(t('settings', 'Could not register device: Network error'), { cause: e })
 		} else if ((e as Error).name === 'InvalidStateError') {
-			throw new Error(t('settings', 'Could not register device: Probably already registered'))
+			throw new Error(t('settings', 'Could not register device: Probably already registered'), { cause: e })
 		}
-		throw new Error(t('settings', 'Could not register device'))
+		throw new Error(t('settings', 'Could not register device'), { cause: e })
 	}
 }
 

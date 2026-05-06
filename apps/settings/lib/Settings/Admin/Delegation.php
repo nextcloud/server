@@ -82,6 +82,7 @@ class Delegation implements ISettings {
 		$this->initialStateService->provideInitialState('authorized-groups', $this->authorizedGroupService->findAll());
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->initSettingState();
 		$this->initAvailableGroupState();
@@ -94,6 +95,7 @@ class Delegation implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'admindelegation';
 	}
@@ -101,6 +103,7 @@ class Delegation implements ISettings {
 	/*
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 75;
 	}

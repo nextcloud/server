@@ -23,6 +23,36 @@ Feature: sharing
     And User "user2" should be included in the response
     And User "user3" should not be included in the response
 
+Scenario: getting all shares of a file with reshares with link share with less permissions
+  Given user "user0" exists
+  And user "user1" exists
+  When as "user0" creating a share with
+    | path | textfile0.txt |
+    | shareType | 0 |
+    | shareWith | user1 |
+    | permissions | 17 |
+  Then the OCS status code should be "100"
+  And the HTTP status code should be "200"
+  When as "user0" creating a share with
+    | path | textfile0.txt |
+    | shareType | 3 |
+    | permissions | 19 |
+  Then the OCS status code should be "100"
+  And the HTTP status code should be "200"
+  And last link share can be downloaded
+  When As an "user1"
+  And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=textfile0 (2).txt"
+  Then the OCS status code should be "100"
+  And the HTTP status code should be "200"
+  And User "user1" should not be included in the response
+  Then the list of returned shares has 1 shares
+  And share 0 is returned with
+    | share_type             | 3 |
+    | uid_owner              | user0 |
+    | token                  | |
+    | url                    | |
+    | permissions            | 19 |
+
   Scenario: getting all shares of a file with a received share after revoking the resharing rights
     Given user "user0" exists
     And user "user1" exists
@@ -46,6 +76,49 @@ Feature: sharing
       | file_target            | /textfile0 (2).txt |
       | share_with             | user2 |
       | share_with_displayname | user2 |
+
+Scenario: getting all shares of a file with a received share after revoking the resharing rights with delayed share check
+	Given user "user0" exists
+	And parameter "update_cutoff_time" of app "files_sharing" is set to "0"
+	And user "user1" exists
+	And user "user2" exists
+	And file "textfile0.txt" of user "user1" is shared with user "user0"
+	And user "user0" accepts last share
+	And Updating last share with
+		| permissions | 1 |
+	And file "textfile0.txt" of user "user1" is shared with user "user2"
+	When As an "user0"
+	And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=/textfile0 (2).txt"
+	Then the list of returned shares has 1 shares
+	And share 0 is returned with
+		| share_type             | 0 |
+		| uid_owner              | user1 |
+		| displayname_owner      | user1 |
+		| path                   | /textfile0 (2).txt |
+		| item_type              | file |
+		| mimetype               | text/plain |
+		| storage_id             | shared::/textfile0 (2).txt |
+		| file_target            | /textfile0.txt |
+		| share_with             | user2 |
+		| share_with_displayname | user2 |
+	# After user2 does an FS setup the share is renamed
+	When As an "user2"
+	And Downloading file "/textfile0 (2).txt" with range "bytes=10-18"
+	Then Downloaded content should be "test text"
+	When As an "user0"
+	And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=/textfile0 (2).txt"
+	Then the list of returned shares has 1 shares
+	And share 0 is returned with
+		| share_type             | 0 |
+		| uid_owner              | user1 |
+		| displayname_owner      | user1 |
+		| path                   | /textfile0 (2).txt |
+		| item_type              | file |
+		| mimetype               | text/plain |
+		| storage_id             | shared::/textfile0 (2).txt |
+		| file_target            | /textfile0 (2).txt |
+		| share_with             | user2 |
+		| share_with_displayname | user2 |
 
   Scenario: getting all shares of a file with a received share also reshared after revoking the resharing rights
     Given user "user0" exists

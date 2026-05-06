@@ -15,6 +15,9 @@ use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 
+/**
+ * @psalm-api - we cannot use final as this will break unit tests
+ */
 class ExpirePreviewsJob extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,
@@ -27,6 +30,7 @@ class ExpirePreviewsJob extends TimedJob {
 		$this->setInterval(60 * 60 * 24);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		$days = $this->config->getSystemValueInt('preview_expiration_days');
 		if ($days <= 0) {

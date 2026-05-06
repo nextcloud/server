@@ -13,6 +13,7 @@ use OCP\Files\Search\ISearchOperator;
  * replace single argument AND and OR operations with their single argument
  */
 class FlattenSingleArgumentBinaryOperation extends ReplacingOptimizerStep {
+	#[\Override]
 	public function processOperator(ISearchOperator &$operator): bool {
 		parent::processOperator($operator);
 		if (

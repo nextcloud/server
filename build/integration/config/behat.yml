@@ -193,6 +193,17 @@ default:
               - admin
             regular_user_password: 123456
         - TalkContext
+    guests:
+      paths:
+        - "%paths.base%/../guests_features"
+      contexts:
+        - GuestsContext
+        - SharingContext:
+            baseUrl: http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
     setup:
       paths:
         - "%paths.base%/../setup_features"

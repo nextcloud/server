@@ -5,7 +5,8 @@
 
 import { User } from '@nextcloud/e2e-test-server/cypress'
 import { randomString } from '../../support/utils/randomString.ts'
-import { getUserListRow, handlePasswordConfirmation } from './usersUtils.ts'
+import { handlePasswordConfirmation } from '../core-utils.ts'
+import { getUserListRow } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 const john = new User('john', '123456')

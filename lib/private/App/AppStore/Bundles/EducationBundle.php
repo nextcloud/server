@@ -12,6 +12,7 @@ class EducationBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l10n->t('Education bundle');
 	}
@@ -19,6 +20,7 @@ class EducationBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAppIdentifiers() {
 		return [
 			'dashboard',

@@ -79,6 +79,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct('admin_audit');
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerService(IAuditLogger::class, function (ContainerInterface $c) {
 			return new AuditLogger($c->get(ILogFactory::class), $c->get(IConfig::class));
@@ -132,6 +133,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CacheEntryRemovedEvent::class, CacheEventListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		/** @var IAuditLogger $logger */
 		$logger = $context->getAppContainer()->get(IAuditLogger::class);

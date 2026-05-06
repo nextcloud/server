@@ -54,6 +54,7 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 * @return string
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getProviderId(): string {
 		return self::PROVIDER_ID;
 	}
@@ -64,6 +65,7 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 * @return array
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOptions(): array {
 		return [
 			'algorithm' => SignatureAlgorithm::RSA_SHA512,
@@ -83,6 +85,7 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 * @throws IdentityNotFoundException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getLocalSignatory(): Signatory {
 		/**
 		 * TODO: manage multiple identity (external, internal, ...) to allow a limitation
@@ -144,6 +147,7 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 * @return Signatory|null must be NULL if no signatory is found
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getRemoteSignatory(string $remote): ?Signatory {
 		try {
 			$ocmProvider = Server::get(OCMDiscoveryService::class)->discover($remote, true);

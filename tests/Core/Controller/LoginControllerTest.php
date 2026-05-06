@@ -81,6 +81,7 @@ class LoginControllerTest extends TestCase {
 	/** @var IAppManager|MockObject */
 	private $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);

@@ -12,6 +12,7 @@ use OpenStack\Common\Auth\Token;
 use OpenStack\Identity\v2\Service;
 
 class SwiftV2CachingAuthService extends Service {
+	#[\Override]
 	public function authenticate(array $options = []): array {
 		if (isset($options['v2cachedToken'], $options['v2serviceUrl'])
 			&& $options['v2cachedToken'] instanceof Token

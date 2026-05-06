@@ -30,6 +30,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 * @param IStorageFactory $loader
 	 * @return ?IMountPoint
 	 */
+	#[\Override]
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader): ?IMountPoint {
 		$objectStoreConfig = $this->objectStoreConfig->getObjectStoreConfigForUser($user);
 		if ($objectStoreConfig === null) {

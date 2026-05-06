@@ -24,6 +24,7 @@ class Enable extends Base {
 		);
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -33,6 +34,7 @@ class Enable extends Base {
 		$this->addArgument('provider_id', InputArgument::REQUIRED);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		$providerId = $input->getArgument('provider_id');

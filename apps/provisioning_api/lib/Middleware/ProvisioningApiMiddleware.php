@@ -39,6 +39,7 @@ class ProvisioningApiMiddleware extends Middleware {
 	 *
 	 * @throws NotSubAdminException
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		// If AuthorizedAdminSetting, the check will be done in the SecurityMiddleware
 		if (!$this->isAdmin && !$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->isSubAdmin && !$this->reflector->hasAnnotationOrAttribute('AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
@@ -53,6 +54,7 @@ class ProvisioningApiMiddleware extends Middleware {
 	 * @throws \Exception
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof NotSubAdminException) {
 			throw new OCSException($exception->getMessage(), Http::STATUS_FORBIDDEN);

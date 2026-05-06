@@ -40,6 +40,7 @@ class S3Signature implements SignatureInterface {
 		sort($this->signableQueryString);
 	}
 
+	#[\Override]
 	public function signRequest(
 		RequestInterface $request,
 		CredentialsInterface $credentials,
@@ -53,6 +54,7 @@ class S3Signature implements SignatureInterface {
 		return $request->withHeader('Authorization', $auth);
 	}
 
+	#[\Override]
 	public function presign(
 		RequestInterface $request,
 		CredentialsInterface $credentials,

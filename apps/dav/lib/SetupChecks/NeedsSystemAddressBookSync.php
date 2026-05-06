@@ -21,14 +21,17 @@ class NeedsSystemAddressBookSync implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('DAV system address book');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'dav';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->config->getAppValue('dav', 'needs_system_address_book_sync', 'no') === 'no') {
 			return SetupResult::success($this->l10n->t('No outstanding DAV system address book sync.'));

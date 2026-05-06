@@ -24,7 +24,7 @@ class SyncFederationAddressBooks {
 	/**
 	 * @param \Closure $callback
 	 */
-	public function syncThemAll(\Closure $callback) {
+	public function syncThemAll(\Closure $callback, bool $full = false) {
 		$trustedServers = $this->dbHandler->getAllServer();
 		foreach ($trustedServers as $trustedServer) {
 			$url = $trustedServer['url'];
@@ -47,7 +47,12 @@ class SyncFederationAddressBooks {
 			];
 
 			try {
-				$syncToken = $oldSyncToken;
+				$syncToken = $full ? null : $oldSyncToken;
+
+				$book = $this->syncService->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetBookProperties);
+				if ($full) {
+					$this->syncService->markCardsAsPending($book['id']);
+				}
 
 				do {
 					[$syncToken, $truncated] = $this->syncService->syncRemoteAddressBook(
@@ -61,6 +66,10 @@ class SyncFederationAddressBooks {
 						$targetBookProperties
 					);
 				} while ($truncated);
+
+				if ($full) {
+					$this->syncService->deletePendingCards($book['id']);
+				}
 
 				if ($syncToken !== $oldSyncToken) {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $syncToken);

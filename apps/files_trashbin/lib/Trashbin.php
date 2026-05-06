@@ -1268,6 +1268,7 @@ class Trashbin implements IEventListener {
 		return $user;
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof BeforeNodeDeletedEvent) {
 			self::ensureFileScannedHook($event->getNode());

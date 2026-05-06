@@ -11,6 +11,7 @@ namespace OCA\Files_Trashbin\Sabre;
 use OCA\Files_Trashbin\Trashbin;
 
 class TrashFolder extends AbstractTrashFolder {
+	#[\Override]
 	public function getName(): string {
 		return Trashbin::getTrashFilename($this->data->getName(), $this->getDeletionTime());
 	}

@@ -38,6 +38,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getType(): int {
 		return $this->type;
 	}
@@ -48,6 +49,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getField(): string {
 		return $this->field;
 	}
@@ -57,6 +59,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function setField(string $field): ISearchRequestSimpleQuery {
 		$this->field = $field;
 
@@ -69,6 +72,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getValues(): array {
 		return $this->values;
 	}
@@ -79,6 +83,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function addValue(string $value): ISearchRequestSimpleQuery {
 		$this->values[] = $value;
 
@@ -90,6 +95,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function addValueInt(int $value): ISearchRequestSimpleQuery {
 		$this->values[] = $value;
 
@@ -101,6 +107,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function addValueArray(array $value): ISearchRequestSimpleQuery {
 		$this->values[] = $value;
 
@@ -112,6 +119,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function addValueBool(bool $value): ISearchRequestSimpleQuery {
 		$this->values[] = $value;
 
@@ -122,6 +130,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	/**
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'type' => $this->getType(),

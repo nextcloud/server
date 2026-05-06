@@ -217,5 +217,6 @@ interface IOCMProvider extends JsonSerializable {
 	 * }
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array;
 }

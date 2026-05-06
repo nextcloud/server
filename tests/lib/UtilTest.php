@@ -174,6 +174,7 @@ class UtilTest extends \Test\TestCase {
 		$this->assertNotEmpty($errors);
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -181,6 +182,7 @@ class UtilTest extends \Test\TestCase {
 		self::invokePrivate(Util::class, 'scripts', [[]]);
 		self::invokePrivate(Util::class, 'scriptDeps', [[]]);
 	}
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 
@@ -401,19 +403,4 @@ class UtilTest extends \Test\TestCase {
 		$expected = $arrayResult;
 		$this->assertEquals($result, $expected);
 	}
-
-	public function testRecursiveArraySearch(): void {
-		$haystack = [
-			'Foo' => 'own',
-			'Bar' => 'Cloud',
-		];
-
-		$result = Util::recursiveArraySearch($haystack, 'own');
-		$expected = 'Foo';
-		$this->assertEquals($result, $expected);
-
-		$result = Util::recursiveArraySearch($haystack, 'NotFound');
-		$this->assertFalse($result);
-	}
-
 }

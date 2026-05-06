@@ -23,6 +23,7 @@ class FallBackCrossCacheMoveCache extends Cache {
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class MoveFromCacheTraitTest extends CacheTest {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

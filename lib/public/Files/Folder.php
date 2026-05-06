@@ -190,6 +190,7 @@ interface Folder extends Node {
 	 * @return bool
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function isCreatable();
 
 	/**

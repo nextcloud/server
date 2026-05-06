@@ -170,7 +170,6 @@
     "Sharing %s failed, because this item is already shared with the account %s" : "Deling av %s feilet, fordi dette elementet er allerede delt med kontoen %s",
     "Group \"%s\" does not exist" : "Gruppen «%s» finnes ikke.",
     "The requested share does not exist anymore" : "Forespurt ressurs finnes ikke lenger",
-    "The requested share comes from a disabled user" : "Den forespurte delingen kommer fra en deaktivert bruker",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Brukeren ble ikke opprettet fordi brukergrensen er nådd. Sjekk varslene dine for å finne ut mer.",
     "Could not find category \"%s\"" : "Kunne ikke finne kategori \"%s\"",
     "Input text" : "Inndatatekst",

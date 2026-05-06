@@ -25,6 +25,7 @@ class GenerateMetadataCommand extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setName('migrations:generate-metadata')
 			->setHidden(true)
@@ -33,6 +34,7 @@ class GenerateMetadataCommand extends Command {
 		parent::configure();
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$output->writeln(
 			json_encode(

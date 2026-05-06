@@ -23,6 +23,7 @@ class BooleanFilter implements IFilter {
 		};
 	}
 
+	#[\Override]
 	public function get(): bool {
 		return $this->value;
 	}

@@ -41,6 +41,7 @@ class TextToTextProofread implements ITaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Proofread');
 	}
@@ -49,6 +50,7 @@ class TextToTextProofread implements ITaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Proofreads a text and lists corrections');
 	}
@@ -57,6 +59,7 @@ class TextToTextProofread implements ITaskType {
 	 * @return string
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -65,6 +68,7 @@ class TextToTextProofread implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -79,6 +83,7 @@ class TextToTextProofread implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

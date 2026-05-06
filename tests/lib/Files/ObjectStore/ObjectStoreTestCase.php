@@ -25,12 +25,14 @@ abstract class ObjectStoreTestCase extends TestCase {
 		$this->cleanup[] = $urn;
 	}
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 
 		$this->instance = $this->getInstance();
 	}
 
+	#[\Override]
 	public function tearDown(): void {
 		if ($this->instance) {
 			foreach ($this->cleanup as $urn) {

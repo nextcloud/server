@@ -21,6 +21,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 	) {
 	}
 
+	#[\Override]
 	public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource {
 		try {
 			$entity = $this->credentialMapper->findOneByCredentialId($publicKeyCredentialId);
@@ -33,6 +34,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 	/**
 	 * @return PublicKeyCredentialSource[]
 	 */
+	#[\Override]
 	public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array {
 		$uid = $publicKeyCredentialUserEntity->getId();
 		$entities = $this->credentialMapper->findAllForUid($uid);
@@ -73,6 +75,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 		return $this->credentialMapper->insertOrUpdate($entity);
 	}
 
+	#[\Override]
 	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, ?string $name = null): void {
 		$this->saveAndReturnCredentialSource($publicKeyCredentialSource, $name);
 	}

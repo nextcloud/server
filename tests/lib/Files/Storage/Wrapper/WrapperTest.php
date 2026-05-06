@@ -20,6 +20,7 @@ class WrapperTest extends \Test\Files\Storage\Storage {
 	 */
 	private $tmpDir;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -28,6 +29,7 @@ class WrapperTest extends \Test\Files\Storage\Storage {
 		$this->instance = new Wrapper(['storage' => $storage]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Files::rmdirr($this->tmpDir);
 		parent::tearDown();

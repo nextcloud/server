@@ -41,6 +41,7 @@ class LocalPreviewStorageTest extends TestCase {
 	/** File ID used across the single-file tests. */
 	private const FILE_ID = 1;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -77,6 +78,7 @@ class LocalPreviewStorageTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->removeDir($this->tmpDir);
 		parent::tearDown();
@@ -199,6 +201,7 @@ class LocalPreviewStorageTest extends TestCase {
 			->willReturn($this->buildQueryBuilderMock([$filecacheRow]));
 
 		$ucvException = new class('duplicate key') extends DBException {
+			#[\Override]
 			public function getReason(): int {
 				return self::REASON_UNIQUE_CONSTRAINT_VIOLATION;
 			}
@@ -234,6 +237,7 @@ class LocalPreviewStorageTest extends TestCase {
 			->willReturn($this->buildQueryBuilderMock([$filecacheRow]));
 
 		$driverException = new class('some driver error') extends DBException {
+			#[\Override]
 			public function getReason(): int {
 				return self::REASON_DRIVER;
 			}

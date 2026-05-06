@@ -32,6 +32,7 @@ class Cleanup extends Base {
 		$this->appData = $appDataFactory->get('core');
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('taskprocessing:task:cleanup')
@@ -45,6 +46,7 @@ class Cleanup extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maxAgeSeconds = (int)($input->getArgument('maxAgeSeconds') ?? Manager::MAX_TASK_AGE_SECONDS);
 		$output->writeln('<comment>Cleanup up tasks older than ' . $maxAgeSeconds . ' seconds and the related output files</comment>');

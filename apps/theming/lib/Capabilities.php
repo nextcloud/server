@@ -67,6 +67,7 @@ class Capabilities implements IPublicCapability {
 	 *     },
 	 * }
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		$color = $this->theming->getDefaultColorPrimary();
 		$colorText = $this->util->invertTextColor($color) ? '#000000' : '#ffffff';

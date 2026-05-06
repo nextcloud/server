@@ -11,7 +11,6 @@ use Icewind\Streams\CallbackWrapper;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\Scanner;
 use OC\Files\Mount\MountPoint;
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\Utils\PathHelper;
@@ -35,6 +34,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
@@ -242,7 +242,7 @@ class View {
 	 * @param string $path relative to data/
 	 */
 	protected function removeMount($mount, $path): bool {
-		if ($mount instanceof MoveableMount) {
+		if ($mount instanceof IMovableMount) {
 			// cut of /user/files to get the relative path to data/user/files
 			$pathParts = explode('/', $path, 4);
 			$relPath = '/' . $pathParts[3];
@@ -501,7 +501,7 @@ class View {
 		$absolutePath = $this->getAbsolutePath($path);
 		$mount = Filesystem::getMountManager()->find($absolutePath);
 		if ($mount->getInternalPath($absolutePath) === '') {
-			return $mount instanceof MoveableMount;
+			return $mount instanceof IMovableMount;
 		}
 		return $this->basicOperation('isDeletable', $path);
 	}
@@ -810,7 +810,7 @@ class View {
 							$movedMounts[] = $mount1;
 							$this->validateMountMove($movedMounts, $sourceParentMount, $mount2, !$this->targetIsNotShared($targetUser, $absolutePath2));
 							/**
-							 * @var MountPoint|MoveableMount $mount1
+							 * @var MountPoint|IMovableMount $mount1
 							 */
 							$sourceMountPoint = $mount1->getMountPoint();
 							$result = $mount1->moveMount($absolutePath2);
@@ -900,7 +900,7 @@ class View {
 				$sourcePath = $mount->getMountPoint();
 			}
 
-			if (!$mount instanceof MoveableMount) {
+			if (!$mount instanceof IMovableMount) {
 				throw new ForbiddenException($l->t('Storage %s cannot be moved', [$sourcePath]), false);
 			}
 
@@ -1452,7 +1452,7 @@ class View {
 				return false;
 			}
 
-			if ($mount instanceof MoveableMount && $internalPath === '') {
+			if ($mount instanceof IMovableMount && $internalPath === '') {
 				$data['permissions'] |= Constants::PERMISSION_DELETE;
 			}
 			if ($internalPath === '' && $data['name']) {
@@ -1650,7 +1650,7 @@ class View {
 					$permissions = $rootEntry['permissions'];
 					// do not allow renaming/deleting the mount point if they are not shared files/folders
 					// for shared files/folders we use the permissions given by the owner
-					if ($mount instanceof MoveableMount) {
+					if ($mount instanceof IMovableMount) {
 						$rootEntry['permissions'] = $permissions | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
 					} else {
 						$rootEntry['permissions'] = $permissions & (Constants::PERMISSION_ALL - (Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE));

@@ -28,6 +28,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOwner(): ?string {
 		return $this->principal;
 	}
@@ -35,6 +36,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getACL(): array {
 		return [
 			[
@@ -55,6 +57,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function put($data): ?string {
 		throw new NotImplemented();
 	}
@@ -62,6 +65,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function get(): string {
 		return $this->contact->getCard();
 	}
@@ -69,6 +73,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getContentType(): ?string {
 		return 'text/vcard; charset=utf-8';
 	}
@@ -76,6 +81,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getETag(): ?string {
 		return '"' . md5((string)$this->getLastModified()) . '"';
 	}
@@ -83,6 +89,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getSize(): int {
 		return strlen($this->contact->getCard());
 	}
@@ -90,6 +97,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function delete(): void {
 		$this->mapper->delete($this->contact);
 	}
@@ -97,6 +105,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return (string)$this->contact->getId();
 	}
@@ -104,6 +113,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function setName($name): void {
 		throw new NotImplemented();
 	}
@@ -111,6 +121,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getLastModified(): ?int {
 		return $this->contact->getLastContact();
 	}

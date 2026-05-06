@@ -61,6 +61,7 @@ class DisplayNameCache implements IEventListener {
 		$this->memCache->clear();
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof GroupChangedEvent && $event->getFeature() === 'displayName') {
 			$groupId = $event->getGroup()->getGID();

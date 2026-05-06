@@ -25,14 +25,17 @@ class TestController extends PublicShareController {
 		parent::__construct($appName, $request, $session);
 	}
 
+	#[\Override]
 	protected function getPasswordHash(): string {
 		return $this->hash;
 	}
 
+	#[\Override]
 	public function isValidToken(): bool {
 		return false;
 	}
 
+	#[\Override]
 	protected function isPasswordProtected(): bool {
 		return $this->isProtected;
 	}
@@ -42,6 +45,7 @@ class PublicShareControllerTest extends \Test\TestCase {
 	private IRequest&MockObject $request;
 	private ISession&MockObject $session;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

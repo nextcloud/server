@@ -22,6 +22,7 @@ class CreateAddressBook extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:create-addressbook')
@@ -34,6 +35,7 @@ class CreateAddressBook extends Command {
 				'Name of the addressbook');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('user');
 		if (!$this->userManager->userExists($user)) {

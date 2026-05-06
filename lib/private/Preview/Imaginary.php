@@ -37,6 +37,7 @@ class Imaginary extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return self::supportedMimeTypes();
 	}
@@ -186,6 +187,7 @@ class Imaginary extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		return $this->getCroppedThumbnail($file, $maxX, $maxY, false);
 	}

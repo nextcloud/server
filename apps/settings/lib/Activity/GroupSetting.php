@@ -25,6 +25,7 @@ class GroupSetting implements ISetting {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIdentifier(): string {
 		return 'group_settings';
 	}
@@ -33,6 +34,7 @@ class GroupSetting implements ISetting {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Your <strong>group memberships</strong> were modified');
 	}
@@ -43,6 +45,7 @@ class GroupSetting implements ISetting {
 	 *             priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}
@@ -51,6 +54,7 @@ class GroupSetting implements ISetting {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeStream(): bool {
 		return false;
 	}
@@ -59,6 +63,7 @@ class GroupSetting implements ISetting {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledStream(): bool {
 		return true;
 	}
@@ -67,6 +72,7 @@ class GroupSetting implements ISetting {
 	 * @return bool True when the option can be changed for the mail
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeMail(): bool {
 		return true;
 	}
@@ -75,6 +81,7 @@ class GroupSetting implements ISetting {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledMail(): bool {
 		return true;
 	}

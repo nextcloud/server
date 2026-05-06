@@ -34,6 +34,7 @@ class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function generateResponse($path, $start, $end, $expand, $componentType, $format, $properties, ResponseInterface $response) {
 		if (!isset($properties['{http://nextcloud.com/ns}refresh-interval'])) {
 			$value = $this->config->getAppValue('dav', 'defaultRefreshIntervalExportedCalendars', self::DEFAULT_REFRESH_INTERVAL);
@@ -46,6 +47,7 @@ class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function mergeObjects(array $properties, array $inputObjects) {
 		$vcalendar = parent::mergeObjects($properties, $inputObjects);
 

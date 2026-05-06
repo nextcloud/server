@@ -46,6 +46,7 @@ class EnforcementState implements JsonSerializable {
 		return $this->excludedGroups;
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'enforced' => $this->enforced,

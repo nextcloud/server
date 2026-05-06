@@ -48,6 +48,7 @@ class UserStatus implements IUserStatus {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getUserId(): string {
 		return $this->userId;
 	}
@@ -55,6 +56,7 @@ class UserStatus implements IUserStatus {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getStatus(): string {
 		return $this->status;
 	}
@@ -62,6 +64,7 @@ class UserStatus implements IUserStatus {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getMessage(): ?string {
 		return $this->message;
 	}
@@ -69,6 +72,7 @@ class UserStatus implements IUserStatus {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getIcon(): ?string {
 		return $this->icon;
 	}
@@ -76,6 +80,7 @@ class UserStatus implements IUserStatus {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getClearAt(): ?DateTimeImmutable {
 		return $this->clearAt;
 	}

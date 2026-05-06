@@ -47,6 +47,7 @@ interface File extends Node {
 	 *
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function getMimeType(): string;
 
 	/**
@@ -79,6 +80,7 @@ interface File extends Node {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
+	#[\Override]
 	public function getChecksum();
 
 	/**
@@ -87,5 +89,6 @@ interface File extends Node {
 	 * @return string
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getExtension(): string;
 }

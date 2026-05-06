@@ -40,10 +40,12 @@ class ConfigLexicon implements ILexicon {
 
 	public const ON_DEMAND_PREVIEW_MIGRATION = 'on_demand_preview_migration';
 
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
 			new Entry(
@@ -104,6 +106,7 @@ class ConfigLexicon implements ILexicon {
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [
 			new Entry(self::USER_LANGUAGE, ValueType::STRING, definition: 'language'),

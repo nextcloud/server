@@ -40,6 +40,7 @@ class UserMapping extends AbstractMapping {
 	/**
 	 * @throws HintException
 	 */
+	#[\Override]
 	public function map($fdn, $name, $uuid): bool {
 		try {
 			$this->assertion->createUserIsLegit();
@@ -59,6 +60,7 @@ class UserMapping extends AbstractMapping {
 	 * returns the DB table name which holds the mappings
 	 * @return string
 	 */
+	#[\Override]
 	protected function getTableName(bool $includePrefix = true) {
 		$p = $includePrefix ? '*PREFIX*' : '';
 		return $p . 'ldap_user_mapping';

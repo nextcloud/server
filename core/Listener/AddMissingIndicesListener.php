@@ -12,12 +12,18 @@ namespace OC\Core\Listener;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IDBConnection;
 
 /**
  * @template-implements IEventListener<AddMissingIndicesEvent>
  */
 class AddMissingIndicesListener implements IEventListener {
+	public function __construct(
+		private readonly IDBConnection $connection,
+	) {
+	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof AddMissingIndicesEvent)) {
 			return;
@@ -54,12 +60,14 @@ class AddMissingIndicesListener implements IEventListener {
 			'fs_size',
 			['size']
 		);
-		$event->addMissingIndex(
-			'filecache',
-			'fs_storage_path_prefix',
-			['storage', 'path'],
-			['lengths' => [null, 64]]
-		);
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_POSTGRES) {
+			$event->addMissingIndex(
+				'filecache',
+				'fs_storage_path_prefix',
+				['storage', 'path'],
+				['lengths' => [null, 64]]
+			);
+		}
 		$event->addMissingIndex(
 			'filecache',
 			'fs_parent',

@@ -21,6 +21,7 @@ class WindowsCompatibleFilenames extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -31,6 +32,7 @@ class WindowsCompatibleFilenames extends Base {
 			->addOption('disable', description: 'Disable windows naming constraints');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('enable')) {
 			if ($this->service->hasFilesWindowsSupport()) {

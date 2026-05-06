@@ -88,9 +88,9 @@ Cypress.Commands.add('setFileAsFavorite', (user: User, target: string, favorite 
 					</d:propertyupdate>`,
 				})
 				cy.log(`Created directory ${target}`, response)
-			} catch (error) {
-				cy.log('error', error)
-				throw new Error('Unable to process fixture')
+			} catch (cause) {
+				cy.log('error', cause)
+				throw new Error('Unable to process fixture', { cause })
 			}
 		})
 })
@@ -111,9 +111,9 @@ Cypress.Commands.add('mkdir', (user: User, target: string) => {
 				})
 				cy.log(`Created directory ${target}`, response)
 				return response
-			} catch (error) {
-				cy.log('error', error)
-				throw new Error('Unable to create directory')
+			} catch (cause) {
+				cy.log('error', cause)
+				throw new Error('Unable to create directory', { cause })
 			}
 		})
 })
@@ -133,9 +133,9 @@ Cypress.Commands.add('rm', (user: User, target: string) => {
 					},
 				})
 				cy.log(`delete file or directory ${target}`, response)
-			} catch (error) {
-				cy.log('error', error)
-				throw new Error('Unable to delete file or directory')
+			} catch (cause) {
+				cy.log('error', cause)
+				throw new Error('Unable to delete file or directory', { cause })
 			}
 		})
 })
@@ -174,9 +174,9 @@ Cypress.Commands.add('uploadContent', (user: User, blob: Blob, mimeType: string,
 			})
 			cy.log(`Uploaded content as ${fileName}`, response)
 			return response
-		} catch (error) {
-			cy.log('error', error)
-			throw new Error('Unable to process fixture')
+		} catch (cause) {
+			cy.log('error', cause)
+			throw new Error('Unable to process fixture', { cause })
 		}
 	})
 })

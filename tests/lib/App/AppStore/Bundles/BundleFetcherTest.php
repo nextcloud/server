@@ -24,6 +24,7 @@ class BundleFetcherTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private BundleFetcher $bundleFetcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

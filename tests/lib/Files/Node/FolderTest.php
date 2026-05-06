@@ -50,6 +50,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class FolderTest extends NodeTestCase {
+	#[\Override]
 	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): Folder {
 		$view->expects($this->any())
 			->method('getRoot')
@@ -61,14 +62,17 @@ class FolderTest extends NodeTestCase {
 		}
 	}
 
+	#[\Override]
 	protected function getNodeClass(): string {
 		return Folder::class;
 	}
 
+	#[\Override]
 	protected function getNonExistingNodeClass(): string {
 		return NonExistingFolder::class;
 	}
 
+	#[\Override]
 	protected function getViewDeleteMethod(): string {
 		return 'rmdir';
 	}

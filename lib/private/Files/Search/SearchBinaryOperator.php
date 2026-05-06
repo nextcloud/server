@@ -29,6 +29,7 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getType() {
 		return $this->type;
 	}
@@ -36,6 +37,7 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 	/**
 	 * @return ISearchOperator[]
 	 */
+	#[\Override]
 	public function getArguments() {
 		return $this->arguments;
 	}
@@ -48,10 +50,12 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 		$this->arguments = $arguments;
 	}
 
+	#[\Override]
 	public function getQueryHint(string $name, $default) {
 		return $this->hints[$name] ?? $default;
 	}
 
+	#[\Override]
 	public function setQueryHint(string $name, $value): void {
 		$this->hints[$name] = $value;
 	}

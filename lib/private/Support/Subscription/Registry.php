@@ -53,6 +53,7 @@ class Registry implements IRegistry {
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function register(ISubscription $subscription): void {
 		if ($this->subscription !== null || $this->subscriptionService !== null) {
 			throw new AlreadyRegisteredException();
@@ -60,6 +61,7 @@ class Registry implements IRegistry {
 		$this->subscription = $subscription;
 	}
 
+	#[\Override]
 	public function registerService(string $subscriptionService): void {
 		if ($this->subscription !== null || $this->subscriptionService !== null) {
 			throw new AlreadyRegisteredException();
@@ -74,6 +76,7 @@ class Registry implements IRegistry {
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function delegateGetSupportedApps(): array {
 		if ($this->getSubscription() instanceof ISupportedApps) {
 			return $this->getSubscription()->getSupportedApps();
@@ -86,6 +89,7 @@ class Registry implements IRegistry {
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function delegateHasValidSubscription(): bool {
 		// Allow overwriting this manually for environments where the subscription information cannot be fetched
 		if ($this->config->getSystemValueBool('has_valid_subscription')) {
@@ -103,6 +107,7 @@ class Registry implements IRegistry {
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function delegateHasExtendedSupport(): bool {
 		if ($this->getSubscription() instanceof ISubscription) {
 			return $this->getSubscription()->hasExtendedSupport();
@@ -117,6 +122,7 @@ class Registry implements IRegistry {
 	 * @param IManager|null $notificationManager
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function delegateIsHardUserLimitReached(?IManager $notificationManager = null): bool {
 		$subscription = $this->getSubscription();
 		if ($subscription instanceof ISubscription

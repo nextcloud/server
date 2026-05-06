@@ -31,6 +31,7 @@ class FilenameValidatorTest extends TestCase {
 	protected IDBConnection&MockObject $database;
 	protected LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$l10n = $this->createMock(IL10N::class);

@@ -30,6 +30,7 @@ use OCP\Migration\SimpleMigrationStep;
 #[AddIndex(table: 'preferences', type: IndexType::INDEX, description: 'new index including user+lazy')]
 #[AddIndex(table: 'preferences', type: IndexType::INDEX, description: 'new index including app/key and indexed')]
 class Version31000Date20240814184402 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

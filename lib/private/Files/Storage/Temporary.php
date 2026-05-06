@@ -23,6 +23,7 @@ class Temporary extends Local {
 		Files::rmdirr($this->datadir);
 	}
 
+	#[\Override]
 	public function __destruct() {
 		parent::__destruct();
 		$this->cleanUp();

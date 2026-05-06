@@ -169,6 +169,7 @@ class Signatory extends Entity implements JsonSerializable {
 	 * @return array
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'keyId' => $this->getKeyId(),

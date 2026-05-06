@@ -54,6 +54,7 @@ class MemoryCacheBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAttempts(
 		string $methodIdentifier,
 		string $userIdentifier,
@@ -75,6 +76,7 @@ class MemoryCacheBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function registerAttempt(
 		string $methodIdentifier,
 		string $userIdentifier,

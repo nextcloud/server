@@ -21,6 +21,7 @@ class Version24000Date20211230140012 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -37,6 +38,7 @@ class Version24000Date20211230140012 extends SimpleMigrationStep {
 		return null;
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		$update = $this->connection->getQueryBuilder();
 

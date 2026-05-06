@@ -44,8 +44,8 @@ class TaskProcessingSuccessRateTest extends TestCase {
 			$task = new Task('test', ['test' => 'test'], 'settings', 'user' . $i);
 			$task->setStartedAt(0);
 			$task->setEndedAt(1);
-			if ($i < 15) {
-				$task->setStatus(Task::STATUS_FAILED); // 15% get status FAILED
+			if ($i < 5) {
+				$task->setStatus(Task::STATUS_FAILED); // 5% get status FAILED
 			} else {
 				$task->setStatus(Task::STATUS_SUCCESSFUL);
 			}

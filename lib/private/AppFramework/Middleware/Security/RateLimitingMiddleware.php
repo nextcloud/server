@@ -68,6 +68,7 @@ class RateLimitingMiddleware extends Middleware {
 	 * {@inheritDoc}
 	 * @throws RateLimitExceededException
 	 */
+	#[\Override]
 	public function beforeController(Controller $controller, string $methodName): void {
 		parent::beforeController($controller, $methodName);
 		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
@@ -184,6 +185,7 @@ class RateLimitingMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if ($exception instanceof RateLimitExceededException) {
 			if (stripos($this->request->getHeader('Accept'), 'html') === false) {

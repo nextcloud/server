@@ -77,7 +77,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		 * @param token Token to update
 		 */
 		async updateToken(token: IToken) {
-			const { data } = await axios.put(`${BASE_URL}/${token.id}`, token)
+			const { data } = await axios.put(`${BASE_URL}/${token.id}`, token, { confirmPassword: PwdConfirmationMode.Strict })
 			return data
 		},
 
@@ -111,7 +111,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 			this.tokens = this.tokens.filter(({ id }) => id !== token.id)
 
 			try {
-				await axios.delete(`${BASE_URL}/${token.id}`)
+				await axios.delete(`${BASE_URL}/${token.id}`, { confirmPassword: PwdConfirmationMode.Strict })
 				logger.debug('App token deleted')
 				return true
 			} catch (error) {

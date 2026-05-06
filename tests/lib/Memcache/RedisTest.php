@@ -20,6 +20,7 @@ class RedisTest extends Cache {
 	 */
 	protected $instance;
 
+	#[\Override]
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
@@ -58,6 +59,7 @@ class RedisTest extends Cache {
 		}
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new Redis($this->getUniqueID());

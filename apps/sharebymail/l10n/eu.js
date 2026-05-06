@@ -40,7 +40,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Ezin da eguneratu partekatzea posta konfigurazioaren bidez",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Pertsonei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz.",
     "Send password by mail" : "Bidali pasahitza posta bidez",
-    "Reply to initiator" : "Erantzun hasieragailuari",
-    "Open %s" : "Ireki %s"
+    "Reply to initiator" : "Erantzun hasieragailuari"
 },
 "nplurals=2; plural=(n != 1);");

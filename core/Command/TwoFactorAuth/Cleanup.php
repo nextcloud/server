@@ -25,6 +25,7 @@ class Cleanup extends Base {
 		);
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -33,6 +34,7 @@ class Cleanup extends Base {
 		$this->addArgument('provider-id', InputArgument::REQUIRED);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$providerId = $input->getArgument('provider-id');
 

@@ -17,6 +17,7 @@ class OpenDocument extends Bundled {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/vnd.oasis.opendocument.*/';
 	}
@@ -25,6 +26,7 @@ class OpenDocument extends Bundled {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$image = $this->extractThumbnail($file, 'Thumbnails/thumbnail.png');
 		if (($image !== null) && $image->valid()) {

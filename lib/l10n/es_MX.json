@@ -179,7 +179,6 @@
     "Cannot enable sending the password by Talk with an empty password" : "No puede habilitarse el envío de contraseñas vía Talk utilizando una contraseña en blanco",
     "Cannot enable sending the password by Talk without setting a new password" : "No puede habilitarse el envío de contraseñas vía Talk sin establecer una nueva contraseña",
     "The requested share does not exist anymore" : "El recurso compartido solicitado ya no existe",
-    "The requested share comes from a disabled user" : "El recurso compartido solicitado proviene de un usuario deshabilitado",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "No se creó el usuario porque se ha alcanzado el límite de usuarios. Consulta tus notificaciones para obtener más información.",
     "Could not find category \"%s\"" : "No fue posible encontrar la categoria \"%s\"",
     "Input text" : "Ingresar texto",

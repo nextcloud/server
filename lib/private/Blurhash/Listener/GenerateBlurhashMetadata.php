@@ -41,6 +41,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof MetadataLiveEvent)
 			&& !($event instanceof MetadataBackgroundEvent)) {

@@ -40,7 +40,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "E-posta ile paylaşım yapılandırması güncellenemedi",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Kişilerin bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parola e-posta ile gönderilsin",
-    "Reply to initiator" : "Başlatan yanıtlansın",
-    "Open %s" : "%s aç"
+    "Reply to initiator" : "Başlatan yanıtlansın"
 },
 "nplurals=2; plural=(n > 1);");

@@ -21,7 +21,6 @@ use OCA\Settings\Listener\UserAddedToGroupActivityListener;
 use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
-use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
 use OCA\Settings\Settings\Admin\MailProvider;
@@ -73,6 +72,8 @@ use OCA\Settings\SetupChecks\ServerIdConfig;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
 use OCA\Settings\SetupChecks\TaskProcessingPickupSpeed;
+use OCA\Settings\SetupChecks\TaskProcessingSuccessRate;
+use OCA\Settings\SetupChecks\TaskProcessingWorkerIsRunning;
 use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
 use OCA\Settings\SetupChecks\TwoFactorConfiguration;
@@ -111,12 +112,12 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		// Register Middleware
 		$context->registerServiceAlias('SubadminMiddleware', SubadminMiddleware::class);
 		$context->registerMiddleware(SubadminMiddleware::class);
 		$context->registerSearchProvider(SectionSearch::class);
-		$context->registerSearchProvider(AppSearch::class);
 		$context->registerSearchProvider(UserSearch::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
@@ -211,6 +212,8 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
 		$context->registerSetupCheck(TaskProcessingPickupSpeed::class);
+		$context->registerSetupCheck(TaskProcessingSuccessRate::class);
+		$context->registerSetupCheck(TaskProcessingWorkerIsRunning::class);
 		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
 		$context->registerSetupCheck(TwoFactorConfiguration::class);
@@ -221,6 +224,7 @@ class Application extends App implements IBootstrap {
 		$context->registerUserMigrator(AccountMigrator::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

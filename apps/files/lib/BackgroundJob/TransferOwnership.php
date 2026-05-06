@@ -35,6 +35,7 @@ class TransferOwnership extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$id = $argument['id'];
 

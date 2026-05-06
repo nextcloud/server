@@ -99,6 +99,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @return array|null an array of metadata of the scanned file
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		if ($file !== '') {
 			try {
@@ -291,6 +292,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @return array|null an array of the meta data of the scanned file or folder
 	 */
+	#[\Override]
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
@@ -536,6 +538,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param string $file
 	 * @return boolean
 	 */
+	#[\Override]
 	public static function isPartialFile($file) {
 		if (pathinfo($file, PATHINFO_EXTENSION) === 'part') {
 			return true;
@@ -550,6 +553,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	/**
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
+	#[\Override]
 	public function backgroundScan() {
 		if ($this->storage->instanceOfStorage(Jail::class)) {
 			// for jail storage wrappers (shares, groupfolders) we run the background scan on the source storage

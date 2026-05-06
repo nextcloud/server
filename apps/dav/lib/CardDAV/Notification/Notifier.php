@@ -25,6 +25,7 @@ class Notifier implements INotifier {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getID(): string {
 		return Application::APP_ID;
 	}
@@ -32,6 +33,7 @@ class Notifier implements INotifier {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10nFactory->get(Application::APP_ID)->t('Contacts');
 	}
@@ -39,6 +41,7 @@ class Notifier implements INotifier {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== Application::APP_ID) {
 			throw new UnknownNotificationException();

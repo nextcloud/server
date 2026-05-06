@@ -13,6 +13,7 @@ use OC\Files\Filesystem;
  * Normalize file names while reading directory entries
  */
 class EncodingDirectoryWrapper extends DirectoryWrapper {
+	#[\Override]
 	public function dir_readdir(): string|false {
 		$file = readdir($this->source);
 		if ($file !== false && $file !== '.' && $file !== '..') {

@@ -12,15 +12,19 @@
 	errorBaseline="build/psalm-baseline.xml"
 	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
+	findUnusedIssueHandlerSuppression="false"
+	strictBinaryOperands="false"
 	phpVersion="8.2"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
 		<plugin filename="build/psalm/AttributeNamedParameters.php" />
 		<plugin filename="build/psalm/LogicalOperatorChecker.php" />
+		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
+		<directory name="apps/appstore"/>
 		<directory name="apps/cloud_federation_api"/>
 		<directory name="apps/comments"/>
 		<directory name="apps/contactsinteraction"/>
@@ -63,12 +67,39 @@
 		<file name="status.php"/>
 		<file name="version.php"/>
 		<file name="tests/lib/TestCase.php"/>
+		<file name="tests/lib/Files/Template/*.php"/>
 		<ignoreFiles>
-			<directory name="apps/**/tests"/>
+			<directory name="apps/admin_audit/tests"/>
+			<directory name="apps/cloud_federation_api/tests"/>
+			<directory name="apps/contactsinteraction/tests"/>
+			<directory name="apps/dashboard/tests"/>
+			<directory name="apps/dav/tests"/>
+			<directory name="apps/encryption/tests"/>
+			<directory name="apps/federatedfilesharing/tests"/>
+			<directory name="apps/federation/tests"/>
+			<directory name="apps/files/tests"/>
+			<directory name="apps/files_external/tests"/>
+			<directory name="apps/files_sharing/tests"/>
+			<directory name="apps/files_trashbin/tests"/>
+			<directory name="apps/files_versions/tests"/>
+			<directory name="apps/oauth2/tests"/>
+			<directory name="apps/profile/tests"/>
+			<directory name="apps/provisioning_api/tests"/>
+			<directory name="apps/settings/tests"/>
+			<directory name="apps/sharebymail/tests"/>
+			<directory name="apps/systemtags/tests"/>
+			<directory name="apps/theming/tests"/>
+			<directory name="apps/twofactor_backupcodes/tests"/>
+			<directory name="apps/updatenotification/tests"/>
+			<directory name="apps/user_ldap/tests"/>
+			<directory name="apps/user_status/tests"/>
+			<directory name="apps/webhook_listeners/tests"/>
+			<directory name="apps/workflowengine/tests"/>
 			<directory name="apps/**/composer"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
+			<directory name="vendor-bin"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
@@ -181,12 +212,6 @@
 				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedConstant>
-		<DeprecatedFunction>
-			<errorLevel type="suppress">
-				<directory name="lib" />
-				<directory name="apps/*/tests" />
-			</errorLevel>
-		</DeprecatedFunction>
 		<DeprecatedInterface>
 			<errorLevel type="suppress">
 				<directory name="lib" />
@@ -211,15 +236,5 @@
 				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedTrait>
-		<InternalMethod>
-			<errorLevel type="suppress">
-				<directory name="apps/*/tests" />
-			</errorLevel>
-		</InternalMethod>
-		<InternalClass>
-			<errorLevel type="suppress">
-				<directory name="apps/*/tests" />
-			</errorLevel>
-		</InternalClass>
 	</issueHandlers>
 </psalm>

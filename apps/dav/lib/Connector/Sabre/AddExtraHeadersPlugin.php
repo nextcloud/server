@@ -29,6 +29,7 @@ class AddExtraHeadersPlugin extends \Sabre\DAV\ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 
@@ -37,6 +38,11 @@ class AddExtraHeadersPlugin extends \Sabre\DAV\ServerPlugin {
 
 	private function afterPut(RequestInterface $request, ResponseInterface $response): void {
 		if ($this->server === null) {
+			return;
+		}
+
+		// skip setting the headers if the PUT request failed
+		if ($response->getStatus() >= 400) {
 			return;
 		}
 

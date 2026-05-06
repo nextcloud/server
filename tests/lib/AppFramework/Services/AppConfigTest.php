@@ -24,6 +24,7 @@ class AppConfigTest extends TestCase {
 
 	private const TEST_APPID = 'appconfig-test';
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);

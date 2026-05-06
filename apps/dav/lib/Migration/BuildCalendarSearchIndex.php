@@ -26,6 +26,7 @@ class BuildCalendarSearchIndex implements IRepairStep {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Registering building of calendar search index as background job';
 	}
@@ -33,6 +34,7 @@ class BuildCalendarSearchIndex implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		// only run once
 		if ($this->config->getAppValue('dav', 'buildCalendarSearchIndex') === 'yes') {

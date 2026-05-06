@@ -24,6 +24,7 @@ class FeaturePolicyMiddlewareTest extends \Test\TestCase {
 	/** @var FeaturePolicyManager|MockObject */
 	private $manager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

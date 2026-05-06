@@ -29,6 +29,7 @@ class Rotate extends TimedJob {
 		$this->setInterval(3600);
 	}
 
+	#[\Override]
 	public function run($argument): void {
 		$config = Server::get(IConfig::class);
 		$this->filePath = $config->getSystemValueString('logfile', $config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');

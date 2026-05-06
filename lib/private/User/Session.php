@@ -20,7 +20,6 @@ use OC\Hooks\PublicEmitter;
 use OC\Http\CookieHelper;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC_User;
-use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -28,7 +27,6 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -98,6 +96,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $method
 	 * @param callable $callback
 	 */
+	#[\Override]
 	public function listen($scope, $method, callable $callback) {
 		$this->manager->listen($scope, $method, $callback);
 	}
@@ -107,6 +106,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
+	#[\Override]
 	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->manager->removeListener($scope, $method, $callback);
 	}
@@ -147,6 +147,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param IUser|null $user
 	 */
+	#[\Override]
 	public function setUser($user) {
 		if (is_null($user)) {
 			$this->session->remove('user_id');
@@ -161,6 +162,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param IUser|null $user
 	 */
+	#[\Override]
 	public function setVolatileActiveUser(?IUser $user): void {
 		$this->activeUser = $user;
 	}
@@ -170,6 +172,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @return IUser|null Current user, otherwise null
 	 */
+	#[\Override]
 	public function getUser() {
 		// FIXME: This is a quick'n dirty work-around for the incognito mode as
 		// described at https://github.com/owncloud/core/pull/12912#issuecomment-67391155
@@ -221,6 +224,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @return bool if logged in
 	 */
+	#[\Override]
 	public function isLoggedIn() {
 		$user = $this->getUser();
 		if (is_null($user)) {
@@ -265,10 +269,12 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * @return null|string
 	 */
+	#[\Override]
 	public function getImpersonatingUserID(): ?string {
 		return $this->session->get('oldUserId');
 	}
 
+	#[\Override]
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
 		if ($useCurrentUser === false) {
 			$this->session->remove('oldUserId');
@@ -303,6 +309,7 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean|null
 	 * @throws LoginException
 	 */
+	#[\Override]
 	public function login($uid, $password) {
 		$this->session->regenerateId();
 		if ($this->validateToken($password, $uid)) {
@@ -394,6 +401,12 @@ class Session implements IUserSession, Emitter {
 		try {
 			$dbToken = $this->getTokenFromPassword($password);
 			$isTokenPassword = $dbToken !== null;
+			if (($dbToken instanceof PublicKeyToken)
+				&& !in_array($dbToken->getType(), [IToken::PERMANENT_TOKEN,IToken::ONETIME_TOKEN])
+			) {
+				// Refuse session tokens here, only app tokens and onetime tokens are handled
+				return false;
+			}
 		} catch (ExpiredTokenException) {
 			// Just return on an expired token no need to check further or record a failed login
 			return false;
@@ -519,21 +532,6 @@ class Session implements IUserSession, Emitter {
 		}
 
 		if ($firstTimeLogin) {
-			//we need to pass the user name, which may differ from login name
-			$user = $this->getUser()->getUID();
-			OC_Util::setupFS($user);
-
-			// TODO: lock necessary?
-			//trigger creation of user home and /files folder
-			$userFolder = \OC::$server->getUserFolder($user);
-
-			try {
-				// copy skeleton
-				\OC_Util::copySkeleton($user, $userFolder);
-			} catch (NotPermittedException $ex) {
-				// read only uses
-			}
-
 			// trigger any other initialization
 			Server::get(IEventDispatcher::class)->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
 			Server::get(IEventDispatcher::class)->dispatchTyped(new UserFirstTimeLoggedInEvent($this->getUser()));
@@ -817,6 +815,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryTokenLogin(IRequest $request) {
 		$authHeader = $request->getHeader('Authorization');
+		$tokenFromCookie = false;
 		if (str_starts_with($authHeader, 'Bearer ')) {
 			$token = substr($authHeader, 7);
 		} elseif ($request->getCookie($this->config->getSystemValueString('instanceid')) !== null) {
@@ -824,10 +823,23 @@ class Session implements IUserSession, Emitter {
 			// session and the request has a session cookie
 			try {
 				$token = $this->session->getId();
+				$tokenFromCookie = true;
 			} catch (SessionNotAvailableException $ex) {
 				return false;
 			}
 		} else {
+			return false;
+		}
+
+		try {
+			$dbToken = $this->tokenProvider->getToken($token);
+		} catch (InvalidTokenException $e) {
+			// Can't really happen but better safe than sorry
+			return false;
+		}
+
+		if ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::TEMPORARY_TOKEN && !$tokenFromCookie) {
+			// Session token but from Bearer header, not allowed
 			return false;
 		}
 
@@ -836,13 +848,6 @@ class Session implements IUserSession, Emitter {
 		}
 		if (!$this->validateToken($token)) {
 			return false;
-		}
-
-		try {
-			$dbToken = $this->tokenProvider->getToken($token);
-		} catch (InvalidTokenException $e) {
-			// Can't really happen but better save than sorry
-			return true;
 		}
 
 		// Set the session variable so we know this is an app password
@@ -949,6 +954,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * logout the user from the session
 	 */
+	#[\Override]
 	public function logout() {
 		$user = $this->getUser();
 		$this->manager->emit('\OC\User', 'logout', [$user]);

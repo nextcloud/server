@@ -33,6 +33,7 @@ class AddMissingPrimaryKeys extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('db:add-missing-primary-keys')
@@ -40,6 +41,7 @@ class AddMissingPrimaryKeys extends Command {
 			->addOption('dry-run', null, InputOption::VALUE_NONE, 'Output the SQL queries instead of running them.');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 

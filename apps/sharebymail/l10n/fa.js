@@ -32,7 +32,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "ارائه دهنده به شما امکان می دهد پرونده ها را از طریق پست به اشتراک بگذارید",
     "Unable to update share by mail config" : "به‌روزرسانی اشتراک‌گذاری با پیکربندی ایمیل امکان‌پذیر نیست",
     "Send password by mail" : "ارسال رمز عبور از طریق پست",
-    "Reply to initiator" : "پاسخ به آغازگر",
-    "Open %s" : "باز کردن %s"
+    "Reply to initiator" : "پاسخ به آغازگر"
 },
 "nplurals=2; plural=(n > 1);");

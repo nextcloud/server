@@ -22,6 +22,7 @@ class IntegerFilter implements IFilter {
 		}
 	}
 
+	#[\Override]
 	public function get(): int {
 		return $this->value;
 	}

@@ -34,6 +34,7 @@ class RateLimitingPlugin extends ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(DAV\Server $server): void {
 		$server->on('beforeBind', [$this, 'beforeBind'], 1);
 	}

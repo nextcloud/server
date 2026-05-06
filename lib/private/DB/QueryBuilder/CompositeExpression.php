@@ -51,6 +51,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return integer
 	 */
+	#[\Override]
 	public function count(): int {
 		return count($this->parts);
 	}
@@ -60,6 +61,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getType(): string {
 		return $this->type;
 	}

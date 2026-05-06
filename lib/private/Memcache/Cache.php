@@ -29,6 +29,7 @@ abstract class Cache implements \ArrayAccess, ICache {
 	 * @param string $key
 	 * @return mixed
 	 */
+	#[\Override]
 	abstract public function get($key);
 
 	/**
@@ -37,32 +38,38 @@ abstract class Cache implements \ArrayAccess, ICache {
 	 * @param int $ttl
 	 * @return mixed
 	 */
+	#[\Override]
 	abstract public function set($key, $value, $ttl = 0);
 
 	/**
 	 * @param string $key
 	 * @return mixed
 	 */
+	#[\Override]
 	abstract public function hasKey($key);
 
 	/**
 	 * @param string $key
 	 * @return mixed
 	 */
+	#[\Override]
 	abstract public function remove($key);
 
 	/**
 	 * @param string $prefix
 	 * @return mixed
 	 */
+	#[\Override]
 	abstract public function clear($prefix = '');
 
 	//implement the ArrayAccess interface
 
+	#[\Override]
 	public function offsetExists($offset): bool {
 		return $this->hasKey($offset);
 	}
 
+	#[\Override]
 	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
@@ -70,11 +77,13 @@ abstract class Cache implements \ArrayAccess, ICache {
 	/**
 	 * @return mixed
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->get($offset);
 	}
 
+	#[\Override]
 	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}

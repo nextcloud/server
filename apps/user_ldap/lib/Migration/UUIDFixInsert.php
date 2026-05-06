@@ -23,10 +23,12 @@ class UUIDFixInsert implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Insert UUIDFix background job for user and group in batches';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$installedVersion = $this->appConfig->getAppValueString('installed_version', '1.2.1');
 		if (version_compare($installedVersion, '1.2.1') !== -1) {

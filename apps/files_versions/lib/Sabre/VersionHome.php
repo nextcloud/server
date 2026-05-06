@@ -32,26 +32,32 @@ class VersionHome implements ICollection {
 		return $user;
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->getUser()->getUID();
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		$user = $this->getUser();
 
@@ -63,6 +69,7 @@ class VersionHome implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function getChildren() {
 		$user = $this->getUser();
 
@@ -72,10 +79,12 @@ class VersionHome implements ICollection {
 		];
 	}
 
+	#[\Override]
 	public function childExists($name) {
 		return $name === 'versions' || $name === 'restore';
 	}
 
+	#[\Override]
 	public function getLastModified() {
 		return 0;
 	}

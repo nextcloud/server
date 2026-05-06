@@ -29,12 +29,14 @@ class ExiprationNotification extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('sharing:expiration-notification')
 			->setDescription('Notify share initiators when a share will expire the next day.');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		//Current time
 		$minTime = $this->time->getDateTime();

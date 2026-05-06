@@ -24,6 +24,7 @@ abstract class AbstractDataCollector implements IDataCollector, \JsonSerializabl
 	/**
 	 * @since 24.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return static::class;
 	}
@@ -34,6 +35,7 @@ abstract class AbstractDataCollector implements IDataCollector, \JsonSerializabl
 	 * additional cleaning.
 	 * @since 24.0.0
 	 */
+	#[\Override]
 	public function reset(): void {
 		$this->data = [];
 	}
@@ -62,6 +64,7 @@ abstract class AbstractDataCollector implements IDataCollector, \JsonSerializabl
 	/**
 	 * @since 24.0.0
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return $this->data;

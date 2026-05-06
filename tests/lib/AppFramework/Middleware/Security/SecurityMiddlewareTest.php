@@ -60,6 +60,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private IUserSession&MockObject $userSession;
 	private AuthorizedGroupMapper&MockObject $authorizedGroupMapper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -128,7 +128,6 @@
     "_Cannot set expiration date more than %n day in the future_::_Cannot set expiration date more than %n days in the future_" : ["Cannot set expiration date more than %n day in the future","Cannot set expiration date more than %n days in the future"],
     "Sharing is only allowed with group members" : "Sharing is only allowed with group members",
     "The requested share does not exist anymore" : "The requested share does not exist anymore",
-    "The requested share comes from a disabled user" : "The requested share comes from a disabled user",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "The user was not created because the user limit has been reached. Check your notifications to learn more.",
     "Could not find category \"%s\"" : "Could not find category \"%s\"",
     "Cannot generate more than 12 images" : "12-ზე მეტი გამოსახულების გენერაცია შეუძლებელია",

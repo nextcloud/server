@@ -17,6 +17,7 @@ use OCP\Server;
  * @template-implements IEventListener<BeforeSabrePubliclyLoadedEvent>
  */
 class BeforeSabrePubliclyLoadedListener implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$event instanceof BeforeSabrePubliclyLoadedEvent) {
 			return;

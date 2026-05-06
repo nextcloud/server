@@ -53,7 +53,14 @@ updates:
     - "feature: dependencies"
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
+  cooldown:
+    default-days: 4
+    semver-major-days: 8
   groups:
+    eslint:
+      patterns:
+        - "eslint*"
+        - "@nextcloud/eslint-config"
     vite:
       patterns:
         - "vite"
@@ -101,6 +108,9 @@ updates:
     day: saturday
     time: "03:30"
     timezone: Europe/Paris
+  cooldown:
+    default-days: 4
+    semver-major-days: 8
   open-pull-requests-limit: 20
   labels:
     - "3. to review"
@@ -155,6 +165,9 @@ updates:
     day: saturday
     time: "04:30"
     timezone: Europe/Paris
+  cooldown:
+    default-days: 4
+    semver-major-days: 8
   open-pull-requests-limit: 20
   labels:
     - "3. to review"

@@ -57,6 +57,7 @@ class FederatedCalendarAuth implements BackendInterface {
 		return null;
 	}
 
+	#[\Override]
 	public function check(RequestInterface $request, ResponseInterface $response): array {
 		if (!str_starts_with($request->getPath(), 'remote-calendars/')) {
 			return [false, 'This request is not for a federated calendar'];
@@ -75,6 +76,7 @@ class FederatedCalendarAuth implements BackendInterface {
 		return [true, $principal];
 	}
 
+	#[\Override]
 	public function challenge(RequestInterface $request, ResponseInterface $response): void {
 		// No special challenge is needed here
 	}

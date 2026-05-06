@@ -83,6 +83,7 @@ class Memcached extends Cache implements IMemcache {
 		return $this->prefix;
 	}
 
+	#[\Override]
 	public function get($key) {
 		$result = self::$cache->get($this->getNameSpace() . $key);
 		if ($result === false && self::$cache->getResultCode() === \Memcached::RES_NOTFOUND) {
@@ -92,6 +93,7 @@ class Memcached extends Cache implements IMemcache {
 		}
 	}
 
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
 			$result = self::$cache->set($this->getNameSpace() . $key, $value, $ttl);
@@ -101,16 +103,19 @@ class Memcached extends Cache implements IMemcache {
 		return $result || $this->isSuccess();
 	}
 
+	#[\Override]
 	public function hasKey($key) {
 		self::$cache->get($this->getNameSpace() . $key);
 		return self::$cache->getResultCode() === \Memcached::RES_SUCCESS;
 	}
 
+	#[\Override]
 	public function remove($key) {
 		$result = self::$cache->delete($this->getNameSpace() . $key);
 		return $result || $this->isSuccess() || self::$cache->getResultCode() === \Memcached::RES_NOTFOUND;
 	}
 
+	#[\Override]
 	public function clear($prefix = '') {
 		// Newer Memcached doesn't like getAllKeys(), flush everything
 		self::$cache->flush();
@@ -125,6 +130,7 @@ class Memcached extends Cache implements IMemcache {
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
 	 * @return bool
 	 */
+	#[\Override]
 	public function add($key, $value, $ttl = 0) {
 		$result = self::$cache->add($this->getPrefix() . $key, $value, $ttl);
 		return $result || $this->isSuccess();
@@ -137,6 +143,7 @@ class Memcached extends Cache implements IMemcache {
 	 * @param int $step
 	 * @return int | bool
 	 */
+	#[\Override]
 	public function inc($key, $step = 1) {
 		$this->add($key, 0);
 		$result = self::$cache->increment($this->getPrefix() . $key, $step);
@@ -155,6 +162,7 @@ class Memcached extends Cache implements IMemcache {
 	 * @param int $step
 	 * @return int | bool
 	 */
+	#[\Override]
 	public function dec($key, $step = 1) {
 		$result = self::$cache->decrement($this->getPrefix() . $key, $step);
 
@@ -165,6 +173,7 @@ class Memcached extends Cache implements IMemcache {
 		return $result;
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return extension_loaded('memcached');
 	}

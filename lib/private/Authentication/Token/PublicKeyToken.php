@@ -101,11 +101,13 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$this->addType('passwordInvalid', Types::BOOLEAN);
 	}
 
+	#[\Override]
 	public function getId(): int {
 		assert(!is_string($this->id) && $this->id !== null);
 		return $this->id;
 	}
 
+	#[\Override]
 	public function getUID(): string {
 		return $this->uid;
 	}
@@ -115,6 +117,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getLoginName(): string {
 		return parent::getLoginName();
 	}
@@ -122,10 +125,12 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	/**
 	 * Get the (encrypted) login password
 	 */
+	#[\Override]
 	public function getPassword(): ?string {
 		return parent::getPassword();
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
@@ -141,6 +146,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getLastCheck(): int {
 		return parent::getLastCheck();
 	}
@@ -148,10 +154,12 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	/**
 	 * Get the timestamp of the last password check
 	 */
+	#[\Override]
 	public function setLastCheck(int $time): void {
 		parent::setLastCheck($time);
 	}
 
+	#[\Override]
 	public function getScope(): string {
 		$scope = parent::getScope();
 		if ($scope === null) {
@@ -161,6 +169,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		return $scope;
 	}
 
+	#[\Override]
 	public function getScopeAsArray(): array {
 		$scope = json_decode($this->getScope(), true);
 		if (!$scope) {
@@ -171,6 +180,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		return $scope;
 	}
 
+	#[\Override]
 	public function setScope(array|string|null $scope): void {
 		if (is_array($scope)) {
 			parent::setScope(json_encode($scope));
@@ -179,26 +189,32 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		}
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return parent::getName();
 	}
 
+	#[\Override]
 	public function setName(string $name): void {
 		parent::setName($name);
 	}
 
+	#[\Override]
 	public function getRemember(): int {
 		return parent::getRemember();
 	}
 
+	#[\Override]
 	public function setToken(string $token): void {
 		parent::setToken($token);
 	}
 
+	#[\Override]
 	public function setPassword(?string $password = null): void {
 		parent::setPassword($password);
 	}
 
+	#[\Override]
 	public function setExpires($expires): void {
 		parent::setExpires($expires);
 	}
@@ -214,6 +230,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		parent::setPasswordInvalid($invalid);
 	}
 
+	#[\Override]
 	public function wipe(): void {
 		parent::setType(IToken::WIPE_TOKEN);
 	}

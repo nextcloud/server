@@ -20,6 +20,7 @@ class DeleteConfig extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:delete-config')
@@ -32,6 +33,7 @@ class DeleteConfig extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configPrefix = $input->getArgument('configID');
 

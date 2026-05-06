@@ -17,6 +17,7 @@
 <script>
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import logger from '../../logger.ts'
@@ -66,7 +67,7 @@ export default {
 				class: this.setting.class,
 			}
 			try {
-				await axios.post(generateUrl('/apps/settings/') + '/settings/authorizedgroups/saveSettings', data)
+				await axios.post(generateUrl('/apps/settings/') + '/settings/authorizedgroups/saveSettings', data, { confirmPassword: PwdConfirmationMode.Strict })
 			} catch (e) {
 				showError(t('settings', 'Unable to modify setting'))
 				logger.error('Unable to modify setting', e)

@@ -46,16 +46,19 @@ class RuleMatcher implements IRuleMatcher {
 	) {
 	}
 
+	#[\Override]
 	public function setFileInfo(IStorage $storage, string $path, bool $isDir = false): void {
 		$this->fileInfo['storage'] = $storage;
 		$this->fileInfo['path'] = $path;
 		$this->fileInfo['isDir'] = $isDir;
 	}
 
+	#[\Override]
 	public function setEntitySubject(IEntity $entity, $subject): void {
 		$this->contexts[get_class($entity)] = [$entity, $subject];
 	}
 
+	#[\Override]
 	public function setOperation(IOperation $operation): void {
 		if ($this->operation !== null) {
 			throw new RuntimeException('This method must not be called more than once');
@@ -63,6 +66,7 @@ class RuleMatcher implements IRuleMatcher {
 		$this->operation = $operation;
 	}
 
+	#[\Override]
 	public function setEntity(IEntity $entity): void {
 		if ($this->entity !== null) {
 			throw new RuntimeException('This method must not be called more than once');
@@ -70,6 +74,7 @@ class RuleMatcher implements IRuleMatcher {
 		$this->entity = $entity;
 	}
 
+	#[\Override]
 	public function setEventName(string $eventName): void {
 		if ($this->eventName !== null) {
 			throw new RuntimeException('This method must not be called more than once');
@@ -77,6 +82,7 @@ class RuleMatcher implements IRuleMatcher {
 		$this->eventName = $eventName;
 	}
 
+	#[\Override]
 	public function getEntity(): IEntity {
 		if ($this->entity === null) {
 			throw new \LogicException('Entity was not set yet');
@@ -84,15 +90,13 @@ class RuleMatcher implements IRuleMatcher {
 		return $this->entity;
 	}
 
+	#[\Override]
 	public function getFlows(bool $returnFirstMatchingOperationOnly = true): array {
 		if (!$this->operation) {
 			throw new RuntimeException('Operation is not set');
 		}
-		return $this->getMatchingOperations(get_class($this->operation), $returnFirstMatchingOperationOnly);
-	}
-
-	public function getMatchingOperations(string $class, bool $returnFirstMatchingOperationOnly = true): array {
-		$scopes[] = new ScopeContext(IManager::SCOPE_ADMIN);
+		$class = get_class($this->operation);
+		$scopes = [new ScopeContext(IManager::SCOPE_ADMIN)];
 		$user = $this->session->getUser();
 		if ($user !== null && $this->manager->isUserScopeEnabled()) {
 			$scopes[] = new ScopeContext(IManager::SCOPE_USER, $user->getUID());
@@ -111,7 +115,6 @@ class RuleMatcher implements IRuleMatcher {
 		}
 
 		if ($this->entity instanceof IEntity) {
-			/** @var ScopeContext[] $additionalScopes */
 			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
 			foreach ($additionalScopes as $hash => $scopeCandidate) {
 				if ($scopeCandidate->getScope() !== IManager::SCOPE_USER || in_array($scopeCandidate, $scopes)) {

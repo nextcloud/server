@@ -25,6 +25,7 @@ class CachedMountFileInfo extends CachedMountInfo implements ICachedMountFileInf
 		parent::__construct($user, $storageId, $rootId, $mountPoint, $mountProvider, $mountId, $rootInternalPath);
 	}
 
+	#[\Override]
 	public function getInternalPath(): string {
 		if ($this->getRootInternalPath()) {
 			return substr($this->internalPath, strlen($this->getRootInternalPath()) + 1);
@@ -33,6 +34,7 @@ class CachedMountFileInfo extends CachedMountInfo implements ICachedMountFileInf
 		}
 	}
 
+	#[\Override]
 	public function getPath(): string {
 		return $this->getMountPoint() . $this->getInternalPath();
 	}

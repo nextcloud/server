@@ -60,6 +60,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns a url to the given route.
 	 */
+	#[\Override]
 	public function linkToRoute(string $routeName, array $arguments = []): string {
 		return $this->router->generate($routeName, $arguments);
 	}
@@ -72,10 +73,12 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns an absolute url to the given route.
 	 */
+	#[\Override]
 	public function linkToRouteAbsolute(string $routeName, array $arguments = []): string {
 		return $this->getAbsoluteURL($this->linkToRoute($routeName, $arguments));
 	}
 
+	#[\Override]
 	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
 		// Returns `/subfolder/index.php/ocsapp/…` with `'htaccess.IgnoreFrontController' => false` in config.php
 		// And `/subfolder/ocsapp/…` with `'htaccess.IgnoreFrontController' => true` in config.php
@@ -110,6 +113,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns a url to the given app and file.
 	 */
+	#[\Override]
 	public function linkTo(string $appName, string $file, array $args = []): string {
 		$frontControllerActive = ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false) || getenv('front_controller_active') === 'true');
 
@@ -158,6 +162,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns the path to the image.
 	 */
+	#[\Override]
 	public function imagePath(string $appName, string $file): string {
 		$cache = $this->cacheFactory->createDistributed('imagePath-' . md5($this->getBaseUrl()) . '-');
 		$cacheKey = $appName . '-' . $file;
@@ -241,6 +246,7 @@ class URLGenerator implements IURLGenerator {
 	 * @param string $url the url in the Nextcloud host
 	 * @return string the absolute version of the url
 	 */
+	#[\Override]
 	public function getAbsoluteURL(string $url): string {
 		$separator = str_starts_with($url, '/') ? '' : '/';
 
@@ -259,6 +265,7 @@ class URLGenerator implements IURLGenerator {
 	 * @param string $key
 	 * @return string url to the online documentation
 	 */
+	#[\Override]
 	public function linkToDocs(string $key): string {
 		$theme = Server::get('ThemingDefaults');
 		return $theme->buildDocLinkToKey($key);
@@ -269,6 +276,7 @@ class URLGenerator implements IURLGenerator {
 	 * and the apps visible for the current user
 	 * @return string
 	 */
+	#[\Override]
 	public function linkToDefaultPageUrl(): string {
 		// Deny the redirect if the URL contains a @
 		// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
@@ -302,6 +310,7 @@ class URLGenerator implements IURLGenerator {
 	/**
 	 * @return string base url of the current request
 	 */
+	#[\Override]
 	public function getBaseUrl(): string {
 		// BaseUrl can be equal to 'http(s)://' during the first steps of the initial setup.
 		if ($this->baseUrl === null || $this->baseUrl === 'http://' || $this->baseUrl === 'https://') {
@@ -313,6 +322,7 @@ class URLGenerator implements IURLGenerator {
 	/**
 	 * @return string webroot part of the base url
 	 */
+	#[\Override]
 	public function getWebroot(): string {
 		return \OC::$WEBROOT;
 	}

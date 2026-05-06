@@ -14,6 +14,7 @@ use OCP\DB\QueryBuilder\Sharded\IShardMapper;
  * Map string key to an int-range by hashing the key
  */
 class RoundRobinShardMapper implements IShardMapper {
+	#[\Override]
 	public function getShardForKey(int $key, int $count): int {
 		return $key % $count;
 	}

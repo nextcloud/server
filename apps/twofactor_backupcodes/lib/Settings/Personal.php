@@ -17,6 +17,7 @@ use OCP\Template\ITemplateManager;
 use OCP\Util;
 
 class Personal implements IPersonalProviderSettings {
+	#[\Override]
 	public function getBody(): ITemplate {
 		Util::addScript(Application::APP_ID, 'settings-personal');
 		Util::addStyle(Application::APP_ID, 'settings-personal');

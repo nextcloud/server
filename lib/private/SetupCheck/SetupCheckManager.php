@@ -23,6 +23,7 @@ class SetupCheckManager implements ISetupCheckManager {
 	) {
 	}
 
+	#[\Override]
 	public function runAll(): array {
 		$results = [];
 		$setupChecks = $this->coordinator->getRegistrationContext()->getSetupChecks();

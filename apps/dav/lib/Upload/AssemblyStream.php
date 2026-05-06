@@ -48,6 +48,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @param string &$opened_path
 	 * @return bool
 	 */
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$this->loadContext('assembly');
 
@@ -68,6 +69,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @param int $whence
 	 * @return bool
 	 */
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		if ($whence === SEEK_CUR) {
 			$offset = $this->stream_tell() + $offset;
@@ -113,6 +115,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function stream_tell() {
 		return $this->pos;
 	}
@@ -121,6 +124,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @param int $count
 	 * @return string
 	 */
+	#[\Override]
 	public function stream_read($count) {
 		if (is_null($this->currentStream)) {
 			if ($this->currentNode < count($this->nodes)) {
@@ -165,6 +169,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @param string $data
 	 * @return int
 	 */
+	#[\Override]
 	public function stream_write($data) {
 		return false;
 	}
@@ -175,6 +180,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @param int $arg2
 	 * @return bool
 	 */
+	#[\Override]
 	public function stream_set_option($option, $arg1, $arg2) {
 		return false;
 	}
@@ -183,6 +189,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @param int $size
 	 * @return bool
 	 */
+	#[\Override]
 	public function stream_truncate($size) {
 		return false;
 	}
@@ -190,6 +197,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	/**
 	 * @return array
 	 */
+	#[\Override]
 	public function stream_stat() {
 		return [
 			'size' => $this->size,
@@ -200,6 +208,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	 * @param int $operation
 	 * @return bool
 	 */
+	#[\Override]
 	public function stream_lock($operation) {
 		return false;
 	}
@@ -207,6 +216,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function stream_flush() {
 		return false;
 	}
@@ -214,6 +224,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function stream_eof() {
 		return $this->pos >= $this->size || ($this->currentNode >= count($this->nodes) && $this->currentNode === null);
 	}
@@ -221,6 +232,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function stream_close() {
 		return true;
 	}

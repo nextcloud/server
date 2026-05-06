@@ -44,6 +44,7 @@ class UserEventsListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof UserCreatedEvent) {
 			$this->onUserCreated($event->getUid(), $event->getPassword());

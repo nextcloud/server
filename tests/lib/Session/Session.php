@@ -14,6 +14,7 @@ abstract class Session extends \Test\TestCase {
 	 */
 	protected $instance;
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->instance->clear();
 		parent::tearDown();

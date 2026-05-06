@@ -19,6 +19,7 @@ class SearchIntegrationTest extends TestCase {
 	private $cache;
 	private $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -10,6 +10,7 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\SetupManager;
 use OC\Files\Utils\Scanner;
 use OC\ForbiddenException;
 use OC\Preview\Storage\StorageFactory;
@@ -43,6 +44,7 @@ class ScanAppData extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -60,6 +62,7 @@ class ScanAppData extends Base {
 			new ConnectionAdapter($connection),
 			Server::get(IEventDispatcher::class),
 			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
 		);
 	}
 
@@ -135,6 +138,7 @@ class ScanAppData extends Base {
 	}
 
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		# restrict the verbosity level to VERBOSITY_VERBOSE
 		if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {

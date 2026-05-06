@@ -28,6 +28,7 @@ class CleanTags implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clean tags and favorites';
 	}
@@ -35,6 +36,7 @@ class CleanTags implements IRepairStep {
 	/**
 	 * Updates the configuration after running an update
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->deleteOrphanTags($output);
 		$this->deleteOrphanFileEntries($output);

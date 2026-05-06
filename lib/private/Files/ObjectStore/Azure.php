@@ -70,6 +70,7 @@ class Azure implements IObjectStore {
 	/**
 	 * @return string the container or bucket name where objects are stored
 	 */
+	#[\Override]
 	public function getStorageId() {
 		return 'azure::blob::' . $this->containerName;
 	}
@@ -79,11 +80,13 @@ class Azure implements IObjectStore {
 	 * @return resource stream with the read data
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
+	#[\Override]
 	public function readObject($urn) {
 		$blob = $this->getBlobClient()->getBlob($this->containerName, $urn);
 		return $blob->getContentStream();
 	}
 
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$options = new CreateBlockBlobOptions();
 		if ($mimetype) {
@@ -97,10 +100,12 @@ class Azure implements IObjectStore {
 	 * @return void
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
+	#[\Override]
 	public function deleteObject($urn) {
 		$this->getBlobClient()->deleteBlob($this->containerName, $urn);
 	}
 
+	#[\Override]
 	public function objectExists($urn) {
 		try {
 			$this->getBlobClient()->getBlobMetadata($this->containerName, $urn);
@@ -114,10 +119,12 @@ class Azure implements IObjectStore {
 		}
 	}
 
+	#[\Override]
 	public function copyObject($from, $to) {
 		$this->getBlobClient()->copyBlob($this->containerName, $to, $this->containerName, $from);
 	}
 
+	#[\Override]
 	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
 		return null;
 	}

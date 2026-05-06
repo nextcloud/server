@@ -79,6 +79,11 @@
 			width: var(--cell-width-large);
 		}
 
+		&--groups {
+			min-width: var(--cell-width-groups);
+			width: var(--cell-width-groups);
+		}
+
 		&--obfuscated {
 			min-width: 400px;
 			width: 400px;

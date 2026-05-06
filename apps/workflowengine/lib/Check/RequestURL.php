@@ -31,6 +31,7 @@ class RequestURL extends AbstractStringCheck {
 	 * @param string $value
 	 * @return bool
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value) {
 		if (\OC::$CLI) {
 			$actualValue = $this->url = RequestURL::CLI;
@@ -53,6 +54,7 @@ class RequestURL extends AbstractStringCheck {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	protected function getActualValue() {
 		if ($this->url !== null) {
 			return $this->url;

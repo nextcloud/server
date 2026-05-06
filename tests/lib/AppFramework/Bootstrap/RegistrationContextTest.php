@@ -23,6 +23,7 @@ class RegistrationContextTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private RegistrationContext $context;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

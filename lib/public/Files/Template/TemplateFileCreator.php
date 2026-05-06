@@ -123,6 +123,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 	 * @since 21.0.0
 	 * @return array{app: string, label: string, extension: string, iconClass: ?string, iconSvgInline: ?string, mimetypes: list<string>, ratio: ?float, actionLabel: string}
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'app' => $this->appId,

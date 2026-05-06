@@ -20,6 +20,7 @@ class LoggedInCheckCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		if ($loginData->getUser() === false) {
 			$loginName = $loginData->getUsername();

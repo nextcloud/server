@@ -19,10 +19,12 @@ class CleanUpAbandonedApps implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clean up abandoned apps';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		foreach (self::ABANDONED_APPS as $app) {
 			// only remove global app values

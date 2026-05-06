@@ -40,6 +40,7 @@ class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Registering building of calendar reminder index as background job';
 	}
@@ -47,6 +48,7 @@ class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		// only run once
 		if ($this->config->getAppValue('dav', self::CONFIG_KEY) === 'yes') {

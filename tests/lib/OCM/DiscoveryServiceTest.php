@@ -31,6 +31,7 @@ class DiscoveryServiceTest extends TestCase {
 	private IConfig $config;
 	private OCMRequestController $requestController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

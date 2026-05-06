@@ -23,6 +23,7 @@ class ListCalendars extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:list-calendars')
@@ -32,6 +33,7 @@ class ListCalendars extends Command {
 				'User for whom all calendars will be listed');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('uid');
 		if (!$this->userManager->userExists($user)) {

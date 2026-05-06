@@ -35,6 +35,7 @@ use OCP\Migration\SimpleMigrationStep;
 #[ModifyColumn(table: 'other_table', name: 'this_field')]
 #[ModifyColumn(table: 'other_table', name: 'this_field', type: ColumnType::BIGINT)]
 class Version30000Date20240102030405 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		return null;
 	}

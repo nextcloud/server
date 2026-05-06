@@ -17,6 +17,7 @@ use OCP\Files\StorageNotAvailableException;
  * @property Storage $storage
  */
 class Scanner extends \OC\Files\Cache\Scanner {
+	#[\Override]
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
 		// Disable locking for federated shares
 		parent::scan($path, $recursive, $reuse, false);
@@ -36,6 +37,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 * @param array|null $data the metadata for the file, as returned by the storage
 	 * @return array|null an array of metadata of the scanned file
 	 */
+	#[\Override]
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		try {
 			return parent::scanFile($file, $reuseExisting, $parentId, $cacheData, $lock, $data);

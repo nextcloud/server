@@ -30,6 +30,7 @@ class RegistryTest extends TestCase {
 	private MockObject&LoggerInterface $logger;
 	private MockObject&IManager $notificationManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

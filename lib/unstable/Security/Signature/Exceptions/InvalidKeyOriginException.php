@@ -13,5 +13,5 @@ namespace NCU\Security\Signature\Exceptions;
  * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Exceptions\InvalidKeyOriginException}
  * @psalm-suppress DeprecatedClass
  */
-class InvalidKeyOriginException extends SignatureException {
+final class InvalidKeyOriginException extends SignatureException {
 }

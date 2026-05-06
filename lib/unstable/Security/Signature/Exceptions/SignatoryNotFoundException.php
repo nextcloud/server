@@ -13,5 +13,5 @@ namespace NCU\Security\Signature\Exceptions;
  * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Exceptions\SignatoryNotFoundException}
  * @psalm-suppress DeprecatedClass
  */
-class SignatoryNotFoundException extends SignatoryException {
+final class SignatoryNotFoundException extends SignatoryException {
 }

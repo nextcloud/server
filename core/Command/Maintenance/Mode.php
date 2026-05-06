@@ -23,6 +23,7 @@ class Mode extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('maintenance:mode')
@@ -42,6 +43,7 @@ class Mode extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maintenanceMode = $this->config->getSystemValueBool('maintenance');
 		if ($input->getOption('on')) {

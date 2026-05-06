@@ -23,6 +23,7 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Remove activity entries of private events';
 	}
@@ -30,6 +31,7 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		if (!$this->connection->tableExists('activity')) {
 			return;

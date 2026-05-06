@@ -32,6 +32,7 @@ class PropfindCompressionPlugin extends ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		$this->server->on('afterMethod:PROPFIND', [$this, 'compressResponse'], 100);

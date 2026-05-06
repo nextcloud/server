@@ -24,6 +24,7 @@ class EMailproviderTest extends TestCase {
 
 	private EMailProvider $provider;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

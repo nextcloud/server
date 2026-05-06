@@ -31,6 +31,7 @@ class OpenMetricsControllerTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private OpenMetricsController $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);

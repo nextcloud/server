@@ -21,6 +21,7 @@ class DropTable extends TableMigrationAttribute {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function definition(): string {
 		return 'Deletion of table \'' . $this->getTable() . '\'';
 	}

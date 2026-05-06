@@ -51,6 +51,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @return string Containing only [a-zA-Z0-9]
 	 */
+	#[\Override]
 	public function identifier(): string {
 		return 'ocMailShare';
 	}
@@ -81,6 +82,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * @throws ShareNotFound
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function create(IShare $share): IShare {
 		$shareWith = $share->getSharedWith();
 		// Check if file is not already shared with the given email,
@@ -246,6 +248,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function sendMailNotification(IShare $share): bool {
 		$shareId = $share->getId();
 
@@ -642,6 +645,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return $token;
 	}
 
+	#[\Override]
 	public function getChildren(IShare $parent): array {
 		$children = [];
 
@@ -717,6 +721,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * Update a share
 	 */
+	#[\Override]
 	public function update(IShare $share, ?string $plainTextPassword = null): IShare {
 		$originalShare = $this->getShareById($share->getId());
 
@@ -768,6 +773,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function move(IShare $share, $recipient): IShare {
 		/**
 		 * nothing to do here, mail shares are only outgoing shares
@@ -780,6 +786,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @param IShare $share
 	 */
+	#[\Override]
 	public function delete(IShare $share): void {
 		try {
 			$this->createShareActivity($share, 'unshare');
@@ -792,10 +799,12 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function deleteFromSelf(IShare $share, $recipient): void {
 		// nothing to do here, mail shares are only outgoing shares
 	}
 
+	#[\Override]
 	public function restore(IShare $share, string $recipient): IShare {
 		throw new GenericShareException('not implemented');
 	}
@@ -803,6 +812,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
@@ -859,6 +869,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getShareById($id, $recipientId = null): IShare {
 		$qb = $this->dbConnection->getQueryBuilder();
 
@@ -891,6 +902,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @return IShare[]
 	 */
+	#[\Override]
 	public function getSharesByPath(Node $path): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 
@@ -913,6 +925,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset): array {
 		/** @var IShare[] $shares */
 		$shares = [];
@@ -955,6 +968,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @throws ShareNotFound
 	 */
+	#[\Override]
 	public function getShareByToken($token): IShare {
 		$qb = $this->dbConnection->getQueryBuilder();
 
@@ -1073,6 +1087,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * A user is deleted from the system
 	 * So clean up the relevant shares.
 	 */
+	#[\Override]
 	public function userDeleted($uid, $shareType): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 
@@ -1085,12 +1100,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * This provider does not support group shares
 	 */
+	#[\Override]
 	public function groupDeleted($gid): void {
 	}
 
 	/**
 	 * This provider does not support group shares
 	 */
+	#[\Override]
 	public function userDeletedFromGroup($uid, $gid): void {
 	}
 
@@ -1117,10 +1134,12 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return $data;
 	}
 
+	#[\Override]
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true): array {
 		return $this->getSharesInFolderInternal($userId, $node, $reshares);
 	}
 
+	#[\Override]
 	public function getAllSharesInFolder(Folder $node): array {
 		return $this->getSharesInFolderInternal(null, $node, null);
 	}
@@ -1172,6 +1191,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAccessList($nodes, $currentAccess): array {
 		$ids = [];
 		foreach ($nodes as $node) {
@@ -1204,6 +1224,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return ['public' => $public, 'mail' => $mail];
 	}
 
+	#[\Override]
 	public function getAllShares(): iterable {
 		$qb = $this->dbConnection->getQueryBuilder();
 

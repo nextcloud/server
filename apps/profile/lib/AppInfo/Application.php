@@ -24,11 +24,13 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerReferenceProvider(ProfilePickerReferenceProvider::class);
 		$context->registerEventListener(RenderReferenceEvent::class, ProfilePickerReferenceListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

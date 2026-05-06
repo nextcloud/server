@@ -27,6 +27,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	) {
 	}
 
+	#[\Override]
 	public function delete() {
 		$this->calDavBackend->deleteCalendarObject(
 			$this->objectData['calendarid'],
@@ -36,26 +37,32 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 		);
 	}
 
+	#[\Override]
 	public function getName() {
 		return $this->name;
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getLastModified() {
 		return 0;
 	}
 
+	#[\Override]
 	public function put($data) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function get() {
 		return $this->objectData['calendardata'];
 	}
 
+	#[\Override]
 	public function getContentType() {
 		$mime = 'text/calendar; charset=utf-8';
 		if (isset($this->objectData['component']) && $this->objectData['component']) {
@@ -65,14 +72,17 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 		return $mime;
 	}
 
+	#[\Override]
 	public function getETag() {
 		return $this->objectData['etag'];
 	}
 
+	#[\Override]
 	public function getSize() {
 		return (int)$this->objectData['size'];
 	}
 
+	#[\Override]
 	public function restore(): void {
 		$this->calDavBackend->restoreCalendarObject($this->objectData);
 	}
@@ -85,6 +95,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 		return $this->objectData['calendaruri'];
 	}
 
+	#[\Override]
 	public function getACL(): array {
 		return [
 			[
@@ -100,6 +111,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 		];
 	}
 
+	#[\Override]
 	public function getOwner() {
 		return $this->principalUri;
 	}

@@ -40,6 +40,7 @@ class SystemTagsObjectList implements XmlSerializable, XmlDeserializable {
 		return $this->objects;
 	}
 
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
 		$tree = $reader->parseInnerTree();
 		if ($tree === null) {
@@ -74,6 +75,7 @@ class SystemTagsObjectList implements XmlSerializable, XmlDeserializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
+	#[\Override]
 	public function xmlSerialize(Writer $writer) {
 		foreach ($this->objects as $objectsId => $type) {
 			$writer->startElement(SystemTagPlugin::OBJECTIDS_PROPERTYNAME);

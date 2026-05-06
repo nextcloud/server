@@ -76,6 +76,7 @@ class Manager implements IManager {
 	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function search(
 		$pattern,
 		array $searchProperties = [],
@@ -102,6 +103,7 @@ class Manager implements IManager {
 	 * @return bool true if enabled, false if not
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function isEnabled(): bool {
 		return !empty($this->calendars) || !empty($this->calendarLoaders);
 	}
@@ -111,6 +113,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function registerCalendar(ICalendar $calendar): void {
 		$this->calendars[$calendar->getKey()] = $calendar;
 	}
@@ -120,6 +123,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function unregisterCalendar(ICalendar $calendar): void {
 		unset($this->calendars[$calendar->getKey()]);
 	}
@@ -130,6 +134,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function register(\Closure $callable): void {
 		$this->calendarLoaders[] = $callable;
 	}
@@ -139,6 +144,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getCalendars(): array {
 		$this->loadCalendars();
 
@@ -150,6 +156,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function clear(): void {
 		$this->calendars = [];
 		$this->calendarLoaders = [];
@@ -168,6 +175,7 @@ class Manager implements IManager {
 	/**
 	 * @return ICreateFromString[]
 	 */
+	#[\Override]
 	public function getCalendarsForPrincipal(string $principalUri, array $calendarUris = []): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -191,6 +199,7 @@ class Manager implements IManager {
 		);
 	}
 
+	#[\Override]
 	public function searchForPrincipal(ICalendarQuery $query): array {
 		/** @var CalendarQuery $query */
 		$calendars = $this->getCalendarsForPrincipal(
@@ -217,6 +226,7 @@ class Manager implements IManager {
 		return $results;
 	}
 
+	#[\Override]
 	public function newQuery(string $principalUri): ICalendarQuery {
 		return new CalendarQuery($principalUri);
 	}
@@ -226,6 +236,7 @@ class Manager implements IManager {
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
+	#[\Override]
 	public function handleIMip(
 		string $userId,
 		string $message,
@@ -351,6 +362,7 @@ class Manager implements IManager {
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
+	#[\Override]
 	public function handleIMipRequest(
 		string $principalUri,
 		string $sender,
@@ -371,6 +383,7 @@ class Manager implements IManager {
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
+	#[\Override]
 	public function handleIMipReply(
 		string $principalUri,
 		string $sender,
@@ -391,6 +404,7 @@ class Manager implements IManager {
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
+	#[\Override]
 	public function handleIMipCancel(
 		string $principalUri,
 		string $sender,
@@ -407,11 +421,13 @@ class Manager implements IManager {
 		return $this->handleIMip($userId, $calendarData, $options);
 	}
 
+	#[\Override]
 	public function createEventBuilder(): ICalendarEventBuilder {
 		$uid = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 		return new CalendarEventBuilder($uid, $this->timeFactory);
 	}
 
+	#[\Override]
 	public function checkAvailability(
 		DateTimeInterface $start,
 		DateTimeInterface $end,

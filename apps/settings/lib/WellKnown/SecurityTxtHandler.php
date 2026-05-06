@@ -16,6 +16,7 @@ use OCP\Http\WellKnown\IRequestContext;
 use OCP\Http\WellKnown\IResponse;
 
 class SecurityTxtHandler implements IHandler {
+	#[\Override]
 	public function handle(string $service, IRequestContext $context, ?IResponse $previousResponse): ?IResponse {
 		if ($service !== 'security.txt') {
 			return $previousResponse;

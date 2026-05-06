@@ -41,6 +41,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setAddress(string $value): self {
 		$this->address = $value;
 		return $this;
@@ -53,6 +54,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return string|null returns the mail address or null if one is not set
 	 */
+	#[\Override]
 	public function getAddress(): ?string {
 		return $this->address;
 	}
@@ -66,6 +68,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setLabel(string $value): self {
 		$this->label = $value;
 		return $this;
@@ -78,6 +81,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return string|null returns the mail address label/name or null if one is not set
 	 */
+	#[\Override]
 	public function getLabel(): ?string {
 		return $this->label;
 	}

@@ -30,6 +30,7 @@ class Registry implements IRegistry {
 	/**
 	 * Register a reporter instance
 	 */
+	#[\Override]
 	public function register(IReporter $reporter): void {
 		$this->reporters[] = $reporter;
 	}
@@ -43,6 +44,7 @@ class Registry implements IRegistry {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function delegateBreadcrumb(string $message, string $category, array $context = []): void {
 		$this->loadLazyProviders();
 
@@ -58,6 +60,7 @@ class Registry implements IRegistry {
 	 *
 	 * @param Exception|Throwable $exception
 	 */
+	#[\Override]
 	public function delegateReport($exception, array $context = []): void {
 		$this->loadLazyProviders();
 
@@ -71,6 +74,7 @@ class Registry implements IRegistry {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function delegateMessage(string $message, array $context = []): void {
 		$this->loadLazyProviders();
 
@@ -114,6 +118,7 @@ class Registry implements IRegistry {
 		}
 	}
 
+	#[\Override]
 	public function hasReporters(): bool {
 		return !empty($this->lazyReporters) || !empty($this->reporters);
 	}

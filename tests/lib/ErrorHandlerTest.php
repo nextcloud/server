@@ -20,6 +20,7 @@ class ErrorHandlerTest extends TestCase {
 	private ErrorHandler $errorHandler;
 	private int $errorReporting;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -31,6 +32,7 @@ class ErrorHandlerTest extends TestCase {
 		$this->errorReporting = error_reporting(E_ALL);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		error_reporting($this->errorReporting);
 		parent::tearDown();

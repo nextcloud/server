@@ -24,8 +24,6 @@ namespace OCP\AppFramework\Http;
 class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var bool Whether inline JS snippets are allowed */
 	protected $inlineScriptAllowed = false;
-	/** @var bool Whether eval in JS scripts is allowed */
-	protected $evalScriptAllowed = false;
 	/** @var bool Whether WebAssembly compilation is allowed */
 	protected ?bool $evalWasmAllowed = false;
 	/** @var bool Whether strict-dynamic should be set */
@@ -69,8 +67,6 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 		'\'self\'',
 		'data:',
 	];
-	/** @var array Domains from which web-workers and nested browsing content can load elements */
-	protected $allowedChildSrcDomains = [];
 
 	/** @var array Domains which can embed this Nextcloud instance */
 	protected $allowedFrameAncestors = [

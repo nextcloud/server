@@ -22,6 +22,7 @@ class TokenCleanupJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$this->provider->invalidateOldTokens();
 	}

@@ -22,22 +22,27 @@ class LogLevel implements IMetricFamily {
 	) {
 	}
 
+	#[\Override]
 	public function name(): string {
 		return 'log_level';
 	}
 
+	#[\Override]
 	public function type(): MetricType {
 		return MetricType::gauge;
 	}
 
+	#[\Override]
 	public function unit(): string {
 		return '';
 	}
 
+	#[\Override]
 	public function help(): string {
 		return 'Current log level (lower level means more logs)';
 	}
 
+	#[\Override]
 	public function metrics(): Generator {
 		yield new Metric((int)$this->config->getSystemValue('loglevel', ILogger::WARN));
 	}

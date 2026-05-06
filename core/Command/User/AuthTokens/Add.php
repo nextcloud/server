@@ -32,6 +32,7 @@ class Add extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:auth-tokens:add')
@@ -57,6 +58,7 @@ class Add extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$username = $input->getArgument('user');
 		$password = null;

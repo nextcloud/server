@@ -23,6 +23,7 @@ class TwoFactorCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		if (!$this->twoFactorManager->isTwoFactorAuthenticated($loginData->getUser())) {
 			return $this->processNextOrFinishSuccessfully($loginData);

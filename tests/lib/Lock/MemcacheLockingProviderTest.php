@@ -24,12 +24,14 @@ class MemcacheLockingProviderTest extends LockingProvider {
 	/**
 	 * @return ILockingProvider
 	 */
+	#[\Override]
 	protected function getInstance() {
 		$this->memcache = new ArrayCache();
 		$timeProvider = Server::get(ITimeFactory::class);
 		return new MemcacheLockingProvider($this->memcache, $timeProvider);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->memcache->clear();
 		parent::tearDown();

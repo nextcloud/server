@@ -14,12 +14,16 @@ class CasTraitTestClass {
 	use CASTrait;
 
 	// abstract methods from Memcache
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 	}
+	#[\Override]
 	public function get($key) {
 	}
+	#[\Override]
 	public function add($key, $value, $ttl = 0) {
 	}
+	#[\Override]
 	public function remove($key) {
 	}
 }

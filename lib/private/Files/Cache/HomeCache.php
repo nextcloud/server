@@ -17,6 +17,7 @@ class HomeCache extends Cache {
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @return int|float
 	 */
+	#[\Override]
 	public function calculateFolderSize($path, $entry = null) {
 		if ($path !== '/' && $path !== '' && $path !== 'files' && $path !== 'files_trashbin' && $path !== 'files_versions') {
 			return parent::calculateFolderSize($path, $entry);
@@ -32,6 +33,7 @@ class HomeCache extends Cache {
 	 * @param string $file
 	 * @return ICacheEntry
 	 */
+	#[\Override]
 	public function get($file) {
 		$data = parent::get($file);
 		if ($file === '' || $file === '/') {

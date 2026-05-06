@@ -40,6 +40,7 @@ class TranscriptionJob extends QueuedJob {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$fileId = $argument['fileId'];
 		$owner = $argument['owner'];

@@ -24,6 +24,7 @@ abstract class Base extends \OC\Core\Command\Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
 			return $this->appConfig->getApps();

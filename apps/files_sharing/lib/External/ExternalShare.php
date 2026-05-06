@@ -90,6 +90,7 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 	/**
 	 * @return Files_SharingRemoteShare
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$parent = $this->getParent();
 		return [

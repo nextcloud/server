@@ -17,6 +17,7 @@ class JobTest extends \Test\TestCase {
 	private ITimeFactory $timeFactory;
 	private LoggerInterface $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->run = false;

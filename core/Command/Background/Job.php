@@ -25,6 +25,7 @@ class Job extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('background-job:execute')
@@ -43,6 +44,7 @@ class Job extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$jobId = (string)$input->getArgument('job-id');
 

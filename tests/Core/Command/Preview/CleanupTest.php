@@ -26,6 +26,7 @@ class CleanupTest extends TestCase {
 	private PreviewService&MockObject $previewService;
 	private Cleanup $repair;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->rootFolder = $this->createMock(IRootFolder::class);

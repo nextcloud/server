@@ -55,6 +55,7 @@ class ConversionMimeProvider implements JsonSerializable {
 	 *
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'from' => $this->from,

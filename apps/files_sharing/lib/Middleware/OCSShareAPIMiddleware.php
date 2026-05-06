@@ -29,6 +29,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	 *
 	 * @throws OCSNotFoundException
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if ($controller instanceof ShareAPIController) {
 			if (!$this->shareManager->shareApiEnabled()) {
@@ -43,6 +44,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response) {
 		if ($controller instanceof ShareAPIController) {
 			/** @var ShareAPIController $controller */

@@ -14,10 +14,12 @@ use OCP\Migration\SimpleMigrationStep;
  * Delete the admin|personal sections and settings tables
  */
 class Version14000Date20180129121024 extends SimpleMigrationStep {
+	#[\Override]
 	public function name(): string {
 		return 'Drop obsolete settings tables';
 	}
 
+	#[\Override]
 	public function description(): string {
 		return 'Drops the following obsolete tables: "admin_sections", "admin_settings", "personal_sections" and "personal_settings"';
 	}
@@ -29,6 +31,7 @@ class Version14000Date20180129121024 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

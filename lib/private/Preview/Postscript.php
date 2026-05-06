@@ -14,6 +14,7 @@ class Postscript extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/postscript/';
 	}
@@ -21,6 +22,7 @@ class Postscript extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/(application\/postscript|image\/x-eps)/';
 	}

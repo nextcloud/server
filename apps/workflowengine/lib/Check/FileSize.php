@@ -26,6 +26,7 @@ class FileSize implements ICheck {
 	 * @param string $operator
 	 * @param string $value
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value): bool {
 		$size = $this->getFileSizeFromHeader();
 		if ($size === false) {
@@ -47,6 +48,7 @@ class FileSize implements ICheck {
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
+	#[\Override]
 	public function validateCheck($operator, $value): void {
 		if (!in_array($operator, ['less', '!less', 'greater', '!greater'])) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
@@ -90,10 +92,12 @@ class FileSize implements ICheck {
 		return $this->size;
 	}
 
+	#[\Override]
 	public function supportedEntities(): array {
 		return [ File::class ];
 	}
 
+	#[\Override]
 	public function isAvailableForScope(int $scope): bool {
 		return true;
 	}

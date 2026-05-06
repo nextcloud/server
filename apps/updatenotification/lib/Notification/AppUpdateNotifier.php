@@ -33,6 +33,7 @@ class AppUpdateNotifier implements INotifier {
 	) {
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'updatenotification_app_updated';
 	}
@@ -40,6 +41,7 @@ class AppUpdateNotifier implements INotifier {
 	/**
 	 * Human readable name describing the notifier
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10nFactory->get(Application::APP_NAME)->t('App updated');
 	}
@@ -51,6 +53,7 @@ class AppUpdateNotifier implements INotifier {
 	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 * @throws AlreadyProcessedException When the app is no longer known
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== Application::APP_NAME) {
 			throw new UnknownNotificationException('Unknown app');

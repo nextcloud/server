@@ -38,7 +38,6 @@
     "Unable to update share by mail config" : "Kan ikke oppdatere deling via e-postkonfigurasjon",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Tillater personer å dele en personalisert lenke til en fil eller mappe ved å skrive inn en e-postadresse.",
     "Send password by mail" : "Send passord via e-post",
-    "Reply to initiator" : "Svar til initiativtaker",
-    "Open %s" : "Åpne %s"
+    "Reply to initiator" : "Svar til initiativtaker"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -98,6 +98,7 @@ class AppConfig implements IAppConfig {
 	 * @return list<string> list of app ids
 	 * @since 7.0.0
 	 */
+	#[\Override]
 	public function getApps(): array {
 		$this->loadConfig(lazy: true);
 		$apps = array_merge(array_keys($this->fastCache), array_keys($this->lazyCache));
@@ -115,6 +116,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getKeys(string $app): array {
 		$this->assertParams($app);
 		$this->loadConfig($app, true);
@@ -133,6 +135,7 @@ class AppConfig implements IAppConfig {
 	 * @return list<string> list of stored config keys
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function searchKeys(string $app, string $prefix = '', bool $lazy = false): array {
 		$this->assertParams($app);
 		$this->loadConfig($app, $lazy);
@@ -161,6 +164,7 @@ class AppConfig implements IAppConfig {
 	 * @since 7.0.0
 	 * @since 29.0.0 Added the $lazy argument
 	 */
+	#[\Override]
 	public function hasKey(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig($app, $lazy ?? true);
@@ -184,6 +188,7 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigUnknownKeyException if config key is not known
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function isSensitive(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig(null, $lazy ?? true);
@@ -207,6 +212,7 @@ class AppConfig implements IAppConfig {
 	 * @see IAppConfig for details about lazy loading
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function isLazy(string $app, string $key): bool {
 		$this->assertParams($app, $key);
 		$this->matchAndApplyLexiconDefinition($app, $key);
@@ -235,6 +241,7 @@ class AppConfig implements IAppConfig {
 	 * @return array<string, string|int|float|bool|array> [configKey => configValue]
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array {
 		$this->assertParams($app, $prefix);
 		// if we want to filter values, we need to get sensitivity
@@ -280,6 +287,7 @@ class AppConfig implements IAppConfig {
 	 * @return array<string, string|int|float|bool|array> [appId => configValue]
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function searchValues(string $key, bool $lazy = false, ?int $typedAs = null): array {
 		$this->assertParams('', $key, true);
 		$this->loadConfig(null, $lazy);
@@ -360,6 +368,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueString(
 		string $app,
 		string $key,
@@ -383,6 +392,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueInt(
 		string $app,
 		string $key,
@@ -406,6 +416,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueFloat(string $app, string $key, float $default = 0, bool $lazy = false): float {
 		return (float)$this->getTypedValue($app, $key, (string)$default, $lazy, self::VALUE_FLOAT);
 	}
@@ -424,6 +435,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueBool(string $app, string $key, bool $default = false, bool $lazy = false): bool {
 		$b = strtolower($this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL));
 		return in_array($b, ['1', 'true', 'yes', 'on']);
@@ -443,6 +455,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueArray(
 		string $app,
 		string $key,
@@ -552,6 +565,7 @@ class AppConfig implements IAppConfig {
 	 * @see VALUE_BOOL
 	 * @see VALUE_ARRAY
 	 */
+	#[\Override]
 	public function getValueType(string $app, string $key, ?bool $lazy = null): int {
 		$type = self::VALUE_MIXED;
 		$ignorable = $lazy ?? false;
@@ -627,6 +641,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueString(
 		string $app,
 		string $key,
@@ -657,6 +672,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueInt(
 		string $app,
 		string $key,
@@ -691,6 +707,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueFloat(
 		string $app,
 		string $key,
@@ -720,6 +737,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueBool(
 		string $app,
 		string $key,
@@ -750,6 +768,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueArray(
 		string $app,
 		string $key,
@@ -973,6 +992,7 @@ class AppConfig implements IAppConfig {
 	 * @return bool TRUE if entry was found in database and an update was necessary
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function updateSensitive(string $app, string $key, bool $sensitive): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig(lazy: true);
@@ -1033,6 +1053,7 @@ class AppConfig implements IAppConfig {
 	 * @return bool TRUE if entry was found in database and an update was necessary
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function updateLazy(string $app, string $key, bool $lazy): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig(lazy: true);
@@ -1069,6 +1090,7 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigUnknownKeyException if config key is not known in database
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getDetails(string $app, string $key): array {
 		$this->assertParams($app, $key);
 		$this->loadConfig(lazy: true);
@@ -1119,6 +1141,7 @@ class AppConfig implements IAppConfig {
 	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, internal?: bool, default?: string, definition?: string, note?: string}
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getKeyDetails(string $app, string $key): array {
 		$this->assertParams($app, $key);
 		try {
@@ -1161,6 +1184,7 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigIncorrectTypeException
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function convertTypeToInt(string $type): int {
 		return match (strtolower($type)) {
 			'mixed' => IAppConfig::VALUE_MIXED,
@@ -1180,6 +1204,7 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigIncorrectTypeException
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function convertTypeToString(int $type): string {
 		$type &= ~self::VALUE_SENSITIVE;
 
@@ -1202,6 +1227,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function deleteKey(string $app, string $key): void {
 		$this->assertParams($app, $key);
 		$this->matchAndApplyLexiconDefinition($app, $key);
@@ -1225,6 +1251,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function deleteApp(string $app): void {
 		$this->assertParams($app);
 		$qb = $this->connection->getQueryBuilder();
@@ -1243,6 +1270,7 @@ class AppConfig implements IAppConfig {
 	 * @internal
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function clearCache(bool $reload = false): void {
 		$this->lazyLoaded = $this->fastLoaded = false;
 		$this->lazyCache = $this->fastCache = $this->valueTypes = $this->configLexiconDetails = [];
@@ -1448,6 +1476,7 @@ class AppConfig implements IAppConfig {
 	 * @return array|false
 	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
+	#[\Override]
 	public function getValues($app, $key) {
 		if (($app !== false) === ($key !== false)) {
 			return false;
@@ -1469,6 +1498,7 @@ class AppConfig implements IAppConfig {
 	 * @return array
 	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
+	#[\Override]
 	public function getFilteredValues($app) {
 		return $this->getAllValues($app, filtered: true);
 	}
@@ -1828,6 +1858,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @return array<string, string>
 	 */
+	#[\Override]
 	public function getAppInstalledVersions(bool $onlyEnabled = false): array {
 		if ($this->appVersionsCache === null) {
 			/** @var array<string, string> */

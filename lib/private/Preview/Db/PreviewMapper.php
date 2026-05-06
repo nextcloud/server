@@ -38,6 +38,7 @@ class PreviewMapper extends QBMapper {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
 	}
 
+	#[\Override]
 	protected function mapRowToEntity(array $row): Entity {
 		$row['mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['mimetype_id']);
 		$row['source_mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['source_mimetype_id']);

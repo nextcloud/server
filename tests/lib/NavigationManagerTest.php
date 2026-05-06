@@ -45,6 +45,7 @@ class NavigationManagerTest extends TestCase {
 	protected $navigationManager;
 	protected LoggerInterface $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -278,7 +279,7 @@ class NavigationManagerTest extends TestCase {
 				'id' => 'core_apps',
 				'order' => 5,
 				'href' => '/apps/test/',
-				'icon' => '/apps/settings/img/apps.svg',
+				'icon' => '/apps/appstore/img/app.svg',
 				'name' => 'Apps',
 				'active' => false,
 				'type' => 'settings',

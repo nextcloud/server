@@ -71,7 +71,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: LizardByte/actions/actions/setup_python@0affa4f7bcb27562658960eee840eff8ff844578 # v2026.328.161128
+        uses: LizardByte/actions/actions/setup_python@4125866b7b655a6fe038b0e22a43a4c5d259af79 # v2026.417.35446
         with:
           python-version: '2.7'
 

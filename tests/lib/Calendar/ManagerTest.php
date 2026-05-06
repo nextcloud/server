@@ -68,6 +68,7 @@ class ManagerTest extends TestCase {
 	private VCalendar $vCalendar2a;
 	private VCalendar $vCalendar3a;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

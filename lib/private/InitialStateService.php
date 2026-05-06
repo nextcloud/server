@@ -32,6 +32,7 @@ class InitialStateService implements IInitialStateService {
 	) {
 	}
 
+	#[\Override]
 	public function provideInitialState(string $appName, string $key, $data): void {
 		// Scalars and JsonSerializable are fine
 		if (is_scalar($data) || $data instanceof \JsonSerializable || is_array($data)) {
@@ -49,6 +50,7 @@ class InitialStateService implements IInitialStateService {
 		$this->logger->warning('Invalid ' . $key . ' data provided to provideInitialState by ' . $appName);
 	}
 
+	#[\Override]
 	public function provideLazyInitialState(string $appName, string $key, Closure $closure): void {
 		if (!isset($this->lazyStates[$appName])) {
 			$this->lazyStates[$appName] = [];

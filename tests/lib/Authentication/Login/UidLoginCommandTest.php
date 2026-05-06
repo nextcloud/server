@@ -17,6 +17,7 @@ class UidLoginCommandTest extends ALoginTestCommand {
 	/** @var Manager|MockObject */
 	private $userManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

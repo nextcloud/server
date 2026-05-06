@@ -17,6 +17,7 @@ class DetectionTest extends \Test\TestCase {
 	/** @var Detection */
 	private $detection;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->detection = new Detection(

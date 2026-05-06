@@ -15,6 +15,7 @@ abstract class UUIDFix extends QueuedJob {
 	protected AbstractMapping $mapper;
 	protected Proxy $proxy;
 
+	#[\Override]
 	public function run($argument) {
 		$isUser = $this->proxy instanceof User_Proxy;
 		foreach ($argument['records'] as $record) {

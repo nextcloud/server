@@ -28,6 +28,7 @@ class GroupFilter implements IFilter {
 		$this->group = $group;
 	}
 
+	#[\Override]
 	public function get(): IGroup {
 		return $this->group;
 	}

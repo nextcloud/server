@@ -29,6 +29,7 @@ class LockdownManager implements ILockdownManager {
 	}
 
 
+	#[\Override]
 	public function enable() {
 		$this->enabled = true;
 	}
@@ -52,6 +53,7 @@ class LockdownManager implements ILockdownManager {
 		return $this->scope;
 	}
 
+	#[\Override]
 	public function setToken(IToken $token) {
 		$this->scope = $token->getScopeAsArray();
 		$session = $this->getSession();
@@ -59,6 +61,7 @@ class LockdownManager implements ILockdownManager {
 		$this->enable();
 	}
 
+	#[\Override]
 	public function canAccessFilesystem() {
 		$scope = $this->getScopeAsArray();
 		return !$scope || $scope[IToken::SCOPE_FILESYSTEM];

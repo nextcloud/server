@@ -72,6 +72,7 @@ class LostControllerTest extends TestCase {
 	/** @var Limiter|MockObject */
 	private $limiter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

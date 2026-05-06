@@ -7,9 +7,10 @@ import type { IFileAction } from '@nextcloud/files'
 
 import AutoRenewSvg from '@mdi/svg/svg/autorenew.svg?raw'
 import { getCapabilities } from '@nextcloud/capabilities'
-import { registerFileAction } from '@nextcloud/files'
+import { Permission, registerFileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import { convertFile, convertFiles } from './convertUtils.ts'
 
 type ConversionsProvider = {
@@ -30,7 +31,11 @@ export function registerConvertActions() {
 		id: `convert-${from}-${to}`,
 		displayName: () => t('files', 'Save as {displayName}', { displayName }),
 		iconSvgInline: () => generateIconSvg(to),
-		enabled: ({ nodes }) => {
+		enabled: ({ nodes, folder }) => {
+			if (isPublicShare() && !(folder.permissions & Permission.CREATE)) {
+				// cannot create the converted file in a public share if we don't have create permissions
+				return false
+			}
 			// Check that all nodes have the same mime type
 			return nodes.every((node) => from === node.mime)
 		},

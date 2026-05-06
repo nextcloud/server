@@ -28,6 +28,7 @@ class Version1141Date20220323143801 extends SimpleMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
+	#[\Override]
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		foreach (['ldap_user_mapping', 'ldap_group_mapping'] as $tableName) {
 			$qb = $this->dbc->getQueryBuilder();
@@ -78,6 +79,7 @@ class Version1141Date20220323143801 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

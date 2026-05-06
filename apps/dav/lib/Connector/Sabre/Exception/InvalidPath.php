@@ -30,6 +30,7 @@ class InvalidPath extends Exception {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getHTTPCode() {
 		return 400;
 	}
@@ -42,6 +43,7 @@ class InvalidPath extends Exception {
 	 * @param \DOMElement $errorNode
 	 * @return void
 	 */
+	#[\Override]
 	public function serialize(\Sabre\DAV\Server $server, \DOMElement $errorNode) {
 
 		// set ownCloud namespace

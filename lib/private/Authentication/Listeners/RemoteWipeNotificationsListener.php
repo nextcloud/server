@@ -27,6 +27,7 @@ class RemoteWipeNotificationsListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof RemoteWipeStarted) {
 			$this->sendNotification('remote_wipe_start', $event->getToken());

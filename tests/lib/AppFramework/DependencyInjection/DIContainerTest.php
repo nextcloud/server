@@ -26,6 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class DIContainerTest extends \Test\TestCase {
 	private DIContainer&MockObject $container;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->container = $this->getMockBuilder(DIContainer::class)

@@ -41,7 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "無法更新通過郵件分享配置",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "允許人仕透過輸入電子郵件地址來分享到檔案或資料夾的個人化連結。",
     "Send password by mail" : "通過電郵發送密碼",
-    "Reply to initiator" : "回覆發起人",
-    "Open %s" : "打開 %s"
+    "Reply to initiator" : "回覆發起人"
 },
 "nplurals=1; plural=0;");

@@ -7,7 +7,6 @@
 
 namespace OCP\Files;
 
-use OC\Files\Mount\MoveableMount;
 use OCP\Constants;
 use OCP\Files\Mount\IMovableMount;
 
@@ -83,7 +82,7 @@ class DavUtil {
 
 	public static function canRename(FileInfo $info, FileInfo $parent): bool {
 		// the root of a movable mountpoint can be renamed regardless of the file permissions
-		if ($info->getMountPoint() instanceof MoveableMount && $info->getInternalPath() === '') {
+		if ($info->getMountPoint() instanceof IMovableMount && $info->getInternalPath() === '') {
 			return true;
 		}
 

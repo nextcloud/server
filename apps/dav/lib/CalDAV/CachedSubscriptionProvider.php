@@ -17,6 +17,7 @@ class CachedSubscriptionProvider implements ICalendarProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
 		$calendarInfos = $this->calDavBackend->getSubscriptionsForUser($principalUri);
 

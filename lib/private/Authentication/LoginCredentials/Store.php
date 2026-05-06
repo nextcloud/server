@@ -58,6 +58,7 @@ class Store implements IStore {
 	 * @return ICredentials the login credentials of the current user
 	 * @throws CredentialsUnavailableException
 	 */
+	#[\Override]
 	public function getLoginCredentials(): ICredentials {
 		if ($this->tokenProvider === null) {
 			throw new CredentialsUnavailableException();

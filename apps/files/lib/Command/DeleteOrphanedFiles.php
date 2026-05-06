@@ -26,6 +26,7 @@ class DeleteOrphanedFiles extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:cleanup')
@@ -34,6 +35,7 @@ class DeleteOrphanedFiles extends Command {
 			->addOption('skip-filecache-extended', null, InputOption::VALUE_NONE, 'don\'t remove orphaned entries from filecache_extended');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$fileIdsByStorage = [];
 

@@ -24,14 +24,17 @@ class PhpOutdated implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('PHP version');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (PHP_VERSION_ID < 80300) {
 			return SetupResult::warning($this->l10n->t('You are currently running PHP %1$s. PHP %2$s is deprecated since Nextcloud %3$s. Nextcloud %4$s may require at least PHP %5$s. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible.', [

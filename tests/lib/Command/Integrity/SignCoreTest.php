@@ -23,6 +23,7 @@ class SignCoreTest extends TestCase {
 	/** @var SignCore */
 	private $signCore;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->checker = $this->createMock(Checker::class);

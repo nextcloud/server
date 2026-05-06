@@ -34,6 +34,7 @@ class RegisterRegenerateBirthdayCalendars extends QueuedJob {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function run($argument) {
 		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			$this->jobList->add(GenerateBirthdayCalendarBackgroundJob::class, [

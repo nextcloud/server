@@ -49,6 +49,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * @return string defining the technical unique key
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getKey(): string {
 		return (string)$this->calendarInfo['id'];
 	}
@@ -56,6 +57,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getUri(): string {
 		return $this->calendarInfo['uri'];
 	}
@@ -72,6 +74,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getDisplayName(): ?string {
 		return $this->calendarInfo['{DAV:}displayname'];
 	}
@@ -80,6 +83,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * Calendar color
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getDisplayColor(): ?string {
 		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
 	}
@@ -107,6 +111,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		return $vtimezone;
 	}
 
+	#[\Override]
 	public function search(string $pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null): array {
 		return $this->backend->search($this->calendarInfo, $pattern,
 			$searchProperties, $options, $limit, $offset);
@@ -116,6 +121,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * @return int build up using \OCP\Constants
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getPermissions(): int {
 		$permissions = $this->calendar->getACL();
 		$result = 0;
@@ -144,6 +150,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	/**
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function isEnabled(): bool {
 		return $this->calendarInfo['{http://owncloud.org/ns}calendar-enabled'] ?? true;
 	}
@@ -151,6 +158,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	/**
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function isWritable(): bool {
 		return $this->calendar->canWrite();
 	}
@@ -158,6 +166,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	/**
 	 * @since 26.0.0
 	 */
+	#[\Override]
 	public function isDeleted(): bool {
 		return $this->calendar->isDeleted();
 	}
@@ -165,6 +174,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	/**
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function isShared(): bool {
 		return $this->calendar->isShared();
 	}
@@ -172,6 +182,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	/**
 	 * @since 33.0.1, 32.0.7, 31.0.14.1, 30.0.17.8
 	 */
+	#[\Override]
 	public function getPublicToken(): ?string {
 		return $this->calendar->getPublishStatus() ?: null;
 	}
@@ -216,11 +227,13 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		}
 	}
 
+	#[\Override]
 	public function createFromString(string $name, string $calendarData): void {
 		$server = new EmbeddedCalDavServer(false);
 		$this->createFromStringInServer($name, $calendarData, $server->getServer());
 	}
 
+	#[\Override]
 	public function createFromStringMinimal(string $name, string $calendarData): void {
 		$server = new InvitationResponseServer(false);
 		$this->createFromStringInServer($name, $calendarData, $server->getServer());
@@ -229,6 +242,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	/**
 	 * @throws CalendarException
 	 */
+	#[\Override]
 	public function handleIMipMessage(string $name, string $calendarData): void {
 
 		try {
@@ -330,6 +344,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 *
 	 * @return Generator<mixed, \Sabre\VObject\Component\VCalendar, mixed, mixed>
 	 */
+	#[\Override]
 	public function export(?CalendarExportOptions $options = null): Generator {
 		foreach (
 			$this->backend->exportCalendar(

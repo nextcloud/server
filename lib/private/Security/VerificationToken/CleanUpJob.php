@@ -30,6 +30,7 @@ class CleanUpJob extends Job {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	public function setArgument($argument): void {
 		parent::setArgument($argument);
 		$args = \json_decode($argument, true);
@@ -39,6 +40,7 @@ class CleanUpJob extends Job {
 		$this->runNotBefore = (int)$args['notBefore'];
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		try {
 			$user = $this->userManager->get($this->userId);
@@ -54,6 +56,7 @@ class CleanUpJob extends Job {
 		}
 	}
 
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		if ($this->time->getTime() >= $this->runNotBefore) {
 			$jobList->remove($this, $this->argument);

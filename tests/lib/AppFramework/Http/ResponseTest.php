@@ -20,6 +20,7 @@ class ResponseTest extends \Test\TestCase {
 	 */
 	private $childResponse;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->childResponse = new Response();

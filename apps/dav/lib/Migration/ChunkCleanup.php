@@ -29,10 +29,12 @@ class ChunkCleanup implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Chunk cleanup scheduler';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		// If we already ran this onec there is no need to run it again
 		if ($this->config->getAppValue('dav', 'chunks_migrated', '0') === '1') {

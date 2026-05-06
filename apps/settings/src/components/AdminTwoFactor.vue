@@ -77,6 +77,7 @@
 <script>
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import debounce from 'lodash/debounce.js'
 import sortedUniq from 'lodash/sortedUniq.js'
@@ -170,7 +171,7 @@ export default {
 				enforcedGroups: this.enforcedGroups,
 				excludedGroups: this.excludedGroups,
 			}
-			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data)
+			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data, { confirmPassword: PwdConfirmationMode.Strict })
 				.then((resp) => resp.data)
 				.then((state) => {
 					this.state = state

@@ -62,7 +62,9 @@ class OCMRequestController extends Controller {
 			$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest();
 		} catch (IncomingRequestException $e) {
 			$this->logger->warning('incoming ocm request exception', ['exception' => $e]);
-			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+			$response = new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+			$response->throttle();
+			return $response;
 		}
 
 		// assuming that ocm request contains a json array

@@ -30,6 +30,7 @@ class CloudFederationNotification implements ICloudFederationNotification {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setMessage($notificationType, $resourceType, $providerId, array $notification) {
 		$this->message = [
 			'notificationType' => $notificationType,
@@ -46,6 +47,7 @@ class CloudFederationNotification implements ICloudFederationNotification {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getMessage() {
 		return $this->message;
 	}

@@ -34,6 +34,7 @@ readonly class UserPlugin implements ISearchPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		/** @var IUser $currentUser */
 		$currentUser = $this->userSession->getUser();

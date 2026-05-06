@@ -38,6 +38,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$themeable = true;
 		$errorMessage = '';
@@ -88,6 +89,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection(): string {
 		return Application::APP_ID;
 	}
@@ -99,14 +101,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 5;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return null; // Only one setting in this section
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
 			Application::APP_ID => '/.*/',

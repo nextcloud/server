@@ -46,6 +46,7 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'profile_picker';
 	}
@@ -53,6 +54,7 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l10n->t('Profile picker');
 	}
@@ -60,6 +62,7 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOrder(): int {
 		return 10;
 	}
@@ -67,6 +70,7 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getIconUrl(): string {
 		return $this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg');
 	}
@@ -74,6 +78,7 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function matchReference(string $referenceText): bool {
 		if (!$this->enabled) {
 			return false;
@@ -84,6 +89,7 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function resolveReference(string $referenceText): ?IReference {
 		if (!$this->matchReference($referenceText)) {
 			return null;
@@ -176,6 +182,7 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getCachePrefix(string $referenceId): string {
 		return $this->userId ?? '';
 	}
@@ -183,6 +190,7 @@ class ProfilePickerReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getCacheKey(string $referenceId): ?string {
 		$objectId = $this->getObjectId($referenceId);
 		if ($objectId !== null) {

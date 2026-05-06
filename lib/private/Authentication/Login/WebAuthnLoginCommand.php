@@ -16,6 +16,7 @@ class WebAuthnLoginCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		$user = $this->userManager->get($loginData->getUsername());
 		$loginData->setUser($user);

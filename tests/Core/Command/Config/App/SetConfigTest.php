@@ -27,6 +27,7 @@ class SetConfigTest extends TestCase {
 	protected OutputInterface&MockObject $consoleOutput;
 	protected Command $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

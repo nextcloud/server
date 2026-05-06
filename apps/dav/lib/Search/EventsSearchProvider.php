@@ -57,6 +57,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'calendar';
 	}
@@ -64,6 +65,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Events');
 	}
@@ -71,6 +73,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): ?int {
 		if ($this->appManager->isEnabledForUser('calendar')) {
 			return $route === 'calendar.View.index' ? -1 : 30;
@@ -82,6 +85,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function search(
 		IUser $user,
 		ISearchQuery $query,
@@ -270,6 +274,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
 	}
 
+	#[\Override]
 	public function getSupportedFilters(): array {
 		return [
 			'term',
@@ -279,10 +284,12 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		];
 	}
 
+	#[\Override]
 	public function getAlternateIds(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getCustomFilters(): array {
 		return [];
 	}

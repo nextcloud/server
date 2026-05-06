@@ -21,6 +21,7 @@ abstract class QueuedJob extends Job {
 	 *
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	final public function start(IJobList $jobList): void {
 		if ($this->id) {
 			$jobList->removeById($this->id);

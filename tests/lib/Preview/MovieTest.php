@@ -24,6 +24,7 @@ class MovieTest extends Provider {
 	protected int $width = 560;
 	protected int $height = 320;
 
+	#[\Override]
 	protected function setUp(): void {
 		$binaryFinder = Server::get(IBinaryFinder::class);
 		$movieBinary = $binaryFinder->findBinaryPath('ffmpeg');

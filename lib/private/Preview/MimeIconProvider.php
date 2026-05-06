@@ -23,6 +23,7 @@ class MimeIconProvider implements IMimeIconProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getMimeIconUrl(string $mime): ?string {
 		if (!$mime) {
 			return null;

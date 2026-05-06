@@ -25,35 +25,43 @@ class EmailAction implements ILinkAction {
 	) {
 	}
 
+	#[\Override]
 	public function preload(IUser $targetUser): void {
 		$account = $this->accountManager->getAccount($targetUser);
 		$this->value = $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue();
 	}
 
+	#[\Override]
 	public function getAppId(): string {
 		return 'core';
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return IAccountManager::PROPERTY_EMAIL;
 	}
 
+	#[\Override]
 	public function getDisplayId(): string {
 		return $this->l10nFactory->get('lib')->t('Email');
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l10nFactory->get('lib')->t('Mail %s', [$this->value]);
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 20;
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mail.svg'));
 	}
 
+	#[\Override]
 	public function getTarget(): ?string {
 		if (empty($this->value)) {
 			return null;

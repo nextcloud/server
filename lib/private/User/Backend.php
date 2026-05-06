@@ -68,6 +68,7 @@ abstract class Backend implements UserInterface {
 	 * Returns the supported actions as int to be
 	 * compared with self::CREATE_USER etc.
 	 */
+	#[\Override]
 	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
@@ -79,6 +80,7 @@ abstract class Backend implements UserInterface {
 	 *
 	 * Deletes a user
 	 */
+	#[\Override]
 	public function deleteUser($uid) {
 		return false;
 	}
@@ -91,6 +93,7 @@ abstract class Backend implements UserInterface {
 	 * @param null|int $offset
 	 * @return string[] an array of all uids
 	 */
+	#[\Override]
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		return [];
 	}
@@ -100,6 +103,7 @@ abstract class Backend implements UserInterface {
 	 * @param string $uid the username
 	 * @return boolean
 	 */
+	#[\Override]
 	public function userExists($uid) {
 		return false;
 	}
@@ -118,6 +122,7 @@ abstract class Backend implements UserInterface {
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 */
+	#[\Override]
 	public function getDisplayName($uid) {
 		return $uid;
 	}
@@ -130,6 +135,7 @@ abstract class Backend implements UserInterface {
 	 * @param int|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
+	#[\Override]
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$displayNames = [];
 		$users = $this->getUsers($search, $limit, $offset);
@@ -143,6 +149,7 @@ abstract class Backend implements UserInterface {
 	 * Check if a user list is available or not
 	 * @return boolean if users can be listed or not
 	 */
+	#[\Override]
 	public function hasUserListings() {
 		return false;
 	}

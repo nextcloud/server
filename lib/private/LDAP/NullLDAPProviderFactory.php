@@ -15,10 +15,12 @@ class NullLDAPProviderFactory implements ILDAPProviderFactory {
 	public function __construct(IServerContainer $serverContainer) {
 	}
 
+	#[\Override]
 	public function getLDAPProvider(): never {
 		throw new \Exception('No LDAP provider is available');
 	}
 
+	#[\Override]
 	public function isAvailable(): bool {
 		return false;
 	}

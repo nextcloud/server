@@ -46,6 +46,7 @@ class MountCacheService implements IEventListener {
 		$this->storageRootCache = new CappedMemoryCache();
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof StorageCreatedEvent) {
 			$this->handleAddedStorage($event->getNewConfig());
@@ -75,7 +76,7 @@ class MountCacheService implements IEventListener {
 
 	public function handleDeletedStorage(StorageConfig $storage): void {
 		foreach ($this->applicableHelper->getUsersForStorage($storage) as $user) {
-			$this->userMountCache->removeMount($storage->getMountPointForUser($user));
+			$this->userMountCache->removeMount($storage->getMountPointForUser($user), $user);
 		}
 	}
 
@@ -87,7 +88,7 @@ class MountCacheService implements IEventListener {
 
 	public function handleUpdatedStorage(StorageConfig $oldStorage, StorageConfig $newStorage): void {
 		foreach ($this->applicableHelper->diffApplicable($oldStorage, $newStorage) as $user) {
-			$this->userMountCache->removeMount($oldStorage->getMountPointForUser($user));
+			$this->userMountCache->removeMount($oldStorage->getMountPointForUser($user), $user);
 		}
 		foreach ($this->applicableHelper->diffApplicable($newStorage, $oldStorage) as $user) {
 			$this->registerForUser($user, $newStorage);
@@ -156,7 +157,7 @@ class MountCacheService implements IEventListener {
 		$storages = $this->storagesService->getAllStoragesForGroup($group);
 		foreach ($storages as $storage) {
 			if (!$this->applicableHelper->isApplicableForUser($storage, $user)) {
-				$this->userMountCache->removeMount($storage->getMountPointForUser($user));
+				$this->userMountCache->removeMount($storage->getMountPointForUser($user), $user);
 			}
 		}
 	}
@@ -181,7 +182,7 @@ class MountCacheService implements IEventListener {
 	private function removeGroupFromStorage(StorageConfig $storage, IGroup $group): void {
 		foreach ($group->searchUsers('') as $user) {
 			if (!$this->applicableHelper->isApplicableForUser($storage, $user)) {
-				$this->userMountCache->removeMount($storage->getMountPointForUser($user));
+				$this->userMountCache->removeMount($storage->getMountPointForUser($user), $user);
 			}
 		}
 	}

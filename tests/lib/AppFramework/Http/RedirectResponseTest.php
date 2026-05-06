@@ -17,6 +17,7 @@ class RedirectResponseTest extends \Test\TestCase {
 	 */
 	protected $response;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->response = new RedirectResponse('/url');

@@ -24,6 +24,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 	private AuthPublicShareController&MockObject $controller;
 
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -29,6 +29,7 @@ class TimeFactory implements ITimeFactory {
 	 * @since 8.0.0
 	 * @deprecated 26.0.0 {@see ITimeFactory::now()}
 	 */
+	#[\Override]
 	public function getTime(): int {
 		return time();
 	}
@@ -40,13 +41,16 @@ class TimeFactory implements ITimeFactory {
 	 * @since 15.0.0
 	 * @deprecated 26.0.0 {@see ITimeFactory::now()}
 	 */
+	#[\Override]
 	public function getDateTime(string $time = 'now', ?\DateTimeZone $timezone = null): \DateTime {
 		return new \DateTime($time, $timezone);
 	}
 
+	#[\Override]
 	public function now(): \DateTimeImmutable {
 		return new \DateTimeImmutable('now', $this->timezone);
 	}
+	#[\Override]
 	public function withTimeZone(\DateTimeZone $timezone): static {
 		$clone = clone $this;
 		$clone->timezone = $timezone;
@@ -54,6 +58,7 @@ class TimeFactory implements ITimeFactory {
 		return $clone;
 	}
 
+	#[\Override]
 	public function getTimeZone(?string $timezone = null): \DateTimeZone {
 		if ($timezone !== null) {
 			return new \DateTimeZone($timezone);

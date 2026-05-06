@@ -13,6 +13,7 @@ use Test\TestCase;
 class CastHelperTest extends TestCase {
 	private CastHelper $castHelper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->castHelper = new CastHelper();

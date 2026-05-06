@@ -23,6 +23,7 @@ class StorageObjectStore implements IObjectStore {
 	 * @return string the container or bucket name where objects are stored
 	 * @since 7.0.0
 	 */
+	#[\Override]
 	public function getStorageId(): string {
 		return $this->storage->getId();
 	}
@@ -33,6 +34,7 @@ class StorageObjectStore implements IObjectStore {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
+	#[\Override]
 	public function readObject($urn) {
 		$handle = $this->storage->fopen($urn, 'r');
 		if (is_resource($handle)) {
@@ -42,6 +44,7 @@ class StorageObjectStore implements IObjectStore {
 		throw new \Exception();
 	}
 
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$handle = $this->storage->fopen($urn, 'w');
 		if ($handle) {
@@ -58,18 +61,22 @@ class StorageObjectStore implements IObjectStore {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
+	#[\Override]
 	public function deleteObject($urn) {
 		$this->storage->unlink($urn);
 	}
 
+	#[\Override]
 	public function objectExists($urn) {
 		return $this->storage->file_exists($urn);
 	}
 
+	#[\Override]
 	public function copyObject($from, $to) {
 		$this->storage->copy($from, $to);
 	}
 
+	#[\Override]
 	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
 		return null;
 	}

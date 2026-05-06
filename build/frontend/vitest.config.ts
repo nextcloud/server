@@ -54,7 +54,6 @@ export default defineConfig({
 				/* 'core/src/**', */
 			],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
-			provider: 'istanbul',
 			reporter: ['lcov', 'text'],
 			reportsDirectory: resolve(import.meta.dirname, '../../coverage'),
 		},
@@ -71,6 +70,12 @@ export default defineConfig({
 			deps: {
 				inline: [/@nextcloud\//],
 			},
+		},
+		onUnhandledError(error) {
+			// TODO: remove when this is fixed: https://github.com/nextcloud-libraries/nextcloud-vue/issues/8090
+			if (error.message.includes('`fallbackFocus` was specified but was not a node, or did not return a node')) {
+				return false
+			}
 		},
 	},
 })

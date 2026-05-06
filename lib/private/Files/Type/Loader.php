@@ -40,6 +40,7 @@ class Loader implements IMimeTypeLoader {
 	/**
 	 * Get a mimetype from its ID
 	 */
+	#[\Override]
 	public function getMimetypeById(int $id): ?string {
 		if (!$this->mimetypes) {
 			$this->loadMimetypes();
@@ -53,6 +54,7 @@ class Loader implements IMimeTypeLoader {
 	/**
 	 * Get a mimetype ID, adding the mimetype to the DB if it does not exist
 	 */
+	#[\Override]
 	public function getId(string $mimetype): int {
 		if (!$this->mimetypeIds) {
 			$this->loadMimetypes();
@@ -66,6 +68,7 @@ class Loader implements IMimeTypeLoader {
 	/**
 	 * Test if a mimetype exists in the database
 	 */
+	#[\Override]
 	public function exists(string $mimetype): bool {
 		if (!$this->mimetypeIds) {
 			$this->loadMimetypes();
@@ -76,6 +79,7 @@ class Loader implements IMimeTypeLoader {
 	/**
 	 * Clear all loaded mimetypes, allow for re-loading
 	 */
+	#[\Override]
 	public function reset(): void {
 		$this->mimetypes = [];
 		$this->mimetypeIds = [];
@@ -145,6 +149,7 @@ class Loader implements IMimeTypeLoader {
 	 *
 	 * @return int number of changed rows
 	 */
+	#[\Override]
 	public function updateFilecache(string $ext, int $mimeTypeId): int {
 		$folderMimeTypeId = $this->getId('httpd/unix-directory');
 		$update = $this->dbConnection->getQueryBuilder();

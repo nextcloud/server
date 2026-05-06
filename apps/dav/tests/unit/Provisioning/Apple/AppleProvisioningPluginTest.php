@@ -148,7 +148,7 @@ class AppleProvisioningPluginTest extends TestCase {
 			->with(200);
 
 		$calls = [
-			['Content-Disposition', 'attachment; filename="userName-apple-provisioning.mobileconfig"'],
+			['Content-Disposition', 'attachment; filename=userName-apple-provisioning.mobileconfig'],
 			['Content-Type', 'application/xml; charset=utf-8'],
 		];
 		$this->sabreResponse->expects($this->exactly(2))

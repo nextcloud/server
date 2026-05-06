@@ -21,6 +21,7 @@ use OCP\Server;
 class InfoXmlTest extends TestCase {
 	private IAppManager $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appManager = Server::get(IAppManager::class);

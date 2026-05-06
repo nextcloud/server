@@ -19,6 +19,7 @@ abstract class ExporterTestCase extends TestCase {
 
 	abstract protected function getExporter(): IMetricFamily;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->exporter = $this->getExporter();

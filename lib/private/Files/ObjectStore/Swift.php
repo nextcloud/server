@@ -52,6 +52,7 @@ class Swift implements IObjectStore {
 	/**
 	 * @return string the container name where objects are stored
 	 */
+	#[\Override]
 	public function getStorageId() {
 		if (isset($this->params['bucket'])) {
 			return $this->params['bucket'];
@@ -60,6 +61,7 @@ class Swift implements IObjectStore {
 		return $this->params['container'];
 	}
 
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile('swiftwrite');
 		file_put_contents($tmpFile, $stream);
@@ -87,6 +89,7 @@ class Swift implements IObjectStore {
 	 * @throws \Exception from openstack or GuzzleHttp libs when something goes wrong
 	 * @throws NotFoundException if file does not exist
 	 */
+	#[\Override]
 	public function readObject($urn) {
 		try {
 			$publicUri = $this->getContainer()->getObject($urn)->getPublicUri();
@@ -117,6 +120,7 @@ class Swift implements IObjectStore {
 	 * @return void
 	 * @throws \Exception from openstack lib when something goes wrong
 	 */
+	#[\Override]
 	public function deleteObject($urn) {
 		$this->getContainer()->getObject($urn)->delete();
 	}
@@ -129,15 +133,18 @@ class Swift implements IObjectStore {
 		$this->getContainer()->delete();
 	}
 
+	#[\Override]
 	public function objectExists($urn) {
 		return $this->getContainer()->objectExists($urn);
 	}
 
+	#[\Override]
 	public function copyObject($from, $to) {
 		$this->getContainer()->getObject($from)->copy([
 			'destination' => $this->getContainer()->name . '/' . $to
 		]);
 	}
+	#[\Override]
 	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
 		return null;
 	}

@@ -19,42 +19,55 @@ class CommonTest extends Common {
 		$this->storage = new Local($parameters);
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'test::' . $this->storage->getId();
 	}
+	#[\Override]
 	public function mkdir(string $path): bool {
 		return $this->storage->mkdir($path);
 	}
+	#[\Override]
 	public function rmdir(string $path): bool {
 		return $this->storage->rmdir($path);
 	}
+	#[\Override]
 	public function opendir(string $path) {
 		return $this->storage->opendir($path);
 	}
+	#[\Override]
 	public function stat(string $path): array|false {
 		return $this->storage->stat($path);
 	}
+	#[\Override]
 	public function filetype(string $path): string|false {
 		return @$this->storage->filetype($path);
 	}
+	#[\Override]
 	public function isReadable(string $path): bool {
 		return $this->storage->isReadable($path);
 	}
+	#[\Override]
 	public function isUpdatable(string $path): bool {
 		return $this->storage->isUpdatable($path);
 	}
+	#[\Override]
 	public function file_exists(string $path): bool {
 		return $this->storage->file_exists($path);
 	}
+	#[\Override]
 	public function unlink(string $path): bool {
 		return $this->storage->unlink($path);
 	}
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		return $this->storage->fopen($path, $mode);
 	}
+	#[\Override]
 	public function free_space(string $path): int|float|false {
 		return $this->storage->free_space($path);
 	}
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		return $this->storage->touch($path, $mtime);
 	}

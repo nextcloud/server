@@ -32,14 +32,17 @@ class Woff2Loading implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Font file loading');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$result = $this->checkFont('otf', $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Regular.otf'));
 		if ($result->getSeverity() !== SetupResult::SUCCESS) {

@@ -22,6 +22,7 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clear every generated avatar';
 	}
@@ -37,6 +38,7 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '27.0.0', '<');
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			try {

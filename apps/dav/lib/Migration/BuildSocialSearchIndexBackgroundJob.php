@@ -27,6 +27,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$offset = $argument['offset'];
 		$stopAt = $argument['stopAt'];

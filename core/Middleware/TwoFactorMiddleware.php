@@ -45,6 +45,7 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if ($this->reflector->hasAnnotationOrAttribute('NoTwoFactorRequired', NoTwoFactorRequired::class)) {
 			// Route handler explicitly marked to work without finished 2FA are
@@ -118,6 +119,7 @@ class TwoFactorMiddleware extends Middleware {
 		}
 	}
 
+	#[\Override]
 	public function afterException($controller, $methodName, Exception $exception) {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
 			$params = [

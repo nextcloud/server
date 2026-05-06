@@ -20,6 +20,7 @@ class ExpiredTokenException extends \OCP\Authentication\Exceptions\ExpiredTokenE
 		parent::__construct($token);
 	}
 
+	#[\Override]
 	public function getToken(): IToken {
 		$token = parent::getToken();
 		/** @var IToken $token We know that we passed OC interface from constructor */

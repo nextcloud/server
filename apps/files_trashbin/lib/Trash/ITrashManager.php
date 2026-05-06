@@ -27,6 +27,7 @@ interface ITrashManager extends ITrashBackend {
 	 * @return ITrashItem[]
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function listTrashRoot(IUser $user): array;
 
 	/**

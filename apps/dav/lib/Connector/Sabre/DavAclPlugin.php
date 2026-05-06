@@ -32,6 +32,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		$this->allowUnauthenticatedAccess = false;
 	}
 
+	#[\Override]
 	public function checkPrivileges($uri, $privileges, $recursion = self::R_PARENT, $throwExceptions = true) {
 		$access = parent::checkPrivileges($uri, $privileges, $recursion, false);
 		if ($access === false && $throwExceptions) {
@@ -68,6 +69,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		return $access;
 	}
 
+	#[\Override]
 	public function propFind(PropFind $propFind, INode $node) {
 		if ($node instanceof Node) {
 			// files don't use dav acls
@@ -89,6 +91,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		return parent::propFind($propFind, $node);
 	}
 
+	#[\Override]
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
 		$path = $request->getPath();
 

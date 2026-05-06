@@ -17,6 +17,8 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Settings\IDelegatedSettings;
+use OCP\Settings\ISettings;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -141,7 +143,7 @@ class AdminTest extends TestCase {
 	}
 
 	public function testImplementsIDelegatedSettings(): void {
-		$this->assertInstanceOf(\OCP\Settings\IDelegatedSettings::class, $this->admin);
-		$this->assertInstanceOf(\OCP\Settings\ISettings::class, $this->admin);
+		$this->assertInstanceOf(IDelegatedSettings::class, $this->admin);
+		$this->assertInstanceOf(ISettings::class, $this->admin);
 	}
 }

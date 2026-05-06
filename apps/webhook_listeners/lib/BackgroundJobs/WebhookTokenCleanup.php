@@ -27,6 +27,7 @@ class WebhookTokenCleanup extends TimedJob {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	protected function run($argument): void {
 		$this->tokenMapper->invalidateOldTokens();
 	}

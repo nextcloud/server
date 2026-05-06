@@ -38,6 +38,7 @@ class UserGroupMembership implements ICheck {
 	 * @param string $value
 	 * @return bool
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value) {
 		$user = $this->userSession->getUser();
 
@@ -55,6 +56,7 @@ class UserGroupMembership implements ICheck {
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
+	#[\Override]
 	public function validateCheck($operator, $value) {
 		if (!in_array($operator, ['is', '!is'])) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
@@ -80,11 +82,13 @@ class UserGroupMembership implements ICheck {
 		return $this->cachedGroupMemberships;
 	}
 
+	#[\Override]
 	public function supportedEntities(): array {
 		// universal by default
 		return [];
 	}
 
+	#[\Override]
 	public function isAvailableForScope(int $scope): bool {
 		// admin only by default
 		return $scope === IManager::SCOPE_ADMIN;

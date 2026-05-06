@@ -33,6 +33,7 @@ class SyncLivePhotosListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($this->userSession === null) {
 			return;

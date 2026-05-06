@@ -13,6 +13,7 @@ use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 
 class Plugin extends \Sabre\CardDAV\Plugin {
+	#[\Override]
 	public function initialize(Server $server) {
 		$server->on('propFind', [$this, 'propFind']);
 		parent::initialize($server);
@@ -24,6 +25,7 @@ class Plugin extends \Sabre\CardDAV\Plugin {
 	 * @param string $principal
 	 * @return string|null
 	 */
+	#[\Override]
 	protected function getAddressbookHomeForPrincipal($principal) {
 		if (strrpos($principal, 'principals/users', -strlen($principal)) !== false) {
 			[, $principalId] = \Sabre\Uri\split($principal);

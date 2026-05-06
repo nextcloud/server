@@ -33,63 +33,78 @@ class Profile implements \JsonSerializable, IProfile {
 	) {
 	}
 
+	#[\Override]
 	public function getToken(): string {
 		return $this->token;
 	}
 
+	#[\Override]
 	public function setToken(string $token): void {
 		$this->token = $token;
 	}
 
+	#[\Override]
 	public function getTime(): ?int {
 		return $this->time;
 	}
 
+	#[\Override]
 	public function setTime(int $time): void {
 		$this->time = $time;
 	}
 
+	#[\Override]
 	public function getUrl(): ?string {
 		return $this->url;
 	}
 
+	#[\Override]
 	public function setUrl(string $url): void {
 		$this->url = $url;
 	}
 
+	#[\Override]
 	public function getMethod(): ?string {
 		return $this->method;
 	}
 
+	#[\Override]
 	public function setMethod(string $method): void {
 		$this->method = $method;
 	}
 
+	#[\Override]
 	public function getStatusCode(): ?int {
 		return $this->statusCode;
 	}
 
+	#[\Override]
 	public function setStatusCode(int $statusCode): void {
 		$this->statusCode = $statusCode;
 	}
 
+	#[\Override]
 	public function addCollector(IDataCollector $collector) {
 		$this->collectors[$collector->getName()] = $collector;
 	}
 
+	#[\Override]
 	public function getParent(): ?IProfile {
 		return $this->parent;
 	}
 
+	#[\Override]
 	public function setParent(?IProfile $parent): void {
 		$this->parent = $parent;
 	}
 
+	#[\Override]
 	public function getParentToken(): ?string {
 		return $this->parent ? $this->parent->getToken() : null;
 	}
 
 	/** @return IProfile[] */
+	#[\Override]
 	public function getChildren(): array {
 		return $this->children;
 	}
@@ -97,6 +112,7 @@ class Profile implements \JsonSerializable, IProfile {
 	/**
 	 * @param IProfile[] $children
 	 */
+	#[\Override]
 	public function setChildren(array $children): void {
 		$this->children = [];
 		foreach ($children as $child) {
@@ -104,6 +120,7 @@ class Profile implements \JsonSerializable, IProfile {
 		}
 	}
 
+	#[\Override]
 	public function addChild(IProfile $profile): void {
 		$this->children[] = $profile;
 		$profile->setParent($this);
@@ -112,6 +129,7 @@ class Profile implements \JsonSerializable, IProfile {
 	/**
 	 * @return IDataCollector[]
 	 */
+	#[\Override]
 	public function getCollectors(): array {
 		return $this->collectors;
 	}
@@ -119,6 +137,7 @@ class Profile implements \JsonSerializable, IProfile {
 	/**
 	 * @param IDataCollector[] $collectors
 	 */
+	#[\Override]
 	public function setCollectors(array $collectors): void {
 		$this->collectors = $collectors;
 	}
@@ -127,6 +146,7 @@ class Profile implements \JsonSerializable, IProfile {
 		return ['token', 'parent', 'children', 'collectors', 'method', 'url', 'time', 'statusCode'];
 	}
 
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		// Everything but parent
@@ -141,6 +161,7 @@ class Profile implements \JsonSerializable, IProfile {
 		];
 	}
 
+	#[\Override]
 	public function getCollector(string $collectorName): ?IDataCollector {
 		if (!array_key_exists($collectorName, $this->collectors)) {
 			return null;

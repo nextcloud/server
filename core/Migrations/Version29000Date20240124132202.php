@@ -18,6 +18,7 @@ use OCP\Migration\SimpleMigrationStep;
  * Create new column and index for lazy loading in appconfig for the new IAppConfig API.
  */
 class Version29000Date20240124132202 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

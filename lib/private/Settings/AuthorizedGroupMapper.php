@@ -21,6 +21,7 @@ use OCP\Server;
 
 /**
  * @template-extends QBMapper<AuthorizedGroup>
+ * @psalm-api - we cannot use final as this will break unit tests
  */
 class AuthorizedGroupMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {

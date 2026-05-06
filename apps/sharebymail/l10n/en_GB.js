@@ -41,7 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Unable to update share by mail config",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Allows people to share a personalized link to a file or folder by putting in an email address.",
     "Send password by mail" : "Send password by mail",
-    "Reply to initiator" : "Reply to initiator",
-    "Open %s" : "Open %s"
+    "Reply to initiator" : "Reply to initiator"
 },
 "nplurals=2; plural=(n != 1);");

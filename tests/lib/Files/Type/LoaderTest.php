@@ -17,11 +17,13 @@ class LoaderTest extends TestCase {
 	protected IDBConnection $db;
 	protected Loader $loader;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->db = Server::get(IDBConnection::class);
 		$this->loader = new Loader($this->db);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$deleteMimetypes = $this->db->getQueryBuilder();
 		$deleteMimetypes->delete('mimetypes')

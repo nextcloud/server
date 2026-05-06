@@ -17,6 +17,7 @@ class CronBus extends AsyncBus {
 	) {
 	}
 
+	#[\Override]
 	protected function queueCommand(ICommand $command): void {
 		$this->jobList->add(CommandJob::class, serialize($command));
 	}

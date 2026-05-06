@@ -22,10 +22,12 @@ class RepairLogoDimension implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Cache logo dimension to fix size in emails on Outlook';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$logoDimensions = $this->config->getAppValue('theming', 'logoDimensions');
 		if (preg_match('/^\d+x\d+$/', $logoDimensions)) {

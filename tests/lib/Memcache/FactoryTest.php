@@ -19,6 +19,7 @@ class Test_Factory_Available_Cache1 extends NullCache {
 	public function __construct($prefix = '') {
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return true;
 	}
@@ -28,6 +29,7 @@ class Test_Factory_Available_Cache2 extends NullCache {
 	public function __construct($prefix = '') {
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return true;
 	}
@@ -37,6 +39,7 @@ class Test_Factory_Unavailable_Cache1 extends NullCache {
 	public function __construct($prefix = '') {
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return false;
 	}
@@ -46,6 +49,7 @@ class Test_Factory_Unavailable_Cache2 extends NullCache {
 	public function __construct($prefix = '') {
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return false;
 	}

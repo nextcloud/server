@@ -52,13 +52,18 @@ class BeforeZipCreatedEvent extends Event {
 	}
 
 	/**
+	 * Returns folder path relative to user folder
+	 *
 	 * @since 25.0.0
 	 * @deprecated 33.0.0 Use getFolder instead and use node API
-	 * @return string returns folder path relative to user folder
 	 */
 	public function getDirectory(): string {
 		if ($this->folder instanceof Folder) {
-			return preg_replace('|^/[^/]+/files/|', '/', $this->folder->getPath());
+			$path = preg_replace('|^/[^/]+/files/|', '/', $this->folder->getPath());
+			if ($path === null) {
+				throw new \UnexpectedValueException('Could not determine path from folder');
+			}
+			return $path;
 		}
 		return $this->directory;
 	}

@@ -19,10 +19,12 @@ class AddPreviewBackgroundCleanupJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add preview background cleanup job';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->jobList->add(BackgroundCleanupJob::class);
 	}

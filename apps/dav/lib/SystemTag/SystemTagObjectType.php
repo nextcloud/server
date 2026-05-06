@@ -51,33 +51,42 @@ class SystemTagObjectType implements \Sabre\DAV\IFile {
 		return $this->tag;
 	}
 
+	#[\Override]
 	public function getName() {
 		return $this->type;
 	}
 
+	#[\Override]
 	public function getLastModified() {
 		return null;
 	}
 
+	#[\Override]
 	public function getETag() {
 		return '"' . $this->tag->getETag() . '"';
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new MethodNotAllowed();
 	}
+	#[\Override]
 	public function put($data) {
 		throw new MethodNotAllowed();
 	}
+	#[\Override]
 	public function get() {
 		throw new MethodNotAllowed();
 	}
+	#[\Override]
 	public function delete() {
 		throw new MethodNotAllowed();
 	}
+	#[\Override]
 	public function getContentType() {
 		throw new MethodNotAllowed();
 	}
+	#[\Override]
 	public function getSize() {
 		throw new MethodNotAllowed();
 	}

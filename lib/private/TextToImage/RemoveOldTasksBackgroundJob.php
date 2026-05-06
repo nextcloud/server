@@ -41,6 +41,7 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 	 * @param mixed $argument
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		try {
 			$deletedTasks = $this->taskMapper->deleteOlderThan(self::MAX_TASK_AGE_SECONDS);

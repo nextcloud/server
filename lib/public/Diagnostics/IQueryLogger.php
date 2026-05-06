@@ -25,6 +25,7 @@ interface IQueryLogger extends SQLLogger {
 	 * @param array|null $types
 	 * @since 8.0.0
 	 */
+	#[\Override]
 	public function startQuery($sql, ?array $params = null, ?array $types = null);
 
 	/**
@@ -34,6 +35,7 @@ interface IQueryLogger extends SQLLogger {
 	 * @return void
 	 * @since 8.0.0
 	 */
+	#[\Override]
 	public function stopQuery();
 
 	/**

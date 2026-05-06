@@ -21,6 +21,7 @@ class RoutingDataCollector extends AbstractDataCollector {
 	) {
 	}
 
+	#[\Override]
 	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 		$this->data = [
 			'appName' => $this->appName,
@@ -29,6 +30,7 @@ class RoutingDataCollector extends AbstractDataCollector {
 		];
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'router';
 	}

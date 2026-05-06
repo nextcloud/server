@@ -28,6 +28,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 	private IDBConnection $connection;
 	private IGroupManager&MockObject $groupManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -39,6 +40,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$this->deleteAllShares();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->deleteAllShares();
 

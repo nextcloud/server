@@ -24,54 +24,67 @@ class FakeTranscribeProvider implements ISynchronousProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return Application::APP_ID . '-audio2text';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Fake audio2text task processing provider';
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return AudioToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 1;
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		if (!isset($input['input']) || !$input['input'] instanceof File || !$input['input']->isReadable()) {
 			throw new RuntimeException('Invalid input file');

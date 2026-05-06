@@ -23,6 +23,7 @@ class Enable extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('encryption:enable')
@@ -30,6 +31,7 @@ class Enable extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->config->getAppValue('core', 'encryption_enabled', 'no') === 'yes') {
 			$output->writeln('Encryption is already enabled');

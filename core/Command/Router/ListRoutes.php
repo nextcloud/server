@@ -27,6 +27,7 @@ class ListRoutes extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -52,6 +53,7 @@ class ListRoutes extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$apps = $input->getArgument('app');
 		if (empty($apps)) {

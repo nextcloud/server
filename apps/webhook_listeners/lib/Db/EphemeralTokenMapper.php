@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
 
 class EphemeralTokenMapper extends QBMapper {
 	public const TABLE_NAME = 'webhook_tokens';
-	public const TOKEN_LIFETIME = 1 * 1 * 60; // one hour in seconds
+	public const TOKEN_LIFETIME = 1 * 60 * 60; // one hour in seconds
 
 	public function __construct(
 		IDBConnection $db,

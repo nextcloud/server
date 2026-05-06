@@ -32,14 +32,17 @@ class SupportedDatabase implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database version');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$databasePlatform = $this->connection->getDatabaseProvider();
 		if ($databasePlatform === IDBConnection::PLATFORM_MYSQL || $databasePlatform === IDBConnection::PLATFORM_MARIADB) {

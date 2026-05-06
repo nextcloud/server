@@ -30,6 +30,7 @@ class SetTransactionIsolationLevel implements EventSubscriber {
 		}
 	}
 
+	#[\Override]
 	public function getSubscribedEvents() {
 		return [Events::postConnect];
 	}

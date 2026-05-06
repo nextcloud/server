@@ -21,6 +21,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		parent::__construct($wrappedCache->getPrefix());
 	}
 
+	#[\Override]
 	public function getPrefix(): string {
 		return $this->prefix;
 	}
@@ -30,6 +31,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function get($key) {
 		file_put_contents(
 			$this->logFile,
@@ -40,6 +42,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		file_put_contents(
 			$this->logFile,
@@ -51,6 +54,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function hasKey($key) {
 		file_put_contents(
 			$this->logFile,
@@ -62,6 +66,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function remove($key) {
 		file_put_contents(
 			$this->logFile,
@@ -73,6 +78,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function clear($prefix = '') {
 		file_put_contents(
 			$this->logFile,
@@ -84,6 +90,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function add($key, $value, $ttl = 0) {
 		file_put_contents(
 			$this->logFile,
@@ -95,6 +102,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function inc($key, $step = 1) {
 		file_put_contents(
 			$this->logFile,
@@ -106,6 +114,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function dec($key, $step = 1) {
 		file_put_contents(
 			$this->logFile,
@@ -117,6 +126,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function cas($key, $old, $new) {
 		file_put_contents(
 			$this->logFile,
@@ -128,6 +138,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function cad($key, $old) {
 		file_put_contents(
 			$this->logFile,
@@ -139,6 +150,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function ncad(string $key, mixed $old): bool {
 		file_put_contents(
 			$this->logFile,
@@ -150,18 +162,22 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function setTTL(string $key, int $ttl) {
 		$this->wrappedCache->setTTL($key, $ttl);
 	}
 
+	#[\Override]
 	public function getTTL(string $key): int|false {
 		return $this->wrappedCache->getTTL($key);
 	}
 
+	#[\Override]
 	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
 		return $this->wrappedCache->compareSetTTL($key, $value, $ttl);
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return true;
 	}

@@ -29,6 +29,7 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		$user = $event->getUser();
 

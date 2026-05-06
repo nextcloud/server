@@ -40,6 +40,7 @@ class ImageToTextOpticalCharacterRecognition implements ITaskType {
 	/**
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Optical character recognition');
 	}
@@ -47,6 +48,7 @@ class ImageToTextOpticalCharacterRecognition implements ITaskType {
 	/**
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Extract text from files like images or PDFs');
 	}
@@ -54,6 +56,7 @@ class ImageToTextOpticalCharacterRecognition implements ITaskType {
 	/**
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -62,6 +65,7 @@ class ImageToTextOpticalCharacterRecognition implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -76,6 +80,7 @@ class ImageToTextOpticalCharacterRecognition implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

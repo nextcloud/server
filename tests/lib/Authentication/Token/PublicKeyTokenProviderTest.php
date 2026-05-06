@@ -53,6 +53,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

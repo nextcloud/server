@@ -35,6 +35,7 @@ class ManagerTest extends TestCase {
 	protected IRichTextFormatter&MockObject $richTextFormatter;
 	private ITimeFactory&MockObject $time;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -294,6 +295,7 @@ class ManagerTest extends TestCase {
 }
 
 class NoOpConsumer implements IConsumer {
+	#[\Override]
 	public function receive(IEvent $event) {
 	}
 }

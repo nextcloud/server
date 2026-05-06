@@ -129,6 +129,9 @@ jobs:
 
       - name: PHPUnit
         run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
+        env:
+          DB_ROOT_USER: root
+          DB_ROOT_PASS: rootpassword
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}

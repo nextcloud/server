@@ -25,6 +25,7 @@ class PublicShareTemplateFactory implements IPublicShareTemplateFactory {
 	) {
 	}
 
+	#[\Override]
 	public function getProvider(IShare $share): IPublicShareTemplateProvider {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {

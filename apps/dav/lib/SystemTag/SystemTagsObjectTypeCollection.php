@@ -39,6 +39,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 *
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create nodes');
 	}
@@ -50,6 +51,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 *
 	 * @return never
 	 */
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
@@ -60,6 +62,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @return SystemTagsObjectMappingCollection
 	 * @throws NotFound
 	 */
+	#[\Override]
 	public function getChild($objectName) {
 		// make sure the object exists and is reachable
 		if (!$this->childExists($objectName)) {
@@ -78,6 +81,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	/**
 	 * @return never
 	 */
+	#[\Override]
 	public function getChildren() {
 		// do not list object ids
 		throw new MethodNotAllowed();
@@ -89,6 +93,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param string $name
 	 * @return bool
 	 */
+	#[\Override]
 	public function childExists($name) {
 		return call_user_func($this->childExistsFunction, $name);
 	}
@@ -96,10 +101,12 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	/**
 	 * @return never
 	 */
+	#[\Override]
 	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
 
+	#[\Override]
 	public function getName() {
 		return $this->objectType;
 	}
@@ -111,6 +118,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 *
 	 * @return never
 	 */
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
@@ -120,6 +128,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 *
 	 * @return null
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return null;
 	}

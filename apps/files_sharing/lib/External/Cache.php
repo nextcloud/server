@@ -27,6 +27,7 @@ class Cache extends \OC\Files\Cache\Cache {
 		parent::__construct($this->storage);
 	}
 
+	#[\Override]
 	public function get($file) {
 		$result = parent::get($file);
 		if (!$result) {
@@ -41,6 +42,7 @@ class Cache extends \OC\Files\Cache\Cache {
 		return $result;
 	}
 
+	#[\Override]
 	public function getFolderContentsById($fileId, ?string $mimeTypeFilter = null): array {
 		$results = parent::getFolderContentsById($fileId, $mimeTypeFilter);
 		foreach ($results as &$file) {

@@ -13,6 +13,7 @@ use OC\LargeFileHelper;
 class LargeFileHelperTest extends TestCase {
 	protected $helper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->helper = new LargeFileHelper;

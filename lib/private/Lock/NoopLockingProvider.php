@@ -19,6 +19,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function isLocked(string $path, int $type): bool {
 		return false;
 	}
@@ -26,6 +27,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function acquireLock(string $path, int $type, ?string $readablePath = null): void {
 		// do nothing
 	}
@@ -33,6 +35,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function releaseLock(string $path, int $type): void {
 		// do nothing
 	}
@@ -40,6 +43,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**1
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function releaseAll(): void {
 		// do nothing
 	}
@@ -47,6 +51,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function changeLock(string $path, int $targetType): void {
 		// do nothing
 	}

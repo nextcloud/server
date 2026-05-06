@@ -39,6 +39,7 @@ class Crypto implements ICrypto {
 	 * @param string $password Password to use (defaults to `secret` in config.php)
 	 * @return string Calculated HMAC
 	 */
+	#[\Override]
 	public function calculateHMAC(string $message, string $password = ''): string {
 		if ($password === '') {
 			$password = $this->config->getSystemValueString('secret');
@@ -60,6 +61,7 @@ class Crypto implements ICrypto {
 	 * @throws Exception if it was not possible to gather sufficient entropy
 	 * @throws Exception if encrypting the data failed
 	 */
+	#[\Override]
 	public function encrypt(string $plaintext, string $password = ''): string {
 		if ($password === '') {
 			$password = $this->config->getSystemValueString('secret');
@@ -89,6 +91,7 @@ class Crypto implements ICrypto {
 	 * @throws Exception If the HMAC does not match
 	 * @throws Exception If the decryption failed
 	 */
+	#[\Override]
 	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
 		$secret = $this->config->getSystemValue('secret');
 		try {

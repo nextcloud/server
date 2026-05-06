@@ -31,6 +31,7 @@ class RemoveLinkShares implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Remove potentially over exposing share links';
 	}
@@ -184,6 +185,7 @@ class RemoveLinkShares implements IRepairStep {
 		$this->sendNotification();
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun() === false || ($total = $this->getTotal()) === 0) {
 			$output->info('No need to remove link shares.');

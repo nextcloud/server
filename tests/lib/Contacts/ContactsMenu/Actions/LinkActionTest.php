@@ -13,6 +13,7 @@ use Test\TestCase;
 class LinkActionTest extends TestCase {
 	private LinkAction $action;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

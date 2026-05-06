@@ -13,6 +13,7 @@ class JPEG extends Image {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/jpeg/';
 	}

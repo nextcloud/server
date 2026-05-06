@@ -60,6 +60,7 @@ class ZipFolderPlugin extends ServerPlugin {
 	 *
 	 * This method should set up the required event subscriptions.
 	 */
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$this->server->on('method:GET', $this->handleDownload(...), 100);

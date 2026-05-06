@@ -77,6 +77,7 @@ abstract class TimedJob extends Job {
 	 *
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	final public function start(IJobList $jobList): void {
 		if (($this->time->getTime() - $this->lastRun) > $this->interval) {
 			if ($this->interval >= 12 * 60 * 60 && $this->isTimeSensitive()) {

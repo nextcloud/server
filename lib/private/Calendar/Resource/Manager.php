@@ -39,6 +39,7 @@ class Manager implements IManager {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function registerBackend(string $backendClass): void {
 		$this->backends[$backendClass] = $backendClass;
 	}
@@ -48,6 +49,7 @@ class Manager implements IManager {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function unregisterBackend(string $backendClass): void {
 		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
 	}
@@ -73,6 +75,7 @@ class Manager implements IManager {
 	 * @throws QueryException
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getBackends():array {
 		$this->fetchBootstrapBackends();
 
@@ -91,6 +94,7 @@ class Manager implements IManager {
 	 * @param string $backendId
 	 * @throws QueryException
 	 */
+	#[\Override]
 	public function getBackend($backendId): ?IBackend {
 		$backends = $this->getBackends();
 		foreach ($backends as $backend) {
@@ -107,11 +111,13 @@ class Manager implements IManager {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function clear(): void {
 		$this->backends = [];
 		$this->initializedBackends = [];
 	}
 
+	#[\Override]
 	public function update(): void {
 		$this->updater->updateResources();
 	}

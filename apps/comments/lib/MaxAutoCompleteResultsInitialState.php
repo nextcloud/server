@@ -17,10 +17,12 @@ class MaxAutoCompleteResultsInitialState extends InitialStateProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getKey(): string {
 		return 'maxAutoCompleteResults';
 	}
 
+	#[\Override]
 	public function getData(): int {
 		return (int)$this->config->getAppValue('comments', 'maxAutoCompleteResults', '10');
 	}

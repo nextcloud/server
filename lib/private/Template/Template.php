@@ -108,6 +108,7 @@ class Template extends Base implements ITemplate {
 	 * This function process the template. If $this->renderAs is set, it
 	 * will produce a full page.
 	 */
+	#[\Override]
 	public function fetchPage(?array $additionalParams = null): string {
 		$data = parent::fetchPage($additionalParams);
 

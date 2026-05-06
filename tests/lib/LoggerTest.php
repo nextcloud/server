@@ -27,6 +27,7 @@ class LoggerTest extends TestCase implements IWriter {
 	/** @var array */
 	private array $logs = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -200,6 +201,7 @@ class LoggerTest extends TestCase implements IWriter {
 		return $this->logs;
 	}
 
+	#[\Override]
 	public function write(string $app, $message, int $level) {
 		$textMessage = $message;
 		if (is_array($message)) {

@@ -33,6 +33,7 @@ class Authtokens implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->initialState->provideInitialState(
 			'app_tokens',
@@ -48,10 +49,12 @@ class Authtokens implements ISettings {
 		return new TemplateResponse('settings', 'settings/personal/security/authtokens');
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 100;
 	}

@@ -41,6 +41,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	private ITimeFactory $timeFactory;
 	private PreviewService $previewService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -66,6 +67,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->previewService = Server::get(PreviewService::class);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->trashEnabled) {
 			$appManager = Server::get(IAppManager::class);

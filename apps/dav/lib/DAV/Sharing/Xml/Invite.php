@@ -93,6 +93,7 @@ class Invite implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
+	#[\Override]
 	public function xmlSerialize(Writer $writer) {
 		$cs = '{' . Plugin::NS_OWNCLOUD . '}';
 

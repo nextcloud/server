@@ -32,6 +32,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 
 		$this->initialState->provideInitialState('internalOnly', $this->gsConfig->onlyInternalFederation());
@@ -53,6 +54,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'sharing';
 	}
@@ -64,14 +66,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 20;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Federated Cloud Sharing');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
 			'files_sharing' => [

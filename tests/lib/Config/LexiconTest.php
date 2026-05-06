@@ -34,6 +34,7 @@ class LexiconTest extends TestCase {
 	private ConfigManager $configManager;
 	private IAppManager $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -49,6 +50,7 @@ class LexiconTest extends TestCase {
 		$this->appManager = Server::get(IAppManager::class);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 

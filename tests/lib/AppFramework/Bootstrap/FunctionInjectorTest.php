@@ -20,6 +20,7 @@ interface Foo {
 class FunctionInjectorTest extends TestCase {
 	private SimpleContainer $container;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

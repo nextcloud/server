@@ -36,6 +36,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	private $middleware;
 
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

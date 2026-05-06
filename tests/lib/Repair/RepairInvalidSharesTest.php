@@ -29,6 +29,7 @@ class RepairInvalidSharesTest extends TestCase {
 	private RepairInvalidShares $repair;
 	private IDBConnection $connection;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -46,6 +47,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$this->repair = new RepairInvalidShares($config, $this->connection);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->deleteAllShares();
 

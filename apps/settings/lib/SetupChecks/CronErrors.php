@@ -21,14 +21,17 @@ class CronErrors implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Cron errors');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$errors = json_decode($this->config->getAppValue('core', 'cronErrors', ''), true);
 		if (is_array($errors) && count($errors) > 0) {

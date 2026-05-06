@@ -30,6 +30,7 @@ class AppUpdateEventListener implements IEventListener {
 	/**
 	 * @param AppUpdateEvent $event
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof AppUpdateEvent)) {
 			return;

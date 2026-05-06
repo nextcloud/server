@@ -98,11 +98,11 @@ export async function restoreVersion(version: Version) {
  */
 function formatVersion(version: Required<FileStat>, node: INode): Version {
 	const mtime = Date.parse(version.lastmod)
-	let previewUrl = ''
 
+	let previewUrl: string
 	if (mtime === node.mtime?.getTime()) { // Version is the current one
 		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0&forceIcon=1&mimeFallback=1', {
-			fileId: node.fileid,
+			fileId: node.id,
 			fileEtag: node.attributes.etag,
 		})
 	} else {
@@ -113,7 +113,7 @@ function formatVersion(version: Required<FileStat>, node: INode): Version {
 	}
 
 	return {
-		fileId: node.fileid!.toString(),
+		fileId: node.id!,
 		// If version-label is defined make sure it is a string (prevent issue if the label is a number an PHP returns a number then)
 		label: version.props['version-label'] ? String(version.props['version-label']) : '',
 		author: version.props['version-author'] ? String(version.props['version-author']) : null,

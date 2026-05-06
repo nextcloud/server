@@ -23,6 +23,7 @@ class CryptoWrappingTest extends TestCase {
 	/** @var CryptoSessionData */
 	protected $instance;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -19,6 +19,7 @@ class PublicEmitter extends BasicEmitter {
 	 *
 	 * @suppress PhanAccessMethodProtected
 	 */
+	#[\Override]
 	public function emit($scope, $method, array $arguments = []) {
 		parent::emit($scope, $method, $arguments);
 	}

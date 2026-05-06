@@ -15,7 +15,6 @@ SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: clipboard developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: Yehuda Katz
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
@@ -94,9 +93,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - @vueuse/shared
 	- version: 14.2.1
-	- license: MIT
-- focus-trap
-	- version: 8.0.0
 	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
@@ -185,6 +181,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
+- focus-trap
+	- version: 7.8.0
+	- license: MIT
 - @nextcloud/vue
 	- version: 8.37.0
 	- license: AGPL-3.0-or-later
@@ -210,7 +209,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.13.5
+	- version: 1.15.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -225,7 +224,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.11
 	- license: MIT
 - core-js
-	- version: 3.48.0
+	- version: 3.49.0
 	- license: MIT
 - crypt
 	- version: 0.0.2
@@ -240,7 +239,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.3.3
+	- version: 3.4.0
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -252,10 +251,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 7.8.0
-	- license: MIT
-- handlebars
-	- version: 4.7.8
+	- version: 8.0.1
 	- license: MIT
 - hookable
 	- version: 5.5.3

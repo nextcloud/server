@@ -58,21 +58,25 @@ class LegacyTrashBackend implements ITrashBackend {
 		}, $items);
 	}
 
+	#[\Override]
 	public function listTrashRoot(IUser $user): array {
 		$entries = Helper::getTrashFiles('/', $user->getUID());
 		return $this->mapTrashItems($entries, $user);
 	}
 
+	#[\Override]
 	public function listTrashFolder(ITrashItem $folder): array {
 		$user = $folder->getUser();
 		$entries = Helper::getTrashFiles($folder->getTrashPath(), $user->getUID());
 		return $this->mapTrashItems($entries, $user, $folder);
 	}
 
+	#[\Override]
 	public function restoreItem(ITrashItem $item) {
 		Trashbin::restore($item->getTrashPath(), $item->getName(), $item->isRootItem() ? $item->getDeletedTime() : null);
 	}
 
+	#[\Override]
 	public function removeItem(ITrashItem $item) {
 		$user = $item->getUser();
 		if ($item->isRootItem()) {
@@ -83,6 +87,7 @@ class LegacyTrashBackend implements ITrashBackend {
 		}
 	}
 
+	#[\Override]
 	public function moveToTrash(IStorage $storage, string $internalPath): bool {
 		if (!$storage instanceof Storage) {
 			return false;
@@ -105,6 +110,7 @@ class LegacyTrashBackend implements ITrashBackend {
 		return $result;
 	}
 
+	#[\Override]
 	public function getTrashNodeById(IUser $user, int $fileId) {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());

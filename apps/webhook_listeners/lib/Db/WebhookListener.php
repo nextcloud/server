@@ -140,6 +140,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 		$this->setAuthData($this->crypto->encrypt(json_encode($data)));
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		$fields = array_keys($this->getFieldTypes());
 		return array_combine(

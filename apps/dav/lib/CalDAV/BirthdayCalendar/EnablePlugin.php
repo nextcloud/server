@@ -52,6 +52,7 @@ class EnablePlugin extends ServerPlugin {
 	 *
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getFeatures() {
 		return ['nc-enable-birthday-calendar'];
 	}
@@ -64,6 +65,7 @@ class EnablePlugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getPluginName() {
 		return 'nc-enable-birthday-calendar';
 	}
@@ -78,6 +80,7 @@ class EnablePlugin extends ServerPlugin {
 	 *
 	 * @param Server $server
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 

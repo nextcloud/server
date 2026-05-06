@@ -110,6 +110,7 @@ class SearchResultEntry implements JsonSerializable {
 	 *
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'thumbnailUrl' => $this->thumbnailUrl,

@@ -23,6 +23,7 @@ class CardDavValidatePlugin extends ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$server->on('beforeMethod:PUT', [$this, 'beforePut']);
 	}

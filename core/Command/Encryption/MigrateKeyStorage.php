@@ -30,6 +30,7 @@ class MigrateKeyStorage extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -37,6 +38,7 @@ class MigrateKeyStorage extends Command {
 			->setDescription('Migrate the format of the keystorage to a newer format');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$root = $this->util->getKeyStorageRoot();
 

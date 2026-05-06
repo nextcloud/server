@@ -17,6 +17,7 @@ use Test\TestCase;
 class EventLoggerTest extends TestCase {
 	private EventLogger $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

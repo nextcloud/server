@@ -60,6 +60,7 @@ class AddTest extends TestCase {
 	/** @var Add */
 	private $addCommand;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 

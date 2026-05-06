@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitDAV
 {
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OCA\\DAV\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\DAV\\' =>
+        'OCA\\DAV\\' => 
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -111,6 +111,8 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Outbox' => __DIR__ . '/..' . '/../lib/CalDAV/Outbox.php',
         'OCA\\DAV\\CalDAV\\Plugin' => __DIR__ . '/..' . '/../lib/CalDAV/Plugin.php',
         'OCA\\DAV\\CalDAV\\Principal\\Collection' => __DIR__ . '/..' . '/../lib/CalDAV/Principal/Collection.php',
+        'OCA\\DAV\\CalDAV\\Principal\\ProxyRead' => __DIR__ . '/..' . '/../lib/CalDAV/Principal/ProxyRead.php',
+        'OCA\\DAV\\CalDAV\\Principal\\ProxyWrite' => __DIR__ . '/..' . '/../lib/CalDAV/Principal/ProxyWrite.php',
         'OCA\\DAV\\CalDAV\\Principal\\User' => __DIR__ . '/..' . '/../lib/CalDAV/Principal/User.php',
         'OCA\\DAV\\CalDAV\\Proxy\\Proxy' => __DIR__ . '/..' . '/../lib/CalDAV/Proxy/Proxy.php',
         'OCA\\DAV\\CalDAV\\Proxy\\ProxyMapper' => __DIR__ . '/..' . '/../lib/CalDAV/Proxy/ProxyMapper.php',
@@ -283,6 +285,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\DAV\\GroupPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/GroupPrincipalBackend.php',
         'OCA\\DAV\\DAV\\PublicAuth' => __DIR__ . '/..' . '/../lib/DAV/PublicAuth.php',
         'OCA\\DAV\\DAV\\RemoteUserPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/RemoteUserPrincipalBackend.php',
+        'OCA\\DAV\\DAV\\Security\\RateLimiting' => __DIR__ . '/..' . '/../lib/DAV/Security/RateLimiting.php',
         'OCA\\DAV\\DAV\\Sharing\\Backend' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Backend.php',
         'OCA\\DAV\\DAV\\Sharing\\IShareable' => __DIR__ . '/..' . '/../lib/DAV/Sharing/IShareable.php',
         'OCA\\DAV\\DAV\\Sharing\\Plugin' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Plugin.php',
@@ -406,6 +409,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\Version1034Date20250813093701' => __DIR__ . '/..' . '/../lib/Migration/Version1034Date20250813093701.php',
         'OCA\\DAV\\Migration\\Version1036Date20251202000000' => __DIR__ . '/..' . '/../lib/Migration/Version1036Date20251202000000.php',
         'OCA\\DAV\\Migration\\Version1038Date20260302000000' => __DIR__ . '/..' . '/../lib/Migration/Version1038Date20260302000000.php',
+        'OCA\\DAV\\Migration\\Version1039Date20260408000000' => __DIR__ . '/..' . '/../lib/Migration/Version1039Date20260408000000.php',
         'OCA\\DAV\\Model\\ExampleEvent' => __DIR__ . '/..' . '/../lib/Model/ExampleEvent.php',
         'OCA\\DAV\\Paginate\\LimitedCopyIterator' => __DIR__ . '/..' . '/../lib/Paginate/LimitedCopyIterator.php',
         'OCA\\DAV\\Paginate\\PaginateCache' => __DIR__ . '/..' . '/../lib/Paginate/PaginateCache.php',

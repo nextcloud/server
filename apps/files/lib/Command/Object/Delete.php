@@ -23,6 +23,7 @@ class Delete extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:object:delete')
@@ -31,6 +32,7 @@ class Delete extends Command {
 			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket to delete the object from, only required in cases where it can't be determined from the config");
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$object = $input->getArgument('object');
 		$objectStore = $this->objectUtils->getObjectStore($input->getOption('bucket'), $output);

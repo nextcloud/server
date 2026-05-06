@@ -81,10 +81,12 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 		parent::__construct('root', $children);
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'systemtags-relations';
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}

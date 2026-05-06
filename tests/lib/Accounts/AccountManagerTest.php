@@ -62,6 +62,7 @@ class AccountManagerTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private IClientService&MockObject $clientService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->connection = Server::get(IDBConnection::class);
@@ -96,6 +97,7 @@ class AccountManagerTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 		$query = $this->connection->getQueryBuilder();

@@ -26,6 +26,7 @@ class ActivityPublisher implements IEventListener {
 	/**
 	 * Push an event to the user's activity stream
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof CodesGenerated) {
 			$activity = $this->activityManager->generateEvent();

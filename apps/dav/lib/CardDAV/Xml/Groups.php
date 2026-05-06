@@ -21,6 +21,7 @@ class Groups implements XmlSerializable {
 	) {
 	}
 
+	#[\Override]
 	public function xmlSerialize(Writer $writer) {
 		foreach ($this->groups as $group) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}group', $group);

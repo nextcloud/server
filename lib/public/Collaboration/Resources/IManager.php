@@ -97,11 +97,4 @@ interface IManager extends IProvider {
 	 * @since 16.0.0
 	 */
 	public function getResourceForUser(string $type, string $id, ?IUser $user): IResource;
-
-	/**
-	 * @param string $provider
-	 * @since 16.0.0
-	 * @deprecated 18.0.0 Use IProviderManager::registerResourceProvider instead
-	 */
-	public function registerResourceProvider(string $provider): void;
 }

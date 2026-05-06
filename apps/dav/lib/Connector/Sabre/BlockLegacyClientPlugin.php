@@ -32,6 +32,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('beforeMethod:*', [$this, 'beforeHandler'], 200);
@@ -49,7 +50,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 			return;
 		}
 
-		$minimumSupportedDesktopVersion = $this->config->getSystemValueString('minimum.supported.desktop.version', '3.1.83');
+		$minimumSupportedDesktopVersion = $this->config->getSystemValueString('minimum.supported.desktop.version', '3.2.50');
 		$maximumSupportedDesktopVersion = $this->config->getSystemValueString('maximum.supported.desktop.version', '99.99.99');
 
 		// Check if the client is a desktop client

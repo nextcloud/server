@@ -35,6 +35,7 @@ class CertificateManagerTest extends \Test\TestCase {
 	private string $username;
 	private ISecureRandom&MockObject $random;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -70,6 +71,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$user = Server::get(IUserManager::class)->get($this->username);
 		if ($user !== null) {

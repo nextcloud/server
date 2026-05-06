@@ -36,6 +36,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 *
 	 * @param array $argument unused argument
 	 */
+	#[\Override]
 	public function run($argument) {
 		$this->cleanSystemTags();
 		$this->cleanUserTags();

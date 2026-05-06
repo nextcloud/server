@@ -30,6 +30,7 @@ class RepairDavSharesTest extends TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private RepairDavShares $repair;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 

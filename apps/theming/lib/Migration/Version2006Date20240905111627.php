@@ -29,18 +29,22 @@ class Version2006Date20240905111627 implements IMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function name(): string {
 		return 'Restore custom primary color';
 	}
 
+	#[\Override]
 	public function description(): string {
 		return 'Restore custom primary color after separating primary color from background color';
 	}
 
+	#[\Override]
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		// nop
 	}
 
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		$this->restoreSystemColors($output);
 
@@ -52,6 +56,7 @@ class Version2006Date20240905111627 implements IMigrationStep {
 		return null;
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		$output->info('Initialize restoring of background colors for custom background images');
 		// This is done in a background job as this can take a lot of time for large instances

@@ -35,6 +35,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function hasKey($key): bool {
 		return isset($this->cache[$key]);
 	}
@@ -43,6 +44,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @return ?T
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function get($key) {
 		return $this->cache[$key] ?? null;
 	}
@@ -55,6 +57,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @since 25.0.0
 	 * @return bool
 	 */
+	#[\Override]
 	public function set($key, $value, $ttl = 0): bool {
 		if (is_null($key)) {
 			$this->cache[] = $value;
@@ -68,6 +71,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	/**
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function remove($key): bool {
 		unset($this->cache[$key]);
 		return true;
@@ -77,6 +81,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function clear($prefix = ''): bool {
 		$this->cache = [];
 		return true;
@@ -85,6 +90,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	/**
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function offsetExists($offset): bool {
 		return $this->hasKey($offset);
 	}
@@ -94,6 +100,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @return T
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function &offsetGet($offset) {
 		return $this->cache[$offset];
@@ -105,6 +112,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @param T $value
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
@@ -113,6 +121,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}
@@ -141,6 +150,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public static function isAvailable(): bool {
 		return true;
 	}

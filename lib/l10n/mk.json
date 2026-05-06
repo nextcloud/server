@@ -152,6 +152,8 @@
     "The requested share does not exist anymore" : "Споделувањето не постои повеќе",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Корисникот не е креиран затоа што максималниот број на корисници е достигнат. Проверете ги вашите известувања за да дознаете повеќе.",
     "Could not find category \"%s\"" : "Не можам да најдам категорија „%s“",
+    "Cannot generate more than 12 images" : "Неможе да се генерираат повеќе од 12 слики",
+    "Cannot generate less than 1 image" : "Неможе да се генерира помалку од една слика",
     "Sunday" : "Недела",
     "Monday" : "Понеделник",
     "Tuesday" : "Вторник",

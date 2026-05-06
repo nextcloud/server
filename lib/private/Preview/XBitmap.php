@@ -13,6 +13,7 @@ class XBitmap extends Image {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/x-xbitmap/';
 	}

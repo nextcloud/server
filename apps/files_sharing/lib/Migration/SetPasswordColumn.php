@@ -31,6 +31,7 @@ class SetPasswordColumn implements IRepairStep {
 	 * @return string
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Copy the share password into the dedicated column';
 	}
@@ -38,6 +39,7 @@ class SetPasswordColumn implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		if (!$this->shouldRun()) {
 			return;

@@ -33,6 +33,7 @@ class FederatedCalendarSyncJob extends QueuedJob {
 		$this->setAllowParallelRuns(false);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		if (!$this->calendarFederationConfig->isFederationEnabled()) {
 			return;

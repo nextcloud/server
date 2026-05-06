@@ -13,11 +13,13 @@ use OCP\ITempManager;
 use OCP\Server;
 
 class TARTest extends TestBase {
+	#[\Override]
 	protected function getExisting() {
 		$dir = \OC::$SERVERROOT . '/tests/data';
 		return new TAR($dir . '/data.tar.gz');
 	}
 
+	#[\Override]
 	protected function getNew() {
 		return new TAR(Server::get(ITempManager::class)->getTemporaryFile('.tar.gz'));
 	}

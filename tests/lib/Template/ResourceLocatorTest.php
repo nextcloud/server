@@ -20,6 +20,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 	private LoggerInterface&MockObject $logger;
 	private IConfig&MockObject $config;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->logger = $this->createMock(LoggerInterface::class);

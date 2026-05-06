@@ -32,6 +32,7 @@ class Validator implements IValidator {
 	 * @throws InvalidObjectExeption
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function validate(string $subject, array $parameters): void {
 		$matches = [];
 		$result = preg_match_all('/\{(' . self::PLACEHOLDER_REGEX . ')\}/', $subject, $matches);

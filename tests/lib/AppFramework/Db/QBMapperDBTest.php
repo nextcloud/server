@@ -67,6 +67,7 @@ class QBMapperDBTest extends TestCase {
 	protected IDBConnection $connection;
 	protected bool $schemaSetup = false;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

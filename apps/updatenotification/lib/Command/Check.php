@@ -25,6 +25,7 @@ class Check extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('update:check')
@@ -32,6 +33,7 @@ class Check extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$updatesAvailableCount = 0;
 

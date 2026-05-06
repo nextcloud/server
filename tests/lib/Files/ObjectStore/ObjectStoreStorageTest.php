@@ -25,6 +25,7 @@ class ObjectStoreStorageTest extends Storage {
 	 */
 	private $objectStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -34,6 +35,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->instance = new ObjectStoreStorageOverwrite($config);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if (is_null($this->instance)) {
 			return;
@@ -43,6 +45,7 @@ class ObjectStoreStorageTest extends Storage {
 		parent::tearDown();
 	}
 
+	#[\Override]
 	public function testStat(): void {
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$ctimeStart = time();
@@ -67,10 +70,12 @@ class ObjectStoreStorageTest extends Storage {
 		}
 	}
 
+	#[\Override]
 	public function testCheckUpdate(): void {
 		$this->markTestSkipped('Detecting external changes is not supported on object storages');
 	}
 
+	#[\Override]
 	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
 	public function testMove($source, $target): void {
 		$this->initSourceAndTarget($source);
@@ -87,6 +92,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertSame($sourceId, $targetId, 'fileid must be stable on move or shares will break');
 	}
 
+	#[\Override]
 	public function testRenameDirectory(): void {
 		$this->instance->mkdir('source');
 		$this->instance->file_put_contents('source/test1.txt', 'foo');
@@ -116,6 +122,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertSame($sourceId, $targetId, 'fileid must be stable on move or shares will break');
 	}
 
+	#[\Override]
 	public function testRenameOverWriteDirectory(): void {
 		$this->instance->mkdir('source');
 		$this->instance->file_put_contents('source/test1.txt', 'foo');
@@ -136,6 +143,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertSame($sourceId, $targetId, 'fileid must be stable on move or shares will break');
 	}
 
+	#[\Override]
 	public function testRenameOverWriteDirectoryOverFile(): void {
 		$this->instance->mkdir('source');
 		$this->instance->file_put_contents('source/test1.txt', 'foo');

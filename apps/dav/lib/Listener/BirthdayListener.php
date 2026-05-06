@@ -22,6 +22,7 @@ class BirthdayListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof CardCreatedEvent || $event instanceof CardUpdatedEvent) {
 			$cardData = $event->getCardData();

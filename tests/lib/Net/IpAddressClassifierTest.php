@@ -15,6 +15,7 @@ use Test\TestCase;
 class IpAddressClassifierTest extends TestCase {
 	private IpAddressClassifier $classifier;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

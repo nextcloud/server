@@ -27,6 +27,7 @@ class CalendarProvider implements ICalendarProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
 		/** @var array{uri: string, principaluri: string}[] $calendarInfos */
 		$calendarInfos = $this->calDavBackend->getCalendarsForUser($principalUri) ?? [];

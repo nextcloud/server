@@ -20,18 +20,22 @@ class Server implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('core', 'actions/settings-dark.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'server';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Basic settings');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 1;
 	}

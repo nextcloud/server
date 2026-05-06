@@ -8,6 +8,7 @@
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 
 /**
  * Prompts the user to download the a file
@@ -29,9 +30,11 @@ class DownloadResponse extends Response {
 	public function __construct(string $filename, string $contentType, int $status = Http::STATUS_OK, array $headers = []) {
 		parent::__construct($status, $headers);
 
-		$filename = strtr($filename, ['"' => '\\"', '\\' => '\\\\']);
-
-		$this->addHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+		$sanitized = str_replace(['/', '\\'], '-', $filename);
+		$fallback = @iconv('UTF-8', 'ASCII//TRANSLIT', $sanitized) ?: $sanitized;
+		$fallback = preg_replace('/[^\x20-\x7e]/', '', $fallback);
+		$fallback = str_replace('%', '', $fallback);
+		$this->addHeader('Content-Disposition', HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $sanitized, $fallback));
 		$this->addHeader('Content-Type', $contentType);
 	}
 }

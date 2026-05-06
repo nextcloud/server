@@ -23,6 +23,7 @@ class Version1011Date20201120125158 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -42,6 +43,7 @@ class Version1011Date20201120125158 extends SimpleMigrationStep {
 		return null;
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('federated_reshares')

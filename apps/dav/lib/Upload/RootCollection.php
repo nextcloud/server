@@ -26,11 +26,13 @@ class RootCollection extends AbstractPrincipalCollection {
 		private IManager $shareManager,
 	) {
 		parent::__construct($principalBackend, $principalPrefix);
+		$this->disableListing = true;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChildForPrincipal(array $principalInfo): UploadHome {
 		return new UploadHome(
 			$principalInfo,
@@ -44,6 +46,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'uploads';
 	}

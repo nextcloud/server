@@ -31,10 +31,12 @@ class Profiler implements IProfiler {
 		}
 	}
 
+	#[\Override]
 	public function add(IDataCollector $dataCollector): void {
 		$this->dataCollectors[$dataCollector->getName()] = $dataCollector;
 	}
 
+	#[\Override]
 	public function loadProfileFromResponse(Response $response): ?IProfile {
 		if (!$token = $response->getHeaders()['X-Debug-Token']) {
 			return null;
@@ -43,6 +45,7 @@ class Profiler implements IProfiler {
 		return $this->loadProfile($token);
 	}
 
+	#[\Override]
 	public function loadProfile(string $token): ?IProfile {
 		if ($this->storage) {
 			return $this->storage->read($token);
@@ -51,6 +54,7 @@ class Profiler implements IProfiler {
 		}
 	}
 
+	#[\Override]
 	public function saveProfile(IProfile $profile): bool {
 		if ($this->storage) {
 			return $this->storage->write($profile);
@@ -59,6 +63,7 @@ class Profiler implements IProfiler {
 		}
 	}
 
+	#[\Override]
 	public function collect(Request $request, Response $response): IProfile {
 		$profile = new Profile($request->getId());
 		$profile->setTime(time());
@@ -77,6 +82,7 @@ class Profiler implements IProfiler {
 	/**
 	 * @return array[]
 	 */
+	#[\Override]
 	public function find(?string $url, ?int $limit, ?string $method, ?int $start, ?int $end,
 		?string $statusCode = null): array {
 		if ($this->storage) {
@@ -86,18 +92,22 @@ class Profiler implements IProfiler {
 		}
 	}
 
+	#[\Override]
 	public function dataProviders(): array {
 		return array_keys($this->dataCollectors);
 	}
 
+	#[\Override]
 	public function isEnabled(): bool {
 		return $this->enabled;
 	}
 
+	#[\Override]
 	public function setEnabled(bool $enabled): void {
 		$this->enabled = $enabled;
 	}
 
+	#[\Override]
 	public function clear(): void {
 		$this->storage->purge();
 	}

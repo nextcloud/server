@@ -28,6 +28,7 @@ class AdvancedCapabilities implements ICapability, IInitialStateExcludedCapabili
 	 *
 	 * @return array{files: array{'windows_compatible_filenames': bool}}
 	 */
+	#[\Override]
 	public function getCapabilities(): array {
 		return [
 			'files' => [

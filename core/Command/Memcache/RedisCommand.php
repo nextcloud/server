@@ -23,6 +23,7 @@ class RedisCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('memcache:redis:command')
@@ -31,6 +32,7 @@ class RedisCommand extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$command = $input->getArgument('redis-command');
 		if (!$this->redisFactory->isAvailable()) {

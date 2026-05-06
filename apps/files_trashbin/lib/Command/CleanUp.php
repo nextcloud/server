@@ -35,6 +35,7 @@ class CleanUp extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -53,6 +54,7 @@ class CleanUp extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userIds = $input->getArgument('user_id');
 		$verbose = $input->getOption('verbose');

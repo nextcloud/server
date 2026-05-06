@@ -34,6 +34,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	}
 
 
+	#[\Override]
 	protected function newInstance(string $configPrefix): Group_LDAP {
 		return new Group_LDAP($this->getAccess($configPrefix), $this->groupPluginManager, $this->userConfig, $this->ncUserManager);
 	}
@@ -46,6 +47,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 * @param array $parameters an array of parameters to be passed
 	 * @return mixed the result of the method or false
 	 */
+	#[\Override]
 	protected function walkBackends($id, $method, $parameters) {
 		$this->setup();
 
@@ -71,6 +73,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 * @param mixed $passOnWhen the result matches this variable
 	 * @return mixed the result of the method or false
 	 */
+	#[\Override]
 	protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen) {
 		$this->setup();
 
@@ -98,6 +101,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 		return false;
 	}
 
+	#[\Override]
 	protected function activeBackends(): int {
 		$this->setup();
 		return count($this->backends);
@@ -112,6 +116,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
+	#[\Override]
 	public function inGroup($uid, $gid) {
 		return $this->handleRequest($gid, 'inGroup', [$uid, $gid]);
 	}
@@ -125,6 +130,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
+	#[\Override]
 	public function getUserGroups($uid) {
 		$this->setup();
 
@@ -142,6 +148,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 *
 	 * @return array<int,string> user ids
 	 */
+	#[\Override]
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$this->setup();
 
@@ -168,6 +175,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	/**
 	 * delete a group
 	 */
+	#[\Override]
 	public function deleteGroup(string $gid): bool {
 		return $this->handleRequest(
 			$gid, 'deleteGroup', [$gid]);
@@ -227,6 +235,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function getGroupsDetails(array $gids): array {
 		if (!($this instanceof IGroupDetailsBackend || $this->implementsActions(GroupInterface::GROUP_DETAILS))) {
 			throw new \Exception('Should not have been called');
@@ -246,6 +255,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 *
 	 * Returns a list with all groups
 	 */
+	#[\Override]
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		$this->setup();
 
@@ -266,6 +276,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 * @param string $gid
 	 * @return bool
 	 */
+	#[\Override]
 	public function groupExists($gid) {
 		return $this->handleRequest($gid, 'groupExists', [$gid]);
 	}
@@ -290,6 +301,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function groupsExists(array $gids): array {
 		return array_values(array_filter(
 			$gids,
@@ -306,6 +318,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 * Returns the supported actions as int to be
 	 * compared with \OCP\GroupInterface::CREATE_GROUP etc.
 	 */
+	#[\Override]
 	public function implementsActions($actions) {
 		$this->setup();
 		//it's the same across all our user backends obviously
@@ -318,6 +331,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 * @param string $gid
 	 * @return Access instance of Access for LDAP interaction
 	 */
+	#[\Override]
 	public function getLDAPAccess($gid) {
 		return $this->handleRequest($gid, 'getLDAPAccess', [$gid]);
 	}
@@ -329,10 +343,12 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 * @param string $gid
 	 * @return \LDAP\Connection The LDAP connection
 	 */
+	#[\Override]
 	public function getNewLDAPConnection($gid): \LDAP\Connection {
 		return $this->handleRequest($gid, 'getNewLDAPConnection', [$gid]);
 	}
 
+	#[\Override]
 	public function getDisplayName(string $gid): string {
 		return $this->handleRequest($gid, 'getDisplayName', [$gid]);
 	}
@@ -342,6 +358,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 * @return string the name of the backend to be shown
 	 * @since 22.0.0
 	 */
+	#[\Override]
 	public function getBackendName(): string {
 		return 'LDAP';
 	}
@@ -354,6 +371,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 		$this->handleRequest($gid, 'addRelationshipToCaches', [$uid, $dnUser, $gid]);
 	}
 
+	#[\Override]
 	public function isAdmin(string $uid): bool {
 		return $this->handleRequest($uid, 'isAdmin', [$uid]);
 	}

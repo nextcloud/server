@@ -19,6 +19,7 @@ class MP3 extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/audio\/mpeg/';
 	}
@@ -26,6 +27,7 @@ class MP3 extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$tmpPath = $this->getLocalFile($file);
 		if ($tmpPath === false) {

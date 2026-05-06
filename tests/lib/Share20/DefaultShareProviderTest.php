@@ -84,6 +84,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 	protected IShareManager&MockObject $shareManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -121,6 +122,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();

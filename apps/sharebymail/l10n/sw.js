@@ -40,7 +40,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Imeshindwa kusasisha usanidi wa kushiriki kwa barua",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Inaruhusu watu kushiriki kiungo kilichobinafsishwa kwa faili au folda kwa kuweka barua pepe.",
     "Send password by mail" : "Tuma nenosiri kwa barua",
-    "Reply to initiator" : "Jibu kwa mwanzilishi",
-    "Open %s" : "Fungua %s"
+    "Reply to initiator" : "Jibu kwa mwanzilishi"
 },
 "nplurals=2; plural=(n != 1);");

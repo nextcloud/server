@@ -104,6 +104,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		);
 	}
 
+	#[\Override]
 	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher {
 		if (!$storage) {
 			$storage = $this;
@@ -135,10 +136,12 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $this->password;
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'shared::' . md5($this->token . '@' . $this->getRemote());
 	}
 
+	#[\Override]
 	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (is_null($this->cache)) {
 			$this->cache = new Cache($this, $this->cloudId);
@@ -146,6 +149,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $this->cache;
 	}
 
+	#[\Override]
 	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
@@ -157,6 +161,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $this->scanner;
 	}
 
+	#[\Override]
 	public function hasUpdated(string $path, int $time): bool {
 		// since for owncloud webdav servers we can rely on etag propagation we only need to check the root of the storage
 		// because of that we only do one check for the entire storage per request
@@ -177,6 +182,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		}
 	}
 
+	#[\Override]
 	public function test(): bool {
 		try {
 			return parent::test();
@@ -227,6 +233,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		}
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		if ($path === '') {
 			return true;
@@ -331,10 +338,12 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return json_decode($response->getBody(), true);
 	}
 
+	#[\Override]
 	public function getOwner(string $path): string|false {
 		return $this->cloudId->getDisplayId();
 	}
 
+	#[\Override]
 	public function isSharable(string $path): bool {
 		if ($this->shareManager->sharingDisabledForUser(Server::get(IUserSession::class)->getUser()?->getUID())
 			|| !$this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true)) {
@@ -343,6 +352,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
+	#[\Override]
 	public function getPermissions(string $path): int {
 		$response = $this->propfind($path);
 		if ($response === false) {
@@ -368,6 +378,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $permissions;
 	}
 
+	#[\Override]
 	public function needsPartFile(): bool {
 		return false;
 	}
@@ -418,6 +429,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $permissions;
 	}
 
+	#[\Override]
 	public function free_space(string $path): int|float|false {
 		return parent::free_space('');
 	}

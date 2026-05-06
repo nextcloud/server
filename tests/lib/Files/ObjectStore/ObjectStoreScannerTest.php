@@ -21,6 +21,7 @@ class ObjectStoreScannerTest extends TestCase {
 	private ObjectStoreScanner $scanner;
 	private Scanner $realScanner;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

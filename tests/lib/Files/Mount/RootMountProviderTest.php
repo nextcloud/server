@@ -22,6 +22,7 @@ use Test\TestCase;
 class RootMountProviderTest extends TestCase {
 	private StorageFactory $loader;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

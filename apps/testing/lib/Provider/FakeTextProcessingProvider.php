@@ -15,14 +15,17 @@ use OCP\TextProcessing\ITaskType;
 /** @template-implements IProvider<FreePromptTaskType|ITaskType> */
 class FakeTextProcessingProvider implements IProvider {
 
+	#[\Override]
 	public function getName(): string {
 		return 'Fake text processing provider (asynchronous)';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		return $this->mb_strrev($prompt) . ' (done with FakeTextProcessingProvider)';
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return FreePromptTaskType::class;
 	}

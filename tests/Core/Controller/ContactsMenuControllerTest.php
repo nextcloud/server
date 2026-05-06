@@ -24,6 +24,7 @@ class ContactsMenuControllerTest extends TestCase {
 
 	private ContactsMenuController $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

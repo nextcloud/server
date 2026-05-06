@@ -45,6 +45,7 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 	 * @param IOutput $output
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function callback(IOutput $output) {
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {
 			$file = $this->file instanceof File

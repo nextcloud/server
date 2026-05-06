@@ -201,7 +201,10 @@ class SyncService extends ASyncService {
 			$vCard = Reader::read($card['carddata']);
 			$uid = $vCard->UID->getValue();
 			// load backend and see if user exists
-			if (!$this->userManager->userExists($uid)) {
+			$user = $this->userManager->get($uid);
+
+			// If the user does not exist
+			if ($user === null || self::getCardUri($user) !== $card['uri']) {
 				$this->deleteUser($card['uri']);
 			}
 		}
@@ -213,5 +216,16 @@ class SyncService extends ASyncService {
 	 */
 	public static function getCardUri(IUser $user): string {
 		return $user->getBackendClassName() . ':' . $user->getUID() . '.vcf';
+	}
+
+	public function markCardsAsPending(int $addressBookId): void {
+		$this->backend->markCardsAsPending($addressBookId);
+	}
+
+	public function deletePendingCards(int $addressBookId): void {
+		$cards = $this->backend->getPendingCards($addressBookId);
+		foreach ($cards as $card) {
+			$this->backend->deleteCard($addressBookId, $card['uri']);
+		}
 	}
 }

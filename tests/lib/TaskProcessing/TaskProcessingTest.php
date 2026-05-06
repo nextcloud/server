@@ -62,24 +62,29 @@ use Test\BackgroundJob\DummyJobList;
 class AudioToImage implements ITaskType {
 	public const ID = 'test:audiotoimage';
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'audio' => new ShapeDescriptor('Audio', 'The audio', EShapeType::Audio),
 		];
 	}
 
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'spectrogram' => new ShapeDescriptor('Spectrogram', 'The audio spectrogram', EShapeType::Image),
@@ -88,54 +93,66 @@ class AudioToImage implements ITaskType {
 }
 
 class AsyncProvider implements IProvider {
+	#[\Override]
 	public function getId(): string {
 		return 'test:sync:success';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return AudioToImage::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -144,58 +161,71 @@ class AsyncProvider implements IProvider {
 class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 	public const ID = 'test:sync:success';
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		return ['output' => $input['input']];
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -205,58 +235,71 @@ class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 
 class FailingSyncProvider implements IProvider, ISynchronousProvider {
 	public const ERROR_MESSAGE = 'Failure';
+	#[\Override]
 	public function getId(): string {
 		return 'test:sync:fail';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		throw new ProcessingException(self::ERROR_MESSAGE);
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -266,116 +309,142 @@ class FailingSyncProvider implements IProvider, ISynchronousProvider {
 class FailingSyncProviderWithUserFacingError implements IProvider, ISynchronousProvider {
 	public const ERROR_MESSAGE = 'Failure';
 	public const USER_FACING_ERROR_MESSAGE = 'User-facing Failure';
+	#[\Override]
 	public function getId(): string {
 		return 'test:sync:fail:user-facing';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		throw new UserFacingProcessingException(self::ERROR_MESSAGE, userFacingMessage: self::USER_FACING_ERROR_MESSAGE);
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 }
 
 class BrokenSyncProvider implements IProvider, ISynchronousProvider {
+	#[\Override]
 	public function getId(): string {
 		return 'test:sync:broken-output';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -384,15 +453,18 @@ class BrokenSyncProvider implements IProvider, ISynchronousProvider {
 class SuccessfulTextProcessingSummaryProvider implements \OCP\TextProcessing\IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Vanilla LLM Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		return $prompt . ' Summarize';
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return SummaryTaskType::class;
 	}
@@ -401,15 +473,18 @@ class SuccessfulTextProcessingSummaryProvider implements \OCP\TextProcessing\IPr
 class FailingTextProcessingSummaryProvider implements \OCP\TextProcessing\IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Vanilla LLM Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		throw new \Exception('ERROR');
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return SummaryTaskType::class;
 	}
@@ -418,14 +493,17 @@ class FailingTextProcessingSummaryProvider implements \OCP\TextProcessing\IProvi
 class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getId(): string {
 		return 'test:successful';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Provider';
 	}
 
+	#[\Override]
 	public function generate(string $prompt, array $resources): void {
 		$this->ran = true;
 		foreach ($resources as $resource) {
@@ -433,6 +511,7 @@ class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 		}
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 1;
 	}
@@ -441,19 +520,23 @@ class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 class FailingTextToImageProvider implements \OCP\TextToImage\IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getId(): string {
 		return 'test:failing';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Provider';
 	}
 
+	#[\Override]
 	public function generate(string $prompt, array $resources): void {
 		$this->ran = true;
 		throw new \RuntimeException('ERROR');
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 1;
 	}
@@ -463,39 +546,51 @@ class ExternalProvider implements IProvider {
 	public const ID = 'event:external:provider';
 	public const TASK_TYPE_ID = 'event:external:tasktype';
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'External Provider via Event';
 	}
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return self::TASK_TYPE_ID;
 	}
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 5;
 	}
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -506,43 +601,56 @@ class ExternalTriggerableProvider implements ITriggerableProvider {
 	public const ID = 'event:external:provider:triggerable';
 	public const TASK_TYPE_ID = TextToText::ID;
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'External Triggerable Provider via Event';
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return self::TASK_TYPE_ID;
 	}
 
+	#[\Override]
 	public function trigger(): void {
 	}
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 5;
 	}
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -553,39 +661,51 @@ class ConflictingExternalProvider implements IProvider {
 	public const ID = 'test:sync:success';
 	public const TASK_TYPE_ID = 'event:external:tasktype'; // Can be different task type
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'Conflicting External Provider';
 	}
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return self::TASK_TYPE_ID;
 	}
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 50;
 	}
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -594,18 +714,23 @@ class ConflictingExternalProvider implements IProvider {
 class ExternalTaskType implements ITaskType {
 	public const ID = 'event:external:tasktype';
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'External Task Type via Event';
 	}
+	#[\Override]
 	public function getDescription(): string {
 		return 'A task type added via event';
 	}
+	#[\Override]
 	public function getInputShape(): array {
 		return ['external_input' => new ShapeDescriptor('Ext In', '', EShapeType::Text)];
 	}
+	#[\Override]
 	public function getOutputShape(): array {
 		return ['external_output' => new ShapeDescriptor('Ext Out', '', EShapeType::Text)];
 	}
@@ -615,18 +740,23 @@ class ConflictingExternalTaskType implements ITaskType {
 	// Same ID as built-in TextToText
 	public const ID = TextToText::ID;
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'Conflicting External Task Type';
 	}
+	#[\Override]
 	public function getDescription(): string {
 		return 'Overrides built-in TextToText';
 	}
+	#[\Override]
 	public function getInputShape(): array {
 		return ['override_input' => new ShapeDescriptor('Override In', '', EShapeType::Number)];
 	}
+	#[\Override]
 	public function getOutputShape(): array {
 		return ['override_output' => new ShapeDescriptor('Override Out', '', EShapeType::Number)];
 	}
@@ -651,6 +781,7 @@ class TaskProcessingTest extends \Test\TestCase {
 
 	public const TEST_USER = 'testuser';
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

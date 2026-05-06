@@ -15,6 +15,7 @@ use OCP\Util;
 
 /** @template-implements IEventListener<LoadSearchPlugins> */
 class LoadSearchPluginsListener implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$event instanceof LoadSearchPlugins) {
 			return;

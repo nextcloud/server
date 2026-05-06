@@ -24,14 +24,17 @@ class RandomnessSecure implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Random generator');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		try {
 			$this->secureRandom->generate(1);

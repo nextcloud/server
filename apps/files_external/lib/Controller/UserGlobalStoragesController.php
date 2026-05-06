@@ -68,6 +68,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	public function index() {
 		/** @var UserGlobalStoragesService */
@@ -84,6 +85,7 @@ class UserGlobalStoragesController extends StoragesController {
 		);
 	}
 
+	#[\Override]
 	protected function manipulateStorageConfig(StorageConfig $storage) {
 		/** @var AuthMechanism */
 		$authMechanism = $storage->getAuthMechanism();
@@ -99,6 +101,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @param int $id storage id
 	 * @return DataResponse
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	public function show($id) {
 		try {

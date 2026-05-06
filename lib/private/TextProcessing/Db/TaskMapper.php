@@ -95,6 +95,7 @@ class TaskMapper extends QBMapper {
 		return $qb->executeStatement();
 	}
 
+	#[\Override]
 	public function update(Entity $entity): Entity {
 		$entity->setLastUpdated($this->timeFactory->now()->getTimestamp());
 		return parent::update($entity);

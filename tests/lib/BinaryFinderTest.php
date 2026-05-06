@@ -21,6 +21,7 @@ class BinaryFinderTest extends TestCase {
 	private ICacheFactory $cacheFactory;
 	private $oldEnv;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->oldEnv = getenv('PATH');
 		// BinaryFinder always includes the "PATH" environment variable into the search path,
@@ -32,6 +33,7 @@ class BinaryFinderTest extends TestCase {
 		$this->cacheFactory->method('createLocal')->with('findBinaryPath')->willReturn($this->cache);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		putenv('PATH=' . $this->oldEnv);
 	}

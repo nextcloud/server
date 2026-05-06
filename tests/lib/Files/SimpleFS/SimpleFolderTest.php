@@ -32,6 +32,7 @@ class SimpleFolderTest extends \Test\TestCase {
 
 	private $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

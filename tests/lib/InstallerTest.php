@@ -8,6 +8,7 @@
 
 namespace Test;
 
+use OC\App\AppManager;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Archive\ZIP;
 use OC\Installer;
@@ -30,19 +31,15 @@ use Psr\Log\LoggerInterface;
 class InstallerTest extends TestCase {
 	private static $appid = 'testapp';
 	private $appstore;
-	/** @var AppFetcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $appFetcher;
-	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
-	private $clientService;
-	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $tempManager;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	private IAppManager&MockObject $appManager;
+	private AppFetcher&MockObject $appFetcher;
+	private IClientService&MockObject $clientService;
+	private ITempManager&MockObject $tempManager;
+	private LoggerInterface&MockObject $logger;
+	private IConfig&MockObject $config;
+	private AppManager&MockObject $appManager;
 	private IFactory&MockObject $l10nFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -51,7 +48,7 @@ class InstallerTest extends TestCase {
 		$this->tempManager = $this->createMock(ITempManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appManager = $this->createMock(AppManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 
 		$config = Server::get(IConfig::class);
@@ -74,6 +71,7 @@ class InstallerTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$installer = Server::get(Installer::class);
 		$installer->removeApp(self::$appid);

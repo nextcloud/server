@@ -88,6 +88,7 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var SettingsManager|MockObject */
 	private $settingsManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -128,6 +129,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();

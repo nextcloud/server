@@ -19,10 +19,12 @@ class AddCleanupDeletedUsersBackgroundJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add cleanup-deleted-users background job';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->jobList->add(CleanupDeletedUsers::class);
 	}

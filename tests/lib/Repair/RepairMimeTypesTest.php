@@ -31,6 +31,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	private IMimeTypeLoader $mimetypeLoader;
 	private IDBConnection $db;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -61,6 +62,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->storage->getCache()->clear();
 

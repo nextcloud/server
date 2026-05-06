@@ -37,6 +37,7 @@ class NotifierTest extends TestCase {
 	protected Notifier $notifier;
 	protected string $lc = 'tlh_KX';
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -19,6 +19,7 @@ class SabrePluginException extends Exception {
 	 * @return int
 	 * @since 8.2.0
 	 */
+	#[\Override]
 	public function getHTTPCode() {
 		return $this->code;
 	}

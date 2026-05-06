@@ -17,11 +17,13 @@ class EmojiHelper implements IEmojiHelper {
 	) {
 	}
 
+	#[\Override]
 	public function doesPlatformSupportEmoji(): bool {
 		return $this->db->supports4ByteText()
 			&& \class_exists(\IntlBreakIterator::class);
 	}
 
+	#[\Override]
 	public function isValidSingleEmoji(string $emoji): bool {
 		$intlBreakIterator = \IntlBreakIterator::createCharacterInstance();
 		$intlBreakIterator->setText($emoji);

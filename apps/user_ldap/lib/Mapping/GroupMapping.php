@@ -19,6 +19,7 @@ class GroupMapping extends AbstractMapping {
 	 * returns the DB table name which holds the mappings
 	 * @return string
 	 */
+	#[\Override]
 	protected function getTableName(bool $includePrefix = true) {
 		$p = $includePrefix ? '*PREFIX*' : '';
 		return $p . 'ldap_group_mapping';

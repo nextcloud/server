@@ -52,6 +52,7 @@ abstract class AbstractProvider implements INotificationProvider {
 	 * @param IUser[] $users
 	 * @return void
 	 */
+	#[\Override]
 	abstract public function send(VEvent $vevent,
 		?string $calendarDisplayName,
 		array $principalEmailAddresses,

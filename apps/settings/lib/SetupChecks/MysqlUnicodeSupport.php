@@ -22,14 +22,17 @@ class MysqlUnicodeSupport implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('MySQL Unicode support');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->config->getSystemValueString('dbtype') !== 'mysql') {
 			return SetupResult::success($this->l10n->t('You are not using MySQL'));

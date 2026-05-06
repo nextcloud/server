@@ -25,6 +25,7 @@ class SettingTest extends TestCase {
 	protected InputInterface&MockObject $consoleInput;
 	protected MockObject&OutputInterface $consoleOutput;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -26,6 +26,7 @@ class JSDataService implements \JsonSerializable {
 	) {
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		$user = $this->userSession->getUser();
 

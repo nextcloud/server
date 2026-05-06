@@ -20,6 +20,7 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 	 * @param string $principalUrl
 	 * @return string|null
 	 */
+	#[\Override]
 	public function getCalendarHomeForPrincipal($principalUrl) {
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
 			[, $principalId] = \Sabre\Uri\split($principalUrl);

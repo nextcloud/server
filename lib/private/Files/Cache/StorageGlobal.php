@@ -21,6 +21,7 @@ use OCP\IDBConnection;
  * A mapping between the two storage ids is stored in the database and accessible through this class
  *
  * @package OC\Files\Cache
+ * @psalm-api
  */
 class StorageGlobal {
 	/** @var array<string, array{id: string, numeric_id: int, available: bool, last_checked: int}> */
@@ -41,21 +42,23 @@ class StorageGlobal {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['id', 'numeric_id', 'available', 'last_checked'])
 			->from('storages')
-			->where($builder->expr()->in('id', $builder->createNamedParameter(array_values($storageIds), IQueryBuilder::PARAM_STR_ARRAY)));
+			->where($builder->expr()->in('id', $builder->createParameter('ids'), IQueryBuilder::PARAM_STR_ARRAY));
 
-		$result = $query->executeQuery();
-		while (($row = $result->fetch()) !== false) {
-			$normalizedRow = [
-				'id' => (string)$row['id'],
-				'numeric_id' => (int)$row['numeric_id'],
-				'available' => (bool)$row['available'],
-				'last_checked' => (int)$row['last_checked'],
-			];
+		foreach (array_chunk($storageIds, 1000) as $chunk) {
+			$query->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 
-			$this->cache[$normalizedRow['id']] = $normalizedRow;
+			$result = $query->executeQuery();
+			while (($row = $result->fetch()) !== false) {
+				$normalizedRow = [
+					'id' => (string)$row['id'],
+					'numeric_id' => (int)$row['numeric_id'],
+					'available' => (bool)$row['available'],
+					'last_checked' => (int)$row['last_checked'],
+				];
+
+				$this->cache[$normalizedRow['id']] = $normalizedRow;
+			}
 		}
-
-		$result->closeCursor();
 	}
 
 	/**

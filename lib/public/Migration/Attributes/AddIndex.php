@@ -21,6 +21,7 @@ class AddIndex extends IndexMigrationAttribute {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function definition(): string {
 		$type = is_null($this->getType()) ? '' : ' (' . $this->getType()->value . ')';
 		return 'Addition of a new index' . $type . ' to table \'' . $this->getTable() . '\'';

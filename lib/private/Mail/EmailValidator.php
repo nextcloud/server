@@ -21,6 +21,7 @@ class EmailValidator implements IEmailValidator {
 	) {
 	}
 
+	#[\Override]
 	public function isValid(string $email): bool {
 		if ($email === '') {
 			// Shortcut: empty addresses are never valid

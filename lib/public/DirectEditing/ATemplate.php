@@ -41,6 +41,7 @@ abstract class ATemplate implements JsonSerializable {
 	/**
 	 * @since 18.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),

@@ -26,12 +26,14 @@ class EnableMasterKey extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('encryption:enable-master-key')
 			->setDescription('Enable the master key. Only available for fresh installations with no existing encrypted data! There is also no way to disable it again.');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isAlreadyEnabled = $this->util->isMasterKeyEnabled();
 

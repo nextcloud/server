@@ -20,18 +20,22 @@ class Security implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('core', 'actions/password.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Security');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}

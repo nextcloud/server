@@ -8,9 +8,10 @@
 	resolveFromConfigFile="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
-	xsi:schemaLocation="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config vendor-bin/psalm/vendor/vimeo/psalm/config.xsd"
 	findUnusedBaselineEntry="false"
 	findUnusedCode="false"
+	phpVersion="8.2"
 >
 	<plugins>
 		<plugin filename="build/psalm/NcuExperimentalChecker.php"/>

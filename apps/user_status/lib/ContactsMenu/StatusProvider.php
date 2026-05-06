@@ -24,6 +24,7 @@ class StatusProvider implements IBulkProvider {
 	) {
 	}
 
+	#[\Override]
 	public function process(array $entries): void {
 		$uids = array_filter(
 			array_map(fn (IEntry $entry): ?string => $entry->getProperty('UID'), $entries)

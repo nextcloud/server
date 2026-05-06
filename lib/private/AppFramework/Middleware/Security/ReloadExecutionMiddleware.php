@@ -25,12 +25,14 @@ class ReloadExecutionMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if ($this->session->exists('clearingExecutionContexts')) {
 			throw new ReloadExecutionException();
 		}
 	}
 
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof ReloadExecutionException) {
 			$this->session->remove('clearingExecutionContexts');

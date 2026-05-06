@@ -22,14 +22,17 @@ class LegacySSEKeyFormat implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Old server-side-encryption');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->config->getSystemValueBool('encryption.legacy_format_support', false) === false) {
 			return SetupResult::success($this->l10n->t('Disabled'));

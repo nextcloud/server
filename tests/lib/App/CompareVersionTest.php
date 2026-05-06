@@ -16,6 +16,7 @@ use Test\TestCase;
 class CompareVersionTest extends TestCase {
 	private CompareVersion $compare;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

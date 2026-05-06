@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Fitxers",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Se us ha esmentat a «{file}» en un comentari d'un compte que s'ha suprimit",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} us ha esmentat en un comentari a «{file}»",
+    "Go to file" : "Vés al fitxer",
     "Files app plugin to add comments to files" : "Connector de l'aplicació Fitxers per a afegir comentaris als fitxers",
     "Edit comment" : "Edita el comentari",
     "Delete comment" : "Suprimeix el comentari",

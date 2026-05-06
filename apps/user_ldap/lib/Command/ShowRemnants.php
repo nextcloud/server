@@ -24,6 +24,7 @@ class ShowRemnants extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:show-remnants')
@@ -47,6 +48,7 @@ class ShowRemnants extends Command {
 	 *
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var \Symfony\Component\Console\Helper\Table $table */
 		$table = new Table($output);

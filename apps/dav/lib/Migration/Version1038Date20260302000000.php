@@ -19,6 +19,7 @@ use OCP\Migration\SimpleMigrationStep;
 
 #[AddColumn(table: 'calendars', name: 'default_alarm', type: ColumnType::STRING)]
 class Version1038Date20260302000000 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

@@ -98,6 +98,7 @@ class AppConfigIntegrationTest extends TestCase {
 			]
 		];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -157,6 +158,7 @@ class AppConfigIntegrationTest extends TestCase {
 		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$sql = $this->connection->getQueryBuilder();
 		$sql->delete('appconfig');

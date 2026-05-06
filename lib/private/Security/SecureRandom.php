@@ -27,6 +27,7 @@ class SecureRandom implements ISecureRandom {
 	 *                           specified all valid base64 characters are used.
 	 * @throws \LengthException if an invalid length is requested
 	 */
+	#[\Override]
 	public function generate(
 		int $length,
 		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',

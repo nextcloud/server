@@ -43,6 +43,7 @@ abstract class AbstractNodesEvent extends Event implements IWebhookCompatibleEve
 	/**
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getWebhookSerializable(): array {
 		return [
 			'source' => JsonSerializer::serializeFileInfo($this->source),

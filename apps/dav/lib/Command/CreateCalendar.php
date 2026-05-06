@@ -40,6 +40,7 @@ class CreateCalendar extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:create-calendar')
@@ -52,6 +53,7 @@ class CreateCalendar extends Command {
 				'Name of the calendar');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('user');
 		if (!$this->userManager->userExists($user)) {

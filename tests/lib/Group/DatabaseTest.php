@@ -21,17 +21,20 @@ class DatabaseTest extends Backend {
 	 * get a new unique group name
 	 * test cases can override this in order to clean up created groups
 	 */
+	#[\Override]
 	public function getGroupName($name = null): string {
 		$name = parent::getGroupName($name);
 		$this->groups[] = $name;
 		return $name;
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->backend = new Database();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->groups as $group) {
 			$this->backend->deleteGroup($group);

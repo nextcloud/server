@@ -12,7 +12,6 @@ import {
 	translatePlural,
 	unregister,
 } from '@nextcloud/l10n'
-import Handlebars from 'handlebars'
 
 /**
  * L10N namespace with localization functions.
@@ -84,7 +83,3 @@ const L10n = {
 }
 
 export default L10n
-
-Handlebars.registerHelper('t', function(app, text) {
-	return translate(app, text)
-})

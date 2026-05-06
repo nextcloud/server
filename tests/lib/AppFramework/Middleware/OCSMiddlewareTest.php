@@ -28,6 +28,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	 */
 	private $request;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

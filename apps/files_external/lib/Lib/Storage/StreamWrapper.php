@@ -13,10 +13,12 @@ abstract class StreamWrapper extends Common {
 
 	abstract public function constructUrl(string $path): ?string;
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		return mkdir($this->constructUrl($path));
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		if ($this->is_dir($path) && $this->isDeletable($path)) {
 			$dh = $this->opendir($path);
@@ -39,18 +41,22 @@ abstract class StreamWrapper extends Common {
 		}
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		return opendir($this->constructUrl($path));
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		return @filetype($this->constructUrl($path));
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		return file_exists($this->constructUrl($path));
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		$url = $this->constructUrl($path);
 		$success = unlink($url);
@@ -60,10 +66,12 @@ abstract class StreamWrapper extends Common {
 		return $success;
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		return fopen($this->constructUrl($path), $mode);
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		if ($this->file_exists($path)) {
 			if (is_null($mtime)) {
@@ -89,10 +97,12 @@ abstract class StreamWrapper extends Common {
 		return copy($path, $this->constructUrl($target));
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		return rename($this->constructUrl($source), $this->constructUrl($target));
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		return stat($this->constructUrl($path));
 	}

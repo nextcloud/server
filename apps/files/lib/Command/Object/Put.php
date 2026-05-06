@@ -25,6 +25,7 @@ class Put extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:object:put')
@@ -35,6 +36,7 @@ class Put extends Command {
 		;
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$object = $input->getArgument('object');
 		$inputName = (string)$input->getArgument('input');

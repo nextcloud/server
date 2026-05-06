@@ -25,6 +25,7 @@ class RepairInvalidShares implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Repair invalid shares';
 	}
@@ -85,6 +86,7 @@ class RepairInvalidShares implements IRepairStep {
 		}
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.11', '<')) {
