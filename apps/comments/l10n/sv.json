@@ -10,6 +10,7 @@
     "Files" : "Filer",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Du har nämnts i \"{file}\", i en kommentar av en användare som sedan har blivit borttagen",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} nämnde dig i kommentar för \"{file}\"",
+    "Go to file" : "Gå till fil",
     "Files app plugin to add comments to files" : "Filer-appinsticksmodul för att lägga till kommentarer till filer",
     "Edit comment" : "Redigera kommentar",
     "Delete comment" : "Ta bort kommentar",
