@@ -2,18 +2,15 @@ SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: CC-BY-4.0
-SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-FileCopyrightText: dangreen
 SPDX-FileCopyrightText: baseline-browser-mapping developers
-SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sergey Rubanov <chi187@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Kilian Valkhof
 SPDX-FileCopyrightText: GitHub Inc.
-SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Dmitry Soshnikov
 SPDX-FileCopyrightText: Ben Briggs
 SPDX-FileCopyrightText: Andrey Sitnik <andrey@sitnik.ru>
@@ -41,9 +38,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
-- base64-js
-	- version: 1.5.1
-	- license: MIT
 - baseline-browser-mapping
 	- version: 2.9.9
 	- license: Apache-2.0
@@ -59,12 +53,6 @@ This file is generated from multiple sources. Included packages:
 - electron-to-chromium
 	- version: 1.5.267
 	- license: ISC
-- ieee754
-	- version: 1.2.1
-	- license: BSD-3-Clause
-- buffer
-	- version: 6.0.3
-	- license: MIT
 - node-releases
 	- version: 2.0.27
 	- license: MIT

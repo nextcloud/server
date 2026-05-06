@@ -9,5 +9,6 @@ import browserslist from 'browserslist'
 import browserslistConfig from '@nextcloud/browserslist-config'
 
 // Generate a regex that matches user agents to detect incompatible browsers
-export const supportedBrowsersRegExp = new RegExp(getUserAgentRegex({ allowHigherVersions: true, browsers: browserslistConfig }).source + '|AscDesktopEditor')
+// Electron is added explicitly as it is used by Cypress tests and desktop app integrations
+export const supportedBrowsersRegExp = new RegExp(getUserAgentRegex({ allowHigherVersions: true, browsers: browserslistConfig }).source + '|AscDesktopEditor|Electron')
 export const supportedBrowsers = browserslist(browserslistConfig)

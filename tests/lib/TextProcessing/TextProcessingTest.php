@@ -160,10 +160,12 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->taskMapper
 			->expects($this->any())
 			->method('deleteOlderThan')
-			->willReturnCallback(function (int $timeout): void {
+			->willReturnCallback(function (int $timeout): int {
+				$before = count($this->tasksDb);
 				$this->tasksDb = array_filter($this->tasksDb, function (array $task) use ($timeout) {
 					return $task['last_updated'] >= $this->currentTime->getTimestamp() - $timeout;
 				});
+				return $before - count($this->tasksDb);
 			});
 
 		$this->jobList = $this->createPartialMock(DummyJobList::class, ['add']);
