@@ -50,7 +50,7 @@ class Manager implements IManager {
 		}
 
 		try {
-			return Server::get(\OCP\IAppConfig::class)->getValueBool('core', 'encryption_enabled', false);
+			return Server::get(\OCP\IAppConfig::class)->getValueBool('core', 'encryption_enabled');
 		} catch (\Throwable) {
 			// DB not ready (e.g. oc_appconfig does not yet exist during install).
 			return false;

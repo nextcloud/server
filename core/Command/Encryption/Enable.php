@@ -33,7 +33,7 @@ class Enable extends Command {
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$isEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled', false);
+		$isEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled');
 		if ($isEnabled) {
 			$output->writeln('Encryption is already enabled');
 		} else {
@@ -47,7 +47,7 @@ class Enable extends Command {
 			$output->writeln('<error>No encryption module is loaded</error>');
 			return 1;
 		}
-		$defaultModule = $this->appConfig->getValueString('core', 'default_encryption_module', '');
+		$defaultModule = $this->appConfig->getValueString('core', 'default_encryption_module');
 		if ($defaultModule === '') {
 			$output->writeln('<error>No default module is set</error>');
 			return 1;

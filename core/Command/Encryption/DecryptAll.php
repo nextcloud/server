@@ -91,7 +91,7 @@ class DecryptAll extends Command {
 			return 1;
 		}
 
-		$originallyEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled', false);
+		$originallyEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled');
 		try {
 			if ($originallyEnabled) {
 				$output->write('Disable server side encryption... ');
