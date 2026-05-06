@@ -240,13 +240,7 @@ class Database extends ABackend implements
 	}
 
 	/**
-	 * get a list of all groups
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array an array of group names
-	 *
-	 * Returns a list with all groups
+	 * Search for groups by gid or display name.
 	 */
 	#[\Override]
 	public function getGroups(string $search = '', int $limit = -1, int $offset = 0) {
