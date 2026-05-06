@@ -68,9 +68,6 @@ class AdminTest extends TestCase {
 		$this->config
 			->method('getAppValue')
 			->willReturnCallback(function ($app, $key, $default) {
-				if ($app === 'encryption' && $key === 'recoveryAdminEnabled' && $default === '0') {
-					return '1';
-				}
 				return $default;
 			});
 
