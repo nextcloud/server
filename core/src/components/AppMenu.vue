@@ -39,7 +39,8 @@
 						:key="item.id"
 						ref="items"
 						:app="item"
-						:outlined="item.id === 'more-apps'"
+						:outlined="item.id === 'more-apps' || item.id === 'app-store'"
+						:newTab="item.id === 'more-apps' || item.id === 'app-store'"
 						:tabindex="i === focusedIndex ? 0 : -1" />
 				</div>
 			</div>
@@ -109,7 +110,9 @@ export default defineComponent({
 			// The current-app button lives outside the slot, so we track the
 			// source and restore focus manually via setReturnFocus.
 			openedFrom: null as 'waffle' | 'currentApp' | null,
-			// Synthetic admin-only tile linking to the app store; not a real nav entry.
+			// Synthetic tile appended to the grid: admins jump to the local
+			// app management page; everyone else lands on apps.nextcloud.com
+			// (external, opens in a new tab via the per-tile newTab flag).
 			moreAppsEntry: {
 				id: 'more-apps',
 				active: false,
@@ -118,6 +121,17 @@ export default defineComponent({
 				icon: generateFilePath('settings', 'img', 'apps.svg'),
 				type: 'link',
 				name: t('core', 'More apps'),
+				unread: 0,
+			} as INavigationEntry,
+
+			appStoreEntry: {
+				id: 'app-store',
+				active: false,
+				order: Number.MAX_SAFE_INTEGER,
+				href: 'https://apps.nextcloud.com/',
+				icon: generateFilePath('settings', 'img', 'apps.svg'),
+				type: 'link',
+				name: t('core', 'App store'),
 				unread: 0,
 			} as INavigationEntry,
 
@@ -133,9 +147,12 @@ export default defineComponent({
 			return this.appList.find((app) => app.active)
 		},
 
-		// Stable-ordered list that focusedIndex indexes into; adds "More apps" for admins.
+		// Stable-ordered list that focusedIndex indexes into. The trailing
+		// utility tile is "More apps" (local app management) for admins and
+		// "App store" (apps.nextcloud.com) for everyone else.
 		gridItems(): INavigationEntry[] {
-			return this.isAdmin ? [...this.appList, this.moreAppsEntry] : [...this.appList]
+			const tail = this.isAdmin ? this.moreAppsEntry : this.appStoreEntry
+			return [...this.appList, tail]
 		},
 	},
 
