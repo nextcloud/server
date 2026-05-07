@@ -15,6 +15,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
+use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
@@ -116,14 +117,23 @@ class Notifier implements INotifier {
 						'name' => $displayName,
 					];
 				}
+
+				$commentLink = $this->url->linkToRouteAbsolute(
+					'comments.Notifications.view',
+					['id' => $comment->getId()],
+				);
+
 				[$message, $messageParameters] = $this->commentToRichMessage($comment);
 				$notification->setRichSubject($subject, $subjectParameters)
 					->setRichMessage($message, $messageParameters)
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')))
-					->setLink($this->url->linkToRouteAbsolute(
-						'comments.Notifications.view',
-						['id' => $comment->getId()])
-					);
+					->setLink($commentLink);
+
+				$action = $notification->createAction();
+				$action->setLink($commentLink, IAction::TYPE_WEB);
+				$action->setPrimary(true);
+				$action->setParsedLabel($l->t('Go to file'));
+				$notification->addParsedAction($action);
 
 				return $notification;
 				break;
