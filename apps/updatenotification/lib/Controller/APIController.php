@@ -41,6 +41,7 @@ class APIController extends OCSController {
 		'files_downloadlimit' => 29,
 		'twofactor_nextcloud_notification' => 30,
 		'app_api' => 30,
+		'files_lock' => 34,
 	];
 
 	public function __construct(
