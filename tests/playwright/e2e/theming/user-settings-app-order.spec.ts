@@ -18,6 +18,7 @@ test('User can change personal app order', async ({ page }) => {
 	await expect(userThemingPage.appOrderEntries().nth(0)).toContainText('Dashboard')
 	await expect(userThemingPage.appOrderEntries().nth(1)).toContainText('Files')
 
+	await navigationHeader.openMenu()
 	await expect(navigationHeader.navigationEntries().nth(0)).toContainText('Dashboard')
 	await expect(navigationHeader.navigationEntries().nth(1)).toContainText('Files')
 
@@ -39,6 +40,7 @@ test('User can change personal app order', async ({ page }) => {
 	const reloadedOrder = (await userThemingPage.appOrderEntries().allInnerTexts()).map((entry) => entry.trim())
 	expect(reloadedOrder).toContain('Dashboard')
 	expect(reloadedOrder).toContain('Files')
+	await navigationHeader.openMenu()
 	await expect(navigationHeader.navigationEntries().nth(0)).toContainText(reloadedOrder[0]!)
 	await expect(navigationHeader.navigationEntries().nth(1)).toContainText(reloadedOrder[1]!)
 })

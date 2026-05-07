@@ -44,8 +44,8 @@ test.describe('Admin theming set default apps', () => {
 		await expect(adminThemingPage.defaultAppSwitch()).toBeChecked()
 		await expect(adminThemingPage.defaultAppRegion()).toBeVisible()
 
-		await expect(adminThemingPage.defaultAppSelect().getByText('Dashboard')).toBeVisible()
-		await expect(adminThemingPage.defaultAppSelect().getByText('Files')).toBeVisible()
+		await expect(adminThemingPage.defaultAppSelectedValue('Dashboard')).toBeVisible()
+		await expect(adminThemingPage.defaultAppSelectedValue('Files')).toBeVisible()
 
 		await expect(adminThemingPage.appOrderEntries()).toHaveCount(2)
 		await expect(adminThemingPage.appOrderEntries().nth(0)).toContainText('Dashboard')
