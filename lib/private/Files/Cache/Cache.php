@@ -218,8 +218,7 @@ class Cache implements ICache {
 			$query = $this->getQueryBuilder();
 			$query->selectFileCache()
 				->whereParent($fileId)
-				->whereStorageId($this->getNumericStorageId())
-				->orderBy('name', 'ASC');
+				->whereStorageId($this->getNumericStorageId());
 
 			if ($mimeTypeFilter !== null) {
 				$mimetype = $this->mimetypeLoader->getId($mimeTypeFilter);
