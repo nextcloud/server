@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 \OCP\Util::addStyle('settings', 'help');
+
+// Help documentation links are generated from server settings and should not be customized by replacing core documentation files.
 ?>
 <?php if ($_['knowledgebaseEmbedded'] === true) : ?>
 	<div id="app-navigation" role="navigation" tabindex="0">
