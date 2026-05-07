@@ -10,11 +10,12 @@ namespace OCA\Files_Sharing\External;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
-use OCA\Files_Sharing\ISharedMountPoint;
+use OCP\Files\Mount\IExternalMountPoint;
 use OCP\Files\Mount\IMovableMount;
+use OCP\Files\Mount\ISharedMountPoint;
 use Override;
 
-class Mount extends MountPoint implements IMovableMount, ISharedMountPoint {
+class Mount extends MountPoint implements IMovableMount, ISharedMountPoint, IExternalMountPoint {
 	public function __construct(
 		string|Storage $storage,
 		string $mountpoint,

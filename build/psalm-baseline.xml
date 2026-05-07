@@ -57,6 +57,7 @@
     </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[getEvent]]></code>
+      <code><![CDATA[getEvent]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/MaxAutoCompleteResultsInitialState.php">

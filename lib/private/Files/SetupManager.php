@@ -22,10 +22,6 @@ use OC\Lockdown\Filesystem\NullStorage;
 use OC\ServerNotAvailableException;
 use OC\Share20\ShareDisableChecker;
 use OC_Hook;
-use OCA\Files_External\Config\ExternalMountPoint;
-use OCA\Files_Sharing\External\Mount;
-use OCA\Files_Sharing\ISharedMountPoint;
-use OCA\Files_Sharing\SharedMount;
 use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
@@ -44,8 +40,10 @@ use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Events\UserHomeSetupEvent;
 use OCP\Files\ISetupManager;
+use OCP\Files\Mount\IExternalMountPoint;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\ISharedMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Group\Events\UserAddedEvent;
@@ -191,7 +189,7 @@ class SetupManager implements ISetupManager {
 
 		// install storage availability wrapper, before most other wrappers
 		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			$externalMount = $mount instanceof ExternalMountPoint || $mount instanceof Mount;
+			$externalMount = $mount instanceof IExternalMountPoint;
 			if ($externalMount && !$storage->isLocal()) {
 				return new Availability(['storage' => $storage]);
 			}
@@ -199,7 +197,7 @@ class SetupManager implements ISetupManager {
 		});
 
 		Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$mount instanceof SharedMount) {
+			if ($mount->getOption('encoding_compatibility', false) && !$mount instanceof ISharedMountPoint) {
 				return new Encoding(['storage' => $storage]);
 			}
 			return $storage;
