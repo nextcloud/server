@@ -21,7 +21,6 @@ SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: Victor Felder <victor@draft.li> (https://draft.li)
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
@@ -263,7 +262,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.1.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.37.0
+	- version: 8.38.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.3.0
@@ -469,9 +468,6 @@ This file is generated from multiple sources. Included packages:
 - lodash
 	- version: 4.18.1
 	- license: MIT
-- longest-streak
-	- version: 3.1.0
-	- license: MIT
 - marked
 	- version: 17.0.6
 	- license: MIT
@@ -496,14 +492,8 @@ This file is generated from multiple sources. Included packages:
 - mdast-util-newline-to-break
 	- version: 2.0.0
 	- license: MIT
-- mdast-util-phrasing
-	- version: 4.1.0
-	- license: MIT
 - mdast-util-to-hast
 	- version: 13.2.1
-	- license: MIT
-- mdast-util-to-markdown
-	- version: 2.1.2
 	- license: MIT
 - mdast-util-to-string
 	- version: 4.0.0
@@ -619,9 +609,6 @@ This file is generated from multiple sources. Included packages:
 - remark-rehype
 	- version: 11.1.2
 	- license: MIT
-- remark-stringify
-	- version: 11.0.0
-	- license: MIT
 - remark-unlink-protocols
 	- version: 1.0.0
 	- license: MIT
@@ -698,7 +685,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - unist-util-visit-parents
-	- version: 6.0.1
+	- version: 6.0.2
 	- license: MIT
 - unist-util-visit
 	- version: 5.1.0
@@ -741,9 +728,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
-	- license: MIT
-- zwitch
-	- version: 2.0.4
 	- license: MIT
 - base64-js
 	- version: 1.5.1
