@@ -2594,11 +2594,6 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/theming/lib/Controller/ThemingController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/theming/lib/Controller/UserThemeController.php">
     <DeprecatedMethod>
       <code><![CDATA[getUserValue]]></code>
