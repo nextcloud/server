@@ -227,7 +227,8 @@ trait S3ConnectionTrait {
 	/**
 	 * Add middleware to inject Content-MD5 header for DeleteObjects operations
 	 *
-	 * AWS SDK PHP v3.339.0+ requires Content-MD5 header for DeleteObjects operations.
+	 * AWS SDK PHP v3.339.0+ stopped generating the Content-MD5 header for DeleteObjects operations.
+	 * However, this is still required by the `bt-blue.com` S3 provider.
 	 * This middleware automatically calculates and adds the header to comply with
 	 * AWS S3 API requirements.
 	 *
