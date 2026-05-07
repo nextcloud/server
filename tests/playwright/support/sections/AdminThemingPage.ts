@@ -24,7 +24,7 @@ export class AdminThemingPage {
 		})
 		const requestToken = (await tokenResponse.json()).token
 	
-		const response = await this.page.request.post('/apps/theming/ajax/undoAllChanges', {
+		const response = await this.page.request.post('./apps/theming/ajax/undoAllChanges', {
 			headers: {
 				requesttoken: requestToken,
 			},
@@ -44,7 +44,15 @@ export class AdminThemingPage {
 	}
 
 	defaultAppSelect(): Locator {
-		return this.defaultAppRegion().getByRole('combobox')
+		// NcSelect appends the dropdown listbox to <body> (appendToBody: true), so it cannot
+		// be reached via a scoped locator. Return the selected-options wrapper instead, which
+		// stays inline and contains the visible selected-value tag spans.
+		return this.defaultAppRegion().locator('.vs__selected-options')
+	}
+
+	defaultAppSelectedValue(name: string): Locator {
+		// NcSelect renders each selected value as a tag with a "Deselect <name>" button.
+		return this.defaultAppRegion().getByRole('button', { name: `Deselect ${name}` })
 	}
 
 	appOrderList(): Locator {

@@ -10,8 +10,6 @@ import { test } from '../../support/fixtures/admin-theming-page.ts'
 const admin = new User('admin', 'admin')
 
 test.describe('Admin theming branding settings', () => {
-	test.describe.configure({ mode: 'serial' })
-
 	test.beforeEach(async ({ adminThemingPage }) => {
 		await adminThemingPage.reset()
 		await adminThemingPage.open()
