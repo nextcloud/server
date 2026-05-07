@@ -739,12 +739,19 @@ $CONFIG = [
 	'overwritecondaddr' => '',
 
 	/**
-	 * Use this configuration parameter to specify the base URL for any URLs which
-	 * are generated within Nextcloud using any kind of command line tools (cron or
-	 * occ). The value should contain the full base URL:
+	 * Set the canonical base URL Nextcloud should use when generating URLs outside
+	 * a normal web request, such as in background jobs or at the command-line.
+	 * The value should be the full base URL including the web root, for example:
 	 * ``https://www.example.com/nextcloud``
-	 * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud.
-	 * Otherwise, there might be problems with the URL generation via cron.
+	 *
+	 * In most setups, this should match the URL your users normally use to access
+	 * Nextcloud. If it is incorrect, URL generation may be wrong in cron jobs,
+	 * ``occ``, notifications, and similar contexts.
+	 *
+	 * NOTE: During installation, Nextcloud seeds this value from the installer’s
+	 * current access context. If it was not preseeded (for example, via
+	 * ``autoconfig.php``), the inferred value may not match the public URL that
+	 * users normally use to access Nextcloud and may need adjustment.
 	 *
 	 * Defaults to ``''`` (empty string)
 	 */
