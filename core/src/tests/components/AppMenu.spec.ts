@@ -109,14 +109,14 @@ async function openPopover(wrapper: ReturnType<typeof mount>) {
 }
 
 describe('core: AppMenu', () => {
-	it('renders one AppItem per app in the list', async () => {
+	it('renders one AppItem per app in the list, plus the "App store" tile for non-admins', async () => {
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await openPopover(wrapper)
 
 		const items = document.querySelectorAll('[role="menuitem"]')
-		expect(items).toHaveLength(3)
+		expect(items).toHaveLength(4)
 		const labels = Array.from(items).map((el) => el.querySelector('.app-item__label')?.textContent?.trim() ?? '')
-		expect(labels).toEqual(['Files', 'Mail', 'Calendar'])
+		expect(labels).toEqual(['Files', 'Mail', 'Calendar', 'App store'])
 	})
 
 	it('renders the "More apps" tile when the current user is an admin', async () => {
