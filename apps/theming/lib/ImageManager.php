@@ -8,6 +8,7 @@ namespace OCA\Theming;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -30,6 +31,7 @@ class ImageManager {
 		private LoggerInterface $logger,
 		private ITempManager $tempManager,
 		private BackgroundService $backgroundService,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -40,7 +42,7 @@ class ImageManager {
 	 * @return string the image url
 	 */
 	public function getImageUrl(string $key): string {
-		$cacheBusterCounter = $this->config->getAppValue(Application::APP_ID, 'cachebuster', '0');
+		$cacheBusterCounter = (string)$this->appConfig->getAppValueInt(ConfigLexicon::CACHE_BUSTER);
 		if ($this->hasImage($key)) {
 			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $key ]) . '?v=' . $cacheBusterCounter;
 		} elseif ($key === 'backgroundDark' && $this->hasImage('background')) {
@@ -101,7 +103,7 @@ class ImageManager {
 					$pngFile->putContent($finalIconFile->getImageBlob());
 					return $pngFile;
 				} catch (\ImagickException $e) {
-					$this->logger->info('The image was requested to be no SVG file, but converting it to PNG failed: ' . $e->getMessage());
+					$this->logger->info('Converting SVG to PNG failed: ' . $e->getMessage());
 				}
 			} else {
 				return $folder->getFile($key . '.png');
@@ -138,7 +140,7 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getCacheFolder(): ISimpleFolder {
-		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$cacheBusterValue = (string)$this->appConfig->getAppValueInt(ConfigLexicon::CACHE_BUSTER);
 		try {
 			$folder = $this->getRootFolder()->getFolder($cacheBusterValue);
 		} catch (NotFoundException $e) {
@@ -191,6 +193,12 @@ class ImageManager {
 		}
 		try {
 			$file = $this->getRootFolder()->getFolder('images')->getFile($key . '.png');
+			$file->delete();
+		} catch (NotFoundException $e) {
+		} catch (NotPermittedException $e) {
+		}
+		try {
+			$file = $this->getRootFolder()->getFolder('images')->getFile($key . '.svg');
 			$file->delete();
 		} catch (NotFoundException $e) {
 		} catch (NotPermittedException $e) {

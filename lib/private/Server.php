@@ -1031,6 +1031,11 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(LoggerInterface::class),
 					$c->get(ITempManager::class),
 					$backgroundService,
+					new AppConfig(
+						$c->get(IConfig::class),
+						$c->get(IAppConfig::class),
+						'theming',
+					),
 				);
 				return new ThemingDefaults(
 					new AppConfig(
