@@ -167,7 +167,7 @@ const unreadLabel = computed(() => {
 	}
 
 	&--outlined &__icon {
-		filter: none;
+		filter: brightness(0);
 		mask: none;
 	}
 }

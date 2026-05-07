@@ -45,23 +45,25 @@
 				</div>
 			</div>
 		</NcPopover>
-		<button
+		<NcButton
 			v-if="currentApp"
 			class="app-menu__current-app"
-			type="button"
+			variant="tertiary-no-background"
 			:aria-label="t('core', 'Open apps menu')"
 			aria-haspopup="menu"
 			:aria-expanded="opened ? 'true' : 'false'"
 			@click="onTriggerClick('currentApp')">
-			<img
-				class="app-menu__current-app-icon"
-				:src="currentApp.icon"
-				alt=""
-				aria-hidden="true">
+			<template #icon>
+				<img
+					class="app-menu__current-app-icon"
+					:src="currentApp.icon"
+					alt=""
+					aria-hidden="true">
+			</template>
 			<span class="app-menu__current-app-name">
 				{{ currentApp.name }}
 			</span>
-		</button>
+		</NcButton>
 	</nav>
 </template>
 
@@ -118,7 +120,7 @@ export default defineComponent({
 				active: false,
 				order: Number.MAX_SAFE_INTEGER,
 				href: generateUrl('/settings/apps'),
-				icon: generateFilePath('settings', 'img', 'apps.svg'),
+				icon: generateFilePath('settings', 'img', 'settings_apps.svg'),
 				type: 'link',
 				name: t('core', 'More apps'),
 				unread: 0,
@@ -341,38 +343,28 @@ export default defineComponent({
 	}
 
 	&__current-app {
-		display: flex;
-		align-items: center;
-		gap: var(--default-grid-baseline);
-		height: var(--default-clickable-area);
-		padding-inline: calc(var(--default-grid-baseline) * 2);
-		background: transparent;
-		border: none;
-		border-radius: var(--border-radius-element);
+		// NcButton's tertiary-no-background variant uses --color-main-text,
+		// which is dark on light themes. The header sits on the theme primary
+		// background, so override to use the matching plain-text color.
+		--color-main-text: var(--color-background-plain-text);
 		color: var(--color-background-plain-text);
-		cursor: pointer;
-		// Suppress the mobile-Safari grey tap rectangle that briefly flashes on press.
-		-webkit-tap-highlight-color: transparent;
 
-		// The header sits on the theme-primary background with white text, so
-		// --color-background-hover (white-ish) collapses contrast. A translucent
-		// black overlay reads on any header tint.
-		&:hover {
-			background: rgba(0, 0, 0, 0.1);
+		// !important: v8 NcButton's legacy bundle sets focus-visible
+		// outline/box-shadow with !important. Same translucent-black hover/
+		// active overlays as the waffle: --color-background-hover collapses
+		// contrast against the theme-primary header tint.
+		&:hover:not(:disabled) {
+			background-color: rgba(0, 0, 0, 0.1) !important;
 		}
 
-		// core/css/inputs.scss:89 sets :active background to --color-main-background
-		// (white on light themes), which makes the masked icon read as white-on-white.
-		// !important: the global rule's :not() chain is hard to out-specify.
-		&:active {
+		&:active:not(:disabled) {
 			background-color: rgba(0, 0, 0, 0.15) !important;
-			color: var(--color-background-plain-text) !important;
 		}
 
 		&:focus-visible {
-			background: rgba(0, 0, 0, 0.1);
-			outline: none;
-			box-shadow: inset 0 0 0 2px var(--color-background-plain-text);
+			background-color: rgba(0, 0, 0, 0.1) !important;
+			outline: none !important;
+			box-shadow: inset 0 0 0 2px var(--color-background-plain-text) !important;
 		}
 	}
 
