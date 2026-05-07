@@ -131,7 +131,13 @@ describe('User select a bright custom color and remove background', function() {
 	})
 
 	it('See the header being inverted', function() {
-		cy.waitUntil(() => navigationHeader.getNavigationEntries().find('img').then((el) => {
+		// Probe the Nextcloud logo: it carries the same
+		// `var(--background-image-invert-if-bright)` filter and is always
+		// present in the header. The waffle launcher's current-app icon only
+		// renders when an app is active, which isn't the case on settings,
+		// and the in-popover tiles use a fixed brightness/invert filter
+		// regardless of theme so they're not a valid inversion probe.
+		cy.waitUntil(() => navigationHeader.logo().find('.logo').then((el) => {
 			let ret = true
 			el.each(function() {
 				ret = ret && window.getComputedStyle(this).filter === 'invert(1)'
@@ -157,7 +163,9 @@ describe('User select a bright custom color and remove background', function() {
 	})
 
 	it('See the header NOT being inverted this time', function() {
-		cy.waitUntil(() => navigationHeader.getNavigationEntries().find('img').then((el) => {
+		// Probe the Nextcloud logo: see the inverted-header test above for
+		// why we don't probe the menu icons.
+		cy.waitUntil(() => navigationHeader.logo().find('.logo').then((el) => {
 			let ret = true
 			el.each(function() {
 				ret = ret && window.getComputedStyle(this).filter === 'none'
