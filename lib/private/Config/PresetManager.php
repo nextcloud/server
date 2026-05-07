@@ -233,21 +233,57 @@ class PresetManager {
 	 */
 	private function getPresetApps(Preset $preset): array {
 		return match ($preset) {
-			Preset::CLUB, Preset::FAMILY, Preset::SCHOOL, Preset::SMALL, Preset::MEDIUM
+			Preset::CLUB, Preset::FAMILY, Preset::SCHOOL
 				=> [
-					'enabled' => ['user_status','guests','twofactor_backupcodes','twofactor_totp','twofactor_webauthn'],
+					'enabled' => [
+						'user_status',
+						'guests',
+						'twofactor_backupcodes',
+						'twofactor_totp',
+						'twofactor_webauthn',
+						'user_migration',
+					],
 					'disabled' => []],
-			Preset::UNIVERSITY, Preset::LARGE
+			Preset::SMALL, Preset::MEDIUM
+				=> [
+					'enabled' => [
+						'user_status',
+						'guests',
+						'twofactor_backupcodes',
+						'twofactor_totp',
+						'twofactor_webauthn',
+					],
+					'disabled' => []],
+			Preset::UNIVERSITY
+				=> [
+					'enabled' => [
+						'user_status',
+						'guests',
+						'user_migration',
+					],
+					'disabled' => []],
+			Preset::LARGE
 				=> [
 					'enabled' => ['user_status','guests'],
 					'disabled' => []],
 			Preset::SHARED
 				=> [
-					'enabled' => ['external','twofactor_backupcodes','twofactor_totp','twofactor_webauthn'],
+					'enabled' => [
+						'external',
+						'twofactor_backupcodes',
+						'twofactor_totp',
+						'twofactor_webauthn',
+						'user_migration',
+					],
 					'disabled' => ['user_status']],
 			Preset::PRIVATE
 				=> [
-					'enabled' => ['twofactor_backupcodes','twofactor_totp','twofactor_webauthn'],
+					'enabled' => [
+						'twofactor_backupcodes',
+						'twofactor_totp',
+						'twofactor_webauthn',
+						'user_migration',
+					],
 					'disabled' => []],
 			default => ['enabled' => [], 'disabled' => []],
 		};
