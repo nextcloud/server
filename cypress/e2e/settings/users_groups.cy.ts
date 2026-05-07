@@ -64,18 +64,6 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 	before(() => {
 		clearState()
 
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
-		cy.createRandomUser()
 		cy.createRandomUser().then((user) => {
 			testUser = user
 		})
