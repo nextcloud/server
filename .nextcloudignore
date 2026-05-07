@@ -55,6 +55,7 @@ window.d.ts
 /.devcontainer
 /__mocks__
 /__tests__
+/apps/testing
 /autotest*.sh
 /build
 /config/config.php
