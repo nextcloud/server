@@ -12,6 +12,7 @@ namespace OCA\Encryption\Tests\Settings;
 use OCA\Encryption\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -34,6 +35,7 @@ class AdminTest extends TestCase {
 	protected ISession&MockObject $session;
 	protected IInitialState&MockObject $initialState;
 	protected IAppConfig&MockObject $appConfig;
+	protected IUserConfig&MockObject $userConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,6 +48,7 @@ class AdminTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 
 		$this->admin = new Admin(
 			$this->l,
@@ -56,6 +59,7 @@ class AdminTest extends TestCase {
 			$this->session,
 			$this->initialState,
 			$this->appConfig,
+			$this->userConfig,
 		);
 	}
 
@@ -65,12 +69,8 @@ class AdminTest extends TestCase {
 			->willReturnMap([
 				['encryption', 'recoveryAdminEnabled', true],
 				['encryption', 'encryptHomeStorage', true, true],
+				['encryption', 'useMasterKey', true, true],
 			]);
-		$this->config
-			->method('getAppValue')
-			->willReturnCallback(function ($app, $key, $default) {
-				return $default;
-			});
 
 		$this->initialState
 			->expects(self::once())
