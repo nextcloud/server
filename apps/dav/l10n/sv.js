@@ -242,6 +242,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Kunde inte ta bort: %1$s",
     "Failed to write file contents: %1$s" : "Kunde inte skriva filinnehåll: %1$s",
     "File not found: %1$s" : "Filen hittades inte: %1$s",
+    "Insufficient space" : "Otillräckligt utrymme",
     "Invalid target path" : "Ogiltig målsökväg",
     "System is in maintenance mode." : "Systemet är i underhållsläge.",
     "Upgrade needed" : "Uppdatering nödvändig",

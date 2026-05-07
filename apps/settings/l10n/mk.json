@@ -253,6 +253,7 @@
     "OPcache is not working as it should, opcache_get_status() returns false, please check configuration." : "OPcache не функционира правилно — opcache_get_status() враќа false. Провери ја конфигурацијата.",
     "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be kept in the cache, it is recommended to apply \"opcache.max_accelerated_files\" to your PHP configuration with a value higher than \"%s\"." : "Максималниот број на OPcache клучеви е речиси достигнат. За да се осигура дека сите скрипти ќе бидат кеширани, препорачано е да ја зголемиш вредноста на \"opcache.max_accelerated_files\" во PHP конфигурацијата над \"%s\".",
     "OPcache is configured to remove code comments. With OPcache enabled, \"opcache.save_comments=1\" must be set for Nextcloud to function." : "OPcache е конфигуриран за да ги брише коментарите во кодовите. Со овозможен OPcache, \"opcache.save_comments=1\" мора да се постави за да функционира Nextcloud.",
+    "The PHP OPcache module is not properly configured. %s." : "PHP OPcache модулот не е правилно конфигуриран. %s.",
     "PHP version" : "PHP верзија",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Антивирана е конфигурација која е само за чирање. Ова спречува поставување на некои конфигурации преку веб-интерфејсот. Понатаму, датотеката треба да се пребрише рачно за секое ажурирање.",
     "Architecture" : "Архитектура",
