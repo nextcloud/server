@@ -17,7 +17,7 @@ use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\Task;
 
 class TaskProcessingSuccessRate implements ISetupCheck {
-	public const MAX_FAILURE_PERCENTAGE = 0.2;
+	public const MAX_FAILURE_PERCENTAGE = 0.1;
 
 	public const MAX_DAYS = 14;
 
@@ -33,7 +33,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Task Processing pickup speed');
+		return $this->l10n->t('Task Processing success rate');
 	}
 
 	public function run(): SetupResult {
