@@ -34,18 +34,30 @@ class ConversionMimeProvider implements JsonSerializable {
 	) {
 	}
 
+	/**
+	 * @since 31.0.0
+	 */
 	public function getFrom(): string {
 		return $this->from;
 	}
 
+	/**
+	 * @since 31.0.0
+	 */
 	public function getTo(): string {
 		return $this->to;
 	}
 
+	/**
+	 * @since 31.0.0
+	 */
 	public function getExtension(): string {
 		return $this->extension;
 	}
 
+	/**
+	 * @since 31.0.0
+	 */
 	public function getDisplayName(): string {
 		return $this->displayName;
 	}

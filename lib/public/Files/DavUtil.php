@@ -80,6 +80,9 @@ class DavUtil {
 		return $p;
 	}
 
+	/**
+	 * @since 34.0.0
+	 */
 	public static function canRename(FileInfo $info, FileInfo $parent): bool {
 		// the root of a movable mountpoint can be renamed regardless of the file permissions
 		if ($info->getMountPoint() instanceof IMovableMount && $info->getInternalPath() === '') {
