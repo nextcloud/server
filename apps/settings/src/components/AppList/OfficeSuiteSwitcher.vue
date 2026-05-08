@@ -98,7 +98,7 @@ export default {
 				}
 			}
 
-			return null
+			return OFFICE_SUITES[0].id
 		},
 
 		selectSuite(suiteId) {
