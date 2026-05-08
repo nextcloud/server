@@ -3,21 +3,16 @@
     "App name" : "Nombre de la aplicación",
     "Version" : "Versión",
     "Actions" : "Acciones",
-    "Cancel" : "Cancel",
-    "Daemon" : "Demonio",
     "Name" : "Nombre",
     "Display Name" : "Nombre a desplegar",
     "Confirm" : "Confirmar",
     "Description" : "Descripción",
-    "View in store" : "Ver en la tienda",
     "Admin documentation" : "Documentación del administrador",
     "Developer documentation" : "Documentación del desarrollador",
     "Categories" : "Categorías",
     "Resources" : "Recursos",
     "Changelog" : "Bitácora de cambios",
     "Featured" : "Destacado",
-    "Save" : "Guardar",
-    "Report a bug" : "Reporta un detalle",
-    "Updates" : "Actualizaciones"
+    "Save" : "Guardar"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

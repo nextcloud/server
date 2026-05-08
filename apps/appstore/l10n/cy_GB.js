@@ -5,7 +5,6 @@ OC.L10N.register(
     "App name" : "Enw'r ap",
     "Version" : "Fersiwn",
     "Actions" : "Gweithredoedd",
-    "Cancel" : "Cancel",
     "Name" : "Enw",
     "Confirm" : "Cadarnhau",
     "Description" : "Disgrifiad",
