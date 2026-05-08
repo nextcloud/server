@@ -125,10 +125,9 @@ const unreadLabel = computed(() => {
 	&__icon {
 		width: var(--app-item-icon-size);
 		height: var(--app-item-icon-size);
-		// Force the icon to white on the colored circle, then apply the
-		// same vertical alpha gradient (--header-menu-icon-mask) used in
-		// the header so icons read consistently across the design.
-		filter: brightness(0) invert(1);
+		// App icons are bright by default; flip them to dark when the
+		// primary color (circle background) is bright (e.g. white in dark mode).
+		filter: var(--primary-invert-if-bright);
 		mask: var(--header-menu-icon-mask);
 	}
 
