@@ -43,6 +43,9 @@
     <DeprecatedConstant>
       <code><![CDATA[CommentsEvent::EVENT_ADD]]></code>
     </DeprecatedConstant>
+    <DeprecatedMethod>
+      <code><![CDATA[getEvent]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/Listener/CommentsEventListener.php">
     <DeprecatedConstant>
@@ -51,6 +54,9 @@
       <code><![CDATA[CommentsEvent::EVENT_PRE_UPDATE]]></code>
       <code><![CDATA[CommentsEvent::EVENT_UPDATE]]></code>
     </DeprecatedConstant>
+    <DeprecatedMethod>
+      <code><![CDATA[getEvent]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/MaxAutoCompleteResultsInitialState.php">
     <DeprecatedMethod>
@@ -62,6 +68,10 @@
       <code><![CDATA[CommentsEvent::EVENT_DELETE]]></code>
       <code><![CDATA[CommentsEvent::EVENT_PRE_UPDATE]]></code>
     </DeprecatedConstant>
+    <DeprecatedMethod>
+      <code><![CDATA[getEvent]]></code>
+      <code><![CDATA[getEvent]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/Search/CommentsSearchProvider.php">
     <DeprecatedClass>
@@ -2318,13 +2328,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/theming/lib/Command/UpdateConfig.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/theming/lib/Controller/ThemingController.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
