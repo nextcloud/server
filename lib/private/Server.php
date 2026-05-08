@@ -1031,7 +1031,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(ITempManager::class),
 					$backgroundService,
 					new AppConfig(
-						$c->get(IConfig::class),
+						$c->get(\OCP\IConfig::class),
 						$c->get(IAppConfig::class),
 						'theming',
 					),
