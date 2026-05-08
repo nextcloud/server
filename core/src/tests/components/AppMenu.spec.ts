@@ -39,7 +39,7 @@ vi.mock('@nextcloud/event-bus', () => eventBus)
 // Stub @nextcloud/router so we don't need a webroot for the moreApps URL.
 vi.mock('@nextcloud/router', () => ({
 	generateUrl: (path: string) => path,
-	generateFilePath: (app: string, type: string, file: string) => `/apps/${app}/${type}/${file}`,
+	imagePath: (app: string, file: string) => `/${app}/img/${file}`,
 }))
 
 // Build a minimal nav entry that satisfies INavigationEntry.
