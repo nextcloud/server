@@ -195,6 +195,216 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null));
 	}
 
+	public function testGetTokenPkceRequiresVerifier(): void {
+		$expected = new JSONResponse([
+			'error' => 'invalid_request',
+		], Http::STATUS_BAD_REQUEST);
+		$expected->throttle(['invalid_request' => 'code_verifier_required']);
+		$codeChallenge = str_repeat('a', 43);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setCodeCreatedAt(100);
+		$accessToken->setHashedCodeChallenge($codeChallenge);
+		$accessToken->setCodeChallengeMethod('S256');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validcode')
+			->willReturn($accessToken);
+
+		$dateNow = (new \DateTimeImmutable())->setTimestamp(101);
+		$this->timeFactory->method('now')
+			->willReturn($dateNow);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null));
+	}
+
+	public function testGetTokenPkceRejectsInvalidVerifierFormat(): void {
+		$expected = new JSONResponse([
+			'error' => 'invalid_grant',
+		], Http::STATUS_BAD_REQUEST);
+		$expected->throttle(['invalid_grant' => 'invalid_code_verifier']);
+		$codeChallenge = str_repeat('a', 43);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setCodeCreatedAt(100);
+		$accessToken->setHashedCodeChallenge($codeChallenge);
+		$accessToken->setCodeChallengeMethod('S256');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validcode')
+			->willReturn($accessToken);
+
+		$dateNow = (new \DateTimeImmutable())->setTimestamp(101);
+		$this->timeFactory->method('now')
+			->willReturn($dateNow);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null, 'short'));
+	}
+
+	public function testGetTokenPkceS256VerifierMismatch(): void {
+		$expected = new JSONResponse([
+			'error' => 'invalid_grant',
+		], Http::STATUS_BAD_REQUEST);
+		$expected->throttle(['invalid_grant' => 'pkce_verification_failed']);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setCodeCreatedAt(100);
+		$accessToken->setHashedCodeChallenge('expected-challenge');
+		$accessToken->setCodeChallengeMethod('S256');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validcode')
+			->willReturn($accessToken);
+
+		$dateNow = (new \DateTimeImmutable())->setTimestamp(101);
+		$this->timeFactory->method('now')
+			->willReturn($dateNow);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null, str_repeat('b', 43)));
+	}
+
+	public function testGetTokenPkceRejectsUnsupportedStoredMethod(): void {
+		$expected = new JSONResponse([
+			'error' => 'invalid_grant',
+		], Http::STATUS_BAD_REQUEST);
+		$expected->throttle(['invalid_grant' => 'unsupported_code_challenge_method']);
+
+		$accessToken = new AccessToken();
+		$accessToken->setClientId(42);
+		$accessToken->setCodeCreatedAt(100);
+		$accessToken->setHashedCodeChallenge(str_repeat('a', 43));
+		$accessToken->setCodeChallengeMethod('plain');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validcode')
+			->willReturn($accessToken);
+
+		$dateNow = (new \DateTimeImmutable())->setTimestamp(101);
+		$this->timeFactory->method('now')
+			->willReturn($dateNow);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, null, null, str_repeat('a', 43)));
+	}
+
+	public function testGetTokenPkceS256VerifierMatch(): void {
+		$codeVerifier = str_repeat('a', 43);
+		$codeChallenge = rtrim(strtr(base64_encode(hash('sha256', $codeVerifier, true)), '+/', '-_'), '=');
+
+		$accessToken = new AccessToken();
+		$accessToken->setId(21);
+		$accessToken->setClientId(42);
+		$accessToken->setTokenId(1337);
+		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->setCodeCreatedAt(100);
+		$accessToken->setHashedCodeChallenge($codeChallenge);
+		$accessToken->setCodeChallengeMethod('S256');
+
+		$this->accessTokenMapper->method('getByCode')
+			->with('validcode')
+			->willReturn($accessToken);
+
+		$dateNow = (new \DateTimeImmutable())->setTimestamp(101);
+		$this->timeFactory->method('now')
+			->willReturn($dateNow);
+
+		$client = new Client();
+		$client->setClientIdentifier('clientId');
+		$client->setSecret(bin2hex('hashedClientSecret'));
+		$this->clientMapper->method('getByUid')
+			->with(42)
+			->willReturn($client);
+
+		$this->db->expects($this->once())
+			->method('beginTransaction');
+
+		$this->db->expects($this->once())
+			->method('commit');
+
+		$this->db->expects($this->never())
+			->method('rollBack');
+
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateToken');
+
+		$this->crypto
+			->method('decrypt')
+			->with('encryptedToken', 'validcode')
+			->willReturn('decryptedToken');
+
+		$this->crypto
+			->method('calculateHMAC')
+			->with('clientSecret')
+			->willReturn('hashedClientSecret');
+
+		$appToken = new PublicKeyToken();
+		$appToken->setUid('userId');
+		$this->tokenProvider->method('getTokenById')
+			->with(1337)
+			->willThrowException(new ExpiredTokenException($appToken));
+
+		$this->secureRandom->method('generate')
+			->willReturnCallback(function ($len) {
+				return 'random' . $len;
+			});
+
+		$this->tokenProvider->expects($this->once())
+			->method('rotate')
+			->with(
+				$appToken,
+				'decryptedToken',
+				'random72'
+			)->willReturn($appToken);
+
+		$this->time->method('getTime')
+			->willReturn(1000);
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with(
+				$this->callback(function (PublicKeyToken $token) {
+					return $token->getExpires() === 4600;
+				})
+			);
+
+		$this->crypto->method('encrypt')
+			->with('random72', 'random128')
+			->willReturn('newEncryptedToken');
+
+		$this->accessTokenMapper->expects($this->once())
+			->method('rotateToken')
+			->with(
+				21,
+				'validcode',
+				'random128',
+				'newEncryptedToken',
+				true,
+			)->willReturn(1);
+
+		$expected = new JSONResponse([
+			'access_token' => 'random72',
+			'token_type' => 'Bearer',
+			'expires_in' => 3600,
+			'refresh_token' => 'random128',
+			'user_id' => 'userId',
+		]);
+
+		$this->request->method('getRemoteAddress')
+			->willReturn('1.2.3.4');
+
+		$this->throttler->expects($this->once())
+			->method('resetDelay')
+			->with(
+				'1.2.3.4',
+				'login',
+				['user' => 'userId']
+			);
+
+		$this->assertEquals($expected, $this->oauthApiController->getToken('authorization_code', 'validcode', null, 'clientId', 'clientSecret', $codeVerifier));
+	}
+
 	public function testRefreshTokenInvalidRefreshToken(): void {
 		$expected = new JSONResponse([
 			'error' => 'invalid_request',
@@ -300,7 +510,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
@@ -339,7 +549,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
@@ -449,7 +659,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
@@ -562,7 +772,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
@@ -677,7 +887,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('decrypt')
-			->with('encryptedToken')
+			->with('encryptedToken', 'validrefresh')
 			->willReturn('decryptedToken');
 
 		$this->crypto
