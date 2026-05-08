@@ -1,11 +1,15 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile picker" : "Выбор профиля",
     "Profile" : "Профиль",
     "This application provides the profile" : "Это приложение предоставляет профиль",
     "Provides a customisable user profile interface." : "Предоставляет настраиваемый интерфейс профиля пользователя.",
     "Searching …" : "Поиск…",
     "Not found" : "Не найдено",
+    "Search for a user profile" : "Поиск профиля пользователя",
+    "Search for a user profile. Start typing" : "Найти профиль пользователя. Начните печатать",
+    "Insert selected user profile link" : "Вставить ссылку на выбранный профиль пользователя",
     "Insert" : "Вставить",
     "You have not added any info yet" : "Вы ещё не добавили никакой информации",
     "{user} has not added any info yet" : "Пользователь {user} ещё не добавил(а) никакой информации",
