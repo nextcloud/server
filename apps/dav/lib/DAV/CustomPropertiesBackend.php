@@ -20,6 +20,7 @@ use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Folder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Override;
@@ -236,8 +237,11 @@ class CustomPropertiesBackend implements BackendInterface {
 		}
 
 		$node = $this->tree->getNodeForPath($path);
-		if ($node instanceof Directory && $propFind->getDepth() !== 0) {
-			$this->cacheDirectory($path, $node);
+		if (($node instanceof ICacheableDirectory) && $propFind->getDepth() !== 0) {
+			$directoriesToPrefetch = $node->getCacheableDirectories();
+			foreach ($directoriesToPrefetch as $directory) {
+				$this->cacheDirectory($path, $directory);
+			}
 		}
 
 		if ($node instanceof CalendarHome && $propFind->getDepth() !== 0) {
@@ -384,18 +388,17 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * Prefetch all user properties in a directory
 	 */
-	private function cacheDirectory(string $path, Directory $node): void {
+	private function cacheDirectory(string $path, Folder $node): void {
 		$prefix = ltrim($path . '/', '/');
 		$query = $this->connection->getQueryBuilder();
 		$query->select('name', 'p.propertypath', 'p.propertyname', 'p.propertyvalue', 'p.valuetype')
 			->from('filecache', 'f')
-			->hintShardKey('storage', $node->getNode()->getMountPoint()->getNumericStorageId())
+			->hintShardKey('storage', $node->getMountPoint()->getNumericStorageId())
 			->leftJoin('f', 'properties', 'p', $query->expr()->eq('p.propertypath', $query->func()->concat(
 				$query->createNamedParameter($prefix),
 				'f.name'
-			)),
-			)
-			->where($query->expr()->eq('parent', $query->createNamedParameter($node->getInternalFileId(), IQueryBuilder::PARAM_INT)))
+			)))
+			->where($query->expr()->eq('parent', $query->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->orX(
 				$query->expr()->eq('p.userid', $query->createNamedParameter($this->user->getUID())),
 				$query->expr()->isNull('p.userid'),

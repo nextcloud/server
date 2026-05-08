@@ -268,6 +268,7 @@ return array(
     'OCA\\DAV\\Controller\\UpcomingEventsController' => $baseDir . '/../lib/Controller/UpcomingEventsController.php',
     'OCA\\DAV\\DAV\\CustomPropertiesBackend' => $baseDir . '/../lib/DAV/CustomPropertiesBackend.php',
     'OCA\\DAV\\DAV\\GroupPrincipalBackend' => $baseDir . '/../lib/DAV/GroupPrincipalBackend.php',
+    'OCA\\DAV\\DAV\\ICacheableDirectory' => $baseDir . '/../lib/DAV/ICacheableDirectory.php',
     'OCA\\DAV\\DAV\\PublicAuth' => $baseDir . '/../lib/DAV/PublicAuth.php',
     'OCA\\DAV\\DAV\\RemoteUserPrincipalBackend' => $baseDir . '/../lib/DAV/RemoteUserPrincipalBackend.php',
     'OCA\\DAV\\DAV\\Security\\RateLimiting' => $baseDir . '/../lib/DAV/Security/RateLimiting.php',
