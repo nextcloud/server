@@ -6,8 +6,23 @@
 export const OFFICE_SUITES = [
 	{
 		id: 'nextcloud-office',
-		appId: 'richdocuments',
+		appId: 'eurooffice',
 		name: 'Nextcloud Office',
+		features: [
+			t('settings', 'Powered by Euro-Office'),
+			t('settings', 'Good Nextcloud integration'),
+			t('settings', 'Open source'),
+			t('settings', 'Best performance'),
+			t('settings', 'Limited ODF compatibility'),
+			t('settings', 'Best Microsoft compatibility'),
+		],
+		learnMoreUrl: 'https://github.com/Euro-Office',
+		isPrimary: true,
+	},
+	{
+		id: 'collabora-office',
+		appId: 'richdocuments',
+		name: 'Collabora Office',
 		features: [
 			t('settings', 'Best Nextcloud integration'),
 			t('settings', 'Open source'),
@@ -17,20 +32,6 @@ export const OFFICE_SUITES = [
 			t('settings', 'Best support for legacy files'),
 		],
 		learnMoreUrl: 'https://nextcloud.com/collaboraonline/',
-		isPrimary: true,
-	},
-	{
-		id: 'euro-office',
-		appId: 'onlyoffice',
-		name: 'Euro-Office',
-		features: [
-			t('settings', 'Good Nextcloud integration'),
-			t('settings', 'Open source'),
-			t('settings', 'Best performance'),
-			t('settings', 'Limited ODF compatibility'),
-			t('settings', 'Best Microsoft compatibility'),
-		],
-		learnMoreUrl: 'https://github.com/Euro-Office',
 		isPrimary: false,
 	},
 ]
@@ -48,7 +49,7 @@ export function getOfficeSuiteById(id) {
 /**
  * Get office suite configuration by app ID
  *
- * @param {string} appId - The app ID (richdocuments, onlyoffice, euro-office, etc.)
+ * @param {string} appId - The app ID (richdocuments, onlyoffice, etc.)
  * @return {object|undefined} The suite configuration or undefined if not found
  */
 export function getOfficeSuiteByAppId(appId) {
