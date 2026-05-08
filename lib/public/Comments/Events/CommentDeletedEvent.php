@@ -20,6 +20,8 @@ use OCP\Comments\IComment;
 final class CommentDeletedEvent extends CommentsEvent {
 	/**
 	 * CommentRemovedEvent constructor.
+	 *
+	 * @since 33.0.0
 	 */
 	public function __construct(IComment $comment) {
 		/** @psalm-suppress DeprecatedConstant */

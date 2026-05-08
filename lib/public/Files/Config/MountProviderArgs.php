@@ -16,6 +16,9 @@ use OCP\Files\Cache\ICacheEntry;
  * @since 33.0.0
  */
 class MountProviderArgs {
+	/**
+	 * @since 33.0.0
+	 */
 	public function __construct(
 		public readonly ICachedMountInfo $mountInfo,
 		public readonly ICacheEntry $cacheEntry,

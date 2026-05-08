@@ -14,7 +14,16 @@ namespace OCP\OpenMetrics;
  * @since 33.0.0
  */
 enum MetricValue: string {
+	/**
+	 * @since 33.0.0
+	 */
 	case NOT_A_NUMBER = 'NaN';
+	/**
+	 * @since 33.0.0
+	 */
 	case POSITIVE_INFINITY = '+Inf';
+	/**
+	 * @since 33.0.0
+	 */
 	case NEGATIVE_INFINITY = '-Inf';
 }
