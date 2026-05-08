@@ -151,6 +151,7 @@
 </template>
 
 <script>
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -351,7 +352,7 @@ export default {
 			try {
 				if (suiteId === null) {
 					await this.disableOfficeSuites(OFFICE_SUITES)
-					OC.Notification.showTemporary(t('settings', 'All office suites disabled'))
+					showSuccess(t('settings', 'All office suites disabled'))
 					return
 				}
 
@@ -362,14 +363,14 @@ export default {
 				}
 
 				await this.$store.dispatch('enableApp', { appId: selectedSuite.appId, groups: [] })
-				OC.Notification.showTemporary(t('settings', '{name} enabled', { name: selectedSuite.name }))
+				showSuccess(t('settings', '{name} enabled', { name: selectedSuite.name }))
 
 				const otherSuites = OFFICE_SUITES.filter((suite) => suite.id !== suiteId)
 				await this.disableOfficeSuites(otherSuites)
 			} catch (error) {
 				logger.error('Error switching office suite:', error)
 				if (error?.message) {
-					OC.Notification.showTemporary(error.message)
+					showError(error.message)
 				}
 			}
 		},
