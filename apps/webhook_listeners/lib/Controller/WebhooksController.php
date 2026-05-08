@@ -26,8 +26,10 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,6 +44,8 @@ class WebhooksController extends OCSController {
 		private WebhookListenerMapper $mapper,
 		private ?string $userId,
 		private ISession $session,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -144,6 +148,12 @@ class WebhooksController extends OCSController {
 		} catch (\ValueError $e) {
 			throw new OCSBadRequestException('This auth method does not exist');
 		}
+
+		$user = $this->userSession->getUser();
+		if (!$user || !$this->groupManager->isAdmin($user->getUID())) {
+			$tokenNeeded = null;
+		}
+
 		try {
 			$webhookListener = $this->mapper->addWebhookListener(
 				$appId,
