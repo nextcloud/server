@@ -38,7 +38,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.5.3
+	- version: 2.6.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.2
@@ -74,7 +74,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.8.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.37.0
+	- version: 8.39.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.4
@@ -107,7 +107,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.4.0
+	- version: 3.4.2
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -149,10 +149,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.0
 	- license: MIT
 - unist-util-visit-parents
-	- version: 6.0.1
-	- license: MIT
-- unist-util-visit
-	- version: 5.1.0
+	- version: 6.0.2
 	- license: MIT
 - vue-demi
 	- version: 0.14.10
