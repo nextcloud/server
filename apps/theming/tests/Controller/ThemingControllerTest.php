@@ -648,14 +648,10 @@ class ThemingControllerTest extends TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('logo.svg');
 		$file->method('getMTime')->willReturn(42);
+		$file->method('getMimeType')->willReturn('text/svg');
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
-		$this->config
-			->expects($this->any())
-			->method('getAppValue')
-			->with('theming', 'logoMime', '')
-			->willReturn('text/svg');
 
 		@$expected = new FileDisplayResponse($file);
 		$expected->cacheFor(3600);
@@ -703,15 +699,10 @@ class ThemingControllerTest extends TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('background.png');
 		$file->method('getMTime')->willReturn(42);
+		$file->method('getMimeType')->willReturn('image/png');
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
-
-		$this->config
-			->expects($this->any())
-			->method('getAppValue')
-			->with('theming', 'backgroundMime', '')
-			->willReturn('image/png');
 
 		@$expected = new FileDisplayResponse($file);
 		$expected->cacheFor(3600);

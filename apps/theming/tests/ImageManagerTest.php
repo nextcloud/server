@@ -152,7 +152,7 @@ class ImageManagerTest extends TestCase {
 			->willReturn('image/png');
 		$file = $this->createMock(ISimpleFile::class);
 		$this->mockGetImage('logo', $file);
-		$this->assertEquals($file, $this->imageManager->getImage('logo', false));
+		$this->assertEquals($file, $this->imageManager->getImage('logo', true));
 	}
 
 	public function testGetImageSvgToSvg(): void {
