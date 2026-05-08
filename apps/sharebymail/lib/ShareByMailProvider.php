@@ -649,8 +649,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('parent', $qb->createNamedParameter($parent->getId())))
-			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
-			->orderBy('id');
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
 
 		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetchAssociative()) {
@@ -844,7 +843,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$qb->setFirstResult($offset);
-		$qb->orderBy('id');
+		if ($offset !== 0 || $limit !== -1) {
+			$qb->orderBy('id');
+		}
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
@@ -919,8 +920,10 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$qb->select('*')
 			->from('share');
 
-		// Order by id
-		$qb->orderBy('id');
+		// Order by id only if we need it for limit/offset
+		if ($offset !== 0 || $limit !== -1) {
+			$qb->orderBy('id');
+		}
 
 		// Set limit and offset
 		if ($limit !== -1) {
@@ -1151,8 +1154,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
 
 		$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
-
-		$qb->orderBy('id');
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
