@@ -149,6 +149,9 @@ const unreadLabel = computed(() => {
 		line-height: 1.3;
 		text-align: center;
 		color: var(--color-main-text);
+		// Needs a matching <html lang> to actually break with a hyphen.
+		-webkit-hyphens: auto;
+		hyphens: auto;
 		word-break: normal;
 		overflow-wrap: break-word;
 		max-width: 100%;
@@ -159,7 +162,7 @@ const unreadLabel = computed(() => {
 		font-weight: bold;
 	}
 
-	// Outlined variant: no fill or gradient; icon color is unforced.
+	// Outlined variant: no fill or gradient.
 	&--outlined &__circle {
 		background: transparent;
 		background-image: none;
@@ -167,7 +170,7 @@ const unreadLabel = computed(() => {
 	}
 
 	&--outlined &__icon {
-		filter: brightness(0);
+		filter: var(--background-invert-if-dark);
 		mask: none;
 	}
 }
