@@ -1,9 +1,13 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile picker" : "Profilio rinkiklis",
     "Profile" : "Profilis",
     "Searching …" : "Ieškoma",
     "Not found" : "Nerasta",
+    "Search for a user profile" : "Ieškoti vartotojo profilio",
+    "Search for a user profile. Start typing" : "Ieškokite vartotojo profilio. Pradėkite rašyti.",
+    "Insert selected user profile link" : "Įterpti pasirinkto vartotojo profilio nuorodą",
     "Insert" : "Įterpti",
     "You have not added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
     "{user} has not added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos",
