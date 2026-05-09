@@ -206,6 +206,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Ο κωδικός θα λήξει {timeCountdown} ή μετά τη χρήση",
     "_{count} notification_::_{count} notifications_" : ["{count} ειδοποίηση","{count} ειδοποιήσεις"],
     "More apps" : "Περισσότερες εφαρμογές",
+    "Applications" : "Εφαρμογές",
     "Apps" : "Εφαρμογές",
     "No" : "Όχι",
     "Yes" : "Ναι",

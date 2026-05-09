@@ -201,6 +201,7 @@ OC.L10N.register(
     "Done" : "ສະຖານະ",
     "_{count} notification_::_{count} notifications_" : ["{count} notifications"],
     "More apps" : "ແອັບພລິເຄຊັນເພີ່ມເຕີມ",
+    "Applications" : "ແອັບພລິເຄຊັນ",
     "Apps" : "ແອັບພລິເຄຊັນ",
     "No" : "ບໍ່",
     "Yes" : "ແມ່ນແລ້ວ",

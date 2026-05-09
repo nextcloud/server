@@ -204,6 +204,7 @@ OC.L10N.register(
     "Scan QR code to log in" : "Eskaneatu QRa saioa hasteko",
     "_{count} notification_::_{count} notifications_" : ["Jakinarazpen {count}","{count} jakinarazpenak"],
     "More apps" : "Aplikazio gehiago",
+    "Applications" : "Aplikazioak",
     "Apps" : "Aplikazioak",
     "No" : "Ez",
     "Yes" : "Bai",

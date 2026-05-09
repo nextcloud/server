@@ -206,6 +206,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Platnost kódu skončí za {timeCountdown} nebo po použití",
     "_{count} notification_::_{count} notifications_" : ["{count} upozornění","{count} upozornění","{count} upozornění","{count} upozornění"],
     "More apps" : "Více aplikací",
+    "Applications" : "Aplikace",
     "Apps" : "Aplikace",
     "No" : "Ne",
     "Yes" : "Ano",

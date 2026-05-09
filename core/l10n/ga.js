@@ -206,6 +206,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Rachaidh an cód in éag {timeCountdown} nó tar éis úsáide",
     "_{count} notification_::_{count} notifications_" : ["{count} fógra","{count} fógra","{count} fógra","{count} fógra","{count} fógra"],
     "More apps" : "Tuilleadh apps",
+    "Applications" : "Feidhmchláir",
     "Apps" : "Feidhmchláir",
     "No" : "Níl",
     "Yes" : "Tá",

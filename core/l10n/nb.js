@@ -131,6 +131,7 @@ OC.L10N.register(
     "Done" : "Ferdig",
     "_{count} notification_::_{count} notifications_" : ["{count} varsel","{count} varsler"],
     "More apps" : "Flere apper",
+    "Applications" : "Applikasjoner",
     "Apps" : "Apper",
     "No" : "Nei",
     "Yes" : "Ja",

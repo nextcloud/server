@@ -200,6 +200,7 @@ OC.L10N.register(
     "Done" : "Færdig",
     "_{count} notification_::_{count} notifications_" : ["{count} underretning","{count} underretninger"],
     "More apps" : "Flere apps",
+    "Applications" : "ApplikationerApplikationer",
     "Apps" : "Apps",
     "No" : "Nej",
     "Yes" : "Ja",

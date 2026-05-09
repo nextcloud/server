@@ -208,6 +208,7 @@ OC.L10N.register(
     "More apps" : "更多應用程式",
     "App store" : "應用程式商店",
     "Applications" : "應用程式",
+    "Open apps menu" : "開啟應用程式選單",
     "Apps" : "應用程式",
     "No" : "否",
     "Yes" : "是",

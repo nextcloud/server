@@ -187,6 +187,7 @@ OC.L10N.register(
     "Done" : "Гатова",
     "_{count} notification_::_{count} notifications_" : ["{count} апавяшчэнне","{count} апавяшчэнні","{count} апавяшчэнняў","{count} апавяшчэнняў"],
     "More apps" : "Болей праграм",
+    "Applications" : "Праграмы",
     "Apps" : "Праграмы",
     "No" : "Не",
     "Yes" : "Так",
