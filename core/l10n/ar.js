@@ -80,6 +80,7 @@ OC.L10N.register(
     "Done" : "تمّ",
     "_{count} notification_::_{count} notifications_" : ["{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات"],
     "More apps" : "المزيد من التطبيقات",
+    "Applications" : "التطبيقات",
     "Apps" : "التطبيقات",
     "No" : "لا",
     "Yes" : "نعم",

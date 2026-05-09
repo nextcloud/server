@@ -206,6 +206,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "O código caducará en {timeCountdown} ou após o seu uso",
     "_{count} notification_::_{count} notifications_" : ["{count} notificación","{count} notificacións"],
     "More apps" : "Máis aplicacións",
+    "Applications" : "Aplicacións",
     "Apps" : "Aplicacións",
     "No" : "Non",
     "Yes" : "Si",

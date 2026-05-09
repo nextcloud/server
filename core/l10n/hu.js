@@ -206,6 +206,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "A kód {timeCountdown} vagy használat után lejár",
     "_{count} notification_::_{count} notifications_" : ["{count} értesítés","{count} értesítés"],
     "More apps" : "További alkalmazások",
+    "Applications" : "Alkalmazások",
     "Apps" : "Alkalmazások",
     "No" : "Nem",
     "Yes" : "Igen",
