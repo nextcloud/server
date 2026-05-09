@@ -168,6 +168,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Koodi vanhenee {timeCountdown} tai kun se on käytetty",
     "_{count} notification_::_{count} notifications_" : ["{count} ilmoitus","{count} ilmoitusta"],
     "More apps" : "Lisää sovelluksia",
+    "Applications" : "Sovellukset",
     "Apps" : "Sovellukset",
     "No" : "Ei",
     "Yes" : "Kyllä",

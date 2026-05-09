@@ -78,6 +78,7 @@ OC.L10N.register(
     "Done" : "Pabeigts",
     "_{count} notification_::_{count} notifications_" : ["{count} paziņojumu","{count}paziņojums","{count}paziņojumi"],
     "More apps" : "Vairāk lietotņu",
+    "Applications" : "Lietotnes",
     "Apps" : "Lietotnes",
     "No" : "Nē",
     "Yes" : "Jā",

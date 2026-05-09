@@ -206,6 +206,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Kodas baigs galioti jį panaudojus arba {timeCountdown}",
     "_{count} notification_::_{count} notifications_" : ["{count} pranešimas","{count} pranešimai","{count} pranešimų","{count} pranešimas"],
     "More apps" : "Daugiau programėlių",
+    "Applications" : "Programėlės",
     "Apps" : "Programėlės",
     "No" : "Ne",
     "Yes" : "Taip",
