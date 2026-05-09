@@ -16,8 +16,10 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\PublicShareController;
 use OCP\Constants;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
@@ -28,8 +30,7 @@ use OCP\Share\IShare;
 
 class PublicPreviewController extends PublicShareController {
 
-	/** @var IShare */
-	private $share;
+	private IShare $share;
 
 	public function __construct(
 		string $appName,
@@ -62,12 +63,14 @@ class PublicPreviewController extends PublicShareController {
 		return $this->share->getPassword() !== null;
 	}
 
-
 	/**
-	 * Get a preview for a shared file
+	 * Get a preview for a public share.
+	 *
+	 * For shares pointing to a single file, the $file parameter is ignored.
+	 * For folder shares, $file must be the relative path to a file inside the shared folder.
 	 *
 	 * @param string $token Token of the share
-	 * @param string $file File in the share
+	 * @param string $file Relative path to a file inside a shared folder; ignored for single-file shares
 	 * @param int $x Width of the preview
 	 * @param int $y Height of the preview
 	 * @param bool $a Whether to not crop the preview
@@ -122,27 +125,43 @@ class PublicPreviewController extends PublicShareController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		$previewFile = null;
+
 		try {
-			$node = $share->getNode();
-			if ($node instanceof Folder) {
-				$file = $node->get($file);
+			$shareNode = $share->getNode();
+			if ($shareNode instanceof Folder) {
+				if ($file === '') {
+					return new DataResponse([], Http::STATUS_BAD_REQUEST);
+				}
+
+				$previewFile = $shareNode->get($file);
+				if ($previewFile instanceof Folder) {
+					return new DataResponse([], Http::STATUS_BAD_REQUEST);
+				}
 			} else {
-				$file = $node;
+				$previewFile = $shareNode;
 			}
 
-			$f = $this->previewManager->getPreview($file, $x, $y, !$a);
-			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+			$preview = $this->previewManager->getPreview($previewFile, $x, $y, !$a);
+			$response = new FileDisplayResponse(
+				$preview,
+				Http::STATUS_OK,
+				['Content-Type' => $preview->getMimeType()]
+			);
+
 			$response->cacheFor($cacheForSeconds);
 			return $response;
-		} catch (NotFoundException $e) {
-			// If we have no preview enabled, we can redirect to the mime icon if any
-			if ($mimeFallback) {
-				if ($url = $this->mimeIconProvider->getMimeIconUrl($file->getMimeType())) {
+		} catch (NotFoundException) {
+			// If a preview could not be generated for a resolved file, we can redirect to the mime icon if any
+			if ($mimeFallback && $previewFile instanceof File) {
+				if ($url = $this->mimeIconProvider->getMimeIconUrl($previewFile->getMimeType())) {
 					return new RedirectResponse($url);
 				}
 			}
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\InvalidArgumentException $e) {
+		} catch (NotPermittedException) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		} catch (\InvalidArgumentException) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}
