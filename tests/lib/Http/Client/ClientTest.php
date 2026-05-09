@@ -284,7 +284,7 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
-		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+		$acceptEnc = ((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
 		$this->defaultRequestOptions = [
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -488,7 +488,7 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
-		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+		$acceptEnc = ((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
 
 		$this->assertEquals([
 			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
@@ -544,7 +544,7 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
-		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+		$acceptEnc = ((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
 
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
@@ -604,7 +604,7 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
-		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+		$acceptEnc = ((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
 
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
