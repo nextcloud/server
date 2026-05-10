@@ -152,7 +152,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.38.0
+	- version: 8.39.0
 	- license: AGPL-3.0-or-later
 - @nodable/entities
 	- version: 2.1.0
@@ -182,7 +182,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.13.4
+	- version: 1.16.0
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -197,7 +197,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.9.0
 	- license: MIT
 - brace-expansion
-	- version: 2.0.2
+	- version: 2.1.0
 	- license: MIT
 - buffer
 	- version: 5.7.1
@@ -365,7 +365,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.1
+	- version: 6.14.2
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
@@ -446,7 +446,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.5
 	- license: MIT
 - uuid
-	- version: 11.1.0
+	- version: 11.1.1
 	- license: MIT
 - vue-loader
 	- version: 15.11.1
