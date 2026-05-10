@@ -35,5 +35,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		}
 
 		Util::addScript('weather_status', 'weather-status');
+		Util::addTranslations('weather_status');
 	}
 }
