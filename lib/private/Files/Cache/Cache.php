@@ -24,8 +24,6 @@ use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Cache\CacheEntryUpdatedEvent;
-use OCP\Files\Cache\CacheInsertEvent;
-use OCP\Files\Cache\CacheUpdateEvent;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
@@ -333,7 +331,7 @@ class Cache implements ICache {
 				}
 
 				$event = new CacheEntryInsertedEvent($this->storage, $file, $fileId, $storageId);
-				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
+				$this->eventDispatcher->dispatch(CacheEntryInsertedEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 				return $fileId;
 			}
@@ -437,7 +435,7 @@ class Cache implements ICache {
 		// path can still be null if the file doesn't exist
 		if ($path !== null) {
 			$event = new CacheEntryUpdatedEvent($this->storage, $path, $id, $this->getNumericStorageId());
-			$this->eventDispatcher->dispatch(CacheUpdateEvent::class, $event);
+			$this->eventDispatcher->dispatch(CacheEntryUpdatedEvent::class, $event);
 			$this->eventDispatcher->dispatchTyped($event);
 		}
 	}
@@ -851,11 +849,11 @@ class Cache implements ICache {
 				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
 
 				$event = new CacheEntryInsertedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
-				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
+				$this->eventDispatcher->dispatch(CacheEntryInsertedEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 			} else {
 				$event = new CacheEntryUpdatedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
-				$this->eventDispatcher->dispatch(CacheUpdateEvent::class, $event);
+				$this->eventDispatcher->dispatch(CacheEntryUpdatedEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 			}
 		} else {
