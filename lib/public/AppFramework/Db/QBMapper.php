@@ -166,8 +166,12 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	public function update(Entity $entity): Entity {
-		// if entity wasn't changed it makes no sense to run a db query
+		// get updated fields to save, fields have to be set using a setter to
+		// be saved
 		$properties = $entity->getUpdatedFields();
+		// do not update the id field
+		unset($properties['id']);
+		// if entity wasn't changed it makes no sense to run a db query
 		if (\count($properties) === 0) {
 			return $entity;
 		}
@@ -178,11 +182,6 @@ abstract class QBMapper {
 			throw new \InvalidArgumentException(
 				'Entity which should be updated has no id');
 		}
-
-		// get updated fields to save, fields have to be set using a setter to
-		// be saved
-		// do not update the id field
-		unset($properties['id']);
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->update($this->tableName);
