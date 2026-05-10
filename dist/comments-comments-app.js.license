@@ -54,8 +54,8 @@ SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
+SPDX-FileCopyrightText: Amit Gupta (https://solothought.work/)
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
-SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
@@ -135,6 +135,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 8.38.0
 	- license: AGPL-3.0-or-later
+- @nodable/entities
+	- version: 2.1.0
+	- license: MIT
 - @vue/devtools-api
 	- version: 6.6.4
 	- license: MIT
@@ -228,8 +231,11 @@ This file is generated from multiple sources. Included packages:
 - events
 	- version: 3.3.0
 	- license: MIT
+- fast-xml-builder
+	- version: 1.2.0
+	- license: MIT
 - fast-xml-parser
-	- version: 5.3.4
+	- version: 5.7.3
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -318,6 +324,9 @@ This file is generated from multiple sources. Included packages:
 - object-inspect
 	- version: 1.13.4
 	- license: MIT
+- path-expression-matcher
+	- version: 1.5.0
+	- license: MIT
 - path-posix
 	- version: 1.0.0
 	- license: ISC
@@ -382,7 +391,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.0
 	- license: MIT
 - strnum
-	- version: 2.1.2
+	- version: 2.3.0
 	- license: MIT
 - style-loader
 	- version: 4.0.0
@@ -434,6 +443,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
+	- license: MIT
+- xml-naming
+	- version: 0.1.0
 	- license: MIT
 - xtend
 	- version: 4.0.2
