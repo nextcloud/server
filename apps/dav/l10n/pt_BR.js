@@ -242,6 +242,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Falha ao desvincular: %1$s",
     "Failed to write file contents: %1$s" : "Falha ao gravar o conteúdo do arquivo:%1$s",
     "File not found: %1$s" : "Arquivo não encontrado: %1$s",
+    "Insufficient space" : "Espaço insuficiente",
     "Invalid target path" : "Caminho de destino inválido",
     "System is in maintenance mode." : "O sistema está em modo de manutenção",
     "Upgrade needed" : "Upgrade necessário",
