@@ -84,7 +84,9 @@ class UtilTest extends TestCase {
 
 		$this->userConfigMock->expects($this->any())
 			->method('getValueBool')
-			->willReturnCallback([$this, 'getValueTester']);
+			->willReturnCallback(function (string $userId, string $app, string $key, bool $default = false): bool {
+				return self::$tempStorage[$key] ?? $default;
+			});
 
 		$this->userConfigMock->expects($this->any())
 			->method('setValueBool')
@@ -94,14 +96,6 @@ class UtilTest extends TestCase {
 			});
 
 		$this->instance = new Util($this->filesMock, $cryptMock, $userSessionMock, $this->appConfigMock, $this->userConfigMock, $this->userManagerMock);
-	}
-
-	public function setValueTester(string $userId, string $app, string $key, bool $value): void {
-		self::$tempStorage[$key] = $value;
-	}
-
-	public function getValueTester(string $userId, string $app, string $key, bool $default = false): bool {
-		return self::$tempStorage[$key] ?? $default;
 	}
 
 	/**

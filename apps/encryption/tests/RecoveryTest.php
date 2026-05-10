@@ -255,7 +255,9 @@ class RecoveryTest extends TestCase {
 
 		$this->appConfigMock->expects($this->any())
 			->method('getValueBool')
-			->willReturnCallback([$this, 'getValueTester']);
+			->willReturnCallback(function (string $app, string $key, bool $default = false): bool {
+				return self::$tempStorage[$key] ?? $default;
+			});
 
 		$this->instance = new Recovery($this->userSessionMock,
 			$this->cryptMock,
@@ -266,16 +268,4 @@ class RecoveryTest extends TestCase {
 			$this->viewMock);
 	}
 
-
-	public function setValueTester(string $app, string $key, bool $value): void {
-		self::$tempStorage[$key] = $value;
-	}
-
-	public function removeValueTester(string $key): void {
-		unset(self::$tempStorage[$key]);
-	}
-
-	public function getValueTester(string $app, string $key, bool $default = false): bool {
-		return self::$tempStorage[$key] ?? $default;
-	}
 }
