@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "appstore",
+    {
+    "Apps" : "Aplicaciones",
+    "App name" : "Nombre de la aplicación",
+    "Version" : "Versión",
+    "Actions" : "Acciones",
+    "Show details" : "Mostrar detalles",
+    "Name" : "Nombre",
+    "Display Name" : "Nombre a desplegar",
+    "Confirm" : "Confirmar",
+    "Description" : "Descripción",
+    "Visit website" : "Visita el sitio web",
+    "Admin documentation" : "Documentación del administrador",
+    "Developer documentation" : "Documentación del desarrollador",
+    "Author" : "Autor",
+    "Categories" : "Categorías",
+    "Resources" : "Recursos",
+    "Changelog" : "Bitácora de cambios",
+    "Supported" : "Compatible",
+    "Featured" : "Destacado",
+    "Save" : "Guardar",
+    "Update to {version}" : "Actualizar a {version}",
+    "Featured apps" : "Aplicaciones destacadas",
+    "An error occurred during the request. Unable to proceed." : "Ocurrió un error durante la solicitud. No se puede continuar."
+},
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

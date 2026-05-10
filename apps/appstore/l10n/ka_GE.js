@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "appstore",
+    {
+    "Apps" : "აპლიკაციები",
+    "App name" : "აპლიკაციის სახელი",
+    "Version" : "ვერისა",
+    "Actions" : "მოქმედებები",
+    "Name" : "სახელი",
+    "Display Name" : "დისპლეი სახელი",
+    "Confirm" : "დადასტურება",
+    "Description" : "აღწერა",
+    "Visit website" : "საიტზე სტუმრობა",
+    "Admin documentation" : "ადმინისტრატორის დოკუმენტაცია",
+    "Developer documentation" : "დეველოპერის დოკუმენტაცია",
+    "Categories" : "კატეგორიები",
+    "Resources" : "რესურსები",
+    "Changelog" : "ცვლილებების ლოგი",
+    "Supported" : "მხარდაჭერილია",
+    "Featured" : "გამორჩეულები",
+    "Save" : "შენახვა",
+    "Update to {version}" : "განაახლეთ ვერსიაზე {version}",
+    "Disabled apps" : "არამოქმედი აპლიკაციები",
+    "Updates" : "განახლებები"
+},
+"nplurals=2; plural=(n!=1);");
