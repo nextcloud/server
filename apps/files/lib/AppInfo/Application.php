@@ -27,8 +27,6 @@ use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Listener\UserFirstTimeLoggedInListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
-use OCA\Files\Service\TagService;
-use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -42,12 +40,8 @@ use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\NodeAddedToFavorite;
 use OCP\Files\Events\NodeRemovedFromFavorite;
-use OCP\IServerContainer;
-use OCP\ITagManager;
-use OCP\IUserSession;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
-use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files';
@@ -58,21 +52,6 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function register(IRegistrationContext $context): void {
-		/**
-		 * Services
-		 */
-		$context->registerService(TagService::class, function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
-
-			return new TagService(
-				$c->get(IUserSession::class),
-				$c->get(IActivityManager::class),
-				$c->get(ITagManager::class)->load(self::APP_ID),
-				$server->getUserFolder(),
-			);
-		});
-
 		/*
 		 * Register capabilities
 		 */
