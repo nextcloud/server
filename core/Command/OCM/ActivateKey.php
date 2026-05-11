@@ -33,10 +33,10 @@ class ActivateKey extends Base {
 			$this->signatoryManager->activateStagedEd25519Key();
 		} catch (\RuntimeException $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		$output->writeln('<info>Staged key promoted to active.</info>');
 		$output->writeln('Run <info>occ ocm:keys:retire</info> once any in-flight signatures using the previous key have been verified.');
-		return 0;
+		return self::SUCCESS;
 	}
 }

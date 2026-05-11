@@ -294,7 +294,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 	 * lowercased name. Derived components (`@*`) are produced inside
 	 * {@see SignatureBase}; we only collect plain fields here.
 	 *
-	 * @return array<string, string>
+	 * @return array<lowercase-string, non-empty-string>
 	 */
 	private function collectHeaders(): array {
 		$out = [];

@@ -35,12 +35,12 @@ class ListKeys extends Base {
 		$format = $input->getOption('output');
 		if ($format === self::OUTPUT_FORMAT_JSON || $format === self::OUTPUT_FORMAT_JSON_PRETTY) {
 			$output->writeln(json_encode($keys, $format === self::OUTPUT_FORMAT_JSON_PRETTY ? JSON_PRETTY_PRINT : 0));
-			return 0;
+			return self::SUCCESS;
 		}
 
 		if ($keys === []) {
 			$output->writeln('<comment>No Ed25519 keys yet; one will be generated on first OCM request.</comment>');
-			return 0;
+			return self::SUCCESS;
 		}
 
 		$table = new Table($output);
@@ -49,6 +49,6 @@ class ListKeys extends Base {
 			$table->addRow([$key['poolId'], $key['slot'] ?? '-', $key['kid']]);
 		}
 		$table->render();
-		return 0;
+		return self::SUCCESS;
 	}
 }
