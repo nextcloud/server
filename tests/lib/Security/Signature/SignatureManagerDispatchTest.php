@@ -52,9 +52,6 @@ class SignatureManagerDispatchTest extends TestCase {
 	}
 
 	public function testOutgoingDispatchesToCavageByDefault(): void {
-		// Cavage signs with an RSA PEM, so we need a real RSA keypair here;
-		// the Ed25519 helper would produce libsodium bytes that openssl_sign
-		// can't consume.
 		$signatoryManager = $this->rsaSignatoryManager();
 
 		$signed = $this->signatureManager->getOutgoingSignedRequest(
@@ -68,7 +65,7 @@ class SignatureManagerDispatchTest extends TestCase {
 	}
 
 	public function testOutgoingDispatchesToRfc9421WhenOptionSet(): void {
-		[$signatoryManager,] = $this->ed25519SignatoryManager(rfc9421Format: true);
+		[$signatoryManager,] = $this->ecdsaP256SignatoryManager(rfc9421Format: true);
 
 		$signed = $this->signatureManager->getOutgoingSignedRequest(
 			$signatoryManager,
@@ -84,7 +81,7 @@ class SignatureManagerDispatchTest extends TestCase {
 	}
 
 	public function testInboundDispatchesToRfc9421WhenSignatureInputPresent(): void {
-		[$signatoryManager, $jwk, $secret] = $this->ed25519SignatoryManager(rfc9421Format: true);
+		[$signatoryManager, $jwk] = $this->ecdsaP256SignatoryManager(rfc9421Format: true);
 
 		// Build a real signed request and replay its headers as the inbound
 		// request to exercise the full inbound path including verification.
@@ -101,14 +98,14 @@ class SignatureManagerDispatchTest extends TestCase {
 
 		$this->primeRequest($headers, 'POST', '/ocm/shares', 'receiver.example.org');
 
-		$resolver = $this->makeKeyResolver($signatoryManager, $jwk, 'https://sender.example.org/ocm#ed25519');
+		$resolver = $this->makeKeyResolver($signatoryManager, $jwk, 'https://sender.example.org/ocm#ecdsa-p256-sha256');
 
 		$signed = $this->signatureManager->getIncomingSignedRequest($resolver, $body);
 		$this->assertInstanceOf(Rfc9421IncomingSignedRequest::class, $signed);
 	}
 
 	public function testInboundRejectsRfc9421WhenSignatoryManagerCannotResolve(): void {
-		[$signatoryManager,] = $this->ed25519SignatoryManager(rfc9421Format: true);
+		[$signatoryManager,] = $this->ecdsaP256SignatoryManager(rfc9421Format: true);
 
 		$body = '{"hello":"world"}';
 		$out = new Rfc9421OutgoingSignedRequest(
@@ -165,26 +162,31 @@ class SignatureManagerDispatchTest extends TestCase {
 	}
 
 	/**
-	 * @return array{ISignatoryManager, Key, string} [manager, parsed verification key, raw secret key]
+	 * @return array{ISignatoryManager, Key} [manager, parsed verification key]
 	 */
-	private function ed25519SignatoryManager(bool $rfc9421Format): array {
-		$keypair = sodium_crypto_sign_keypair();
-		$publicKey = sodium_crypto_sign_publickey($keypair);
-		$secretKey = sodium_crypto_sign_secretkey($keypair);
-		$kid = 'https://sender.example.org/ocm#ed25519';
+	private function ecdsaP256SignatoryManager(bool $rfc9421Format): array {
+		$pkey = openssl_pkey_new(['private_key_type' => OPENSSL_KEYTYPE_EC, 'curve_name' => 'prime256v1']);
+		$privatePem = '';
+		openssl_pkey_export($pkey, $privatePem);
+		$details = openssl_pkey_get_details($pkey);
+		$publicPem = $details['key'];
+		$kid = 'https://sender.example.org/ocm#ecdsa-p256-sha256';
 
 		$signatory = new Signatory(true);
 		$signatory->setKeyId($kid);
-		$signatory->setPublicKey($publicKey);
-		$signatory->setPrivateKey($secretKey);
+		$signatory->setPublicKey($publicPem);
+		$signatory->setPrivateKey($privatePem);
 
+		$x = str_pad($details['ec']['x'], 32, "\x00", STR_PAD_LEFT);
+		$y = str_pad($details['ec']['y'], 32, "\x00", STR_PAD_LEFT);
 		$key = JWK::parseKey([
-			'kty' => 'OKP',
-			'crv' => 'Ed25519',
+			'kty' => 'EC',
+			'crv' => 'P-256',
 			'kid' => $kid,
-			'alg' => 'EdDSA',
-			'x' => rtrim(strtr(base64_encode($publicKey), '+/', '-_'), '='),
-		], 'EdDSA');
+			'alg' => 'ES256',
+			'x' => rtrim(strtr(base64_encode($x), '+/', '-_'), '='),
+			'y' => rtrim(strtr(base64_encode($y), '+/', '-_'), '='),
+		], 'ES256');
 
 		$manager = new class($signatory, $rfc9421Format) implements ISignatoryManager {
 			public function __construct(
@@ -213,7 +215,7 @@ class SignatureManagerDispatchTest extends TestCase {
 				return null;
 			}
 		};
-		return [$manager, $key, $secretKey];
+		return [$manager, $key];
 	}
 
 	private function makeKeyResolver(ISignatoryManager $delegate, Key $key, string $kid): IJwkResolvingSignatoryManager {

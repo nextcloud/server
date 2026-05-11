@@ -179,14 +179,31 @@ class Manager {
 	}
 
 	/**
-	 * Generate an Ed25519 keypair via libsodium. Returns raw 32-byte public
-	 * + 64-byte secret (sodium seed||publickey), no PEM. Overwrites if
-	 * already present.
+	 * Generate an ECDSA P-256 (prime256v1, SECG/JOSE ES256 curve) keypair via
+	 * openssl. Returns PEM private + PEM public. Overwrites if already
+	 * present. Private key is encrypted on disk.
+	 *
+	 * @throws \RuntimeException
 	 */
-	public function generateEd25519AppKey(string $app, string $name): Key {
-		$keyPair = sodium_crypto_sign_keypair();
-		$publicKey = sodium_crypto_sign_publickey($keyPair);
-		$privateKey = sodium_crypto_sign_secretkey($keyPair);
+	public function generateEcdsaP256AppKey(string $app, string $name): Key {
+		$res = openssl_pkey_new([
+			'private_key_type' => OPENSSL_KEYTYPE_EC,
+			'curve_name' => 'prime256v1',
+		]);
+		if ($res === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+		if (openssl_pkey_export($res, $privateKey) === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+		$details = openssl_pkey_get_details($res);
+		if ($details === false || !isset($details['key'])) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+		$publicKey = $details['key'];
 
 		$id = $this->generateAppKeyId($app, $name);
 		try {

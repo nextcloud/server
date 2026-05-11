@@ -24,13 +24,13 @@ class ActivateKey extends Base {
 	protected function configure(): void {
 		$this
 			->setName('ocm:keys:activate')
-			->setDescription('promote the staged Ed25519 key to active; the previous active key moves to retiring');
+			->setDescription('promote the staged JWKS key to active; the previous active key moves to retiring');
 	}
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-			$this->signatoryManager->activateStagedEd25519Key();
+			$this->signatoryManager->activateStagedJwksKey();
 		} catch (\RuntimeException $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return self::FAILURE;

@@ -18,7 +18,7 @@ use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-/** Serves `/.well-known/jwks.json` (RFC 7517) for the RFC 9421 keys. */
+/** Serves `/.well-known/jwks.json` (RFC 7517) with the OCM signing keys. */
 class OCMJwksHandler implements IHandler {
 	public function __construct(
 		private readonly IAppConfig $appConfig,
@@ -36,11 +36,11 @@ class OCMJwksHandler implements IHandler {
 		$keys = [];
 		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
 			try {
-				foreach ($this->signatoryManager->getLocalEd25519Jwks() as $jwk) {
+				foreach ($this->signatoryManager->getLocalJwks() as $jwk) {
 					$keys[] = $jwk;
 				}
 			} catch (Throwable $e) {
-				$this->logger->warning('failed to build local Ed25519 JWKs', ['exception' => $e]);
+				$this->logger->warning('failed to build local JWKs', ['exception' => $e]);
 			}
 		}
 

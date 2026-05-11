@@ -50,18 +50,18 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	public const APPCONFIG_SIGN_ENFORCED = 'ocm_signed_request_enforced';
 	private const APPKEY_CAVAGE = 'ocm_external';
 	private const KEYID_FRAGMENT_CAVAGE = 'signature';
-	private const KEYID_FRAGMENT_ED25519 = 'ed25519';
-	/** Ed25519 keypairs live in numbered pool appkeys; slots point to them by id. */
-	private const APPKEY_ED25519_POOL_PREFIX = 'ocm_ed25519_pool_';
-	private const APPCONFIG_ED25519_POOL_COUNTER = 'ocm_ed25519_pool_counter';
-	private const APPCONFIG_ED25519_POOL_KID_PREFIX = 'ocm_ed25519_pool_kid_';
+	private const KEYID_FRAGMENT_JWKS = 'ecdsa-p256-sha256';
+	/** JWKS-published keypairs live in numbered pool appkeys; slots point to them by id. */
+	private const APPKEY_JWKS_POOL_PREFIX = 'ocm_jwks_pool_';
+	private const APPCONFIG_JWKS_POOL_COUNTER = 'ocm_jwks_pool_counter';
+	private const APPCONFIG_JWKS_POOL_KID_PREFIX = 'ocm_jwks_pool_kid_';
 	/** Stable kid identity portion, reused across rotations so kids stay on one hostname. */
-	private const APPCONFIG_ED25519_KID_BASE = 'ocm_ed25519_kid_base';
+	private const APPCONFIG_JWKS_KID_BASE = 'ocm_jwks_kid_base';
 	public const SLOT_ACTIVE = 'active';
 	public const SLOT_PENDING = 'pending';
 	public const SLOT_RETIRING = 'retiring';
 	/** All slots in advertise order. */
-	public const ED25519_SLOTS = [self::SLOT_ACTIVE, self::SLOT_PENDING, self::SLOT_RETIRING];
+	public const JWKS_SLOTS = [self::SLOT_ACTIVE, self::SLOT_PENDING, self::SLOT_RETIRING];
 	/** Remote JWKS cache TTL (seconds). */
 	private const JWKS_CACHE_TTL = 3600;
 
@@ -142,11 +142,11 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 
 	}
 
-	/** Active Ed25519 signing key, lazily provisioned. */
-	public function getLocalEd25519Signatory(): ?Signatory {
+	/** Active JWKS-published signing key (ECDSA P-256), lazily provisioned. */
+	public function getLocalJwksSignatory(): ?Signatory {
 		$poolId = $this->getSlotPool(self::SLOT_ACTIVE);
 		if ($poolId === null) {
-			$poolId = $this->generatePool($this->nextEd25519PoolKid());
+			$poolId = $this->generatePool($this->nextPoolKid());
 			$this->setSlotPool(self::SLOT_ACTIVE, $poolId);
 		}
 		return $this->signatoryFromPool($poolId);
@@ -158,61 +158,61 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	 *
 	 * @return list<array<string, string>>
 	 */
-	public function getLocalEd25519Jwks(): array {
+	public function getLocalJwks(): array {
 		if ($this->getSlotPool(self::SLOT_ACTIVE) === null) {
-			$this->getLocalEd25519Signatory();
+			$this->getLocalJwksSignatory();
 		}
 
 		$jwks = [];
-		foreach (self::ED25519_SLOTS as $slot) {
+		foreach (self::JWKS_SLOTS as $slot) {
 			$poolId = $this->getSlotPool($slot);
 			if ($poolId === null) {
 				continue;
 			}
 			$signatory = $this->signatoryFromPool($poolId);
 			if ($signatory !== null) {
-				$jwks[] = self::buildEd25519JwkArray($signatory->getPublicKey(), $signatory->getKeyId());
+				$jwks[] = self::buildEcdsaP256JwkArray($signatory->getPublicKey(), $signatory->getKeyId());
 			}
 		}
 		return $jwks;
 	}
 
 	/**
-	 * Generate a pending Ed25519 keypair (advertised in JWKS, not yet used
-	 * for outbound signing).
+	 * Generate a pending keypair (advertised in JWKS, not yet used for
+	 * outbound signing).
 	 *
 	 * @throws \RuntimeException if pending is already populated
 	 */
-	public function stageEd25519Key(): Signatory {
+	public function stageJwksKey(): Signatory {
 		if ($this->getSlotPool(self::SLOT_PENDING) !== null) {
-			throw new \RuntimeException('a pending Ed25519 key already exists; activate or retire it first');
+			throw new \RuntimeException('a pending JWKS key already exists; activate or retire it first');
 		}
 		// Need an active key first; staging a next from nothing makes no sense.
 		if ($this->getSlotPool(self::SLOT_ACTIVE) === null) {
-			$this->getLocalEd25519Signatory();
+			$this->getLocalJwksSignatory();
 		}
-		$poolId = $this->generatePool($this->nextEd25519PoolKid());
+		$poolId = $this->generatePool($this->nextPoolKid());
 		$this->setSlotPool(self::SLOT_PENDING, $poolId);
 		$signatory = $this->signatoryFromPool($poolId);
 		if ($signatory === null) {
-			throw new \RuntimeException('failed to materialise newly staged Ed25519 key');
+			throw new \RuntimeException('failed to materialise newly staged JWKS key');
 		}
 		return $signatory;
 	}
 
 	/**
 	 * pending -> active, previous active -> retiring. The retiring slot
-	 * stays in JWKS until {@see retireEd25519Key} is run.
+	 * stays in JWKS until {@see retireJwksKey} is run.
 	 *
 	 * @throws \RuntimeException if no pending key is staged, or retiring is occupied
 	 */
-	public function activateStagedEd25519Key(): void {
+	public function activateStagedJwksKey(): void {
 		$pending = $this->getSlotPool(self::SLOT_PENDING);
 		if ($pending === null) {
-			throw new \RuntimeException('no pending Ed25519 key to activate; run `ocm:keys:stage` first');
+			throw new \RuntimeException('no pending JWKS key to activate; run `ocm:keys:stage` first');
 		}
 		if ($this->getSlotPool(self::SLOT_RETIRING) !== null) {
-			throw new \RuntimeException('a retiring Ed25519 key still exists; retire it before activating a new one');
+			throw new \RuntimeException('a retiring JWKS key still exists; retire it before activating a new one');
 		}
 		$active = $this->getSlotPool(self::SLOT_ACTIVE);
 
@@ -229,13 +229,13 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	 *
 	 * @throws \RuntimeException if retiring is empty
 	 */
-	public function retireEd25519Key(): void {
+	public function retireJwksKey(): void {
 		$poolId = $this->getSlotPool(self::SLOT_RETIRING);
 		if ($poolId === null) {
-			throw new \RuntimeException('no retiring Ed25519 key to remove');
+			throw new \RuntimeException('no retiring JWKS key to remove');
 		}
-		$this->identityProofManager->deleteAppKey('core', self::APPKEY_ED25519_POOL_PREFIX . $poolId);
-		$this->appConfig->deleteKey('core', self::APPCONFIG_ED25519_POOL_KID_PREFIX . $poolId);
+		$this->identityProofManager->deleteAppKey('core', self::APPKEY_JWKS_POOL_PREFIX . $poolId);
+		$this->appConfig->deleteKey('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $poolId);
 		$this->clearSlot(self::SLOT_RETIRING);
 	}
 
@@ -244,25 +244,25 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	 *
 	 * @return list<array{poolId: int, kid: string, slot: ?string}>
 	 */
-	public function listEd25519Keys(): array {
+	public function listJwksKeys(): array {
 		$bySlot = [];
-		foreach (self::ED25519_SLOTS as $slot) {
+		foreach (self::JWKS_SLOTS as $slot) {
 			$id = $this->getSlotPool($slot);
 			if ($id !== null) {
 				$bySlot[$id] = $slot;
 			}
 		}
 
-		$max = $this->appConfig->getValueInt('core', self::APPCONFIG_ED25519_POOL_COUNTER, 0);
+		$max = $this->appConfig->getValueInt('core', self::APPCONFIG_JWKS_POOL_COUNTER, 0);
 		$entries = [];
 		for ($id = 1; $id <= $max; $id++) {
-			if (!$this->identityProofManager->hasAppKey('core', self::APPKEY_ED25519_POOL_PREFIX . $id)) {
+			if (!$this->identityProofManager->hasAppKey('core', self::APPKEY_JWKS_POOL_PREFIX . $id)) {
 				continue;
 			}
 			$entries[] = [
 				'poolId' => $id,
 				'kid' => $this->canonicalKid(
-					$this->appConfig->getValueString('core', self::APPCONFIG_ED25519_POOL_KID_PREFIX . $id, ''),
+					$this->appConfig->getValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $id, ''),
 				),
 				'slot' => $bySlot[$id] ?? null,
 			];
@@ -275,11 +275,11 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	 * {@see Signatory::setKeyId} so admin output and wire form agree.
 	 */
 	private function generatePool(string $kid): int {
-		$poolId = $this->appConfig->getValueInt('core', self::APPCONFIG_ED25519_POOL_COUNTER, 0) + 1;
-		$this->appConfig->setValueInt('core', self::APPCONFIG_ED25519_POOL_COUNTER, $poolId);
+		$poolId = $this->appConfig->getValueInt('core', self::APPCONFIG_JWKS_POOL_COUNTER, 0) + 1;
+		$this->appConfig->setValueInt('core', self::APPCONFIG_JWKS_POOL_COUNTER, $poolId);
 
-		$this->identityProofManager->generateEd25519AppKey('core', self::APPKEY_ED25519_POOL_PREFIX . $poolId);
-		$this->appConfig->setValueString('core', self::APPCONFIG_ED25519_POOL_KID_PREFIX . $poolId, $this->canonicalKid($kid));
+		$this->identityProofManager->generateEcdsaP256AppKey('core', self::APPKEY_JWKS_POOL_PREFIX . $poolId);
+		$this->appConfig->setValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $poolId, $this->canonicalKid($kid));
 		return $poolId;
 	}
 
@@ -296,22 +296,22 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	 *
 	 * @throws \RuntimeException if no instance identity can be derived
 	 */
-	private function nextEd25519PoolKid(): string {
-		$base = $this->resolveEd25519KidBase();
-		$next = $this->appConfig->getValueInt('core', self::APPCONFIG_ED25519_POOL_COUNTER, 0) + 1;
+	private function nextPoolKid(): string {
+		$base = $this->resolveKidBase();
+		$next = $this->appConfig->getValueInt('core', self::APPCONFIG_JWKS_POOL_COUNTER, 0) + 1;
 		return $base . '-' . $next;
 	}
 
 	/**
 	 * Stable identity portion (before the `-N` suffix). Resolution order:
-	 * stored APPCONFIG_ED25519_KID_BASE > active pool's kid sans suffix >
+	 * stored APPCONFIG_JWKS_KID_BASE > active pool's kid sans suffix >
 	 * fresh from {@see buildLocalKeyId}. Persisted so CLI rotations stay
 	 * on one hostname.
 	 *
 	 * @throws \RuntimeException if no instance identity can be derived
 	 */
-	private function resolveEd25519KidBase(): string {
-		$base = $this->appConfig->getValueString('core', self::APPCONFIG_ED25519_KID_BASE, '');
+	private function resolveKidBase(): string {
+		$base = $this->appConfig->getValueString('core', self::APPCONFIG_JWKS_KID_BASE, '');
 		if ($base !== '') {
 			return $base;
 		}
@@ -319,7 +319,7 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 		$activePool = $this->getSlotPool(self::SLOT_ACTIVE);
 		if ($activePool !== null) {
 			$kid = $this->canonicalKid(
-				$this->appConfig->getValueString('core', self::APPCONFIG_ED25519_POOL_KID_PREFIX . $activePool, ''),
+				$this->appConfig->getValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $activePool, ''),
 			);
 			$pos = strrpos($kid, '-');
 			if ($pos !== false) {
@@ -329,18 +329,18 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 
 		if ($base === '') {
 			try {
-				$base = $this->canonicalKid($this->buildLocalKeyId(self::KEYID_FRAGMENT_ED25519));
+				$base = $this->canonicalKid($this->buildLocalKeyId(self::KEYID_FRAGMENT_JWKS));
 			} catch (IdentityNotFoundException $e) {
-				throw new \RuntimeException('cannot derive instance identity for Ed25519 kid', 0, $e);
+				throw new \RuntimeException('cannot derive instance identity for JWKS kid', 0, $e);
 			}
 		}
 
-		$this->appConfig->setValueString('core', self::APPCONFIG_ED25519_KID_BASE, $base);
+		$this->appConfig->setValueString('core', self::APPCONFIG_JWKS_KID_BASE, $base);
 		return $base;
 	}
 
 	private function getSlotPool(string $slot): ?int {
-		$key = 'ocm_ed25519_slot_' . $slot;
+		$key = 'ocm_jwks_slot_' . $slot;
 		if (!$this->appConfig->hasKey('core', $key)) {
 			return null;
 		}
@@ -349,20 +349,20 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	private function setSlotPool(string $slot, int $poolId): void {
-		$this->appConfig->setValueInt('core', 'ocm_ed25519_slot_' . $slot, $poolId);
+		$this->appConfig->setValueInt('core', 'ocm_jwks_slot_' . $slot, $poolId);
 	}
 
 	private function clearSlot(string $slot): void {
-		$this->appConfig->deleteKey('core', 'ocm_ed25519_slot_' . $slot);
+		$this->appConfig->deleteKey('core', 'ocm_jwks_slot_' . $slot);
 	}
 
 	/** Returns null if the underlying appkey was manually deleted. */
 	private function signatoryFromPool(int $poolId): ?Signatory {
-		$appKey = self::APPKEY_ED25519_POOL_PREFIX . $poolId;
+		$appKey = self::APPKEY_JWKS_POOL_PREFIX . $poolId;
 		if (!$this->identityProofManager->hasAppKey('core', $appKey)) {
 			return null;
 		}
-		$kid = $this->appConfig->getValueString('core', self::APPCONFIG_ED25519_POOL_KID_PREFIX . $poolId, '');
+		$kid = $this->appConfig->getValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $poolId, '');
 		if ($kid === '') {
 			return null;
 		}
@@ -375,7 +375,7 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
-	 * @param string $fragment URL fragment (e.g. 'signature', 'ed25519')
+	 * @param string $fragment URL fragment (e.g. 'signature' for cavage, 'ecdsa-p256-sha256' for the JWKS-published key)
 	 * @return string
 	 * @throws IdentityNotFoundException
 	 */
@@ -531,16 +531,27 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
+	 * Build an EC P-256 JWK (RFC 7518 §6.2) from a PEM public key. The raw x/y
+	 * coordinates from openssl are zero-padded to 32 bytes per RFC 7518 §6.2.1.2.
+	 *
 	 * @return array<string, string>
 	 */
-	private static function buildEd25519JwkArray(string $rawPublicKey, string $kid): array {
+	private static function buildEcdsaP256JwkArray(string $publicKeyPem, string $kid): array {
+		$details = openssl_pkey_get_details(openssl_pkey_get_public($publicKeyPem) ?: throw new \RuntimeException('invalid EC public key'));
+		if ($details === false || !isset($details['ec']['x'], $details['ec']['y'])) {
+			throw new \RuntimeException('invalid EC public key');
+		}
+		$x = str_pad($details['ec']['x'], 32, "\x00", STR_PAD_LEFT);
+		$y = str_pad($details['ec']['y'], 32, "\x00", STR_PAD_LEFT);
+
 		return [
-			'kty' => 'OKP',
-			'crv' => 'Ed25519',
+			'kty' => 'EC',
+			'crv' => 'P-256',
 			'kid' => $kid,
-			'alg' => 'EdDSA',
+			'alg' => 'ES256',
 			'use' => 'sig',
-			'x' => JWT::urlsafeB64Encode($rawPublicKey),
+			'x' => JWT::urlsafeB64Encode($x),
+			'y' => JWT::urlsafeB64Encode($y),
 		];
 	}
 }

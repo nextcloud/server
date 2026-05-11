@@ -23,8 +23,9 @@ use OCP\Security\Signature\ISignatoryManager;
 
 /**
  * RFC 9421 implementation of {@see IOutgoingSignedRequest}, sibling to the
- * draft-cavage {@see OutgoingSignedRequest}. Default Ed25519 with the `alg`
- * parameter omitted (RFC 9421 §3.3.7); verifier resolves it from the JWK.
+ * draft-cavage {@see OutgoingSignedRequest}. Default ECDSA P-256 (`ES256`)
+ * with the `alg` parameter omitted (RFC 9421 §3.3.7); verifier resolves it
+ * from the JWK.
  *
  * Options from {@see ISignatoryManager::getOptions()}: `rfc9421.signingAlgorithm`,
  * `rfc9421.coveredComponents`, `rfc9421.contentDigestAlgorithm`,
@@ -60,7 +61,7 @@ class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 			->setSignatory($signatoryManager->getLocalSignatory())
 			->setDigestAlgorithm($options['digestAlgorithm'] ?? DigestAlgorithm::SHA256);
 
-		$this->signingAlgorithm = (string)($options['rfc9421.signingAlgorithm'] ?? 'ed25519');
+		$this->signingAlgorithm = (string)($options['rfc9421.signingAlgorithm'] ?? 'ecdsa-p256-sha256');
 		$contentDigestAlgorithm = (string)($options['rfc9421.contentDigestAlgorithm'] ?? ContentDigest::ALGO_SHA256);
 		/** @var list<string> $components */
 		$components = $options['rfc9421.coveredComponents'] ?? self::DEFAULT_COMPONENTS;
@@ -138,7 +139,7 @@ class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 		return $this->algorithm;
 	}
 
-	/** RFC 9421 alg name (e.g. `ed25519`). Distinct from cavage's {@see getAlgorithm()}. */
+	/** RFC 9421 alg name (e.g. `ecdsa-p256-sha256`). Distinct from cavage's {@see getAlgorithm()}. */
 	public function getSigningAlgorithm(): string {
 		return $this->signingAlgorithm;
 	}

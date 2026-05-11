@@ -16,8 +16,8 @@ use OCP\Security\Signature\Model\Signatory;
 
 /**
  * Per-call wrapper around {@see OCMSignatoryManager} that swaps in the
- * Ed25519 signatory and sets `rfc9421.format`. Wrapping (vs mutating) keeps
- * the underlying DI-managed instance stateless across requests.
+ * JWKS-published signatory and sets `rfc9421.format`. Wrapping (vs mutating)
+ * keeps the underlying DI-managed instance stateless across requests.
  */
 final class Rfc9421SignatoryManager implements IJwkResolvingSignatoryManager {
 	public function __construct(
@@ -37,9 +37,9 @@ final class Rfc9421SignatoryManager implements IJwkResolvingSignatoryManager {
 
 	#[\Override]
 	public function getLocalSignatory(): Signatory {
-		$signatory = $this->delegate->getLocalEd25519Signatory();
+		$signatory = $this->delegate->getLocalJwksSignatory();
 		if ($signatory === null) {
-			throw new IdentityNotFoundException('no Ed25519 signatory available');
+			throw new IdentityNotFoundException('no JWKS-published signatory available');
 		}
 		return $signatory;
 	}
