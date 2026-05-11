@@ -36,6 +36,29 @@ class TrashbinHome implements IACL, ICollection, IProperties {
 		return $this->principalInfo['uri'];
 	}
 
+	#[\Override]
+	public function getACL(): array {
+		$ownerPrincipal = $this->principalInfo['uri'];
+		return [
+			[
+				'privilege' => '{DAV:}all',
+				'principal' => $ownerPrincipal,
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $ownerPrincipal . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $ownerPrincipal . '/calendar-proxy-read',
+				'protected' => true,
+			],
+		];
+	}
+
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create files in the trashbin');
 	}
