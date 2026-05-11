@@ -1091,7 +1091,7 @@ class OC {
 		}
 
 		$maintenance = $systemConfig->getValue('maintenance', false);
-		// Needed during maintenance mode and upgrades		
+		// Needed during maintenance mode and upgrades
 		$bypassMaintenance = str_ends_with($requestPath, '.js') || OC::$SUBURI === '/core/ajax/update.php';
 
 		// Show "maintenance in progress" page if Nextcloud is undergoing maintenance and not a bypass URL
@@ -1122,9 +1122,6 @@ class OC {
 
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 
-		$appManager->loadApps(['authentication']);
-		$appManager->loadApps(['extended_authentication']);
-
 		$userSession = Server::get(IUserSession::class);
 		$loggedIn = $userSession->isLoggedIn();
 		// Don't try to login when a client is trying to get a OAuth token.
@@ -1139,6 +1136,7 @@ class OC {
 				// Try normal login
 				self::handleLogin($request);
 				$loggedIn = $userSession->isLoggedIn();
+				// More apps are available to logged in users
 				self::loadRuntimeAppsForRequest($appManager, $loggedIn);
 			} catch (DisabledUserException $e) {
 				// Don’t prevent theming asset requests if user is merely disabled.
@@ -1224,7 +1222,7 @@ class OC {
 			|| $requestPath === '/apps/theming/image/logoheader'
 			|| str_starts_with($requestPath, '/apps/theming/favicon')
 			|| str_starts_with($requestPath, '/apps/theming/icon')
-		   ) {
+		) {
 			return true;
 		}
 
@@ -1236,6 +1234,7 @@ class OC {
 	 */
 	private static function loadRuntimeAppsForRequest(\OCP\App\IAppManager $appManager, bool $loggedIn): void {
 		// Always load authentication apps
+		// Note: loadApps() is smart enough to skip any already loaded apps
 		$appManager->loadApps(['authentication']);
 		$appManager->loadApps(['extended_authentication']);
 		if ($loggedIn) {
