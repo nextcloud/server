@@ -61,7 +61,7 @@ class InfoXmlTest extends TestCase {
 		\OC_App::registerAutoloading($app, $appPath);
 
 		//Add the appcontainer
-		$applicationClassName = App::buildAppNamespace($app) . '\\AppInfo\\Application';
+		$applicationClassName = $this->appManager->getAppNamespace($app) . '\\AppInfo\\Application';
 		if (class_exists($applicationClassName)) {
 			$application = new $applicationClassName();
 			$this->addToAssertionCount(1);

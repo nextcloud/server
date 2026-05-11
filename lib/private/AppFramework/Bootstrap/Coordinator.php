@@ -90,7 +90,7 @@ class Coordinator {
 			if ($appId === 'core') {
 				$appNameSpace = 'OC\\Core';
 			} else {
-				$appNameSpace = App::buildAppNamespace($appId);
+				$appNameSpace = $this->appManager->getAppNamespace($appId);
 			}
 			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 
@@ -147,7 +147,7 @@ class Coordinator {
 		}
 		$this->bootedApps[$appId] = true;
 
-		$appNameSpace = App::buildAppNamespace($appId);
+		$appNameSpace = $this->appManager->getAppNamespace($appId);
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 		if (!class_exists($applicationClassName)) {
 			// Nothing to boot
@@ -181,8 +181,8 @@ class Coordinator {
 		$this->eventLogger->end('bootstrap:boot_app:' . $appId);
 	}
 
-	public function isBootable(string $appId) {
-		$appNameSpace = App::buildAppNamespace($appId);
+	public function isBootable(string $appId): bool {
+		$appNameSpace = $this->appManager->getAppNamespace($appId);
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 		return class_exists($applicationClassName)
 			&& in_array(IBootstrap::class, class_implements($applicationClassName), true);
