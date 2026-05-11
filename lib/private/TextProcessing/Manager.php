@@ -141,6 +141,7 @@ class Manager implements IManager {
 	public function runTask(OCPTask $task): string {
 		// try to run a task processing task if possible
 		$taskTypeClass = $task->getType();
+		/** @psalm-suppress InvalidArrayOffset false-positive */
 		if (isset(self::COMPATIBLE_TASK_TYPES[$taskTypeClass]) && isset($this->taskProcessingManager->getAvailableTaskTypes()[self::COMPATIBLE_TASK_TYPES[$taskTypeClass]])) {
 			try {
 				$taskProcessingTaskTypeId = self::COMPATIBLE_TASK_TYPES[$taskTypeClass];
@@ -229,6 +230,7 @@ class Manager implements IManager {
 		}
 		$task->setStatus(OCPTask::STATUS_SCHEDULED);
 		$providers = $this->getPreferredProviders($task);
+		/** @psalm-suppress InvalidArrayOffset false-positive */
 		$equivalentTaskProcessingTypeAvailable = (
 			isset(self::COMPATIBLE_TASK_TYPES[$task->getType()])
 			&& isset($this->taskProcessingManager->getAvailableTaskTypes()[self::COMPATIBLE_TASK_TYPES[$task->getType()]])
