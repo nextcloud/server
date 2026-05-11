@@ -15,6 +15,7 @@ use NCU\Security\Signature\Exceptions\SignatureException;
 use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
 use NCU\Security\Signature\IIncomingSignedRequest;
 use NCU\Security\Signature\ISignatureManager;
+use OC\AppFramework\Http\Attributes\FederationRateLimit;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
@@ -105,6 +106,7 @@ class RequestHandlerController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
+	#[FederationRateLimit(limit: 5, period: 1200)]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
 		// quick patch to flatten the protocol entry 'multi' to the previous 'webdav'. this is 32 only and a better implementation is expected for 33
 		/** @psalm-suppress InvalidArrayOffset */
