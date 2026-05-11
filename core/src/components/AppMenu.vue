@@ -74,7 +74,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { isRTL, n, t } from '@nextcloud/l10n'
-import { generateFilePath, generateUrl } from '@nextcloud/router'
+import { generateUrl, imagePath } from '@nextcloud/router'
 import { defineComponent, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
@@ -120,7 +120,7 @@ export default defineComponent({
 				active: false,
 				order: Number.MAX_SAFE_INTEGER,
 				href: generateUrl('/settings/apps'),
-				icon: generateFilePath('settings', 'img', 'settings_apps.svg'),
+				icon: imagePath('core', 'actions/add.svg'),
 				type: 'link',
 				name: t('core', 'More apps'),
 				unread: 0,
@@ -131,7 +131,7 @@ export default defineComponent({
 				active: false,
 				order: Number.MAX_SAFE_INTEGER,
 				href: 'https://apps.nextcloud.com/',
-				icon: generateFilePath('settings', 'img', 'apps.svg'),
+				icon: imagePath('core', 'actions/add.svg'),
 				type: 'link',
 				name: t('core', 'App store'),
 				unread: 0,

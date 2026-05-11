@@ -125,10 +125,9 @@ const unreadLabel = computed(() => {
 	&__icon {
 		width: var(--app-item-icon-size);
 		height: var(--app-item-icon-size);
-		// Force the icon to white on the colored circle, then apply the
-		// same vertical alpha gradient (--header-menu-icon-mask) used in
-		// the header so icons read consistently across the design.
-		filter: brightness(0) invert(1);
+		// App icons are bright by default; flip them to dark when the
+		// primary color (circle background) is bright (e.g. white in dark mode).
+		filter: var(--primary-invert-if-bright);
 		mask: var(--header-menu-icon-mask);
 	}
 
@@ -149,6 +148,9 @@ const unreadLabel = computed(() => {
 		line-height: 1.3;
 		text-align: center;
 		color: var(--color-main-text);
+		// Needs a matching <html lang> to actually break with a hyphen.
+		-webkit-hyphens: auto;
+		hyphens: auto;
 		word-break: normal;
 		overflow-wrap: break-word;
 		max-width: 100%;
@@ -159,7 +161,7 @@ const unreadLabel = computed(() => {
 		font-weight: bold;
 	}
 
-	// Outlined variant: no fill or gradient; icon color is unforced.
+	// Outlined variant: no fill or gradient.
 	&--outlined &__circle {
 		background: transparent;
 		background-image: none;
@@ -167,7 +169,7 @@ const unreadLabel = computed(() => {
 	}
 
 	&--outlined &__icon {
-		filter: brightness(0);
+		filter: var(--background-invert-if-dark);
 		mask: none;
 	}
 }
