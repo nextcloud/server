@@ -8,8 +8,6 @@
 
 namespace OCA\DAV\CardDAV;
 
-use OCA\DAV\AppInfo\Application;
-use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Contacts\IManager;
 use OCP\IAppConfig;
@@ -48,11 +46,6 @@ class ContactsManager {
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function setupSystemContactsProvider(IManager $cm, ?string $userId, IURLGenerator $urlGenerator) {
-		$systemAddressBookExposed = $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED);
-		if (!$systemAddressBookExposed) {
-			return;
-		}
-
 		$addressBooks = $this->backend->getAddressBooksForUser('principals/system/system');
 		$this->register($cm, $addressBooks, $urlGenerator, $userId);
 	}
