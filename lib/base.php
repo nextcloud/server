@@ -1102,7 +1102,7 @@ class OC {
 
 		$upgrade = Util::needUpgrade();
 
-		if ($upgrade)
+		if ($upgrade) {
 			if (function_exists('opcache_reset')) {
 				opcache_reset();
 				$maintenance = $systemConfig->getValue('maintenance', false);
