@@ -1125,6 +1125,7 @@ return array(
     'OC\\AppFramework\\Bootstrap\\ServiceRegistration' => $baseDir . '/lib/private/AppFramework/Bootstrap/ServiceRegistration.php',
     'OC\\AppFramework\\DependencyInjection\\DIContainer' => $baseDir . '/lib/private/AppFramework/DependencyInjection/DIContainer.php',
     'OC\\AppFramework\\Http' => $baseDir . '/lib/private/AppFramework/Http.php',
+    'OC\\AppFramework\\Http\\Attributes\\FederationRateLimit' => $baseDir . '/lib/private/AppFramework/Http/Attributes/FederationRateLimit.php',
     'OC\\AppFramework\\Http\\Attributes\\TwoFactorSetUpDoneRequired' => $baseDir . '/lib/private/AppFramework/Http/Attributes/TwoFactorSetUpDoneRequired.php',
     'OC\\AppFramework\\Http\\Dispatcher' => $baseDir . '/lib/private/AppFramework/Http/Dispatcher.php',
     'OC\\AppFramework\\Http\\Output' => $baseDir . '/lib/private/AppFramework/Http/Output.php',

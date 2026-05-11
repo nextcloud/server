@@ -7,6 +7,7 @@
 
 namespace OCA\CloudFederationAPI\Controller;
 
+use OC\AppFramework\Http\Attributes\FederationRateLimit;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
@@ -105,6 +106,7 @@ class RequestHandlerController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
+	#[FederationRateLimit(limit: 5, period: 1200)]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
 		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
 			try {
