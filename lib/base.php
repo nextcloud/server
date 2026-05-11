@@ -34,6 +34,7 @@ use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use function OCP\Log\logger;
 
 require_once 'public/Constants.php';
@@ -237,22 +238,15 @@ class OC {
 		}
 	}
 
-	public static function checkMaintenanceMode(\OC\SystemConfig $systemConfig): void {
-		// Allow ajax update script to execute without being stopped
-		if (((bool)$systemConfig->getValue('maintenance', false)) && OC::$SUBURI !== '/core/ajax/update.php') {
-			// send http status 503
-			http_response_code(503);
-			header('X-Nextcloud-Maintenance-Mode: 1');
-			header('Retry-After: 120');
-
-			// render error page
-			$template = Server::get(ITemplateManager::class)->getTemplate('', 'update.user', 'guest');
-			\OCP\Util::addScript('core', 'maintenance');
-			\OCP\Util::addScript('core', 'common');
-			\OCP\Util::addStyle('core', 'guest');
-			$template->printPage();
-			die();
-		}
+	public static function renderMaintenanceMode(\OC\SystemConfig $systemConfig): void {
+		http_response_code(503);
+		header('X-Nextcloud-Maintenance-Mode: 1');
+		header('Retry-After: 120');
+		$template = Server::get(ITemplateManager::class)->getTemplate('', 'update.user', 'guest');
+		Util::addScript('core', 'maintenance');
+		Util::addScript('core', 'common');
+		Util::addStyle('core', 'guest');
+		$template->printPage();
 	}
 
 	/**
@@ -1071,106 +1065,110 @@ class OC {
 	}
 
 	/**
-	 * Handle the request
+	 * Handle the incoming request: bootstrap auth/apps, enforce maintenance/upgrade checks,
+	 * route the request, and fall back to default error or redirect responses.
 	 */
 	public static function handleRequest(): void {
 		Server::get(\OCP\Diagnostics\IEventLogger::class)->start('handle_request', 'Handle request');
 		$systemConfig = Server::get(\OC\SystemConfig::class);
+		$installed = $systemConfig->getValue('installed', false);
 
-		// Check if Nextcloud is installed or in maintenance (update) mode
-		if (!$systemConfig->getValue('installed', false)) {
+		// Run setup if Nextcloud is not installed
+		if (!$installed) {
 			Server::get(ISession::class)->clear();
-			$controller = Server::get(\OC\Core\Controller\SetupController::class);
-			$controller->run($_POST);
+			$setup = Server::get(\OC\Core\Controller\SetupController::class);
+			$setup->run($_POST);
 			exit();
 		}
 
 		$request = Server::get(IRequest::class);
 		$request->throwDecodingExceptionIfAny();
+
 		$requestPath = $request->getRawPathInfo();
+
 		if ($requestPath === '/heartbeat') {
 			return;
 		}
-		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
-			self::checkMaintenanceMode($systemConfig);
 
-			if (\OCP\Util::needUpgrade()) {
-				if (function_exists('opcache_reset')) {
-					opcache_reset();
-				}
-				if (!((bool)$systemConfig->getValue('maintenance', false))) {
-					self::printUpgradePage($systemConfig);
-					exit();
-				}
+		$maintenance = $systemConfig->getValue('maintenance', false);
+		// Needed during maintenance mode and upgrades		
+		$bypassMaintenance = str_ends_with($requestPath, '.js') || OC::$SUBURI === '/core/ajax/update.php';
+
+		// Show "maintenance in progress" page if Nextcloud is undergoing maintenance and not a bypass URL
+		if ($maintenance && !$bypassMaintenance) {
+			self::renderMaintenancePage($systemConfig);
+			exit();
+		}
+
+		$upgrade = Util::needUpgrade();
+
+		if ($upgrade)
+			if (function_exists('opcache_reset')) {
+				opcache_reset();
+				$maintenance = $systemConfig->getValue('maintenance', false);
+			}
+			// Show "upgrade" page if Nextcloud needs to be upgraded and not already in progress.
+			if ($upgrade && !maintenance) {
+				// NOTE: This is shown to the first web visitor to land after a code update...
+				// ...and will continue to be shown to subsequent visitors until the actual upgrade is
+				// triggered.
+				self::renderUpgradePage($systemConfig);
+				exit();
 			}
 		}
+
+		//
+		// At this point the request is either:
+		// - a regular request (a logged in user doing something or a non-logged in user trying to do something)
+		// - a special request that gets to bypass maintenance mode
+		//
 
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 
-		// Always load authentication apps
 		$appManager->loadApps(['authentication']);
 		$appManager->loadApps(['extended_authentication']);
 
-		// Load minimum set of apps
-		if (!\OCP\Util::needUpgrade()
-			&& !((bool)$systemConfig->getValue('maintenance', false))) {
-			// For logged-in users: Load everything
-			if (Server::get(IUserSession::class)->isLoggedIn()) {
-				$appManager->loadApps();
-			} else {
-				// For guests: Load only filesystem and logging
-				$appManager->loadApps(['filesystem', 'logging']);
+		$userSession = Server::get(IUserSession::class);
+		$loggedIn = $userSession->isLoggedIn();
 
+		self::loadRuntimeAppsForRequest($appManager, $loggedIn);
+
+		if (!$loggedIn)
+			if ($requestPath === '/apps/oauth2/api/v1/token') {
 				// Don't try to login when a client is trying to get a OAuth token.
 				// OAuth needs to support basic auth too, so the login is not valid
 				// inside Nextcloud and the Login exception would ruin it.
-				if ($request->getRawPathInfo() !== '/apps/oauth2/api/v1/token') {
-					try {
-						self::handleLogin($request);
-					} catch (DisabledUserException $e) {
-						// Disabled users would not be seen as logged in and
-						// trying to log them in would fail, so the login
-						// exception is ignored for the themed stylesheets and
-						// images.
-						if ($request->getRawPathInfo() !== '/apps/theming/theme/default.css'
-							&& $request->getRawPathInfo() !== '/apps/theming/theme/light.css'
-							&& $request->getRawPathInfo() !== '/apps/theming/theme/dark.css'
-							&& $request->getRawPathInfo() !== '/apps/theming/theme/light-highcontrast.css'
-							&& $request->getRawPathInfo() !== '/apps/theming/theme/dark-highcontrast.css'
-							&& $request->getRawPathInfo() !== '/apps/theming/theme/opendyslexic.css'
-							&& $request->getRawPathInfo() !== '/apps/theming/image/background'
-							&& $request->getRawPathInfo() !== '/apps/theming/image/logo'
-							&& $request->getRawPathInfo() !== '/apps/theming/image/logoheader'
-							&& !str_starts_with($request->getRawPathInfo(), '/apps/theming/favicon')
-							&& !str_starts_with($request->getRawPathInfo(), '/apps/theming/icon')) {
-							throw $e;
-						}
-					}
-				}
+				continue;
 			}
-		}
-
-		if (!self::$CLI) {
 			try {
-				if (!\OCP\Util::needUpgrade()) {
-					$appManager->loadApps(['filesystem', 'logging']);
-					$appManager->loadApps();
+				// Try normal login
+				self::handleLogin($request);
+				$loggedIn = $userSession->isLoggedIn();
+				self::loadRuntimeAppsForRequest($appManager, $loggedIn);
+			} catch (DisabledUserException $e) {
+				// Don’t prevent theming asset requests if user is merely disabled.
+				if (!self::themingAssetRequest($requestPath)) {
+					throw $e;
 				}
-				Server::get(\OC\Route\Router::class)->match($request->getRawPathInfo());
-				return;
-			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-				//header('HTTP/1.0 404 Not Found');
-			} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
-				http_response_code(405);
-				return;
 			}
 		}
 
-		// Handle WebDAV
-		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND') {
-			// not allowed any more to prevent people
-			// mounting this root directly.
-			// Users need to mount remote.php/webdav instead.
+		// Try to route the request.
+		$router = Server::get(\OC\Route\Router::class);
+		// Note: User may (or may still not) be logged in.
+		try {
+			$router->match($request->getRawPathInfo());
+			return;
+		} catch (ResourceNotFoundException $e) {
+			// ...
+		} catch (MethodNotAllowedException $e) {
+			http_response_code(405);
+			return;
+		}
+
+		$webdav = isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND';
+		if ($webdav) {
+			// Users need to mount remote.php/{webdav, dav} instead.
 			http_response_code(405);
 			return;
 		}
@@ -1182,31 +1180,30 @@ class OC {
 			return;
 		}
 
-		// Handle resources that can't be found
-		// This prevents browsers from redirecting to the default page and then
-		// attempting to parse HTML as CSS and similar.
+		// Handle requests for select resource types that are unavailable (regardless of reason)
 		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
 		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
+			// Prevents browsers from redirecting to the default endpoint and attempting
+			// to parse HTML as CSS, etc.
 			http_response_code(404);
 			return;
 		}
 
-		// Redirect to the default app or login only as an entry point
 		if ($requestPath === '') {
-			// Someone is logged in
-			$userSession = Server::get(IUserSession::class);
+			// Redirect to the default app if visitor is logged in
 			if ($userSession->isLoggedIn()) {
 				header('X-User-Id: ' . $userSession->getUser()?->getUID());
 				header('Location: ' . Server::get(IURLGenerator::class)->linkToDefaultPageUrl());
 			} else {
-				// Not handled and not logged in
+				// Redirect to the login page if visitor is not logged in
 				header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute('core.login.showLoginForm'));
 			}
 			return;
 		}
 
+		// Try to send visitor to the Nextcloud 404 page if at all possible
 		try {
-			Server::get(\OC\Route\Router::class)->match('/error/404');
+			$router->match('/error/404');
 		} catch (\Exception $e) {
 			if (!$e instanceof MethodNotAllowedException) {
 				logger('core')->emergency($e->getMessage(), ['exception' => $e]);
@@ -1220,8 +1217,46 @@ class OC {
 		}
 	}
 
+	private static function themingAssetRequest(string $requestPath): bool {
+		if ($requestPath === '/apps/theming/theme/default.css'
+			|| $requestPath === '/apps/theming/theme/light.css'
+			|| $requestPath === '/apps/theming/theme/dark.css'
+			|| $requestPath === '/apps/theming/theme/light-highcontrast.css'
+			|| $requestPath === '/apps/theming/theme/dark-highcontrast.css'
+			|| $requestPath === '/apps/theming/theme/opendyslexic.css'
+			|| $requestPath === '/apps/theming/image/background'
+			|| $requestPath === '/apps/theming/image/logo'
+			|| $requestPath === '/apps/theming/image/logoheader'
+			|| str_starts_with($requestPath, '/apps/theming/favicon')
+			|| str_starts_with($requestPath, '/apps/theming/icon')
+		   ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
-	 * Check login: apache auth, auth token, basic auth
+	 * Load minimum set of apps required to handle the request.
+	 */
+	private static function loadRuntimeAppsForRequest(\OCP\App\IAppManager $appManager, bool $loggedIn): void {
+		// Always load authentication apps
+		$appManager->loadApps(['authentication']);
+		$appManager->loadApps(['extended_authentication']);
+		if ($loggedIn) {
+			// For logged-in users: Load everything
+			$appManager->loadApps();
+		} else {
+			// For guests: Load only filesystem and logging
+			$appManager->loadApps(['filesystem', 'logging']);
+		}
+	}
+
+	/**
+	 * Attempt to authenticate the current request using supported login methods.
+	 *
+	 * Tries, in order: Apache auth, app API login, token login, cookie login,
+	 * and basic auth. Federation requests are excluded.
 	 */
 	public static function handleLogin(OCP\IRequest $request): bool {
 		if ($request->getHeader('X-Nextcloud-Federation')) {
