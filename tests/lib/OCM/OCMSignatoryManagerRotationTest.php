@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/** Ed25519 stage / activate / retire lifecycle, with stateful IAppConfig + IdentityProofManager fakes. */
+/** JWKS stage / activate / retire lifecycle, with stateful IAppConfig + IdentityProofManager fakes. */
 class OCMSignatoryManagerRotationTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private IdentityProofManager&MockObject $identityProofManager;
@@ -66,118 +66,118 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 
 	public function testJwksBootstrapsActiveKeyOnFirstFetch(): void {
 		// Fresh instance: first JWKS hit must provision the active key.
-		$jwks = $this->signatoryManager->getLocalEd25519Jwks();
+		$jwks = $this->signatoryManager->getLocalJwks();
 		$this->assertCount(1, $jwks);
-		$this->assertSame('https://alice.example/ocm#ed25519-1', $jwks[0]['kid']);
+		$this->assertSame('https://alice.example/ocm#ecdsa-p256-sha256-1', $jwks[0]['kid']);
 
 		// And the bootstrapped key is the active one for outbound signing.
-		$signatory = $this->signatoryManager->getLocalEd25519Signatory();
+		$signatory = $this->signatoryManager->getLocalJwksSignatory();
 		$this->assertSame($jwks[0]['kid'], $signatory->getKeyId());
 	}
 
 	public function testFirstCallProvisionsActiveKey(): void {
-		$signatory = $this->signatoryManager->getLocalEd25519Signatory();
+		$signatory = $this->signatoryManager->getLocalJwksSignatory();
 		$this->assertNotNull($signatory);
-		$this->assertSame('https://alice.example/ocm#ed25519-1', $signatory->getKeyId());
+		$this->assertSame('https://alice.example/ocm#ecdsa-p256-sha256-1', $signatory->getKeyId());
 
-		$jwks = $this->signatoryManager->getLocalEd25519Jwks();
+		$jwks = $this->signatoryManager->getLocalJwks();
 		$this->assertCount(1, $jwks);
 		$this->assertSame($signatory->getKeyId(), $jwks[0]['kid']);
 
-		$listed = $this->signatoryManager->listEd25519Keys();
+		$listed = $this->signatoryManager->listJwksKeys();
 		$this->assertSame([['poolId' => 1, 'kid' => $signatory->getKeyId(), 'slot' => 'active']], $listed);
 	}
 
 	public function testStageDoesNotChangeActiveSignerButPublishesNewJwk(): void {
-		$initial = $this->signatoryManager->getLocalEd25519Signatory();
-		$staged = $this->signatoryManager->stageEd25519Key();
+		$initial = $this->signatoryManager->getLocalJwksSignatory();
+		$staged = $this->signatoryManager->stageJwksKey();
 		$this->assertNotSame($initial->getKeyId(), $staged->getKeyId());
 
 		// Active signer is unchanged.
-		$this->assertSame($initial->getKeyId(), $this->signatoryManager->getLocalEd25519Signatory()->getKeyId());
+		$this->assertSame($initial->getKeyId(), $this->signatoryManager->getLocalJwksSignatory()->getKeyId());
 
 		// JWKS now advertises both kids, active first then pending.
-		$jwks = $this->signatoryManager->getLocalEd25519Jwks();
+		$jwks = $this->signatoryManager->getLocalJwks();
 		$this->assertSame([$initial->getKeyId(), $staged->getKeyId()], array_column($jwks, 'kid'));
 	}
 
 	public function testStageRefusesIfPendingAlreadyExists(): void {
-		$this->signatoryManager->stageEd25519Key();
+		$this->signatoryManager->stageJwksKey();
 		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessageMatches('/pending Ed25519 key already exists/');
-		$this->signatoryManager->stageEd25519Key();
+		$this->expectExceptionMessageMatches('/pending JWKS key already exists/');
+		$this->signatoryManager->stageJwksKey();
 	}
 
 	public function testActivatePromotesPendingAndDemotesActive(): void {
-		$first = $this->signatoryManager->getLocalEd25519Signatory();
-		$staged = $this->signatoryManager->stageEd25519Key();
-		$this->signatoryManager->activateStagedEd25519Key();
+		$first = $this->signatoryManager->getLocalJwksSignatory();
+		$staged = $this->signatoryManager->stageJwksKey();
+		$this->signatoryManager->activateStagedJwksKey();
 
 		// New signer is the formerly-staged key.
-		$this->assertSame($staged->getKeyId(), $this->signatoryManager->getLocalEd25519Signatory()->getKeyId());
+		$this->assertSame($staged->getKeyId(), $this->signatoryManager->getLocalJwksSignatory()->getKeyId());
 
 		// JWKS still advertises the former active key as retiring so peers
 		// verifying in-flight signatures with its kid don't fail.
-		$kids = array_column($this->signatoryManager->getLocalEd25519Jwks(), 'kid');
+		$kids = array_column($this->signatoryManager->getLocalJwks(), 'kid');
 		$this->assertContains($first->getKeyId(), $kids);
 		$this->assertContains($staged->getKeyId(), $kids);
 	}
 
 	public function testActivateRefusesIfRetiringStillPopulated(): void {
-		$this->signatoryManager->getLocalEd25519Signatory();
-		$this->signatoryManager->stageEd25519Key();
-		$this->signatoryManager->activateStagedEd25519Key();
+		$this->signatoryManager->getLocalJwksSignatory();
+		$this->signatoryManager->stageJwksKey();
+		$this->signatoryManager->activateStagedJwksKey();
 		// Retiring slot is now populated; staging again is allowed but
 		// activating must refuse until the admin explicitly retires the old
 		// key.
-		$this->signatoryManager->stageEd25519Key();
+		$this->signatoryManager->stageJwksKey();
 		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessageMatches('/retiring Ed25519 key still exists/');
-		$this->signatoryManager->activateStagedEd25519Key();
+		$this->expectExceptionMessageMatches('/retiring JWKS key still exists/');
+		$this->signatoryManager->activateStagedJwksKey();
 	}
 
 	public function testActivateRefusesWithoutPendingKey(): void {
-		$this->signatoryManager->getLocalEd25519Signatory();
+		$this->signatoryManager->getLocalJwksSignatory();
 		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessageMatches('/no pending Ed25519 key/');
-		$this->signatoryManager->activateStagedEd25519Key();
+		$this->expectExceptionMessageMatches('/no pending JWKS key/');
+		$this->signatoryManager->activateStagedJwksKey();
 	}
 
 	public function testRetireRemovesRetiringKeyFromJwks(): void {
-		$first = $this->signatoryManager->getLocalEd25519Signatory();
-		$staged = $this->signatoryManager->stageEd25519Key();
-		$this->signatoryManager->activateStagedEd25519Key();
-		$this->signatoryManager->retireEd25519Key();
+		$first = $this->signatoryManager->getLocalJwksSignatory();
+		$staged = $this->signatoryManager->stageJwksKey();
+		$this->signatoryManager->activateStagedJwksKey();
+		$this->signatoryManager->retireJwksKey();
 
-		$kids = array_column($this->signatoryManager->getLocalEd25519Jwks(), 'kid');
+		$kids = array_column($this->signatoryManager->getLocalJwks(), 'kid');
 		$this->assertSame([$staged->getKeyId()], $kids);
-		// listEd25519Keys also drops the retired pool.
-		$listed = $this->signatoryManager->listEd25519Keys();
+		// listJwksKeys also drops the retired pool.
+		$listed = $this->signatoryManager->listJwksKeys();
 		$this->assertCount(1, $listed);
 		$this->assertSame($staged->getKeyId(), $listed[0]['kid']);
 		$this->assertNotContains($first->getKeyId(), array_column($listed, 'kid'));
 	}
 
 	public function testRetireRefusesWhenNothingToRetire(): void {
-		$this->signatoryManager->getLocalEd25519Signatory();
+		$this->signatoryManager->getLocalJwksSignatory();
 		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessageMatches('/no retiring Ed25519 key/');
-		$this->signatoryManager->retireEd25519Key();
+		$this->expectExceptionMessageMatches('/no retiring JWKS key/');
+		$this->signatoryManager->retireJwksKey();
 	}
 
 	public function testKidStaysStableThroughLifecycle(): void {
-		$first = $this->signatoryManager->getLocalEd25519Signatory();
-		$staged = $this->signatoryManager->stageEd25519Key();
+		$first = $this->signatoryManager->getLocalJwksSignatory();
+		$staged = $this->signatoryManager->stageJwksKey();
 		// kid for the staged key must stay the same once it is activated;
 		// peers that cached it during the stage window must still resolve it.
-		$this->signatoryManager->activateStagedEd25519Key();
-		$this->assertSame($staged->getKeyId(), $this->signatoryManager->getLocalEd25519Signatory()->getKeyId());
+		$this->signatoryManager->activateStagedJwksKey();
+		$this->assertSame($staged->getKeyId(), $this->signatoryManager->getLocalJwksSignatory()->getKeyId());
 
-		$this->signatoryManager->retireEd25519Key();
-		$this->signatoryManager->stageEd25519Key();
+		$this->signatoryManager->retireJwksKey();
+		$this->signatoryManager->stageJwksKey();
 		// And every newly minted kid must differ from prior ones, no pool
 		// counter rewinding.
-		$kids = array_column($this->signatoryManager->listEd25519Keys(), 'kid');
+		$kids = array_column($this->signatoryManager->listJwksKeys(), 'kid');
 		$this->assertNotContains($first->getKeyId(), $kids);
 		$this->assertSame($kids, array_unique($kids));
 	}
@@ -208,7 +208,7 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		);
 
 		$this->expectException(\RuntimeException::class);
-		$manager->getLocalEd25519Signatory();
+		$manager->getLocalJwksSignatory();
 	}
 
 	private function wireAppConfig(): void {
@@ -245,10 +245,15 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		$this->identityProofManager->method('hasAppKey')->willReturnCallback(
 			fn (string $app, string $name): bool => isset($this->appKeyStore[$app . '/' . $name])
 		);
-		$this->identityProofManager->method('generateEd25519AppKey')->willReturnCallback(
+		$this->identityProofManager->method('generateEcdsaP256AppKey')->willReturnCallback(
 			function (string $app, string $name): Key {
-				$keyPair = sodium_crypto_sign_keypair();
-				$key = new Key(sodium_crypto_sign_publickey($keyPair), sodium_crypto_sign_secretkey($keyPair));
+				$res = openssl_pkey_new([
+					'private_key_type' => OPENSSL_KEYTYPE_EC,
+					'curve_name' => 'prime256v1',
+				]);
+				openssl_pkey_export($res, $privatePem);
+				$publicPem = openssl_pkey_get_details($res)['key'];
+				$key = new Key($publicPem, $privatePem);
 				$this->appKeyStore[$app . '/' . $name] = $key;
 				return $key;
 			}

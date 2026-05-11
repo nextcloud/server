@@ -18,10 +18,15 @@ use Throwable;
 /**
  * RFC 9421 §3.3 sign/verify primitives.
  *
- * Asymmetric algorithms only: RSA-PKCS1-v1_5 (SHA-256/384/512), ECDSA P-256
- * SHA-256, ECDSA P-384 SHA-384, Ed25519. JOSE aliases (RFC 7518 / RFC 8037)
+ * Sign supports asymmetric algorithms reachable via ext-openssl: RSA-PKCS1-v1_5
+ * (SHA-256/384/512) and ECDSA P-256 / P-384. JOSE aliases (RFC 7518 / RFC 8037)
  * accepted per RFC 9421 §3.3.7. RSA-PSS is rejected: OPENSSL_PKCS1_PSS_PADDING
  * needs PHP 8.5 and we still support 8.2-8.4.
+ *
+ * Verify additionally accepts Ed25519 when ext-sodium is loaded; without sodium
+ * an Ed25519 signature throws {@see SignatureException}. Sodium is used directly
+ * because firebase/php-jwt's `validateEdDSAKey` base64url-decodes the key
+ * material, which mangles the raw sodium bytes.
  *
  * Sign delegates to {@see JWT::sign}. Verify takes a {@see Key} parsed by
  * firebase/php-jwt (which has already validated the JWK's kty/crv/alg
@@ -39,12 +44,8 @@ final class Algorithm {
 	];
 
 	/**
-	 * For Ed25519 $privateKey is the raw 64-byte sodium secret key; otherwise
-	 * a PEM private key. Returns raw signature bytes (R||S for ECDSA).
-	 *
-	 * Ed25519 calls sodium directly: JWT::sign runs the key through
-	 * `validateEdDSAKey` which base64url-decodes it first, which mangles raw
-	 * sodium bytes.
+	 * $privateKey is a PEM private key. Returns raw signature bytes (R||S for
+	 * ECDSA). Ed25519 is verify-only and is rejected here.
 	 *
 	 * @throws SignatureException
 	 */
@@ -52,10 +53,7 @@ final class Algorithm {
 		$normalized = self::normalize($algorithm);
 
 		if ($normalized === 'ed25519') {
-			if (strlen($privateKey) !== SODIUM_CRYPTO_SIGN_SECRETKEYBYTES) {
-				throw new SignatureException('Ed25519 secret key must be ' . SODIUM_CRYPTO_SIGN_SECRETKEYBYTES . ' bytes');
-			}
-			return sodium_crypto_sign_detached($signatureBase, $privateKey);
+			throw new SignatureException('Ed25519 signing is not supported; use ECDSA P-256 or RSA');
 		}
 
 		try {
@@ -85,6 +83,9 @@ final class Algorithm {
 		$material = $key->getKeyMaterial();
 
 		if ($resolved === 'ed25519') {
+			if (!function_exists('sodium_crypto_sign_verify_detached')) {
+				throw new SignatureException('verifying Ed25519 signatures requires ext-sodium');
+			}
 			if (strlen($signature) !== SODIUM_CRYPTO_SIGN_BYTES) {
 				return false;
 			}
@@ -154,7 +155,6 @@ final class Algorithm {
 
 	private static function nativeToJose(string $native): string {
 		return match ($native) {
-			'ed25519' => 'EdDSA',
 			'ecdsa-p256-sha256' => 'ES256',
 			'ecdsa-p384-sha384' => 'ES384',
 			'rsa-v1_5-sha256' => 'RS256',

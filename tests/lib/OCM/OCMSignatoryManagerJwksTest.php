@@ -24,6 +24,10 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class OCMSignatoryManagerJwksTest extends TestCase {
+	/** RFC 7517 §A.1 test vector for an EC P-256 public key. */
+	private const TEST_X = 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU';
+	private const TEST_Y = 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0';
+
 	private IAppConfig&MockObject $appConfig;
 	private ISignatureManager&MockObject $signatureManager;
 	private IURLGenerator&MockObject $urlGenerator;
@@ -68,21 +72,19 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 		$kid = 'sender.example.org#key1';
 		$jwks = [
 			'keys' => [
-				['kty' => 'OKP', 'crv' => 'Ed25519', 'kid' => 'other', 'x' => 'AAAA'],
-				['kty' => 'OKP', 'crv' => 'Ed25519', 'kid' => $kid, 'x' => 'BBBB'],
+				$this->ecJwk('other'),
+				$this->ecJwk($kid),
 			],
 		];
 		$this->respondWith($jwks);
 
 		$key = $this->signatoryManager->getRemoteKey('sender.example.org', $kid);
 		$this->assertNotNull($key);
-		$this->assertSame('EdDSA', $key->getAlgorithm());
-		// Key stores OKP material as plain base64 of the raw bytes.
-		$this->assertSame('BBBB', $key->getKeyMaterial());
+		$this->assertSame('ES256', $key->getAlgorithm());
 	}
 
 	public function testGetRemoteKeyReturnsNullWhenKidMissing(): void {
-		$this->respondWith(['keys' => [['kty' => 'OKP', 'crv' => 'Ed25519', 'kid' => 'unrelated', 'x' => 'AAAA']]]);
+		$this->respondWith(['keys' => [$this->ecJwk('unrelated')]]);
 		$this->assertNull($this->signatoryManager->getRemoteKey('sender.example.org', 'other-kid'));
 	}
 
@@ -106,8 +108,8 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 	}
 
 	public function testGetRemoteKeyReturnsNullOnUnparseableJwk(): void {
-		// JWK with kty=OKP but no crv: parseKey rejects.
-		$this->respondWith(['keys' => [['kty' => 'OKP', 'kid' => 'kid', 'x' => 'AAAA']]]);
+		// JWK with kty=EC but no crv: parseKey rejects.
+		$this->respondWith(['keys' => [['kty' => 'EC', 'kid' => 'kid', 'x' => self::TEST_X, 'y' => self::TEST_Y]]]);
 		$this->logger->expects($this->once())->method('warning');
 		$this->assertNull($this->signatoryManager->getRemoteKey('sender.example.org', 'kid'));
 	}
@@ -142,7 +144,7 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 
 	public function testJwksCachedAcrossCallsToTheSameOrigin(): void {
 		$kid = 'sender.example.org#key1';
-		$jwks = ['keys' => [['kty' => 'OKP', 'crv' => 'Ed25519', 'kid' => $kid, 'x' => 'AAAA']]];
+		$jwks = ['keys' => [$this->ecJwk($kid)]];
 		$this->client->expects($this->once())
 			->method('get')
 			->willReturn($this->jsonResponse($jwks));
@@ -152,8 +154,8 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 	}
 
 	public function testCacheMissOnNewKidTriggersRefetchOnce(): void {
-		$first = ['keys' => [['kty' => 'OKP', 'crv' => 'Ed25519', 'kid' => 'old', 'x' => 'AAAA']]];
-		$second = ['keys' => [['kty' => 'OKP', 'crv' => 'Ed25519', 'kid' => 'new', 'x' => 'BBBB']]];
+		$first = ['keys' => [$this->ecJwk('old')]];
+		$second = ['keys' => [$this->ecJwk('new')]];
 		$this->client->expects($this->exactly(2))
 			->method('get')
 			->willReturnOnConsecutiveCalls(
@@ -173,5 +175,18 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 		$response = $this->createMock(IResponse::class);
 		$response->method('getBody')->willReturn(json_encode($body, JSON_THROW_ON_ERROR));
 		return $response;
+	}
+
+	/** @return array<string, string> */
+	private function ecJwk(string $kid): array {
+		return [
+			'kty' => 'EC',
+			'crv' => 'P-256',
+			'kid' => $kid,
+			'alg' => 'ES256',
+			'use' => 'sig',
+			'x' => self::TEST_X,
+			'y' => self::TEST_Y,
+		];
 	}
 }

@@ -25,13 +25,13 @@ class ListKeys extends Base {
 	protected function configure(): void {
 		$this
 			->setName('ocm:keys:list')
-			->setDescription('list Ed25519 keys used by OCM RFC 9421 HTTP Message Signatures');
+			->setDescription('list JWKS-published signing keys');
 		parent::configure();
 	}
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$keys = $this->signatoryManager->listEd25519Keys();
+		$keys = $this->signatoryManager->listJwksKeys();
 		$format = $input->getOption('output');
 		if ($format === self::OUTPUT_FORMAT_JSON || $format === self::OUTPUT_FORMAT_JSON_PRETTY) {
 			$output->writeln(json_encode($keys, $format === self::OUTPUT_FORMAT_JSON_PRETTY ? JSON_PRETTY_PRINT : 0));
@@ -39,7 +39,7 @@ class ListKeys extends Base {
 		}
 
 		if ($keys === []) {
-			$output->writeln('<comment>No Ed25519 keys yet; one will be generated on first OCM request.</comment>');
+			$output->writeln('<comment>No JWKS keys yet; one will be generated on first OCM request.</comment>');
 			return self::SUCCESS;
 		}
 

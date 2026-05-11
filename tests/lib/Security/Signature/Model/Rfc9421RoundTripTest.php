@@ -23,8 +23,8 @@ use OCP\Security\Signature\Model\Signatory;
 use Test\TestCase;
 
 class Rfc9421RoundTripTest extends TestCase {
-	public function testEd25519RoundTripVerifies(): void {
-		[$signatory, $jwk] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+	public function testEcdsaP256RoundTripVerifies(): void {
+		[$signatory, $jwk] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$body = '{"hello":"world"}';
@@ -43,8 +43,30 @@ class Rfc9421RoundTripTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
+	public function testEd25519VerifyAcceptedWhenSodiumLoaded(): void {
+		$this->skipUnlessSodium();
+		[$signatory, $jwk] = $this->ed25519Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
+		$signatoryManager = $this->makeSignatoryManagerWithSigningAlgorithm($signatory, 'ed25519');
+
+		$body = '{"hello":"world"}';
+		$out = new Rfc9421OutgoingSignedRequest($body, $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
+		// Ed25519 sign() throws via Algorithm::sign; produce the signature directly.
+		$rawSig = sodium_crypto_sign_detached($out->getSignatureBaseString(), $signatory->getPrivateKey());
+		$out->setSignature(base64_encode($rawSig));
+		$headers = $out->getHeaders();
+		$paramsLine = '("@method" "@target-uri" "content-digest" "content-length" "date");created=' . time() . ';keyid="' . $signatory->getKeyId() . '"';
+		$headers['Signature-Input'] = 'ocm=' . $paramsLine;
+		$headers['Signature'] = 'ocm=:' . base64_encode($rawSig) . ':';
+
+		$req = $this->mockRequest($headers, 'POST', '/ocm/shares', 'receiver.example.org');
+		$in = new Rfc9421IncomingSignedRequest($body, $req);
+		$in->setKey($jwk);
+		$in->verify();
+		$this->addToAssertionCount(1);
+	}
+
 	public function testTamperedBodyRejected(): void {
-		[$signatory, $jwk] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$body = 'original';
@@ -57,7 +79,7 @@ class Rfc9421RoundTripTest extends TestCase {
 	}
 
 	public function testTamperedSignatureRejected(): void {
-		[$signatory, $jwk] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory, $jwk] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$body = 'msg';
@@ -77,7 +99,7 @@ class Rfc9421RoundTripTest extends TestCase {
 	}
 
 	public function testOutgoingUsesOcmLabel(): void {
-		[$signatory] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$out = new Rfc9421OutgoingSignedRequest('msg', $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
@@ -89,7 +111,7 @@ class Rfc9421RoundTripTest extends TestCase {
 	}
 
 	public function testRequestWithoutOcmLabelRejected(): void {
-		[$signatory, $jwk] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$out = new Rfc9421OutgoingSignedRequest('msg', $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
@@ -109,7 +131,7 @@ class Rfc9421RoundTripTest extends TestCase {
 		// RFC 8941 §4.2 last-wins on duplicate dictionary keys, but OCM
 		// mandates that duplicate `ocm` entries cause the request to be
 		// rejected outright. The model layer enforces that.
-		[$signatory, $jwk] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$out = new Rfc9421OutgoingSignedRequest('msg', $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
@@ -125,7 +147,7 @@ class Rfc9421RoundTripTest extends TestCase {
 	}
 
 	public function testForeignSiblingLabelIgnored(): void {
-		[$signatory, $jwk] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory, $jwk] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$out = new Rfc9421OutgoingSignedRequest('msg', $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
@@ -147,7 +169,7 @@ class Rfc9421RoundTripTest extends TestCase {
 	}
 
 	public function testTooOldSignatureRejected(): void {
-		[$signatory] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$body = 'msg';
@@ -165,7 +187,7 @@ class Rfc9421RoundTripTest extends TestCase {
 	}
 
 	public function testFutureCreatedRejected(): void {
-		[$signatory] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$body = 'msg';
@@ -184,7 +206,7 @@ class Rfc9421RoundTripTest extends TestCase {
 	}
 
 	public function testMissingCreatedRejected(): void {
-		[$signatory] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$body = 'msg';
@@ -205,7 +227,7 @@ class Rfc9421RoundTripTest extends TestCase {
 		// A peer that signs only `@method` and `@target-uri`: the body and
 		// freshness window aren't bound. Even with a valid signature we
 		// must refuse it.
-		[$signatory] = $this->ed25519Material('https://sender.example.org/ocm#ed25519');
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManagerWithComponents(
 			$signatory,
 			['@method', '@target-uri'],
@@ -218,6 +240,12 @@ class Rfc9421RoundTripTest extends TestCase {
 
 		$this->expectException(IncomingRequestException::class);
 		new Rfc9421IncomingSignedRequest($body, $req);
+	}
+
+	private function skipUnlessSodium(): void {
+		if (!extension_loaded('sodium')) {
+			$this->markTestSkipped('ext-sodium is not loaded');
+		}
 	}
 
 	private function makeSignatoryManagerWithComponents(Signatory $signatory, array $components): ISignatoryManager {
@@ -250,6 +278,67 @@ class Rfc9421RoundTripTest extends TestCase {
 		};
 	}
 
+	private function makeSignatoryManagerWithSigningAlgorithm(Signatory $signatory, string $signingAlgorithm): ISignatoryManager {
+		return new class($signatory, $signingAlgorithm) implements ISignatoryManager {
+			public function __construct(
+				private Signatory $sig,
+				private string $signingAlgorithm,
+			) {
+			}
+
+			public function getProviderId(): string {
+				return 'test';
+			}
+
+			public function getOptions(): array {
+				return [
+					'algorithm' => SignatureAlgorithm::RSA_SHA256,
+					'digestAlgorithm' => DigestAlgorithm::SHA256,
+					'rfc9421.signingAlgorithm' => $this->signingAlgorithm,
+				];
+			}
+
+			public function getLocalSignatory(): Signatory {
+				return $this->sig;
+			}
+
+			public function getRemoteSignatory(string $remote): ?Signatory {
+				return null;
+			}
+		};
+	}
+
+	/**
+	 * @return array{0: Signatory, 1: \Firebase\JWT\Key}
+	 */
+	private function ecdsaP256Material(string $kid): array {
+		$pkey = openssl_pkey_new(['private_key_type' => OPENSSL_KEYTYPE_EC, 'curve_name' => 'prime256v1']);
+		$privatePem = '';
+		openssl_pkey_export($pkey, $privatePem);
+		$details = openssl_pkey_get_details($pkey);
+		$publicPem = $details['key'];
+
+		$signatory = new Signatory(true);
+		$signatory->setKeyId($kid);
+		$signatory->setPublicKey($publicPem);
+		$signatory->setPrivateKey($privatePem);
+
+		$x = str_pad($details['ec']['x'], 32, "\x00", STR_PAD_LEFT);
+		$y = str_pad($details['ec']['y'], 32, "\x00", STR_PAD_LEFT);
+		$key = JWK::parseKey([
+			'kty' => 'EC',
+			'crv' => 'P-256',
+			'kid' => $kid,
+			'alg' => 'ES256',
+			'x' => self::b64url($x),
+			'y' => self::b64url($y),
+		], 'ES256');
+		return [$signatory, $key];
+	}
+
+	/**
+	 * @return array{0: Signatory, 1: \Firebase\JWT\Key}
+	 */
 	private function ed25519Material(string $kid): array {
 		$keypair = sodium_crypto_sign_keypair();
 		$publicKey = sodium_crypto_sign_publickey($keypair);
@@ -263,9 +352,13 @@ class Rfc9421RoundTripTest extends TestCase {
 			'crv' => 'Ed25519',
 			'kid' => $kid,
 			'alg' => 'EdDSA',
-			'x' => rtrim(strtr(base64_encode($publicKey), '+/', '-_'), '='),
+			'x' => self::b64url($publicKey),
 		], 'EdDSA');
 		return [$signatory, $key];
+	}
+
+	private static function b64url(string $bin): string {
+		return rtrim(strtr(base64_encode($bin), '+/', '-_'), '=');
 	}
 
 	private function makeSignatoryManager(Signatory $signatory): ISignatoryManager {

@@ -54,23 +54,24 @@ class OCMJwksHandlerTest extends TestCase {
 		$this->appConfig->method('getValueBool')
 			->with('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, false, true)
 			->willReturn(true);
-		$this->signatoryManager->expects($this->never())->method('getLocalEd25519Jwks');
+		$this->signatoryManager->expects($this->never())->method('getLocalJwks');
 
 		$body = $this->jsonBody($this->handler->handle('jwks.json', $this->context, null));
 		$this->assertSame(['keys' => []], $body);
 	}
 
-	public function testPublishesEd25519JwksWhenAvailable(): void {
+	public function testPublishesJwksWhenAvailable(): void {
 		$this->appConfig->method('getValueBool')->willReturn(false);
 		$jwk = [
-			'kty' => 'OKP',
-			'crv' => 'Ed25519',
-			'kid' => 'https://example.org/ocm#ed25519',
-			'alg' => 'EdDSA',
+			'kty' => 'EC',
+			'crv' => 'P-256',
+			'kid' => 'https://example.org/ocm#ecdsa-p256-sha256',
+			'alg' => 'ES256',
 			'use' => 'sig',
 			'x' => 'AAAA',
+			'y' => 'BBBB',
 		];
-		$this->signatoryManager->method('getLocalEd25519Jwks')->willReturn([$jwk]);
+		$this->signatoryManager->method('getLocalJwks')->willReturn([$jwk]);
 
 		$body = $this->jsonBody($this->handler->handle('jwks.json', $this->context, null));
 		$this->assertSame(['keys' => [$jwk]], $body);
@@ -79,12 +80,12 @@ class OCMJwksHandlerTest extends TestCase {
 	public function testPublishesAllSlotsAdvertisedDuringRotation(): void {
 		$this->appConfig->method('getValueBool')->willReturn(false);
 		$active = [
-			'kty' => 'OKP', 'crv' => 'Ed25519', 'kid' => 'kid-1', 'alg' => 'EdDSA', 'use' => 'sig', 'x' => 'AAAA',
+			'kty' => 'EC', 'crv' => 'P-256', 'kid' => 'kid-1', 'alg' => 'ES256', 'use' => 'sig', 'x' => 'AAAA', 'y' => 'BBBB',
 		];
 		$pending = [
-			'kty' => 'OKP', 'crv' => 'Ed25519', 'kid' => 'kid-2', 'alg' => 'EdDSA', 'use' => 'sig', 'x' => 'BBBB',
+			'kty' => 'EC', 'crv' => 'P-256', 'kid' => 'kid-2', 'alg' => 'ES256', 'use' => 'sig', 'x' => 'CCCC', 'y' => 'DDDD',
 		];
-		$this->signatoryManager->method('getLocalEd25519Jwks')->willReturn([$active, $pending]);
+		$this->signatoryManager->method('getLocalJwks')->willReturn([$active, $pending]);
 
 		$body = $this->jsonBody($this->handler->handle('jwks.json', $this->context, null));
 		$this->assertSame(['keys' => [$active, $pending]], $body);
@@ -92,7 +93,7 @@ class OCMJwksHandlerTest extends TestCase {
 
 	public function testEmptyKeySetWhenSignatoryUnavailable(): void {
 		$this->appConfig->method('getValueBool')->willReturn(false);
-		$this->signatoryManager->method('getLocalEd25519Jwks')->willReturn([]);
+		$this->signatoryManager->method('getLocalJwks')->willReturn([]);
 
 		$body = $this->jsonBody($this->handler->handle('jwks.json', $this->context, null));
 		$this->assertSame(['keys' => []], $body);
@@ -100,7 +101,7 @@ class OCMJwksHandlerTest extends TestCase {
 
 	public function testFailingJwkBuildIsLoggedAndYieldsEmptyKeySet(): void {
 		$this->appConfig->method('getValueBool')->willReturn(false);
-		$this->signatoryManager->method('getLocalEd25519Jwks')
+		$this->signatoryManager->method('getLocalJwks')
 			->willThrowException(new \RuntimeException('boom'));
 		$this->logger->expects($this->once())->method('warning');
 

@@ -24,18 +24,18 @@ class StageKey extends Base {
 	protected function configure(): void {
 		$this
 			->setName('ocm:keys:stage')
-			->setDescription('generate a new Ed25519 key and advertise it via JWKS without using it for signing yet');
+			->setDescription('generate a new JWKS key and advertise it via JWKS without using it for signing yet');
 	}
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-			$signatory = $this->signatoryManager->stageEd25519Key();
+			$signatory = $this->signatoryManager->stageJwksKey();
 		} catch (\RuntimeException $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return self::FAILURE;
 		}
-		$output->writeln('Staged new Ed25519 key: <info>' . $signatory->getKeyId() . '</info>');
+		$output->writeln('Staged new JWKS key: <info>' . $signatory->getKeyId() . '</info>');
 		$output->writeln('Wait for federated peers to refresh their JWKS cache before activating.');
 		return self::SUCCESS;
 	}

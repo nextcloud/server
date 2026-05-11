@@ -19,7 +19,10 @@ class AlgorithmTest extends TestCase {
 	public function testNormalizeNativeIsPassThrough(): void {
 		$this->assertSame('ed25519', Algorithm::normalize('ed25519'));
 		$this->assertSame('rsa-v1_5-sha256', Algorithm::normalize('rsa-v1_5-sha256'));
+		$this->assertSame('rsa-v1_5-sha384', Algorithm::normalize('rsa-v1_5-sha384'));
+		$this->assertSame('rsa-v1_5-sha512', Algorithm::normalize('rsa-v1_5-sha512'));
 		$this->assertSame('ecdsa-p256-sha256', Algorithm::normalize('ecdsa-p256-sha256'));
+		$this->assertSame('ecdsa-p384-sha384', Algorithm::normalize('ecdsa-p384-sha384'));
 	}
 
 	public function testNormalizeJoseAliases(): void {
@@ -53,10 +56,17 @@ class AlgorithmTest extends TestCase {
 		$this->assertNull(Algorithm::deriveJoseAlgFromJwk([]));
 	}
 
-	public function testEd25519RoundTrip(): void {
-		[$priv, $key] = $this->ed25519KeyPair();
+	public function testEd25519SigningIsRejected(): void {
+		$this->expectException(SignatureException::class);
+		$this->expectExceptionMessageMatches('/Ed25519 signing is not supported/');
+		Algorithm::sign('payload', str_repeat("\x00", 64), 'ed25519');
+	}
+
+	public function testEd25519VerifyRoundTripWithSodium(): void {
+		$this->skipUnlessSodium();
+		[$secret, $key] = $this->ed25519KeyPair();
 		$base = 'arbitrary signature base';
-		$sig = Algorithm::sign($base, $priv, 'ed25519');
+		$sig = sodium_crypto_sign_detached($base, $secret);
 		$this->assertSame(64, strlen($sig));
 		$this->assertTrue(Algorithm::verify($base, $sig, $key, 'ed25519'));
 		// JOSE alias accepted.
@@ -97,6 +107,7 @@ class AlgorithmTest extends TestCase {
 	}
 
 	public function testAlgHintConflictsWithJwkAlgRejected(): void {
+		$this->skipUnlessSodium();
 		// Ed25519 JWK, request claims ES256: RFC 9421 §3.2 step 6 disagreement.
 		[, $key] = $this->ed25519KeyPair();
 		$this->expectException(SignatureException::class);
@@ -104,6 +115,7 @@ class AlgorithmTest extends TestCase {
 	}
 
 	public function testParseKeyRejectsContradictoryAlg(): void {
+		$this->skipUnlessSodium();
 		// kty=OKP/crv=Ed25519 with alg=ES256 is contradictory; firebase's
 		// parseKey rejects it before we ever build a Key.
 		$keypair = sodium_crypto_sign_keypair();
@@ -117,14 +129,6 @@ class AlgorithmTest extends TestCase {
 		], null);
 	}
 
-	public function testAlgHintAgreesViaJoseAlias(): void {
-		[$priv, $key] = $this->ed25519KeyPair();
-		$base = 'agreement check';
-		$sig = Algorithm::sign($base, $priv, 'ed25519');
-		$this->assertTrue(Algorithm::verify($base, $sig, $key, 'ed25519'));
-		$this->assertTrue(Algorithm::verify($base, $sig, $key, 'EdDSA'));
-	}
-
 	public function testEcdsaRawToDerProducesValidSignature(): void {
 		[$priv, $key] = $this->ecKeyPair('prime256v1', 'P-256', 'ES256');
 		$rawSig = Algorithm::sign('msg', $priv, 'ecdsa-p256-sha256');
@@ -135,6 +139,12 @@ class AlgorithmTest extends TestCase {
 
 	public function testEcdsaRawToDerWrongLength(): void {
 		$this->assertNull(Algorithm::ecdsaRawToDer('short', 32));
+	}
+
+	private function skipUnlessSodium(): void {
+		if (!extension_loaded('sodium')) {
+			$this->markTestSkipped('ext-sodium is not loaded');
+		}
 	}
 
 	/**

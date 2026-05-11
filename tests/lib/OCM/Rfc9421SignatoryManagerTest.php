@@ -39,15 +39,15 @@ class Rfc9421SignatoryManagerTest extends TestCase {
 		$this->assertSame('rsa-sha512', $options['algorithm']);
 	}
 
-	public function testGetLocalSignatoryReturnsEd25519Key(): void {
+	public function testGetLocalSignatoryReturnsJwksKey(): void {
 		$signatory = $this->createMock(Signatory::class);
-		$this->delegate->method('getLocalEd25519Signatory')->willReturn($signatory);
+		$this->delegate->method('getLocalJwksSignatory')->willReturn($signatory);
 
 		$this->assertSame($signatory, $this->wrapper->getLocalSignatory());
 	}
 
-	public function testGetLocalSignatoryThrowsWhenEd25519Unavailable(): void {
-		$this->delegate->method('getLocalEd25519Signatory')->willReturn(null);
+	public function testGetLocalSignatoryThrowsWhenJwksKeyUnavailable(): void {
+		$this->delegate->method('getLocalJwksSignatory')->willReturn(null);
 
 		$this->expectException(IdentityNotFoundException::class);
 		$this->wrapper->getLocalSignatory();

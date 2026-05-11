@@ -24,13 +24,13 @@ class RetireKey extends Base {
 	protected function configure(): void {
 		$this
 			->setName('ocm:keys:retire')
-			->setDescription('delete the retiring Ed25519 key; signatures that referenced its kid can no longer be verified');
+			->setDescription('delete the retiring JWKS key; signatures that referenced its kid can no longer be verified');
 	}
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-			$this->signatoryManager->retireEd25519Key();
+			$this->signatoryManager->retireJwksKey();
 		} catch (\RuntimeException $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return self::FAILURE;
