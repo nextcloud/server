@@ -69,7 +69,7 @@ describe('Versions restoration', () => {
 		cy.get('[data-files-versions-version]').eq(0).find('.action-item__menutoggle').should('not.exist')
 		cy.get('[data-files-versions-version]').eq(0).get('[data-cy-version-action="restore"]').should('not.exist')
 
-		doesNotHaveAction(1, 'restore')
 		doesNotHaveAction(2, 'restore')
+		doesNotHaveAction(1, 'restore')
 	})
 })
