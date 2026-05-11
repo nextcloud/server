@@ -16,7 +16,7 @@ use OCP\Http\WellKnown\IRequestContext;
 use OCP\Http\WellKnown\IResponse;
 use OCP\Http\WellKnown\JrdResponse;
 use OCP\IRequest;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use function array_reduce;
@@ -24,7 +24,7 @@ use function array_reduce;
 class RequestManager {
 	public function __construct(
 		private Coordinator $coordinator,
-		private IServerContainer $container,
+		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
 	}

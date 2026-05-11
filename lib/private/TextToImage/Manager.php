@@ -21,7 +21,6 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
-use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
 use OCP\TextToImage\Exception\TaskFailureException;
 use OCP\TextToImage\Exception\TaskNotFoundException;
@@ -29,6 +28,7 @@ use OCP\TextToImage\IManager;
 use OCP\TextToImage\IProvider;
 use OCP\TextToImage\IProviderWithUserId;
 use OCP\TextToImage\Task;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
@@ -39,7 +39,7 @@ class Manager implements IManager {
 	private IAppData $appData;
 
 	public function __construct(
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IJobList $jobList,

@@ -10,12 +10,12 @@ declare(strict_types=1);
 namespace OC\Talk;
 
 use OC\AppFramework\Bootstrap\Coordinator;
-use OCP\IServerContainer;
 use OCP\Talk\Exceptions\NoBackendException;
 use OCP\Talk\IBroker;
 use OCP\Talk\IConversation;
 use OCP\Talk\IConversationOptions;
 use OCP\Talk\ITalkBackend;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
@@ -27,7 +27,7 @@ class Broker implements IBroker {
 
 	public function __construct(
 		private Coordinator $coordinator,
-		private IServerContainer $container,
+		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
 	}

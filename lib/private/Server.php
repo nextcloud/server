@@ -12,7 +12,6 @@ use OC\Accounts\AccountManager;
 use OC\Activity\EventMerger;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
-use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
 use OC\AppFramework\Services\AppConfig;
@@ -102,8 +101,6 @@ use OC\OCM\OCMDiscoveryService;
 use OC\OCS\CoreCapabilities;
 use OC\OCS\DiscoveryService;
 use OC\Preview\Db\PreviewMapper;
-use OC\Preview\GeneratorHelper;
-use OC\Preview\IMagickSupport;
 use OC\Preview\MimeIconProvider;
 use OC\Preview\Watcher;
 use OC\Preview\WatcherConnector;
@@ -316,6 +313,9 @@ class Server extends ServerContainer implements IServerContainer {
 		// To find out if we are running from CLI or not
 		$this->registerParameter('isCLI', \OC::$CLI);
 		$this->registerParameter('serverRoot', \OC::$SERVERROOT);
+		$this->registerService('userId', function (ContainerInterface $c): ?string {
+			return $c->get(ISession::class)->get('user_id');
+		});
 
 		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
@@ -343,19 +343,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new View();
 		}, false);
 
-		$this->registerService(IPreview::class, function (ContainerInterface $c) {
-			return new PreviewManager(
-				$c->get(IConfig::class),
-				$c->get(IRootFolder::class),
-				$c->get(IEventDispatcher::class),
-				$c->get(GeneratorHelper::class),
-				$c->get(ISession::class)->get('user_id'),
-				$c->get(Coordinator::class),
-				$c->get(IServerContainer::class),
-				$c->get(IBinaryFinder::class),
-				$c->get(IMagickSupport::class)
-			);
-		});
+		$this->registerAlias(IPreview::class, PreviewManager::class);
 		$this->registerAlias(IMimeIconProvider::class, MimeIconProvider::class);
 
 		$this->registerService(Watcher::class, function (ContainerInterface $c): Watcher {

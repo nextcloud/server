@@ -38,7 +38,6 @@ use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -98,6 +97,7 @@ use OCP\TextProcessing\IProviderWithUserId;
 use OCP\TextProcessing\SummaryTaskType;
 use OCP\TextProcessing\TopicsTaskType;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -141,7 +141,7 @@ class Manager implements IManager {
 	public function __construct(
 		private IAppConfig $appConfig,
 		private Coordinator $coordinator,
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private LoggerInterface $logger,
 		private TaskMapper $taskMapper,
 		private IJobList $jobList,
