@@ -306,6 +306,9 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 			if ($value === '' && strtolower($component) === 'host') {
 				$value = $this->request->getServerHost();
 			}
+			if ($value === '') {
+				throw new IncomingRequestException('covered header is missing or empty: ' . $component);
+			}
 			$out[strtolower($component)] = $value;
 		}
 		return $out;

@@ -31,6 +31,8 @@ use Throwable;
 final class Algorithm {
 	public const NATIVE = [
 		'rsa-v1_5-sha256',
+		'rsa-v1_5-sha384',
+		'rsa-v1_5-sha512',
 		'ecdsa-p256-sha256',
 		'ecdsa-p384-sha384',
 		'ed25519',
