@@ -5,6 +5,10 @@ OC.L10N.register(
     "App name" : "Nombre de la aplicación",
     "Version" : "Versión",
     "Actions" : "Acciones",
+    "Grid view" : "Vista de cuadrícula",
+    "Cancel" : "Cancel",
+    "Learn more" : "Conoce más",
+    "Daemon" : "Demonio",
     "Name" : "Nombre",
     "Display Name" : "Nombre a desplegar",
     "Confirm" : "Confirmar",
@@ -17,6 +21,11 @@ OC.L10N.register(
     "Changelog" : "Bitácora de cambios",
     "Featured" : "Destacado",
     "Save" : "Guardar",
-    "Update to {version}" : "Actualizar a {version}"
+    "Disable" : "Deshabilitar",
+    "Enable" : "Habilitar",
+    "Report a bug" : "Reporta un detalle",
+    "Your apps" : "Tus aplicaciones",
+    "Disabled apps" : "Aplicaciones deshabilitadas",
+    "Updates" : "Actualizaciones"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
