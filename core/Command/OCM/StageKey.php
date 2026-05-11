@@ -33,10 +33,10 @@ class StageKey extends Base {
 			$signatory = $this->signatoryManager->stageEd25519Key();
 		} catch (\RuntimeException $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		$output->writeln('Staged new Ed25519 key: <info>' . $signatory->getKeyId() . '</info>');
 		$output->writeln('Wait for federated peers to refresh their JWKS cache before activating.');
-		return 0;
+		return self::SUCCESS;
 	}
 }

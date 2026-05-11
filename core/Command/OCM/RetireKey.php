@@ -33,9 +33,9 @@ class RetireKey extends Base {
 			$this->signatoryManager->retireEd25519Key();
 		} catch (\RuntimeException $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		$output->writeln('<info>Retiring key deleted.</info>');
-		return 0;
+		return self::SUCCESS;
 	}
 }
