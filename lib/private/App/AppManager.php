@@ -315,7 +315,7 @@ class AppManager implements IAppManager {
 	}
 
 	#[\Override]
-	public function isEnabledForUser(string $appId, IUser ?$user = null): bool {
+	public function isEnabledForUser(string $appId, ?IUser $user = null): bool {
 		if ($this->isAlwaysEnabled($appId)) {
 			return true;
 		}
