@@ -49,12 +49,7 @@ describe('files: Delete files using file actions', { testIsolation: true }, () =
 
 		// select all
 		selectAllFiles()
-		cy.get('[data-cy-files-list-selection-actions]')
-			.findByRole('button', { name: 'Actions' })
-			.click()
-		cy.get('[data-cy-files-list-selection-action="delete"]')
-			.findByRole('menuitem', { name: /^Delete files/ })
-			.click()
+		triggerSelectionAction('delete')
 
 		// see dialog for confirmation
 		cy.findByRole('dialog', { name: 'Confirm deletion' })

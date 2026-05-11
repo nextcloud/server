@@ -195,12 +195,7 @@ describe('files: Download files using selection', () => {
 		})
 
 		// click download
-		cy.get('[data-cy-files-list-selection-actions]')
-			.findByRole('button', { name: 'Actions' })
-			.click()
-		cy.findByRole('menuitem', { name: 'Download (selected)' })
-			.should('be.visible')
-			.click()
+		triggerSelectionAction('download')
 
 		// check a file is downloaded
 		const downloadsFolder = Cypress.config('downloadsFolder')
@@ -238,11 +233,7 @@ describe('files: Download files using selection', () => {
 		})
 
 		// click download
-		cy.get('[data-cy-files-list-selection-actions]')
-			.findByRole('button', { name: 'Actions' })
-			.click()
-		cy.findByRole('menuitem', { name: 'Download (selected)' })
-			.click()
+		triggerSelectionAction('download')
 
 		// check a file is downloaded
 		const downloadsFolder = Cypress.config('downloadsFolder')
@@ -283,11 +274,7 @@ describe('files: Download files using selection', () => {
 		})
 
 		// click download
-		cy.get('[data-cy-files-list-selection-actions]')
-			.findByRole('button', { name: 'Actions' })
-			.click()
-		cy.findByRole('menuitem', { name: 'Download (selected)' })
-			.click()
+		triggerSelectionAction('download')
 
 		// check a file is downloaded
 		const downloadsFolder = Cypress.config('downloadsFolder')
@@ -331,11 +318,7 @@ describe('files: Download files using selection', () => {
 		})
 
 		// click download
-		cy.get('[data-cy-files-list-selection-actions]')
-			.findByRole('button', { name: 'Actions' })
-			.click()
-		cy.findByRole('menuitem', { name: 'Download (selected)' })
-			.click()
+		triggerSelectionAction('download')
 
 		// check a file is downloaded
 		const downloadsFolder = Cypress.config('downloadsFolder')
