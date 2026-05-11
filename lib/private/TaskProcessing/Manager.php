@@ -1633,10 +1633,10 @@ class Manager implements IManager {
 	 * @throws ValidationException
 	 */
 	private function validateFileId(mixed $id): File {
-		if (is_int($fileId)) {
-			$normalizedFileId = $fileId;
-		} elseif (is_string($fileId) && ctype_digit($fileId)) {
-			$normalizedFileId = (int)$fileId;
+		if (is_int($id)) {
+			$normalizedFileId = $id;
+		} elseif (is_string($id) && ctype_digit($id)) {
+			$normalizedFileId = (int)$id;
 		} else {
 			throw new \InvalidArgumentException('File ID must be an integer: ' . $id);
 		}
