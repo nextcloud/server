@@ -764,11 +764,7 @@ class Storage {
 
 		$interval = 1;
 		$step = Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
-		if (Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] === -1) {
-			$nextInterval = -1;
-		} else {
-			$nextInterval = $time - Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
-		}
+		$nextInterval = $time - Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
 
 		$firstVersion = reset($versions);
 
