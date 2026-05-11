@@ -98,8 +98,12 @@ class NodeTest extends \Test\TestCase {
 			->method('getRelativePath')
 			->with(null)
 			->willReturn('');
+		$view
+			->method('getAbsolutePath')
+			->with(null)
+			->willReturn('');
 
-		$node = new  File($view, $info);
+		$node = new File($view, $info);
 		$this->assertEquals($expected, $node->getDavPermissions());
 	}
 
