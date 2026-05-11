@@ -138,6 +138,9 @@ class Connection extends LDAPUtility {
 	protected LoggerInterface $logger;
 	private IL10N $l10n;
 
+	/** @psalm-suppress ImpureStaticProperty This is a cache for whether php-ldap is installed, which cannot change mid-process */
+	private static bool $phpLDAPinstalled = true;
+
 	/**
 	 * Constructor
 	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
@@ -590,8 +593,7 @@ class Connection extends LDAPUtility {
 		if (!$this->configuration->ldapConfigurationActive) {
 			return null;
 		}
-		static $phpLDAPinstalled = true;
-		if (!$phpLDAPinstalled) {
+		if (!static::$phpLDAPinstalled) {
 			return false;
 		}
 		if (!$this->ignoreValidation && !$this->configured) {
@@ -603,7 +605,7 @@ class Connection extends LDAPUtility {
 		}
 		if (!$this->ldapConnectionRes) {
 			if (!$this->ldap->areLDAPFunctionsAvailable()) {
-				$phpLDAPinstalled = false;
+				static::$phpLDAPinstalled = false;
 				$this->logger->error(
 					'function ldap_connect is not available. Make sure that the PHP ldap module is installed.',
 					['app' => 'user_ldap']
