@@ -28,6 +28,42 @@ class QuotaTest extends \Test\TestCase {
 		$this->assertEquals('foobar', fread($stream, 100));
 	}
 
+	// Quota is not reduced by reads or seeks
+	public function testReadsAndSeeksDoNotAffectQuota() {
+		$stream = $this->getStream('w+', 6);
+		$this->assertEquals('', fread($stream, 3)); // Read before write
+		$this->assertEquals(6, fwrite($stream, 'foobar')); // Write to fill quota
+		rewind($stream);
+		$this->assertEquals('foo', fread($stream, 3));
+		fseek($stream, 1, SEEK_CUR); // Seek should not affect quota
+		$this->assertEquals(0, fwrite($stream, 'baz')); // No quota left for growth
+		rewind($stream);
+		$this->assertEquals('foobar', fread($stream, 100));
+	}
+
+	// Overwriting after quota is exhausted should succeed
+	public function testOverwriteAfterQuotaExhausted() {
+		$stream = $this->getStream('w+', 3);
+		fwrite($stream, 'abc'); // Fill quota
+		$this->assertEquals(0, fwrite($stream, 'd')); // No quota for growth
+		rewind($stream);
+		$this->assertEquals(3, fwrite($stream, 'xyz')); // Overwrite: should succeed
+		rewind($stream);
+		$this->assertEquals('xyz', fread($stream, 100));
+	}
+
+	// Quota is only used for file growth
+	public function testQuotaOnlyUsedForGrowth() {
+		$stream = $this->getStream('w+', 5);
+		$this->assertEquals(5, fwrite($stream, '12345')); // Fill quota
+		rewind($stream);
+		$this->assertEquals(3, fwrite($stream, 'abc')); // Overwrite allowed
+		fseek($stream, 5, SEEK_SET);
+		$this->assertEquals(0, fwrite($stream, 'xx')); // No quota for extension
+		rewind($stream);
+		$this->assertEquals('abc45', fread($stream, 100));
+	}
+
 	public function testWriteNotEnoughSpace(): void {
 		$stream = $this->getStream('w+', 3);
 		$this->assertEquals(3, fwrite($stream, 'foobar'));
