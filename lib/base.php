@@ -1130,16 +1130,14 @@ class OC {
 
 		$userSession = Server::get(IUserSession::class);
 		$loggedIn = $userSession->isLoggedIn();
+		// Don't try to login when a client is trying to get a OAuth token.
+		// OAuth needs to support basic auth too, so the login is not valid
+		// inside Nextcloud and the Login exception would ruin it.
+		$bypassLogin = $requestPath === '/apps/oauth2/api/v1/token';
 
 		self::loadRuntimeAppsForRequest($appManager, $loggedIn);
 
-		if (!$loggedIn) {
-			if ($requestPath === '/apps/oauth2/api/v1/token') {
-				// Don't try to login when a client is trying to get a OAuth token.
-				// OAuth needs to support basic auth too, so the login is not valid
-				// inside Nextcloud and the Login exception would ruin it.
-				continue;
-			}
+		if (!$loggedIn && !$bypassLogin) {
 			try {
 				// Try normal login
 				self::handleLogin($request);
