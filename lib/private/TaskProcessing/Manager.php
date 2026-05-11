@@ -1231,11 +1231,11 @@ class Manager implements IManager {
 			return false;
 		}
 		$userId = $task->getUserId();
-		if ($userId !== null && $userId !== '') {
+		if ($userId !== null && $userId !== '' && $this->appManager->isEnabledForAnyone('notify_push')) {
 			try {
-				// TODO figure out how to get the queue with DI
-				// $queue = Server::get(\OCA\NotifyPush\IQueue::class);
-				$queue = $this->serverContainer->get(\OCA\NotifyPush\IQueue::class);
+				// $this->appManager->loadApp('notify_push');
+				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				// $queue = $this->serverContainer->get(\OCA\NotifyPush\Queue\IQueue::class);
 				$queue->push('notify_custom', [
 					'user' => $userId,
 					'message' => 'taskprocessing_task_results',
