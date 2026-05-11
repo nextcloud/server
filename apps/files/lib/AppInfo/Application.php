@@ -14,7 +14,6 @@ use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\ConfigLexicon;
-use OCA\Files\Controller\ApiController;
 use OCA\Files\Dashboard\FavoriteWidget;
 use OCA\Files\DirectEditingCapabilities;
 use OCA\Files\Event\LoadSearchPlugins;
@@ -29,8 +28,6 @@ use OCA\Files\Listener\UserFirstTimeLoggedInListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
-use OCA\Files\Service\UserConfig;
-use OCA\Files\Service\ViewConfig;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -45,19 +42,12 @@ use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\NodeAddedToFavorite;
 use OCP\Files\Events\NodeRemovedFromFavorite;
-use OCP\Files\IRootFolder;
-use OCP\IConfig;
-use OCP\IL10N;
-use OCP\IPreview;
-use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
-use OCP\Share\IManager as IShareManager;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files';
@@ -68,30 +58,6 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function register(IRegistrationContext $context): void {
-		/**
-		 * Controllers
-		 */
-		$context->registerService('APIController', function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
-
-			return new ApiController(
-				$c->get('AppName'),
-				$c->get(IRequest::class),
-				$c->get(IUserSession::class),
-				$c->get(TagService::class),
-				$c->get(IPreview::class),
-				$c->get(IShareManager::class),
-				$c->get(IConfig::class),
-				$server->getUserFolder(),
-				$c->get(UserConfig::class),
-				$c->get(ViewConfig::class),
-				$c->get(IL10N::class),
-				$c->get(IRootFolder::class),
-				$c->get(LoggerInterface::class),
-			);
-		});
-
 		/**
 		 * Services
 		 */

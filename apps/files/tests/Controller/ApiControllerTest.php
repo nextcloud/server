@@ -77,6 +77,9 @@ class ApiControllerTest extends TestCase {
 		$this->viewConfig = $this->createMock(ViewConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->rootFolder->expects($this->any())
+			->method('getUserFolder')
+			->willReturn($this->userFolder);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->apiController = new ApiController(
@@ -87,7 +90,6 @@ class ApiControllerTest extends TestCase {
 			$this->preview,
 			$this->shareManager,
 			$this->config,
-			$this->userFolder,
 			$this->userConfig,
 			$this->viewConfig,
 			$this->l10n,
