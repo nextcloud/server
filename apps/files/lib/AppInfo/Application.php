@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\Files\AppInfo;
 
-use Closure;
 use OCA\Files\AdvancedCapabilities;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
@@ -50,12 +49,13 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
+use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
-use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -71,9 +71,12 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Controllers
 		 */
-		$context->registerService('APIController', function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
+		$context->registerService(APIController::class, function (ContainerInterface $c): ApiController {
+			/** @var IUserSession $userSession */
+			$userSession = $c->get(IUserSession::class);
+
+			/** @var IRootFolder $rootFolder */
+			$rootFolder = $c->get(IRootFolder::class);
 
 			return new ApiController(
 				$c->get('AppName'),
@@ -83,7 +86,7 @@ class Application extends App implements IBootstrap {
 				$c->get(IPreview::class),
 				$c->get(IShareManager::class),
 				$c->get(IConfig::class),
-				$server->getUserFolder(),
+				$rootFolder->getUserFolder($userSession->getUser()->getUID()),
 				$c->get(UserConfig::class),
 				$c->get(ViewConfig::class),
 				$c->get(IL10N::class),
@@ -95,15 +98,18 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Services
 		 */
-		$context->registerService(TagService::class, function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
+		$context->registerService(TagService::class, function (ContainerInterface $c): TagService {
+			/** @var IUserSession $userSession */
+			$userSession = $c->get(IUserSession::class);
+
+			/** @var IRootFolder $rootFolder */
+			$rootFolder = $c->get(IRootFolder::class);
 
 			return new TagService(
-				$c->get(IUserSession::class),
+				$userSession,
 				$c->get(IActivityManager::class),
 				$c->get(ITagManager::class)->load(self::APP_ID),
-				$server->getUserFolder(),
+				$rootFolder->getUserFolder($userSession->getUser()->getUID()),
 			);
 		});
 
@@ -126,6 +132,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(NodeRemovedFromFavorite::class, NodeRemovedFromFavoriteListener::class);
 		$context->registerEventListener(UserFirstTimeLoggedInEvent::class, UserFirstTimeLoggedInListener::class);
 
+		$context->registerEventListener(ShareCreatedEvent::class, Listener::class);
+		$context->registerEventListener(ShareDeletedEvent::class, Listener::class);
+		$context->registerEventListener(ShareDeletedFromSelfEvent::class, Listener::class);
+
 		$context->registerSearchProvider(FilesSearchProvider::class);
 
 		$context->registerNotifierService(Notifier::class);
@@ -137,16 +147,10 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function boot(IBootContext $context): void {
-		$context->injectFn(Closure::fromCallable([$this, 'registerCollaboration']));
-		$context->injectFn([Listener::class, 'register']);
-		$this->registerHooks();
+		$context->injectFn($this->registerCollaboration(...));
 	}
 
 	private function registerCollaboration(IProviderManager $providerManager): void {
 		$providerManager->registerResourceProvider(ResourceProvider::class);
-	}
-
-	private function registerHooks(): void {
-		Util::connectHook('\OCP\Config', 'js', '\OCA\Files\App', 'extendJsConfig');
 	}
 }
