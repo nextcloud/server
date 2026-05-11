@@ -23,6 +23,7 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -70,6 +71,8 @@ class CreateCalendar extends Command {
 			Server::get(KnownUserService::class),
 			Server::get(IConfig::class),
 			Server::get(IFactory::class),
+			Server::get(IMailer::class),
+			Server::get(LoggerInterface::class),
 		);
 		$random = Server::get(ISecureRandom::class);
 		$logger = Server::get(LoggerInterface::class);

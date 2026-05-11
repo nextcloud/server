@@ -45,6 +45,7 @@ use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use Psr\Container\ContainerInterface;
@@ -81,6 +82,8 @@ class Application extends App implements IBootstrap {
 				$server->get(KnownUserService::class),
 				$server->get(IConfig::class),
 				$server->get(IFactory::class),
+				$server->get(IMailer::class),
+				$server->get(LoggerInterface::class),
 			);
 		});
 

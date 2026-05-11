@@ -17,11 +17,21 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 	 * This function should return null in case a principal did not have
 	 * a calendar home.
 	 *
+	 * For calendar-proxy group principals (e.g. principals/users/alice/calendar-proxy-write),
+	 * this returns the calendar home of the principal owner (alice), so that CalDAV clients
+	 * can discover and access the delegated calendar home correctly.
+	 *
 	 * @param string $principalUrl
 	 * @return string|null
 	 */
 	#[\Override]
 	public function getCalendarHomeForPrincipal($principalUrl) {
+		// calendar-proxy group principals must resolve to the owner's calendar home
+		if (str_ends_with($principalUrl, '/calendar-proxy-write') || str_ends_with($principalUrl, '/calendar-proxy-read')) {
+			$ownerPrincipalUrl = substr($principalUrl, 0, strrpos($principalUrl, '/'));
+			return $this->getCalendarHomeForPrincipal($ownerPrincipalUrl);
+		}
+
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
 			[, $principalId] = \Sabre\Uri\split($principalUrl);
 			return self::CALENDAR_ROOT . '/' . $principalId;

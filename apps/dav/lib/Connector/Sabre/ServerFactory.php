@@ -38,6 +38,7 @@ use OCP\ITagManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use OCP\SabrePluginEvent;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -258,6 +259,8 @@ class ServerFactory {
 			\OCP\Server::get(KnownUserService::class),
 			\OCP\Server::get(IConfig::class),
 			\OCP\Server::get(IFactory::class),
+			\OCP\Server::get(IMailer::class),
+			$this->logger,
 		);
 
 		// Mount the share collection at /public.php/dav/files/<share token>
