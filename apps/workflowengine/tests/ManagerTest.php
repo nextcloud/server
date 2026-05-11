@@ -814,9 +814,9 @@ class ManagerTest extends TestCase {
 		$adminOps = $this->manager->getRuntimeOperations(IOperation::class, $adminScope);
 		$userOps = $this->manager->getRuntimeOperations(IOperation::class, $userScope);
 		$this->assertCount(1, $adminOps);
-		$this->assertSame('AdminOp', $adminOps[0]['name']);
+		$this->assertSame('AdminOp', $adminOps[0]->name);
 		$this->assertCount(1, $userOps);
-		$this->assertSame('UserOp', $userOps[0]['name']);
+		$this->assertSame('UserOp', $userOps[0]->name);
 
 		$scopes = $this->manager->getAllConfiguredScopesForRuntimeOperation(IOperation::class);
 		$this->assertCount(2, $scopes);

@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\WorkflowEngine\Command;
 
+use OC\Core\Command\Base;
 use OC\User\NoUserException;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
@@ -15,12 +16,11 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\IManager;
 use Override;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Runtime extends Command {
+class Runtime extends Base {
 
 	public function __construct(
 		private Manager $manager,
@@ -32,6 +32,7 @@ class Runtime extends Command {
 
 	#[Override]
 	protected function configure() {
+		parent::configure();
 		$this
 			->setName('workflows:runtime:list')
 			->setDescription('Lists configured runtime workflows')
@@ -71,7 +72,7 @@ class Runtime extends Command {
 
 		if ($userId !== null) {
 			$user = $this->userManager->get($userId);
-			if (is_null($user)) {
+			if ($user === null) {
 				throw new NoUserException("user $userId not found");
 			}
 			$this->userSession->setUser($user);
@@ -88,16 +89,17 @@ class Runtime extends Command {
 
 		foreach ($opsByClass as &$operations) {
 			foreach ($operations as &$operation) {
-				$checks = $operation['checks'];
-				$appId = $operation['appId'];
-				$decodedChecks = json_decode($checks, true);
-				$operation['checks'] = $this->manager->getRuntimeChecks($decodedChecks, $appId);
+				$checks = $operation->checks;
+				$appId = $operation->appId;
+				$operation = $operation->toArray();
+				$operation['checks'] = $this->manager->getRuntimeChecks($checks, $appId);
 			}
 			unset($operation);
 		}
 		unset($operations);
 
-		$output->writeln(\json_encode($opsByClass, JSON_PRETTY_PRINT));
+		$this->writeArrayInOutputFormat($input, $output, $opsByClass);
+
 		return 0;
 	}
 }

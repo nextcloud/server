@@ -6,7 +6,9 @@
  */
 namespace OCA\WorkflowEngine;
 
-use OC\WorkflowEngine\Events\RegisterRuntimeOperationsEvent;
+use NCU\WorkflowEngine\Events\RegisterRuntimeOperationsEvent;
+use NCU\WorkflowEngine\RuntimeOperation;
+use NCU\WorkflowEngine\RuntimeScope;
 use OCA\WorkflowEngine\Check\FileMimeType;
 use OCA\WorkflowEngine\Check\FileName;
 use OCA\WorkflowEngine\Check\FileSize;
@@ -47,18 +49,6 @@ use Psr\Log\LoggerInterface;
 /**
  * @psalm-import-type WorkflowEngineCheck from ResponseDefinitions
  * @psalm-import-type WorkflowEngineRule from ResponseDefinitions
- *
- * @psalm-type RuntimeOperation = array{
- *      id: string,
- *      class: class-string<IOperation>,
- *      name: string,
- *      checks: string,
- *      operation: string,
- *      entity: class-string<IEntity>,
- *      events: string,
- *      appId: string,
- *      runtime: true
- *  }
  */
 class Manager implements IManager {
 	/** @var array<string, array<string, array<int, WorkflowEngineCheck>>> */
@@ -71,24 +61,16 @@ class Manager implements IManager {
 	protected array $registeredRuntimeChecks = [];
 
 	/**
-	 * @var array<string, array<string, array{
-	 *     id: string,
-	 *     class: class-string<IOperation>,
-	 *     name: string,
-	 *     checks: list<string>,
-	 *     operation: string,
-	 *     entity: class-string<IEntity>,
-	 *     events: list<string>,
-	 * }>>
+	 * Registered runtime operations, keyed by app ID and runtime operation ID.
+	 *
+	 * @var array<string, array<string, RuntimeOperation>>
 	 */
 	protected array $registeredRuntimeOperations = [];
 
 	/**
-	 * @var array<string, array<string, array{
-	 *     operationId: string,
-	 *     type: int,
-	 *     value: string,
-	 * }>>
+	 * Registered runtime scopes, keyed by app ID and runtime operation ID.
+	 *
+	 * @var array<string, array<string, RuntimeScope>>
 	 */
 	protected array $registeredRuntimeScopes = [];
 
@@ -176,13 +158,13 @@ class Manager implements IManager {
 		$eventsByOperationAndEntity = [];
 		foreach ($this->registeredRuntimeOperations as $appOperations) {
 			foreach ($appOperations as $operation) {
-				$operationClass = $operation['class'];
-				$entityClass = $operation['entity'];
+				$operationClass = $operation->class;
+				$entityClass = $operation->entity;
 				$eventsByOperationAndEntity[$operationClass] ??= [];
 				$eventsByOperationAndEntity[$operationClass][$entityClass] ??= [];
 				/** @var list<string> $events */
 				$events = array_unique(
-					array_merge($eventsByOperationAndEntity[$operationClass][$entityClass], $operation['events'])
+					array_merge($eventsByOperationAndEntity[$operationClass][$entityClass], $operation->events)
 				);
 				$eventsByOperationAndEntity[$operationClass][$entityClass] = $events;
 			}
@@ -242,16 +224,16 @@ class Manager implements IManager {
 		$scopes = [];
 		foreach ($this->registeredRuntimeOperations as $appId => $appOperations) {
 			foreach ($appOperations as $operationId => $operation) {
-				if ($operation['class'] !== $operationClass) {
+				if ($operation->class !== $operationClass) {
 					continue;
 				}
 
-				$scopeInfo = $this->registeredRuntimeScopes[$appId][$operationId] ?? null;
-				if ($scopeInfo === null) {
+				$runtimeScope = $this->registeredRuntimeScopes[$appId][$operationId] ?? null;
+				if ($runtimeScope === null) {
 					continue;
 				}
 
-				$scope = new ScopeContext($scopeInfo['type'], $scopeInfo['value']);
+				$scope = new ScopeContext($runtimeScope->type, $runtimeScope->value);
 				$scopes[$scope->getHash()] = $scope;
 			}
 		}
@@ -370,33 +352,29 @@ class Manager implements IManager {
 
 			foreach ($appOperations as $operationId => $operation) {
 				// scope stored per-app per-operation in registeredRuntimeScopes
-				$scopeInfo = $this->registeredRuntimeScopes[$appId][$operationId] ?? null;
-				if ($scopeInfo === null) {
+				$runtimeScope = $this->registeredRuntimeScopes[$appId][$operationId] ?? null;
+				if ($runtimeScope === null) {
 					continue;
 				}
 				// filter by provided $scopeContext
-				if ((int)$scopeInfo['type'] !== $scopeContext->getScope()) {
+				if ($runtimeScope->type !== $scopeContext->getScope()) {
 					continue;
 				}
-				if ($scopeContext->getScope() === IManager::SCOPE_USER && (string)$scopeInfo['value'] !== $scopeContext->getScopeId()) {
+				if ($scopeContext->getScope() === IManager::SCOPE_USER && $runtimeScope->value !== $scopeContext->getScopeId()) {
 					continue;
 				}
 
-				$encodedChecks = json_encode($operation['checks']);
-				$encodedEvents = json_encode($operation['events']);
-				$row = [
-					'id' => $operationId, // string uniqid
-					'class' => $operation['class'],
-					'name' => $operation['name'],
-					// encode checks as JSON of hashes to be resolved later
-					'checks' => $encodedChecks !== false ? $encodedChecks : '',
-					'operation' => $operation['operation'],
-					'entity' => $operation['entity'],
-					'events' => $encodedEvents !== false ? $encodedEvents : '',
-					'appId' => $appId,
-					'runtime' => true,
-				];
-				$result[$operation['class']][] = $row;
+				$runtimeOperation = new RuntimeOperation($operationId,
+					$operation->class,
+					$operation->name,
+					$operation->checks,
+					$operation->operation,
+					$operation->entity,
+					$operation->events,
+					$appId,
+				);
+
+				$result[$operation->class][] = $runtimeOperation;
 			}
 		}
 
@@ -450,23 +428,20 @@ class Manager implements IManager {
 		}
 
 		$operationId = uniqid($appId, true);
-		$runtimeOperation = [
-			'id' => $operationId,
-			'class' => $class,
-			'name' => $name,
-			'checks' => $checkHashes,
-			'operation' => $operation,
-			'entity' => $entity,
-			'events' => $events,
-		];
+		$runtimeOperation = new RuntimeOperation(
+			$operationId,
+			$class,
+			$name,
+			$checkHashes,
+			$operation,
+			$entity,
+			$events,
+			$appId,
+		);
 		$this->registeredRuntimeOperations[$appId] ??= [];
 		$this->registeredRuntimeOperations[$appId][$operationId] ??= $runtimeOperation;
 
-		$runtimeScope = [
-			'operationId' => $operationId,
-			'type' => $scope->getScope(),
-			'value' => $scope->getScopeId(),
-		];
+		$runtimeScope = new RuntimeScope($operationId, $scope->getScope(), $scope->getScopeId());
 		$this->registeredRuntimeScopes[$appId] ??= [];
 		$this->registeredRuntimeScopes[$appId][$operationId] ??= $runtimeScope;
 	}

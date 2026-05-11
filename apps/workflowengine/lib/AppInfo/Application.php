@@ -42,11 +42,11 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function boot(IBootContext $context): void {
-		$context->injectFn(Closure::fromCallable([$this, 'emitRuntimeEvent']));
+		$context->injectFn(Closure::fromCallable([$this, 'registerRuntimeOperations']));
 		$context->injectFn(Closure::fromCallable([$this, 'registerRuleListeners']));
 	}
 
-	private function emitRuntimeEvent(IEventDispatcher $dispatcher, ContainerInterface $container): void {
+	private function registerRuntimeOperations(IEventDispatcher $dispatcher, ContainerInterface $container): void {
 		/** @var Manager $manager */
 		$manager = $container->get(Manager::class);
 		$manager->reloadRuntimeOperations();

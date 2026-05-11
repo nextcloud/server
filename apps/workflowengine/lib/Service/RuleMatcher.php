@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\WorkflowEngine\Service;
 
+use NCU\WorkflowEngine\RuntimeOperation;
 use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
@@ -137,16 +138,18 @@ class RuleMatcher implements IRuleMatcher {
 
 		$matches = [];
 		foreach ($operations as $operation) {
-			$configuredEvents = json_decode($operation['events'], true);
-			if ($this->eventName !== null && !in_array($this->eventName, $configuredEvents)) {
-				continue;
+			if ($operation instanceof RuntimeOperation) {
+				$configuredEvents = $operation->events;
+				$checkIds = $operation->checks;
+				$checks = $this->manager->getRuntimeChecks($checkIds, $operation->appId);
+			} else {
+				$configuredEvents = json_decode($operation['events'], true);
+				$checkIds = json_decode($operation['checks'], true);
+				$checks = $this->manager->getChecks($checkIds);
 			}
 
-			$checkIds = json_decode($operation['checks'], true);
-			if (($operation['runtime'] ?? null) === true) {
-				$checks = $this->manager->getRuntimeChecks($checkIds, $operation['appId']);
-			} else {
-				$checks = $this->manager->getChecks($checkIds);
+			if ($this->eventName !== null && !in_array($this->eventName, $configuredEvents)) {
+				continue;
 			}
 
 			foreach ($checks as $check) {
