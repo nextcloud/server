@@ -57,16 +57,16 @@
         },
         {
             "name": "nextcloud/rector",
-            "version": "v0.5.0",
+            "version": "v0.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-libraries/rector.git",
-                "reference": "27bff78af53633d9b77ed8af17b27af73e8f67e9"
+                "reference": "d9c4cf53d9bce0fa95edc87cb093307958317e28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-libraries/rector/zipball/27bff78af53633d9b77ed8af17b27af73e8f67e9",
-                "reference": "27bff78af53633d9b77ed8af17b27af73e8f67e9",
+                "url": "https://api.github.com/repos/nextcloud-libraries/rector/zipball/d9c4cf53d9bce0fa95edc87cb093307958317e28",
+                "reference": "d9c4cf53d9bce0fa95edc87cb093307958317e28",
                 "shasum": ""
             },
             "require": {
@@ -116,9 +116,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nextcloud-libraries/rector/issues",
-                "source": "https://github.com/nextcloud-libraries/rector/tree/v0.5.0"
+                "source": "https://github.com/nextcloud-libraries/rector/tree/v0.5.1"
             },
-            "time": "2026-04-28T08:20:44+00:00"
+            "time": "2026-05-08T07:32:27+00:00"
         },
         {
             "name": "phpstan/phpstan",
