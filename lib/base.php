@@ -238,7 +238,7 @@ class OC {
 		}
 	}
 
-	public static function renderMaintenanceMode(\OC\SystemConfig $systemConfig): void {
+	public static function renderMaintenancePage(\OC\SystemConfig $systemConfig): void {
 		http_response_code(503);
 		header('X-Nextcloud-Maintenance-Mode: 1');
 		header('Retry-After: 120');
@@ -252,7 +252,7 @@ class OC {
 	/**
 	 * Prints the upgrade page
 	 */
-	private static function printUpgradePage(\OC\SystemConfig $systemConfig): void {
+	private static function renderUpgradePage(\OC\SystemConfig $systemConfig): void {
 		$cliUpgradeLink = $systemConfig->getValue('upgrade.cli-upgrade-link', '');
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
 		$tooBig = false;
@@ -1102,19 +1102,16 @@ class OC {
 
 		$upgrade = Util::needUpgrade();
 
+		// Show "upgrade" page if Nextcloud needs to be upgraded and not in maintenance mode (i.e. already in progress).
 		if ($upgrade) {
 			if (function_exists('opcache_reset')) {
 				opcache_reset();
-				$maintenance = $systemConfig->getValue('maintenance', false);
 			}
-			// Show "upgrade" page if Nextcloud needs to be upgraded and not already in progress.
-			if ($upgrade && !maintenance) {
-				// NOTE: This is shown to the first web visitor to land after a code update...
-				// ...and will continue to be shown to subsequent visitors until the actual upgrade is
-				// triggered.
-				self::renderUpgradePage($systemConfig);
-				exit();
-			}
+			// NOTE: This is shown to the first web visitor to land after a code update...
+			// ...and will continue to be shown to subsequent visitors until the upgrade is
+			// triggered.
+			self::renderUpgradePage($systemConfig);
+			exit();
 		}
 
 		//
