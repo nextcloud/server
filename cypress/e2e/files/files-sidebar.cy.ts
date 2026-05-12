@@ -12,14 +12,21 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 	let user: User
 	let fileId: number = 0
 
-	function sidebarShouldShow(name: string) {
+	function assertSidebarShows(name: string) {
 		cy.get('[data-cy-sidebar]')
 			.should('be.visible')
 			.findByRole('heading', { name })
 			.should('be.visible')
 	}
 
-	function sidebarShouldBeClosed() {
+	function assertSidebarHeadingNotPresent(name: string) {
+		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
+			.findByRole('heading', { name })
+			.should('not.exist')
+	}
+
+	function assertSidebarIsClosed() {
 		cy.get('[data-cy-sidebar]')
 			.should(assertNotExistOrNotVisible)
 	}
@@ -40,7 +47,7 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 
 		triggerActionForFile('file', 'details')
 
-		sidebarShouldShow('file')
+		assertSidebarShows('file')
 	})
 
 	it('changes the current fileid', () => {
@@ -49,7 +56,7 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 
 		triggerActionForFile('file', 'details')
 
-		sidebarShouldShow('file')
+		assertSidebarShows('file')
 		cy.url().should('contain', `apps/files/files/${fileId}`)
 	})
 
@@ -59,14 +66,13 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		getRowForFile('folder').should('be.visible')
 
 		triggerActionForFile('file', 'details')
-		sidebarShouldShow('file')
+		assertSidebarShows('file')
 		cy.url().should('contain', `apps/files/files/${fileId}`)
 
 		triggerActionForFile('folder', 'details')
-		sidebarShouldShow('folder')
-		cy.get('[data-cy-sidebar]')
-			.findByRole('heading', { name: 'file' })
-			.should('not.exist')
+		assertSidebarShows('folder')
+		assertSidebarHeadingNotPresent('file')
+		cy.url().should('not.contain', `apps/files/files/${fileId}`)
 	})
 
 	it('closes the sidebar on navigation', () => {
@@ -78,12 +84,12 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		// open the sidebar
 		triggerActionForFile('file', 'details')
 		// validate it is open
-		sidebarShouldShow('file')
+		assertSidebarShows('file')
 
 		// if we navigate to the folder
 		navigateToFolder('folder')
 		// the sidebar should not be visible anymore
-		sidebarShouldBeClosed()
+		assertSidebarIsClosed()
 	})
 
 	it('closes the sidebar on delete', () => {
@@ -94,14 +100,14 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		// open the sidebar
 		triggerActionForFile('file', 'details')
 		// validate it is open
-		sidebarShouldShow('file')
+		assertSidebarShows('file')
 		cy.url().should('contain', `apps/files/files/${fileId}`)
 
 		// delete the file
 		triggerActionForFile('file', 'delete')
 		cy.wait('@deleteFile', { timeout: 10000 })
 		// see the sidebar is closed
-		sidebarShouldBeClosed()
+		assertSidebarIsClosed()
 		getRowForFile('file').should('not.exist')
 		cy.url().should('not.contain', `apps/files/files/${fileId}`)
 	})
@@ -121,13 +127,13 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			// open the sidebar
 			triggerActionForFile('other', 'details')
 			// validate it is open
-			sidebarShouldShow('other')
+			assertSidebarShows('other')
 			cy.url().should('contain', `apps/files/files/${otherFileId}`)
 
 			triggerActionForFile('other', 'delete')
 			cy.wait('@deleteFile')
 
-			sidebarShouldBeClosed()
+			assertSidebarIsClosed()
 			getRowForFile('other').should('not.exist')
 			// Ensure the URL is changed
 			cy.url().should('not.contain', `apps/files/files/${otherFileId}`)
