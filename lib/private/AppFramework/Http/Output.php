@@ -46,6 +46,9 @@ class Output implements IOutput {
 	 */
 	#[\Override]
 	public function setHeader($header) {
+		// Apache mod_proxy_fcgi parses FCGI response headers with a buffer
+		// hardcoded at HUGE_STRING_LEN (8192 bytes in httpd.h); 7800 leaves
+		// a safety margin for the status line and surrounding header bytes.
 		$maxLen = 7800;
 		if (strlen($header) > $maxLen) {
 			foreach (['Content-Security-Policy:', 'Feature-Policy:'] as $prefix) {
