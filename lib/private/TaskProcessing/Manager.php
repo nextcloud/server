@@ -1227,7 +1227,7 @@ class Manager implements IManager {
 	public function setTaskIntermediateOutput(int $id, array $output): bool {
 		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
 		$task = $this->getTask($id);
-		if ($task->getStatus() === Task::STATUS_CANCELLED) {
+		if ($task->getStatus() !== Task::STATUS_RUNNING) {
 			return false;
 		}
 		$userId = $task->getUserId();

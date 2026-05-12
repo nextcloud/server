@@ -646,6 +646,37 @@ class TaskProcessingApiController extends OCSController {
 	}
 
 	/**
+	 * Sets the task intermediate result while it is running
+	 *
+	 * @param int $taskId The id of the task
+	 * @param array<string,mixed>|null $output The intermediate task output, files are represented by their IDs
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 * 200: Result updated successfully
+	 * 404: Task not found
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks_provider/{taskId}/stream-result', root: '/taskprocessing')]
+	public function setIntermediateResult(int $taskId, array $output): DataResponse {
+		try {
+			// set result
+			$this->taskProcessingManager->setTaskIntermediateOutput($taskId, $output);
+			$task = $this->taskProcessingManager->getTask($taskId);
+
+			/** @var CoreTaskProcessingTask $json */
+			$json = $task->jsonSerialize();
+
+			return new DataResponse([
+				'task' => $json,
+			]);
+		} catch (NotFoundException) {
+			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 */
 	private function handleCancelTaskInternal(int $taskId): DataResponse {

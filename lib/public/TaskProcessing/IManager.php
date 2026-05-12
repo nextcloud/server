@@ -144,6 +144,16 @@ interface IManager {
 	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false, ?string $userFacingError = null): void;
 
 	/**
+	 * @param int $id The id of the task
+	 * @param array $output
+	 * @return bool `true` if the task should still be running; `false` if the task has been cancelled in the meantime
+	 * @throws Exception If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 * @since 34.0.0
+	 */
+	public function setTaskIntermediateOutput(int $id, array $output): bool;
+
+	/**
 	 * @param int $id
 	 * @param float $progress
 	 * @return bool `true` if the task should still be running; `false` if the task has been cancelled in the meantime
