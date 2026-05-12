@@ -121,7 +121,11 @@ describe('Accessibility of Nextcloud theming colors', () => {
 					// set user theme
 					cy.runOccCommand(`user:setting -- '${$user.userId}' theming enabled-themes '[\\"${theme}\\"]'`)
 					cy.login($user)
-					cy.visit('/')
+					// Visit the dashboard explicitly: the test injects elements into `#content`,
+					// which only exists when the user layout wraps an app like Dashboard.
+					// `cy.visit('/')` would follow the system default app redirect, which can land
+					// on Files (using `#content-vue`) and break the `#content` query below.
+					cy.visit('/apps/dashboard')
 					cy.injectAxe({ axeCorePath: 'node_modules/axe-core/axe.min.js' })
 				})
 			})
