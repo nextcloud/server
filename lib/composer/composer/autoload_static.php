@@ -700,6 +700,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Install\\Events\\InstallationCompletedEvent' => __DIR__ . '/../../..' . '/lib/public/Install/Events/InstallationCompletedEvent.php',
         'OCP\\L10N\\IFactory' => __DIR__ . '/../../..' . '/lib/public/L10N/IFactory.php',
         'OCP\\L10N\\ILanguageIterator' => __DIR__ . '/../../..' . '/lib/public/L10N/ILanguageIterator.php',
+        'OCP\\LDAP\\Exceptions\\MultipleUsersReturnedException' => __DIR__ . '/../../..' . '/lib/public/LDAP/Exceptions/MultipleUsersReturnedException.php',
         'OCP\\LDAP\\IDeletionFlagSupport' => __DIR__ . '/../../..' . '/lib/public/LDAP/IDeletionFlagSupport.php',
         'OCP\\LDAP\\ILDAPProvider' => __DIR__ . '/../../..' . '/lib/public/LDAP/ILDAPProvider.php',
         'OCP\\LDAP\\ILDAPProviderFactory' => __DIR__ . '/../../..' . '/lib/public/LDAP/ILDAPProviderFactory.php',

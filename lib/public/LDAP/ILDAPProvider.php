@@ -11,6 +11,8 @@ namespace OCP\LDAP;
 
 use LDAP\Connection;
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\IUser;
+use OCP\LDAP\Exceptions\MultipleUsersReturnedException;
 
 /**
  * Interface ILDAPProvider
@@ -154,4 +156,15 @@ interface ILDAPProvider {
 	 * @since 22.0.0
 	 */
 	public function getMultiValueUserAttribute(string $uid, string $attribute): array;
+
+	/**
+	 * Search for a single user in LDAP based on one attribute.
+	 *
+	 * @param non-empty-string $attribute
+	 * @param non-empty-string $searchTerm
+	 * @return IUser|null Returns a IUser if found in LDAP using the configured attribute and search term.
+	 * @throws MultipleUsersReturnedException If multiple users have been found. The search attribute/term should not allow this.
+	 * @since 34.0.0
+	 */
+	public function findOneUserByAttributeValue(string $attribute, string $searchTerm): ?IUser;
 }

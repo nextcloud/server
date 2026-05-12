@@ -659,6 +659,7 @@ return array(
     'OCP\\Install\\Events\\InstallationCompletedEvent' => $baseDir . '/lib/public/Install/Events/InstallationCompletedEvent.php',
     'OCP\\L10N\\IFactory' => $baseDir . '/lib/public/L10N/IFactory.php',
     'OCP\\L10N\\ILanguageIterator' => $baseDir . '/lib/public/L10N/ILanguageIterator.php',
+    'OCP\\LDAP\\Exceptions\\MultipleUsersReturnedException' => $baseDir . '/lib/public/LDAP/Exceptions/MultipleUsersReturnedException.php',
     'OCP\\LDAP\\IDeletionFlagSupport' => $baseDir . '/lib/public/LDAP/IDeletionFlagSupport.php',
     'OCP\\LDAP\\ILDAPProvider' => $baseDir . '/lib/public/LDAP/ILDAPProvider.php',
     'OCP\\LDAP\\ILDAPProviderFactory' => $baseDir . '/lib/public/LDAP/ILDAPProviderFactory.php',

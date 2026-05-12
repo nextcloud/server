@@ -16,21 +16,23 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\Accounts\IAccountManager;
 use OCP\IUserBackend;
+use OCP\LDAP\Exceptions\MultipleUsersReturnedException;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IPropertyPermissionBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend, IPropertyPermissionBackend {
 	public function __construct(
 		Access $access,
-		protected INotificationManager $notificationManager,
-		protected UserPluginManager $userPluginManager,
-		protected LoggerInterface $logger,
-		protected DeletedUsersIndex $deletedUsersIndex,
+		protected readonly INotificationManager $notificationManager,
+		protected readonly UserPluginManager $userPluginManager,
+		protected readonly LoggerInterface $logger,
+		protected readonly DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($access);
 	}
@@ -700,5 +702,26 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			IAccountManager::PROPERTY_PRONOUNS => ((string)$this->access->connection->ldapAttributePronouns !== ''),
 			default => true,
 		};
+	}
+
+	#[Override]
+	public function getUserFromCustomAttribute(string $attribute, string $searchTerm): ?string {
+		$searchTerm = $this->access->escapeFilterPart($searchTerm);
+		$attribute = $this->access->escapeFilterPart($attribute);
+
+		$filter = "($attribute=$searchTerm)";
+
+		$records = $this->access->searchUsers($filter, ['dn']);
+		$this->logger->error($filter);
+		if (count($records) === 1) {
+			return $this->access->dn2username($records[0]['dn'][0]) ?: null;
+		} elseif (count($records) > 1) {
+			$this->logger->error(
+				'Multiple users found for filter: ' . $filter,
+				['app' => 'user_ldap']
+			);
+			throw new MultipleUsersReturnedException();
+		}
+		return null;
 	}
 }
