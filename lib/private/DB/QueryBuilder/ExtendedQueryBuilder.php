@@ -10,6 +10,7 @@ namespace OC\DB\QueryBuilder;
 
 use OC\DB\Exceptions\DbalException;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\ConflictResolutionMode;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
@@ -305,5 +306,10 @@ abstract class ExtendedQueryBuilder implements IQueryBuilder {
 
 	public function prefixTableName(string $table): string {
 		return $this->builder->prefixTableName($table);
+	}
+
+	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self {
+		$this->builder->forUpdate($conflictResolutionMode);
+		return $this;
 	}
 }
