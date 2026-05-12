@@ -13,7 +13,7 @@ OC.L10N.register(
     "Edit Profile" : "编辑个人资料",
     "The headline and about sections will show up here" : "标题和关于部分将显示在此处",
     "Profile not found" : "未找到个人资料",
-    "The profile does not exist." : "个人资料不存在",
-    "Back to %s" : "返回 %s"
+    "Back to %s" : "返回 %s",
+    "The profile does not exist." : "个人资料不存在"
 },
 "nplurals=1; plural=0;");

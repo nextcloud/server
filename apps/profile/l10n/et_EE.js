@@ -17,7 +17,7 @@ OC.L10N.register(
     "Edit Profile" : "Muuda profiili",
     "The headline and about sections will show up here" : "Alapealkirja ja teabe lõigud saavad olema nähtavad siin",
     "Profile not found" : "Profiili ei leitud",
-    "The profile does not exist." : "Profiili ei eksisteeri",
-    "Back to %s" : "Tagasi siia: %s"
+    "Back to %s" : "Tagasi siia: %s",
+    "The profile does not exist." : "Profiili ei eksisteeri"
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,7 +11,7 @@ OC.L10N.register(
     "Edit Profile" : "Profilni Tahrirlash",
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "Profil topilmadi",
-    "The profile does not exist." : "Profil mavjud emas.",
-    "Back to %s" : "%sga qaytish"
+    "Back to %s" : "%sga qaytish",
+    "The profile does not exist." : "Profil mavjud emas."
 },
 "nplurals=1; plural=0;");
