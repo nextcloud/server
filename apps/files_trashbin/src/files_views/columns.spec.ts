@@ -312,7 +312,7 @@ describe('files_trashbin: file list columns', () => {
 				})
 
 				expect(deletedBy.sort).toBeTypeOf('function')
-				// aaa is less then "Unknown"
+				// aaa is less than "Unknown"
 				expect(deletedBy.sort!(nodeA, nodeC)).toBeLessThan(0)
 				// zzz is greater than "Unknown"
 				expect(deletedBy.sort!(nodeB, nodeC)).toBeGreaterThan(0)
