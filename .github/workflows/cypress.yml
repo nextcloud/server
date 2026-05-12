@@ -147,11 +147,30 @@ jobs:
 
     steps:
       - name: Restore context
+        id: cache
         uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
         with:
-          fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
           path: ./
+
+      - name: Checkout server
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          persist-credentials: false
+          # We need to checkout submodules for 3rdparty
+          submodules: true
+
+      - name: Check composer.json
+        id: check_composer
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029 # v3.1.0
+        with:
+          files: 'composer.json'
+
+      - name: Install composer dependencies
+        if: steps.check_composer.outputs.files_exists == 'true' && steps.cache.outputs.cache-hit != 'true'
+        run: composer install --no-dev
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
@@ -160,6 +179,12 @@ jobs:
 
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
         run: npm i -g 'npm@${{ needs.init.outputs.npmVersion }}'
+
+      - name: Install node dependencies & build app
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          npm ci
+          TESTING=true npm run build --if-present
 
       - name: Install cypress
         run: ./node_modules/cypress/bin/cypress install
@@ -224,3 +249,9 @@ jobs:
     steps:
       - name: Summary status
         run: if ${{ needs.init.result != 'success' || ( needs.cypress.result != 'success' && needs.cypress.result != 'skipped' ) }}; then exit 1; fi
+
+      - name: Delete cache on success
+        uses: buildjet/cache-delete@7184288b8396c4492a56728c47dd286fbd1e96ae # v1
+        if: needs.init.result == 'success' && needs.cypress.result == 'success'
+        with:
+          cache_key: cypress-context-${{ github.run_id }}
