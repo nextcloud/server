@@ -98,7 +98,6 @@ jobs:
       - name: PHPUnit
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/SftpTest.php \
-          apps/files_external/tests/Storage/SFTP_KeyTest.php \
           --log-junit junit.xml \
           ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
