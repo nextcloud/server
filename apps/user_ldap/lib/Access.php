@@ -15,6 +15,7 @@ use OCA\User_LDAP\Exceptions\NoMoreResults;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IAppConfig;
@@ -48,6 +49,7 @@ class Access extends LDAPUtility {
 	protected $groupMapper;
 
 	private string $lastCookie = '';
+	private CappedMemoryCache $intermediates;
 
 	public function __construct(
 		ILDAPWrapper $ldap,
@@ -61,6 +63,7 @@ class Access extends LDAPUtility {
 	) {
 		parent::__construct($ldap);
 		$this->userManager->setLdapAccess($this);
+		$this->intermediates = new CappedMemoryCache();
 	}
 
 	/**
@@ -483,8 +486,7 @@ class Access extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, ?array $record = null, bool $autoMapping = true) {
-		static $intermediates = [];
-		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
+		if (isset($this->intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
 			return false; // is a known intermediate
 		}
 
@@ -531,7 +533,7 @@ class Access extends LDAPUtility {
 			$record = $this->readAttributes($fdn, $attributesToRead, $filter);
 			if ($record === false) {
 				$this->logger->debug('Cannot read attributes for ' . $fdn . '. Skipping.', ['filter' => $filter]);
-				$intermediates[($isUser ? 'user-' : 'group-') . $fdn] = true;
+				$this->intermediates[($isUser ? 'user-' : 'group-') . $fdn] = true;
 				return false;
 			}
 		}
@@ -578,7 +580,7 @@ class Access extends LDAPUtility {
 				$ldapName = $record[$nameAttribute];
 				if (!isset($ldapName[0]) || empty($ldapName[0])) {
 					$this->logger->debug('No or empty name for ' . $fdn . ' with filter ' . $filter . '.', ['app' => 'user_ldap']);
-					$intermediates['group-' . $fdn] = true;
+					$this->intermediates['group-' . $fdn] = true;
 					return false;
 				}
 				$ldapName = $ldapName[0];

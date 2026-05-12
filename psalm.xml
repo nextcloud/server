@@ -21,6 +21,7 @@
 		<plugin filename="build/psalm/AttributeNamedParameters.php" />
 		<plugin filename="build/psalm/LogicalOperatorChecker.php" />
 		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+		<plugin filename="build/psalm/StaticVarsChecker.php" />
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
@@ -236,5 +237,10 @@
 				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedTrait>
+		<PluginIssue name="ImpureStaticProperty">
+			<errorLevel type="suppress">
+				<directory name="lib/private/legacy" />
+			</errorLevel>
+		</PluginIssue>
 	</issueHandlers>
 </psalm>

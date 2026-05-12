@@ -7,73 +7,18 @@
  */
 namespace OC\Memcache;
 
-use OC\SystemConfig;
-use OCP\HintException;
-use OCP\IConfig;
 use OCP\IMemcache;
-use OCP\Server;
 
 class Memcached extends Cache implements IMemcache {
 	use CASTrait;
 
-	/**
-	 * @var \Memcached $cache
-	 */
-	private static $cache = null;
+	private \Memcached $cache;
 
 	use CADTrait;
 
 	public function __construct($prefix = '') {
 		parent::__construct($prefix);
-		if (is_null(self::$cache)) {
-			self::$cache = new \Memcached();
-
-			$defaultOptions = [
-				\Memcached::OPT_CONNECT_TIMEOUT => 50,
-				\Memcached::OPT_RETRY_TIMEOUT => 50,
-				\Memcached::OPT_SEND_TIMEOUT => 50,
-				\Memcached::OPT_RECV_TIMEOUT => 50,
-				\Memcached::OPT_POLL_TIMEOUT => 50,
-
-				// Enable compression
-				\Memcached::OPT_COMPRESSION => true,
-
-				// Turn on consistent hashing
-				\Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
-
-				// Enable Binary Protocol
-				\Memcached::OPT_BINARY_PROTOCOL => true,
-			];
-			/**
-			 * By default enable igbinary serializer if available
-			 *
-			 * Psalm checks depend on if igbinary is installed or not with memcached
-			 * @psalm-suppress RedundantCondition
-			 * @psalm-suppress TypeDoesNotContainType
-			 */
-			if (\Memcached::HAVE_IGBINARY) {
-				$defaultOptions[\Memcached::OPT_SERIALIZER]
-					= \Memcached::SERIALIZER_IGBINARY;
-			}
-			$options = Server::get(IConfig::class)->getSystemValue('memcached_options', []);
-			if (is_array($options)) {
-				$options = $options + $defaultOptions;
-				self::$cache->setOptions($options);
-			} else {
-				throw new HintException("Expected 'memcached_options' config to be an array, got $options");
-			}
-
-			$servers = Server::get(SystemConfig::class)->getValue('memcached_servers');
-			if (!$servers) {
-				$server = Server::get(SystemConfig::class)->getValue('memcached_server');
-				if ($server) {
-					$servers = [$server];
-				} else {
-					$servers = [['localhost', 11211]];
-				}
-			}
-			self::$cache->addServers($servers);
-		}
+		$this->cache = \OCP\Server::get(MemcachedFactory::class)->getInstance();
 	}
 
 	/**
@@ -85,8 +30,8 @@ class Memcached extends Cache implements IMemcache {
 
 	#[\Override]
 	public function get($key) {
-		$result = self::$cache->get($this->getNameSpace() . $key);
-		if ($result === false && self::$cache->getResultCode() === \Memcached::RES_NOTFOUND) {
+		$result = $this->cache->get($this->getNameSpace() . $key);
+		if ($result === false && $this->cache->getResultCode() === \Memcached::RES_NOTFOUND) {
 			return null;
 		} else {
 			return $result;
@@ -96,29 +41,29 @@ class Memcached extends Cache implements IMemcache {
 	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
-			$result = self::$cache->set($this->getNameSpace() . $key, $value, $ttl);
+			$result = $this->cache->set($this->getNameSpace() . $key, $value, $ttl);
 		} else {
-			$result = self::$cache->set($this->getNameSpace() . $key, $value);
+			$result = $this->cache->set($this->getNameSpace() . $key, $value);
 		}
 		return $result || $this->isSuccess();
 	}
 
 	#[\Override]
 	public function hasKey($key) {
-		self::$cache->get($this->getNameSpace() . $key);
-		return self::$cache->getResultCode() === \Memcached::RES_SUCCESS;
+		$this->cache->get($this->getNameSpace() . $key);
+		return $this->cache->getResultCode() === \Memcached::RES_SUCCESS;
 	}
 
 	#[\Override]
 	public function remove($key) {
-		$result = self::$cache->delete($this->getNameSpace() . $key);
-		return $result || $this->isSuccess() || self::$cache->getResultCode() === \Memcached::RES_NOTFOUND;
+		$result = $this->cache->delete($this->getNameSpace() . $key);
+		return $result || $this->isSuccess() || $this->cache->getResultCode() === \Memcached::RES_NOTFOUND;
 	}
 
 	#[\Override]
 	public function clear($prefix = '') {
 		// Newer Memcached doesn't like getAllKeys(), flush everything
-		self::$cache->flush();
+		$this->cache->flush();
 		return true;
 	}
 
@@ -132,7 +77,7 @@ class Memcached extends Cache implements IMemcache {
 	 */
 	#[\Override]
 	public function add($key, $value, $ttl = 0) {
-		$result = self::$cache->add($this->getPrefix() . $key, $value, $ttl);
+		$result = $this->cache->add($this->getPrefix() . $key, $value, $ttl);
 		return $result || $this->isSuccess();
 	}
 
@@ -146,9 +91,9 @@ class Memcached extends Cache implements IMemcache {
 	#[\Override]
 	public function inc($key, $step = 1) {
 		$this->add($key, 0);
-		$result = self::$cache->increment($this->getPrefix() . $key, $step);
+		$result = $this->cache->increment($this->getPrefix() . $key, $step);
 
-		if (self::$cache->getResultCode() !== \Memcached::RES_SUCCESS) {
+		if ($this->cache->getResultCode() !== \Memcached::RES_SUCCESS) {
 			return false;
 		}
 
@@ -164,9 +109,9 @@ class Memcached extends Cache implements IMemcache {
 	 */
 	#[\Override]
 	public function dec($key, $step = 1) {
-		$result = self::$cache->decrement($this->getPrefix() . $key, $step);
+		$result = $this->cache->decrement($this->getPrefix() . $key, $step);
 
-		if (self::$cache->getResultCode() !== \Memcached::RES_SUCCESS) {
+		if ($this->cache->getResultCode() !== \Memcached::RES_SUCCESS) {
 			return false;
 		}
 
@@ -179,6 +124,6 @@ class Memcached extends Cache implements IMemcache {
 	}
 
 	private function isSuccess(): bool {
-		return self::$cache->getResultCode() === \Memcached::RES_SUCCESS;
+		return $this->cache->getResultCode() === \Memcached::RES_SUCCESS;
 	}
 }

@@ -24,7 +24,7 @@ use OCP\FilesMetadata\IMetadataQuery;
  */
 class SearchBuilder {
 	/** @var array<string, string> */
-	protected static $searchOperatorMap = [
+	private const SEARCH_OPERATOR_MAP = [
 		ISearchComparison::COMPARE_LIKE => 'iLike',
 		ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE => 'like',
 		ISearchComparison::COMPARE_EQUAL => 'eq',
@@ -37,7 +37,7 @@ class SearchBuilder {
 	];
 
 	/** @var array<string, string> */
-	protected static $searchOperatorNegativeMap = [
+	private const SEARCH_OPERATOR_NEGATIVE_MAP = [
 		ISearchComparison::COMPARE_LIKE => 'notLike',
 		ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE => 'notLike',
 		ISearchComparison::COMPARE_EQUAL => 'neq',
@@ -50,7 +50,7 @@ class SearchBuilder {
 	];
 
 	/** @var array<string, string> */
-	protected static $fieldTypes = [
+	private const FIELD_TYPES = [
 		'mimetype' => 'string',
 		'mtime' => 'integer',
 		'name' => 'string',
@@ -69,14 +69,14 @@ class SearchBuilder {
 	];
 
 	/** @var array<string, int|string> */
-	protected static $paramTypeMap = [
+	private const PARAM_TYPE_MAP = [
 		'string' => IQueryBuilder::PARAM_STR,
 		'integer' => IQueryBuilder::PARAM_INT,
 		'boolean' => IQueryBuilder::PARAM_BOOL,
 	];
 
 	/** @var array<string, int> */
-	protected static $paramArrayTypeMap = [
+	private const PARAM_ARRAY_TYPE_MAP = [
 		'string' => IQueryBuilder::PARAM_STR_ARRAY,
 		'integer' => IQueryBuilder::PARAM_INT_ARRAY,
 		'boolean' => IQueryBuilder::PARAM_INT_ARRAY,
@@ -134,7 +134,7 @@ class SearchBuilder {
 				case ISearchBinaryOperator::OPERATOR_NOT:
 					$negativeOperator = $operator->getArguments()[0];
 					if ($negativeOperator instanceof ISearchComparison) {
-						return $this->searchComparisonToDBExpr($builder, $negativeOperator, self::$searchOperatorNegativeMap, $metadataQuery);
+						return $this->searchComparisonToDBExpr($builder, $negativeOperator, self::SEARCH_OPERATOR_NEGATIVE_MAP, $metadataQuery);
 					} else {
 						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
 					}
@@ -147,7 +147,7 @@ class SearchBuilder {
 					throw new \InvalidArgumentException('Invalid operator type: ' . $operator->getType());
 			}
 		} elseif ($operator instanceof ISearchComparison) {
-			return $this->searchComparisonToDBExpr($builder, $operator, self::$searchOperatorMap, $metadataQuery);
+			return $this->searchComparisonToDBExpr($builder, $operator, self::SEARCH_OPERATOR_MAP, $metadataQuery);
 		} else {
 			throw new \InvalidArgumentException('Invalid operator type: ' . get_class($operator));
 		}
@@ -193,7 +193,7 @@ class SearchBuilder {
 	 * @return list{string, ParamValue, string, string}
 	 */
 	private function getOperatorFieldAndValueInner(string $field, mixed $value, string $type, bool $pathEqHash): array {
-		$paramType = self::$fieldTypes[$field];
+		$paramType = self::FIELD_TYPES[$field];
 		if ($type === ISearchComparison::COMPARE_IN) {
 			$resultField = $field;
 			$values = [];
@@ -263,10 +263,10 @@ class SearchBuilder {
 			'upload_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 		];
 
-		if (!isset(self::$fieldTypes[$operator->getField()])) {
+		if (!isset(self::FIELD_TYPES[$operator->getField()])) {
 			throw new \InvalidArgumentException('Unsupported comparison field ' . $operator->getField());
 		}
-		$type = self::$fieldTypes[$operator->getField()];
+		$type = self::FIELD_TYPES[$operator->getField()];
 		if ($operator->getType() === ISearchComparison::COMPARE_IN) {
 			if (!is_array($operator->getValue())) {
 				throw new \InvalidArgumentException('Invalid type for field ' . $operator->getField());
@@ -317,9 +317,9 @@ class SearchBuilder {
 			$value = $value->getTimestamp();
 		}
 		if (is_array($value)) {
-			$type = self::$paramArrayTypeMap[$paramType];
+			$type = self::PARAM_ARRAY_TYPE_MAP[$paramType];
 		} else {
-			$type = self::$paramTypeMap[$paramType];
+			$type = self::PARAM_TYPE_MAP[$paramType];
 		}
 		return $builder->createNamedParameter($value, $type);
 	}

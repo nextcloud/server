@@ -1923,6 +1923,7 @@ return array(
     'OC\\Memcache\\Factory' => $baseDir . '/lib/private/Memcache/Factory.php',
     'OC\\Memcache\\LoggerWrapperCache' => $baseDir . '/lib/private/Memcache/LoggerWrapperCache.php',
     'OC\\Memcache\\Memcached' => $baseDir . '/lib/private/Memcache/Memcached.php',
+    'OC\\Memcache\\MemcachedFactory' => $baseDir . '/lib/private/Memcache/MemcachedFactory.php',
     'OC\\Memcache\\NullCache' => $baseDir . '/lib/private/Memcache/NullCache.php',
     'OC\\Memcache\\ProfilerWrapperCache' => $baseDir . '/lib/private/Memcache/ProfilerWrapperCache.php',
     'OC\\Memcache\\Redis' => $baseDir . '/lib/private/Memcache/Redis.php',
