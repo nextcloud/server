@@ -50,7 +50,7 @@ $CONFIG = [
 	 * It is useful when your Nextcloud instance is using different PHP servers.
 	 * Once it's set it shouldn't be changed.
 	 *
-	 * Value must be an integer, comprised between 0 and 1023.
+	 * Value must be an integer, comprised between 0 and 511.
 	 *
 	 * When config.php is shared between different servers, this value should be overriden with "NC_serverid=<int>" on each server.
 	 * Note that it must be overriden for CLI and for your webserver.
