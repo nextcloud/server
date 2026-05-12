@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils'
+import { getRowForFile, navigateToFolder, triggerActionForFile, triggerSelectionAction } from './FilesUtils'
 import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
 import { zipFileContains } from '../../support/utils/assertions.ts'
 

@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder, selectAllFiles, triggerActionForFile } from './FilesUtils.ts'
+import { getRowForFile, navigateToFolder, selectAllFiles, triggerActionForFile, triggerSelectionAction } from './FilesUtils.ts'
 
 describe('files: Delete files using file actions', { testIsolation: true }, () => {
 	let user: User
