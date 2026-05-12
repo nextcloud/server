@@ -3566,6 +3566,11 @@
       <code><![CDATA[$CONFIG]]></code>
     </UndefinedVariable>
   </file>
+  <file src="lib/private/Config/UserConfig.php">
+    <RedundantCast>
+      <code><![CDATA[(string)$this->getTypedValue($userId, $app, $key, $default ? 'true' : 'false', $lazy, ValueType::BOOL)]]></code>
+    </RedundantCast>
+  </file>
   <file src="lib/private/Console/Application.php">
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
