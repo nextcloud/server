@@ -63,16 +63,31 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 }
 
 /**
+ * Resolve an action entry from the currently visible file action menu.
+ *
+ * This avoids relying on a previously resolved button/menu relationship across
+ * re-renders. The files list and sidebar can update between opening the menu
+ * and clicking an action, which may otherwise lead to detached subject errors.
+ *
+ * @param actionId
+ */
+function getVisibleActionEntry(actionId: string) {
+	return cy.findByRole('menu')
+		.should('be.visible')
+		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+}
+
+/**
  *
  * @param fileid
  * @param actionId
  */
 export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
+		.should('be.visible')
 		.scrollIntoView()
-	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFileId(fileid, actionId)
+	getVisibleActionEntry(actionId)
 		.find('button')
 		.should('be.visible')
 		.click()
@@ -85,10 +100,10 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
  */
 export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
+		.should('be.visible')
 		.scrollIntoView()
-	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFile(filename, actionId)
+	getVisibleActionEntry(actionId)
 		.find('button')
 		.should('be.visible')
 		.click()
