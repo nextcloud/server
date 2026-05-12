@@ -17,6 +17,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -80,6 +81,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(ShareDisableChecker::class),
 			$this->createMock(IDateTimeZone::class),
 			$this->createMock(IAppConfig::class),
+			$this->createMock(IDBConnection::class),
 		);
 		$cap = new Capabilities($config, $shareManager, $appManager);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());
