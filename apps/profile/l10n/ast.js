@@ -10,7 +10,7 @@ OC.L10N.register(
     "Edit Profile" : "Editar el perfil",
     "The headline and about sections will show up here" : "Equí apaecen la testera y les seiciones d'información",
     "Profile not found" : "Nun s'atopó'l perfil",
-    "The profile does not exist." : "El perfil nun esiste.",
-    "Back to %s" : "Volver a «%s»"
+    "Back to %s" : "Volver a «%s»",
+    "The profile does not exist." : "El perfil nun esiste."
 },
 "nplurals=2; plural=(n != 1);");
