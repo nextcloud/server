@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Authentication\Token\IProvider;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\SystemConfig;
 use OC\User\Database;
 use OC\User\DisabledUserException;
@@ -29,7 +30,6 @@ use OCP\User\Backend\ICustomLogout;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\UserInterface;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -291,7 +291,7 @@ class OC_User {
 		}
 
 		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
-		$logoutUrl .= '?requesttoken=' . urlencode(Util::callRegister());
+		$logoutUrl .= '?requesttoken=' . urlencode(Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue());
 
 		return $logoutUrl;
 	}

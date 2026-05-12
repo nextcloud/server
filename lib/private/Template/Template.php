@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OC\Template;
 
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\TemplateLayout;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -40,7 +41,7 @@ class Template extends Base implements ITemplate {
 	) {
 		$theme = \OC_Util::getTheme();
 
-		$requestToken = ($registerCall ? Util::callRegister() : '');
+		$requestToken = ($registerCall ? Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue() : '');
 		$cspNonce = Server::get(ContentSecurityPolicyNonceManager::class)->getNonce();
 
 		// fix translation when app is something like core/lostpassword

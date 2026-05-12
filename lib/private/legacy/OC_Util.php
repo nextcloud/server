@@ -526,44 +526,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if the user is a admin, redirects to home if not
-	 *
-	 * @deprecated 32.0.0
-	 */
-	public static function checkAdminUser(): void {
-		self::checkLoggedIn();
-		if (!OC_User::isAdminUser(OC_User::getUser())) {
-			header('Location: ' . Util::linkToAbsolute('', 'index.php'));
-			exit();
-		}
-	}
-
-	/**
-	 * Returns the URL of the default page
-	 * based on the system configuration and
-	 * the apps visible for the current user
-	 *
-	 * @return string URL
-	 * @deprecated 32.0.0 use IURLGenerator's linkToDefaultPageUrl directly
-	 */
-	public static function getDefaultPageUrl() {
-		/** @var IURLGenerator $urlGenerator */
-		$urlGenerator = Server::get(IURLGenerator::class);
-		return $urlGenerator->linkToDefaultPageUrl();
-	}
-
-	/**
-	 * Redirect to the user default page
-	 *
-	 * @deprecated 32.0.0
-	 */
-	public static function redirectToDefaultPage(): void {
-		$location = self::getDefaultPageUrl();
-		header('Location: ' . $location);
-		exit();
-	}
-
-	/**
 	 * get an id unique for this instance
 	 *
 	 * @return string
@@ -576,45 +538,6 @@ class OC_Util {
 			Server::get(SystemConfig::class)->setValue('instanceid', $id);
 		}
 		return $id;
-	}
-
-	/**
-	 * Public function to sanitize HTML
-	 *
-	 * This function is used to sanitize HTML and should be applied on any
-	 * string or array of strings before displaying it on a web page.
-	 *
-	 * @param string|string[] $value
-	 * @return ($value is array ? string[] : string)
-	 * @deprecated 32.0.0 use \OCP\Util::sanitizeHTML instead
-	 */
-	public static function sanitizeHTML($value) {
-		if (is_array($value)) {
-			$value = array_map(function ($value) {
-				return self::sanitizeHTML($value);
-			}, $value);
-		} else {
-			// Specify encoding for PHP<5.4
-			$value = htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
-		}
-		return $value;
-	}
-
-	/**
-	 * Public function to encode url parameters
-	 *
-	 * This function is used to encode path to file before output.
-	 * Encoding is done according to RFC 3986 with one exception:
-	 * Character '/' is preserved as is.
-	 *
-	 * @param string $component part of URI to encode
-	 * @return string
-	 * @deprecated 32.0.0 use \OCP\Util::encodePath instead
-	 */
-	public static function encodePath($component) {
-		$encoded = rawurlencode($component);
-		$encoded = str_replace('%2F', '/', $encoded);
-		return $encoded;
 	}
 
 	/**
