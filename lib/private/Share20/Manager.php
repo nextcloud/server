@@ -295,7 +295,7 @@ class Manager implements IManager {
 		if (!$share->getNoExpirationDate() || $isEnforced) {
 			if ($expirationDate !== null) {
 				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
-				$expirationDate->setTime(0, 0, 0);
+				$expirationDate->setTime(23, 59, 59);
 
 				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$date->setTime(0, 0, 0);
@@ -330,7 +330,7 @@ class Manager implements IManager {
 				}
 
 				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-				$date->setTime(0, 0, 0);
+				$date->setTime(23, 59, 59);
 				$date->add(new \DateInterval('P' . $defaultExpireDays . 'D'));
 				if ($date < $expirationDate) {
 					$message = $this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $defaultExpireDays);
@@ -375,7 +375,7 @@ class Manager implements IManager {
 		if (!($share->getNoExpirationDate() && !$isEnforced)) {
 			if ($expirationDate !== null) {
 				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
-				$expirationDate->setTime(0, 0, 0);
+				$expirationDate->setTime(23, 59, 59);
 
 				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$date->setTime(0, 0, 0);
@@ -395,7 +395,7 @@ class Manager implements IManager {
 
 			if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-				$expirationDate->setTime(0, 0, 0);
+				$expirationDate->setTime(23, 59, 59);
 
 				$days = (int) $this->config->getAppValue('core', 'link_defaultExpDays', (string) $this->shareApiLinkDefaultExpireDays());
 				if ($days > $this->shareApiLinkDefaultExpireDays()) {
@@ -411,7 +411,7 @@ class Manager implements IManager {
 				}
 
 				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-				$date->setTime(0, 0, 0);
+				$date->setTime(23, 59, 59);
 				$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
 				if ($date < $expirationDate) {
 					$message = $this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $this->shareApiLinkDefaultExpireDays());
