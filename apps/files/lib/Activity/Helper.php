@@ -7,18 +7,26 @@
  */
 namespace OCA\Files\Activity;
 
+use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
+use OC\Files\Search\SearchQuery;
+use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\ITagManager;
+use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOrder;
+use OCP\IUserManager;
 
 class Helper {
 	/** If a user has a lot of favorites the query might get too slow and long */
 	public const FAVORITE_LIMIT = 50;
 
 	public function __construct(
-		protected ITagManager $tagManager,
 		protected IRootFolder $rootFolder,
+		protected IUserManager $userManager,
 	) {
 	}
 
@@ -32,29 +40,40 @@ class Helper {
 	 * @throws \RuntimeException when too many or no favorites where found
 	 */
 	public function getFavoriteNodes(string $user, bool $foldersOnly = false): array {
-		$tags = $this->tagManager->load('files', [], false, $user);
-		$favorites = $tags->getFavorites();
-
-		if (empty($favorites)) {
+		$userObject = $this->userManager->get($user);
+		if ($userObject === null) {
 			throw new \RuntimeException('No favorites', 1);
-		} elseif (isset($favorites[self::FAVORITE_LIMIT])) {
-			throw new \RuntimeException('Too many favorites', 2);
 		}
 
-		// Can not DI because the user is not known on instantiation
 		$userFolder = $this->rootFolder->getUserFolder($user);
-		$favoriteNodes = [];
-		foreach ($favorites as $favorite) {
-			$node = $userFolder->getFirstNodeById($favorite);
-			if ($node) {
-				if (!$foldersOnly || $node instanceof Folder) {
-					$favoriteNodes[] = $node;
-				}
-			}
+
+		$operator = new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'favorite', true);
+		if ($foldersOnly) {
+			$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+				$operator,
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', FileInfo::MIMETYPE_FOLDER),
+			]);
 		}
+
+		$favoriteNodes = $userFolder->search(new SearchQuery(
+			$operator,
+			self::FAVORITE_LIMIT + 1,
+			0,
+			[
+				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime'),
+			],
+			$userObject,
+		));
 
 		if (empty($favoriteNodes)) {
 			throw new \RuntimeException('No favorites', 1);
+		} elseif (isset($favoriteNodes[self::FAVORITE_LIMIT])) {
+			throw new \RuntimeException('Too many favorites', 2);
+		}
+
+		if ($foldersOnly) {
+			/** @var Folder[] $favoriteNodes */
+			return $favoriteNodes;
 		}
 
 		return $favoriteNodes;
