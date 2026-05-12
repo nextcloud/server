@@ -628,7 +628,7 @@ class Factory implements IFactory {
 			// put appropriate languages into appropriate arrays, to print them sorted
 			// common languages -> divider -> other languages
 			if (in_array($lang, self::COMMON_LANGUAGE_CODES)) {
-				$commonLanguages[array_search($lang, self::COMMON_LANGUAGE_CODES)] = $ln;
+				$commonLanguages[array_search($lang, self::COMMON_LANGUAGE_CODES, true)] = $ln;
 			} else {
 				$otherLanguages[] = $ln;
 			}
