@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder, selectAllFiles, triggerActionForFile, triggerSelectionAction } from './FilesUtils.ts'
+import { getRowForFile, navigateToFolder, selectAllFiles, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Delete files using file actions', { testIsolation: true }, () => {
 	let user: User
@@ -49,7 +49,12 @@ describe('files: Delete files using file actions', { testIsolation: true }, () =
 
 		// select all
 		selectAllFiles()
-		triggerSelectionAction('delete')
+		cy.get('[data-cy-files-list-selection-actions]')
+			.findByRole('button', { name: 'Actions' })
+			.click()
+		cy.get('[data-cy-files-list-selection-action="delete"]')
+			.findByRole('menuitem', { name: /^Delete files/ })
+			.click()
 
 		// see dialog for confirmation
 		cy.findByRole('dialog', { name: 'Confirm deletion' })

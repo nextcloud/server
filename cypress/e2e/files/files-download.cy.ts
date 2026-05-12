@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder, triggerActionForFile, triggerSelectionAction } from './FilesUtils'
+import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils'
 import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
 import { zipFileContains } from '../../support/utils/assertions.ts'
 
@@ -195,7 +195,12 @@ describe('files: Download files using selection', () => {
 		})
 
 		// click download
-		triggerSelectionAction('download')
+		cy.get('[data-cy-files-list-selection-actions]')
+			.findByRole('button', { name: 'Actions' })
+			.click()
+		cy.findByRole('menuitem', { name: 'Download (selected)' })
+			.should('be.visible')
+			.click()
 
 		// check a file is downloaded
 		const downloadsFolder = Cypress.config('downloadsFolder')
@@ -233,7 +238,11 @@ describe('files: Download files using selection', () => {
 		})
 
 		// click download
-		triggerSelectionAction('download')
+		cy.get('[data-cy-files-list-selection-actions]')
+			.findByRole('button', { name: 'Actions' })
+			.click()
+		cy.findByRole('menuitem', { name: 'Download (selected)' })
+			.click()
 
 		// check a file is downloaded
 		const downloadsFolder = Cypress.config('downloadsFolder')
@@ -274,7 +283,11 @@ describe('files: Download files using selection', () => {
 		})
 
 		// click download
-		triggerSelectionAction('download')
+		cy.get('[data-cy-files-list-selection-actions]')
+			.findByRole('button', { name: 'Actions' })
+			.click()
+		cy.findByRole('menuitem', { name: 'Download (selected)' })
+			.click()
 
 		// check a file is downloaded
 		const downloadsFolder = Cypress.config('downloadsFolder')
@@ -318,7 +331,11 @@ describe('files: Download files using selection', () => {
 		})
 
 		// click download
-		triggerSelectionAction('download')
+		cy.get('[data-cy-files-list-selection-actions]')
+			.findByRole('button', { name: 'Actions' })
+			.click()
+		cy.findByRole('menuitem', { name: 'Download (selected)' })
+			.click()
 
 		// check a file is downloaded
 		const downloadsFolder = Cypress.config('downloadsFolder')
