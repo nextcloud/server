@@ -400,9 +400,17 @@ $CONFIG = [
 	'auto_logout' => false,
 
 	/**
-	 * Enforce token authentication for clients, which blocks requests using the user
-	 * password for enhanced security. Users need to generate tokens in personal settings
-	 * which can be used as passwords on their clients.
+	 * Enforce token authentication for client logins.
+	 *
+	 * When enabled, new client authentication attempts using the user's account
+	 * password are rejected and clients must use an app password or another valid
+	 * token instead.
+	 *
+	 * This setting does not automatically revoke existing browser sessions,
+	 * remember-me logins, or previously issued tokens. To fully enforce this
+	 * policy for already authenticated sessions, invalidate those sessions or
+	 * tokens separately, for example with
+	 * ``occ user:auth-tokens:revoke --sessions``.
 	 *
 	 * Defaults to ``false``
 	 */
