@@ -7,8 +7,10 @@
  */
 namespace OCA\Files_External\Service;
 
+use OC\Files\Storage\Common;
 use OCA\Files_External\AppInfo\Application;
 use OCA\Files_External\Config\IConfigHandler;
+use OCA\Files_External\Config\UserContext;
 use OCA\Files_External\ConfigLexicon;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -18,6 +20,8 @@ use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Service class to manage backend definitions
@@ -40,24 +44,26 @@ class BackendService {
 	private array $userMountingBackends = [];
 
 	/** @var Backend[] */
-	private $backends = [];
+	private array $backends = [];
 
 	/** @var IBackendProvider[] */
-	private $backendProviders = [];
+	private array $backendProviders = [];
 
 	/** @var AuthMechanism[] */
-	private $authMechanisms = [];
+	private array $authMechanisms = [];
 
 	/** @var IAuthMechanismProvider[] */
-	private $authMechanismProviders = [];
+	private array $authMechanismProviders = [];
 
 	/** @var callable[] */
-	private $configHandlerLoaders = [];
+	private array $configHandlerLoaders = [];
 
-	private $configHandlers = [];
+	/** @var IConfigHandler[] */
+	private array $configHandlers = [];
 
 	public function __construct(
 		protected readonly IAppConfig $appConfig,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -332,9 +338,66 @@ class BackendService {
 
 	/**
 	 * @since 16.0.0
+	 * @return IConfigHandler[]
 	 */
-	public function getConfigHandlers() {
+	public function getConfigHandlers(): array {
 		$this->loadConfigHandlers();
 		return $this->configHandlers;
+	}
+
+	/**
+	 * @param mixed $input
+	 * @return mixed
+	 * @throws ContainerExceptionInterface
+	 */
+	public function applyConfigHandlers($input, ?string $userId = null) {
+		/** @var IConfigHandler[] $handlers */
+		$handlers = $this->getConfigHandlers();
+		foreach ($handlers as $handler) {
+			if ($handler instanceof UserContext && $userId !== null) {
+				$handler->setUserId($userId);
+			}
+			$input = $handler->handle($input);
+		}
+		return $input;
+	}
+
+	/**
+	 * Test connecting using the given backend configuration
+	 *
+	 * @param string $class backend class name
+	 * @param array $options backend configuration options
+	 * @return StorageNotAvailableException::STATUS_*
+	 * @throws \Exception
+	 */
+	public function getBackendStatus(string $class, array $options): int {
+		foreach ($options as $key => &$option) {
+			if ($key === 'password') {
+				// no replacements in passwords
+				continue;
+			}
+			$option = $this->applyConfigHandlers($option);
+		}
+		if (class_exists($class)) {
+			try {
+				/** @var Common $storage */
+				$storage = new $class($options);
+
+				try {
+					$result = $storage->test();
+					$storage->setAvailability($result);
+					if ($result) {
+						return StorageNotAvailableException::STATUS_SUCCESS;
+					}
+				} catch (\Exception $e) {
+					$storage->setAvailability(false);
+					throw $e;
+				}
+			} catch (\Exception $exception) {
+				$this->logger->error($exception->getMessage(), ['exception' => $exception]);
+				throw $exception;
+			}
+		}
+		return StorageNotAvailableException::STATUS_ERROR;
 	}
 }

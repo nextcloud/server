@@ -17,7 +17,6 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\Lib\Backend\SMB;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
@@ -72,7 +71,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 			'datadirectory',
 			\OC::$SERVERROOT . '/data/'
 		);
-		MountConfig::$skipTest = true;
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
@@ -140,7 +138,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		MountConfig::$skipTest = false;
 		self::$hookCalls = [];
 		if ($this->dbConfig) {
 			$this->dbConfig->clean();
