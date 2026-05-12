@@ -46,7 +46,32 @@ class Output implements IOutput {
 	 */
 	#[\Override]
 	public function setHeader($header) {
-		header($header);
+		   $maxLen = 7800;
+		   if (strlen($header) > $maxLen) {
+				   foreach (['Content-Security-Policy:', 'Feature-Policy:'] as $prefix) {
+						   if (strncmp($header, $prefix, strlen($prefix)) === 0) {
+								   $value = ltrim(substr($header, strlen($prefix)));
+								   $directives = array_filter(array_map('trim', explode(';', $value)));
+								   $segment = '';
+								   $first = true;
+								   foreach ($directives as $directive) {
+										   $candidate = $segment === '' ? $directive : $segment . ';' . $directive;
+										   if (strlen($prefix . ' ' . $candidate . ';') > $maxLen && $segment !== '') {
+												   header($prefix . ' ' . $segment . ';', $first);
+												   $first = false;
+												   $segment = $directive;
+										   } else {
+												   $segment = $candidate;
+										   }
+								   }
+								   if ($segment !== '') {
+										   header($prefix . ' ' . $segment . ';', $first);
+								   }
+								   return;
+						   }
+				   }
+		   }
+		   header($header);
 	}
 
 	/**
