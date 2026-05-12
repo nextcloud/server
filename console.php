@@ -28,6 +28,7 @@ function exceptionHandler($exception) {
 	echo $exception;
 	exit(1);
 }
+
 try {
 	require_once __DIR__ . '/lib/base.php';
 
@@ -62,12 +63,15 @@ try {
 
 	$oldWorkingDir = getcwd();
 	if ($oldWorkingDir === false) {
-		echo 'This script can be run from the Nextcloud root directory only.' . PHP_EOL;
-		echo "Can't determine current working dir - the script will continue to work but be aware of the above fact." . PHP_EOL;
-	} elseif ($oldWorkingDir !== __DIR__ && !chdir(__DIR__)) {
-		echo 'This script can be run from the Nextcloud root directory only.' . PHP_EOL;
-		echo "Can't change to Nextcloud root directory." . PHP_EOL;
-		exit(1);
+		echo 'Error: Unable to determine the current working directory (likely due to parent directory permissions).' . PHP_EOL;
+		echo 'The script will attempt to continue, but path-dependent operations may fail.' . PHP_EOL;
+	} elseif ($oldWorkingDir !== __DIR__) {
+		// Try to change to the appropriate Nextcloud root
+		if (!chdir(__DIR__)) {
+			echo 'Error: Unable to change to the Nextcloud root directory (possibly due to parent directory permissions).' . PHP_EOL;
+			echo 'Failed to switch to: ' . __DIR__ . PHP_EOL;
+			exit(1);
+		}
 	}
 
 	if (!(function_exists('pcntl_signal') && function_exists('pcntl_signal_dispatch')) && !in_array('--no-warnings', $argv)) {
