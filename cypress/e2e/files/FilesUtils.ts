@@ -15,8 +15,13 @@ export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-r
 export const getActionsForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions]`)
 export const getActionsForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-actions]`)
 
-export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
-export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
+// Fully atomic selectors — a single cy.get() from root prevents "subject no longer attached"
+// errors when the file list re-renders (e.g. due to Vue reactivity while opening the sidebar).
+// NcActions renders its trigger button with aria-label="Actions" by default (see @nextcloud/vue NcActions ariaLabel prop default).
+export const getActionButtonForFileId = (fileid: number) =>
+	cy.get(`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions] button[aria-label="Actions"]`)
+export const getActionButtonForFile = (filename: string) =>
+	cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-actions] button[aria-label="Actions"]`)
 
 /**
  *
@@ -24,11 +29,11 @@ export const getActionButtonForFile = (filename: string) => getActionsForFile(fi
  * @param actionId
  */
 export function getActionEntryForFileId(fileid: number, actionId: string) {
+	// Use a combined selector inside .then() to avoid chaining .find() on a potentially
+	// stale menu subject — a single cy.get() with descendant combinator is re-queried atomically.
 	return getActionButtonForFileId(fileid)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`)
-			.should('exist')
-			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -37,11 +42,11 @@ export function getActionEntryForFileId(fileid: number, actionId: string) {
  * @param actionId
  */
 export function getActionEntryForFile(file: string, actionId: string) {
+	// Use a combined selector inside .then() to avoid chaining .find() on a potentially
+	// stale menu subject — a single cy.get() with descendant combinator is re-queried atomically.
 	return getActionButtonForFile(file)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`)
-			.should('exist')
-			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -69,13 +74,15 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
  */
 export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
-		.scrollIntoView()
-	getActionButtonForFileId(fileid)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFileId(fileid, actionId)
-		.find('button')
 		.should('be.visible')
-		.click()
+		.scrollIntoView()
+		.click({ force: true }) // force to avoid issues with overlaying file list header
+	// Single atomic cy.get() from root — avoids "subject no longer attached" when the
+	// file list re-renders (Vue reactivity) while the dropdown is open.
+	// force: true to handle brief animation/overlay states during menu transitions.
+	cy.get(`[role="menu"] [data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`)
+		.should('be.visible')
+		.click({ force: true })
 }
 
 /**
@@ -85,13 +92,15 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
  */
 export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
-		.scrollIntoView()
-	getActionButtonForFile(filename)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFile(filename, actionId)
-		.find('button')
 		.should('be.visible')
-		.click()
+		.scrollIntoView()
+		.click({ force: true }) // force to avoid issues with overlaying file list header
+	// Single atomic cy.get() from root — avoids "subject no longer attached" when the
+	// file list re-renders (Vue reactivity) while the dropdown is open.
+	// force: true to handle brief animation/overlay states during menu transitions.
+	cy.get(`[role="menu"] [data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`)
+		.should('be.visible')
+		.click({ force: true })
 }
 
 /**
@@ -100,8 +109,9 @@ export function triggerActionForFile(filename: string, actionId: string) {
  * @param actionId
  */
 export function triggerInlineActionForFileId(fileid: number, actionId: string) {
-	getActionsForFileId(fileid)
-		.find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	// Atomic selector — inline NcActionButton renders the button as the root element,
+	// so button[data-cy-files-list-row-action] is correct for inline (non-menu) actions.
+	cy.get(`[data-cy-files-list-row-fileid="${fileid}"] button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 		.should('exist')
 		.click()
 }
@@ -111,8 +121,9 @@ export function triggerInlineActionForFileId(fileid: number, actionId: string) {
  * @param actionId
  */
 export function triggerInlineActionForFile(filename: string, actionId: string) {
-	getActionsForFile(filename)
-		.find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	// Atomic selector — inline NcActionButton renders the button as the root element,
+	// so button[data-cy-files-list-row-action] is correct for inline (non-menu) actions.
+	cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 		.should('exist')
 		.click()
 }
@@ -140,9 +151,8 @@ export function deselectAllFiles() {
  * @param options
  */
 export function selectRowForFile(filename: string, options: Partial<Cypress.ClickOptions> = {}) {
-	getRowForFile(filename)
-		.find('[data-cy-files-list-row-checkbox]')
-		.findByRole('checkbox')
+	// Atomic selector — avoids chained .find() on a potentially stale row subject.
+	cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-checkbox] input[type="checkbox"]`)
 		// don't use click to avoid triggering side effects events
 		.trigger('change', { ...options, force: true })
 		.should('be.checked')
@@ -260,8 +270,9 @@ export function renameFile(fileName: string, newFileName: string) {
 	// intercept the move so we can wait for it
 	cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
-	getRowForFile(fileName)
-		.find('[data-cy-files-list-row-name] input')
+	// Atomic selector — avoids chained .find() on a row subject that may have re-rendered
+	// when entering rename mode (the link element is replaced by an input).
+	cy.get(`[data-cy-files-list-row-name="${CSS.escape(fileName)}"] [data-cy-files-list-row-name] input`)
 		.type(`{selectAll}${newFileName}{enter}`)
 
 	cy.wait('@moveFile')
@@ -278,7 +289,10 @@ export function navigateToFolder(dirPath: string) {
 			continue
 		}
 
-		getRowForFile(directory).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+		// Atomic selector — avoids chained .find() on a potentially stale row subject.
+		cy.get(`[data-cy-files-list-row-name="${CSS.escape(directory)}"] [data-cy-files-list-row-name-link]`)
+			.should('be.visible')
+			.click()
 	}
 }
 
