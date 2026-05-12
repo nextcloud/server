@@ -27,7 +27,6 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -56,6 +55,7 @@ use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
 use OCP\TextProcessing\SummaryTaskType;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\BackgroundJob\DummyJobList;
 
@@ -765,7 +765,7 @@ class ConflictingExternalTaskType implements ITaskType {
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class TaskProcessingTest extends \Test\TestCase {
 	private Coordinator&MockObject $coordinator;
-	private IServerContainer&MockObject $serverContainer;
+	private ContainerInterface&MockObject $serverContainer;
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private IJobList&MockObject $jobList;
 	private IUserMountCache&MockObject $userMountCache;
@@ -808,7 +808,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$userManager->createUser(self::TEST_USER, 'test');
 		}
 
-		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->serverContainer = $this->createMock(ContainerInterface::class);
 		$this->serverContainer->expects($this->any())->method('get')->willReturnCallback(function ($class) {
 			return $this->providers[$class];
 		});

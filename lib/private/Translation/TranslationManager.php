@@ -13,7 +13,6 @@ namespace OC\Translation;
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\IConfig;
-use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\Translation\CouldNotTranslateException;
@@ -23,6 +22,7 @@ use OCP\Translation\ITranslationProvider;
 use OCP\Translation\ITranslationProviderWithId;
 use OCP\Translation\ITranslationProviderWithUserId;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -33,7 +33,7 @@ class TranslationManager implements ITranslationManager {
 	private ?array $providers = null;
 
 	public function __construct(
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IConfig $config,

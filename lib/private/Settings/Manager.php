@@ -12,7 +12,6 @@ use OCP\AppFramework\QueryException;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -21,6 +20,7 @@ use OCP\Settings\IIconSection;
 use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
@@ -42,7 +42,7 @@ class Manager implements IManager {
 		private LoggerInterface $log,
 		private IFactory $l10nFactory,
 		private IURLGenerator $url,
-		private IServerContainer $container,
+		private ContainerInterface $container,
 		private AuthorizedGroupMapper $mapper,
 		private IGroupManager $groupManager,
 		private ISubAdmin $subAdmin,

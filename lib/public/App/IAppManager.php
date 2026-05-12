@@ -373,4 +373,18 @@ interface IAppManager {
 	 * @since 32.0.0
 	 */
 	public function isAppCompatible(string $serverVersion, array $appInfo, bool $ignoreMax = false): bool;
+
+	/**
+	 * Get the app namespace
+	 *
+	 * @since 34.0.0
+	 */
+	public function getAppNamespace(string $appId): string;
+
+	/**
+	 * Get the app id for this namespace
+	 *
+	 * @since 34.0.0
+	 */
+	public function getAppFromNamespace(string $className): ?string;
 }

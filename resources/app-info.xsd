@@ -377,14 +377,30 @@
     <xs:simpleType name="licence">
         <xs:restriction base="xs:string">
             <!-- Requires Nextcloud minVersion >= 31 -->
+            <xs:enumeration value="0BSD"/>
             <xs:enumeration value="AGPL-3.0-only"/>
             <xs:enumeration value="AGPL-3.0-or-later"/>
             <xs:enumeration value="Apache-2.0"/>
+            <xs:enumeration value="BSD-2-Clause"/>
+            <xs:enumeration value="BSD-3-Clause"/>
+            <xs:enumeration value="BSD-3-Clause-Clear"/>
             <xs:enumeration value="CC0-1.0"/>
+            <xs:enumeration value="EUPL-1.2"/>
+            <xs:enumeration value="FSFAP"/>
+            <xs:enumeration value="GPL-2.0-or-later"/>
             <xs:enumeration value="GPL-3.0-only"/>
             <xs:enumeration value="GPL-3.0-or-later"/>
+            <xs:enumeration value="LGPL-2.1-only"/>
+            <xs:enumeration value="LGPL-2.1-or-later"/>
+            <xs:enumeration value="LGPL-3.0-only"/>
+            <xs:enumeration value="LGPL-3.0-or-later"/>
             <xs:enumeration value="MIT"/>
             <xs:enumeration value="MPL-2.0"/>
+            <xs:enumeration value="OLDAP-2.7"/>
+            <xs:enumeration value="PDDL-1.0"/>
+            <xs:enumeration value="SAX-PD"/>
+            <xs:enumeration value="Unlicense"/>
+            <xs:enumeration value="X11"/>
 
             <!-- Deprecated -->
             <xs:enumeration value="agpl"/>

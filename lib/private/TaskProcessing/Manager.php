@@ -38,7 +38,6 @@ use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -84,6 +83,7 @@ use OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools;
 use OCP\TaskProcessing\TaskTypes\TextToTextFormalization;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
 use OCP\TaskProcessing\TaskTypes\TextToTextProofread;
+use OCP\TaskProcessing\TaskTypes\TextToTextReformatParagraphs;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformulation;
 use OCP\TaskProcessing\TaskTypes\TextToTextSimplification;
 use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
@@ -97,6 +97,7 @@ use OCP\TextProcessing\IProviderWithUserId;
 use OCP\TextProcessing\SummaryTaskType;
 use OCP\TextProcessing\TopicsTaskType;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -140,7 +141,7 @@ class Manager implements IManager {
 	public function __construct(
 		private IAppConfig $appConfig,
 		private Coordinator $coordinator,
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private LoggerInterface $logger,
 		private TaskMapper $taskMapper,
 		private IJobList $jobList,
@@ -689,6 +690,7 @@ class Manager implements IManager {
 			TextToTextChatWithTools::ID => Server::get(TextToTextChatWithTools::class),
 			ContextAgentInteraction::ID => Server::get(ContextAgentInteraction::class),
 			TextToTextProofread::ID => Server::get(TextToTextProofread::class),
+			TextToTextReformatParagraphs::ID => Server::get(TextToTextReformatParagraphs::class),
 			TextToSpeech::ID => Server::get(TextToSpeech::class),
 			AudioToAudioChat::ID => Server::get(AudioToAudioChat::class),
 			ContextAgentAudioInteraction::ID => Server::get(ContextAgentAudioInteraction::class),

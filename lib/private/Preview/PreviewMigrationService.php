@@ -82,6 +82,8 @@ class PreviewMigrationService {
 		}
 
 		if (empty($previewFiles)) {
+			$this->deleteFolder($internalPath);
+
 			return $previews;
 		}
 

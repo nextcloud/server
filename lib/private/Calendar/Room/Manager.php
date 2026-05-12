@@ -13,7 +13,7 @@ use OC\Calendar\ResourcesRoomsUpdater;
 use OCP\AppFramework\QueryException;
 use OCP\Calendar\Room\IBackend;
 use OCP\Calendar\Room\IManager;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 class Manager implements IManager {
 	private bool $bootstrapBackendsLoaded = false;
@@ -29,7 +29,7 @@ class Manager implements IManager {
 
 	public function __construct(
 		private Coordinator $bootstrapCoordinator,
-		private IServerContainer $server,
+		private ContainerInterface $container,
 		private ResourcesRoomsUpdater $updater,
 	) {
 	}
@@ -91,7 +91,7 @@ class Manager implements IManager {
 			 * The backend might have services injected that can't be build from the
 			 * server container.
 			 */
-			$this->initializedBackends[$backend] = $this->server->query($backend);
+			$this->initializedBackends[$backend] = $this->container->get($backend);
 		}
 
 		return array_values($this->initializedBackends);

@@ -8,7 +8,7 @@ import { configureNextcloud, docker, getContainer, getContainerName, runExec, ru
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
 import vitePreprocessor from 'cypress-vite'
-import { existsSync, rmdirSync } from 'node:fs'
+import { existsSync, rmSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
@@ -27,7 +27,7 @@ export default defineConfig({
 
 	// Tries again when in run mode (cypress run) e.g. on CI
 	retries: {
-		runMode: 3,
+		runMode: 5,
 		// do not retry in `cypress open`
 		openMode: 0,
 	},
@@ -82,11 +82,11 @@ export default defineConfig({
 				deleteFolder(path: string) {
 					try {
 						if (existsSync(path)) {
-							rmdirSync(path, { maxRetries: 10, recursive: true })
+							rmSync(path, { maxRetries: 10, recursive: true })
 						}
 						return null
 					} catch (error) {
-						throw Error(`Error while deleting ${path}. Original error: ${error}`)
+						throw Error(`Error while deleting ${path}. Original error: ${error}`, { cause: error })
 					}
 				},
 			})

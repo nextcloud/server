@@ -12,12 +12,12 @@ use OC\Collaboration\Resources\ProviderManager;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Resources\IProviderManager;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ProviderManagerTest extends TestCase {
-	/** @var IServerContainer */
+	/** @var ContainerInterface */
 	protected $serverContainer;
 	/** @var LoggerInterface */
 	protected $logger;
@@ -28,7 +28,7 @@ class ProviderManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->serverContainer = $this->createMock(ContainerInterface::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->providerManager = new class($this->serverContainer, $this->logger) extends ProviderManager {
@@ -49,7 +49,7 @@ class ProviderManagerTest extends TestCase {
 
 	public function testGetResourceProvidersValidProvider(): void {
 		$this->serverContainer->expects($this->once())
-			->method('query')
+			->method('get')
 			->with($this->equalTo(ResourceProvider::class))
 			->willReturn($this->createMock(ResourceProvider::class));
 
@@ -62,7 +62,7 @@ class ProviderManagerTest extends TestCase {
 
 	public function testGetResourceProvidersInvalidProvider(): void {
 		$this->serverContainer->expects($this->once())
-			->method('query')
+			->method('get')
 			->with($this->equalTo('InvalidResourceProvider'))
 			->willThrowException(new QueryException('A meaningful error message'));
 
@@ -77,7 +77,7 @@ class ProviderManagerTest extends TestCase {
 
 	public function testGetResourceProvidersValidAndInvalidProvider(): void {
 		$this->serverContainer->expects($this->exactly(2))
-			->method('query')
+			->method('get')
 			->willReturnCallback(function (string $service) {
 				if ($service === 'InvalidResourceProvider') {
 					throw new QueryException('A meaningful error message');

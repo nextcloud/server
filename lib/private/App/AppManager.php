@@ -76,6 +76,9 @@ class AppManager implements IAppManager {
 	/** @var array<string, true> */
 	private array $loadedApps = [];
 
+	/** @var string[] */
+	private $namespaceCache = [];
+
 	private ?AppConfig $appConfig = null;
 	private ?IURLGenerator $urlGenerator = null;
 	private ?INavigationManager $navigationManager = null;
@@ -1196,5 +1199,45 @@ class AppManager implements IAppManager {
 	#[\Override]
 	public function isAppCompatible(string $serverVersion, array $appInfo, bool $ignoreMax = false): bool {
 		return count($this->dependencyAnalyzer->analyzeServerVersion($serverVersion, $appInfo, $ignoreMax)) === 0;
+	}
+
+	#[\Override]
+	public function getAppNamespace(string $appId): string {
+		$topNamespace = 'OCA\\';
+
+		// Hit the cache!
+		if (isset($this->namespaceCache[$appId])) {
+			return $topNamespace . $this->namespaceCache[$appId];
+		}
+
+		$appInfo = $this->getAppInfo($appId);
+		if (isset($appInfo['namespace'])) {
+			$this->namespaceCache[$appId] = trim($appInfo['namespace']);
+		} else {
+			// If the tag is not found, fall back to uppercasing the first letter
+			$this->namespaceCache[$appId] = ucfirst($appId);
+		}
+
+		return $topNamespace . $this->namespaceCache[$appId];
+	}
+
+	#[\Override]
+	public function getAppFromNamespace(string $className): ?string {
+		$topNamespace = 'OCA\\';
+
+		if (str_starts_with($className, 'OC\\Core')) {
+			return 'core';
+		}
+		if (!str_starts_with($className, $topNamespace)) {
+			return null;
+		}
+
+		foreach ($this->namespaceCache as $appId => $namespace) {
+			if (str_starts_with($className, $topNamespace . $namespace . '\\')) {
+				return $appId;
+			}
+		}
+
+		return null;
 	}
 }

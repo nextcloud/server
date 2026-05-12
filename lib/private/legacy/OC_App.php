@@ -115,7 +115,7 @@ class OC_App {
 		self::$alreadyRegistered[$key] = true;
 
 		// Register on PSR-4 composer autoloader
-		$appNamespace = App::buildAppNamespace($app);
+		$appNamespace = Server::get(IAppManager::class)->getAppNamespace($app);
 		\OC::$server->registerNamespace($app, $appNamespace);
 
 		if (file_exists($path . '/composer/autoload.php')) {

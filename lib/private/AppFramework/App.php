@@ -30,9 +30,6 @@ use OCP\Server;
  * Handles all the dependency injection, controllers and output flow
  */
 class App {
-	/** @var string[] */
-	private static $nameSpaceCache = [];
-
 	/**
 	 * Turns an app id into a namespace by either reading the appinfo.xml's
 	 * namespace tag or uppercasing the appid's first letter
@@ -40,36 +37,22 @@ class App {
 	 * @param string $topNamespace the namespace which should be prepended to
 	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
+	 * @deprecated 34.0.0 use IAppManager::getAppNamespace
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
-		// Hit the cache!
-		if (isset(self::$nameSpaceCache[$appId])) {
-			return $topNamespace . self::$nameSpaceCache[$appId];
+		$appManager = Server::get(IAppManager::class);
+		$namespace = $appManager->getAppNamespace($appId);
+		if ($topNamespace !== 'OCA\\') {
+			return $topNamespace . substr($namespace, strlen('OCA\\'));
 		}
-
-		$appInfo = Server::get(IAppManager::class)->getAppInfo($appId);
-		if (isset($appInfo['namespace'])) {
-			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
-		} else {
-			// if the tag is not found, fall back to uppercasing the first letter
-			self::$nameSpaceCache[$appId] = ucfirst($appId);
-		}
-
-		return $topNamespace . self::$nameSpaceCache[$appId];
+		return $namespace;
 	}
 
+	/**
+	 * @deprecated 34.0.0 use IAppManager::getAppFromNamespace
+	 */
 	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
-		if (!str_starts_with($className, $topNamespace)) {
-			return null;
-		}
-
-		foreach (self::$nameSpaceCache as $appId => $namespace) {
-			if (str_starts_with($className, $topNamespace . $namespace . '\\')) {
-				return $appId;
-			}
-		}
-
-		return null;
+		return Server::get(IAppManager::class)->getAppFromNamespace($className);
 	}
 
 	/**

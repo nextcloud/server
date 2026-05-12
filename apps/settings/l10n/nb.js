@@ -117,7 +117,7 @@ OC.L10N.register(
     "App directories owner" : "Eier av appkataloger",
     "Some app directories are owned by a different user than the web server one. This may be the case if apps have been installed manually. Check the permissions of the following app directories:\n%s" : "Enkelte mapper er eid av annen bruker enn den webserveren kjører som. Dette kan kan oppstå hvis apper er installert manuelt. Sjekk eierskap og tillatelser på følgende appkataloger:\n%s",
     "App directories have the correct owner \"%s\"" : "Appkataloger har riktig eier \"%s\"",
-    "Brute-force Throttle" : "rå makt struping",
+    "Brute-force Throttle" : "Rå makt struping",
     "Your remote address could not be determined." : "Den eksterne adressen din kunne ikke fastslås.",
     "Your remote address was identified as \"%s\" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly." : "Din eksterne adresse ble identifisert som \"%s\" og er rå makt-strupet for øyeblikket, noe som reduserer ytelsen til forskjellige forespørsler. Hvis den eksterne adressen ikke er adressen din, kan dette være en indikasjon på at en proxy ikke er riktig konfigurert.",
     "Your remote address \"%s\" is not brute-force throttled." : "Din eksterne adresse \"%s\" er ikke rå makt-strupet.",

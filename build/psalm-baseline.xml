@@ -1409,14 +1409,8 @@
     </TypeDoesNotContainType>
   </file>
   <file src="apps/files/lib/AppInfo/Application.php">
-    <DeprecatedInterface>
-      <code><![CDATA[$server]]></code>
-      <code><![CDATA[$server]]></code>
-    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[Util::connectHook('\OCP\Config', 'js', '\OCA\Files\App', 'extendJsConfig')]]></code>
-      <code><![CDATA[getUserFolder]]></code>
-      <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files/lib/BackgroundJob/ScanFiles.php">
@@ -2046,9 +2040,6 @@
     <DeprecatedClass>
       <code><![CDATA[LegacyRollbackListener::class]]></code>
     </DeprecatedClass>
-    <DeprecatedInterface>
-      <code><![CDATA[$server]]></code>
-    </DeprecatedInterface>
   </file>
   <file src="apps/files_versions/lib/BackgroundJob/ExpireVersions.php">
     <DeprecatedClass>
@@ -2295,14 +2286,6 @@
       <code><![CDATA[$groupid === null]]></code>
       <code><![CDATA[$groupid === null]]></code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="apps/provisioning_api/lib/FederatedShareProviderFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[private]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[query]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
     <DeprecatedMethod>
@@ -2591,11 +2574,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/theming/lib/Controller/ThemingController.php">
-    <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
@@ -4144,14 +4122,6 @@
     <FalsableReturnStatement>
       <code><![CDATA[inet_ntop(substr($binary, -4))]]></code>
     </FalsableReturnStatement>
-  </file>
-  <file src="lib/private/ServerContainer.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->hasNoAppContainer]]></code>
-    </InvalidPropertyAssignmentValue>
-    <NoValue>
-      <code><![CDATA[return $this->appContainers[$namespace];]]></code>
-    </NoValue>
   </file>
   <file src="lib/private/Session/Internal.php">
     <MoreSpecificImplementedParamType>

@@ -12,7 +12,7 @@ import VTooltipPlugin from 'v-tooltip'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { sync } from 'vuex-router-sync'
-import SettingsApp from './views/SettingsApp.vue'
+import UserManagement from './views/UserManagement.vue'
 import router from './router/index.ts'
 import { useStore } from './store/index.js'
 
@@ -37,10 +37,10 @@ const pinia = createPinia()
 // Migrate legacy local storage settings to the database
 store.dispatch('migrateLocalStorage')
 
-export default new Vue({
+const App = Vue.extend(UserManagement)
+const app = new App({
 	router,
 	store,
 	pinia,
-	render: (h) => h(SettingsApp),
-	el: '#content',
 })
+app.$mount('#content')
