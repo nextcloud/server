@@ -46,9 +46,7 @@ class Application extends App implements IBootstrap {
 		$context->injectFn(Closure::fromCallable([$this, 'registerRuleListeners']));
 	}
 
-	private function registerRuntimeOperations(IEventDispatcher $dispatcher, ContainerInterface $container): void {
-		/** @var Manager $manager */
-		$manager = $container->get(Manager::class);
+	private function registerRuntimeOperations(Manager $manager): void {
 		$manager->reloadRuntimeOperations();
 	}
 
