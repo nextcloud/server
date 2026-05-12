@@ -27,7 +27,7 @@
 				:label="t('core', 'Search apps, files, tags, messages') + '...'"
 				@update:value="debouncedFind" />
 			<div class="unified-search-modal__filters" data-cy-unified-search-filters>
-				<NcActions :menu-name="t('core', 'Places')" :open.sync="providerActionMenuIsOpen" data-cy-unified-search-filter="places">
+				<NcActions :open.sync="providerActionMenuIsOpen" :menu-name="t('core', 'Places')" data-cy-unified-search-filter="places">
 					<template #icon>
 						<IconListBox :size="20" />
 					</template>
@@ -43,7 +43,7 @@
 						{{ provider.name }}
 					</NcActionButton>
 				</NcActions>
-				<NcActions :menu-name="t('core', 'Date')" :open.sync="dateActionMenuIsOpen" data-cy-unified-search-filter="date">
+				<NcActions :open.sync="dateActionMenuIsOpen" :menu-name="t('core', 'Date')" data-cy-unified-search-filter="date">
 					<template #icon>
 						<IconCalendarRange :size="20" />
 					</template>
@@ -120,7 +120,8 @@
 			<h3 class="hidden-visually">
 				{{ t('core', 'Results') }}
 			</h3>
-			<div v-for="providerResult in results" :key="providerResult.id" class="result">
+			<!-- Filtered results section -->
+			<div v-for="providerResult in filteredResults" :key="providerResult.id" class="result">
 				<h4 :id="`unified-search-result-${providerResult.id}`" class="result-title">
 					{{ providerResult.name }}
 				</h4>
@@ -144,6 +145,36 @@
 					</NcButton>
 				</div>
 			</div>
+			<!-- Unfiltered results section -->
+			<template v-if="unfilteredResults.length > 0">
+				<div class="unified-search-modal__unfiltered-header">
+					<span class="unified-search-modal__unfiltered-label">{{ t('core', 'Partial matches') }}</span>
+				</div>
+				<div v-for="providerResult in unfilteredResults" :key="`unfiltered-${providerResult.id}`" class="result result--unfiltered">
+					<h4 :id="`unified-search-result-unfiltered-${providerResult.id}`" class="result-title">
+						{{ providerResult.name }}
+					</h4>
+					<ul class="result-items" :aria-labelledby="`unified-search-result-unfiltered-${providerResult.id}`">
+						<SearchResult v-for="(result, index) in providerResult.results"
+							:key="index"
+							v-bind="result" />
+					</ul>
+					<div class="result-footer">
+						<NcButton v-if="providerResult.results.length === providerResult.limit" variant="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
+							{{ t('core', 'Load more results') }}
+							<template #icon>
+								<IconDotsHorizontal :size="20" />
+							</template>
+						</NcButton>
+						<NcButton v-if="providerResult.inAppSearch" alignment="end-reverse" variant="tertiary-no-background">
+							{{ t('core', 'Search in') }} {{ providerResult.name }}
+							<template #icon>
+								<IconArrowRight :size="20" />
+							</template>
+						</NcButton>
+					</div>
+				</div>
+			</template>
 		</div>
 	</NcDialog>
 </template>
@@ -302,6 +333,50 @@ export default defineComponent({
 		debouncedFilterContacts() {
 			return debounce(this.filterContacts, 300)
 		},
+
+		hasContentFilters() {
+			return this.filters.some((filter) => filter.type === 'date' || filter.type === 'person')
+		},
+
+		filteredResults() {
+			const isInFolderAtRoot = (result) => {
+				if (result.id !== 'in-folder') {
+					return false
+				}
+				const path = result.extraParams?.path
+				return !path || path === '/' || path === ''
+			}
+
+			if (!this.hasContentFilters) {
+				return this.results.filter((result) => !isInFolderAtRoot(result))
+			}
+			return this.results.filter((result) => result.supportsActiveFilters === true && !isInFolderAtRoot(result))
+		},
+
+		filteredResultUrls() {
+			const urls = new Set()
+			this.filteredResults.forEach((provider) => {
+				provider.results.forEach((entry) => {
+					if (entry.resourceUrl) {
+						urls.add(entry.resourceUrl)
+					}
+				})
+			})
+			return urls
+		},
+
+		unfilteredResults() {
+			if (!this.hasContentFilters) {
+				return []
+			}
+			return this.results
+				.filter((result) => result.supportsActiveFilters === false)
+				.map((provider) => ({
+					...provider,
+					results: provider.results.filter((entry) => !this.filteredResultUrls.has(entry.resourceUrl)),
+				}))
+				.filter((provider) => provider.results.length > 0)
+		},
 	},
 
 	watch: {
@@ -394,20 +469,30 @@ export default defineComponent({
 
 				// This block of filter checks should be dynamic somehow and should be handled in
 				// nextcloud/search lib
-				const activeFilters = this.filters.filter(filter => {
+				const contentFilterTypes = this.filters
+					.filter((f) => f.type !== 'provider')
+					.map((f) => f.type)
+				const supportsActiveFilters = contentFilterTypes.length === 0
+					|| contentFilterTypes.every((type) => this.providerIsCompatibleWithFilters(provider, [type]))
+
+				const baseProvider = provider.searchFrom
+					? this.providers.find((p) => p.id === provider.searchFrom) ?? provider
+					: provider
+
+				const activeFilters = this.filters.filter((filter) => {
 					return filter.type !== 'provider' && this.providerIsCompatibleWithFilters(provider, [filter.type])
 				})
 
-				activeFilters.forEach(filter => {
+				activeFilters.forEach((filter) => {
 					switch (filter.type) {
 					case 'date':
-						if (provider.filters?.since && provider.filters?.until) {
+						if (baseProvider.filters?.since && baseProvider.filters?.until) {
 							params.since = this.dateFilter.startFrom
 							params.until = this.dateFilter.endAt
 						}
 						break
 					case 'person':
-						if (provider.filters?.person) {
+						if (baseProvider.filters?.person) {
 							params.person = this.personFilter.user
 						}
 						break
@@ -426,6 +511,7 @@ export default defineComponent({
 						...provider,
 						results: response.data.ocs.data.entries,
 						limit: params.limit ?? 5,
+						supportsActiveFilters,
 					})
 
 					unifiedSearchLogger.debug('Unified search results:', { results: this.results, newResults })
@@ -506,10 +592,6 @@ export default defineComponent({
 				this.filters[existingPersonFilter].name = person.displayName
 			}
 
-			this.providers.forEach(async (provider, index) => {
-				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['person']))
-			})
-
 			this.debouncedFind(this.searchQuery)
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
@@ -563,7 +645,6 @@ export default defineComponent({
 				for (let i = 0; i < this.filters.length; i++) {
 					if (this.filters[i].id === filter.id) {
 						this.filters.splice(i, 1)
-						this.enableAllProviders()
 						break
 					}
 				}
@@ -602,9 +683,6 @@ export default defineComponent({
 				this.filters.push(this.dateFilter)
 			}
 
-			this.providers.forEach(async (provider, index) => {
-				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['since', 'until']))
-			})
 			this.debouncedFind(this.searchQuery)
 		},
 		applyQuickDateRange(range) {
@@ -696,8 +774,20 @@ export default defineComponent({
 
 			return flattenedArray
 		},
-		async providerIsCompatibleWithFilters(provider, filterIds) {
-			return filterIds.every(filterId => provider.filters?.[filterId] !== undefined)
+		providerIsCompatibleWithFilters(provider, filterIds) {
+			const baseProvider = provider.searchFrom
+				? this.providers.find((p) => p.id === provider.searchFrom) ?? provider
+				: provider
+			return filterIds.every((filterId) => {
+				switch (filterId) {
+				case 'date':
+					return baseProvider.filters?.since !== undefined && baseProvider.filters?.until !== undefined
+				case 'person':
+					return baseProvider.filters?.person !== undefined
+				default:
+					return baseProvider.filters?.[filterId] !== undefined
+				}
+			})
 		},
 		async enableAllProviders() {
 			this.providers.forEach(async (_, index) => {
@@ -773,8 +863,26 @@ export default defineComponent({
 				align-items: center;
 				display: flex;
 			}
+
+			&--unfiltered {
+				opacity: 0.7;
+			}
 		}
 
+	}
+
+	&__unfiltered-header {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin-block: 16px 8px;
+		padding-block: 12px 0;
+		border-top: 1px solid var(--color-border);
+	}
+
+	&__unfiltered-label {
+		font-weight: bold;
+		color: var(--color-text-maxcontrast);
 	}
 }
 
