@@ -125,7 +125,12 @@ class ConfigAdapterTest extends TestCase {
 
 		$this->userStoragesService = Server::get(UserStoragesService::class);
 		$this->userGlobalStoragesService = Server::get(UserGlobalStoragesService::class);
-		$this->adapter = new ConfigAdapter($this->userStoragesService, $this->userGlobalStoragesService, $this->createMock(ClockInterface::class));
+		$this->adapter = new ConfigAdapter(
+			$this->userStoragesService,
+			$this->userGlobalStoragesService,
+			$this->createMock(BackendService::class),
+			$this->createMock(ClockInterface::class),
+		);
 
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')->willReturn('user1');
