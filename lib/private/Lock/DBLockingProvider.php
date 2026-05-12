@@ -182,7 +182,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 					$qb->expr()->eq('lock', $qb->createNamedParameter(-1, IQueryBuilder::PARAM_INT))
 				))->executeStatement();
 		} else {
-			// since we only keep one shared lock in the db we need to check if we have more then one shared lock locally manually
+			// since we only keep one shared lock in the db we need to check if we have more than one shared lock locally manually
 			if (isset($this->acquiredLocks['shared'][$path]) && $this->acquiredLocks['shared'][$path] > 1) {
 				throw new LockedException($path);
 			}
