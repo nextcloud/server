@@ -11,7 +11,7 @@ OC.L10N.register(
     "Edit Profile" : "プロフィールを編集",
     "The headline and about sections will show up here" : "見出しと概要セクションがここに表示されます",
     "Profile not found" : "プロフィールが見つかりません",
-    "The profile does not exist." : "プロフィールはありません",
-    "Back to %s" : "%s に戻る"
+    "Back to %s" : "%s に戻る",
+    "The profile does not exist." : "プロフィールはありません"
 },
 "nplurals=1; plural=0;");

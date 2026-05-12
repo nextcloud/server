@@ -17,7 +17,7 @@ OC.L10N.register(
     "Edit Profile" : "Профайл засах",
     "The headline and about sections will show up here" : "Гарчиг болон тухай хэсэг энд харагдана",
     "Profile not found" : "Профайл олдсонгүй",
-    "The profile does not exist." : "Профайл байхгүй.",
-    "Back to %s" : "%s руу буцах"
+    "Back to %s" : "%s руу буцах",
+    "The profile does not exist." : "Профайл байхгүй."
 },
 "nplurals=2; plural=(n != 1);");
