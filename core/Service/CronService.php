@@ -163,7 +163,7 @@ class CronService {
 				return;
 			}
 
-			$message = 'Uncatched error when running job ' . $this->currentJob->getId() . ': ' . $error['message'];
+			$message = 'Uncaught error when running job ' . $this->currentJob->getId() . ': ' . $error['message'];
 			$this->logger->error($message);
 			$this->verboseOutput($message);
 			if ($this->currentJob instanceof IJob) {
@@ -248,7 +248,7 @@ class CronService {
 			}
 		}
 
-		// Makes sure last error isn't catched by shutdown function
+		// Makes sure last error isn't caught by shutdown function
 		error_clear_last();
 	}
 
