@@ -13,6 +13,7 @@ import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import logger from './logger.ts'
 import { getComments } from './services/GetComments.ts'
+import { markCommentsAsRead } from './services/ReadComments.ts'
 
 /**
  * Register the comments plugins for the Activity sidebar
@@ -53,6 +54,13 @@ export function registerCommentsPlugins() {
 			},
 		)
 		logger.debug('Loaded comments', { node, comments })
+
+		// Mark all comments as read and clear the unread badge in the files list
+		if (node.fileid) {
+			markCommentsAsRead('files', node.fileid, new Date())
+				.then(() => node.update({ 'comments-unread': 0 }))
+				.catch(() => {})
+		}
 
 		// Mark mention notifications as read for comments that mention the current user
 		const currentUser = getCurrentUser()
