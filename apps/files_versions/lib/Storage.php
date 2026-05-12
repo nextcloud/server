@@ -793,6 +793,10 @@ class Storage {
 					$newInterval = false; // version checked so we can move to the next one
 				} else { // time to move on to the next interval
 					$interval++;
+					if ($interval > count(Storage::MAX_VERSIONS_PER_INTERVAL)) {
+						/* Should never happen, as last interval has -1 as nextInterval */
+						throw new \Exception('MAX_VERSIONS_PER_INTERVAL is malformed or there is a logic issue');
+					}
 					$step = Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
 					$nextVersion = $prevTimestamp - $step;
 					if (Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] === -1) {
