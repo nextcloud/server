@@ -53,6 +53,8 @@ use Throwable;
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
+	private ?Folder $userFolder = null;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -61,7 +63,6 @@ class ApiController extends Controller {
 		private IPreview $previewManager,
 		private IManager $shareManager,
 		private IConfig $config,
-		private ?Folder $userFolder,
 		private UserConfig $userConfig,
 		private ViewConfig $viewConfig,
 		private IL10N $l10n,
@@ -69,6 +70,10 @@ class ApiController extends Controller {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
+		$user = $this->userSession->getUser();
+		if ($user) {
+			$this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		}
 	}
 
 	/**

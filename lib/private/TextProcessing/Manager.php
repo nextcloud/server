@@ -18,7 +18,6 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
 use OCP\IConfig;
-use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
 use OCP\TaskProcessing\IManager as TaskProcessingIManager;
 use OCP\TaskProcessing\TaskTypes\TextToText;
@@ -36,6 +35,7 @@ use OCP\TextProcessing\SummaryTaskType;
 use OCP\TextProcessing\Task;
 use OCP\TextProcessing\Task as OCPTask;
 use OCP\TextProcessing\TopicsTaskType;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
@@ -52,7 +52,7 @@ class Manager implements IManager {
 	];
 
 	public function __construct(
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IJobList $jobList,

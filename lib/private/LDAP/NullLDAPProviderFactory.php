@@ -8,11 +8,11 @@ declare(strict_types=1);
  */
 namespace OC\LDAP;
 
-use OCP\IServerContainer;
 use OCP\LDAP\ILDAPProviderFactory;
+use Psr\Container\ContainerInterface;
 
 class NullLDAPProviderFactory implements ILDAPProviderFactory {
-	public function __construct(IServerContainer $serverContainer) {
+	public function __construct(ContainerInterface $serverContainer) {
 	}
 
 	#[\Override]
