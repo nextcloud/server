@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\UserMigration;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
+use OCP\Security\IHasher;
 use OC\Share20\Share;
 use OC\Share20\ShareAttributes;
 use OCA\Files_Sharing\AppInfo\Application;
@@ -35,6 +38,8 @@ class SharesMigrator implements IMigrator, ISizeEstimationMigrator {
 		protected IL10N $l10n,
 		protected IManager $shareManager,
 		protected IRootFolder $rootFolder,
+		protected IDBConnection $connection,
+		protected IHasher $hasher,
 	) {
 
 	}
@@ -77,12 +82,28 @@ class SharesMigrator implements IMigrator, ISizeEstimationMigrator {
 			}
 
 			try {
-				$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-				$shareNode = $this->rootFolder->get($shareData['path']);
+				$share = $this->shareFromArray($shareData);
 
-				$share = $this->shareFromArray($shareData, $shareNode);
+				$qb = $this->connection->getQueryBuilder();
+				$qb->update('share')
+					->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())));
+
+				// Update the password and token
+				// The password is already hashed so directly updating the password is required
+				if (isset($shareData['password']) && $this->hasher->validate($shareData['password'])) {
+					$qb->set('password', $qb->createNamedParameter($shareData['password'], IQueryBuilder::PARAM_STR));
+				}
+
+				// Set the token after the share is created because a new one
+				// is generated whether there is an existing token or not
+				if (isset($shareData['token'])) {
+					$qb->set('token', $qb->createNamedParameter($shareData['token'], IQueryBuilder::PARAM_STR));
+				}
+				$qb->executeStatement();
 			} catch (NotFoundException $exception) {
 				$output->writeln('Unable to import share with path ' . $shareData['path'] . '. Path doesn\'t exist');
+			} catch (\Exception $exception) {
+				$output->writeln('Unable to import share with path ' . $shareData['path'] . '. An unexpected error occurred');
 			}
 		}
 	}
@@ -109,9 +130,11 @@ class SharesMigrator implements IMigrator, ISizeEstimationMigrator {
 	}
 
 	private function shareToArray(IShare $share): array {
+		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+
 		return [
 			'shareType' => $share->getShareType(),
-			'path' => $share->getNode()->getPath(),
+			'path' => $ownerFolder->getRelativePath($share->getNode()->getPath()),
 			'sharedWith' => $share->getSharedWith(),
 			'sharedBy' => $share->getSharedBy(),
 			'shareOwner' => $share->getShareOwner(),
@@ -132,7 +155,10 @@ class SharesMigrator implements IMigrator, ISizeEstimationMigrator {
 		];
 	}
 
-	private function shareFromArray(array $shareData, Node $node): IShare {
+	private function shareFromArray(array $shareData): IShare {
+		$userFolder = $this->rootFolder->getUserFolder($shareData['shareOwner']);
+		$node = $userFolder->get($shareData['path']);
+
 		$shareTime = new \DateTime();
 		$shareTime->setTimestamp($shareData['shareTime']);
 		$share = $this->shareManager->newShare();
@@ -174,17 +200,16 @@ class SharesMigrator implements IMigrator, ISizeEstimationMigrator {
 
 		if (isset($shareData['password'])) {
 			$share->setPassword($shareData['password']);
-			$expireDate = new \DateTime();
-			$expireDate->setTimestamp($shareData['passwordExpireDate']);
-			$share->setPasswordExpirationTime($expireDate);
+
+			if (isset($shareData['passwordExpirationTime'])) {
+				$passwordExpirationTime = new \DateTime();
+				$passwordExpirationTime->setTimestamp($shareData['passwordExpirationTime']);
+				$share->setPasswordExpirationTime($passwordExpirationTime);
+			}
 			$share->setSendPasswordByTalk($shareData['sendPasswordByTalk']);
 		}
 
 		$share = $this->shareManager->createShare($share);
-		// Set the token after the share is created because a new one
-		// is generated whether there is an existing token or not
-		$share = $share->setToken($shareData['token']);
-		$share = $this->shareManager->updateShare($share);
 
 		return $share;
 	}
