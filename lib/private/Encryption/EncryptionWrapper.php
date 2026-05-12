@@ -8,6 +8,7 @@
 namespace OC\Encryption;
 
 use OC\Files\Filesystem;
+use OC\Files\Mount\HomeMountPoint;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
@@ -16,6 +17,7 @@ use OCP\Encryption\Keys\IStorage as EncryptionKeysStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -57,32 +59,48 @@ class EncryptionWrapper {
 			'mount' => $mount
 		];
 
-		if ($force || (!$storage->instanceOfStorage(IDisableEncryptionStorage::class) && $mountPoint !== '/')) {
-			$user = Server::get(IUserSession::class)->getUser();
-			$mountManager = Filesystem::getMountManager();
-			$uid = $user ? $user->getUID() : null;
-			$fileHelper = Server::get(IFile::class);
-			$keyStorage = Server::get(EncryptionKeysStorage::class);
+		// Only evaluate other conditions if not forced
+		if (!$force) {
+			// If a disabled storage medium, return basic storage
+			if ($storage->instanceOfStorage(IDisableEncryptionStorage::class)) {
+				return $storage;
+			}
 
-			$util = new Util(
-				new View(),
-				Server::get(IUserManager::class),
-				Server::get(IGroupManager::class),
-				Server::get(IConfig::class)
-			);
-			return new Encryption(
-				$parameters,
-				$this->manager,
-				$util,
-				$this->logger,
-				$fileHelper,
-				$uid,
-				$keyStorage,
-				$mountManager,
-				$this->arrayCache
-			);
-		} else {
-			return $storage;
+			// Root mount point handling: skip encryption wrapper
+			if ($mountPoint === '/') {
+				return $storage;
+			}
+
+			// Skip encryption for home mounts if encryptHomeStorage is disabled
+			if ($mount instanceof HomeMountPoint
+				&& !Server::get(IAppConfig::class)->getValueBool('encryption', 'encryptHomeStorage', true)) {
+				return $storage;
+			}
 		}
+
+		// Apply encryption wrapper
+		$user = Server::get(IUserSession::class)->getUser();
+		$mountManager = Filesystem::getMountManager();
+		$uid = $user ? $user->getUID() : null;
+		$fileHelper = Server::get(IFile::class);
+		$keyStorage = Server::get(EncryptionKeysStorage::class);
+
+		$util = new Util(
+			new View(),
+			Server::get(IUserManager::class),
+			Server::get(IGroupManager::class),
+			Server::get(IConfig::class)
+		);
+		return new Encryption(
+			$parameters,
+			$this->manager,
+			$util,
+			$this->logger,
+			$fileHelper,
+			$uid,
+			$keyStorage,
+			$mountManager,
+			$this->arrayCache
+		);
 	}
 }
