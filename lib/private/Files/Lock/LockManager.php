@@ -22,7 +22,7 @@ class LockManager implements ILockManager {
 
 	#[\Override]
 	public function registerLockProvider(ILockProvider $lockProvider): void {
-		if ($this->lockProvider) {
+		if ($this->lockProvider || $this->lockProviderClass) {
 			throw new PreConditionNotMetException('There is already a registered lock provider');
 		}
 
