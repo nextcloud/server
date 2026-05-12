@@ -639,16 +639,25 @@ class RequestTest extends \Test\TestCase {
 				],
 				'192.168.0.233',
 			],
-			'IPv4 matching CIDR of trusted proxy' => [
-				[
-					'REMOTE_ADDR' => '192.168.3.99',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
-				],
-				['192.168.2.0/24'],
-				['HTTP_X_FORWARDED_FOR'],
-				'192.168.3.99',
-			],
+\t\t\t'IPv4 matching CIDR of trusted proxy' => [
+\t\t\t\t[
+\t\t\t\t\t'REMOTE_ADDR' => '192.168.3.99',
+\t\t\t\t\t'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+\t\t\t\t\t'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+\t\t\t\t],
+\t\t\t\t['192.168.2.0/24'],
+\t\t\t\t['HTTP_X_FORWARDED_FOR'],
+\t\t\t\t'192.168.3.99',
+\t\t\t],
+\t\t\t'IPv4 matching large CIDR (/12) of trusted proxy' => [
+\t\t\t\t[
+\t\t\t\t\t'REMOTE_ADDR' => '172.21.0.7',
+\t\t\t\t\t'HTTP_X_FORWARDED_FOR' => '10.0.0.42',
+\t\t\t\t],
+\t\t\t\t['172.16.0.0/12'],
+\t\t\t\t['HTTP_X_FORWARDED_FOR'],
+\t\t\t\t'10.0.0.42',
+\t\t\t],
 			'IPv6 matching CIDR of trusted proxy' => [
 				[
 					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a21:370:7348',
