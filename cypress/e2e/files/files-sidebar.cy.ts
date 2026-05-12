@@ -12,6 +12,25 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 	let user: User
 	let fileId: number = 0
 
+	function assertSidebarShows(name: string) {
+		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
+			.findByRole('heading', { name })
+			.should('be.visible')
+	}
+
+	function assertSidebarHeadingNotPresent(name: string) {
+		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
+			.findByRole('heading', { name })
+			.should('not.exist')
+	}
+
+	function assertSidebarIsClosed() {
+		cy.get('[data-cy-sidebar]')
+			.should(assertNotExistOrNotVisible)
+	}
+
 	beforeEach(() => cy.createRandomUser().then(($user) => {
 		user = $user
 
@@ -28,10 +47,7 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 
 		triggerActionForFile('file', 'details')
 
-		cy.get('[data-cy-sidebar]')
-			.should('be.visible')
-			.findByRole('heading', { name: 'file' })
-			.should('be.visible')
+		assertSidebarShows('file')
 	})
 
 	it('changes the current fileid', () => {
@@ -40,29 +56,23 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 
 		triggerActionForFile('file', 'details')
 
-		cy.get('[data-cy-sidebar]').should('be.visible')
+		assertSidebarShows('file')
 		cy.url().should('contain', `apps/files/files/${fileId}`)
 	})
 
 	it('changes the sidebar content on other file', () => {
 		cy.visit('/apps/files')
 		getRowForFile('file').should('be.visible')
+		getRowForFile('folder').should('be.visible')
 
 		triggerActionForFile('file', 'details')
-
-		cy.get('[data-cy-sidebar]')
-			.should('be.visible')
-			.findByRole('heading', { name: 'file' })
-			.should('be.visible')
-
-		// eslint-disable-next-line cypress/no-unnecessary-waiting
-		cy.wait(600) // wait for a bit to avoid flakiness
+		assertSidebarShows('file')
+		cy.url().should('contain', `apps/files/files/${fileId}`)
 
 		triggerActionForFile('folder', 'details')
-		cy.get('[data-cy-sidebar]')
-			.should('be.visible')
-			.findByRole('heading', { name: 'folder' })
-			.should('be.visible')
+		assertSidebarShows('folder')
+		assertSidebarHeadingNotPresent('file')
+		cy.url().should('not.contain', `apps/files/files/${fileId}`)
 	})
 
 	it('closes the sidebar on navigation', () => {
@@ -74,14 +84,12 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		// open the sidebar
 		triggerActionForFile('file', 'details')
 		// validate it is open
-		cy.get('[data-cy-sidebar]')
-			.should('be.visible')
+		assertSidebarShows('file')
 
 		// if we navigate to the folder
 		navigateToFolder('folder')
 		// the sidebar should not be visible anymore
-		cy.get('[data-cy-sidebar]')
-			.should(assertNotExistOrNotVisible)
+		assertSidebarIsClosed()
 	})
 
 	it('closes the sidebar on delete', () => {
@@ -92,17 +100,16 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		// open the sidebar
 		triggerActionForFile('file', 'details')
 		// validate it is open
-		cy.get('[data-cy-sidebar]')
-			.should('be.visible')
-		// eslint-disable-next-line cypress/no-unnecessary-waiting
-		cy.wait(600) // wait for a bit to avoid flakiness
+		assertSidebarShows('file')
+		cy.url().should('contain', `apps/files/files/${fileId}`)
 
 		// delete the file
 		triggerActionForFile('file', 'delete')
 		cy.wait('@deleteFile', { timeout: 10000 })
 		// see the sidebar is closed
-		cy.get('[data-cy-sidebar]')
-			.should(assertNotExistOrNotVisible)
+		assertSidebarIsClosed()
+		getRowForFile('file').should('not.exist')
+		cy.url().should('not.contain', `apps/files/files/${fileId}`)
 	})
 
 	it('changes the fileid on delete', () => {
@@ -120,16 +127,14 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			// open the sidebar
 			triggerActionForFile('other', 'details')
 			// validate it is open
-			cy.get('[data-cy-sidebar]').should('be.visible')
+			assertSidebarShows('other')
 			cy.url().should('contain', `apps/files/files/${otherFileId}`)
-
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
-			cy.wait(600) // wait for a bit to avoid flakiness
 
 			triggerActionForFile('other', 'delete')
 			cy.wait('@deleteFile')
 
-			cy.get('[data-cy-sidebar]').should('not.be.visible')
+			assertSidebarIsClosed()
+			getRowForFile('other').should('not.exist')
 			// Ensure the URL is changed
 			cy.url().should('not.contain', `apps/files/files/${otherFileId}`)
 		})
