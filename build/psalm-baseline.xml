@@ -802,11 +802,6 @@
       <code><![CDATA[class-string<IStorage>]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
-    <InternalMethod>
-      <code><![CDATA[put]]></code>
-    </InternalMethod>
-  </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
     <RedundantCast>
       <code><![CDATA[(int)$e->getCode()]]></code>
