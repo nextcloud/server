@@ -15,11 +15,11 @@
 
 ## Why is this so awesome? 🤩
 
-* 📁 **Access your Data** You can store your files, contacts, calendars, and more on a server of your choosing.
-* 🔄 **Sync your Data** You keep your files, contacts, calendars, and more synchronized amongst your devices.
-* 🙌 **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
-* 🚀 **Expandable with hundreds of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail), [Video Chat](https://github.com/nextcloud/spreed) and all those you can discover in our [App Store](https://apps.nextcloud.com)
-* 🔒 **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
+* 📁 **Access your Data:** You can store your files, contacts, calendars, and more on a server of your choosing.
+* 🔄 **Sync your Data:** You keep your files, contacts, calendars, and more synchronized amongst your devices.
+* 🙌 **Share your Data:** …by giving others access to the stuff you want them to see or to collaborate with.
+* 🚀 **Expandable with hundreds of Apps:** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail), [Video Chat](https://github.com/nextcloud/spreed) and all those you can discover in our [App Store](https://apps.nextcloud.com)
+* 🔒 **Security:** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
 Do you want to learn more about how you can use Nextcloud to access, share, and protect your files, calendars, contacts, communication & more at home and in your organization? [**Learn about all our Features**](https://nextcloud.com/athome/).
 
@@ -38,7 +38,6 @@ Enterprise? Public Sector or Education user? You may want to have a look into [*
 * [🦋 Bluesky](https://bsky.app/profile/nextcloud.bsky.social)
 * [👥 Facebook](https://www.facebook.com/nextclouders)
 * [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
-
 You can also [get support for Nextcloud](https://nextcloud.com/support)!
 
 
@@ -56,9 +55,9 @@ There are many ways to contribute, of which development is only one! Find out [h
 5. 👍 Fix things that come up during a review
 6. 🎉 Wait for it to get merged!
 
-Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
+Third-party components are handled as git submodules which have to be initialized first. So, aside from the regular git checkout, invoking git submodule update --init or a similar command is needed. For details, see the Git documentation.
 
-Several apps that are included by default in regular releases such as [First run wizard](https://github.com/nextcloud/firstrunwizard) or [Activity](https://github.com/nextcloud/activity) are missing in `master` and have to be installed manually by cloning them into the `apps` subfolder.
+Several apps that are included by default in regular releases, such as [First run wizard](https://github.com/nextcloud/firstrunwizard) or [Activity](https://github.com/nextcloud/activity), are missing in `master` and have to be installed manually by cloning them into the `apps` subfolder.
 
 Otherwise, git checkouts can be handled the same as release archives, by using the `stable*` branches. Note they should never be used on production systems.
 
@@ -78,7 +77,6 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 `git config blame.ignoreRevsFile .git-blame-ignore-revs`
 
 ## Contribution guidelines 📜
-
 All contributions to this repository from June 16, 2016, and onward are considered to be
 licensed under the AGPLv3 or any later version.
 
