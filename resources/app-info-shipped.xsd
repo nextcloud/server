@@ -75,6 +75,8 @@
                             maxOccurs="1" />
                 <xs:element name="public" type="public" minOccurs="0"
                             maxOccurs="1" />
+                <xs:element name="remote" type="remote" minOccurs="0"
+                            maxOccurs="1" />
                 <xs:element name="trash" type="trash" minOccurs="0"
                             maxOccurs="1" />
                 <xs:element name="versions" type="versions" minOccurs="0"
@@ -619,8 +621,14 @@
         </xs:restriction>
     </xs:simpleType>
 
-
     <xs:complexType name="public">
+        <xs:sequence>
+            <xs:element name="webdav" type="path" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="files" type="path" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="remote">
         <xs:sequence>
             <xs:element name="webdav" type="path" minOccurs="0" maxOccurs="1"/>
             <xs:element name="files" type="path" minOccurs="0" maxOccurs="1"/>

@@ -38,6 +38,9 @@ use OCP\ServerVersion;
 use OCP\Settings\IManager as ISettingsManager;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @psalm-import-type AppInfoDefinition from \OCP\App\AppInfoDefinition
+ */
 class AppManager implements IAppManager {
 	/**
 	 * Apps with these types can not be enabled for certain groups only
@@ -63,7 +66,7 @@ class AppManager implements IAppManager {
 	private array $alwaysEnabled = [];
 	private array $defaultEnabled = [];
 
-	/** @var array */
+	/** @var array<string, AppInfoDefinition|null> */
 	private array $appInfos = [];
 
 	/** @var array */
@@ -557,8 +560,8 @@ class AppManager implements IAppManager {
 
 		if (!empty($info['collaboration']['plugins'])) {
 			// deal with one or many plugin entries
-			$plugins = isset($info['collaboration']['plugins']['plugin']['@value'])
-				? [$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
+			$plugins = isset($info['collaboration']['plugins']['@value'])
+				? [$info['collaboration']['plugins']] : $info['collaboration']['plugins'];
 			$collaboratorSearch = null;
 			$autoCompleteManager = null;
 			foreach ($plugins as $plugin) {
@@ -841,14 +844,8 @@ class AppManager implements IAppManager {
 		return $appsToUpgrade;
 	}
 
-	/**
-	 * Returns the app information from "appinfo/info.xml".
-	 *
-	 * @param string|null $lang
-	 * @return array|null app info
-	 */
 	#[\Override]
-	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
+	public function getAppInfo(string $appId, bool $path = false, $lang = null): ?array {
 		if ($path) {
 			throw new \InvalidArgumentException('Calling IAppManager::getAppInfo() with a path is no longer supported. Please call IAppManager::getAppInfoByPath() instead and verify that the path is good before calling.');
 		}
@@ -880,7 +877,7 @@ class AppManager implements IAppManager {
 		$parser = new InfoParser($this->memCacheFactory->createLocal('core.appinfo'));
 		$data = $parser->parse($path);
 
-		if (is_array($data)) {
+		if ($lang !== null && is_array($data)) {
 			$data = $parser->applyL10N($data, $lang);
 		}
 

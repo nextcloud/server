@@ -191,6 +191,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Services\\InitialStateProvider' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Services/InitialStateProvider.php',
         'OCP\\AppFramework\\Utility\\IControllerMethodReflector' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Utility/IControllerMethodReflector.php',
         'OCP\\AppFramework\\Utility\\ITimeFactory' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Utility/ITimeFactory.php',
+        'OCP\\App\\AppInfoDefinition' => __DIR__ . '/../../..' . '/lib/public/App/AppInfoDefinition.php',
         'OCP\\App\\AppPathNotFoundException' => __DIR__ . '/../../..' . '/lib/public/App/AppPathNotFoundException.php',
         'OCP\\App\\Events\\AppDisableEvent' => __DIR__ . '/../../..' . '/lib/public/App/Events/AppDisableEvent.php',
         'OCP\\App\\Events\\AppEnableEvent' => __DIR__ . '/../../..' . '/lib/public/App/Events/AppEnableEvent.php',

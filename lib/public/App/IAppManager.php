@@ -16,6 +16,8 @@ use OCP\IUser;
  * @warning This interface shouldn't be included with dependency injection in
  *          classes used for installing Nextcloud.
  *
+ * @psalm-import-type AppInfoDefinition from AppInfoDefinition
+ * @psalm-import-type AppInfoXmlDefinition from AppInfoDefinition
  * @since 8.0.0
  */
 interface IAppManager {
@@ -28,15 +30,18 @@ interface IAppManager {
 	 * Returns the app information from "appinfo/info.xml" for an app
 	 *
 	 * @param string|null $lang
-	 * @return array|null
+	 * @return AppInfoDefinition|AppInfoXmlDefinition|null
+	 * @psalm-return ($lang is null ? (AppInfoXmlDefinition|null) : (AppInfoDefinition|null))
 	 * @since 14.0.0
 	 * @since 31.0.0 Usage of $path is discontinued and throws an \InvalidArgumentException, use {@see self::getAppInfoByPath} instead.
 	 */
-	public function getAppInfo(string $appId, bool $path = false, $lang = null);
+	public function getAppInfo(string $appId, bool $path = false, $lang = null): ?array;
 
 	/**
 	 * Returns the app information from a given path ending with "/appinfo/info.xml"
 	 *
+	 * @return AppInfoDefinition|AppInfoXmlDefinition|null
+	 * @psalm-return ($lang is null ? (AppInfoXmlDefinition|null) : (AppInfoDefinition|null))
 	 * @since 31.0.0
 	 */
 	public function getAppInfoByPath(string $path, ?string $lang = null): ?array;

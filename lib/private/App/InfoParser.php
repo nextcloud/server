@@ -10,6 +10,11 @@ namespace OC\App;
 use OCP\ICache;
 use function simplexml_load_string;
 
+/**
+ * @psalm-import-type AppInfoLocalizedEntry from \OCP\App\AppInfoDefinition
+ * @psalm-import-type AppInfoXmlDefinition from \OCP\App\AppInfoDefinition
+ * @psalm-import-type AppInfoDefinition from \OCP\App\AppInfoDefinition
+ */
 class InfoParser {
 	/**
 	 * @param ICache|null $cache
@@ -21,15 +26,15 @@ class InfoParser {
 
 	/**
 	 * @param string $file the xml file to be loaded
-	 * @return null|array where null is an indicator for an error
+	 * @return AppInfoXmlDefinition|null - The parsed app info or null if an error occurred
 	 */
 	public function parse(string $file): ?array {
 		if (!file_exists($file)) {
 			return null;
 		}
 
+		$fileCacheKey = $file . filemtime($file);
 		if ($this->cache !== null) {
-			$fileCacheKey = $file . filemtime($file);
 			if ($cachedValue = $this->cache->get($fileCacheKey)) {
 				return json_decode($cachedValue, true);
 			}
@@ -42,14 +47,14 @@ class InfoParser {
 			libxml_clear_errors();
 			return null;
 		}
-		$array = $this->xmlToArray($xml);
 
+		$array = $this->xmlToArray($xml);
 		if (is_string($array)) {
 			return null;
 		}
 
-		if (!array_key_exists('info', $array)) {
-			$array['info'] = [];
+		if (!array_key_exists('description', $array)) {
+			$array['description'] = '';
 		}
 		if (!array_key_exists('remote', $array)) {
 			$array['remote'] = [];
@@ -166,11 +171,8 @@ class InfoParser {
 		if (isset($array['activity']['providers']['provider']) && is_array($array['activity']['providers']['provider'])) {
 			$array['activity']['providers'] = $array['activity']['providers']['provider'];
 		}
-		if (isset($array['collaboration']['collaborators']['searchPlugins']['searchPlugin'])
-			&& is_array($array['collaboration']['collaborators']['searchPlugins']['searchPlugin'])
-			&& !isset($array['collaboration']['collaborators']['searchPlugins']['searchPlugin']['class'])
-		) {
-			$array['collaboration']['collaborators']['searchPlugins'] = $array['collaboration']['collaborators']['searchPlugins']['searchPlugin'];
+		if (isset($array['collaboration']['plugins']['plugin']) && is_array($array['collaboration']['plugins']['plugin'])) {
+			$array['collaboration']['plugins'] = $array['collaboration']['plugins']['plugin'];
 		}
 		if (isset($array['settings']['admin']) && !is_array($array['settings']['admin'])) {
 			$array['settings']['admin'] = [$array['settings']['admin']];
@@ -211,6 +213,9 @@ class InfoParser {
 			$array['category'] = [$array['category']];
 		}
 
+		/**
+		 * @var AppInfoXmlDefinition $array
+		 */
 		if ($this->cache !== null) {
 			$this->cache->set($fileCacheKey, json_encode($array));
 		}
@@ -283,27 +288,42 @@ class InfoParser {
 
 	/**
 	 * Select the appropriate l10n version for fields name, summary and description
+	 *
+	 * @param AppInfoXmlDefinition $data
+	 * @return AppInfoDefinition
 	 */
-	public function applyL10N(array $data, ?string $lang = null): array {
-		if ($lang !== '' && $lang !== null) {
-			if (isset($data['name']) && is_array($data['name'])) {
-				$data['name'] = $this->findBestL10NOption($data['name'], $lang);
-			}
-			if (isset($data['summary']) && is_array($data['summary'])) {
-				$data['summary'] = $this->findBestL10NOption($data['summary'], $lang);
-			}
-			if (isset($data['description']) && is_array($data['description'])) {
-				$data['description'] = trim($this->findBestL10NOption($data['description'], $lang));
-			}
-		} elseif (isset($data['description']) && is_string($data['description'])) {
-			$data['description'] = trim($data['description']);
-		} else {
-			$data['description'] = '';
+	public function applyL10N(array $data, string $lang): array {
+		// Ensure name is set and convert arrays to strings
+		if (!isset($data['name'])) {
+			$data['name'] = '';
+		} elseif (is_array($data['name'])) {
+			$data['name'] = $this->findBestL10NOption($data['name'], $lang);
 		}
+		$data['name'] = trim((string)$data['name']);
+
+		if (!isset($data['summary'])) {
+			$data['summary'] = '';
+		} elseif (is_array($data['summary'])) {
+			$data['summary'] = $this->findBestL10NOption($data['summary'], $lang);
+		}
+		$data['summary'] = trim((string)$data['summary']);
+
+		// Ensure description is set and convert arrays to strings
+		if (!isset($data['description'])) {
+			$data['description'] = '';
+		} elseif (is_array($data['description'])) {
+			$data['description'] = trim($this->findBestL10NOption($data['description'], $lang));
+		}
+		$data['description'] = trim((string)$data['description']);
 
 		return $data;
 	}
 
+	/**
+	 * @param AppInfoLocalizedEntry|list<string|AppInfoLocalizedEntry> $options - The available l10n options for a field
+	 * @param string $lang - The desired language code
+	 * @return string - The best matching l10n option for the given language
+	 */
 	protected function findBestL10NOption(array $options, string $lang): string {
 		// only a single option
 		if (isset($options['@value'])) {

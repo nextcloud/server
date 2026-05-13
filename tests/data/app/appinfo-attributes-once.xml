@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>attributes_once</id>
+	<name lang="en">Attributes Once</name>
+	<summary lang="en">Single occurrence with attributes set on allowed elements.</summary>
+	<description lang="en">Fixture that sets attributes where allowed (e.g., lang, type, min-version, for).</description>
+	<version>1.2.3</version>
+	<licence>agpl</licence>
+	<author homepage="http://example.com" mail="jane@example.com">Jane Doe</author>
+	<types>
+		<filesystem/>
+	</types>
+	<documentation>
+		<user>https://example.test/attributes-once/user</user>
+	</documentation>
+	<category>tools</category>
+	<website>https://example.test/attributes-once</website>
+	<bugs>https://example.com/issues</bugs>
+	<repository type="git">https://example.test/attributes-once.git</repository>
+	<screenshot small-thumbnail="https://example.test/attributes-once-small.png">https://example.test/attributes-once.png</screenshot>
+	<dependencies>
+		<php min-version="8.2"/>
+		<database min-version="2.0">pgsql</database>
+		<lib min-version="1.5">curl</lib>
+		<owncloud min-version="1.0" max-version="2.0"/>
+		<nextcloud min-version="30.0" max-version="31.0"/>
+		<backend>caldav</backend>
+	</dependencies>
+	<background-jobs>
+		<job>OCA\AttributesOnce\BackgroundJob\Job</job>
+	</background-jobs>
+	<repair-steps>
+		<install>
+			<step>OCA\AttributesOnce\RepairStep\Install</step>
+		</install>
+	</repair-steps>
+	<commands>
+		<command>OCA\AttributesOnce\Command\Run</command>
+	</commands>
+	<settings>
+		<admin>OCA\AttributesOnce\Settings\Admin</admin>
+	</settings>
+	<activity>
+		<providers>
+			<provider>OCA\AttributesOnce\Activity\Provider</provider>
+		</providers>
+	</activity>
+	<navigations>
+		<navigation role="admin">
+			<name>Attributes</name>
+			<route>attributes.once.route</route>
+			<icon>attributes-once.svg</icon>
+			<order>5</order>
+		</navigation>
+	</navigations>
+	<collaboration>
+		<plugins>
+			<plugin type="collaborator-search">OCA\AttributesOnce\Collaboration\Plugin</plugin>
+		</plugins>
+	</collaboration>
+	<sabre>
+		<plugins>
+			<plugin>OCA\AttributesOnce\Sabre\Plugin</plugin>
+		</plugins>
+	</sabre>
+	<trash>
+		<backend for="files">OCA\AttributesOnce\Trash\Backend</backend>
+	</trash>
+	<versions>
+		<backend for="files">OCA\AttributesOnce\Versions\Backend</backend>
+	</versions>
+</info>

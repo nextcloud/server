@@ -470,9 +470,8 @@ class OC_App {
 					}
 				}
 
-				$info['license'] ??= $info['licence'];
+				$info['license'] = $info['licence'];
 				$info['version'] = $appManager->getAppVersion($app);
-				$info['license'] ??= $info['licence'];
 				$appList[] = $info;
 			}
 		}
