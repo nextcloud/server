@@ -9,12 +9,20 @@ declare(strict_types=1);
 namespace OCP;
 
 /**
- * Manage trusted certificates
+ * Manage trusted certificates and the effective CA bundle used by Nextcloud.
+ *
+ * Implementations provide access to uploaded trusted certificates and the
+ * generated bundle that is consumed by HTTP clients and external storage
+ * integrations.
+ *
  * @since 8.0.0
  */
 interface ICertificateManager {
 	/**
-	 * Returns all certificates trusted by the system
+	 * Returns all uploaded trusted certificates.
+	 *
+	 * This does not include the shipped default CA bundle or any system CA bundle
+	 * appended when building the effective bundle.
 	 *
 	 * @return \OCP\ICertificate[]
 	 * @since 8.0.0
@@ -22,23 +30,27 @@ interface ICertificateManager {
 	public function listCertificates(): array;
 
 	/**
-	 * @param string $certificate the certificate data
-	 * @param string $name the filename for the certificate
+	 * Add a trusted certificate to the certificate store.
+	 *
+	 * @param string $certificate The certificate data in PEM format
+	 * @param string $name The filename for the certificate
 	 * @return \OCP\ICertificate
-	 * @throws \Exception If the certificate could not get added
+	 * @throws \Exception If the certificate could not be added
 	 * @since 8.0.0 - since 8.1.0 throws exception instead of returning false
 	 */
 	public function addCertificate(string $certificate, string $name): \OCP\ICertificate;
 
 	/**
-	 * @param string $name
+	 * Remove a trusted certificate from the certificate store.
+	 *
+	 * @param string $name The filename for the certificate
 	 * @return bool
 	 * @since 8.0.0
 	 */
 	public function removeCertificate(string $name): bool;
 
 	/**
-	 * Get the path to the certificate bundle
+	 * Get the relative path to the generated certificate bundle.
 	 *
 	 * @return string
 	 * @since 8.0.0
@@ -46,7 +58,10 @@ interface ICertificateManager {
 	public function getCertificateBundle(): string;
 
 	/**
-	 * Get the full local path to the certificate bundle
+	 * Get the full local path to the effective certificate bundle.
+	 *
+	 * Implementations should return the generated bundle path, but may log and fall back
+	 * to the shipped default CA bundle if resolution fails.
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -54,7 +69,7 @@ interface ICertificateManager {
 	public function getAbsoluteBundlePath(): string;
 
 	/**
-	 * Get the path of the default certificates bundle.
+	 * Get the path of the shipped default certificates bundle.
 	 *
 	 * @since 33.0.0
 	 */
