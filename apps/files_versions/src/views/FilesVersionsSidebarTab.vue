@@ -45,10 +45,10 @@ import type { IFolder, INode, IView } from '@nextcloud/files'
 import type { Version } from '../utils/versions.ts'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
-import { computed, ref, toRef, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, toRef, watch } from 'vue'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import VersionEntry from '../components/VersionEntry.vue'
 import VersionLabelDialog from '../components/VersionLabelDialog.vue'
@@ -72,18 +72,51 @@ const loading = ref(false)
 const showVersionLabelForm = ref(false)
 const editedVersion = ref<Version | null>(null)
 
-watch(toRef(() => props.node), async () => {
+/**
+ * Reload versions for the current file
+ */
+async function reloadVersions() {
 	if (!props.node) {
 		return
 	}
 
+	const previousCount = versions.value.length
+
 	try {
 		loading.value = true
 		versions.value = await fetchVersions(props.node)
+		console.debug('[FilesVersionsSidebarTab] Reloaded versions:', previousCount, '→', versions.value.length)
 	} finally {
 		loading.value = false
 	}
+}
+
+/**
+ * Handle files:node:updated event to reload versions when the current file is saved
+ * @param node
+ */
+function handleNodeUpdated(node: INode) {
+	// Only reload if this is the currently open file and the tab is active
+	if (props.active && props.node && node.source === props.node.source) {
+		console.debug('[FilesVersionsSidebarTab] File saved, reloading versions in 1s')
+		// Delay to let the server create the new version
+		setTimeout(() => {
+			reloadVersions()
+		}, 1000)
+	}
+}
+
+watch(toRef(() => props.node), async () => {
+	await reloadVersions()
 }, { immediate: true })
+
+onMounted(() => {
+	subscribe('files:node:updated', handleNodeUpdated)
+})
+
+onBeforeUnmount(() => {
+	unsubscribe('files:node:updated', handleNodeUpdated)
+})
 
 const currentVersionMtime = computed(() => props.node?.mtime?.getTime() ?? 0)
 
