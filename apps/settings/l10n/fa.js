@@ -356,7 +356,6 @@ OC.L10N.register(
     "Apply" : "اعمال",
     "All accounts" : "همهٔ حساب‌ها",
     "Admins" : "مدیران",
-    "Clear search" : "پاک کردن جستجو.",
     "Location" : "مکان",
     "Profile picture" : "تصویر پروفایل",
     "About" : "درباره",

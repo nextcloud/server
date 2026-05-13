@@ -292,7 +292,6 @@ OC.L10N.register(
     "Your server is correctly configured to send security headers." : "Zure zerbitzaria segurtasun goiburuak bidaltzeko ondo konfiguratuta dago.",
     "Configuration server ID" : "Konfigurazio zerbitzariaren IDa",
     "Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration." : "Zerbitzariaren identifikatzailea ez dago konfiguratuta. Gomendagarria da zure Nextcloud instantzia PHP zerbitzari desberdinetan funtzionatzen badu. Gehitu zerbitzari baten IDa zure ezarpenetan.",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" ez da baliozko zerbitzari identifikatzailea. 0 eta 1023 artean egon behar du.",
     "Server identifier is configured and valid." : "Zerbitzariaren identifikatzailea konfiguratuta dago eta baliozkoa da.",
     "Database version" : "Datu-basearen bertsioa",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "MariaDB 10.3 bertsioa detektatu da, bertsio hau bizitzaren amaieran dago eta Ubuntu 20.04ren zati gisa soilik onartzen da. MariaDB >=  '%1$s' eta <=  '%2$s' iradokitzen da Nextcloud-en bertsio honekin errendimendu, egonkortasun eta funtzionalitate onena lortzeko.",
@@ -698,7 +697,6 @@ OC.L10N.register(
     "Admins" : "Administratzaileak",
     "Account group: {group}" : "Kontuaren taldea: {group}",
     "Account management" : "Kontuen kudeaketa",
-    "Clear search" : "Garbitu bilaketa",
     "Location" : "Kokapena",
     "Profile picture" : "Zure irudia",
     "About" : "Honi buruz",
@@ -892,6 +890,7 @@ OC.L10N.register(
     "Credentials" : "Kredentzialak",
     "SMTP Login" : "SMTP saioa",
     "SMTP Password" : "SMTP pasahitza",
-    "Test and verify email settings" : "Probatu eta egiaztatu posta elektronikoaren ezarpenak"
+    "Test and verify email settings" : "Probatu eta egiaztatu posta elektronikoaren ezarpenak",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" ez da baliozko zerbitzari identifikatzailea. 0 eta 1023 artean egon behar du."
 },
 "nplurals=2; plural=(n != 1);");

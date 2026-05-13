@@ -233,7 +233,6 @@ OC.L10N.register(
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador pode afinar o comportamento de partilha. Por favor veja a documentação para mais informação.",
     "Apply" : "Aplicar",
     "Admins" : "Administrador",
-    "Clear search" : "Limpar pesquisa",
     "Location" : "Localização",
     "Profile picture" : "Foto do perfil",
     "About" : "Sobre",

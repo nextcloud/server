@@ -190,7 +190,6 @@ OC.L10N.register(
     "There are some warnings regarding your setup." : "มีคำเตือนบางอย่างเกี่ยวกับการติดตั้งของคุณ",
     "Apply" : "นำไปใช้",
     "Admins" : "ผู้ดูแลระบบ",
-    "Clear search" : "ล้างการค้นหา",
     "Location" : "ตำแหน่ง",
     "Profile picture" : "รูปภาพโปรไฟล์",
     "About" : "เกี่ยวกับ",

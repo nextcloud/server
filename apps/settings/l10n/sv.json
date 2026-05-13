@@ -286,7 +286,6 @@
     "Your server is correctly configured to send security headers." : " Din server är korrekt konfigurerad för att skicka \"security headers\".",
     "Configuration server ID" : "Konfigurationsserver-ID",
     "Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration." : "Server-ID är inte konfigurerat. Det rekommenderas om din Nextcloud-instans körs på flera PHP-servrar. Lägg till ett server-ID i din konfiguration.",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" är inte en giltig server-ID. Den måste vara mellan 0 och 1023.",
     "Server identifier is configured and valid." : "Server-ID är konfigurerad och giltig.",
     "Database version" : "Databasversion",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "MariaDB version 10.3 används. den här versionen är föråldrad och stöds endast som en del av Ubuntu 20.04. MariaDB >=%1$s och <=%2$s rekommenderas för bästa prestanda, stabilitet och funktionalitet med den här versionen av Nextcloud.",
@@ -714,7 +713,6 @@
     "Admins" : "Administratörer",
     "Account group: {group}" : "Kontogrupp: {group}",
     "Account management" : "Kontohantering",
-    "Clear search" : "Rensa sökning",
     "For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted." : "Av prestandaskäl, när du aktiverar kryptering på en {productName} server blir endast nya och ändrade filer krypterade.",
     "Location" : "Plats",
     "Profile picture" : "Profilbild",
@@ -907,6 +905,7 @@
     "Credentials" : "Inloggningsuppgifter",
     "SMTP Login" : "SMTP-inloggning",
     "SMTP Password" : "SMTP-lösenord",
-    "Test and verify email settings" : "Testa och verifiera e-postinställningar"
+    "Test and verify email settings" : "Testa och verifiera e-postinställningar",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" är inte en giltig server-ID. Den måste vara mellan 0 och 1023."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

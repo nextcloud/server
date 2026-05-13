@@ -553,7 +553,6 @@ OC.L10N.register(
     "Admins" : "Beheerders",
     "Account group: {group}" : "Accountgroep: {group}",
     "Account management" : "Accountbeheer",
-    "Clear search" : "Wis zoekvak",
     "Location" : "Locatie",
     "Profile picture" : "Profielafbeelding",
     "About" : "Over",
