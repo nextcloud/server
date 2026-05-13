@@ -52,7 +52,7 @@ class Output implements IOutput {
 		$maxLen = 7800;
 		if (strlen($header) > $maxLen) {
 			foreach (['Content-Security-Policy:', 'Feature-Policy:'] as $prefix) {
-				if (strncmp($header, $prefix, strlen($prefix)) === 0) {
+				if (str_starts_with($header, $prefix)) {
 					$value = ltrim(substr($header, strlen($prefix)));
 					$directives = array_filter(array_map('trim', explode(';', $value)));
 					$segment = '';
