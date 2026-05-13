@@ -74,7 +74,7 @@ class AuthSettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function create($name) {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
