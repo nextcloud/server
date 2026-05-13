@@ -29,6 +29,7 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IWriteStreamStorage;
@@ -621,7 +622,7 @@ class File extends Node implements IFile {
 		if ($e instanceof NotFoundException) {
 			throw new NotFound($this->l10n->t('File not found: %1$s', [$e->getMessage()]), 0, $e);
 		}
-		if ($e instanceof Files\NotEnoughSpaceException) {
+		if ($e instanceof NotEnoughSpaceException) {
 			throw new EntityTooLarge($this->l10n->t('Insufficient space'), 0, $e);
 		}
 
