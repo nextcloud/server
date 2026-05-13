@@ -19,14 +19,21 @@ const tableElement = useTemplateRef('table')
 const { width: tableWidth } = useElementSize(tableElement)
 
 const isNarrow = computed(() => tableWidth.value < 768)
+const isWide = computed(() => tableWidth.value >= 1280)
 </script>
 
 <template>
-	<table ref="table" :class="[$style.appTable, { [$style.appTable_narrow]: isNarrow }]">
+	<table
+		ref="table"
+		:class="[$style.appTable, {
+			[$style.appTable_narrow]: isNarrow,
+			[$style.appTable_wide]: isWide,
+		}]">
 		<colgroup>
 			<col :class="$style.appTable__colName">
 			<col :class="$style.appTable__colVersion">
 			<col v-if="!isNarrow" :class="$style.appTable__colSupport">
+			<col v-if="isWide" :class="$style.appTable__colGroups">
 			<col :class="$style.appTable__colActions">
 		</colgroup>
 		<thead hidden>
@@ -36,6 +43,9 @@ const isNarrow = computed(() => tableWidth.value < 768)
 				<th v-if="!isNarrow">
 					{{ t('appstore', 'Support level') }}
 				</th>
+				<th v-if="isWide">
+					{{ t('appstore', 'Groups') }}
+				</th>
 				<th>{{ t('appstore', 'Actions') }}</th>
 			</tr>
 		</thead>
@@ -44,7 +54,8 @@ const isNarrow = computed(() => tableWidth.value < 768)
 				v-for="app in apps"
 				:key="app.id"
 				:app
-				:isNarrow />
+				:isNarrow
+				:isWide />
 		</tbody>
 	</table>
 </template>
@@ -63,12 +74,24 @@ const isNarrow = computed(() => tableWidth.value < 768)
 	width: 60%;
 }
 
+.appTable_wide .appTable__colName {
+	width: 37%;
+}
+
 .appTable__colSupport {
 	width: 15%;
 }
 
+.appTable_wide .appTable__colSupport {
+	width: 12%;
+}
+
 .appTable__colActions {
 	width: 25%;
+}
+
+.appTable_wide .appTable__colActions {
+	width: 20%;
 }
 
 .appTable_narrow .appTable__colActions {
