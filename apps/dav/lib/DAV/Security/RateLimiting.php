@@ -34,7 +34,7 @@ class RateLimiting {
 		}
 
 		$identifier = 'share-addressbook-or-calendar';
-		$userLimit = $this->config->getValueInt('dav', 'rateLimitShareAddressbookOrCalendar', 200);
+		$userLimit = $this->config->getValueInt('dav', 'rateLimitShareAddressbookOrCalendar', 100);
 		$userPeriod = $this->config->getValueInt('dav', 'rateLimitPeriodShareAddressbookOrCalendar', 3600);
 
 		try {
