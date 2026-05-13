@@ -556,7 +556,13 @@ trait Sharing {
 
 		$returnedShare = $this->getXmlResponse()->data[0];
 		if ($returnedShare->element) {
-			$returnedShare = $returnedShare->element[$number];
+			$returnedShare = (array)$returnedShare;
+			$returnedShare = $returnedShare['element'];
+			if (is_array($returnedShare)) {
+				usort($returnedShare, fn ($share1, $share2) => (int)$share1->id <=> (int)$share2->id);
+			}
+
+			$returnedShare = $returnedShare[$number];
 		}
 
 		$defaultExpectedFields = [
