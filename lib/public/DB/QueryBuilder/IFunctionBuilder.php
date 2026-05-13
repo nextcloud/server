@@ -176,4 +176,15 @@ interface IFunctionBuilder {
 	 * @since 34.0.0
 	 */
 	public function now(): IQueryFunction;
+
+	/**
+	 * Builds a simple CASE WHEN … THEN … ELSE … END expression.
+	 *
+	 * @param string|IQueryFunction $condition SQL condition (e.g. from `$expr->gt(…)`)
+	 * @param string|ILiteral|IParameter|IQueryFunction $then Result when condition is true
+	 * @param string|ILiteral|IParameter|IQueryFunction $else Result when condition is false
+	 * @return IQueryFunction
+	 * @since 34.0.0
+	 */
+	public function caseWhen($condition, $then, $else): IQueryFunction;
 }
