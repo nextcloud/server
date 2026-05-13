@@ -23,12 +23,12 @@ use OCP\Files\Storage\IStorage;
  */
 class PermissionsMask extends Wrapper {
 	/**
-	 * @var int the permissions bits we want to keep
+	 * @var int-mask-of<Constants::PERMISSION_*> the permissions bits we want to keep
 	 */
 	protected readonly int $mask;
 
 	/**
-	 * @param array{storage: IStorage, mask: int, ...} $parameters
+	 * @param array{storage: IStorage, mask: int-mask-of<Constants::PERMISSION_*>, ...} $parameters
 	 *
 	 * $storage: The storage the permissions mask should be applied on
 	 * $mask: The permission bits that should be kept, a combination of the \OCP\Constant::PERMISSION_ constants

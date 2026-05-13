@@ -236,11 +236,17 @@ abstract class Node implements INode {
 		return $this->info->getInternalPath();
 	}
 
+	/**
+	 * @param string|null $user
+	 * @return int-mask-of<Constants::PERMISSION_*>
+	 */
 	public function getSharePermissions(?string $user): int {
 		// check of we access a federated share
 		if ($user !== null) {
 			try {
-				return $this->shareManager->getShareByToken($user)->getPermissions();
+				/** @var int-mask-of<Constants::PERMISSION_*> $permissions */
+				$permissions = $this->shareManager->getShareByToken($user)->getPermissions();
+				return $permissions;
 			} catch (ShareNotFound) {
 				// ignore
 			}
@@ -259,21 +265,21 @@ abstract class Node implements INode {
 		}
 
 		/*
-		 * We can always share non moveable mount points with DELETE and UPDATE
+		 * We can always share non-moveable mount points with DELETE and UPDATE
 		 * Eventually we need to do this properly
 		 */
 		$mountpoint = $this->info->getMountPoint();
 		if (!($mountpoint instanceof IMovableMount)) {
 			/**
 			 * @psalm-suppress UnnecessaryVarAnnotation Rector doesn't trust the return type annotation
-			 * @var string $mountpointpath
+			 * @var string $mountpointPath
 			 */
-			$mountpointpath = $mountpoint->getMountPoint();
-			if (str_ends_with($mountpointpath, '/')) {
-				$mountpointpath = substr($mountpointpath, 0, -1);
+			$mountpointPath = $mountpoint->getMountPoint();
+			if (str_ends_with($mountpointPath, '/')) {
+				$mountpointPath = substr($mountpointPath, 0, -1);
 			}
 
-			if (!$mountpoint->getOption('readonly', false) && $mountpointpath === $this->info->getPath()) {
+			if (!$mountpoint->getOption('readonly', false) && $mountpointPath === $this->info->getPath()) {
 				$permissions |= Constants::PERMISSION_DELETE | Constants::PERMISSION_UPDATE;
 			}
 		}
@@ -285,6 +291,7 @@ abstract class Node implements INode {
 			$permissions &= ~(Constants::PERMISSION_CREATE | Constants::PERMISSION_DELETE);
 		}
 
+		/** @var int-mask-of<Constants::PERMISSION_*> $permissions */
 		return $permissions;
 	}
 

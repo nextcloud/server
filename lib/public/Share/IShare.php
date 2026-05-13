@@ -275,22 +275,20 @@ interface IShare {
 
 	/**
 	 * Set the permissions.
-	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @param int $permissions
+	 * @param int-mask-of<Constants::PERMISSION_*> $permissions
 	 * @return IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setPermissions($permissions);
+	public function setPermissions(int $permissions): self;
 
 	/**
 	 * Get the share permissions
-	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @return int
+	 * @return int-mask-of<Constants::PERMISSION_*>
 	 * @since 9.0.0
 	 */
-	public function getPermissions();
+	public function getPermissions(): int;
 
 	/**
 	 * Create share attributes object

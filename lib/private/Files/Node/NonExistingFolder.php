@@ -86,7 +86,7 @@ class NonExistingFolder extends Folder {
 	}
 
 	#[\Override]
-	public function getPermissions() {
+	public function getPermissions(): int {
 		if ($this->fileInfo) {
 			return parent::getPermissions();
 		} else {

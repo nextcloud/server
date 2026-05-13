@@ -223,11 +223,6 @@ class Manager implements IManager {
 			throw new GenericShareException($this->l->t('You are not allowed to share %s', [$share->getNode()->getName()]), code: 404);
 		}
 
-		// Permissions should be set
-		if ($share->getPermissions() === null) {
-			throw new \InvalidArgumentException($this->l->t('Valid permissions are required for sharing'));
-		}
-
 		// Permissions must be valid
 		if ($share->getPermissions() < 0 || $share->getPermissions() > Constants::PERMISSION_ALL) {
 			throw new \InvalidArgumentException($this->l->t('Valid permissions are required for sharing'));

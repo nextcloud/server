@@ -911,7 +911,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function createShare($id, int $type, ?Node $node, $sharedWith, $sharedBy, $shareOwner,
-		$permissions, $expireDate = null, $password = null, $attributes = null): IShare&MockObject {
+		int $permissions, $expireDate = null, $password = null, $attributes = null): IShare&MockObject {
 		$share = $this->createMock(IShare::class);
 
 		$share->method('getShareType')->willReturn($type);
@@ -1012,10 +1012,6 @@ class ManagerTest extends \Test\TestCase {
 			],
 			'default',
 		];
-
-		$data[] = [[null, IShare::TYPE_USER, $limitedPermssions, $user2, $user0, $user0, null, null, null], 'Valid permissions are required for sharing', true];
-		$data[] = [[null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, null, null, null], 'Valid permissions are required for sharing', true];
-		$data[] = [[null, IShare::TYPE_LINK, $limitedPermssions, null, $user0, $user0, null, null, null], 'Valid permissions are required for sharing', true];
 
 		$limitedPermssions[1]['getMountPoint'] = IMovableMount::class;
 

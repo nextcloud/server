@@ -207,11 +207,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return isset($this->data['encryptedVersion']) ? (int)$this->data['encryptedVersion'] : 1;
 	}
 
-	/**
-	 * @return int
-	 */
 	#[\Override]
-	public function getPermissions() {
+	public function getPermissions(): int {
 		return (int)$this->data['permissions'];
 	}
 

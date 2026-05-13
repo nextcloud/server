@@ -153,10 +153,10 @@ interface FileInfo {
 	 * \OCP\Constants::PERMISSION_SHARE
 	 * \OCP\Constants::PERMISSION_ALL
 	 *
-	 * @return int
+	 * @return int-mask-of<Constants::PERMISSION_*>
 	 * @since 7.0.0 - namespace of constants has changed in 8.0.0
 	 */
-	public function getPermissions();
+	public function getPermissions(): int;
 
 	/**
 	 * Check whether this is a file or a folder
