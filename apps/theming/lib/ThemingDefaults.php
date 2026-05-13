@@ -403,6 +403,12 @@ class ThemingDefaults extends \OC_Defaults {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]);
 		}
 		if ($image === 'manifest.json') {
+			// Force instance branding for the installable web app manifest.
+			// `core` ships a static manifest.json, but for PWAs we want
+			// the dynamic theming manifest so the app name/icon follow instance theming.
+			if ($app === 'core' || $app === 'settings') {
+				return $this->urlGenerator->linkToRoute('theming.Theming.getManifest', ['app' => 'core']) . '?v=' . $this->util->getCacheBuster();
+			}
 			try {
 				$appPath = $this->appManager->getAppPath($app);
 				if (file_exists($appPath . '/img/manifest.json')) {
