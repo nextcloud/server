@@ -478,7 +478,6 @@ class ApiController extends OCSController {
 				'active' => $this->appManager->isEnabledForUser($app['id']),
 				'needsDownload' => !$existsLocally,
 				'groups' => $groups,
-				'fromAppStore' => true,
 				'appstoreData' => $app,
 			];
 		}
