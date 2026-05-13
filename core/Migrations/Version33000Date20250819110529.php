@@ -31,7 +31,7 @@ class Version33000Date20250819110529 extends SimpleMigrationStep {
 		if (!$schema->hasTable('preview_locations')) {
 			$table = $schema->createTable('preview_locations');
 			$table->addColumn('id', Types::BIGINT, ['autoincrement' => true, 'notnull' => true, 'length' => 20, 'unsigned' => true]);
-			$table->addColumn('bucket_name', Types::STRING, ['notnull' => true, 'length' => 40]);
+			$table->addColumn('bucket_name', Types::STRING, ['notnull' => true, 'length' => 63]);
 			$table->addColumn('object_store_name', Types::STRING, ['notnull' => true, 'length' => 40]);
 			$table->setPrimaryKey(['id']);
 		}
