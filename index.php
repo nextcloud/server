@@ -23,8 +23,7 @@ use Psr\Log\LoggerInterface;
  * Respond with JSON for non-HTML requests, otherwise render an HTML page.
  * If a template name is provided, render it instead of the default error page template.
  */
-function respondWithHtmlOrJsonError(int $statusCode, string $message, ?string $templateName = null): never
-{
+function respondWithHtmlOrJsonError(int $statusCode, string $message, ?string $templateName = null): never {
 	$request = Server::get(IRequest::class);
 
 	// TODO: consider parsing the Accept header properly instead of checking for "html".
