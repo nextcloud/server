@@ -8,7 +8,6 @@
 namespace OC\Encryption;
 
 use OC\Files\Filesystem;
-use OC\Files\Mount\HomeMountPoint;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
@@ -17,7 +16,6 @@ use OCP\Encryption\Keys\IStorage as EncryptionKeysStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
-use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -68,12 +66,6 @@ class EncryptionWrapper {
 
 			// Root mount point handling: skip encryption wrapper
 			if ($mountPoint === '/') {
-				return $storage;
-			}
-
-			// Skip encryption for home mounts if encryptHomeStorage is disabled
-			if ($mount instanceof HomeMountPoint
-				&& !Server::get(IAppConfig::class)->getValueBool('encryption', 'encryptHomeStorage', true)) {
 				return $storage;
 			}
 		}
