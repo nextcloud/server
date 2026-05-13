@@ -8,7 +8,12 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\HomeObjectStoreStorage;
+use OC\Files\Storage\Home;
+use OC\Files\Storage\Wrapper\Quota;
+use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\IBinaryFinder;
 use OCP\ICacheFactory;
 use OCP\IUser;
@@ -181,16 +186,23 @@ class OC_Helper {
 			self::$quotaIncludeExternalStorage = false;
 		}
 		if (self::$quotaIncludeExternalStorage) {
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
+			if ($storage->instanceOfStorage(ISharedStorage::class)) {
+				// we must use the shared nodes owner,
+				// because if user A shared a file with user B and B shares this again,
+				// then the share initiator is user B but the quota that this counts in is user A's quota.
+				/** @var ISharedStorage $storage */
+				$user = $storage->getShare()->getNode()->getOwner();
+			} elseif (
+				$storage->instanceOfStorage('\OC\Files\Storage\Home')
 				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
 			) {
-				/** @var \OC\Files\Storage\Home $storage */
+				/** @var Home|HomeObjectStoreStorage $storage */
 				$user = $storage->getUser();
 			} else {
 				$user = \OC::$server->getUserSession()->getUser();
 			}
-			$quota = $user?->getQuotaBytes() ?? \OCP\Files\FileInfo::SPACE_UNKNOWN;
-			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+			$quota = $user?->getQuotaBytes() ?? FileInfo::SPACE_UNKNOWN;
+			if ($user !== null && $quota !== FileInfo::SPACE_UNLIMITED) {
 				// always get free space / total space from root + mount points
 				return self::getGlobalStorageInfo($quota, $user, $mount);
 			}
@@ -198,7 +210,7 @@ class OC_Helper {
 
 		// TODO: need a better way to get total space from storage
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
-			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
+			/** @var Quota $sourceStorage */
 			$quota = $sourceStorage->getQuota();
 		}
 		try {
