@@ -7,10 +7,10 @@ declare(strict_types=1);
  */
 namespace OCA\Appstore\Tests\Controller;
 
-use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Installer;
 use OCA\Appstore\Controller\PageController;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -32,7 +32,7 @@ final class PageControllerTest extends TestCase {
 
 	private INavigationManager&MockObject $navigationManager;
 
-	private AppManager&MockObject $appManager;
+	private IAppManager&MockObject $appManager;
 
 	private BundleFetcher&MockObject $bundleFetcher;
 
@@ -55,7 +55,7 @@ final class PageControllerTest extends TestCase {
 			->willReturnArgument(0);
 		$this->config = $this->createMock(IConfig::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
-		$this->appManager = $this->createMock(AppManager::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
