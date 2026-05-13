@@ -84,8 +84,6 @@ export interface IAppstoreAppResponse extends IAppInfoData, Partial<IAppstoreMet
 
 	// App dependency information
 	dependencies: unknown
-	missingMaxNextcloudVersion: boolean
-	missingMinNextcloudVersion: boolean
 
 	// App state information
 

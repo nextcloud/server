@@ -247,9 +247,7 @@
                                                             "name",
                                                             "groups",
                                                             "internal",
-                                                            "isCompatible",
-                                                            "missingMaxNextcloudVersion",
-                                                            "missingMinNextcloudVersion"
+                                                            "isCompatible"
                                                         ],
                                                         "properties": {
                                                             "id": {
@@ -275,12 +273,6 @@
                                                                 "items": {
                                                                     "type": "string"
                                                                 }
-                                                            },
-                                                            "missingMaxNextcloudVersion": {
-                                                                "type": "boolean"
-                                                            },
-                                                            "missingMinNextcloudVersion": {
-                                                                "type": "boolean"
                                                             }
                                                         }
                                                     }
