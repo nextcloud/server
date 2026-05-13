@@ -38,6 +38,10 @@ export default class Share {
 		}
 		ocsData.attributes = ocsData.attributes ?? []
 
+		// Pre-declared so Vue 2 makes newPassword reactive at observation time,
+		// avoiding $set's property-addition path which races with async setters.
+		ocsData.newPassword = ocsData.newPassword ?? undefined
+
 		// store state
 		this._share = ocsData
 	}
@@ -276,6 +280,18 @@ export default class Share {
 	 */
 	set password(password: string) {
 		this._share.password = password
+	}
+
+	/**
+	 * Unsaved password (set during share creation or editing).
+	 * Delegates to _share so reads/writes go through the reactive state.
+	 */
+	get newPassword(): string | undefined {
+		return this._share.newPassword
+	}
+
+	set newPassword(value: string | undefined) {
+		this._share.newPassword = value
 	}
 
 	/**
