@@ -142,6 +142,8 @@ class RuleMatcher implements IRuleMatcher {
 				$configuredEvents = $operation->events;
 				$checkIds = $operation->checks;
 				$checks = $this->manager->getRuntimeChecks($checkIds, $operation->appId);
+				// from now on, backwards compatibility is required
+				$operation = $operation->toArray();
 			} else {
 				$configuredEvents = json_decode($operation['events'], true);
 				$checkIds = json_decode($operation['checks'], true);
