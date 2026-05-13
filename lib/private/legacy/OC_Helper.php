@@ -195,7 +195,7 @@ class OC_Helper {
 			if ($storage->instanceOfStorage(ISharedStorage::class)) {
 				// we must use the shared nodes owner,
 				// because if user A shared a file with user B and B shares this again,
-				// then the share owner is user B but the quota that this counts in is user A's quota.
+				// then the share initiator is user B but the quota that this counts in is user A's quota.
 				/** @var ISharedStorage $storage */
 				$user = $storage->getShare()->getNode()->getOwner();
 			} elseif (
