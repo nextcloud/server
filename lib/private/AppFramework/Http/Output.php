@@ -54,7 +54,7 @@ class Output implements IOutput {
 			foreach (['Content-Security-Policy:', 'Feature-Policy:'] as $prefix) {
 				if (str_starts_with($header, $prefix)) {
 					$value = ltrim(substr($header, strlen($prefix)));
-					$directives = array_filter(array_map('trim', explode(';', $value)));
+					$directives = array_filter(array_map(trim(...), explode(';', $value)));
 					$segment = '';
 					$first = true;
 					foreach ($directives as $directive) {
