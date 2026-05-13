@@ -289,7 +289,6 @@
     "Could not check that your web server serves security headers correctly, unable to query `%s`" : "Could not check that your web server serves security headers correctly, unable to query `%s`",
     "Your server is correctly configured to send security headers." : "Your server is correctly configured to send security headers.",
     "Configuration server ID" : "Configuration server ID",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" is not a valid server identifier. It must be between 0 and 1023.",
     "Database version" : "Database version",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud.",
     "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud.",
@@ -731,7 +730,6 @@
     "Admins" : "Admins",
     "Account group: {group}" : "Account group: {group}",
     "Account management" : "Account management",
-    "Clear search" : "Clear search",
     "For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted." : "For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted.",
     "Location" : "Location",
     "Profile picture" : "Profile picture",
@@ -961,6 +959,7 @@
     "SMTP Login" : "SMTP Login",
     "SMTP Password" : "SMTP Password",
     "Test and verify email settings" : "Test and verify email settings",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" is not a valid server identifier. It must be between 0 and 1023.",
     "{progress}% Deploying …" : "{progress}% Deploying …",
     "{progress}% Initializing …" : "{progress}% Initializing …"
 },"pluralForm" :"nplurals=1; plural=0;"

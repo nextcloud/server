@@ -292,7 +292,6 @@ OC.L10N.register(
     "Your server is correctly configured to send security headers." : "مۇلازىمېتىرىڭىز بىخەتەرلىك ماۋزۇلىرىنى ئەۋەتىش ئۈچۈن توغرا تەڭشەلدى.",
     "Configuration server ID" : "تەڭشەش مۇلازىمېتىر ID",
     "Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration." : "سېرۋېر ئىدېنتىفىكاتورى تەڭشىلىنمىگەن. ئەگەر Nextcloud مىسالىڭىز بىر قانچە PHP سېرۋېرىدا ئىجرا بولۇۋاتقان بولسا، بۇنى تەۋسىيە قىلىمىز. سەپلىمىڭىزگە سېرۋېر ئىدېنتىفىكاتورى قوشۇڭ.",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" ئىناۋەتلىك مۇلازىمېتىر كىملىكى ئەمەس. ئۇ 0 بىلەن 1023 ئارىلىقىدا بولۇشى كېرەك.",
     "Server identifier is configured and valid." : "مۇلازىمېتىر بەلگىلىگۈچى ئىناۋەتلىك ھەمدە سەپلەندى.",
     "Database version" : "ساندان نەشرى",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "MariaDB 10.3 نەشرى بايقالدى ، بۇ نەشرى ئۆمرىنىڭ ئاخىرى بولۇپ ، پەقەت ئۇبۇنتۇ 20.04 نىڭ بىر قىسمى سۈپىتىدە قوللايدۇ. MariaDB> =%1$s ۋە <=%2$s بولسا Nextcloud نىڭ بۇ نەشىرى بىلەن ئەڭ ياخشى ئىقتىدار ، مۇقىملىق ۋە ئىقتىدار ئۈچۈن تەۋسىيە قىلىنىدۇ.",
@@ -738,7 +737,6 @@ OC.L10N.register(
     "Admins" : "باشقۇرغۇچى",
     "Account group: {group}" : "ھېسابات گۇرۇپپىسى: {group}",
     "Account management" : "ھېسابات باشقۇرۇش",
-    "Clear search" : "ئىزدەشنى تازىلاش",
     "For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted." : "ئىقتىدار سەۋەبىدىن، {productName} مۇلازىمېتىردا شىفىرلاشنى قوزغاتقاندا، پەقەت يېڭى ۋە ئۆزگەرتىلگەن ھۆججەتلەرلا شىفىرلىنىدۇ.",
     "Location" : "ئورنى",
     "Profile picture" : "ئارخىپ رەسىمى",
@@ -968,6 +966,7 @@ OC.L10N.register(
     "SMTP Login" : "SMTP كىرىش",
     "SMTP Password" : "SMTP پارول",
     "Test and verify email settings" : "ئېلېكترونلۇق خەت تەڭشىكىنى سىناش ۋە دەلىللەش",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" ئىناۋەتلىك مۇلازىمېتىر كىملىكى ئەمەس. ئۇ 0 بىلەن 1023 ئارىلىقىدا بولۇشى كېرەك.",
     "{progress}% Deploying …" : "ئورۇنلاشتۇرۇش %{progress}  ...",
     "{progress}% Initializing …" : "%{progress} دەسلەپلەشتۈرۋاتىدۇ  ..."
 },
