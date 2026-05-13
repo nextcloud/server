@@ -1062,4 +1062,59 @@ class AccountManagerTest extends TestCase {
 			$this->assertEquals($expectedResultScopeValue, $resultScope, "The result scope doesn't follow the value set into the config or defaults correctly.");
 		}
 	}
+
+	public static function dataUpdateAccountRejectsInvalidScopeForUnpublishedProperty(): array {
+		$cases = [];
+		foreach (IAccountManager::UNPUBLISHED_PROPERTIES as $property) {
+			$cases[] = [$property, IAccountManager::SCOPE_FEDERATED];
+			$cases[] = [$property, IAccountManager::SCOPE_PUBLISHED];
+		}
+		return $cases;
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateAccountRejectsInvalidScopeForUnpublishedProperty')]
+	public function testUpdateAccountRejectsInvalidScopeForUnpublishedProperty(string $property, string $scope): void {
+		$user = $this->createMock(IUser::class);
+		$account = new Account($user);
+		$account->setProperty($property, 'some value', $scope, IAccountManager::NOT_VERIFIED);
+
+		$manager = $this->getInstance(['getUser', 'updateUser']);
+		$manager->method('getUser')->with($user, false)->willReturn([]);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('scope');
+		$manager->updateAccount($account);
+	}
+
+	public function testUpdateAccountRejectsPublishedScopeWhenLookupServerDisabled(): void {
+		$user = $this->createMock(IUser::class);
+		$account = new Account($user);
+		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED);
+
+		$manager = $this->getInstance(['getUser', 'updateUser']);
+		$manager->method('getUser')->with($user, false)->willReturn([]);
+		$this->config->method('getAppValue')
+			->with('files_sharing', 'lookupServerUploadEnabled', 'no')
+			->willReturn('no');
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('scope');
+		$manager->updateAccount($account);
+	}
+
+	public function testUpdateAccountAllowsPublishedScopeWhenLookupServerEnabled(): void {
+		$user = $this->createMock(IUser::class);
+		$account = new Account($user);
+		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED);
+
+		$manager = $this->getInstance(['getUser', 'updateUser']);
+		$manager->method('getUser')->with($user, false)->willReturn([]);
+		$this->config->method('getSystemValueString')->willReturn('');
+		$this->config->method('getAppValue')
+			->with('files_sharing', 'lookupServerUploadEnabled', 'no')
+			->willReturn('yes');
+		$manager->expects($this->once())->method('updateUser');
+
+		$manager->updateAccount($account);
+	}
 }

@@ -147,6 +147,21 @@ interface IAccountManager {
 	public const PROPERTY_PRONOUNS = 'pronouns';
 
 	/**
+	 * Properties that are only visible within the local instance and must not be
+	 * published to the global lookup server or shared via federation.
+	 * This matches the frontend's UNPUBLISHED_READABLE_PROPERTIES constant.
+	 *
+	 * @since 32.0.0
+	 */
+	public const UNPUBLISHED_PROPERTIES = [
+		self::PROPERTY_BIOGRAPHY,
+		self::PROPERTY_BIRTHDATE,
+		self::PROPERTY_HEADLINE,
+		self::PROPERTY_ORGANISATION,
+		self::PROPERTY_ROLE,
+	];
+
+	/**
 	 * The list of allowed properties
 	 *
 	 * @since 25.0.0
