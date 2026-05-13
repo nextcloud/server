@@ -52,6 +52,7 @@ import { handleError } from '../../../utils/handlers.ts'
 const {
 	federationEnabled,
 	lookupServerUploadEnabled,
+	maxPropertyScopes,
 } = loadState('settings', 'accountParameters', {})
 
 export default {
@@ -123,18 +124,24 @@ export default {
 		},
 
 		supportedScopes() {
-			const scopes = PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable]
+			const scopes = [...PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable]]
 
-			if (UNPUBLISHED_READABLE_PROPERTIES.includes(this.readable)) {
-				return scopes
+			if (!UNPUBLISHED_READABLE_PROPERTIES.includes(this.readable)) {
+				if (federationEnabled) {
+					scopes.push(SCOPE_ENUM.FEDERATED)
+				}
+				if (lookupServerUploadEnabled) {
+					scopes.push(SCOPE_ENUM.PUBLISHED)
+				}
 			}
 
-			if (federationEnabled) {
-				scopes.push(SCOPE_ENUM.FEDERATED)
-			}
-
-			if (lookupServerUploadEnabled) {
-				scopes.push(SCOPE_ENUM.PUBLISHED)
+			// Apply admin-configured scope ceiling for this property.
+			const propertyKey = PROPERTY_READABLE_KEYS_ENUM[this.readable]
+			const maxScope = propertyKey && maxPropertyScopes?.[propertyKey]
+			if (maxScope) {
+				const order = [SCOPE_ENUM.PRIVATE, SCOPE_ENUM.LOCAL, SCOPE_ENUM.FEDERATED, SCOPE_ENUM.PUBLISHED]
+				const maxIndex = order.indexOf(maxScope)
+				return scopes.filter((scope) => order.indexOf(scope) <= maxIndex)
 			}
 
 			return scopes
