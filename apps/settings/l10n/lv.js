@@ -176,7 +176,6 @@ OC.L10N.register(
     "There are some warnings regarding your setup." : "Ir daži brīdinājumi saistībā ar šo serveri.",
     "Apply" : "Apstiprināt",
     "Admins" : "Pārvaldītāji",
-    "Clear search" : "Notīrīt meklēšanu",
     "Location" : "Atrašanās vieta",
     "Profile picture" : "Profila attēls",
     "About" : "Par",

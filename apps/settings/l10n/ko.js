@@ -594,7 +594,6 @@ OC.L10N.register(
     "Admins" : "관리자",
     "Account group: {group}" : "계정 그룹: {group}",
     "Account management" : "계정 관리",
-    "Clear search" : "찾기 초기화",
     "Location" : "위치",
     "Profile picture" : "프로필 사진",
     "About" : "정보",

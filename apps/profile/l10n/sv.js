@@ -17,6 +17,7 @@ OC.L10N.register(
     "Edit Profile" : "Redigera profil",
     "The headline and about sections will show up here" : "Rubriken och avsnitten \"om\" kommer att dyka upp här",
     "Profile not found" : "Profil kunde inte hittas",
+    "The profile does not exist or is unavailable." : "Profilen finns inte eller är inte tillgänglig.",
     "Back to %s" : "Tillbaka till %s",
     "The profile does not exist." : "Profilen finns inte."
 },

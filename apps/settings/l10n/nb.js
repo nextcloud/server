@@ -634,7 +634,6 @@ OC.L10N.register(
     "Admins" : "Administratorer",
     "Account group: {group}" : "Kontogruppe: {group}",
     "Account management" : "Kontoadministrasjon",
-    "Clear search" : "Tøm søk",
     "Location" : "Sted",
     "Profile picture" : "Profilbilde",
     "About" : "Om",
