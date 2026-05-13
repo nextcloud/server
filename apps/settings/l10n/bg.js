@@ -291,7 +291,6 @@ OC.L10N.register(
     "Could not check that your web server serves security headers correctly, unable to query `%s`" : "Невъзможно е да се провери дали вашият уеб сървър обслужва правилно защитните хедъри, не може да се направи заявка `%s`",
     "Your server is correctly configured to send security headers." : "Вашият сървър е правилно конфигуриран да изпраща защитни хедъри.",
     "Configuration server ID" : "ID на сървъра за конфигурация",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "„%d“ не е валиден идентификатор на сървъра. Трябва да е между 0 и 1023.",
     "Database version" : "Версия на база данни",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Открита е версия 10.3 на MariaDB. Тази версия е с изтекъл срок на експлоатация и се поддържа само като част от Ubuntu 20.04. За най-добра производителност, стабилност и функционалност с тази версия на Nextcloud се препоръчва MariaDB >= %1$s и <= %2$s.",
     "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Открита е версия на MariaDB \"%1$s\". За най-добра производителност, стабилност и функционалност с тази версия на Nextcloud се препоръчва MariaDB >= %2$s и <=%3$s.",
@@ -734,7 +733,6 @@ OC.L10N.register(
     "Admins" : "Администратори",
     "Account group: {group}" : "Група акаунти: {group}",
     "Account management" : "Управление на акаунта",
-    "Clear search" : "Изчисти търсенето",
     "For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted." : "От съображения за производителност, когато активирате криптиране на {productName} сървър, само новите и променените файлове се криптират.",
     "Location" : "Местоположение",
     "Profile picture" : "Снимка за профила",
@@ -964,6 +962,7 @@ OC.L10N.register(
     "SMTP Login" : "SMTP вход",
     "SMTP Password" : "SMTP парола",
     "Test and verify email settings" : "Тествайте и потвърждаване на настройките на имейла",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "„%d“ не е валиден идентификатор на сървъра. Трябва да е между 0 и 1023.",
     "{progress}% Deploying …" : "{progress} % Внедряване...",
     "{progress}% Initializing …" : "{progress} % Инициализиране..."
 },

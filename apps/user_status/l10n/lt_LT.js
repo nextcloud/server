@@ -13,7 +13,7 @@ OC.L10N.register(
     "Be right back" : "Tuoj grįšiu",
     "User status" : "Naudotojo būsena",
     "Clear status after" : "Išvalyti būseną po",
-    "Emoji for your status message" : "Jaustukai jūsų būsenos pranešimui",
+    "Emoji for your status message" : "Emociukai jūsų būsenos pranešimui",
     "What is your status?" : "Kokia jūsų būsena?",
     "Predefined statuses" : "Iš anksto apibrėžtos būsenos",
     "Previously set" : "Anksčiau nustatyta",

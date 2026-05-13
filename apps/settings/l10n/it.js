@@ -294,7 +294,6 @@ OC.L10N.register(
     "Your server is correctly configured to send security headers." : "Il tuo server è configurato correttamente per inviare intestazioni di sicurezza.",
     "Configuration server ID" : "ID server di configurazione",
     "Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration." : "L'identificatore del server non è configurato. È consigliabile se l'istanza Nextcloud è in esecuzione su più server PHP. Aggiungi un ID server nella configurazione.",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" non è un identificatore di server valido. Deve essere compreso tra 0 e 1023.",
     "Server identifier is configured and valid." : "L'identificatore del server è configurato e valido.",
     "Database version" : "Versione del database",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Rilevata versione MariaDB 10.3. Questa versione è giunta al termine del ciclo di vita ed è supportata solo come parte di Ubuntu 20.04. Per ottenere prestazioni, stabilità e funzionalità ottimali con questa versione di Nextcloud, si consiglia di utilizzare MariaDB >=%1$s e <=%2$s.",
@@ -743,7 +742,6 @@ OC.L10N.register(
     "Admins" : "Amministratori",
     "Account group: {group}" : "Gruppo account: {group}",
     "Account management" : "Gestione account",
-    "Clear search" : "Svuota ricerca",
     "For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted." : "Per motivi di prestazioni, quando si abilita la crittografia su un server {productName}, vengono crittografati solo i file nuovi e modificati.",
     "Location" : "Posizione",
     "Profile picture" : "Immagine del profilo",
@@ -970,6 +968,7 @@ OC.L10N.register(
     "SMTP Login" : "Login SMTP",
     "SMTP Password" : "Password SMTP",
     "Test and verify email settings" : "Prova e verifica impostazioni email",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" non è un identificatore di server valido. Deve essere compreso tra 0 e 1023.",
     "{progress}% Deploying …" : "Distribuzione al {progress}% …",
     "{progress}% Initializing …" : "Inizializzazione al {progress}% …"
 },

@@ -19,7 +19,7 @@ use OCP\AppFramework\Attribute\Consumable;
 #[Consumable(since: '33.0.0')]
 final readonly class Snowflake {
 	/**
-	 * @psalm-param int<0,1023> $serverId
+	 * @psalm-param int<0,511> $serverId
 	 * @psalm-param int<0,4095> $sequenceId
 	 * @psalm-param non-negative-int $seconds
 	 * @psalm-param int<0,999> $milliseconds
@@ -36,7 +36,7 @@ final readonly class Snowflake {
 	}
 
 	/**
-	 * @psalm-return int<0,1023>
+	 * @psalm-return int<0,511>
 	 * @since 33.0.0
 	 */
 	public function getServerId(): int {

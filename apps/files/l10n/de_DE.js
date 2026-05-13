@@ -184,7 +184,7 @@ OC.L10N.register(
     "Owner" : "Besitzer",
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",
     "{used} of {quota} used" : "{used} von {quota} verwendet",
-    "{relative}% used" : "{relative} % verwendet",
+    "{relative}% used" : "{relative}% verwendet",
     "Could not refresh storage stats" : "Die Speicherstatistik konnte nicht aktualisiert werden",
     "Your storage is full, files can not be updated or synced anymore!" : "Ihr Speicher ist voll, daher können keine Dateien mehr aktualisiert oder synchronisiert werden!",
     "Storage information" : "Speicherinformation",

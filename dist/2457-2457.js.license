@@ -104,7 +104,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.4.1
+	- version: 3.4.2
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -128,10 +128,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.1
 	- license: MIT
 - eventemitter3
-	- version: 5.0.1
+	- version: 5.0.4
 	- license: MIT
 - p-queue
-	- version: 9.1.2
+	- version: 9.2.0
 	- license: MIT
 - inherits
 	- version: 2.0.3
@@ -170,7 +170,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webdav
-	- version: 5.9.0
+	- version: 5.10.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1

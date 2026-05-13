@@ -291,7 +291,6 @@ OC.L10N.register(
     "Could not check that your web server serves security headers correctly, unable to query `%s`" : "Није могло да се провери да ли ваш веб сервер исправно сервира безбедносна заглавља, није успео упит `%s`",
     "Your server is correctly configured to send security headers." : "Ваш сервер је исправно подешен за слање безбедносних заглавља.",
     "Configuration server ID" : "ИД сервера за конфигурацију ",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "„%d” није исправан идентификатор сервера. Мора да буде између 0 и 1023.",
     "Database version" : "Верзија базе података",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Детектована је MariaDB верзија 10.3, ова верзија је на крају животног века и подржава се само као део Ubuntu 20.04 оперативног система. За најбоље перформансе, стабилност и функционалност са овом Nextcloud верзијом, препоручује се MariaDB >=%1$s и <=%2$s.",
     "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Детектована је MariaDB верзија „%1$s”. За најбоље перформансе, стабилност и функционалност са овом Nextcloud верзијом, препоручује се MariaDB >=%2$s и <=%3$s.",
@@ -734,7 +733,6 @@ OC.L10N.register(
     "Admins" : "Администратори",
     "Account group: {group}" : "Група налога: {group}",
     "Account management" : "Управљање налозима",
-    "Clear search" : "Обриши претрагу",
     "For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted." : "Из разлога перформанси, када укључите шифровање само на {productName} серверу, шифрују се нови и измењени фајлови.",
     "Location" : "Локација",
     "Profile picture" : "Слика профила",
@@ -964,6 +962,7 @@ OC.L10N.register(
     "SMTP Login" : "SMTP име за пријаву",
     "SMTP Password" : "SMTP лозинка",
     "Test and verify email settings" : "Тестирај и потврди подешавања и-мејла",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "„%d” није исправан идентификатор сервера. Мора да буде између 0 и 1023.",
     "{progress}% Deploying …" : "{progress}% Поставља се ",
     "{progress}% Initializing …" : "{progress}% Иницијализује се …"
 },

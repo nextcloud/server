@@ -13,7 +13,7 @@ OC.L10N.register(
     "Edit Profile" : "ئارخىپنى تەھرىرلەش",
     "The headline and about sections will show up here" : "ماۋزۇ ۋە بۆلەكلەر بۇ يەردە كۆرسىتىلىدۇ",
     "Profile not found" : "ئارخىپ تېپىلمىدى",
-    "The profile does not exist." : "ئارخىپ مەۋجۇت ئەمەس.",
-    "Back to %s" : "%s گە قايتىش"
+    "Back to %s" : "%s گە قايتىش",
+    "The profile does not exist." : "ئارخىپ مەۋجۇت ئەمەس."
 },
 "nplurals=2; plural=(n != 1);");

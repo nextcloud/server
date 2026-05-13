@@ -16,8 +16,9 @@ OC.L10N.register(
     "Error opening the user status modal, try hard refreshing the page" : "Kasutaja oleku modaalse vaate avamine ei õnnestunud, proovi lehte värskendada",
     "Edit Profile" : "Muuda profiili",
     "The headline and about sections will show up here" : "Alapealkirja ja teabe lõigud saavad olema nähtavad siin",
-    "Profile not found" : "Profiili ei leitud",
-    "The profile does not exist." : "Profiili ei eksisteeri",
-    "Back to %s" : "Tagasi siia: %s"
+    "Profile not found" : "Profiili ei leidu",
+    "The profile does not exist or is unavailable." : "Seda profiili kas pole olemas või teda pole saadaval.",
+    "Back to %s" : "Tagasi siia: %s",
+    "The profile does not exist." : "Profiili pole olemas"
 },
 "nplurals=2; plural=(n != 1);");

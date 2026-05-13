@@ -9,7 +9,7 @@ OC.L10N.register(
     "Edit Profile" : "Уреди профил",
     "The headline and about sections will show up here" : "Насловот и за секциите ќе се појават овде",
     "Profile not found" : "Профилот не е пронајден",
-    "The profile does not exist." : "Профилот на постои",
-    "Back to %s" : "Врати се на %s"
+    "Back to %s" : "Врати се на %s",
+    "The profile does not exist." : "Профилот на постои"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

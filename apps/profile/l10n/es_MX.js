@@ -10,7 +10,7 @@ OC.L10N.register(
     "Edit Profile" : "Editar perfil",
     "The headline and about sections will show up here" : "El encabezado y la sección Acerca de aparecerán aquí",
     "Profile not found" : "Perfil no encontrado",
-    "The profile does not exist." : "El perfil no existe.",
-    "Back to %s" : "Volver a %s"
+    "Back to %s" : "Volver a %s",
+    "The profile does not exist." : "El perfil no existe."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -3,5 +3,5 @@ SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 
 This file is generated from multiple sources. Included packages:
 - webdav
-	- version: 5.9.0
+	- version: 5.10.0
 	- license: MIT

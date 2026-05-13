@@ -525,7 +525,6 @@ OC.L10N.register(
     "Admins" : "Skrbniki",
     "Account group: {group}" : "Skupina računov: {group}",
     "Account management" : "Upravljanje z računi",
-    "Clear search" : "Počisti iskanje",
     "Location" : "Trenutno mesto",
     "Profile picture" : "Slika profila",
     "About" : "O meni",

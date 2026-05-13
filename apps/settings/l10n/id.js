@@ -295,7 +295,6 @@ OC.L10N.register(
     "Your server is correctly configured to send security headers." : "Server Anda dikonfigurasi dengan benar untuk mengirim header keamanan.",
     "Configuration server ID" : "ID server konfigurasi",
     "Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration." : "Pengenal server belum dikonfigurasi. Disarankan jika instans Nextcloud Anda berjalan pada beberapa server PHP. Tambahkan ID server dalam konfigurasi Anda.",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" bukan pengenal server yang valid. Harus berada antara 0 dan 1023.",
     "Server identifier is configured and valid." : "Pengenal server telah dikonfigurasi dan valid.",
     "Database version" : "Versi database",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Terdeteksi MariaDB versi 10.3, versi ini sudah end-of-life dan hanya didukung sebagai bagian dari Ubuntu 20.04. MariaDB >=%1$s dan <=%2$s disarankan untuk kinerja, stabilitas, dan fungsionalitas terbaik dengan versi Nextcloud ini.",
@@ -748,7 +747,6 @@ OC.L10N.register(
     "Admins" : "Admin",
     "Account group: {group}" : "Grup akun: {group}",
     "Account management" : "Pengelolaan akun",
-    "Clear search" : "Hapus pencarian",
     "For performance reasons, when you enable encryption on a {productName} server only new and changed files are encrypted." : "Demi kinerja, saat Anda mengaktifkan enkripsi pada server {productName}, hanya file baru dan yang diubah yang dienkripsi.",
     "Location" : "Lokasi",
     "Profile picture" : "Foto profil",
@@ -978,6 +976,7 @@ OC.L10N.register(
     "SMTP Login" : "Login SMTP",
     "SMTP Password" : "Kata sandi SMTP",
     "Test and verify email settings" : "Uji dan verifikasi pengaturan email",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" bukan pengenal server yang valid. Harus berada antara 0 dan 1023.",
     "{progress}% Deploying …" : "{progress}% Melakukan deploy …",
     "{progress}% Initializing …" : "{progress}% Menginisialisasi …"
 },
