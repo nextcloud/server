@@ -60,6 +60,25 @@ interface IAccountManager {
 	];
 
 	/**
+	 * Visibility order of scopes from least to most visible.
+	 * Used to compare scope levels when enforcing admin-configured ceilings
+	 * via the ``account_manager.max_property_scope`` system config key.
+	 *
+	 * Warning: restricting properties that federation depends on
+	 * (``PROPERTY_DISPLAYNAME``, ``PROPERTY_EMAIL``, ``PROPERTY_AVATAR``,
+	 * ``PROPERTY_PRONOUNS``) below ``SCOPE_FEDERATED`` will break federated
+	 * sharing and other cross-instance features.
+	 *
+	 * @since 32.0.0
+	 */
+	public const PROPERTY_SCOPE_ORDER = [
+		self::SCOPE_PRIVATE => 0,
+		self::SCOPE_LOCAL => 1,
+		self::SCOPE_FEDERATED => 2,
+		self::SCOPE_PUBLISHED => 3,
+	];
+
+	/**
 	 * @since 15.0.0
 	 */
 	public const PROPERTY_AVATAR = 'avatar';
