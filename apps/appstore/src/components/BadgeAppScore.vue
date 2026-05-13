@@ -15,7 +15,7 @@ const { app } = defineProps<{
 	app: IAppstoreApp | IAppstoreExApp
 }>()
 
-const isShown = computed(() => app.ratingNumOverall && app.ratingNumOverall > 5)
+const isShown = computed(() => !app.shipped && app.ratingNumOverall && app.ratingNumOverall > 5)
 const score = computed(() => app.ratingOverall ?? 4)
 
 const title = computed(() => {
