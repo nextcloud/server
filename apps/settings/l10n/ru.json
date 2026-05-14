@@ -993,7 +993,6 @@
     "SMTP Login" : "Имя пользователя SMTP",
     "SMTP Password" : "Пароль SMTP",
     "Test and verify email settings" : "Проверить параметры эл. почты",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" - недопустимый идентификатор сервера. Значение должно быть между 0 и 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Переключение между пакетами Office осуществляется через интерфейс Nextcloud All-in-One.",
     "Please use the AIO interface to switch between office suites." : "Используйте интерфейс AIO для переключения между офисными пакетами.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Выберите предпочитаемый офисный пакет. Обратите внимание, что для установки требуется настройка сервера вручную.",

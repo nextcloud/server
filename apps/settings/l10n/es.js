@@ -983,7 +983,6 @@ OC.L10N.register(
     "SMTP Login" : "Inicio de sesión SMTP",
     "SMTP Password" : "Contraseña SMTP",
     "Test and verify email settings" : "Comprobar y verificar configuración de correo",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" no es un identificador válido. Debe estar entre 0 y 1023.",
     "installed" : "Instalado",
     "{name} enabled" : "{name} Habilitado",
     "Best Nextcloud integration" : "Mejor integración con Nextcloud",

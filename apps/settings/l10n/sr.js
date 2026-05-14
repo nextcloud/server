@@ -962,7 +962,6 @@ OC.L10N.register(
     "SMTP Login" : "SMTP име за пријаву",
     "SMTP Password" : "SMTP лозинка",
     "Test and verify email settings" : "Тестирај и потврди подешавања и-мејла",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "„%d” није исправан идентификатор сервера. Мора да буде између 0 и 1023.",
     "{progress}% Deploying …" : "{progress}% Поставља се ",
     "{progress}% Initializing …" : "{progress}% Иницијализује се …"
 },

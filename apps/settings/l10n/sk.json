@@ -984,7 +984,6 @@
     "SMTP Login" : "SMTP Prihlasovacie meno",
     "SMTP Password" : "SMTP heslo",
     "Test and verify email settings" : "Otestovať a overiť nastavenia e-mailu",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" nie je platný identifikátor servera. Musí byť medzi 0 a 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Prepínanie kancelárskych balíkov sa spravuje cez rozhranie Nextcloud All-in-One.",
     "Please use the AIO interface to switch between office suites." : "Prosím, použite rozhranie AIO na prepínanie medzi kancelárskymi balíkmi.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Vyberte si preferovaný kancelársky balík. Upozorňujeme, že inštalácia si vyžaduje manuálne nastavenie servera.",

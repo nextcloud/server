@@ -987,7 +987,6 @@ OC.L10N.register(
     "SMTP Login" : "SMTP 帳戶",
     "SMTP Password" : "SMTP 密碼",
     "Test and verify email settings" : "測試及驗證電子郵件設定",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "「%d」不是有效的伺服器識別碼。其必須再 0 到 1023 間。",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "辦公室套件切換透過 Nextcloud All-in-One 介面進行管理。",
     "Please use the AIO interface to switch between office suites." : "請使用 AIO 介面在辦公室套件之間切換。",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "選擇您偏好的辦公室軟體套件。請注意，安裝需要手動設置伺服器。",

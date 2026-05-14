@@ -984,7 +984,6 @@
     "SMTP Login" : "Acceso SMTP",
     "SMTP Password" : "Contrasinal SMTP",
     "Test and verify email settings" : "Probe e verifique os axustes do correo",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "«%d» non é un identificador de servidor válido. Debe estar entre 0 e 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "O cambio de suite de oficina xestionase a través da interface Todo-en-Un de Nextcloud (AIO).",
     "Please use the AIO interface to switch between office suites." : "Empregue a interface AIO para cambiar entre suites de oficina.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Seleccione a súa suite de oficina preferida. Teña en conta que a instalación require a configuración manual do servidor.",

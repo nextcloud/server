@@ -205,7 +205,7 @@ OC.L10N.register(
     "Use {productName} mobile client you want to connect to scan the code" : "Utilisez le client mobile {productName} que vous voulez connecter pour scanner le code",
     "Code will expire {timeCountdown} or after use" : "Le code expirera dans {timeCountdown} ou après utilisation",
     "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} notifications","{count} notifications"],
-    "More apps" : "Plus d’applications",
+    "More apps" : "Plus d’applis",
     "Applications" : "Applications",
     "Apps" : "Applications",
     "No" : "Non",
