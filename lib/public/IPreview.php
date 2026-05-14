@@ -5,8 +5,6 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
@@ -34,19 +32,6 @@ interface IPreview {
 	 * @since 11.0.0
 	 */
 	public const MODE_COVER = 'cover';
-
-	/**
-	 * In order to improve lazy loading a closure can be registered which will be
-	 * called in case preview providers are actually requested
-	 *
-	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
-	 * @param ProviderClosure $callable
-	 * @since 8.1.0
-	 * @see \OCP\AppFramework\Bootstrap\IRegistrationContext::registerPreviewProvider
-	 *
-	 * @deprecated 23.0.0 Register your provider via the IRegistrationContext when booting the app
-	 */
-	public function registerProvider(string $mimeTypeRegex, Closure $callable): void;
 
 	/**
 	 * Get all providers
