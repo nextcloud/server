@@ -81,11 +81,12 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->exactly(2))
+		$this->config->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['gs.enabled', false, true],
 				['has_internet_connection', true, true],
+				['shareapi_lookup_label_show_email', false, false],
 			]);
 
 		$this->config->expects($this->once())
@@ -107,11 +108,12 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->exactly(2))
+		$this->config->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['gs.enabled', false, false],
 				['has_internet_connection', true, false],
+				['shareapi_lookup_label_show_email', false, false],
 			]);
 
 		$this->clientService->expects($this->never())
@@ -140,11 +142,12 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->exactly(2))
+		$this->config->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['gs.enabled', false, true],
 				['has_internet_connection', true, true],
+				['shareapi_lookup_label_show_email', false, false],
 			]);
 
 		$this->config->expects($this->once())
@@ -180,6 +183,73 @@ class LookupPluginTest extends TestCase {
 		$this->assertFalse($moreResults);
 	}
 
+	public function testSearchWithEmailLabel(): void {
+		$type = new SearchResultType('lookup');
+		$fedId = 'foo@enceladus.moon';
+		$email = 'foo@bar.example';
+		$server = 'https://lookup.example.io';
+		$resultBody = [
+			[
+				'federationId' => $fedId,
+				'name' => ['value' => 'Foo Bar', 'verified' => 0],
+				'email' => ['value' => $email, 'verified' => 0],
+			],
+		];
+		$expectedResult = [
+			[
+				'label' => 'Foo Bar (' . $email . ')',
+				'value' => [
+					'shareType' => IShare::TYPE_REMOTE,
+					'globalScale' => true,
+					'shareWith' => $fedId,
+					'server' => 'enceladus.moon',
+					'isTrustedServer' => false,
+				],
+				'extra' => [
+					'federationId' => $fedId,
+					'name' => ['value' => 'Foo Bar', 'verified' => 0],
+					'email' => ['value' => $email, 'verified' => 0],
+				],
+			],
+		];
+
+		/** @var ISearchResult|MockObject $searchResult */
+		$searchResult = $this->createMock(ISearchResult::class);
+		$searchResult->expects($this->once())
+			->method('addResultSet')
+			->with($type, $expectedResult, []);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->willReturn('yes');
+		$this->config->expects($this->exactly(3))
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['gs.enabled', false, true],
+				['has_internet_connection', true, true],
+				['shareapi_lookup_label_show_email', false, true],
+			]);
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('lookup_server', 'https://lookup.nextcloud.com')
+			->willReturn($server);
+
+		$response = $this->createMock(IResponse::class);
+		$response->expects($this->once())
+			->method('getBody')
+			->willReturn(json_encode($resultBody));
+		$client = $this->createMock(IClient::class);
+		$client->expects($this->once())
+			->method('get')
+			->willReturn($response);
+		$this->clientService->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+
+		$moreResults = $this->plugin->search('foo', 10, 0, $searchResult);
+		$this->assertFalse($moreResults);
+	}
 
 	/**
 	 * @param array $searchParams
@@ -202,11 +272,12 @@ class LookupPluginTest extends TestCase {
 				->method('addResultSet')
 				->with($type, $searchParams['expectedResult'], []);
 
-			$this->config->expects($this->exactly(2))
+			$this->config->expects($this->exactly(3))
 				->method('getSystemValueBool')
 				->willReturnMap([
 					['gs.enabled', false, $GSEnabled],
 					['has_internet_connection', true, true],
+					['shareapi_lookup_label_show_email', false, false],
 				]);
 			$this->config->expects($this->once())
 				->method('getSystemValueString')
@@ -232,11 +303,12 @@ class LookupPluginTest extends TestCase {
 				->willReturn($client);
 		} else {
 			$searchResult->expects($this->never())->method('addResultSet');
-			$this->config->expects($this->exactly(2))
+			$this->config->expects($this->exactly(3))
 				->method('getSystemValueBool')
 				->willReturnMap([
 					['gs.enabled', false, $GSEnabled],
 					['has_internet_connection', true, true],
+					['shareapi_lookup_label_show_email', false, false],
 				]);
 		}
 		$moreResults = $this->plugin->search(
