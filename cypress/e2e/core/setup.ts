@@ -4,6 +4,9 @@
  */
 
 import { randomString } from '../../support/utils/randomString.ts'
+import { handlePasswordConfirmation } from '../core-utils.ts'
+
+type RecommendedAppsMode = 'skip' | 'install-success' | 'install-failure'
 
 /**
  * DO NOT RENAME THIS FILE to .cy.ts ⚠️
@@ -28,6 +31,22 @@ describe('Can install Nextcloud', { testIsolation: true, retries: 0 }, () => {
 		cy.get('[data-cy-setup-form-field="dbtype-sqlite"] input').check({ force: true })
 
 		sharedSetup()
+	})
+
+	it('Sqlite - Install recommended apps (success)', () => {
+		cy.visit('/')
+		cy.get('[data-cy-setup-form]').should('be.visible')
+		cy.get('[data-cy-setup-form-field="dbtype-sqlite"] input').check({ force: true })
+
+		sharedSetup('install-success')
+	})
+
+	it('Sqlite - Install recommended apps (failure)', () => {
+		cy.visit('/')
+		cy.get('[data-cy-setup-form]').should('be.visible')
+		cy.get('[data-cy-setup-form-field="dbtype-sqlite"] input').check({ force: true })
+
+		sharedSetup('install-failure')
 	})
 
 	it('MySQL', () => {
@@ -111,8 +130,12 @@ describe('Can install Nextcloud', { testIsolation: true, retries: 0 }, () => {
 
 /**
  * Shared admin setup function for the Nextcloud setup
+ *
+ * @param mode How to handle the recommended apps screen at the end of the
+ *             install assistant: skip it, exercise the install button with a
+ *             stubbed success response, or stub a failure response.
  */
-function sharedSetup() {
+function sharedSetup(mode: RecommendedAppsMode = 'skip') {
 	const randAdmin = 'admin-' + randomString(10)
 
 	// mock appstore
@@ -141,10 +164,41 @@ function sharedSetup() {
 				.should('be.visible')
 		})
 
-	// Skip the setup apps
-	cy.get('[data-cy-setup-recommended-apps-skip]').click()
+	if (mode === 'skip') {
+		// Skip the setup apps
+		cy.get('[data-cy-setup-recommended-apps-skip]').click()
 
-	// Go to files
-	cy.visit('/apps/files/')
-	cy.get('[data-cy-files-content]').should('be.visible')
+		// Go to files
+		cy.visit('/apps/files/')
+		cy.get('[data-cy-files-content]').should('be.visible')
+		return
+	}
+
+	// Stub the bulk enable endpoint so we exercise the frontend flow without
+	// hitting the real app store.
+	cy.intercept('POST', '**/settings/apps/enable', mode === 'install-success'
+		? { statusCode: 200, body: { data: { update_required: false } } }
+		: { statusCode: 500, body: { data: { message: 'Forced failure' } } }).as('enableApps')
+
+	cy.get('[data-cy-setup-recommended-apps-install]').click()
+
+	// The strict password-confirmation dialog must appear and must result in a
+	// Basic auth header on the enable request.
+	cy.findByRole('dialog', { name: 'Authentication required' })
+		.should('be.visible')
+	handlePasswordConfirmation(randAdmin)
+	cy.wait('@enableApps')
+		.its('request.headers.authorization')
+		.should('match', /^Basic /)
+
+	if (mode === 'install-success') {
+		// Frontend redirects via window.location to the default page.
+		cy.location('pathname', { timeout: 10000 })
+			.should('not.include', '/core/apps/recommended')
+	} else {
+		// Stay on the recommended-apps page and surface the per-app error state.
+		cy.location('pathname').should('include', '/core/apps/recommended')
+		cy.get('[data-cy-setup-recommended-apps]')
+			.should('contain.text', 'App download or installation failed')
+	}
 }
