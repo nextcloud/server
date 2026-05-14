@@ -12,6 +12,9 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OC\DB\MigrationService;
 use OC\Migration\BackgroundRepair;
+use OC\NeedsUpdateException;
+use OC\Repair;
+use OC\Repair\Events\RepairErrorEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
@@ -153,6 +156,10 @@ class AppManager implements IAppManager {
 	 * @return array<string,string> appId => enabled (may be 'yes', or a json encoded list of group ids)
 	 */
 	private function getEnabledAppsValues(): array {
+		if (!$this->config->getSystemValueBool('installed')) {
+			return [];
+		}
+
 		if (!$this->enabledAppsCache) {
 			/** @var array<string,string> */
 			$values = $this->getAppConfig()->searchValues('enabled', false, IAppConfig::VALUE_STRING);
@@ -246,25 +253,18 @@ class AppManager implements IAppManager {
 		return array_keys($appsForGroups);
 	}
 
-	/**
-	 * Loads all apps
-	 *
-	 * @param string[] $types
-	 * @return bool
-	 *
-	 * This function walks through the Nextcloud directory and loads all apps
-	 * it can find. A directory contains an app if the file /appinfo/info.xml
-	 * exists.
-	 *
-	 * if $types is set to non-empty array, only apps of those types will be loaded
-	 */
 	#[\Override]
 	public function loadApps(array $types = []): bool {
 		if ($this->config->getSystemValueBool('maintenance', false)) {
 			return false;
 		}
+		if ($this->config->getSystemValueBool('installed') === false) {
+			// can only access the apps folder after installation, so we can't load any apps before that
+			return false;
+		}
+
 		// Load the enabled apps here
-		$apps = \OC_App::getEnabledApps();
+		$apps = $this->getEnabledApps();
 
 		// Add each apps' folder as allowed class path
 		foreach ($apps as $app) {
@@ -301,13 +301,6 @@ class AppManager implements IAppManager {
 		return true;
 	}
 
-	/**
-	 * check if an app is of a specific type
-	 *
-	 * @param string $app
-	 * @param array $types
-	 * @return bool
-	 */
 	#[\Override]
 	public function isType(string $app, array $types): bool {
 		$appTypes = $this->getAppTypes($app);
@@ -714,7 +707,7 @@ class AppManager implements IAppManager {
 		// run uninstall steps
 		$appData = $this->getAppInfo($appId);
 		if (!is_null($appData)) {
-			\OC_App::executeRepairSteps($appId, $appData['repair-steps']['uninstall']);
+			$this->executeRepairSteps($appId, $appData['repair-steps']['uninstall']);
 		}
 
 		$this->dispatcher->dispatchTyped(new AppDisableEvent($appId));
@@ -1109,30 +1102,24 @@ class AppManager implements IAppManager {
 		$appPath = $this->getAppPath($appId, true);
 
 		$this->clearAppsCache();
-		$l = \OC::$server->getL10N('core');
-		$appData = $this->getAppInfo($appId, false, $l->getLanguageCode());
-		if ($appData === null) {
+		$appInfo = $this->getAppInfo($appId);
+		if ($appInfo === null) {
 			throw new AppPathNotFoundException('Could not find ' . $appId);
 		}
 
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
-		\OC_App::checkAppDependencies(
-			$this->config,
-			$l,
-			$appData,
-			$ignoreMax
-		);
+		$this->checkAppDependencies($appId, $ignoreMax);
 
 		\OC_App::registerAutoloading($appId, $appPath, true);
-		\OC_App::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
+		$this->executeRepairSteps($appId, $appInfo['repair-steps']['pre-migration']);
 
 		$ms = new MigrationService($appId, Server::get(\OC\DB\Connection::class));
 		$ms->migrate();
 
-		\OC_App::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
+		$this->executeRepairSteps($appId, $appInfo['repair-steps']['post-migration']);
 		$queue = Server::get(IJobList::class);
-		foreach ($appData['repair-steps']['live-migration'] as $step) {
+		foreach ($appInfo['repair-steps']['live-migration'] as $step) {
 			$queue->add(BackgroundRepair::class, [
 				'app' => $appId,
 				'step' => $step]);
@@ -1143,19 +1130,19 @@ class AppManager implements IAppManager {
 		$this->getAppVersion($appId, false);
 
 		// Setup background jobs
-		foreach ($appData['background-jobs'] as $job) {
+		foreach ($appInfo['background-jobs'] as $job) {
 			$queue->add($job);
 		}
 
 		//set remote/public handlers
-		foreach ($appData['remote'] as $name => $path) {
+		foreach ($appInfo['remote'] as $name => $path) {
 			$this->config->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
 		}
-		foreach ($appData['public'] as $name => $path) {
+		foreach ($appInfo['public'] as $name => $path) {
 			$this->config->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
 		}
 
-		$this->setAppTypes($appId, $appData);
+		$this->setAppTypes($appId, $appInfo);
 
 		$version = $this->getAppVersion($appId);
 		$this->config->setAppValue($appId, 'installed_version', $version);
@@ -1236,5 +1223,58 @@ class AppManager implements IAppManager {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Check if all dependencies of an app are satisfied.
+	 *
+	 * @param string $appId - The app to check
+	 * @param bool $ignoreMax - Whether to ignore the Nextcloud max version requirement
+	 * @throws \Exception - If there are missing dependencies
+	 */
+	public function checkAppDependencies(string $appId, bool $ignoreMax = false): void {
+		$info = $this->getAppInfo($appId);
+		if ($info === null) {
+			throw new \RuntimeException("App $appId not found");
+		}
+
+		$missing = $this->dependencyAnalyzer->analyze($info, $ignoreMax);
+		if ($missing !== []) {
+			$l = \OCP\Server::get(\OCP\L10N\IFactory::class)->get('core');
+			$missingMsg = implode(PHP_EOL, $missing);
+			throw new \Exception(
+				$l->t('App "%1$s" cannot be installed because the following dependencies are not fulfilled: %2$s',
+					[$info['name'], $missingMsg]
+				)
+			);
+		}
+	}
+
+	/**
+	 * Run repair steps for an app.
+	 *
+	 * @param string $appId - The app to run the repair steps for
+	 * @param string[] $steps - The repair steps to run
+	 * @throws NeedsUpdateException
+	 */
+	public function executeRepairSteps(string $appId, array $steps): void {
+		if ($steps === []) {
+			return;
+		}
+
+		$this->loadApp($appId);
+
+		// load the steps
+		$r = Server::get(Repair::class);
+		foreach ($steps as $step) {
+			try {
+				$r->addStep($step);
+			} catch (\Exception $ex) {
+				$this->dispatcher->dispatchTyped(new RepairErrorEvent($ex->getMessage()));
+				$this->logger->error('Failed to add app migration step ' . $step, ['exception' => $ex]);
+			}
+		}
+		// run the steps
+		$r->run();
 	}
 }

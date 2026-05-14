@@ -10,6 +10,7 @@ namespace OC\Core\Command\Config;
 use OC\Config\ConfigManager;
 use OC\Core\Command\Base;
 use OC\SystemConfig;
+use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,6 +25,7 @@ class ListConfigs extends Base {
 		protected SystemConfig $systemConfig,
 		protected IAppConfig $appConfig,
 		protected ConfigManager $configManager,
+		protected IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
@@ -141,7 +143,7 @@ class ListConfigs extends Base {
 	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
-			return array_merge(['all', 'system'], \OC_App::getAllApps());
+			return array_merge(['all', 'system'], $this->appManager->getAllAppsInAppsFolders());
 		}
 		return [];
 	}

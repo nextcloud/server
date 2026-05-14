@@ -11,6 +11,7 @@ use OC\SystemConfig;
 use OC\User\Database;
 use OC\User\DisabledUserException;
 use OC\User\Session;
+use OCP\App\IAppManager;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\IApacheBackend;
@@ -108,7 +109,8 @@ class OC_User {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function setupBackends() {
-		OC_App::loadApps(['prelogin']);
+		Server::get(IAppManager::class)->loadApps(['prelogin']);
+
 		$backends = Server::get(SystemConfig::class)->getValue('user_backends', []);
 		if (isset($backends['default']) && !$backends['default']) {
 			// clear default backends
@@ -231,7 +233,7 @@ class OC_User {
 	public static function handleApacheAuth(): ?bool {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
-			OC_App::loadApps();
+			Server::get(IAppManager::class)->loadApps();
 
 			//setup extra user backends
 			self::setupBackends();
