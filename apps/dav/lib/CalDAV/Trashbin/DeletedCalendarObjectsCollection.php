@@ -137,9 +137,24 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer, IACL
 			],
 			[
 				'privilege' => '{DAV:}unbind',
-				'principal' => '{DAV:}owner',
+				'principal' => $this->getOwner(),
 				'protected' => true,
-			]
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}unbind',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner() . '/calendar-proxy-read',
+				'protected' => true,
+			],
 		];
 	}
 }
