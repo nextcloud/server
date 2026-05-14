@@ -1240,7 +1240,7 @@ class OC {
 
 		return false;
 	}
-	
+
 	/**
 	 * Load authentication apps before the session-dependent phase of request handling.
 	 */
