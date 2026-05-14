@@ -3619,11 +3619,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return 0;
 		}
 
+		$cutoff = max(0, time() - $retention);
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('calendarchanges')
 			->where(
 				$query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
-				$query->expr()->lte('created_at', $query->createNamedParameter($retention)),
+				$query->expr()->lte('created_at', $query->createNamedParameter($cutoff, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
 			);
 		return $query->executeStatement();
 	}
