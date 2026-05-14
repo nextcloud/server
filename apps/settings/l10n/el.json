@@ -981,7 +981,6 @@
     "SMTP Login" : "Σύνδεση SMTP",
     "SMTP Password" : "Συνθηματικό SMTP",
     "Test and verify email settings" : "Δοκιμή και επαλήθευση τις ρυθμίσεων email",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "Το \"%d\" δεν είναι έγκυρο αναγνωριστικό διακομιστή. Πρέπει να είναι μεταξύ 0 και 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Η εναλλαγή σουίτας γραφείου ελέγχεται μέσω της διεπαφής Nextcloud All-in-One.",
     "Please use the AIO interface to switch between office suites." : "Παρακαλούμε χρησιμοποιήστε τη διεπαφή AIO για εναλλαγή μεταξύ των σουιτών γραφείου.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Επιλέξτε τη σουίτα γραφείου που προτιμάτε. Σημειώστε ότι η εγκατάσταση απαιτεί χειροκίνητη ρύθμιση του διακομιστή.",

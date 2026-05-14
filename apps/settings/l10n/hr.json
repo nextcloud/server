@@ -984,7 +984,6 @@
     "SMTP Login" : "SMTP prijava",
     "SMTP Password" : "SMTP zaporka",
     "Test and verify email settings" : "Testirajte i provjerite postavke e-pošte",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" nije valjan identifikator poslužitelja. Mora biti između 0 i 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Prebacivanjem uredskih paketa upravlja se putem sučelja Nextcloud All-in-One.",
     "Please use the AIO interface to switch between office suites." : "Za prebacivanje između uredskih paketa koristite AIO sučelje.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Odaberite željeni uredski paket. Imajte na umu da instalacija zahtijeva ručno postavljanje poslužitelja.",

@@ -961,7 +961,6 @@ OC.L10N.register(
     "SMTP Login" : "SMTP Login",
     "SMTP Password" : "SMTP Password",
     "Test and verify email settings" : "Test and verify email settings",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" is not a valid server identifier. It must be between 0 and 1023.",
     "{progress}% Deploying …" : "{progress}% Deploying …",
     "{progress}% Initializing …" : "{progress}% Initializing …"
 },

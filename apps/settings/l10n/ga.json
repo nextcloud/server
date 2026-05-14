@@ -993,7 +993,6 @@
     "SMTP Login" : "Logáil Isteach SMTP",
     "SMTP Password" : "Pasfhocal SMTP",
     "Test and verify email settings" : "Tástáil agus fíoraigh socruithe ríomhphoist",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "Ní aitheantóir freastalaí bailí é \"%d\". Caithfidh sé a bheith idir 0 agus 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Déantar aistriú idir sraitheanna oifige a bhainistiú tríd an gcomhéadan Nextcloud All-in-One.",
     "Please use the AIO interface to switch between office suites." : "Bain úsáid as an gcomhéadan AIO le do thoil chun aistriú idir shraith oifige.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Roghnaigh an pacáiste oifige is fearr leat. Tabhair faoi deara go bhfuil gá le socrú freastalaí de láimh le haghaidh suiteáil.",

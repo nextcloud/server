@@ -990,7 +990,6 @@ OC.L10N.register(
     "SMTP Login" : "Логін SMTP",
     "SMTP Password" : "Пароль SMTP",
     "Test and verify email settings" : "Перевірити налаштування електронної пошти",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" не є дійсним ідентифікатором сервера. Ідентифікатор має бути в проміжку між 0 та 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Керування офісним пакетом здійснюється через інтерфейс Nextcloud All-in-One.",
     "Please use the AIO interface to switch between office suites." : "Використовуйте інтерфейс AIO для перемикання між офісними пакетами.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Виберіть офісний пакет, якому віддаєте перевагу. Зверніть увагу, що встановлення вимагатиме окремих налаштувань на сервері.",

@@ -891,7 +891,6 @@
     "SMTP Login" : "SMTP kasutajanimi",
     "SMTP Password" : "SMTP salasõna",
     "Test and verify email settings" : "Testi ja kontrolli e-posti seadistusi",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "„%d“ pole korrektne serveritunnus. Väärtus peab jääma 0 ja 1023 vahele.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Kontoritarkvarapakettide vahetamine toimub Nextcloudi kõik-ühes (All-in-One) kasutajaliidesest.",
     "Please use the AIO interface to switch between office suites." : "Paluna kasuta kontoritarkvarapakettide vahetamiseks Nextcloudi kõik-ühes (All-in-One) kasutajaliidesest.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Vali eelistatud kontoritarkvarapakett. Palun arvesta, et paigaldamine eeldab ka serveri käsitsi seadistamist.",

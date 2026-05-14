@@ -988,7 +988,6 @@ OC.L10N.register(
     "SMTP Login" : "SMTP Prisijungimas",
     "SMTP Password" : "SMTP slaptažodis",
     "Test and verify email settings" : "Išbandyti ir patikrinti el. pašto nustatymus",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "„%d“ nėra galiojantis serverio identifikatorius. Jis turi būti nuo 0 iki 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Biuro programų paketo perjungimas valdomas per „Nextcloud All-in-One“ sąsają.",
     "Please use the AIO interface to switch between office suites." : "Norėdami pereiti iš vieno biuro programų paketo į kitą, naudokite AIO sąsają.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Pasirinkite pageidaujamą biuro programų paketą. Atkreipkite dėmesį, kad diegimui reikės rankiniu būdu sukonfigūruoti serverį.",

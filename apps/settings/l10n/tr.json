@@ -984,7 +984,6 @@
     "SMTP Login" : "SMTP kullanıcı adı",
     "SMTP Password" : "SMTP parolası",
     "Test and verify email settings" : "E-posta ayarlarını sınayın ve doğrulayın",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" geçerli bir sunucu kimliği değil. 0 ile 1023 arasında bir değer olmalıdır.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Ofis paketi değişikliği Nextcloud tümü bir arada arayüzünden yapılır.",
     "Please use the AIO interface to switch between office suites." : "Ofis paketi değişikliği yapmak için tümü bir arada arayüzünü kullanın.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Kullanmak istediğiniz ofis paketini seçin. Kurulum için sunucuda el ile işlem yapılması gerektirdiğini unutmayın.",

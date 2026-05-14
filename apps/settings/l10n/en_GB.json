@@ -985,7 +985,6 @@
     "SMTP Login" : "SMTP Login",
     "SMTP Password" : "SMTP Password",
     "Test and verify email settings" : "Test and verify email settings",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" is not a valid server identifier. It must be between 0 and 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Office suite switching is managed through the Nextcloud All-in-One interface.",
     "Please use the AIO interface to switch between office suites." : "Please use the AIO interface to switch between office suites.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Select your preferred office suite. Please note that installing requires manual server setup.",
