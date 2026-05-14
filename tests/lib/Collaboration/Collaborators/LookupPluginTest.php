@@ -242,6 +242,75 @@ class LookupPluginTest extends TestCase {
 		$client = $this->createMock(IClient::class);
 		$client->expects($this->once())
 			->method('get')
+			->willReturnCallback(function ($url) use ($server, $response) {
+				$this->assertSame(strpos($url, $server . '/users?search='), 0);
+				$this->assertNotFalse(strpos($url, urlencode('foo')));
+				return $response;
+			});
+		$this->clientService->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+
+		$moreResults = $this->plugin->search('foo', 10, 0, $searchResult);
+		$this->assertFalse($moreResults);
+	}
+
+	public function testSearchWithEmailLabelFallbackWhenEmailMissing(): void {
+		$type = new SearchResultType('lookup');
+		$fedId = 'foo@enceladus.moon';
+		$server = 'https://lookup.example.io';
+		$resultBody = [
+			[
+				'federationId' => $fedId,
+				'name' => ['value' => 'Foo Bar', 'verified' => 0],
+			],
+		];
+		$expectedResult = [
+			[
+				'label' => 'Foo Bar (' . $fedId . ')',
+				'value' => [
+					'shareType' => IShare::TYPE_REMOTE,
+					'globalScale' => true,
+					'shareWith' => $fedId,
+					'server' => 'enceladus.moon',
+					'isTrustedServer' => false,
+				],
+				'extra' => [
+					'federationId' => $fedId,
+					'name' => ['value' => 'Foo Bar', 'verified' => 0],
+				],
+			],
+		];
+
+		/** @var ISearchResult|MockObject $searchResult */
+		$searchResult = $this->createMock(ISearchResult::class);
+		$searchResult->expects($this->once())
+			->method('addResultSet')
+			->with($type, $expectedResult, []);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->willReturn('yes');
+		$this->config->expects($this->exactly(3))
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['gs.enabled', false, true],
+				['has_internet_connection', true, true],
+				['shareapi_lookup_label_show_email', false, true],
+			]);
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('lookup_server', 'https://lookup.nextcloud.com')
+			->willReturn($server);
+
+		$response = $this->createMock(IResponse::class);
+		$response->expects($this->once())
+			->method('getBody')
+			->willReturn(json_encode($resultBody));
+		$client = $this->createMock(IClient::class);
+		$client->expects($this->once())
+			->method('get')
 			->willReturn($response);
 		$this->clientService->expects($this->once())
 			->method('newClient')

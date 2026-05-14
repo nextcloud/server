@@ -42,7 +42,7 @@ class LookupPlugin implements ISearchPlugin {
 		// Controls whether email addresses from federated lookup results are shown in share dialog labels.
 		// Defaults to false to avoid exposing email addresses unnecessarily. Enabling this may reveal
 		// users' email addresses to people using the share dialog and should therefore be considered carefully.
-		$showFederatedEmail = $this->config->getSystemValueBool('shareapi_lookup_label_show_email', false);
+		$showEmailInLabel = $this->config->getSystemValueBool('shareapi_lookup_label_show_email', false);
 
 		// If case of Global Scale we always search the lookup server
 		// TODO: Reconsider using the lookup server for non-global scale
@@ -85,7 +85,7 @@ class LookupPlugin implements ISearchPlugin {
 				$name = $lookup['name']['value'] ?? '';
 				$email = $lookup['email']['value'] ?? '';
 
-				if ($showFederatedEmail && !empty($email)) {
+				if ($showEmailInLabel && !empty($email)) {
 					$label = empty($name) ? $email : $name . ' (' . $email . ')';
 				} else {
 					$label = empty($name) ? $lookup['federationId'] : $name . ' (' . $lookup['federationId'] . ')';
