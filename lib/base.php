@@ -1249,8 +1249,21 @@ class OC {
 	/**
 	 * Attempt to authenticate the current request using supported login methods.
 	 *
-	 * Tries, in order: Apache auth, app API login, token login, cookie login,
-	 * and basic auth. Federation requests are excluded.
+	 * Tries, in order, Apache auth, App API auth, token auth, remembered-login
+	 * cookies, and HTTP basic auth. On success, this updates the current user
+	 * session as a side effect. Federation requests are skipped.
+	 *
+	 * Callers typically inspect the resulting session state afterward rather than
+	 * relying on the return value alone.
+	 *
+	 * @return bool True if one of the supported login mechanisms authenticated the
+	 *              request; false if no session was established and no login
+	 *              exception was raised.
+	 *
+	 * @throws \OC\User\LoginException If an underlying login mechanism rejects or
+	 *                                 aborts the login flow.
+	 * @throws \OC\User\DisabledUserException If authentication is rejected because
+	 *                                        the user account is disabled.
 	 */
 	public static function handleLogin(OCP\IRequest $request): bool {
 		if ($request->getHeader('X-Nextcloud-Federation')) {
