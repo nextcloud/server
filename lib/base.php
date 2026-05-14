@@ -1090,7 +1090,8 @@ class OC {
 			return;
 		}
 
-		$maintenance = $systemConfig->getValue('maintenance', false);
+		$maintenance = (bool)$systemConfig->getValue('maintenance', false);
+
 		// Needed during maintenance mode and upgrades
 		$bypassMaintenance = str_ends_with($requestPath, '.js') || OC::$SUBURI === '/core/ajax/update.php';
 
@@ -1103,7 +1104,7 @@ class OC {
 		$upgrade = Util::needUpgrade();
 
 		// Show "upgrade" page if Nextcloud needs to be upgraded and not in maintenance mode (i.e. already in progress).
-		if ($upgrade) {
+		if ($upgrade && !$maintenance && !$bypassMaintenance) {
 			if (function_exists('opcache_reset')) {
 				opcache_reset();
 			}
@@ -1115,29 +1116,37 @@ class OC {
 		}
 
 		//
-		// At this point the request is either:
-		// - a regular request (a logged in user doing something or a non-logged in user trying to do something)
-		// - a special request that gets to bypass maintenance mode
+		// At this point the request has passed the install/maintenance/upgrade gates
+		// or is using a path that is allowed to bypass them.
 		//
 
 		$appManager = Server::get(\OCP\App\IAppManager::class);
-
 		$userSession = Server::get(IUserSession::class);
 		$loggedIn = $userSession->isLoggedIn();
-		// Don't try to login when a client is trying to get a OAuth token.
+
+		self::loadAuthenticationApps($appManager);
+
+		if ($loggedIn) {
+			self::loadAppsForAuthenticatedRequests($appManager);
+		} else {
+			self::loadAppsForPreAuthenticationPhase($appManager);
+		}
+
+		// Don't try to log in when a client is trying to get an OAuth token.
 		// OAuth needs to support basic auth too, so the login is not valid
 		// inside Nextcloud and the Login exception would ruin it.
 		$bypassLogin = $requestPath === '/apps/oauth2/api/v1/token';
-
-		self::loadRuntimeAppsForRequest($appManager, $loggedIn);
 
 		if (!$loggedIn && !$bypassLogin) {
 			try {
 				// Try normal login
 				self::handleLogin($request);
 				$loggedIn = $userSession->isLoggedIn();
-				// More apps are available to logged in users
-				self::loadRuntimeAppsForRequest($appManager, $loggedIn);
+
+				// A successful login expands the app set needed during request handling.
+				if ($loggedIn) {
+					self::loadAppsForAuthenticatedRequests($appManager);
+				}
 			} catch (DisabledUserException $e) {
 				// Don’t prevent theming asset requests if user is merely disabled.
 				if (!self::themingAssetRequest($requestPath)) {
@@ -1146,11 +1155,14 @@ class OC {
 			}
 		}
 
+		// Ensure the full app set is loaded before routing.
+		self::loadAppsForRouting($appManager);
+
 		// Try to route the request.
 		$router = Server::get(\OC\Route\Router::class);
 		// Note: User may (or may still not) be logged in.
 		try {
-			$router->match($request->getRawPathInfo());
+			$router->match($requestPath);
 			return;
 		} catch (ResourceNotFoundException $e) {
 			// ...
@@ -1228,22 +1240,39 @@ class OC {
 
 		return false;
 	}
-
+	
 	/**
-	 * Load minimum set of apps required to handle the request.
+	 * Load authentication apps before the session-dependent phase of request handling.
 	 */
-	private static function loadRuntimeAppsForRequest(\OCP\App\IAppManager $appManager, bool $loggedIn): void {
+	private static function loadAuthenticationApps(\OCP\App\IAppManager $appManager): void {
 		// Always load authentication apps
-		// Note: loadApps() is smart enough to skip any already loaded apps
 		$appManager->loadApps(['authentication']);
 		$appManager->loadApps(['extended_authentication']);
-		if ($loggedIn) {
-			// For logged-in users: Load everything
-			$appManager->loadApps();
-		} else {
-			// For guests: Load only filesystem and logging
-			$appManager->loadApps(['filesystem', 'logging']);
-		}
+	}
+
+	/**
+	 * Load the baseline runtime apps needed before authentication has succeeded.
+	 */
+	private static function loadAppsForPreAuthenticationPhase(\OCP\App\IAppManager $appManager): void {
+		$appManager->loadApps(['filesystem', 'logging']);
+	}
+
+	/**
+	 * Load the full app set needed for authenticated requests.
+	 */
+	private static function loadAppsForAuthenticatedRequests(\OCP\App\IAppManager $appManager): void {
+		// Note: loadApps() is smart enough to skip any already loaded apps.
+		$appManager->loadApps();
+	}
+
+	/**
+	 * Ensure the full app set is loaded before route matching so app routes and
+	 * related runtime registrations are available.
+	 */
+	private static function loadAppsForRouting(\OCP\App\IAppManager $appManager): void {
+		// Preserve the historical routing-time load sequence.
+		$appManager->loadApps(['filesystem', 'logging']);
+		$appManager->loadApps();
 	}
 
 	/**
