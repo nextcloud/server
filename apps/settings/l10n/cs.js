@@ -986,7 +986,6 @@ OC.L10N.register(
     "SMTP Login" : "SMPT přihlášení",
     "SMTP Password" : "Heslo pro SMTP",
     "Test and verify email settings" : "Vyzkoušet a ověřit nastavení e-mailu",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "„%d“ není platný identifikátor serveru. Je třeba, aby byl z rozmezí 0 až 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Přepínání mezi sadami kancelářských aplikací je zpravováno prostřednictvím rozhraní pro správu Nextcloud All-in-One",
     "Please use the AIO interface to switch between office suites." : "Pro přepnutí mezi sadami kancelářských aplikací použijte rozhraní pro správu AIO.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Vyberte vámi upřednostňovanou sadu kancelářských aplikací. Instalace vyžaduje ruční nastavování na serveru.",

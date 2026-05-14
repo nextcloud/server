@@ -966,7 +966,6 @@ OC.L10N.register(
     "SMTP Login" : "SMTP كىرىش",
     "SMTP Password" : "SMTP پارول",
     "Test and verify email settings" : "ئېلېكترونلۇق خەت تەڭشىكىنى سىناش ۋە دەلىللەش",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" ئىناۋەتلىك مۇلازىمېتىر كىملىكى ئەمەس. ئۇ 0 بىلەن 1023 ئارىلىقىدا بولۇشى كېرەك.",
     "{progress}% Deploying …" : "ئورۇنلاشتۇرۇش %{progress}  ...",
     "{progress}% Initializing …" : "%{progress} دەسلەپلەشتۈرۋاتىدۇ  ..."
 },

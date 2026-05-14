@@ -986,7 +986,6 @@ OC.L10N.register(
     "SMTP Login" : "Logowanie SMTP",
     "SMTP Password" : "Hasło SMTP",
     "Test and verify email settings" : "Przetestuj i zweryfikuj ustawienia poczty e-mail",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" nie jest prawidłowym identyfikatorem serwera. Musi mieścić się w zakresie od 0 do 1023.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Przełączanie pakietu biurowego jest zarządzane przez interfejs Nextcloud All-in-One.",
     "Please use the AIO interface to switch between office suites." : "Użyj interfejsu AIO, aby przełączać się między pakietami biurowymi.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Wybierz preferowany pakiet biurowy. Pamiętaj, że instalacja wymaga ręcznej konfiguracji serwera.",

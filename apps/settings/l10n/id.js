@@ -976,7 +976,6 @@ OC.L10N.register(
     "SMTP Login" : "Login SMTP",
     "SMTP Password" : "Kata sandi SMTP",
     "Test and verify email settings" : "Uji dan verifikasi pengaturan email",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" bukan pengenal server yang valid. Harus berada antara 0 dan 1023.",
     "{progress}% Deploying …" : "{progress}% Melakukan deploy …",
     "{progress}% Initializing …" : "{progress}% Menginisialisasi …"
 },

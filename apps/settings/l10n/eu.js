@@ -890,7 +890,6 @@ OC.L10N.register(
     "Credentials" : "Kredentzialak",
     "SMTP Login" : "SMTP saioa",
     "SMTP Password" : "SMTP pasahitza",
-    "Test and verify email settings" : "Probatu eta egiaztatu posta elektronikoaren ezarpenak",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" ez da baliozko zerbitzari identifikatzailea. 0 eta 1023 artean egon behar du."
+    "Test and verify email settings" : "Probatu eta egiaztatu posta elektronikoaren ezarpenak"
 },
 "nplurals=2; plural=(n != 1);");

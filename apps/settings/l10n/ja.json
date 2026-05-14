@@ -993,7 +993,6 @@
     "SMTP Login" : "SMTPログイン",
     "SMTP Password" : "SMTPパスワード",
     "Test and verify email settings" : "メールのテストと検証設定",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" は有効なサーバー識別子ではありません。0 から 1023 の範囲である必要があります。",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "オフィススイートの切り替えは、Nextcloudオールインワンインターフェースを通じて管理されます。",
     "Please use the AIO interface to switch between office suites." : "オフィススイートの切り替えにはAIOインターフェースをご利用ください。",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "お好みのオフィススイートを選択してください。インストールには手動でのサーバー設定が必要となりますのでご注意ください。",

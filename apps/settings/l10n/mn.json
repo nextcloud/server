@@ -980,7 +980,6 @@
     "SMTP Login" : "SMTP нэвтрэлт",
     "SMTP Password" : "Энгийн мэйл дамжуулах протокол-ийн нууц үг",
     "Test and verify email settings" : "Имэйл тохиргоог тест хийж баталгаажуулах",
-    "\"%d\" is not a valid server identifier. It must be between 0 and 1023." : "\"%d\" хүчинтэй серверийн танигч биш. 0-аас 1023 хооронд байх ёстой.",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Оффисын багцын сэлгэлт Nextcloud All-in-One интерфэйсээр удирддаг.",
     "Please use the AIO interface to switch between office suites." : "Оффисын багцуудыг сэлгэхийн тулд AIO интерфэйсийг ашиглана уу.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Хүссэн оффисын багцаа сонгоно уу. Суулгахад серверийг гараар тохируулах шаардлагатайг анхаарна уу.",
