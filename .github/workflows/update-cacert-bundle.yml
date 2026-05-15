@@ -17,7 +17,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ['master', 'stable33', 'stable32', 'stable31', 'stable30', 'stable29',  'stable28',  'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
+        branches:
+          - ${{ github.event.repository.default_branch }}
+          - 'stable34'
+          - 'stable33'
+          - 'stable32'
+          - 'stable31'
+          - 'stable30'
+          - 'stable29'
+          - 'stable28'
+          - 'stable27'
+          - 'stable26'
+          - 'stable25'
+          - 'stable24'
+          - 'stable23'
+          - 'stable22'
 
     name: update-ca-certificate-bundle-${{ matrix.branches }}
 
