@@ -15,16 +15,22 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Log\BeforeMessageLoggedEvent;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Verify extends Base {
+	/// formatting tags for the various log levels
+	public const FORMATTING = ['comment', 'comment', 'comment', 'error', 'error'];
+
 	public function __construct(
 		protected GlobalStoragesService $globalService,
 		protected BackendService $backendService,
+		protected IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct();
 	}
@@ -59,13 +65,36 @@ class Verify extends Base {
 			return Http::STATUS_NOT_FOUND;
 		}
 
+		$logMessages = [];
+		$logListener = null;
+		if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+			$logListener = function (BeforeMessageLoggedEvent $event) use (&$logMessages) {
+				$format = self::FORMATTING[$event->getLevel()];
+				$logMessages[] = " - <$format>" . $event->getMessage()['message'] . "</$format>";
+			};
+			$this->eventDispatcher->addListener(BeforeMessageLoggedEvent::class, $logListener);
+		}
+
 		$this->updateStorageStatus($mount, $configInput, $output);
+
+		if ($logListener) {
+			$this->eventDispatcher->removeListener(BeforeMessageLoggedEvent::class, $logListener);
+		}
 
 		$this->writeArrayInOutputFormat($input, $output, [
 			'status' => StorageNotAvailableException::getStateCodeName($mount->getStatus()),
 			'code' => $mount->getStatus(),
 			'message' => $mount->getStatusMessage()
 		]);
+
+		if (count($logMessages)) {
+			$output->writeln('');
+			$output->writeln('Messages logged during validation:');
+			foreach ($logMessages as $logMessage) {
+				$output->writeln($logMessage);
+			}
+		}
+
 		return self::SUCCESS;
 	}
 
