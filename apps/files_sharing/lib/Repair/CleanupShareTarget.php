@@ -20,14 +20,14 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+use OCP\Migration\IRepairStepExpensive;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-type ShareInfo = array{id: string|int, share_type: string, share_with: string, file_source: string, file_target: string}
  */
-class CleanupShareTarget implements IRepairStep {
+class CleanupShareTarget implements IRepairStepExpensive {
 	/** we only care about shares with a user target,
 	 *  since the underling group/deck/talk share doesn't get moved
 	 */
