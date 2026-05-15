@@ -74,6 +74,10 @@ use OC\Core\Command\Memcache\DistributedDelete;
 use OC\Core\Command\Memcache\DistributedGet;
 use OC\Core\Command\Memcache\DistributedSet;
 use OC\Core\Command\Memcache\RedisCommand;
+use OC\Core\Command\OCM\ActivateKey as OCMActivateKey;
+use OC\Core\Command\OCM\ListKeys as OCMListKeys;
+use OC\Core\Command\OCM\RetireKey as OCMRetireKey;
+use OC\Core\Command\OCM\StageKey as OCMStageKey;
 use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
 use OC\Core\Command\Router\ListRoutes;
@@ -250,6 +254,11 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(SetupChecks::class));
 	$application->add(Server::get(SnowflakeDecodeId::class));
 	$application->add(Server::get(Get::class));
+
+	$application->add(Server::get(OCMListKeys::class));
+	$application->add(Server::get(OCMStageKey::class));
+	$application->add(Server::get(OCMActivateKey::class));
+	$application->add(Server::get(OCMRetireKey::class));
 
 	$application->add(Server::get(GetCommand::class));
 	$application->add(Server::get(EnabledCommand::class));

@@ -58,7 +58,7 @@ class PhpModules implements ISetupCheck {
 	protected function getRecommendedModuleDescription(string $module): string {
 		return match($module) {
 			'intl' => $this->l10n->t('increases language translation performance and fixes sorting of non-ASCII characters'),
-			'sodium' => $this->l10n->t('for Argon2 for password hashing'),
+			'sodium' => $this->l10n->t('for Argon2 for password hashing and Ed25519 signature verification for RFC 9421 http message signatures'),
 			'gmp' => $this->l10n->t('required for SFTP storage and recommended for WebAuthn performance'),
 			'exif' => $this->l10n->t('for picture rotation in server and metadata extraction in the Photos app'),
 			default => '',
