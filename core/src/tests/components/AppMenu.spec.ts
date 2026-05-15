@@ -165,4 +165,64 @@ describe('core: AppMenu', () => {
 		const currentApp = wrapper.get('.app-menu__current-app').element
 		expect(wrapper.vm.returnFocusTarget()).toBe(currentApp)
 	})
+
+	it('falls back to the active settings entry when no app is active', () => {
+		// Mimics being on /settings/admin/* where the active entry is registered
+		// as type=settings (NavigationManager) and excluded from the `apps` list.
+		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
+			if (key === 'apps') {
+				return [makeApp({ id: 'files', name: 'Files', active: false })]
+			}
+			if (key === 'settingsNavEntries') {
+				// Object keyed by entry id — matches PHP's serialization shape
+				// (TemplateLayout ships the filtered associative array as-is).
+				return {
+					admin_settings: makeApp({
+						id: 'admin_settings',
+						name: 'Administration settings',
+						type: 'settings',
+						href: '/settings/admin/overview',
+						icon: '/settings/img/admin.svg',
+						active: true,
+					}),
+				}
+			}
+			return fallback
+		})
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app').exists()).toBe(true)
+		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Administration settings')
+	})
+
+	it('prefers the active app over a settings entry when both are marked active', () => {
+		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
+			if (key === 'apps') {
+				return [makeApp({ id: 'files', name: 'Files', active: true })]
+			}
+			if (key === 'settingsNavEntries') {
+				return { admin_settings: makeApp({ id: 'admin_settings', name: 'Administration settings', type: 'settings', active: true }) }
+			}
+			return fallback
+		})
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Files')
+	})
+
+	it('does not render the current-app button when only the logout entry is active', () => {
+		// Defensive: logout is an action, not a page, so it should never be the
+		// "current section" even though it carries type=settings. NavigationManager
+		// today never marks it active, but a future regression shouldn't leak a
+		// "Log out" label into the header.
+		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
+			if (key === 'apps') {
+				return [makeApp({ id: 'files', name: 'Files', active: false })]
+			}
+			if (key === 'settingsNavEntries') {
+				return { logout: makeApp({ id: 'logout', name: 'Log out', type: 'settings', href: '/logout', active: true }) }
+			}
+			return fallback
+		})
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app').exists()).toBe(false)
+	})
 })

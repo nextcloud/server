@@ -49,13 +49,14 @@
 			v-if="currentApp"
 			class="app-menu__current-app"
 			variant="tertiary-no-background"
-			:aria-label="t('core', 'Open apps menu')"
+			:aria-label="currentAppLabel"
 			aria-haspopup="menu"
 			:aria-expanded="opened ? 'true' : 'false'"
 			@click="onTriggerClick('currentApp')">
 			<template #icon>
 				<img
 					class="app-menu__current-app-icon"
+					:class="{ 'app-menu__current-app-icon--settings': currentApp.type === 'settings' }"
 					:src="currentApp.icon"
 					alt=""
 					aria-hidden="true">
@@ -82,6 +83,9 @@ import IconDotsGrid from 'vue-material-design-icons/DotsGrid.vue'
 import AppItem from './AppItem.vue'
 import logger from '../logger.js'
 
+// Settings IDs that represent actions, not navigable pages.
+const SETTINGS_ACTION_IDS = new Set(['logout'])
+
 export default defineComponent({
 	name: 'AppMenu',
 
@@ -103,8 +107,12 @@ export default defineComponent({
 
 	data() {
 		const appList = loadState<INavigationEntry[]>('core', 'apps', [])
+		// Record<id, entry>, not an array: PHP ships getAll('settings') without
+		// array_values(). Matches AccountMenu.vue's usage.
+		const settingsList = loadState<Record<string, INavigationEntry>>('core', 'settingsNavEntries', {})
 		return {
 			appList,
+			settingsList,
 			isAdmin: getCurrentUser()?.isAdmin ?? false,
 			// Roving tabindex: only this tile has tabindex=0; arrow keys move it.
 			focusedIndex: 0,
@@ -146,7 +154,18 @@ export default defineComponent({
 
 	computed: {
 		currentApp(): INavigationEntry | undefined {
+			// Fall back to the active settings entry on admin pages where no
+			// app is active.
 			return this.appList.find((app) => app.active)
+				?? Object.values(this.settingsList).find((entry) => entry.active && !SETTINGS_ACTION_IDS.has(entry.id))
+		},
+
+		// aria-label overrides the inner span text, so the section name
+		// has to be duplicated here for screen readers.
+		currentAppLabel(): string {
+			return this.currentApp
+				? t('core', 'Open apps menu, currently in {app}', { app: this.currentApp.name })
+				: t('core', 'Open apps menu')
 		},
 
 		// Stable-ordered list that focusedIndex indexes into. The trailing
@@ -374,6 +393,12 @@ export default defineComponent({
 		// Theme-aware inversion + vertical alpha fade via --header-menu-icon-mask.
 		filter: var(--background-image-invert-if-bright);
 		mask: var(--header-menu-icon-mask);
+
+		// Settings icons ship dark (designed for the white settings sidebar);
+		// force-white so they read against the themed header.
+		&--settings {
+			filter: brightness(0) invert(1);
+		}
 	}
 
 	&__current-app-name {
@@ -392,12 +417,21 @@ export default defineComponent({
 		--app-item-col-width: 69px;
 		--app-item-row-height: 64px;
 		--app-menu-rows-visible: 6;
-		padding: calc(var(--default-grid-baseline) * 3) calc(var(--default-grid-baseline) * 2);
+		padding: calc(var(--default-grid-baseline) * 2);
 		display: grid;
 		grid-template-columns: repeat(4, var(--app-item-col-width));
 		grid-auto-rows: minmax(var(--app-item-row-height), max-content);
-		max-height: calc(var(--app-item-row-height) * var(--app-menu-rows-visible) + var(--default-grid-baseline) * 5);
+		// + baseline * 5: peek-row hint so users see that content continues
+		// below the fold.
+		max-height: calc(var(--app-item-row-height) * var(--app-menu-rows-visible) + var(--default-grid-baseline) * 7);
 		overflow-y: auto;
+
+		// Extra top padding on first-row tiles so the hover bg reads
+		// concentric with the popover's rounded top corner. !important
+		// because AppItem's scoped rule has the same specificity.
+		> :nth-child(-n+4) {
+			padding-block-start: calc(var(--default-grid-baseline) * 2) !important;
+		}
 
 		// WebKit equivalents are in the unscoped block below: scoped CSS
 		// data-attrs don't reach ::-webkit-scrollbar pseudo-elements in Chrome.
