@@ -28,60 +28,73 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-$request = Server::get(IRequest::class);
-
-if ((Util::needUpgrade() || Server::get(IConfig::class)->getSystemValueBool('maintenance')) && $request->getPathInfo() !== '/core/update') {
-	// since the behavior of apps or remotes are unpredictable during
-	// an upgrade, return a 503 directly
-	ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1'], 503);
-	exit;
-}
-
-/*
- * Try the appframework routes
- */
 try {
-	$appManager = Server::get(IAppManager::class);
-	$appManager->loadApps(['session']);
-	$appManager->loadApps(['authentication']);
-	$appManager->loadApps(['extended_authentication']);
+	$logger = Server::get(LoggerInterface::class);
+	$debug = Server::get(SystemConfig::class)->getValue('debug', false);
+	$request = Server::get(IRequest::class);
+	$requestPath = $request->getPathInfo();
+	$rawRequestPath = $request->getRawPathInfo();
+	$isCoreUpdateRequest = $requestPath === '/core/update';
+	$upgrade = Util::needUpgrade();
+	$maintenance = Server::get(IConfig::class)->getSystemValueBool('maintenance');
 
+	// During maintenance mode or while an upgrade is pending, return a 503 for OCS
+	// requests directly. The core update endpoint is the only exception.
+	if (($upgrade || $maintenance) && !$isCoreUpdateRequest) {
+		ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1'], 503);
+		exit();
+	}
+
+	$appManager = Server::get(IAppManager::class);
+	// Load the baseline apps needed before route dispatch and authentication.
+	$appManager->loadApps(['session']);
+	$appManager->loadApps(['authentication', 'extended_authentication']);
+
+	// Reject malformed request payloads before continuing.
 	$request->throwDecodingExceptionIfAny();
 
-	if ($request->getPathInfo() !== '/core/update') {
-		// load all apps to get all api routes properly setup
+	$loggedIn = Server::get(IUserSession::class)->isLoggedIn();
+
+	if ($isCoreUpdateRequest) {
+		// The update endpoint only needs the core app.
+		$appManager->loadApps(['core']);
+	} else {
+		// Load all apps so that all OCS API routes are registered.
 		// FIXME: this should ideally appear after handleLogin but will cause
 		// side effects in existing apps
 		$appManager->loadApps();
-		if (!Server::get(IUserSession::class)->isLoggedIn()) {
+
+		// Attempt login only if there is no active session yet.
+		if (!$loggedIn) {
 			OC::handleLogin($request);
 		}
-	} else {
-		$appManager->loadApps(['core']);
 	}
 
-	Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());
+	// OCS routes are registered under the /ocsapp prefix internally.
+	Server::get(Router::class)->match('/ocsapp' . $rawRequestPath);
+} catch (LoginException $ex) {
+	// Expected client-side failure; return an appropriate response without logging.
+	ApiHelper::respond(OCSController::RESPOND_UNAUTHORISED, 'Unauthorised');
 } catch (MaxDelayReached $ex) {
+	// Expected client-side failure; return an appropriate response without logging.
 	ApiHelper::respond(Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage());
-} catch (ResourceNotFoundException $e) {
-	$txt = 'Invalid query, please check the syntax. API specifications are here:'
-		. ' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.' . "\n";
-	ApiHelper::respond(OCSController::RESPOND_NOT_FOUND, $txt);
-} catch (MethodNotAllowedException $e) {
+} catch (ResourceNotFoundException $ex) {
+	// Expected client-side failure; return an appropriate response without logging.
+	$message = "Invalid query, please check the syntax. API specifications are here:\n"
+		. "http://www.freedesktop.org/wiki/Specifications/open-collaboration-services\n";
+	ApiHelper::respond(OCSController::RESPOND_NOT_FOUND, $message);
+} catch (MethodNotAllowedException $ex) {
+	// Expected client-side failure; return an appropriate response without logging.
 	ApiHelper::setContentType();
 	http_response_code(405);
-} catch (LoginException $e) {
-	ApiHelper::respond(OCSController::RESPOND_UNAUTHORISED, 'Unauthorised');
-} catch (\Exception $e) {
-	Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+} catch (\Exception $ex) {
+	// Server-side failure: log it because it may require admin attention.
+	$logger->error($ex->getMessage(), ['exception' => $ex]);
 
-	$txt = 'Internal Server Error' . "\n";
-	try {
-		if (Server::get(SystemConfig::class)->getValue('debug', false)) {
-			$txt .= $e->getMessage();
-		}
-	} catch (\Throwable $e) {
-		// Just to be save
+	$message = "Internal Server Error \n";
+	if ($debug) {
+		$message .= $ex->getMessage();
 	}
-	ApiHelper::respond(OCSController::RESPOND_SERVER_ERROR, $txt);
+
+	ApiHelper::respond(OCSController::RESPOND_SERVER_ERROR, $message);
 }
