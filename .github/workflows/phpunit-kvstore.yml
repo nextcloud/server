@@ -1,0 +1,141 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: PHPUnit key-value store
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phpunit-kvstore-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  VALKEY_IMAGE: valkey/valkey:8
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/phpunit-kvstore.yml'
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**.php'
+
+  phpunit-kvstore:
+    runs-on: ubuntu-latest
+
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ["8.3", "8.5"]
+        # The three supported topologies for the key-value store cache
+        topology: ["single", "cluster", "sentinel"]
+
+    name: KV store ${{ matrix.topology }} (PHP ${{ matrix.php-versions }})
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
+        timeout-minutes: 5
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, pdo_sqlite, posix, session, simplexml, sqlite, xmlreader, xmlwriter, zip, zlib
+          coverage: none
+          ini-file: development
+          ini-values: disable_functions=""
+        env:
+          fail-fast: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Start Valkey (single server)
+        if: matrix.topology == 'single'
+        run: |
+          docker run -d --name kv-single -p 6379:6379 "${VALKEY_IMAGE}"
+          timeout 60 sh -c 'until docker exec kv-single valkey-cli ping | grep -q PONG; do sleep 1; done'
+
+      - name: Start Valkey (cluster)
+        if: matrix.topology == 'cluster'
+        run: |
+          for port in 7000 7001 7002 7003 7004 7005; do
+            docker run -d --name "kv-cluster-$port" --network host "${VALKEY_IMAGE}" \
+              valkey-server --port "$port" --cluster-enabled yes \
+              --cluster-config-file "nodes-$port.conf" --cluster-node-timeout 5000 \
+              --appendonly no --save ""
+          done
+          # Wait for every node to answer before forming the cluster
+          for port in 7000 7001 7002 7003 7004 7005; do
+            timeout 60 sh -c "until docker exec kv-cluster-$port valkey-cli -p $port ping | grep -q PONG; do sleep 1; done"
+          done
+          docker exec kv-cluster-7000 valkey-cli --cluster create \
+            127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 \
+            127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 \
+            --cluster-replicas 1 --cluster-yes
+
+      - name: Start Valkey (sentinel)
+        if: matrix.topology == 'sentinel'
+        run: |
+          docker run -d --name kv-master --network host "${VALKEY_IMAGE}" \
+            valkey-server --port 6379
+          docker run -d --name kv-replica --network host "${VALKEY_IMAGE}" \
+            valkey-server --port 6380 --replicaof 127.0.0.1 6379
+          printf 'port 26379\nsentinel monitor mymaster 127.0.0.1 6379 1\nsentinel down-after-milliseconds mymaster 5000\nsentinel failover-timeout mymaster 10000\n' > sentinel.conf
+          docker run -d --name kv-sentinel --network host -v "$PWD/sentinel.conf:/etc/valkey/sentinel.conf" \
+            "${VALKEY_IMAGE}" valkey-sentinel /etc/valkey/sentinel.conf
+          timeout 60 sh -c 'until docker exec kv-sentinel valkey-cli -p 26379 ping | grep -q PONG; do sleep 1; done'
+
+      - name: Set up dependencies
+        run: composer i
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          cp tests/kvstore-${{ matrix.topology }}.config.php config/
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          php -f tests/enable_all.php
+
+      - name: PHPUnit key-value store tests
+        run: composer run test -- --group KeyValueCache --log-junit junit.xml
+
+      - name: Print logs
+        if: always()
+        run: |
+          cat data/nextcloud.log
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, phpunit-kvstore]
+
+    if: always()
+
+    name: phpunit-kvstore-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.phpunit-kvstore.result != 'success' }}; then exit 1; fi

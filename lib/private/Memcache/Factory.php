@@ -164,7 +164,7 @@ class Factory implements ICacheFactory {
 	#[\Override]
 	public function createLocking(string $prefix = ''): IMemcache {
 		$cache = new $this->lockingCacheClass($this->getGlobalPrefix() . '/' . $prefix);
-		if ($this->lockingCacheClass === Redis::class) {
+		if ($this->supportsInstrumentation($this->lockingCacheClass)) {
 			if ($this->profiler->isEnabled()) {
 				// We only support the profiler with Redis
 				$cache = new ProfilerWrapperCache($cache, 'Locking');
@@ -187,7 +187,7 @@ class Factory implements ICacheFactory {
 	#[\Override]
 	public function createDistributed(string $prefix = ''): ICache {
 		$cache = new $this->distributedCacheClass($this->getGlobalPrefix() . '/' . $prefix);
-		if ($this->distributedCacheClass === Redis::class) {
+		if ($this->supportsInstrumentation($this->distributedCacheClass)) {
 			if ($this->profiler->isEnabled()) {
 				// We only support the profiler with Redis
 				$cache = new ProfilerWrapperCache($cache, 'Distributed');
@@ -210,7 +210,7 @@ class Factory implements ICacheFactory {
 	#[\Override]
 	public function createLocal(string $prefix = ''): ICache {
 		$cache = new $this->localCacheClass($this->getGlobalPrefix() . '/' . $prefix);
-		if ($this->localCacheClass === Redis::class) {
+		if ($this->supportsInstrumentation($this->localCacheClass)) {
 			if ($this->profiler->isEnabled()) {
 				// We only support the profiler with Redis
 				$cache = new ProfilerWrapperCache($cache, 'Local');
@@ -247,6 +247,15 @@ class Factory implements ICacheFactory {
 	#[\Override]
 	public function isLocalCacheAvailable(): bool {
 		return $this->localCacheClass !== self::NULL_CACHE;
+	}
+
+	/**
+	 * Whether the given cache backend supports the profiler and logger wrappers.
+	 *
+	 * @param class-string<ICache> $cacheClass
+	 */
+	private function supportsInstrumentation(string $cacheClass): bool {
+		return $cacheClass === Redis::class || $cacheClass === KeyValueCache::class;
 	}
 
 	public function clearAll(): void {
