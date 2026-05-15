@@ -26,6 +26,17 @@ class DnsPinMiddleware {
 	}
 
 	/**
+	 * DNS lookups must end with a dot to be marked as
+	 * FQDN. Otherwise, a record without answer may trigger
+	 * a lookup on the local domain name. See GitHub
+	 * issue #56489 for details.
+	 */
+	private function enforceFqdn(string $hostname): string {
+		$trimmedHostname = rtrim($hostname, '.');
+		return "$trimmedHostname.";
+	}
+
+	/**
 	 * Fetch soa record for a target
 	 */
 	private function soaRecord(string $target): ?array {
@@ -35,7 +46,7 @@ class DnsPinMiddleware {
 		$second = array_pop($labels);
 
 		$hostname = $second . '.' . $top;
-		$responses = $this->dnsGetRecord($hostname, DNS_SOA);
+		$responses = $this->dnsGetRecord($this->enforceFqdn($hostname), DNS_SOA);
 
 		if ($responses === false || count($responses) === 0) {
 			return null;
@@ -68,7 +79,7 @@ class DnsPinMiddleware {
 				continue;
 			}
 
-			$dnsResponses = $this->dnsGetRecord($target, $dnsType);
+			$dnsResponses = $this->dnsGetRecord($this->enforceFqdn($target), $dnsType);
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
 					if (isset($dnsResponse['ip'])) {
