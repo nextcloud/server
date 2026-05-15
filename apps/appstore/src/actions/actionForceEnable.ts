@@ -23,6 +23,6 @@ export const actionForceEnable: AppAction = {
 	},
 	async callback(app: IAppstoreApp | IAppstoreExApp) {
 		const store = useAppsStore()
-		await store.forceEnableApp(app.id)
+		await store.enableApp(app.id, true)
 	},
 }

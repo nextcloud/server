@@ -91,7 +91,7 @@ async function onSuiteChanged(newSuiteId: string | null, oldSuiteId: string | nu
 			})
 
 			if (result) {
-				await store.forceEnableApp(suite.appId)
+				await store.enableApp(suite.appId, true)
 			} else {
 				// Revert selection
 				selectedSuiteId.value = oldSuiteId
