@@ -230,6 +230,7 @@ return array(
     'OCP\\Calendar\\IHandleImipMessage' => $baseDir . '/lib/public/Calendar/IHandleImipMessage.php',
     'OCP\\Calendar\\IManager' => $baseDir . '/lib/public/Calendar/IManager.php',
     'OCP\\Calendar\\IMetadataProvider' => $baseDir . '/lib/public/Calendar/IMetadataProvider.php',
+    'OCP\\Calendar\\ITimezoneService' => $baseDir . '/lib/public/Calendar/ITimezoneService.php',
     'OCP\\Calendar\\Resource\\IBackend' => $baseDir . '/lib/public/Calendar/Resource/IBackend.php',
     'OCP\\Calendar\\Resource\\IManager' => $baseDir . '/lib/public/Calendar/Resource/IManager.php',
     'OCP\\Calendar\\Resource\\IResource' => $baseDir . '/lib/public/Calendar/Resource/IResource.php',
