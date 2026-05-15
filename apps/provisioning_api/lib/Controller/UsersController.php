@@ -770,32 +770,19 @@ class UsersController extends AUserDataOCSController {
 			$targetUser = $currentLoggedInUser;
 		}
 
-		$allowDisplayNameChange = $this->config->getSystemValue('allow_user_to_change_display_name', true);
-		if ($allowDisplayNameChange === true && (
-			$targetUser->getBackend() instanceof ISetDisplayNameBackend
-			|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)
-		)) {
-			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+		foreach (IAccountManager::ALLOWED_PROPERTIES as $property) {
+			if ($property === IAccountManager::PROPERTY_AVATAR) {
+				continue;
+			}
+			if (!$targetUser->canEditProperty($property)) {
+				continue;
+			}
+			$permittedFields[] = $property;
 		}
 
-		// Fallback to display name value to avoid changing behavior with the new option.
-		if ($this->config->getSystemValue('allow_user_to_change_email', $allowDisplayNameChange)) {
-			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
+		if ($targetUser->canEditProperty(IAccountManager::COLLECTION_EMAIL)) {
+			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 		}
-
-		$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
-		$permittedFields[] = IAccountManager::PROPERTY_PHONE;
-		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
-		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
-		$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-		$permittedFields[] = IAccountManager::PROPERTY_BLUESKY;
-		$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
-		$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
-		$permittedFields[] = IAccountManager::PROPERTY_ROLE;
-		$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
-		$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
-		$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
-		$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS;
 
 		return new DataResponse($permittedFields);
 	}
@@ -841,7 +828,9 @@ class UsersController extends AUserDataOCSController {
 		$permittedFields = [];
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
-			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+			if ($targetUser->canEditProperty(IAccountManager::COLLECTION_EMAIL)) {
+				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+			}
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
 		} else {
 			// Check if admin / subadmin
@@ -933,22 +922,9 @@ class UsersController extends AUserDataOCSController {
 
 		$permittedFields = [];
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
-			$allowDisplayNameChange = $this->config->getSystemValue('allow_user_to_change_display_name', true);
-			if ($allowDisplayNameChange !== false && (
-				$targetUser->getBackend() instanceof ISetDisplayNameBackend
-				|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)
-			)) {
+			if ($targetUser->canChangeDisplayName()) {
 				$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
-				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
 			}
-
-			// Fallback to display name value to avoid changing behavior with the new option.
-			if ($this->config->getSystemValue('allow_user_to_change_email', $allowDisplayNameChange)) {
-				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
-			}
-
-			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX;
 
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 
@@ -972,34 +948,16 @@ class UsersController extends AUserDataOCSController {
 				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
 			}
 
-			$permittedFields[] = IAccountManager::PROPERTY_PHONE;
-			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
-			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
-			$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-			$permittedFields[] = IAccountManager::PROPERTY_BLUESKY;
-			$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
-			$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
-			$permittedFields[] = IAccountManager::PROPERTY_ROLE;
-			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
-			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
-			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
-			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDATE;
-			$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS;
-
-			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_BLUESKY . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_ROLE . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDATE . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
-			$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS . self::SCOPE_SUFFIX;
+			foreach (IAccountManager::ALLOWED_PROPERTIES as $property) {
+				$permittedFields[] = $property . self::SCOPE_SUFFIX;
+				if ($property === IAccountManager::PROPERTY_AVATAR) {
+					continue;
+				}
+				if (!$targetUser->canEditProperty($property)) {
+					continue;
+				}
+				$permittedFields[] = $property;
+			}
 
 			// If admin they can edit their own quota and manager
 			$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
