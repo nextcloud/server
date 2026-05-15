@@ -1945,6 +1945,8 @@ return array(
     'OC\\Memcache\\CASTrait' => $baseDir . '/lib/private/Memcache/CASTrait.php',
     'OC\\Memcache\\Cache' => $baseDir . '/lib/private/Memcache/Cache.php',
     'OC\\Memcache\\Factory' => $baseDir . '/lib/private/Memcache/Factory.php',
+    'OC\\Memcache\\KeyValueCache' => $baseDir . '/lib/private/Memcache/KeyValueCache.php',
+    'OC\\Memcache\\KeyValueCacheFactory' => $baseDir . '/lib/private/Memcache/KeyValueCacheFactory.php',
     'OC\\Memcache\\LoggerWrapperCache' => $baseDir . '/lib/private/Memcache/LoggerWrapperCache.php',
     'OC\\Memcache\\Memcached' => $baseDir . '/lib/private/Memcache/Memcached.php',
     'OC\\Memcache\\MemcachedFactory' => $baseDir . '/lib/private/Memcache/MemcachedFactory.php',
