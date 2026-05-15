@@ -770,6 +770,88 @@ class CardDavBackendTest extends TestCase {
 
 	public static function dataTestSearch(): array {
 		return [
+			'basic FN search' => [
+				'John',
+				['FN'],
+				[],
+				[
+					['uri0', 'John Doe'],
+					['uri1', 'John M. Doe'],
+				],
+			],
+			'partial FN match' => [
+				'M. Doe',
+				['FN'],
+				[],
+				[
+					['uri1', 'John M. Doe'],
+				],
+			],
+				'substring FN match' => [
+				'Do',
+				['FN'],
+				[],
+				[
+					['uri0', 'John Doe'],
+					['uri1', 'John M. Doe'],
+				],
+			],
+			'duplicate matches across FN and CLOUD return one result per card' => [
+				'John',
+				['FN', 'CLOUD'],
+				[],
+				[
+					['uri0', 'John Doe'],
+					['uri1', 'John M. Doe'],
+				],
+			],
+			'case-insensitive search' => [
+				'john',
+				['FN'],
+				[],
+				[
+					['uri0', 'John Doe'],
+					['uri1', 'John M. Doe'],
+				],
+			],
+			'limit 1 returns first matching card' => [
+				'john',
+				['FN'],
+				['limit' => 1],
+				[
+					['uri0', 'John Doe'],
+				],
+			],
+			'limit 1 with offset 1 returns second matching card' => [
+				'john',
+				['FN'],
+				['limit' => 1, 'offset' => 1],
+				[
+					['uri1', 'John M. Doe'],
+				],
+			],
+			'underscore is escaped by default in CLOUD search' => [
+				'_',
+				['CLOUD'],
+				[],
+				[
+					['uri2', 'find without options'],
+				],
+			],
+			'wildcards are honored when escape_like_param is false' => [
+				'%_%',
+				['CLOUD'],
+				['escape_like_param' => false],
+				[
+					['uri0', 'John Doe'],
+					['uri2', 'find without options'],
+				],
+			],
+		];
+	}
+
+	public static function dataTestSearch(): array {
+		return [
 			['John', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
 			['M. Doe', ['FN'], [], [['uri1', 'John M. Doe']]],
 			['Do', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
