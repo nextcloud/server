@@ -8,7 +8,6 @@
 namespace OC;
 
 use InvalidArgumentException;
-use OC\Group\Manager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -203,109 +202,6 @@ class NavigationManager implements INavigationManager {
 		$this->init = true;
 
 		$l = $this->l10nFac->get('lib');
-		if ($this->config->getSystemValueBool('knowledgebaseenabled', true)) {
-			$this->add([
-				'type' => 'settings',
-				'id' => 'help',
-				'order' => 99998,
-				'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
-				'name' => $l->t('Help & privacy'),
-				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
-			]);
-		}
-
-		if ($this->userSession->isLoggedIn()) {
-			// Profile
-			$this->add([
-				'type' => 'settings',
-				'id' => 'profile',
-				'order' => 1,
-				'href' => $this->urlGenerator->linkToRoute(
-					'profile.ProfilePage.index',
-					['targetUserId' => $this->userSession->getUser()->getUID()],
-				),
-				'name' => $l->t('View profile'),
-			]);
-
-			// Accessibility settings
-			if ($this->appManager->isEnabledForUser('theming', $this->userSession->getUser())) {
-				$this->add([
-					'type' => 'settings',
-					'id' => 'accessibility_settings',
-					'order' => 2,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index', ['section' => 'theming']),
-					'name' => $l->t('Appearance and accessibility'),
-					'icon' => $this->urlGenerator->imagePath('theming', 'accessibility-dark.svg'),
-				]);
-			}
-
-			if ($this->isAdmin()) {
-				// App management
-				$this->add([
-					'type' => 'settings',
-					'id' => 'core_apps',
-					'order' => 5,
-					'href' => $this->urlGenerator->linkToRoute('appstore.Page.viewApps'),
-					'icon' => $this->urlGenerator->imagePath('appstore', 'app.svg'),
-					'name' => $l->t('Apps'),
-				]);
-
-				// Personal settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'settings',
-					'order' => 3,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-					'name' => $l->t('Personal settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
-				]);
-
-				// Admin settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'admin_settings',
-					'order' => 4,
-					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview']),
-					'name' => $l->t('Administration settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
-			} else {
-				// Personal settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'settings',
-					'order' => 3,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-					'name' => $l->t('Settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
-			}
-
-			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
-			if ($logoutUrl !== '') {
-				// Logout
-				$this->add([
-					'type' => 'settings',
-					'id' => 'logout',
-					'order' => 99999,
-					'href' => $logoutUrl,
-					'name' => $l->t('Log out'),
-					'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
-				]);
-			}
-
-			if ($this->isSubadmin()) {
-				// User management
-				$this->add([
-					'type' => 'settings',
-					'id' => 'core_users',
-					'order' => 6,
-					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
-					'name' => $l->t('Accounts'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
-				]);
-			}
-		}
 		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
 
 		if ($this->userSession->isLoggedIn()) {
@@ -384,14 +280,6 @@ class NavigationManager implements INavigationManager {
 		$user = $this->userSession->getUser();
 		if ($user !== null) {
 			return $this->groupManager->isAdmin($user->getUID());
-		}
-		return false;
-	}
-
-	private function isSubadmin(): bool {
-		$user = $this->userSession->getUser();
-		if ($user !== null && $this->groupManager instanceof Manager) {
-			return $this->groupManager->getSubAdmin()->isSubAdmin($user);
 		}
 		return false;
 	}
