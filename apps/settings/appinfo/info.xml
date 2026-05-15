@@ -74,6 +74,16 @@
 			<provider>OCA\Settings\Activity\Provider</provider>
 			<provider>OCA\Settings\Activity\SecurityProvider</provider>
 		</providers>
-
 	</activity>
+
+	<navigations>
+		<!-- Personal settings depends on if the user is also an admin, so that entry is dynamically registered in Application.php -->
+		<navigation role="admin">
+			<name>Administration settings</name>
+			<route>settings.AdminSettings.index</route>
+			<icon>admin.svg</icon>
+			<order>4</order>
+			<type>settings</type>
+		</navigation>
+	</navigations>
 </info>
