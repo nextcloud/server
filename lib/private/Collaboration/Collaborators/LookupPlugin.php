@@ -38,6 +38,11 @@ class LookupPlugin implements ISearchPlugin {
 		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
+		// System config flag: shareapi_lookup_label_show_email
+		// Controls whether email addresses from federated lookup results are shown in share dialog labels.
+		// Defaults to false to avoid exposing email addresses unnecessarily. Enabling this may reveal
+		// users' email addresses to people using the share dialog and should therefore be considered carefully.
+		$showEmailInLabel = $this->config->getSystemValueBool('shareapi_lookup_label_show_email', false);
 
 		// If case of Global Scale we always search the lookup server
 		// TODO: Reconsider using the lookup server for non-global scale
@@ -78,7 +83,13 @@ class LookupPlugin implements ISearchPlugin {
 					continue;
 				}
 				$name = $lookup['name']['value'] ?? '';
-				$label = empty($name) ? $lookup['federationId'] : $name . ' (' . $lookup['federationId'] . ')';
+				$email = $lookup['email']['value'] ?? '';
+
+				if ($showEmailInLabel && !empty($email)) {
+					$label = empty($name) ? $email : $name . ' (' . $email . ')';
+				} else {
+					$label = empty($name) ? $lookup['federationId'] : $name . ' (' . $lookup['federationId'] . ')';
+				}
 				$result[] = [
 					'label' => $label,
 					'value' => [
