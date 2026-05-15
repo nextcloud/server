@@ -196,7 +196,7 @@ Feature: webdav-related
 		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
-		When user "user0" has a quota of "10 MB"
+		When user "user0" has a quota of "10 MiB"
 		Then as "user0" gets properties of folder "/" with
 		  |{DAV:}quota-available-bytes|
 		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485421"
@@ -207,7 +207,7 @@ Feature: webdav-related
 		And user "user0" exists
 		And user "user1" exists
 		And user "user0" has unlimited quota
-		And user "user1" has a quota of "10 MB"
+		And user "user1" has a quota of "10 MiB"
 		And As an "user1"
 		And user "user1" created a folder "/testquota"
 		And as "user1" creating a share with
@@ -243,7 +243,7 @@ Feature: webdav-related
 		Given using old dav path
 		And As an "admin"
 		And user "user0" exists
-		And user "user0" has a quota of "1 KB"
+		And user "user0" has a quota of "1 KiB"
 		And user "user0" adds a file of 93 bytes to "/prueba.txt"
 		When as "user0" gets properties of folder "/" with
 		  |{DAV:}quota-available-bytes|
@@ -254,7 +254,7 @@ Feature: webdav-related
 		And As an "admin"
 		And user "user0" exists
 		And user "user1" exists
-		And user "user1" has a quota of "1 KB"
+		And user "user1" has a quota of "1 KiB"
 		And user "user0" adds a file of 93 bytes to "/user0.txt"
 		And file "user0.txt" of user "user0" is shared with user "user1"
 		And user "user1" accepts last share

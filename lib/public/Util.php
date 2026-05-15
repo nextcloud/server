@@ -322,33 +322,24 @@ class Util {
 	 * @param int|float $bytes file size in bytes
 	 * @return string a human readable file size
 	 * @since 4.0.0
+	 * @since 34.0.0 Return correct unit (IEC prefixes instead of SI prefixes)
+	 * @since 34.0.0 Handle negative size
 	 */
 	public static function humanFileSize(int|float $bytes): string {
+		if ($bytes == 0) {
+			return '0 B';
+		}
+		$sign = '';
 		if ($bytes < 0) {
-			return '?';
-		}
-		if ($bytes < 1024) {
-			return "$bytes B";
-		}
-		$bytes = round($bytes / 1024, 0);
-		if ($bytes < 1024) {
-			return "$bytes KB";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return "$bytes MB";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return "$bytes GB";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return "$bytes TB";
+			$sign = '−';
+			$bytes = abs($bytes);
 		}
 
-		$bytes = round($bytes / 1024, 1);
-		return "$bytes PB";
+		$base = max(log($bytes, 1024), 0);
+		$suffixes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+		$precision = 1;
+
+		return $sign . round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[(int)floor($base)];
 	}
 
 	/**
@@ -358,31 +349,28 @@ class Util {
 	 * @param string $str file size in a fancy format
 	 * @return false|int|float a file size in bytes
 	 * @since 4.0.0
+	 * @since 34.0.0 Supports IEC and SI units instead of assuming IEC units
 	 */
 	public static function computerFileSize(string $str): false|int|float {
-		$str = strtolower($str);
 		if (is_numeric($str)) {
 			return Util::numericToNumber($str);
 		}
 
-		$bytes_array = [
-			'b' => 1,
-			'k' => 1024,
-			'kb' => 1024,
-			'mb' => 1024 * 1024,
-			'm' => 1024 * 1024,
-			'gb' => 1024 * 1024 * 1024,
-			'g' => 1024 * 1024 * 1024,
-			'tb' => 1024 * 1024 * 1024 * 1024,
-			't' => 1024 * 1024 * 1024 * 1024,
-			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
-			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
+		$str = strtolower($str);
+		$supportedUnits = [
+			'' => 0,
+			'k' => 1,
+			'm' => 2,
+			'g' => 3,
+			't' => 4,
+			'p' => 5,
 		];
 
 		$bytes = (float)$str;
 
-		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && isset($bytes_array[$matches[1]])) {
-			$bytes *= $bytes_array[$matches[1]];
+		if (preg_match('#([kmgtp]?)(i)?b$#si', $str, $matches) && isset($supportedUnits[$matches[1]])) {
+			$base = ($matches[2] ?? '') === 'i' ? 1024 : 1000;
+			$bytes *= $base ** $supportedUnits[$matches[1]];
 		} else {
 			return false;
 		}

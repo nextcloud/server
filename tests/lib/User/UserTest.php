@@ -634,7 +634,7 @@ class UserTest extends TestCase {
 		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
-	public function testSetQuota(): void {
+	public function testSetQuotaSI(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
 
@@ -644,7 +644,7 @@ class UserTest extends TestCase {
 		$hook = function (IUser $user, string $feature, string $value) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('quota', $feature);
-			$test->assertEquals('23 TB', $value);
+			$test->assertEquals('20.9 TiB', $value);
 		};
 
 		$emitter = new PublicEmitter();
@@ -657,11 +657,41 @@ class UserTest extends TestCase {
 				'foo',
 				'files',
 				'quota',
-				'23 TB'
+				'20.9 TiB'
 			);
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
 		$user->setQuota('23 TB');
+	}
+
+	public function testSetQuotaIEC(): void {
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('getBackendName')->willReturn('foo');
+
+		$test = $this;
+		$hooksCalled = 0;
+
+		$hook = function (IUser $user, string $feature, string $value) use ($test, &$hooksCalled): void {
+			$hooksCalled++;
+			$test->assertEquals('quota', $feature);
+			$test->assertEquals('23 TiB', $value);
+		};
+
+		$emitter = new PublicEmitter();
+		$emitter->listen('\OC\User', 'changeUser', $hook);
+
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method('setUserValue')
+			->with(
+				'foo',
+				'files',
+				'quota',
+				'23 TiB'
+			);
+
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user->setQuota('23 TiB');
 	}
 
 	public function testGetDefaultUnlimitedQuota(): void {
@@ -721,7 +751,7 @@ class UserTest extends TestCase {
 			->willReturnMap($appValueMap);
 
 		$this->assertEquals('1 GB', $user->getQuota());
-		$this->assertEquals(1024 * 1024 * 1024, $user->getQuotaBytes());
+		$this->assertEquals(1000 ** 3, $user->getQuotaBytes());
 	}
 
 	public function testSetQuotaAddressNoChange(): void {
