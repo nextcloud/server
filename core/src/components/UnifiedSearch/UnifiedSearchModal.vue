@@ -343,7 +343,7 @@ export default defineComponent({
 		},
 
 		emptyContentMessage() {
-			if (this.searching && this.hasNoResults) {
+			if (this.searching) {
 				return t('core', 'Searching …')
 			}
 
