@@ -31,6 +31,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
@@ -334,56 +335,62 @@ class File extends Node implements IFile {
 				}
 			}
 
-			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getUpdater()->update($internalPath);
-
-			try {
-				$this->changeLock(ILockingProvider::LOCK_SHARED);
-			} catch (LockedException $e) {
-				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-			}
-
-			// allow sync clients to send the mtime along in a header
-			$mtimeHeader = $this->request->getHeader('x-oc-mtime');
-			if ($mtimeHeader !== '') {
-				$mtime = $this->sanitizeMtime($mtimeHeader);
-				if ($this->fileView->touch($this->path, $mtime)) {
-					$this->header('X-OC-MTime: accepted');
-				}
-			}
-
-			$fileInfoUpdate = [
-				'upload_time' => time()
-			];
-
-			// allow sync clients to send the creation time along in a header
-			$ctimeHeader = $this->request->getHeader('x-oc-ctime');
-			if ($ctimeHeader) {
-				$ctime = $this->sanitizeMtime($ctimeHeader);
-				$fileInfoUpdate['creation_time'] = $ctime;
-				$this->header('X-OC-CTime: accepted');
-			}
-
-			$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
-
-			if ($view) {
-				$this->emitPostHooks($exists);
-			}
-
-			$this->refreshInfo();
-
-			$checksumHeader = $this->request->getHeader('oc-checksum');
-			if ($checksumHeader) {
-				$checksum = trim($checksumHeader);
-				$this->setChecksum($checksum);
-			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
-				$this->setChecksum('');
-			}
+			$this->finalizeUpload($storage, $internalPath, $exists, $view);
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable($this->l10n->t('Failed to check file size: %1$s', [$e->getMessage()]), 0, $e);
 		}
 
 		return '"' . $this->info->getEtag() . '"';
+	}
+
+	private function finalizeUpload(IStorage $storage, string $internalPath, bool $exists, ?View $view): void {
+		// Since we skipped the view for the final publish step, finalize the file
+		// state explicitly here: update cache/bookkeeping, persist metadata, emit
+		// post-write hooks, and only then downgrade the lock.
+		$storage->getUpdater()->update($internalPath);
+
+		$fileInfoUpdate = [
+			'upload_time' => time(),
+		];
+
+		// allow sync clients to send the mtime along in a header
+		$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+		if ($mtimeHeader !== '') {
+			$mtime = $this->sanitizeMtime($mtimeHeader);
+			if ($this->fileView->touch($this->path, $mtime)) {
+				$this->header('X-OC-MTime: accepted');
+			}
+		}
+
+		// allow sync clients to send the creation time along in a header
+		$ctimeHeader = $this->request->getHeader('x-oc-ctime');
+		if ($ctimeHeader !== '') {
+			$ctime = $this->sanitizeMtime($ctimeHeader);
+			$fileInfoUpdate['creation_time'] = $ctime;
+			$this->header('X-OC-CTime: accepted');
+		}
+
+		// Persist checksum before post hooks so observers see fully finalized metadata.
+		$checksumHeader = $this->request->getHeader('oc-checksum');
+		if ($checksumHeader) {
+			$fileInfoUpdate['checksum'] = trim($checksumHeader);
+		} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
+			$fileInfoUpdate['checksum'] = '';
+		}
+
+		$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
+		$this->refreshInfo();
+
+		if ($view) {
+			$this->emitPostHooks($exists);
+		}
+
+		// Keep the exclusive lock until all bookkeeping and metadata updates are complete.
+		try {
+			$this->changeLock(ILockingProvider::LOCK_SHARED);
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		}
 	}
 
 	private function getPartFileBasePath($path) {
