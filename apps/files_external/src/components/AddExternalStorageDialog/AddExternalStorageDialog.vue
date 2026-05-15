@@ -106,7 +106,7 @@ watch(authMechanisms, () => {
 		<NcSelect
 			v-model="authMechanism"
 			:options="authMechanisms"
-			:disabled="!internalStorage.backend || authMechanisms.length <= 1 || !!(internalStorage.id && internalStorage.authMechanism)"
+			:disabled="!internalStorage.backend || authMechanisms.length <= 1"
 			:inputLabel="t('files_external', 'Authentication')"
 			label="name"
 			required />
