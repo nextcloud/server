@@ -30,6 +30,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Federation\ISignedCloudFederationProvider;
+use OCP\Federation\IValidationAwareCloudFederationProvider;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
@@ -54,7 +55,7 @@ use Override;
 use Psr\Log\LoggerInterface;
 use SensitiveParameter;
 
-class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
+class CloudFederationProviderFiles implements ISignedCloudFederationProvider, IValidationAwareCloudFederationProvider {
 	public function __construct(
 		private readonly IAppManager $appManager,
 		private readonly FederatedShareProvider $federatedShareProvider,
@@ -89,7 +90,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 	}
 
 	#[Override]
-	public function shareReceived(ICloudFederationShare $share): string {
+	public function validateShare(ICloudFederationShare $share): void {
 		if (!$this->isS2SEnabled(true)) {
 			throw new ProviderCouldNotAddShareException('Server does not support federated cloud sharing', '', Http::STATUS_SERVICE_UNAVAILABLE);
 		}
@@ -98,6 +99,29 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		if ($protocol['name'] !== 'webdav') {
 			throw new ProviderCouldNotAddShareException('Unsupported protocol for data exchange.', '', Http::STATUS_NOT_IMPLEMENTED);
 		}
+
+		[, $remote] = $this->addressHandler->splitUserRemote($share->getOwner());
+
+		$token = $share->getShareSecret();
+		$name = $share->getResourceName();
+		$owner = $share->getOwnerDisplayName() ?: $share->getOwner();
+		$shareWith = $share->getShareWith();
+		$remoteId = $share->getProviderId();
+
+		if (!$remote || !$token || !$name || !$owner || !$remoteId || !$shareWith) {
+			throw new ProviderCouldNotAddShareException('server can not add remote share, missing parameter', '', Http::STATUS_BAD_REQUEST);
+		}
+
+		if (!$this->filenameValidator->isFilenameValid($name)) {
+			throw new ProviderCouldNotAddShareException('The mountpoint name contains invalid characters.', '', Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	#[Override]
+	public function shareReceived(ICloudFederationShare $share): string {
+		$this->validateShare($share);
+
+		$protocol = $share->getProtocol();
 
 		[, $remote] = $this->addressHandler->splitUserRemote($share->getOwner());
 

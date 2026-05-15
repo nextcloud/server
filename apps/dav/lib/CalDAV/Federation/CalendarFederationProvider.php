@@ -22,10 +22,11 @@ use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
+use OCP\Federation\IValidationAwareCloudFederationProvider;
 use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
 
-class CalendarFederationProvider implements ICloudFederationProvider {
+class CalendarFederationProvider implements ICloudFederationProvider, IValidationAwareCloudFederationProvider {
 	public const PROVIDER_ID = 'calendar';
 	public const CALENDAR_RESOURCE = 'calendar';
 	public const USER_SHARE_TYPE = 'user';
@@ -45,7 +46,7 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 	}
 
 	#[\Override]
-	public function shareReceived(ICloudFederationShare $share): string {
+	public function validateShare(ICloudFederationShare $share): void {
 		if (!$this->calendarFederationConfig->isFederationEnabled()) {
 			$this->logger->debug('Received a federation invite but federation is disabled');
 			throw new ProviderCouldNotAddShareException(
@@ -65,39 +66,16 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 			// TODO: Implement group shares
 		}
 
-		$rawProtocol = $share->getProtocol();
-		if (!isset($rawProtocol[ICalendarFederationProtocol::PROP_VERSION])) {
+		$parsed = $this->parseShare($share);
+		if ($parsed === null) {
 			throw new ProviderCouldNotAddShareException(
-				'No protocol version',
+				'Invalid or unsupported protocol payload',
 				'',
 				Http::STATUS_BAD_REQUEST,
 			);
 		}
-		switch ($rawProtocol[ICalendarFederationProtocol::PROP_VERSION]) {
-			case CalendarFederationProtocolV1::VERSION:
-				try {
-					$protocol = CalendarFederationProtocolV1::parse($rawProtocol);
-				} catch (CalendarProtocolParseException $e) {
-					throw new ProviderCouldNotAddShareException(
-						'Invalid protocol data (v1)',
-						'',
-						Http::STATUS_BAD_REQUEST,
-					);
-				}
-				$calendarUrl = $protocol->getUrl();
-				$displayName = $protocol->getDisplayName();
-				$color = $protocol->getColor();
-				$access = $protocol->getAccess();
-				$components = $protocol->getComponents();
-				break;
-			default:
-				throw new ProviderCouldNotAddShareException(
-					'Unknown protocol version',
-					'',
-					Http::STATUS_BAD_REQUEST,
-				);
-		}
 
+		[, $calendarUrl, $displayName, , $access, ] = $parsed;
 		if (!$calendarUrl || !$displayName) {
 			throw new ProviderCouldNotAddShareException(
 				'Incomplete protocol data',
@@ -105,6 +83,19 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 				Http::STATUS_BAD_REQUEST,
 			);
 		}
+		if (!in_array($access, [DavSharingBackend::ACCESS_READ, DavSharingBackend::ACCESS_READ_WRITE], true)) {
+			throw new ProviderCouldNotAddShareException(
+				"Unsupported access value: $access",
+				'',
+				Http::STATUS_BAD_REQUEST,
+			);
+		}
+	}
+
+	#[\Override]
+	public function shareReceived(ICloudFederationShare $share): string {
+		$this->validateShare($share);
+		[$protocol, $calendarUrl, $displayName, $color, $access, $components] = $this->parseShare($share);
 
 		// convert access to permissions
 		$permissions = match ($access) {
@@ -219,5 +210,33 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 		}
 
 		return [];
+	}
+
+	/**
+	 * @return array{0: CalendarFederationProtocolV1, 1: string, 2: string, 3: ?string, 4: int, 5: int}|null
+	 *     [parsed protocol, calendarUrl, displayName, color, access, components], or null when
+	 *     the envelope cannot be parsed (missing/unsupported version, parse error).
+	 */
+	private function parseShare(ICloudFederationShare $share): ?array {
+		$rawProtocol = $share->getProtocol();
+		if (!isset($rawProtocol[ICalendarFederationProtocol::PROP_VERSION])) {
+			return null;
+		}
+		if ($rawProtocol[ICalendarFederationProtocol::PROP_VERSION] !== CalendarFederationProtocolV1::VERSION) {
+			return null;
+		}
+		try {
+			$protocol = CalendarFederationProtocolV1::parse($rawProtocol);
+		} catch (CalendarProtocolParseException $e) {
+			return null;
+		}
+		return [
+			$protocol,
+			$protocol->getUrl(),
+			$protocol->getDisplayName(),
+			$protocol->getColor(),
+			$protocol->getAccess(),
+			$protocol->getComponents(),
+		];
 	}
 }

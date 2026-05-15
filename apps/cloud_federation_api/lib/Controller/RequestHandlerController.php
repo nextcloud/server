@@ -34,6 +34,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Federation\ISignedCloudFederationProvider;
+use OCP\Federation\IValidationAwareCloudFederationProvider;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -94,7 +95,9 @@ class RequestHandlerController extends Controller {
 	 * @param string|null $ownerDisplayName Display name of the user who shared the item
 	 * @param string|null $sharedBy Provider specific UID of the user who shared the resource
 	 * @param string|null $sharedByDisplayName Display name of the user who shared the resource
-	 * @param array{name: string, options?: array<string, mixed>, webdav?: array<string, mixed>} $protocol Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]] or Multi format: ['name' => 'multi', 'webdav' => [...]]
+	 * @param array<string, mixed> $protocol OCM protocol envelope. The controller only
+	 *     enforces that `protocol.name` is set; the inner shape is the provider's
+	 *     responsibility (see {@see IValidationAwareCloudFederationProvider}).
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
@@ -133,33 +136,6 @@ class RequestHandlerController extends Controller {
 			return new JSONResponse(
 				[
 					'message' => 'Missing arguments',
-					'validationErrors' => [],
-				],
-				Http::STATUS_BAD_REQUEST
-			);
-		}
-
-		$protocolName = $protocol['name'];
-		$hasOldFormat = isset($protocol['options']) && is_array($protocol['options']) && isset($protocol['options']['sharedSecret']);
-		$hasNewFormat = isset($protocol[$protocolName]) && is_array($protocol[$protocolName]) && isset($protocol[$protocolName]['sharedSecret']);
-
-		// For multi-protocol, we only consider webdav
-		$hasMultiFormat = false;
-		if ($protocolName === 'multi') {
-			if (isset($protocol['webdav']) && is_array($protocol['webdav']) && isset($protocol['webdav']['sharedSecret'])) {
-				$hasMultiFormat = true;
-				$protocol = [
-					'name' => 'webdav',
-					'webdav' => $protocol['webdav']
-				];
-				$protocolName = 'webdav';
-			}
-		}
-
-		if (!$hasOldFormat && !$hasNewFormat && !$hasMultiFormat) {
-			return new JSONResponse(
-				[
-					'message' => 'Missing sharedSecret in protocol',
 					'validationErrors' => [],
 				],
 				Http::STATUS_BAD_REQUEST
@@ -225,11 +201,22 @@ class RequestHandlerController extends Controller {
 			$share = $this->factory->getCloudFederationShare($shareWithCloudId, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
 			$share->setShareWith($shareWith);
 			$share->setProtocol($protocol);
+			if ($provider instanceof IValidationAwareCloudFederationProvider) {
+				$provider->validateShare($share);
+			}
 			$provider->shareReceived($share);
-		} catch (ProviderDoesNotExistsException|ProviderCouldNotAddShareException $e) {
+		} catch (BadRequestException $e) {
+			return new JSONResponse($e->getReturnMessage(), Http::STATUS_BAD_REQUEST);
+		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
 				Http::STATUS_NOT_IMPLEMENTED
+			);
+		} catch (ProviderCouldNotAddShareException $e) {
+			$status = $e->getCode() ?: Http::STATUS_NOT_IMPLEMENTED;
+			return new JSONResponse(
+				['message' => $e->getMessage()],
+				$status
 			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
