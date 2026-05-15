@@ -17,7 +17,7 @@ export const actionsInteract: AppAction[] = [
 		inline: false,
 		label: () => t('appstore', 'Rate the app'),
 		enabled(app: IAppstoreApp | IAppstoreExApp) {
-			return !!app.fromAppStore
+			return !app.shipped
 		},
 		href(app: IAppstoreApp | IAppstoreExApp) {
 			return `https://apps.nextcloud.com/apps/${encodeURIComponent(app.id)}#comments`
