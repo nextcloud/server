@@ -11,10 +11,18 @@ namespace OCA\DAV\CalDAV;
 
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Broker;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Parameter;
+use Sabre\VObject\Property;
+use Sabre\VObject\Property\Boolean;
+use Sabre\VObject\Property\ICalendar\CalAddress;
+use Sabre\VObject\Property\ICalendar\DateTime;
+use Sabre\VObject\Recur\EventIterator;
 
 class TipBroker extends Broker {
+	public const INVITATION_FORWARDING_PROPERTY = 'X-NC-INVITATION-FORWARDING';
 
 	public $significantChangeProperties = [
 		'DTSTART',
@@ -77,6 +85,191 @@ class TipBroker extends Broker {
 		}
 
 		return $existingObject;
+	}
+
+	#[\Override]
+	protected function processMessageReply(Message $itipMessage, ?VCalendar $existingObject = null) {
+		// A reply can only be processed based on an existing object.
+		// If the object is not available, the reply is ignored.
+		if ($existingObject === null) {
+			return null;
+		}
+		$instances = [];
+		$requestStatus = '2.0';
+
+		/** @var list<VEvent> $vevents */
+		$vevents = $itipMessage->message->select('VEVENT');
+
+		// Finding all the instances the attendee replied to.
+		foreach ($vevents as $vevent) {
+			// Use the Unix timestamp returned by getTimestamp as a unique identifier for the recurrence.
+			// The Unix timestamp will be the same for an event, even if the reply from the attendee
+			// used a different format/timezone to express the event date-time.
+			$recurId = $this->getRecurrenceKey($vevent);
+			$attendee = $this->getFirstAttendee($vevent);
+			if ($attendee === null) {
+				continue;
+			}
+			$partstat = $attendee->offsetGet('PARTSTAT');
+			if (!$partstat instanceof Parameter) {
+				continue;
+			}
+			$instances[$recurId] = $partstat->getValue();
+			if (isset($vevent->{'REQUEST-STATUS'})) {
+				$requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
+				[$requestStatus] = explode(';', $requestStatus);
+			}
+		}
+
+		// Now we need to loop through the original organizer event, to find
+		// all the instances where we have a reply for.
+		$masterObject = $this->getMasterEvent($existingObject);
+		$masterAllowInvitationForwarding = $masterObject === null || $this->allowInvitationForwarding($masterObject);
+
+		/** @var list<VEvent> $vevents */
+		$vevents = $existingObject->select('VEVENT');
+
+		foreach ($vevents as $vevent) {
+			// Use the Unix timestamp returned by getTimestamp as a unique identifier for the recurrence.
+			$recurId = $this->getRecurrenceKey($vevent);
+			if (isset($instances[$recurId])) {
+				$allowInvitationForwarding = $this->allowInvitationForwarding($vevent);
+				$attendeeFound = false;
+				if (isset($vevent->ATTENDEE)) {
+					foreach ($vevent->ATTENDEE as $attendee) {
+						if ($attendee->getValue() === $itipMessage->sender) {
+							$attendeeFound = true;
+							$attendee['PARTSTAT'] = $instances[$recurId];
+							$attendee['SCHEDULE-STATUS'] = $requestStatus;
+							// Un-setting the RSVP status, because we now know
+							// that the attendee already replied.
+							unset($attendee['RSVP']);
+							break;
+						}
+					}
+				}
+				if (!$attendeeFound && $allowInvitationForwarding) {
+					// Adding a new attendee. The iTip documentation calls this
+					// a party crasher.
+					$parameters = [
+						'PARTSTAT' => $instances[$recurId],
+					];
+					if ($itipMessage->senderName) {
+						$parameters['CN'] = $itipMessage->senderName;
+					}
+					$vevent->add('ATTENDEE', $itipMessage->sender, $parameters);
+				}
+				unset($instances[$recurId]);
+			}
+		}
+
+		if ($masterObject === null) {
+			// No master object, we can't add new instances.
+			return null;
+		}
+		// If we got replies to instances that did not exist in the
+		// original list, it means that new exceptions must be created.
+		foreach ($instances as $recurId => $partstat) {
+			$recurrenceIterator = new EventIterator($existingObject, $itipMessage->uid);
+			$found = false;
+			$iterations = 1000;
+			do {
+				$newObject = $recurrenceIterator->getEventObject();
+				$recurrenceIterator->next();
+
+				// Compare the Unix timestamp returned by getTimestamp with the previously calculated timestamp.
+				// If they are the same, then this is a matching recurrence, even though its date-time may have
+				// been expressed in a different format/timezone.
+				if (isset($newObject->{'RECURRENCE-ID'}) && $newObject->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() === $recurId) {
+					$found = true;
+				}
+				--$iterations;
+			} while ($recurrenceIterator->valid() && !$found && $iterations);
+
+			// Invalid recurrence id. Skipping this object.
+			if (!$found) {
+				continue;
+			}
+
+			$newObject->remove('RRULE');
+			$newObject->remove('EXDATE');
+			$newObject->remove('RDATE');
+
+			$attendeeFound = false;
+			if (isset($newObject->ATTENDEE)) {
+				foreach ($newObject->ATTENDEE as $attendee) {
+					if ($attendee->getValue() === $itipMessage->sender) {
+						$attendeeFound = true;
+						$attendee['PARTSTAT'] = $partstat;
+						$attendee['SCHEDULE-STATUS'] = $requestStatus;
+						unset($attendee['RSVP']);
+						break;
+					}
+				}
+			}
+			if (!$attendeeFound && !$masterAllowInvitationForwarding) {
+				continue;
+			}
+			if (!$attendeeFound) {
+				// Adding a new attendee
+				$parameters = [
+					'PARTSTAT' => $partstat,
+				];
+				if ($itipMessage->senderName) {
+					$parameters['CN'] = $itipMessage->senderName;
+				}
+				$newObject->add('ATTENDEE', $itipMessage->sender, $parameters);
+			}
+			$existingObject->add($newObject);
+		}
+
+		return $existingObject;
+	}
+
+	protected function getMasterEvent(VCalendar $calendar): ?VEvent {
+		/** @var list<VEvent> $vevents */
+		$vevents = $calendar->select('VEVENT');
+		foreach ($vevents as $vevent) {
+			if (!isset($vevent->{'RECURRENCE-ID'})) {
+				return $vevent;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @return int|'master'
+	 */
+	protected function getRecurrenceKey(VEvent $vevent): int|string {
+		/** @var list<Property> $recurrenceIds */
+		$recurrenceIds = $vevent->select('RECURRENCE-ID');
+		foreach ($recurrenceIds as $recurrenceId) {
+			if ($recurrenceId instanceof DateTime) {
+				return $recurrenceId->getDateTime()->getTimestamp();
+			}
+		}
+		return 'master';
+	}
+
+	protected function getFirstAttendee(VEvent $vevent): ?CalAddress {
+		/** @var list<Property> $attendees */
+		$attendees = $vevent->select('ATTENDEE');
+		foreach ($attendees as $attendee) {
+			if ($attendee instanceof CalAddress) {
+				return $attendee;
+			}
+		}
+		return null;
+	}
+
+	protected function allowInvitationForwarding(VEvent $vevent): bool {
+		$properties = $vevent->select(self::INVITATION_FORWARDING_PROPERTY);
+		foreach ($properties as $property) {
+			if ($property instanceof Boolean) {
+				return $property->getValue() === 'TRUE';
+			}
+		}
+		return true;
 	}
 
 	/**
