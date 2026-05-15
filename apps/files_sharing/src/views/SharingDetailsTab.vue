@@ -1131,6 +1131,9 @@ export default {
 
 				// ugly hack to make code work - we need the id to be set but at the same time we need to keep values we want to update
 				this.share._share.id = share.id
+				// Similarly the token is always set by the backend when the
+				// share is created.
+				this.share._share.token = share.token
 				await this.queueUpdate(...permissionsAndAttributes)
 				// Also a ugly hack to update the updated permissions
 				for (const prop of permissionsAndAttributes) {
