@@ -46,6 +46,7 @@
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import logger from '../../logger.ts'
 import { searchGroups } from '../../service/groups.ts'
+import { isSelectableGroup } from './userFormUtils.ts'
 
 export default {
 	name: 'UserFormGroups',
@@ -73,7 +74,7 @@ export default {
 				? this.$store.getters.getSortedGroups
 				: this.$store.getters.getSubAdminGroups
 
-			return groups.filter(({ id }) => id !== '__nc_internal_recent' && id !== 'disabled')
+			return groups.filter(isSelectableGroup)
 		},
 
 		availableSubAdminGroups() {

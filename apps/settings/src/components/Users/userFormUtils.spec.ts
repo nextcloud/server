@@ -4,7 +4,7 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import { diffPayload, languageFilterBy, resolveLanguage, userToFormData, validateQuota } from './userFormUtils.ts'
+import { diffPayload, isSelectableGroup, languageFilterBy, resolveLanguage, userToFormData, validateQuota } from './userFormUtils.ts'
 
 describe('resolveLanguage', () => {
 	const serverLanguages = {
@@ -263,6 +263,18 @@ describe('diffPayload', () => {
 			password: 'newpass',
 			email: 'new@example.com',
 		})
+	})
+})
+
+describe('isSelectableGroup', () => {
+	it('allows regular groups in the groups picker', () => {
+		expect(isSelectableGroup({ id: 'devs', name: 'Developers' })).toBe(true)
+	})
+
+	it('hides internal and guest-only groups from the groups picker', () => {
+		expect(isSelectableGroup({ id: '__nc_internal_recent', name: 'Recently active' })).toBe(false)
+		expect(isSelectableGroup({ id: 'disabled', name: 'Disabled accounts' })).toBe(false)
+		expect(isSelectableGroup({ id: 'guest_app', name: 'Guests' })).toBe(false)
 	})
 })
 
