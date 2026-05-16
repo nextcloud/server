@@ -657,18 +657,20 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSearch')]
-	public function testSearch(string $pattern, array $properties, array $options, array $expected): void {
-		/** @var VCard $vCards */
+	public function testSearch(string $pattern, array $properties, array $options, array $expectedUris, array $expectedNeedles): void {
 		$vCards = [];
+
 		$vCards[0] = new VCard();
-		$vCards[0]->add(new Text($vCards[0], 'UID', 'uid'));
+		$vCards[0]->add(new Text($vCards[0], 'UID', 'uid-0'));
 		$vCards[0]->add(new Text($vCards[0], 'FN', 'John Doe'));
 		$vCards[0]->add(new Text($vCards[0], 'CLOUD', 'john@nextcloud.com'));
+
 		$vCards[1] = new VCard();
-		$vCards[1]->add(new Text($vCards[1], 'UID', 'uid'));
+		$vCards[1]->add(new Text($vCards[1], 'UID', 'uid-1'));
 		$vCards[1]->add(new Text($vCards[1], 'FN', 'John M. Doe'));
+
 		$vCards[2] = new VCard();
-		$vCards[2]->add(new Text($vCards[2], 'UID', 'uid'));
+		$vCards[2]->add(new Text($vCards[2], 'UID', 'uid-2'));
 		$vCards[2]->add(new Text($vCards[2], 'FN', 'find without options'));
 		$vCards[2]->add(new Text($vCards[2], 'CLOUD', 'peter_pan@nextcloud.com'));
 
@@ -690,95 +692,117 @@ class CardDavBackendTest extends TestCase {
 			$vCardIds[] = $query->getLastInsertId();
 		}
 
-		$query = $this->db->getQueryBuilder();
-		$query->insert($this->dbCardsPropertiesTable)
-			->values(
-				[
-					'addressbookid' => $query->createNamedParameter(0),
-					'cardid' => $query->createNamedParameter($vCardIds[0]),
-					'name' => $query->createNamedParameter('FN'),
-					'value' => $query->createNamedParameter('John Doe'),
-					'preferred' => $query->createNamedParameter(0)
-				]
-			);
-		$query->executeStatement();
-		$query = $this->db->getQueryBuilder();
-		$query->insert($this->dbCardsPropertiesTable)
-			->values(
-				[
-					'addressbookid' => $query->createNamedParameter(0),
-					'cardid' => $query->createNamedParameter($vCardIds[0]),
-					'name' => $query->createNamedParameter('CLOUD'),
-					'value' => $query->createNamedParameter('John@nextcloud.com'),
-					'preferred' => $query->createNamedParameter(0)
-				]
-			);
-		$query->executeStatement();
-		$query = $this->db->getQueryBuilder();
-		$query->insert($this->dbCardsPropertiesTable)
-			->values(
-				[
-					'addressbookid' => $query->createNamedParameter(0),
-					'cardid' => $query->createNamedParameter($vCardIds[1]),
-					'name' => $query->createNamedParameter('FN'),
-					'value' => $query->createNamedParameter('John M. Doe'),
-					'preferred' => $query->createNamedParameter(0)
-				]
-			);
-		$query->executeStatement();
-		$query = $this->db->getQueryBuilder();
-		$query->insert($this->dbCardsPropertiesTable)
-			->values(
-				[
-					'addressbookid' => $query->createNamedParameter(0),
-					'cardid' => $query->createNamedParameter($vCardIds[2]),
-					'name' => $query->createNamedParameter('FN'),
-					'value' => $query->createNamedParameter('find without options'),
-					'preferred' => $query->createNamedParameter(0)
-				]
-			);
-		$query->executeStatement();
-		$query = $this->db->getQueryBuilder();
-		$query->insert($this->dbCardsPropertiesTable)
-			->values(
-				[
-					'addressbookid' => $query->createNamedParameter(0),
-					'cardid' => $query->createNamedParameter($vCardIds[2]),
-					'name' => $query->createNamedParameter('CLOUD'),
-					'value' => $query->createNamedParameter('peter_pan@nextcloud.com'),
-					'preferred' => $query->createNamedParameter(0)
-				]
-			);
-		$query->executeStatement();
+		$propertyRows = [
+			[$vCardIds[0], 'FN', 'John Doe'],
+			[$vCardIds[0], 'CLOUD', 'John@nextcloud.com'],
+			[$vCardIds[1], 'FN', 'John M. Doe'],
+			[$vCardIds[2], 'FN', 'find without options'],
+			[$vCardIds[2], 'CLOUD', 'peter_pan@nextcloud.com'],
+		];
+
+		foreach ($propertyRows as [$cardId, $name, $value]) {
+			$query = $this->db->getQueryBuilder();
+			$query->insert($this->dbCardsPropertiesTable)
+				->values(
+					[
+						'addressbookid' => $query->createNamedParameter(0),
+						'cardid' => $query->createNamedParameter($cardId),
+						'name' => $query->createNamedParameter($name),
+						'value' => $query->createNamedParameter($value),
+						'preferred' => $query->createNamedParameter(0),
+					]
+				);
+			$query->executeStatement();
+		}
 
 		$result = $this->backend->search(0, $pattern, $properties, $options);
 
-		// check result
-		$this->assertSame(count($expected), count($result));
-		$found = [];
-		foreach ($result as $r) {
-			foreach ($expected as $exp) {
-				if ($r['uri'] === $exp[0] && strpos($r['carddata'], $exp[1]) > 0) {
-					$found[$exp[1]] = true;
-					break;
-				}
-			}
-		}
+		$this->assertCount(count($expectedUris), $result);
 
-		$this->assertSame(count($expected), count($found));
+		$actualUris = array_map(static fn (array $row): string => $row['uri'], $result);
+		sort($actualUris);
+		$expectedSortedUris = $expectedUris;
+		sort($expectedSortedUris);
+
+		$this->assertSame($expectedSortedUris, $actualUris, 'Search returned unexpected URIs');
+
+		$expectedByUri = array_combine($expectedUris, $expectedNeedles);
+		$this->assertIsArray($expectedByUri);
+
+		foreach ($result as $row) {
+			$this->assertArrayHasKey($row['uri'], $expectedByUri, 'Unexpected URI in search result');
+			$this->assertNotFalse(
+				strpos($row['carddata'], $expectedByUri[$row['uri']]),
+				'Returned carddata does not contain expected fragment for ' . $row['uri']
+			);
+		}
 	}
 
 	public static function dataTestSearch(): array {
 		return [
-			['John', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-			['M. Doe', ['FN'], [], [['uri1', 'John M. Doe']]],
-			['Do', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-			'check if duplicates are handled correctly' => ['John', ['FN', 'CLOUD'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-			'case insensitive' => ['john', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-			'limit' => ['john', ['FN'], ['limit' => 1], [['uri0', 'John Doe']]],
-			'limit and offset' => ['john', ['FN'], ['limit' => 1, 'offset' => 1], [['uri1', 'John M. Doe']]],
-			'find "_" escaped' => ['_', ['CLOUD'], [], [['uri2', 'find without options']]],
-			'find not empty CLOUD' => ['%_%', ['CLOUD'], ['escape_like_param' => false], [['uri0', 'John Doe'], ['uri2', 'find without options']]],
+			'basic FN match' => [
+				'pattern' => 'John',
+				'properties' => ['FN'],
+				'options' => [],
+				'expectedUris' => ['uri0', 'uri1'],
+				'expectedNeedles' => ['John Doe', 'John M. Doe'],
+			],
+			'partial FN match' => [
+				'pattern' => 'M. Doe',
+				'properties' => ['FN'],
+				'options' => [],
+				'expectedUris' => ['uri1'],
+				'expectedNeedles' => ['John M. Doe'],
+			],
+			'substring FN match' => [
+				'pattern' => 'Do',
+				'properties' => ['FN'],
+				'options' => [],
+				'expectedUris' => ['uri0', 'uri1'],
+				'expectedNeedles' => ['John Doe', 'John M. Doe'],
+			],
+			'search across multiple properties returns one result per card' => [
+				'pattern' => 'John',
+				'properties' => ['FN', 'CLOUD'],
+				'options' => [],
+				'expectedUris' => ['uri0', 'uri1'],
+				'expectedNeedles' => ['John Doe', 'John M. Doe'],
+			],
+			'case-insensitive search' => [
+				'pattern' => 'john',
+				'properties' => ['FN'],
+				'options' => [],
+				'expectedUris' => ['uri0', 'uri1'],
+				'expectedNeedles' => ['John Doe', 'John M. Doe'],
+			],
+			'limit' => [
+				'pattern' => 'john',
+				'properties' => ['FN'],
+				'options' => ['limit' => 1],
+				'expectedUris' => ['uri0'],
+				'expectedNeedles' => ['John Doe'],
+			],
+			'limit with offset' => [
+				'pattern' => 'john',
+				'properties' => ['FN'],
+				'options' => ['limit' => 1, 'offset' => 1],
+				'expectedUris' => ['uri1'],
+				'expectedNeedles' => ['John M. Doe'],
+			],
+			'underscore is escaped by default' => [
+				'pattern' => '_',
+				'properties' => ['CLOUD'],
+				'options' => [],
+				'expectedUris' => ['uri2'],
+				'expectedNeedles' => ['find without options'],
+			],
+			'underscore wildcard search when escape_like_param is false' => [
+				'pattern' => '%_%',
+				'properties' => ['CLOUD'],
+				'options' => ['escape_like_param' => false],
+				'expectedUris' => ['uri0', 'uri2'],
+				'expectedNeedles' => ['John Doe', 'find without options'],
+			],
 		];
 	}
 
