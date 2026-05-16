@@ -17,6 +17,7 @@ OC.L10N.register(
     "Edit Profile" : "Cuir Próifíl in Eagar",
     "The headline and about sections will show up here" : "Taispeánfar an ceannlíne agus na hailt faoi anseo",
     "Profile not found" : "Próifíl gan aimsiú",
+    "The profile does not exist or is unavailable." : "Níl an phróifíl ann nó níl sí ar fáil.",
     "Back to %s" : "Ar ais go dtí %s",
     "The profile does not exist." : "Níl an phróifíl ann."
 },
