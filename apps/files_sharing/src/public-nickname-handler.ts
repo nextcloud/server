@@ -16,10 +16,10 @@ import logger from './services/logger.ts'
 
 const storage = getBuilder('files_sharing').build()
 
-// Setup file-request nickname header for the uploader
 /**
+ * Setup file-request nickname header for the uploader
  *
- * @param nickname
+ * @param nickname - The nickname to set in the header
  */
 function registerFileRequestHeader(nickname: string) {
 	const uploader = getUploader()
@@ -27,10 +27,10 @@ function registerFileRequestHeader(nickname: string) {
 	logger.debug('Nickname header registered for uploader', { headers: uploader.customHeaders })
 }
 
-// Callback when a nickname was chosen
 /**
+ * Callback when a nickname was chosen
  *
- * @param guest
+ * @param guest - The guest user with the new nickname
  */
 function onUserInfoChanged(guest: NextcloudUser) {
 	logger.debug('User info changed', { guest })
@@ -57,20 +57,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	const options = {
 		nickname,
-		notice: t('files_sharing', 'To upload files to {folder}, you need to provide your name first.', { folder }),
+		notice: t('files_sharing', 'To upload files to {folder}, you need to provide your name first.', { folder }, { escape: false }),
 		subtitle: undefined as string | undefined,
-		title: t('files_sharing', 'Upload files to {folder}', { folder }),
+		title: t('files_sharing', 'Upload files to {folder}', { folder }, { escape: false }),
 	}
 
 	// If the guest already has a nickname, we just make them double check
 	if (nickname) {
-		options.notice = t('files_sharing', 'Please confirm your name to upload files to {folder}', { folder })
+		options.notice = t('files_sharing', 'Please confirm your name to upload files to {folder}', { folder }, { escape: false })
 	}
 
 	// If the account owner set their name as public,
 	// we show it in the subtitle
 	if (owner) {
-		options.subtitle = t('files_sharing', '{ownerDisplayName} shared a folder with you.', { ownerDisplayName })
+		options.subtitle = t('files_sharing', '{ownerDisplayName} shared a folder with you.', { ownerDisplayName }, { escape: false })
 	}
 
 	// If this is a file request, then we need a nickname
