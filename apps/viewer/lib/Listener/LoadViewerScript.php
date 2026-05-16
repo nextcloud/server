@@ -33,6 +33,7 @@ class LoadViewerScript implements IEventListener {
 		$this->previewManager = $previewManager;
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadViewer || $event instanceof LoadAdditionalScriptsEvent)) {
 			return;
