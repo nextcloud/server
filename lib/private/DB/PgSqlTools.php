@@ -37,7 +37,11 @@ class PgSqlTools {
 		});
 
 		foreach ($conn->createSchemaManager()->listSequences() as $sequence) {
-			$sequenceName = $sequence->getName();
+			$longSequenceName = $sequence->getName();
+			// We need to strip away the preceding database prefix.
+			// Example: oc_circles_circle_id_seq, not nextcloud.oc_circles_circle_id_seq
+			$sequenceName = preg_replace('/^.*\./', '', $longSequenceName);
+
 			$sqlInfo = 'SELECT table_schema, table_name, column_name
 				FROM information_schema.columns
 				WHERE column_default = ? AND table_catalog = ?';
