@@ -47,13 +47,22 @@ class PgSqlTools {
 			]);
 			$sequenceInfo = $result->fetchAssociative();
 			$result->free();
+			if ($sequenceInfo === false) {
+				continue;
+			}
+			/** @var string $tableSchema */
+			$tableSchema = $sequenceInfo['table_schema'];
 			/** @var string $tableName */
 			$tableName = $sequenceInfo['table_name'];
 			/** @var string $columnName */
 			$columnName = $sequenceInfo['column_name'];
-			$sqlMaxId = "SELECT MAX($columnName) FROM $tableName";
-			$sqlSetval = "SELECT setval('$sequenceName', ($sqlMaxId))";
-			$conn->executeQuery($sqlSetval);
+			$qualifiedTable = "$tableSchema.$tableName";
+			$maxResult = $conn->executeQuery("SELECT MAX($columnName) FROM $qualifiedTable");
+			$maxId = $maxResult->fetchOne();
+			$maxResult->free();
+			if ($maxId !== null && $maxId !== false) {
+				$conn->executeQuery("SELECT setval('$sequenceName', $maxId)");
+			}
 		}
 	}
 }
