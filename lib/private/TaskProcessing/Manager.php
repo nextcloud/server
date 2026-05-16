@@ -1238,7 +1238,7 @@ class Manager implements IManager {
 				// $queue = $this->serverContainer->get(\OCA\NotifyPush\Queue\IQueue::class);
 				$queue->push('notify_custom', [
 					'user' => $userId,
-					'message' => 'taskprocessing_task_results',
+					'message' => 'task_' . $task->getId(),
 					'body' => $output,
 				]);
 				error_log('sending to queue!!!!!!');
