@@ -15,6 +15,7 @@
     "Edit Profile" : "Cuir Próifíl in Eagar",
     "The headline and about sections will show up here" : "Taispeánfar an ceannlíne agus na hailt faoi anseo",
     "Profile not found" : "Próifíl gan aimsiú",
+    "The profile does not exist or is unavailable." : "Níl an phróifíl ann nó níl sí ar fáil.",
     "Back to %s" : "Ar ais go dtí %s",
     "The profile does not exist." : "Níl an phróifíl ann."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"

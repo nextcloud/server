@@ -69,7 +69,7 @@
     "Your ownership transfer of {path} to {user} has completed." : "Die Besitzübertragung von {path} an {user} wurde fertiggestellt.",
     "The ownership transfer of {path} from {user} has completed." : "Die Besitzübertragung von {path} durch {user} wurde fertiggestellt.",
     "in %s" : "in %s",
-    "Transferred from %1$s on %2$s" : "Übertragen von %1$s an %2$s",
+    "Transferred from %1$s on %2$s" : "Übertragen von %1$s am %2$s",
     "File Management" : "Dateiverwaltung",
     "Home" : "Home",
     "Target folder does not exist any more" : "Zielordner existiert nicht mehr",
