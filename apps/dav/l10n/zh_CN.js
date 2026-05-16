@@ -242,6 +242,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "解除链接失败：%1$s",
     "Failed to write file contents: %1$s" : "写入文件内容失败：%1$s",
     "File not found: %1$s" : "找不到文件：%1$s",
+    "Insufficient space" : "空间不足",
     "Invalid target path" : "目标路径无效",
     "System is in maintenance mode." : "系统处于维护模式。",
     "Upgrade needed" : "需要升级",

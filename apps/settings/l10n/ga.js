@@ -295,6 +295,7 @@ OC.L10N.register(
     "Your server is correctly configured to send security headers." : "Tá do fhreastalaí cumraithe i gceart chun ceanntásca slándála a sheoladh.",
     "Configuration server ID" : "Aitheantas an fhreastalaí cumraíochta",
     "Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration." : "Níl an t-aitheantóir freastalaí cumraithe. Moltar é má tá d'eispéireas Nextcloud ag rith ar roinnt freastalaithe PHP. Cuir aitheantóir freastalaí leis i do chumraíocht.",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 511." : "Ní aitheantóir freastalaí bailí é \"%d\". Caithfidh sé a bheith idir 0 agus 511.",
     "Server identifier is configured and valid." : "Tá aitheantóir an fhreastalaí cumraithe agus bailí.",
     "Database version" : "Leagan bunachar sonraí",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Braitheadh ​​MariaDB leagan 10.3, tá an leagan seo ag deireadh ré agus ní thacaítear leis ach mar chuid de Ubuntu 20.04. MariaDB >= Moltar %1$s agus <=%2$s don fheidhmíocht, don chobhsaíocht agus don fheidhmiúlacht is fearr leis an leagan seo de Nextcloud.",
