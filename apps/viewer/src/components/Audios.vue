@@ -144,12 +144,10 @@ audio {
 }
 
 :deep() {
+	@use '../mixins/Plyr.scss' as *;
+
 	.plyr__progress__container {
 		flex: 1 1;
-	}
-
-	.plyr {
-		@import '../mixins/Plyr';
 	}
 
 	// make it a bit off-center in order to fix mobile controls

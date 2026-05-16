@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // Shared style between video and audio component for plyr
-& {
+.plyr {
 	// https://github.com/sampotts/plyr#customizing-the-css
 	--plyr-color-main: var(--color-primary-element);
 	--plyr-control-icon-size: 18px;

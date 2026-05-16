@@ -198,6 +198,8 @@ video {
 }
 
 :deep() {
+	@use '../mixins/Plyr.scss' as *;
+
 	.plyr:-webkit-full-screen video {
 		width: 100% !important;
 		height: 100% !important;
@@ -211,8 +213,6 @@ video {
 	}
 
 	.plyr {
-		@import '../mixins/Plyr';
-
 		// Override server font style
 		button {
 			color: white;
