@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import videoTest from '../mixins/video'
+import videoTest from '../mixins/video.ts'
 
 describe('Open video.mkv in viewer', function() {
 	videoTest('video.mkv', 'image/mkv')

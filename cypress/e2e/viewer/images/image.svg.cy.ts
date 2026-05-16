@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import imageTest from '../mixins/image'
+import imageTest from '../mixins/image.ts'
 
 describe('Open image.svg in viewer', function() {
 	imageTest('image.svg', 'image/svg+xml', 'data:image/svg+xml;base64')

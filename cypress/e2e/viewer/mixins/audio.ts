@@ -6,15 +6,15 @@
 /**
  * Generate an audio cypress test
  *
- * @param {string} fileName the audio to upload and test against
- * @param {string} mimeType the audio mime type
+ * @param fileName the audio to upload and test against
+ * @param mimeType the audio mime type
  */
 export default function(fileName = 'audio.ogg', mimeType = 'audio/ogg') {
 	let randUser
 
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 
 			// Upload test files

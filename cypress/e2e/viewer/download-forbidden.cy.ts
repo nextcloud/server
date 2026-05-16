@@ -4,22 +4,23 @@
  */
 
 import type { User } from '@nextcloud/cypress'
+
 import { ShareType } from '@nextcloud/sharing'
 
 describe('Disable download button if forbidden', { testIsolation: true }, () => {
 	let sharee: User
 
 	before(() => {
-		cy.createRandomUser().then((user) => { sharee = user })
+		cy.createRandomUser().then((user) => {
+			sharee = user
+		})
 		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.createFolder(user, '/Photos')
 			cy.uploadFile(user, 'image1.jpg', 'image/jpeg', '/Photos/image1.jpg')
 
 			cy.login(user)
-			cy.createShare('/Photos',
-				{ shareWith: sharee.userId, shareType: ShareType.User, attributes: [{ scope: 'permissions', key: 'download', value: false }] },
-			)
+			cy.createShare('/Photos', { shareWith: sharee.userId, shareType: ShareType.User, attributes: [{ scope: 'permissions', key: 'download', value: false }] })
 			cy.logout()
 		})
 	})

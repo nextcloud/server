@@ -6,7 +6,7 @@
 describe('Open custom images list in viewer', function() {
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
 			cy.uploadFile(user, 'image2.jpg', 'image/jpeg')
@@ -35,9 +35,8 @@ describe('Open custom images list in viewer', function() {
 
 	it('Open the viewer with a specific list', function() {
 		// get the two files fileids
-		cy.getFileId('image1.jpg').then(fileID1 => {
-			cy.getFileId('image3.jpg').then(fileID3 => {
-
+		cy.getFileId('image1.jpg').then((fileID1) => {
+			cy.getFileId('image3.jpg').then((fileID3) => {
 				// open the viewer with custom list of fileinfo
 				cy.window().then((win) => {
 					win.OCA.Viewer.open({
@@ -64,7 +63,6 @@ describe('Open custom images list in viewer', function() {
 						],
 					})
 				})
-
 			})
 		})
 		cy.get('body > .viewer').should('be.visible')

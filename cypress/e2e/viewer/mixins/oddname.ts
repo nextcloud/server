@@ -6,8 +6,8 @@
 /**
  * Make a name aimed to break the viewer in case of escaping errors
  *
- * @param {string} realName the file original name
- * @return {string} a name for the file to be uploaded as
+ * @param realName the file original name
+ * @return a name for the file to be uploaded as
  */
 function naughtyFileName(realName) {
 	const ext = realName.split('.').pop()
@@ -50,7 +50,7 @@ export default function(file, type, sidebar = false) {
 			}
 
 			// Init user
-			cy.createRandomUser().then(user => {
+			cy.createRandomUser().then((user) => {
 				// Upload test files
 				cy.createFolder(user, `/${folderName}`)
 				cy.uploadFile(user, file, type, `/${folderName}/${placedName}`)
@@ -80,9 +80,7 @@ export default function(file, type, sidebar = false) {
 		function menuOk() {
 			cy.get('body > .viewer .icon-error').should('not.exist')
 			cy.get('body > .viewer .modal-header__name').should('contain', placedName)
-			cy.get('body > .viewer .modal-header button.header-close').should(
-				'be.visible',
-			)
+			cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 		}
 
 		/**

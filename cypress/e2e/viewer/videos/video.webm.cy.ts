@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import videoTest from '../mixins/video'
+import videoTest from '../mixins/video.ts'
 
 describe('Open video.webm in viewer', function() {
 	videoTest('video.webm', 'video/webm')

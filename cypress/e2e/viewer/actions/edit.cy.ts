@@ -5,7 +5,7 @@
 
 describe('Open the new saved as image', function() {
 	before(function() {
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
 			cy.login(user)
 			cy.visit('/apps/files')
@@ -36,9 +36,7 @@ describe('Open the new saved as image', function() {
 		cy.get('.modal-header button[aria-label="Close"]').click()
 	})
 	it('See the new saved image in the list', function() {
-
 		cy.getFile('imageSave.jpg', { timeout: 10000 })
 			.should('contain', 'imageSave .jpg')
 	})
-
 })

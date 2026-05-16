@@ -11,7 +11,7 @@ const basename = pathBasename(source)
 describe('Open non-dav files in viewer', function() {
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.uploadFile(user, 'test-card.mp4', 'video/mp4')
 

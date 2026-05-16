@@ -8,7 +8,7 @@ describe('Open mp4 videos in viewer', function() {
 
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 
 			// Upload test files

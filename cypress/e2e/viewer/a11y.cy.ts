@@ -5,7 +5,7 @@
 describe('A11y tests', function() {
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
 			cy.uploadFile(user, 'image2.jpg', 'image/jpeg')

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import imageTest from '../mixins/image'
+import imageTest from '../mixins/image.ts'
 
 describe('Open image-apng.png in viewer', function() {
 	imageTest('image-apng.png', 'image/png')

@@ -8,7 +8,7 @@ describe('Open mp3 and ogg audio in viewer', function() {
 
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 
 			// Upload test files

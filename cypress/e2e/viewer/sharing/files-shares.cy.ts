@@ -6,7 +6,7 @@
 describe('See shared folder with link share', function() {
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.createFolder(user, '/Photos')
 			cy.uploadFile(user, 'image1.jpg', 'image/jpeg', '/Photos/image1.jpg')
@@ -45,7 +45,7 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Share the Photos folder with a share link and access the share link', function() {
-		cy.createLinkShare('/Photos').then(token => {
+		cy.createLinkShare('/Photos').then((token) => {
 			cy.logout()
 			cy.visit(`/s/${token}`)
 		})

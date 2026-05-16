@@ -10,7 +10,7 @@ const fileName = 'image.png'
 describe(`Download ${fileName} in viewer`, function() {
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.uploadFile(user, fileName, 'image/png')
 
@@ -55,9 +55,9 @@ describe(`Download ${fileName} in viewer`, function() {
 		const downloadedFilePath = path.join(downloadsFolder, fileName)
 		const fixtureFilePath = path.join(fixturesFolder, fileName)
 
-		cy.readFile(fixtureFilePath, 'binary', { timeout: 5000 }).then(fixtureBuffer => {
+		cy.readFile(fixtureFilePath, 'binary', { timeout: 5000 }).then((fixtureBuffer) => {
 			cy.readFile(downloadedFilePath, 'binary', { timeout: 5000 })
-				.should(downloadedBuffer => {
+				.should((downloadedBuffer) => {
 					if (downloadedBuffer.length !== fixtureBuffer.length) {
 						throw new Error(`File size ${downloadedBuffer.length} is not ${fixtureBuffer.length}`)
 					}

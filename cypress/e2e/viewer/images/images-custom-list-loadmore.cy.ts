@@ -6,7 +6,7 @@
 describe('Open custom list of images in viewer with pagination', function() {
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
 			cy.uploadFile(user, 'image2.jpg', 'image/jpeg')
@@ -38,11 +38,10 @@ describe('Open custom list of images in viewer with pagination', function() {
 		let loaded = false
 
 		// get the files fileids
-		cy.getFileId('image1.jpg').then(fileID1 => {
-			cy.getFileId('image2.jpg').then(fileID2 => {
-				cy.getFileId('image3.jpg').then(fileID3 => {
-					cy.getFileId('image4.jpg').then(fileID4 => {
-
+		cy.getFileId('image1.jpg').then((fileID1) => {
+			cy.getFileId('image2.jpg').then((fileID2) => {
+				cy.getFileId('image3.jpg').then((fileID3) => {
+					cy.getFileId('image4.jpg').then((fileID4) => {
 						// open the viewer with custom list of fileinfo
 						cy.window().then((win) => {
 							win.OCA.Viewer.open({

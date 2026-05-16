@@ -6,14 +6,14 @@
 /**
  * Generate an image cypress test
  *
- * @param {string} fileName the image to upload and test against
- * @param {string} mimeType the image mime type
- * @param {string} source the optional custom source to check against
+ * @param fileName the image to upload and test against
+ * @param mimeType the image mime type
+ * @param source the optional custom source to check against
  */
-export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source = null) {
+export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source: string | null = null) {
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.uploadFile(user, fileName, mimeType)
 
@@ -33,7 +33,7 @@ export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source
 
 	it('Open the viewer on file click and wait for loading to end', function() {
 		// Match image request
-		cy.getFileId(fileName).then(fileId => {
+		cy.getFileId(fileName).then((fileId) => {
 			const matchRoute = source
 				? `/remote.php/dav/files/*/${fileName}`
 				: `/index.php/core/preview*fileId=${fileId}*`

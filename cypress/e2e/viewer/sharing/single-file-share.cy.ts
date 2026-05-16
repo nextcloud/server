@@ -9,7 +9,7 @@ describe('See shared folder with link share', function() {
 
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
 			cy.uploadFile(user, 'video1.mp4', 'video/mp4')
@@ -19,8 +19,12 @@ describe('See shared folder with link share', function() {
 			cy.visit('/apps/files')
 
 			// Create shares
-			cy.createLinkShare('/image1.jpg').then(token => { imageToken = token })
-			cy.createLinkShare('/video1.mp4').then(token => { videoToken = token })
+			cy.createLinkShare('/image1.jpg').then((token) => {
+				imageToken = token
+			})
+			cy.createLinkShare('/video1.mp4').then((token) => {
+				videoToken = token
+			})
 
 			// Done
 			cy.logout()

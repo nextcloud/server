@@ -6,7 +6,7 @@
 describe('Delete image.png in viewer', function() {
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			// Upload test files
 			cy.uploadFile(user, 'image.png', 'image/png')
 

@@ -6,15 +6,15 @@
 /**
  * Generate a video cypress test
  *
- * @param {string} fileName the video to upload and test against
- * @param {string} mimeType the video mime type
+ * @param fileName the video to upload and test against
+ * @param mimeType the video mime type
  */
 export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg') {
 	let randUser
 
 	before(function() {
 		// Init user
-		cy.createRandomUser().then(user => {
+		cy.createRandomUser().then((user) => {
 			randUser = user
 
 			// Upload test files
