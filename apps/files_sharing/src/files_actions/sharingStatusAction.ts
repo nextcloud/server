@@ -105,13 +105,17 @@ export const action: IFileAction = {
 		return AccountPlusSvg
 	},
 
-	enabled({ nodes }) {
+	enabled({ nodes, view }) {
 		if (nodes.length !== 1) {
 			return false
 		}
 
 		// Do not leak information about users to public shares
 		if (isPublicShare()) {
+			return false
+		}
+
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
 			return false
 		}
 

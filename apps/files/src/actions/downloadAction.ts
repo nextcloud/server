@@ -29,6 +29,10 @@ export const action: IFileAction = {
 			return false
 		}
 
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
+			return false
+		}
+
 		// We can only download dav files and folders.
 		if (nodes.some((node) => !node.isDavResource)) {
 			return false

@@ -35,9 +35,13 @@ export const action: IFileAction = {
 			: StarSvg
 	},
 
-	enabled({ nodes }) {
+	enabled({ nodes, view }) {
 		// Not enabled for public shares
 		if (isPublicShare()) {
+			return false
+		}
+
+		if (view.id === 'pendingshares' || view.id === 'deletedshares') {
 			return false
 		}
 
