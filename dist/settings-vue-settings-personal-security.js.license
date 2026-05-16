@@ -13,6 +13,7 @@ SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: The Babel Team (https://babel.dev/team)
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -34,6 +35,9 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
+- @babel/runtime
+	- version: 7.28.4
+	- license: MIT
 - @chenfengyuan/vue-qrcode
 	- version: 1.0.2
 	- license: MIT

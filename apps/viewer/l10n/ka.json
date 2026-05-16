@@ -1,0 +1,27 @@
+{ "translations": {
+    "Cancel" : "Cancel",
+    "LIVE" : "LIVE",
+    "Edit" : "Edit",
+    "Open sidebar" : "Open sidebar",
+    "Download" : "Download",
+    "Delete" : "Delete",
+    "View" : "View",
+    "Name" : "Name",
+    "Save" : "Save",
+    "Back" : "Back",
+    "Loading …" : "Loading …",
+    "Reset" : "Reset",
+    "Warning" : "Warning",
+    "Confirm" : "Confirm",
+    "Discard changes" : "Discard changes",
+    "Undo" : "Undo",
+    "Custom" : "Custom",
+    "Blur" : "Blur",
+    "Value" : "Value",
+    "Image" : "Image",
+    "Text" : "Text",
+    "Size" : "Size",
+    "Position" : "Position",
+    "Menu" : "Menu"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
+}

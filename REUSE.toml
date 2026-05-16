@@ -178,7 +178,7 @@ SPDX-FileCopyrightText = "2020 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["cypress/tsconfig.json", "cypress/fixtures/appstore/apps.json", "dist/*.css"]
+path = ["dist/*.css"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
@@ -380,12 +380,6 @@ path = "core/img/f-droid.svg"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2016 Andrew Nayenko <relan@airpost.net>"
 SPDX-License-Identifier = "CC-BY-SA-3.0 OR GPL-3.0-or-later"
-
-[[annotations]]
-path = "cypress/fixtures/image.jpg"
-precedence = "aggregate"
-SPDX-FileCopyrightText = "2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>"
-SPDX-License-Identifier = "LicenseRef-Unsplash"
 
 [[annotations]]
 path = "apps/settings/tests/UserMigration/assets/account-complex.jpg"
