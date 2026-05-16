@@ -3,29 +3,30 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getRowForFile, triggerActionForFile } from '../../files/FilesUtils.ts'
+import { getViewer, getViewerActionsMenu, toggleViewerActions } from '../utils.ts'
+
 describe('Delete image.png in viewer', function() {
 	before(function() {
 		// Init user
 		cy.createRandomUser().then((user) => {
 			// Upload test files
-			cy.uploadFile(user, 'image.png', 'image/png')
+			cy.uploadFile(user, 'viewer/image.png', 'image/png', '/image.png')
 
 			// Visit nextcloud
 			cy.login(user)
 			cy.visit('/apps/files')
 		})
 	})
+
 	after(function() {
 		cy.logout()
 	})
 
-	it('See image.png in the list', function() {
-		cy.getFile('image.png', { timeout: 10000 })
-			.should('contain', 'image .png')
-	})
-
-	it('Open the viewer on file click', function() {
-		cy.openFile('image.png')
+	it('See image.png in the list and open the viewer', function() {
+		getRowForFile('image.png')
+			.should('exist')
+		triggerActionForFile('image.png', 'view')
 		cy.get('body > .viewer').should('be.visible')
 	})
 
@@ -38,19 +39,21 @@ describe('Delete image.png in viewer', function() {
 
 	it('Delete the image and close viewer', function() {
 		// open the menu
-		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
-		// delete the file
-		cy.get('.action-button:contains(\'Delete\')').click()
+		toggleViewerActions()
+		getViewerActionsMenu()
+			.should('be.visible')
+			.findByRole('menuitem', { name: 'Delete' })
+			.should('be.visible')
+			.click()
 	})
 
 	it('Does not see the viewer anymore', function() {
-		cy.get('body > .viewer', { timeout: 10000 })
-			.should('not.exist')
+		getViewer().should('not.exist')
 	})
 
 	it('Does not see image.png in the list anymore', function() {
 		cy.visit('/apps/files')
-		cy.getFile('image.png', { timeout: 10000 })
+		getRowForFile('image.png')
 			.should('not.exist')
 	})
 })

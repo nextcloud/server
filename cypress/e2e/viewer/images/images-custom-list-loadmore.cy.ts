@@ -3,15 +3,32 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getRowForFile } from '../../files/FilesUtils.ts'
+import { getViewer } from '../utils.ts'
+
 describe('Open custom list of images in viewer with pagination', function() {
+	const fileIds: Record<string, string> = {}
+
 	before(function() {
 		// Init user
 		cy.createRandomUser().then((user) => {
 			// Upload test files
-			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
-			cy.uploadFile(user, 'image2.jpg', 'image/jpeg')
-			cy.uploadFile(user, 'image3.jpg', 'image/jpeg')
-			cy.uploadFile(user, 'image4.jpg', 'image/jpeg')
+			cy.uploadFile(user, 'viewer/image1.jpg', 'image/jpeg', '/image1.jpg')
+				.then(({ headers }) => {
+					fileIds['image1.jpg'] = Number.parseInt(headers['oc-fileid']).toString()
+				})
+			cy.uploadFile(user, 'viewer/image2.jpg', 'image/jpeg', '/image2.jpg')
+				.then(({ headers }) => {
+					fileIds['image2.jpg'] = Number.parseInt(headers['oc-fileid']).toString()
+				})
+			cy.uploadFile(user, 'viewer/image3.jpg', 'image/jpeg', '/image3.jpg')
+				.then(({ headers }) => {
+					fileIds['image3.jpg'] = Number.parseInt(headers['oc-fileid']).toString()
+				})
+			cy.uploadFile(user, 'viewer/image4.jpg', 'image/jpeg', '/image4.jpg')
+				.then(({ headers }) => {
+					fileIds['image4.jpg'] = Number.parseInt(headers['oc-fileid']).toString()
+				})
 
 			// Visit nextcloud
 			cy.login(user)
@@ -23,89 +40,76 @@ describe('Open custom list of images in viewer with pagination', function() {
 	})
 
 	it('See images in the list', function() {
-		cy.getFile('image1.jpg', { timeout: 10000 })
-			.should('contain', 'image1 .jpg')
-		cy.getFile('image2.jpg', { timeout: 10000 })
-			.should('contain', 'image2 .jpg')
-		cy.getFile('image3.jpg', { timeout: 10000 })
-			.should('contain', 'image3 .jpg')
-		cy.getFile('image4.jpg', { timeout: 10000 })
-			.should('contain', 'image4 .jpg')
+		getRowForFile('image1.jpg').should('exist')
+		getRowForFile('image2.jpg').should('exist')
+		getRowForFile('image3.jpg').should('exist')
+		getRowForFile('image4.jpg').should('exist')
 	})
 
 	it('Open the viewer with a specific list', function() {
 		// make sure we only loadMore once
 		let loaded = false
 
-		// get the files fileids
-		cy.getFileId('image1.jpg').then((fileID1) => {
-			cy.getFileId('image2.jpg').then((fileID2) => {
-				cy.getFileId('image3.jpg').then((fileID3) => {
-					cy.getFileId('image4.jpg').then((fileID4) => {
-						// open the viewer with custom list of fileinfo
-						cy.window().then((win) => {
-							win.OCA.Viewer.open({
-								path: '/image1.jpg',
-								list: [
-									{
-										basename: 'image1.jpg',
-										filename: '/image1.jpg',
-										hasPreview: true,
-										fileid: parseInt(fileID1),
-										mime: 'image/jpeg',
-										permissions: 'RWD',
-										etag: 'etag123',
-									},
-									{
-										basename: 'image2.jpg',
-										filename: '/image2.jpg',
-										hasPreview: true,
-										fileid: parseInt(fileID2),
-										mime: 'image/jpeg',
-										permissions: 'RWD',
-										etag: 'etag456',
-									},
-								],
-								// This will be triggered when we get to the end of the list
-								loadMore() {
-									// make sure we only loadMore once
-									if (loaded) {
-										return []
-									}
+		// open the viewer with custom list of fileinfo
+		cy.window().then((win) => {
+			win.OCA.Viewer.open({
+				path: '/image1.jpg',
+				list: [
+					{
+						basename: 'image1.jpg',
+						filename: '/image1.jpg',
+						hasPreview: true,
+						fileid: parseInt(fileIds['image1.jpg']),
+						mime: 'image/jpeg',
+						permissions: 'RWD',
+						etag: 'etag123',
+					},
+					{
+						basename: 'image2.jpg',
+						filename: '/image2.jpg',
+						hasPreview: true,
+						fileid: parseInt(fileIds['image2.jpg']),
+						mime: 'image/jpeg',
+						permissions: 'RWD',
+						etag: 'etag456',
+					},
+				],
+				// This will be triggered when we get to the end of the list
+				loadMore() {
+					// make sure we only loadMore once
+					if (loaded) {
+						return []
+					}
 
-									loaded = true
-									return [
-										{
-											basename: 'image3.jpg',
-											filename: '/image3.jpg',
-											hasPreview: true,
-											fileid: parseInt(fileID3),
-											mime: 'image/jpeg',
-											permissions: 'RWD',
-											etag: 'etag123',
-										},
-										{
-											basename: 'image4.jpg',
-											filename: '/image4.jpg',
-											hasPreview: true,
-											fileid: parseInt(fileID4),
-											mime: 'image/jpeg',
-											permissions: 'RWD',
-											etag: 'etag456',
-										},
-									]
-								},
-							})
-						})
-					})
-				})
+					loaded = true
+					return [
+						{
+							basename: 'image3.jpg',
+							filename: '/image3.jpg',
+							hasPreview: true,
+							fileid: parseInt(fileIds['image3.jpg']),
+							mime: 'image/jpeg',
+							permissions: 'RWD',
+							etag: 'etag123',
+						},
+						{
+							basename: 'image4.jpg',
+							filename: '/image4.jpg',
+							hasPreview: true,
+							fileid: parseInt(fileIds['image4.jpg']),
+							mime: 'image/jpeg',
+							permissions: 'RWD',
+							etag: 'etag456',
+						},
+					]
+				},
 			})
 		})
-		cy.get('body > .viewer').should('be.visible')
+		getViewer().should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('body > .viewer', { timeout: 10000 })
+		getViewer()
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')

@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getRowForFile, triggerActionForFile } from '../../files/FilesUtils.ts'
+
 describe('Open mp3 and ogg audio in viewer', function() {
 	let randUser
 
@@ -12,8 +14,8 @@ describe('Open mp3 and ogg audio in viewer', function() {
 			randUser = user
 
 			// Upload test files
-			cy.uploadFile(user, 'audio.mp3', 'audio/mpeg')
-			cy.uploadFile(user, 'audio.ogg', 'audio/ogg')
+			cy.uploadFile(user, 'viewer/audio.mp3', 'audio/mpeg', '/audio.mp3')
+			cy.uploadFile(user, 'viewer/audio.ogg', 'audio/ogg', '/audio.ogg')
 
 			// Visit nextcloud
 			cy.login(user)
@@ -25,14 +27,12 @@ describe('Open mp3 and ogg audio in viewer', function() {
 	})
 
 	it('See audios in the list', function() {
-		cy.getFile('audio.mp3', { timeout: 10000 })
-			.should('contain', 'audio .mp3')
-		cy.getFile('audio.ogg', { timeout: 10000 })
-			.should('contain', 'audio .ogg')
+		getRowForFile('audio.mp3').should('exist')
+		getRowForFile('audio.ogg').should('exist')
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('audio.mp3')
+		triggerActionForFile('audio.mp3', 'view')
 		cy.get('body > .viewer').should('be.visible')
 	})
 

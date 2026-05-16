@@ -3,15 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getRowForFile, triggerActionForFile } from '../../files/FilesUtils.ts'
+import { getViewer } from '../utils.ts'
+
 describe('Open images in viewer', function() {
 	before(function() {
 		// Init user
 		cy.createRandomUser().then((user) => {
 			// Upload test files
-			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
-			cy.uploadFile(user, 'image2.jpg', 'image/jpeg')
-			cy.uploadFile(user, 'image3.jpg', 'image/jpeg')
-			cy.uploadFile(user, 'image4.jpg', 'image/jpeg')
+			cy.uploadFile(user, 'viewer/image1.jpg', 'image/jpeg', '/image1.jpg')
+			cy.uploadFile(user, 'viewer/image2.jpg', 'image/jpeg', '/image2.jpg')
+			cy.uploadFile(user, 'viewer/image3.jpg', 'image/jpeg', '/image3.jpg')
+			cy.uploadFile(user, 'viewer/image4.jpg', 'image/jpeg', '/image4.jpg')
 
 			// Visit nextcloud
 			cy.login(user)
@@ -23,23 +26,19 @@ describe('Open images in viewer', function() {
 	})
 
 	it('See images in the list', function() {
-		cy.getFile('image1.jpg', { timeout: 10000 })
-			.should('contain', 'image1 .jpg')
-		cy.getFile('image2.jpg', { timeout: 10000 })
-			.should('contain', 'image2 .jpg')
-		cy.getFile('image3.jpg', { timeout: 10000 })
-			.should('contain', 'image3 .jpg')
-		cy.getFile('image4.jpg', { timeout: 10000 })
-			.should('contain', 'image4 .jpg')
+		getRowForFile('image1.jpg').should('exist')
+		getRowForFile('image2.jpg').should('exist')
+		getRowForFile('image3.jpg').should('exist')
+		getRowForFile('image4.jpg').should('exist')
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('image1.jpg')
-		cy.get('body > .viewer').should('be.visible')
+		triggerActionForFile('image1.jpg', 'view')
+		getViewer().should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('body > .viewer', { timeout: 10000 })
+		getViewer()
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')

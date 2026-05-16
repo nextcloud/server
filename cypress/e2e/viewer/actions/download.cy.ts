@@ -4,6 +4,8 @@
  */
 
 import * as path from 'path'
+import { getRowForFile, triggerActionForFile } from '../../files/FilesUtils.ts'
+import { getViewer, getViewerActionsMenu, toggleViewerActions } from '../utils.ts'
 
 const fileName = 'image.png'
 
@@ -12,7 +14,7 @@ describe(`Download ${fileName} in viewer`, function() {
 		// Init user
 		cy.createRandomUser().then((user) => {
 			// Upload test files
-			cy.uploadFile(user, fileName, 'image/png')
+			cy.uploadFile(user, path.join('viewer', fileName), 'image/png', `/${fileName}`)
 
 			// Visit nextcloud
 			cy.login(user)
@@ -24,18 +26,15 @@ describe(`Download ${fileName} in viewer`, function() {
 		cy.logout()
 	})
 
-	it(`See "${fileName}" in the list`, function() {
-		cy.getFile(fileName, { timeout: 10000 })
-			.should('contain', fileName.replace(/(.*)\./, '$1 .'))
-	})
-
 	it('Open the viewer on file click', function() {
-		cy.openFile(fileName)
+		getRowForFile(fileName)
+			.should('exist')
+		triggerActionForFile(fileName, 'view')
 		cy.get('body > .viewer').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('body > .viewer', { timeout: 10000 })
+		getViewer()
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -43,9 +42,12 @@ describe(`Download ${fileName} in viewer`, function() {
 
 	it('Download the image', function() {
 		// open the menu
-		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
-		// download the
-		cy.findByRole('menuitem', { name: 'Download' }).click()
+		toggleViewerActions()
+		getViewerActionsMenu()
+			.should('be.visible')
+			.findByRole('menuitem', { name: 'Download' })
+			.should('be.visible')
+			.click()
 	})
 
 	it('Compare downloaded file with asset by size', function() {
@@ -53,7 +55,7 @@ describe(`Download ${fileName} in viewer`, function() {
 		const fixturesFolder = Cypress.config('fixturesFolder')
 
 		const downloadedFilePath = path.join(downloadsFolder, fileName)
-		const fixtureFilePath = path.join(fixturesFolder, fileName)
+		const fixtureFilePath = path.join(fixturesFolder as string, 'viewer', fileName)
 
 		cy.readFile(fixtureFilePath, 'binary', { timeout: 5000 }).then((fixtureBuffer) => {
 			cy.readFile(downloadedFilePath, 'binary', { timeout: 5000 })

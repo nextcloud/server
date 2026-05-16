@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getRowForFile, triggerActionForFile } from '../../files/FilesUtils.ts'
+import { getViewer } from '../utils'
+
 /**
  * Generate an image cypress test
  *
@@ -11,11 +14,16 @@
  * @param source the optional custom source to check against
  */
 export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source: string | null = null) {
+	let fileId: string
+
 	before(function() {
 		// Init user
 		cy.createRandomUser().then((user) => {
 			// Upload test files
-			cy.uploadFile(user, fileName, mimeType)
+			cy.uploadFile(user, `viewer/${fileName}`, mimeType, `/${fileName}`)
+				.then(({ headers }) => {
+					fileId = Number.parseInt(headers['oc-fileid']).toString()
+				})
 
 			// Visit nextcloud
 			cy.login(user)
@@ -27,22 +35,19 @@ export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source
 	})
 
 	it(`See ${fileName} in the list`, function() {
-		cy.getFile(fileName, { timeout: 10000 })
-			.should('contain', fileName.replace(/(.*)\./, '$1 .'))
+		getRowForFile(fileName).should('exist')
 	})
 
 	it('Open the viewer on file click and wait for loading to end', function() {
 		// Match image request
-		cy.getFileId(fileName).then((fileId) => {
-			const matchRoute = source
-				? `/remote.php/dav/files/*/${fileName}`
-				: `/index.php/core/preview*fileId=${fileId}*`
-			cy.intercept('GET', matchRoute).as('image')
-		})
+		const matchRoute = source
+			? `/remote.php/dav/files/*/${fileName}`
+			: `/index.php/core/preview*fileId=${fileId}*`
+		cy.intercept('GET', matchRoute).as('image')
 
 		// Open the file and check Viewer existence
-		cy.openFile(fileName)
-		cy.get('body > .viewer').should('be.visible')
+		triggerActionForFile(fileName, 'view')
+		getViewer().should('be.visible')
 
 		// Make sure loading is finished
 		cy.wait('@image').its('response.statusCode').should('eq', 200)

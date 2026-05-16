@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getRowForFile, triggerActionForFile } from '../../files/FilesUtils.ts'
+
 /**
  * Generate an audio cypress test
  *
@@ -18,7 +20,7 @@ export default function(fileName = 'audio.ogg', mimeType = 'audio/ogg') {
 			randUser = user
 
 			// Upload test files
-			cy.uploadFile(user, fileName, mimeType)
+			cy.uploadFile(user, `viewer/${fileName}`, mimeType, `/${fileName}`)
 
 			// Visit nextcloud
 			cy.login(user)
@@ -30,8 +32,7 @@ export default function(fileName = 'audio.ogg', mimeType = 'audio/ogg') {
 	})
 
 	it(`See ${fileName} in the list`, function() {
-		cy.getFile(fileName, { timeout: 10000 })
-			.should('contain', fileName.replace(/(.*)\./, '$1 .'))
+		getRowForFile(fileName).should('exist')
 	})
 
 	it('Open the viewer on file click and wait for loading to end', function() {
@@ -39,7 +40,7 @@ export default function(fileName = 'audio.ogg', mimeType = 'audio/ogg') {
 		cy.intercept('GET', `/remote.php/dav/files/${randUser.userId}/${fileName}`).as('source')
 
 		// Open the file and check Viewer existence
-		cy.openFile(fileName)
+		triggerActionForFile(fileName, 'view')
 		cy.get('body > .viewer').should('be.visible')
 
 		// Make sure loading is finished

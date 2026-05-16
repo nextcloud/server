@@ -3,10 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getRowForFile, triggerActionForFile } from '../../files/FilesUtils.ts'
+import { getViewer } from '../utils.ts'
+
 describe('Open the new saved as image', function() {
 	before(function() {
 		cy.createRandomUser().then((user) => {
-			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
+			cy.uploadFile(user, 'viewer/image1.jpg', 'image/jpeg', '/image1.jpg')
 			cy.login(user)
 			cy.visit('/apps/files')
 		})
@@ -15,16 +18,17 @@ describe('Open the new saved as image', function() {
 		cy.logout()
 	})
 
-	it('See images in the list', function() {
-		cy.getFile('image1.jpg', { timeout: 10000 })
-			.should('contain', 'image1 .jpg')
-	})
 	it('Open the viewer on file click', function() {
-		cy.openFile('image1.jpg')
-		cy.get('body > .viewer').should('be.visible')
+		getRowForFile('image1.jpg')
+			.should('exist')
+		triggerActionForFile('image1.jpg', 'view')
+		getViewer().should('be.visible')
 	})
 	it('open the image editor', function() {
-		cy.get('button[aria-label="Edit"]').click()
+		getViewer()
+			.findByRole('button', { name: 'Edit' })
+			.should('be.visible')
+			.click()
 	})
 	it('Save the image', function() {
 		cy.get('.FIE_topbar-save-button').click()
@@ -36,7 +40,7 @@ describe('Open the new saved as image', function() {
 		cy.get('.modal-header button[aria-label="Close"]').click()
 	})
 	it('See the new saved image in the list', function() {
-		cy.getFile('imageSave.jpg', { timeout: 10000 })
-			.should('contain', 'imageSave .jpg')
+		getRowForFile('imageSave.jpg')
+			.should('exist')
 	})
 })
