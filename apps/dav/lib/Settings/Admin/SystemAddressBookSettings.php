@@ -27,12 +27,12 @@ class SystemAddressBookSettings implements IDeclarativeSettingsForm {
 			'section_id' => 'groupware',
 			'storage_type' => DeclarativeSettingsTypes::STORAGE_TYPE_EXTERNAL,
 			'title' => $this->l->t('System Address Book'),
-			'description' => $this->l->t('The system address book contains contact information for all users in your instance.'),
+			'description' => $this->l->t('The system address book contains contact information for all users in your instance. The system address book is required for the searching and auto-completion of users.'),
 
 			'fields' => [
 				[
 					'id' => 'system_addressbook_enabled',
-					'title' => $this->l->t('Enable System Address Book'),
+					'title' => $this->l->t('Enable System Address Book in DAV clients'),
 					'type' => DeclarativeSettingsTypes::CHECKBOX,
 					'default' => false,
 					'options' => [],
