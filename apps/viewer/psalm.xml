@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="1"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    phpVersion="8.2"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    errorBaseline="tests/psalm-baseline.xml"
+>
+    <projectFiles>
+        <directory name="lib" />
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+	<stubs>
+		<file name="tests/stubs/oca_files_event_loadadditionalscriptevent.php"/>
+	</stubs>
+    <extraFiles>
+		<directory name="vendor-bin/psalm/vendor/nextcloud/ocp" />
+    </extraFiles>
+</psalm>

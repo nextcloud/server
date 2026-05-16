@@ -1,0 +1,14 @@
+{
+	"name": "nextcloud/viewer",
+	"config": {
+		"vendor-dir": ".",
+		"optimize-autoloader": true,
+		"classmap-authoritative": true,
+		"autoloader-suffix": "Viewer",
+	},
+	"autoload": {
+		"psr-4": {
+			"OCA\\Viewer\\": "../lib/"
+		}
+	}
+}

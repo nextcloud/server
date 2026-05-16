@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# We do not ship the Roboto font files (only needed for Cypress) - but we need to ship the other font files
+css/fonts/roboto-*
+
+.DS_Store
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+.marginalia
+
+build/
+coverage/
+
+vendor
+.php_cs.cache
+
+# Cypress files
+js/*roboto*
+cypress/downloads
+cypress/screenshots
+cypress/snapshots
+cypress/videos
+cypress/snapshots/actual
+cypress/snapshots/diff
+
+# RelativeCI webpack bundle stats
+webpack-stats.json
+*.orig

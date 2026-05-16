@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "viewer",
+    {
+    "Cancel" : "ยกเลิก",
+    "Edit" : "แก้ไข",
+    "Open sidebar" : "เปิดแถบด้านข้าง",
+    "Download" : "ดาวน์โหลด",
+    "Delete" : "ลบ",
+    "View" : "มุมมอง",
+    "Name" : "ชื่อ",
+    "Save" : "บันทึก",
+    "Back" : "ย้อนกลับ",
+    "Reset" : "รีเซ็ต",
+    "Apply" : "นำไปใช้",
+    "Warning" : "คำเตือน",
+    "Confirm" : "ยืนยัน",
+    "Undo" : "เลิกทำ",
+    "Custom" : "กำหนดเอง",
+    "Blur" : "เบลอ",
+    "Text" : "ข้อความ",
+    "Size" : "ขนาด",
+    "Position" : "ตำแหน่ง",
+    "Menu" : "เมนู"
+},
+"nplurals=1; plural=0;");

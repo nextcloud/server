@@ -1,0 +1,12 @@
+{
+	"globals": {
+		"appName": true,
+		"appVersion": true,
+		"PLYR_ICONS": true,
+		"oc_defaults": true,
+		"__dirname": true
+	},
+	"extends": [
+		"@nextcloud/eslint-config/typescript"
+	]
+}

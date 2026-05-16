@@ -1,0 +1,104 @@
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+// Shared style between video and audio component for plyr
+& {
+	// https://github.com/sampotts/plyr#customizing-the-css
+	--plyr-color-main: var(--color-primary-element);
+	--plyr-control-icon-size: 18px;
+	--plyr-menu-background: var(--color-main-background);
+	--plyr-menu-color: var(--color-main-text);
+
+	// Audio specific
+	--plyr-audio-controls-background: var(--color-main-background);
+	--plyr-audio-control-color: var(--color-main-text);
+
+	// Override server font style
+	--plyr-button-size: 44px;
+
+	// Progress
+	--plyr-range-fill-background: var(--color-primary-element);
+
+	// Reactive content
+	.plyr__controls {
+		flex-wrap: wrap;
+		.plyr__volume,
+		.plyr__progress__container {
+			max-width: 100%;
+			flex: 1 1;
+		}
+		// Make main progress grow first
+		.plyr__progress__container {
+			flex: 4 1;
+		}
+	}
+
+	button {
+		width: var(--plyr-button-size);
+		height: var(--plyr-button-size);
+		// Center icon
+		padding: calc((var(--plyr-button-size) - var(--plyr-control-icon-size)) / 2);
+		cursor: pointer;
+		border: none;
+		background-color: transparent;
+		line-height: inherit;
+
+		&:hover,
+		&:focus {
+			color: var(--color-main-text);
+			background-color: var(--color-background-hover);
+		}
+
+		&.plyr__control--overlaid {
+			--plyr-button-size: 50px;
+			width: var(--plyr-button-size);
+			height: var(--plyr-button-size);
+			color: var(--color-primary-element-text);
+			background-color: var(--color-primary-element);
+
+			&:hover,
+			&:focus {
+				background-color: var(--color-primary-element-hover);
+			}
+		}
+	}
+
+	// Menu items
+	.plyr__menu__container button {
+		// avoid size change and flicker
+		width: 120px;
+		margin: 0;
+		// background is main-bg
+		color: var(--color-main-text);
+
+		&:hover,
+		&:focus {
+			color: var(--color-main-text);
+			background-color: var(--color-background-hover);
+		}
+
+		&.plyr__control--forward {
+			padding-right: 28px;
+			padding-right: calc(var(--plyr-control-spacing, 10px) * .7 * 4);
+		}
+
+		&.plyr__control--back {
+			margin: calc(var(--plyr-control-spacing, 10px) * .7);
+			padding-left: 28px;
+			padding-left: calc(var(--plyr-control-spacing, 10px) * .7 * 4);
+		}
+	}
+
+	.plyr__progress__buffer {
+		width: calc(100% + var(--plyr-range-thumb-height, 13px));
+		height: var(--plyr-range-track-height, 5px);
+		background: transparent;
+	}
+
+	@media only screen and (max-width: 480px) {
+		.plyr__volume {
+			display: none;
+		}
+	}
+}

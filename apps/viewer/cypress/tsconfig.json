@@ -1,0 +1,13 @@
+{
+	"extends": "../tsconfig.json",
+	"include": ["../*.ts", "."],
+	"compilerOptions": {
+		"rootDir": "..",
+		"types": [
+			"@testing-library/cypress",
+			"cypress",
+			"dockerode",
+			"node"
+		]
+	}
+}

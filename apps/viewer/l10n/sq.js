@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "viewer",
+    {
+    "Cancel" : "Anullo",
+    "Image saved" : "Imazhi u ruajt",
+    "Edit" : "Përpuno",
+    "Open sidebar" : "Hapni sidebar-in",
+    "Download" : "Shkarko",
+    "Delete" : "Delete",
+    "View" : "Shiko",
+    "Name" : "Emri",
+    "Save" : "Ruaj",
+    "Back" : "Prapa",
+    "Reset" : "Rivendos",
+    "Apply" : "Apliko",
+    "Warning" : "Kujdes",
+    "Confirm" : "Konfirmo",
+    "Undo" : "Ktheje pas",
+    "Redo" : "Ribëj",
+    "Custom" : "E përshtatur",
+    "Value" : "Vlerë",
+    "Text" : "Tekst",
+    "Size" : "Madhësi",
+    "Position" : "Pozicion",
+    "Name is required." : "Emri është i domosdoshëm",
+    "Menu" : "Menu"
+},
+"nplurals=2; plural=(n != 1);");

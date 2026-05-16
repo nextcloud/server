@@ -1,0 +1,24 @@
+{ "translations": {
+    "Overwrite" : "ustiga yozish",
+    "Cancel" : "Bekor qilish",
+    "Edit" : "Tahrirlash",
+    "Download" : "Yuklab olish",
+    "Delete" : "O'chirish",
+    "View" : "Ko'rish",
+    "Name" : "Name",
+    "Save" : "Saqlash",
+    "Back" : "Orqaga",
+    "Loading …" : "Yuklanmoqda…",
+    "Reset" : "Qayta tiklash",
+    "Warning" : "Ogohlantirish",
+    "Confirm" : "Confirm",
+    "Discard changes" : "O'zgarishlarni bekor qilish",
+    "Undo" : "Bekor qilish",
+    "Custom" : "Boshqa",
+    "Value" : "Qiymati",
+    "Line" : "Chiziq",
+    "Text" : "Matn",
+    "Size" : "Size",
+    "Format" : "Formatlash"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

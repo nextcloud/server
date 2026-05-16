@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Image editor feature request
+    url: https://github.com/scaleflex/filerobot-image-editor/issues
+    about: Please open an issue in this repository directly

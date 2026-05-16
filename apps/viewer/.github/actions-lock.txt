@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+3db54dfe0671bf6c30556a5bb6487c22 block-merge-freeze.yml
+30c9fe81a0a80bcf36cc7d441fcb8f9d block-unconventional-commits.yml
+0c3e9b2e56e1b2590a005a80b55c3218 command-compile.yml
+4cb6e4935d3f2bc1e3c99c77739118ca cypress.yml
+cbffe424c47647a2e375f96f25b67af9 dependabot-approve-merge.yml
+2581a67c5bcdcd570427e6d51db767d7 fixup.yml
+54f293d9abe11ac0035a7bbb96a4e453 lint-eslint.yml
+ccd8a55c60e35b84becb0f7005ce1286 lint-php-cs.yml
+5dcc3187a9460cb62a455235cbdb3562 lint-php.yml
+cf229fbf443d2f7a303f22eb92745811 lint-stylelint.yml
+c965845a0def7b39d872e47e93dd1139 node.yml
+2d1e4038ee445a9fc1dcdb10c8036d34 npm-audit-fix.yml
+3c4a096b3b7dbaef0f8e5190ffe13518 pr-feedback.yml
+2070d9569f327e758b9ce2b924c28fef psalm.yml
+7db5b820f3750eebe988005a0bb2febd reuse.yml
+9748607544294975609be21633372bdd sync-workflow-templates.yml
+48c2c657b87747c9faeb589bcce08923 update-stable-titles.yml

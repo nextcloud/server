@@ -1,0 +1,35 @@
+{
+	"name": "@nextcloud/viewer",
+	"version": "1.0.0",
+	"description": "Nextcloud viewer app API bindings",
+	"keywords": [
+		"nextcloud",
+		"viewer",
+		"api"
+	],
+	"homepage": "https://github.com/nextcloud/viewer",
+	"bugs": {
+		"url": "https://github.com/nextcloud/viewer/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nextcloud/viewer.git"
+	},
+	"license": "AGPL-3.0-or-later",
+	"author": "Nextcloud GmbH and Nextcloud contributors",
+	"type": "module",
+	"exports": {
+		"types": "./dist/index.d.ts",
+		"default": "./dist/index.js"
+	},
+	"main": "dist/index.js",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc"
+	},
+	"peerDependencies": {
+		"vue": "^2.7.16"
+	}
+}
