@@ -154,93 +154,193 @@ class URLGenerator implements IURLGenerator {
 	}
 
 	/**
-	 * Creates path to an image
+	 * Resolves the web path for an image asset.
 	 *
-	 * @param string $appName app
-	 * @param string $file image name
-	 * @throws \RuntimeException If the image does not exist
-	 * @return string the url
+	 * Lookup order prefers legacy filesystem theme assets first, then
+	 * theming app overrides, then app and core fallback locations.
 	 *
-	 * Returns the path to the image.
+	 * At each lookup location, the requested filename is checked first as-is.
+	 * If it is missing, a same-basename PNG may be returned, but only when a
+	 * same-basename SVG is also missing at that location. If the requested
+	 * file is missing and an SVG variant exists, lookup continues to the next
+	 * location instead of falling back to PNG there.
+	 *
+	 * @param string $appName The app to resolve the image for. Empty string is treated as 'core'.
+	 * @param string $file The requested image filename, including extension.
+	 * @return string The resolved web path to the image asset.
+	 * @throws \RuntimeException If no matching image can be found.
 	 */
 	#[\Override]
 	public function imagePath(string $appName, string $file): string {
+		if ($appName === '') {
+			$appName = 'core';
+		}
+
 		$cache = $this->cacheFactory->createDistributed('imagePath-' . md5($this->getBaseUrl()) . '-');
 		$cacheKey = $appName . '-' . $file;
 		if ($key = $cache->get($cacheKey)) {
 			return $key;
 		}
 
-		// Read the selected theme from the config file
-		$theme = \OC_Util::getTheme();
-
-		//if a theme has a png but not an svg always use the png
-		$basename = substr(basename($file), 0, -4);
-
-		try {
-			if ($appName === 'core' || $appName === '') {
-				$appName = 'core';
-				$appPath = false;
-			} else {
+		if ($appName === 'core') {
+			$appPath = false;
+		} else {
+			try {
 				$appPath = $this->getAppManager()->getAppPath($appName);
-			}
-		} catch (AppPathNotFoundException $e) {
-			throw new RuntimeException('image not found: image: ' . $file . ' webroot: ' . \OC::$WEBROOT . ' serverroot: ' . \OC::$SERVERROOT);
-		}
-
-		// Check if the app is in the app folder
-		$path = '';
-		$themingEnabled = $this->config->getSystemValueBool('installed', false) && $this->getAppManager()->isEnabledForUser('theming');
-		$themingImagePath = false;
-		if ($themingEnabled) {
-			$themingDefaults = Server::get('ThemingDefaults');
-			if ($themingDefaults instanceof ThemingDefaults) {
-				$themingImagePath = $themingDefaults->replaceImagePath($appName, $file);
+			} catch (AppPathNotFoundException $e) {
+				throw new RuntimeException(
+					'image asset not found for app ' . $appName . ' - requested image name: ' . $file . ' webroot: ' . \OC::$WEBROOT . ' serverroot: ' . \OC::$SERVERROOT
+				);
 			}
 		}
 
-		if (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$appName/img/$file")) {
-			$path = \OC::$WEBROOT . "/themes/$theme/apps/$appName/img/$file";
-		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$appName/img/$basename.svg")
-			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$appName/img/$basename.png")) {
-			$path = \OC::$WEBROOT . "/themes/$theme/apps/$appName/img/$basename.png";
-		} elseif (!empty($appName) && file_exists(\OC::$SERVERROOT . "/themes/$theme/$appName/img/$file")) {
-			$path = \OC::$WEBROOT . "/themes/$theme/$appName/img/$file";
-		} elseif (!empty($appName) && (!file_exists(\OC::$SERVERROOT . "/themes/$theme/$appName/img/$basename.svg")
-			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/$appName/img/$basename.png"))) {
-			$path = \OC::$WEBROOT . "/themes/$theme/$appName/img/$basename.png";
-		} elseif (file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$file")) {
-			$path = \OC::$WEBROOT . "/themes/$theme/core/img/$file";
-		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.svg")
-			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.png")) {
-			$path = \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
-		} elseif ($themingEnabled && $themingImagePath) {
-			$path = $themingImagePath;
-		} elseif ($appPath && file_exists($appPath . "/img/$file")) {
-			$path = $this->getAppManager()->getAppWebPath($appName) . "/img/$file";
-		} elseif ($appPath && !file_exists($appPath . "/img/$basename.svg")
-			&& file_exists($appPath . "/img/$basename.png")) {
-			$path = $this->getAppManager()->getAppWebPath($appName) . "/img/$basename.png";
-		} elseif (!empty($appName) && file_exists(\OC::$SERVERROOT . "/$appName/img/$file")) {
-			$path = \OC::$WEBROOT . "/$appName/img/$file";
-		} elseif (!empty($appName) && (!file_exists(\OC::$SERVERROOT . "/$appName/img/$basename.svg")
-				&& file_exists(\OC::$SERVERROOT . "/$appName/img/$basename.png"))) {
-			$path = \OC::$WEBROOT . "/$appName/img/$basename.png";
-		} elseif (file_exists(\OC::$SERVERROOT . "/core/img/$file")) {
-			$path = \OC::$WEBROOT . "/core/img/$file";
-		} elseif (!file_exists(\OC::$SERVERROOT . "/core/img/$basename.svg")
-			&& file_exists(\OC::$SERVERROOT . "/core/img/$basename.png")) {
-			$path = \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
+		// image filename without extension; used to check for SVG before PNG.
+		$basename = substr(basename($file), 0, -4); // FIXME: consider switching to pathinfo()
+
+		$resolvedPath = null;
+
+		//
+		// Search for image assets in a deterministic order.
+		//
+		// Split into stages to make prioritization clearer.
+		//
+		// FIXME: The PNG fallback behavior matches the current implementation,
+		// but the policy is odd and may deserve separate review.
+		//
+
+		// 1. Legacy filesystem themed assets (if active)
+		$legacyThemeName = \OC_Util::getTheme();
+		if ($legacyThemeName !== '') {
+			$resolvedPath = $this->resolveLegacyThemeAppsImagePath($legacyThemeName, $appName, $file, $basename)
+				?? $this->resolveLegacyThemeAppImagePath($legacyThemeName, $appName, $file, $basename)
+				?? $this->resolveLegacyThemeCoreImagePath($legacyThemeName, $file, $basename);
 		}
 
-		if ($path !== '') {
-			$cache->set($cacheKey, $path);
-			return $path;
+		// 2. Modern theming app overrides
+		if ($resolvedPath === null) {
+			$resolvedPath = $this->getThemingImageOverridePath($appName, $file);
 		}
 
-		throw new RuntimeException('image not found: image:' . $file . ' webroot:' . \OC::$WEBROOT . ' serverroot:' . \OC::$SERVERROOT);
+		// 3. app and core fallback locations
+		if ($resolvedPath === null) {
+			$resolvedPath = $this->resolveAppImagePath($appName, $appPath, $file, $basename)
+				?? $this->resolveLegacyAppImagePath($appName, $file, $basename)
+				?? $this->resolveCoreImagePath($file, $basename);
+		}
+
+		if ($resolvedPath !== null) {
+			$cache->set($cacheKey, $resolvedPath);
+			return $resolvedPath;
+		}
+
+		throw new RuntimeException(
+			'image not found: image:' . $file . ' webroot:' . \OC::$WEBROOT . ' serverroot:' . \OC::$SERVERROOT
+		);
 	}
 
+	/**
+	 * Look for legacy themed assets: app specific image paths located in `/themes/$themeName/apps/$appName`
+	 */
+	private function resolveLegacyThemeAppsImagePath(string $legacyThemeName, string $appName, string $file, string $basename): ?string {
+		$serverBasePath = \OC::$SERVERROOT . "/themes/$legacyThemeName/apps/$appName/img/";
+		$webBasePath = \OC::$WEBROOT . "/themes/$legacyThemeName/apps/$appName/img/";
+
+		return $this->resolveImagePathFromBases($serverBasePath, $webBasePath, $file, $basename);
+	}
+
+	/**
+	 * Look for legacy themed assets: app specific image paths located in `/themes/$themeName/$appName`
+	 */
+	private function resolveLegacyThemeAppImagePath(string $legacyThemeName, string $appName, string $file, string $basename): ?string {
+		if ($appName === '') {
+			return null;
+		}
+
+		$serverBasePath = \OC::$SERVERROOT . "/themes/$legacyThemeName/$appName/img/";
+		$webBasePath = \OC::$WEBROOT . "/themes/$legacyThemeName/$appName/img/";
+
+		return $this->resolveImagePathFromBases($serverBasePath, $webBasePath, $file, $basename);
+	}
+
+	/**
+	 * Look for legacy themed assets: core image paths located in `/themes/$themeName/core`
+	 */
+	private function resolveLegacyThemeCoreImagePath(string $legacyThemeName, string $file, string $basename): ?string {
+		$serverBasePath = \OC::$SERVERROOT . "/themes/$legacyThemeName/core/img/";
+		$webBasePath = \OC::$WEBROOT . "/themes/$legacyThemeName/core/img/";
+
+		return $this->resolveImagePathFromBases($serverBasePath, $webBasePath, $file, $basename);
+	}
+
+	/**
+	 * Look for app provided image assets
+	 */
+	private function resolveAppImagePath(string $appName, string|false $appPath, string $file, string $basename): ?string {
+		if ($appPath === false) {
+			return null;
+		}
+
+		$serverBasePath = $appPath . "/img/";
+		$webBasePath = $this->getAppManager()->getAppWebPath($appName) . "/img/";
+
+		return $this->resolveImagePathFromBases($serverBasePath, $webBasePath, $file, $basename);
+	}
+
+	/**
+	 * Look up legacy app specific image assets located directly underneath $serverRoot
+	 * FIXME: This may not be needed any longer.
+	 */
+	private function resolveLegacyAppImagePath(string $appName, string $file, string $basename): ?string {
+		if ($appName === '') {
+			return null;
+		}
+
+		$serverBasePath = \OC::$SERVERROOT . "/" . $appName . "/img/";
+		$webBasePath = \OC::$WEBROOT . "/" . $appName . "/img/";
+
+		return $this->resolveImagePathFromBases($serverBasePath, $webBasePath, $file, $basename);
+	}
+
+	/**
+	 * Look up core image assets
+	 */
+	private function resolveCoreImagePath(string $file, string $basename): ?string {
+		$serverBasePath = \OC::$SERVERROOT . "/core/img/";
+		$webBasePath = \OC::$WEBROOT . "/core/img/";
+
+		return $this->resolveImagePathFromBases($serverBasePath, $webBasePath, $file, $basename);
+	}
+
+	private function resolveImagePathFromBases(string $serverBasePath, string $webBasePath, string $file, string $basename): ?string {
+		$filePath = $serverBasePath . $file;
+		if (file_exists($filePath)) {
+			return $webBasePath . $file;
+		}
+
+		$svgPath = $serverBasePath . $basename . '.svg';
+		$pngPath = $serverBasePath . $basename . '.png';
+		if (!file_exists($svgPath) && file_exists($pngPath)) {
+			return $webBasePath . $basename . '.png';
+		}
+
+		return null;
+	}
+	
+	private function getThemingImageOverridePath(string $appName, string $file): ?string {
+		$installed = $this->config->getSystemValueBool('installed', false);
+		if (!$installed) {
+			return null;
+		}
+
+		$themingDefaults = Server::get('ThemingDefaults');
+
+		if (!$themingDefaults instanceof ThemingDefaults) {
+			return null;
+		}
+
+		$themingImagePath = $themingDefaults->replaceImagePath($appName, $file);
+		return $themingImagePath ?: null;
+	}
 
 	/**
 	 * Makes an URL absolute
