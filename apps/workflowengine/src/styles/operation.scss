@@ -54,13 +54,6 @@ small {
 	flex-grow: 1;
 }
 
-.colored:not(.more) {
-	background-color: var(--color-primary-element);
-	h3, small {
-		color: var(--color-primary-element-text)
-	}
-}
-
 .actions__item:not(.colored) {
 	flex-direction: row;
 
