@@ -4,20 +4,19 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-    <id>viewer</id>
-    <name>Viewer</name>
-    <summary>Simple file viewer with slideshow for media</summary>
-    <description><![CDATA[Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!]]></description>
-    <version>8.0.0-dev.0</version>
-    <licence>agpl</licence>
-    <author mail="skjnldsv@protonmail.com">John Molakvoæ</author>
-    <namespace>Viewer</namespace>
-    <category>tools</category>
-    <bugs>https://github.com/nextcloud/viewer</bugs>
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>viewer</id>
+	<name>Viewer</name>
+	<summary>Simple file viewer with slideshow for media</summary>
+	<description><![CDATA[Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!]]></description>
+	<version>8.0.0-dev.0</version>
+	<licence>AGPL-3.0-or-later</licence>
+	<author>Nextcloud GmbH and Nextcloud contributors</author>
+	<namespace>Viewer</namespace>
+	<category>tools</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Viewer/viewer.png</screenshot>
-    <dependencies>
-        <nextcloud min-version="35" max-version="35" />
-    </dependencies>
-    <default_enable />
+	<dependencies>
+		<nextcloud min-version="35" max-version="35" />
+	</dependencies>
 </info>

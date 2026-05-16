@@ -4,8 +4,6 @@
 -->
 # Files viewer for nextcloud
 
-[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/viewer)](https://api.reuse.software/info/github.com/nextcloud/viewer)
-
 Show your latest holiday photos and videos like in the movies. Show a glimpse of your latest novel directly from your nextcloud. Choose the best GIF of your collection thanks to the direct view of your favorites files!
 
 ![viewer](https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Viewer/viewer.png?v=2)
@@ -13,21 +11,6 @@ Show your latest holiday photos and videos like in the movies. Show a glimpse of
 ## 📋 Current support
 - Images
 - Videos
-
-## 🏗 Development setup
-1. ☁ Clone this app into the `apps` folder of your Nextcloud: `git clone https://github.com/nextcloud/viewer.git`
-2. 👩‍💻 In the folder of the app, install dependencies with `npm ci` and build the Javascript with `npm run build`.
-3. 🎉 Partytime!
-
-### 🧙 Advanced development stuff
-To build the Javascript whenever you make changes, you can also run `npm run dev` for development builds.
-
-### 📷 Running cypress tests
-To run e2e cypress tests, execute `npm run cypress`.
-
-The `visual-regression` tests require additional care as they depend on installation of fonts in the application. To achieve repeatable results run the tests using `npm run cypress:visual-regression`. This will build the app with the required fonts and run the tests.
-
-If changes are required to the reference (base) screenshots used by the `visual-regression` tests, run `cypress:update-snapshots` and commit the updated screenshots.
 
 ## API
 
