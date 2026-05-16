@@ -614,21 +614,26 @@ class OC_Util {
 	}
 
 	/**
-	 * Handles the case that there may not be a theme, then check if a "default"
-	 * theme exists and take that one
+	 * Returns the name of the active legacy theme.
 	 *
-	 * @return string the theme
+	 * This method does not verify that the configured theme directory exists. It
+	 * only applies to the legacy filesystem-based theme mechanism, not the modern
+	 * theming app.
+	 *
+	 * @return string The configured legacy theme name, `default` as a fallback if present, or an empty string if there is no active legacy theme.
 	 */
 	public static function getTheme() {
-		$theme = Server::get(SystemConfig::class)->getValue('theme', '');
+		$themeName = Server::get(SystemConfig::class)->getValue('theme', '');
 
-		if ($theme === '') {
-			if (is_dir(OC::$SERVERROOT . '/themes/default')) {
-				$theme = 'default';
-			}
+		if ($themeName !== '') {
+			return $themeName;
 		}
 
-		return $theme;
+		if (is_dir(OC::$SERVERROOT . '/themes/default')) {
+			return 'default';
+		}
+
+		return '';
 	}
 
 	/**
