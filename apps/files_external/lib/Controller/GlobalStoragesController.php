@@ -9,7 +9,9 @@ namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
@@ -71,6 +73,7 @@ class GlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
 		$mountPoint,
@@ -136,6 +139,7 @@ class GlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
 		$id,
@@ -185,5 +189,21 @@ class GlobalStoragesController extends StoragesController {
 			$storage->jsonSerialize(true),
 			Http::STATUS_OK
 		);
+	}
+
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	public function index() {
+		return parent::index();
+	}
+
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	public function show(int $id, $testOnly = true) {
+		return parent::show($id, $testOnly);
+	}
+
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[PasswordConfirmationRequired(strict: true)]
+	public function destroy(int $id) {
+		return parent::destroy($id);
 	}
 }

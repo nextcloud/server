@@ -12,7 +12,19 @@ use OCP\Server;
 \OC_JSON::checkAppEnabled('files_external');
 \OC_JSON::callCheck();
 
-\OC_JSON::checkAdminUser();
+$currentUser = \OC::$server->getUserSession()->getUser();
+if ($currentUser === null) {
+	\OC_JSON::error(['message' => 'Not logged in']);
+	exit();
+}
+$groupManager = \OC::$server->getGroupManager();
+$authorizedGroupMapper = \OC::$server->get(\OC\Settings\AuthorizedGroupMapper::class);
+$isAdmin = $groupManager->isAdmin($currentUser->getUID());
+$isDelegated = in_array(\OCA\Files_External\Settings\Admin::class, $authorizedGroupMapper->findAllClassesForUser($currentUser), true);
+if (!$isAdmin && !$isDelegated) {
+	\OC_JSON::error(['message' => 'Not authorized']);
+	exit();
+}
 
 $pattern = '';
 $limit = null;

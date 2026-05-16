@@ -12,15 +12,16 @@ use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Encryption\IManager;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Admin implements ISettings {
-
+class Admin implements IDelegatedSettings {
 	public function __construct(
 		private IManager $encryptionManager,
 		private GlobalStoragesService $globalStoragesService,
 		private BackendService $backendService,
 		private GlobalAuth $globalAuth,
+		private IL10N $l10n,
 	) {
 	}
 
@@ -59,5 +60,13 @@ class Admin implements ISettings {
 	 */
 	public function getPriority() {
 		return 40;
+	}
+
+	public function getName(): string {
+		return $this->l10n->t('External storage');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [];
 	}
 }
