@@ -4,7 +4,7 @@
  */
 import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
-
+import PlyrIconSvg from 'plyr/dist/plyr.svg?raw';
 import ViewerComponent from './views/Viewer.vue'
 
 Vue.mixin({
@@ -24,7 +24,7 @@ document.body.appendChild(ViewerRoot)
 // Put controls for video viewer
 // Needed as Firefox CSP blocks the loading of the svg through the normal plyr system
 const VideoControls = document.createElement('div')
-VideoControls.innerHTML = PLYR_ICONS
+VideoControls.innerHTML = PlyrIconSvg
 VideoControls.style.display = 'none'
 document.body.appendChild(VideoControls)
 
