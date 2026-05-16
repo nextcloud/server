@@ -14,6 +14,7 @@ use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Util;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -26,6 +27,7 @@ class UtilTest extends TestCase {
 	protected Util $instance;
 	protected static $tempStorage = [];
 
+	protected IAppConfig&MockObject $appConfigMock;
 	protected IConfig&MockObject $configMock;
 	protected View&MockObject $filesMock;
 	protected IUserManager&MockObject $userManagerMock;
@@ -78,6 +80,7 @@ class UtilTest extends TestCase {
 			->willReturn(true);
 
 		$this->configMock = $this->createMock(IConfig::class);
+		$this->appConfigMock = $this->createMock(IAppConfig::class);
 
 		$this->configMock->expects($this->any())
 			->method('getUserValue')
@@ -87,7 +90,7 @@ class UtilTest extends TestCase {
 			->method('setUserValue')
 			->willReturnCallback([$this, 'setValueTester']);
 
-		$this->instance = new Util($this->filesMock, $cryptMock, $userSessionMock, $this->configMock, $this->userManagerMock);
+		$this->instance = new Util($this->filesMock, $cryptMock, $userSessionMock, $this->configMock, $this->appConfigMock, $this->userManagerMock);
 	}
 
 	/**
@@ -136,13 +139,13 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @param string $returnValue return value from getAppValue()
+	 * @param bool $returnValue return value from getValueBool()
 	 * @param bool $expected
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestShouldEncryptHomeStorage')]
-	public function testShouldEncryptHomeStorage($returnValue, $expected): void {
-		$this->configMock->expects($this->once())->method('getAppValue')
-			->with('encryption', 'encryptHomeStorage', '1')
+	public function testShouldEncryptHomeStorage(bool $returnValue, bool $expected): void {
+		$this->appConfigMock->expects($this->once())->method('getValueBool')
+			->with('encryption', 'encryptHomeStorage', true)
 			->willReturn($returnValue);
 
 		$this->assertSame($expected,
@@ -151,26 +154,26 @@ class UtilTest extends TestCase {
 
 	public static function dataTestShouldEncryptHomeStorage(): array {
 		return [
-			['1', true],
-			['0', false]
+			[true, true],
+			[false, false]
 		];
 	}
 
 	/**
-	 * @param $value
-	 * @param $expected
+	 * @param bool $value
+	 * @param bool $expected
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetEncryptHomeStorage')]
-	public function testSetEncryptHomeStorage($value, $expected): void {
-		$this->configMock->expects($this->once())->method('setAppValue')
+	public function testSetEncryptHomeStorage(bool $value, bool $expected): void {
+		$this->appConfigMock->expects($this->once())->method('setValueBool')
 			->with('encryption', 'encryptHomeStorage', $expected);
 		$this->instance->setEncryptHomeStorage($value);
 	}
 
 	public static function dataTestSetEncryptHomeStorage(): array {
 		return [
-			[true, '1'],
-			[false, '0']
+			[true, true],
+			[false, false]
 		];
 	}
 

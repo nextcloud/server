@@ -10,14 +10,15 @@ declare(strict_types=1);
 namespace OC\Core\Command\Encryption;
 
 use OCP\Encryption\IManager;
-use OCP\IConfig;
+use OCP\Exceptions\AppConfigTypeConflictException;
+use OCP\IAppConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Enable extends Command {
 	public function __construct(
-		protected IConfig $config,
+		protected IAppConfig $appConfig,
 		protected IManager $encryptionManager,
 	) {
 		parent::__construct();
@@ -33,10 +34,21 @@ class Enable extends Command {
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if ($this->config->getAppValue('core', 'encryption_enabled', 'no') === 'yes') {
+		try {
+			$isEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled', false);
+		} catch (AppConfigTypeConflictException) {
+			$raw = $this->appConfig->getValueString('core', 'encryption_enabled', 'no');
+			$isEnabled = in_array(strtolower(trim($raw)), ['1', 'true', 'yes', 'on'], true);
+		}
+
+		if ($isEnabled) {
 			$output->writeln('Encryption is already enabled');
 		} else {
-			$this->config->setAppValue('core', 'encryption_enabled', 'yes');
+			try {
+				$this->appConfig->setValueBool('core', 'encryption_enabled', true);
+			} catch (AppConfigTypeConflictException) {
+				$this->appConfig->setValueString('core', 'encryption_enabled', 'yes');
+			}
 			$output->writeln('<info>Encryption enabled</info>');
 		}
 		$output->writeln('');
@@ -46,7 +58,7 @@ class Enable extends Command {
 			$output->writeln('<error>No encryption module is loaded</error>');
 			return 1;
 		}
-		$defaultModule = $this->config->getAppValue('core', 'default_encryption_module');
+		$defaultModule = $this->appConfig->getValueString('core', 'default_encryption_module', '');
 		if ($defaultModule === '') {
 			$output->writeln('<error>No default module is set</error>');
 			return 1;

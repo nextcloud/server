@@ -9,14 +9,15 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\Encryption;
 
-use OCP\IConfig;
+use OCP\Exceptions\AppConfigTypeConflictException;
+use OCP\IAppConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Disable extends Command {
 	public function __construct(
-		protected IConfig $config,
+		protected IAppConfig $appConfig,
 	) {
 		parent::__construct();
 	}
@@ -31,10 +32,21 @@ class Disable extends Command {
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if ($this->config->getAppValue('core', 'encryption_enabled', 'no') !== 'yes') {
+		try {
+			$isEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled', false);
+		} catch (AppConfigTypeConflictException) {
+			$raw = $this->appConfig->getValueString('core', 'encryption_enabled', 'no');
+			$isEnabled = in_array(strtolower(trim($raw)), ['1', 'true', 'yes', 'on'], true);
+		}
+
+		if (!$isEnabled) {
 			$output->writeln('Encryption is already disabled');
 		} else {
-			$this->config->setAppValue('core', 'encryption_enabled', 'no');
+			try {
+				$this->appConfig->setValueBool('core', 'encryption_enabled', false);
+			} catch (AppConfigTypeConflictException) {
+				$this->appConfig->setValueString('core', 'encryption_enabled', 'no');
+			}
 			$output->writeln('<info>Encryption disabled</info>');
 		}
 		return 0;

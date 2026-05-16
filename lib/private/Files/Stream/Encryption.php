@@ -28,7 +28,7 @@ class Encryption extends Wrapper {
 	protected string $cache;
 	protected ?int $size = null;
 	protected int $position;
-	protected ?int $unencryptedSize = null;
+	protected int|float|null $unencryptedSize = null;
 	protected int $headerSize;
 	protected int $unencryptedBlockSize;
 	protected array $header;

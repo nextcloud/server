@@ -103,7 +103,7 @@ class DecryptAllTest extends TestCase {
 
 		$this->appConfig->expects($this->once())
 			->method('getValueBool')
-			->with('core', 'encryption_enabled')
+			->with('core', 'encryption_enabled', false)
 			->willReturn($encryptionEnabled);
 
 		$this->consoleInput->expects($this->any())
@@ -168,7 +168,7 @@ class DecryptAllTest extends TestCase {
 			['core', 'encryption_enabled', true, false],
 		];
 		$this->appConfig->expects($this->exactly(2))
-			->method('setValuebool')
+			->method('setValueBool')
 			->willReturnCallback(function () use (&$calls): bool {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
@@ -176,7 +176,7 @@ class DecryptAllTest extends TestCase {
 			});
 		$this->appConfig->expects($this->once())
 			->method('getValueBool')
-			->with('core', 'encryption_enabled')
+			->with('core', 'encryption_enabled', false)
 			->willReturn(true);
 
 		$this->consoleInput->expects($this->any())
