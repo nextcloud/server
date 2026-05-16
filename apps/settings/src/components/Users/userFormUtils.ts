@@ -30,6 +30,21 @@ interface FormData {
 	manager: string | { id: string, displayname?: string }
 }
 
+const UNSELECTABLE_GROUP_IDS = [
+	'__nc_internal_recent',
+	'disabled',
+	'guest_app',
+]
+
+/**
+ * Whether a group can be offered as a selectable account group option.
+ *
+ * @param group Group option
+ */
+export function isSelectableGroup(group: IGroup): boolean {
+	return !UNSELECTABLE_GROUP_IDS.includes(group.id)
+}
+
 /**
  * Resolves the user's language code to a { code, name } object.
  *
