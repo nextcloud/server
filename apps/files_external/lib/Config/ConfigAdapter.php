@@ -13,7 +13,7 @@ use OC\Files\Storage\Wrapper\Availability;
 use OC\Files\Storage\Wrapper\KnownMtime;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\Config\IAuthoritativeMountProvider;
@@ -39,6 +39,7 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider, IPar
 	public function __construct(
 		private UserStoragesService $userStoragesService,
 		private UserGlobalStoragesService $userGlobalStoragesService,
+		private BackendService $backendService,
 		private ClockInterface $clock,
 	) {
 	}
@@ -63,7 +64,7 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider, IPar
 	 */
 	private function prepareStorageConfig(StorageConfig &$storage, IUser $user): void {
 		foreach ($storage->getBackendOptions() as $option => $value) {
-			$storage->setBackendOption($option, MountConfig::substitutePlaceholdersInConfig($value, $user->getUID()));
+			$storage->setBackendOption($option, $this->backendService->applyConfigHandlers($value, $user->getUID()));
 		}
 
 		$objectStore = $storage->getBackendOption('objectstore');

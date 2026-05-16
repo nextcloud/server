@@ -117,6 +117,7 @@ return array(
     'OCA\\Files_External\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files_External\\Service\\BackendService' => $baseDir . '/../lib/Service/BackendService.php',
     'OCA\\Files_External\\Service\\DBConfigService' => $baseDir . '/../lib/Service/DBConfigService.php',
+    'OCA\\Files_External\\Service\\EncryptionService' => $baseDir . '/../lib/Service/EncryptionService.php',
     'OCA\\Files_External\\Service\\GlobalStoragesService' => $baseDir . '/../lib/Service/GlobalStoragesService.php',
     'OCA\\Files_External\\Service\\ImportLegacyStoragesService' => $baseDir . '/../lib/Service/ImportLegacyStoragesService.php',
     'OCA\\Files_External\\Service\\LegacyStoragesService' => $baseDir . '/../lib/Service/LegacyStoragesService.php',

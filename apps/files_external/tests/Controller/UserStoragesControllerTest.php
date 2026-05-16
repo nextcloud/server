@@ -58,7 +58,8 @@ class UserStoragesControllerTest extends StoragesControllerTestCase {
 			$this->createMock(LoggerInterface::class),
 			$session,
 			$this->createMock(IGroupManager::class),
-			$config
+			$config,
+			$this->createMock(BackendService::class),
 		);
 	}
 

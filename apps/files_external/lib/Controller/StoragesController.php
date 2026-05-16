@@ -11,8 +11,8 @@ use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\StoragesService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -48,6 +48,7 @@ abstract class StoragesController extends Controller {
 		protected IUserSession $userSession,
 		protected IGroupManager $groupManager,
 		protected IConfig $config,
+		protected BackendService $backendService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -222,7 +223,7 @@ abstract class StoragesController extends Controller {
 			$backend = $storage->getBackend();
 			// update status (can be time-consuming)
 			$storage->setStatus(
-				MountConfig::getBackendStatus(
+				$this->backendService->getBackendStatus(
 					$backend->getStorageClass(),
 					$storage->getBackendOptions(),
 				)
