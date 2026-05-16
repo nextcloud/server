@@ -37,9 +37,6 @@
 </template>
 
 <script lang='ts'>
-// eslint-disable-next-line n/no-missing-import
-import Vue from 'vue'
-import AsyncComputed from 'vue-async-computed'
 import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
 
 import { imagePath } from '@nextcloud/router'
@@ -52,8 +49,6 @@ import { preloadMedia } from '../services/mediaPreloader.js'
 const VuePlyr = () => import(/* webpackChunkName: 'plyr' */'@skjnldsv/vue-plyr')
 
 const blankVideo = imagePath('viewer', 'blank.mp4')
-
-Vue.use(AsyncComputed)
 
 export default {
 	name: 'Videos',

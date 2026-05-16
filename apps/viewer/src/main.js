@@ -2,11 +2,16 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t } from '@nextcloud/l10n'
+import { getCSPNonce } from '@nextcloud/auth'
+import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
+import AsyncComputed from 'vue-async-computed'
 import PlyrIconSvg from 'plyr/dist/plyr.svg?raw';
 import ViewerComponent from './views/Viewer.vue'
 
+__webpack_nonce__ = getCSPNonce()
+
+Vue.use(AsyncComputed)
 Vue.mixin({
 	methods: {
 		t,

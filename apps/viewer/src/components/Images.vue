@@ -73,8 +73,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import AsyncComputed from 'vue-async-computed'
 import PlayCircleOutline from 'vue-material-design-icons/PlayCircleOutline.vue'
 import DOMPurify from 'dompurify'
 
@@ -87,8 +85,6 @@ import ImageEditor from './ImageEditor.vue'
 import { findLivePhotoPeerFromFileId } from '../utils/livePhotoUtils'
 import { getDavPath } from '../utils/fileUtils'
 import { preloadMedia } from '../services/mediaPreloader'
-
-Vue.use(AsyncComputed)
 
 export default {
 	name: 'Images',

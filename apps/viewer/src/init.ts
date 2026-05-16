@@ -2,8 +2,12 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import { getCSPNonce } from '@nextcloud/auth'
 import { registerViewerAction } from './files_actions/viewerAction'
 import ViewerService from './services/Viewer.js'
+
+__webpack_nonce__ = getCSPNonce()
 
 // Register the files action
 registerViewerAction()

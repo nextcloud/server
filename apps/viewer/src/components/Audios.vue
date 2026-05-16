@@ -30,17 +30,12 @@
 </template>
 
 <script lang='ts'>
-import Vue from 'vue'
-import AsyncComputed from 'vue-async-computed'
-// eslint-disable-next-line n/no-missing-import
 import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
 
 import logger from '../services/logger.js'
 import { preloadMedia } from '../services/mediaPreloader'
 
 const VuePlyr = () => import(/* webpackChunkName: 'plyr' */'@skjnldsv/vue-plyr')
-
-Vue.use(AsyncComputed)
 
 export default {
 	name: 'Audios',
