@@ -225,9 +225,13 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($instance->mkdir('cache'));
 	}
 
-	public function testNoTouchQuotaZero(): void {
+	public function testTouchBlockedUnderFilesWhenQuotaIsZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
-		$this->assertFalse($instance->touch('foobar'));
+		// touch is blocked only for paths under files/ (user quota area)
+		$this->assertFalse($instance->touch('files/foobar'));
+		// touch outside files/ (trashbin, versions, ...) must remain allowed
+		$this->assertTrue($instance->mkdir('files_trashbin'));
+		$this->assertTrue($instance->touch('files_trashbin/foobar'));
 	}
 
 	public function testNoFopenQuotaZero(): void {
@@ -255,5 +259,48 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$stream = fopen('php://temp', 'w+');
 		$this->expectException(Files\NotEnoughSpaceException::class);
 		$instance->writeStream('files/test.txt', $stream);
+	}
+
+	/**
+	 * writeStream outside of files/ (trashbin, versions, ...) must succeed
+	 * even when the user quota is exhausted.
+	 */
+	public function testWriteStreamAllowedOutsideFilesWhenQuotaIsZero(): void {
+		$instance = $this->getLimitedStorage(0.0);
+		$this->assertTrue($instance->mkdir('files_trashbin'));
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foo');
+		rewind($stream);
+		$this->assertEquals(3, $instance->writeStream('files_trashbin/test.txt', $stream));
+	}
+
+	/**
+	 * Writes under "files/" must still be blocked when quota is 0, but writes
+	 * outside that prefix (trashbin metadata, versions, ...) must not be
+	 * blocked, otherwise features like the trashbin break for users whose
+	 * quota happens to be exhausted (notably quota=0).
+	 */
+	public function testFilePutContentsBlockedUnderFilesWhenQuotaIsZero(): void {
+		$instance = $this->getLimitedStorage(0.0);
+		$this->assertFalse($instance->file_put_contents('files/foo', 'x'));
+		$this->assertTrue($instance->mkdir('files_trashbin'));
+		$this->assertNotFalse($instance->file_put_contents('files_trashbin/foo.json', '{}'));
+	}
+
+	/**
+	 * Copying from another storage (e.g. an external SMB mount) into the
+	 * trashbin must succeed even when the quota is exhausted: this is what
+	 * happens on every DELETE when files_trashbin is enabled. Conversely,
+	 * copying into "files/" must still be blocked.
+	 */
+	public function testCopyFromStorageAllowedToTrashbinWhenQuotaIsZero(): void {
+		$source = new Local(['datadir' => $this->tmpDir]);
+		$source->file_put_contents('source.txt', 'hello');
+
+		$instance = $this->getLimitedStorage(0.0);
+		$this->assertTrue($instance->mkdir('files_trashbin'));
+		$this->assertTrue($instance->copyFromStorage($source, 'source.txt', 'files_trashbin/source.txt'));
+
+		$this->assertFalse($instance->copyFromStorage($source, 'source.txt', 'files/source.txt'));
 	}
 }

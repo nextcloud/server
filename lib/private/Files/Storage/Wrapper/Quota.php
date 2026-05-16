@@ -100,7 +100,11 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->file_put_contents($path, $data);
 		}
 		$free = $this->free_space($path);
-		if ($free < 0 || strlen($data) < $free) {
+		// Only apply quota for files under the user's "files/" tree.
+		// Writes to metadata locations (files_trashbin/, files_versions/, ...)
+		// must not be blocked, otherwise features like the trashbin break
+		// for users whose quota happens to be exhausted (notably quota=0).
+		if ($free < 0 || !$this->shouldApplyQuota($path) || strlen($data) < $free) {
 			return $this->getWrapperStorage()->file_put_contents($path, $data);
 		} else {
 			return false;
@@ -113,7 +117,7 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->copy($source, $target);
 		}
 		$free = $this->free_space($target);
-		if ($free < 0 || $this->getSize($source) < $free) {
+		if ($free < 0 || !$this->shouldApplyQuota($target) || $this->getSize($source) < $free) {
 			return $this->getWrapperStorage()->copy($source, $target);
 		} else {
 			return false;
@@ -167,7 +171,12 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
 		$free = $this->free_space($targetInternalPath);
-		if ($free < 0 || $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
+		// Skip the quota check when the target lives outside of "files/"
+		// (e.g. files_trashbin/, files_versions/). This is essential so that
+		// the trashbin can store deleted items even when the user's quota is
+		// fully consumed: otherwise DELETE operations on external mounts fail
+		// with HTTP 403 because the move-to-trash copy returns false.
+		if ($free < 0 || !$this->shouldApplyQuota($targetInternalPath) || $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
 			return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		} else {
 			return false;
@@ -180,7 +189,7 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
 		$free = $this->free_space($targetInternalPath);
-		if ($free < 0 || $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
+		if ($free < 0 || !$this->shouldApplyQuota($targetInternalPath) || $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
 			return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		} else {
 			return false;
@@ -206,7 +215,9 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->touch($path, $mtime);
 		}
 		$free = $this->free_space($path);
-		if ($free == 0) {
+		// Same rule as the other write paths: only block when the target is
+		// actually under the user-quota controlled "files/" tree.
+		if ($free == 0 && $this->shouldApplyQuota($path)) {
 			return false;
 		}
 
@@ -219,12 +230,12 @@ class Quota extends Wrapper {
 
 	#[\Override]
 	public function writeStream(string $path, $stream, ?int $size = null): int {
-		if (!$this->hasQuota()) {
+		if (!$this->hasQuota() || !$this->shouldApplyQuota($path)) {
 			return parent::writeStream($path, $stream, $size);
 		}
 
 		$free = $this->free_space($path);
-		if ($this->shouldApplyQuota($path) && $free == 0) {
+		if ($free == 0) {
 			throw new NotEnoughSpaceException();
 		}
 
