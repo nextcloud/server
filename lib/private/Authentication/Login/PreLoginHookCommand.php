@@ -8,27 +8,21 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\Login;
 
-use OC\Hooks\PublicEmitter;
-use OCP\IUserManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\User\Events\BeforeUserLoggedInEvent;
 
 class PreLoginHookCommand extends ALoginCommand {
 	public function __construct(
-		private IUserManager $userManager,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 	}
 
 	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
-		if ($this->userManager instanceof PublicEmitter) {
-			$this->userManager->emit(
-				'\OC\User',
-				'preLogin',
-				[
-					$loginData->getUsername(),
-					$loginData->getPassword(),
-				]
-			);
-		}
+		$this->eventDispatcher->dispatchTyped(new BeforeUserLoggedInEvent(
+			$loginData->getUsername(),
+			$loginData->getPassword(),
+		));
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}

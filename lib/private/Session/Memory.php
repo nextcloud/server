@@ -22,7 +22,7 @@ class Memory extends Session {
 
 	/**
 	 * @param string $key
-	 * @param integer $value
+	 * @param mixed $value
 	 */
 	#[\Override]
 	public function set(string $key, $value) {

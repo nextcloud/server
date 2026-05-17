@@ -44,25 +44,25 @@ class HookConnector {
 	}
 
 	public function viewToNode() {
-		Util::connectHook('OC_Filesystem', 'write', $this, 'write');
-		Util::connectHook('OC_Filesystem', 'post_write', $this, 'postWrite');
+		Util::connectHook(Filesystem::CLASSNAME, Filesystem::signal_write, $this, 'write');
+		Util::connectHook(Filesystem::CLASSNAME, Filesystem::signal_post_write, $this, 'postWrite');
 
-		Util::connectHook('OC_Filesystem', 'create', $this, 'create');
-		Util::connectHook('OC_Filesystem', 'post_create', $this, 'postCreate');
+		Util::connectHook(Filesystem::CLASSNAME, 'create', $this, 'create');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_create', $this, 'postCreate');
 
-		Util::connectHook('OC_Filesystem', 'delete', $this, 'delete');
-		Util::connectHook('OC_Filesystem', 'post_delete', $this, 'postDelete');
+		Util::connectHook(Filesystem::CLASSNAME, 'delete', $this, 'delete');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_delete', $this, 'postDelete');
 
-		Util::connectHook('OC_Filesystem', 'rename', $this, 'rename');
-		Util::connectHook('OC_Filesystem', 'post_rename', $this, 'postRename');
+		Util::connectHook(Filesystem::CLASSNAME, 'rename', $this, 'rename');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_rename', $this, 'postRename');
 
-		Util::connectHook('OC_Filesystem', 'copy', $this, 'copy');
-		Util::connectHook('OC_Filesystem', 'post_copy', $this, 'postCopy');
+		Util::connectHook(Filesystem::CLASSNAME, 'copy', $this, 'copy');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_copy', $this, 'postCopy');
 
-		Util::connectHook('OC_Filesystem', 'touch', $this, 'touch');
-		Util::connectHook('OC_Filesystem', 'post_touch', $this, 'postTouch');
+		Util::connectHook(Filesystem::CLASSNAME, 'touch', $this, 'touch');
+		Util::connectHook(Filesystem::CLASSNAME, 'post_touch', $this, 'postTouch');
 
-		Util::connectHook('OC_Filesystem', 'read', $this, 'read');
+		Util::connectHook(Filesystem::CLASSNAME, 'read', $this, 'read');
 	}
 
 	public function write($arguments) {

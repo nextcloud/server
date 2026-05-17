@@ -32,16 +32,18 @@ class AddressHandlerTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->il10n = $this->createMock(IL10N::class);
 		$this->contactsManager = $this->createMock(IManager::class);
+		$userManager = $this->createMock(IUserManager::class);
+		$userManager->method('getUserNameFromLoginName')->willReturnArgument(0);
 
 		$this->cloudIdManager = new CloudIdManager(
 			$this->createMock(ICacheFactory::class),
 			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->urlGenerator,
-			$this->createMock(IUserManager::class),
+			$userManager,
 		);
 
-		$this->addressHandler = new AddressHandler($this->urlGenerator, $this->il10n, $this->cloudIdManager);
+		$this->addressHandler = new AddressHandler($this->urlGenerator, $this->il10n, $this->cloudIdManager, $userManager);
 	}
 
 	public static function dataTestSplitUserRemote(): array {

@@ -68,6 +68,8 @@
 		<file name="version.php"/>
 		<file name="tests/lib/TestCase.php"/>
 		<file name="tests/lib/Files/Template/*.php"/>
+		<file name="tests/lib/Util/User/Dummy.php"/>
+		<file name="tests/lib/User/SessionTest.php"/>
 		<ignoreFiles>
 			<directory name="apps/admin_audit/tests"/>
 			<directory name="apps/cloud_federation_api/tests"/>
@@ -203,6 +205,7 @@
 		<DeprecatedClass>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="tests" />
 				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedClass>
