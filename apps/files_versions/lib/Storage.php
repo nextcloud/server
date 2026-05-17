@@ -79,19 +79,19 @@ class Storage {
 	private static $application;
 
 	/**
-	 * get the UID of the owner of the file and the path to the file relative to
-	 * owners files folder
+	 * Get the UID of the owner of the file and the path to the file relative to
+	 * the owner's files folder.
 	 *
-	 * @param string $filename
-	 * @return array
+	 * @param string $filename Path relative to the current filesystem view
+	 * @return array{0:string,1:string|null} Tuple of owner UID and owner-relative file path (null if the owner-relative path cannot be resolved)
 	 * @throws NoUserException
 	 */
-	public static function getUidAndFilename($filename) {
+	public static function getUidAndFilename(string $filename): array {
 		$uid = Filesystem::getOwner($filename);
 		$userManager = Server::get(IUserManager::class);
-		// if the user with the UID doesn't exists, e.g. because the UID points
-		// to a remote user with a federated cloud ID we use the current logged-in
-		// user. We need a valid local user to create the versions
+		// We need a valid local user to create the versions.
+		// If the resolved owner does not exist locally (for example for a federated
+		// remote user), the currently logged-in local user is used instead.
 		if (!$userManager->userExists($uid)) {
 			$uid = OC_User::getUser();
 		}
@@ -112,22 +112,26 @@ class Storage {
 	}
 
 	/**
-	 * Remember the owner and the owner path of the source file
+	 * Remember the owner and the owner path of the source file.
 	 *
-	 * @param string $source source path
+	 * @param string $source Source path relative to the current filesystem view
 	 */
-	public static function setSourcePathAndUser($source) {
+	public static function setSourcePathAndUser(string $source): void {
 		[$uid, $path] = self::getUidAndFilename($source);
 		self::$sourcePathAndUser[$source] = ['uid' => $uid, 'path' => $path];
 	}
 
 	/**
-	 * Gets the owner and the owner path from the source path
+	 * Get the remembered owner and owner-relative path for a source path.
 	 *
-	 * @param string $source source path
-	 * @return array with user id and path
+	 * This method consumes the stored value: if present, the remembered mapping
+	 * is removed before returning.
+	 *
+	 * @param string $source Source path relative to the current filesystem view
+	 * @return array{0:string|false,1:string|null|false} Tuple of owner UID and owner-relative path,
+	 *                                                   or [false, false] if no mapping exists
 	 */
-	public static function getSourcePathAndUser($source) {
+	public static function getSourcePathAndUser(string $source): array {
 		if (isset(self::$sourcePathAndUser[$source])) {
 			$uid = self::$sourcePathAndUser[$source]['uid'];
 			$path = self::$sourcePathAndUser[$source]['path'];
@@ -144,16 +148,25 @@ class Storage {
 	 * @param string $user user who owns the versions
 	 * @return int versions size
 	 */
-	private static function getVersionsSize($user) {
+	private static function getVersionsSize(string $user): int {
 		$view = new View('/' . $user);
 		$fileInfo = $view->getFileInfo('/files_versions');
 		return isset($fileInfo['size']) ? $fileInfo['size'] : 0;
 	}
 
 	/**
-	 * store a new version of a file.
+	 * Store a new version of a file.
+	 *
+	 * Returns false when the file should not or cannot be versioned, for example
+	 * when the file does not exist, is a directory, belongs to an unknown user,
+	 * is empty, or version creation is vetoed by an event listener.
+	 *
+	 * On success this method currently returns null.
+	 *
+	 * @param string $filename Path relative to the current filesystem view
+	 * @return false|null False if no version was created; null on successful creation
 	 */
-	public static function store($filename) {
+	public static function store(string $filename): false|null {
 		// if the file gets streamed we need to remove the .part extension
 		// to get the right target
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -216,12 +229,12 @@ class Storage {
 		$versionManager->createVersion($user, $file);
 	}
 
-
 	/**
-	 * mark file as deleted so that we can remove the versions if the file is gone
-	 * @param string $path
+	 * Mark a file as deleted so its versions can be removed after deletion succeeds.
+	 *
+	 * @param string $path Path relative to the current filesystem view
 	 */
-	public static function markDeletedFile($path) {
+	public static function markDeletedFile(string $path): void {
 		[$uid, $filename] = self::getUidAndFilename($path);
 		self::$deletedFiles[$path] = [
 			'uid' => $uid,
@@ -229,12 +242,12 @@ class Storage {
 	}
 
 	/**
-	 * delete the version from the storage and cache
+	 * Delete the version file from storage and remove its cache entry.
 	 *
-	 * @param View $view
-	 * @param string $path
+	 * @param View $view View rooted at the versions storage location
+	 * @param string $path Path to the version file relative to the given view
 	 */
-	protected static function deleteVersion($view, $path) {
+	protected static function deleteVersion(View $view, string $path): void {
 		$view->unlink($path);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -248,7 +261,7 @@ class Storage {
 	/**
 	 * Delete versions of a file
 	 */
-	public static function delete($path) {
+	public static function delete(string $path): void {
 		$deletedFile = self::$deletedFiles[$path];
 		$uid = $deletedFile['uid'];
 		$filename = $deletedFile['filename'];
@@ -280,15 +293,16 @@ class Storage {
 	}
 
 	/**
-	 * Rename or copy versions of a file of the given paths
+	 * Rename or copy versions of a file or directory between source and target paths.
 	 *
-	 * @param string $sourcePath source path of the file to move, relative to
-	 *                           the currently logged in user's "files" folder
-	 * @param string $targetPath target path of the file to move, relative to
-	 *                           the currently logged in user's "files" folder
-	 * @param string $operation can be 'copy' or 'rename'
+	 * On all other paths this method currently returns null.
+	 *
+	 * @param string $sourcePath Source path relative to the currently logged-in user's files folder
+	 * @param string $targetPath Target path relative to the currently logged-in user's files folder
+	 * @param string $operation Operation to invoke on the root view ('copy' or 'rename')
+	 * @return true|null True when nothing needed to be moved because no old source mapping exists; null otherwise
 	 */
-	public static function renameOrCopy($sourcePath, $targetPath, $operation) {
+	public static function renameOrCopy(string $sourcePath, string $targetPath, string $operation): true|null {
 		[$sourceOwner, $sourcePath] = self::getSourcePathAndUser($sourcePath);
 
 		// it was a upload of a existing file if no old path exists
@@ -344,7 +358,7 @@ class Storage {
 	 * @param int $revision revision timestamp
 	 * @return bool
 	 */
-	public static function rollback(string $file, int $revision, IUser $user) {
+	public static function rollback(string $file, int $revision, IUser $user): bool {
 		// add expected leading slash
 		$filename = '/' . ltrim($file, '/');
 
@@ -409,7 +423,7 @@ class Storage {
 	 *
 	 * @return bool true for success, false otherwise
 	 */
-	private static function copyFileContents($view, $path1, $path2) {
+	private static function copyFileContents(View $view, string $path1, string $path2): bool {
 		/** @var \OC\Files\Storage\Storage $storage1 */
 		[$storage1, $internalPath1] = $view->resolvePath($path1);
 		/** @var \OC\Files\Storage\Storage $storage2 */
@@ -464,13 +478,22 @@ class Storage {
 	}
 
 	/**
-	 * get a list of all available versions of a file in descending chronological order
-	 * @param string $uid user id from the owner of the file
-	 * @param string $filename file to find versions of, relative to the user files dir
-	 * @param string $userFullPath
-	 * @return array versions newest version first
+	 * Get a list of all available versions of a file in descending chronological order.
+	 *
+	 * @param string $uid User ID of the owner of the file
+	 * @param string|null $filename File to find versions of, relative to the user's files dir
+	 * @param string $userFullPath Full user-visible path used for preview URL generation
+	 * @return array<string, array{
+	 *     version:string,
+	 *     humanReadableTimestamp:string,
+	 *     preview:string,
+	 *     path:string,
+	 *     name:string,
+	 *     size:int|float|false,
+	 *     mimetype:string
+	 * }>
 	 */
-	public static function getVersions($uid, $filename, $userFullPath = '') {
+	public static function getVersions(string $uid, ?string $filename, string $userFullPath = ''): array {
 		$versions = [];
 		if (empty($filename)) {
 			return $versions;
@@ -543,7 +566,7 @@ class Storage {
 	 *
 	 * @param string $uid
 	 */
-	public static function expireOlderThanMaxForUser($uid) {
+	public static function expireOlderThanMaxForUser(string $uid): void {
 		/** @var IRootFolder $root */
 		$root = Server::get(IRootFolder::class);
 		try {
@@ -658,11 +681,15 @@ class Storage {
 	}
 
 	/**
-	 * returns all stored file versions from a given user
-	 * @param string $uid id of the user
-	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename
+	 * Return all stored file versions for a given user.
+	 *
+	 * @param string $uid ID of the user
+	 * @return array{
+	 *     all: array<string, array{version: string, path: string, size: int|float|false}>,
+	 *     by_file: array<string, array<string, array{version: string, path: string, size: int|float|false}>>
+	 * } Map of 'all' versions sorted by age (descending) and 'by_file' (versions grouped by path), both keyed by "<timestamp>#<path>".
 	 */
-	private static function getAllVersions($uid) {
+	private static function getAllVersions(string $uid): array {
 		$view = new View('/' . $uid . '/');
 		$dirs = [self::VERSIONS_ROOT];
 		$versions = [];
@@ -712,13 +739,14 @@ class Storage {
 	}
 
 	/**
-	 * get list of files we want to expire
-	 * @param array $versions list of versions
-	 * @param integer $time
-	 * @param bool $quotaExceeded is versions storage limit reached
-	 * @return array containing the list of to deleted versions and the size of them
+	 * Get the list of versions that should be expired and their combined size.
+	 *
+	 * @param int $time Current timestamp
+	 * @param array $versions List of versions as returned by getVersions()/getAllVersions()['by_file'][...]
+	 * @param bool $quotaExceeded Whether the versions storage limit has been reached
+	 * @return array{0: array<string, string>, 1: int|float} Tuple of version paths to delete and combined size
 	 */
-	protected static function getExpireList($time, $versions, $quotaExceeded = false) {
+	protected static function getExpireList(int $time, array $versions, bool $quotaExceeded = false): array {
 		$expiration = self::getExpiration();
 
 		if ($expiration->shouldAutoExpire()) {
@@ -753,12 +781,13 @@ class Storage {
 	}
 
 	/**
-	 * get list of files we want to expire
-	 * @param array $versions list of versions
-	 * @param integer $time
-	 * @return array containing the list of to deleted versions and the size of them
+	 * Get the auto-expiration list for versions and their combined size.
+	 *
+	 * @param int $time Current timestamp
+	 * @param array $versions List of versions sorted newest first
+	 * @return array{0: array<string, string>, 1: int|float} Tuple of version paths to delete and combined size
 	 */
-	protected static function getAutoExpireList($time, $versions) {
+	protected static function getAutoExpireList(int $time, array $versions): array {
 		$size = 0;
 		$toDelete = [];  // versions we want to delete
 
@@ -789,7 +818,7 @@ class Storage {
 						//distance between two version too small, mark to delete
 						$toDelete[$key] = $version['path'] . '.v' . $version['version'];
 						$size += $version['size'];
-						Server::get(LoggerInterface::class)->info('Mark to expire ' . $version['path'] . ' next version should be ' . $nextVersion . ' or smaller. (prevTimestamp: ' . $prevTimestamp . '; step: ' . $step, ['app' => 'files_versions']);
+						Server::get(LoggerInterface::class)->info('Mark to expire ' . $version['path'] . ' next version should be ' . $nextVersion . ' or smaller. (prevTimestamp: ' . $prevTimestamp . '; step: ' . $step . ')', ['app' => 'files_versions']);
 					} else {
 						$nextVersion = $version['version'] - $step;
 						$prevTimestamp = $version['version'];
@@ -813,12 +842,14 @@ class Storage {
 	}
 
 	/**
-	 * Schedule versions expiration for the given file
+	 * Schedule version expiration for the given file or folder.
 	 *
-	 * @param string $uid owner of the file
-	 * @param string $fileName file/folder for which to schedule expiration
+	 * The expiration command is only enqueued when expiration is enabled.
+	 *
+	 * @param string $uid Owner of the file
+	 * @param string $fileName File or folder for which to schedule expiration
 	 */
-	public static function scheduleExpire($uid, $fileName) {
+	public static function scheduleExpire(string $uid, string $fileName): void {
 		// let the admin disable auto expire
 		$expiration = self::getExpiration();
 		if ($expiration->isEnabled()) {
@@ -830,16 +861,18 @@ class Storage {
 	}
 
 	/**
-	 * Expire versions which exceed the quota.
+	 * Expires versions that exceed the user's quota.
 	 *
-	 * This will setup the filesystem for the given user but will not
-	 * tear it down afterwards.
+	 * Sets up the filesystem for the given user; does not perform teardown.
 	 *
-	 * @param string $filename path to file to expire
-	 * @param string $uid user for which to expire the version
-	 * @return bool|int|null
+	 * @param string $filename The path of the file to process.
+	 * @param string $uid The ID of the user.
+	 * @return int|false The history size after expiration, or false if expiration is disabled,
+	 *                   the file is missing, or no action was taken.
+	 *
+	 * @throws NoUserException If the user ID cannot be resolved to a local user.
 	 */
-	public static function expire($filename, $uid) {
+	public static function expire(string $filename, string $uid): int|false {
 		$expiration = self::getExpiration();
 
 		/** @var LoggerInterface $logger */
@@ -978,14 +1011,12 @@ class Storage {
 	}
 
 	/**
-	 * Create recursively missing directories inside of files_versions
-	 * that match the given path to a file.
+	 * Create missing directories recursively under /files_versions for the given file path.
 	 *
-	 * @param string $filename $path to a file, relative to the user's
-	 *                         "files" folder
-	 * @param View $view view on data/user/
+	 * @param string $filename Path to a file, relative to the user's files folder
+	 * @param View $view View rooted at /data/<user>
 	 */
-	public static function createMissingDirectories($filename, $view) {
+	public static function createMissingDirectories(string $filename, View $view): void {
 		$dirname = Filesystem::normalizePath(dirname($filename));
 		$dirParts = explode('/', $dirname);
 		$dir = '/files_versions';
@@ -998,10 +1029,13 @@ class Storage {
 	}
 
 	/**
-	 * Static workaround
+	 * Return the expiration service.
+	 *
+	 * Static workaround for the legacy static class design.
+	 *
 	 * @return Expiration
 	 */
-	protected static function getExpiration() {
+	protected static function getExpiration(): Expiration {
 		if (self::$application === null) {
 			self::$application = Server::get(Application::class);
 		}
