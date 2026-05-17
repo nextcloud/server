@@ -27,7 +27,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.7.4
 	- license: ISC
 - vite
-	- version: 7.3.2
+	- version: 7.3.3
 	- license: MIT
 - vite-plugin-node-polyfills
 	- version: 0.24.0
