@@ -21,7 +21,8 @@ use OCP\Config\ValueType;
 class Entry {
 	/** @since 32.0.0 */
 	public const RENAME_INVERT_BOOLEAN = 1;
-
+	/** @since 32.0.0 */
+	public const ENFORCE_VALUE_TYPE = 2;
 	private ?string $default = null;
 
 	/**
