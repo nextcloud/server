@@ -1234,8 +1234,6 @@
     <InvalidArgument>
       <code><![CDATA[$shareId]]></code>
       <code><![CDATA[$shareId]]></code>
-      <code><![CDATA[$shareId]]></code>
-      <code><![CDATA[$shareId]]></code>
       <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
   </file>
@@ -1999,7 +1997,6 @@
   <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
     <DeprecatedMethod>
       <code><![CDATA[hasAnnotation]]></code>
-      <code><![CDATA[hasAnnotation]]></code>
     </DeprecatedMethod>
     <InvalidReturnType>
       <code><![CDATA[Response]]></code>
@@ -2321,8 +2318,6 @@
   </file>
   <file src="apps/theming/lib/Controller/ThemingController.php">
     <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
@@ -4248,6 +4243,11 @@
       <code><![CDATA[$tag]]></code>
     </MoreSpecificImplementedParamType>
   </file>
+  <file src="lib/private/Teams/TeamManager.php">
+    <UndefinedDocblockClass>
+      <code><![CDATA[Circle]]></code>
+    </UndefinedDocblockClass>
+  </file>
   <file src="lib/private/Template/CSSResourceLocator.php">
     <ParamNameMismatch>
       <code><![CDATA[$style]]></code>
@@ -4273,11 +4273,6 @@
     <InvalidReturnStatement>
       <code><![CDATA[$path]]></code>
     </InvalidReturnStatement>
-  </file>
-  <file src="lib/private/Teams/TeamManager.php">
-    <UndefinedDocblockClass>
-      <code><![CDATA[Circle]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/private/User/Database.php">
     <FalsableReturnStatement>
