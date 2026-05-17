@@ -51,6 +51,13 @@ class CORSMiddleware extends Middleware {
 			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
 			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
+			// Allow Bearer token authentication for CORS requests
+			// Bearer tokens are stateless and don't require CSRF protection
+			$authorizationHeader = $this->request->getHeader('Authorization');
+			if (!empty($authorizationHeader) && str_starts_with($authorizationHeader, 'Bearer ')) {
+				return;
+			}
+
 			// Allow to use the current session if a CSRF token is provided
 			if ($this->request->passesCSRFCheck()) {
 				return;
