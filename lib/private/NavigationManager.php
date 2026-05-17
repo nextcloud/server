@@ -212,10 +212,6 @@ class NavigationManager implements INavigationManager {
 		}
 
 		foreach ($apps as $app) {
-			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
-				continue;
-			}
-
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['navigations']['navigation'])) {
@@ -261,14 +257,14 @@ class NavigationManager implements INavigationManager {
 					'order' => $order,
 					// Target of the navigation entry
 					'href' => $route,
-					// The icon used for the naviation entry
+					// The icon used for the navigation entry
 					'icon' => $icon,
 					// Type of the navigation entry ('link' vs 'settings')
 					'type' => $type,
 					// Localized name of the navigation entry
 					'name' => $l->t($nav['name']),
 				], $type === 'link' ? [
-					// App that registered this navigation entry (not necessarly the same as the id)
+					// App that registered this navigation entry (not necessarily the same as the id)
 					'app' => $app,
 				] : []
 				));
