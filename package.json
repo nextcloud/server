@@ -79,7 +79,7 @@
     "dompurify": "^3.4.0",
     "escape-html": "^1.0.3",
     "focus-trap": "^7.8.0",
-    "handlebars": "^4.7.8",
+    "handlebars": "^4.7.9",
     "is-svg": "^6.1.0",
     "jquery": "~3.7",
     "jquery-ui": "1.14.2",
