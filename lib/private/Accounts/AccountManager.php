@@ -120,6 +120,21 @@ class AccountManager implements IAccountManager {
 			throw new InvalidArgumentException('scope');
 		}
 
+		// Enforce admin-configured per-property scope ceiling.
+		$maxScopes = $this->config->getSystemValue('account_manager.max_property_scope', []);
+		if (isset($maxScopes[$property->getName()])) {
+			$maxScope = $maxScopes[$property->getName()];
+			$currentOrder = self::PROPERTY_SCOPE_ORDER[$property->getScope()] ?? 0;
+			$maxOrder = self::PROPERTY_SCOPE_ORDER[$maxScope] ?? PHP_INT_MAX;
+			if ($currentOrder > $maxOrder) {
+				if ($throwOnData) {
+					throw new InvalidArgumentException('scope');
+				} else {
+					$property->setScope($maxScope);
+				}
+			}
+		}
+
 		if (
 			$property->getScope() === self::SCOPE_PRIVATE
 			&& in_array($property->getName(), [self::PROPERTY_DISPLAYNAME, self::PROPERTY_EMAIL])

@@ -2887,6 +2887,29 @@ $CONFIG = [
 	'account_manager.default_property_scope' => [],
 
 	/**
+	 * Set a maximum allowed visibility scope for individual account properties.
+	 * Users cannot set a property to a scope more visible than the configured
+	 * ceiling, neither through the UI nor the API.
+	 *
+	 * Valid property names and scope values are defined in
+	 * ``OCP\Accounts\IAccountManager``.
+	 *
+	 * Example: Prevent users from making their email or website visible beyond
+	 * the local instance:
+	 * ``[
+	 *     \OCP\Accounts\IAccountManager::PROPERTY_EMAIL   => \OCP\Accounts\IAccountManager::SCOPE_LOCAL,
+	 *     \OCP\Accounts\IAccountManager::PROPERTY_WEBSITE => \OCP\Accounts\IAccountManager::SCOPE_LOCAL,
+	 * ]``
+	 *
+	 * WARNING: Restricting the scope of properties that are required for
+	 * federation (``displayname``, ``email``, ``avatar``, ``pronouns``) below
+	 * ``SCOPE_FEDERATED`` will break federated sharing and other cross-instance
+	 * features that depend on those fields being visible to trusted remote
+	 * servers.
+	 */
+	'account_manager.max_property_scope' => [],
+
+	/**
 	 * Enable the deprecated Projects feature, superseded by Related Resources since
 	 * Nextcloud 25.
 	 *

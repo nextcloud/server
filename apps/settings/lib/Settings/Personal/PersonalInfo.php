@@ -115,12 +115,19 @@ class PersonalInfo implements ISettings {
 			'pronouns' => $this->getProperty($account, IAccountManager::PROPERTY_PRONOUNS),
 		];
 
+		$maxPropertyScopes = array_filter(
+			$this->config->getSystemValue('account_manager.max_property_scope', []),
+			static fn (string $scope, string $property): bool => in_array($property, IAccountManager::ALLOWED_PROPERTIES, true) && in_array($scope, IAccountManager::ALLOWED_SCOPES, true),
+			ARRAY_FILTER_USE_BOTH,
+		);
+
 		$accountParameters = [
 			'avatarChangeSupported' => $user->canChangeAvatar(),
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
 			'emailChangeSupported' => $user->canChangeEmail(),
 			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
+			'maxPropertyScopes' => $maxPropertyScopes,
 		];
 
 		$profileParameters = [
