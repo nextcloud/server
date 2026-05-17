@@ -39,6 +39,12 @@ class LastSeen extends Base {
 				InputOption::VALUE_NONE,
 				'shows a list of when all users were last logged in'
 			)
+			->addOption(
+				'exclude-disabled',
+				null,
+				InputOption::VALUE_NONE,
+				'exclude disabled users from the list (only works with --all)'
+			)
 		;
 	}
 
@@ -70,7 +76,11 @@ class LastSeen extends Base {
 			return 1;
 		}
 
-		$this->userManager->callForAllUsers(static function (IUser $user) use ($output): void {
+		$excludeDisabled = $input->getOption('exclude-disabled');
+		$this->userManager->callForAllUsers(static function (IUser $user) use ($output, $excludeDisabled): void {
+			if ($excludeDisabled && !$user->isEnabled()) {
+				return;
+			}
 			$lastLogin = $user->getLastLogin();
 			if ($lastLogin === 0) {
 				$output->writeln($user->getUID() . ' has never logged in.');
