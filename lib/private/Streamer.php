@@ -40,7 +40,7 @@ class Streamer {
 	 *                                 please migrate to `Streamer::isUserAgentPreferTar()` instead.
 	 * @param int|float $size The size of the files in bytes
 	 * @param int $numberOfFiles The number of files (and directories) that will
-	 *                           be included in the streamed file
+	 *                           be included in the streamed file, used to detect if zip32 or zip64 should be used, can be set to -1 to enforce zip64
 	 */
 	public function __construct(
 		IRequest|bool $preferTar,
@@ -81,7 +81,7 @@ class Streamer {
 		if ($preferTar) {
 			// If TAR ball is preferred use it
 			$this->streamerInstance = new TarStreamer();
-		} elseif ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
+		} elseif ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536 && $numberOfFiles >= 0) {
 			$this->streamerInstance = new ZipStreamer(['zip64' => false]);
 		} else {
 			$this->streamerInstance = new ZipStreamer(['zip64' => true]);
