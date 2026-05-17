@@ -206,6 +206,14 @@ class AuthTest extends TestCase {
 		self::invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']);
 	}
 
+	public function testValidateUserPassReturnsFalseWithEmptyUsernameAndPassword(): void {
+		$this->userSession
+			->expects($this->never())
+			->method('logClientIn');
+		
+		$this->assertFalse(self::invokePrivate($this->auth, 'validateUserPass', ['', '']));
+	}
+
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenForNonGet(): void {
 		$request = $this->createMock(RequestInterface::class);
 		$response = $this->createMock(ResponseInterface::class);
