@@ -33,7 +33,11 @@ class Range implements IRange {
 
 	#[\Override]
 	public function contains(IAddress $address): bool {
-		return $this->range->contains(Factory::parseAddressString((string)$address, ParseStringFlag::MAY_INCLUDE_ZONEID));
+		$parsedAddress = Factory::parseAddressString((string)$address, ParseStringFlag::MAY_INCLUDE_ZONEID);
+		if ($parsedAddress === null) {
+			return false;
+		}
+		return $this->range->contains($parsedAddress);
 	}
 
 	public function __toString(): string {
