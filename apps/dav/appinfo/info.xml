@@ -31,6 +31,7 @@
 		<job>OCA\DAV\BackgroundJob\CalendarRetentionJob</job>
 		<job>OCA\DAV\BackgroundJob\PruneOutdatedSyncTokensJob</job>
 		<job>OCA\DAV\BackgroundJob\FederatedCalendarPeriodicSyncJob</job>
+		<job>OCA\DAV\BackgroundJob\CleanupExpiredOcmTokensJob</job>
 	</background-jobs>
 
 	<repair-steps>

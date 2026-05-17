@@ -50,11 +50,21 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	private bool $updateChecked = false;
 	private ExternalShareManager $manager;
 	private IConfig $config;
-	private IAppConfig $appConfig;
+	protected IAppConfig $appConfig;
 	private IShareManager $shareManager;
+	private bool $tokenRefreshed = false;
+	/** Unix timestamp until which the current access token is considered valid (0 = unknown/expired) */
+	private int $tokenExpiresAt = 0;
+	/** Number of consecutive token exchange failures (resets on success or DB-reuse) */
+	private int $refreshFailureCount = 0;
+	/** Unix timestamp before which the next exchange attempt must not be made (0 = no wait) */
+	private int $refreshBackoffUntil = 0;
+
+	private const REFRESH_MAX_ATTEMPTS = 3;
+	private const REFRESH_BACKOFF_SECONDS = 5;
 
 	/**
-	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
+	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, access_token: ?string, access_token_expires: ?int}|array $options
 	 */
 	public function __construct($options) {
 		$this->memcacheFactory = Server::get(ICacheFactory::class);
@@ -72,14 +82,30 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$ocmProvider = $discoveryService->discover($this->cloudId->getRemote());
 			$webDavEndpoint = $ocmProvider->extractProtocolEntry('file', 'webdav');
 			$remote = $ocmProvider->getEndPoint();
+			$authType = \Sabre\DAV\Client::AUTH_BASIC;
 		} catch (OCMProviderException|OCMArgumentException $e) {
 			$this->logger->notice('exception while retrieving webdav endpoint', ['exception' => $e]);
 			$webDavEndpoint = '/public.php/webdav';
 			$remote = $this->cloudId->getRemote();
+			$authType = \Sabre\DAV\Client::AUTH_BASIC;
+		}
+
+		// Only use Bearer auth when an access token is already stored.
+		// Shares created before the exchange-token capability was introduced have no
+		// stored token and must keep using basic auth for backwards compatibility.
+		if (!empty($options['access_token'])) {
+			$authType = \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER;
 		}
 
 		$host = parse_url($remote, PHP_URL_HOST);
+		// If host extraction fails (e.g., endpoint has no scheme), fall back to cloudId's remote
+		if ($host === null) {
+			$host = parse_url($this->cloudId->getRemote(), PHP_URL_HOST);
+		}
 		$port = parse_url($remote, PHP_URL_PORT);
+		if ($port === null) {
+			$port = parse_url($this->cloudId->getRemote(), PHP_URL_PORT);
+		}
 		$host .= ($port === null) ? '' : ':' . $port; // we add port if available
 
 		// in case remote NC is on a sub folder and using deprecated ocm provider
@@ -90,18 +116,107 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 		$this->mountPoint = $options['mountpoint'];
 		$this->token = $options['token'];
+		$this->tokenExpiresAt = (int)($options['access_token_expires'] ?? 0);
+
+		// Determine scheme - fall back to cloudId's remote if $remote has no scheme
+		$scheme = parse_url($remote, PHP_URL_SCHEME) ?? parse_url($this->cloudId->getRemote(), PHP_URL_SCHEME) ?? 'https';
 
 		parent::__construct(
 			[
-				'secure' => ((parse_url($remote, PHP_URL_SCHEME) ?? 'https') === 'https'),
+				'secure' => ($scheme === 'https'),
 				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 				'host' => $host,
 				'root' => $webDavEndpoint,
 				'user' => $options['token'],
-				'authType' => \Sabre\DAV\Client::AUTH_BASIC,
-				'password' => (string)$options['password']
+				'authType' => $authType,
+				'password' => $authType === \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER
+					? (string)($options['access_token'] ?? '')
+					: (string)($options['password'] ?? ''),
+				'discoveryService' => $discoveryService,
 			]
 		);
+	}
+
+	/**
+	 * Refresh the bearer token. Extends parent to also persist to database.
+	 *
+	 * Uses expiry timestamps instead of a boolean flag so that concurrent
+	 * processes can detect that another process already obtained a fresh token
+	 * and reuse it rather than performing a redundant exchange.
+	 *
+	 * After a failed exchange, a 60-second backoff is applied so that
+	 * subsequent file operations do not hammer the remote token endpoint.
+	 * The DB is still consulted during backoff in case a concurrent process
+	 * succeeded; only the outgoing exchange call is suppressed.
+	 *
+	 * @return bool True if token was refreshed (or reused from DB) successfully
+	 */
+	#[\Override]
+	protected function refreshBearerToken(): bool {
+		$now = time();
+
+		// Fast path: in-memory token is still valid (single-process guard).
+		if ($this->tokenExpiresAt > $now) {
+			return false;
+		}
+
+		// Slow path: check DB — a concurrent process may have already refreshed.
+		$share = $this->manager->getShareByToken($this->token);
+		if ($share !== false) {
+			$dbExpiry = $share->getAccessTokenExpires();
+			$dbToken = $share->getAccessToken();
+			if ($dbExpiry !== null && $dbExpiry > $now && $dbToken !== null) {
+				// Another process already refreshed — reuse DB token and reset failure state.
+				$this->password = $dbToken;
+				$this->tokenExpiresAt = $dbExpiry;
+				$this->refreshFailureCount = 0;
+				$this->refreshBackoffUntil = 0;
+				$this->ready = false;
+				$this->client = null;
+				$this->init();
+				$this->logger->debug('Reused access token refreshed by another process', ['app' => 'files_sharing']);
+				return true;
+			}
+		}
+
+		// Gave up after max attempts: stop trying for the lifetime of this instance.
+		if ($this->refreshFailureCount >= self::REFRESH_MAX_ATTEMPTS) {
+			return false;
+		}
+
+		// Still within the inter-attempt wait: don't hit the endpoint yet.
+		if ($this->refreshBackoffUntil > $now) {
+			return false;
+		}
+
+		// No valid token in DB — perform the exchange ourselves.
+		try {
+			$expiresAt = $now + 3600; // access tokens are valid for 1 hour
+			$newAccessToken = $this->exchangeRefreshToken();
+			$this->password = $newAccessToken;
+			$this->tokenExpiresAt = $expiresAt;
+			$this->refreshFailureCount = 0;
+			$this->refreshBackoffUntil = 0;
+
+			$this->manager->updateAccessToken($this->token, $newAccessToken, $expiresAt);
+
+			$this->ready = false;
+			$this->client = null;
+			$this->init();
+
+			$this->logger->debug('Successfully refreshed access token', ['app' => 'files_sharing']);
+			return true;
+		} catch (\Exception $e) {
+			$this->refreshFailureCount++;
+			$this->refreshBackoffUntil = $now + self::REFRESH_BACKOFF_SECONDS;
+			$this->logger->warning('Failed to refresh access token (attempt {attempt}/{max})', [
+				'app' => 'files_sharing',
+				'attempt' => $this->refreshFailureCount,
+				'max' => self::REFRESH_MAX_ATTEMPTS,
+				'exception' => $e,
+			]);
+			return false;
+		}
 	}
 
 	#[\Override]

@@ -113,6 +113,8 @@ class Manager {
 			'remote' => $externalShare->getRemote(),
 			'token' => $externalShare->getShareToken(),
 			'password' => $externalShare->getPassword(),
+			'access_token' => $externalShare->getAccessToken(),
+			'access_token_expires' => $externalShare->getAccessTokenExpires(),
 			'mountpoint' => $externalShare->getMountpoint(),
 			'owner' => $externalShare->getOwner(),
 			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
@@ -190,6 +192,7 @@ class Manager {
 				$subShare->generateId();
 				$subShare->setRemote($externalShare->getRemote());
 				$subShare->setPassword($externalShare->getPassword());
+				$subShare->setAccessToken($externalShare->getAccessToken());
 				$subShare->setName($externalShare->getName());
 				$subShare->setOwner($externalShare->getOwner());
 				$subShare->setUser($user->getUID());
@@ -564,6 +567,26 @@ class Manager {
 		} catch (Exception $e) {
 			$this->logger->emergency('Error when retrieving shares', ['exception' => $e]);
 			return [];
+		}
+	}
+
+	/**
+	 * Update the access token for a share.
+	 *
+	 * @param string $shareToken The share token (refresh token) to identify the share
+	 * @param string $accessToken The new access token to store
+	 */
+	public function updateAccessToken(string $shareToken, string $accessToken, int $expiresAt): void {
+		try {
+			$share = $this->externalShareMapper->getShareByToken($shareToken);
+			$share->setAccessToken($accessToken);
+			$share->setAccessTokenExpires($expiresAt);
+			$this->externalShareMapper->update($share);
+			$this->logger->debug('Updated access token for share', ['shareToken' => substr($shareToken, 0, 8) . '...']);
+		} catch (DoesNotExistException $e) {
+			$this->logger->warning('Could not find share to update access token', ['shareToken' => substr($shareToken, 0, 8) . '...']);
+		} catch (Exception $e) {
+			$this->logger->error('Failed to update access token', ['exception' => $e]);
 		}
 	}
 }

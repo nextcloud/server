@@ -30,6 +30,10 @@ use OCP\Share\IShare;
  * @method void setShareToken(string $shareToken)
  * @method string|null getPassword()
  * @method void setPassword(?string $password)
+ * @method string|null getAccessToken()
+ * @method void setAccessToken(?string $accessToken)
+ * @method int|null getAccessTokenExpires()
+ * @method void setAccessTokenExpires(?int $accessTokenExpires)
  * @method string getName()
  * @method string getOwner()
  * @method void setOwner(string $owner)
@@ -50,6 +54,8 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 	protected ?string $remoteId = null;
 	protected ?string $shareToken = null;
 	protected ?string $password = null;
+	protected ?string $accessToken = null;
+	protected ?int $accessTokenExpires = null;
 	protected ?string $name = null;
 	protected ?string $owner = null;
 	protected ?string $user = null;
@@ -65,6 +71,8 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 		$this->addType('remoteId', Types::STRING);
 		$this->addType('shareToken', Types::STRING);
 		$this->addType('password', Types::STRING);
+		$this->addType('accessToken', Types::STRING);
+		$this->addType('accessTokenExpires', Types::INTEGER);
 		$this->addType('name', Types::STRING);
 		$this->addType('owner', Types::STRING);
 		$this->addType('user', Types::STRING);

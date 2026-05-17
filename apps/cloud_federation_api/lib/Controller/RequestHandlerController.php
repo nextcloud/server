@@ -7,11 +7,13 @@
 
 namespace OCA\CloudFederationAPI\Controller;
 
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
 use OCA\CloudFederationAPI\Events\FederatedInviteAcceptedEvent;
 use OCA\CloudFederationAPI\ResponseDefinitions;
+use OCA\DAV\Db\OcmTokenMapMapper;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -32,6 +34,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Federation\ISignedCloudFederationProvider;
+use OCP\Federation\IValidationAwareCloudFederationProvider;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -43,6 +46,7 @@ use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
 use OCP\Security\Signature\IIncomingSignedRequest;
 use OCP\Security\Signature\ISignatureManager;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -91,7 +95,9 @@ class RequestHandlerController extends Controller {
 	 * @param string|null $ownerDisplayName Display name of the user who shared the item
 	 * @param string|null $sharedBy Provider specific UID of the user who shared the resource
 	 * @param string|null $sharedByDisplayName Display name of the user who shared the resource
-	 * @param array{name: list<string>, options: array<string, mixed>} $protocol e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]
+	 * @param array<string, mixed> $protocol OCM protocol envelope. The controller only
+	 *     enforces that `protocol.name` is set; the inner shape is the provider's
+	 *     responsibility (see {@see IValidationAwareCloudFederationProvider}).
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
@@ -126,9 +132,6 @@ class RequestHandlerController extends Controller {
 			|| $shareType === null
 			|| !is_array($protocol)
 			|| !isset($protocol['name'])
-			|| !isset($protocol['options'])
-			|| !is_array($protocol['options'])
-			|| !isset($protocol['options']['sharedSecret'])
 		) {
 			return new JSONResponse(
 				[
@@ -148,6 +151,7 @@ class RequestHandlerController extends Controller {
 		}
 
 		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
+		$shareWithCloudId = $shareWith; // preserve full cloud ID for factory capability discovery
 		$shareWith = $cloudId->getUser();
 
 		if ($shareType === 'user') {
@@ -192,13 +196,27 @@ class RequestHandlerController extends Controller {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
+			// Pass the original cloud ID so the factory can discover capabilities without warning.
+			// Then reset shareWith to the local username that shareReceived() needs for user lookup.
+			$share = $this->factory->getCloudFederationShare($shareWithCloudId, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
+			$share->setShareWith($shareWith);
 			$share->setProtocol($protocol);
+			if ($provider instanceof IValidationAwareCloudFederationProvider) {
+				$provider->validateShare($share);
+			}
 			$provider->shareReceived($share);
-		} catch (ProviderDoesNotExistsException|ProviderCouldNotAddShareException $e) {
+		} catch (BadRequestException $e) {
+			return new JSONResponse($e->getReturnMessage(), Http::STATUS_BAD_REQUEST);
+		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
 				Http::STATUS_NOT_IMPLEMENTED
+			);
+		} catch (ProviderCouldNotAddShareException $e) {
+			$status = $e->getCode() ?: Http::STATUS_NOT_IMPLEMENTED;
+			return new JSONResponse(
+				['message' => $e->getMessage()],
+				$status
 			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
@@ -490,6 +508,12 @@ class RequestHandlerController extends Controller {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
 			if ($provider instanceof ISignedCloudFederationProvider || $provider instanceof \NCU\Federation\ISignedCloudFederationProvider) {
 				$identity = $provider->getFederationIdFromSharedSecret($sharedSecret, $notification);
+				if ($identity === '') {
+					$tokenProvider = Server::get(PublicKeyTokenProvider::class);
+					$accessTokenDb = $tokenProvider->getToken($sharedSecret);
+					$mapping = Server::get(OcmTokenMapMapper::class)->getByAccessTokenId($accessTokenDb->getId());
+					$identity = $provider->getFederationIdFromSharedSecret($mapping->getRefreshToken(), $notification);
+				}
 			} else {
 				$this->logger->debug('cloud federation provider {provider} does not implements ISignedCloudFederationProvider', ['provider' => $provider::class]);
 				return;
