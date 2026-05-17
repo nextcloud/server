@@ -11,6 +11,7 @@ use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IUserBackend;
+use OCP\LDAP\Exceptions\MultipleUsersReturnedException;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
@@ -18,6 +19,7 @@ use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IPropertyPermissionBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,13 +27,13 @@ use Psr\Log\LoggerInterface;
  */
 class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend, IGetDisplayNameBackend, IPropertyPermissionBackend {
 	public function __construct(
-		private Helper $helper,
+		Helper $helper,
 		ILDAPWrapper $ldap,
 		AccessFactory $accessFactory,
-		private INotificationManager $notificationManager,
-		private UserPluginManager $userPluginManager,
-		private LoggerInterface $logger,
-		private DeletedUsersIndex $deletedUsersIndex,
+		private readonly INotificationManager $notificationManager,
+		private readonly UserPluginManager $userPluginManager,
+		private readonly LoggerInterface $logger,
+		private readonly DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($helper, $ldap, $accessFactory);
 	}
@@ -457,5 +459,20 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	#[\Override]
 	public function canEditProperty(string $uid, string $property): bool {
 		return $this->handleRequest($uid, 'canEditProperty', [$uid, $property]);
+	}
+
+	#[Override]
+	public function getUserFromCustomAttribute(string $attribute, string $searchTerm): ?string {
+		$this->setup();
+		$user = null;
+		foreach ($this->backends as $backend) {
+			$fetchUser = $backend->getUserFromCustomAttribute($attribute, $searchTerm);
+			// if we found a different user, no need to continue
+			if ($user !== null && $fetchUser !== null && $fetchUser !== $user) {
+				throw new MultipleUsersReturnedException('Multiple users found for custom attribute search');
+			}
+			$user = $fetchUser; // may be null
+		}
+		return $user;
 	}
 }

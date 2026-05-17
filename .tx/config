@@ -8,6 +8,12 @@ source_file = translationfiles/templates/admin_audit.pot
 source_lang = en
 type        = PO
 
+[o:nextcloud:p:nextcloud:r:appstore]
+file_filter = translationfiles/<lang>/appstore.po
+source_file = translationfiles/templates/appstore.pot
+source_lang = en
+type        = PO
+
 [o:nextcloud:p:nextcloud:r:cloud_federation_api]
 file_filter = translationfiles/<lang>/cloud_federation_api.po
 source_file = translationfiles/templates/cloud_federation_api.pot

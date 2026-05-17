@@ -5,7 +5,7 @@
 
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-import { handlePasswordConfirmation } from './usersUtils.ts'
+import { handlePasswordConfirmation } from '../core-utils.ts'
 
 let user: User
 

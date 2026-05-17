@@ -36,7 +36,7 @@ abstract class Bundle {
 	/**
 	 * Get the list of app identifiers in the bundle
 	 *
-	 * @return array
+	 * @return list<string>
 	 */
 	abstract public function getAppIdentifiers();
 }

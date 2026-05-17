@@ -569,7 +569,10 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			$file = null;
 		}
 		$args = Filesystem::is_dir($file) ? ['dir' => $file] : ['dir' => dirname($file), 'scrollto' => $file];
-		$link = Util::linkToAbsolute('files', 'index.php', $args);
+		$urlGenerator = Server::get(IURLGenerator::class);
+		$link = $urlGenerator->getAbsoluteURL(
+			$urlGenerator->linkTo('files', 'index.php', $args)
+		);
 
 		return [$file, $link];
 	}

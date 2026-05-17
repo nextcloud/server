@@ -215,6 +215,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
 
 		$folderData = $rootView->getDirectoryContent('/');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		/**
 		 * expected entries:
 		 * folder
@@ -234,6 +235,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals($storageSize, $folderData[3]['size']);
 
 		$folderData = $rootView->getDirectoryContent('/substorage');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		/**
 		 * expected entries:
 		 * folder
@@ -2817,11 +2819,13 @@ class ViewTest extends \Test\TestCase {
 		$rootView = new View('');
 
 		$folderData = $rootView->getDirectoryContent('/');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		$this->assertCount(4, $folderData);
-		$this->assertEquals('folder', $folderData[0]['name']);
-		$this->assertEquals('foo.png', $folderData[1]['name']);
-		$this->assertEquals('foo.txt', $folderData[2]['name']);
-		$this->assertEquals('A', $folderData[3]['name']);
+
+		$this->assertEquals('A', $folderData[0]['name']);
+		$this->assertEquals('folder', $folderData[1]['name']);
+		$this->assertEquals('foo.png', $folderData[2]['name']);
+		$this->assertEquals('foo.txt', $folderData[3]['name']);
 
 		$folderData = $rootView->getDirectoryContent('/A');
 		$this->assertCount(1, $folderData);
@@ -2832,6 +2836,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('C', $folderData[0]['name']);
 
 		$folderData = $rootView->getDirectoryContent('/A/B/C');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		$this->assertCount(3, $folderData);
 		$this->assertEquals('folder', $folderData[0]['name']);
 		$this->assertEquals('foo.png', $folderData[1]['name']);

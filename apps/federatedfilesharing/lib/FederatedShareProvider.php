@@ -409,8 +409,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('parent', $qb->createNamedParameter($parent->getId())))
-			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
-			->orderBy('id');
+			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)));
 
 		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetchAssociative()) {
@@ -547,8 +546,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
 
-		$qb->orderBy('id');
-
 		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetchAssociative()) {
@@ -604,7 +601,9 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		}
 
 		$qb->setFirstResult($offset);
-		$qb->orderBy('id');
+		if ($offset !== 0 || $limit !== -1) {
+			$qb->orderBy('id');
+		}
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
@@ -684,8 +683,9 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$qb->select('*')
 			->from('share');
 
-		// Order by id
-		$qb->orderBy('id');
+		if ($offset !== 0 || $limit !== -1) {
+			$qb->orderBy('id');
+		}
 
 		// Set limit and offset
 		if ($limit !== -1) {

@@ -35,6 +35,7 @@ class ListenerTest extends TestCase {
 	protected IShareHelper&MockObject $shareHelper;
 	protected Listener $listener;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

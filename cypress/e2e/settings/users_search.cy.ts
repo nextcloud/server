@@ -68,13 +68,13 @@ describe('Settings: Unified search for accounts and groups', { testIsolation: fa
 	})
 
 	it('shows the search input in the navigation sidebar', () => {
-		accountNav().findByRole('textbox', { name: /search accounts and groups/i })
+		accountNav().findByRole('searchbox', { name: /search accounts and groups/i })
 			.should('be.visible')
 			.and('have.value', '')
 	})
 
 	it('dispatches the query to both the users and groups API', () => {
-		accountNav().findByRole('textbox', { name: /search accounts and groups/i })
+		accountNav().findByRole('searchbox', { name: /search accounts and groups/i })
 			.type(alice.userId)
 
 		// A single keystroke sequence debounces once (300ms), then fans out
@@ -88,7 +88,7 @@ describe('Settings: Unified search for accounts and groups', { testIsolation: fa
 	})
 
 	it('filters the group list when the query matches a group name', () => {
-		accountNav().findByRole('textbox', { name: /search accounts and groups/i })
+		accountNav().findByRole('searchbox', { name: /search accounts and groups/i })
 			.clear()
 			.type(matchingGroup)
 
@@ -102,7 +102,7 @@ describe('Settings: Unified search for accounts and groups', { testIsolation: fa
 	it('resets both lists when the clear button is clicked', () => {
 		accountNav().findByRole('button', { name: /clear search/i }).click()
 
-		accountNav().findByRole('textbox', { name: /search accounts and groups/i })
+		accountNav().findByRole('searchbox', { name: /search accounts and groups/i })
 			.should('have.value', '')
 
 		waitForSearchRequest('@loadUsers', '')

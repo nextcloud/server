@@ -18,6 +18,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -56,6 +57,7 @@ class AdminControllerTest extends TestCase {
 			$this->timeFactory,
 			$this->l10n,
 			$this->logger,
+			$this->createMock(ServerVersion::class),
 		);
 	}
 

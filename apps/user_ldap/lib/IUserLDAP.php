@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\User_LDAP;
 
+use OCP\LDAP\Exceptions\MultipleUsersReturnedException;
+
 interface IUserLDAP {
 
 	//Functions used by LDAPProvider
@@ -32,4 +34,14 @@ interface IUserLDAP {
 	 * @return string|false with the username
 	 */
 	public function dn2UserName($dn);
+
+	/**
+	 * Fetches one user from LDAP based on a filter or a custom attribute and search term.
+	 *
+	 * @param string $attribute The LDAP attribute name to search against (e.g., 'mail', 'cn', 'uid').
+	 * @param string $searchTerm The search term to match against the attribute. Will be escaped for LDAP filter safety.
+	 * @return string|null Returns the username if found in LDAP using the configured LDAP filter, or null if no user is found.
+	 * @throws MultipleUsersReturnedException if multiple users have been found (search query should not allow this)
+	 */
+	public function getUserFromCustomAttribute(string $attribute, string $searchTerm): ?string;
 }

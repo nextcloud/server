@@ -20,6 +20,9 @@ use OCP\TaskProcessing\ShapeDescriptor;
  * @since 31.0.0
  */
 class ContextAgentInteraction implements IInternalTaskType {
+	/**
+	 * @since 31.0.0
+	 */
 	public const ID = 'core:contextagent:interaction';
 
 	private IL10N $l;

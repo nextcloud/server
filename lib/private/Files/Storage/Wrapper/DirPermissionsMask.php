@@ -94,7 +94,15 @@ class DirPermissionsMask extends PermissionsMask {
 
 	#[\Override]
 	public function rename($source, $target): bool {
-		if (!$this->isUpdatable($source)) {
+		$isPartialUploadFile = dirname($source) === dirname($target)
+			&& strpos($source, '.ocTransferId') > 0;
+
+		if (
+			!($isPartialUploadFile
+				|| $this->isUpdatable($source)
+				|| $this->isDeletable($source)
+			)
+		) {
 			return false;
 		}
 

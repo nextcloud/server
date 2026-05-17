@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { handlePasswordConfirmation } from '../settings/usersUtils.ts'
+import { handlePasswordConfirmation } from '../core-utils.ts'
 
 describe('files_external settings', () => {
 	before(() => {

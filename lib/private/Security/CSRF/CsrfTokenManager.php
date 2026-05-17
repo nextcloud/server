@@ -74,4 +74,8 @@ class CsrfTokenManager {
 			$token->getDecryptedValue()
 		);
 	}
+
+	public function generateSessionToken(): void {
+		$this->getToken();
+	}
 }

@@ -35,9 +35,14 @@ describe('User theming set app order', () => {
 		const appOrder = ['Dashboard', 'Files']
 		appOrderList.assertAppOrder(appOrder)
 
-		// Check the top app menu order
-		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
+		// Check the top app menu order. The launcher grid appends a synthetic
+		// "More apps" / "App store" tile to the user's apps, so iterate
+		// positionally only over the real-app prefix.
+		navigationHeader.getNavigationEntries().then(($entries) => {
+			appOrder.forEach((name, index) => {
+				expect($entries.eq(index)).to.contain.text(name)
+			})
+		})
 	})
 
 	it('Change the app order', () => {
@@ -59,9 +64,14 @@ describe('User theming set app order', () => {
 			.scrollIntoView()
 		appOrderList.assertAppOrder(appOrder)
 
-		// Check the top app menu order
-		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
+		// Check the top app menu order. Idempotent open in the page object
+		// re-opens the popover after the reload above. The synthetic trailing
+		// tile is ignored by iterating only over the expected app names.
+		navigationHeader.getNavigationEntries().then(($entries) => {
+			appOrder.forEach((name, index) => {
+				expect($entries.eq(index)).to.contain.text(name)
+			})
+		})
 	})
 })
 
@@ -140,9 +150,13 @@ describe('User theming set app order with default app', () => {
 		cy.reload()
 
 		const appOrder = ['Files', 'Test App', 'Dashboard', 'Test App 2']
-		// Check the top app menu order
-		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
+		// Check the top app menu order. See note above: the launcher appends
+		// a synthetic tile that we skip by iterating positionally.
+		navigationHeader.getNavigationEntries().then(($entries) => {
+			appOrder.forEach((name, index) => {
+				expect($entries.eq(index)).to.contain.text(name)
+			})
+		})
 	})
 })
 
@@ -219,9 +233,12 @@ describe('User theming reset app order', () => {
 		const appOrder = ['Dashboard', 'Files']
 		appOrderList.assertAppOrder(appOrder)
 
-		// Check the top app menu order
-		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
+		// Check the top app menu order. See note above on the synthetic tile.
+		navigationHeader.getNavigationEntries().then(($entries) => {
+			appOrder.forEach((name, index) => {
+				expect($entries.eq(index)).to.contain.text(name)
+			})
+		})
 	})
 
 	it('See the reset button is disabled', () => {
@@ -263,9 +280,12 @@ describe('User theming reset app order', () => {
 	it('See the app order is restored', () => {
 		const appOrder = ['Dashboard', 'Files']
 		appOrderList.assertAppOrder(appOrder)
-		// Check the top app menu order
-		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
+		// Check the top app menu order. See note above on the synthetic tile.
+		navigationHeader.getNavigationEntries().then(($entries) => {
+			appOrder.forEach((name, index) => {
+				expect($entries.eq(index)).to.contain.text(name)
+			})
+		})
 	})
 
 	it('See the reset button is disabled again', () => {

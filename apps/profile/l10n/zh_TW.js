@@ -17,7 +17,8 @@ OC.L10N.register(
     "Edit Profile" : "編輯個人檔案",
     "The headline and about sections will show up here" : "標題與關於區段將在此顯示",
     "Profile not found" : "找不到個人檔案",
-    "The profile does not exist." : "個人檔案不存在。",
-    "Back to %s" : "返回 %s"
+    "The profile does not exist or is unavailable." : "個人檔案不存在或無法使用。",
+    "Back to %s" : "返回 %s",
+    "The profile does not exist." : "個人檔案不存在。"
 },
 "nplurals=1; plural=0;");

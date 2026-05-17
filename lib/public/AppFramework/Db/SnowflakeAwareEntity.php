@@ -26,12 +26,16 @@ abstract class SnowflakeAwareEntity extends Entity {
 	/** @psalm-param $_fieldTypes array<string, Types::*> */
 	protected array $_fieldTypes = ['id' => Types::STRING];
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function setId($id): void {
 		throw new \LogicException('Use generated id to set a new id to the Snowflake aware entity.');
 	}
 
 	/**
 	 * Automatically creates a snowflake ID
+	 * @since 33.0.0
 	 */
 	public function generateId(): void {
 		if ($this->id === null) {
@@ -41,10 +45,16 @@ abstract class SnowflakeAwareEntity extends Entity {
 		}
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function getCreatedAt(): ?\DateTimeImmutable {
 		return $this->getSnowflake()?->getCreatedAt();
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function getSnowflake(): ?Snowflake {
 		if ($this->id === null) {
 			return null;

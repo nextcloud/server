@@ -11,6 +11,7 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_Proxy;
+use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,6 +24,7 @@ class CheckUser extends Command {
 		protected Helper $helper,
 		protected DeletedUsersIndex $dui,
 		protected UserMapping $mapping,
+		protected IUserManager $userManager,
 	) {
 		parent::__construct();
 	}
@@ -34,7 +36,7 @@ class CheckUser extends Command {
 			->setDescription('checks whether a user exists on LDAP.')
 			->addArgument(
 				'ocName',
-				InputArgument::REQUIRED,
+				InputArgument::OPTIONAL,
 				'the user name as used in Nextcloud, or the LDAP DN'
 			)
 			->addOption(
@@ -49,6 +51,25 @@ class CheckUser extends Command {
 				InputOption::VALUE_NONE,
 				'syncs values from LDAP'
 			)
+			->addOption(
+				'all-seen-users',
+				null,
+				InputOption::VALUE_NONE,
+				'sync all seen users instead of only one'
+			)
+			->addOption(
+				'limit',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'limit the number of user to process for --all-seen-users'
+			)
+			->addOption(
+				'offset',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'offset to apply for --all-seen-users',
+				0
+			)
 		;
 	}
 
@@ -57,35 +78,61 @@ class CheckUser extends Command {
 		try {
 			$this->assertAllowed($input->getOption('force'));
 			$uid = $input->getArgument('ocName');
-			if ($this->backend->getLDAPAccess($uid)->stringResemblesDN($uid)) {
-				$username = $this->backend->dn2UserName($uid);
-				if ($username !== false) {
-					$uid = $username;
-				}
-			}
-			$wasMapped = $this->userWasMapped($uid);
-			$exists = $this->backend->userExistsOnLDAP($uid, true);
-			if ($exists === true) {
-				$output->writeln('The user is still available on LDAP.');
-				if ($input->getOption('update')) {
-					$this->updateUser($uid, $output);
-				}
-				return self::SUCCESS;
-			}
 
-			if ($wasMapped) {
-				$this->dui->markUser($uid);
-				$output->writeln('The user does not exists on LDAP anymore.');
-				$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
-					. $uid . '"');
+			if ($uid !== null) {
+				return $this->checkUser($input, $output, $uid);
+			} elseif ($input->getOption('all-seen-users')) {
+				$offset = (int)$input->getOption('offset');
+				$limit = $input->getOption('limit');
+				if ($limit !== null) {
+					$limit = (int)$limit;
+				}
+				$userIterator = $this->userManager->getSeenUsers($offset, $limit);
+				foreach ($userIterator as $user) {
+					try {
+						$output->writeln('<info>Checking ' . $user->getUID() . '…</info>', OutputInterface::VERBOSITY_VERBOSE);
+						$this->checkUser($input, $output, $user->getUID());
+					} catch (\Exception $e) {
+						$output->writeln('<error> ' . $user->getUID() . ': ' . $e->getMessage() . '</error>');
+					}
+				}
+				$output->writeln('<info>Finished checking all seen users.</info>', OutputInterface::VERBOSITY_VERBOSE);
 				return self::SUCCESS;
+			} else {
+				throw new \InvalidArgumentException('Either a user name or --all-seen-users is required');
 			}
-
-			throw new \Exception('The given user is not a recognized LDAP user.');
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return self::FAILURE;
 		}
+	}
+
+	private function checkUser(InputInterface $input, OutputInterface $output, string $uid): int {
+		if ($this->backend->getLDAPAccess($uid)->stringResemblesDN($uid)) {
+			$username = $this->backend->dn2UserName($uid);
+			if ($username !== false) {
+				$uid = $username;
+			}
+		}
+		$wasMapped = $this->userWasMapped($uid);
+		$exists = $this->backend->userExistsOnLDAP($uid, true);
+		if ($exists === true) {
+			$output->writeln('The user is still available on LDAP.');
+			if ($input->getOption('update')) {
+				$this->updateUser($uid, $output);
+			}
+			return self::SUCCESS;
+		}
+
+		if ($wasMapped) {
+			$this->dui->markUser($uid);
+			$output->writeln('The user does not exists on LDAP anymore.');
+			$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
+				. $uid . '"');
+			return self::SUCCESS;
+		}
+
+		throw new \Exception('The given user is not a recognized LDAP user.');
 	}
 
 	/**

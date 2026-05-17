@@ -52,20 +52,22 @@ class AppsDisableTest extends TestCase {
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
+	public const VERSION_REGEX = '([\d\.\-dev]*)';
+
 	public static function dataCommandInput(): array {
 		return [
-			[['admin_audit'], 0, 'admin_audit ([\d\.]*) disabled'],
-			[['comments'], 0, 'comments ([\d\.]*) disabled'],
+			[['admin_audit'], 0, 'admin_audit ' . self::VERSION_REGEX . ' disabled'],
+			[['comments'], 0, 'comments ' . self::VERSION_REGEX . ' disabled'],
 			[['invalid_app'], 0, 'No such app enabled: invalid_app'],
 
-			[['admin_audit', 'comments'], 0, "admin_audit ([\d\.]*) disabled\ncomments ([\d\.]*) disabled"],
-			[['admin_audit', 'comments', 'invalid_app'], 0, "admin_audit ([\d\.]*) disabled\ncomments ([\d\.]*) disabled\nNo such app enabled: invalid_app"],
+			[['admin_audit', 'comments'], 0, 'admin_audit ' . self::VERSION_REGEX . " disabled\ncomments " . self::VERSION_REGEX . ' disabled'],
+			[['admin_audit', 'comments', 'invalid_app'], 0, 'admin_audit ' . self::VERSION_REGEX . " disabled\ncomments " . self::VERSION_REGEX . " disabled\nNo such app enabled: invalid_app"],
 
 			[['files'], 2, "files can't be disabled"],
 			[['provisioning_api'], 2, "provisioning_api can't be disabled"],
 
-			[['files', 'admin_audit'], 2, "files can't be disabled.\nadmin_audit ([\d\.]*) disabled"],
-			[['provisioning_api', 'comments'], 2, "provisioning_api can't be disabled.\ncomments ([\d\.]*) disabled"],
+			[['files', 'admin_audit'], 2, "files can't be disabled.\nadmin_audit " . self::VERSION_REGEX . ' disabled'],
+			[['provisioning_api', 'comments'], 2, "provisioning_api can't be disabled.\ncomments " . self::VERSION_REGEX . ' disabled'],
 		];
 	}
 }

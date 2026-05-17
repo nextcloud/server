@@ -62,8 +62,8 @@
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
+import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl, imagePath } from '@nextcloud/router'
-import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import logger from '../../logger.js'
@@ -147,35 +147,41 @@ export default {
 	},
 
 	methods: {
-		installApps() {
-			this.installingApps = true
-
-			const limit = pLimit(1)
-			const installing = this.recommendedApps
+		async installApps() {
+			const apps = this.recommendedApps
 				.filter((app) => !app.active && app.isCompatible && app.canInstall && app.isSelected)
-				.map((app) => limit(async () => {
-					logger.info(`installing ${app.id}`)
-					app.loading = true
-					return axios.post(generateUrl('settings/apps/enable'), { appIds: [app.id], groups: [] })
-						.catch((error) => {
-							logger.error(`could not install ${app.id}`, { error })
-							app.isSelected = false
-							app.installationError = true
-						})
-						.then(() => {
-							logger.info(`installed ${app.id}`)
-							app.loading = false
-							app.active = true
-						})
-				}))
-			logger.debug(`installing ${installing.length} recommended apps`)
-			Promise.all(installing)
-				.then(() => {
-					logger.info('all recommended apps installed, redirecting …')
+			if (apps.length === 0) {
+				return
+			}
 
-					window.location = this.defaultPageUrl
+			this.installingApps = true
+			apps.forEach((app) => {
+				app.loading = true
+			})
+			const appIds = apps.map((app) => app.id)
+			logger.debug(`installing ${apps.length} recommended apps`, { appIds })
+
+			try {
+				await axios.post(
+					generateUrl('settings/apps/enable'),
+					{ appIds, groups: [] },
+					{ confirmPassword: PwdConfirmationMode.Strict },
+				)
+				apps.forEach((app) => {
+					app.loading = false
+					app.active = true
 				})
-				.catch((error) => logger.error('could not install recommended apps', { error }))
+				logger.info('all recommended apps installed, redirecting …')
+				window.location = this.defaultPageUrl
+			} catch (error) {
+				logger.error('could not install recommended apps', { error })
+				apps.forEach((app) => {
+					app.loading = false
+					app.isSelected = false
+					app.installationError = true
+				})
+				this.installingApps = false
+			}
 		},
 
 		customIcon(appId) {

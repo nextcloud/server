@@ -13,7 +13,7 @@ OC.L10N.register(
     "Edit Profile" : "프로필 수정",
     "The headline and about sections will show up here" : "표제와 기타 정보가 이곳에 나타납니다.",
     "Profile not found" : "프로필 찾을 수 없음",
-    "The profile does not exist." : "프로필이 존재하지 않습니다.",
-    "Back to %s" : "%s(으)로 돌아가기"
+    "Back to %s" : "%s(으)로 돌아가기",
+    "The profile does not exist." : "프로필이 존재하지 않습니다."
 },
 "nplurals=1; plural=0;");

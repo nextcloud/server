@@ -13,7 +13,7 @@ use OC\Calendar\ResourcesRoomsUpdater;
 use OCP\AppFramework\QueryException;
 use OCP\Calendar\Resource\IBackend;
 use OCP\Calendar\Resource\IManager;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 class Manager implements IManager {
 	private bool $bootstrapBackendsLoaded = false;
@@ -29,7 +29,7 @@ class Manager implements IManager {
 
 	public function __construct(
 		private Coordinator $bootstrapCoordinator,
-		private IServerContainer $server,
+		private ContainerInterface $container,
 		private ResourcesRoomsUpdater $updater,
 	) {
 	}
@@ -84,7 +84,7 @@ class Manager implements IManager {
 				continue;
 			}
 
-			$this->initializedBackends[$backend] = $this->server->query($backend);
+			$this->initializedBackends[$backend] = $this->container->get($backend);
 		}
 
 		return array_values($this->initializedBackends);

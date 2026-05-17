@@ -10,10 +10,12 @@ use Aws\ClientResolver;
 use Aws\Credentials\CredentialProvider;
 use Aws\Credentials\Credentials;
 use Aws\Exception\CredentialsException;
+use Aws\Middleware;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\RejectedPromise;
+use GuzzleHttp\Psr7\Utils;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\ObjectStore\Events\BucketCreatedEvent;
 use OCP\Files\StorageNotAvailableException;
@@ -21,6 +23,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ICertificateManager;
 use OCP\Server;
+use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
 trait S3ConnectionTrait {
@@ -158,6 +161,8 @@ trait S3ConnectionTrait {
 		}
 		$this->connection = new S3Client($options);
 
+		$this->addDeleteObjectsContentMd5Middleware();
+
 		try {
 			$logger = Server::get(LoggerInterface::class);
 			if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
@@ -217,6 +222,41 @@ trait S3ConnectionTrait {
 		if ($this->test) {
 			sleep($this->timeout);
 		}
+	}
+
+	/**
+	 * Add middleware to inject Content-MD5 header for DeleteObjects operations
+	 *
+	 * AWS SDK PHP v3.339.0+ stopped generating the Content-MD5 header for DeleteObjects operations.
+	 * However, this is still required by the `bt-blue.com` S3 provider.
+	 * This middleware automatically calculates and adds the header to comply with
+	 * AWS S3 API requirements.
+	 *
+	 * @see https://github.com/aws/aws-sdk-php/issues/3068
+	 */
+	private function addDeleteObjectsContentMd5Middleware(): void {
+		if ($this->connection === null) {
+			return;
+		}
+
+		$handlerList = $this->connection->getHandlerList();
+		$handlerList->appendBuild(
+			Middleware::mapRequest(static function (RequestInterface $request): RequestInterface {
+				// Only add Content-MD5 for DeleteObjects operations
+				if ($request->getUri()->getQuery() !== 'delete') {
+					return $request;
+				}
+
+				// Calculate MD5 of request body and add Content-MD5 header
+				if (!$request->hasHeader('Content-MD5')) {
+					$body = $request->getBody();
+					$contentMd5 = base64_encode(Utils::hash($body, 'md5', true));
+					return $request->withHeader('Content-MD5', $contentMd5);
+				}
+
+				return $request;
+			})
+		);
 	}
 
 	public static function legacySignatureProvider($version, $service, $region) {

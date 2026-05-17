@@ -15,26 +15,22 @@ use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IProvider;
-use OCP\IServerContainer;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActionProviderStoreTest extends TestCase {
-	/** @var IServerContainer|MockObject */
-	private $serverContainer;
-
-	/** @var IAppManager|MockObject */
-	private $appManager;
-
+	private ContainerInterface&MockObject $serverContainer;
+	private IAppManager&MockObject $appManager;
 	private ActionProviderStore $actionProviderStore;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->serverContainer = $this->createMock(ContainerInterface::class);
 		$this->appManager = $this->createMock(AppManager::class);
 		$logger = $this->createMock(LoggerInterface::class);
 

@@ -17,7 +17,7 @@ OC.L10N.register(
     "Edit Profile" : "Profili düzenle",
     "The headline and about sections will show up here" : "Başlık ve hakkında bölümleri burada görüntülenir",
     "Profile not found" : "Profil bulunamadı",
-    "The profile does not exist." : "Profil bulunamadı.",
-    "Back to %s" : "%s sayfasına dön"
+    "Back to %s" : "%s sayfasına dön",
+    "The profile does not exist." : "Profil bulunamadı."
 },
 "nplurals=2; plural=(n > 1);");

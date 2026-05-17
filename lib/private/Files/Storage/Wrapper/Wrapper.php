@@ -392,6 +392,13 @@ class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
 			return $storage->writeStream($path, $stream, $size);
 		}
 
+		return $this->writeStreamFallback($path, $stream);
+	}
+
+	/**
+	 * @param resource $stream
+	 */
+	protected function writeStreamFallback(string $path, $stream): int {
 		$target = $this->fopen($path, 'w');
 		if ($target === false) {
 			throw new GenericFileException('Failed to open ' . $path);

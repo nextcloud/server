@@ -12,6 +12,7 @@ use LDAP\Connection;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\GroupInterface;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\LDAP\ILDAPProvider;
@@ -29,7 +30,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * @throws \Exception if user_ldap app was not enabled
 	 */
 	public function __construct(
-		IUserManager $userManager,
+		private IUserManager $userManager,
 		IGroupManager $groupManager,
 		private Helper $helper,
 		private DeletedUsersIndex $deletedUsersIndex,
@@ -37,7 +38,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	) {
 		$userBackendFound = false;
 		$groupBackendFound = false;
-		foreach ($userManager->getBackends() as $backend) {
+		foreach ($this->userManager->getBackends() as $backend) {
 			$this->logger->debug('instance ' . get_class($backend) . ' user backend.', ['app' => 'user_ldap']);
 			if ($backend instanceof IUserLDAP) {
 				$this->userBackend = $backend;
@@ -319,5 +320,14 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 
 		$connection->writeToCache($key, $values);
 		return $values;
+	}
+
+	#[\Override]
+	public function findOneUserByAttributeValue(string $attribute, string $searchTerm): ?IUser {
+		$userId = $this->userBackend->getUserFromCustomAttribute($attribute, $searchTerm);
+		if (!$userId) {
+			return null;
+		}
+		return $this->userManager->get($userId);
 	}
 }

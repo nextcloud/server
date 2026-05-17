@@ -5,7 +5,8 @@
 
 import { User } from '@nextcloud/e2e-test-server/cypress'
 import { clearState } from '../../support/commonUtils.ts'
-import { handlePasswordConfirmation, openEditDialog, saveEditDialog } from './usersUtils.ts'
+import { handlePasswordConfirmation } from '../core-utils.ts'
+import { openEditDialog, saveEditDialog } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 

@@ -13,7 +13,7 @@ OC.L10N.register(
     "Edit Profile" : "Redigér profil",
     "The headline and about sections will show up here" : "Overskriften og om sektionerne vises her",
     "Profile not found" : "Profil ikke fundet",
-    "The profile does not exist." : "Profilen eksisterer ikke.",
-    "Back to %s" : "Tilbage til %s"
+    "Back to %s" : "Tilbage til %s",
+    "The profile does not exist." : "Profilen eksisterer ikke."
 },
 "nplurals=2; plural=(n != 1);");

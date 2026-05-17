@@ -17,22 +17,10 @@
 			</template>
 		</NcAppNavigationNew>
 
-		<div class="account-management__search" role="search" :aria-label="t('settings', 'Search accounts and groups')">
-			<NcInputField
-				ref="searchField"
-				v-model="searchInput"
-				:label="t('settings', 'Search accounts and groups…')"
-				:show-trailing-button="searchInput !== ''"
-				:trailingButtonLabel="t('settings', 'Clear search')"
-				@trailing-button-click="clearSearch">
-				<template #icon>
-					<NcIconSvgWrapper :path="mdiMagnify" />
-				</template>
-				<template #trailing-button-icon>
-					<NcIconSvgWrapper :path="mdiClose" />
-				</template>
-			</NcInputField>
-		</div>
+		<NcAppNavigationSearch
+			ref="searchField"
+			v-model="searchInput"
+			:label="t('settings', 'Search accounts and groups…')" />
 
 		<NcAppNavigationList
 			class="account-management__system-list"
@@ -112,11 +100,14 @@
 			<NcButton
 				class="account-management__settings-toggle"
 				variant="tertiary"
+				wide
 				@click="isDialogOpen = true">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiCogOutline" />
 				</template>
-				{{ t('settings', 'Account management settings') }}
+				<span class="account-management__settings-toggle-text">
+					{{ t('settings', 'Account management settings') }}
+				</span>
 			</NcButton>
 			<UserSettingsDialog :open.sync="isDialogOpen" />
 		</template>
@@ -124,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAccountOffOutline, mdiAccountOutline, mdiClose, mdiCogOutline, mdiHistory, mdiMagnify, mdiPlus, mdiShieldAccountOutline } from '@mdi/js'
+import { mdiAccountOffOutline, mdiAccountOutline, mdiCogOutline, mdiHistory, mdiPlus, mdiShieldAccountOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import debounce from 'debounce'
@@ -134,10 +125,10 @@ import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
 import NcAppNavigationNew from '@nextcloud/vue/components/NcAppNavigationNew'
+import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import NcInputField from '@nextcloud/vue/components/NcInputField'
 import AppNavigationGroupList from '../components/AppNavigationGroupList.vue'
 import UserSettingsDialog from '../components/Users/UserSettingsDialog.vue'
 import { useFormatGroups } from '../composables/useGroupsNavigation.js'
@@ -146,23 +137,19 @@ import { useStore } from '../store/index.js'
 const route = useRoute()
 const store = useStore()
 
-const searchField = ref<InstanceType<typeof NcInputField>>()
+const searchField = ref<InstanceType<typeof NcAppNavigationSearch>>()
 const searchInput = ref('')
 const commitSearch = debounce((query: string) => {
 	store.commit('setSearchQuery', query)
 }, 300)
 watch(searchInput, (value) => commitSearch(value))
-function clearSearch() {
-	commitSearch.clear()
-	searchInput.value = ''
-	store.commit('setSearchQuery', '')
-}
+
 onBeforeUnmount(() => commitSearch.clear())
 
 // Intercept Ctrl/Cmd+F to focus the local search. useHotKey ignores the
 // event when an input/textarea is already focused, so a second press falls
 // through to the browser's native find-in-page.
-useHotKey('f', () => searchField.value?.focus(), { ctrl: true, stop: true, prevent: true })
+useHotKey('f', () => searchField.value?.$refs.inputElement?.focus(), { ctrl: true, stop: true, prevent: true })
 
 /** State of the 'new-account' dialog */
 const isDialogOpen = ref(false)
@@ -216,7 +203,11 @@ function showNewUserMenu() {
 	}
 
 	&__settings-toggle {
-		margin-bottom: 12px;
+		margin-bottom: var(--body-container-margin);
+
+		&-text {
+			font-weight: 500;
+		}
 	}
 }
 </style>

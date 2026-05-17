@@ -242,6 +242,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Lingi eemaldamine ei õnnestunud: %1$s",
     "Failed to write file contents: %1$s" : "Faili sisu salvestamine ei õnnestunud: %1$s",
     "File not found: %1$s" : "Faili ei leidu: %1$s",
+    "Insufficient space" : "Pole piisavalt andmeruumi",
     "Invalid target path" : "Vigane sihtasukoht",
     "System is in maintenance mode." : "Server on hooldusrežiimis.",
     "Upgrade needed" : "Uuendus on vajalik",

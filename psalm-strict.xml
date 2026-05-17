@@ -7,7 +7,7 @@
 	errorLevel="1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
-	xsi:schemaLocation="https://getpsalm.org/schema/config vendor-bin/psalm/vendor/vimeo/psalm/config.xsd"
+	xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
 	resolveFromConfigFile="false"
 	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
@@ -35,11 +35,18 @@
 		<file name="lib/public/DB/QueryBuilder/ITypedQueryBuilder.php"/>
 		<file name="lib/private/Share20/ShareHelper.php"/>
 		<file name="lib/public/Share/IShareHelper.php"/>
+		<directory name="apps/appstore/lib" />
 		<ignoreFiles>
+			<!-- Missing types of the AppFetcher and the OC_Apps class for return types -->
+			<file name="apps/appstore/lib/Controller/ApiController.php" />
+			<!-- ... -->
 			<directory name="apps/**/composer"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
+			<directory name="lib/public"/>
+			<directory name="lib/private"/>
+			<directory name="build"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
@@ -60,10 +67,5 @@
 				<directory name="."/>
 			</errorLevel>
 		</InternalMethod>
-		<UnusedVariable>
-			<errorLevel type="suppress">
-				<file name="build/psalm/ITypedQueryBuilderTest.php"/>
-			</errorLevel>
-		</UnusedVariable>
 	</issueHandlers>
 </psalm>

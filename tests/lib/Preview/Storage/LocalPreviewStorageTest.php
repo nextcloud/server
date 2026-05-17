@@ -129,6 +129,7 @@ class LocalPreviewStorageTest extends TestCase {
 		$qbMock = $this->createMock(ITypedQueryBuilder::class);
 		$qbMock->method('selectColumns')->willReturnSelf();
 		$qbMock->method('from')->willReturnSelf();
+		$qbMock->method('where')->willReturnSelf();
 		$qbMock->method('andWhere')->willReturnSelf();
 		$qbMock->method('runAcrossAllShards')->willReturnSelf();
 		$qbMock->method('executeQuery')->willReturn($resultMock);

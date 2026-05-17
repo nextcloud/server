@@ -7,8 +7,6 @@
  */
 namespace OCA\Files_Versions\AppInfo;
 
-use OC\KnownUser\KnownUserService;
-use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
@@ -22,7 +20,6 @@ use OCA\Files_Versions\Listener\VersionAuthorListener;
 use OCA\Files_Versions\Listener\VersionStorageMoveListener;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Files_Versions\Versions\VersionManager;
-use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -39,14 +36,6 @@ use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
-use OCP\IConfig;
-use OCP\IGroupManager;
-use OCP\IServerContainer;
-use OCP\IUserManager;
-use OCP\IUserSession;
-use OCP\L10N\IFactory;
-use OCP\Server;
-use OCP\Share\IManager as IShareManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -67,22 +56,7 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Register $principalBackend for the DAV collection
 		 */
-		$context->registerService('principalBackend', function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
-			return new Principal(
-				$server->get(IUserManager::class),
-				$server->get(IGroupManager::class),
-				Server::get(IAccountManager::class),
-				$server->get(IShareManager::class),
-				$server->get(IUserSession::class),
-				$server->get(IAppManager::class),
-				$server->get(ProxyMapper::class),
-				$server->get(KnownUserService::class),
-				$server->get(IConfig::class),
-				$server->get(IFactory::class),
-			);
-		});
+		$context->registerServiceAlias('principalBackend', Principal::class);
 
 		$context->registerServiceAlias(IVersionManager::class, VersionManager::class);
 
