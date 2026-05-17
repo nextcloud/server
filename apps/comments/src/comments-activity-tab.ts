@@ -6,10 +6,14 @@
 import type { INode } from '@nextcloud/files'
 import type { App } from 'vue'
 
+import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import logger from './logger.ts'
 import { getComments } from './services/GetComments.ts'
+import { markCommentsAsRead } from './services/ReadComments.ts'
 
 /**
  * Register the comments plugins for the Activity sidebar
@@ -50,6 +54,26 @@ export function registerCommentsPlugins() {
 			},
 		)
 		logger.debug('Loaded comments', { node, comments })
+
+		// Mark all comments as read and clear the unread badge in the files list
+		if (node.fileid) {
+			markCommentsAsRead('files', node.fileid, new Date())
+				.then(() => node.update({ 'comments-unread': 0 }))
+				.catch(() => {})
+		}
+
+		// Mark mention notifications as read for comments that mention the current user
+		const currentUser = getCurrentUser()
+		if (currentUser) {
+			for (const comment of comments) {
+				const mentions = Object.values(comment.props?.mentions ?? {}) as { mentionType: string, mentionId: string }[]
+				const isMentioned = comment.props?.id && mentions.some((m) => m.mentionType === 'user' && m.mentionId === currentUser.uid)
+				if (isMentioned) {
+					axios.delete(generateUrl('/apps/comments/notifications/dismiss/{id}', { id: comment.props.id }))
+						.catch(() => {})
+				}
+			}
+		}
 		const { default: CommentView } = await import('./views/ActivityCommentEntry.vue')
 
 		return comments.map((comment) => ({

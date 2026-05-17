@@ -8,9 +8,11 @@ namespace OCA\Comments\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Comments\IComment;
@@ -89,6 +91,36 @@ class NotificationsController extends Controller {
 			return new RedirectResponse($url);
 		} catch (\Exception $e) {
 			return new NotFoundResponse();
+		}
+	}
+
+	/**
+	 * Dismiss the mention notification for a comment
+	 *
+	 * @param string $id ID of the comment
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{}, array{}>
+	 *
+	 * 200: Notification dismissed successfully
+	 * 403: Not logged in
+	 * 404: Comment not found
+	 */
+	#[NoAdminRequired]
+	public function dismiss(string $id): DataResponse {
+		$currentUser = $this->userSession->getUser();
+		if (!$currentUser instanceof IUser) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		try {
+			$comment = $this->commentsManager->get($id);
+			if ($comment->getObjectType() !== 'files') {
+				return new DataResponse([], Http::STATUS_NOT_FOUND);
+			}
+			$this->markProcessed($comment, $currentUser);
+			return new DataResponse([]);
+		} catch (\Exception $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 	}
 
