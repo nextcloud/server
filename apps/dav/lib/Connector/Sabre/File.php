@@ -345,8 +345,9 @@ class File extends Node implements IFile {
 
 	private function finalizeUpload(IStorage $storage, string $internalPath, bool $exists, ?View $view): void {
 		// Since we skipped the view for the final publish step, finalize the file
-		// state explicitly here: update cache/bookkeeping, persist metadata, emit
-		// post-write hooks, and only then downgrade the lock.
+		// state explicitly here: update cache/bookkeeping, persist metadata, then
+		// downgrade to a shared lock before emitting post-write hooks so listeners
+		// can still access the file.
 		$storage->getUpdater()->update($internalPath);
 
 		$fileInfoUpdate = [
@@ -381,15 +382,16 @@ class File extends Node implements IFile {
 		$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
 		$this->refreshInfo();
 
-		if ($view) {
-			$this->emitPostHooks($exists);
-		}
-
-		// Keep the exclusive lock until all bookkeeping and metadata updates are complete.
+		// Downgrade to shared lock before post hooks so legacy hook consumers can
+		// still access the file during post_write.
 		try {
 			$this->changeLock(ILockingProvider::LOCK_SHARED);
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		}
+
+		if ($view) {
+			$this->emitPostHooks($exists);
 		}
 	}
 
