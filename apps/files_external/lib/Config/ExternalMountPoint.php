@@ -9,8 +9,9 @@ namespace OCA\Files_External\Config;
 use OC\Files\Mount\MountPoint;
 use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use OCA\Files_External\Lib\StorageConfig;
+use OCP\Files\Mount\IExternalMountPoint;
 
-class ExternalMountPoint extends MountPoint {
+class ExternalMountPoint extends MountPoint implements IExternalMountPoint {
 
 	public function __construct(
 		protected StorageConfig $storageConfig,

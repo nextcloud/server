@@ -9,10 +9,10 @@ namespace OC\Files;
 
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Mount\HomeMountPoint;
-use OCA\Files_Sharing\ISharedMountPoint;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\ISharedMountPoint;
 use OCP\IUser;
 
 /**
@@ -285,13 +285,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return $this->checkPermissions(Constants::PERMISSION_SHARE);
 	}
 
-	/**
-	 * Check if a file or folder is shared
-	 *
-	 * @return bool
-	 */
 	#[\Override]
-	public function isShared() {
+	public function isShared(): bool {
 		return $this->mount instanceof ISharedMountPoint;
 	}
 

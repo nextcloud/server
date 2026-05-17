@@ -76,7 +76,6 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\External\\Watcher' => __DIR__ . '/..' . '/../lib/External/Watcher.php',
         'OCA\\Files_Sharing\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files_Sharing\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
-        'OCA\\Files_Sharing\\ISharedMountPoint' => __DIR__ . '/..' . '/../lib/ISharedMountPoint.php',
         'OCA\\Files_Sharing\\ISharedStorage' => __DIR__ . '/..' . '/../lib/ISharedStorage.php',
         'OCA\\Files_Sharing\\Listener\\BeforeDirectFileDownloadListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeDirectFileDownloadListener.php',
         'OCA\\Files_Sharing\\Listener\\BeforeNodeReadListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeNodeReadListener.php',

@@ -61,7 +61,6 @@ return array(
     'OCA\\Files_Sharing\\External\\Watcher' => $baseDir . '/../lib/External/Watcher.php',
     'OCA\\Files_Sharing\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files_Sharing\\Hooks' => $baseDir . '/../lib/Hooks.php',
-    'OCA\\Files_Sharing\\ISharedMountPoint' => $baseDir . '/../lib/ISharedMountPoint.php',
     'OCA\\Files_Sharing\\ISharedStorage' => $baseDir . '/../lib/ISharedStorage.php',
     'OCA\\Files_Sharing\\Listener\\BeforeDirectFileDownloadListener' => $baseDir . '/../lib/Listener/BeforeDirectFileDownloadListener.php',
     'OCA\\Files_Sharing\\Listener\\BeforeNodeReadListener' => $baseDir . '/../lib/Listener/BeforeNodeReadListener.php',

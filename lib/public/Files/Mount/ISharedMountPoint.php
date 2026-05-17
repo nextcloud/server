@@ -6,8 +6,16 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Files_Sharing;
+namespace OCP\Files\Mount;
 
+use OCP\AppFramework\Attribute\Implementable;
+
+/**
+ * Mark the mount points as pointing to a shared storaged.
+ *
+ * @since 34.0.0
+ */
+#[Implementable(since: '34.0.0')]
 interface ISharedMountPoint {
 
 }
