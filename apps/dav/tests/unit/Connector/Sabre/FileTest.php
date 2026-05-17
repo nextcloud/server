@@ -230,7 +230,8 @@ class FileTest extends TestCase {
 			null,
 			[
 				'permissions' => Constants::PERMISSION_ALL,
-				'type' => FileInfo::TYPE_FOLDER,
+				'type' => FileInfo::TYPE_FILE,
+				'checksum' => '',		
 			],
 			null
 		);
@@ -794,7 +795,8 @@ class FileTest extends TestCase {
 			null,
 			[
 				'permissions' => Constants::PERMISSION_ALL,
-				'type' => FileInfo::TYPE_FOLDER,
+				'type' => FileInfo::TYPE_FILE,
+				'checksum' => '',
 			],
 			null
 		);
@@ -1025,7 +1027,8 @@ class FileTest extends TestCase {
 			null,
 			[
 				'permissions' => Constants::PERMISSION_ALL,
-				'type' => FileInfo::TYPE_FOLDER,
+				'type' => FileInfo::TYPE_FILE,
+				'checksum' => '',
 			],
 			null
 		);
