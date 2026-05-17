@@ -46,6 +46,34 @@ class Output implements IOutput {
 	 */
 	#[\Override]
 	public function setHeader($header) {
+		// Apache mod_proxy_fcgi parses FCGI response headers with a buffer
+		// hardcoded at HUGE_STRING_LEN (8192 bytes in httpd.h); 7800 leaves
+		// a safety margin for the status line and surrounding header bytes.
+		$maxLen = 7800;
+		if (strlen($header) > $maxLen) {
+			foreach (['Content-Security-Policy:', 'Feature-Policy:'] as $prefix) {
+				if (str_starts_with($header, $prefix)) {
+					$value = ltrim(substr($header, strlen($prefix)));
+					$directives = array_filter(array_map(trim(...), explode(';', $value)));
+					$segment = '';
+					$first = true;
+					foreach ($directives as $directive) {
+						$candidate = $segment === '' ? $directive : $segment . ';' . $directive;
+						if (strlen($prefix . ' ' . $candidate . ';') > $maxLen && $segment !== '') {
+							header($prefix . ' ' . $segment . ';', $first);
+							$first = false;
+							$segment = $directive;
+						} else {
+							$segment = $candidate;
+						}
+					}
+					if ($segment !== '') {
+						header($prefix . ' ' . $segment . ';', $first);
+					}
+					return;
+				}
+			}
+		}
 		header($header);
 	}
 
