@@ -46,7 +46,8 @@ interface ICache {
 	/**
 	 * Get the numeric storage id for this cache's storage
 	 *
-	 * @return int
+	 * @return int The numeric storage ID from the oc_storages table,
+	 *             or -1 if the storage is unavailable or failed.
 	 * @since 9.0.0
 	 */
 	public function getNumericStorageId();
