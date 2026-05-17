@@ -69,7 +69,7 @@ class LazyUserFolder extends LazyFolder {
 		if ($this->folder !== null) {
 			return $this->folder->getMountPoint();
 		}
-		$mountPoint = $this->mountManager->find('/' . $this->user->getUID());
+		$mountPoint = $this->mountManager->find($this->path);
 		if (is_null($mountPoint)) {
 			throw new \Exception('No mountpoint for user folder');
 		}
