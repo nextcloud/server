@@ -36,7 +36,8 @@ class UserStatusMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
-			->from($this->tableName);
+			->from($this->tableName)
+			->where($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 
 		if ($limit !== null) {
 			$qb->setMaxResults($limit);
@@ -68,7 +69,7 @@ class UserStatusMapper extends QBMapper {
 					$qb->expr()->isNotNull('custom_icon'),
 					$qb->expr()->isNotNull('custom_message'),
 				),
-				$qb->expr()->notLike('user_id', $qb->createNamedParameter($this->db->escapeLikeParameter('_') . '%'))
+				$qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
 			));
 
 		if ($limit !== null) {
@@ -125,7 +126,8 @@ class UserStatusMapper extends QBMapper {
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('is_user_defined', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL), IQueryBuilder::PARAM_BOOL),
 				$qb->expr()->eq('status', $qb->createNamedParameter(IUserStatus::ONLINE))
-			));
+			))
+			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 
 		$qb->executeStatement();
 	}
@@ -139,7 +141,8 @@ class UserStatusMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
 			->where($qb->expr()->isNotNull('clear_at'))
-			->andWhere($qb->expr()->lte('clear_at', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->lte('clear_at', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 
 		$qb->executeStatement();
 	}
