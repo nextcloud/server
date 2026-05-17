@@ -12,11 +12,13 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use OCP\ServerVersion;
 
 class RemoveClassifiedEventActivity implements IRepairStep {
 
 	public function __construct(
 		private IDBConnection $connection,
+		private ServerVersion $serverVersion,
 	) {
 	}
 
@@ -34,6 +36,10 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 	#[\Override]
 	public function run(IOutput $output) {
 		if (!$this->connection->tableExists('activity')) {
+			return;
+		}
+
+		if ($this->serverVersion->getMajorVersion() > 17) {
 			return;
 		}
 
