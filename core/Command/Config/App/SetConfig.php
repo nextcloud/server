@@ -237,7 +237,7 @@ class SetConfig extends Base {
 			strtoupper($request)
 		));
 		$output->writeln('');
-		$output->writeln('<comment>This might break thing, affect performance on your instance or its security!</comment>');
+		$output->writeln('<comment>Caution: proceeding may degrade performance, compromise security, or cause unexpected errors.</comment>');
 
 		$result = (strtolower((string)$helper->ask(
 			$input,
