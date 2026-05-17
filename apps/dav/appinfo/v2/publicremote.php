@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Files\Filesystem;
-use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
@@ -111,7 +111,11 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 			$mask |= Constants::PERMISSION_READ | Constants::PERMISSION_DELETE;
 		}
 
-		return new PermissionsMask(['storage' => $storage, 'mask' => $mask]);
+		return new DirPermissionsMask([
+			'storage' => $storage,
+			'mask' => $mask,
+			'path' => 'files',
+		]);
 	});
 
 	/** @psalm-suppress MissingClosureParamType */

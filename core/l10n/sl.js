@@ -217,7 +217,7 @@ OC.L10N.register(
     "Federated user" : "Zvezni uporabnik",
     "user@your-nextcloud.org" : "uporabnik@oblak-nextcloud.org",
     "Create share" : "Ustvari predmet souporabe",
-    "Direct link copied" : "Povezava skopirana",
+    "Direct link copied" : "Povezava je kopirana.",
     "Please copy the link manually:" : "Povezave je treba kopirati ročno.",
     "Custom date range" : "Obseg datuma po meri",
     "Pick start date" : "Izbor začetnega datuma",
