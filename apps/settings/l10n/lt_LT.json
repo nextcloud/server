@@ -488,7 +488,7 @@
     "Profile" : "Profilis",
     "Enable or disable profile by default for new accounts." : "Įjungti arba išjungti profilį pagal numatytuosius nustatymus naujoms paskyroms.",
     "Enable the profile picker" : "Įgalinkite profilio pasirinkimo funkciją",
-    "Enable or disable the profile picker in the Smart Picker and the profile link previews." : "Įjunkite arba išjunkite profilio pasirinkimo funkciją „Smart Picker“ ir profilio nuorodų peržiūrose.",
+    "Enable or disable the profile picker in the Smart Picker and the profile link previews." : "Įjunkite arba išjunkite profilio pasirinkimo funkciją „Išmanusis rinkiklis“ ir profilio nuorodų peržiūrose.",
     "Password confirmation is required" : "Reikalingas slaptažodžio patvirtinimas",
     "Failed to save setting" : "Nepavyko įrašyti nustatymo",
     "{app}'s declarative setting field: {name}" : "{app} deklaratyvus nustatymų laukas: {name}",
