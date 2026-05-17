@@ -802,7 +802,7 @@ class StatusServiceTest extends TestCase {
 		$previous->setUserId('john');
 		$previous->setIsBackup(false);
 
-		$this->mapper->expects($this->once())
+		$this->mapper->expects($this->exactly($expectedUpdateShortcut ? 1 : 2))
 			->method('findByUserId')
 			->with('john')
 			->willReturn($previous);
@@ -824,5 +824,37 @@ class StatusServiceTest extends TestCase {
 			->willReturn(true);
 
 		$this->service->setUserStatus('john', IUserStatus::DND, $messageId, true);
+	}
+
+	public function testSetUserStatusIdempotentOnConcurrentDuplicateRequest(): void {
+		$existing = new UserStatus();
+		$existing->setId(1);
+		$existing->setStatus(IUserStatus::DND);
+		$existing->setStatusTimestamp(1337);
+		$existing->setIsUserDefined(true);
+		$existing->setMessageId(IUserStatus::MESSAGE_CALL);
+		$existing->setUserId('john');
+		$existing->setIsBackup(false);
+
+		$this->mapper->expects($this->exactly(2))
+			->method('findByUserId')
+			->with('john')
+			->willReturn($existing);
+
+		/** @var MockObject&Exception $exception */
+		$exception = $this->createMock(Exception::class);
+		$exception->method('getReason')->willReturn(Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
+		$this->mapper->expects($this->once())
+			->method('createBackupStatus')
+			->willThrowException($exception);
+
+		$this->predefinedStatusService->expects($this->once())
+			->method('isValidId')
+			->with(IUserStatus::MESSAGE_CALL)
+			->willReturn(true);
+
+		// Active status already has MESSAGE_CALL — concurrent duplicate request should succeed
+		$result = $this->service->setUserStatus('john', IUserStatus::DND, IUserStatus::MESSAGE_CALL, true);
+		$this->assertSame($existing, $result);
 	}
 }
