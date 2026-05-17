@@ -14,8 +14,6 @@ use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Temporary;
-use OC\User\User;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchComparison;
 use OCP\IDBConnection;
@@ -379,9 +377,8 @@ class CacheTest extends \Test\TestCase {
 
 	public function testSearchQueryByTag(): void {
 		$userId = static::getUniqueID('user');
-		Server::get(IUserManager::class)->createUser($userId, $userId);
+		$user = Server::get(IUserManager::class)->createUser($userId, $userId);
 		static::loginAsUser($userId);
-		$user = new User($userId, null, Server::get(IEventDispatcher::class));
 
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';

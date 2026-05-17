@@ -50,8 +50,6 @@ use function json_encode;
 class User implements IUser {
 	private const CONFIG_KEY_MANAGERS = 'manager';
 
-	private IConfig $config;
-	private IURLGenerator $urlGenerator;
 	protected ?IAccountManager $accountManager = null;
 
 	private ?string $displayName = null;
@@ -63,15 +61,13 @@ class User implements IUser {
 	private ?IAvatarManager $avatarManager = null;
 
 	public function __construct(
-		private string $uid,
-		private ?UserInterface $backend,
-		private IEventDispatcher $dispatcher,
-		private Emitter|Manager|null $emitter = null,
-		?IConfig $config = null,
-		$urlGenerator = null,
+		private readonly string $uid,
+		private readonly ?UserInterface $backend,
+		private readonly IEventDispatcher $dispatcher,
+		private readonly Emitter|Manager $emitter,
+		private readonly IConfig $config,
+		private readonly IURLGenerator $urlGenerator,
 	) {
-		$this->config = $config ?? Server::get(IConfig::class);
-		$this->urlGenerator = $urlGenerator ?? Server::get(IURLGenerator::class);
 	}
 
 	#[\Override]
@@ -251,10 +247,8 @@ class User implements IUser {
 			return false;
 		}
 
-		if ($this->emitter) {
-			/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
-			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
-		}
+		/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
+		$this->emitter->emit('\OC\User', 'preDelete', [$this]);
 		$this->dispatcher->dispatchTyped(new BeforeUserDeletedEvent($this));
 
 		// Set delete flag on the user - this is needed to ensure that the user data is removed if there happen any exception in the backend
@@ -315,10 +309,8 @@ class User implements IUser {
 			throw $e;
 		}
 
-		if ($this->emitter !== null) {
-			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
-			$this->emitter->emit('\OC\User', 'postDelete', [$this]);
-		}
+		/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
+		$this->emitter->emit('\OC\User', 'postDelete', [$this]);
 		$this->dispatcher->dispatchTyped(new UserDeletedEvent($this));
 
 		// Finally we can unset the delete flag and all other states
@@ -336,9 +328,7 @@ class User implements IUser {
 	#[\Override]
 	public function setPassword($password, $recoveryPassword = null): bool {
 		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
-		}
+		$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			/** @var ISetPasswordBackend $backend */
 			$backend = $this->backend;
@@ -346,9 +336,7 @@ class User implements IUser {
 
 			if ($result !== false) {
 				$this->dispatcher->dispatchTyped(new PasswordUpdatedEvent($this, $password, $recoveryPassword));
-				if ($this->emitter) {
-					$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
-				}
+				$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
 			}
 
 			return !($result === false);
@@ -676,8 +664,6 @@ class User implements IUser {
 
 	public function triggerChange($feature, $value = null, $oldValue = null): void {
 		$this->dispatcher->dispatchTyped(new UserChangedEvent($this, $feature, $value, $oldValue));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
-		}
+		$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
 	}
 }

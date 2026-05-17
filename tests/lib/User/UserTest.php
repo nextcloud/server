@@ -10,8 +10,10 @@ namespace Test\User;
 
 use OC\AllConfig;
 use OC\Files\Mount\ObjectHomeMountProvider;
+use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 use OC\User\Database;
+use OC\User\Manager;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -23,6 +25,7 @@ use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use OCP\Server;
+use OCP\UserInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -38,6 +41,24 @@ class UserTest extends TestCase {
 		$this->dispatcher = Server::get(IEventDispatcher::class);
 	}
 
+	private function createUserObject(
+		string $uid,
+		?UserInterface $backend = null,
+		?IEventDispatcher $dispatcher = null,
+		?Emitter $emitter = null,
+		?IConfig $config = null,
+		?IURLGenerator $urlGenerator = null,
+	): User {
+		return new User(
+			$uid,
+			$backend,
+			$dispatcher ?? $this->dispatcher,
+			$emitter ?? $this->createMock(Manager::class),
+			$config ?? Server::get(IConfig::class),
+			$urlGenerator ?? Server::get(IURLGenerator::class),
+		);
+	}
+
 	public function testDisplayName(): void {
 		$backend = $this->createMock(\OC\User\Backend::class);
 		$backend->expects($this->once())
@@ -50,7 +71,7 @@ class UserTest extends TestCase {
 			->with($this->equalTo(\OC\User\Backend::GET_DISPLAYNAME))
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertEquals('Foo', $user->getDisplayName());
 	}
 
@@ -69,7 +90,7 @@ class UserTest extends TestCase {
 			->with($this->equalTo(\OC\User\Backend::GET_DISPLAYNAME))
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertEquals('foo', $user->getDisplayName());
 	}
 
@@ -83,7 +104,7 @@ class UserTest extends TestCase {
 			->with($this->equalTo(\OC\User\Backend::GET_DISPLAYNAME))
 			->willReturn(false);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertEquals('foo', $user->getDisplayName());
 	}
 
@@ -99,7 +120,7 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_PASSWORD);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertTrue($user->setPassword('bar', ''));
 	}
 
@@ -112,7 +133,7 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->willReturn(false);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertFalse($user->setPassword('bar', ''));
 	}
 
@@ -133,7 +154,7 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertTrue($user->canChangeAvatar());
 	}
 
@@ -154,7 +175,7 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertFalse($user->canChangeAvatar());
 	}
 
@@ -167,7 +188,7 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->willReturn(false);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertTrue($user->canChangeAvatar());
 	}
 
@@ -179,7 +200,7 @@ class UserTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertTrue($user->delete());
 	}
 
@@ -212,7 +233,7 @@ class UserTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertTrue($user->delete());
 	}
 
@@ -227,14 +248,14 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::GET_HOME);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertEquals('/home/foo', $user->getHome());
 	}
 
 	public function testGetBackendClassName(): void {
-		$user = new User('foo', new \Test\Util\User\Dummy(), $this->dispatcher);
+		$user = $this->createUserObject('foo', new \Test\Util\User\Dummy(), $this->dispatcher);
 		$this->assertEquals('Dummy', $user->getBackendClassName());
-		$user = new User('foo', new Database(), $this->dispatcher);
+		$user = $this->createUserObject('foo', new Database(), $this->dispatcher);
 		$this->assertEquals('Database', $user->getBackendClassName());
 	}
 
@@ -258,7 +279,7 @@ class UserTest extends TestCase {
 			->with($this->equalTo('datadirectory'))
 			->willReturn('arbitrary/path');
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $allConfig);
+		$user = $this->createUserObject('foo', $backend, null, null, $allConfig);
 		$this->assertEquals('arbitrary/path/foo', $user->getHome());
 	}
 
@@ -269,7 +290,7 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_PASSWORD);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertTrue($user->canChangePassword());
 	}
 
@@ -280,7 +301,7 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->willReturn(false);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertFalse($user->canChangePassword());
 	}
 
@@ -296,7 +317,7 @@ class UserTest extends TestCase {
 			->with('allow_user_to_change_display_name')
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = $this->createUserObject('foo', $backend, null, null, $config);
 		$this->assertTrue($user->canChangeDisplayName());
 	}
 
@@ -307,7 +328,7 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->willReturn(false);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertFalse($user->canChangeDisplayName());
 	}
 
@@ -323,7 +344,7 @@ class UserTest extends TestCase {
 			->with('foo', 'Foo')
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->createMock(IEventDispatcher::class));
+		$user = $this->createUserObject('foo', $backend, $this->createMock(IEventDispatcher::class));
 		$this->assertTrue($user->setDisplayName('Foo'));
 		$this->assertEquals('Foo', $user->getDisplayName());
 	}
@@ -338,7 +359,7 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_DISPLAYNAME);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertFalse($user->setDisplayName(' '));
 		$this->assertEquals('foo', $user->getDisplayName());
 	}
@@ -353,7 +374,7 @@ class UserTest extends TestCase {
 		$backend->expects($this->never())
 			->method('setDisplayName');
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = $this->createUserObject('foo', $backend);
 		$this->assertFalse($user->setDisplayName('Foo'));
 		$this->assertEquals('foo', $user->getDisplayName());
 	}
@@ -382,7 +403,7 @@ class UserTest extends TestCase {
 			->method('implementsActions')
 			->willReturnCallback(static fn (int $actions): bool => $actions === \OC\User\Backend::SET_PASSWORD);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter);
+		$user = $this->createUserObject('foo', $backend, null, $emitter);
 
 		$user->setPassword('bar', '');
 		$this->assertEquals(2, $hooksCalled);
@@ -417,7 +438,7 @@ class UserTest extends TestCase {
 			->willReturnArgument(1);
 
 		$emitter = new PublicEmitter();
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = $this->createUserObject('foo', $backend, null, $emitter, $config);
 
 		$hook = function (IUser $user) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
@@ -514,7 +535,7 @@ class UserTest extends TestCase {
 
 		$user = $this->getMockBuilder(User::class)
 			->onlyMethods(['getHome'])
-			->setConstructorArgs(['foo', $backend, $this->dispatcher, null, $config])
+			->setConstructorArgs(['foo', $backend, $this->dispatcher, $this->createMock(Manager::class), $config, Server::get(IURLGenerator::class)])
 			->getMock();
 
 		$user->expects(self::atLeastOnce())
@@ -548,7 +569,7 @@ class UserTest extends TestCase {
 		$urlGenerator->method('getAbsoluteURL')
 			->withAnyParameters()
 			->willReturn($absoluteUrl);
-		$user = new User('foo', $backend, $this->dispatcher, null, null, $urlGenerator);
+		$user = $this->createUserObject('foo', $backend, null, null, null, $urlGenerator);
 		$this->assertEquals($cloudId, $user->getCloudId());
 	}
 
@@ -577,7 +598,7 @@ class UserTest extends TestCase {
 				'email'
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = $this->createUserObject('foo', $backend, null, $emitter, $config);
 		$user->setSystemEMailAddress('');
 	}
 
@@ -607,7 +628,7 @@ class UserTest extends TestCase {
 				'foo@bar.com'
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = $this->createUserObject('foo', $backend, null, $emitter, $config);
 		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
@@ -630,7 +651,7 @@ class UserTest extends TestCase {
 		$config->expects($this->any())
 			->method('setUserValue');
 
-		$user = new User('foo', $backend, $dispatcher, $emitter, $config);
+		$user = $this->createUserObject('foo', $backend, $dispatcher, $emitter, $config);
 		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
@@ -660,7 +681,7 @@ class UserTest extends TestCase {
 				'23 TB'
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = $this->createUserObject('foo', $backend, null, $emitter, $config);
 		$user->setQuota('23 TB');
 	}
 
@@ -674,7 +695,7 @@ class UserTest extends TestCase {
 			->method('emit');
 
 		$config = $this->createMock(IConfig::class);
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = $this->createUserObject('foo', $backend, null, $emitter, $config);
 
 		$userValueMap = [
 			['foo', 'files', 'quota', 'default', 'default'],
@@ -702,7 +723,7 @@ class UserTest extends TestCase {
 			->method('emit');
 
 		$config = $this->createMock(IConfig::class);
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = $this->createUserObject('foo', $backend, null, $emitter, $config);
 
 		$userValueMap = [
 			['foo', 'files', 'quota', 'default', 'default'],
@@ -739,7 +760,7 @@ class UserTest extends TestCase {
 		$config->expects($this->never())
 			->method('setUserValue');
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = $this->createUserObject('foo', $backend, null, $emitter, $config);
 		$user->setQuota('23 TB');
 	}
 
@@ -756,7 +777,7 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = $this->createUserObject('foo', $backend, null, null, $config);
 		$this->assertSame(42, $user->getLastLogin());
 	}
 
@@ -780,7 +801,7 @@ class UserTest extends TestCase {
 				fn ($user, $app, $key, $default) => ($key === 'enabled' ? 'false' : $default)
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = $this->createUserObject('foo', $backend, null, null, $config);
 		$user->setEnabled(true);
 	}
 
@@ -802,8 +823,9 @@ class UserTest extends TestCase {
 				'foo',
 				$backend,
 				$this->dispatcher,
-				null,
+				$this->createMock(Manager::class),
 				$config,
+				Server::get(IURLGenerator::class),
 			])
 			->onlyMethods(['isEnabled', 'triggerChange'])
 			->getMock();
@@ -833,8 +855,9 @@ class UserTest extends TestCase {
 				'foo',
 				$backend,
 				$this->dispatcher,
-				null,
+				$this->createMock(Manager::class),
 				$config,
+				Server::get(IURLGenerator::class),
 			])
 			->onlyMethods(['isEnabled', 'triggerChange'])
 			->getMock();
@@ -861,7 +884,7 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = $this->createUserObject('foo', $backend, null, null, $config);
 		$this->assertSame('foo@bar.com', $user->getEMailAddress());
 	}
 }

@@ -14,10 +14,11 @@ use OC\Files\Cache\Wrapper\CacheWrapper;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Jail;
-use OC\User\User;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchComparison;
+use OCP\IUserManager;
+use OCP\Server;
+use OCP\UserInterface;
 use Test\Files\Cache\CacheTest;
 
 /**
@@ -94,7 +95,9 @@ class CacheJailTest extends CacheTest {
 		$this->sourceCache->put($file1, $data1);
 		$this->sourceCache->put($file2, $data1);
 
-		$user = new User('foo', null, $this->createMock(IEventDispatcher::class));
+		$userManager = Server::get(IUserManager::class);
+		$userBackend = $this->getMockBuilder(UserInterface::class)->getMock();
+		$user = $userManager->getUserObject('foo', $userBackend, false);
 		$query = new SearchQuery(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', 'foobar'), 10, 0, [], $user);
 		$result = $this->cache->searchQuery($query);
 
