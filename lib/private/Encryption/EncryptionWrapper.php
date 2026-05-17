@@ -57,32 +57,42 @@ class EncryptionWrapper {
 			'mount' => $mount
 		];
 
-		if ($force || (!$storage->instanceOfStorage(IDisableEncryptionStorage::class) && $mountPoint !== '/')) {
-			$user = Server::get(IUserSession::class)->getUser();
-			$mountManager = Filesystem::getMountManager();
-			$uid = $user ? $user->getUID() : null;
-			$fileHelper = Server::get(IFile::class);
-			$keyStorage = Server::get(EncryptionKeysStorage::class);
+		// Only evaluate other conditions if not forced
+		if (!$force) {
+			// If a disabled storage medium, return basic storage
+			if ($storage->instanceOfStorage(IDisableEncryptionStorage::class)) {
+				return $storage;
+			}
 
-			$util = new Util(
-				new View(),
-				Server::get(IUserManager::class),
-				Server::get(IGroupManager::class),
-				Server::get(IConfig::class)
-			);
-			return new Encryption(
-				$parameters,
-				$this->manager,
-				$util,
-				$this->logger,
-				$fileHelper,
-				$uid,
-				$keyStorage,
-				$mountManager,
-				$this->arrayCache
-			);
-		} else {
-			return $storage;
+			// Root mount point handling: skip encryption wrapper
+			if ($mountPoint === '/') {
+				return $storage;
+			}
 		}
+
+		// Apply encryption wrapper
+		$user = Server::get(IUserSession::class)->getUser();
+		$mountManager = Filesystem::getMountManager();
+		$uid = $user ? $user->getUID() : null;
+		$fileHelper = Server::get(IFile::class);
+		$keyStorage = Server::get(EncryptionKeysStorage::class);
+
+		$util = new Util(
+			new View(),
+			Server::get(IUserManager::class),
+			Server::get(IGroupManager::class),
+			Server::get(IConfig::class)
+		);
+		return new Encryption(
+			$parameters,
+			$this->manager,
+			$util,
+			$this->logger,
+			$fileHelper,
+			$uid,
+			$keyStorage,
+			$mountManager,
+			$this->arrayCache
+		);
 	}
 }
