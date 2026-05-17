@@ -1,12 +1,12 @@
-{ "translations": {
+OC.L10N.register(
+    "appstore",
+    {
     "Apps" : "Aplicaciones",
     "App name" : "Nombre de la aplicación",
     "Version" : "Versión",
     "Actions" : "Acciones",
     "Grid view" : "Vista de cuadrícula",
-    "Cancel" : "Cancel",
-    "Learn more" : "Conoce más",
-    "Type" : "Tipo",
+    "Daemon" : "Demonio",
     "Name" : "Nombre",
     "Display Name" : "Nombre a desplegar",
     "Confirm" : "Confirmar",
@@ -15,15 +15,17 @@
     "Visit website" : "Visita el sitio web",
     "Admin documentation" : "Documentación del administrador",
     "Developer documentation" : "Documentación del desarrollador",
+    "Details" : "Detalles",
+    "This app cannot be installed because the following dependencies are not fulfilled:" : "Esta aplicación no puede ser instalada porque las siguientes dependencias no están satisfechas:",
     "Categories" : "Categorías",
     "Resources" : "Recursos",
     "Changelog" : "Bitácora de cambios",
     "Featured" : "Destacado",
+    "Limit to groups" : "Limitar a grupos",
     "Save" : "Guardar",
-    "Loading" : "Cargando",
-    "Report a bug" : "Reporta un detalle",
+    "Disable" : "Deshabilitar",
     "Your apps" : "Tus aplicaciones",
-    "Disabled apps" : "Aplicaciones deshabilitadas",
-    "Updates" : "Actualizaciones"
-},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
-}
+    "Updates" : "Actualizaciones",
+    "App bundles" : "Paquetes de aplicación"
+},
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
