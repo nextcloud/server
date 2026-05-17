@@ -25,6 +25,7 @@ SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: Thorsten Lünborg
+SPDX-FileCopyrightText: The Babel Team (https://babel.dev/team)
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
 SPDX-FileCopyrightText: Sindre Sorhus
@@ -70,6 +71,9 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
+- @babel/runtime
+	- version: 7.28.4
+	- license: MIT
 - @floating-ui/core
 	- version: 1.7.5
 	- license: MIT

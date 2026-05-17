@@ -182,6 +182,12 @@ source_file = translationfiles/templates/user_status.pot
 source_lang = en
 type        = PO
 
+[o:nextcloud:p:nextcloud:r:viewer]
+file_filter = translationfiles/<lang>/viewer.po
+source_file = translationfiles/templates/viewer.pot
+source_lang = en
+type        = PO
+
 [o:nextcloud:p:nextcloud:r:weather_status]
 file_filter = translationfiles/<lang>/weather_status.po
 source_file = translationfiles/templates/weather_status.pot

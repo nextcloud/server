@@ -1,0 +1,13 @@
+{ "translations": {
+    "Cancel" : "বাতির",
+    "Edit" : "সম্পাদনা",
+    "Download" : "ডাউনলোড",
+    "Delete" : "মুছে",
+    "Name" : "নাম",
+    "Save" : "সংরক্ষণ",
+    "Back" : "পেছনে যাও",
+    "Reset" : "পূণঃনির্ধানণ",
+    "Warning" : "সতর্কবাণী",
+    "Size" : "আকার"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

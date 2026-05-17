@@ -1,0 +1,18 @@
+{
+	"include": ["index.ts", "global.d.ts"],
+	"compilerOptions": {
+		"lib": [
+			"DOM",
+			"ES2020"
+		],
+		"outDir": "dist",
+		"strict": true,
+		"declaration": true,
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"target": "ES2020",
+		"allowImportingTsExtensions": true,
+		"erasableSyntaxOnly": true,
+		"rewriteRelativeImportExtensions": true
+	},
+}

@@ -70,6 +70,10 @@ module.exports = {
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
 		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
 	},
+	viewer: {
+		'viewer-main': path.join(__dirname, 'apps/viewer/', 'src/main.js'),
+		'viewer-init': path.join(__dirname, 'apps/viewer/', 'src/init.ts'),
+	},
 	weather_status: {
 		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),
 	},

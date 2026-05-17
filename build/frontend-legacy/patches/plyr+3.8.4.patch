@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+#
+diff --git a/node_modules/plyr/package.json b/node_modules/plyr/package.json
+index 721bf1f..adba8e8 100644
+--- a/node_modules/plyr/package.json
++++ b/node_modules/plyr/package.json
+@@ -31,6 +31,6 @@
+       "default": "./dist/plyr.js"
+     },
+-    "./dist/plyr.css": "./dist/plyr.css",
++    "./dist/plyr.*": "./dist/plyr.*",
+     "./css": "./dist/plyr.css",
+     "./plyr.scss": "./src/sass/plyr.scss"
+   },

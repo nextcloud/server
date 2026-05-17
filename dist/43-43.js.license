@@ -1,0 +1,16 @@
+SPDX-License-Identifier: OFL-1.1
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Google Inc.
+
+
+This file is generated from multiple sources. Included packages:
+- @fontsource/roboto
+	- version: 5.2.10
+	- license: OFL-1.1
+- css-loader
+	- version: 7.1.2
+	- license: MIT
+- style-loader
+	- version: 4.0.0
+	- license: MIT
