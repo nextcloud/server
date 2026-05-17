@@ -35,6 +35,7 @@
 		<file name="lib/public/DB/QueryBuilder/ITypedQueryBuilder.php"/>
 		<file name="lib/private/Share20/ShareHelper.php"/>
 		<file name="lib/public/Share/IShareHelper.php"/>
+		<file name="lib/public/SystemTag/Events/*.php"/>
 		<directory name="apps/appstore/lib" />
 		<ignoreFiles>
 			<!-- Missing types of the AppFetcher and the OC_Apps class for return types -->

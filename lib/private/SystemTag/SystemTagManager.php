@@ -16,6 +16,9 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\SystemTag\Events\TagCreatedEvent;
+use OCP\SystemTag\Events\TagDeletedEvent;
+use OCP\SystemTag\Events\TagUpdatedEvent;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ManagerEvent;
@@ -213,6 +216,7 @@ class SystemTagManager implements ISystemTagManager {
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_CREATE, new ManagerEvent(
 			ManagerEvent::EVENT_CREATE, $tag
 		));
+		$this->dispatcher->dispatchTyped(new TagCreatedEvent($tag));
 
 		return $tag;
 	}
@@ -294,6 +298,7 @@ class SystemTagManager implements ISystemTagManager {
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_UPDATE, new ManagerEvent(
 			ManagerEvent::EVENT_UPDATE, $afterUpdate, $beforeUpdate
 		));
+		$this->dispatcher->dispatchTyped(new TagUpdatedEvent($afterUpdate, $beforeUpdate));
 	}
 
 	#[\Override]
@@ -337,6 +342,7 @@ class SystemTagManager implements ISystemTagManager {
 			$this->dispatcher->dispatch(ManagerEvent::EVENT_DELETE, new ManagerEvent(
 				ManagerEvent::EVENT_DELETE, $tag
 			));
+			$this->dispatcher->dispatchTyped(new TagDeletedEvent($tag));
 		}
 
 		if ($tagNotFoundException !== null) {
