@@ -181,6 +181,10 @@ class Storage {
 			return false;
 		}
 
+		if (self::ignoredByHiddenFile($file)) {
+			return false;
+		}
+
 		$mount = $file->getMountPoint();
 		if ($mount instanceof SharedMount) {
 			$ownerFolder = $rootFolder->getUserFolder($mount->getShare()->getShareOwner());
@@ -1006,5 +1010,35 @@ class Storage {
 			self::$application = Server::get(Application::class);
 		}
 		return self::$application->getContainer()->get(Expiration::class);
+	}
+
+	/**
+	 * returns TRUE if a file named '.noversion' is found
+	 * in the current folder or in a parent folder
+	 */
+	private static function ignoredByHiddenFile(Node $node): bool {
+		if (!$node instanceof Folder) {
+			try {
+				$node = $node->getParent();
+			} catch (NotFoundException $e) {
+				\OCP\Server::get(LoggerInterface::class)->warning('parent folder must exist', ['exception' => $e]);
+				return false;
+			}
+		}
+
+		$i = 0;
+		while ($i++ < 30) {
+			if ($node->nodeExists('.noversion')) {
+				return true;
+			}
+
+			try {
+				$node = $node->getParent();
+			} catch (NotFoundException) {
+				break;
+			}
+		}
+
+		return false;
 	}
 }
