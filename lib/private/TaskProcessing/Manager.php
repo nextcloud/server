@@ -1635,9 +1635,16 @@ class Manager implements IManager {
 	 * @throws ValidationException
 	 */
 	private function validateFileId(mixed $id): File {
-		$node = $this->rootFolder->getFirstNodeById($id);
+		if (is_int($id)) {
+			$normalizedFileId = $id;
+		} elseif (is_string($id) && ctype_digit($id)) {
+			$normalizedFileId = (int)$id;
+		} else {
+			throw new \InvalidArgumentException('File ID must be an integer: ' . $id);
+		}
+		$node = $this->rootFolder->getFirstNodeById($normalizedFileId);
 		if ($node === null) {
-			$node = $this->rootFolder->getFirstNodeByIdInPath($id, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+			$node = $this->rootFolder->getFirstNodeByIdInPath($normalizedFileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
 			if ($node === null) {
 				throw new ValidationException('Could not find file ' . $id);
 			} elseif (!$node instanceof File) {
