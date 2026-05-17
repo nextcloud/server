@@ -53,6 +53,7 @@ return array(
     'OCA\\Settings\\Sections\\Admin\\ArtificialIntelligence' => $baseDir . '/../lib/Sections/Admin/ArtificialIntelligence.php',
     'OCA\\Settings\\Sections\\Admin\\Delegation' => $baseDir . '/../lib/Sections/Admin/Delegation.php',
     'OCA\\Settings\\Sections\\Admin\\Groupware' => $baseDir . '/../lib/Sections/Admin/Groupware.php',
+	'OCA\\Settings\\Sections\\Admin\\Office' => $baseDir . '/../lib/Sections/Admin/Office.php',
     'OCA\\Settings\\Sections\\Admin\\Overview' => $baseDir . '/../lib/Sections/Admin/Overview.php',
     'OCA\\Settings\\Sections\\Admin\\Presets' => $baseDir . '/../lib/Sections/Admin/Presets.php',
     'OCA\\Settings\\Sections\\Admin\\Security' => $baseDir . '/../lib/Sections/Admin/Security.php',

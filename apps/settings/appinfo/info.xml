@@ -38,6 +38,7 @@
 		<admin-section>OCA\Settings\Sections\Admin\Additional</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Delegation</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Groupware</admin-section>
+		<admin-section>OCA\Settings\Sections\Admin\Office</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Overview</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Presets</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\ArtificialIntelligence</admin-section>

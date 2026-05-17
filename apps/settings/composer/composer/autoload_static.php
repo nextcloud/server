@@ -68,6 +68,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Sections\\Admin\\ArtificialIntelligence' => __DIR__ . '/..' . '/../lib/Sections/Admin/ArtificialIntelligence.php',
         'OCA\\Settings\\Sections\\Admin\\Delegation' => __DIR__ . '/..' . '/../lib/Sections/Admin/Delegation.php',
         'OCA\\Settings\\Sections\\Admin\\Groupware' => __DIR__ . '/..' . '/../lib/Sections/Admin/Groupware.php',
+		'OCA\\Settings\\Sections\\Admin\\Office' => __DIR__ . '/..' . '/../lib/Sections/Admin/Office.php',
         'OCA\\Settings\\Sections\\Admin\\Overview' => __DIR__ . '/..' . '/../lib/Sections/Admin/Overview.php',
         'OCA\\Settings\\Sections\\Admin\\Presets' => __DIR__ . '/..' . '/../lib/Sections/Admin/Presets.php',
         'OCA\\Settings\\Sections\\Admin\\Security' => __DIR__ . '/..' . '/../lib/Sections/Admin/Security.php',
