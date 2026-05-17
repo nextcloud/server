@@ -850,6 +850,7 @@ class OC {
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue('installed', false)) {
+			$appManager->loadApp('core');
 			$appManager->loadApp('settings');
 		}
 

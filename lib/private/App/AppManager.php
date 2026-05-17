@@ -1187,8 +1187,11 @@ class AppManager implements IAppManager {
 
 	#[\Override]
 	public function getAppNamespace(string $appId): string {
-		$topNamespace = 'OCA\\';
+		if ($appId === 'core') {
+			return 'OC\\Core';
+		}
 
+		$topNamespace = 'OCA\\';
 		// Hit the cache!
 		if (isset($this->namespaceCache[$appId])) {
 			return $topNamespace . $this->namespaceCache[$appId];
