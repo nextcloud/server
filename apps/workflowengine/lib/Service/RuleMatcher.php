@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\WorkflowEngine\Service;
 
+use NCU\WorkflowEngine\RuntimeOperation;
 use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
@@ -112,10 +113,12 @@ class RuleMatcher implements IRuleMatcher {
 		$operations = [];
 		foreach ($scopes as $scope) {
 			$operations = array_merge($operations, $this->manager->getOperations($class, $scope));
+			$operations = array_merge($operations, $this->manager->getRuntimeOperations($class, $scope));
 		}
 
 		if ($this->entity instanceof IEntity) {
-			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
+			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class)
+				+ $this->manager->getAllConfiguredScopesForRuntimeOperation($class);
 			foreach ($additionalScopes as $hash => $scopeCandidate) {
 				if ($scopeCandidate->getScope() !== IManager::SCOPE_USER || in_array($scopeCandidate, $scopes)) {
 					continue;
@@ -128,19 +131,28 @@ class RuleMatcher implements IRuleMatcher {
 						->setOperation($this->operation);
 					$this->logger->logScopeExpansion($ctx);
 					$operations = array_merge($operations, $this->manager->getOperations($class, $scopeCandidate));
+					$operations = array_merge($operations, $this->manager->getRuntimeOperations($class, $scopeCandidate));
 				}
 			}
 		}
 
 		$matches = [];
 		foreach ($operations as $operation) {
-			$configuredEvents = json_decode($operation['events'], true);
+			if ($operation instanceof RuntimeOperation) {
+				$configuredEvents = $operation->events;
+				$checkIds = $operation->checks;
+				$checks = $this->manager->getRuntimeChecks($checkIds, $operation->appId);
+				// from now on, backwards compatibility is required
+				$operation = $operation->toArray();
+			} else {
+				$configuredEvents = json_decode($operation['events'], true);
+				$checkIds = json_decode($operation['checks'], true);
+				$checks = $this->manager->getChecks($checkIds);
+			}
+
 			if ($this->eventName !== null && !in_array($this->eventName, $configuredEvents)) {
 				continue;
 			}
-
-			$checkIds = json_decode($operation['checks'], true);
-			$checks = $this->manager->getChecks($checkIds);
 
 			foreach ($checks as $check) {
 				if (!$this->check($check)) {
