@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\User\LoginException;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
@@ -584,6 +585,35 @@ class AuthTest extends TestCase {
 			->willReturn($user);
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
 		$this->assertEquals([true, 'principals/users/MyTestUser'], $response);
+	}
+
+	public function testCheckWithLoginExceptionThrowsNotAuthenticated(): void {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+		$this->expectExceptionMessage('User disabled');
+
+		$httpRequest = $this->createMock(RequestInterface::class);
+		$httpResponse = $this->createMock(ResponseInterface::class);
+		$this->userSession
+			->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(false);
+		$httpRequest
+			->expects($this->any())
+			->method('getHeader')
+			->willReturnMap([
+				['Authorization', 'basic dXNlcm5hbWU6cGFzc3dvcmQ='],
+				['X-Requested-With', null],
+			]);
+		$this->userSession
+			->expects($this->once())
+			->method('logClientIn')
+			->with('username', 'password')
+			->willThrowException(new LoginException('User disabled'));
+		$this->session
+			->expects($this->once())
+			->method('close');
+
+		$this->auth->check($httpRequest, $httpResponse);
 	}
 
 	public function testAuthenticateInvalidCredentials(): void {
