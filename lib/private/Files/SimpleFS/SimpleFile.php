@@ -54,27 +54,25 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Get the content
 	 *
-	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
 	#[\Override]
-	public function getContent(): string {
-		$result = $this->file->getContent();
-
-		if ($result === false) {
+	public function getContent(): string|bool {
+		try {
+			return $this->file->getContent();
+		} catch (GenericFileException) {
 			$this->checkFile();
 		}
 
-		return $result;
+		return false;
 	}
 
 	/**
 	 * Overwrite the file
 	 *
 	 * @param string|resource $data
-	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
@@ -83,7 +81,7 @@ class SimpleFile implements ISimpleFile {
 	public function putContent($data): void {
 		try {
 			$this->file->putContent($data);
-		} catch (NotFoundException $e) {
+		} catch (GenericFileException) {
 			$this->checkFile();
 		}
 	}
