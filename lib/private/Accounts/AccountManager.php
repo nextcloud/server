@@ -120,6 +120,30 @@ class AccountManager implements IAccountManager {
 			throw new InvalidArgumentException('scope');
 		}
 
+		// Properties that are local-only must not be set to FEDERATED or PUBLISHED scope.
+		if (
+			in_array($property->getName(), self::UNPUBLISHED_PROPERTIES, true)
+			&& in_array($property->getScope(), [self::SCOPE_FEDERATED, self::SCOPE_PUBLISHED], true)
+		) {
+			if ($throwOnData) {
+				throw new InvalidArgumentException('scope');
+			} else {
+				$property->setScope(self::SCOPE_LOCAL);
+			}
+		}
+
+		// PUBLISHED scope requires the lookup server upload to be enabled by the admin.
+		if ($property->getScope() === self::SCOPE_PUBLISHED) {
+			$lookupServerUploadEnabled = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') === 'yes';
+			if (!$lookupServerUploadEnabled) {
+				if ($throwOnData) {
+					throw new InvalidArgumentException('scope');
+				} else {
+					$property->setScope(self::SCOPE_LOCAL);
+				}
+			}
+		}
+
 		if (
 			$property->getScope() === self::SCOPE_PRIVATE
 			&& in_array($property->getName(), [self::PROPERTY_DISPLAYNAME, self::PROPERTY_EMAIL])
