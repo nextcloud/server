@@ -183,8 +183,12 @@ class Scanner extends BasicEmitter implements IScanner {
 						}
 					}
 
-					// we only updated unencrypted_size if it's already set
-					if (isset($cacheData['unencrypted_size']) && $cacheData['unencrypted_size'] === 0) {
+					// Only skip updating unencrypted_size if both cached and new values are 0
+					// This allows updating from incorrect cached 0 to correct non-zero value
+					// while avoiding unnecessary updates when both are legitimately 0
+					if (isset($cacheData['unencrypted_size'])
+						&& $cacheData['unencrypted_size'] === 0
+						&& (!isset($data['unencrypted_size']) || $data['unencrypted_size'] === 0)) {
 						unset($data['unencrypted_size']);
 					}
 
@@ -202,7 +206,12 @@ class Scanner extends BasicEmitter implements IScanner {
 						$data['etag_changed'] = true;
 					}
 				} else {
-					unset($data['unencrypted_size']);
+					// For new files, preserve unencrypted_size only when the file is encrypted
+					// and the key is present; otherwise clear it so it won't be written stale.
+					if (!isset($data['encrypted']) || !$data['encrypted']
+						|| !isset($data['unencrypted_size'])) {
+						unset($data['unencrypted_size']);
+					}
 					$newData = $data;
 					$fileId = -1;
 				}
