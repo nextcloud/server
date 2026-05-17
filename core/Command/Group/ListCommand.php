@@ -69,10 +69,10 @@ class ListCommand extends Base {
 	 * @param IGroup $group
 	 * @return string[]
 	 */
-	public function usersForGroup(IGroup $group) {
-		$users = array_keys($group->getUsers());
-		return array_map(function ($userId) {
-			return (string)$userId;
+	public function usersForGroup(IGroup $group, bool $addInfo = false): array {
+		$users = array_values($group->getUsers());
+		return array_map(function ($user) use ($addInfo) {
+			return $user->getUID() . ($addInfo ? ': ' . $user->getDisplayName() : '');
 		}, $users);
 	}
 
@@ -85,10 +85,10 @@ class ListCommand extends Base {
 				$value = [
 					'displayName' => $group->getDisplayName(),
 					'backends' => $group->getBackendNames(),
-					'users' => $this->usersForGroup($group),
+					'users' => $this->usersForGroup($group, true),
 				];
 			} else {
-				$value = $this->usersForGroup($group);
+				$value = $this->usersForGroup($group, false);
 			}
 			yield $group->getGID() => $value;
 		}
