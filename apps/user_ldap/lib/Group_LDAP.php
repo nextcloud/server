@@ -1072,18 +1072,13 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	}
 
 	/**
-	 * get a list of all groups using a paged search
+	 * Get groups via LDAP search.
 	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array with group names
+	 * Uses a paged search when available to override server-side search limits.
+	 * Active Directory has a default limit of 1000 results.
 	 *
-	 * Returns a list with all groups
-	 * Uses a paged search if available to override a
-	 * server side search limit.
-	 * (active directory has a limit of 1000 by default)
 	 * @throws Exception
+	 * @throws ServerNotAvailableException
 	 */
 	#[\Override]
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
