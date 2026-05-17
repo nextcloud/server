@@ -125,7 +125,7 @@ class DefaultTheme implements ITheme {
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',
 			'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .8)',
-			'--filter-background-blur' => $workingBlur ? 'blur(25px)' : 'none',
+			'--filter-background-blur' => $workingBlur ? 'blur(50px)' : 'none',
 
 			// to use like this: background-image: linear-gradient(0, var('--gradient-main-background));
 			'--gradient-main-background' => 'var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%',
