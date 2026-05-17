@@ -184,6 +184,7 @@ return array(
     'OCP\\Authentication\\TwoFactorAuth\\IProvidesIcons' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IProvidesIcons.php',
     'OCP\\Authentication\\TwoFactorAuth\\IProvidesPersonalSettings' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IProvidesPersonalSettings.php',
     'OCP\\Authentication\\TwoFactorAuth\\IRegistry' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IRegistry.php',
+    'OCP\\Authentication\\TwoFactorAuth\\IStatelessProvider' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IStatelessProvider.php',
     'OCP\\Authentication\\TwoFactorAuth\\RegistryEvent' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/RegistryEvent.php',
     'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',
     'OCP\\Authentication\\TwoFactorAuth\\TwoFactorProviderChallengeFailed' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorProviderChallengeFailed.php',
