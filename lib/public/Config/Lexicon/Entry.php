@@ -35,8 +35,10 @@ class Entry {
 	 * @param string|null $rename source in case of a rename of a config key.
 	 * @param int $options additional bitflag options {@see self::RENAME_INVERT_BOOLEAN}
 	 * @param string $note additional note and warning related to the use of the config key.
+	 * @param (Closure(string $value): bool)|null $onSetConfirm callback to be called when a config value is set. {@see onSetConfirmation()} for more details.
 	 *
 	 * @since 32.0.0
+	 * @since 34.0.0 added $onSetConfirm
 	 * @psalm-suppress PossiblyInvalidCast
 	 * @psalm-suppress RiskyCast
 	 */
@@ -51,6 +53,7 @@ class Entry {
 		private readonly ?string $rename = null,
 		private readonly int $options = 0,
 		private readonly string $note = '',
+		private readonly ?Closure $onSetConfirm = null,
 	) {
 		// key can only contain alphanumeric chars and underscore "_"
 		if (preg_match('/[^[:alnum:]_]/', $key)) {
@@ -193,6 +196,20 @@ class Entry {
 	 */
 	public function getNote(): string {
 		return $this->note;
+	}
+
+	/**
+	 * Returns an optional callback to be called when a config value is set.
+	 * If not null, the callback will be called before the config value is set.
+	 * Callable must accept a string-typed parameter containing the new value.
+	 * String-typed parameter can be referenced and modified to a new value from the Callable.
+	 * Callback must return a boolean indicating if the set operation should be allowed.
+	 *
+	 * @return (Closure(string $value): bool)|null
+	 * @since 34.0.0
+	 */
+	public function onSetConfirmation(): ?Closure {
+		return $this->onSetConfirm;
 	}
 
 	/**
