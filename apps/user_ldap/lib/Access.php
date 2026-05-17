@@ -1118,7 +1118,13 @@ class Access extends LDAPUtility {
 		$sr = $this->invokeLDAPMethod('search', $base, $filter, $attr, 0, 0, $pageSize, $cookie);
 		$error = $this->ldap->errno($this->connection->getConnectionResource());
 		if (!$this->ldap->isResource($sr) || $error !== 0) {
-			$this->logger->error('Attempt for Paging?  ' . print_r($pagedSearchOK, true), ['app' => 'user_ldap']);
+			$e = new \RuntimeException('Error while executing search.');
+			$this->logger->error('Attempt for Paging?  ' . print_r($pagedSearchOK, true), [
+				'app' => 'user_ldap',
+				'errno' => $error,
+				'filter' => $filter,
+				'exception' => $e,
+			]);
 			return false;
 		}
 
