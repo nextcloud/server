@@ -114,10 +114,10 @@ class RecoveryControllerTest extends TestCase {
 	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')
-			->with($enableRecovery)
+			->with($enableRecovery === '1')
 			->willReturnMap([
-				['1', true],
-				['0', false]
+				[true, true],
+				[false, false]
 			]);
 
 

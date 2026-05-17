@@ -9,8 +9,9 @@ namespace OCA\Encryption;
 
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
+use OCP\Config\IUserConfig;
 use OCP\Encryption\IFile;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
@@ -21,19 +22,12 @@ class Recovery {
 	 */
 	protected $user;
 
-	/**
-	 * @param IUserSession $userSession
-	 * @param Crypt $crypt
-	 * @param KeyManager $keyManager
-	 * @param IConfig $config
-	 * @param IFile $file
-	 * @param View $view
-	 */
 	public function __construct(
 		IUserSession $userSession,
 		protected Crypt $crypt,
 		private KeyManager $keyManager,
-		private IConfig $config,
+		private IAppConfig $appConfig,
+		private IUserConfig $userConfig,
 		private IFile $file,
 		private View $view,
 	) {
@@ -45,10 +39,7 @@ class Recovery {
 	 * @return bool
 	 */
 	public function enableAdminRecovery($password) {
-		$appConfig = $this->config;
-		$keyManager = $this->keyManager;
-
-		if (!$keyManager->recoveryKeyExists()) {
+		if (!$this->keyManager->recoveryKeyExists()) {
 			$keyPair = $this->crypt->createKeyPair();
 			if (!is_array($keyPair)) {
 				return false;
@@ -57,8 +48,8 @@ class Recovery {
 			$this->keyManager->setRecoveryKey($password, $keyPair);
 		}
 
-		if ($keyManager->checkRecoveryPassword($password)) {
-			$appConfig->setAppValue('encryption', 'recoveryAdminEnabled', '1');
+		if ($this->keyManager->checkRecoveryPassword($password)) {
+			$this->appConfig->setValueBool('encryption', 'recoveryAdminEnabled', true);
 			return true;
 		}
 
@@ -92,7 +83,7 @@ class Recovery {
 
 		if ($keyManager->checkRecoveryPassword($recoveryPassword)) {
 			// Set recoveryAdmin as disabled
-			$this->config->setAppValue('encryption', 'recoveryAdminEnabled', '0');
+			$this->appConfig->setValueBool('encryption', 'recoveryAdminEnabled', false);
 			return true;
 		}
 		return false;
@@ -107,12 +98,7 @@ class Recovery {
 	 */
 	public function isRecoveryEnabledForUser($user = '') {
 		$uid = $user === '' ? $this->user->getUID() : $user;
-		$recoveryMode = $this->config->getUserValue($uid,
-			'encryption',
-			'recoveryEnabled',
-			0);
-
-		return ($recoveryMode === '1');
+		return $this->userConfig->getValueBool($uid, 'encryption', 'recoveryEnabled');
 	}
 
 	/**
@@ -121,23 +107,18 @@ class Recovery {
 	 * @return bool
 	 */
 	public function isRecoveryKeyEnabled() {
-		$enabled = $this->config->getAppValue('encryption', 'recoveryAdminEnabled', '0');
-
-		return ($enabled === '1');
+		return $this->appConfig->getValueBool('encryption', 'recoveryAdminEnabled');
 	}
 
 	/**
-	 * @param string $value
+	 * @param bool $value
 	 * @return bool
 	 */
-	public function setRecoveryForUser($value) {
+	public function setRecoveryForUser(bool $value): bool {
 		try {
-			$this->config->setUserValue($this->user->getUID(),
-				'encryption',
-				'recoveryEnabled',
-				$value);
+			$this->userConfig->setValueBool($this->user->getUID(), 'encryption', 'recoveryEnabled', $value);
 
-			if ($value === '1') {
+			if ($value) {
 				$this->addRecoveryKeys('/' . $this->user->getUID() . '/files/');
 			} else {
 				$this->removeRecoveryKeys('/' . $this->user->getUID() . '/files/');

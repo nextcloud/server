@@ -12,9 +12,10 @@ namespace OCA\Encryption\Tests;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Util;
+use OCP\Config\IUserConfig;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -26,13 +27,14 @@ class UtilTest extends TestCase {
 	protected Util $instance;
 	protected static $tempStorage = [];
 
-	protected IConfig&MockObject $configMock;
+	protected IAppConfig&MockObject $appConfigMock;
+	protected IUserConfig&MockObject $userConfigMock;
 	protected View&MockObject $filesMock;
 	protected IUserManager&MockObject $userManagerMock;
 	protected IMountPoint&MockObject $mountMock;
 
 	public function testSetRecoveryForUser(): void {
-		$this->instance->setRecoveryForUser('1');
+		$this->instance->setRecoveryForUser(true);
 		$this->assertArrayHasKey('recoveryEnabled', self::$tempStorage);
 	}
 
@@ -41,7 +43,7 @@ class UtilTest extends TestCase {
 
 		// Assert recovery will return default value if not set
 		unset(self::$tempStorage['recoveryEnabled']);
-		$this->assertEquals(0, $this->instance->isRecoveryEnabledForUser('admin'));
+		$this->assertFalse($this->instance->isRecoveryEnabledForUser('admin'));
 	}
 
 	public function testUserHasFiles(): void {
@@ -77,41 +79,23 @@ class UtilTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(true);
 
-		$this->configMock = $this->createMock(IConfig::class);
+		$this->appConfigMock = $this->createMock(IAppConfig::class);
+		$this->userConfigMock = $this->createMock(IUserConfig::class);
 
-		$this->configMock->expects($this->any())
-			->method('getUserValue')
-			->willReturnCallback([$this, 'getValueTester']);
+		$this->userConfigMock->expects($this->any())
+			->method('getValueBool')
+			->willReturnCallback(function (string $userId, string $app, string $key, bool $default = false): bool {
+				return self::$tempStorage[$key] ?? $default;
+			});
 
-		$this->configMock->expects($this->any())
-			->method('setUserValue')
-			->willReturnCallback([$this, 'setValueTester']);
+		$this->userConfigMock->expects($this->any())
+			->method('setValueBool')
+			->willReturnCallback(function (string $userId, string $app, string $key, bool $value): bool {
+				self::$tempStorage[$key] = $value;
+				return true;
+			});
 
-		$this->instance = new Util($this->filesMock, $cryptMock, $userSessionMock, $this->configMock, $this->userManagerMock);
-	}
-
-	/**
-	 * @param $userId
-	 * @param $app
-	 * @param $key
-	 * @param $value
-	 */
-	public function setValueTester($userId, $app, $key, $value) {
-		self::$tempStorage[$key] = $value;
-	}
-
-	/**
-	 * @param $userId
-	 * @param $app
-	 * @param $key
-	 * @param $default
-	 * @return mixed
-	 */
-	public function getValueTester($userId, $app, $key, $default) {
-		if (!empty(self::$tempStorage[$key])) {
-			return self::$tempStorage[$key];
-		}
-		return $default ?: null;
+		$this->instance = new Util($this->filesMock, $cryptMock, $userSessionMock, $this->appConfigMock, $this->userConfigMock, $this->userManagerMock);
 	}
 
 	/**
@@ -120,9 +104,9 @@ class UtilTest extends TestCase {
 	 * @param bool $expect
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestIsMasterKeyEnabled')]
-	public function testIsMasterKeyEnabled($value, $expect): void {
-		$this->configMock->expects($this->once())->method('getAppValue')
-			->with('encryption', 'useMasterKey', '1')->willReturn($value);
+	public function testIsMasterKeyEnabled(bool $value, bool $expect): void {
+		$this->appConfigMock->expects($this->once())->method('getValueBool')
+			->with('encryption', 'useMasterKey', true)->willReturn($value);
 		$this->assertSame($expect,
 			$this->instance->isMasterKeyEnabled()
 		);
@@ -130,19 +114,19 @@ class UtilTest extends TestCase {
 
 	public static function dataTestIsMasterKeyEnabled(): array {
 		return [
-			['0', false],
-			['1', true]
+			[false, false],
+			[true, true]
 		];
 	}
 
 	/**
-	 * @param string $returnValue return value from getAppValue()
+	 * @param bool $returnValue return value from getValueBool()
 	 * @param bool $expected
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestShouldEncryptHomeStorage')]
-	public function testShouldEncryptHomeStorage($returnValue, $expected): void {
-		$this->configMock->expects($this->once())->method('getAppValue')
-			->with('encryption', 'encryptHomeStorage', '1')
+	public function testShouldEncryptHomeStorage(bool $returnValue, bool $expected): void {
+		$this->appConfigMock->expects($this->once())->method('getValueBool')
+			->with('encryption', 'encryptHomeStorage', true)
 			->willReturn($returnValue);
 
 		$this->assertSame($expected,
@@ -151,26 +135,26 @@ class UtilTest extends TestCase {
 
 	public static function dataTestShouldEncryptHomeStorage(): array {
 		return [
-			['1', true],
-			['0', false]
+			[true, true],
+			[false, false]
 		];
 	}
 
 	/**
-	 * @param $value
-	 * @param $expected
+	 * @param bool $value
+	 * @param bool $expected
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetEncryptHomeStorage')]
-	public function testSetEncryptHomeStorage($value, $expected): void {
-		$this->configMock->expects($this->once())->method('setAppValue')
+	public function testSetEncryptHomeStorage(bool $value, bool $expected): void {
+		$this->appConfigMock->expects($this->once())->method('setValueBool')
 			->with('encryption', 'encryptHomeStorage', $expected);
 		$this->instance->setEncryptHomeStorage($value);
 	}
 
 	public static function dataTestSetEncryptHomeStorage(): array {
 		return [
-			[true, '1'],
-			[false, '0']
+			[true, true],
+			[false, false]
 		];
 	}
 

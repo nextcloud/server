@@ -124,7 +124,7 @@ class RecoveryController extends Controller {
 	#[NoAdminRequired]
 	public function userSetRecovery($userEnableRecovery) {
 		if ($userEnableRecovery === '0' || $userEnableRecovery === '1') {
-			$result = $this->recovery->setRecoveryForUser($userEnableRecovery);
+			$result = $this->recovery->setRecoveryForUser($userEnableRecovery === '1');
 
 			if ($result) {
 				if ($userEnableRecovery === '0') {

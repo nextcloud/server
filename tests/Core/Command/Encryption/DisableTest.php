@@ -9,14 +9,14 @@
 namespace Tests\Core\Command\Encryption;
 
 use OC\Core\Command\Encryption\Disable;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DisableTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
+	protected $appConfig;
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
@@ -29,35 +29,35 @@ class DisableTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$config = $this->config = $this->getMockBuilder(IConfig::class)
+		$appConfig = $this->appConfig = $this->getMockBuilder(IAppConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var IConfig $config */
-		$this->command = new Disable($config);
+		/** @var IAppConfig $appConfig */
+		$this->command = new Disable($appConfig);
 	}
 
 
 	public static function dataDisable(): array {
 		return [
-			['yes', true, 'Encryption disabled'],
-			['no', false, 'Encryption is already disabled'],
+			[true, true, 'Encryption disabled'],
+			[false, false, 'Encryption is already disabled'],
 		];
 	}
 
 	/**
 	 *
-	 * @param string $oldStatus
+	 * @param bool $oldStatus
 	 * @param bool $isUpdating
 	 * @param string $expectedString
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataDisable')]
-	public function testDisable($oldStatus, $isUpdating, $expectedString): void {
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('core', 'encryption_enabled', $this->anything())
+	public function testDisable(bool $oldStatus, bool $isUpdating, string $expectedString): void {
+		$this->appConfig->expects($this->once())
+			->method('getValueBool')
+			->with('core', 'encryption_enabled', false)
 			->willReturn($oldStatus);
 
 		$this->consoleOutput->expects($this->once())
@@ -65,9 +65,9 @@ class DisableTest extends TestCase {
 			->with($this->stringContains($expectedString));
 
 		if ($isUpdating) {
-			$this->config->expects($this->once())
-				->method('setAppValue')
-				->with('core', 'encryption_enabled', 'no');
+			$this->appConfig->expects($this->once())
+				->method('setValueBool')
+				->with('core', 'encryption_enabled', false);
 		}
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
