@@ -105,12 +105,40 @@ $CONFIG = [
 	'cookie_domain' => '',
 
 	/**
-	 * Where user files are stored. The SQLite database is also stored here, when
-	 * you use SQLite.
+	 * The Nextcloud data directory is the default storage point for all user files,
+	 * app-managed file-based data, and other instance-scoped data.
 	 *
-	 * Default to ``data/`` in the Nextcloud directory.
+	 * In local-storage deployments, user files and app-managed data are stored here.
+	 *
+	 * In object store (primary storage) deployments, user files and app-managed data
+	 * are stored only in the object store. However, the data directory is still
+	 * required for instance validation and backwards compatibility, even if it is
+	 * rarely written to.
+	 *
+	 * Examples of instance-scoped data:
+	 *
+	 * - ``.ncdata``: Marker file for instance validation (created by Nextcloud).
+	 * - ``.htaccess`` and ``index.html``: Access protection (created by Nextcloud).
+	 * - Logs: Default location unless overridden via ``logfile`` (and similar settings).
+	 * - Updater: Files used by the built-in Updater, unless overridden via ``updatedirectory``.
+	 * - Database: If using SQLite.
+	 *
+	 * Nextcloud validates the contents of this directory during server checks: Do
+	 * not remove ``.ncdata`` or ``.htaccess``, regardless of your storage backend.
+	 *
+	 * In clustered deployments not utilizing object storage, every node must mount
+	 * the same shared storage at this exact path.
+	 *
+	 * WARNING: Changing this path after installation requires a controlled migration to avoid
+	 * breakage. See:
+	 * https://docs.nextcloud.com/server/latest/admin_manual/issues/general_troubleshooting.html#moving-the-data-directory-changing-the-datadirectory-path
+	 *
+	 * Must be an absolute filesystem path. For added security, place it outside
+	 * the web server document root.
+	 *
+	 * Defaults to ``data/`` inside the Nextcloud installation root.
 	 */
-	'datadirectory' => '/var/www/nextcloud/data',
+	'datadirectory' => '/var/www/html/data',
 
 	/**
 	 * The current version number of your Nextcloud installation. This is set up
