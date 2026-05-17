@@ -19,6 +19,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -28,6 +29,11 @@ use OCP\IUserManager;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Mail\Provider\Address;
+use OCP\Mail\Provider\IManager as IMailManager;
+use OCP\Mail\Provider\IMessage as IProviderMessage;
+use OCP\Mail\Provider\IMessageSend;
+use OCP\Mail\Provider\IService;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -56,8 +62,10 @@ class ShareByMailProviderTest extends TestCase {
 
 	private IL10N&MockObject $l;
 	private IShare&MockObject $share;
+	private IAppConfig&MockObject $appConfig;
 	private IConfig&MockObject $config;
 	private IMailer&MockObject $mailer;
+	private IMailManager&MockObject $mailManager;
 	private IHasher&MockObject $hasher;
 	private Defaults&MockObject $defaults;
 	private IManager&MockObject $shareManager;
@@ -80,12 +88,14 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->rootFolder = $this->createMock('OCP\Files\IRootFolder');
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->secureRandom = $this->createMock('\OCP\Security\ISecureRandom');
 		$this->mailer = $this->createMock('\OCP\Mail\IMailer');
+		$this->mailManager = $this->createMock(IMailManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->share = $this->createMock(IShare::class);
 		$this->activityManager = $this->createMock('OCP\Activity\IManager');
@@ -109,6 +119,7 @@ class ShareByMailProviderTest extends TestCase {
 		if (!empty($mockedMethods)) {
 			return $this->getMockBuilder(ShareByMailProvider::class)
 				->setConstructorArgs([
+					$this->appConfig,
 					$this->config,
 					$this->connection,
 					$this->secureRandom,
@@ -117,6 +128,7 @@ class ShareByMailProviderTest extends TestCase {
 					$this->l,
 					$this->logger,
 					$this->mailer,
+					$this->mailManager,
 					$this->urlGenerator,
 					$this->activityManager,
 					$this->settingsManager,
@@ -131,6 +143,7 @@ class ShareByMailProviderTest extends TestCase {
 		}
 
 		return new ShareByMailProvider(
+			$this->appConfig,
 			$this->config,
 			$this->connection,
 			$this->secureRandom,
@@ -139,6 +152,7 @@ class ShareByMailProviderTest extends TestCase {
 			$this->l,
 			$this->logger,
 			$this->mailer,
+			$this->mailManager,
 			$this->urlGenerator,
 			$this->activityManager,
 			$this->settingsManager,
@@ -1765,10 +1779,12 @@ class ShareByMailProviderTest extends TestCase {
 			->with([
 				Util::getDefaultEmailAddress('UnitTestCloud') => 'UnitTestCloud'
 			]);
-		// Since replyToInitiator is false, we never get the initiator email address
+		// Since replyToInitiator is false, getEMailAddress is still called
+		// (for mail provider lookup) but setReplyTo is never called
 		$user
-			->expects($this->never())
-			->method('getEMailAddress');
+			->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('owner@example.com');
 		$message
 			->expects($this->never())
 			->method('setReplyTo');
@@ -1904,5 +1920,333 @@ class ShareByMailProviderTest extends TestCase {
 			'sendMailNotification',
 			[$share]
 		);
+	}
+
+	public function testSendMailNotificationViaMailProvider(): void {
+		$provider = $this->getInstance();
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('OwnerUser')
+			->willReturn($user);
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mrs. Owner User');
+		$user
+			->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('owner@example.com');
+		$user
+			->method('getUID')
+			->willReturn('OwnerUser');
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$template->expects($this->once())->method('addHeader');
+		$template->expects($this->once())->method('addHeading')
+			->with('Mrs. Owner User shared file.txt with you');
+		$template->expects($this->once())->method('addBodyButton')
+			->with('Open file.txt', 'https://example.com/file.txt');
+		$template->expects($this->once())->method('setSubject')
+			->with('Mrs. Owner User shared file.txt with you');
+		$template->method('renderSubject')->willReturn('Mrs. Owner User shared file.txt with you');
+		$template->method('renderText')->willReturn('plain text body');
+		$template->method('renderHtml')->willReturn('<html>body</html>');
+
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
+		$this->defaults->expects($this->any())->method('getName')->willReturn('UnitTestCloud');
+		$this->defaults->expects($this->any())->method('getSlogan')->willReturn('Testing like 1990');
+		$template->expects($this->once())->method('addFooter')
+			->with('UnitTestCloud - Testing like 1990');
+
+		// Enable mail providers and return a service that implements IMessageSend
+		$this->appConfig
+			->expects($this->once())
+			->method('getValueBool')
+			->with('core', 'mail_providers_enabled', true)
+			->willReturn(true);
+
+		$providerMessage = $this->createMock(IProviderMessage::class);
+		$mailService = $this->createMailServiceMock($providerMessage);
+
+		$this->mailManager
+			->expects($this->once())
+			->method('findServiceByAddress')
+			->with('OwnerUser', 'owner@example.com')
+			->willReturn($mailService);
+
+		// System mailer should NOT be used at all
+		$this->mailer->expects($this->never())->method('createMessage');
+		$this->mailer->expects($this->never())->method('send');
+
+		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+			->willReturn('https://example.com/file.txt');
+
+		$node = $this->createMock(File::class);
+		$node->expects($this->any())->method('getName')->willReturn('file.txt');
+
+		$share = $this->createMock(IShare::class);
+		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
+		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
+		$share->expects($this->any())->method('getNode')->willReturn($node);
+		$share->expects($this->any())->method('getId')->willReturn('42');
+		$share->expects($this->any())->method('getNote')->willReturn('');
+		$share->expects($this->any())->method('getToken')->willReturn('token');
+
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[$share]
+		);
+
+		// Verify one message was sent via the mail provider
+		$this->assertCount(1, $mailService->sentMessages);
+	}
+
+	public function testSendMailNotificationViaMailProviderMultipleRecipients(): void {
+		$provider = $this->getInstance();
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('OwnerUser')
+			->willReturn($user);
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mrs. Owner User');
+		$user
+			->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('owner@example.com');
+		$user
+			->method('getUID')
+			->willReturn('OwnerUser');
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$template->expects($this->once())->method('addHeader');
+		$template->expects($this->once())->method('setSubject');
+		$template->method('renderSubject')->willReturn('subject');
+		$template->method('renderText')->willReturn('plain');
+		$template->method('renderHtml')->willReturn('<html>html</html>');
+
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
+		$this->defaults->expects($this->any())->method('getName')->willReturn('UnitTestCloud');
+		$this->defaults->expects($this->any())->method('getSlogan')->willReturn('');
+
+		$this->appConfig
+			->expects($this->once())
+			->method('getValueBool')
+			->with('core', 'mail_providers_enabled', true)
+			->willReturn(true);
+
+		$providerMessage = $this->createMock(IProviderMessage::class);
+		$mailService = $this->createMailServiceMock($providerMessage);
+
+		$this->mailManager
+			->expects($this->once())
+			->method('findServiceByAddress')
+			->with('OwnerUser', 'owner@example.com')
+			->willReturn($mailService);
+
+		// System mailer should NOT be used
+		$this->mailer->expects($this->never())->method('createMessage');
+		$this->mailer->expects($this->never())->method('send');
+
+		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+			->willReturn('https://example.com/file.txt');
+
+		$node = $this->createMock(File::class);
+		$node->expects($this->any())->method('getName')->willReturn('file.txt');
+
+		$attributes = $this->createMock(IAttributes::class);
+		$attributes->expects($this->once())->method('getAttribute')
+			->with('shareWith', 'emails')
+			->willReturn(['john@doe.com', 'jane@doe.com', 'bob@test.com']);
+
+		$share = $this->createMock(IShare::class);
+		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
+		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
+		$share->expects($this->any())->method('getAttributes')->willReturn($attributes);
+		$share->expects($this->any())->method('getNode')->willReturn($node);
+		$share->expects($this->any())->method('getId')->willReturn('42');
+		$share->expects($this->any())->method('getNote')->willReturn('');
+		$share->expects($this->any())->method('getToken')->willReturn('token');
+
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[$share]
+		);
+
+		// Verify one message was sent per recipient
+		$this->assertCount(3, $mailService->sentMessages);
+	}
+
+	public function testSendMailNotificationFallsBackToSystemMailerWhenNoMailProvider(): void {
+		$provider = $this->getInstance();
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('OwnerUser')
+			->willReturn($user);
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mrs. Owner User');
+		$user
+			->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('owner@example.com');
+		$user
+			->method('getUID')
+			->willReturn('OwnerUser');
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$template->expects($this->once())->method('addHeader');
+		$template->expects($this->once())->method('setSubject');
+
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
+		$this->defaults->expects($this->any())->method('getName')->willReturn('UnitTestCloud');
+		$this->defaults->expects($this->any())->method('getSlogan')->willReturn('');
+
+		// Mail providers enabled but no service found for user
+		$this->appConfig
+			->expects($this->once())
+			->method('getValueBool')
+			->with('core', 'mail_providers_enabled', true)
+			->willReturn(true);
+
+		$this->mailManager
+			->expects($this->once())
+			->method('findServiceByAddress')
+			->with('OwnerUser', 'owner@example.com')
+			->willReturn(null);
+
+		// System mailer IS used as fallback
+		$message = $this->createMock(Message::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createMessage')
+			->willReturn($message);
+		$message
+			->expects($this->once())
+			->method('setTo')
+			->with(['john@doe.com']);
+		$message
+			->expects($this->once())
+			->method('setFrom')
+			->with([Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud']);
+		$message
+			->expects($this->once())
+			->method('setReplyTo')
+			->with(['owner@example.com' => 'Mrs. Owner User']);
+		$message
+			->expects($this->once())
+			->method('useTemplate')
+			->with($template);
+		$this->mailer
+			->expects($this->once())
+			->method('send')
+			->with($message);
+
+		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+			->willReturn('https://example.com/file.txt');
+
+		$node = $this->createMock(File::class);
+		$node->expects($this->any())->method('getName')->willReturn('file.txt');
+
+		$share = $this->createMock(IShare::class);
+		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
+		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
+		$share->expects($this->any())->method('getNode')->willReturn($node);
+		$share->expects($this->any())->method('getId')->willReturn('42');
+		$share->expects($this->any())->method('getNote')->willReturn('');
+		$share->expects($this->any())->method('getToken')->willReturn('token');
+
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[$share]
+		);
+	}
+
+	/**
+	 * Create a test mail service that implements both IService and IMessageSend.
+	 * Tracks sent messages in the public $sentMessages array.
+	 */
+	private function createMailServiceMock(IProviderMessage $providerMessage): IService&IMessageSend {
+		return new class ($providerMessage) implements IService, IMessageSend {
+			private IProviderMessage $providerMessage;
+			public array $sentMessages = [];
+
+			public function __construct(IProviderMessage $providerMessage) {
+				$this->providerMessage = $providerMessage;
+			}
+
+			public function id(): string {
+				return 'test-service';
+			}
+
+			public function capable(string $value): bool {
+				return false;
+			}
+
+			public function capabilities(): array {
+				return [];
+			}
+
+			public function getLabel(): string {
+				return 'Test Service';
+			}
+
+			public function setLabel(string $value): self {
+				return $this;
+			}
+
+			public function getPrimaryAddress(): \OCP\Mail\Provider\IAddress {
+				return new Address('test@test.com');
+			}
+
+			public function setPrimaryAddress(\OCP\Mail\Provider\IAddress $value): self {
+				return $this;
+			}
+
+			public function getSecondaryAddresses(): array {
+				return [];
+			}
+
+			public function setSecondaryAddresses(\OCP\Mail\Provider\IAddress ...$value): self {
+				return $this;
+			}
+
+			public function initiateMessage(): IProviderMessage {
+				return $this->providerMessage;
+			}
+
+			public function sendMessage(IProviderMessage $message, array $options = []): void {
+				$this->sentMessages[] = $message;
+			}
+		};
 	}
 }
