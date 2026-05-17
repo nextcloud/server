@@ -18,6 +18,7 @@ use OC\OCM\Model\OCMProvider;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\AppFramework\Http;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -63,6 +64,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		private IURLGenerator $urlGenerator,
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
+		private readonly ICloudIdManager $cloudIdManager,
 		private LoggerInterface $logger,
 	) {
 		$this->cache = $cacheFactory->createDistributed('ocm-discovery');
@@ -275,6 +277,49 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 			throw new IncomingRequestException('Invalid signature');
 		}
 		return null;
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @since 34.0.0
+	 */
+	#[\Override]
+	public function confirmRequestOrigin(?string $signedOrigin, string $ocmAddress): void {
+		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			return;
+		}
+
+		$instance = $this->getHostFromOcmAddress($ocmAddress);
+
+		if ($signedOrigin === null) {
+			try {
+				$this->signatureManager->getSignatory($instance);
+			} catch (SignatoryNotFoundException) {
+				return;
+			}
+			throw new IncomingRequestException('instance is supposed to sign its request');
+		}
+
+		if ($instance !== $signedOrigin) {
+			throw new IncomingRequestException(
+				'claimed origin ' . $instance . ' does not match signed origin ' . $signedOrigin
+			);
+		}
+	}
+
+	/**
+	 * @throws IncomingRequestException on malformed address or unresolvable host
+	 */
+	private function getHostFromOcmAddress(string $entry): string {
+		try {
+			$cloudId = $this->cloudIdManager->resolveCloudId(trim($entry, '@'));
+			return $this->signatureManager->extractIdentityFromUri($cloudId->getRemote());
+		} catch (\InvalidArgumentException $e) {
+			throw new IncomingRequestException('invalid OCM address: ' . $entry, previous: $e);
+		} catch (IdentityNotFoundException $e) {
+			throw new IncomingRequestException('invalid host within OCM address: ' . $entry, previous: $e);
+		}
 	}
 
 	/**
