@@ -150,10 +150,10 @@ class DuplicateAssignmentIntegrationTest extends TestCase {
 		$created = $this->service->create($groupId, $class);
 
 		// Now mapper should find it
-		$found = $this->mapper->findByGroupIdAndClass($groupId, $class);
+		$matches = $this->mapper->findExistingGroupsForClass($class);
 
-		$this->assertEquals($created->getId(), $found->getId());
-		$this->assertEquals($groupId, $found->getGroupId());
-		$this->assertEquals($class, $found->getClass());
+		$this->assertCount(1, $matches);
+		$this->assertEquals($groupId, $matches[0]->getGroupId());
+		$this->assertEquals($class, $matches[0]->getClass());
 	}
 }
