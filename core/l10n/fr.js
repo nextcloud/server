@@ -207,6 +207,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} notifications","{count} notifications"],
     "More apps" : "Plus d’applis",
     "Applications" : "Applications",
+    "Open apps menu" : "Ouvrir le menu des applications",
     "Apps" : "Applications",
     "No" : "Non",
     "Yes" : "Oui",
