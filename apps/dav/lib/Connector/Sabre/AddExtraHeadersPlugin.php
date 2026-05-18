@@ -55,8 +55,6 @@ class AddExtraHeadersPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		if (!$node instanceof Node) {
-			$nodeType = get_debug_type($node);
-			$this->logger->error("Cannot set extra headers for node of type {$nodeType} for file '{$request->getPath()}'");
 			return;
 		}
 
