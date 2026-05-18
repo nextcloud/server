@@ -56,7 +56,7 @@ async function changePassword() {
 
 				<NcPasswordField
 					v-model="newPass"
-					check-password-strength
+					:check-password-strength="newPass !== ''"
 					:label="t('settings', 'New password')"
 					:maxlength="469"
 					name="newpassword"
