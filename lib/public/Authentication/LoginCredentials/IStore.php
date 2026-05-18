@@ -8,16 +8,18 @@ declare(strict_types=1);
  */
 namespace OCP\Authentication\LoginCredentials;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 
 /**
- * @since 12
+ * @since 12.0.0
  */
+#[Consumable(since: '12.0.0')]
 interface IStore {
 	/**
-	 * Get login credentials of the currently logged in user
+	 * Get login credentials of the currently logged-in user.
 	 *
-	 * @since 12
+	 * @since 12.0.0
 	 *
 	 * @throws CredentialsUnavailableException
 	 * @return ICredentials the login credentials of the current user

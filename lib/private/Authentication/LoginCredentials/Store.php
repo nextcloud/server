@@ -15,28 +15,41 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\ISession;
 use OCP\Security\ICrypto;
 use OCP\Session\Exceptions\SessionNotAvailableException;
-use OCP\Util;
+use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
+use Override;
 use Psr\Log\LoggerInterface;
 
-class Store implements IStore {
+/**
+ * @template-implements IEventListener<UserLoggedInEvent|UserLoggedInWithCookieEvent>
+ */
+class Store implements IStore, IEventListener {
 	public function __construct(
 		private ISession $session,
 		private LoggerInterface $logger,
 		private readonly ICrypto $crypto,
 		private ?IProvider $tokenProvider = null,
 	) {
-		Util::connectHook('OC_User', 'post_login', $this, 'authenticate');
+	}
+
+	#[Override]
+	public function handle(Event $event): void {
+		if ($event instanceof UserLoggedInWithCookieEvent) {
+			$this->authenticate(['run' => true, 'uid' => $event->getUser()->getUID(), 'password' => $event->getPassword()]);
+		} elseif ($event instanceof UserLoggedInEvent) {
+			$this->authenticate(['run' => true, 'uid' => $event->getUser()->getUID(), 'loginName' => $event->getLoginName(), 'password' => $event->getPassword(), 'isTokenLogin' => $event->isTokenLogin()]);
+		}
 	}
 
 	/**
 	 * Hook listener on post login
-	 *
-	 * @param array $params
 	 */
-	public function authenticate(array $params) {
+	public function authenticate(array $params): void {
 		if ($params['password'] !== null) {
 			$params['password'] = $this->crypto->encrypt((string)$params['password']);
 		}
@@ -45,20 +58,12 @@ class Store implements IStore {
 
 	/**
 	 * Replace the session implementation
-	 *
-	 * @param ISession $session
 	 */
-	public function setSession(ISession $session) {
+	public function setSession(ISession $session): void {
 		$this->session = $session;
 	}
 
-	/**
-	 * @since 12
-	 *
-	 * @return ICredentials the login credentials of the current user
-	 * @throws CredentialsUnavailableException
-	 */
-	#[\Override]
+	#[Override]
 	public function getLoginCredentials(): ICredentials {
 		if ($this->tokenProvider === null) {
 			throw new CredentialsUnavailableException();
@@ -85,8 +90,7 @@ class Store implements IStore {
 		}
 
 		if ($trySession && $this->session->exists('login_credentials')) {
-			/** @var array $creds */
-			$creds = json_decode($this->session->get('login_credentials'), true);
+			$creds = json_decode($this->session->get('login_credentials'), true, flags: JSON_THROW_ON_ERROR);
 			if ($creds['password'] !== null) {
 				try {
 					$creds['password'] = $this->crypto->decrypt($creds['password']);

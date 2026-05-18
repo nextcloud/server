@@ -58,6 +58,7 @@ return array(
     'OCA\\User_LDAP\\LDAPProvider' => $baseDir . '/../lib/LDAPProvider.php',
     'OCA\\User_LDAP\\LDAPProviderFactory' => $baseDir . '/../lib/LDAPProviderFactory.php',
     'OCA\\User_LDAP\\LDAPUtility' => $baseDir . '/../lib/LDAPUtility.php',
+    'OCA\\User_LDAP\\Listener\\LoadAdditionalBackendListener' => $baseDir . '/../lib/Listener/LoadAdditionalBackendListener.php',
     'OCA\\User_LDAP\\LoginListener' => $baseDir . '/../lib/LoginListener.php',
     'OCA\\User_LDAP\\Mapping\\AbstractMapping' => $baseDir . '/../lib/Mapping/AbstractMapping.php',
     'OCA\\User_LDAP\\Mapping\\GroupMapping' => $baseDir . '/../lib/Mapping/GroupMapping.php',

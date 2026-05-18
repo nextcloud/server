@@ -107,6 +107,9 @@ class LostControllerTest extends TestCase {
 			});
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager
+			->method('getUserNameFromLoginName')
+			->willReturnArgument(0);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->request = $this->createMock(IRequest::class);

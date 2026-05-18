@@ -11,6 +11,7 @@ namespace OCA\Files_Sharing\Listener;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
+use OCA\Files_Sharing\External\Manager as ExternalManager;
 use OCA\Files_Sharing\ShareRecipientUpdater;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\Event;
@@ -26,13 +27,14 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
+use OCP\User\Events\UserDeletedEvent;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
 
 /**
  * Listen to various events that can change what shares a user has access to
  *
- * @psalm-type GroupEvents = UserAddedEvent|UserRemovedEvent|GroupDeletedEvent|BeforeGroupDeletedEvent
+ * @psalm-type GroupEvents = UserAddedEvent|UserRemovedEvent|GroupDeletedEvent|BeforeGroupDeletedEvent|UserDeletedEvent
  * @template-implements IEventListener<GroupEvents|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent|ShareMovedEvent>
  */
 class SharesUpdatedListener implements IEventListener {
@@ -55,6 +57,7 @@ class SharesUpdatedListener implements IEventListener {
 		private readonly LoggerInterface $logger,
 		IAppConfig $appConfig,
 		private readonly UserHomeSetupListener $homeSetupListener,
+		private readonly ExternalManager $externalManager,
 	) {
 		$this->cutOffMarkTime = $appConfig->getValueFloat(Application::APP_ID, ConfigLexicon::UPDATE_CUTOFF_TIME, 3.0);
 	}
@@ -83,6 +86,10 @@ class SharesUpdatedListener implements IEventListener {
 		if ($event instanceof UserAddedEvent || $event instanceof UserRemovedEvent) {
 			$this->updateOrMarkUser($event->getUser());
 		}
+		if ($event instanceof UserDeletedEvent) {
+			$this->deleteUser($event);
+		}
+
 		if ($event instanceof ShareCreatedEvent || $event instanceof ShareTransferredEvent) {
 			$share = $event->getShare();
 			$shareTarget = $share->getTarget();
@@ -153,5 +160,9 @@ class SharesUpdatedListener implements IEventListener {
 
 	public function setCutOffMarkTime(float|int $cutOffMarkTime): void {
 		$this->cutOffMarkTime = (float)$cutOffMarkTime;
+	}
+
+	public function deleteUser(UserDeletedEvent $event): void {
+		$this->externalManager->removeUserShares($event->getUser());
 	}
 }

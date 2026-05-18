@@ -111,8 +111,9 @@ class AccessTest extends TestCase {
 				$this->createMock(Image::class),
 				$this->createMock(IUserManager::class),
 				$this->createMock(INotificationManager::class),
-				$this->shareManager])
-			->getMock();
+				$this->shareManager,
+				$this->dispatcher,
+			])->getMock();
 		$helper = Server::get(Helper::class);
 
 		return [$lw, $connector, $um, $helper];

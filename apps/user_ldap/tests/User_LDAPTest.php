@@ -1072,11 +1072,11 @@ class User_LDAPTest extends TestCase {
 
 		$this->connection->expects($this->exactly(2))
 			->method('getFromCache')
-			->with($this->equalTo('loginName2UserName-' . $loginName))
+			->with($this->equalTo('getUserNameFromLoginName-' . $loginName))
 			->willReturnOnConsecutiveCalls(null, $username);
 		$this->connection->expects($this->once())
 			->method('writeToCache')
-			->with($this->equalTo('loginName2UserName-' . $loginName), $this->equalTo($username));
+			->with($this->equalTo('getUserNameFromLoginName-' . $loginName), $this->equalTo($username));
 
 		$backend = new User_LDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$user = $this->createMock(User::class);
@@ -1094,11 +1094,11 @@ class User_LDAPTest extends TestCase {
 			->method('getAttributes')
 			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 
-		$name = $backend->loginName2UserName($loginName);
+		$name = $backend->getUserNameFromLoginName($loginName);
 		$this->assertSame($username, $name);
 
 		// and once again to verify that caching works
-		$backend->loginName2UserName($loginName);
+		$backend->getUserNameFromLoginName($loginName);
 	}
 
 	public function testLoginName2UserNameNoUsersOnLDAP(): void {
@@ -1115,22 +1115,22 @@ class User_LDAPTest extends TestCase {
 
 		$this->connection->expects($this->exactly(2))
 			->method('getFromCache')
-			->with($this->equalTo('loginName2UserName-' . $loginName))
+			->with($this->equalTo('getUserNameFromLoginName-' . $loginName))
 			->willReturnOnConsecutiveCalls(null, false);
 		$this->connection->expects($this->once())
 			->method('writeToCache')
-			->with($this->equalTo('loginName2UserName-' . $loginName), false);
+			->with($this->equalTo('getUserNameFromLoginName-' . $loginName), false);
 
 		$this->userManager->expects($this->any())
 			->method('getAttributes')
 			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 
 		$backend = new User_LDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
-		$name = $backend->loginName2UserName($loginName);
+		$name = $backend->getUserNameFromLoginName($loginName);
 		$this->assertSame(false, $name);
 
 		// and once again to verify that caching works
-		$backend->loginName2UserName($loginName);
+		$backend->getUserNameFromLoginName($loginName);
 	}
 
 	public function testLoginName2UserNameOfflineUser(): void {
@@ -1148,11 +1148,11 @@ class User_LDAPTest extends TestCase {
 
 		$this->connection->expects($this->exactly(2))
 			->method('getFromCache')
-			->with($this->equalTo('loginName2UserName-' . $loginName))
+			->with($this->equalTo('getUserNameFromLoginName-' . $loginName))
 			->willReturnOnConsecutiveCalls(null, false);
 		$this->connection->expects($this->once())
 			->method('writeToCache')
-			->with($this->equalTo('loginName2UserName-' . $loginName), $this->equalTo(false));
+			->with($this->equalTo('getUserNameFromLoginName-' . $loginName), $this->equalTo(false));
 
 		$this->userManager->expects($this->any())
 			->method('get')
@@ -1163,11 +1163,11 @@ class User_LDAPTest extends TestCase {
 			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 
 		$backend = new User_LDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
-		$name = $backend->loginName2UserName($loginName);
+		$name = $backend->getUserNameFromLoginName($loginName);
 		$this->assertSame(false, $name);
 
 		// and once again to verify that caching works
-		$backend->loginName2UserName($loginName);
+		$backend->getUserNameFromLoginName($loginName);
 	}
 
 	/**

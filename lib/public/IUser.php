@@ -49,7 +49,7 @@ interface IUser {
 	 * @since 25.0.0 Throw InvalidArgumentException
 	 * @throws \InvalidArgumentException
 	 */
-	public function setDisplayName($displayName);
+	public function setDisplayName(string $displayName);
 
 	/**
 	 * returns the timestamp of the user's last login or 0 if the user did never

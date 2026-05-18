@@ -10,6 +10,7 @@ namespace OCA\Files_External\Service;
 use OCA\Files_External\AppInfo\Application;
 use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\ConfigLexicon;
+use OCA\Files_External\Event\LoadAdditionalBackendEvent;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
@@ -71,21 +72,24 @@ class BackendService {
 		$this->backendProviders[] = $provider;
 	}
 
-	private function callForRegistrations() {
+	private function callForRegistrations(): void {
 		static $eventSent = false;
 		if (!$eventSent) {
 			Server::get(IEventDispatcher::class)->dispatch(
 				'OCA\\Files_External::loadAdditionalBackends',
 				new GenericEvent()
 			);
+			Server::get(IEventDispatcher::class)->dispatchTyped(new LoadAdditionalBackendEvent());
 			$eventSent = true;
 		}
 	}
 
-	private function loadBackendProviders() {
+	private function loadBackendProviders(): void {
 		$this->callForRegistrations();
 		foreach ($this->backendProviders as $provider) {
-			$this->registerBackends($provider->getBackends());
+			foreach ($provider->getBackends() as $backend) {
+				$this->registerBackend($backend);
+			}
 		}
 		$this->backendProviders = [];
 	}
@@ -94,27 +98,25 @@ class BackendService {
 	 * Register an auth mechanism provider
 	 *
 	 * @since 9.1.0
-	 * @param IAuthMechanismProvider $provider
 	 */
-	public function registerAuthMechanismProvider(IAuthMechanismProvider $provider) {
+	public function registerAuthMechanismProvider(IAuthMechanismProvider $provider): void {
 		$this->authMechanismProviders[] = $provider;
 	}
 
-	private function loadAuthMechanismProviders() {
+	private function loadAuthMechanismProviders(): void {
 		$this->callForRegistrations();
 		foreach ($this->authMechanismProviders as $provider) {
-			$this->registerAuthMechanisms($provider->getAuthMechanisms());
+			foreach ($provider->getAuthMechanisms() as $mechanism) {
+				$this->registerAuthMechanism($mechanism);
+			}
 		}
 		$this->authMechanismProviders = [];
 	}
 
 	/**
 	 * Register a backend
-	 *
-	 * @deprecated 9.1.0 use registerBackendProvider()
-	 * @param Backend $backend
 	 */
-	public function registerBackend(Backend $backend) {
+	private function registerBackend(Backend $backend): void {
 		if (!$this->isAllowedUserBackend($backend)) {
 			$backend->removeVisibility(BackendService::VISIBILITY_PERSONAL);
 		}
@@ -124,21 +126,9 @@ class BackendService {
 	}
 
 	/**
-	 * @deprecated 9.1.0 use registerBackendProvider()
-	 * @param Backend[] $backends
-	 */
-	public function registerBackends(array $backends) {
-		foreach ($backends as $backend) {
-			$this->registerBackend($backend);
-		}
-	}
-	/**
 	 * Register an authentication mechanism
-	 *
-	 * @deprecated 9.1.0 use registerAuthMechanismProvider()
-	 * @param AuthMechanism $authMech
 	 */
-	public function registerAuthMechanism(AuthMechanism $authMech) {
+	private function registerAuthMechanism(AuthMechanism $authMech): void {
 		if (!$this->isAllowedAuthMechanism($authMech)) {
 			$authMech->removeVisibility(BackendService::VISIBILITY_PERSONAL);
 		}
@@ -148,21 +138,11 @@ class BackendService {
 	}
 
 	/**
-	 * @deprecated 9.1.0 use registerAuthMechanismProvider()
-	 * @param AuthMechanism[] $mechanisms
-	 */
-	public function registerAuthMechanisms(array $mechanisms) {
-		foreach ($mechanisms as $mechanism) {
-			$this->registerAuthMechanism($mechanism);
-		}
-	}
-
-	/**
 	 * Get all backends
 	 *
-	 * @return Backend[]
+	 * @return array<string, Backend>
 	 */
-	public function getBackends() {
+	public function getBackends(): array {
 		$this->loadBackendProviders();
 		// only return real identifiers, no aliases
 		$backends = [];
@@ -177,8 +157,8 @@ class BackendService {
 	 *
 	 * @return Backend[]
 	 */
-	public function getAvailableBackends() {
-		$backends = array_filter($this->getBackends(), fn (Backend $backend) => $backend->checkRequiredDependencies() === []);
+	public function getAvailableBackends(): array {
+		$backends = array_filter($this->getBackends(), fn (Backend $backend): bool => $backend->checkRequiredDependencies() === []);
 		uasort($backends, [Backend::class, 'lexicalCompare']);
 		return $backends;
 	}

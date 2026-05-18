@@ -15,6 +15,7 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\User;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Config\IUserConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -79,7 +80,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->image,
 			$this->ncUserManager,
 			$this->notificationManager,
-			$this->shareManager
+			$this->shareManager,
+			$this->createMock(IEventDispatcher::class),
 		);
 
 		$this->manager->setLdapAccess($this->access);

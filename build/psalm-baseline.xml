@@ -32,11 +32,6 @@
   </file>
   <file src="apps/cloud_federation_api/lib/Controller/RequestHandlerController.php">
     <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$uid]
-		)]]></code>
       <code><![CDATA[getFederationIdFromSharedSecret]]></code>
     </DeprecatedMethod>
   </file>
@@ -1322,20 +1317,6 @@
       <code><![CDATA[getMount]]></code>
     </InternalMethod>
   </file>
-  <file src="apps/federatedfilesharing/lib/AddressHandler.php">
-    <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-				'\OCA\Files_Sharing\API\Server2Server',
-				'preLoginNameUsedAsUserName',
-				['uid' => &$user1]
-			)]]></code>
-      <code><![CDATA[Util::emitHook(
-				'\OCA\Files_Sharing\API\Server2Server',
-				'preLoginNameUsedAsUserName',
-				['uid' => &$user2]
-			)]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -1362,11 +1343,6 @@
   </file>
   <file src="apps/federatedfilesharing/lib/OCM/CloudFederationProviderFiles.php">
     <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-					'\OCA\Files_Sharing\API\Server2Server',
-					'preLoginNameUsedAsUserName',
-					['uid' => &$shareWith]
-				)]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[sendNotification]]></code>
       <code><![CDATA[sendNotification]]></code>
@@ -1608,10 +1584,6 @@
     </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
-      <code><![CDATA[registerAuthMechanism]]></code>
-      <code><![CDATA[registerAuthMechanisms]]></code>
-      <code><![CDATA[registerBackend]]></code>
-      <code><![CDATA[registerBackends]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_external/lib/Service/StoragesService.php">
@@ -1718,7 +1690,6 @@
     <DeprecatedMethod>
       <code><![CDATA[Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren')]]></code>
       <code><![CDATA[Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook')]]></code>
-      <code><![CDATA[Util::connectHook('OC_User', 'post_deleteUser', '\OCA\Files_Sharing\Hooks', 'deleteUser')]]></code>
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
     <InternalMethod>
@@ -2711,21 +2682,6 @@
       <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
   </file>
-  <file src="apps/user_ldap/lib/AppInfo/Application.php">
-    <DeprecatedInterface>
-      <code><![CDATA[IAppContainer]]></code>
-      <code><![CDATA[IAppContainer]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			'\OCA\User_LDAP\Helper',
-			'loginName2UserName'
-		)]]></code>
-      <code><![CDATA[dispatch]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/lib/Configuration.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -2801,18 +2757,10 @@
       <code><![CDATA[getDatabasePlatform]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/user_ldap/lib/User/Manager.php">
-    <InvalidDocblock>
-      <code><![CDATA[public function setLdapAccess(Access $access) {]]></code>
-    </InvalidDocblock>
-  </file>
   <file src="apps/user_ldap/lib/User/User.php">
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
-    <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry')]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
     <DeprecatedInterface>
@@ -3137,11 +3085,6 @@
   </file>
   <file src="core/Controller/LostController.php">
     <DeprecatedMethod>
-      <code><![CDATA[Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$user]
-		)]]></code>
       <code><![CDATA[deleteUserValue]]></code>
     </DeprecatedMethod>
     <RedundantCast>
@@ -3235,11 +3178,6 @@
   <file src="core/Controller/WebAuthnController.php">
     <DeprecatedMethod>
       <code><![CDATA[PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN))]]></code>
-      <code><![CDATA[Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$uid]
-		)]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Middleware/TwoFactorMiddleware.php">
@@ -4117,11 +4055,6 @@
       <code><![CDATA[$value]]></code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/Session/Memory.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$value]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="lib/private/Setup.php">
     <RedundantCondition>
       <code><![CDATA[$type === 'pdo']]></code>
@@ -4158,12 +4091,6 @@
   <file src="lib/private/Streamer.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[get]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/SubAdmin.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Support/Subscription/Registry.php">
@@ -4219,18 +4146,6 @@
       <code><![CDATA[$request->server]]></code>
       <code><![CDATA[$request->server]]></code>
     </NoInterfaceProperties>
-    <RedundantCondition>
-      <code><![CDATA[$this->manager instanceof PublicEmitter]]></code>
-    </RedundantCondition>
-  </file>
-  <file src="lib/private/User/User.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-      <code><![CDATA[emit]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_App.php">
     <InvalidArgument>
@@ -4244,11 +4159,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[getQuota]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/legacy/OC_User.php">
-    <UndefinedClass>
-      <code><![CDATA[\Test\Util\User\Dummy]]></code>
-    </UndefinedClass>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
     <LessSpecificReturnStatement>

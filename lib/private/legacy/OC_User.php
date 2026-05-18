@@ -25,6 +25,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\ICustomLogout;
@@ -41,13 +42,6 @@ use Psr\Log\LoggerInterface;
  * Note that &run is deprecated and won't work anymore.
  *
  * Hooks provided:
- *   pre_createUser(&run, uid, password)
- *   post_createUser(uid, password)
- *   pre_deleteUser(&run, uid)
- *   post_deleteUser(uid)
- *   pre_setPassword(&run, uid, password, recoveryPassword)
- *   post_setPassword(uid, password, recoveryPassword)
- *   pre_login(&run, uid, password)
  *   post_login(uid)
  *   logout()
  */
@@ -149,19 +143,16 @@ class OC_User {
 	public static function loginWithApache(IApacheBackend $backend): bool {
 		$uid = $backend->getCurrentUserId();
 		$run = true;
-		OC_Hook::emit('OC_User', 'pre_login', ['run' => &$run, 'uid' => $uid, 'backend' => $backend]);
 
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
 				/** @var Session $userSession */
 				$userSession = Server::get(IUserSession::class);
-
-				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = Server::get(IEventDispatcher::class);
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
-					$message = \OC::$server->getL10N('lib')->t('Account disabled');
+					$message = Server::get(IFactory::class)->get('lib')->t('Account disabled');
 					throw new DisabledUserException($message);
 				}
 				$userSession->setLoginName($uid);
@@ -171,11 +162,12 @@ class OC_User {
 					$password = $backend->getCurrentUserSecret();
 				}
 
-				/** @var IEventDispatcher $dispatcher */
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
 
+				$user = $userSession->getUser();
+				$userSession->completeLogin($user, ['loginName' => $uid, 'password' => $password]);
 				$userSession->createSessionToken($request, $uid, $uid, $password);
-				$userSession->createRememberMeToken($userSession->getUser());
+				$userSession->createRememberMeToken($user);
 
 				if (empty($password)) {
 					$tokenProvider = Server::get(IProvider::class);
@@ -192,30 +184,16 @@ class OC_User {
 					}
 				}
 
-				// setup the filesystem
-				OC_Util::setupFS($uid);
-				// first call the post_login hooks, the login-process needs to be
-				// completed before we can safely create the users folder.
+				// first call the UserLoggedIn event, the login-process needs to be
+				// completed before we can safely create the user's folder.
 				// For example encryption needs to initialize the users keys first
 				// before we can create the user folder with the skeleton files
-				OC_Hook::emit(
-					'OC_User',
-					'post_login',
-					[
-						'uid' => $uid,
-						'password' => $password,
-						'isTokenLogin' => false,
-					]
-				);
 				$dispatcher->dispatchTyped(new UserLoggedInEvent(
-					Server::get(IUserManager::class)->get($uid),
+					$user,
 					$uid,
 					null,
 					false)
 				);
-
-				//trigger creation of user home and /files folder
-				\OC::$server->getUserFolder($uid);
 			}
 			return true;
 		}

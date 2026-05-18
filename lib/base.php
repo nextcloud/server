@@ -822,14 +822,6 @@ class OC {
 		Server::get(\OCP\IUserManager::class)->registerBackend(new \OC\User\Database());
 		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
 
-		// Subscribe to the hook
-		\OCP\Util::connectHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			'\OC\User\Database',
-			'preLoginNameUsedAsUserName'
-		);
-
 		//setup extra user backends
 		if (!\OCP\Util::needUpgrade()) {
 			OC_User::setupBackends();
@@ -1023,9 +1015,10 @@ class OC {
 	}
 
 	private static function registerAppRestrictionsHooks(): void {
-		/** @var \OC\Group\Manager $groupManager */
-		$groupManager = Server::get(\OCP\IGroupManager::class);
-		$groupManager->listen('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$eventDispatcher->addListener(GroupDeletedEvent::class, function (GroupDeletedEvent $event) {
+			$group = $event->getGroup();
 			$appManager = Server::get(\OCP\App\IAppManager::class);
 			$apps = $appManager->getEnabledAppsForGroup($group);
 			foreach ($apps as $appId) {

@@ -44,7 +44,6 @@ use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
 use OCP\Security\Signature\IIncomingSignedRequest;
 use OCP\Security\Signature\ISignatureManager;
 use OCP\Share\Exceptions\ShareNotFound;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -414,21 +413,12 @@ class RequestHandlerController extends Controller {
 	}
 
 	/**
-	 * map login name to internal LDAP UID if a LDAP backend is in use
-	 *
-	 * @param string $uid
-	 * @return string mixed
+	 * Map login name to internal LDAP UID if an LDAP backend is in use
 	 */
-	private function mapUid($uid) {
-		// FIXME this should be a method in the user management instead
+	private function mapUid(string $uid): string {
 		$this->logger->debug('shareWith before, ' . $uid, ['app' => $this->appName]);
-		Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$uid]
-		);
+		$uid = $this->userManager->getUserNameFromLoginName($uid);
 		$this->logger->debug('shareWith after, ' . $uid, ['app' => $this->appName]);
-
 		return $uid;
 	}
 

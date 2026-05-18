@@ -41,7 +41,6 @@ use OCP\PreConditionNotMetException;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Server;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 use function count;
@@ -159,11 +158,7 @@ class LostController extends Controller {
 			return new JSONResponse($this->error($this->l10n->t('Unsupported email length (>255)')));
 		}
 
-		Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$user]
-		);
+		$user = $this->userManager->getUserNameFromLoginName($user);
 
 		// FIXME: use HTTP error codes
 		try {
