@@ -231,7 +231,7 @@ class FileTest extends TestCase {
 			[
 				'permissions' => Constants::PERMISSION_ALL,
 				'type' => FileInfo::TYPE_FILE,
-				'checksum' => '',		
+				'checksum' => '',
 			],
 			null
 		);
