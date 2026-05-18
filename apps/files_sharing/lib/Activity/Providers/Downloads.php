@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Sharing\Activity\Providers;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 
 class Downloads extends Base {
@@ -18,7 +19,7 @@ class Downloads extends Base {
 	/**
 	 * @param IEvent $event
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	#[\Override]
@@ -32,7 +33,7 @@ class Downloads extends Base {
 			|| $event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
 			$subject = $this->l->t('Downloaded by {email}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -49,7 +50,7 @@ class Downloads extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	#[\Override]
@@ -71,7 +72,7 @@ class Downloads extends Base {
 			$subject = $this->l->t('{email} downloaded {file}');
 			$this->setSubjects($event, $subject, $parsedParameters);
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -86,7 +87,7 @@ class Downloads extends Base {
 	/**
 	 * @param IEvent $event
 	 * @return array
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
 	protected function getParsedParameters(IEvent $event) {
 		$subject = $event->getSubject();
@@ -121,6 +122,6 @@ class Downloads extends Base {
 				];
 		}
 
-		throw new \InvalidArgumentException();
+		throw new UnknownActivityException();
 	}
 }
