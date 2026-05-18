@@ -19,4 +19,7 @@
 	<projectFiles>
 		<directory name="lib/unstable"/>
 	</projectFiles>
+	<extraFiles>
+		<directory name="3rdparty"/>
+	</extraFiles>
 </psalm>
