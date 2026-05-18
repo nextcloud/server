@@ -427,6 +427,167 @@ class IMipServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	private function stubL10nGeneric(): void {
+		// l('date'|'time', \DateTime, opts) — the \DateTime hint also guards against
+		// regressions of the DateTimeImmutable -> epoch-0 bug, since passing an
+		// Immutable here would raise a TypeError.
+		$this->l10n->method('l')
+			->willReturnCallback(static function (string $type, \DateTime $date, $opts): string {
+				return $type === 'time' ? $date->format('H:i') : $date->format('Y-m-d');
+			});
+		$this->l10n->method('t')
+			->willReturnCallback(static function (string $tmpl, array $args = []): string {
+				return vsprintf(preg_replace('/%\d+\$s/', '%s', $tmpl), $args);
+			});
+		$this->l10n->method('n')
+			->willReturnCallback(static function (string $singular, string $plural, int $count, array $args = []): string {
+				$tmpl = $count === 1 ? $singular : $plural;
+				$tmpl = str_replace('%n', (string)$count, $tmpl);
+				$tmpl = preg_replace('/%\d+\$s/', '%s', $tmpl);
+				return vsprintf($tmpl, $args);
+			});
+	}
+
+	private function buildDailyRecurringVCal(string $uid): VCalendar {
+		$vCal = new VCalendar();
+		$vEvent = $vCal->add('VEVENT', []);
+		$vEvent->UID->setValue($uid);
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Europe/Berlin']);
+		$vEvent->add('SUMMARY', 'Daily Recurring Event');
+		$vEvent->add('RRULE', 'FREQ=DAILY');
+		return $vCal;
+	}
+
+	public function testBuildBodyDataDetectsCanceledOccurrence(): void {
+		$this->stubL10nGeneric();
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240630T000000'));
+
+		$uid = '96a0e6b1-d886-4a55-a60d-152b31401dcc';
+		$newVCal = $this->buildDailyRecurringVCal($uid);
+		$newVCal->VEVENT[0]->add('EXDATE', '20240703T080000', ['TZID' => 'Europe/Berlin']);
+		$oldVCal = $this->buildDailyRecurringVCal($uid);
+
+		$data = $this->service->buildBodyData(
+			$newVCal->VEVENT[0],
+			$oldVCal->VEVENT[0],
+			$newVCal,
+			$oldVCal,
+		);
+
+		$this->assertArrayHasKey('meeting_canceled_occurrences', $data);
+		$this->assertSame(['2024-07-03 at 08:00'], $data['meeting_canceled_occurrences']);
+		$this->assertArrayNotHasKey('meeting_moved_occurrences', $data);
+	}
+
+	public function testBuildBodyDataIgnoresPreexistingExdates(): void {
+		$this->stubL10nGeneric();
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240630T000000'));
+
+		$uid = '96a0e6b1-d886-4a55-a60d-152b31401dcc';
+		$newVCal = $this->buildDailyRecurringVCal($uid);
+		$newVCal->VEVENT[0]->add('EXDATE', '20240703T080000', ['TZID' => 'Europe/Berlin']);
+		$newVCal->VEVENT[0]->add('EXDATE', '20240704T080000', ['TZID' => 'Europe/Berlin']);
+		$oldVCal = $this->buildDailyRecurringVCal($uid);
+		$oldVCal->VEVENT[0]->add('EXDATE', '20240703T080000', ['TZID' => 'Europe/Berlin']);
+
+		$data = $this->service->buildBodyData(
+			$newVCal->VEVENT[0],
+			$oldVCal->VEVENT[0],
+			$newVCal,
+			$oldVCal,
+		);
+
+		$this->assertSame(['2024-07-04 at 08:00'], $data['meeting_canceled_occurrences']);
+	}
+
+	public function testBuildBodyDataDetectsMovedOccurrence(): void {
+		$this->stubL10nGeneric();
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240630T000000'));
+
+		$uid = '96a0e6b1-d886-4a55-a60d-152b31401dcc';
+		$newVCal = $this->buildDailyRecurringVCal($uid);
+		$override = $newVCal->add('VEVENT', []);
+		$override->UID->setValue($uid);
+		$override->add('DTSTART', '20240703T093000', ['TZID' => 'Europe/Berlin']);
+		$override->add('DTEND', '20240703T103000', ['TZID' => 'Europe/Berlin']);
+		$override->add('RECURRENCE-ID', '20240703T080000', ['TZID' => 'Europe/Berlin']);
+		$override->add('SUMMARY', 'Daily Recurring Event');
+
+		$oldVCal = $this->buildDailyRecurringVCal($uid);
+
+		// IMipPlugin pops the changed VEvent — for a new override that's the override itself.
+		$data = $this->service->buildBodyData(
+			$newVCal->VEVENT[1],
+			null,
+			$newVCal,
+			$oldVCal,
+		);
+
+		$this->assertArrayHasKey('meeting_moved_occurrences', $data);
+		$this->assertSame(['2024-07-03 from 08:00 to 09:30'], $data['meeting_moved_occurrences']);
+		$this->assertArrayNotHasKey('meeting_canceled_occurrences', $data);
+	}
+
+	public function testBuildBodyDataDetectsMovedOccurrenceAcrossDays(): void {
+		$this->stubL10nGeneric();
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240630T000000'));
+
+		$uid = '96a0e6b1-d886-4a55-a60d-152b31401dcc';
+		$newVCal = $this->buildDailyRecurringVCal($uid);
+		// Move the July 3, 08:00 occurrence to July 4, 09:30 (different day + time).
+		$override = $newVCal->add('VEVENT', []);
+		$override->UID->setValue($uid);
+		$override->add('DTSTART', '20240704T093000', ['TZID' => 'Europe/Berlin']);
+		$override->add('DTEND', '20240704T103000', ['TZID' => 'Europe/Berlin']);
+		$override->add('RECURRENCE-ID', '20240703T080000', ['TZID' => 'Europe/Berlin']);
+		$override->add('SUMMARY', 'Daily Recurring Event');
+
+		$oldVCal = $this->buildDailyRecurringVCal($uid);
+
+		$data = $this->service->buildBodyData(
+			$newVCal->VEVENT[1],
+			null,
+			$newVCal,
+			$oldVCal,
+		);
+
+		// Cross-day pattern: "from <olddate> <oldtime> to <newdate> <newtime>".
+		$this->assertSame(['from 2024-07-03 08:00 to 2024-07-04 09:30'], $data['meeting_moved_occurrences']);
+	}
+
+	public function testBuildBodyDataReturnsNoExtraKeysWhenNothingRecurrenceChanged(): void {
+		$this->stubL10nGeneric();
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240630T000000'));
+
+		$uid = '96a0e6b1-d886-4a55-a60d-152b31401dcc';
+		$vCal = $this->buildDailyRecurringVCal($uid);
+
+		$data = $this->service->buildBodyData(
+			$vCal->VEVENT[0],
+			$vCal->VEVENT[0],
+			$vCal,
+			$vCal,
+		);
+
+		$this->assertArrayNotHasKey('meeting_canceled_occurrences', $data);
+		$this->assertArrayNotHasKey('meeting_moved_occurrences', $data);
+	}
+
+	public function testFindMasterEventSkipsOverrides(): void {
+		$uid = '96a0e6b1-d886-4a55-a60d-152b31401dcc';
+		$vCal = $this->buildDailyRecurringVCal($uid);
+		$override = $vCal->add('VEVENT', []);
+		$override->UID->setValue($uid);
+		$override->add('DTSTART', '20240703T093000', ['TZID' => 'Europe/Berlin']);
+		$override->add('RECURRENCE-ID', '20240703T080000', ['TZID' => 'Europe/Berlin']);
+
+		$master = $this->service->findMasterEvent($vCal, $uid);
+		$this->assertNotNull($master);
+		$this->assertFalse(isset($master->{'RECURRENCE-ID'}));
+		$this->assertSame('20240701T080000', $master->DTSTART->getValue());
+	}
+
 	public function testBuildReplyBodyDataEscapesStrings(): void {
 		$this->l10n->method('l')
 			->willReturnCallback(static function (string $type, \DateTime $date, $_):string {
