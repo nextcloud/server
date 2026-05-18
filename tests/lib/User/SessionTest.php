@@ -21,7 +21,6 @@ use OC\Session\Memory;
 use OC\User\LoginException;
 use OC\User\Manager;
 use OC\User\Session;
-use OC\User\User;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -31,9 +30,11 @@ use OCP\IRequest;
 use OCP\IRequestId;
 use OCP\ISession;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\User\Events\PostLoginEvent;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -125,7 +126,7 @@ class SessionTest extends \Test\TestCase {
 				'getUser'
 			])
 			->getMock();
-		$user = new User('sepp', null, $this->createMock(IEventDispatcher::class));
+		$user = Server::get(IUserManager::class)->getUserObject('sepp', null, false);
 		$userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($isLoggedIn ? $user : null);
@@ -907,9 +908,11 @@ class SessionTest extends \Test\TestCase {
 	}
 
 	public function testActiveUserAfterSetSession(): void {
+		$userManager = Server::get(IUserManager::class);
+
 		$users = [
-			'foo' => new User('foo', null, $this->createMock(IEventDispatcher::class)),
-			'bar' => new User('bar', null, $this->createMock(IEventDispatcher::class))
+			'foo' => $userManager->getUserObject('foo', null, false),
+			'bar' => $userManager->getUserObject('bar', null, false),
 		];
 
 		$manager = $this->getMockBuilder(Manager::class)

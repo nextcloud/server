@@ -266,4 +266,10 @@ interface IUserManager {
 	 * @since 33.0.0
 	 */
 	public function getExistingUser(string $userId, ?string $displayName = null): IUser;
+
+	/**
+	 * Get or construct the user object
+	 * @since 34.0.0
+	 */
+	public function getUserObject(string $uid, ?UserInterface $backend = null, bool $cacheUser = true): IUser;
 }

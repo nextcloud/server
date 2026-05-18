@@ -7,16 +7,16 @@
  */
 namespace OCA\Files_External\Tests\Controller;
 
-use OC\User\User;
 use OCA\Files_External\Controller\GlobalStoragesController;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class GlobalStoragesControllerTest extends StoragesControllerTestCase {
@@ -33,9 +33,9 @@ class GlobalStoragesControllerTest extends StoragesControllerTestCase {
 
 	private function createController(bool $allowCreateLocal = true): GlobalStoragesController {
 		$session = $this->createMock(IUserSession::class);
+		$userManager = Server::get(IUserManager::class);
 		$session->method('getUser')
-			->willReturn(new User('test', null, $this->createMock(IEventDispatcher::class)));
-
+			->willReturn($userManager->getUserObject('test', null, false));
 		$config = $this->createMock(IConfig::class);
 		$config->method('getSystemValue')
 			->with('files_external_allow_create_new_local', true)

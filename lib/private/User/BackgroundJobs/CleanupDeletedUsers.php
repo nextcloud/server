@@ -10,12 +10,9 @@ namespace OC\User\BackgroundJobs;
 
 use OC\User\Manager;
 use OC\User\PartiallyDeletedUsersBackend;
-use OC\User\User;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class CleanupDeletedUsers extends TimedJob {
@@ -48,13 +45,7 @@ class CleanupDeletedUsers extends TimedJob {
 			}
 
 			try {
-				$user = new User(
-					$userId,
-					$backend,
-					Server::get(IEventDispatcher::class),
-					$this->userManager,
-					$this->config,
-				);
+				$user = $this->userManager->getUserObject($userId, $backend, false);
 				$user->delete();
 				$this->logger->info('Cleaned up deleted user {userId}', ['userId' => $userId]);
 			} catch (\Throwable $error) {

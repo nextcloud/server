@@ -21,7 +21,9 @@ use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\GroupInterface;
 use OCP\ICacheFactory;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Security\Ip\IRemoteAddress;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -811,7 +813,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('searchInGroup')
 			->with('testgroup', '', 1, 0)
-			->willReturn([new User('user2', null, $this->dispatcher)]);
+			->willReturn([Server::get(IUserManager::class)->getUserObject('user2', null, false)]);
 
 		$this->userManager->expects($this->never())->method('get');
 
