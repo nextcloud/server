@@ -44,6 +44,7 @@
 </template>
 
 <script type="ts">
+import { getBaseUrl } from '@nextcloud/router'
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { defineComponent } from 'vue'
 import {
@@ -126,13 +127,19 @@ export default defineComponent({
 			this.$emit('update:username', this.user)
 		},
 		completeAuthentication(challenge) {
-			const redirectUrl = this.redirectUrl
+			let redirectUrl = this.redirectUrl
 
 			return finishAuthentication(challenge)
 				.then(({ defaultRedirectUrl }) => {
-					console.debug('Logged in redirecting')
-					// Redirect url might be false so || should be used instead of ??.
-					window.location.href = redirectUrl || defaultRedirectUrl
+					logger.debug('Logged in redirecting')
+					if (redirectUrl) {
+						if (redirectUrl.charAt(0) !== '/') {
+							redirectUrl = '/' + redirectUrl
+						}
+						window.location.href = getBaseUrl() + redirectUrl
+					} else {
+						window.location.href = defaultRedirectUrl
+					}
 				})
 				.catch(error => {
 					console.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!')
