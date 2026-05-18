@@ -15,17 +15,6 @@ use OCP\IConfig;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
-/**
- * Manage trusted certificates and the effective CA bundle used by Nextcloud.
- *
- * Uploaded PEM certificates are merged with the shipped default CA bundle to
- * produce the effective bundle consumed by HTTP clients and external storage
- * integrations.
- *
- * The uploaded certificates and generated bundle are stored under the
- * files_external path for historical reasons, maintaining compatibility
- * with pre-existing deployments.
- */
 class CertificateManager implements ICertificateManager {
 	private ?string $bundlePath = null;
 
@@ -37,11 +26,6 @@ class CertificateManager implements ICertificateManager {
 	) {
 	}
 
-	/**
-	 * Return the certificates stored in the internal upload area.
-	 *
-	 * @return ICertificate[]
-	 */
 	#[\Override]
 	public function listCertificates(): array {
 		if (!$this->config->getSystemValueBool('installed', false)) {
@@ -158,14 +142,6 @@ class CertificateManager implements ICertificateManager {
 		$this->view->rename($tmpPath, $certPath);
 	}
 
-	/**
-	 * Store a certificate and regenerate the effective bundle.
-	 *
-	 * @param string $certificate Certificate data in PEM format
-	 * @param string $name File name to store the certificate under
-	 * @return ICertificate
-	 * @throws \Exception If the certificate cannot be stored or the bundle cannot be rebuilt
-	 */
 	#[\Override]
 	public function addCertificate(string $certificate, string $name): ICertificate {
 		$path = $this->getPathToCertificates() . 'uploads/' . $name;
@@ -188,12 +164,6 @@ class CertificateManager implements ICertificateManager {
 		}
 	}
 
-	/**
-	 * Remove a stored certificate and regenerate the effective bundle.
-	 *
-	 * @param string $name File name of the certificate to remove
-	 * @return bool False if the path is invalid, true otherwise
-	 */
 	#[\Override]
 	public function removeCertificate(string $name): bool {
 		$path = $this->getPathToCertificates() . 'uploads/' . $name;
@@ -212,25 +182,11 @@ class CertificateManager implements ICertificateManager {
 		return true;
 	}
 
-	/**
-	 * Get the relative path to the generated certificate bundle.
-	 */
 	#[\Override]
 	public function getCertificateBundle(): string {
 		return $this->getPathToCertificates() . 'rootcerts.crt';
 	}
 
-	/**
-	 * Get the local filesystem path to the effective certificate bundle.
-	 *
-	 * Returns the generated bundle when uploaded certificates exist, otherwise
-	 * falls back to the shipped default CA bundle.
-	 *
-	 * If resolving the generated bundle fails, the default bundle is returned as
-	 * a safe fallback.
-	 *
-	 * @throws \Exception If unable to retrieve/confirm the bundle path for any reason.
-	 */
 	#[\Override]
 	public function getAbsoluteBundlePath(): string {
 		try {
@@ -260,9 +216,10 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * Get the base path used to store uploaded certificates and the generated bundle.
 	 *
-	 * Kept under the files_external namespace for compatibility with existing
-	 * deployments.
-	 */
+	 * The uploaded certificates and generated bundle are stored under the
+	 * files_external path for historical reasons, maintaining compatibility
+	 * with pre-existing deployments.
+ 	*/
 	private function getPathToCertificates(): string {
 		return '/files_external/';
 	}
@@ -288,9 +245,6 @@ class CertificateManager implements ICertificateManager {
 		return filemtime($this->getDefaultCertificatesBundlePath());
 	}
 
-	/**
-	 * Return the configured path to the shipped default CA bundle.
-	 */
 	#[\Override]
 	public function getDefaultCertificatesBundlePath(): string {
 		return $this->config->getSystemValueString('default_certificates_bundle_path', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
