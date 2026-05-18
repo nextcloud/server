@@ -77,7 +77,8 @@ class User implements IUser {
 		private IEventDispatcher $dispatcher,
 		$emitter = null,
 		?IConfig $config = null,
-		$urlGenerator = null,
+		?IURLGenerator $urlGenerator = null,
+		?IAssertion $assertion = null,
 	) {
 		$this->emitter = $emitter;
 		$this->config = $config ?? \OCP\Server::get(IConfig::class);
@@ -485,6 +486,11 @@ class User implements IUser {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 			$this->enabled = $enabled;
 		};
+
+		if ($oldStatus === false && $enabled === true) {
+			$this->assertion->createUserIsLegit();
+		}
+
 		if ($this->backend instanceof IProvideEnabledStateBackend) {
 			$queryDatabaseValue = function (): bool {
 				if ($this->enabled === null) {
