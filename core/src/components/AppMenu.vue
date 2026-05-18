@@ -33,7 +33,7 @@
 				class="app-menu__popover"
 				role="menu"
 				:aria-label="t('core', 'Apps')">
-				<div class="app-menu__grid" @keydown="onGridKeydown">
+				<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
 					<AppItem
 						v-for="(item, i) in gridItems"
 						:key="item.id"
@@ -149,6 +149,8 @@ export default defineComponent({
 			// skidding sign isn't auto-mirrored, so we flip it here. Snapshot
 			// at init: Nextcloud's language doesn't change at runtime.
 			popoverSkidding: isRTL() ? 82 : -82,
+			// Re-fires recomputeGridMaxHeight on layout changes.
+			gridResizeObserver: null as ResizeObserver | null,
 		}
 	},
 
@@ -182,6 +184,9 @@ export default defineComponent({
 		opened(isOpen: boolean) {
 			if (isOpen) {
 				this.focusedIndex = this.activeGridIndex()
+				this.$nextTick(() => this.attachGridObserver())
+			} else {
+				this.detachGridObserver()
 			}
 		},
 	},
@@ -199,6 +204,7 @@ export default defineComponent({
 	beforeUnmount() {
 		unsubscribe('nextcloud:app-menu.refresh', this.setApps)
 		;(this.$refs.popover as { $off: (e: string, fn: () => void) => void } | undefined)?.$off('after-hide', this.onPopoverAfterHide)
+		this.detachGridObserver()
 	},
 
 	methods: {
@@ -234,6 +240,57 @@ export default defineComponent({
 			this.appList = apps
 			if (this.focusedIndex >= this.gridItems.length) {
 				this.focusedIndex = this.activeGridIndex()
+			}
+		},
+
+		// NcPopover renders the slot lazily; poll for the grid ref via rAF.
+		attachGridObserver(retries = 30) {
+			if (!this.opened || retries <= 0) {
+				return
+			}
+			const grid = this.$refs.grid as HTMLElement | undefined
+			if (!grid) {
+				requestAnimationFrame(() => this.attachGridObserver(retries - 1))
+				return
+			}
+			this.detachGridObserver()
+			this.gridResizeObserver = new ResizeObserver(() => this.recomputeGridMaxHeight())
+			this.gridResizeObserver.observe(grid)
+			this.recomputeGridMaxHeight()
+		},
+
+		detachGridObserver() {
+			this.gridResizeObserver?.disconnect()
+			this.gridResizeObserver = null
+		},
+
+		// Cap = sum of first 6 row heights + baseline × 6, so the peek of
+		// row 7 stays constant when wraps grow rows.
+		recomputeGridMaxHeight() {
+			const grid = this.$refs.grid as HTMLElement | undefined
+			if (!grid) {
+				return
+			}
+			const VISIBLE_CELLS = 24 // 4 cols × 6 visible rows
+			const cells = grid.children
+			if (cells.length <= VISIBLE_CELLS) {
+				if (grid.style.maxHeight !== '') {
+					grid.style.maxHeight = ''
+				}
+				return
+			}
+			const firstHidden = cells[VISIBLE_CELLS] as HTMLElement | undefined
+			const firstCell = cells[0] as HTMLElement | undefined
+			if (!firstHidden || !firstCell) {
+				return
+			}
+			const sumOfFirstRows = firstHidden.getBoundingClientRect().top
+				- firstCell.getBoundingClientRect().top
+			const baseline = parseFloat(getComputedStyle(grid).getPropertyValue('--default-grid-baseline')) || 4
+			const cap = `${sumOfFirstRows + baseline * 6}px`
+			// Skip identical writes — they re-fire the ResizeObserver.
+			if (grid.style.maxHeight !== cap) {
+				grid.style.maxHeight = cap
 			}
 		},
 
@@ -385,6 +442,16 @@ export default defineComponent({
 			outline: none !important;
 			box-shadow: inset 0 0 0 2px var(--color-background-plain-text) !important;
 		}
+
+		// Inner text slot needs min-width: 0 so the label can ellipsize.
+		:deep(.button-vue__text) {
+			min-width: 0;
+		}
+
+		// Hide on small screens (matches $breakpoint-small-mobile in @nextcloud/vue).
+		@media only screen and (max-width: 512px) {
+			display: none !important;
+		}
 	}
 
 	&__current-app-icon {
@@ -402,10 +469,18 @@ export default defineComponent({
 	}
 
 	&__current-app-name {
+		// inline-block: inline elements ignore max-width + overflow.
+		display: inline-block;
+		vertical-align: middle;
 		font-size: var(--default-font-size);
 		font-weight: 500;
 		white-space: nowrap;
 		letter-spacing: -0.5px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		// Cap width so long titles ellipsize instead of pushing the header
+		// icons off-screen (.header-start doesn't shrink).
+		max-width: clamp(80px, 22vw, 320px);
 	}
 
 	&__popover {
@@ -416,14 +491,14 @@ export default defineComponent({
 	&__grid {
 		--app-item-col-width: 69px;
 		--app-item-row-height: 64px;
-		--app-menu-rows-visible: 6;
+		// border-box: the JS-set max-height (see recomputeGridMaxHeight)
+		// needs to include padding for the peek math to hold.
+		box-sizing: border-box;
 		padding: calc(var(--default-grid-baseline) * 2);
 		display: grid;
 		grid-template-columns: repeat(4, var(--app-item-col-width));
 		grid-auto-rows: minmax(var(--app-item-row-height), max-content);
-		// + baseline * 5: peek-row hint so users see that content continues
-		// below the fold.
-		max-height: calc(var(--app-item-row-height) * var(--app-menu-rows-visible) + var(--default-grid-baseline) * 7);
+		// max-height set inline by recomputeGridMaxHeight(); CSS just owns the scroll.
 		overflow-y: auto;
 
 		// Extra top padding on first-row tiles so the hover bg reads
