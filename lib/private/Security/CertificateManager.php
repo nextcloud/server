@@ -219,7 +219,7 @@ class CertificateManager implements ICertificateManager {
 	 * The uploaded certificates and generated bundle are stored under the
 	 * files_external path for historical reasons, maintaining compatibility
 	 * with pre-existing deployments.
- 	*/
+	 */
 	private function getPathToCertificates(): string {
 		return '/files_external/';
 	}
