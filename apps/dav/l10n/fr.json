@@ -240,6 +240,7 @@
     "Failed to unlink: %1$s" : "Impossible de supprimer le lien :%1$s",
     "Failed to write file contents: %1$s" : "Impossible d'écrire le contenu du fichier : %1$s",
     "File not found: %1$s" : "Fichier non trouvé : %1$s",
+    "Insufficient space" : "Espace insuffisant",
     "Invalid target path" : "Chemin cible non valide",
     "System is in maintenance mode." : "Le système est en mode maintenance.",
     "Upgrade needed" : "Mise à jour requise",
