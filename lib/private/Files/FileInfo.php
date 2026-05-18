@@ -368,7 +368,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @inheritdoc
 	 */
 	public function getChecksum() {
-		return return $this->data['checksum'] ?? '';
+		return $this->data['checksum'] ?? '';
 	}
 
 	public function getExtension(): string {
