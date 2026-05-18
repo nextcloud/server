@@ -2,7 +2,9 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getRowForFile } from './FilesUtils.ts'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { getRowForFile, navigateToFolder } from './FilesUtils.ts'
 
 describe('files: Drag and Drop', { testIsolation: true }, () => {
 	beforeEach(() => {
@@ -144,5 +146,97 @@ describe('files: Drag and Drop', { testIsolation: true }, () => {
 		getRowForFile('second.txt').should('be.visible')
 		getRowForFile('Foo').should('not.exist')
 		getRowForFile('Bar').should('not.exist')
+	})
+})
+
+// Regression coverage for https://github.com/nextcloud/server/issues/60139
+// The per-row drop handler in FileEntryMixin used to pass raw FileSystemEntry
+// objects to @nextcloud/upload's batchUpload; on some Chromium builds the
+// instanceof-based conversion silently failed and the chunk uploader crashed
+// with "e.slice is not a function". The fix routes the per-row drop through
+// the same dataTransferToFileTree pipeline as the main file-list drop.
+//
+// Sibling describe (not nested) so the outer suite's `beforeEach` doesn't
+// spin up an unused user before each test in this block.
+describe('files: Drag and Drop onto a folder row', { testIsolation: true }, () => {
+	let user: User
+
+	beforeEach(() => {
+		cy.createRandomUser().then((u) => {
+			user = u
+			cy.mkdir(user, '/subfolder')
+			cy.login(user)
+		})
+		cy.visit('/apps/files')
+		getRowForFile('subfolder').should('be.visible')
+	})
+
+	it('can drop a single file onto a subfolder row', () => {
+		cy.intercept('PUT', /\/remote.php\/dav\/files\//).as('uploadFile')
+
+		getRowForFile('subfolder').selectFile({
+			fileName: 'dropped-into-subfolder.txt',
+			contents: ['hello '.repeat(1024)],
+		}, { action: 'drag-drop' })
+
+		cy.wait('@uploadFile').its('request.url')
+			.should('match', /\/subfolder\/dropped-into-subfolder\.txt$/)
+
+		cy.get('[data-cy-upload-picker] progress').should('not.be.visible')
+
+		navigateToFolder('/subfolder')
+		getRowForFile('dropped-into-subfolder.txt').should('be.visible')
+	})
+
+	it('can drop multiple files onto a subfolder row', () => {
+		cy.intercept('PUT', /\/remote.php\/dav\/files\//).as('uploadFile')
+
+		getRowForFile('subfolder').selectFile([
+			{ fileName: 'one.txt', contents: ['A'.repeat(1024)] },
+			{ fileName: 'two.txt', contents: ['B'.repeat(1024)] },
+		], { action: 'drag-drop' })
+
+		// Both files must land under the subfolder, not the current dir.
+		cy.wait(['@uploadFile', '@uploadFile']).then((intercepts) => {
+			const urls = intercepts.map((i) => i.request.url).sort()
+			expect(urls).to.have.length(2)
+			urls.forEach((url) => {
+				expect(url).to.match(/\/subfolder\/(one|two)\.txt$/)
+			})
+		})
+
+		cy.get('[data-cy-upload-picker] progress').should('not.be.visible')
+
+		navigateToFolder('/subfolder')
+		getRowForFile('one.txt').should('be.visible')
+		getRowForFile('two.txt').should('be.visible')
+	})
+
+	it('opens the conflict picker when dropping a colliding name onto a subfolder row', () => {
+		// Pre-populate the subfolder with a file the drop will collide with.
+		cy.uploadContent(user, new Blob(['original']), 'text/plain', '/subfolder/collide.txt')
+
+		// Reload so the pre-populated file lands in the store before the drop.
+		// The drop handler reads filesStore.getNodesByPath first and only
+		// fetches fresh contents when the cache is empty, so a stale cache
+		// from the beforeEach visit would let the upload proceed without
+		// triggering the conflict picker. If this ever flaps on CI, replace
+		// the visit with cy.reload() + an explicit wait on store settlement.
+		cy.visit('/apps/files')
+		getRowForFile('subfolder').should('be.visible')
+
+		cy.intercept('PUT', /\/remote.php\/dav\/files\//).as('uploadFile')
+
+		getRowForFile('subfolder').selectFile({
+			fileName: 'collide.txt',
+			contents: ['replacement '.repeat(1024)],
+		}, { action: 'drag-drop' })
+
+		// Wait for the conflict picker to appear, then assert no PUT has
+		// fired yet — chained so the upload-count check happens *after* the
+		// dialog is visible, enforcing the "dialog blocks upload" invariant.
+		cy.findByRole('dialog').should('be.visible').then(() => {
+			cy.get('@uploadFile.all').should('have.length', 0)
+		})
 	})
 })
