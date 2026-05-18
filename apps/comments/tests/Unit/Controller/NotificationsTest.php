@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Comments\Tests\Unit\Controller;
 
 use OCA\Comments\Controller\NotificationsController;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Comments\IComment;
@@ -161,6 +162,104 @@ class NotificationsTest extends TestCase {
 
 		$response = $this->notificationsController->view('42');
 		$this->assertInstanceOf(NotFoundResponse::class, $response);
+	}
+
+	public function testDismissNotLoggedIn(): void {
+		$this->session->expects($this->once())
+			->method('getUser')
+			->willReturn(null);
+
+		$this->commentsManager->expects($this->never())
+			->method('get');
+		$this->notificationManager->expects($this->never())
+			->method('markProcessed');
+
+		$response = $this->notificationsController->dismiss('42');
+		$this->assertInstanceOf(DataResponse::class, $response);
+		$this->assertSame(403, $response->getStatus());
+	}
+
+	public function testDismissSuccess(): void {
+		$comment = $this->createMock(IComment::class);
+		$comment->expects($this->any())
+			->method('getObjectType')
+			->willReturn('files');
+		$comment->expects($this->any())
+			->method('getId')
+			->willReturn('1234');
+
+		$this->commentsManager->expects($this->once())
+			->method('get')
+			->with('42')
+			->willReturn($comment);
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+		$this->session->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$notification = $this->createMock(INotification::class);
+		$notification->expects($this->any())
+			->method($this->anything())
+			->willReturn($notification);
+
+		$this->notificationManager->expects($this->once())
+			->method('createNotification')
+			->willReturn($notification);
+		$this->notificationManager->expects($this->once())
+			->method('markProcessed')
+			->with($notification);
+
+		$response = $this->notificationsController->dismiss('42');
+		$this->assertInstanceOf(DataResponse::class, $response);
+		$this->assertSame(200, $response->getStatus());
+	}
+
+	public function testDismissInvalidComment(): void {
+		$this->commentsManager->expects($this->once())
+			->method('get')
+			->with('42')
+			->willThrowException(new NotFoundException());
+
+		$user = $this->createMock(IUser::class);
+		$this->session->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->notificationManager->expects($this->never())
+			->method('markProcessed');
+
+		$response = $this->notificationsController->dismiss('42');
+		$this->assertInstanceOf(DataResponse::class, $response);
+		$this->assertSame(404, $response->getStatus());
+	}
+
+	public function testDismissNonFileComment(): void {
+		$comment = $this->createMock(IComment::class);
+		$comment->expects($this->any())
+			->method('getObjectType')
+			->willReturn('calendar');
+
+		$this->commentsManager->expects($this->once())
+			->method('get')
+			->with('42')
+			->willReturn($comment);
+
+		$user = $this->createMock(IUser::class);
+		$this->session->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->notificationManager->expects($this->never())
+			->method('markProcessed');
+
+		$response = $this->notificationsController->dismiss('42');
+		$this->assertInstanceOf(DataResponse::class, $response);
+		$this->assertSame(404, $response->getStatus());
 	}
 
 	public function testViewNoFile(): void {
