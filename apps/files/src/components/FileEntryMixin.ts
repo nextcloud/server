@@ -18,7 +18,7 @@ import { relative } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { onDropInternalFiles } from '../services/DropService.ts'
+import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isDownloadable } from '../utils/permissions.ts'
@@ -434,13 +434,13 @@ export default defineComponent({
 			const items = Array.from(event.dataTransfer?.items || [])
 
 			if (selection.length === 0 && items.some((item) => item.kind === 'file')) {
-				const files = items.filter((item) => item.kind === 'file')
-					.map((item) => 'webkitGetAsEntry' in item ? item.webkitGetAsEntry() : item.getAsFile())
-					.filter(Boolean) as (FileSystemEntry | File)[]
-				const uploader = getUploader()
-				const root = uploader.destination.path
-				const relativePath = relative(root, this.source.path)
-				logger.debug('Start uploading dropped files', { target: this.source.path, root, relativePath, files: files.map((file) => file.name) })
+				// Snapshot DataTransfer items immediately so Blink clears data.items
+				// after the first async yield. Then convert FileSystemEntry to File
+				// inside dataTransferToFileTree (duck-typed via entry.isFile) rather
+				// than deferring to @nextcloud/upload's batchUpload, whose
+				// instanceof-based conversion silently no-ops on some Chromium builds.
+				// See https://github.com/nextcloud/server/issues/60139
+				const fileTree = await dataTransferToFileTree(items)
 
 				await uploader.batchUpload(
 					relativePath,
@@ -453,27 +453,14 @@ export default defineComponent({
 								return nodes
 							}
 
-							const result = await openConflictPicker(
-								folder.displayname,
-								conflicts,
-								(contents as Node[]).filter((node) => conflicts.some((conflict) => conflict.name === node.basename)),
-								{
-									recursive: true,
-								},
-							)
-							if (result === null) {
-								return false
-							}
-							return [
-								...nodes.filter((node) => !conflicts.some((conflict) => conflict.name === node.name)),
-								...result.selected,
-								...result.renamed,
-							]
-						} catch {
-							return nodes
-						}
-					},
-				)
+				// Fetch destination contents for conflict resolution
+				const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
+				const contents = cachedContents.length === 0
+					? (await this.activeView!.getContents(this.source.path)).contents
+					: cachedContents
+
+				logger.debug('Start uploading dropped files', { target: this.source.path, fileTree })
+				await onDropExternalFiles(fileTree, this.source, contents)
 				this.dragover = false
 				return
 			}
