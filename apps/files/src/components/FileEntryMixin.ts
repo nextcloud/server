@@ -6,19 +6,16 @@
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { openConflictPicker } from '@nextcloud/dialogs'
 import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { extname } from '@nextcloud/paths'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { generateUrl } from '@nextcloud/router'
-import { getConflicts, getUploader } from '@nextcloud/upload'
 import { vOnClickOutside } from '@vueuse/components'
-import { relative } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { onDropInternalFiles } from '../services/DropService.ts'
+import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isDownloadable } from '../utils/permissions.ts'
@@ -472,46 +469,31 @@ export default defineComponent({
 			const items = Array.from(event.dataTransfer?.items || [])
 
 			if (selection.length === 0 && items.some((item) => item.kind === 'file')) {
-				const files = items.filter((item) => item.kind === 'file')
-					.map((item) => 'webkitGetAsEntry' in item ? item.webkitGetAsEntry() : item.getAsFile())
-					.filter(Boolean) as (FileSystemEntry | File)[]
-				const uploader = getUploader()
-				const root = uploader.destination.path
-				const relativePath = relative(root, this.source.path)
-				logger.debug('Start uploading dropped files', { target: this.source.path, root, relativePath, files: files.map((file) => file.name) })
+				// Snapshot DataTransfer items immediately so Blink clears data.items
+				// after the first async yield. Then convert FileSystemEntry to File
+				// inside dataTransferToFileTree (duck-typed via entry.isFile) rather
+				// than deferring to @nextcloud/upload's batchUpload, whose
+				// instanceof-based conversion silently no-ops on some Chromium builds.
+				// See https://github.com/nextcloud/server/issues/60139
+				const fileTree = await dataTransferToFileTree(items)
 
-				await uploader.batchUpload(
-					relativePath,
-					files,
-					async (nodes, path) => {
-						try {
-							const { contents, folder } = await this.currentView!.getContents(path)
-							const conflicts = getConflicts(nodes, contents)
-							if (conflicts.length === 0) {
-								return nodes
-							}
+				// canDrop already gates this branch on FileType.Folder, but the
+				// type system can't see that — narrow defensively so a future
+				// loosening of canDrop can't silently lie via the cast below.
+				if (!(this.source instanceof Folder)) {
+					logger.error('onDrop: external drop target is not a Folder', { source: this.source })
+					this.dragover = false
+					return
+				}
 
-							const result = await openConflictPicker(
-								folder.displayname,
-								conflicts,
-								(contents as Node[]).filter((node) => conflicts.some((conflict) => conflict.name === node.basename)),
-								{
-									recursive: true,
-								},
-							)
-							if (result === null) {
-								return false
-							}
-							return [
-								...nodes.filter((node) => !conflicts.some((conflict) => conflict.name === node.name)),
-								...result.selected,
-								...result.renamed,
-							]
-						} catch {
-							return nodes
-						}
-					},
-				)
+				// Fetch destination contents for conflict resolution
+				const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
+				const contents = cachedContents.length === 0
+					? (await this.activeView!.getContents(this.source.path)).contents
+					: cachedContents
+
+				logger.debug('Start uploading dropped files', { target: this.source.path, fileTree })
+				await onDropExternalFiles(fileTree, this.source, contents)
 				this.dragover = false
 				return
 			}
