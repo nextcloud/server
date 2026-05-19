@@ -26,6 +26,10 @@ class DBConfigServiceTest extends TestCase {
 		parent::setUp();
 		$this->connection = Server::get(IDBConnection::class);
 		$this->dbConfig = new DBConfigService($this->connection, Server::get(ICrypto::class));
+		// Remove any mounts left by a previously failed test run
+		foreach ($this->dbConfig->getAllMounts() as $mount) {
+			$this->dbConfig->removeMount($mount['mount_id']);
+		}
 	}
 
 	protected function tearDown(): void {

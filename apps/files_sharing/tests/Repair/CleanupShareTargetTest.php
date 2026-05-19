@@ -27,6 +27,11 @@ class CleanupShareTargetTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->cleanupShareTarget = Server::get(CleanupShareTarget::class);
+		// Ensure all test users' home folders are in the filecache before any share
+		// operations, because tearDown wipes filecache and getShareById JOINs on it.
+		foreach ([self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER3] as $user) {
+			$this->rootFolder->getUserFolder($user)->getDirectoryListing();
+		}
 	}
 
 	private function createUserShare(string $by, string $target = self::TEST_FOLDER_NAME): IShare {

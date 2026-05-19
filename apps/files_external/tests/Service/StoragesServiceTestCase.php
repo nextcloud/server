@@ -50,6 +50,13 @@ class CleaningDBConfig extends DBConfigService {
 			$this->removeMount($id);
 		}
 	}
+
+	public function cleanAll(): void {
+		foreach ($this->getAllMounts() as $mount) {
+			$this->removeMount($mount['mount_id']);
+		}
+		$this->mountIds = [];
+	}
 }
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
@@ -65,6 +72,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(Server::get(IDBConnection::class), Server::get(ICrypto::class));
+		$this->dbConfig->cleanAll(); // Remove any mounts left by previous test runs
 		self::$hookCalls = [];
 		$config = Server::get(IConfig::class);
 		$this->dataDir = $config->getSystemValue(
