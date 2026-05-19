@@ -6,8 +6,7 @@ OC.L10N.register(
     "Version" : "Versión",
     "Actions" : "Acciones",
     "Grid view" : "Vista de cuadrícula",
-    "Cancel" : "Cancel",
-    "Type" : "Tipo",
+    "Learn more" : "Conoce más",
     "Name" : "Nombre",
     "Display Name" : "Nombre a desplegar",
     "Confirm" : "Confirmar",
@@ -16,7 +15,7 @@ OC.L10N.register(
     "Visit website" : "Visita el sitio web",
     "Admin documentation" : "Documentación del administrador",
     "Developer documentation" : "Documentación del desarrollador",
-    "This app cannot be installed because the following dependencies are not fulfilled:" : "Esta aplicación no puede ser instalada porque las siguientes dependencias no están satisfechas:",
+    "Details" : "Detalles",
     "Categories" : "Categorías",
     "Resources" : "Recursos",
     "Changelog" : "Bitácora de cambios",
@@ -24,9 +23,10 @@ OC.L10N.register(
     "Limit to groups" : "Limitar a grupos",
     "Save" : "Guardar",
     "Disable" : "Deshabilitar",
+    "Report a bug" : "Reporta un detalle",
     "Update to {version}" : "Actualizar a {version}",
     "Your apps" : "Tus aplicaciones",
     "Disabled apps" : "Aplicaciones deshabilitadas",
-    "App bundles" : "Paquetes de aplicación"
+    "Updates" : "Actualizaciones"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
