@@ -12,6 +12,7 @@ namespace OCA\DAV\CalDAV;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\IManager;
+use OCP\Calendar\ITimezoneService;
 use OCP\Config\IUserConfig;
 use OCP\IConfig;
 use Sabre\VObject\Component\VCalendar;
@@ -19,7 +20,7 @@ use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\Reader;
 use function array_reduce;
 
-class TimezoneService {
+class TimezoneService implements ITimezoneService {
 
 	public function __construct(
 		private IConfig $config,
