@@ -11,8 +11,11 @@ use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\SharedMount;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Constants;
 use OCP\ICacheFactory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Server;
@@ -254,6 +257,93 @@ class SharedMountTest extends TestCase {
 	}
 
 	/**
+	 * Simulate the ownCloud migration scenario: a TYPE_GROUP share whose `accepted`
+	 * column was set to STATUS_ACCEPTED by the SetAcceptedStatus repair step, but
+	 * which has no per-user USERGROUP subshare (OC never created them).
+	 *
+	 * On first rename, DefaultShareProvider::move() must create the USERGROUP subshare
+	 * with accepted = STATUS_ACCEPTED so MountProvider does not skip it on the next
+	 * login, causing the file to appear to vanish.
+	 */
+	public function testMoveOwncloudMigratedGroupShareRemainsVisibleAfterRename(): void {
+		$testGroup = $this->groupManager->createGroup('testGroupOC');
+		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
+		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);
+		$testGroup->addUser($user1);
+		$testGroup->addUser($user2);
+
+		// Create a group share without going through the NC acceptance flow,
+		// then directly set accepted = STATUS_ACCEPTED on the GROUP row to mimic
+		// the state left by SetAcceptedStatus after an OC→NC migration.
+		$share = $this->share(
+			IShare::TYPE_GROUP,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			'testGroupOC',
+			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
+		);
+
+		$db = Server::get(IDBConnection::class);
+
+		// Remove any USERGROUP subshares the acceptance flow may have created,
+		// then stamp the GROUP row as STATUS_ACCEPTED — this is the OC migration state.
+		$qb = $db->getQueryBuilder();
+		$qb->delete('share')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter((int)$share->getId(), IQueryBuilder::PARAM_INT)))
+			->executeStatement();
+
+		$qb = $db->getQueryBuilder();
+		$qb->update('share')
+			->set('accepted', $qb->createNamedParameter(IShare::STATUS_ACCEPTED, IQueryBuilder::PARAM_INT))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter((int)$share->getId(), IQueryBuilder::PARAM_INT)))
+			->executeStatement();
+
+		// Log in as the recipient; the share should be visible via the GROUP row.
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue(Filesystem::file_exists($this->filename), 'Share should be visible before rename');
+
+		// Rename — this triggers move() which must create the USERGROUP subshare
+		// with accepted = STATUS_ACCEPTED (not the default STATUS_PENDING).
+		$renamed = Filesystem::rename($this->filename, $this->filename . '_oc_renamed');
+		$this->assertTrue($renamed, 'Rename should succeed');
+		$this->assertTrue(Filesystem::file_exists($this->filename . '_oc_renamed'));
+
+		// Re-login to flush the mount cache and force MountProvider to rebuild from DB.
+		// If the USERGROUP subshare was created with accepted = STATUS_PENDING, the
+		// share would be skipped here and the file would appear to vanish.
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue(
+			Filesystem::file_exists($this->filename . '_oc_renamed'),
+			'Share must still be visible after re-login — USERGROUP subshare must have accepted = STATUS_ACCEPTED'
+		);
+
+		// Cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->shareManager->deleteShare($share);
+		$testGroup->removeUser($user1);
+		$testGroup->removeUser($user2);
+		$this->groupManager->get('testGroupOC')?->delete();
+	}
+
+	/**
+	 * When updateFileTarget() throws — e.g. Manager::moveShare() rejects an
+	 * OC-migrated group share because the original group no longer exists —
+	 * moveMount() must return false so View::rename() propagates the failure
+	 * cleanly rather than silently corrupting the virtual filesystem state.
+	 */
+	public function testMoveMountReturnsFalseWhenUpdateFileTargetThrows(): void {
+		$storage = $this->createMock(SharedStorage::class);
+		$storage->method('getShare')->willReturn($this->createMock(IShare::class));
+
+		$mount = new SharedMountWithFailingUpdate($storage);
+
+		$result = $mount->moveMount('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/newname');
+
+		$this->assertFalse($result);
+	}
+
+	/**
 	 * If the permissions on a group share are upgraded be sure to still respect
 	 * removed shares by a member of that group
 	 */
@@ -430,5 +520,20 @@ class DummyTestClassSharedMount extends SharedMount {
 
 	public function stripUserFilesPathDummy($path) {
 		return $this->stripUserFilesPath($path);
+	}
+}
+
+/**
+ * SharedMount subclass whose updateFileTarget() always throws, used to verify
+ * that moveMount() returns false and does not silently corrupt VFS state.
+ */
+class SharedMountWithFailingUpdate extends SharedMount {
+	public function __construct(SharedStorage $storage) {
+		$this->storage = $storage;
+		$this->mountPoint = '/testuser/files/testfile';
+	}
+
+	protected function updateFileTarget($newPath, &$share): void {
+		throw new \Exception('Simulated failure: group no longer exists');
 	}
 }

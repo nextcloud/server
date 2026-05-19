@@ -116,7 +116,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	 * @param IShare $share
 	 * @return bool
 	 */
-	private function updateFileTarget($newPath, &$share) {
+	protected function updateFileTarget($newPath, &$share) {
 		$share->setTarget($newPath);
 
 		foreach ($this->groupedShares as $tmpShare) {
@@ -199,6 +199,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 					'exception' => $e,
 				]
 			);
+			$result = false;
 		}
 
 		return $result;

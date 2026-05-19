@@ -42,6 +42,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Command\\CleanupRemoteStorages' => __DIR__ . '/..' . '/../lib/Command/CleanupRemoteStorages.php',
         'OCA\\Files_Sharing\\Command\\DeleteOrphanShares' => __DIR__ . '/..' . '/../lib/Command/DeleteOrphanShares.php',
         'OCA\\Files_Sharing\\Command\\ExiprationNotification' => __DIR__ . '/..' . '/../lib/Command/ExiprationNotification.php',
+        'OCA\\Files_Sharing\\Command\\FixOwncloudGroupSubshareStatus' => __DIR__ . '/..' . '/../lib/Command/FixOwncloudGroupSubshareStatus.php',
         'OCA\\Files_Sharing\\Command\\FixShareOwners' => __DIR__ . '/..' . '/../lib/Command/FixShareOwners.php',
         'OCA\\Files_Sharing\\Config\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/Config/ConfigLexicon.php',
         'OCA\\Files_Sharing\\Controller\\AcceptController' => __DIR__ . '/..' . '/../lib/Controller/AcceptController.php',
