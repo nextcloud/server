@@ -676,11 +676,13 @@ export default defineComponent({
 
 		/**
 		 * Refreshes the current folder on update.
+		 * Also refresh on update of the file inside the current folder
 		 *
 		 * @param node is the file/folder being updated.
 		 */
 		onUpdatedNode(node?: Node) {
-			if (node?.fileid === this.currentFolder?.fileid) {
+			if (node?.fileid === this.currentFolder?.fileid
+				|| (node?.path && dirname(node.path) === this.directory)) {
 				this.fetchContent()
 			}
 		},
