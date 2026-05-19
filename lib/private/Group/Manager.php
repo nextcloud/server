@@ -169,14 +169,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/**
 	 * @brief Batch method to create group objects
 	 *
-	 * @param list<string> $gids List of groupIds for which we want to create a IGroup object
+	 * @param list<string> $groupIds List of groupIds for which we want to create a IGroup object
 	 * @param array<string, string> $displayNames Array containing already know display name for a groupId
 	 * @return array<string, IGroup>
 	 */
-	protected function getGroupsObjects(array $gids, array $displayNames = []): array {
+	protected function getGroupsObjects(array $groupIds, array $displayNames = []): array {
 		$backends = [];
 		$groups = [];
-		foreach ($gids as $gid) {
+		foreach ($groupIds as $gid) {
 			$backends[$gid] = [];
 			if (!isset($displayNames[$gid])) {
 				$displayNames[$gid] = null;
@@ -186,14 +186,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 			if ($backend instanceof IGroupDetailsBackend || $backend->implementsActions(GroupInterface::GROUP_DETAILS)) {
 				/** @var GroupInterface&IGroupDetailsBackend $backend */
 				if ($backend instanceof IBatchMethodsBackend) {
-					$groupDatas = $backend->getGroupsDetails($gids);
+					$groupDetails = $backend->getGroupsDetails($groupIds);
 				} else {
-					$groupDatas = [];
-					foreach ($gids as $gid) {
-						$groupDatas[$gid] = $backend->getGroupDetails($gid);
+					$groupDetails = [];
+					foreach ($groupIds as $gid) {
+						$groupDetails[$gid] = $backend->getGroupDetails($gid);
 					}
 				}
-				foreach ($groupDatas as $gid => $groupData) {
+				foreach ($groupDetails as $gid => $groupData) {
 					if (!empty($groupData)) {
 						// take the display name from the last backend that has a non-null one
 						if (isset($groupData['displayName'])) {
@@ -204,16 +204,16 @@ class Manager extends PublicEmitter implements IGroupManager {
 				}
 			} else {
 				if ($backend instanceof IBatchMethodsBackend) {
-					$existingGroups = $backend->groupsExists($gids);
+					$existingGroups = $backend->groupsExists($groupIds);
 				} else {
-					$existingGroups = array_filter($gids, fn (string $gid): bool => $backend->groupExists($gid));
+					$existingGroups = array_filter($groupIds, fn (string $gid): bool => $backend->groupExists($gid));
 				}
 				foreach ($existingGroups as $group) {
 					$backends[$group][] = $backend;
 				}
 			}
 		}
-		foreach ($gids as $gid) {
+		foreach ($groupIds as $gid) {
 			if (count($backends[$gid]) === 0) {
 				continue;
 			}
