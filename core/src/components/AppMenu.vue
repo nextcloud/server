@@ -149,8 +149,6 @@ export default defineComponent({
 			// skidding sign isn't auto-mirrored, so we flip it here. Snapshot
 			// at init: Nextcloud's language doesn't change at runtime.
 			popoverSkidding: isRTL() ? 82 : -82,
-			// Re-fires recomputeGridMaxHeight on layout changes.
-			gridResizeObserver: null as ResizeObserver | null,
 		}
 	},
 
@@ -180,13 +178,13 @@ export default defineComponent({
 	},
 
 	watch: {
-		// On open, land the roving stop on the active app rather than index 0.
+		// On open, land the roving stop on the active app rather than index 0
+		// and measure the grid as soon as it mounts (before the open
+		// transition finishes, so the cap is set without a flash).
 		opened(isOpen: boolean) {
 			if (isOpen) {
 				this.focusedIndex = this.activeGridIndex()
-				this.$nextTick(() => this.attachGridObserver())
-			} else {
-				this.detachGridObserver()
+				this.tryRecomputeGridMaxHeight(5)
 			}
 		},
 	},
@@ -204,7 +202,6 @@ export default defineComponent({
 	beforeUnmount() {
 		unsubscribe('nextcloud:app-menu.refresh', this.setApps)
 		;(this.$refs.popover as { $off: (e: string, fn: () => void) => void } | undefined)?.$off('after-hide', this.onPopoverAfterHide)
-		this.detachGridObserver()
 	},
 
 	methods: {
@@ -243,25 +240,17 @@ export default defineComponent({
 			}
 		},
 
-		// NcPopover renders the slot lazily; poll for the grid ref via rAF.
-		attachGridObserver(retries = 30) {
+		// Poll briefly for the grid ref (NcPopover renders the slot async)
+		// then measure once. Bounded so a missing ref can never leak frames.
+		tryRecomputeGridMaxHeight(retries: number) {
 			if (!this.opened || retries <= 0) {
 				return
 			}
-			const grid = this.$refs.grid as HTMLElement | undefined
-			if (!grid) {
-				requestAnimationFrame(() => this.attachGridObserver(retries - 1))
+			if (!this.$refs.grid) {
+				requestAnimationFrame(() => this.tryRecomputeGridMaxHeight(retries - 1))
 				return
 			}
-			this.detachGridObserver()
-			this.gridResizeObserver = new ResizeObserver(() => this.recomputeGridMaxHeight())
-			this.gridResizeObserver.observe(grid)
 			this.recomputeGridMaxHeight()
-		},
-
-		detachGridObserver() {
-			this.gridResizeObserver?.disconnect()
-			this.gridResizeObserver = null
 		},
 
 		// Cap = sum of first 6 row heights + baseline × 6, so the peek of
@@ -274,9 +263,7 @@ export default defineComponent({
 			const VISIBLE_CELLS = 24 // 4 cols × 6 visible rows
 			const cells = grid.children
 			if (cells.length <= VISIBLE_CELLS) {
-				if (grid.style.maxHeight !== '') {
-					grid.style.maxHeight = ''
-				}
+				grid.style.maxHeight = ''
 				return
 			}
 			const firstHidden = cells[VISIBLE_CELLS] as HTMLElement | undefined
@@ -287,11 +274,7 @@ export default defineComponent({
 			const sumOfFirstRows = firstHidden.getBoundingClientRect().top
 				- firstCell.getBoundingClientRect().top
 			const baseline = parseFloat(getComputedStyle(grid).getPropertyValue('--default-grid-baseline')) || 4
-			const cap = `${sumOfFirstRows + baseline * 6}px`
-			// Skip identical writes — they re-fire the ResizeObserver.
-			if (grid.style.maxHeight !== cap) {
-				grid.style.maxHeight = cap
-			}
+			grid.style.maxHeight = `${sumOfFirstRows + baseline * 6}px`
 		},
 
 		// Index of the active app within `gridItems`, or 0 if none is active.
