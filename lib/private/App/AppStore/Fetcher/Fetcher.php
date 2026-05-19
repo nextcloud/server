@@ -171,12 +171,13 @@ abstract class Fetcher {
 			// File does not already exist
 			$file = $rootFolder->newFile($this->fileName);
 		} catch (GenericFileException $e) {
-			$this->logger->warning('Could not read appstore cache file, it will be refreshed', ['app' => 'appstoreFetcher', 'exception' => $e]);
 			try {
 				$file->delete();
-			} catch (\Exception $deleteException) {
+			} catch (\Exception) {
+				$this->logger->error('Could not read appstore cache file', ['app' => 'appstoreFetcher', 'exception' => $e]);
 				return [];
 			}
+			$this->logger->warning('Could not read appstore cache file, it will be refreshed', ['app' => 'appstoreFetcher', 'exception' => $e]);
 			$file = $rootFolder->newFile($this->fileName);
 		}
 
