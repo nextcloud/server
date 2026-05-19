@@ -76,7 +76,8 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 			$this->createMock(ILogger::class),
 			$session,
 			$this->createMock(IGroupManager::class),
-			$config
+			$config,
+			$this->backendService,
 		);
 	}
 
