@@ -601,6 +601,107 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 	}
 
 
+	public function testIsUpdateAvailableLogsDebugForGitInstall(): void {
+		$tmpDir = sys_get_temp_dir() . '/nc_test_git_' . uniqid();
+		mkdir($tmpDir . '/.git', 0700, true);
+
+		$this->appManager
+			->expects($this->once())
+			->method('getAppPath')
+			->with('myapp')
+			->willReturn($tmpDir);
+		$this->logger
+			->expects($this->once())
+			->method('debug')
+			->with(
+				'App {appId} is installed from git, skipping update check',
+				$this->callback(fn($ctx) => $ctx['appId'] === 'myapp')
+			);
+
+		$installer = $this->getInstaller();
+		$result = $installer->isUpdateAvailable('myapp');
+		$this->assertFalse($result);
+
+		rmdir($tmpDir . '/.git');
+		rmdir($tmpDir);
+	}
+
+	protected function getPartialInstaller(array $onlyMethods): Installer&\PHPUnit\Framework\MockObject\MockObject {
+		return $this->getMockBuilder(Installer::class)
+			->setConstructorArgs([
+				$this->appFetcher,
+				$this->clientService,
+				$this->tempManager,
+				$this->logger,
+				$this->config,
+				$this->appManager,
+				$this->l10nFactory,
+				false,
+			])
+			->onlyMethods($onlyMethods)
+			->getMock();
+	}
+
+	public function testUpdateAppstoreAppReEnablesDisabledIncompatibleApp(): void {
+		$installer = $this->getPartialInstaller(['isUpdateAvailable', 'downloadApp']);
+		$installer->method('isUpdateAvailable')->willReturn('1.0.0');
+		$installer->method('downloadApp')->willReturn(null);
+
+		$this->appManager->method('isEnabledForAnyone')->with('myapp')->willReturn(false);
+		$this->appManager->method('getAppInfo')->with('myapp')->willReturn(['id' => 'myapp', 'version' => '0.0.1']);
+		$this->appManager->method('isAppCompatible')->willReturn(false);
+		$this->appManager->method('upgradeApp')->with('myapp')->willReturn(true);
+		$this->appManager->expects($this->once())->method('enableApp')->with('myapp');
+
+		$result = $installer->updateAppstoreApp('myapp');
+		$this->assertTrue($result);
+	}
+
+	public function testUpdateAppstoreAppDoesNotReEnableCompatibleButDisabledApp(): void {
+		$installer = $this->getPartialInstaller(['isUpdateAvailable', 'downloadApp']);
+		$installer->method('isUpdateAvailable')->willReturn('1.0.0');
+		$installer->method('downloadApp')->willReturn(null);
+
+		$this->appManager->method('isEnabledForAnyone')->with('myapp')->willReturn(false);
+		$this->appManager->method('getAppInfo')->with('myapp')->willReturn(['id' => 'myapp', 'version' => '1.0.0']);
+		$this->appManager->method('isAppCompatible')->willReturn(true);
+		$this->appManager->method('upgradeApp')->with('myapp')->willReturn(true);
+		$this->appManager->expects($this->never())->method('enableApp');
+
+		$result = $installer->updateAppstoreApp('myapp');
+		$this->assertTrue($result);
+	}
+
+	public function testUpdateAppstoreAppDoesNotReEnableAlreadyEnabledApp(): void {
+		$installer = $this->getPartialInstaller(['isUpdateAvailable', 'downloadApp']);
+		$installer->method('isUpdateAvailable')->willReturn('1.0.0');
+		$installer->method('downloadApp')->willReturn(null);
+
+		$this->appManager->method('isEnabledForAnyone')->with('myapp')->willReturn(true);
+		$this->appManager->method('upgradeApp')->with('myapp')->willReturn(true);
+		$this->appManager->expects($this->never())->method('enableApp');
+		$this->appManager->expects($this->never())->method('getAppInfo');
+		$this->appManager->expects($this->never())->method('isAppCompatible');
+
+		$result = $installer->updateAppstoreApp('myapp');
+		$this->assertTrue($result);
+	}
+
+	public function testUpdateAppstoreAppDoesNotReEnableWhenUpgradeFails(): void {
+		$installer = $this->getPartialInstaller(['isUpdateAvailable', 'downloadApp']);
+		$installer->method('isUpdateAvailable')->willReturn('1.0.0');
+		$installer->method('downloadApp')->willReturn(null);
+
+		$this->appManager->method('isEnabledForAnyone')->with('myapp')->willReturn(false);
+		$this->appManager->method('getAppInfo')->with('myapp')->willReturn(['id' => 'myapp', 'version' => '0.0.1']);
+		$this->appManager->method('isAppCompatible')->willReturn(false);
+		$this->appManager->method('upgradeApp')->with('myapp')->willReturn(false);
+		$this->appManager->expects($this->never())->method('enableApp');
+
+		$result = $installer->updateAppstoreApp('myapp');
+		$this->assertFalse($result);
+	}
+
 	public function testDownloadAppWithDowngrade(): void {
 		// Use previous test to download the application in version 0.9
 		$this->testDownloadAppSuccessful();

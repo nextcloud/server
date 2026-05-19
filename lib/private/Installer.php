@@ -101,6 +101,22 @@ class Installer {
 	 */
 	public function updateAppstoreApp(string $appId, bool $allowUnstable = false): bool {
 		if ($this->isUpdateAvailable($appId, $allowUnstable) !== false) {
+			// Before downloading, check whether the app is currently disabled due to version
+			// incompatibility with this NC version. If so, re-enable it after a successful update.
+			$isDisabled = !$this->appManager->isEnabledForAnyone($appId);
+			$wasIncompatible = false;
+			if ($isDisabled) {
+				$currentInfo = $this->appManager->getAppInfo($appId);
+				$ncVersion = implode('.', Util::getVersion());
+				$wasIncompatible = $currentInfo !== null && !$this->appManager->isAppCompatible($ncVersion, $currentInfo);
+				$this->logger->debug('App {appId} is disabled; incompatible with NC {version}: {incompat}', [
+					'appId' => $appId,
+					'version' => $ncVersion,
+					'incompat' => $wasIncompatible ? 'yes' : 'no',
+					'app' => 'updater',
+				]);
+			}
+
 			try {
 				$this->downloadApp($appId, $allowUnstable);
 			} catch (\Exception $e) {
@@ -109,9 +125,29 @@ class Installer {
 				]);
 				return false;
 			}
-			return $this->appManager->upgradeApp($appId);
+
+			$result = $this->appManager->upgradeApp($appId);
+
+			if ($result && $isDisabled && $wasIncompatible) {
+				$this->logger->info('Re-enabling {appId} after update: it was disabled due to version incompatibility', [
+					'appId' => $appId,
+					'app' => 'updater',
+				]);
+				try {
+					$this->appManager->enableApp($appId);
+				} catch (\Exception $e) {
+					$this->logger->warning('Could not re-enable {appId} after update: {error}', [
+						'appId' => $appId,
+						'error' => $e->getMessage(),
+						'app' => 'updater',
+					]);
+				}
+			}
+
+			return $result;
 		}
 
+		$this->logger->debug('No update available for {appId}, skipping', ['appId' => $appId, 'app' => 'updater']);
 		return false;
 	}
 
@@ -373,6 +409,7 @@ class Installer {
 		}
 
 		if ($this->isInstalledFromGit($appId) === true) {
+			$this->logger->debug('App {appId} is installed from git, skipping update check', ['appId' => $appId, 'app' => 'updater']);
 			return false;
 		}
 
@@ -385,17 +422,25 @@ class Installer {
 				$currentVersion = $this->appManager->getAppVersion($appId, true);
 
 				if (!isset($app['releases'][0]['version'])) {
+					$this->logger->debug('App {appId} has no release version in app store data', ['appId' => $appId, 'app' => 'updater']);
 					return false;
 				}
 				$newestVersion = $app['releases'][0]['version'];
 				if ($currentVersion !== '0' && version_compare($newestVersion, $currentVersion, '>')) {
 					return $newestVersion;
 				} else {
+					$this->logger->debug('No newer version available for {appId}: current={current}, newest={newest}', [
+						'appId' => $appId,
+						'current' => $currentVersion,
+						'newest' => $newestVersion,
+						'app' => 'updater',
+					]);
 					return false;
 				}
 			}
 		}
 
+		$this->logger->debug('App {appId} not found in app store', ['appId' => $appId, 'app' => 'updater']);
 		return false;
 	}
 
