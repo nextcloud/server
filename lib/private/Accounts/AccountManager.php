@@ -61,6 +61,14 @@ class AccountManager implements IAccountManager {
 	private ?IL10N $l10n = null;
 	private CappedMemoryCache $internalCache;
 
+	/** Visibility order of scopes, used to enforce admin-configured scope ceilings. */
+	private const SCOPE_ORDER = [
+		self::SCOPE_PRIVATE => 0,
+		self::SCOPE_LOCAL => 1,
+		self::SCOPE_FEDERATED => 2,
+		self::SCOPE_PUBLISHED => 3,
+	];
+
 	/**
 	 * The list of default scopes for each property.
 	 */
@@ -118,6 +126,21 @@ class AccountManager implements IAccountManager {
 	protected function testPropertyScope(IAccountProperty $property, array $allowedScopes, bool $throwOnData): void {
 		if ($throwOnData && !in_array($property->getScope(), $allowedScopes, true)) {
 			throw new InvalidArgumentException('scope');
+		}
+
+		// Enforce admin-configured per-property scope ceiling.
+		$maxScopes = $this->config->getSystemValue('account_manager.max_property_scope', []);
+		if (isset($maxScopes[$property->getName()])) {
+			$maxScope = $maxScopes[$property->getName()];
+			$currentOrder = self::SCOPE_ORDER[$property->getScope()] ?? 0;
+			$maxOrder = self::SCOPE_ORDER[$maxScope] ?? PHP_INT_MAX;
+			if ($currentOrder > $maxOrder) {
+				if ($throwOnData) {
+					throw new InvalidArgumentException('scope');
+				} else {
+					$property->setScope($maxScope);
+				}
+			}
 		}
 
 		if (

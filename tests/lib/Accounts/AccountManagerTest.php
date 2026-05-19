@@ -1062,4 +1062,59 @@ class AccountManagerTest extends TestCase {
 			$this->assertEquals($expectedResultScopeValue, $resultScope, "The result scope doesn't follow the value set into the config or defaults correctly.");
 		}
 	}
+
+	public function testUpdateAccountRejectsScoperAboveAdminCeiling(): void {
+		$user = $this->createMock(IUser::class);
+		$account = new Account($user);
+		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_FEDERATED, IAccountManager::NOT_VERIFIED);
+
+		$manager = $this->getInstance(['getUser', 'updateUser']);
+		$manager->method('getUser')->with($user, false)->willReturn([]);
+		$this->config->method('getSystemValue')
+			->willReturnMap([
+				['account_manager.default_property_scope', [], []],
+				['account_manager.max_property_scope', [], [IAccountManager::PROPERTY_WEBSITE => IAccountManager::SCOPE_LOCAL]],
+			]);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('scope');
+		$manager->updateAccount($account);
+	}
+
+	public function testUpdateAccountAllowsScopeAtOrBelowAdminCeiling(): void {
+		$user = $this->createMock(IUser::class);
+		$account = new Account($user);
+		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED);
+
+		$manager = $this->getInstance(['getUser', 'updateUser']);
+		$manager->method('getUser')->with($user, false)->willReturn([]);
+		$this->config->method('getSystemValueString')->willReturn('');
+		$this->config->method('getSystemValue')
+			->willReturnMap([
+				['account_manager.default_property_scope', [], []],
+				['account_manager.max_property_scope', [], [IAccountManager::PROPERTY_WEBSITE => IAccountManager::SCOPE_LOCAL]],
+			]);
+		$manager->expects($this->once())->method('updateUser');
+
+		$manager->updateAccount($account);
+	}
+
+	public function testUpdateAccountIgnoresInvalidMaxScopeConfig(): void {
+		$user = $this->createMock(IUser::class);
+		$account = new Account($user);
+		$account->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_FEDERATED, IAccountManager::NOT_VERIFIED);
+
+		$manager = $this->getInstance(['getUser', 'updateUser']);
+		$manager->method('getUser')->with($user, false)->willReturn([]);
+		$this->config->method('getSystemValueString')->willReturn('');
+		$this->config->method('getSystemValue')
+			->willReturnMap([
+				['account_manager.default_property_scope', [], []],
+				// 'not-a-scope' is not a valid scope value, so no ceiling applies
+				['account_manager.max_property_scope', [], [IAccountManager::PROPERTY_WEBSITE => 'not-a-scope']],
+			]);
+		$manager->expects($this->once())->method('updateUser');
+
+		$manager->updateAccount($account);
+	}
 }
