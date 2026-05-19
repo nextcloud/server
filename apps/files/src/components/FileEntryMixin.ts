@@ -497,7 +497,10 @@ export default defineComponent({
 				// canDrop already gates this branch on FileType.Folder, but the
 				// type system can't see that — narrow defensively so a future
 				// loosening of canDrop can't silently lie via the cast below.
-				if (!(this.source instanceof Folder)) {
+				// Use the `type` field rather than `instanceof Folder`: apps
+				// bundle their own copy of @nextcloud/files, so a Folder from
+				// an app would not be `instanceof` the server's Folder class.
+				if (this.source.type !== FileType.Folder) {
 					logger.error('onDrop: external drop target is not a Folder', { source: this.source })
 					this.dragover = false
 					return
@@ -510,7 +513,7 @@ export default defineComponent({
 					: cachedContents
 
 				logger.debug('Start uploading dropped files', { target: this.source.path, fileTree })
-				await onDropExternalFiles(fileTree, this.source, contents)
+				await onDropExternalFiles(fileTree, this.source as Folder, contents)
 				this.dragover = false
 				return
 			}
