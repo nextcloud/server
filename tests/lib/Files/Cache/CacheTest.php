@@ -801,26 +801,31 @@ class CacheTest extends \Test\TestCase {
 		$entries = $this->cache->getFolderContents('');
 		$this->assertCount(4, $entries);
 
-		$this->assertEquals('foo1', $entries[0]->getName());
-		$this->assertEquals('foo2', $entries[1]->getName());
-		$this->assertEquals('foo3', $entries[2]->getName());
-		$this->assertEquals('foo4', $entries[3]->getName());
+		// getFolderContentsById has no ORDER BY — index by name to avoid order-dependent assertions
+		$byName = [];
+		foreach ($entries as $entry) {
+			$byName[$entry->getName()] = $entry;
+		}
+		$this->assertArrayHasKey('foo1', $byName);
+		$this->assertArrayHasKey('foo2', $byName);
+		$this->assertArrayHasKey('foo3', $byName);
+		$this->assertArrayHasKey('foo4', $byName);
 
-		$this->assertEquals(20, $entries[0]->getCreationTime());
-		$this->assertEquals(0, $entries[0]->getUploadTime());
-		$this->assertEquals(null, $entries[0]->getMetadataEtag());
+		$this->assertEquals(20, $byName['foo1']->getCreationTime());
+		$this->assertEquals(0, $byName['foo1']->getUploadTime());
+		$this->assertEquals(null, $byName['foo1']->getMetadataEtag());
 
-		$this->assertEquals(0, $entries[1]->getCreationTime());
-		$this->assertEquals(30, $entries[1]->getUploadTime());
-		$this->assertEquals(null, $entries[1]->getMetadataEtag());
+		$this->assertEquals(0, $byName['foo2']->getCreationTime());
+		$this->assertEquals(30, $byName['foo2']->getUploadTime());
+		$this->assertEquals(null, $byName['foo2']->getMetadataEtag());
 
-		$this->assertEquals(0, $entries[2]->getCreationTime());
-		$this->assertEquals(0, $entries[2]->getUploadTime());
-		$this->assertEquals('foo', $entries[2]->getMetadataEtag());
+		$this->assertEquals(0, $byName['foo3']->getCreationTime());
+		$this->assertEquals(0, $byName['foo3']->getUploadTime());
+		$this->assertEquals('foo', $byName['foo3']->getMetadataEtag());
 
-		$this->assertEquals(0, $entries[3]->getCreationTime());
-		$this->assertEquals(0, $entries[3]->getUploadTime());
-		$this->assertEquals(null, $entries[3]->getMetadataEtag());
+		$this->assertEquals(0, $byName['foo4']->getCreationTime());
+		$this->assertEquals(0, $byName['foo4']->getUploadTime());
+		$this->assertEquals(null, $byName['foo4']->getMetadataEtag());
 
 		$this->cache->update($id1, ['upload_time' => 25]);
 
