@@ -242,6 +242,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Bağlantı kaldırılamadı: %1$s",
     "Failed to write file contents: %1$s" : "Dosya içerikleri yazılamadı: %1$s",
     "File not found: %1$s" : "Dosya bulunamadı: %1$s",
+    "Insufficient space" : "Yeterli alan yok",
     "Invalid target path" : "Hedef yol geçersiz",
     "System is in maintenance mode." : "Sistem bakım kipinde.",
     "Upgrade needed" : "Yükseltme gerekiyor",

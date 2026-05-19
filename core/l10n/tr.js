@@ -354,6 +354,7 @@ OC.L10N.register(
     "This share is password-protected" : "Bu paylaşım parola korumalı",
     "The password is wrong or expired. Please try again or request a new one." : "Parola hatalı ya da geçerlilik süresi dolmuş. Lütfen yeniden deneyin ya da parolanızı değiştirin. ",
     "Submit" : "Gönder",
+    "If the email address was correct then you will receive an email with the password." : "E-posta adresi doğruysa, parolanın bulunduğu bir e-posta alacaksınız.",
     "Please type in your email address to request a temporary password" : "Lütfen geçici parola isteğinde bulunmak için e-posta adresinizi yazın",
     "Email address" : "E-posta adresi",
     "Request password" : "Parola iste",
