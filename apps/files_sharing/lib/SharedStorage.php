@@ -89,6 +89,9 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	private IAppConfig $appConfig;
 	private IShareManager $shareManager;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static int $initDepth = 0;
 
 	public function __construct(array $parameters) {

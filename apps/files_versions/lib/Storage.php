@@ -56,9 +56,15 @@ class Storage {
 	public const DELETE_TRIGGER_QUOTA_EXCEEDED = 2;
 
 	// files for which we can remove the versions after the delete operation was successful
-	private static $deletedFiles = [];
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
+	private static array $deletedFiles = [];
 
-	private static $sourcePathAndUser = [];
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
+	private static array $sourcePathAndUser = [];
 
 	private const MAX_VERSIONS_PER_INTERVAL = [
 		//first 10sec, one version every 2sec

@@ -47,38 +47,56 @@ class OC {
 	/**
 	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
 	 * @internal Use auto-loaded $serverRoot with DI instead.
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static string $SERVERROOT = '';
 	/**
 	 * the current request path relative to the Nextcloud root (e.g. files/index.php)
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	private static string $SUBURI = '';
 	/**
 	 * the Nextcloud root path for http requests (e.g. /nextcloud)
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static string $WEBROOT = '';
 	/**
 	 * The installation path array of the apps folder on the server (e.g. /srv/http/nextcloud) 'path' and
 	 * web path in 'url'
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static array $APPSROOTS = [];
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	public static string $configDir;
 
 	/**
 	 * requested app
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static string $REQUESTEDAPP = '';
 
 	/**
 	 * check if Nextcloud runs in cli mode
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static bool $CLI = false;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	public static \Composer\Autoload\ClassLoader $composerAutoloader;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	public static \OC\Server $server;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static \OC\Config $config;
 
 	/**
