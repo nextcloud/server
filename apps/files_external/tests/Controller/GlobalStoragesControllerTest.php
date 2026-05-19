@@ -50,7 +50,8 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 			$this->createMock(LoggerInterface::class),
 			$session,
 			$this->createMock(IGroupManager::class),
-			$config
+			$config,
+			$this->backendService,
 		);
 	}
 
