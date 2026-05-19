@@ -460,7 +460,7 @@ export default defineComponent({
 					: cachedContents
 
 				logger.debug('Start uploading dropped files', { target: this.source.path, fileTree })
-				await onDropExternalFiles(fileTree, this.source, contents)
+				await onDropExternalFiles(fileTree, this.source as Folder, contents)
 				this.dragover = false
 				return
 			}
