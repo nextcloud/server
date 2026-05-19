@@ -1,0 +1,4 @@
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */@view-transition{navigation:auto}#header:not(.header-guest){view-transition-name:nc-header}#content{view-transition-name:nc-app-content}@keyframes nc-fade-out{to{opacity:0;translate:0 -4px}}@keyframes nc-fade-in{from{opacity:0;translate:0 4px}}::view-transition-old(nc-app-content){animation:150ms ease-in forwards nc-fade-out}::view-transition-new(nc-app-content){animation:200ms ease-out nc-fade-in}@media(prefers-reduced-motion: reduce){::view-transition-old(nc-app-content),::view-transition-new(nc-app-content){animation:none}}/*# sourceMappingURL=view-transitions.css.map */

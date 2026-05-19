@@ -1,0 +1,57 @@
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+// Opt in to cross-document view transitions for same-origin full-page navigations.
+// Both the old and the new page must have this rule — since all app pages load
+// server.css, the transition fires automatically when switching between apps.
+@view-transition {
+	navigation: auto;
+}
+
+// The header is structurally identical on every app page.
+// Naming it makes the browser treat it as one persistent layer: logo, app
+// switcher, search, notifications, contacts menu and user menu all stay in
+// place while the content beneath them transitions.
+// Guard against the guest/public layout, which uses a different header.
+#header:not(.header-guest) {
+	view-transition-name: nc-header;
+}
+
+// The main content area transitions between apps.
+#content {
+	view-transition-name: nc-app-content;
+}
+
+// Outgoing content fades out with a subtle upward drift.
+@keyframes nc-fade-out {
+	to {
+		opacity: 0;
+		translate: 0 -4px;
+	}
+}
+
+// Incoming content fades in from slightly below.
+@keyframes nc-fade-in {
+	from {
+		opacity: 0;
+		translate: 0 4px;
+	}
+}
+
+::view-transition-old(nc-app-content) {
+	animation: 150ms ease-in forwards nc-fade-out;
+}
+
+::view-transition-new(nc-app-content) {
+	animation: 200ms ease-out nc-fade-in;
+}
+
+// Honour the user's motion preference — crossfade only, no movement.
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(nc-app-content),
+	::view-transition-new(nc-app-content) {
+		animation: none;
+	}
+}
