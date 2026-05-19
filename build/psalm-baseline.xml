@@ -3924,13 +3924,6 @@
       <code><![CDATA[is_null($this->getContent())]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="lib/private/Group/Manager.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[createGroup]]></code>
-      <code><![CDATA[getGroupDetails]]></code>
-      <code><![CDATA[isAdmin]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Image.php">
     <FalsableReturnStatement>
       <code><![CDATA[ob_get_clean()]]></code>

@@ -13,8 +13,10 @@ use OC\SubAdmin;
 use OCA\Settings\Settings\Admin\Users;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\IBatchMethodsBackend;
+use OCP\Group\Backend\ICreateGroupBackend;
 use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Backend\IIsAdminBackend;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\GroupInterface;
@@ -146,6 +148,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$backends = [];
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(Backend::GROUP_DETAILS)) {
+				/** @var GroupInterface&IGroupDetailsBackend $backend */
 				$groupData = $backend->getGroupDetails($gid);
 				if (is_array($groupData) && !empty($groupData)) {
 					// take the display name from the last backend that has a non-null one
@@ -249,6 +252,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
+					/** @var ICreateGroupBackend|ICreateNamedGroupBackend $backend */
 					if ($backend instanceof ICreateNamedGroupBackend) {
 						$groupName = $gid;
 						if (($gid = $backend->createGroup($groupName)) !== null) {
@@ -329,8 +333,11 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 
 		foreach ($this->backends as $backend) {
-			if (is_string($userId) && $backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
-				return true;
+			if ($backend->implementsActions(Backend::IS_ADMIN)) {
+				/** @var IIsAdminBackend $backend */
+				if (is_string($userId) && $backend->isAdmin($userId)) {
+					return true;
+				}
 			}
 		}
 		return $this->isInGroup($userId, 'admin');
