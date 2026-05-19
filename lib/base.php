@@ -238,7 +238,7 @@ class OC {
 		}
 	}
 
-	public static function renderMaintenancePage(\OC\SystemConfig $systemConfig): void {
+	private static function renderMaintenancePage(\OC\SystemConfig $systemConfig): void {
 		http_response_code(503);
 		header('X-Nextcloud-Maintenance-Mode: 1');
 		header('Retry-After: 120');
@@ -1093,7 +1093,7 @@ class OC {
 		$maintenance = (bool)$systemConfig->getValue('maintenance', false);
 
 		// Needed during maintenance mode and upgrades
-		$bypassMaintenance = str_ends_with($requestPath, '.js') || OC::$SUBURI === '/core/ajax/update.php';
+		$bypassMaintenance = str_ends_with($requestPath, '.js');
 
 		// Show "maintenance in progress" page if Nextcloud is undergoing maintenance and not a bypass URL
 		if ($maintenance && !$bypassMaintenance) {
