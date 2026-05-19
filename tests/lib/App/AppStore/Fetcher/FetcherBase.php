@@ -698,7 +698,7 @@ abstract class FetcherBase extends TestCase {
 				return $default;
 			});
 		$this->config->method('getSystemValueBool')
-			->willReturnArgument(1);
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$corruptedFile = $this->createMock(ISimpleFile::class);
@@ -725,6 +725,7 @@ abstract class FetcherBase extends TestCase {
 			->method('newFile')
 			->with($this->fileName)
 			->willReturn($freshFile);
+
 		$client = $this->createMock(IClient::class);
 		$this->clientService
 			->expects($this->once())
@@ -743,6 +744,7 @@ abstract class FetcherBase extends TestCase {
 		$response->method('getHeader')
 			->with($this->equalTo('ETag'))
 			->willReturn('"myETag"');
+
 		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
 		$freshFile
 			->expects($this->once())
