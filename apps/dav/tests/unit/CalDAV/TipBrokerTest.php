@@ -107,6 +107,7 @@ class TipBrokerTest extends TestCase {
 		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
 		$this->assertCount(1, $messages);
 		$this->assertEquals('REQUEST', $messages[0]->method);
+		$this->assertTrue($messages[0]->significantChange);
 		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
 		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
 	}
@@ -266,6 +267,7 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
 		$this->assertCount(2, $messages[0]->message->VEVENT);
 		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT[1]->{'RECURRENCE-ID'}->getValue());
+		$this->assertTrue($messages[0]->significantChange);
 
 	}
 
@@ -327,6 +329,7 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ATTENDEE[0]->getValue(), $messages[0]->recipient);
 		$this->assertCount(2, $messages[0]->message->VEVENT);
 		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT[1]->{'RECURRENCE-ID'}->getValue());
+		$this->assertTrue($messages[0]->significantChange);
 
 	}
 
@@ -506,6 +509,7 @@ class TipBrokerTest extends TestCase {
 		$exdates = $messages[0]->message->VEVENT->EXDATE->getParts();
 		$this->assertContains('20240715T080000', $exdates);
 		$this->assertContains('20240722T080000', $exdates);
+		$this->assertTrue($messages[0]->significantChange);
 	}
 
 	/**
@@ -577,6 +581,212 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE->getValue(), $messages[0]->recipient);
 		// verify SCHEDULE-FORCE-SEND is removed from the message (sanitized)
 		$this->assertFalse(isset($messages[0]->message->VEVENT->ATTENDEE['SCHEDULE-FORCE-SEND']));
+	}
+
+	/**
+	 * Regression test for #60452: an attendee declining a single occurrence
+	 * produces a RECURRENCE-ID override whose only difference from inherited
+	 * master state is one attendee's PARTSTAT. The other unaffected attendee
+	 * must NOT receive a significant REQUEST (i.e. no re-invite email).
+	 */
+	public function testParseEventForOrganizerPartstatOnlyOverrideNotSignificant(): void {
+		// Recurring event with two attendees, both already ACCEPTED on the master.
+		$originalCalendar = clone $this->vCalendar2a;
+		$originalCalendar->VEVENT->ATTENDEE[0]['PARTSTAT'] = 'ACCEPTED';
+		$originalCalendar->VEVENT->add('ATTENDEE', 'mailto:attendee2@testing.com', [
+			'CN' => 'Attendee Two',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'ACCEPTED',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE',
+		]);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+
+		// Add an override at one occurrence; attendee1 declines, attendee2 stays ACCEPTED.
+		// Mirror what Thunderbird produces: DTSTART/DTEND on the override point at the
+		// specific occurrence (same as RECURRENCE-ID), the override carries no RRULE.
+		$override = clone $originalCalendar->VEVENT;
+		$override->remove('RRULE');
+		$override->DTSTART->setValue('20240715T080000');
+		$override->DTEND->setValue('20240715T090000');
+		$override->add('RECURRENCE-ID', '20240715T080000', ['TZID' => 'America/Toronto']);
+		$override->ATTENDEE[0]['PARTSTAT'] = 'DECLINED';
+
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedCalendar->add($override);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+
+		// One REQUEST per non-organizer attendee is still emitted (Sabre-aligned design:
+		// emit + mark significance). Both must be flagged non-significant so that the
+		// IMipPlugin gate at IMipPlugin.php:105 suppresses the email.
+		$this->assertCount(2, $messages);
+		foreach ($messages as $message) {
+			$this->assertEquals('REQUEST', $message->method);
+			$this->assertFalse($message->significantChange,
+				"PARTSTAT-only override must not trigger a significant REQUEST for {$message->recipient}");
+		}
+	}
+
+	/**
+	 * Counter-test to the regression: if the override changes a significant
+	 * property (DTSTART) in addition to PARTSTAT, both attendees must receive
+	 * a significant REQUEST so the time change reaches them.
+	 */
+	public function testParseEventForOrganizerOverrideWithDtstartChangeIsSignificant(): void {
+		$originalCalendar = clone $this->vCalendar2a;
+		$originalCalendar->VEVENT->ATTENDEE[0]['PARTSTAT'] = 'ACCEPTED';
+		$originalCalendar->VEVENT->add('ATTENDEE', 'mailto:attendee2@testing.com', [
+			'CN' => 'Attendee Two',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'ACCEPTED',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE',
+		]);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+
+		$override = clone $originalCalendar->VEVENT;
+		$override->remove('RRULE');
+		// Override moves the occurrence: DTSTART differs from RECURRENCE-ID.
+		$override->add('RECURRENCE-ID', '20240715T080000', ['TZID' => 'America/Toronto']);
+		$override->DTSTART->setValue('20240717T080000');
+		$override->DTEND->setValue('20240717T090000');
+		$override->ATTENDEE[0]['PARTSTAT'] = 'DECLINED';
+
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedCalendar->add($override);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+
+		$this->assertCount(2, $messages);
+		foreach ($messages as $message) {
+			$this->assertEquals('REQUEST', $message->method);
+			$this->assertTrue($message->significantChange,
+				"DTSTART change on override must trigger a significant REQUEST for {$message->recipient}");
+		}
+	}
+
+	/**
+	 * Adding a new attendee must always produce a significant REQUEST for
+	 * that attendee (their initial invite), regardless of other changes.
+	 */
+	public function testParseEventForOrganizerNewAttendeeAlwaysSignificant(): void {
+		$originalCalendar = clone $this->vCalendar1a;
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+
+		$mutatedCalendar = clone $this->vCalendar1a;
+		$mutatedCalendar->VEVENT->add('ATTENDEE', 'mailto:attendee2@testing.com', [
+			'CN' => 'Attendee Two',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE',
+		]);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+
+		$newAttendeeMessage = null;
+		foreach ($messages as $message) {
+			if ($message->recipient === 'mailto:attendee2@testing.com') {
+				$newAttendeeMessage = $message;
+				break;
+			}
+		}
+		$this->assertNotNull($newAttendeeMessage);
+		$this->assertEquals('REQUEST', $newAttendeeMessage->method);
+		$this->assertTrue($newAttendeeMessage->significantChange);
+	}
+
+	/**
+	 * SCHEDULE-FORCE-SEND=REQUEST on the attendee bypasses the significance
+	 * check: even a PARTSTAT-only override emits a significant REQUEST.
+	 */
+	public function testParseEventForOrganizerForceSendRequestOverridesSignificance(): void {
+		$originalCalendar = clone $this->vCalendar2a;
+		$originalCalendar->VEVENT->ATTENDEE[0]['PARTSTAT'] = 'ACCEPTED';
+		$originalCalendar->VEVENT->add('ATTENDEE', 'mailto:attendee2@testing.com', [
+			'CN' => 'Attendee Two',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'ACCEPTED',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE',
+		]);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+
+		$override = clone $originalCalendar->VEVENT;
+		$override->remove('RRULE');
+		$override->DTSTART->setValue('20240715T080000');
+		$override->DTEND->setValue('20240715T090000');
+		$override->add('RECURRENCE-ID', '20240715T080000', ['TZID' => 'America/Toronto']);
+		$override->ATTENDEE[0]['PARTSTAT'] = 'DECLINED';
+
+		$mutatedCalendar = clone $originalCalendar;
+		// Force a re-send for attendee2 only.
+		$mutatedCalendar->VEVENT->ATTENDEE[1]->add('SCHEDULE-FORCE-SEND', 'REQUEST');
+		$mutatedCalendar->add($override);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+
+		$attendee2Message = null;
+		foreach ($messages as $message) {
+			if ($message->recipient === 'mailto:attendee2@testing.com') {
+				$attendee2Message = $message;
+			}
+		}
+		$this->assertNotNull($attendee2Message);
+		$this->assertTrue($attendee2Message->significantChange,
+			'SCHEDULE-FORCE-SEND=REQUEST must override the PARTSTAT-only suppression');
+	}
+
+	/**
+	 * Partial-exclusion regression: if a brand-new override excludes an
+	 * attendee while they are still on the master, parseEventForOrganizer's
+	 * EXDATE-injection path builds their REQUEST with a synthesized EXDATE
+	 * on the master. That REQUEST must be flagged significant so they
+	 * actually receive the notification.
+	 */
+	public function testParseEventForOrganizerNewOverrideExcludingAttendeeIsSignificant(): void {
+		// Recurring event with two attendees, both ACCEPTED on the master.
+		$originalCalendar = clone $this->vCalendar2a;
+		$originalCalendar->VEVENT->ATTENDEE[0]['PARTSTAT'] = 'ACCEPTED';
+		$originalCalendar->VEVENT->add('ATTENDEE', 'mailto:attendee2@testing.com', [
+			'CN' => 'Attendee Two',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'ACCEPTED',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE',
+		]);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+
+		// Override for one occurrence; attendee1 is NOT on it (partial exclusion).
+		$override = clone $originalCalendar->VEVENT;
+		$override->remove('RRULE');
+		$override->DTSTART->setValue('20240715T080000');
+		$override->DTEND->setValue('20240715T090000');
+		$override->add('RECURRENCE-ID', '20240715T080000', ['TZID' => 'America/Toronto']);
+		$override->remove($override->ATTENDEE[0]);
+
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedCalendar->add($override);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+
+		$excludedAttendeeMessage = null;
+		foreach ($messages as $message) {
+			if ($message->recipient === 'mailto:attendee1@testing.com') {
+				$excludedAttendeeMessage = $message;
+				break;
+			}
+		}
+		$this->assertNotNull($excludedAttendeeMessage);
+		$this->assertEquals('REQUEST', $excludedAttendeeMessage->method);
+		$this->assertTrue($excludedAttendeeMessage->significantChange,
+			'Brand-new override excluding the attendee must trigger a significant REQUEST so they receive the synthesized EXDATE');
 	}
 
 }
