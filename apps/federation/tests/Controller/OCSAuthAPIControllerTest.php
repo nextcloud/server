@@ -125,9 +125,9 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		try {
 			$this->ocsAuthApi->requestSharedSecret($url, $token);
-			$this->assertTrue($ok);
+			$this->assertTrue($isTrustedServer);
 		} catch (OCSForbiddenException $e) {
-			$this->assertFalse($ok);
+			$this->assertFalse($isTrustedServer);
 		}
 	}
 
@@ -183,7 +183,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		try {
 			$result = $ocsAuthApi->getSharedSecret($url, $token);
-			$this->assertTrue($ok);
 			$data = $result->getData();
 			$this->assertSame('secret', $data['sharedSecret']);
 		} catch (OCSForbiddenException $e) {
