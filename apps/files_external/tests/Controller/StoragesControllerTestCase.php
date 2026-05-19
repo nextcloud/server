@@ -15,7 +15,6 @@ use OCA\Files_External\Lib\Auth\NullMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\SMB;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
@@ -28,11 +27,9 @@ abstract class StoragesControllerTestCase extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		MountConfig::$skipTest = true;
 	}
 
 	protected function tearDown(): void {
-		MountConfig::$skipTest = false;
 		parent::tearDown();
 	}
 
