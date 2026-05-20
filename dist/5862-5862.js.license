@@ -27,7 +27,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.0
 	- license: MIT
 - unist-util-is
-	- version: 6.0.0
+	- version: 6.0.1
 	- license: MIT
 - unist-util-visit-parents
 	- version: 6.0.2

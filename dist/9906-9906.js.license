@@ -59,7 +59,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.6.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.2
+	- version: 2.6.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.5.0
@@ -68,13 +68,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - semver
-	- version: 7.7.2
+	- version: 7.8.0
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 3.0.0
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 3.12.2
@@ -95,16 +95,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.4.2
 	- license: AGPL-3.0-or-later
 - @nextcloud/paths
-	- version: 3.0.0
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
 	- version: 0.3.0
 	- license: GPL-3.0-or-later
 - eventemitter3
-	- version: 5.0.1
+	- version: 5.0.4
 	- license: MIT
 - p-queue
-	- version: 9.1.0
+	- version: 9.3.0
 	- license: MIT
 - @nextcloud/vue-select
 	- version: 3.26.0
@@ -113,7 +113,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.38.0
+	- version: 8.39.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.3.0
@@ -125,7 +125,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.13.4
+	- version: 1.16.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -209,7 +209,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - unist-util-is
-	- version: 6.0.0
+	- version: 6.0.1
 	- license: MIT
 - unist-util-visit-parents
 	- version: 6.0.2

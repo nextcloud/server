@@ -52,7 +52,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.5.0
 	- license: GPL-3.0-or-later
 - semver
-	- version: 7.7.2
+	- version: 7.8.0
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.3
@@ -91,7 +91,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - brace-expansion
-	- version: 2.0.2
+	- version: 2.1.0
 	- license: MIT
 - buffer
 	- version: 5.7.1
@@ -145,7 +145,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: MIT
 - fast-xml-parser
-	- version: 5.7.3
+	- version: 5.8.0
 	- license: MIT
 - for-each
 	- version: 0.3.5
@@ -314,6 +314,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
+	- license: MIT
+- xml-naming
+	- version: 0.1.0
 	- license: MIT
 - xtend
 	- version: 4.0.2
