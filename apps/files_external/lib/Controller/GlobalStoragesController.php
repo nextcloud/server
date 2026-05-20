@@ -28,6 +28,7 @@
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
@@ -63,7 +64,8 @@ class GlobalStoragesController extends StoragesController {
 		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IConfig $config
+		IConfig $config,
+		BackendService $backendService
 	) {
 		parent::__construct(
 			$AppName,
@@ -73,7 +75,8 @@ class GlobalStoragesController extends StoragesController {
 			$logger,
 			$userSession,
 			$groupManager,
-			$config
+			$config,
+			$backendService
 		);
 	}
 
@@ -102,16 +105,6 @@ class GlobalStoragesController extends StoragesController {
 		$applicableGroups,
 		$priority
 	) {
-		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
-		if (!$canCreateNewLocalStorage && $backend === 'local') {
-			return new DataResponse(
-				[
-					'message' => $this->l10n->t('Forbidden to manage local mounts')
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
 		$newStorage = $this->createStorage(
 			$mountPoint,
 			$backend,
