@@ -10,9 +10,12 @@
 		:buttons="buttons"
 		size="normal"
 		@update:open="onUpdateOpen">
-		<NcNoteCard v-if="wiping" type="warning">
+		<NcNoteCard v-if="wiping" type="error">
+			<p class="auth-token-delete-dialog__warning-headline">
+				<strong>{{ t('settings', 'Remote wipe has not started yet.') }}</strong>
+			</p>
 			<p>
-				{{ t('settings', 'The remote wipe for this device has not finished yet. Revoking the app password now will cancel the pending wipe and the device will keep its access to previously synced data.') }}
+				{{ t('settings', 'Revoking now cancels the wipe. The device keeps its synced data.') }}
 			</p>
 		</NcNoteCard>
 		<p class="auth-token-delete-dialog__body">
@@ -64,20 +67,19 @@ export default defineComponent({
 
 		dialogTitle(): string {
 			return this.wiping
-				? t('settings', 'Cancel pending remote wipe and revoke app password?')
+				? t('settings', 'Revoke and cancel pending wipe?')
 				: t('settings', 'Revoke app password?')
 		},
 
 		bodyText(): string {
-			if (this.wiping) {
-				return t('settings', 'Continuing will cancel the pending remote wipe and permanently revoke this app password. The device will retain any data it has already synced.')
-			}
-			return t('settings', 'This will permanently revoke the app password. The connected app or device will lose access on its next sync.')
+			return this.wiping
+				? t('settings', 'Only continue if you no longer need the device to be wiped.')
+				: t('settings', 'The app or device will lose access on its next sync. This cannot be undone.')
 		},
 
 		destructiveLabel(): string {
 			return this.wiping
-				? t('settings', 'Cancel wipe and revoke')
+				? t('settings', 'Revoke and cancel wipe')
 				: t('settings', 'Revoke')
 		},
 
@@ -85,15 +87,14 @@ export default defineComponent({
 			return [
 				{
 					label: t('settings', 'Cancel'),
-					// @ts-expect-error 'value' is missing from upstream types
-					type: 'tertiary',
+					variant: 'tertiary',
 					callback: () => {
 						this.$emit('update:open', false)
 					},
 				},
 				{
 					label: this.destructiveLabel,
-					type: 'error',
+					variant: 'error',
 					callback: () => {
 						this.$emit('confirm')
 						this.$emit('update:open', false)
@@ -113,7 +114,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.auth-token-delete-dialog__body {
-	margin-block-start: calc(var(--default-grid-baseline) * 2);
+.auth-token-delete-dialog {
+	&__warning-headline {
+		margin-block-end: calc(var(--default-grid-baseline) / 2);
+	}
+
+	&__body {
+		margin-block-start: calc(var(--default-grid-baseline) * 2);
+	}
 }
 </style>
