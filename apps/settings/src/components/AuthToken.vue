@@ -53,7 +53,7 @@
 
 				<!-- revoke & wipe -->
 				<template v-if="token.canDelete">
-					<template v-if="token.type !== 2">
+					<template v-if="token.type !== TokenType.WIPING_TOKEN">
 						<NcActionButton icon="icon-delete"
 							@click.stop.prevent="revoke">
 							<!-- TODO: add text/longtext with some description -->
@@ -64,7 +64,7 @@
 							{{ t('settings', 'Wipe device') }}
 						</NcActionButton>
 					</template>
-					<NcActionButton v-else-if="token.type === 2"
+					<NcActionButton v-else
 						icon="icon-delete"
 						:name="t('settings', 'Revoke')"
 						@click.stop.prevent="revoke">
@@ -73,6 +73,16 @@
 				</template>
 			</NcActions>
 		</td>
+		<AuthTokenDeleteDialog
+			:token="token"
+			:open="deleteDialogOpen"
+			@update:open="deleteDialogOpen = $event"
+			@confirm="confirmDelete" />
+		<AuthTokenWipeDialog
+			:token="token"
+			:open="wipeDialogOpen"
+			@update:open="wipeDialogOpen = $event"
+			@confirm="confirmWipe" />
 	</tr>
 </template>
 
@@ -92,6 +102,8 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
+import AuthTokenWipeDialog from './AuthTokenWipeDialog.vue'
 
 // When using capture groups the following parts are extracted the first is used as the version number, the second as the OS
 const userAgentMap = {
@@ -143,6 +155,8 @@ const nameMap = {
 export default defineComponent({
 	name: 'AuthToken',
 	components: {
+		AuthTokenDeleteDialog,
+		AuthTokenWipeDialog,
 		NcActions,
 		NcActionButton,
 		NcActionCheckbox,
@@ -167,7 +181,10 @@ export default defineComponent({
 			renaming: false,
 			newName: '',
 			oldName: '',
+			deleteDialogOpen: false,
+			wipeDialogOpen: false,
 			mdiCheck,
+			TokenType,
 		}
 	},
 	computed: {
@@ -294,6 +311,10 @@ export default defineComponent({
 		},
 		revoke() {
 			this.actionOpen = false
+			this.deleteDialogOpen = true
+		},
+
+		confirmDelete() {
 			this.authTokenStore.deleteToken(this.token)
 		},
 		rename() {
@@ -302,6 +323,10 @@ export default defineComponent({
 		},
 		wipe() {
 			this.actionOpen = false
+			this.wipeDialogOpen = true
+		},
+
+		confirmWipe() {
 			this.authTokenStore.wipeToken(this.token)
 		},
 	},
