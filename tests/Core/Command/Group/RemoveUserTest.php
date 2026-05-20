@@ -38,21 +38,26 @@ class RemoveUserTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->command = new RemoveUser($this->userManager, $this->groupManager);
-
-		$this->input = $this->createMock(InputInterface::class);
-		$this->input->method('getArgument')
-			->willReturnCallback(function ($arg) {
-				if ($arg === 'group') {
-					return 'myGroup';
-				} elseif ($arg === 'user') {
-					return 'myUser';
-				}
-				throw new \Exception();
-			});
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
+	protected function configureInput(array|string $returnGroup, array|string $returnUser): void {
+		$this->input = $this->createMock(InputInterface::class);
+		$this->input->method('getArgument')
+			->willReturnCallback(function ($arg) use ($returnGroup, $returnUser) {
+				if ($arg === 'group') {
+					return $returnGroup;
+				}
+				if ($arg === 'user') {
+					return $returnUser;
+				}
+				throw new \Exception();
+			});
+	}
+
 	public function testNoGroup(): void {
+		$this->configureInput('myGroup', 'myUser');
+
 		$this->groupManager->method('get')
 			->with('myGroup')
 			->willReturn(null);
@@ -65,6 +70,8 @@ class RemoveUserTest extends TestCase {
 	}
 
 	public function testNoUser(): void {
+		$this->configureInput('myGroup', 'myUser');
+
 		$group = $this->createMock(IGroup::class);
 		$this->groupManager->method('get')
 			->with('myGroup')
@@ -76,12 +83,14 @@ class RemoveUserTest extends TestCase {
 
 		$this->output->expects($this->once())
 			->method('writeln')
-			->with('<error>user not found</error>');
+			->with('<error>user myUser not found</error>');
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testAdd(): void {
+	public function testRemove(): void {
+		$this->configureInput('myGroup', 'myUser');
+
 		$group = $this->createMock(IGroup::class);
 		$this->groupManager->method('get')
 			->with('myGroup')
@@ -95,6 +104,68 @@ class RemoveUserTest extends TestCase {
 		$group->expects($this->once())
 			->method('removeUser')
 			->with($user);
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+
+	public function testRemoveMultiple(): void {
+		$this->configureInput('myGroup', ['myUser', 'myOtherUser']);
+
+		$group = $this->createMock(IGroup::class);
+		$this->groupManager->method('get')
+			->with('myGroup')
+			->willReturn($group);
+
+		$user1 = $this->createMock(IUser::class);
+		$user2 = $this->createMock(IUser::class);
+		$this->userManager->method('get')
+			->willReturnMap([
+				['myUser', $user1],
+				['myOtherUser', $user2],
+			]);
+
+		$group->expects($this->exactly(2))
+			->method('removeUser')
+			->with($this->callback(static fn (IUser $user): bool => in_array($user, [$user1, $user2], true)));
+
+		$this->output->expects($this->exactly(2))
+			->method('writeln')
+			->with($this->callback(static fn (string $message): bool => in_array($message,
+				[
+					'<info>user myUser removed</info>',
+					'<info>user myOtherUser removed</info>',
+				], true)));
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+
+	public function testRemoveMultiplePartialSuccess(): void {
+		$this->configureInput('myGroup', ['myUser', 'myOtherUser']);
+
+		$group = $this->createMock(IGroup::class);
+		$this->groupManager->method('get')
+			->with('myGroup')
+			->willReturn($group);
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager->method('get')
+			->willReturnMap([
+				['myUser', $user],
+				['myOtherUser', null],
+			]);
+
+		$group->expects($this->once())
+			->method('removeUser')
+			->with($user);
+
+		$this->output->expects($this->exactly(3))
+			->method('writeln')
+			->with($this->callback(static fn (string $message): bool => in_array($message,
+				[
+					'<info>user myUser removed</info>',
+					'<error>user myOtherUser not found</error>',
+					'<error>Some users were not found, all others where removed from the group.</error>',
+				], true)));
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
