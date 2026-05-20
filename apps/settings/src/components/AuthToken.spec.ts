@@ -181,13 +181,13 @@ describe('AuthTokenDeleteDialog wipe-pending warning', () => {
 		expect(wrapper.findComponent(NcNoteCard).exists()).toBe(false)
 	})
 
-	it('renders an accessible warning NcNoteCard for a wipe-pending token', () => {
+	it('renders an accessible error NcNoteCard for a wipe-pending token', () => {
 		const token = makeToken({ type: TokenType.WIPING_TOKEN })
 		const wrapper = mountDeleteDialog(token)
 
 		const noteCard = wrapper.findComponent(NcNoteCard)
 		expect(noteCard.exists()).toBe(true)
-		expect(noteCard.props('type')).toBe('warning')
+		expect(noteCard.props('type')).toBe('error')
 		expect(noteCard.text()).toMatch(/wipe/i)
 	})
 })

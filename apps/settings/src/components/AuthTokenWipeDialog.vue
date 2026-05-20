@@ -6,17 +6,12 @@
 <template>
 	<NcDialog
 		:open="open"
-		:name="t('settings', 'Wipe device?')"
+		:name="t('settings', 'Confirm wipe')"
 		:buttons="buttons"
 		size="normal"
 		@update:open="onUpdateOpen">
-		<NcNoteCard type="warning">
-			<p>
-				{{ t('settings', 'This will mark the device for remote wipe. The next time it connects, all synced data will be removed.') }}
-			</p>
-		</NcNoteCard>
-		<p class="auth-token-wipe-dialog__body">
-			{{ t('settings', 'Do you really want to wipe your data from "{name}"?', { name: token.name }) }}
+		<p>
+			{{ t('settings', 'Do you really want to wipe your data from this device?') }}
 		</p>
 	</NcDialog>
 </template>
@@ -29,14 +24,12 @@ import type { IToken } from '../store/authtoken.ts'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 export default defineComponent({
 	name: 'AuthTokenWipeDialog',
 
 	components: {
 		NcDialog,
-		NcNoteCard,
 	},
 
 	props: {
@@ -61,15 +54,14 @@ export default defineComponent({
 			return [
 				{
 					label: t('settings', 'Cancel'),
-					// @ts-expect-error 'value' is missing from upstream types
-					type: 'tertiary',
+					variant: 'tertiary',
 					callback: () => {
 						this.$emit('update:open', false)
 					},
 				},
 				{
 					label: t('settings', 'Wipe device'),
-					type: 'error',
+					variant: 'error',
 					callback: () => {
 						this.$emit('confirm')
 						this.$emit('update:open', false)
@@ -87,9 +79,3 @@ export default defineComponent({
 	},
 })
 </script>
-
-<style lang="scss" scoped>
-.auth-token-wipe-dialog__body {
-	margin-block-start: calc(var(--default-grid-baseline) * 2);
-}
-</style>
