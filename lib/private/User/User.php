@@ -27,6 +27,7 @@ use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IPasswordHashBackend;
+use OCP\User\Backend\IPropertyPermissionBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
@@ -413,44 +414,50 @@ class User implements IUser {
 		return $this->backend;
 	}
 
-	/**
-	 * Check if the backend allows the user to change their avatar on Personal page
-	 *
-	 * @return bool
-	 */
-	public function canChangeAvatar() {
-		if ($this->backend instanceof IProvideAvatarBackend || $this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
-			/** @var IProvideAvatarBackend $backend */
-			$backend = $this->backend;
-			return $backend->canChangeAvatar($this->uid);
-		}
-		return true;
+	public function canChangeAvatar(): bool {
+		return $this->canEditProperty(IAccountManager::PROPERTY_AVATAR);
 	}
 
-	/**
-	 * check if the backend supports changing passwords
-	 *
-	 * @return bool
-	 */
-	public function canChangePassword() {
+	public function canChangePassword(): bool {
 		return $this->backend->implementsActions(Backend::SET_PASSWORD);
 	}
 
-	/**
-	 * check if the backend supports changing display names
-	 *
-	 * @return bool
-	 */
-	public function canChangeDisplayName() {
-		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name', true)) {
-			return false;
-		}
-		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
+	public function canChangeDisplayName(): bool {
+		return $this->canEditProperty(IAccountManager::PROPERTY_DISPLAYNAME);
 	}
 
 	public function canChangeEmail(): bool {
-		// Fallback to display name value to avoid changing behavior with the new option.
-		return $this->config->getSystemValueBool('allow_user_to_change_email', $this->config->getSystemValueBool('allow_user_to_change_display_name', true));
+		return $this->canEditProperty(IAccountManager::PROPERTY_EMAIL);
+	}
+
+	/**
+	 * @param IAccountManager::PROPERTY_*|IAccountManager::COLLECTION_* $property
+	 */
+	public function canEditProperty(string $property): bool {
+		if ($this->backend instanceof IPropertyPermissionBackend) {
+			$permission = $this->backend->canEditProperty($this->uid, $property);
+			if (!$permission) {
+				return false;
+			}
+		}
+		switch ($property) {
+			case IAccountManager::PROPERTY_DISPLAYNAME:
+				if (!$this->config->getSystemValueBool('allow_user_to_change_display_name', true)) {
+					return false;
+				}
+				return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
+			case IAccountManager::PROPERTY_AVATAR:
+				if ($this->backend instanceof IProvideAvatarBackend || $this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
+					/** @var IProvideAvatarBackend $backend */
+					$backend = $this->backend;
+					return $backend->canChangeAvatar($this->uid);
+				}
+				return true;
+			case IAccountManager::PROPERTY_EMAIL:
+				return $this->config->getSystemValueBool('allow_user_to_change_email', $this->config->getSystemValueBool('allow_user_to_change_display_name', true));
+			default:
+				return true;
+		}
 	}
 
 	/**

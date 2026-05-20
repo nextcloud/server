@@ -267,6 +267,9 @@ trait Provisioning {
 
 		$expectedFields = $fields->getRows();
 		$expectedFields = $this->simplifyArray($expectedFields);
+		/* Sort both arrays as order is not important */
+		sort($fieldsArray);
+		sort($expectedFields);
 		Assert::assertEquals($expectedFields, $fieldsArray);
 	}
 

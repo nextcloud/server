@@ -100,20 +100,24 @@ class LazyUser implements IUser {
 		return $this->getUser()->getBackend();
 	}
 
-	public function canChangeAvatar() {
+	public function canChangeAvatar(): bool {
 		return $this->getUser()->canChangeAvatar();
 	}
 
-	public function canChangePassword() {
+	public function canChangePassword(): bool {
 		return $this->getUser()->canChangePassword();
 	}
 
-	public function canChangeDisplayName() {
+	public function canChangeDisplayName(): bool {
 		return $this->getUser()->canChangeDisplayName();
 	}
 
 	public function canChangeEmail(): bool {
 		return $this->getUser()->canChangeEmail();
+	}
+
+	public function canEditProperty(string $property): bool {
+		return $this->getUser()->canEditProperty($property);
 	}
 
 	public function isEnabled() {

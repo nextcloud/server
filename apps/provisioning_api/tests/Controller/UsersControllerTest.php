@@ -39,7 +39,6 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
-use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -1638,6 +1637,10 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$targetUser
+			->expects($this->once())
+			->method('canChangeDisplayName')
+			->willReturn(true);
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1647,10 +1650,6 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('UserToEdit')
 			->willReturn($targetUser);
-		$targetUser
-			->expects($this->once())
-			->method('getBackend')
-			->willReturn($this->createMock(ISetDisplayNameBackend::class));
 		$targetUser
 			->expects($this->once())
 			->method('setDisplayName')
@@ -1675,6 +1674,14 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$targetUser
+			->expects($this->atLeastOnce())
+			->method('canEditProperty')
+			->willReturnCallback(
+				fn (string $property): bool => match($property) {
+					IAccountManager::PROPERTY_EMAIL => true,
+					default => false,
+				});
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1692,12 +1699,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UID');
-
-		$backend = $this->createMock(UserInterface::class);
-		$targetUser
-			->expects($this->any())
-			->method('getBackend')
-			->willReturn($backend);
 
 		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => $default);
 
@@ -1728,12 +1729,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UID');
-
-		$backend = $this->createMock(UserInterface::class);
-		$targetUser
-			->expects($this->any())
-			->method('getBackend')
-			->willReturn($backend);
 
 		$userAccount = $this->createMock(IAccount::class);
 
@@ -1775,11 +1770,6 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UID');
 
-		$backend = $this->createMock(UserInterface::class);
-		$targetUser
-			->expects($this->any())
-			->method('getBackend')
-			->willReturn($backend);
 		$targetUser
 			->expects($this->any())
 			->method('getSystemEMailAddress')
@@ -1826,12 +1816,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UID');
-
-		$backend = $this->createMock(UserInterface::class);
-		$targetUser
-			->expects($this->any())
-			->method('getBackend')
-			->willReturn($backend);
 
 		$property = $this->createMock(IAccountProperty::class);
 		$property->method('getValue')
@@ -1889,11 +1873,14 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UID');
 
-		$backend = $this->createMock(UserInterface::class);
 		$targetUser
-			->expects($this->any())
-			->method('getBackend')
-			->willReturn($backend);
+			->expects($this->atLeastOnce())
+			->method('canEditProperty')
+			->willReturnCallback(
+				fn (string $property): bool => match($property) {
+					IAccountManager::PROPERTY_EMAIL => true,
+					default => false,
+				});
 
 		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => $default);
 
@@ -1926,6 +1913,14 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UID');
+		$loggedInUser
+			->expects($this->atLeastOnce())
+			->method('canEditProperty')
+			->willReturnCallback(
+				fn (string $property): bool => match($property) {
+					$propertyName => true,
+					default => false,
+				});
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -4293,131 +4288,73 @@ class UsersControllerTest extends TestCase {
 
 	public static function dataGetEditableFields(): array {
 		return [
-			[false, true, ISetDisplayNameBackend::class, [
-				IAccountManager::PROPERTY_EMAIL,
-				IAccountManager::COLLECTION_EMAIL,
-				IAccountManager::PROPERTY_PHONE,
+			[false, true, [
 				IAccountManager::PROPERTY_ADDRESS,
-				IAccountManager::PROPERTY_WEBSITE,
-				IAccountManager::PROPERTY_TWITTER,
-				IAccountManager::PROPERTY_BLUESKY,
-				IAccountManager::PROPERTY_FEDIVERSE,
-				IAccountManager::PROPERTY_ORGANISATION,
-				IAccountManager::PROPERTY_ROLE,
-				IAccountManager::PROPERTY_HEADLINE,
 				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_BIRTHDATE,
+				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::PROPERTY_FEDIVERSE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_PROFILE_ENABLED,
 				IAccountManager::PROPERTY_PRONOUNS,
+				IAccountManager::PROPERTY_ROLE,
+				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_BLUESKY,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::COLLECTION_EMAIL,
 			]],
-			[true, false, ISetDisplayNameBackend::class, [
+			[true, false, [
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_BIRTHDATE,
 				IAccountManager::PROPERTY_DISPLAYNAME,
-				IAccountManager::COLLECTION_EMAIL,
-				IAccountManager::PROPERTY_PHONE,
-				IAccountManager::PROPERTY_ADDRESS,
-				IAccountManager::PROPERTY_WEBSITE,
-				IAccountManager::PROPERTY_TWITTER,
-				IAccountManager::PROPERTY_BLUESKY,
 				IAccountManager::PROPERTY_FEDIVERSE,
-				IAccountManager::PROPERTY_ORGANISATION,
-				IAccountManager::PROPERTY_ROLE,
 				IAccountManager::PROPERTY_HEADLINE,
-				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_PROFILE_ENABLED,
 				IAccountManager::PROPERTY_PRONOUNS,
+				IAccountManager::PROPERTY_ROLE,
+				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_BLUESKY,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::COLLECTION_EMAIL,
 			]],
-			[true, true, ISetDisplayNameBackend::class, [
+			[true, true, [
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_BIRTHDATE,
 				IAccountManager::PROPERTY_DISPLAYNAME,
 				IAccountManager::PROPERTY_EMAIL,
-				IAccountManager::COLLECTION_EMAIL,
-				IAccountManager::PROPERTY_PHONE,
-				IAccountManager::PROPERTY_ADDRESS,
-				IAccountManager::PROPERTY_WEBSITE,
-				IAccountManager::PROPERTY_TWITTER,
-				IAccountManager::PROPERTY_BLUESKY,
 				IAccountManager::PROPERTY_FEDIVERSE,
-				IAccountManager::PROPERTY_ORGANISATION,
-				IAccountManager::PROPERTY_ROLE,
 				IAccountManager::PROPERTY_HEADLINE,
-				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_PROFILE_ENABLED,
 				IAccountManager::PROPERTY_PRONOUNS,
+				IAccountManager::PROPERTY_ROLE,
+				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_BLUESKY,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::COLLECTION_EMAIL,
 			]],
-			[false, false, ISetDisplayNameBackend::class, [
-				IAccountManager::COLLECTION_EMAIL,
-				IAccountManager::PROPERTY_PHONE,
+			[false, false, [
 				IAccountManager::PROPERTY_ADDRESS,
-				IAccountManager::PROPERTY_WEBSITE,
-				IAccountManager::PROPERTY_TWITTER,
-				IAccountManager::PROPERTY_BLUESKY,
-				IAccountManager::PROPERTY_FEDIVERSE,
-				IAccountManager::PROPERTY_ORGANISATION,
-				IAccountManager::PROPERTY_ROLE,
-				IAccountManager::PROPERTY_HEADLINE,
 				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_BIRTHDATE,
+				IAccountManager::PROPERTY_FEDIVERSE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_PROFILE_ENABLED,
 				IAccountManager::PROPERTY_PRONOUNS,
-			]],
-			[false, true, UserInterface::class, [
-				IAccountManager::PROPERTY_EMAIL,
-				IAccountManager::COLLECTION_EMAIL,
-				IAccountManager::PROPERTY_PHONE,
-				IAccountManager::PROPERTY_ADDRESS,
-				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_ROLE,
 				IAccountManager::PROPERTY_TWITTER,
 				IAccountManager::PROPERTY_BLUESKY,
-				IAccountManager::PROPERTY_FEDIVERSE,
-				IAccountManager::PROPERTY_ORGANISATION,
-				IAccountManager::PROPERTY_ROLE,
-				IAccountManager::PROPERTY_HEADLINE,
-				IAccountManager::PROPERTY_BIOGRAPHY,
-				IAccountManager::PROPERTY_PROFILE_ENABLED,
-				IAccountManager::PROPERTY_PRONOUNS,
-			]],
-			[true, false, UserInterface::class, [
-				IAccountManager::COLLECTION_EMAIL,
-				IAccountManager::PROPERTY_PHONE,
-				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
-				IAccountManager::PROPERTY_TWITTER,
-				IAccountManager::PROPERTY_BLUESKY,
-				IAccountManager::PROPERTY_FEDIVERSE,
-				IAccountManager::PROPERTY_ORGANISATION,
-				IAccountManager::PROPERTY_ROLE,
-				IAccountManager::PROPERTY_HEADLINE,
-				IAccountManager::PROPERTY_BIOGRAPHY,
-				IAccountManager::PROPERTY_PROFILE_ENABLED,
-				IAccountManager::PROPERTY_PRONOUNS,
-			]],
-			[true, true, UserInterface::class, [
-				IAccountManager::PROPERTY_EMAIL,
 				IAccountManager::COLLECTION_EMAIL,
-				IAccountManager::PROPERTY_PHONE,
-				IAccountManager::PROPERTY_ADDRESS,
-				IAccountManager::PROPERTY_WEBSITE,
-				IAccountManager::PROPERTY_TWITTER,
-				IAccountManager::PROPERTY_BLUESKY,
-				IAccountManager::PROPERTY_FEDIVERSE,
-				IAccountManager::PROPERTY_ORGANISATION,
-				IAccountManager::PROPERTY_ROLE,
-				IAccountManager::PROPERTY_HEADLINE,
-				IAccountManager::PROPERTY_BIOGRAPHY,
-				IAccountManager::PROPERTY_PROFILE_ENABLED,
-				IAccountManager::PROPERTY_PRONOUNS,
-			]],
-			[false, false, UserInterface::class, [
-				IAccountManager::COLLECTION_EMAIL,
-				IAccountManager::PROPERTY_PHONE,
-				IAccountManager::PROPERTY_ADDRESS,
-				IAccountManager::PROPERTY_WEBSITE,
-				IAccountManager::PROPERTY_TWITTER,
-				IAccountManager::PROPERTY_BLUESKY,
-				IAccountManager::PROPERTY_FEDIVERSE,
-				IAccountManager::PROPERTY_ORGANISATION,
-				IAccountManager::PROPERTY_ROLE,
-				IAccountManager::PROPERTY_HEADLINE,
-				IAccountManager::PROPERTY_BIOGRAPHY,
-				IAccountManager::PROPERTY_PROFILE_ENABLED,
-				IAccountManager::PROPERTY_PRONOUNS,
 			]],
 		];
 	}
@@ -4434,12 +4371,16 @@ class UsersControllerTest extends TestCase {
 		$this->userSession->method('getUser')
 			->willReturn($user);
 
-		$backend = $this->createMock($userBackend);
-
 		$user->method('getUID')
 			->willReturn('userId');
-		$user->method('getBackend')
-			->willReturn($backend);
+		$user->method('canEditProperty')
+			->willReturnCallback(
+				fn (string $property): bool => match($property) {
+					IAccountManager::PROPERTY_DISPLAYNAME => $allowedToChangeDisplayName,
+					IAccountManager::PROPERTY_EMAIL => $allowedToChangeEmail,
+					default => true,
+				}
+			);
 
 		$expectedResp = new DataResponse($expected);
 		$this->assertEquals($expectedResp, $this->api->getEditableFields('userId'));
