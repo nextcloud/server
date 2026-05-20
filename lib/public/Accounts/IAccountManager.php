@@ -151,7 +151,7 @@ interface IAccountManager {
 	 * published to the global lookup server or shared via federation.
 	 * This matches the frontend's UNPUBLISHED_READABLE_PROPERTIES constant.
 	 *
-	 * @since 32.0.0
+	 * @since 34.0.0
 	 */
 	public const UNPUBLISHED_PROPERTIES = [
 		self::PROPERTY_BIOGRAPHY,
