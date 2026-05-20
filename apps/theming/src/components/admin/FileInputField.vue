@@ -45,7 +45,8 @@
 			:class="{
 				'field__preview--logoheader': name === 'logoheader',
 				'field__preview--favicon': name === 'favicon',
-			}" />
+			}"
+			:style="previewStyle" />
 
 		<NcNoteCard v-if="errorMessage"
 			type="error"
@@ -124,6 +125,7 @@ export default {
 	data() {
 		return {
 			showLoading: false,
+			cacheKey: Date.now(),
 			acceptMime: (allowedMimeTypes[this.name]
 				|| ['image/jpeg', 'image/png', 'image/gif', 'image/webp']).join(','),
 		}
@@ -144,6 +146,13 @@ export default {
 				}
 			}
 			return false
+		},
+
+		previewStyle() {
+			const url = generateUrl('/apps/theming/image/{key}', { key: this.name })
+			return {
+				backgroundImage: `url(${url}?v=${this.cacheKey}&m=${encodeURIComponent(this.mimeValue)})`,
+			}
 		},
 	},
 
@@ -167,6 +176,7 @@ export default {
 				this.showLoading = true
 				const { data } = await axios.post(url, formData)
 				this.showLoading = false
+				this.cacheKey = Date.now()
 				this.$emit('update:mime-value', file.type)
 				this.$emit('uploaded', data.data.url)
 				this.handleSuccess()
