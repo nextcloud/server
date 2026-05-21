@@ -8,6 +8,8 @@ namespace Tests\Core\Command\User\AuthTokens;
 
 use OC\Authentication\Token\IProvider;
 use OC\Core\Command\User\AuthTokens\Delete;
+use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,6 +41,20 @@ class DeleteTest extends TestCase {
 		$this->command = new Delete($tokenProvider);
 	}
 
+	/**
+	 * Default option mapping: --last-used-before unset, --cancel-wipe unset.
+	 *
+	 * @param string|null $lastUsedBefore
+	 * @param bool $cancelWipe
+	 */
+	private function mockOptions(?string $lastUsedBefore = null, bool $cancelWipe = false): void {
+		$this->consoleInput->method('getOption')
+			->willReturnMap([
+				['last-used-before', $lastUsedBefore],
+				['cancel-wipe', $cancelWipe],
+			]);
+	}
+
 	public function testDeleteTokenById(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
@@ -47,10 +63,7 @@ class DeleteTest extends TestCase {
 				['id', '42']
 			]);
 
-		$this->consoleInput->expects($this->once())
-			->method('getOption')
-			->with('last-used-before')
-			->willReturn(null);
+		$this->mockOptions();
 
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateTokenById')
@@ -68,10 +81,7 @@ class DeleteTest extends TestCase {
 				['id', null]
 			]);
 
-		$this->consoleInput->expects($this->once())
-			->method('getOption')
-			->with('last-used-before')
-			->willReturn(null);
+		$this->mockOptions();
 
 		$this->expectException(RuntimeException::class);
 
@@ -89,10 +99,7 @@ class DeleteTest extends TestCase {
 				['id', null]
 			]);
 
-		$this->consoleInput->expects($this->once())
-			->method('getOption')
-			->with('last-used-before')
-			->willReturn('946684800');
+		$this->mockOptions('946684800');
 
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateLastUsedBefore')
@@ -110,10 +117,7 @@ class DeleteTest extends TestCase {
 				['id', null]
 			]);
 
-		$this->consoleInput->expects($this->once())
-			->method('getOption')
-			->with('last-used-before')
-			->willReturn('2000-01-01T00:00:00Z');
+		$this->mockOptions('2000-01-01T00:00:00Z');
 
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateLastUsedBefore')
@@ -131,10 +135,7 @@ class DeleteTest extends TestCase {
 				['id', null]
 			]);
 
-		$this->consoleInput->expects($this->once())
-			->method('getOption')
-			->with('last-used-before')
-			->willReturn('2000-01-01');
+		$this->mockOptions('2000-01-01');
 
 		$this->tokenProvider->expects($this->once())
 			->method('invalidateLastUsedBefore')
@@ -152,14 +153,59 @@ class DeleteTest extends TestCase {
 				['id', '42']
 			]);
 
-		$this->consoleInput->expects($this->once())
-			->method('getOption')
-			->with('last-used-before')
-			->willReturn('946684800');
+		$this->mockOptions('946684800');
 
 		$this->expectException(RuntimeException::class);
 
 		$this->tokenProvider->expects($this->never())->method('invalidateLastUsedBefore');
+
+		$result = self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		$this->assertSame(Command::SUCCESS, $result);
+	}
+
+	public function testDeleteByIdRefusesWipePendingWithoutFlag(): void {
+		$this->consoleInput->expects($this->exactly(2))
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'user'],
+				['id', '42']
+			]);
+
+		$this->mockOptions();
+
+		$wipeToken = $this->createMock(IToken::class);
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenById')
+			->with(42)
+			->willThrowException(new WipeTokenException($wipeToken));
+
+		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
+
+		$this->consoleOutput->expects($this->once())
+			->method('writeln')
+			->with($this->stringContains('marked for remote wipe'));
+
+		$result = self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		$this->assertSame(Command::FAILURE, $result);
+	}
+
+	public function testDeleteByIdAllowsWipePendingWithFlag(): void {
+		$this->consoleInput->expects($this->exactly(2))
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'user'],
+				['id', '42']
+			]);
+
+		$this->mockOptions(null, true);
+
+		// With --cancel-wipe, the wipe-state pre-check is skipped entirely
+		// (the operator has already opted in), so getTokenById should not run.
+		$this->tokenProvider->expects($this->never())->method('getTokenById');
+
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateTokenById')
+			->with('user', 42);
 
 		$result = self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 		$this->assertSame(Command::SUCCESS, $result);
