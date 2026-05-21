@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
-    "Forbidden to manage local mounts" : "Forbudt å administrere lokale monteringer",
     "Storage with ID \"%d\" not found" : "Lager med ID \"%d\" ikke funnet",
+    "Forbidden to manage local mounts" : "Forbudt å administrere lokale monteringer",
     "Invalid backend or authentication mechanism class" : "Ugyldig bakende eller type autentiseringsmekanisme",
     "Invalid mount point" : "Ugyldig oppkoblingspunkt",
     "Objectstore forbidden" : "Objektlager forbudt",

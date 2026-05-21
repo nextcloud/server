@@ -317,9 +317,7 @@ OC.L10N.register(
     "The files are locked" : "Dosyalar kilitli",
     "The file does not exist anymore" : "Dosya artık yok",
     "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\", \"{destination}\" üzerine taşınıyor…",
-    "Moving {count} files to \"{destination}\" …" : "{count} dosya \"{destination}\" konumuna taşınıyor…",
     "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\", \"{destination}\" üzerine kopyalanıyor…",
-    "Copying {count} files to \"{destination}\" …" : "{count} dosya \"{destination}\" konumuna kopyalanıyor…",
     "Choose destination" : "Hedefi seçin",
     "Copy to {target}" : "{target} içine kopyala",
     "Move to {target}" : "{target} içine taşı",
@@ -413,6 +411,8 @@ OC.L10N.register(
     "Tags" : "Etiketler",
     "Save as …" : "Farklı kaydet…",
     "Converting files …" : "Dosyalar dönüştürülüyor…",
-    "Converting file …" : "Dosya dönüştürülüyor…"
+    "Converting file …" : "Dosya dönüştürülüyor…",
+    "Moving {count} files to \"{destination}\" …" : "{count} dosya \"{destination}\" konumuna taşınıyor…",
+    "Copying {count} files to \"{destination}\" …" : "{count} dosya \"{destination}\" konumuna kopyalanıyor…"
 },
 "nplurals=2; plural=(n > 1);");

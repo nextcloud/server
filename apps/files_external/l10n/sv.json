@@ -1,8 +1,8 @@
 { "translations": {
     "You are not logged in" : "Du är inte inloggad",
     "Permission denied" : "Åtkomst nekad",
-    "Forbidden to manage local mounts" : "Förbjudet att hantera lokala monteringar",
     "Storage with ID \"%d\" not found" : "Lagringsutrymme med ID \"%d\" hittades inte",
+    "Forbidden to manage local mounts" : "Förbjudet att hantera lokala monteringar",
     "Invalid backend or authentication mechanism class" : "Ogiltig backend eller autentiseringsmekanism-klass",
     "Invalid mount point" : "Ogiltig monteringspunkt",
     "Objectstore forbidden" : "Objekt förbjudet",

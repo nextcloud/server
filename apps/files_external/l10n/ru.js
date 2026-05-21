@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Вход в систему не выполнен",
     "Permission denied" : "Доступ запрещён",
-    "Forbidden to manage local mounts" : "Запрещено изменять параметры подключения файловых систем",
     "Storage with ID \"%d\" not found" : "Хранилище с идентификатором «%d» не найдено",
+    "Forbidden to manage local mounts" : "Запрещено изменять параметры подключения файловых систем",
     "Invalid backend or authentication mechanism class" : "Недопустимый механизм или класс авторизации",
     "Invalid mount point" : "Недопустимая точка подключения",
     "Objectstore forbidden" : "Хранение объектов запрещено",

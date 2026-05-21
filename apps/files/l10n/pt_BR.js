@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "Os arquivos estão trancados",
     "The file does not exist anymore" : "O arquivo não existe mais",
     "Moving \"{source}\" to \"{destination}\" …" : "Movendo \"{source}\" para {destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Movendo {count} arquivos para \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Copiando \"{source}\" para \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copiando {count} arquivos para \"{destination}\" …",
     "Choose destination" : "Escolher destino",
     "Copy to {target}" : "Copiar para {target}",
     "Move to {target}" : "Mover para {target}",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "Etiquetas",
     "Save as …" : "Salvar como …",
     "Converting files …" : "Convertendo arquivos …",
-    "Converting file …" : "Convertendo arquivo …"
+    "Converting file …" : "Convertendo arquivo …",
+    "Moving {count} files to \"{destination}\" …" : "Movendo {count} arquivos para \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Copiando {count} arquivos para \"{destination}\" …"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

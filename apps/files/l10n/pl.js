@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "Pliki są zablokowane",
     "The file does not exist anymore" : "Plik już nie istnieje",
     "Moving \"{source}\" to \"{destination}\" …" : "Przenoszenie „{source}” do „{destination}” …",
-    "Moving {count} files to \"{destination}\" …" : "Przenoszenie {count} plików do \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Kopiowanie „{source}” do „{destination}” …",
-    "Copying {count} files to \"{destination}\" …" : "Kopiowanie {count} plików \"{destination}\" …",
     "Choose destination" : "Wybierz miejsce docelowe",
     "Copy to {target}" : "Skopiuj do {target}",
     "Move to {target}" : "Przenieś do {target}",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "Etykiety",
     "Save as …" : "Zapisz jako…",
     "Converting files …" : "Konwertowanie plików…",
-    "Converting file …" : "Konwertowanie plików…"
+    "Converting file …" : "Konwertowanie plików…",
+    "Moving {count} files to \"{destination}\" …" : "Przenoszenie {count} plików do \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Kopiowanie {count} plików \"{destination}\" …"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

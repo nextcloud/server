@@ -1,8 +1,8 @@
 { "translations": {
     "You are not logged in" : " Hujaingia",
     "Permission denied" : " Ruhusa imekataliwa",
-    "Forbidden to manage local mounts" : " Hairuhusiwi kudhibiti vipandikizi vya ndani",
     "Storage with ID \"%d\" not found" : "Hifadhi yenye kitambulisho \"%d\" haijapatikana",
+    "Forbidden to manage local mounts" : " Hairuhusiwi kudhibiti vipandikizi vya ndani",
     "Invalid backend or authentication mechanism class" : "Aina batili ya nyuma au utaratibu wa uthibitishaji",
     "Invalid mount point" : "Sehemu ya kupachika ni batili",
     "Objectstore forbidden" : "Hifadhi ya vitu imezuiliwa",
