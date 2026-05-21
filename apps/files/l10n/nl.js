@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "De bestanden zijn vergrendeld",
     "The file does not exist anymore" : "Dit bestand bestaat niet meer",
     "Moving \"{source}\" to \"{destination}\" …" : "Verplaatsen \"{source}\" naar \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "{count} bestanden aan het verplaatsen naar \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Kopieren \"{source}\" naar \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "{count}bestanden aan het kopiëren naar \"{destination}\" …",
     "Choose destination" : "Kies bestemming",
     "Copy to {target}" : "Kopieer naar {target}",
     "Move to {target}" : "Verplaats naar {target}",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Save as …" : "Opslaan als...",
     "Converting files …" : "Bestanden converteren ...",
-    "Converting file …" : "Bestand converteren ..."
+    "Converting file …" : "Bestand converteren ...",
+    "Moving {count} files to \"{destination}\" …" : "{count} bestanden aan het verplaatsen naar \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "{count}bestanden aan het kopiëren naar \"{destination}\" …"
 },
 "nplurals=2; plural=(n != 1);");

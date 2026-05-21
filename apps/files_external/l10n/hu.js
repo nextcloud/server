@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Nincs bejelentkezve",
     "Permission denied" : "Jogosultság megtagadva",
-    "Forbidden to manage local mounts" : "A helyi csatolt kötetek kezelése tiltott",
     "Storage with ID \"%d\" not found" : "A(z) „%d” azonosítójú tároló nem található",
+    "Forbidden to manage local mounts" : "A helyi csatolt kötetek kezelése tiltott",
     "Invalid backend or authentication mechanism class" : "Érvénytelen háttérszolgáltatási vagy hitelesítési mechanizmust tartalmazó osztály",
     "Invalid mount point" : "Érvénytelen csatolási pont",
     "Objectstore forbidden" : "Az objektumtár tiltott",

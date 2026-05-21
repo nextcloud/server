@@ -316,9 +316,7 @@ OC.L10N.register(
     "The files are locked" : "Skrárnar eru læstar",
     "The file does not exist anymore" : "Skráin  er ekki lengur til",
     "Moving \"{source}\" to \"{destination}\" …" : "Færi \"{source}\" í \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Færi {count} skrár í \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Afrita \"{source}\" í \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Afrita {count} skrár í \"{destination}\" …",
     "Choose destination" : "Veldu áfangastað",
     "Copy to {target}" : "Afrita í {target}",
     "Move to {target}" : "Færa í {target}",
@@ -412,6 +410,8 @@ OC.L10N.register(
     "Tags" : "Merki",
     "Save as …" : "Vista sem …",
     "Converting files …" : "Umbreyti skrám …",
-    "Converting file …" : "Umbreyti skrá…"
+    "Converting file …" : "Umbreyti skrá…",
+    "Moving {count} files to \"{destination}\" …" : "Færi {count} skrár í \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Afrita {count} skrár í \"{destination}\" …"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

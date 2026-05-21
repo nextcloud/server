@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "The files are locked",
     "The file does not exist anymore" : "The file does not exist anymore",
     "Moving \"{source}\" to \"{destination}\" …" : "Moving \"{source}\" to \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Moving {count} files to \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Copying \"{source}\" to \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copying {count} files to \"{destination}\" …",
     "Choose destination" : "Choose destination",
     "Copy to {target}" : "Copy to {target}",
     "Move to {target}" : "Move to {target}",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Save as …" : "Save as …",
     "Converting files …" : "Converting files …",
-    "Converting file …" : "Converting file …"
+    "Converting file …" : "Converting file …",
+    "Moving {count} files to \"{destination}\" …" : "Moving {count} files to \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Copying {count} files to \"{destination}\" …"
 },
 "nplurals=2; plural=(n != 1);");

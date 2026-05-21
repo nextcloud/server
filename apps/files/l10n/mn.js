@@ -315,9 +315,7 @@ OC.L10N.register(
     "The files are locked" : "Файлууд түгжигдсэн",
     "The file does not exist anymore" : "Файл байхгүй болсон",
     "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\"-г \"{destination}\" руу зөөж байна …",
-    "Moving {count} files to \"{destination}\" …" : "{count} файлыг \"{destination}\" руу зөөж байна …",
     "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\"-г \"{destination}\" руу хуулж байна …",
-    "Copying {count} files to \"{destination}\" …" : "{count} файлыг \"{destination}\" руу хуулж байна …",
     "Choose destination" : "Очих газар сонгох",
     "Copy to {target}" : "{target} руу хуулах",
     "Move to {target}" : "{target} руу зөөх",
@@ -411,6 +409,8 @@ OC.L10N.register(
     "Tags" : "Тэгүүд",
     "Save as …" : "Хадгалах …",
     "Converting files …" : "Файлуудыг хөрвүүлж байна …",
-    "Converting file …" : "Файл хөрвүүлж байна …"
+    "Converting file …" : "Файл хөрвүүлж байна …",
+    "Moving {count} files to \"{destination}\" …" : "{count} файлыг \"{destination}\" руу зөөж байна …",
+    "Copying {count} files to \"{destination}\" …" : "{count} файлыг \"{destination}\" руу хуулж байна …"
 },
 "nplurals=2; plural=(n != 1);");
