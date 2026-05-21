@@ -1236,18 +1236,18 @@ class Manager implements IManager {
 		$userId = $task->getUserId();
 		if ($userId !== null && $userId !== '' && $this->appManager->isEnabledForAnyone('notify_push')) {
 			try {
-				// $this->appManager->loadApp('notify_push');
 				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
-				// $queue = $this->serverContainer->get(\OCA\NotifyPush\Queue\IQueue::class);
 				$queue->push('notify_custom', [
 					'user' => $userId,
 					'message' => 'task_' . $task->getId(),
 					'body' => $output,
 				]);
-				error_log('sending to queue!!!!!!');
+				// we don't update the DB if something was sent via notify_push
+				// so if the push messages are not received for some reason, the polling will still not see any intermediate output
+				// but will receive the final output
+				return true;
 			} catch (ContainerExceptionInterface|NotFoundExceptionInterface $e) {
 				$this->logger->debug('OCA\NotifyPush\IQueue not found, not sending to queue');
-				error_log('NOT sending to queue!!!!!! ' . $e->getMessage());
 			}
 		}
 		// no output shape validation for now
