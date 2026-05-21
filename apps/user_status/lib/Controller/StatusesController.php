@@ -66,7 +66,7 @@ class StatusesController extends OCSController {
 
 		if ($users !== $event->getUsers()) {
 			$removedUsers = $event->getFilteredOutUsers();
-			$allStatuses = array_filter($allStatuses, fn (UserStatus $userStatus): bool => in_array($userStatus->getUserId(), $removedUsers, true));
+			$allStatuses = array_filter($allStatuses, fn (UserStatus $userStatus): bool => !in_array($userStatus->getUserId(), $removedUsers, true));
 		}
 
 		return new DataResponse(array_values(array_map(function ($userStatus) {
