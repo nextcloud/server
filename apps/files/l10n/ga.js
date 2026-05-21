@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "Tá na comhaid faoi ghlas",
     "The file does not exist anymore" : "Níl an comhad ann a thuilleadh",
     "Moving \"{source}\" to \"{destination}\" …" : "Ag bogadh \"{source}\" go \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Ag bogadh {count} comhad go \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Ag cóipeáil \"{source}\" go \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Ag cóipeáil {count} comhad chuig \"{destination}\" …",
     "Choose destination" : "Roghnaigh ceann scríbe",
     "Copy to {target}" : "Cóipeáil chuig {target}",
     "Move to {target}" : "Bog go {target}",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "Clibeanna",
     "Save as …" : "Sábháil mar…",
     "Converting files …" : "Comhaid á thiontú…",
-    "Converting file …" : "Comhad á thiontú…"
+    "Converting file …" : "Comhad á thiontú…",
+    "Moving {count} files to \"{destination}\" …" : "Ag bogadh {count} comhad go \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Ag cóipeáil {count} comhad chuig \"{destination}\" …"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

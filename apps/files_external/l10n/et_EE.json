@@ -1,8 +1,8 @@
 { "translations": {
     "You are not logged in" : "Sa pole sisse logitud.",
     "Permission denied" : "Õigus on keelatud",
-    "Forbidden to manage local mounts" : "Kohalike haakepunktide haldamine on  keelatud",
     "Storage with ID \"%d\" not found" : "Andmeruumi tunnusega „%d“ ei leidu",
+    "Forbidden to manage local mounts" : "Kohalike haakepunktide haldamine on  keelatud",
     "Invalid backend or authentication mechanism class" : "Vigane taustateenus või autentimismeetodi klass",
     "Invalid mount point" : "Vigane haakepunkt",
     "Objectstore forbidden" : "Objectstore on keelatud",

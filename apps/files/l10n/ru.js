@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "Файлы заблокированы",
     "The file does not exist anymore" : "Файл больше не существует",
     "Moving \"{source}\" to \"{destination}\" …" : "Перемещение \"{source}\" в \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Перемещение {count} файлов в \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Копирование \"{source}\" в \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Копирование {count} файлов в \"{destination}\" …",
     "Choose destination" : "Выберите место назначения",
     "Copy to {target}" : "Скопировать в «{target}»",
     "Move to {target}" : "Переместить в «{target}»",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "Метки",
     "Save as …" : "Сохранить как…",
     "Converting files …" : "Преобразование файлов…",
-    "Converting file …" : "Преобразование файла…"
+    "Converting file …" : "Преобразование файла…",
+    "Moving {count} files to \"{destination}\" …" : "Перемещение {count} файлов в \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Копирование {count} файлов в \"{destination}\" …"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

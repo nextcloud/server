@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "檔案已鎖定",
     "The file does not exist anymore" : "檔案已不存在",
     "Moving \"{source}\" to \"{destination}\" …" : "正在移動「{source}」至「{destination}」 ……",
-    "Moving {count} files to \"{destination}\" …" : "正在將 {count} 個檔案移動到「{destination}」……",
     "Copying \"{source}\" to \"{destination}\" …" : "正在複製「{source}」至「{destination}」 ……",
-    "Copying {count} files to \"{destination}\" …" : "正在將 {count} 個檔案複製到「{destination}」……",
     "Choose destination" : "選擇目的地",
     "Copy to {target}" : "複製到 {target}",
     "Move to {target}" : "移動到 {target}",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "標籤",
     "Save as …" : "另存為……",
     "Converting files …" : "正在轉換檔案……",
-    "Converting file …" : "正在轉換檔案……"
+    "Converting file …" : "正在轉換檔案……",
+    "Moving {count} files to \"{destination}\" …" : "正在將 {count} 個檔案移動到「{destination}」……",
+    "Copying {count} files to \"{destination}\" …" : "正在將 {count} 個檔案複製到「{destination}」……"
 },
 "nplurals=1; plural=0;");

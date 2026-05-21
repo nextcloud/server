@@ -206,6 +206,8 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Термін дії коду завершиться через {timeCountdown} або після використання",
     "_{count} notification_::_{count} notifications_" : ["{count} сповіщень","{count} сповіщень","{count} сповіщень","{count} сповіщень"],
     "More apps" : "Більше застосунків",
+    "App store" : "Крамниця застосунків",
+    "Open apps menu" : "Відкрити меню із застосунками",
     "Applications" : "Застосунки",
     "Apps" : "Застосунки",
     "No" : "Ні",
