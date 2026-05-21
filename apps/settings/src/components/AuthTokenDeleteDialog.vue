@@ -6,7 +6,7 @@
 <template>
 	<NcDialog
 		:open="open"
-		:name="dialogTitle"
+		:name="copy.title"
 		:buttons="buttons"
 		size="normal"
 		@update:open="onUpdateOpen">
@@ -19,7 +19,7 @@
 			</p>
 		</NcNoteCard>
 		<p class="auth-token-delete-dialog__body">
-			{{ bodyText }}
+			{{ copy.body }}
 		</p>
 	</NcDialog>
 </template>
@@ -65,22 +65,19 @@ export default defineComponent({
 			return this.token.type === TokenType.WIPING_TOKEN
 		},
 
-		dialogTitle(): string {
-			return this.wiping
-				? t('settings', 'Revoke and cancel pending wipe?')
-				: t('settings', 'Revoke app password?')
-		},
-
-		bodyText(): string {
-			return this.wiping
-				? t('settings', 'Only continue if you no longer need the device to be wiped.')
-				: t('settings', 'The app or device will lose access on its next sync. This cannot be undone.')
-		},
-
-		destructiveLabel(): string {
-			return this.wiping
-				? t('settings', 'Revoke and cancel wipe')
-				: t('settings', 'Revoke')
+		copy(): { title: string, body: string, action: string } {
+			if (this.wiping) {
+				return {
+					title: t('settings', 'Revoke and cancel pending wipe?'),
+					body: t('settings', 'Only continue if you no longer need the device to be wiped.'),
+					action: t('settings', 'Revoke and cancel wipe'),
+				}
+			}
+			return {
+				title: t('settings', 'Revoke app password?'),
+				body: t('settings', 'The app or device will lose access on its next sync. This cannot be undone.'),
+				action: t('settings', 'Revoke'),
+			}
 		},
 
 		buttons(): IDialogButton[] {
@@ -93,7 +90,7 @@ export default defineComponent({
 					},
 				},
 				{
-					label: this.destructiveLabel,
+					label: this.copy.action,
 					variant: 'error',
 					callback: () => {
 						this.$emit('confirm')
