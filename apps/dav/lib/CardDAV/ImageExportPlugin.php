@@ -15,6 +15,7 @@ use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\String\UnicodeString;
 
 class ImageExportPlugin extends ServerPlugin {
 
@@ -89,9 +90,7 @@ class ImageExportPlugin extends ServerPlugin {
 			$response->setHeader('Content-Type', $file->getMimeType());
 			$fileName = $node->getName() . '.' . PhotoCache::ALLOWED_CONTENT_TYPES[$file->getMimeType()];
 			$sanitized = str_replace(['/', '\\'], '-', $fileName);
-			$fallback = @iconv('UTF-8', 'ASCII//TRANSLIT', $sanitized) ?: $sanitized;
-			$fallback = preg_replace('/[^\x20-\x7e]/', '', $fallback);
-			$fallback = str_replace('%', '', $fallback);
+			$fallback = str_replace('%', '', (new UnicodeString($sanitized))->ascii()->toString());
 			$response->setHeader('Content-Disposition', HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $sanitized, $fallback));
 			$response->setStatus(Http::STATUS_OK);
 
