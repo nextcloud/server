@@ -105,7 +105,17 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 			],
 			[
 				'privilege' => '{DAV:}unbind', // For moving and deletion
-				'principal' => '{DAV:}owner',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}all',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner() . '/calendar-proxy-read',
 				'protected' => true,
 			],
 		];
