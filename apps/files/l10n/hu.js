@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "A fájlok zárolva vannak",
     "The file does not exist anymore" : "Ez a fájl már nem létezik",
     "Moving \"{source}\" to \"{destination}\" …" : "A(z) „{source}” áthelyezése ide: „{destination}”…",
-    "Moving {count} files to \"{destination}\" …" : "{count} fájl áthelyezési ide: „{destination}”…",
     "Copying \"{source}\" to \"{destination}\" …" : "A(z) „{source}” másolása ide: „{destination}”…",
-    "Copying {count} files to \"{destination}\" …" : "{count} fájl másolása ide: „{destination}”…",
     "Choose destination" : "Válasszon célt",
     "Copy to {target}" : "Másolás ide: {target}",
     "Move to {target}" : "Áthelyezés ide: {target}",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "Címkék",
     "Save as …" : "Mentés másként…",
     "Converting files …" : "Fájlok átalakítása…",
-    "Converting file …" : "Fájl átalakítása…"
+    "Converting file …" : "Fájl átalakítása…",
+    "Moving {count} files to \"{destination}\" …" : "{count} fájl áthelyezési ide: „{destination}”…",
+    "Copying {count} files to \"{destination}\" …" : "{count} fájl másolása ide: „{destination}”…"
 },
 "nplurals=2; plural=(n != 1);");

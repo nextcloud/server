@@ -1,8 +1,8 @@
 { "translations": {
     "You are not logged in" : "ログインしていません",
     "Permission denied" : "アクセス拒否",
-    "Forbidden to manage local mounts" : "ローカルマウントの利用は禁止されています",
     "Storage with ID \"%d\" not found" : "ID \"%d\" のストレージが見つかりません",
+    "Forbidden to manage local mounts" : "ローカルマウントの利用は禁止されています",
     "Invalid backend or authentication mechanism class" : "バックエンドまたは認証システムクラスが無効",
     "Invalid mount point" : "無効なマウントポイント",
     "Objectstore forbidden" : "オブジェクトストアが禁じられています",

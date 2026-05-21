@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Oturum açmamışsınız",
     "Permission denied" : "İzin reddedildi",
-    "Forbidden to manage local mounts" : "Yerel bağlantıları yönetme izni verilmemiş",
     "Storage with ID \"%d\" not found" : "\"%d\" kimlikli depolama bulunamadı",
+    "Forbidden to manage local mounts" : "Yerel bağlantıları yönetme izni verilmemiş",
     "Invalid backend or authentication mechanism class" : "Arka yüz ya da kimlik doğrulama yöntemi sınıfı geçersiz",
     "Invalid mount point" : "Bağlama noktası geçersiz",
     "Objectstore forbidden" : "Nesne deposuna erişim kapalı",

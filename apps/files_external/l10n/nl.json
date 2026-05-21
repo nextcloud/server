@@ -1,8 +1,8 @@
 { "translations": {
     "You are not logged in" : "Je bent niet ingelogd",
     "Permission denied" : "Toestemming geweigerd",
-    "Forbidden to manage local mounts" : "Niet toegestaan lokale aankoppelpunten te beheren",
     "Storage with ID \"%d\" not found" : "Opslag met ID \"%d\" niet gevonden",
+    "Forbidden to manage local mounts" : "Niet toegestaan lokale aankoppelpunten te beheren",
     "Invalid backend or authentication mechanism class" : "Ongeldige backend of authenticatie mechanisme klasse",
     "Invalid mount point" : "Ongeldig aankoppelpunt",
     "Objectstore forbidden" : "Objectopslag verboden",

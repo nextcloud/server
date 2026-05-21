@@ -1,6 +1,7 @@
 OC.L10N.register(
     "appstore",
     {
+    "App store" : "Крамниця застосунків",
     "Apps" : "Застосунки",
     "App name" : "Зазначте назву застосунку",
     "Version" : "Версія",

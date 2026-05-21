@@ -293,6 +293,7 @@
     "Your server is correctly configured to send security headers." : "Ваш сервер правильно налаштовано для надсилання заголовків безпеки.",
     "Configuration server ID" : "Налаштування ідентифікатора сервера",
     "Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration." : "Ідентифікатор сервера не налагтовано. Рекомендується додати ID сервера до конфігурації, якщо ваш примірник хмари Nextcloud розгорнуто на кількох серверах PHP.",
+    "\"%d\" is not a valid server identifier. It must be between 0 and 511." : "\"%d\" не є дійсним ідентифікаторм сервера. Значення має бути між 0 та 511.",
     "Server identifier is configured and valid." : "Ідентифікатор сервера налаштовано, є дійсним.",
     "Database version" : "Версія бази даних",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Виявлено MariaDB версії 10.3, ця версія застаріла і підтримується лише у складі Ubuntu 20.04. Рекомендується використовувати MariaDB >=%1$s та <=%2$s для кращої продуктивності, стабільності та функціональності з цією версією Nextcloud.",

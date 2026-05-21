@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "ファイルはロックされています",
     "The file does not exist anymore" : "ファイルはもう存在しません",
     "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\" を \"{destination}\"に移動",
-    "Moving {count} files to \"{destination}\" …" : "{count} 個のファイルを \"{destination}\" に移動中…",
     "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\" を \"{destination}\"にコピー",
-    "Copying {count} files to \"{destination}\" …" : "{count}個のファイルを \"{destination}\" にコピー中…",
     "Choose destination" : "移動先を選択",
     "Copy to {target}" : "{target} にコピー",
     "Move to {target}" : "{target} に移動",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "タグ",
     "Save as …" : "保存…",
     "Converting files …" : "ファイルの変換…",
-    "Converting file …" : "ファイルの変換…"
+    "Converting file …" : "ファイルの変換…",
+    "Moving {count} files to \"{destination}\" …" : "{count} 個のファイルを \"{destination}\" に移動中…",
+    "Copying {count} files to \"{destination}\" …" : "{count}個のファイルを \"{destination}\" にコピー中…"
 },
 "nplurals=1; plural=0;");

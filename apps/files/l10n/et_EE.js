@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "Need failid on lukustatud",
     "The file does not exist anymore" : "Neid faile pole enam olemas",
     "Moving \"{source}\" to \"{destination}\" …" : "Teisaldan „{source}“ → „{destination}“…",
-    "Moving {count} files to \"{destination}\" …" : "Tõstan {count} faili „{destination}“ kausta…",
     "Copying \"{source}\" to \"{destination}\" …" : "Kopeerin „{source}“ → „{destination}“…",
-    "Copying {count} files to \"{destination}\" …" : "Kopeerin {count} faili „{destination}“ kausta…",
     "Choose destination" : "Vali sihtkaust",
     "Copy to {target}" : "Kopeeri kausta {target}",
     "Move to {target}" : "Teisalda kausta {target}",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "Sildid",
     "Save as …" : "Salvesta kui…",
     "Converting files …" : "Teisendan faile…",
-    "Converting file …" : "Teisendan faili…"
+    "Converting file …" : "Teisendan faili…",
+    "Moving {count} files to \"{destination}\" …" : "Tõstan {count} faili „{destination}“ kausta…",
+    "Copying {count} files to \"{destination}\" …" : "Kopeerin {count} faili „{destination}“ kausta…"
 },
 "nplurals=2; plural=(n != 1);");
