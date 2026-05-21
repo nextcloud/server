@@ -26,6 +26,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
@@ -49,6 +50,7 @@ class User implements IUser {
 
 	private IConfig $config;
 	private IURLGenerator $urlGenerator;
+	private IAssertion $assertion;
 
 	/** @var IAccountManager */
 	protected $accountManager;
@@ -77,11 +79,13 @@ class User implements IUser {
 		private IEventDispatcher $dispatcher,
 		$emitter = null,
 		?IConfig $config = null,
-		$urlGenerator = null,
+		?IURLGenerator $urlGenerator = null,
+		?IAssertion $assertion = null,
 	) {
 		$this->emitter = $emitter;
 		$this->config = $config ?? \OCP\Server::get(IConfig::class);
 		$this->urlGenerator = $urlGenerator ?? \OCP\Server::get(IURLGenerator::class);
+		$this->assertion = $assertion ?? \OCP\Server::get(IAssertion::class);
 	}
 
 	/**
@@ -466,6 +470,11 @@ class User implements IUser {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 			$this->enabled = $enabled;
 		};
+
+		if ($oldStatus === false && $enabled === true) {
+			$this->assertion->createUserIsLegit();
+		}
+
 		if ($this->backend instanceof IProvideEnabledStateBackend) {
 			$queryDatabaseValue = function (): bool {
 				if ($this->enabled === null) {
