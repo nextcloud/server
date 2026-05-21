@@ -35,6 +35,7 @@ class NotificationsTest extends TestCase {
 	protected IURLGenerator&MockObject $urlGenerator;
 	protected NotificationsController $notificationsController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
