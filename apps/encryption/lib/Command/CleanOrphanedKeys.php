@@ -22,6 +22,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -45,10 +46,28 @@ class CleanOrphanedKeys extends Command {
 	protected function configure(): void {
 		$this
 			->setName('encryption:clean-orphaned-keys')
-			->setDescription('Scan the keys storage for orphaned keys and remove them');
+			->setDescription('Scan the keys storage for orphaned keys and remove them')
+			->addArgument(
+				'user',
+				InputArgument::OPTIONAL,
+				'The id of the user for whom the scan should be performed. If not provided, all users will be scanned.'
+			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$users = [];
+		$userId = $input->getArgument('user');
+		if ($userId !== null) {
+			$user = $this->userManager->get($userId);
+			if (!$user) {
+				$output->writeln("<error>User $userId not found</error>");
+				return self::FAILURE;
+			}
+			$users[] = $user;
+		} else {
+			$users = $this->userManager->getSeenUsers();
+		}
+
 		$orphanedKeys = [];
 		$headline = 'Scanning all keys for file parity';
 		$output->writeln($headline);
@@ -57,7 +76,7 @@ class CleanOrphanedKeys extends Command {
 		$progress = new ProgressBar($output);
 		$progress->setFormat(" %message% \n [%bar%]");
 
-		foreach ($this->userManager->getSeenUsers() as $user) {
+		foreach ($users as $user) {
 			$uid = $user->getUID();
 			$progress->setMessage('Scanning all keys for: ' . $uid);
 			$progress->advance();
@@ -65,8 +84,8 @@ class CleanOrphanedKeys extends Command {
 			$root = $this->encryptionUtil->getKeyStorageRoot() . '/' . $uid . '/files_encryption/keys';
 			$userOrphanedKeys = $this->scanFolder($output, $root, $uid);
 			$orphanedKeys = array_merge($orphanedKeys, $userOrphanedKeys);
+			$progress->setMessage('Scanned orphaned keys for user: ' . $uid);
 		}
-		$progress->setMessage('Scanned orphaned keys for all users');
 		$progress->finish();
 		$output->writeln("\n");
 		foreach ($orphanedKeys as $keyPath) {
@@ -79,7 +98,6 @@ class CleanOrphanedKeys extends Command {
 		if ($this->questionHelper->ask($input, $output, $question)) {
 			$this->deleteAll($orphanedKeys, $output);
 		} else {
-
 			$question = new ConfirmationQuestion('Do you want to delete specific keys? (y/n) ', false);
 			if ($this->questionHelper->ask($input, $output, $question)) {
 				$this->deleteSpecific($input, $output, $orphanedKeys);
