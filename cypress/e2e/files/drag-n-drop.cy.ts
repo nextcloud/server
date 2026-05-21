@@ -206,7 +206,11 @@ describe('files: Drag and Drop onto a folder row', { testIsolation: true }, () =
 
 	it('opens the conflict picker when dropping a colliding name onto a subfolder row', () => {
 		// Pre-populate the subfolder with a file the drop will collide with.
+		// cy.uploadContent internally clears session cookies, so re-login
+		// before revisiting so it matches the uploadContent > login > visit
+		// pattern used elsewhere in the suite.
 		cy.uploadContent(user, new Blob(['original']), 'text/plain', '/subfolder/collide.txt')
+		cy.login(user)
 
 		// Reload so the pre-populated file lands in the store before the drop.
 		// The drop handler reads filesStore.getNodesByPath first and only
