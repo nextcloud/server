@@ -74,11 +74,13 @@
 			</NcActions>
 		</td>
 		<AuthTokenDeleteDialog
+			v-if="deleteDialogOpen"
 			:token="token"
 			:open="deleteDialogOpen"
 			@update:open="deleteDialogOpen = $event"
 			@confirm="confirmDelete" />
 		<AuthTokenWipeDialog
+			v-if="wipeDialogOpen"
 			:token="token"
 			:open="wipeDialogOpen"
 			@update:open="wipeDialogOpen = $event"

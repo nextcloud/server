@@ -6,13 +6,15 @@
  */
 namespace OCA\OAuth2\Tests\Controller;
 
+use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCA\OAuth2\Controller\SettingsController;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
+use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
@@ -20,6 +22,8 @@ use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -44,6 +48,7 @@ class SettingsControllerTest extends TestCase {
 	private $l;
 	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
 	private $crypto;
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -55,6 +60,7 @@ class SettingsControllerTest extends TestCase {
 		$this->authTokenProvider = $this->createMock(IAuthTokenProvider::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->crypto = $this->createMock(ICrypto::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->willReturnArgument(0);
@@ -67,7 +73,8 @@ class SettingsControllerTest extends TestCase {
 			$this->l,
 			$this->authTokenProvider,
 			$this->userManager,
-			$this->crypto
+			$this->crypto,
+			$this->logger,
 		);
 
 	}
@@ -134,11 +141,15 @@ class SettingsControllerTest extends TestCase {
 		$user1->updateLastLoginTimestamp();
 		$tokenProviderMock = $this->getMockBuilder(IAuthTokenProvider::class)->getMock();
 
-		// expect one call per user and ensure the correct client name
+		// One getTokenByUser call per user; we return no matching tokens here
+		// so invalidateTokenById is never invoked.
 		$tokenProviderMock
 			->expects($this->exactly($count + 1))
-			->method('invalidateTokensOfUser')
-			->with($this->isType('string'), 'My Client Name');
+			->method('getTokenByUser')
+			->willReturn([]);
+		$tokenProviderMock
+			->expects($this->never())
+			->method('invalidateTokenById');
 
 		$client = new Client();
 		$client->setId(123);
@@ -169,7 +180,8 @@ class SettingsControllerTest extends TestCase {
 			$this->l,
 			$tokenProviderMock,
 			$userManager,
-			$this->crypto
+			$this->crypto,
+			$this->logger,
 		);
 
 		$result = $settingsController->deleteClient(123);
@@ -177,6 +189,96 @@ class SettingsControllerTest extends TestCase {
 		$this->assertEquals([], $result->getData());
 
 		$user1->delete();
+	}
+
+	public function testDeleteClientPreservesWipePendingToken(): void {
+		$userManager = Server::get(IUserManager::class);
+		$user = $userManager->createUser('test_wipe_preserve', 'test_wipe_preserve');
+		$user->updateLastLoginTimestamp();
+
+		$client = new Client();
+		$client->setId(456);
+		$client->setName('My Client Name');
+		$client->setRedirectUri('https://example.com/');
+		$client->setSecret(bin2hex('MyHashedSecret'));
+		$client->setClientIdentifier('MyClientIdentifier');
+
+		// Token marked for wipe with a matching client name: must NOT be invalidated.
+		$wipeToken = $this->createMock(IToken::class);
+		$wipeToken->method('getId')->willReturn(11);
+		$wipeToken->method('getName')->willReturn('My Client Name');
+
+		// Regular token with matching name: must be invalidated.
+		$regularToken = $this->createMock(IToken::class);
+		$regularToken->method('getId')->willReturn(12);
+		$regularToken->method('getName')->willReturn('My Client Name');
+
+		// Non-matching name: must be left alone.
+		$otherToken = $this->createMock(IToken::class);
+		$otherToken->method('getId')->willReturn(13);
+		$otherToken->method('getName')->willReturn('Some Other Client');
+
+		$tokenProviderMock = $this->getMockBuilder(IAuthTokenProvider::class)->getMock();
+		$tokenProviderMock
+			->method('getTokenByUser')
+			->willReturnCallback(function (string $uid) use ($wipeToken, $regularToken, $otherToken) {
+				return $uid === 'test_wipe_preserve'
+					? [$wipeToken, $regularToken, $otherToken]
+					: [];
+			});
+		// Wipe state is signalled via WipeTokenException from getTokenById.
+		$tokenProviderMock
+			->method('getTokenById')
+			->willReturnCallback(function (int $id) use ($wipeToken, $regularToken) {
+				if ($id === 11) {
+					throw new WipeTokenException($wipeToken);
+				}
+				return $regularToken;
+			});
+		$tokenProviderMock
+			->expects($this->once())
+			->method('invalidateTokenById')
+			->with('test_wipe_preserve', 12);
+
+		$this->clientMapper
+			->method('getByUid')
+			->with(456)
+			->willReturn($client);
+		$this->accessTokenMapper
+			->expects($this->once())
+			->method('deleteByClientId')
+			->with(456);
+		$this->clientMapper
+			->expects($this->once())
+			->method('delete')
+			->with($client);
+
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->atLeastOnce())
+			->method('info')
+			->with($this->stringContains('Preserving token'), $this->callback(function (array $context) {
+				return ($context['tokenId'] ?? null) === 11
+					&& ($context['uid'] ?? null) === 'test_wipe_preserve';
+			}));
+
+		$settingsController = new SettingsController(
+			'oauth2',
+			$this->request,
+			$this->clientMapper,
+			$this->secureRandom,
+			$this->accessTokenMapper,
+			$this->l,
+			$tokenProviderMock,
+			$userManager,
+			$this->crypto,
+			$logger,
+		);
+
+		$result = $settingsController->deleteClient(456);
+		$this->assertInstanceOf(JSONResponse::class, $result);
+		$this->assertEquals([], $result->getData());
+
+		$user->delete();
 	}
 
 	public function testInvalidRedirectUri(): void {
