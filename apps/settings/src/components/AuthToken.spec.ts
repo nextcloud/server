@@ -119,7 +119,8 @@ describe('AuthToken revoke flow', () => {
 		dialog.vm.$emit('update:open', false)
 		await wrapper.vm.$nextTick()
 
-		expect(dialog.props('open')).toBe(false)
+		// Dialog is v-if'd off the tree once closed
+		expect(wrapper.findComponent(AuthTokenDeleteDialog).exists()).toBe(false)
 		expect(store.deleteToken).not.toHaveBeenCalled()
 	})
 
