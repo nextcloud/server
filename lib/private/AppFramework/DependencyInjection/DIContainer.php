@@ -17,7 +17,6 @@ use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
 use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
 use OC\AppFramework\Middleware\CompressionMiddleware;
-use OC\AppFramework\Middleware\FlowV2EphemeralSessionsMiddleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\NotModifiedMiddleware;
@@ -206,8 +205,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c->get(SameSiteCookieMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(CORSMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(OCSMiddleware::class));
-
-			$dispatcher->registerMiddleware($c->get(FlowV2EphemeralSessionsMiddleware::class));
 
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),
