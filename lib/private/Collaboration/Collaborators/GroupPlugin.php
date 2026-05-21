@@ -40,7 +40,8 @@ class GroupPlugin implements ISearchPlugin {
 		}
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
+	#[\Override]
+	public function search(string $search, int $limit, int $offset, ISearchResult $searchResult): bool {
 		if ($this->groupSharingDisabled) {
 			return false;
 		}
