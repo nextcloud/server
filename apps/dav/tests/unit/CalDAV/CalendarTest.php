@@ -236,16 +236,36 @@ class CalendarTest extends TestCase {
 				'principal' => 'user2',
 				'protected' => true
 			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'user2/calendar-proxy-read',
+				'protected' => true
+			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'user2/calendar-proxy-write',
+				'protected' => true
+			];
 			if ($expectsWrite) {
 				$expectedAcl[] = [
 					'privilege' => '{DAV:}write',
 					'principal' => 'user2',
 					'protected' => true
 				];
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write',
+					'principal' => 'user2/calendar-proxy-write',
+					'protected' => true
+				];
 			} else {
 				$expectedAcl[] = [
 					'privilege' => '{DAV:}write-properties',
 					'principal' => 'user2',
+					'protected' => true
+				];
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write-properties',
+					'principal' => 'user2/calendar-proxy-write',
 					'protected' => true
 				];
 			}
