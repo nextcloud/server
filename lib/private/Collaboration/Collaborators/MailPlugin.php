@@ -17,6 +17,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IEmailValidator;
 use OCP\Share\IShare;
@@ -42,6 +43,7 @@ class MailPlugin implements ISearchPlugin {
 		private KnownUserService $knownUserService,
 		private IUserSession $userSession,
 		private IEmailValidator $emailValidator,
+		private IUserManager $userManager,
 		private mixed $shareWithGroupOnlyExcludeGroupsList,
 		private int $shareType,
 	) {
@@ -72,6 +74,7 @@ class MailPlugin implements ISearchPlugin {
 		}
 
 		$currentUserId = $this->userSession->getUser()->getUID();
+		$userGroups = null;
 
 		$result = $userResults = ['wide' => [], 'exact' => []];
 		$userType = new SearchResultType('users');
@@ -114,26 +117,19 @@ class MailPlugin implements ISearchPlugin {
 					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
 
 					if (isset($contact['isLocalSystemBook'])) {
+						$contactUser = $this->userManager->get($contact['UID']);
+						if ($contactUser === null) {
+							continue;
+						}
+						$contactGroups = $this->groupManager->getUserGroupIds($contactUser);
+
 						if ($this->shareWithGroupOnly) {
-							/*
-							 * Check if the user may share with the user associated with the e-mail of the just found contact
-							 */
-							$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
-
-							// ShareWithGroupOnly filtering
-							$userGroups = array_diff($userGroups, $this->shareWithGroupOnlyExcludeGroupsList);
-
-							$found = false;
-							foreach ($userGroups as $userGroup) {
-								if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
-									$found = true;
-									break;
-								}
-							}
-							if (!$found) {
+							$userGroups ??= $this->groupManager->getUserGroupIds($this->userSession->getUser());
+							if (array_intersect($contactGroups, array_diff($userGroups, $this->shareWithGroupOnlyExcludeGroupsList)) === []) {
 								continue;
 							}
 						}
+
 						if ($exactEmailMatch && $this->shareeEnumerationFullMatch) {
 							try {
 								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0] ?? '');
@@ -174,14 +170,8 @@ class MailPlugin implements ISearchPlugin {
 							}
 
 							if (!$addToWide && $this->shareeEnumerationInGroupOnly) {
-								$addToWide = false;
-								$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
-								foreach ($userGroups as $userGroup) {
-									if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
-										$addToWide = true;
-										break;
-									}
-								}
+								$userGroups ??= $this->groupManager->getUserGroupIds($this->userSession->getUser());
+								$addToWide = array_intersect($contactGroups, $userGroups) !== [];
 							}
 							if ($addToWide && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								if ($this->shareType === IShare::TYPE_USER) {
@@ -247,7 +237,7 @@ class MailPlugin implements ISearchPlugin {
 		}
 
 		if ($this->shareType === IShare::TYPE_EMAIL
-				&& !$searchResult->hasExactIdMatch($emailType) && $this->emailValidator->isValid($search)) {
+			&& !$searchResult->hasExactIdMatch($emailType) && $this->emailValidator->isValid($search)) {
 			$result['exact'][] = [
 				'label' => $search,
 				'uuid' => $search,
