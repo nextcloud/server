@@ -230,45 +230,58 @@ class Manager {
 	 * @param string $challenge
 	 * @return boolean
 	 */
+	/**
+	 * Verify a 2FA challenge against the given provider for the user.
+	 *
+	 * On success, this finalizes the pending 2FA login state, clears the stored
+	 * pending-login token marker, optionally creates a remember-me token, and
+	 * dispatches success events. On failure, failure events are dispatched.
+	 *
+	 * Returns false if the provider is not available for the user or if the
+	 * challenge verification fails.
+	 *
+	 * @throws Exception
+	 */
 	public function verifyChallenge(string $providerId, IUser $user, string $challenge): bool {
 		$provider = $this->getProvider($user, $providerId);
+
 		if ($provider === null) {
 			return false;
 		}
 
-		$passed = $provider->verifyChallenge($user, $challenge);
-		if ($passed) {
-			if ($this->session->get(self::REMEMBER_LOGIN) === true) {
-				// TODO: resolve cyclic dependency and use DI
-				/** @var Session $session */
-				$session = Server::get(IUserSession::class);
-				$session->createRememberMeToken($user);
-			}
-			$this->session->remove(self::SESSION_UID_KEY);
-			$this->session->remove(self::REMEMBER_LOGIN);
-			$this->session->set(self::SESSION_UID_DONE, $user->getUID());
-
-			// Clear token from db
-			$sessionId = $this->session->getId();
-			$token = $this->tokenProvider->getToken($sessionId);
-			$tokenId = $token->getId();
-			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', (string)$tokenId);
-
-			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
-			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
-
-			$this->publishEvent($user, 'twofactor_success', [
-				'provider' => $provider->getDisplayName(),
-			]);
-		} else {
+		if (!$provider->verifyChallenge($user, $challenge)) {
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
 			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengeFailed($user, $provider));
 
-			$this->publishEvent($user, 'twofactor_failed', [
-				'provider' => $provider->getDisplayName(),
-			]);
+			$this->publishEvent($user, 'twofactor_failed', ['provider' => $provider->getDisplayName()]);
+
+			return false;
 		}
-		return $passed;
+
+		$uid = $user->getUID();
+
+		if ($this->session->get(self::REMEMBER_LOGIN) === true) {
+			// TODO: resolve cyclic dependency and use DI
+			/** @var Session $session */
+			$session = Server::get(IUserSession::class);
+			$session->createRememberMeToken($user);
+		}
+
+		$this->session->remove(self::SESSION_UID_KEY);
+		$this->session->remove(self::REMEMBER_LOGIN);
+		$this->session->set(self::SESSION_UID_DONE, $uid);
+
+		// Clear the pending 2FA marker for the current login token.
+		$sessionId = $this->session->getId();
+		$token = $this->tokenProvider->getToken($sessionId);
+		$this->config->deleteUserValue($uid, 'login_token_2fa', (string)$token->getId());
+
+		$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
+		$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
+
+		$this->publishEvent($user, 'twofactor_success', ['provider' => $provider->getDisplayName()]);
+
+		return true;
 	}
 
 	/**
