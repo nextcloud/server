@@ -43,6 +43,8 @@ jobs:
               - 'vendor-bin/**'
               - 'composer.json'
               - 'composer.lock'
+              - 'psalm*.xml'
+              - 'build/psalm-baseline*.xml'
               - '**.php'
 
   static-code-analysis:
