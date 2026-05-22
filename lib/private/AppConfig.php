@@ -437,7 +437,15 @@ class AppConfig implements IAppConfig {
 	 */
 	#[\Override]
 	public function getValueBool(string $app, string $key, bool $default = false, bool $lazy = false): bool {
-		$b = strtolower($this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL));
+		// The explicit (string) cast and ?? null guard defend against a PHP OPcache bug where
+		// values passed by reference across function boundaries can have their type corrupted
+		// (e.g. bool returned as int, or null). Affects PHP 8.x with OPcache enabled; fixed
+		// upstream in https://github.com/php/php-src/pull/21973. Keep until minimum PHP version
+		// is bumped. Psalm sees the declared return type (string) and flags these as redundant.
+		/** @psalm-suppress RedundantCondition, TypeDoesNotContainNull */
+		$value = $this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL) ?? ($default ? 'true' : 'false');
+		/** @psalm-suppress RedundantCast */
+		$b = strtolower((string)$value);
 		return in_array($b, ['1', 'true', 'yes', 'on']);
 	}
 
