@@ -345,7 +345,9 @@ class AmazonS3 extends Common {
 			if ($cacheEntry instanceof CacheEntry) {
 				$data['storage_mtime'] = $cacheEntry->getStorageMTime();
 			} elseif (!$this->isRoot($path) && $directoryMarker = $this->headObject($path . '/')) {
-				$data['storage_mtime'] = strtotime($directoryMarker['LastModified']);
+				if (isset($directoryMarker['LastModified'])) {
+					$data['storage_mtime'] = strtotime($directoryMarker['LastModified']);
+				}
 			}
 		}
 		return $data;
@@ -674,12 +676,14 @@ class AmazonS3 extends Common {
 	}
 
 	private function objectToMetaData(array $object): array {
+		$mtime = isset($object['LastModified']) ? strtotime($object['LastModified']) : time();
+		$etag = isset($object['ETag']) ? trim($object['ETag'], '"') : '';
 		return [
 			'name' => basename($object['Key']),
 			'mimetype' => $this->mimeDetector->detectPath($object['Key']),
-			'mtime' => strtotime($object['LastModified']),
-			'storage_mtime' => strtotime($object['LastModified']),
-			'etag' => trim($object['ETag'], '"'),
+			'mtime' => $mtime,
+			'storage_mtime' => $mtime,
+			'etag' => $etag,
 			'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
 			'size' => (int)($object['Size'] ?? $object['ContentLength']),
 		];
