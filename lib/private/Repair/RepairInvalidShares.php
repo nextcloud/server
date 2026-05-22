@@ -8,6 +8,7 @@
 namespace OC\Repair;
 
 use OCP\Constants;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -67,18 +68,25 @@ class RepairInvalidShares implements IRepairStep {
 
 		$deleteQuery = $this->connection->getQueryBuilder();
 		$deleteQuery->delete('share')
-			->where($deleteQuery->expr()->eq('parent', $deleteQuery->createParameter('parent')));
+			->where($deleteQuery->expr()->in('parent', $deleteQuery->createParameter('parent')));
 
-		$deletedInLastChunk = self::CHUNK_SIZE;
-		while ($deletedInLastChunk === self::CHUNK_SIZE) {
-			$deletedInLastChunk = 0;
+		while (true) {
 			$result = $query->executeQuery();
-			while ($row = $result->fetch()) {
-				$deletedInLastChunk++;
-				$deletedEntries += $deleteQuery->setParameter('parent', (int)$row['parent'])
-					->executeStatement();
-			}
+			$parents = $result->fetchFirstColumn();
+			$parents = array_unique($parents);
 			$result->closeCursor();
+
+			if ($parents === []) {
+				break;
+			}
+
+			$deletedEntriesInIteration = $deleteQuery->setParameter('parent', $parents, IQueryBuilder::PARAM_INT_ARRAY)
+				->executeStatement();
+			$deletedEntries += $deletedEntriesInIteration;
+
+			if ($deletedEntriesInIteration === 0) {
+				break;
+			}
 		}
 
 		if ($deletedEntries) {
