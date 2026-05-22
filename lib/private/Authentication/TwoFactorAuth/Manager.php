@@ -35,13 +35,19 @@ use function array_diff;
 use function array_filter;
 
 class Manager {
+	/**
+	 * Session keys and provider identifiers used by the two-factor authentication flow.
+	 *
+	 * These values are persisted in session state, so renaming them may break
+	 * in-progress authentication or remember-device behavior.
+	 */
 	public const SESSION_UID_KEY = 'two_factor_auth_uid';
 	public const SESSION_UID_DONE = 'two_factor_auth_passed';
 	public const REMEMBER_LOGIN = 'two_factor_remember_login';
 	public const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 
 	/** @psalm-var array<string, bool> */
-	private $userIsTwoFactorAuthenticated = [];
+	private $userHasUsableSecondFactor = [];
 
 	public function __construct(
 		private ProviderLoader $providerLoader,
@@ -58,26 +64,36 @@ class Manager {
 	}
 
 	/**
-	 * Determine whether the user must provide a second factor challenge
+	 * Determine whether the user currently has 2FA effectively enabled.
+	 *
+	 * This returns true when 2FA is mandatory for the user or when the user has at
+	 * least one enabled non-backup-code provider. Backup codes alone do not count
+	 * as 2FA being enabled for this check.
+	 *
+	 * The result is cached per user for the lifetime of this manager instance.
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
-		if (isset($this->userIsTwoFactorAuthenticated[$user->getUID()])) {
-			return $this->userIsTwoFactorAuthenticated[$user->getUID()];
+		$uid = $user->getUID();
+
+		if (isset($this->userHasUsableSecondFactor[$uid])) {
+			return $this->userHasUsableSecondFactor[$uid];
 		}
 
 		if ($this->mandatoryTwoFactor->isEnforcedFor($user)) {
+			// TODO: cache too?
 			return true;
 		}
 
 		$providerStates = $this->providerRegistry->getProviderStates($user);
 		$providers = $this->providerLoader->getProviders($user);
 		$fixedStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
-		$enabled = array_filter($fixedStates);
-		$providerIds = array_keys($enabled);
-		$providerIdsWithoutBackupCodes = array_diff($providerIds, [self::BACKUP_CODES_PROVIDER_ID]);
 
-		$this->userIsTwoFactorAuthenticated[$user->getUID()] = !empty($providerIdsWithoutBackupCodes);
-		return $this->userIsTwoFactorAuthenticated[$user->getUID()];
+		$enabledProviderIds = array_keys(array_filter($fixedStates));
+		$hasNonBackupProvider = !empty(array_diff($enabledProviderIds, [self::BACKUP_CODES_PROVIDER_ID]));
+
+		$this->userHasUsableSecondFactor[$uid] = $hasNonBackupProvider;
+
+		return $hasNonBackupProvider;
 	}
 
 	/**
