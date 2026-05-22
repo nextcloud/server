@@ -223,14 +223,6 @@ class Manager {
 	}
 
 	/**
-	 * Verify the given challenge
-	 *
-	 * @param string $providerId
-	 * @param IUser $user
-	 * @param string $challenge
-	 * @return boolean
-	 */
-	/**
 	 * Verify a 2FA challenge against the given provider for the user.
 	 *
 	 * On success, this finalizes the pending 2FA login state, clears the stored
@@ -250,14 +242,15 @@ class Manager {
 		}
 
 		if (!$provider->verifyChallenge($user, $challenge)) {
-			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
-			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengeFailed($user, $provider));
-
-			$this->publishEvent($user, 'twofactor_failed', ['provider' => $provider->getDisplayName()]);
-
+			$this->handleFailedChallenge($user, $provider);
 			return false;
 		}
 
+		$this->handleSuccessfulChallenge($user, $provider);
+		return true;
+	}
+
+	private function handleSuccessfulChallenge(IUser $user, IProvider $provider): void {
 		$uid = $user->getUID();
 
 		if ($this->session->get(self::REMEMBER_LOGIN) === true) {
@@ -280,8 +273,13 @@ class Manager {
 		$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
 
 		$this->publishEvent($user, 'twofactor_success', ['provider' => $provider->getDisplayName()]);
+}
 
-		return true;
+	private function handleFailedChallenge(IUser $user, IProvider $provider): void {
+		$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
+		$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengeFailed($user, $provider));
+
+		$this->publishEvent($user, 'twofactor_failed', ['provider' => $provider->getDisplayName()]);
 	}
 
 	/**
