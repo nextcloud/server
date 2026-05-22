@@ -205,6 +205,7 @@
     "_{count} notification_::_{count} notifications_" : ["{count} 個通知"],
     "More apps" : "更多應用程式",
     "App store" : "應用程式商店",
+    "Open apps menu, currently in {app}" : "開啟應用程式選單，目前於 {app}",
     "Open apps menu" : "開啟應用程式選單",
     "Applications" : "應用程式",
     "Apps" : "應用程式",
