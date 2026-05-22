@@ -36,10 +36,10 @@ use function array_filter;
 
 class Manager {
 	/**
-	 * Session keys and provider identifiers used by the two-factor authentication flow.
+	 * Session keys and provider identifiers used during the 2FA login flow.
 	 *
-	 * These values are persisted in session state, so renaming them may break
-	 * in-progress authentication or remember-device behavior.
+	 * The string values are persisted in session/config state and should therefore
+	 * remain stable.
 	 */
 	public const SESSION_UID_KEY = 'two_factor_auth_uid';
 	public const SESSION_UID_DONE = 'two_factor_auth_passed';
@@ -97,109 +97,129 @@ class Manager {
 	}
 
 	/**
-	 * Get a 2FA provider by its ID
+	 * Return the enabled 2FA provider with the given ID for the user.
+	 *
+	 * Returns null if the provider is not available in the user's enabled provider
+	 * set.
+	 *
+	 * @throws Exception
 	 */
-	public function getProvider(IUser $user, string $challengeProviderId): ?IProvider {
+	public function getProvider(IUser $user, string $providerId): ?IProvider {
 		$providers = $this->getProviderSet($user)->getProviders();
-		return $providers[$challengeProviderId] ?? null;
+		return $providers[$providerId] ?? null;
 	}
 
 	/**
+	 * Return the user's 2FA providers that can be activated during login.
+	 *
 	 * @return IActivatableAtLogin[]
 	 * @throws Exception
 	 */
 	public function getLoginSetupProviders(IUser $user): array {
 		$providers = $this->providerLoader->getProviders($user);
-		return array_filter($providers, function (IProvider $provider) {
-			return ($provider instanceof IActivatableAtLogin);
-		});
+
+		return array_filter(
+			$providers,
+			static fn (IProvider $provider): bool => $provider instanceof IActivatableAtLogin,
+		);
 	}
 
 	/**
-	 * Check if the persistant mapping of enabled/disabled state of each available
-	 * provider is missing an entry and add it to the registry in that case.
+	 * Ensure that every loaded provider has a persisted enabled/disabled state.
 	 *
-	 * @todo remove in Nextcloud 17 as by then all providers should have been updated
+	 * For providers missing from the registry state map, this queries the provider
+	 * directly and writes the derived state back to the registry.
 	 *
-	 * @param array<string, bool> $providerStates
-	 * @param IProvider[] $providers
-	 * @param IUser $user
-	 * @return array<string, bool> the updated $providerStates variable
+	 * @todo Remove this compatibility path once provider state entries are guaranteed
+	 *       to exist for every loaded provider for all supported upgrade paths.
+	 *
+	 * @param array<string, bool> $providerStates Persisted provider state map,
+	 *                                            indexed by provider ID
+	 * @param IProvider[] $providers Loaded providers for the user
+	 * @return array<string, bool> Complete provider state map indexed by provider ID
 	 */
-	private function fixMissingProviderStates(array $providerStates,
-		array $providers, IUser $user): array {
+	private function fixMissingProviderStates(
+		array $providerStates,
+		array $providers,
+		IUser $user,
+	): array {
 		foreach ($providers as $provider) {
-			if (isset($providerStates[$provider->getId()])) {
-				// All good
+			$providerId = $provider->getId();
+
+			if (isset($providerStates[$providerId])) {
 				continue;
 			}
 
 			$enabled = $provider->isTwoFactorAuthEnabledForUser($user);
+
 			if ($enabled) {
 				$this->providerRegistry->enableProviderFor($provider, $user);
 			} else {
 				$this->providerRegistry->disableProviderFor($provider, $user);
 			}
-			$providerStates[$provider->getId()] = $enabled;
+
+			$providerStates[$providerId] = $enabled;
 		}
 
 		return $providerStates;
 	}
 
 	/**
-	 * @param array $states
-	 * @param IProvider[] $providers
+	 * Check whether any enabled provider state refers to a provider that failed to load.
+	 *
+	 * Disabled provider states are ignored. Missing enabled providers are logged.
+	 *
+	 * @param array<string, bool> $states Provider state map indexed by provider ID
+	 * @param IProvider[] $providers Loaded providers for the user
 	 */
 	private function isProviderMissing(array $states, array $providers): bool {
-		$indexed = [];
+		$providersById = [];
 		foreach ($providers as $provider) {
-			$indexed[$provider->getId()] = $provider;
+			$providersById[$provider->getId()] = $provider;
 		}
 
-		$missing = [];
+		$missingCount = 0;
 		foreach ($states as $providerId => $enabled) {
 			if (!$enabled) {
-				// Don't care
 				continue;
 			}
 
-			if (!isset($indexed[$providerId])) {
-				$missing[] = $providerId;
-				$this->logger->alert("two-factor auth provider '$providerId' failed to load",
-					[
-						'app' => 'core',
-					]);
+			if (!isset($providersById[$providerId])) {
+				$missingCount++;
+				$this->logger->alert("two-factor auth provider '$providerId' failed to load", ['app' => 'core']);
 			}
 		}
 
-		if (!empty($missing)) {
-			// There was at least one provider missing
-			$this->logger->alert(count($missing) . ' two-factor auth providers failed to load', ['app' => 'core']);
-
+		if ($missingCount > 0) {
+			$this->logger->alert($missingCount . ' two-factor auth providers failed to load', ['app' => 'core']);
 			return true;
 		}
 
-		// If we reach this, there was not a single provider missing
 		return false;
 	}
 
 	/**
-	 * Get the list of 2FA providers for the given user
+	 * Build the user's enabled 2FA provider set.
 	 *
-	 * @param IUser $user
+	 * Missing persisted provider states are repaired before filtering providers.
+	 * The returned ProviderSet also indicates whether an enabled provider failed
+	 * to load.
+	 *
 	 * @throws Exception
 	 */
 	public function getProviderSet(IUser $user): ProviderSet {
 		$providerStates = $this->providerRegistry->getProviderStates($user);
 		$providers = $this->providerLoader->getProviders($user);
 
-		$fixedStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
-		$isProviderMissing = $this->isProviderMissing($fixedStates, $providers);
+		$completeStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
+		$isProviderMissing = $this->isProviderMissing($completeStates, $providers);
 
-		$enabled = array_filter($providers, function (IProvider $provider) use ($fixedStates) {
-			return $fixedStates[$provider->getId()];
-		});
-		return new ProviderSet($enabled, $isProviderMissing);
+		$enabledProviders = array_filter(
+			$providers,
+			static fn (IProvider $provider): bool => $completeStates[$provider->getId()],
+		);
+		
+		return new ProviderSet($enabledProviders, $isProviderMissing);
 	}
 
 	/**
