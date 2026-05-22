@@ -69,6 +69,7 @@ OC.L10N.register(
     "Details" : "Details",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Diese App kann nicht installiert werden, weil die folgenden Abhängigkeiten nicht erfüllt sind:",
     "Missing dependencies" : "Fehlende Abhängigkeiten",
+    "This app cannot be limited to groups because it provides functionality that is executed before group membership is determined." : "Diese App kann nicht auf Gruppen beschränkt werden, da sie Funktionen bereitstellt, die ausgeführt werden, bevor die Gruppenmitgliedschaft überprüft wird.",
     "Limited to groups" : "Beschränkt auf Gruppen",
     "Latest updated" : "Zuletzt aktualisiert",
     "Author" : "Autor",
