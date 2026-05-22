@@ -177,16 +177,36 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 				'principal' => parent::getOwner(),
 				'protected' => true,
 			];
+			$acl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => parent::getOwner() . '/calendar-proxy-read',
+				'protected' => true,
+			];
+			$acl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => parent::getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			];
 			if ($this->canWrite()) {
 				$acl[] = [
 					'privilege' => '{DAV:}write',
 					'principal' => parent::getOwner(),
 					'protected' => true,
 				];
+				$acl[] = [
+					'privilege' => '{DAV:}write',
+					'principal' => parent::getOwner() . '/calendar-proxy-write',
+					'protected' => true,
+				];
 			} else {
 				$acl[] = [
 					'privilege' => '{DAV:}write-properties',
 					'principal' => parent::getOwner(),
+					'protected' => true,
+				];
+				$acl[] = [
+					'privilege' => '{DAV:}write-properties',
+					'principal' => parent::getOwner() . '/calendar-proxy-write',
 					'protected' => true,
 				];
 			}
@@ -205,6 +225,8 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 			$this->getOwner() . '/calendar-proxy-read',
 			$this->getOwner() . '/calendar-proxy-write',
 			parent::getOwner(),
+			parent::getOwner() . '/calendar-proxy-read',
+			parent::getOwner() . '/calendar-proxy-write',
 			'principals/system/public',
 		];
 		/** @var list<array{privilege: string, principal: string, protected: bool}> $acl */
