@@ -207,6 +207,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} Benachrichtigung","{count} Benachrichtigungen"],
     "More apps" : "Weitere Apps",
     "App store" : "App Store",
+    "Open apps menu, currently in {app}" : "Apps-Menü öffnen, aktuell in {app}",
     "Open apps menu" : "App-Menü öffnen",
     "Applications" : "Anwendungen",
     "Apps" : "Apps",

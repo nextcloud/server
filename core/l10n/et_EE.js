@@ -207,6 +207,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} teavitus","{count} teavitust"],
     "More apps" : "Veel rakendusi",
     "App store" : "Rakendustepood",
+    "Open apps menu, currently in {app}" : "Ava rakenduste menüü, hetkel siin: {app}",
     "Open apps menu" : "Ava rakenduste menüü",
     "Applications" : "Rakendused",
     "Apps" : "Rakendused",
