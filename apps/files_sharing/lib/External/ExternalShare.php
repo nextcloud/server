@@ -94,7 +94,7 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 	public function jsonSerialize(): array {
 		$parent = $this->getParent();
 		return [
-			'id' => (string)$this->getId(),
+			'id' => (int)$this->getId(),
 			'parent' => $parent,
 			'share_type' => $this->getShareType() ?? IShare::TYPE_USER, // unfortunately nullable on the DB level, but never null.
 			'remote' => $this->getRemote(),
