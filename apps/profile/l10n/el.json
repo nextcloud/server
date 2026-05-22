@@ -15,7 +15,7 @@
     "Edit Profile" : "Επεξεργασία προφίλ",
     "The headline and about sections will show up here" : "Ο \"τίτλος\" και οι ενότητες \"σχετικά με\" θα εμφανιστούν εδώ",
     "Profile not found" : "Το προφίλ δε βρέθηκε",
-    "The profile does not exist." : "Το προφίλ δεν υπάρχει.",
-    "Back to %s" : "Πίσω στο %s"
+    "Back to %s" : "Πίσω στο %s",
+    "The profile does not exist." : "Το προφίλ δεν υπάρχει."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

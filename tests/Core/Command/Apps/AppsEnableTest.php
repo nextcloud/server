@@ -60,25 +60,27 @@ class AppsEnableTest extends TestCase {
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
+	public const VERSION_REGEX = '([\d\.\-dev]*)';
+
 	public static function dataCommandInput(): array {
 		return [
-			[['admin_audit'], null, 0, 'admin_audit ([\d\.]*) enabled'],
-			[['comments'], null, 0, 'comments ([\d\.]*) enabled'],
-			[['comments', 'comments'], null, 0, "comments ([\d\.]*) enabled\ncomments already enabled"],
+			[['admin_audit'], null, 0, 'admin_audit ' . self::VERSION_REGEX . ' enabled'],
+			[['comments'], null, 0, 'comments ' . self::VERSION_REGEX . ' enabled'],
+			[['comments', 'comments'], null, 0, 'comments ' . self::VERSION_REGEX . " enabled\ncomments already enabled"],
 			[['invalid_app'], null, 1, 'Could not download app invalid_app'],
 
-			[['admin_audit', 'comments'], null, 0, "admin_audit ([\d\.]*) enabled\ncomments ([\d\.]*) enabled"],
-			[['admin_audit', 'comments', 'invalid_app'], null, 1, "admin_audit ([\d\.]*) enabled\ncomments ([\d\.]*) enabled\nCould not download app invalid_app"],
+			[['admin_audit', 'comments'], null, 0, 'admin_audit ' . self::VERSION_REGEX . " enabled\ncomments " . self::VERSION_REGEX . ' enabled'],
+			[['admin_audit', 'comments', 'invalid_app'], null, 1, 'admin_audit ' . self::VERSION_REGEX . " enabled\ncomments " . self::VERSION_REGEX . " enabled\nCould not download app invalid_app"],
 
 			[['admin_audit'], ['admin'], 1, "admin_audit can't be enabled for groups"],
 			[['comments'], ['admin'], 1, "comments can't be enabled for groups"],
 
-			[['updatenotification'], ['admin'], 0, 'updatenotification ([\d\.]*) enabled for groups: admin'],
-			[['updatenotification', 'dashboard'], ['admin'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\ndashboard ([\d\.]*) enabled for groups: admin"],
+			[['updatenotification'], ['admin'], 0, 'updatenotification ' . self::VERSION_REGEX . ' enabled for groups: admin'],
+			[['updatenotification', 'dashboard'], ['admin'], 0, 'updatenotification ' . self::VERSION_REGEX . " enabled for groups: admin\ndashboard " . self::VERSION_REGEX . ' enabled for groups: admin'],
 
-			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification ([\d\.]*) enabled for groups: admin'],
-			[['updatenotification', 'dashboard'], ['admin', 'invalid_group'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\ndashboard ([\d\.]*) enabled for groups: admin"],
-			[['updatenotification', 'dashboard', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification ([\d\.]*) enabled for groups: admin\ndashboard ([\d\.]*) enabled for groups: admin\nCould not download app invalid_app"],
+			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification ' . self::VERSION_REGEX . ' enabled for groups: admin'],
+			[['updatenotification', 'dashboard'], ['admin', 'invalid_group'], 0, 'updatenotification ' . self::VERSION_REGEX . " enabled for groups: admin\ndashboard " . self::VERSION_REGEX . ' enabled for groups: admin'],
+			[['updatenotification', 'dashboard', 'invalid_app'], ['admin', 'invalid_group'], 1, 'updatenotification ' . self::VERSION_REGEX . " enabled for groups: admin\ndashboard " . self::VERSION_REGEX . " enabled for groups: admin\nCould not download app invalid_app"],
 		];
 	}
 }

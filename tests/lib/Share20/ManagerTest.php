@@ -40,7 +40,6 @@ use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -66,6 +65,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class DummyShareManagerListener {
@@ -4775,7 +4775,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesInFolder(): void {
-		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+		$factory = new DummyFactory2($this->createMock(ContainerInterface::class));
 
 		$manager = $this->createManager($factory);
 
@@ -4822,7 +4822,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesInFolderOwnerless(): void {
-		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+		$factory = new DummyFactory2($this->createMock(ContainerInterface::class));
 
 		$manager = $this->createManager($factory);
 
@@ -4857,7 +4857,7 @@ class ManagerTest extends \Test\TestCase {
 
 
 	public function testGetAccessList(): void {
-		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+		$factory = new DummyFactory2($this->createMock(ContainerInterface::class));
 
 		$manager = $this->createManager($factory);
 
@@ -4956,7 +4956,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetAccessListWithCurrentAccess(): void {
-		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+		$factory = new DummyFactory2($this->createMock(ContainerInterface::class));
 
 		$manager = $this->createManager($factory);
 
@@ -5064,7 +5064,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetAllShares(): void {
-		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+		$factory = new DummyFactory2($this->createMock(ContainerInterface::class));
 
 		$manager = $this->createManager($factory);
 
@@ -5180,7 +5180,7 @@ class DummyFactory implements IProviderFactory {
 	/** @var IShareProvider */
 	protected $provider;
 
-	public function __construct(IServerContainer $serverContainer) {
+	public function __construct(ContainerInterface $serverContainer) {
 	}
 
 	/**

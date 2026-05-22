@@ -311,7 +311,6 @@ OC.L10N.register(
     "All accounts" : "Усе ўліковыя запісы",
     "Admins" : "Адміністратары",
     "Account management" : "Кіраванне ўліковымі запісамі",
-    "Clear search" : "Ачысціць пошук",
     "Location" : "Месцазнаходжанне",
     "Profile picture" : "Аватар профілю",
     "About" : "Пра сябе",

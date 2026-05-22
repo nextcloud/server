@@ -12,11 +12,11 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagManagerFactory;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use Psr\Container\ContainerInterface;
 
 /**
  * Default factory class for system tag managers
@@ -29,7 +29,7 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 * Constructor for the system tag manager factory
 	 */
 	public function __construct(
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 	) {
 	}
 

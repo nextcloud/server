@@ -7,7 +7,6 @@
 import type { IAppstoreApp, IAppstoreExApp } from '../../apps.d.ts'
 
 import { mdiTextBoxOutline } from '@mdi/js'
-import { getCapabilities } from '@nextcloud/capabilities'
 import { t } from '@nextcloud/l10n'
 import { computed, useId } from 'vue'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
@@ -17,14 +16,14 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import BadgeAppDaemon from '../BadgeAppDaemon.vue'
 import BadgeAppLevel from '../BadgeAppLevel.vue'
 import BadgeAppScore from '../BadgeAppScore.vue'
+import { useLimitedGroups } from '../../composables/useLimitedGroups.ts'
 import { useAppsStore } from '../../store/apps.ts'
+import { canLimitToGroups } from '../../utils/appStatus.ts'
 
 const { app } = defineProps<{ app: IAppstoreApp | IAppstoreExApp }>()
 
 const store = useAppsStore()
 
-// @ts-expect-error - missing types
-const productName = getCapabilities().theming.productName as string
 const idLimitedToGroups = useId()
 
 const lastModified = computed(() => app.releases
@@ -46,15 +45,8 @@ const appAuthors = computed(() => {
 		.join(', ')
 })
 
-const groupsAppIsLimitedto = computed(() => {
-	if (!app.groups) {
-		return []
-	}
-
-	return app.groups.map((group) => ({ id: group, name: group }))
-})
-
 const appstoreUrl = computed(() => `https://apps.nextcloud.com/apps/${app.id}`)
+const groupsAppIsLimitedTo = useLimitedGroups(() => app)
 
 /**
  * Further external resources (e.g. website)
@@ -107,6 +99,10 @@ const appCategories = computed(() => {
 		.join(', ')
 })
 
+const cannotLimitToGroups = computed(() => {
+	return app.active && !canLimitToGroups(app)
+})
+
 /**
  * Get the author name from the XML node
  *
@@ -138,15 +134,6 @@ function authorName(xmlNode): string {
 				<BadgeAppScore :app />
 			</div>
 
-			<NcNoteCard v-if="app.missingMinNextcloudVersion || app.missingMaxNextcloudVersion" type="warning">
-				<template v-if="app.missingMinNextcloudVersion">
-					{{ t('appstore', 'This app has no minimum {productName} version assigned. This will be an error in the future.', { productName }) }}
-				</template>
-				<template v-if="app.missingMaxNextcloudVersion">
-					{{ t('appstore', 'This app has no maximum {productName} version assigned. This will be an error in the future.', { productName }) }}
-				</template>
-			</NcNoteCard>
-
 			<NcNoteCard v-if="!app.isCompatible && app.missingDependencies && app.missingDependencies.length" type="error">
 				{{ t('appstore', 'This app cannot be installed because the following dependencies are not fulfilled:') }}
 				<ul :aria-label="t('appstore', 'Missing dependencies')" :class="$style.appstoreDetailsTab__missingDependencies">
@@ -156,16 +143,20 @@ function authorName(xmlNode): string {
 				</ul>
 			</NcNoteCard>
 
-			<div v-if="groupsAppIsLimitedto.length" :class="$style.appstoreDetailsTab__section">
+			<NcNoteCard v-if="cannotLimitToGroups" type="info">
+				{{ t('appstore', 'This app cannot be limited to groups because it provides functionality that is executed before group membership is determined.') }}
+			</NcNoteCard>
+
+			<div v-if="groupsAppIsLimitedTo.length" :class="$style.appstoreDetailsTab__section">
 				<h4 :id="idLimitedToGroups">
 					{{ t('appstore', 'Limited to groups') }}
 				</h4>
 				<ul :aria-labelledby="idLimitedToGroups" :class="$style.appstoreDetailsTab__sectionDetails">
 					<li
-						v-for="group of groupsAppIsLimitedto"
+						v-for="group of groupsAppIsLimitedTo"
 						:key="group.id"
 						:title="group.id">
-						{{ group.name }}
+						{{ group.displayName }}
 					</li>
 				</ul>
 			</div>

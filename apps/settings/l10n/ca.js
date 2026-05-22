@@ -665,7 +665,6 @@ OC.L10N.register(
     "Admins" : "Administradors",
     "Account group: {group}" : "Grup de comptes: {group}",
     "Account management" : "Gestió de comptes",
-    "Clear search" : "Neteja la cerca",
     "Location" : "Ubicació",
     "Profile picture" : "Foto de perfil",
     "About" : "Quant a",

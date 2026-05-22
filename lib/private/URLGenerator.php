@@ -19,6 +19,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Server;
+use Override;
 use RuntimeException;
 
 class URLGenerator implements IURLGenerator {
@@ -325,5 +326,13 @@ class URLGenerator implements IURLGenerator {
 	#[\Override]
 	public function getWebroot(): string {
 		return \OC::$WEBROOT;
+	}
+
+	#[Override]
+	public function linkToRemote(string $service): string {
+		$remoteBase = $this->linkTo('', 'remote.php') . '/' . $service;
+		return $this->getAbsoluteURL(
+			$remoteBase . (($service[strlen($service) - 1] !== '/') ? '/' : '')
+		);
 	}
 }

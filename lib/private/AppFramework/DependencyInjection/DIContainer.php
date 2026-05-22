@@ -76,6 +76,7 @@ use Psr\Log\LoggerInterface;
 class DIContainer extends SimpleContainer implements IAppContainer {
 	private array $middleWares = [];
 	private ServerContainer $server;
+	private IAppManager $appManager;
 
 	public function __construct(
 		protected string $appName,
@@ -93,6 +94,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$server = \OC::$server;
 		}
 		$this->server = $server;
+		$this->appManager = $this->server->get(IAppManager::class);
 		$this->server->registerAppContainer($this->appName, $this);
 
 		// aliases
@@ -363,6 +365,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 	/**
 	 * @param string $name
+	 * @param list<class-string> $chain
 	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
 	 */
@@ -375,7 +378,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return parent::query($name, chain: $chain);
 		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name, chain: $chain);
-		} elseif (str_starts_with($name, App::buildAppNamespace($this->appName) . '\\')) {
+		} elseif (str_starts_with($name, $this->appManager->getAppNamespace($this->appName) . '\\')) {
 			return parent::query($name, chain: $chain);
 		} elseif (
 			str_starts_with($name, 'OC\\AppFramework\\Services\\')

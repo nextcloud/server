@@ -87,7 +87,7 @@ class Installer {
 		}
 
 		// check for required dependencies
-		\OC_App::checkAppDependencies($this->config, $l, $info, $ignoreMax);
+		$this->appManager->checkAppDependencies($appId, $ignoreMax);
 		$coordinator = Server::get(Coordinator::class);
 		$coordinator->runLazyRegistration($appId);
 
@@ -541,13 +541,13 @@ class Installer {
 			$ms->setOutput($output);
 		}
 		if ($previousVersion !== '') {
-			\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['pre-migration']);
+			$this->appManager->executeRepairSteps($info['id'], $info['repair-steps']['pre-migration']);
 		}
 
 		$ms->migrate('latest', $previousVersion === '');
 
 		if ($previousVersion !== '') {
-			\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['post-migration']);
+			$this->appManager->executeRepairSteps($info['id'], $info['repair-steps']['post-migration']);
 		}
 
 		if ($output instanceof IOutput) {
@@ -569,7 +569,7 @@ class Installer {
 			self::includeAppScript($appInstallScriptPath);
 		}
 
-		\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['install']);
+		$this->appManager->executeRepairSteps($info['id'], $info['repair-steps']['install']);
 
 		// Set the installed version
 		$this->config->setAppValue($info['id'], 'installed_version', $this->appManager->getAppVersion($info['id'], false));

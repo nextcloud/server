@@ -9,7 +9,7 @@ OC.L10N.register(
     "Good morning" : "God morgen",
     "Good morning, {name}" : "God morgen, {name}",
     "Good afternoon" : "God ettermiddag",
-    "Good afternoon, {name}" : "Good ettermiddag, {name}",
+    "Good afternoon, {name}" : "God ettermiddag, {name}",
     "Good evening" : "God kveld",
     "Good evening, {name}" : "God kveld, {name}",
     "Hello" : "Hallo",

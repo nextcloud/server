@@ -402,7 +402,6 @@ OC.L10N.register(
     "Admins" : "Ylläpitäjät",
     "Account group: {group}" : "Tiliryhmä: {group}",
     "Account management" : "Tilihallinta",
-    "Clear search" : "Tyhjennä haku",
     "Location" : "Sijainti",
     "Profile picture" : "Profiilikuva",
     "About" : "Tietoja",

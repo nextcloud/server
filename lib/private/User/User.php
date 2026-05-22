@@ -27,6 +27,7 @@ use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
+use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\IPropertyPermissionBackend;
@@ -52,6 +53,7 @@ class User implements IUser {
 
 	private IConfig $config;
 	private IURLGenerator $urlGenerator;
+	private IAssertion $assertion;
 	protected ?IAccountManager $accountManager = null;
 
 	private ?string $displayName = null;
@@ -68,10 +70,12 @@ class User implements IUser {
 		private IEventDispatcher $dispatcher,
 		private Emitter|Manager|null $emitter = null,
 		?IConfig $config = null,
-		$urlGenerator = null,
+		?IURLGenerator $urlGenerator = null,
+		?IAssertion $assertion = null,
 	) {
 		$this->config = $config ?? Server::get(IConfig::class);
 		$this->urlGenerator = $urlGenerator ?? Server::get(IURLGenerator::class);
+		$this->assertion = $assertion ?? Server::get(IAssertion::class);
 	}
 
 	#[\Override]
@@ -487,6 +491,11 @@ class User implements IUser {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 			$this->enabled = $enabled;
 		};
+
+		if ($oldStatus === false && $enabled === true) {
+			$this->assertion->createUserIsLegit();
+		}
+
 		if ($this->backend instanceof IProvideEnabledStateBackend) {
 			$queryDatabaseValue = function (): bool {
 				if ($this->enabled === null) {

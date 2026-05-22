@@ -69,7 +69,6 @@ interface IAppInfoData {
  * It is not available for non-appstore apps.
  */
 interface IAppstoreMetadata {
-	fromAppStore: true
 	/** List of appstore release information (e.g. changelog) */
 	releases: IAppstoreAppRelease[]
 	/** The overall rating of the app */
@@ -84,8 +83,6 @@ export interface IAppstoreAppResponse extends IAppInfoData, Partial<IAppstoreMet
 
 	// App dependency information
 	dependencies: unknown
-	missingMaxNextcloudVersion: boolean
-	missingMinNextcloudVersion: boolean
 
 	// App state information
 

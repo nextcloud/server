@@ -29,18 +29,15 @@ class GeneratorTest extends TestCase {
 	private ISequence&MockObject $sequence;
 
 	#[\Override]
-	public function setUp():void {
+	public function setUp(): void {
 		$this->decoder = new SnowflakeDecoder();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->config->method('getSystemValueInt')
-			->with('serverid')
-			->willReturn(42);
+		$this->config->method('getSystemValueInt')->with('serverid')->willReturn(42);
 
 		$this->sequence = $this->createMock(ISequence::class);
 		$this->sequence->method('isAvailable')->willReturn(true);
 		$this->sequence->method('nextId')->willReturn(421);
-
 	}
 
 	public function testGenerator(): void {
@@ -54,7 +51,7 @@ class GeneratorTest extends TestCase {
 
 		// Check serverId
 		$this->assertGreaterThanOrEqual(0, $data->getServerId());
-		$this->assertLessThanOrEqual(1023, $data->getServerId());
+		$this->assertLessThanOrEqual(511, $data->getServerId());
 
 		// Check sequenceId
 		$this->assertGreaterThanOrEqual(0, $data->getSequenceId());
@@ -76,7 +73,7 @@ class GeneratorTest extends TestCase {
 		$generator = new SnowflakeGenerator($timeFactory, $this->config, $this->sequence);
 		$data = $this->decoder->decode($generator->nextId());
 
-		$this->assertEquals($expectedSeconds, ($data->getCreatedAt()->format('U') - ISnowflakeGenerator::TS_OFFSET));
+		$this->assertEquals($expectedSeconds, $data->getCreatedAt()->format('U') - ISnowflakeGenerator::TS_OFFSET);
 		$this->assertEquals($expectedMilliseconds, (int)$data->getCreatedAt()->format('v'));
 		$this->assertEquals(42, $data->getServerId());
 	}

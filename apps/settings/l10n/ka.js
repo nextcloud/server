@@ -435,7 +435,6 @@ OC.L10N.register(
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "As admin you can fine-tune the sharing behavior. Please see the documentation for more information.",
     "You need to enable the File sharing App." : "You need to enable the File sharing App.",
     "Admins" : "Admins",
-    "Clear search" : "ძებნის გასუფთავება",
     "Location" : "Location",
     "Profile picture" : "Profile picture",
     "About" : "About",

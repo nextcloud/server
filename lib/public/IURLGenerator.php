@@ -8,10 +8,14 @@ declare(strict_types=1);
  */
 namespace OCP;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Class to generate URLs
+ *
  * @since 6.0.0
  */
+#[Consumable(since: '6.0.0')]
 interface IURLGenerator {
 	/**
 	 * Regex for matching http(s) urls
@@ -115,4 +119,11 @@ interface IURLGenerator {
 	 * @since 23.0.0
 	 */
 	public function getWebroot(): string;
+
+	/**
+	 * Return the url to the remote DAV handler.
+	 *
+	 * @since 34.0.0
+	 */
+	public function linkToRemote(string $service): string;
 }

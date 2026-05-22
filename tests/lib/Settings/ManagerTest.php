@@ -11,38 +11,29 @@ use OC\Settings\AuthorizedGroupMapper;
 use OC\Settings\Manager;
 use OCA\WorkflowEngine\Settings\Section;
 use OCP\Group\ISubAdmin;
-use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-	/** @var Manager|MockObject */
-	private $manager;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-	/** @var IDBConnection|MockObject */
-	private $l10n;
-	/** @var IFactory|MockObject */
-	private $l10nFactory;
-	/** @var IURLGenerator|MockObject */
-	private $url;
-	/** @var IServerContainer|MockObject */
-	private $container;
-	/** @var AuthorizedGroupMapper|MockObject */
-	private $mapper;
-	/** @var IGroupManager|MockObject */
-	private $groupManager;
-	/** @var ISubAdmin|MockObject */
-	private $subAdmin;
+	private LoggerInterface&MockObject $logger;
+	private IL10N&MockObject $l10n;
+	private IFactory&MockObject $l10nFactory;
+	private IURLGenerator&MockObject $url;
+	private ContainerInterface&MockObject $container;
+	private AuthorizedGroupMapper&MockObject $mapper;
+	private IGroupManager&MockObject $groupManager;
+	private ISubAdmin&MockObject $subAdmin;
+
+	private Manager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -52,7 +43,7 @@ class ManagerTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->url = $this->createMock(IURLGenerator::class);
-		$this->container = $this->createMock(IServerContainer::class);
+		$this->container = $this->createMock(ContainerInterface::class);
 		$this->mapper = $this->createMock(AuthorizedGroupMapper::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->subAdmin = $this->createMock(ISubAdmin::class);

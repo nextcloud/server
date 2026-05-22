@@ -14,10 +14,10 @@ use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Talk\Broker;
 use OCP\AppFramework\QueryException;
-use OCP\IServerContainer;
 use OCP\Talk\IConversationOptions;
 use OCP\Talk\ITalkBackend;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Test\TestCase;
@@ -25,7 +25,7 @@ use Test\TestCase;
 class BrokerTest extends TestCase {
 	private Coordinator $coordinator;
 
-	private IServerContainer $container;
+	private ContainerInterface $container;
 
 	private LoggerInterface $logger;
 
@@ -36,7 +36,7 @@ class BrokerTest extends TestCase {
 		parent::setUp();
 
 		$this->coordinator = $this->createMock(Coordinator::class);
-		$this->container = $this->createMock(IServerContainer::class);
+		$this->container = $this->createMock(ContainerInterface::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->broker = new Broker(

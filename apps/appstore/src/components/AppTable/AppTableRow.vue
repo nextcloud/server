@@ -12,16 +12,19 @@ import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcChip from '@nextcloud/vue/components/NcChip'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AppActions from '../AppActions.vue'
 import AppIcon from '../AppIcon.vue'
 import BadgeAppDaemon from '../BadgeAppDaemon.vue'
 import BadgeAppLevel from '../BadgeAppLevel.vue'
 import { useActions } from '../../composables/useActions.ts'
+import { useLimitedGroups } from '../../composables/useLimitedGroups.ts'
 
 const { app, isNarrow } = defineProps<{
 	app: IAppstoreApp | IAppstoreExApp
 	isNarrow?: boolean
+	isWide?: boolean
 }>()
 
 const route = useRoute()
@@ -46,6 +49,7 @@ const detailsAction = computed<AppAction>(() => ({
 	inline: false,
 }))
 
+const groupsAppIsLimitedTo = useLimitedGroups(() => app)
 const rawActions = useActions(() => app)
 const actions = computed(() => [
 	...rawActions.value,
@@ -79,6 +83,21 @@ const actions = computed(() => [
 				<BadgeAppLevel v-if="app.level" :level="app.level" />
 				<BadgeAppDaemon v-if="'daemon' in app && app.daemon" :daemon="app.daemon" />
 			</div>
+		</td>
+		<td v-if="isWide">
+			<ul
+				v-if="groupsAppIsLimitedTo.length > 0"
+				:class="$style.appTableRow__groupsCell"
+				:title="groupsAppIsLimitedTo.map((group) => group.displayName).join(', ')">
+				<template v-for="group, index in groupsAppIsLimitedTo" :key="group.id">
+					<li v-if="index === 3" aria-hidden="true">
+						…
+					</li>
+					<li :class="{ 'hidden-visually': index > 2 }">
+						<NcChip :text="group.displayName" noClose />
+					</li>
+				</template>
+			</ul>
 		</td>
 		<td>
 			<div :class="$style.appTableRow__actionsCell">
@@ -115,6 +134,11 @@ const actions = computed(() => [
 
 .appTableRow__versionCell {
 	color: var(--color-text-maxcontrast);
+}
+
+.appTableRow__groupsCell {
+	display: flex;
+	gap: var(--default-grid-baseline);
 }
 
 .appTableRow__actionsCell {

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitDAV
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\DAV\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\DAV\\' => 
+        'OCA\\DAV\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

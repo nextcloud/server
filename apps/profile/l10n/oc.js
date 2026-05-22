@@ -11,7 +11,7 @@ OC.L10N.register(
     "Insert" : "Inserir",
     "Edit Profile" : "Modificar perfil",
     "Profile not found" : "Perfil pas trobat",
-    "The profile does not exist." : "Lo perfil existís pas.",
-    "Back to %s" : "Tornar a %s"
+    "Back to %s" : "Tornar a %s",
+    "The profile does not exist." : "Lo perfil existís pas."
 },
 "nplurals=2; plural=(n > 1);");

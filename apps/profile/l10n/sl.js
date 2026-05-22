@@ -11,7 +11,7 @@ OC.L10N.register(
     "Edit Profile" : "Uredi profil",
     "The headline and about sections will show up here" : "Naslovnica in odsek s podatki bo prikazan na tem mestu.",
     "Profile not found" : "Profila ni mogoče najti",
-    "The profile does not exist." : "Profil ne obstaja.",
-    "Back to %s" : "Nazaj na %s"
+    "Back to %s" : "Nazaj na %s",
+    "The profile does not exist." : "Profil ne obstaja."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -17,7 +17,6 @@ use OCP\Files\File;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
-use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -28,6 +27,7 @@ use OCP\TaskProcessing\IManager as ITaskProcessingManager;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\AudioToText;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -38,7 +38,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 	private ?array $providers = null;
 
 	public function __construct(
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IJobList $jobList,

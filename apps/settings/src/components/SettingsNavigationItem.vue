@@ -47,8 +47,4 @@ const href = computed(() => generateUrl('/settings/{type}/{section}', {
 	object-fit: contain;
 	filter: var(--background-invert-if-dark);
 }
-
-:global(.active) .settingsNavigationItem__icon {
-	filter: var(--primary-invert-if-dark);
-}
 </style>

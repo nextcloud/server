@@ -388,6 +388,9 @@ class Setup {
 
 		$this->config->setValues($newConfigValues);
 
+		// Ensure instanceid is generated during the installation.
+		\OC_Util::getInstanceId();
+
 		$this->outputDebug($output, 'Configuring database');
 		$dbSetup->initialize($options);
 		try {

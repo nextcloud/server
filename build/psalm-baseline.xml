@@ -57,6 +57,7 @@
     </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[getEvent]]></code>
+      <code><![CDATA[getEvent]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/MaxAutoCompleteResultsInitialState.php">
@@ -1408,14 +1409,8 @@
     </TypeDoesNotContainType>
   </file>
   <file src="apps/files/lib/AppInfo/Application.php">
-    <DeprecatedInterface>
-      <code><![CDATA[$server]]></code>
-      <code><![CDATA[$server]]></code>
-    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[Util::connectHook('\OCP\Config', 'js', '\OCA\Files\App', 'extendJsConfig')]]></code>
-      <code><![CDATA[getUserFolder]]></code>
-      <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files/lib/BackgroundJob/ScanFiles.php">
@@ -1599,14 +1594,6 @@
       <code><![CDATA[login]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/files_external/lib/MountConfig.php">
-    <InternalMethod>
-      <code><![CDATA[decrypt]]></code>
-      <code><![CDATA[encrypt]]></code>
-      <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setIV]]></code>
-    </InternalMethod>
-  </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
     <DeprecatedClass>
       <code><![CDATA[new GenericEvent()]]></code>
@@ -1618,6 +1605,14 @@
       <code><![CDATA[registerBackend]]></code>
       <code><![CDATA[registerBackends]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="apps/files_external/lib/Service/EncryptionService.php">
+    <InternalMethod>
+      <code><![CDATA[decrypt]]></code>
+      <code><![CDATA[encrypt]]></code>
+      <code><![CDATA[setIV]]></code>
+      <code><![CDATA[setIV]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Service/StoragesService.php">
     <DeprecatedMethod>
@@ -2045,9 +2040,6 @@
     <DeprecatedClass>
       <code><![CDATA[LegacyRollbackListener::class]]></code>
     </DeprecatedClass>
-    <DeprecatedInterface>
-      <code><![CDATA[$server]]></code>
-    </DeprecatedInterface>
   </file>
   <file src="apps/files_versions/lib/BackgroundJob/ExpireVersions.php">
     <DeprecatedClass>
@@ -2294,14 +2286,6 @@
       <code><![CDATA[$groupid === null]]></code>
       <code><![CDATA[$groupid === null]]></code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="apps/provisioning_api/lib/FederatedShareProviderFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[private]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[query]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
     <DeprecatedMethod>
@@ -2593,11 +2577,6 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/theming/lib/Controller/ThemingController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/theming/lib/Controller/UserThemeController.php">
     <DeprecatedMethod>
       <code><![CDATA[getUserValue]]></code>
@@ -2611,8 +2590,6 @@
       <code><![CDATA[deleteAppValue]]></code>
       <code><![CDATA[deleteAppValue]]></code>
       <code><![CDATA[deleteAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -2975,7 +2952,6 @@
   </file>
   <file src="core/Command/Config/ListConfigs.php">
     <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
       <code><![CDATA[getFilteredValues]]></code>
       <code><![CDATA[getValues]]></code>
     </DeprecatedMethod>
@@ -2998,24 +2974,9 @@
       <code><![CDATA[getDatabasePlatform]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Command/Db/Migrations/ExecuteCommand.php">
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Command/Db/Migrations/GenerateCommand.php">
     <DeprecatedMethod>
       <code><![CDATA[Util::getVersion()]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/Db/Migrations/MigrateCommand.php">
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/Db/Migrations/StatusCommand.php">
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/Encryption/ChangeKeyStorageRoot.php">
@@ -3587,6 +3548,11 @@
       <code><![CDATA[$CONFIG]]></code>
     </UndefinedVariable>
   </file>
+  <file src="lib/private/Config/UserConfig.php">
+    <RedundantCast>
+      <code><![CDATA[(string)$this->getTypedValue($userId, $app, $key, $default ? 'true' : 'false', $lazy, ValueType::BOOL)]]></code>
+    </RedundantCast>
+  </file>
   <file src="lib/private/Console/Application.php">
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
@@ -4144,14 +4110,6 @@
       <code><![CDATA[inet_ntop(substr($binary, -4))]]></code>
     </FalsableReturnStatement>
   </file>
-  <file src="lib/private/ServerContainer.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->hasNoAppContainer]]></code>
-    </InvalidPropertyAssignmentValue>
-    <NoValue>
-      <code><![CDATA[return $this->appContainers[$namespace];]]></code>
-    </NoValue>
-  </file>
   <file src="lib/private/Session/Internal.php">
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$value]]></code>
@@ -4281,9 +4239,6 @@
     <InternalMethod>
       <code><![CDATA[getAbsolutePath]]></code>
     </InternalMethod>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getQuota]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_User.php">
     <UndefinedClass>

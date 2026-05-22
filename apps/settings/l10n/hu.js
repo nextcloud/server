@@ -506,7 +506,6 @@ OC.L10N.register(
     "Admins" : "Rendszergazdák",
     "Account group: {group}" : "Fiókcsoport: {group}",
     "Account management" : "Fiókkezelés",
-    "Clear search" : "Keresés törlése",
     "Location" : "Hely",
     "Profile picture" : "Profilkép",
     "About" : "Névjegy",

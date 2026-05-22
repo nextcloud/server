@@ -225,7 +225,7 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Die Base DN konnte nicht erkannt werden, bitte geben Sie sie manuell ein.",
     "{nthServer}. Server" : "{nthServer}. - Server",
     "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} Eintrag in der angegebenen Base DN verfügbar","{objectsFound} Einträge in der angegebenen Base DN verfügbar"],
-    "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Es ist ein Fehler aufgetreten. Bitte überprüfen Sie die Base DN wie auch die Verbindungseinstellungen und Anmeldeinformationen.",
+    "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Es ist ein Fehler aufgetreten. Bitte die Base DN sowie die Verbindungs- und Anmeldeeinstellungen überprüfen.",
     "Do you really want to delete the current Server Configuration?" : "Soll die aktuelle Serverkonfiguration gelöscht werden?",
     "Confirm Deletion" : "Löschen bestätigen",
     "Mappings cleared successfully!" : "Zuordnungen gelöscht!",

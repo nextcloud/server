@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
-    "Forbidden to manage local mounts" : "Bannað að stjórna staðværum tengipunktum",
     "Storage with ID \"%d\" not found" : "Geymsla með auðkennið '%d' fannst ekki",
+    "Forbidden to manage local mounts" : "Bannað að stjórna staðværum tengipunktum",
     "Invalid backend or authentication mechanism class" : "Ógildur flokkur bakenda eða auðkenningartækni",
     "Invalid mount point" : "Ógildur tengipunktur",
     "Objectstore forbidden" : "Hlutageymsla (objectstore) bönnuð",

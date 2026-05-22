@@ -11,30 +11,16 @@ namespace OC\Comments;
 
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\ICommentsManagerFactory;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 class ManagerFactory implements ICommentsManagerFactory {
-	/**
-	 * Constructor for the comments manager factory
-	 *
-	 * @param IServerContainer $serverContainer server container
-	 */
 	public function __construct(
-		/**
-		 * Server container
-		 */
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 	) {
 	}
 
-	/**
-	 * creates and returns an instance of the ICommentsManager
-	 *
-	 * @return ICommentsManager
-	 * @since 9.0.0
-	 */
 	#[\Override]
-	public function getManager() {
+	public function getManager(): ICommentsManager {
 		return $this->serverContainer->get(Manager::class);
 	}
 }

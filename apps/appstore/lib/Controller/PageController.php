@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\Appstore\Controller;
 
-use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Installer;
 use OCA\AppAPI\Service\ExAppsPageService;
 use OCA\Appstore\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -37,7 +37,7 @@ final class PageController extends Controller {
 		private readonly IL10N $l10n,
 		private readonly IConfig $config,
 		private readonly Installer $installer,
-		private readonly AppManager $appManager,
+		private readonly IAppManager $appManager,
 		private readonly IURLGenerator $urlGenerator,
 		private readonly IInitialState $initialState,
 		private readonly BundleFetcher $bundleFetcher,
@@ -56,7 +56,7 @@ final class PageController extends Controller {
 		$this->initialState->provideInitialState('appstoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
 		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
 		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
-		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
+		$this->initialState->provideInitialState('appstoreUpdateCount', $this->getUpdatesCount());
 
 		if ($this->appManager->isEnabledForAnyone('app_api')) {
 			try {
@@ -81,19 +81,9 @@ final class PageController extends Controller {
 		return $templateResponse;
 	}
 
-
-	private function getAppsWithUpdates(): array {
-		$appClass = new \OC_App();
-		$apps = $appClass->listAllApps();
-		/** @var array{id: string, ...} $app */
-		foreach ($apps as $key => $app) {
-			$newVersion = $this->installer->isUpdateAvailable($app['id']);
-			if ($newVersion === false) {
-				unset($apps[$key]);
-			}
-		}
-
-		return $apps;
+	private function getUpdatesCount(): int {
+		$apps = $this->appManager->getEnabledApps();
+		return array_reduce($apps, fn (int $carry, string $app): int => $carry + ($this->installer->isUpdateAvailable($app) !== false ? 1 : 0), 0);
 	}
 
 	/**

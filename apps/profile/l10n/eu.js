@@ -11,7 +11,7 @@ OC.L10N.register(
     "Edit Profile" : "Editatu profila",
     "The headline and about sections will show up here" : "Izenburua eta 'Niri buruz' atalak hemen agertuko dira",
     "Profile not found" : "Profila ez da aurkitu",
-    "The profile does not exist." : "Profila ez da existitzen",
-    "Back to %s" : "Itzuli %s(e)ra"
+    "Back to %s" : "Itzuli %s(e)ra",
+    "The profile does not exist." : "Profila ez da existitzen"
 },
 "nplurals=2; plural=(n != 1);");

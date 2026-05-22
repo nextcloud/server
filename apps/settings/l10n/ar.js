@@ -670,7 +670,6 @@ OC.L10N.register(
     "Admins" : "المديرون",
     "Account group: {group}" : "مجموعة الحساب: {group}",
     "Account management" : "إدارة الحساب",
-    "Clear search" : "مَحوُ البحث",
     "Location" : "الموقع",
     "Profile picture" : "صورة الملف الشخصي",
     "About" : "عن",

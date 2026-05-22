@@ -7,9 +7,12 @@
  */
 namespace OCA\Files\Service;
 
+use OCA\Files\AppInfo\Application;
 use OCP\Activity\IManager;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\ITagManager;
 use OCP\ITags;
 use OCP\IUserSession;
 
@@ -17,13 +20,20 @@ use OCP\IUserSession;
  * Service class to manage tags on files.
  */
 class TagService {
+	private ?Folder $homeFolder = null;
+	private ?ITags $tagger;
 
 	public function __construct(
 		private IUserSession $userSession,
 		private IManager $activityManager,
-		private ?ITags $tagger,
-		private ?Folder $homeFolder,
+		ITagManager $tagManager,
+		IRootFolder $rootFolder,
 	) {
+		$user = $this->userSession->getUser();
+		if ($user) {
+			$this->homeFolder = $rootFolder->getUserFolder($user->getUID());
+		}
+		$this->tagger = $tagManager->load(Application::APP_ID);
 	}
 
 	/**

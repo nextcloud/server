@@ -80,7 +80,9 @@ class Disable extends Command implements CompletionAwareInterface {
 	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
-			return array_diff(\OC_App::getEnabledApps(true, true), $this->appManager->getAlwaysEnabledApps());
+			$enabledApps = $this->appManager->getEnabledApps();
+			$coreApps = $this->appManager->getAlwaysEnabledApps();
+			return array_diff($enabledApps, $coreApps);
 		}
 		return [];
 	}

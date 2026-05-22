@@ -136,7 +136,7 @@ class APIController extends OCSController {
 	 * @return UpdateNotificationApp
 	 */
 	protected function getAppDetails(string $appId): array {
-		$app = $this->appManager->getAppInfo($appId, false, $this->language);
+		$app = $this->appManager->getAppInfo($appId, lang: $this->language ?? 'en');
 		$name = $app['name'] ?? $appId;
 		return [
 			'appId' => $appId,

@@ -539,7 +539,6 @@ OC.L10N.register(
     "Apply" : "Примени",
     "All accounts" : "Сите сметки",
     "Admins" : "Администратори",
-    "Clear search" : "Исчисти пребарување",
     "Location" : "Локација",
     "Profile picture" : "Фотографија",
     "About" : "За",

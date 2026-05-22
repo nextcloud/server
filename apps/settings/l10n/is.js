@@ -513,7 +513,6 @@ OC.L10N.register(
     "Admins" : "Kerfisstjórar",
     "Account group: {group}" : "Hópur notendaaðganga: {group}",
     "Account management" : "Umsýsla notandaaðgangs",
-    "Clear search" : "Hreinsa leit",
     "Location" : "Staðsetning",
     "Profile picture" : "Einkennismynd",
     "About" : "Um hugbúnaðinn",
