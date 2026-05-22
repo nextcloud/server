@@ -67,6 +67,7 @@
     "Details" : "Detalhes",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Este aplicativo não pode ser instalado porque as seguintes dependências não foram atendidas:",
     "Missing dependencies" : "Dependências ausentes",
+    "This app cannot be limited to groups because it provides functionality that is executed before group membership is determined." : "Este aplicativo não pode ser restrito a grupos, pois oferece funcionalidades que são executadas antes que a pertença a um grupo seja determinada.",
     "Limited to groups" : "Limitado a grupos",
     "Latest updated" : "Última atualização",
     "Author" : "Autor",

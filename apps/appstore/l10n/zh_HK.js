@@ -69,6 +69,7 @@ OC.L10N.register(
     "Details" : "詳情",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "無法安裝此應用程式，因為無法滿足下列的依賴關係：",
     "Missing dependencies" : "缺少相依套件",
+    "This app cannot be limited to groups because it provides functionality that is executed before group membership is determined." : "此應用程式無法限制於特定群組，因其提供的功能會在判定群組成員資格之前執行。",
     "Limited to groups" : "限制於指定群組",
     "Latest updated" : "最近更新",
     "Author" : "作者",

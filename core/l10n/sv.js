@@ -207,6 +207,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} meddelande","{count} meddelanden"],
     "More apps" : "Fler appar",
     "App store" : "App store",
+    "Open apps menu, currently in {app}" : "Öppna appmenyn, för närvarande i {app}",
     "Open apps menu" : "Öppna appmenyn",
     "Applications" : "Appar",
     "Apps" : "Appar",

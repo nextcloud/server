@@ -120,7 +120,7 @@
     "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Birincil renk, önemli düğmeler gibi ögeleri vurgulamak için kullanılır. Geçerli renk temasına bağlı olarak biraz değiştirilebilir.",
     "Header logo" : "Üst bilgi logosu",
     "Upload new header logo" : "Yeni üst bilgi logosu yükle",
-    "Upload new favicon" : "Yeni favicon yükle",
+    "Upload new favicon" : "Yeni site simgesi yükle",
     "User settings" : "Kullanıcı ayarları",
     "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Arka plan görseli yerine düz bir arka plan rengi de yapılandırabilirsiniz. Arka plan görseli kullanıyorsanız bu rengi değiştirmek uygulama menüsü simgelerinin rengini etkiler.",
     "Upload new logo" : "Yeni logo yükle",
