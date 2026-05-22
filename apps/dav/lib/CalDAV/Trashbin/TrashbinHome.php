@@ -47,7 +47,7 @@ class TrashbinHome implements IACL, ICollection, IProperties {
 				'protected' => true,
 			],
 			[
-				'privilege' => '{DAV:}read',
+				'privilege' => '{DAV:}all',
 				'principal' => $ownerPrincipal . '/calendar-proxy-write',
 				'protected' => true,
 			],
