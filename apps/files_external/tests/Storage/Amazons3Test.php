@@ -64,4 +64,31 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 		);
 	}
 
+	/**
+	 * Regression test: Common::getMetaData sets storage_mtime = mtime, but for S3 virtual
+	 * directories mtime may have been bumped by propagation while storage_mtime should stay
+	 * stable. The override restores storage_mtime from the cache entry so the scanner does
+	 * not see a spurious mismatch and re-write the cache on every scan.
+	 */
+	public function testGetMetaDataDirectoryPreservesStorageMtimeSeparateFromMtime(): void {
+		$this->instance->getScanner()->scan('', Scanner::SCAN_SHALLOW);
+
+		$cachedRoot = $this->instance->getCache()->get('');
+		$this->assertNotFalse($cachedRoot, 'Root entry must exist in cache after scan');
+
+		// Simulate propagation bumping mtime without touching storage_mtime
+		$originalStorageMtime = $cachedRoot['storage_mtime'];
+		$this->instance->getCache()->update($cachedRoot->getId(), [
+			'mtime' => $originalStorageMtime + 9999,
+		]);
+
+		$meta = $this->instance->getMetaData('');
+		$this->assertNotNull($meta, 'getMetaData(\'\') must return data');
+		$this->assertEquals(
+			$originalStorageMtime,
+			$meta['storage_mtime'],
+			'getMetaData must return storage_mtime from cache, not the propagated mtime'
+		);
+	}
+
 }
