@@ -63,7 +63,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$this->manager = $options['manager'];
 		$this->cloudId = $options['cloudId'];
 		$this->logger = Server::get(LoggerInterface::class);
-		$discoveryService = Server::get(IOCMDiscoveryService::class);
+		$discoveryService = $options['discoveryService'] ?? Server::get(IOCMDiscoveryService::class);
 		$this->config = Server::get(IConfig::class);
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->shareManager = Server::get(IShareManager::class);
