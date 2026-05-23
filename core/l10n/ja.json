@@ -205,6 +205,7 @@
     "_{count} notification_::_{count} notifications_" : ["通知 {count} 件"],
     "More apps" : "さらにアプリ",
     "App store" : "アプリストア",
+    "Open apps menu, currently in {app}" : "アプリメニューを開く、現在{app}を開いています",
     "Open apps menu" : "アプリメニューを開く",
     "Applications" : "アプリケーション",
     "Apps" : "アプリ",
