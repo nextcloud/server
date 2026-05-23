@@ -70,7 +70,7 @@ class ManagerTest extends TestCase {
 	protected ICloudFederationFactory&MockObject $cloudFederationFactory;
 	protected IGroupManager&MockObject $groupManager;
 	protected IUserManager&MockObject $userManager;
-	protected ISetupManager&MockObject $setupManager;
+	protected ISetupManager&MockObject $setupManagerEncTrait;
 	protected ICertificateManager&MockObject $certificateManager;
 	private ExternalShareMapper $externalShareMapper;
 	private IConfig $config;
@@ -88,7 +88,7 @@ class ManagerTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->setupManager = $this->createMock(ISetupManager::class);
+		$this->setupManagerEncTrait = $this->createMock(ISetupManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->rootFolder->method('getUserFolder')
 			->willReturnCallback(function (string $userId): Folder {
@@ -170,7 +170,7 @@ class ManagerTest extends TestCase {
 					$this->eventDispatcher,
 					$this->logger,
 					$this->rootFolder,
-					$this->setupManager,
+					$this->setupManagerEncTrait,
 					$this->certificateManager,
 					$this->externalShareMapper,
 					$this->config,

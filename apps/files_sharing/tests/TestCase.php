@@ -8,25 +8,26 @@
 
 namespace OCA\Files_Sharing\Tests;
 
-use OC\Files\Cache\Storage;
-use OC\Files\Filesystem;
 use OC\Files\View;
-use OC\Group\Database;
 use OC\SystemConfig;
 use OC\User\DisplayNameCache;
+use OC\User\Session;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Listener\SharesUpdatedListener;
 use OCA\Files_Sharing\MountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IDBConnection;
-use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Test\Traits\GroupTrait;
 use Test\Traits\MountProviderTrait;
+use Test\Traits\UserTrait;
 
 /**
  * Base class for sharing tests.
@@ -34,6 +35,8 @@ use Test\Traits\MountProviderTrait;
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 abstract class TestCase extends \Test\TestCase {
 	use MountProviderTrait;
+	use UserTrait;
+	use GroupTrait;
 
 	public const TEST_FILES_SHARING_API_USER1 = 'test-share-user1';
 	public const TEST_FILES_SHARING_API_USER2 = 'test-share-user2';
@@ -55,13 +58,21 @@ abstract class TestCase extends \Test\TestCase {
 	public $folder;
 	public $subfolder;
 
-	/** @var \OCP\Share\IManager */
+	/** @var IManager */
 	protected $shareManager;
 	/** @var IRootFolder */
 	protected $rootFolder;
+	protected Session $userSession;
+	protected ISetupManager $setupManager;
 
-	public static function setUpBeforeClass(): void {
-		parent::setUpBeforeClass();
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->shareManager = Server::get(IManager::class);
+		$this->rootFolder = Server::get(IRootFolder::class);
+
+		$this->setupManager = Server::get(ISetupManager::class);
+		$this->userSession = Server::get(IUserSession::class);
 
 		$app = new Application();
 		$app->registerMountProviders(
@@ -70,44 +81,36 @@ abstract class TestCase extends \Test\TestCase {
 			Server::get(ExternalMountProvider::class),
 		);
 
-		// reset backend
-		Server::get(IUserManager::class)->clearBackends();
-		Server::get(IGroupManager::class)->clearBackends();
-
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks(Server::get(SystemConfig::class));
 
-		// create users
-		$backend = new \Test\Util\User\Dummy();
-		Server::get(IUserManager::class)->registerBackend($backend);
-		$backend->createUser(self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER1);
-		$backend->createUser(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER2);
-		$backend->createUser(self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER3);
-		$backend->createUser(self::TEST_FILES_SHARING_API_USER4, self::TEST_FILES_SHARING_API_USER4);
-
-		// create group
-		$groupBackend = new \Test\Util\Group\Dummy();
-		$groupBackend->createGroup(self::TEST_FILES_SHARING_API_GROUP1);
-		$groupBackend->createGroup('group');
-		$groupBackend->createGroup('group1');
-		$groupBackend->createGroup('group2');
-		$groupBackend->createGroup('group3');
-		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER1, 'group');
-		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group');
-		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group');
-		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group1');
-		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group2');
-		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER4, 'group3');
-		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
-		Server::get(IGroupManager::class)->addBackend($groupBackend);
-
 		Server::get(SharesUpdatedListener::class)->setCutOffMarkTime(-1);
-	}
 
-	protected function setUp(): void {
-		parent::setUp();
 		Server::get(DisplayNameCache::class)->clear();
+
+		$this->createUser(self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER1);
+		$this->createUser(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER2);
+		$this->createUser(self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER3);
+		$this->createUser(self::TEST_FILES_SHARING_API_USER4, self::TEST_FILES_SHARING_API_USER4);
+
+		$this->createGroup(self::TEST_FILES_SHARING_API_GROUP1, [
+			self::TEST_FILES_SHARING_API_USER2,
+		]);
+		$this->createGroup('group', [
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			self::TEST_FILES_SHARING_API_USER3,
+		]);
+		$this->createGroup('group1', [
+			self::TEST_FILES_SHARING_API_USER2,
+		]);
+		$this->createGroup('group2', [
+			self::TEST_FILES_SHARING_API_USER3,
+		]);
+		$this->createGroup('group3', [
+			self::TEST_FILES_SHARING_API_USER4,
+		]);
 
 		//login as user1
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -115,9 +118,6 @@ abstract class TestCase extends \Test\TestCase {
 		$this->data = 'foobar';
 		$this->view = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
 		$this->view2 = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
-
-		$this->shareManager = Server::get(\OCP\Share\IManager::class);
-		$this->rootFolder = Server::get(IRootFolder::class);
 	}
 
 	protected function tearDown(): void {
@@ -133,73 +133,18 @@ abstract class TestCase extends \Test\TestCase {
 		$qb->delete('filecache')->runAcrossAllShards();
 		$qb->executeStatement();
 
+		$this->userSession->setUser(null);
+		$this->setupManager->tearDown();
+
 		parent::tearDown();
 	}
 
-	public static function tearDownAfterClass(): void {
-		// cleanup users
-		$user = Server::get(IUserManager::class)->get(self::TEST_FILES_SHARING_API_USER1);
-		if ($user !== null) {
-			$user->delete();
-		}
-		$user = Server::get(IUserManager::class)->get(self::TEST_FILES_SHARING_API_USER2);
-		if ($user !== null) {
-			$user->delete();
-		}
-		$user = Server::get(IUserManager::class)->get(self::TEST_FILES_SHARING_API_USER3);
-		if ($user !== null) {
-			$user->delete();
-		}
+	protected function loginHelper(string $uid) {
+		$this->setupManager->tearDown();
+		$user = Server::get(IUserManager::class)->get($uid);
+		$this->userSession->completeLogin($user, ['loginName' => $uid, 'password' => $uid], false);
 
-		// delete group
-		$group = Server::get(IGroupManager::class)->get(self::TEST_FILES_SHARING_API_GROUP1);
-		if ($group) {
-			$group->delete();
-		}
-
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		Filesystem::tearDown();
-
-		// reset backend
-		Server::get(IUserManager::class)->clearBackends();
-		Server::get(IUserManager::class)->registerBackend(new \OC\User\Database());
-		Server::get(IGroupManager::class)->clearBackends();
-		Server::get(IGroupManager::class)->addBackend(new Database());
-
-		parent::tearDownAfterClass();
-	}
-
-	/**
-	 * @param string $user
-	 * @param bool $create
-	 * @param bool $password
-	 */
-	protected function loginHelper($user, $create = false, $password = false) {
-		if ($password === false) {
-			$password = $user;
-		}
-
-		if ($create) {
-			$userManager = Server::get(IUserManager::class);
-			$groupManager = Server::get(IGroupManager::class);
-
-			$userObject = $userManager->createUser($user, $password);
-			$group = $groupManager->createGroup('group');
-
-			if ($group && $userObject) {
-				$group->addUser($userObject);
-			}
-		}
-
-		\OC_Util::tearDownFS();
-		Storage::getGlobalCache()->clearCache();
-		Server::get(IUserSession::class)->setUser(null);
-		Filesystem::tearDown();
-		Server::get(IUserSession::class)->login($user, $password);
-		\OC::$server->getUserFolder($user);
-
-		\OC_Util::setupFS($user);
+		$this->rootFolder->newFolder('/' . $uid . '/files');
 	}
 
 	/**
