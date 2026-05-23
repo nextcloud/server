@@ -46,6 +46,8 @@ class Manager {
 	public const REMEMBER_LOGIN = 'two_factor_remember_login';
 	public const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 
+	private const LOGIN_TOKEN_2FA_CONFIG_KEY = 'login_token_2fa';
+
 	/** @psalm-var array<string, bool> */
 	private $userHasUsableSecondFactor = [];
 
@@ -268,7 +270,7 @@ class Manager {
 		// Clear the pending 2FA marker for the current login token.
 		$sessionId = $this->session->getId();
 		$token = $this->tokenProvider->getToken($sessionId);
-		$this->config->deleteUserValue($uid, 'login_token_2fa', (string)$token->getId());
+		$this->config->deleteUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, (string)$token->getId());
 
 		$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
 		$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
@@ -371,9 +373,9 @@ class Manager {
 
 		$this->session->remove(self::SESSION_UID_KEY);
 
-		$keys = $this->config->getUserKeys($uid, 'login_token_2fa');
+		$keys = $this->config->getUserKeys($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY);
 		foreach ($keys as $key) {
-			$this->config->deleteUserValue($uid, 'login_token_2fa', $key);
+			$this->config->deleteUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, $key);
 		}
 	}
 
@@ -405,7 +407,7 @@ class Manager {
 		try {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
-			$tokensNeeding2FA = $this->config->getUserKeys($uid, 'login_token_2fa');
+			$tokensNeeding2FA = $this->config->getUserKeys($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY);
 
 			return !\in_array((string)$token->getId(), $tokensNeeding2FA, true);
 		} catch (InvalidTokenException|SessionNotAvailableException $e) {
@@ -416,15 +418,12 @@ class Manager {
 	/**
 	 * Mark the current login attempt as pending 2FA verification.
 	 *
-	 * Stores the pending 2FA state in the session, preserves the remember-me
-	 * choice for completion after a successful challenge, and records the current
-	 * login token as requiring 2FA so the flow can be resumed if the session is
-	 * lost before verification completes.
-	 *
-	 * @param IUser $user
-	 * @param bool $rememberMe Whether remember-me should be applied after successful 2FA
+	 * Stores pending 2FA state in the session, preserves the remember-me choice
+	 * for completion after a successful challenge, and records the current login
+	 * token as requiring 2FA so the flow can be resumed if the session is lost
+	 * before verification completes.
 	 */
-	public function prepareTwoFactorLogin(IUser $user, bool $rememberMe) {
+	public function prepareTwoFactorLogin(IUser $user, bool $rememberMe): void {
 		$uid = $user->getUID();
 
 		$this->session->set(self::SESSION_UID_KEY, $uid);
@@ -435,18 +434,28 @@ class Manager {
 		$tokenId = (string)$token->getId();
 		$timestamp = (string)$this->timeFactory->getTime();
 
-		$this->config->setUserValue($uid, 'login_token_2fa', $tokenId, $timestamp);
+		$this->config->setUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, $tokenId, $timestamp);
 	}
 
-	public function clearTwoFactorPending(string $userId) {
-		$tokensNeeding2FA = $this->config->getUserKeys($userId, 'login_token_2fa');
+	/**
+	 * Remove all persisted pending 2FA login state for the user.
+	 *
+	 * This deletes stored token markers under `login_token_2fa` and attempts to
+	 * invalidate the corresponding login tokens. Missing tokens are ignored because
+	 * the persisted marker may outlive the token itself.
+	 */
+	public function clearTwoFactorPending(string $userId): void {
+		$uid = $userId;
 
-		foreach ($tokensNeeding2FA as $tokenId) {
-			$this->config->deleteUserValue($userId, 'login_token_2fa', $tokenId);
+		$pendingTokenIds = $this->config->getUserKeys($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY);
+
+		foreach ($pendingTokenIds as $pendingTokenId) {
+			$this->config->deleteUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, $pendingTokenId);
 
 			try {
-				$this->tokenProvider->invalidateTokenById($userId, (int)$tokenId);
+				$this->tokenProvider->invalidateTokenById($uid, (int)$pendingTokenId);
 			} catch (DoesNotExistException $e) {
+				// Ignore stale persisted entries for tokens that were already removed.
 			}
 		}
 	}
