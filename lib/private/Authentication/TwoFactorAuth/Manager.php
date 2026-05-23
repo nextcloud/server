@@ -64,11 +64,12 @@ class Manager {
 	}
 
 	/**
-	 * Determine whether the user currently has 2FA effectively enabled.
+	 * Whether the user currently has 2FA effectively enabled.
 	 *
 	 * This returns true when 2FA is mandatory for the user or when the user has at
-	 * least one enabled non-backup-code provider. Backup codes alone do not count
-	 * as 2FA being enabled for this check.
+	 * least one enabled non-backup-code provider. 
+	 *
+	 * Backup codes alone do not count as 2FA being enabled for this check.
 	 *
 	 * The result is cached per user for the lifetime of this manager instance.
 	 */
@@ -283,85 +284,135 @@ class Manager {
 	}
 
 	/**
-	 * Push a 2fa event the user's activity stream
+	 * Publish a 2FA security activity event for the user.
 	 *
-	 * @param IUser $user
-	 * @param string $event
-	 * @param array $params
+	 * Failures to publish the activity are logged and otherwise ignored.
+	 *
+	 * @param array<string, mixed> $params
 	 */
-	private function publishEvent(IUser $user, string $event, array $params) {
+	private function publishEvent(IUser $user, string $event, array $params): void {
+		$uid = $user->getUID();
+
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp('core')
 			->setType('security')
-			->setAuthor($user->getUID())
-			->setAffectedUser($user->getUID())
+			->setAuthor($uid)
+			->setAffectedUser($uid)
 			->setSubject($event, $params);
+
 		try {
 			$this->activityManager->publish($activity);
 		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity', ['app' => 'core', 'exception' => $e]);
+			$this->logger->warning('Could not publish activity', ['app' => 'core', 'exception' => $e]);
 		}
 	}
 
 	/**
-	 * Check if the currently logged in user needs to pass 2FA
+	 * Determine whether the current login session still requires a 2FA challenge.
 	 *
-	 * @param IUser $user the currently logged in user
-	 * @return boolean
+	 * This considers pending-challenge markers, session- and token-backed satisfied
+	 * states, and whether the user still has a usable second factor configured.
 	 */
 	public function needsSecondFactor(?IUser $user = null): bool {
 		if ($user === null) {
 			return false;
 		}
 
-		// If we are authenticated using an app password or AppAPI Auth, skip all this
+		// App passwords and AppAPI-authenticated sessions bypass interactive 2FA.
 		if ($this->session->exists('app_password') || $this->session->get('app_api') === true) {
 			return false;
 		}
 
-		// First check if the session tells us we should do 2FA (99% case)
-		if (!$this->session->exists(self::SESSION_UID_KEY)) {
-			// Check if the session tells us it is 2FA authenticated already
-			if ($this->session->exists(self::SESSION_UID_DONE)
-				&& $this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
-				return false;
+		$uid = $user->getUID();
+
+		// A pending challenge is authoritative. If it can still be completed, 2FA is
+		// required. Otherwise clear stale pending state and let the user proceed.
+		if ($this->hasPendingSecondFactorChallenge()) {
+			if ($this->isTwoFactorAuthenticated($user)) {
+				return true;
 			}
-
-			/*
-			 * If the session is expired check if we are not logged in by a token
-			 * that still needs 2FA auth
-			 */
-			try {
-				$sessionId = $this->session->getId();
-				$token = $this->tokenProvider->getToken($sessionId);
-				$tokenId = $token->getId();
-				$tokensNeeding2FA = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
-
-				if (!\in_array((string)$tokenId, $tokensNeeding2FA, true)) {
-					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
-					return false;
-				}
-			} catch (InvalidTokenException|SessionNotAvailableException $e) {
-			}
-		}
-
-		if (!$this->isTwoFactorAuthenticated($user)) {
-			// There is no second factor any more -> let the user pass
-			//   This prevents infinite redirect loops when a user is about
-			//   to solve the 2FA challenge, and the provider app is
-			//   disabled the same time
-			$this->session->remove(self::SESSION_UID_KEY);
-
-			$keys = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
-			foreach ($keys as $key) {
-				$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $key);
-			}
+			
+			$this->clearStaleSecondFactorChallenge($user);
 			return false;
 		}
 
+		// Without a pending challenge, previously-satisfied state may still satisfy 2FA.
+		if ($this->isSecondFactorSatisfiedBySession($user)) {
+			return false;
+		}
+
+		if ($this->isSecondFactorSatisfiedByToken($user)) {
+			$this->session->set(self::SESSION_UID_DONE, $uid);
+			return false;
+		}
+
+		// No pending or satisfied state was found. If the user no longer has a usable second
+		// factor, clear stale pending state and let the user proceed. Otherwise, the current
+		// login session still requires a completed 2FA challenge.
+		if (!$this->isTwoFactorAuthenticated($user)) {
+			$this->clearStaleSecondFactorChallenge($user);
+			return false;
+		}
+
+		// TODO: consider clearing state here too for added robustness
 		return true;
 	}
 
+	/**
+	 * Clear stale pending 2FA state for the user.
+	 *
+	 * Intentionally limited to the "pending challenge" markers so a future, more explicit
+	 * auth state model can evolve independently.
+	 *
+	 * @todo: merge/integrate/refactor alongside clearTwoFactorPending()
+	 */
+	private function clearStaleSecondFactorChallenge(IUser $user): void {
+		$uid = $user->getUID();
+
+		$this->session->remove(self::SESSION_UID_KEY);
+
+		$keys = $this->config->getUserKeys($uid, 'login_token_2fa');
+		foreach ($keys as $key) {
+			$this->config->deleteUserValue($uid, 'login_token_2fa', $key);
+		}
+	}
+
+	/**
+	 * Whether the session currently indicates an in-progress 2FA challenge.
+	 */
+	private function hasPendingSecondFactorChallenge(): bool {
+		// TODO: replace marker-based interpretation with an explicit auth state model.
+		// Currently, SESSION_UID_KEY is the authoritative signal for an in-progress 2FA flow.
+		return $this->session->exists(self::SESSION_UID_KEY);
+	}
+
+	/**
+	 * Whether this session already recorded 2FA completion for the user.
+	 */
+	private function isSecondFactorSatisfiedBySession(IUser $user): bool {
+		$uid = $user->getUID();
+
+		return $this->session->exists(self::SESSION_UID_DONE)
+			&& $this->session->get(self::SESSION_UID_DONE) === $uid;
+	}
+
+	/**
+	 * Whether the current login token no longer belongs to a login pending 2FA.
+	 */
+	private function isSecondFactorSatisfiedByToken(IUser $user): bool {
+		$uid = $user->getUID();
+
+		try {
+			$sessionId = $this->session->getId();
+			$token = $this->tokenProvider->getToken($sessionId);
+			$tokensNeeding2FA = $this->config->getUserKeys($uid, 'login_token_2fa');
+
+			return !\in_array((string)$token->getId(), $tokensNeeding2FA, true);
+		} catch (InvalidTokenException|SessionNotAvailableException $e) {
+			return false;
+		}
+	}
+	
 	/**
 	 * Prepare the 2FA login
 	 *
