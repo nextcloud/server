@@ -253,6 +253,9 @@ class Manager {
 		return true;
 	}
 
+	/**
+	 * Finalize session and token state after a successful 2FA challenge.
+	 */
 	private function handleSuccessfulChallenge(IUser $user, IProvider $provider): void {
 		$uid = $user->getUID();
 
@@ -276,8 +279,11 @@ class Manager {
 		$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
 
 		$this->publishEvent($user, 'twofactor_success', ['provider' => $provider->getDisplayName()]);
-}
+	}
 
+	/**
+	 * Record side effects for a failed 2FA challenge.
+	 */
 	private function handleFailedChallenge(IUser $user, IProvider $provider): void {
 		$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
 		$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengeFailed($user, $provider));
