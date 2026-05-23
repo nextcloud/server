@@ -34,8 +34,6 @@ class CacheTest extends TestCase {
 	protected Cache $sharedCache;
 	protected Storage $ownerStorage;
 	protected Storage $sharedStorage;
-	/** @var \OCP\Share\IManager $shareManager */
-	protected $shareManager;
 
 	protected function setUp(): void {
 		parent::setUp();

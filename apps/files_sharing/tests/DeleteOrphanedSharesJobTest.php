@@ -17,6 +17,7 @@ use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
+use Test\Traits\UserTrait;
 
 /**
  * Class DeleteOrphanedSharesJobTest
@@ -26,6 +27,8 @@ use OCP\Share\IShare;
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DeleteOrphanedSharesJobTest extends \Test\TestCase {
+	use UserTrait;
+
 	/**
 	 * @var bool
 	 */
@@ -76,9 +79,8 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
 
-		$userManager = Server::get(IUserManager::class);
-		$userManager->createUser($this->user1, 'pass');
-		$userManager->createUser($this->user2, 'pass');
+		$this->createUser($this->user1, 'pass');
+		$this->createUser($this->user2, 'pass');
 
 		\OC::registerShareHooks(Server::get(SystemConfig::class));
 
