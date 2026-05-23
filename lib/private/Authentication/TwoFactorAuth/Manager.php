@@ -412,20 +412,30 @@ class Manager {
 			return false;
 		}
 	}
-	
+
 	/**
-	 * Prepare the 2FA login
+	 * Mark the current login attempt as pending 2FA verification.
+	 *
+	 * Stores the pending 2FA state in the session, preserves the remember-me
+	 * choice for completion after a successful challenge, and records the current
+	 * login token as requiring 2FA so the flow can be resumed if the session is
+	 * lost before verification completes.
 	 *
 	 * @param IUser $user
-	 * @param boolean $rememberMe
+	 * @param bool $rememberMe Whether remember-me should be applied after successful 2FA
 	 */
 	public function prepareTwoFactorLogin(IUser $user, bool $rememberMe) {
-		$this->session->set(self::SESSION_UID_KEY, $user->getUID());
+		$uid = $user->getUID();
+
+		$this->session->set(self::SESSION_UID_KEY, $uid);
 		$this->session->set(self::REMEMBER_LOGIN, $rememberMe);
 
-		$id = $this->session->getId();
-		$token = $this->tokenProvider->getToken($id);
-		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string)$token->getId(), (string)$this->timeFactory->getTime());
+		$sessionId = $this->session->getId();
+		$token = $this->tokenProvider->getToken($sessionId);
+		$tokenId = (string)$token->getId();
+		$timestamp = (string)$this->timeFactory->getTime();
+
+		$this->config->setUserValue($uid, 'login_token_2fa', $tokenId, $timestamp);
 	}
 
 	public function clearTwoFactorPending(string $userId) {
