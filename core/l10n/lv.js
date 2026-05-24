@@ -117,6 +117,7 @@ OC.L10N.register(
     "An internal error occurred." : "Atgadījās iekšēja kļūda.",
     "Please try again or contact your administrator." : "Lūgums mēģināt vēlreiz vai sazināties ar savu pārvaldītāju.",
     "Password" : "Parole",
+    "Remember me" : "Atcerēties mani",
     "Log in with a device" : "Pieteikties ar ierīci",
     "Login or email" : "Lietotājvārds vai e-pasta adrese",
     "Your account is not setup for passwordless login." : "Konts nav iestatīts, lai pieteiktos bez paroles.",
