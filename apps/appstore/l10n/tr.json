@@ -17,7 +17,7 @@
     "Show incompatible" : "Uyumsuz olanlar görüntülensin",
     "Grid view" : "Izgara görünümü",
     "Force enable {suite}?" : "{suite} zorla etkinleştirilsin mi?",
-    "Enabling {suite} requires force enabling the app. This may cause issues with your Nextcloud instance. Are you sure you want to proceed?" : "{suite} etkinleştirildiğinde uygulama zorla etkinleştirilir. Bu durum, Nextcloud kopyanızla ilgili sorunlara neden olabilir. İlerlemek istediğinize emin misiniz?",
+    "Enabling {suite} requires force enabling the app. This may cause issues with your Nextcloud instance. Are you sure you want to proceed?" : "{suite} açıldığında uygulama zorla etkinleştirilir. Bu durum, Nextcloud kopyanızla ilgili sorunlara neden olabilir. İlerlemek istediğinize emin misiniz?",
     "Force enable" : "Zorla etkinleştir",
     "Cancel" : "İptal",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Ofis paketi değişikliği Nextcloud tümü bir arada arayüzünden yapılır.",
