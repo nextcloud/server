@@ -18,17 +18,25 @@ export const getActionsForFile = (filename: string) => cy.get(`[data-cy-files-li
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
+// Atomic query for the rename input that appears inside a row when in rename mode.
+// `aria-label` matches the NcTextField that the files app renders (either "Filename" or
+// "Folder name"). Using a single cy.get from the document root avoids "subject no longer
+// attached" when the row re-renders as it swaps the name-link for an input.
+export const getRenameInputForFile = (filename: string) =>
+	cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-name] input[aria-label]`)
+
 /**
  *
  * @param fileid
  * @param actionId
  */
 export function getActionEntryForFileId(fileid: number, actionId: string) {
+	// Single descendant selector in the inner cy.get() so the menu + entry are
+	// queried atomically. Chaining cy.get(`#menu`).find(entry) fails with
+	// "subject no longer attached" when Vue re-renders the open menu mid-chain.
 	return getActionButtonForFileId(fileid)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`)
-			.should('exist')
-			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -37,11 +45,12 @@ export function getActionEntryForFileId(fileid: number, actionId: string) {
  * @param actionId
  */
 export function getActionEntryForFile(file: string, actionId: string) {
+	// Single descendant selector in the inner cy.get() so the menu + entry are
+	// queried atomically. Chaining cy.get(`#menu`).find(entry) fails with
+	// "subject no longer attached" when Vue re-renders the open menu mid-chain.
 	return getActionButtonForFile(file)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`)
-			.should('exist')
-			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -72,10 +81,13 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFileId(fileid, actionId)
-		.find('button')
-		.should('be.visible')
-		.click()
+	// Atomic selector for the action entry's <button>: menu id + entry + button
+	// is one cy.get() so Cypress can re-query the whole path when the menu re-renders.
+	getActionButtonForFileId(fileid)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
+			.should('be.visible')
+			.click())
 }
 
 /**
@@ -88,10 +100,13 @@ export function triggerActionForFile(filename: string, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFile(filename, actionId)
-		.find('button')
-		.should('be.visible')
-		.click()
+	// Atomic selector for the action entry's <button>: menu id + entry + button
+	// is one cy.get() so Cypress can re-query the whole path when the menu re-renders.
+	getActionButtonForFile(filename)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
+			.should('be.visible')
+			.click())
 }
 
 /**
@@ -260,8 +275,9 @@ export function renameFile(fileName: string, newFileName: string) {
 	// intercept the move so we can wait for it
 	cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
-	getRowForFile(fileName)
-		.find('[data-cy-files-list-row-name] input')
+	// Atomic selector — chaining getRowForFile(...).find(input) races with the
+	// row re-rendering when the link is swapped for the rename input.
+	cy.get(`[data-cy-files-list-row-name="${CSS.escape(fileName)}"] [data-cy-files-list-row-name] input`)
 		.type(`{selectAll}${newFileName}{enter}`)
 
 	cy.wait('@moveFile')
@@ -278,7 +294,11 @@ export function navigateToFolder(dirPath: string) {
 			continue
 		}
 
-		getRowForFile(directory).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+		// Atomic descendant selector — chaining .find() after .should('be.visible')
+		// races with row re-renders triggered by navigation.
+		cy.get(`[data-cy-files-list-row-name="${CSS.escape(directory)}"] [data-cy-files-list-row-name-link]`)
+			.should('be.visible')
+			.click()
 	}
 }
 

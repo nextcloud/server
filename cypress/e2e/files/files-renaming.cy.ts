@@ -5,7 +5,7 @@
 
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-import { calculateViewportHeight, createFolder, getRowForFile, haveValidity, renameFile, triggerActionForFile } from './FilesUtils.ts'
+import { calculateViewportHeight, createFolder, getRenameInputForFile, getRowForFile, haveValidity, renameFile, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Rename nodes', { testIsolation: true }, () => {
 	let user: User
@@ -31,9 +31,9 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		getRenameInputForFile('file.txt')
 			.should('be.visible')
+			.and('have.attr', 'aria-label', 'Filename')
 			.type('{selectAll}other.txt')
 			.should(haveValidity(''))
 			.type('{enter}')
@@ -52,9 +52,9 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		getRenameInputForFile('file.txt')
 			.should('be.visible')
+			.and('have.attr', 'aria-label', 'Filename')
 			.should((el) => {
 				const input = el.get(0) as HTMLInputElement
 				expect(input.selectionStart).to.equal(0)
@@ -68,8 +68,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		getRenameInputForFile('file.txt')
 			.should('be.visible')
 			.type('{selectAll}.htaccess')
 			// See validity
@@ -96,8 +95,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		// Start the renaming
 		triggerActionForFile('file.txt', 'rename')
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		getRenameInputForFile('file.txt')
 			.should('be.visible')
 			.type('{selectAll}new-name.txt{enter}')
 
@@ -132,8 +130,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		getRenameInputForFile('file.txt')
 			.should('be.visible')
 			.type('{selectAll}other.txt')
 			.should(haveValidity(''))
@@ -141,9 +138,10 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		// See it is not renamed
 		getRowForFile('other.txt').should('not.exist')
-		getRowForFile('file.txt')
-			.should('be.visible')
-			.find('input[type="text"]')
+		getRowForFile('file.txt').should('be.visible')
+		// Atomic descendant selector — avoid chaining .find() on the row subject
+		// which would be detached when the rename input unmounts.
+		cy.get(`[data-cy-files-list-row-name="file.txt"] input[type="text"]`)
 			.should('not.exist')
 	})
 
@@ -153,15 +151,13 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		getRenameInputForFile('file.txt')
 			.should('be.visible')
 			.type('{enter}')
 
 		// See it is not renamed
-		getRowForFile('file.txt')
-			.should('be.visible')
-			.find('input[type="text"]')
+		getRowForFile('file.txt').should('be.visible')
+		cy.get(`[data-cy-files-list-row-name="file.txt"] input[type="text"]`)
 			.should('not.exist')
 	})
 
@@ -196,9 +192,11 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 			.scrollTo('bottom')
 		cy.screenshot()
 		// The file is no longer in rename state
-		getRowForFile('zzz.txt')
-			.should('be.visible')
-			.findByRole('textbox', { name: 'Filename' })
+		getRowForFile('zzz.txt').should('be.visible')
+		// Atomic descendant selector to assert the rename input is gone.
+		// Match the rename input specifically by aria-label, not just any input
+		// (the row also contains a checkbox <input> with aria-label="Toggle selection…").
+		cy.get(`[data-cy-files-list-row-name="zzz.txt"] [data-cy-files-list-row-name] input`)
 			.should('not.exist')
 	})
 
@@ -206,16 +204,16 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 
 		triggerActionForFile('file.txt', 'rename')
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		getRenameInputForFile('file.txt')
 			.should('be.visible')
 			.type('{selectAll}file.md')
 			.type('{enter}')
 
-		// See warning dialog
+		// See warning dialog. Use a global cy.findByRole for the button so the
+		// chain is not broken when the dialog body re-renders.
 		cy.findByRole('dialog', { name: 'Change file extension' })
 			.should('be.visible')
-			.findByRole('button', { name: 'Use .md' })
+		cy.findByRole('button', { name: 'Use .md' })
 			.click()
 
 		// See it is renamed
@@ -226,16 +224,16 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 
 		triggerActionForFile('file.txt', 'rename')
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		getRenameInputForFile('file.txt')
 			.should('be.visible')
 			.type('{selectAll}document.md')
 			.type('{enter}')
 
-		// See warning dialog
+		// See warning dialog. Use a global cy.findByRole for the button so the
+		// chain is not broken when the dialog body re-renders.
 		cy.findByRole('dialog', { name: 'Change file extension' })
 			.should('be.visible')
-			.findByRole('button', { name: 'Keep .txt' })
+		cy.findByRole('button', { name: 'Keep .txt' })
 			.click()
 
 		// See it is renamed
@@ -246,18 +244,18 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 
 		triggerActionForFile('file.txt', 'rename')
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		getRenameInputForFile('file.txt')
 			.should('be.visible')
 			.type('{selectAll}file')
 			.type('{enter}')
 
+		// Use global cy.findByRole for the dialog buttons so the chain is not
+		// broken when the dialog body re-renders.
 		cy.findByRole('dialog', { name: 'Change file extension' })
 			.should('be.visible')
-			.findByRole('button', { name: 'Keep .txt' })
+		cy.findByRole('button', { name: 'Keep .txt' })
 			.should('be.visible')
-		cy.findByRole('dialog', { name: 'Change file extension' })
-			.findByRole('button', { name: 'Remove extension' })
+		cy.findByRole('button', { name: 'Remove extension' })
 			.should('be.visible')
 			.click()
 
@@ -272,9 +270,9 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('folder.2024').should('be.visible')
 
 		triggerActionForFile('folder.2024', 'rename')
-		getRowForFile('folder.2024')
-			.findByRole('textbox', { name: 'Folder name' })
+		getRenameInputForFile('folder.2024')
 			.should('be.visible')
+			.and('have.attr', 'aria-label', 'Folder name')
 			.type('{selectAll}folder.2025')
 			.should(haveValidity(''))
 			.type('{enter}')
