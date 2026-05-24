@@ -86,20 +86,24 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	// After the menu opens, the action button can live either inline in this row
-	// (NcActions renders the first N children as standalone buttons outside the
-	// popup, see apps/files/src/components/FileEntry/FileEntryActions.vue) or
-	// inside the teleported menu popup. The inline match is scoped to the row;
-	// the menu popup is unique on the page so unscoped is fine.
+	// Look up the action's clickable button. NcActions in
+	// apps/files/src/components/FileEntry/FileEntryActions.vue renders the first
+	// N children as standalone buttons inline in the row (the action carries
+	// `data-cy-files-list-row-action` directly on the <button>), and the rest
+	// inside the teleported menu popup (the action wraps a <button>). Use the
+	// menu id from aria-controls so we look in the right popup, and union with
+	// the inline-button location to cover both cases atomically.
 	const escaped = CSS.escape(actionId)
-	cy.get([
-		`[data-cy-files-list-row-fileid="${fileid}"] button[data-cy-files-list-row-action="${escaped}"]`,
-		`[role="menu"] [data-cy-files-list-row-action="${escaped}"] button`,
-		`[role="menu"] button[data-cy-files-list-row-action="${escaped}"]`,
-	].join(', '))
-		.filter(':visible')
-		.first()
-		.click()
+	getActionButtonForFileId(fileid)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => cy.get([
+			`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions] button[data-cy-files-list-row-action="${escaped}"]`,
+			`#${menuId} [data-cy-files-list-row-action="${escaped}"] button`,
+			`#${menuId} button[data-cy-files-list-row-action="${escaped}"]`,
+		].join(', '))
+			.first()
+			.should('be.visible')
+			.click())
 }
 
 /**
@@ -112,21 +116,25 @@ export function triggerActionForFile(filename: string, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	// After the menu opens, the action button can live either inline in this row
-	// (NcActions renders the first N children as standalone buttons outside the
-	// popup, see apps/files/src/components/FileEntry/FileEntryActions.vue) or
-	// inside the teleported menu popup. The inline match is scoped to the row;
-	// the menu popup is unique on the page so unscoped is fine.
+	// Look up the action's clickable button. NcActions in
+	// apps/files/src/components/FileEntry/FileEntryActions.vue renders the first
+	// N children as standalone buttons inline in the row (the action carries
+	// `data-cy-files-list-row-action` directly on the <button>), and the rest
+	// inside the teleported menu popup (the action wraps a <button>). Use the
+	// menu id from aria-controls so we look in the right popup, and union with
+	// the inline-button location to cover both cases atomically.
 	const escapedAction = CSS.escape(actionId)
 	const escapedName = CSS.escape(filename)
-	cy.get([
-		`[data-cy-files-list-row-name="${escapedName}"] button[data-cy-files-list-row-action="${escapedAction}"]`,
-		`[role="menu"] [data-cy-files-list-row-action="${escapedAction}"] button`,
-		`[role="menu"] button[data-cy-files-list-row-action="${escapedAction}"]`,
-	].join(', '))
-		.filter(':visible')
-		.first()
-		.click()
+	getActionButtonForFile(filename)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => cy.get([
+			`[data-cy-files-list-row-name="${escapedName}"] [data-cy-files-list-row-actions] button[data-cy-files-list-row-action="${escapedAction}"]`,
+			`#${menuId} [data-cy-files-list-row-action="${escapedAction}"] button`,
+			`#${menuId} button[data-cy-files-list-row-action="${escapedAction}"]`,
+		].join(', '))
+			.first()
+			.should('be.visible')
+			.click())
 }
 
 /**
