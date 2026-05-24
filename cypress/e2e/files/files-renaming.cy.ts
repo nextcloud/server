@@ -141,7 +141,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 		// Atomic descendant selector — avoid chaining .find() on the row subject
 		// which would be detached when the rename input unmounts.
-		cy.get(`[data-cy-files-list-row-name="file.txt"] input[type="text"]`)
+		cy.get('[data-cy-files-list-row-name="file.txt"] input[type="text"]')
 			.should('not.exist')
 	})
 
@@ -157,7 +157,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		// See it is not renamed
 		getRowForFile('file.txt').should('be.visible')
-		cy.get(`[data-cy-files-list-row-name="file.txt"] input[type="text"]`)
+		cy.get('[data-cy-files-list-row-name="file.txt"] input[type="text"]')
 			.should('not.exist')
 	})
 
@@ -196,7 +196,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		// Atomic descendant selector to assert the rename input is gone.
 		// Match the rename input specifically by aria-label, not just any input
 		// (the row also contains a checkbox <input> with aria-label="Toggle selection…").
-		cy.get(`[data-cy-files-list-row-name="zzz.txt"] [data-cy-files-list-row-name] input`)
+		cy.get('[data-cy-files-list-row-name="zzz.txt"] [data-cy-files-list-row-name] input')
 			.should('not.exist')
 	})
 

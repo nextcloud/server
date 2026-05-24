@@ -18,12 +18,17 @@ export const getActionsForFile = (filename: string) => cy.get(`[data-cy-files-li
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
-// Atomic query for the rename input that appears inside a row when in rename mode.
-// `aria-label` matches the NcTextField that the files app renders (either "Filename" or
-// "Folder name"). Using a single cy.get from the document root avoids "subject no longer
-// attached" when the row re-renders as it swaps the name-link for an input.
-export const getRenameInputForFile = (filename: string) =>
-	cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-name] input[aria-label]`)
+/**
+ * Atomic query for the rename input that appears inside a row when in rename mode.
+ * `aria-label` matches the NcTextField that the files app renders (either "Filename" or
+ * "Folder name"). Using a single cy.get from the document root avoids "subject no longer
+ * attached" when the row re-renders as it swaps the name-link for an input.
+ *
+ * @param filename
+ */
+export function getRenameInputForFile(filename: string) {
+	return cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-name] input[aria-label]`)
+}
 
 /**
  *
