@@ -345,6 +345,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Listener\\AddressbookListener' => __DIR__ . '/..' . '/../lib/Listener/AddressbookListener.php',
         'OCA\\DAV\\Listener\\BirthdayListener' => __DIR__ . '/..' . '/../lib/Listener/BirthdayListener.php',
         'OCA\\DAV\\Listener\\CalendarContactInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarContactInteractionListener.php',
+        'OCA\\DAV\\Listener\\CalendarDelegateActionListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarDelegateActionListener.php',
         'OCA\\DAV\\Listener\\CalendarDeletionDefaultUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarDeletionDefaultUpdaterListener.php',
         'OCA\\DAV\\Listener\\CalendarFederationNotificationListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarFederationNotificationListener.php',
         'OCA\\DAV\\Listener\\CalendarObjectReminderUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarObjectReminderUpdaterListener.php',
