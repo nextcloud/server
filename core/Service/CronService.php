@@ -157,7 +157,7 @@ class CronService {
 		}
 
 		// Try to log and unlock job in case of failure (eg. Allowed memory size exhausted)
-		register_shutdown_function(function () {
+		register_shutdown_function(function (): void {
 			$error = error_get_last();
 			if ($error === null) {
 				return;
