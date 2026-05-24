@@ -45,6 +45,7 @@ use OCA\DAV\Listener\AddMissingIndicesListener;
 use OCA\DAV\Listener\AddressbookListener;
 use OCA\DAV\Listener\BirthdayListener;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
+use OCA\DAV\Listener\CalendarDelegateActionListener;
 use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
 use OCA\DAV\Listener\CalendarFederationNotificationListener;
 use OCA\DAV\Listener\CalendarObjectReminderUpdaterListener;

@@ -327,6 +327,7 @@ return array(
     'OCA\\DAV\\Listener\\AddressbookListener' => $baseDir . '/../lib/Listener/AddressbookListener.php',
     'OCA\\DAV\\Listener\\BirthdayListener' => $baseDir . '/../lib/Listener/BirthdayListener.php',
     'OCA\\DAV\\Listener\\CalendarContactInteractionListener' => $baseDir . '/../lib/Listener/CalendarContactInteractionListener.php',
+    'OCA\\DAV\\Listener\\CalendarDelegateActionListener' => $baseDir . '/../lib/Listener/CalendarDelegateActionListener.php',
     'OCA\\DAV\\Listener\\CalendarDeletionDefaultUpdaterListener' => $baseDir . '/../lib/Listener/CalendarDeletionDefaultUpdaterListener.php',
     'OCA\\DAV\\Listener\\CalendarFederationNotificationListener' => $baseDir . '/../lib/Listener/CalendarFederationNotificationListener.php',
     'OCA\\DAV\\Listener\\CalendarObjectReminderUpdaterListener' => $baseDir . '/../lib/Listener/CalendarObjectReminderUpdaterListener.php',
