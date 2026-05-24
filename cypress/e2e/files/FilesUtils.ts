@@ -86,13 +86,20 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	// Atomic selector for the action entry's <button>: menu id + entry + button
-	// is one cy.get() so Cypress can re-query the whole path when the menu re-renders.
-	getActionButtonForFileId(fileid)
-		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
-			.should('be.visible')
-			.click())
+	// After the menu opens, the action button can live either inline in this row
+	// (NcActions renders the first N children as standalone buttons outside the
+	// popup, see apps/files/src/components/FileEntry/FileEntryActions.vue) or
+	// inside the teleported menu popup. The inline match is scoped to the row;
+	// the menu popup is unique on the page so unscoped is fine.
+	const escaped = CSS.escape(actionId)
+	cy.get([
+		`[data-cy-files-list-row-fileid="${fileid}"] button[data-cy-files-list-row-action="${escaped}"]`,
+		`[role="menu"] [data-cy-files-list-row-action="${escaped}"] button`,
+		`[role="menu"] button[data-cy-files-list-row-action="${escaped}"]`,
+	].join(', '))
+		.filter(':visible')
+		.first()
+		.click()
 }
 
 /**
@@ -105,13 +112,21 @@ export function triggerActionForFile(filename: string, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	// Atomic selector for the action entry's <button>: menu id + entry + button
-	// is one cy.get() so Cypress can re-query the whole path when the menu re-renders.
-	getActionButtonForFile(filename)
-		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
-			.should('be.visible')
-			.click())
+	// After the menu opens, the action button can live either inline in this row
+	// (NcActions renders the first N children as standalone buttons outside the
+	// popup, see apps/files/src/components/FileEntry/FileEntryActions.vue) or
+	// inside the teleported menu popup. The inline match is scoped to the row;
+	// the menu popup is unique on the page so unscoped is fine.
+	const escapedAction = CSS.escape(actionId)
+	const escapedName = CSS.escape(filename)
+	cy.get([
+		`[data-cy-files-list-row-name="${escapedName}"] button[data-cy-files-list-row-action="${escapedAction}"]`,
+		`[role="menu"] [data-cy-files-list-row-action="${escapedAction}"] button`,
+		`[role="menu"] button[data-cy-files-list-row-action="${escapedAction}"]`,
+	].join(', '))
+		.filter(':visible')
+		.first()
+		.click()
 }
 
 /**
