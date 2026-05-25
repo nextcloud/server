@@ -95,24 +95,35 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	// Look up the action's clickable button. NcActions in
-	// apps/files/src/components/FileEntry/FileEntryActions.vue renders the first
-	// N children as standalone buttons inline in the row (the action carries
-	// `data-cy-files-list-row-action` directly on the <button>), and the rest
-	// inside the teleported menu popup (the action wraps a <button>). Use the
-	// menu id from aria-controls so we look in the right popup, and union with
-	// the inline-button location to cover both cases atomically.
 	const escaped = CSS.escape(actionId)
 	getActionButtonForFileId(fileid)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get([
-			`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions] button[data-cy-files-list-row-action="${escaped}"]`,
-			`#${menuId} [data-cy-files-list-row-action="${escaped}"] button`,
-			`#${menuId} button[data-cy-files-list-row-action="${escaped}"]`,
-		].join(', '))
-			.first()
-			.should('be.visible')
-			.click())
+		.then((menuId) => {
+			// Wait for actions to be hydrated on this row. Until Vue finishes resolving
+			// the row's `node` prop, `enabledRenderActions` is empty and the row's
+			// inline area + opened popup contain no `[data-cy-files-list-row-action]`
+			// element. That race is independent of app boot and is the residual flake
+			// once OCP/OCA are ready. Wait up to 10 s for at least one action to mount.
+			cy.get([
+				`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions] [data-cy-files-list-row-action]`,
+				`#${menuId} [data-cy-files-list-row-action]`,
+			].join(', '), { timeout: 10000 }).should('exist')
+			// Look up the action's clickable button. NcActions in
+			// apps/files/src/components/FileEntry/FileEntryActions.vue renders the first
+			// N children as standalone buttons inline in the row (the action carries
+			// `data-cy-files-list-row-action` directly on the <button>), and the rest
+			// inside the teleported menu popup (the action wraps a <button>). Use the
+			// menu id from aria-controls so we look in the right popup, and union with
+			// the inline-button location to cover both cases atomically.
+			cy.get([
+				`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions] button[data-cy-files-list-row-action="${escaped}"]`,
+				`#${menuId} [data-cy-files-list-row-action="${escaped}"] button`,
+				`#${menuId} button[data-cy-files-list-row-action="${escaped}"]`,
+			].join(', '))
+				.first()
+				.should('be.visible')
+				.click()
+		})
 }
 
 /**
@@ -134,25 +145,36 @@ export function triggerActionForFile(filename: string, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	// Look up the action's clickable button. NcActions in
-	// apps/files/src/components/FileEntry/FileEntryActions.vue renders the first
-	// N children as standalone buttons inline in the row (the action carries
-	// `data-cy-files-list-row-action` directly on the <button>), and the rest
-	// inside the teleported menu popup (the action wraps a <button>). Use the
-	// menu id from aria-controls so we look in the right popup, and union with
-	// the inline-button location to cover both cases atomically.
 	const escapedAction = CSS.escape(actionId)
 	const escapedName = CSS.escape(filename)
 	getActionButtonForFile(filename)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get([
-			`[data-cy-files-list-row-name="${escapedName}"] [data-cy-files-list-row-actions] button[data-cy-files-list-row-action="${escapedAction}"]`,
-			`#${menuId} [data-cy-files-list-row-action="${escapedAction}"] button`,
-			`#${menuId} button[data-cy-files-list-row-action="${escapedAction}"]`,
-		].join(', '))
-			.first()
-			.should('be.visible')
-			.click())
+		.then((menuId) => {
+			// Wait for actions to be hydrated on this row. Until Vue finishes resolving
+			// the row's `node` prop, `enabledRenderActions` is empty and the row's
+			// inline area + opened popup contain no `[data-cy-files-list-row-action]`
+			// element. That race is independent of app boot and is the residual flake
+			// once OCP/OCA are ready. Wait up to 10 s for at least one action to mount.
+			cy.get([
+				`[data-cy-files-list-row-name="${escapedName}"] [data-cy-files-list-row-actions] [data-cy-files-list-row-action]`,
+				`#${menuId} [data-cy-files-list-row-action]`,
+			].join(', '), { timeout: 10000 }).should('exist')
+			// Look up the action's clickable button. NcActions in
+			// apps/files/src/components/FileEntry/FileEntryActions.vue renders the first
+			// N children as standalone buttons inline in the row (the action carries
+			// `data-cy-files-list-row-action` directly on the <button>), and the rest
+			// inside the teleported menu popup (the action wraps a <button>). Use the
+			// menu id from aria-controls so we look in the right popup, and union with
+			// the inline-button location to cover both cases atomically.
+			cy.get([
+				`[data-cy-files-list-row-name="${escapedName}"] [data-cy-files-list-row-actions] button[data-cy-files-list-row-action="${escapedAction}"]`,
+				`#${menuId} [data-cy-files-list-row-action="${escapedAction}"] button`,
+				`#${menuId} button[data-cy-files-list-row-action="${escapedAction}"]`,
+			].join(', '))
+				.first()
+				.should('be.visible')
+				.click()
+		})
 }
 
 /**
