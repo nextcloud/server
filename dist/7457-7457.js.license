@@ -43,13 +43,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - semver
-	- version: 7.7.2
+	- version: 7.8.0
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 3.0.0
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 3.12.2
@@ -70,7 +70,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.38.0
+	- version: 8.39.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.4

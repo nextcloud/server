@@ -24,7 +24,6 @@ class RateLimitingTest extends TestCase {
 	private IAppConfig&MockObject $config;
 	private ILimiter&MockObject $limiter;
 	private RateLimiting $rateLimiting;
-	private string $userId = 'user123';
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -86,7 +85,7 @@ class RateLimitingTest extends TestCase {
 			->method('registerUserRequest')
 			->with(
 				'share-addressbook-or-calendar',
-				20,
+				100,
 				3600,
 				$user,
 			)

@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Та нэвтрээгүй байна",
     "Permission denied" : "Эрх хүрэхгүй байна",
-    "Forbidden to manage local mounts" : "Локал холболтыг удирдах хориотой",
     "Storage with ID \"%d\" not found" : "\"%d\" ID-тай санах ой олдсонгүй",
+    "Forbidden to manage local mounts" : "Локал холболтыг удирдах хориотой",
     "Invalid backend or authentication mechanism class" : "Буруу backend эсвэл баталгаажуулалтын механизмын класс",
     "Invalid mount point" : "Буруу холболтын цэг",
     "Objectstore forbidden" : "Objectstore хориотой",

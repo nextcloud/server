@@ -325,9 +325,9 @@ OC.L10N.register(
     "The files are locked" : "Filerna är låsta",
     "The file does not exist anymore" : "Filen finns inte längre",
     "Moving \"{source}\" to \"{destination}\" …" : "Flyttar \"{source}\" till \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Flyttar {count}filer till \"{destination}\" …",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["Flyttar %n fil till \"{destination}\" …","Flyttar %n filer till \"{destination}\" …"],
     "Copying \"{source}\" to \"{destination}\" …" : "Kopierar \"{source}\" till \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopierar {count} filer till \"{destination}\" …",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["Kopierar %n fil till \"{destination}\" …","Kopierar %n filer till \"{destination}\" …"],
     "Choose destination" : "Välj destination",
     "Copy to {target}" : "Kopiera till {target}",
     "Move to {target}" : "Flytta till {target}",
@@ -421,6 +421,8 @@ OC.L10N.register(
     "Tags" : "Taggar",
     "Save as …" : "Spara som …",
     "Converting files …" : "Konverterar filer ...",
-    "Converting file …" : "Konverterar fil ..."
+    "Converting file …" : "Konverterar fil ...",
+    "Moving {count} files to \"{destination}\" …" : "Flyttar {count}filer till \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Kopierar {count} filer till \"{destination}\" …"
 },
 "nplurals=2; plural=(n != 1);");

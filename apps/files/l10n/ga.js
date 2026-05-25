@@ -325,9 +325,9 @@ OC.L10N.register(
     "The files are locked" : "Tá na comhaid faoi ghlas",
     "The file does not exist anymore" : "Níl an comhad ann a thuilleadh",
     "Moving \"{source}\" to \"{destination}\" …" : "Ag bogadh \"{source}\" go \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Ag bogadh {count} comhad go \"{destination}\" …",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["Ag bogadh %n comhad go \"{destination}\" …","Ag bogadh %n comhaid go \"{destination}\" …","Ag bogadh %n comhaid go \"{destination}\" …","Ag bogadh %n comhaid go \"{destination}\" …","Ag bogadh %n comhaid go \"{destination}\" …"],
     "Copying \"{source}\" to \"{destination}\" …" : "Ag cóipeáil \"{source}\" go \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Ag cóipeáil {count} comhad chuig \"{destination}\" …",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["Ag cóipeáil %n comhad chuig \"{destination}\" …","Ag cóipeáil %n comhaid chuig \"{destination}\" …","Ag cóipeáil %n comhaid chuig \"{destination}\" …","Ag cóipeáil %n comhaid chuig \"{destination}\" …","Ag cóipeáil %n comhaid chuig \"{destination}\" …"],
     "Choose destination" : "Roghnaigh ceann scríbe",
     "Copy to {target}" : "Cóipeáil chuig {target}",
     "Move to {target}" : "Bog go {target}",
@@ -421,6 +421,8 @@ OC.L10N.register(
     "Tags" : "Clibeanna",
     "Save as …" : "Sábháil mar…",
     "Converting files …" : "Comhaid á thiontú…",
-    "Converting file …" : "Comhad á thiontú…"
+    "Converting file …" : "Comhad á thiontú…",
+    "Moving {count} files to \"{destination}\" …" : "Ag bogadh {count} comhad go \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Ag cóipeáil {count} comhad chuig \"{destination}\" …"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

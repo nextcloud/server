@@ -19,7 +19,7 @@ OC.L10N.register(
     "No changelog available" : "Kullanılabilecek bir değişiklik günlüğü yok",
     "What's new in {app} {version}" : "{app} {version} sürümündeki yenilikler",
     "A new version is available: <strong>{newVersionString}</strong>" : "Yeni bir sürüm yayınlanmış: <strong>{newVersionString}</strong>",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Yeni bir sürümden sonra güncellemenin yalnızca ilk yeni küçük sürüm ya da daha sonraki sürümler yayınlandığında görüntüleneceğini unutmayın. Yeni sürümleri zamanla dağıtıyoruz ve bazen sorunlarla karşılaştığımızda bir sürümü atlayabiliyoruz. Güncellemeler ve yayın kanalları hakkında ayrıntılı bilgi almak için {link} adresine bakabilirsiniz.",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Yeni bir sürümden sonra güncellemenin yalnızca ilk yeni küçük sürüm ya da daha sonraki sürümler yayınlandığında görüntüleneceğini unutmayın. Yeni sürümleri zamanla dağıtıyoruz ve bazen sorunlarla karşılaştığımızda bir sürümü atlayabiliyoruz. Güncellemeler ve yayın kanalları ile ilgili ayrıntılı bilgi almak için {link} adresine bakabilirsiniz.",
     "Checked on {lastCheckedDate} - Open changelog" : "Son denetim: {lastCheckedDate} - Değişiklik günlüğünü aç",
     "Checking apps for compatible versions" : "Uygulamalar uyumlu sürümler için denetleniyor",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Lütfen config.php dosyasındaki <samp>appstoreenabled</samp> seçeneğinin false olarak ayarlanmadığından emin olun.",
@@ -59,6 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Seçilmiş güncelleme kanalı sunucunun güncellemelerini desteklemiyor.",
     "Changelog for app {app}" : "{app} değişiklik günlüğü",
     "What's new in {app} version {version}" : "{app} {version} sürümündeki yenilikler",
-    "{version} is available. Get more information on how to update." : "{version} sürümü yayınlanmış. Güncelleme hakkında ayrıntılı bilgi alın."
+    "{version} is available. Get more information on how to update." : "{version} sürümü yayınlanmış. Güncelleme ile ilgili ayrıntılı bilgi alın."
 },
 "nplurals=2; plural=(n > 1);");

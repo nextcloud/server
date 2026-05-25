@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "شما وارد سیستم نشده‌اید",
     "Permission denied" : "مجوز رد شد",
-    "Forbidden to manage local mounts" : "Forbidden to manage local mounts",
     "Storage with ID \"%d\" not found" : "ذخیره سازی با شناسه  \"%d\"  پیدا نشد",
+    "Forbidden to manage local mounts" : "Forbidden to manage local mounts",
     "Invalid backend or authentication mechanism class" : "کلاس مکانیسم اعتبار پس زمینه یا تأیید اعتبار نامعتبر است",
     "Invalid mount point" : "نقطه نصب نامعتبر است",
     "Objectstore forbidden" : "فروشگاه شی ممنوع است",

@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Нисте пријављени",
     "Permission denied" : "Одбијена је дозвола",
-    "Forbidden to manage local mounts" : "Забрањено је управљање локалним монтирањима",
     "Storage with ID \"%d\" not found" : "Складиште са идентификацијом „%d” није пронађено",
+    "Forbidden to manage local mounts" : "Забрањено је управљање локалним монтирањима",
     "Invalid backend or authentication mechanism class" : "Неисправан позадински механизам или начин провере идентитета",
     "Invalid mount point" : "Неисправна тачка монтирања",
     "Objectstore forbidden" : "Забрањен приступ",

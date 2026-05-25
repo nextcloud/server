@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Sie sind nicht angemeldet",
     "Permission denied" : "Zugriff verweigert",
-    "Forbidden to manage local mounts" : "Das Verwalten lokaler Laufwerke ist nicht erlaubt",
     "Storage with ID \"%d\" not found" : "Der Speicher mit ID \"1 %d\" nicht gefunden",
+    "Forbidden to manage local mounts" : "Das Verwalten lokaler Laufwerke ist nicht erlaubt",
     "Invalid backend or authentication mechanism class" : "Ungültiger Backend- oder Authentifizierungsmechanismus",
     "Invalid mount point" : "Ungültiger Einbindungspunkt",
     "Objectstore forbidden" : "Objekt nicht erlaubt",

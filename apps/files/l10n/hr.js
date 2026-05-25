@@ -317,9 +317,7 @@ OC.L10N.register(
     "The files are locked" : "Datoteke su zaključane.",
     "The file does not exist anymore" : "Datoteka više ne postoji",
     "Moving \"{source}\" to \"{destination}\" …" : "Premještanje iz \"{source}\" u \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Premještanje {count} datoteka u \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Kopiranje iz \"{source}\" u \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopiranje {count} datoteka u \"{destination}\" …",
     "Choose destination" : "Odaberi odredište",
     "Copy to {target}" : "Kopiraj u {target}",
     "Move to {target}" : "Premjesti u {target}",
@@ -413,6 +411,8 @@ OC.L10N.register(
     "Tags" : "Oznake",
     "Save as …" : "Spremi kao …",
     "Converting files …" : "Pretvaranje datoteka …",
-    "Converting file …" : "Pretvaranje datoteke …"
+    "Converting file …" : "Pretvaranje datoteke …",
+    "Moving {count} files to \"{destination}\" …" : "Premještanje {count} datoteka u \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Kopiranje {count} datoteka u \"{destination}\" …"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");
