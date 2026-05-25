@@ -26,13 +26,6 @@ export function openVersionsPanel(fileName: string) {
 	// Detect the versions list fetch
 	cy.intercept('PROPFIND', '**/dav/versions/*/versions/**').as('getVersions')
 
-	// Wait for the sidebar service to register itself before triggering 'details'.
-	// `getSidebar().available` (see apps/files/src/actions/sidebarAction.ts) returns
-	// false until window.OCA.Files._sidebar is set by apps/files/src/sidebar.ts on
-	// app boot. If we click before then, the 'details' action is filtered out as
-	// not-enabled and triggerActionForFile fails to find any clickable element.
-	cy.window({ timeout: 15000 }).its('OCA.Files._sidebar').should('be.a', 'function')
-
 	triggerActionForFile(basename(fileName), 'details')
 	cy.get('[data-cy-sidebar]')
 		.as('sidebar')

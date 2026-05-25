@@ -82,6 +82,13 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
  * @param actionId
  */
 export function triggerActionForFileId(fileid: number, actionId: string) {
+	// The 'details' action is filtered as not-enabled until the sidebar service
+	// registers on the window (see apps/files/src/actions/sidebarAction.ts and
+	// apps/files/src/sidebar.ts). Wait for it before opening the menu, otherwise
+	// the action button is missing from both the inline area and the popup.
+	if (actionId === 'details') {
+		cy.window({ timeout: 15000 }).its('OCA.Files._sidebar').should('be.a', 'function')
+	}
 	getActionButtonForFileId(fileid)
 		.scrollIntoView()
 	getActionButtonForFileId(fileid)
@@ -112,6 +119,13 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
  * @param actionId
  */
 export function triggerActionForFile(filename: string, actionId: string) {
+	// The 'details' action is filtered as not-enabled until the sidebar service
+	// registers on the window (see apps/files/src/actions/sidebarAction.ts and
+	// apps/files/src/sidebar.ts). Wait for it before opening the menu, otherwise
+	// the action button is missing from both the inline area and the popup.
+	if (actionId === 'details') {
+		cy.window({ timeout: 15000 }).its('OCA.Files._sidebar').should('be.a', 'function')
+	}
 	getActionButtonForFile(filename)
 		.scrollIntoView()
 	getActionButtonForFile(filename)
