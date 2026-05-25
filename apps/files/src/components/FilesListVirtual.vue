@@ -313,8 +313,10 @@ export default defineComponent({
 
 		openSidebarForFile(fileId) {
 			// Open the sidebar for the given URL fileid
-			// iif we just loaded the app.
-			const node = this.nodes.find((n) => n.fileid === fileId) as INode
+			// if we just loaded the app.
+			const node = (this.currentFolder?.fileid === fileId
+				? this.currentFolder
+				: this.nodes.find((n) => n.fileid === fileId)) as INode | undefined
 			if (node && this.sidebar.available) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
 				this.sidebar.open(node)
