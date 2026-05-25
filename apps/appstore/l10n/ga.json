@@ -67,6 +67,7 @@
     "Details" : "Sonraí",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Ní féidir an aip seo a shuiteáil toisc nach bhfuil na spleáchais seo a leanas comhlíonta:",
     "Missing dependencies" : "Spleáchais ar iarraidh",
+    "This app cannot be limited to groups because it provides functionality that is executed before group membership is determined." : "Ní féidir an aip seo a theorannú do ghrúpaí mar go soláthraíonn sí feidhmiúlacht a chuirtear i gcrích sula gcinntear ballraíocht an ghrúpa.",
     "Limited to groups" : "Teoranta do ghrúpaí",
     "Latest updated" : "Nuashonraithe is déanaí",
     "Author" : "Údar",

@@ -205,6 +205,7 @@
     "_{count} notification_::_{count} notifications_" : ["{count} fógra","{count} fógra","{count} fógra","{count} fógra","{count} fógra"],
     "More apps" : "Tuilleadh apps",
     "App store" : "Siopa aip",
+    "Open apps menu, currently in {app}" : "Oscail roghchlár na n-aipeanna, atá i {app} faoi láthair",
     "Open apps menu" : "Oscail roghchlár na n-aipeanna",
     "Applications" : "Feidhmchláir",
     "Apps" : "Feidhmchláir",
