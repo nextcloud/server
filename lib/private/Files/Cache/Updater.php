@@ -84,6 +84,11 @@ class Updater implements IUpdater {
 			$sizeDifference = null;
 		}
 
+		$appDataPath = 'appdata_' . \OC_Util::getInstanceId() . '/end_to_end_encryption/meta-data';
+		if (str_starts_with($path, $appDataPath)) {
+			return;
+		}
+
 		// scanner didn't provide size info, fallback to full size calculation
 		if ($this->cache instanceof Cache && $sizeDifference === null) {
 			$this->cache->correctFolderSize($path, $data);
@@ -106,6 +111,11 @@ class Updater implements IUpdater {
 		$entry = $this->cache->get($path);
 
 		$this->cache->remove($path);
+
+		$appDataPath = 'appdata_' . \OC_Util::getInstanceId() . '/end_to_end_encryption/meta-data';
+		if (str_starts_with($path, $appDataPath)) {
+			return;
+		}
 
 		$this->correctParentStorageMtime($path);
 		if ($entry instanceof ICacheEntry) {
