@@ -207,6 +207,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} pranešimas","{count} pranešimai","{count} pranešimų","{count} pranešimas"],
     "More apps" : "Daugiau programėlių",
     "App store" : "Programėlių parduotuvė",
+    "Open apps menu, currently in {app}" : "Atidaryti programėlių meniu, šiuo metu {app}",
     "Open apps menu" : "Atidarykite programėlių meniu",
     "Applications" : "Programėlės",
     "Apps" : "Programėlės",

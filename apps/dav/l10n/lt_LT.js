@@ -242,6 +242,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Nepavyko atsieti: %1$s",
     "Failed to write file contents: %1$s" : "Nepavyko įrašyti failo turinio: %1$s",
     "File not found: %1$s" : "Failas nerastas: %1$s",
+    "Insufficient space" : "Nepakanka vietos",
     "Invalid target path" : "Netinkamas tikslinis kelias",
     "System is in maintenance mode." : "Sistema yra techninės priežiūros veiksenoje.",
     "Upgrade needed" : "Reikalingas naujinimas",
