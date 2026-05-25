@@ -210,6 +210,9 @@ This file is generated from multiple sources. Included packages:
 - events
 	- version: 3.3.0
 	- license: MIT
+- @floating-ui/core
+	- version: 0.3.1
+	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
 	- license: MIT
