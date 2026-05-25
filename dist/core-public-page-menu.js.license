@@ -153,6 +153,9 @@ This file is generated from multiple sources. Included packages:
 - escape-html
 	- version: 1.0.3
 	- license: MIT
+- @floating-ui/core
+	- version: 0.3.1
+	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
 	- license: MIT
@@ -199,7 +202,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.105.3
+	- version: 5.107.1
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
