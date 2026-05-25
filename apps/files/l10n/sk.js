@@ -317,9 +317,7 @@ OC.L10N.register(
     "The files are locked" : "Súbory sú uzamknuté.",
     "The file does not exist anymore" : "Súbor už neexistuje",
     "Moving \"{source}\" to \"{destination}\" …" : "Presúvanie \"{source}\" do \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Presúvanie {count} súborov do \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Kopírovanie \"{source}\" do \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopírovanie {count} súborov do \"{destination}\" …",
     "Choose destination" : "Vyberte cieľ",
     "Copy to {target}" : "Kopírovať do {target}",
     "Move to {target}" : "Presunúť do {target}",
@@ -413,6 +411,8 @@ OC.L10N.register(
     "Tags" : "Štítky",
     "Save as …" : "Uložiť ako ...",
     "Converting files …" : "Konverzia súborov ...",
-    "Converting file …" : "Konverzia súborov ..."
+    "Converting file …" : "Konverzia súborov ...",
+    "Moving {count} files to \"{destination}\" …" : "Presúvanie {count} súborov do \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Kopírovanie {count} súborov do \"{destination}\" …"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

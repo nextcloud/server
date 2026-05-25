@@ -325,9 +325,9 @@ OC.L10N.register(
     "The files are locked" : "Failai yra užrakinti",
     "The file does not exist anymore" : "Failo daugiau nebėra",
     "Moving \"{source}\" to \"{destination}\" …" : "Perkeliama \"{source}\" į \"{destination}\"  ...",
-    "Moving {count} files to \"{destination}\" …" : "{count} failai perkeliami į \"{destination}\"  ...",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["%n failas perkeliamas į „{destination}“  …","%n failai perkeliami į „{destination}“  …","%n failų perkeliama į „{destination}“  …","%n failų perkeliama į „{destination}“ …"],
     "Copying \"{source}\" to \"{destination}\" …" : "Kopijuojama iš \"{source}\" į \"{destination}\"  ...",
-    "Copying {count} files to \"{destination}\" …" : "{count} failai kopijuojami į \"{destination}\"  ...",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["%n failas kopijuojamas į „{destination}“   …","%n failai kopijuojami į „{destination}“  …","%n failų kopijuojama į „{destination}“  …","%n failų kopijuojama į „{destination}“  …"],
     "Choose destination" : "Pasirinkite paskirties vietą",
     "Copy to {target}" : "Kopijuoti į {target}",
     "Move to {target}" : "Perkelti į {target}",
@@ -421,6 +421,8 @@ OC.L10N.register(
     "Tags" : "Žymos",
     "Save as …" : "Įrašyti kaip…",
     "Converting files …" : "Failų konvertavimas…",
-    "Converting file …" : "Failo konvertavimas…"
+    "Converting file …" : "Failo konvertavimas…",
+    "Moving {count} files to \"{destination}\" …" : "{count} failai perkeliami į \"{destination}\"  ...",
+    "Copying {count} files to \"{destination}\" …" : "{count} failai kopijuojami į \"{destination}\"  ..."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

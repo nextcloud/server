@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Níl tú logáilte isteach",
     "Permission denied" : "Cead diúltaithe",
-    "Forbidden to manage local mounts" : "Toirmiscthe gléasanna áitiúla a bhainistiú",
     "Storage with ID \"%d\" not found" : "Níor aimsíodh stóras le haitheantas  \"%d\" ",
+    "Forbidden to manage local mounts" : "Toirmiscthe gléasanna áitiúla a bhainistiú",
     "Invalid backend or authentication mechanism class" : "Inneall neamhbhailí nó rang meicníochta fíordheimhnithe",
     "Invalid mount point" : "Pointe gléasta neamhbhailí",
     "Objectstore forbidden" : "Objectstore toirmiscthe",

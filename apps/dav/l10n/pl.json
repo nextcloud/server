@@ -240,6 +240,7 @@
     "Failed to unlink: %1$s" : "Nie udało się odłączyć: %1$s",
     "Failed to write file contents: %1$s" : "Nie udało się zapisać zawartości pliku: %1$s",
     "File not found: %1$s" : "Nie znaleziono pliku: %1$s",
+    "Insufficient space" : "Za mało wolnego miejsca",
     "Invalid target path" : "Nieprawidłowa ścieżka docelowa",
     "System is in maintenance mode." : "Serwer jest w trybie konserwacji.",
     "Upgrade needed" : "Wymagana aktualizacja",

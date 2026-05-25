@@ -47,7 +47,7 @@ OC.L10N.register(
     "Invalid folder path" : "Kausta vigane asukoht",
     "Folder not found" : "Kausta ei leidu",
     "The file cannot be found" : "Faili ei õnnestu leida",
-    "The destination path does not exist: %1$s" : "Sihtasukoht pole olemas: %1$s",
+    "The destination path does not exist: %1$s" : "Sihtasukohta pole olemas: %1$s",
     "You do not have permission to create a file at the specified location" : "Sul puudvad õigused faili loomiseks antud asukohas",
     "The file could not be converted." : "Seda faili ei õnnestunud teisendada.",
     "Could not get relative path to converted file" : "Teisendatud faili suhtelist asukohta ei õnnestunud tuvastada",
@@ -325,9 +325,9 @@ OC.L10N.register(
     "The files are locked" : "Need failid on lukustatud",
     "The file does not exist anymore" : "Neid faile pole enam olemas",
     "Moving \"{source}\" to \"{destination}\" …" : "Teisaldan „{source}“ → „{destination}“…",
-    "Moving {count} files to \"{destination}\" …" : "Tõstan {count} faili „{destination}“ kausta…",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["Tõstan %n faili asukohta „{destination}“…","Tõstan %n faili asukohta „{destination}“…"],
     "Copying \"{source}\" to \"{destination}\" …" : "Kopeerin „{source}“ → „{destination}“…",
-    "Copying {count} files to \"{destination}\" …" : "Kopeerin {count} faili „{destination}“ kausta…",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["Kopeerin %n faili asukohta „{destination}“…","Kopeerin %n faili asukohta „{destination}“…"],
     "Choose destination" : "Vali sihtkaust",
     "Copy to {target}" : "Kopeeri kausta {target}",
     "Move to {target}" : "Teisalda kausta {target}",
@@ -421,6 +421,8 @@ OC.L10N.register(
     "Tags" : "Sildid",
     "Save as …" : "Salvesta kui…",
     "Converting files …" : "Teisendan faile…",
-    "Converting file …" : "Teisendan faili…"
+    "Converting file …" : "Teisendan faili…",
+    "Moving {count} files to \"{destination}\" …" : "Tõstan {count} faili „{destination}“ kausta…",
+    "Copying {count} files to \"{destination}\" …" : "Kopeerin {count} faili „{destination}“ kausta…"
 },
 "nplurals=2; plural=(n != 1);");

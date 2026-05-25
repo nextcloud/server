@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Ez duzu saioa hasi",
     "Permission denied" : "Baimena ukatuta",
-    "Forbidden to manage local mounts" : "Debekatuta dago tokiko muntaketak kudeatzea",
     "Storage with ID \"%d\" not found" : "Ez da aurkitu \"%d\" IDa duen biltegiratzea",
+    "Forbidden to manage local mounts" : "Debekatuta dago tokiko muntaketak kudeatzea",
     "Invalid backend or authentication mechanism class" : "Atzeko alde edo autentifikazio mekanismo klase baliogabea",
     "Invalid mount point" : "Muntatze-puntu baliogabea",
     "Objectstore forbidden" : "Objectstore debekatuta",

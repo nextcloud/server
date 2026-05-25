@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Nesate prisijungęs",
     "Permission denied" : "Leidimas atmestas",
-    "Forbidden to manage local mounts" : "Draudžiama valdyti vietinius prijungimus",
     "Storage with ID \"%d\" not found" : "Nerasta saugykla su identifikacijos numeriu \"%d\"",
+    "Forbidden to manage local mounts" : "Draudžiama valdyti vietinius prijungimus",
     "Invalid backend or authentication mechanism class" : "Netinkama programinio kodo klasė realizuoja prisijungimo mechanizmą",
     "Invalid mount point" : "Neteisingas prijungimo taškas",
     "Objectstore forbidden" : "Objektų saugykla yra neprieinama",

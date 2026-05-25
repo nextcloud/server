@@ -206,6 +206,8 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Kod wygaśnie za {timeCountdown} lub po użyciu",
     "_{count} notification_::_{count} notifications_" : ["{count} powiadomienie","{count} powiadomienia","{count} powiadomień","{count} powiadomień"],
     "More apps" : "Więcej aplikacji",
+    "App store" : "Sklep aplikacji",
+    "Open apps menu" : "Otwórz menu aplikacji",
     "Applications" : "Aplikacje",
     "Apps" : "Aplikacje",
     "No" : "Nie",

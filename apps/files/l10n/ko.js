@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "이 파일은 잠겼습니다",
     "The file does not exist anymore" : "파일이 더이상 존재하지 않습니다.",
     "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\"에서 \"{destination}\"(으)로 이동중 …",
-    "Moving {count} files to \"{destination}\" …" : "{count}개 파일을 \"{destination}\"(으)로 이동중 …",
     "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\"에서 \"{destination}\"(으)로 복사중 …",
-    "Copying {count} files to \"{destination}\" …" : "{count}개 파일을 \"{destination}\"(으)로 복사중 …",
     "Choose destination" : "목적지 선택",
     "Copy to {target}" : "{target}에 복사",
     "Move to {target}" : "{target}에 이동",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Tags" : "태그",
     "Save as …" : "... 으로 저장하기",
     "Converting files …" : "파일 변환하기 ...",
-    "Converting file …" : "파일 변환중…"
+    "Converting file …" : "파일 변환중…",
+    "Moving {count} files to \"{destination}\" …" : "{count}개 파일을 \"{destination}\"(으)로 이동중 …",
+    "Copying {count} files to \"{destination}\" …" : "{count}개 파일을 \"{destination}\"(으)로 복사중 …"
 },
 "nplurals=1; plural=0;");

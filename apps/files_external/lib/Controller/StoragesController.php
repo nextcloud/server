@@ -9,10 +9,12 @@ namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Backend\Local;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\StoragesService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -48,6 +50,7 @@ abstract class StoragesController extends Controller {
 		protected IUserSession $userSession,
 		protected IGroupManager $groupManager,
 		protected IConfig $config,
+		private BackendService $backendService,
 	) {
 		parent::__construct($AppName, $request);
 	}
@@ -77,7 +80,7 @@ abstract class StoragesController extends Controller {
 		$priority = null,
 	) {
 		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
-		if (!$canCreateNewLocalStorage && $backend === 'local') {
+		if (!$canCreateNewLocalStorage && $this->backendService->getBackend($backend) instanceof Local) {
 			return new DataResponse(
 				[
 					'message' => $this->l10n->t('Forbidden to manage local mounts')

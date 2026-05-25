@@ -1,8 +1,8 @@
 { "translations": {
     "You are not logged in" : "أنت لم تقم بتسجيل الدخول",
     "Permission denied" : "تمّ رفض منح الإذن",
-    "Forbidden to manage local mounts" : "ممنوع من إدارة المُمتطيات المحلّيّة local mounts",
     "Storage with ID \"%d\" not found" : "تعذّر العثور على وحدة التخزين ذات المُعرِّف \"%d\" ",
+    "Forbidden to manage local mounts" : "ممنوع من إدارة المُمتطيات المحلّيّة local mounts",
     "Invalid backend or authentication mechanism class" : "فئة آلية المصادقة authentication mechanism class أو الخلفية backend غير صالحة",
     "Invalid mount point" : "نقطة التثبيت Mount point غير صالحة",
     "Objectstore forbidden" : "مخزن الكائنات Objectstore ممنوع",

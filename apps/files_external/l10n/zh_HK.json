@@ -1,8 +1,8 @@
 { "translations": {
     "You are not logged in" : "您尚未登入",
     "Permission denied" : "權限被拒",
-    "Forbidden to manage local mounts" : "禁止管理近端掛載",
     "Storage with ID \"%d\" not found" : "沒有找到用戶 \"%d\" 的儲存空間 ",
+    "Forbidden to manage local mounts" : "禁止管理近端掛載",
     "Invalid backend or authentication mechanism class" : "無效的後端處理或是驗證方式",
     "Invalid mount point" : "無效的掛載點",
     "Objectstore forbidden" : "禁止 Objectstore",

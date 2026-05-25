@@ -1,8 +1,8 @@
 { "translations": {
     "You are not logged in" : "Δεν έχετε συνδεθεί",
     "Permission denied" : "Άρνηση πρόσβασης",
-    "Forbidden to manage local mounts" : "Απαγορεύεται η διαχείριση τοπικών προσαρτήσεων",
     "Storage with ID \"%d\" not found" : "Αποθηκευτικός χώρος με ID \"%d\" δεν βρέθηκε ",
+    "Forbidden to manage local mounts" : "Απαγορεύεται η διαχείριση τοπικών προσαρτήσεων",
     "Invalid backend or authentication mechanism class" : "Μη έγκυρη κλάση συστήματος ή μηχανισμού πιστοποίησης",
     "Invalid mount point" : "Μη έγκυρο σημείο προσάρτησης",
     "Objectstore forbidden" : "Απαγορευμένο objectstore",
