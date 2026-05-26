@@ -12,6 +12,13 @@ git submodule update --init
 # Codespace config
 cp .devcontainer/codespace.config.php config/codespace.config.php
 
+# Authorization header fix for Apache → PHP
+sudo tee /etc/apache2/conf-available/nextcloud-auth-fix.conf > /dev/null <<'EOF'
+SetEnvIfNoCase Authorization "(.+)" HTTP_AUTHORIZATION=$1
+EOF
+
+sudo a2enconf nextcloud-auth-fix
+
 # VSCode debugger profile
 mkdir -p .vscode && cp .devcontainer/launch.json .vscode/launch.json
 

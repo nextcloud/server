@@ -82,6 +82,15 @@ class PasswordConfirmationMiddleware extends Middleware {
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
 			$authHeader = $this->request->getHeader('Authorization');
 			if (!str_starts_with(strtolower($authHeader), 'basic ')) {
+				$this->logger->warning('Password confirmation failed: missing Authorization header', [
+					'authHeader' => $authHeader,
+					'httpAuthorization' => $this->request->server['HTTP_AUTHORIZATION'] ?? null,
+					'redirectHttpAuthorization' => $this->request->server['REDIRECT_HTTP_AUTHORIZATION'] ?? null,
+					'httpXAuthorization' => $this->request->server['HTTP_XAUTHORIZATION'] ?? null,
+					'httpXAuthorizationUnderscore' => $this->request->server['HTTP_X_AUTHORIZATION'] ?? null,
+					'uri' => $this->request->server['REQUEST_URI'] ?? null,
+					'loginName' => $this->session->get('loginname'),
+				]);
 				throw new NotConfirmedException('Required authorization header missing');
 			}
 			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
