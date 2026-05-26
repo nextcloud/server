@@ -36,7 +36,7 @@ use function array_filter;
 
 class Manager {
 	/**
-	 * Session keys and provider identifiers used during the 2FA login flow.
+	 * Session keys used during the 2FA login flow.
 	 *
 	 * The string values are persisted in session/config state and should therefore
 	 * remain stable.
@@ -44,8 +44,11 @@ class Manager {
 	public const SESSION_UID_KEY = 'two_factor_auth_uid';
 	public const SESSION_UID_DONE = 'two_factor_auth_passed';
 	public const REMEMBER_LOGIN = 'two_factor_remember_login';
+
+	/** Provider ID used for backup codes. */
 	public const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 
+	/** User config key for login tokens pending 2FA completion. */
 	private const LOGIN_TOKEN_2FA_CONFIG_KEY = 'login_token_2fa';
 
 	/** @psalm-var array<string, bool> */
@@ -349,7 +352,7 @@ class Manager {
 			return false;
 		}
 
-		if ($this->isSecondFactorSatisfiedByToken($user)) {
+		if ($this->isSecondFactorSatisfiedByTokenState($user)) {
 			$this->session->set(self::SESSION_UID_DONE, $uid);
 			return false;
 		}
@@ -407,7 +410,7 @@ class Manager {
 	/**
 	 * Whether the current login token no longer belongs to a login pending 2FA.
 	 */
-	private function isSecondFactorSatisfiedByToken(IUser $user): bool {
+	private function isSecondFactorSatisfiedByTokenState(IUser $user): bool {
 		$uid = $user->getUID();
 
 		try {
@@ -450,9 +453,7 @@ class Manager {
 	 * invalidate the corresponding login tokens. Missing tokens are ignored because
 	 * the persisted marker may outlive the token itself.
 	 */
-	public function clearTwoFactorPending(string $userId): void {
-		$uid = $userId;
-
+	public function clearTwoFactorPending(string $uid): void {
 		$pendingTokenIds = $this->config->getUserKeys($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY);
 
 		foreach ($pendingTokenIds as $pendingTokenId) {
