@@ -370,25 +370,6 @@ class Manager {
 	}
 
 	/**
-	 * Clear stale pending 2FA state for the user.
-	 *
-	 * Intentionally limited to the "pending challenge" markers so a future, more explicit
-	 * auth state model can evolve independently.
-	 *
-	 * @todo: merge/integrate/refactor alongside clearTwoFactorPending()
-	 */
-	private function clearStaleSecondFactorChallenge(IUser $user): void {
-		$uid = $user->getUID();
-
-		$this->session->remove(self::SESSION_UID_KEY);
-
-		$keys = $this->config->getUserKeys($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY);
-		foreach ($keys as $key) {
-			$this->config->deleteUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, $key);
-		}
-	}
-
-	/**
 	 * Whether the session currently indicates an in-progress 2FA challenge.
 	 */
 	private function hasPendingSecondFactorChallenge(): bool {
@@ -425,6 +406,63 @@ class Manager {
 	}
 
 	/**
+	 * Clear stale pending 2FA state during an active login session.
+	 *
+	 * Removes the session pending-challenge marker and deletes persisted token
+	 * markers.
+	 * 
+	 * Unlike clearTwoFactorPending(), this does not invalidate the login tokens
+	 * themselves.
+	 *
+	 * @see clearTwoFactorPending() for broader pending-2FA cleanup.
+	 */
+	private function clearStaleSecondFactorChallenge(IUser $user): void {
+		$uid = $user->getUID();
+
+		$this->session->remove(self::SESSION_UID_KEY);
+		$this->clearPersistedPendingTwoFactorTokens($uid);
+	}
+
+	/**
+	 * Delete persisted pending-2FA token markers for the user.
+	 *
+	 * Removes the config entries that mark login tokens as requiring a completed
+	 * 2FA challenge. Does not invalidate the tokens themselves or touch session state.
+	 *
+	 * @return string[] token IDs that were marked as pending 2FA
+	 */
+	private function clearPersistedPendingTwoFactorTokens(string $uid): array {
+		$pendingTokenIds = $this->config->getUserKeys($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY);
+
+		foreach ($pendingTokenIds as $pendingTokenId) {
+			$this->config->deleteUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, $pendingTokenId);
+		}
+
+		return $pendingTokenIds;
+	}
+	
+	/**
+	 * Remove all persisted pending 2FA login state for the user.
+	 *
+	 * Unlike clearStaleSecondFactorChallenge(), this also invalidates the affected
+	 * login tokens and does not touch session state. Missing tokens are ignored
+	 * because a persisted marker may outlive the token itself.
+	 *
+	 * @see clearStaleSecondFactorChallenge() for active-session cleanup.
+	 */
+	public function clearTwoFactorPending(string $uid): void {
+		$pendingTokenIds = $this->clearPersistedPendingTwoFactorTokens($uid);
+
+		foreach ($pendingTokenIds as $pendingTokenId) {
+			try {
+				$this->tokenProvider->invalidateTokenById($uid, (int)$pendingTokenId);
+			} catch (DoesNotExistException $e) {
+				// Ignore stale persisted entries for tokens that were already removed.
+			}
+		}
+	}
+
+	/**
 	 * Mark the current login attempt as pending 2FA verification.
 	 *
 	 * Stores pending 2FA state in the session, preserves the remember-me choice
@@ -444,26 +482,5 @@ class Manager {
 		$timestamp = (string)$this->timeFactory->getTime();
 
 		$this->config->setUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, $tokenId, $timestamp);
-	}
-
-	/**
-	 * Remove all persisted pending 2FA login state for the user.
-	 *
-	 * This deletes stored token markers under `login_token_2fa` and attempts to
-	 * invalidate the corresponding login tokens. Missing tokens are ignored because
-	 * the persisted marker may outlive the token itself.
-	 */
-	public function clearTwoFactorPending(string $uid): void {
-		$pendingTokenIds = $this->config->getUserKeys($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY);
-
-		foreach ($pendingTokenIds as $pendingTokenId) {
-			$this->config->deleteUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, $pendingTokenId);
-
-			try {
-				$this->tokenProvider->invalidateTokenById($uid, (int)$pendingTokenId);
-			} catch (DoesNotExistException $e) {
-				// Ignore stale persisted entries for tokens that were already removed.
-			}
-		}
 	}
 }
