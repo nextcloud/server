@@ -127,6 +127,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
+		parent::tearDown();
 	}
 
 	/**

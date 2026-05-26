@@ -31,6 +31,7 @@ class LoaderTest extends TestCase {
 				'mimetype', $deleteMimetypes->createPositionalParameter('testing/%')
 			));
 		$deleteMimetypes->executeStatement();
+		parent::tearDown();
 	}
 
 
