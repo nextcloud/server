@@ -428,29 +428,7 @@ class OC {
 		// Let the session name be changed in the initSession Hook
 		$sessionName = OC_Util::getInstanceId();
 
-		try {
-			$logger = null;
-			if (Server::get(\OC\SystemConfig::class)->getValue('installed', false)) {
-				$logger = logger('core');
-			}
-
-			// set the session name to the instance id - which is unique
-			$session = new \OC\Session\Internal(
-				$sessionName,
-				$logger,
-			);
-
-			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);
-			$session = $cryptoWrapper->wrapSession($session);
-			self::$server->setSession($session);
-
-			// if session can't be started break with http 500 error
-		} catch (Exception $e) {
-			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base','exception' => $e]);
-			//show the user a detailed error page
-			Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
-			die();
-		}
+		$session = self::createSession($sessionName);
 
 		//try to set the session lifetime
 		$sessionLifeTime = self::getSessionLifeTime();
@@ -492,6 +470,30 @@ class OC {
 		// Monitoring endpoints can quickly flood session handlers and 'status.php' doesn't require sessions anyway.
 		// Session cookie settings still need to be applied beforehand so that same-site cookies use the correct configuration.
 		return str_ends_with($request->getScriptName(), self::STATUS_ENDPOINT_SUFFIX);
+	}
+
+	private static function createSession(string $sessionName): ISession {
+		try {
+			$logger = null;
+			if (Server::get(\OC\SystemConfig::class)->getValue('installed', false)) {
+				$logger = logger('core');
+			}
+
+			// set the session name to the instance id - which is unique
+			$session = new \OC\Session\Internal(
+				$sessionName,
+				$logger,
+			);
+
+			$session = Server::get(\OC\Session\CryptoWrapper::class)->wrapSession($session);
+			self::$server->setSession($session);
+
+			return $session;
+		} catch (Exception $e) {
+			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base', 'exception' => $e]);
+			Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
+			die();
+		}
 	}
 
 	private static function getSessionLifeTime(): int {
