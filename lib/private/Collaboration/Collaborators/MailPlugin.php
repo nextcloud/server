@@ -154,7 +154,7 @@ class MailPlugin implements ISearchPlugin {
 
 								]];
 								$searchResult->addResultSet($userType, [], $singleResult);
-								$searchResult->markExactIdMatch($emailType);
+								$searchResult->markExactIdMatch($userType);
 							}
 							return false;
 						}
