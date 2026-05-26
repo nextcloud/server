@@ -428,10 +428,13 @@ class OC {
 		$sessionName = OC_Util::getInstanceId();
 		$session = self::createSession($sessionName);
 
-		self::enforceSessionTimeout($session);
+		$now = time();
+
+		self::enforceSessionTimeout($session, $now);
+		// FIXME: avoid further session mutation if enforceSessionTimeout does a logout() by returning here?
 
 		if (!self::hasSessionRelaxedExpiry()) {
-			$session->set(self::LAST_ACTIVITY_SESSION_KEY, time());
+			$session->set(self::LAST_ACTIVITY_SESSION_KEY, $now);
 		}
 
 		$session->close();
@@ -457,8 +460,10 @@ class OC {
 	}
 
 	private static function shouldSkipSessionInitialization(IRequest $request): bool {
-		// Monitoring endpoints can quickly flood session handlers and 'status.php' doesn't require sessions anyway.
-		// Session cookie settings still need to be applied beforehand so that same-site cookies use the correct configuration.
+		// Cookie parameters must be already configured so follow-up cookie handling
+		// in this request uses the correct path/domain/secure settings.
+
+		// Monitoring endpoint doesn't require sessions and can flood session handlers.
 		return str_ends_with($request->getScriptName(), self::STATUS_ENDPOINT_SUFFIX);
 	}
 
@@ -482,13 +487,15 @@ class OC {
 
 			return $session;
 		} catch (Exception $e) {
+			// TODO: Consider isolating so that termination behavior is more explicit.
 			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base', 'exception' => $e]);
 			Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
 			die();
 		}
 	}
 
-	private static function enforceSessionTimeout(ISession $session): void {
+	private static function enforceSessionTimeout(ISession $session, int $now): void {
+		// TODO: Further normalize and validate LAST_ACTIVITY before using
 		$lastActivity = $session->exists(self::LAST_ACTIVITY_SESSION_KEY)
 			? (int)$session->get(self::LAST_ACTIVITY_SESSION_KEY)
 			: null;
@@ -497,7 +504,6 @@ class OC {
 			return;
 		}
 
-		$now = time();
 		$sessionLifeTime = self::getSessionLifeTime();
 
 		if (($now - $lastActivity) <= $sessionLifeTime) {
@@ -506,11 +512,13 @@ class OC {
 
 		$sessionName = session_name();
 		if (isset($_COOKIE[$sessionName])) {
-			// TODO: if cookie_domain is set, should probably be included here too
+			// FIXME: if original cookie was set with a configured domain, deleting it should probably include the domain too
 			setcookie($sessionName, '', -1, self::$WEBROOT ?: '/');
 		}
 
 		Server::get(IUserSession::class)->logout();
+		// TODO: audit whether timeout logout should also clear session state explicitly /
+		// whether any other session baggage is left around unnecessarily.
 	}
 
 	private static function getSessionLifeTime(): int {
