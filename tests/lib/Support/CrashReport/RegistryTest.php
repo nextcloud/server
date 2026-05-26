@@ -27,14 +27,11 @@ class RegistryTest extends TestCase {
 		$this->registry = new Registry();
 	}
 
-	/**
-	 * Doesn't assert anything, just checks whether anything "explodes"
-	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testDelegateToNone(): void {
 		$exception = new Exception('test');
 
 		$this->registry->delegateReport($exception);
-		$this->addToAssertionCount(1);
 	}
 
 	public function testRegisterLazy(): void {
@@ -49,9 +46,7 @@ class RegistryTest extends TestCase {
 		$this->registry->delegateReport($exception);
 	}
 
-	/**
-	 * Doesn't assert anything, just checks whether anything "explodes"
-	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testRegisterLazyCantLoad(): void {
 		$reporterClass = '\OCA\MyApp\Reporter';
 		/* We do not register reporterClass in DI, so it will throw a QueryException queried */
@@ -59,7 +54,6 @@ class RegistryTest extends TestCase {
 
 		$this->registry->registerLazy($reporterClass);
 		$this->registry->delegateReport($exception);
-		$this->addToAssertionCount(1);
 	}
 
 	public function testDelegateBreadcrumbCollection(): void {

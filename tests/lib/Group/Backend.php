@@ -133,12 +133,11 @@ abstract class Backend extends \Test\TestCase {
 		$this->assertSame(2, $result);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testAddDouble(): void {
 		$group = $this->getGroupName();
 
 		$this->backend->createGroup($group);
 		$this->backend->createGroup($group);
-
-		$this->addToAssertionCount(1);
 	}
 }

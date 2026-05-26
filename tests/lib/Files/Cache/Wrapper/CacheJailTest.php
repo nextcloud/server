@@ -140,9 +140,9 @@ class CacheJailTest extends CacheTest {
 	}
 
 	#[\Override]
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testGetIncomplete(): void {
 		//not supported
-		$this->addToAssertionCount(1);
 	}
 
 	public function testMoveFromJail(): void {

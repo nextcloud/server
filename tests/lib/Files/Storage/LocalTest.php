@@ -90,6 +90,7 @@ class LocalTest extends Storage {
 		$storage->file_put_contents('sym/foo', 'bar');
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testDisallowSymlinksInsideDatadir(): void {
 		$subDir1 = $this->tmpDir . 'sub1';
 		$subDir2 = $this->tmpDir . 'sub1/sub2';
@@ -102,7 +103,6 @@ class LocalTest extends Storage {
 		$storage = new Local(['datadir' => $subDir1]);
 
 		$storage->file_put_contents('sym/foo', 'bar');
-		$this->addToAssertionCount(1);
 	}
 
 	public function testWriteUmaskFilePutContents(): void {

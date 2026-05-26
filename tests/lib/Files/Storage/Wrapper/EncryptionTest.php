@@ -757,8 +757,6 @@ class EncryptionTest extends Storage {
 			->with($sourceInternalPath, $expectedCachePut);
 
 		$this->invokePrivate($this->instance, 'copyBetweenStorage', [$storage2, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename]);
-
-		$this->assertFalse(false);
 	}
 
 	/**
@@ -817,8 +815,6 @@ class EncryptionTest extends Storage {
 			->with($sourceInternalPath, $expectedCachePut);
 
 		$this->invokePrivate($this->instance, 'copyBetweenStorage', [$storage2, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename]);
-
-		$this->assertFalse(false);
 	}
 
 	/**
