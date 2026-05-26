@@ -407,16 +407,15 @@ class OC {
 	 */
 	public static function initSession(): void {
 		$request = Server::get(IRequest::class);
+		$now = time();
 
-		// TODO: Temporary disabled again to solve issues with CalDAV/CardDAV clients like DAVx5 that use cookies
-		// TODO: See https://github.com/nextcloud/server/issues/37277#issuecomment-1476366147 and the other comments
-		// TODO: for further information.
-		// $isDavRequest = strpos($request->getRequestUri(), '/remote.php/dav') === 0 || strpos($request->getRequestUri(), '/remote.php/webdav') === 0;
-		// if ($request->getHeader('Authorization') !== '' && is_null($request->getCookie('cookie_test')) && $isDavRequest && !isset($_COOKIE['nc_session_id'])) {
-		// setcookie('cookie_test', 'test', time() + 3600);
-		// // Do not initialize the session if a request is authenticated directly
-		// // unless there is a session cookie already sent along
-		// return;
+		// Do not initialize the session if a DAV request is authenticated directly,
+		// unless there is already a Nextcloud session cookie present.
+		//
+		// Disabled due to compatibility issues; see nextcloud/server#37277 before re-enabling.
+		// if (self::shouldBypassSessionInitializationForDirectDavAuth($request)) {
+		//	self::markDavCookieProbe($now);
+		//	return;
 		// }
 
 		self::configureSessionCookieSettings($request);
@@ -428,8 +427,6 @@ class OC {
 		$sessionName = OC_Util::getInstanceId();
 		$session = self::createSession($sessionName);
 
-		$now = time();
-
 		self::enforceSessionTimeout($session, $now);
 		// FIXME: avoid further session mutation if enforceSessionTimeout does a logout() by returning here?
 
@@ -438,6 +435,21 @@ class OC {
 		}
 
 		$session->close();
+	}
+
+	private static function shouldBypassSessionInitializationForDirectDavAuth(IRequest $request): bool {
+		$requestUri = $request->getRequestUri();
+		$isDavRequest = str_starts_with($requestUri, '/remote.php/dav')
+			|| str_starts_with($requestUri, '/remote.php/webdav');
+
+		return $request->getHeader('Authorization') !== ''
+			&& $request->getCookie('cookie_test') === null
+			&& $isDavRequest
+			&& !isset($_COOKIE['nc_session_id']);
+	}
+
+	private static function markDavCookieProbe(int $now): void {
+		setcookie('cookie_test', 'test', $now + 3600);
 	}
 
 	private static function configureSessionCookieSettings(IRequest $request): void {
@@ -469,7 +481,7 @@ class OC {
 
 	private static function createSession(string $sessionName): ISession {
 		try {
-			$installed = Server::get(\OC\SystemConfig::class)->getValue('installed', false)
+			$installed = Server::get(\OC\SystemConfig::class)->getValue('installed', false);
 			$logger = null;
 
 			if ($installed) {
