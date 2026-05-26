@@ -29,6 +29,7 @@ class AdapterTest extends TestCase {
 			->from('appconfig')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
 			->executeStatement();
+		parent::tearDown();
 	}
 
 	public function testInsertIgnoreOnConflictDuplicate(): void {
