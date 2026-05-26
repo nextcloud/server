@@ -409,12 +409,11 @@ class OC {
 		$request = Server::get(IRequest::class);
 		$now = time();
 
-		// Do not initialize the session if a DAV request is authenticated directly,
-		// unless there is already a Nextcloud session cookie present.
+		// Directly authenticated DAV request do not need an initialized session, unless there
+		// is already a Nextcloud session cookie present.
 		//
-		// DAV-specific session bypass is currently disabled due to compatibility issues
-		// with clients that use cookies (for example DAVx5). See nextcloud/server#37277
-		// before re-enabling this path.
+		// NOTE: This is currently disabled due to compatibility issues with clients that use
+		// cookies (e.g. DAVx5). See nextcloud/server#37277 before re-enabling.
 		//
 		// if (self::shouldBypassSessionInitializationForDirectDavAuth($request)) {
 		//	self::markDavCookieProbe($now);
@@ -429,8 +428,9 @@ class OC {
 
 		$session = self::createWrappedSession(OC_Util::getInstanceId());
 
-		self::enforceSessionTimeout($session, $now);
-		// FIXME: avoid further session mutation if enforceSessionTimeout does a logout() by returning here?
+		if (self::enforceSessionTimeout($session, $now)) {
+			return;
+		}
 
 		if (!self::hasSessionRelaxedExpiry()) {
 			$session->set(self::LAST_ACTIVITY_SESSION_KEY, $now);
@@ -508,31 +508,32 @@ class OC {
 		}
 	}
 
-	private static function enforceSessionTimeout(ISession $session, int $now): void {
+	private static function invalidateExpiredSession(ISession $session, int $now): bool {
 		// TODO: Further normalize and validate LAST_ACTIVITY before using
 		$lastActivity = $session->exists(self::LAST_ACTIVITY_SESSION_KEY)
 			? (int)$session->get(self::LAST_ACTIVITY_SESSION_KEY)
 			: null;
 
 		if ($lastActivity === null) {
-			return;
+			return false;
 		}
 
 		$sessionLifeTime = self::getSessionLifeTime();
 
 		if (($now - $lastActivity) <= $sessionLifeTime) {
-			return;
+			return false;
 		}
 
 		$sessionName = session_name();
 		if (isset($_COOKIE[$sessionName])) {
-			// FIXME: if original cookie was set with a configured domain, deleting it should probably include the domain too
+			// FIXME: if original session cookie was set with a configured domain, deleting it should probably include the domain too
 			setcookie($sessionName, '', -1, self::$WEBROOT ?: '/');
 		}
 
 		Server::get(IUserSession::class)->logout();
-		// TODO: audit whether timeout logout should also clear session state explicitly /
-		// whether any other session baggage is left around unnecessarily.
+		$session->close();
+
+		return true;
 	}
 
 	private static function getSessionLifeTime(): int {
