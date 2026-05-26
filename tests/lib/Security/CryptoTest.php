@@ -102,6 +102,27 @@ class CryptoTest extends \Test\TestCase {
 		);
 	}
 
+	public function testDecryptWithWrongSecretThrowsHmacExceptionNotValueError(): void {
+		// Encrypt with 'secret-A'
+		$configA = $this->createMock(IConfig::class);
+		$configA->method('getSystemValue')->with('secret')->willReturn('secret-A');
+		$configA->method('getSystemValueString')->with('secret')->willReturn('secret-A');
+		$cryptoA = new Crypto($configA);
+		$ciphertext = $cryptoA->encrypt('plaintext');
+
+		// Decrypt with 'secret-B': first attempt fails (HMAC mismatch), fallback to empty
+		// string must not propagate a ValueError for v3 ciphertexts — it must rethrow the
+		// original HMAC exception instead.
+		$configB = $this->createMock(IConfig::class);
+		$configB->method('getSystemValue')->with('secret')->willReturn('secret-B');
+		$configB->method('getSystemValueString')->with('secret')->willReturn('secret-B');
+		$cryptoB = new Crypto($configB);
+
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('HMAC does not match.');
+		$cryptoB->decrypt($ciphertext);
+	}
+
 	public function testVersion3CiphertextDecryptsToCorrectPlaintext(): void {
 		$this->assertSame(
 			'Another plaintext value that will be encrypted with version 3. It addresses the related key issue. Old ciphertexts should be decrypted properly, but only use the better version for encryption.',
