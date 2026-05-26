@@ -69,6 +69,7 @@ OC.L10N.register(
     "Details" : "Išsamiau",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Ši programėlė negali būti įdiegta, nes nėra patenkintos žemiau išvardintos priklausomybės:",
     "Missing dependencies" : "Trūksta priklausinių",
+    "This app cannot be limited to groups because it provides functionality that is executed before group membership is determined." : "Šios programėlės negalima apriboti grupėmis, nes ji teikia funkcijas, kurios vykdomos prieš nustatant grupės narystę.",
     "Limited to groups" : "Apribota grupėmis",
     "Latest updated" : "Paskutinį kartą atnaujinta",
     "Author" : "Autorius",
