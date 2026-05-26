@@ -87,11 +87,6 @@
 			:token="token"
 			:open.sync="deleteDialogOpen"
 			@confirm="confirmDelete" />
-		<AuthTokenWipeDialog
-			v-if="wipeDialogOpen"
-			:token="token"
-			:open.sync="wipeDialogOpen"
-			@confirm="confirmWipe" />
 	</tr>
 </template>
 
@@ -100,6 +95,7 @@ import type { PropType } from 'vue'
 import type { IToken } from '../store/authtoken.ts'
 
 import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiTablet, mdiWeb } from '@mdi/js'
+import { showConfirmation } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -110,7 +106,6 @@ import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
-import AuthTokenWipeDialog from './AuthTokenWipeDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 import { detect } from '../utils/userAgentDetect.ts'
 
@@ -137,7 +132,6 @@ export default defineComponent({
 	name: 'AuthToken',
 	components: {
 		AuthTokenDeleteDialog,
-		AuthTokenWipeDialog,
 		NcActions,
 		NcActionButton,
 		NcActionCheckbox,
@@ -166,7 +160,6 @@ export default defineComponent({
 			newName: '',
 			oldName: '',
 			deleteDialogOpen: false,
-			wipeDialogOpen: false,
 			mdiCheck,
 			TokenType,
 		}
@@ -306,13 +299,18 @@ export default defineComponent({
 			this.authTokenStore.renameToken(this.token, this.newName)
 		},
 
-		wipe() {
+		async wipe() {
 			this.actionOpen = false
-			this.wipeDialogOpen = true
-		},
-
-		confirmWipe() {
-			this.authTokenStore.wipeToken(this.token)
+			const confirmed = await showConfirmation({
+				name: t('settings', 'Confirm wipe'),
+				text: t('settings', 'Do you really want to wipe your data from this device?'),
+				labelConfirm: t('settings', 'Wipe device'),
+				labelReject: t('settings', 'Cancel'),
+				severity: 'warning',
+			})
+			if (confirmed) {
+				this.authTokenStore.wipeToken(this.token)
+			}
 		},
 	},
 })
