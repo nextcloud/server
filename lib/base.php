@@ -464,8 +464,10 @@ class OC {
 
 	private static function createSession(string $sessionName): ISession {
 		try {
+			$installed = Server::get(\OC\SystemConfig::class)->getValue('installed', false)
 			$logger = null;
-			if (Server::get(\OC\SystemConfig::class)->getValue('installed', false)) {
+
+			if ($installed) {
 				$logger = logger('core');
 			}
 
@@ -504,6 +506,7 @@ class OC {
 
 		$sessionName = session_name();
 		if (isset($_COOKIE[$sessionName])) {
+			// TODO: if cookie_domain is set, should probably be included here too
 			setcookie($sessionName, '', -1, self::$WEBROOT ?: '/');
 		}
 
