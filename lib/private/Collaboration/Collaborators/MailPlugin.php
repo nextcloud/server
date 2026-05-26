@@ -154,7 +154,7 @@ class MailPlugin implements ISearchPlugin {
 									'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
 								]];
 								$searchResult->addResultSet($userType, [], $singleResult);
-								$searchResult->markExactIdMatch($emailType);
+								$searchResult->markExactIdMatch($userType);
 							}
 							return false;
 						}

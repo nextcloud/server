@@ -575,7 +575,7 @@ class MailPluginTest extends TestCase {
 		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
 
-		$this->assertSame($expectedExactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
+		$this->assertSame($expectedExactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('users')));
 		$this->assertEquals($expectedResult, $result);
 		$this->assertSame($expectedMoreResults, $moreResults);
 	}
