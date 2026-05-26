@@ -35,21 +35,16 @@ use function array_diff;
 use function array_filter;
 
 class Manager {
-	/**
-	 * Session keys used during the 2FA login flow.
-	 *
-	 * The string values are persisted in session/config state and should therefore
-	 * remain stable.
-	 */
+	/** Session keys used during the 2FA login flow; string values are persisted in session state. */
 	public const SESSION_UID_KEY = 'two_factor_auth_uid';
 	public const SESSION_UID_DONE = 'two_factor_auth_passed';
 	public const REMEMBER_LOGIN = 'two_factor_remember_login';
 
-	/** Provider ID used for backup codes. */
-	public const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
-
 	/** User config key for login tokens pending 2FA completion. */
 	private const LOGIN_TOKEN_2FA_CONFIG_KEY = 'login_token_2fa';
+
+	/** Special provider ID used for backup codes provider. */
+	public const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 
 	/** @psalm-var array<string, bool> */
 	private $userHasUsableSecondFactor = [];
@@ -86,7 +81,7 @@ class Manager {
 		}
 
 		if ($this->mandatoryTwoFactor->isEnforcedFor($user)) {
-			// TODO: cache too?
+			$this->userHasUsableSecondFactor[$uid] = true;
 			return true;
 		}
 
@@ -104,9 +99,6 @@ class Manager {
 
 	/**
 	 * Return the enabled 2FA provider with the given ID for the user.
-	 *
-	 * Returns null if the provider is not available in the user's enabled provider
-	 * set.
 	 *
 	 * @throws Exception
 	 */
@@ -131,24 +123,17 @@ class Manager {
 	}
 
 	/**
-	 * Ensure that every loaded provider has a persisted enabled/disabled state.
+	 * Ensure every loaded provider has a persisted enabled/disabled state.
 	 *
-	 * For providers missing from the registry state map, this queries the provider
-	 * directly and writes the derived state back to the registry.
+	 * Missing state entries are derived from the provider and written back to the registry.
 	 *
-	 * @todo Remove this compatibility path once provider state entries are guaranteed
-	 *       to exist for every loaded provider for all supported upgrade paths.
+	 * @param array<string, bool> $providerStates
+	 * @param IProvider[] $providers
+	 * @return array<string, bool>
 	 *
-	 * @param array<string, bool> $providerStates Persisted provider state map,
-	 *                                            indexed by provider ID
-	 * @param IProvider[] $providers Loaded providers for the user
-	 * @return array<string, bool> Complete provider state map indexed by provider ID
+	 * @todo Remove once provider states are guaranteed for all loaded providers.
 	 */
-	private function fixMissingProviderStates(
-		array $providerStates,
-		array $providers,
-		IUser $user,
-	): array {
+	private function fixMissingProviderStates(array $providerStates, array $providers, IUser $user): array {
 		foreach ($providers as $provider) {
 			$providerId = $provider->getId();
 
@@ -173,10 +158,8 @@ class Manager {
 	/**
 	 * Check whether any enabled provider state refers to a provider that failed to load.
 	 *
-	 * Disabled provider states are ignored. Missing enabled providers are logged.
-	 *
-	 * @param array<string, bool> $states Provider state map indexed by provider ID
-	 * @param IProvider[] $providers Loaded providers for the user
+	 * @param array<string, bool> $states
+	 * @param IProvider[] $providers
 	 */
 	private function isProviderMissing(array $states, array $providers): bool {
 		$providersById = [];
@@ -205,11 +188,7 @@ class Manager {
 	}
 
 	/**
-	 * Build the user's enabled 2FA provider set.
-	 *
-	 * Missing persisted provider states are repaired before filtering providers.
-	 * The returned ProviderSet also indicates whether an enabled provider failed
-	 * to load.
+	 * Build the user's enabled 2FA provider set, repairing missing persisted state first.
 	 *
 	 * @throws Exception
 	 */
@@ -231,12 +210,10 @@ class Manager {
 	/**
 	 * Verify a 2FA challenge against the given provider for the user.
 	 *
-	 * On success, this finalizes the pending 2FA login state, clears the stored
-	 * pending-login token marker, optionally creates a remember-me token, and
-	 * dispatches success events. On failure, failure events are dispatched.
+	 * On success, this finalizes pending 2FA state and dispatches success events.
+	 * On failure, failure events are dispatched.
 	 *
-	 * Returns false if the provider is not available for the user or if the
-	 * challenge verification fails.
+	 * Returns false if the provider is unavailable or the challenge does not verify.
 	 *
 	 * @throws Exception
 	 */
@@ -296,8 +273,6 @@ class Manager {
 
 	/**
 	 * Publish a 2FA security activity event for the user.
-	 *
-	 * Failures to publish the activity are logged and otherwise ignored.
 	 *
 	 * @param array<string, mixed> $params
 	 */
@@ -365,7 +340,9 @@ class Manager {
 			return false;
 		}
 
-		// TODO: consider clearing state here too for added robustness
+		// No pending or satisfied state was found, but the user still has a usable
+		// second factor configured. The current login session therefore still requires
+		// completion of a 2FA challenge.
 		return true;
 	}
 
@@ -374,7 +351,7 @@ class Manager {
 	 */
 	private function hasPendingSecondFactorChallenge(): bool {
 		// TODO: replace marker-based interpretation with an explicit auth state model.
-		// Currently, SESSION_UID_KEY is the authoritative signal for an in-progress 2FA flow.
+		// For now, SESSION_UID_KEY is the authoritative pending-challenge marker.
 		return $this->session->exists(self::SESSION_UID_KEY);
 	}
 
@@ -408,11 +385,8 @@ class Manager {
 	/**
 	 * Clear stale pending 2FA state during an active login session.
 	 *
-	 * Removes the session pending-challenge marker and deletes persisted token
-	 * markers.
-	 * 
-	 * Unlike clearTwoFactorPending(), this does not invalidate the login tokens
-	 * themselves.
+	 * Removes the pending session marker and persisted token markers, but does not
+	 * invalidate the login tokens themselves.
 	 *
 	 * @see clearTwoFactorPending() for broader pending-2FA cleanup.
 	 */
@@ -426,8 +400,7 @@ class Manager {
 	/**
 	 * Delete persisted pending-2FA token markers for the user.
 	 *
-	 * Removes the config entries that mark login tokens as requiring a completed
-	 * 2FA challenge. Does not invalidate the tokens themselves or touch session state.
+	 * Does not invalidate the tokens themselves or touch session state.
 	 *
 	 * @return string[] token IDs that were marked as pending 2FA
 	 */
@@ -442,11 +415,12 @@ class Manager {
 	}
 	
 	/**
-	 * Remove all persisted pending 2FA login state for the user.
+	 * Remove all persisted pending-2FA login state for the user.
 	 *
 	 * Unlike clearStaleSecondFactorChallenge(), this also invalidates the affected
-	 * login tokens and does not touch session state. Missing tokens are ignored
-	 * because a persisted marker may outlive the token itself.
+	 * login tokens and does not touch session state.
+	 *
+	 * Missing tokens are ignored because persisted markers may outlive the token itself.
 	 *
 	 * @see clearStaleSecondFactorChallenge() for active-session cleanup.
 	 */
@@ -465,10 +439,9 @@ class Manager {
 	/**
 	 * Mark the current login attempt as pending 2FA verification.
 	 *
-	 * Stores pending 2FA state in the session, preserves the remember-me choice
-	 * for completion after a successful challenge, and records the current login
-	 * token as requiring 2FA so the flow can be resumed if the session is lost
-	 * before verification completes.
+	 * Stores pending 2FA state in the session, preserves the remember-me choice,
+	 * and records the current login token as requiring 2FA so the flow can be
+	 * resumed if session state is lost before verification completes.
 	 */
 	public function prepareTwoFactorLogin(IUser $user, bool $rememberMe): void {
 		$uid = $user->getUID();
