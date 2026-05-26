@@ -2059,7 +2059,6 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn([]);
 
 		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
-		$this->addToAssertionCount(1);
 	}
 
 
@@ -2203,7 +2202,6 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn([$share2]);
 
 		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
-		$this->addToAssertionCount(1);
 	}
 
 
@@ -2301,7 +2299,6 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
-		$this->addToAssertionCount(1);
 	}
 
 
@@ -2357,7 +2354,6 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
-		$this->addToAssertionCount(1);
 	}
 
 
@@ -2377,6 +2373,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testFileLinkCreateChecksNoPublicUpload(): void {
 		$share = $this->manager->newShare();
 
@@ -2391,7 +2388,6 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
-		$this->addToAssertionCount(1);
 	}
 
 	public function testFolderLinkCreateChecksNoPublicUpload(): void {
@@ -2413,6 +2409,7 @@ class ManagerTest extends \Test\TestCase {
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testLinkCreateChecksPublicUpload(): void {
 		$share = $this->manager->newShare();
 
@@ -2429,9 +2426,9 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testLinkCreateChecksReadOnly(): void {
 		$share = $this->manager->newShare();
 
@@ -2448,7 +2445,6 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
-		$this->addToAssertionCount(1);
 	}
 
 
@@ -2481,14 +2477,13 @@ class ManagerTest extends \Test\TestCase {
 		$this->mountManager->method('findIn')->with('path')->willReturn([$mount]);
 
 		self::invokePrivate($this->manager, 'pathCreateChecks', [$path]);
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testPathCreateChecksContainsNoFolder(): void {
 		$path = $this->createMock(File::class);
 
 		self::invokePrivate($this->manager, 'pathCreateChecks', [$path]);
-		$this->addToAssertionCount(1);
 	}
 
 	public static function dataIsSharingDisabledForUser() {
@@ -4689,7 +4684,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->method('move')->with($share, 'recipient')->willReturnArgument(0);
 
 		$this->manager->moveShare($share, 'recipient');
-		$this->addToAssertionCount(1);
 	}
 
 
@@ -4747,7 +4741,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->method('move')->with($share, 'recipient')->willReturnArgument(0);
 
 		$this->manager->moveShare($share, 'recipient');
-		$this->addToAssertionCount(1);
 	}
 
 	#[DataProvider('dataTestShareProviderExists')]
