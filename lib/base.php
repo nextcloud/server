@@ -301,48 +301,11 @@ class OC {
 		/** @var \OC\App\AppManager $appManager */
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 
-		// get third party apps
-		$ocVersion = implode('.', $serverVersion->getVersion());
-		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
-		$incompatibleOverwrites = $systemConfig->getValue('app_install_overwrite', []);
-		$incompatibleShippedApps = [];
-		$incompatibleDisabledApps = [];
-
-		foreach ($incompatibleApps as $appInfo) {
-			if ($appManager->isShipped($appInfo['id'])) {
-				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
-			}
-
-			if (!in_array($appInfo['id'], $incompatibleOverwrites, true)) {
-				$incompatibleDisabledApps[] = $appInfo;
-			}
-		}
-
-		if (!empty($incompatibleShippedApps)) {
-			$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
-			$hint = $l->t(
-				'Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.',
-				[implode(', ', $incompatibleShippedApps)]
-			);
-			throw new \OCP\HintException(
-				'Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.',
-				$hint
-			);
-		}
-
-		$appConfig = Server::get(IAppConfig::class);
-		$appsToUpgrade = array_map(function (array $app) use (&$appConfig): array {
-			return [
-				'id' => $app['id'],
-				'name' => $app['name'],
-				'version' => $app['version'],
-				'oldVersion' => $appConfig->getValueString($app['id'], 'installed_version'),
-			];
-		}, $appManager->getAppsNeedingUpgrade($ocVersion));
+		$appState = self::prepareUpgradeAppState($appManager, $systemConfig, $serverVersion);
 
 		$params = [
-			'appsToUpgrade' => $appsToUpgrade,
-			'incompatibleAppsList' => $incompatibleDisabledApps,
+			'appsToUpgrade' => $appState['appsToUpgrade'],
+			'incompatibleAppsList' => $appState['incompatibleAppsList'],
 			'isAppsOnlyUpgrade' => $isAppsOnlyUpgrade,
 			'oldTheme' => $oldTheme,
 			'productName' => self::getProductName(),
@@ -355,6 +318,67 @@ class OC {
 		Server::get(ITemplateManager::class)
 			->getTemplate('', 'update', 'guest')
 			->printPage();
+	}
+
+	private static function prepareUpgradeAppState(
+		\OCP\App\IAppManager $appManager,
+		\OC\SystemConfig $systemConfig,
+		\OCP\ServerVersion $serverVersion,
+	): array {
+		// get third party apps
+		$ocVersion = implode('.', $serverVersion->getVersion());
+		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
+		$incompatibleOverwrites = $systemConfig->getValue('app_install_overwrite', []);
+
+		$incompatibleShippedApps = [];
+		$incompatibleDisabledApps = [];
+
+		foreach ($incompatibleApps as $appInfo) {
+			if ($appManager->isShipped($appInfo['id'])) {
+				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
+				continue;
+			}
+
+			if (!in_array($appInfo['id'], $incompatibleOverwrites, true)) {
+				$incompatibleDisabledApps[] = $appInfo;
+			}
+		}
+
+		if ($incompatibleShippedApps !== []) {
+			self::throwIncompatibleShippedAppsException($incompatibleShippedApps);
+		}
+
+		$appConfig = Server::get(IAppConfig::class);
+		$appsToUpgrade = array_map(function (array $app) use ($appConfig): array {
+			return [
+				'id' => $app['id'],
+				'name' => $app['name'],
+				'version' => $app['version'],
+				'oldVersion' => $appConfig->getValueString($app['id'], 'installed_version'),
+			];
+		}, $appManager->getAppsNeedingUpgrade($ocVersion));
+
+		return [
+			'appsToUpgrade' => $appsToUpgrade,
+			'incompatibleAppsList' => $incompatibleDisabledApps,
+		];
+	}
+
+	private static function throwIncompatibleShippedAppsException(array $incompatibleShippedApps): void {
+		$appList = implode(', ', $incompatibleShippedApps);
+
+		$message = sprintf(
+			'Application %s is not present or has a non-compatible version with this server. Please check the apps directory.',
+			$appList,
+		);
+
+		$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
+		$hint = $l->t(
+			'Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.',
+			[$appList],
+		);
+
+		throw new \OCP\HintException($message, $hint);
 	}
 
 	private static function isBigInstanceOverrideRequested(): bool {
