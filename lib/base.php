@@ -412,7 +412,10 @@ class OC {
 		// Do not initialize the session if a DAV request is authenticated directly,
 		// unless there is already a Nextcloud session cookie present.
 		//
-		// Disabled due to compatibility issues; see nextcloud/server#37277 before re-enabling.
+		// DAV-specific session bypass is currently disabled due to compatibility issues
+		// with clients that use cookies (for example DAVx5). See nextcloud/server#37277
+		// before re-enabling this path.
+		//
 		// if (self::shouldBypassSessionInitializationForDirectDavAuth($request)) {
 		//	self::markDavCookieProbe($now);
 		//	return;
@@ -424,8 +427,7 @@ class OC {
 			return;
 		}
 
-		$sessionName = OC_Util::getInstanceId();
-		$session = self::createSession($sessionName);
+		$session = self::createWrappedSession(OC_Util::getInstanceId());
 
 		self::enforceSessionTimeout($session, $now);
 		// FIXME: avoid further session mutation if enforceSessionTimeout does a logout() by returning here?
@@ -472,14 +474,14 @@ class OC {
 	}
 
 	private static function shouldSkipSessionInitialization(IRequest $request): bool {
-		// Cookie parameters must be already configured so follow-up cookie handling
-		// in this request uses the correct path/domain/secure settings.
+		// Cookie parameters must be configured before this check so follow-up cookie
+		// handling in the request uses the correct path, domain, and secure settings.
 
-		// Monitoring endpoint doesn't require sessions and can flood session handlers.
+		// The monitoring endpoint does not require sessions and can flood session handlers.
 		return str_ends_with($request->getScriptName(), self::STATUS_ENDPOINT_SUFFIX);
 	}
 
-	private static function createSession(string $sessionName): ISession {
+	private static function createWrappedSession(string $sessionName): ISession {
 		try {
 			$installed = Server::get(\OC\SystemConfig::class)->getValue('installed', false);
 			$logger = null;
