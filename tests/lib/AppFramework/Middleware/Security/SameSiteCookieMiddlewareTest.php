@@ -50,12 +50,12 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->middleware = new SameSiteCookieMiddleware($this->request, new MiddlewareUtils($this->reflector, $this->logger));
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testBeforeControllerNoIndex(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/ocs/v2.php');
 
 		$this->middleware->beforeController(new NoAnnotationController('foo', $this->request), 'foo');
-		$this->addToAssertionCount(1);
 	}
 
 	public function testBeforeControllerIndexHasAnnotation(): void {
@@ -68,7 +68,6 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 			->willReturn(true);
 
 		$this->middleware->beforeController(new HasAnnotationController('foo', $this->request), 'foo');
-		$this->addToAssertionCount(1);
 	}
 
 	public function testBeforeControllerIndexNoAnnotationPassingCheck(): void {
@@ -84,7 +83,6 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 			->willReturn(true);
 
 		$this->middleware->beforeController(new NoAnnotationController('foo', $this->request), 'foo');
-		$this->addToAssertionCount(1);
 	}
 
 	public function testBeforeControllerIndexNoAnnotationFailingCheck(): void {
