@@ -703,7 +703,7 @@ class Access extends LDAPUtility {
 					if (is_null($nameByLDAP)) {
 						continue;
 					}
-					$sndName = $ldapObject[$sndAttribute][0] ?? '';
+					$sndName = $sndAttribute !== null ? ($ldapObject[$sndAttribute][0] ?? '') : '';
 					$this->applyUserDisplayName($ncName, $nameByLDAP, $sndName);
 				} elseif ($nameByLDAP !== null) {
 					$this->cacheGroupDisplayName($ncName, $nameByLDAP);

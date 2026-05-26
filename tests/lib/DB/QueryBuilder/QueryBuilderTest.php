@@ -532,7 +532,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		return [
 			[
 				'd1', 'data2', null, null,
-				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
+				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '', 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` '
 			],
 			[
@@ -613,7 +613,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		return [
 			[
 				'd1', 'data2', null, null,
-				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
+				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '', 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` '
 			],
 			[
@@ -663,7 +663,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		return [
 			[
 				'd1', 'data2', null, null,
-				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
+				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '', 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` '
 			],
 			[

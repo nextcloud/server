@@ -725,7 +725,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		$this->queryBuilder->join(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
-			$this->quoteAlias($alias),
+			$this->quoteAlias($alias) ?? '',
 			$condition
 		);
 
@@ -754,7 +754,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		$this->queryBuilder->innerJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
-			$this->quoteAlias($alias),
+			$this->quoteAlias($alias) ?? '',
 			$condition
 		);
 
@@ -783,7 +783,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		$this->queryBuilder->leftJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
-			$this->quoteAlias($alias),
+			$this->quoteAlias($alias) ?? '',
 			$condition
 		);
 
@@ -812,7 +812,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		$this->queryBuilder->rightJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
-			$this->quoteAlias($alias),
+			$this->quoteAlias($alias) ?? '',
 			$condition
 		);
 

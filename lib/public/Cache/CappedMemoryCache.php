@@ -37,6 +37,9 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 */
 	#[\Override]
 	public function hasKey($key): bool {
+		if ($key === null) {
+			return false;
+		}
 		return isset($this->cache[$key]);
 	}
 
@@ -46,6 +49,9 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 */
 	#[\Override]
 	public function get($key) {
+		if ($key === null) {
+			return null;
+		}
 		return $this->cache[$key] ?? null;
 	}
 
@@ -73,6 +79,9 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 */
 	#[\Override]
 	public function remove($key): bool {
+		if ($key === null) {
+			return false;
+		}
 		unset($this->cache[$key]);
 		return true;
 	}
