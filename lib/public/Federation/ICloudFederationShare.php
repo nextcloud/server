@@ -114,6 +114,13 @@ interface ICloudFederationShare {
 	public function setShareType($shareType);
 
 	/**
+	 * permissions granted to the sharee
+	 *
+	 * @since 35.0.0
+	 */
+	public function setPermissions(int $permissions);
+
+	/**
 	 * get the whole share, ready to send out
 	 *
 	 * @return array
@@ -229,4 +236,11 @@ interface ICloudFederationShare {
 	 * @since 14.0.0
 	 */
 	public function getProtocol();
+
+	/**
+	* get permissions granted to the sharee
+	*
+	* @since 35.0.0
+	 */
+	public function getPermissions(): int;
 }

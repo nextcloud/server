@@ -88,6 +88,7 @@ class RequestHandlerController extends Controller {
 	 * @param array{name: list<string>, options: array<string, mixed>} $protocol e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
+	 * @param int $permissions Permissions granted to the sharee
 	 *
 	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationAPIAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
 	 *
@@ -98,7 +99,20 @@ class RequestHandlerController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
-	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
+	public function addShare(
+		string $shareWith,
+		string $name,
+		?string $description,
+		string $providerId,
+		string $owner,
+		?string $ownerDisplayName,
+		?string $sharedBy,
+		?string $sharedByDisplayName,
+		array $protocol,
+		string $shareType,
+		string $resourceType,
+		?int $permissions
+	) {
 		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
 			try {
 				// if request is signed and well signed, no exceptions are thrown
@@ -186,7 +200,7 @@ class RequestHandlerController extends Controller {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
+			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType, $permissions);
 			$share->setProtocol($protocol);
 			$provider->shareReceived($share);
 		} catch (ProviderDoesNotExistsException|ProviderCouldNotAddShareException $e) {

@@ -28,11 +28,12 @@ interface ICloudFederationFactory {
 	 * @param string $sharedSecret used to authenticate requests across servers
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param $resourceType ('file', 'calendar',...)
+	 * @param int $permissions permissions granted to the sharee
 	 * @return ICloudFederationShare
 	 *
 	 * @since 14.0.0
 	 */
-	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType);
+	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType, $permissions);
 
 	/**
 	 * get a Cloud FederationNotification object to prepare a notification you

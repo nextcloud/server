@@ -40,6 +40,8 @@ use OCP\Share\IShare;
  * @method void setMountpointHash(string $mountPointHash)
  * @method int getAccepted()
  * @method void setAccepted(int $accepted)
+ * @method int getPermissions()
+ * @method void setPermissions(int $permissions)
  *
  * @psalm-import-type Files_SharingRemoteShare from ResponseDefinitions
  */
@@ -56,6 +58,7 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 	protected ?string $mountpoint = null;
 	protected ?string $mountpointHash = null;
 	protected ?int $accepted = null;
+	protected ?int $permissions = null;
 
 	public function __construct() {
 		$this->addType('id', Types::STRING); // Stored as a bigint
@@ -71,6 +74,7 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 		$this->addType('mountpoint', Types::STRING);
 		$this->addType('mountpointHash', Types::STRING);
 		$this->addType('accepted', Types::INTEGER);
+		$this->addType('permissions', Types::SMALLINT);
 	}
 
 	public function setMountpoint(string $mountPoint): void {
@@ -105,11 +109,11 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 			'user' => $this->getUser(),
 			'mountpoint' => $this->getMountpoint(),
 			'accepted' => $this->getAccepted(),
+			'permissions' => $this->getPermissions(),
 
 			// Added later on
 			'file_id' => null,
 			'mimetype' => null,
-			'permissions' => null,
 			'mtime' => null,
 			'type' => null,
 			'item_size' => null,
@@ -133,6 +137,7 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 		$newShare->setMountpoint($this->getMountpoint());
 		$newShare->setAccepted($this->getAccepted());
 		$newShare->setPassword($this->getPassword());
+		$newShare->setPermissions($this->getPermissions());
 		return $newShare;
 	}
 }
