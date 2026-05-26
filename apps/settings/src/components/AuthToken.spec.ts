@@ -16,10 +16,16 @@ vi.hoisted(() => {
 
 import type { IToken } from '../store/authtoken.ts'
 
+// Mock @nextcloud/dialogs so the wipe action's showConfirmation call resolves
+// synchronously in tests. Hoisted so it's installed before AuthToken.vue imports.
+const showConfirmationMock = vi.hoisted(() => vi.fn())
+vi.mock('@nextcloud/dialogs', () => ({
+	showConfirmation: showConfirmationMock,
+}))
+
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AuthToken from './AuthToken.vue'
 import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
-import AuthTokenWipeDialog from './AuthTokenWipeDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 import { detect } from '../utils/userAgentDetect.ts'
 
@@ -143,33 +149,27 @@ describe('AuthToken wipe flow', () => {
 		vi.clearAllMocks()
 	})
 
-	it('does not call wipeToken when the wipe action is triggered (dialog opens first)', async () => {
+	it('does not call wipeToken when the user rejects the confirmation', async () => {
+		showConfirmationMock.mockResolvedValueOnce(false)
 		const token = makeToken()
 		const wrapper = mountAuthToken(token)
 		const store = useAuthTokenStore()
 
-		;(wrapper.vm as unknown as { wipe: () => void }).wipe()
-		await wrapper.vm.$nextTick()
+		await (wrapper.vm as unknown as { wipe: () => Promise<void> }).wipe()
 
-		const dialog = wrapper.findComponent(AuthTokenWipeDialog)
-		expect(dialog.exists()).toBe(true)
-		expect(dialog.props('open')).toBe(true)
+		expect(showConfirmationMock).toHaveBeenCalledTimes(1)
 		expect(store.wipeToken).not.toHaveBeenCalled()
 	})
 
-	it('calls wipeToken only after the dialog emits confirm', async () => {
+	it('calls wipeToken when the user accepts the confirmation', async () => {
+		showConfirmationMock.mockResolvedValueOnce(true)
 		const token = makeToken()
 		const wrapper = mountAuthToken(token)
 		const store = useAuthTokenStore()
 
-		;(wrapper.vm as unknown as { wipe: () => void }).wipe()
-		await wrapper.vm.$nextTick()
+		await (wrapper.vm as unknown as { wipe: () => Promise<void> }).wipe()
 
-		const dialog = wrapper.findComponent(AuthTokenWipeDialog)
-		dialog.vm.$emit('confirm')
-		dialog.vm.$emit('update:open', false)
-		await wrapper.vm.$nextTick()
-
+		expect(showConfirmationMock).toHaveBeenCalledTimes(1)
 		expect(store.wipeToken).toHaveBeenCalledTimes(1)
 		expect(store.wipeToken).toHaveBeenCalledWith(token)
 	})
