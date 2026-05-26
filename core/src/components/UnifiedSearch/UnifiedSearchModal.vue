@@ -199,7 +199,7 @@
 <script lang="ts">
 import { subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
-import { getCanonicalLocale, t } from '@nextcloud/l10n'
+import { getCanonicalLocale, n, t } from '@nextcloud/l10n'
 import { useBrowserLocation } from '@vueuse/core'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
@@ -352,7 +352,7 @@ export default defineComponent({
 					case 1:
 						return t('core', 'Start typing to search')
 					default:
-						return t('core', 'Minimum search length is {minSearchLength} characters', { minSearchLength: this.minSearchLength })
+						return n('core', 'Minimum search length is %n character', 'Minimum search length is %n characters', this.minSearchLength)
 				}
 			}
 
