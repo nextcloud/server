@@ -3,121 +3,83 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<NcDialog
-		:open="open"
-		:name="copy.title"
-		:buttons="buttons"
-		size="normal"
-		@update:open="onUpdateOpen">
-		<NcNoteCard v-if="wiping" type="error">
-			<p class="auth-token-delete-dialog__warning-headline">
-				<strong>{{ t('settings', 'Remote wipe has not started yet.') }}</strong>
-			</p>
-			<p>
-				{{ t('settings', 'Revoking now cancels the wipe. The device keeps its synced data.') }}
-			</p>
-		</NcNoteCard>
-		<p class="auth-token-delete-dialog__body">
-			{{ copy.body }}
-		</p>
-	</NcDialog>
-</template>
-
-<script lang="ts">
+<script setup lang="ts">
 import type { IDialogButton } from '@nextcloud/dialogs'
-import type { PropType } from 'vue'
 import type { IToken } from '../store/authtoken.ts'
 
 import { translate as t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
+import { computed } from 'vue'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import { TokenType } from '../store/authtoken.ts'
 
-export default defineComponent({
-	name: 'AuthTokenDeleteDialog',
+const props = defineProps<{
+	/** The token being revoked */
+	token: IToken
+	/** Whether the dialog is open */
+	open: boolean
+}>()
 
-	components: {
-		NcDialog,
-		NcNoteCard,
-	},
+const emit = defineEmits<{
+	'update:open': [open: boolean]
+	confirm: []
+}>()
 
-	props: {
-		token: {
-			type: Object as PropType<IToken>,
-			required: true,
-		},
+const wiping = computed(() => props.token.type === TokenType.WIPING_TOKEN)
 
-		open: {
-			type: Boolean,
-			required: true,
-		},
-	},
-
-	emits: {
-		'update:open': (open: boolean) => typeof open === 'boolean',
-		confirm: () => true,
-	},
-
-	computed: {
-		wiping(): boolean {
-			return this.token.type === TokenType.WIPING_TOKEN
-		},
-
-		copy(): { title: string, body: string, action: string } {
-			if (this.wiping) {
-				return {
-					title: t('settings', 'Revoke and cancel pending wipe?'),
-					body: t('settings', 'Only continue if you no longer need the device to be wiped.'),
-					action: t('settings', 'Revoke and cancel wipe'),
-				}
-			}
-			return {
-				title: t('settings', 'Revoke app password?'),
-				body: t('settings', 'The app or device will lose access on its next sync. This cannot be undone.'),
-				action: t('settings', 'Revoke'),
-			}
-		},
-
-		buttons(): IDialogButton[] {
-			return [
-				{
-					label: t('settings', 'Cancel'),
-					variant: 'tertiary',
-					callback: () => {
-						this.$emit('update:open', false)
-					},
-				},
-				{
-					label: this.copy.action,
-					variant: 'error',
-					callback: () => {
-						this.$emit('confirm')
-						this.$emit('update:open', false)
-					},
-				},
-			]
-		},
-	},
-
-	methods: {
-		t,
-		onUpdateOpen(value: boolean): void {
-			this.$emit('update:open', value)
-		},
-	},
+const messages = computed(() => {
+	if (wiping.value) {
+		return {
+			title: t('settings', 'Revoke and cancel pending wipe?'),
+			body: t('settings', 'Only continue if you no longer need the device to be wiped.'),
+			action: t('settings', 'Revoke and cancel wipe'),
+		}
+	}
+	return {
+		title: t('settings', 'Revoke app password?'),
+		body: t('settings', 'The app or device will lose access on its next sync. This cannot be undone.'),
+		action: t('settings', 'Revoke'),
+	}
 })
+
+const buttons = computed<IDialogButton[]>(() => [
+	{
+		label: t('settings', 'Cancel'),
+		variant: 'tertiary',
+		callback: () => emit('update:open', false),
+	},
+	{
+		label: messages.value.action,
+		variant: 'error',
+		callback: () => {
+			emit('confirm')
+			emit('update:open', false)
+		},
+	},
+])
 </script>
 
-<style lang="scss" scoped>
-.auth-token-delete-dialog {
-	&__warning-headline {
-		margin-block-end: calc(var(--default-grid-baseline) / 2);
-	}
+<template>
+	<NcDialog
+		:open="open"
+		:name="messages.title"
+		:buttons="buttons"
+		size="normal"
+		@update:open="emit('update:open', $event)">
+		<NcNoteCard
+			v-if="wiping"
+			:heading="t('settings', 'Remote wipe has not started yet.')"
+			type="error">
+			{{ t('settings', 'Revoking now cancels the wipe. The device keeps its synced data.') }}
+		</NcNoteCard>
+		<p class="auth-token-delete-dialog__body">
+			{{ messages.body }}
+		</p>
+	</NcDialog>
+</template>
 
-	&__body {
-		margin-block-start: calc(var(--default-grid-baseline) * 2);
-	}
+<style lang="scss" scoped>
+.auth-token-delete-dialog__body {
+	margin-block-start: calc(var(--default-grid-baseline) * 2);
 }
 </style>
