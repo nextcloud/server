@@ -16,7 +16,7 @@
   },
   "apps/files_sharing/src/views/SharingDetailsTab.vue": {
     "vue/no-mutating-props": {
-      "count": 24
+      "count": 23
     }
   },
   "apps/files_sharing/src/views/SharingLinkList.vue": {
