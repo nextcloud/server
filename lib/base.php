@@ -425,25 +425,15 @@ class OC {
 			return;
 		}
 
-		// Let the session name be changed in the initSession Hook
 		$sessionName = OC_Util::getInstanceId();
-
 		$session = self::createSession($sessionName);
 
-		//try to set the session lifetime
-		$sessionLifeTime = self::getSessionLifeTime();
-
-		// session timeout
-		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
-			if (isset($_COOKIE[session_name()])) {
-				setcookie(session_name(), '', -1, self::$WEBROOT ? : '/');
-			}
-			Server::get(IUserSession::class)->logout();
-		}
+		self::enforceSessionTimeout($session);
 
 		if (!self::hasSessionRelaxedExpiry()) {
-			$session->set('LAST_ACTIVITY', time());
+			$session->set(self::LAST_ACTIVITY_SESSION_KEY, time());
 		}
+
 		$session->close();
 	}
 
@@ -494,6 +484,30 @@ class OC {
 			Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
 			die();
 		}
+	}
+
+	private static function enforceSessionTimeout(ISession $session): void {
+		$lastActivity = $session->exists(self::LAST_ACTIVITY_SESSION_KEY)
+			? (int)$session->get(self::LAST_ACTIVITY_SESSION_KEY)
+			: null;
+
+		if ($lastActivity === null) {
+			return;
+		}
+
+		$now = time();
+		$sessionLifeTime = self::getSessionLifeTime();
+
+		if (($now - $lastActivity) <= $sessionLifeTime) {
+			return;
+		}
+
+		$sessionName = session_name();
+		if (isset($_COOKIE[$sessionName])) {
+			setcookie($sessionName, '', -1, self::$WEBROOT ?: '/');
+		}
+
+		Server::get(IUserSession::class)->logout();
 	}
 
 	private static function getSessionLifeTime(): int {
