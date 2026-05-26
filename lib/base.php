@@ -255,45 +255,20 @@ class OC {
 		}
 	}
 
+	private const WEB_UPGRADE_USER_THRESHOLD = 50;
+	private const WEB_UPGRADE_USER_LOOKUP_LIMIT = 51;
+	private const WEB_UPGRADE_RETRY_AFTER_SECONDS = 120;
+	private const BIG_INSTANCE_OVERRIDE_PARAM = 'IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup';
+	private const BIG_INSTANCE_OVERRIDE_VALUE = 'IAmSuperSureToDoThis';
+
 	/**
 	 * Prints the upgrade page
 	 */
 	private static function printUpgradePage(\OC\SystemConfig $systemConfig): void {
 		$cliUpgradeLink = $systemConfig->getValue('upgrade.cli-upgrade-link', '');
-		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
-		$tooBig = false;
-		if (!$disableWebUpdater) {
-			$apps = Server::get(\OCP\App\IAppManager::class);
-			if ($apps->isEnabledForAnyone('user_ldap')) {
-				$qb = Server::get(\OCP\IDBConnection::class)->getQueryBuilder();
-
-				$result = $qb->select($qb->func()->count('*', 'user_count'))
-					->from('ldap_user_mapping')
-					->executeQuery();
-				$row = $result->fetch();
-				$result->closeCursor();
-
-				$tooBig = ($row['user_count'] > 50);
-			}
-			if (!$tooBig && $apps->isEnabledForAnyone('user_saml')) {
-				$qb = Server::get(\OCP\IDBConnection::class)->getQueryBuilder();
-
-				$result = $qb->select($qb->func()->count('*', 'user_count'))
-					->from('user_saml_users')
-					->executeQuery();
-				$row = $result->fetch();
-				$result->closeCursor();
-
-				$tooBig = ($row['user_count'] > 50);
-			}
-			if (!$tooBig) {
-				// count users
-				$totalUsers = Server::get(\OCP\IUserManager::class)->countUsersTotal(51);
-				$tooBig = ($totalUsers > 50);
-			}
-		}
-		$ignoreTooBigWarning = isset($_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'])
-			&& $_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'] === 'IAmSuperSureToDoThis';
+		$disableWebUpdater = (bool)$systemConfig->getValue('upgrade.disable-web', false);
+		$tooBig = !$disableWebUpdater && self::isInstanceTooBigForWebUpgrade();
+		$ignoreTooBigWarning = self::isBigInstanceOverrideRequested();
 
 		Util::addTranslations('core');
 		Util::addScript('core', 'common');
@@ -302,24 +277,14 @@ class OC {
 
 		$initialState = Server::get(IInitialStateService::class);
 		$serverVersion = Server::get(\OCP\ServerVersion::class);
+
 		if ($disableWebUpdater || ($tooBig && !$ignoreTooBigWarning)) {
-			// send http status 503
-			http_response_code(503);
-			header('Retry-After: 120');
-
-			$urlGenerator = Server::get(IURLGenerator::class);
-			$initialState->provideInitialState('core', 'updaterView', 'adminCli');
-			$initialState->provideInitialState('core', 'updateInfo', [
-				'cliUpgradeLink' => $cliUpgradeLink ?: $urlGenerator->linkToDocs('admin-cli-upgrade'),
-				'productName' => self::getProductName(),
-				'version' => $serverVersion->getVersionString(),
-				'tooBig' => $tooBig,
-			]);
-
-			// render error page
-			Server::get(ITemplateManager::class)
-				->getTemplate('', 'update', 'guest')
-				->printPage();
+			self::renderCliUpgradeRequiredPage(
+				$initialState,
+				$serverVersion,
+				$cliUpgradeLink,
+				$tooBig,
+			);
 			die();
 		}
 
@@ -337,29 +302,36 @@ class OC {
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 
 		// get third party apps
-		$ocVersion = $serverVersion->getVersion();
-		$ocVersion = implode('.', $ocVersion);
+		$ocVersion = implode('.', $serverVersion->getVersion());
 		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
 		$incompatibleOverwrites = $systemConfig->getValue('app_install_overwrite', []);
 		$incompatibleShippedApps = [];
 		$incompatibleDisabledApps = [];
+
 		foreach ($incompatibleApps as $appInfo) {
 			if ($appManager->isShipped($appInfo['id'])) {
 				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
 			}
-			if (!in_array($appInfo['id'], $incompatibleOverwrites)) {
+
+			if (!in_array($appInfo['id'], $incompatibleOverwrites, true)) {
 				$incompatibleDisabledApps[] = $appInfo;
 			}
 		}
 
 		if (!empty($incompatibleShippedApps)) {
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
-			$hint = $l->t('Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.', [implode(', ', $incompatibleShippedApps)]);
-			throw new \OCP\HintException('Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.', $hint);
+			$hint = $l->t(
+				'Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.',
+				[implode(', ', $incompatibleShippedApps)]
+			);
+			throw new \OCP\HintException(
+				'Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.',
+				$hint
+			);
 		}
 
 		$appConfig = Server::get(IAppConfig::class);
-		$appsToUpgrade = array_map(function ($app) use (&$appConfig) {
+		$appsToUpgrade = array_map(function (array $app) use (&$appConfig): array {
 			return [
 				'id' => $app['id'],
 				'name' => $app['name'],
@@ -379,6 +351,74 @@ class OC {
 
 		$initialState->provideInitialState('core', 'updaterView', 'admin');
 		$initialState->provideInitialState('core', 'updateInfo', $params);
+
+		Server::get(ITemplateManager::class)
+			->getTemplate('', 'update', 'guest')
+			->printPage();
+	}
+
+	private static function isBigInstanceOverrideRequested(): bool {
+		return isset($_GET[self::BIG_INSTANCE_OVERRIDE_PARAM])
+			&& $_GET[self::BIG_INSTANCE_OVERRIDE_PARAM] === self::BIG_INSTANCE_OVERRIDE_VALUE;
+	}
+
+	private static function isInstanceTooBigForWebUpgrade(): bool {
+		/** @var \OCP\App\IAppManager $appManager */
+		$appManager = Server::get(\OCP\App\IAppManager::class);
+
+		if ($appManager->isEnabledForAnyone('user_ldap')
+			&& self::tableRowCountExceeds('ldap_user_mapping', self::WEB_UPGRADE_USER_THRESHOLD)) {
+			return true;
+		}
+
+		if ($appManager->isEnabledForAnyone('user_saml')
+			&& self::tableRowCountExceeds('user_saml_users', self::WEB_UPGRADE_USER_THRESHOLD)) {
+			return true;
+		}
+
+		$totalUsers = Server::get(\OCP\IUserManager::class)
+			->countUsersTotal(self::WEB_UPGRADE_USER_LOOKUP_LIMIT);
+
+		return $totalUsers > self::WEB_UPGRADE_USER_THRESHOLD;
+	}
+
+	private static function tableRowCountExceeds(string $table, int $threshold): bool {
+		$qb = Server::get(\OCP\IDBConnection::class)->getQueryBuilder();
+
+		$result = $qb->select($qb->func()->count('*', 'row_count'))
+			->from($table)
+			->executeQuery();
+
+		try {
+			$row = $result->fetch();
+		} finally {
+			$result->closeCursor();
+		}
+
+		$count = is_array($row) ? (int)($row['row_count'] ?? 0) : 0;
+
+		return $count > $threshold;
+	}
+
+	private static function renderCliUpgradeRequiredPage(
+		IInitialStateService $initialState,
+		\OCP\ServerVersion $serverVersion,
+		string $cliUpgradeLink,
+		bool $tooBig,
+	): void {
+		http_response_code(503);
+		header('Retry-After: ' . self::WEB_UPGRADE_RETRY_AFTER_SECONDS);
+
+		$urlGenerator = Server::get(IURLGenerator::class);
+
+		$initialState->provideInitialState('core', 'updaterView', 'adminCli');
+		$initialState->provideInitialState('core', 'updateInfo', [
+			'cliUpgradeLink' => $cliUpgradeLink ?: $urlGenerator->linkToDocs('admin-cli-upgrade'),
+			'productName' => self::getProductName(),
+			'version' => $serverVersion->getVersionString(),
+			'tooBig' => $tooBig,
+		]);
+
 		Server::get(ITemplateManager::class)
 			->getTemplate('', 'update', 'guest')
 			->printPage();
