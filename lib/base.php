@@ -395,6 +395,16 @@ class OC {
 		return $productName;
 	}
 
+	private const LAST_ACTIVITY_SESSION_KEY = 'LAST_ACTIVITY';
+	private const STATUS_ENDPOINT_SUFFIX = '/status.php';
+	private const COOKIE_DOMAIN_CONFIG_KEY = 'cookie_domain';
+
+	/**
+	 * Initialize the session for the current request.
+	 *
+	 * Applies session cookie settings, skips session startup for status requests,
+	 * creates the wrapped internal session, and logs out expired sessions.
+	 */
 	public static function initSession(): void {
 		$request = Server::get(IRequest::class);
 
@@ -409,28 +419,9 @@ class OC {
 		// return;
 		// }
 
-		if ($request->getServerProtocol() === 'https') {
-			ini_set('session.cookie_secure', 'true');
-		}
+		self::configureSessionCookieSettings($request);
 
-		// prevents javascript from accessing php session cookies
-		ini_set('session.cookie_httponly', 'true');
-
-		// set the cookie path to the Nextcloud directory
-		$cookie_path = OC::$WEBROOT ? : '/';
-		ini_set('session.cookie_path', $cookie_path);
-
-		// set the cookie domain to the Nextcloud domain
-		$cookie_domain = self::$config->getValue('cookie_domain', '');
-		if ($cookie_domain) {
-			ini_set('session.cookie_domain', $cookie_domain);
-		}
-
-		// Do not initialize sessions for 'status.php' requests
-		// Monitoring endpoints can quickly flood session handlers
-		// and 'status.php' doesn't require sessions anyway
-		// We still need to run the ini_set above so that same-site cookies use the correct configuration.
-		if (str_ends_with($request->getScriptName(), '/status.php')) {
+		if (self::shouldSkipSessionInitialization($request)) {
 			return;
 		}
 
@@ -476,6 +467,31 @@ class OC {
 			$session->set('LAST_ACTIVITY', time());
 		}
 		$session->close();
+	}
+
+	private static function configureSessionCookieSettings(IRequest $request): void {
+		if ($request->getServerProtocol() === 'https') {
+			ini_set('session.cookie_secure', 'true');
+		}
+
+		// prevent javascript from accessing php session cookies
+		ini_set('session.cookie_httponly', 'true');
+
+		// set the cookie path to the Nextcloud directory
+		$webRoot = self::$WEBROOT ?: '/';
+		ini_set('session.cookie_path', $webRoot);
+
+		// set the cookie domain to the Nextcloud domain
+		$cookieDomain = self::$config->getValue(self::COOKIE_DOMAIN_CONFIG_KEY, '');
+		if ($cookieDomain !== '') {
+			ini_set('session.cookie_domain', $cookieDomain);
+		}
+	}
+
+	private static function shouldSkipSessionInitialization(IRequest $request): bool {
+		// Monitoring endpoints can quickly flood session handlers and 'status.php' doesn't require sessions anyway.
+		// Session cookie settings still need to be applied beforehand so that same-site cookies use the correct configuration.
+		return str_ends_with($request->getScriptName(), self::STATUS_ENDPOINT_SUFFIX);
 	}
 
 	private static function getSessionLifeTime(): int {
