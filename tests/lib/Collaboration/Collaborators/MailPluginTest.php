@@ -596,15 +596,15 @@ class MailPluginTest extends TestCase {
 	public static function dataSearchUser(): array {
 		return [
 			// data set 0
-			['test', [], true, ['exact' => []], false, false],
+			['test', [], true, ['users' => [], 'exact' => ['users' => [],]], false, false],
 			// data set 1
-			['test', [], false, ['exact' => []], false, false],
+			['test', [], false, ['users' => [], 'exact' => ['users' => [],]], false, false],
 			// data set 2
 			[
 				'test@remote.com',
 				[],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -613,7 +613,7 @@ class MailPluginTest extends TestCase {
 				'test@remote.com',
 				[],
 				false,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -640,7 +640,7 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -668,7 +668,7 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				false,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -695,7 +695,7 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -722,7 +722,7 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -835,7 +835,7 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -1045,7 +1045,7 @@ class MailPluginTest extends TestCase {
 						'UID' => 'User',
 					]
 				],
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 				[
@@ -1065,7 +1065,7 @@ class MailPluginTest extends TestCase {
 						'UID' => 'User',
 					]
 				],
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 				[
