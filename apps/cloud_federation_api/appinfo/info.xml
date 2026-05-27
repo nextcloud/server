@@ -21,4 +21,8 @@
 	<dependencies>
 		<nextcloud min-version="35" max-version="35"/>
 	</dependencies>
+
+	<background-jobs>
+		<job>OCA\CloudFederationAPI\BackgroundJob\CleanupExpiredOcmTokensJob</job>
+	</background-jobs>
 </info>
