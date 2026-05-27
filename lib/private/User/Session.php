@@ -844,7 +844,10 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		if ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::TEMPORARY_TOKEN && !$tokenFromCookie) {
+		if ($dbToken instanceof PublicKeyToken
+			&& $dbToken->getType() === IToken::TEMPORARY_TOKEN
+			&& !$tokenFromCookie
+			&& $dbToken->getName() !== IToken::OCM_ACCESS_TOKEN_NAME) {
 			// Session token but from Bearer header, not allowed
 			return false;
 		}
