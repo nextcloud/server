@@ -103,6 +103,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$qb->delete('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter(5)))
 			->executeStatement();
+		parent::tearDown();
 	}
 
 	#[TestDox('Test the migration from the legacy flat hierarchy to the new database format')]
