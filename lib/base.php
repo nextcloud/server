@@ -409,7 +409,7 @@ class OC {
 		$request = Server::get(IRequest::class);
 		$now = time();
 
-		// Directly authenticated DAV request do not need an initialized session, unless there
+		// Directly authenticated DAV requests do not need an initialized session, unless there
 		// is already a Nextcloud session cookie present.
 		//
 		// NOTE: This is currently disabled due to compatibility issues with clients that use
@@ -428,7 +428,7 @@ class OC {
 
 		$session = self::createWrappedSession(OC_Util::getInstanceId());
 
-		if (self::enforceSessionTimeout($session, $now)) {
+		if (self::invalidateExpiredSession($session, $now)) {
 			return;
 		}
 
@@ -447,7 +447,7 @@ class OC {
 		return $request->getHeader('Authorization') !== ''
 			&& $request->getCookie('cookie_test') === null
 			&& $isDavRequest
-			&& !isset($_COOKIE['nc_session_id']);
+			&& $request->getCookie('nc_session_id') === null;
 	}
 
 	private static function markDavCookieProbe(int $now): void {
@@ -502,6 +502,7 @@ class OC {
 			return $session;
 		} catch (Exception $e) {
 			// TODO: Consider isolating so that termination behavior is more explicit.
+			// TODO: Catch \Throwable instead and adapt rendering path.
 			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base', 'exception' => $e]);
 			Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
 			die();
@@ -526,8 +527,8 @@ class OC {
 
 		$sessionName = session_name();
 		if (isset($_COOKIE[$sessionName])) {
-			// FIXME: if original session cookie was set with a configured domain, deleting it should probably include the domain too
-			setcookie($sessionName, '', -1, self::$WEBROOT ?: '/');
+			$domain = self::$config->getValue(self::COOKIE_DOMAIN_CONFIG_KEY, '');
+			setcookie($sessionName, '', $now - 3600, self::$WEBROOT ?: '/', $domain);
 		}
 
 		Server::get(IUserSession::class)->logout();
