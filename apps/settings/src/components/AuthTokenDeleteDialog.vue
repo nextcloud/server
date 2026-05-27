@@ -60,14 +60,12 @@ const buttons = computed<IDialogButton[]>(() => [
 </script>
 
 <template>
-	<NcDialog
-		:open="open"
+	<NcDialog :open="open"
 		:name="messages.title"
 		:buttons="buttons"
 		size="normal"
 		@update:open="emit('update:open', $event)">
-		<NcNoteCard
-			v-if="wiping"
+		<NcNoteCard v-if="wiping"
 			:heading="t('settings', 'Remote wipe has not started yet.')"
 			type="error">
 			{{ t('settings', 'Revoking now cancels the wipe. The device keeps its synced data.') }}

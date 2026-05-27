@@ -73,8 +73,7 @@
 				</template>
 			</NcActions>
 		</td>
-		<AuthTokenDeleteDialog
-			v-if="deleteDialogOpen"
+		<AuthTokenDeleteDialog v-if="deleteDialogOpen"
 			:token="token"
 			:open.sync="deleteDialogOpen"
 			@confirm="confirmDelete" />

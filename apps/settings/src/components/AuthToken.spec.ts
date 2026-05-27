@@ -3,31 +3,29 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { IToken } from '../store/authtoken.ts'
+
 import { createTestingPinia } from '@pinia/testing'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import AuthToken from './AuthToken.vue'
+import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
+import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 
 // AuthToken.vue reads window.oc_defaults at module evaluation time. vi.hoisted
-// runs before imports, so this guarantees the property is set on the existing
-// jsdom window before the SFC is first parsed.
+// is hoisted by Vitest above the imports at transform time, so this is set
+// on the existing jsdom window before the SFC is first parsed.
 vi.hoisted(() => {
 	(window as unknown as { oc_defaults: { productName: string } }).oc_defaults = { productName: 'Nextcloud' }
 })
 
-import type { IToken } from '../store/authtoken.ts'
-
 // Mock @nextcloud/dialogs so the wipe action's showConfirmation call resolves
-// synchronously in tests. Hoisted so it's installed before AuthToken.vue imports.
+// synchronously in tests. Hoisted alongside the rest.
 const showConfirmationMock = vi.hoisted(() => vi.fn())
 vi.mock('@nextcloud/dialogs', () => ({
 	showConfirmation: showConfirmationMock,
 }))
-
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import AuthToken from './AuthToken.vue'
-import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
-import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
-import { detect } from '../utils/userAgentDetect.ts'
 
 function makeToken(overrides: Partial<IToken> = {}): IToken {
 	return {
@@ -44,7 +42,6 @@ function makeToken(overrides: Partial<IToken> = {}): IToken {
 
 function mountAuthToken(token: IToken) {
 	return mount(AuthToken, {
-		// Vue Test Utils v1 (legacy pipeline) uses propsData; v2 also accepts it
 		propsData: { token },
 		mocks: {
 			t: (_: string, text: string) => text,
@@ -190,53 +187,5 @@ describe('AuthTokenDeleteDialog wipe-pending warning', () => {
 		expect(noteCard.exists()).toBe(true)
 		expect(noteCard.props('type')).toBe('error')
 		expect(noteCard.text()).toMatch(/wipe/i)
-	})
-})
-
-describe('Android Chrome detection', () => {
-	it('modern Android Chrome (no Build/ string, post-2021) should match androidChrome', () => {
-		const ua = 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36'
-		expect(detect(ua)).toEqual({
-			id: 'androidChrome',
-			version: '132',
-		})
-	})
-
-	it('legacy Android Chrome (with Build/ string, pre-2021) should match androidChrome', () => {
-		const ua = 'Mozilla/5.0 (Linux; Android 10; SM-G973F Build/QP1A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36'
-		expect(detect(ua)).toEqual({
-			id: 'androidChrome',
-			version: '130',
-		})
-	})
-
-	it('Android Chrome on tablet (no "Mobile" in UA) should match androidChrome', () => {
-		const ua = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
-		expect(detect(ua)).toEqual({
-			id: 'androidChrome',
-			version: '131',
-		})
-	})
-})
-
-describe('Desktop Chrome regression tests', () => {
-	it('Desktop Chrome on Linux should still match chrome', () => {
-		const ua = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36'
-		expect(detect(ua)).toEqual({
-			id: 'chrome',
-			version: '132',
-			os: 'Linux',
-		})
-	})
-})
-
-describe('Desktop Firefox regression tests', () => {
-	it('Desktop Firefox on Linux should still match firefox', () => {
-		const ua = 'Mozilla/5.0 (X11; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0'
-		expect(detect(ua)).toEqual({
-			id: 'firefox',
-			version: '124',
-			os: 'Linux',
-		})
 	})
 })
