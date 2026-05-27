@@ -1144,7 +1144,8 @@ class Manager implements IManager {
 						$task->getUserId(),
 						$input,
 						fn (float $progress) => $this->setTaskProgress($task->getId(), $progress),
-						fn (array $output) => $this->setTaskIntermediateOutput($task->getId(), $output)
+						fn (array $output) => $this->setTaskIntermediateOutput($task->getId(), $output),
+						$task->getPreferStreaming()
 					);
 				} else {
 					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress));

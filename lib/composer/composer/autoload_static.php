@@ -1651,6 +1651,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Migrations\\Version34000Date20260415161745' => __DIR__ . '/../../..' . '/core/Migrations/Version34000Date20260415161745.php',
         'OC\\Core\\Migrations\\Version34000Date20260518163022' => __DIR__ . '/../../..' . '/core/Migrations/Version34000Date20260518163022.php',
         'OC\\Core\\Migrations\\Version34000Date20260521110333' => __DIR__ . '/../../..' . '/core/Migrations/Version34000Date20260521110333.php',
+        'OC\\Core\\Migrations\\Version35000Date20260527162338' => __DIR__ . '/../../..' . '/core/Migrations/Version35000Date20260527162338.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\ResponseDefinitions' => __DIR__ . '/../../..' . '/core/ResponseDefinitions.php',
         'OC\\Core\\Service\\CronService' => __DIR__ . '/../../..' . '/core/Service/CronService.php',
