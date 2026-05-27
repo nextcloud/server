@@ -30,4 +30,6 @@ if [[ ! $(sudo -u ${APACHE_RUN_USER} php occ status) =~ installed:[[:space:]]*tr
         --admin-pass admin
 fi
 
-sudo service apache2 restart
+if ! sudo service apache2 restart; then
+    echo "Apache restart failed during devcontainer setup; continuing."
+fi
