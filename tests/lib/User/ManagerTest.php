@@ -733,4 +733,12 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('nobody', $user->getUID());
 		$this->assertEquals('None', $user->getDisplayName());
 	}
+
+	public function testGetAvatarUrlLight(): void {
+		$this->assertEquals('http://localhost/index.php/avatar/userid/64', $this->manager->getAvatarUrlLight('userid', 64));
+	}
+
+	public function testGetAvatarUrlDark(): void {
+		$this->assertEquals('http://localhost/index.php/avatar/userid/64/dark', $this->manager->getAvatarUrlDark('userid', 64));
+	}
 }
