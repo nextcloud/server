@@ -16,6 +16,7 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import BadgeAppDaemon from '../BadgeAppDaemon.vue'
 import BadgeAppLevel from '../BadgeAppLevel.vue'
 import BadgeAppScore from '../BadgeAppScore.vue'
+import { useLimitedGroups } from '../../composables/useLimitedGroups.ts'
 import { useAppsStore } from '../../store/apps.ts'
 import { canLimitToGroups } from '../../utils/appStatus.ts'
 
@@ -44,15 +45,8 @@ const appAuthors = computed(() => {
 		.join(', ')
 })
 
-const groupsAppIsLimitedTo = computed(() => {
-	if (!app.groups) {
-		return []
-	}
-
-	return app.groups.map((group) => ({ id: group, name: group }))
-})
-
 const appstoreUrl = computed(() => `https://apps.nextcloud.com/apps/${app.id}`)
+const groupsAppIsLimitedTo = useLimitedGroups(() => app)
 
 /**
  * Further external resources (e.g. website)
@@ -162,7 +156,7 @@ function authorName(xmlNode): string {
 						v-for="group of groupsAppIsLimitedTo"
 						:key="group.id"
 						:title="group.id">
-						{{ group.name }}
+						{{ group.displayName }}
 					</li>
 				</ul>
 			</div>
