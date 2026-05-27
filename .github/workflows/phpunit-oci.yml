@@ -113,6 +113,7 @@ jobs:
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, oci8
           coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
+          ini-values: disable_functions=""
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
