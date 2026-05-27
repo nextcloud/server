@@ -18375,7 +18375,7 @@
                                     },
                                     "protocol": {
                                         "type": "object",
-                                        "description": "e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]",
+                                        "description": "Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]]",
                                         "required": [
                                             "name",
                                             "options"

@@ -161,7 +161,7 @@
                                     },
                                     "protocol": {
                                         "type": "object",
-                                        "description": "Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]] or Multi format: ['name' => 'multi', 'webdav' => [...]]",
+                                        "description": "Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]]",
                                         "required": [
                                             "name"
                                         ],
