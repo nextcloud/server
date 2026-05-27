@@ -133,7 +133,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 				'share_type' => 0,
 				'remote' => 'https://origin.test/',
 				'remote_id' => '10',
-				'share_token' => 'share_token1',
+				'refresh_token' => 'share_token1',
 				'password' => '',
 				'name' => '/Share1',
 				'owner' => 'jane', // owner in share_external is the user on the remote instance
@@ -167,7 +167,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 				'share_type' => 0,
 				'remote' => 'https://origin.test/',
 				'remote_id' => '10',
-				'share_token' => 'share_token2',
+				'refresh_token' => 'share_token2',
 				'password' => '',
 				'name' => '/Share1',
 				'owner' => 'jane', // owner in share_external is the user on the remote instance
