@@ -159,6 +159,11 @@ class DAV extends Common {
 		$this->client = new Client($settings);
 		$this->client->setThrowExceptions(true);
 
+		$proxyExclude = Server::get(IConfig::class)->getSystemValue('proxyexclude', []);
+		if (!empty($proxyExclude)) {
+    		$this->client->addCurlSetting(CURLOPT_NOPROXY, implode(',', $proxyExclude));
+		}
+
 		if ($this->secure === true) {
 			if ($this->verify === false) {
 				$this->client->addCurlSetting(CURLOPT_SSL_VERIFYPEER, false);
