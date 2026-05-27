@@ -157,7 +157,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return self
 	 * @since 31.0.0
 	 */
-	protected function setSignature(string $signature): self {
+	public function setSignature(string $signature): self {
 		$this->signature = $signature;
 		return $this;
 	}
