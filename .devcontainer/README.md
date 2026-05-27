@@ -46,20 +46,20 @@ Everything else (like building the application, adjusting files, ...) should be 
 
 ## NodeJs and NVM
 
-The container comes with [`nvm`](https://github.com/nvm-sh/nvm) and Node 16 installed. This should be sufficient to
-build Nextcloud Core sources via `make`. If you need a different Node Version (for example for
+The container comes with [`nvm`](https://github.com/nvm-sh/nvm) and Node 22 installed. This should be sufficient to
+build Nextcloud Core sources via `make`. If you need a different Node version (for example for
 app development), you can easily switch between different versions by running:
 
 ```bash
-# Install and use Node 14
-nvm install 14
-nvm use 14
+# Install and use Node 20
+nvm install 20
+nvm use 20
 
-# Check version 
+# Check version
 node -v
 
-# Switch back to Node 16
-nvm use 16
+# Switch back to Node 22
+nvm use 22
 
 # Check version
 node -v
