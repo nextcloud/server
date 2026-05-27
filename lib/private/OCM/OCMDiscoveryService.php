@@ -50,7 +50,7 @@ use Psr\Log\LoggerInterface;
 #[Consumable(since: '28.0.0')]
 final class OCMDiscoveryService implements IOCMDiscoveryService {
 	private ICache $cache;
-	public const API_VERSION = '1.1.0';
+	public const API_VERSION = '1.1.2';
 	private ?IOCMProvider $localProvider = null;
 	/** @var array<string, IOCMProvider> */
 	private array $remoteProviders = [];
@@ -94,6 +94,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		}
 
 		if (array_key_exists($remote, $this->remoteProviders)) {
+
 			return $this->remoteProviders[$remote];
 		}
 
@@ -129,7 +130,6 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 				$remote . '/.well-known/ocm',
 				$remote . '/ocm-provider',
 			];
-
 
 			foreach ($urls as $url) {
 				$exception = null;
@@ -195,6 +195,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		}
 
 		$url = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.requesthandlercontroller.addShare');
+		$tokenUrl = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.Token.accessToken');
 		$pos = strrpos($url, '/');
 		if ($pos === false) {
 			$this->logger->debug('generated route should contain a slash character');
@@ -206,7 +207,8 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->setEnabled(true);
 		$provider->setApiVersion(self::API_VERSION);
 		$provider->setEndPoint(substr($url, 0, $pos));
-		$provider->setCapabilities(['invite-accepted', 'notifications', 'shares']);
+		$provider->setCapabilities(['invite-accepted', 'notifications', 'shares', 'exchange-token']);
+		$provider->setTokenEndPoint($tokenUrl);
 		if ($signingEnabled) {
 			$provider->setCapabilities(['http-sig']);
 		}

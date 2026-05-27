@@ -13,6 +13,7 @@ use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMResource;
+use OCP\OCM\OCMCapabilities;
 use OCP\Security\Signature\Model\Signatory;
 
 /**
@@ -24,6 +25,7 @@ class OCMProvider implements IOCMProvider {
 	private string $inviteAcceptDialog = '';
 	private array $capabilities = [];
 	private string $endPoint = '';
+	private string $tokenEndPoint = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
 	private ?Signatory $signatory = null;
@@ -120,6 +122,29 @@ class OCMProvider implements IOCMProvider {
 	}
 
 	/**
+	 * @param string $tokenEndPoint
+	 *
+	 * @return $this
+	 */
+	#[\Override]
+	public function setTokenEndPoint(string $endPoint): static {
+		$this->tokenEndPoint = $endPoint;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	#[\Override]
+	public function getTokenEndPoint(): string {
+		if (in_array('exchange-token', $this->capabilities)) {
+			return $this->tokenEndPoint;
+		}
+		return '';
+	}
+
+	/**
 	 * @return string
 	 */
 	#[\Override]
@@ -141,12 +166,9 @@ class OCMProvider implements IOCMProvider {
 		return $this;
 	}
 
-	/**
-	 * @return array
-	 */
 	#[\Override]
-	public function getCapabilities(): array {
-		return $this->capabilities;
+	public function getCapabilities(): OCMCapabilities {
+		return new OCMCapabilities($this->capabilities);
 	}
 
 	/**
@@ -268,6 +290,12 @@ class OCMProvider implements IOCMProvider {
 				$this->setSignatory($signatory);
 			}
 		}
+		if (isset($data['capabilities'])) {
+			$this->setCapabilities($data['capabilities']);
+		}
+		if (isset($data['tokenEndPoint'])) {
+			$this->setTokenEndPoint($data['tokenEndPoint']);
+		}
 
 		if (!$this->looksValid()) {
 			throw new OCMProviderException('remote provider does not look valid');
@@ -304,9 +332,12 @@ class OCMProvider implements IOCMProvider {
 			'resourceTypes' => $resourceTypes
 		];
 
-		$capabilities = $this->getCapabilities();
-		if ($capabilities) {
-			$response['capabilities'] = $capabilities;
+		if ($this->capabilities !== []) {
+			$response['capabilities'] = $this->capabilities;
+		}
+		$tokenEndpoint = $this->getTokenEndPoint();
+		if ($tokenEndpoint) {
+			$response['tokenEndPoint'] = $tokenEndpoint;
 		}
 		$inviteAcceptDialog = $this->getInviteAcceptDialog();
 		if ($inviteAcceptDialog !== '') {
