@@ -510,7 +510,7 @@ class OC {
 	}
 
 	private static function invalidateExpiredSession(IRequest $request, ISession $session, int $now): bool {
-$		value = $session->exists(self::LAST_ACTIVITY_SESSION_KEY)
+		$value = $session->exists(self::LAST_ACTIVITY_SESSION_KEY)
 			? $session->get(self::LAST_ACTIVITY_SESSION_KEY)
 			: null;
 
