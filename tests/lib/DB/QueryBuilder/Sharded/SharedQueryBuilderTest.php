@@ -65,6 +65,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->assertEquals([], $query->getShardKeys());
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testValidateWithShardKey(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
@@ -72,9 +73,9 @@ class SharedQueryBuilderTest extends TestCase {
 			->where($query->expr()->eq('storage', $query->createNamedParameter(10)));
 
 		$query->validate();
-		$this->assertTrue(true);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testValidateWithPrimaryKey(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
@@ -82,7 +83,6 @@ class SharedQueryBuilderTest extends TestCase {
 			->where($query->expr()->in('fileid', $query->createNamedParameter([10, 11], IQueryBuilder::PARAM_INT)));
 
 		$query->validate();
-		$this->assertTrue(true);
 	}
 
 	public function testValidateWithNoKey(): void {
@@ -96,6 +96,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->fail('exception expected');
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testValidateNonSharedTable(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('configvalue')
@@ -103,7 +104,6 @@ class SharedQueryBuilderTest extends TestCase {
 			->where($query->expr()->eq('configkey', $query->createNamedParameter('test')));
 
 		$query->validate();
-		$this->assertTrue(true);
 	}
 
 	public function testGetShardKeyMultipleSingleParam(): void {
