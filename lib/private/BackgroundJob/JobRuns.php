@@ -27,7 +27,7 @@ final readonly class JobRuns implements IJobRuns {
 	) {
 	}
 
-	#[Override]
+	// TODO Move it to runner when refactoring
 	public function started(int|string $classId): string {
 		$id = $this->snowflakeGenerator->nextId();
 		$qb = $this->connection->getQueryBuilder();
@@ -42,7 +42,7 @@ final readonly class JobRuns implements IJobRuns {
 		return $id;
 	}
 
-	#[Override]
+	// TODO Move it to runner when refactoring
 	public function finished(int|string $runId, int $duration, int $memoryPeakUsage, JobStatus $status = JobStatus::SUCCEEDED): bool {
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb

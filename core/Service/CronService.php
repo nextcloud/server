@@ -13,6 +13,8 @@ namespace OC\Core\Service;
 
 use OC;
 use OC\Authentication\LoginCredentials\Store;
+use OC\BackgroundJob\JobClassesRegistry;
+use OC\BackgroundJob\JobRuns;
 use OC\DB\Connection;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Session\CryptoWrapper;
@@ -49,6 +51,8 @@ class CronService {
 		private readonly ITempManager $tempManager,
 		private readonly IAppConfig $appConfig,
 		private readonly IJobList $jobList,
+		private readonly JobRuns $jobRuns,
+		private readonly JobClassesRegistry $jobClassesRegistry,
 		private readonly ISetupManager $setupManager,
 		private readonly bool $isCLI,
 	) {
@@ -185,20 +189,27 @@ class CronService {
 				break;
 			}
 
-			$jobDetails = get_class($job) . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
+			$jobClass = get_class($job);
+			$jobDetails = $jobClass . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
 			$this->logger->debug('CLI cron call has selected job ' . $jobDetails, ['app' => 'cron']);
 
 			$this->verboseOutput('Starting job ' . $jobDetails);
 
-			$startTime = microtime(true);
 			$referenceMemory = memory_get_usage();
 			memory_reset_peak_usage();
 
+			$jobClassId = $this->jobClassesRegistry->getId($jobClass);
+			$jobRunId = $this->jobRuns->started($jobClassId);
+			$startTime = microtime(true);
 			$job->start($this->jobList);
 
 			$memoryIncrease = memory_get_usage() - $referenceMemory;
 			$timeSpent = microtime(true) - $startTime;
-			$jobMemoryPeak = memory_get_peak_usage() - $referenceMemory;
+			$jobMemoryPeak = memory_get_peak_usage();
+			// TODO Job failure will never be caught here because exceptions are caught within $job->start method
+			// The error will only be visible in server logs.
+			// It should be a temporary state until a proper job runner is implemented.
+			$this->jobRuns->finished($jobRunId, (int)($timeSpent * 1000), (int)($jobMemoryPeak / 1024));
 
 			$cronInterval = 5 * 60;
 			if ($timeSpent > $cronInterval) {
