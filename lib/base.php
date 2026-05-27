@@ -409,8 +409,8 @@ class OC {
 		$request = Server::get(IRequest::class);
 		$now = time();
 
-		// Directly authenticated DAV requests do not need an initialized session, unless there
-		// is already a Nextcloud session cookie present.
+		// When enabled, directly authenticated DAV requests do not need an initialized
+		// session unless there is already a Nextcloud session cookie present.
 		//
 		// NOTE: This is currently disabled due to compatibility issues with clients that use
 		// cookies (e.g. DAVx5). See nextcloud/server#37277 before re-enabling.
@@ -428,7 +428,7 @@ class OC {
 
 		$session = self::createWrappedSession(OC_Util::getInstanceId());
 
-		if (self::invalidateExpiredSession($session, $now)) {
+		if (self::invalidateExpiredSession($request, $session, $now)) {
 			return;
 		}
 
@@ -505,17 +505,21 @@ class OC {
 			// TODO: Catch \Throwable instead and adapt rendering path.
 			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base', 'exception' => $e]);
 			Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
-			die();
+			exit();
 		}
 	}
 
-	private static function invalidateExpiredSession(ISession $session, int $now): bool {
-		// TODO: Further normalize and validate LAST_ACTIVITY before using
-		$lastActivity = $session->exists(self::LAST_ACTIVITY_SESSION_KEY)
-			? (int)$session->get(self::LAST_ACTIVITY_SESSION_KEY)
+	private static function invalidateExpiredSession(IRequest $request, ISession $session, int $now): bool {
+$		value = $session->exists(self::LAST_ACTIVITY_SESSION_KEY)
+			? $session->get(self::LAST_ACTIVITY_SESSION_KEY)
 			: null;
 
-		if ($lastActivity === null) {
+		if (!is_int($value) && !ctype_digit((string)$value)) {
+			return false;
+		}
+
+		$lastActivity = (int)$value;
+		if ($lastActivity <= 0) {
 			return false;
 		}
 
@@ -525,7 +529,8 @@ class OC {
 			return false;
 		}
 
-		self::clearSessionCookie();
+		self::clearSessionCookie($request, $now);
+
 		Server::get(IUserSession::class)->logout();
 		$session->close();
 
