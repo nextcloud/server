@@ -96,6 +96,7 @@ use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Profiler\IProfiler;
@@ -133,7 +134,7 @@ class Server {
 		$this->server->setLogger($logger);
 
 		// Add maintenance plugin
-		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
+		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OCP\Server::get(IFactory::class)->get('dav')));
 
 		$this->server->addPlugin(new AppleQuirksPlugin());
 
@@ -399,7 +400,7 @@ class Server {
 					\OCP\Server::get(IURLGenerator::class),
 					\OCP\Server::get(ThemingDefaults::class),
 					\OCP\Server::get(IRequest::class),
-					\OC::$server->getL10N('dav'),
+					\OCP\Server::get(IFactory::class)->get('dav'),
 					function () {
 						return UUIDUtil::getUUID();
 					}

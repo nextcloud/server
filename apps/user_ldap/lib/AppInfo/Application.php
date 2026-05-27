@@ -30,7 +30,6 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -86,7 +85,7 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (
 			INotificationManager $notificationManager,
-			IAppContainer $appContainer,
+			ContainerInterface $appContainer,
 			IEventDispatcher $dispatcher,
 			IUserManager $userManager,
 			IGroupManager $groupManager,
@@ -120,7 +119,7 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	private function registerBackendDependents(IAppContainer $appContainer, IEventDispatcher $dispatcher): void {
+	private function registerBackendDependents(ContainerInterface $appContainer, IEventDispatcher $dispatcher): void {
 		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer): void {

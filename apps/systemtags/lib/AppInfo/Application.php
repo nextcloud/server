@@ -47,7 +47,7 @@ class Application extends App implements IBootstrap {
 		$context->injectFn(function (IEventDispatcher $dispatcher) use ($context): void {
 			$managerListener = function (ManagerEvent $event) use ($context): void {
 				/** @var Listener $listener */
-				$listener = $context->getServerContainer()->query(Listener::class);
+				$listener = $context->getServerContainer()->get(Listener::class);
 				$listener->event($event);
 			};
 			$dispatcher->addListener(ManagerEvent::EVENT_CREATE, $managerListener);
@@ -56,7 +56,7 @@ class Application extends App implements IBootstrap {
 
 			$mapperListener = function (MapperEvent $event) use ($context): void {
 				/** @var Listener $listener */
-				$listener = $context->getServerContainer()->query(Listener::class);
+				$listener = $context->getServerContainer()->get(Listener::class);
 				$listener->mapperEvent($event);
 			};
 			$dispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);

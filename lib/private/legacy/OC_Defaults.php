@@ -7,6 +7,7 @@
  */
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Util;
@@ -214,7 +215,7 @@ class OC_Defaults {
 			return $this->theme->getSlogan($lang);
 		} else {
 			if ($this->defaultSlogan === null) {
-				$l10n = \OC::$server->getL10N('lib', $lang);
+				$l10n = Server::get(IFactory::class)->get('lib', $lang);
 				$this->defaultSlogan = $l10n->t('a safe home for all your data');
 			}
 			return $this->defaultSlogan;

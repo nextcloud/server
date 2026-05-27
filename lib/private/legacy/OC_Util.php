@@ -26,6 +26,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IManager;
@@ -260,7 +261,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(SystemConfig $config) {
-		$l = \OC::$server->getL10N('lib');
+		$l = Server::get(IFactory::class)->get('lib');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -463,7 +464,7 @@ class OC_Util {
 			clearstatcache();
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if ($perms[2] !== '0') {
-				$l = \OC::$server->getL10N('lib');
+				$l = Server::get(IFactory::class)->get('lib');
 				return [[
 					'error' => $l->t('Your data directory is readable by other people.'),
 					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other people.'),
@@ -482,7 +483,7 @@ class OC_Util {
 	 * @internal
 	 */
 	public static function checkDataDirectoryValidity($dataDirectory) {
-		$l = \OC::$server->getL10N('lib');
+		$l = Server::get(IFactory::class)->get('lib');
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
 			$errors[] = [

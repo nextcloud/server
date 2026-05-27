@@ -161,7 +161,7 @@ class Application extends App implements IBootstrap {
 		// notifications api to accept incoming user shares
 		$dispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event): void {
 			/** @var Listener $listener */
-			$listener = $this->getContainer()->query(Listener::class);
+			$listener = $this->getContainer()->get(Listener::class);
 			$listener->shareNotification($event);
 		});
 		$dispatcher->addListener(IGroup::class . '::postAddUser', function ($event): void {
@@ -169,7 +169,7 @@ class Application extends App implements IBootstrap {
 				return;
 			}
 			/** @var Listener $listener */
-			$listener = $this->getContainer()->query(Listener::class);
+			$listener = $this->getContainer()->get(Listener::class);
 			$listener->userAddedToGroup($event);
 		});
 	}

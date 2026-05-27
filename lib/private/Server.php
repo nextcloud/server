@@ -372,7 +372,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Encryption\Manager(
 				$c->get(IConfig::class),
 				$c->get(LoggerInterface::class),
-				$c->getL10N('core'),
+				$c->get(IFactory::class)->get('core'),
 				new View(),
 				$util,
 				new ArrayCache()
@@ -680,7 +680,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(IEventMerger::class, function (Server $c) {
 			return new EventMerger(
-				$c->getL10N('lib')
+				$c->get(IFactory::class)->get('lib')
 			);
 		});
 		$this->registerAlias(IValidator::class, Validator::class);
@@ -707,7 +707,7 @@ class Server extends ServerContainer implements IServerContainer {
 		/** Only used by the PsrLoggerAdapter should not be used by apps */
 		$this->registerService(Log::class, function (Server $c) {
 			$logType = $c->get(AllConfig::class)->getSystemValue('log_type', 'file');
-			$factory = new LogFactory($c, $this->get(SystemConfig::class));
+			$factory = new LogFactory($c, $this->get(SystemConfig::class), $c->get('serverRoot'));
 			$logger = $factory->get($logType);
 			$registry = $c->get(\OCP\Support\CrashReport\IRegistry::class);
 
@@ -717,7 +717,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(LoggerInterface::class, PsrLoggerAdapter::class);
 
 		$this->registerService(ILogFactory::class, function (Server $c) {
-			return new LogFactory($c, $this->get(SystemConfig::class));
+			return new LogFactory($c, $this->get(SystemConfig::class), $c->get('serverRoot'));
 		});
 
 		$this->registerAlias(IJobList::class, JobList::class);
@@ -803,7 +803,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return new DateTimeFormatter(
 				$c->get(IDateTimeZone::class)->getTimeZone(),
-				$c->getL10N('lib', $language)
+				$c->get(IFactory::class)->get('lib', $language)
 			);
 		});
 
@@ -939,7 +939,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(Defaults::class),
 				$c->get(IURLGenerator::class),
-				$c->getL10N('lib'),
+				$c->get(IFactory::class)->get('lib'),
 				$c->get(IEventDispatcher::class),
 				$c->get(IFactory::class),
 				$c->get(IEmailValidator::class),
@@ -1006,7 +1006,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IMimeTypeLoader::class, Loader::class);
 		$this->registerService(BundleFetcher::class, function () {
-			return new BundleFetcher($this->getL10N('lib'));
+			return new BundleFetcher($this->get(IFactory::class)->get('lib'));
 		});
 		$this->registerAlias(\OCP\Notification\IManager::class, Manager::class);
 
