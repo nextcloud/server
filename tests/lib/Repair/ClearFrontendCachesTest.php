@@ -48,6 +48,5 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 			->willReturn($imagePathCache);
 
 		$this->repair->run($this->outputMock);
-		$this->assertTrue(true);
 	}
 }
