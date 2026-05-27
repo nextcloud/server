@@ -148,6 +148,6 @@ OC.L10N.register(
     "Unknown weather code" : "Nežinomas orų kodas",
     "Detect location" : "Aptikti vietą",
     "Set custom address" : "Nustatyti tinkintą adresą",
-    "Favorites" : "Mėgstamos"
+    "Favorites" : "Mėgstami"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
