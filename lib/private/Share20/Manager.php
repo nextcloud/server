@@ -9,6 +9,8 @@
 namespace OC\Share20;
 
 use ArrayIterator;
+use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Filesystem;
 use OC\KnownUser\KnownUserService;
@@ -45,6 +47,7 @@ use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
+use OCP\Server;
 use OCP\Share;
 use OCP\Share\Events\BeforeShareCreatedEvent;
 use OCP\Share\Events\BeforeShareDeletedEvent;
@@ -1412,6 +1415,18 @@ class Manager implements IManager {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_REMOTE);
 				$share = $provider->getShareByToken($token);
 			} catch (ProviderException|ShareNotFound) {
+			}
+		}
+
+		// Try to fetch a federated share by access token
+		if ($share === null) {
+			try {
+				$provider = $this->factory->getProviderForType(IShare::TYPE_REMOTE);
+				$tokenProvider = Server::get(PublicKeyTokenProvider::class);
+				$accessTokenDb = $tokenProvider->getToken($token);
+				$refreshToken = $accessTokenDb->getUID();
+				$share = $provider->getShareByToken($refreshToken);
+			} catch (ProviderException|ShareNotFound|InvalidTokenException $e) {
 			}
 		}
 
