@@ -41,6 +41,8 @@ class CloudFederationShare implements ICloudFederationShare {
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param string $resourceType ('file', 'calendar',...)
 	 * @param string $sharedSecret
+	 * @param bool $useExchangeToken whether to use exchange-token protocol (new way) or sharedSecret (old way)
+	 * @param string|null $remoteDomain remote domain for constructing webdav URI
 	 */
 	public function __construct($shareWith = '',
 		$name = '',
@@ -53,6 +55,8 @@ class CloudFederationShare implements ICloudFederationShare {
 		$shareType = '',
 		$resourceType = '',
 		$sharedSecret = '',
+		$useExchangeToken = false,
+		$remoteDomain = null,
 	) {
 		$this->setShareWith($shareWith);
 		$this->setResourceName($name);
@@ -62,13 +66,27 @@ class CloudFederationShare implements ICloudFederationShare {
 		$this->setOwnerDisplayName($ownerDisplayName);
 		$this->setSharedBy($sharedBy);
 		$this->setSharedByDisplayName($sharedByDisplayName);
-		$this->setProtocol([
-			'name' => 'webdav',
-			'options' => [
-				'sharedSecret' => $sharedSecret,
-				'permissions' => '{http://open-cloud-mesh.org/ns}share-permissions'
-			]
-		]);
+
+		if ($useExchangeToken) {
+			$webdavUri = $remoteDomain ? 'https://' . $remoteDomain . '/public.php/webdav/' : '';
+			$this->setProtocol([
+				'name' => 'webdav',
+				'webdav' => [
+					'uri' => $webdavUri,
+					'sharedSecret' => $sharedSecret,
+					'permissions' => ['{http://open-cloud-mesh.org/ns}share-permissions']
+				]
+			]);
+		} else {
+			$this->setProtocol([
+				'name' => 'webdav',
+				'options' => [
+					'sharedSecret' => $sharedSecret,
+					'permissions' => '{http://open-cloud-mesh.org/ns}share-permissions'
+				]
+			]);
+		}
+
 		$this->setShareType($shareType);
 		$this->setResourceType($resourceType);
 	}
@@ -352,7 +370,19 @@ class CloudFederationShare implements ICloudFederationShare {
 	 */
 	#[\Override]
 	public function getShareSecret() {
-		return $this->share['protocol']['options']['sharedSecret'];
+		$protocol = $this->share['protocol'];
+		if (isset($protocol['options']['sharedSecret'])) {
+			return $protocol['options']['sharedSecret'];
+		}
+
+		if (isset($protocol['name'])) {
+			$protocolName = $protocol['name'];
+			if (isset($protocol[$protocolName]['sharedSecret'])) {
+				return $protocol[$protocolName]['sharedSecret'];
+			}
+		}
+
+		return '';
 	}
 
 	/**
