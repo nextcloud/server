@@ -525,16 +525,27 @@ class OC {
 			return false;
 		}
 
-		$sessionName = session_name();
-		if (isset($_COOKIE[$sessionName])) {
-			$domain = self::$config->getValue(self::COOKIE_DOMAIN_CONFIG_KEY, '');
-			setcookie($sessionName, '', $now - 3600, self::$WEBROOT ?: '/', $domain);
-		}
-
+		self::clearSessionCookie();
 		Server::get(IUserSession::class)->logout();
 		$session->close();
 
 		return true;
+	}
+
+	private static function clearSessionCookie(IRequest $request, int $now): void {
+		$sessionName = session_name();
+		if ($sessionName === '' || $request->getCookie($sessionName) === null) {
+			return;
+		}
+
+		$sessionCookieParams = session_get_cookie_params();
+		setcookie(
+			$sessionName,
+			'',
+			$now - 3600,
+			$sessionCookieParams['path'] ?: '/',
+			$sessionCookieParams['domain'] ?: ''
+		);
 	}
 
 	private static function getSessionLifeTime(): int {
