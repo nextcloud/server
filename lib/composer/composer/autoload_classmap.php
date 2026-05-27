@@ -202,6 +202,7 @@ return array(
     'OCP\\BackgroundJob\\IJobList' => $baseDir . '/lib/public/BackgroundJob/IJobList.php',
     'OCP\\BackgroundJob\\IParallelAwareJob' => $baseDir . '/lib/public/BackgroundJob/IParallelAwareJob.php',
     'OCP\\BackgroundJob\\Job' => $baseDir . '/lib/public/BackgroundJob/Job.php',
+    'OCP\\BackgroundJob\\JobStatus' => $baseDir . '/lib/public/BackgroundJob/JobStatus.php',
     'OCP\\BackgroundJob\\QueuedJob' => $baseDir . '/lib/public/BackgroundJob/QueuedJob.php',
     'OCP\\BackgroundJob\\TimedJob' => $baseDir . '/lib/public/BackgroundJob/TimedJob.php',
     'OCP\\BeforeSabrePubliclyLoadedEvent' => $baseDir . '/lib/public/BeforeSabrePubliclyLoadedEvent.php',
