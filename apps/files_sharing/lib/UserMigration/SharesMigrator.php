@@ -94,9 +94,9 @@ class SharesMigrator implements IMigrator, ISizeEstimationMigrator {
 					$qb->set('password', $qb->createNamedParameter($shareData['password'], IQueryBuilder::PARAM_STR));
 				}
 
-				// Set the token after the share is created because a new one
-				// is generated whether there is an existing token or not
-				if (isset($shareData['token'])) {
+				if (isset($shareData['token']) && !$this->tokenExists($shareData['token'])) {
+					// Set the token after the share is created because a new one
+					// is generated whether there is an existing token or not
 					$qb->set('token', $qb->createNamedParameter($shareData['token'], IQueryBuilder::PARAM_STR));
 				}
 				$qb->executeStatement();
@@ -248,5 +248,18 @@ class SharesMigrator implements IMigrator, ISizeEstimationMigrator {
 		}
 
 		return array_map(fn (IShare $share) => $this->shareToArray($share), $shares);
+	}
+
+	private function tokenExists(string $token): bool {
+		$qb = $this->connection->getQueryBuilder();
+
+		$result = $qb->select($qb->func()->count('*', 'share_count'))
+					  ->from('share')
+					  ->where($qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
+					  ->executeQuery();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		return $row['share_count'] > 0;
 	}
 }
