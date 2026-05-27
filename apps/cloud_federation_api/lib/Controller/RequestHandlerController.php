@@ -7,9 +7,11 @@
 
 namespace OCA\CloudFederationAPI\Controller;
 
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
+use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
 use OCA\CloudFederationAPI\Events\FederatedInviteAcceptedEvent;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
@@ -39,6 +41,7 @@ use OCP\IUserManager;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\IIncomingSignedRequest;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -85,7 +88,7 @@ class RequestHandlerController extends Controller {
 	 * @param string|null $ownerDisplayName Display name of the user who shared the item
 	 * @param string|null $sharedBy Provider specific UID of the user who shared the resource
 	 * @param string|null $sharedByDisplayName Display name of the user who shared the resource
-	 * @param array{name: list<string>, options: array<string, mixed>} $protocol e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]
+	 * @param array{name: string, options?: array<string, mixed>, webdav?: array<string, mixed>} $protocol Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]] or Multi format: ['name' => 'multi', 'webdav' => [...]]
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
@@ -120,13 +123,37 @@ class RequestHandlerController extends Controller {
 			|| $shareType === null
 			|| !is_array($protocol)
 			|| !isset($protocol['name'])
-			|| !isset($protocol['options'])
-			|| !is_array($protocol['options'])
-			|| !isset($protocol['options']['sharedSecret'])
 		) {
 			return new JSONResponse(
 				[
 					'message' => 'Missing arguments',
+					'validationErrors' => [],
+				],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
+		$protocolName = $protocol['name'];
+		$hasOldFormat = isset($protocol['options']) && is_array($protocol['options']) && isset($protocol['options']['sharedSecret']);
+		$hasNewFormat = isset($protocol[$protocolName]) && is_array($protocol[$protocolName]) && isset($protocol[$protocolName]['sharedSecret']);
+
+		// For multi-protocol, we only consider webdav
+		$hasMultiFormat = false;
+		if ($protocolName === 'multi') {
+			if (isset($protocol['webdav']) && is_array($protocol['webdav']) && isset($protocol['webdav']['sharedSecret'])) {
+				$hasMultiFormat = true;
+				$protocol = [
+					'name' => 'webdav',
+					'webdav' => $protocol['webdav']
+				];
+				$protocolName = 'webdav';
+			}
+		}
+
+		if (!$hasOldFormat && !$hasNewFormat && !$hasMultiFormat) {
+			return new JSONResponse(
+				[
+					'message' => 'Missing sharedSecret in protocol',
 					'validationErrors' => [],
 				],
 				Http::STATUS_BAD_REQUEST
@@ -142,6 +169,7 @@ class RequestHandlerController extends Controller {
 		}
 
 		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
+		$shareWithCloudId = $shareWith; // preserve full cloud ID for factory capability discovery
 		$shareWith = $cloudId->getUser();
 
 		if ($shareType === 'user') {
@@ -186,7 +214,10 @@ class RequestHandlerController extends Controller {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
+			// Pass the original cloud ID so the factory can discover capabilities without warning.
+			// Then reset shareWith to the local username that shareReceived() needs for user lookup.
+			$share = $this->factory->getCloudFederationShare($shareWithCloudId, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
+			$share->setShareWith($shareWith);
 			$share->setProtocol($protocol);
 			$provider->shareReceived($share);
 		} catch (ProviderDoesNotExistsException|ProviderCouldNotAddShareException $e) {
@@ -478,6 +509,12 @@ class RequestHandlerController extends Controller {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
 			if ($provider instanceof ISignedCloudFederationProvider || $provider instanceof \NCU\Federation\ISignedCloudFederationProvider) {
 				$identity = $provider->getFederationIdFromSharedSecret($sharedSecret, $notification);
+				if ($identity === '') {
+					$tokenProvider = Server::get(PublicKeyTokenProvider::class);
+					$accessTokenDb = $tokenProvider->getToken($sharedSecret);
+					$mapping = Server::get(OcmTokenMapMapper::class)->getByAccessTokenId($accessTokenDb->getId());
+					$identity = $provider->getFederationIdFromSharedSecret($mapping->getRefreshToken(), $notification);
+				}
 			} else {
 				$this->logger->debug('cloud federation provider {provider} does not implements ISignedCloudFederationProvider', ['provider' => $provider::class]);
 				return;
