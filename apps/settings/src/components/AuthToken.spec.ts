@@ -191,4 +191,3 @@ describe('AuthTokenDeleteDialog wipe-pending warning', () => {
 		expect(noteCard.text()).toMatch(/wipe/i)
 	})
 })
-
