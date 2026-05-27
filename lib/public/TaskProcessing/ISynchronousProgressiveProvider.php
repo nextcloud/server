@@ -27,10 +27,11 @@ interface ISynchronousProgressiveProvider extends ISynchronousProvider {
 	 * @param array<string, list<numeric|string|File>|numeric|string|File> $input The task input
 	 * @param callable(float):bool $reportProgress Report the task progress. If this returns false, that means the task was cancelled and processing should be stopped.
 	 * @param null|callable(array):bool $reportOutput Set the task intermediate output
+	 * @param bool $preferStreaming Whether to prefer streaming output or not
 	 * @psalm-return array<string, list<numeric|string>|numeric|string>
 	 * @throws ProcessingException
-	 * @since 33.0.0
+	 * @since 35.0.0
 	 */
 	#[\Override]
-	public function process(?string $userId, array $input, callable $reportProgress, ?callable $reportOutput = null): array;
+	public function process(?string $userId, array $input, callable $reportProgress, ?callable $reportOutput = null, bool $preferStreaming = true): array;
 }
