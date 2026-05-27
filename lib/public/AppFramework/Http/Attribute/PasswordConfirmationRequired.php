@@ -29,7 +29,8 @@ use Attribute;
 class PasswordConfirmationRequired {
 	/**
 	 * @param bool $strict Whether password confirmation must happen as part of
-	 * the current request instead of relying on a recent prior confirmation.
+	 *                     the current request instead of relying on a recent
+	 *                     prior confirmation.
 	 *
 	 * @since 31.0.0
 	 */
