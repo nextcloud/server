@@ -11,9 +11,9 @@
 			:triggers="[]"
 			placement="bottom-start"
 			:skidding="popoverSkidding"
-			:setReturnFocus="returnFocusTarget"
-			popoverBaseClass="app-menu__popover-base"
-			popupRole="menu"
+			:set-return-focus="returnFocusTarget"
+			popover-base-class="app-menu__popover-base"
+			popup-role="menu"
 			@update:shown="opened = $event">
 			<template #trigger>
 				<NcButton
@@ -40,7 +40,7 @@
 						ref="items"
 						:app="item"
 						:outlined="item.id === 'more-apps' || item.id === 'app-store'"
-						:newTab="item.id === 'app-store'"
+						:new-tab="item.id === 'app-store'"
 						:tabindex="i === focusedIndex ? 0 : -1" />
 				</div>
 			</div>
@@ -431,8 +431,7 @@ export default defineComponent({
 			min-width: 0;
 		}
 
-		// Hide on small screens (matches $breakpoint-small-mobile in @nextcloud/vue).
-		@media only screen and (max-width: 512px) {
+		@media only screen and (max-width: 1024px) {
 			display: none !important;
 		}
 	}
