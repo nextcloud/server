@@ -21,6 +21,7 @@ SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: Olivier Scherrer <pode.fr@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
+SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mathias Bynens
 SPDX-FileCopyrightText: Julian Gruber
 SPDX-FileCopyrightText: Joyent
@@ -48,11 +49,14 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
 	- version: 2.6.0
 	- license: GPL-3.0-or-later
+- @nextcloud/axios
+	- version: 2.5.2
+	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.5.0
 	- license: GPL-3.0-or-later
 - semver
-	- version: 7.8.0
+	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.3
@@ -81,6 +85,9 @@ This file is generated from multiple sources. Included packages:
 - available-typed-arrays
 	- version: 1.0.7
 	- license: MIT
+- axios
+	- version: 1.13.4
+	- license: MIT
 - balanced-match
 	- version: 1.0.2
 	- license: MIT
@@ -91,7 +98,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - brace-expansion
-	- version: 2.1.0
+	- version: 2.0.2
 	- license: MIT
 - buffer
 	- version: 5.7.1
@@ -145,7 +152,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: MIT
 - fast-xml-parser
-	- version: 5.8.0
+	- version: 5.7.3
 	- license: MIT
 - for-each
 	- version: 0.3.5
@@ -314,9 +321,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
-	- license: MIT
-- xml-naming
-	- version: 0.1.0
 	- license: MIT
 - xtend
 	- version: 4.0.2

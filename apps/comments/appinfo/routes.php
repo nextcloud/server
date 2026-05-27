@@ -8,5 +8,6 @@
 return [
 	'routes' => [
 		['name' => 'Notifications#view', 'url' => '/notifications/view/{id}', 'verb' => 'GET'],
+		['name' => 'Notifications#dismiss', 'url' => '/notifications/{id}', 'verb' => 'DELETE'],
 	]
 ];
