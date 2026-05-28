@@ -20,6 +20,7 @@ use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
@@ -32,9 +33,9 @@ class PasswordConfirmationMiddleware extends Middleware {
 	private const PASSWORD_CONFIRMATION_GRACE_SECONDS = 15;
 
 	/**
-	 * Legacy compatibility allowlist for backends that do not participate in the
-	 * non-strict recent-confirmation flow. New backends should prefer implementing
-	 * IPasswordConfirmationBackend instead of being added here.
+	 * Backends that cannot participate in password confirmation are exempt from both
+	 * strict and non-strict password confirmation checks. New backends should prefer
+	 * implementing IPasswordConfirmationBackend instead of being added here.
 	 *
 	 * @var array<string, true>
 	 */
@@ -74,13 +75,14 @@ class PasswordConfirmationMiddleware extends Middleware {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
 		} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
-			// Only valid interactive session tokens participate in password confirmation. Requests without such a
-			// token are left to be rejected or otherwise handled by the normal authentication/session handling.
+			// Password confirmation is only enforced for requests backed by a valid interactive session token.
+			// Requests without such a token are left to be rejected or otherwise handled by the normal
+			// authentication/session middleware stack.
 			return;
 		}
 
 		if ($this->isTokenExemptFromPasswordConfirmation($token)) {
-			// Users logging in from SSO backends cannot confirm their password by design
+			// Some session tokens are marked to skip password validation entirely.
 			return;
 		}
 
@@ -96,11 +98,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 		$minimumRequiredConfirmTime = $now
 			- (self::PASSWORD_CONFIRMATION_TIMEOUT + self::PASSWORD_CONFIRMATION_GRACE_SECONDS);
 
-		// TODO: confirm excludedUserBackEnds can go away and remove it
-		if (
-			!$this->isLegacyBackendExcludedFromRecentConfirmation($user)
-			&& $lastConfirm < $minimumRequiredConfirmTime
-		) {
+		if ($lastConfirm < $minimumRequiredConfirmTime) {
 			throw new NotConfirmedException();
 		}
 	}
@@ -124,12 +122,20 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 
 		$backend = $user->getBackend();
-		return $backend instanceof IPasswordConfirmationBackend
-			&& !$backend->canConfirmPassword($user->getUID());
+
+		if (
+			$backend instanceof IPasswordConfirmationBackend
+			&& !$backend->canConfirmPassword($user->getUID())
+		) {
+			return true;
+		}
+
+		return $this->isLegacyBackendExcludedFromRecentConfirmation($user);
 	}
 
 	private function isLegacyBackendExcludedFromRecentConfirmation(?IUser $user): bool {
 		$backendClassName = $user?->getBackendClassName() ?? '';
+		// TODO: confirm excludedUserBackEnds can go away and remove it
 		return isset($this->excludedUserBackEnds[$backendClassName]);
 	}
 
@@ -143,9 +149,9 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @throws NotConfirmedException
 	 */
 	private function confirmPasswordFromAuthorizationHeader(): void {
-		$authHeader = strtolower($this->request->getHeader('Authorization'));
+		$authHeader = $this->request->getHeader('Authorization');
 
-		if (!str_starts_with($authHeader, 'basic ')) {
+		if (!str_starts_with(strtolower($authHeader), 'basic ')) {
 			throw new NotConfirmedException('Required authorization header missing');
 		}
 
