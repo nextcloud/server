@@ -28,6 +28,9 @@ use ReflectionAttribute;
 use ReflectionMethod;
 
 class PasswordConfirmationMiddleware extends Middleware {
+	private const PASSWORD_CONFIRMATION_TIMEOUT = 30 * 60;
+	private const PASSWORD_CONFIRMATION_GRACE_SECONDS = 15;
+
 	/**
 	 * Legacy compatibility allowlist for backends that do not participate in the
 	 * non-strict recent-confirmation flow. New backends should prefer implementing
@@ -81,15 +84,17 @@ class PasswordConfirmationMiddleware extends Middleware {
 			return;
 		}
 
+		$now = $this->timeFactory->getTime();
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
 			$this->confirmPasswordFromAuthorizationHeader();
-			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
+			$this->session->set('last-password-confirm', $now);
 			return;
 		}
 		
 		$lastConfirm = (int)$this->session->get('last-password-confirm');
-		$minimumRequiredConfirmTime = $this->timeFactory->getTime() - (30 * 60 + 15); // allow 15 seconds delay
+		$minimumRequiredConfirmTime = $now
+			- (self::PASSWORD_CONFIRMATION_TIMEOUT + self::PASSWORD_CONFIRMATION_GRACE_SECONDS);
 
 		// TODO: confirm excludedUserBackEnds can go away and remove it
 		if (
