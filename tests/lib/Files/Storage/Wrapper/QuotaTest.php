@@ -13,6 +13,7 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Wrapper\Quota;
 use OCP\Files;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\ITempManager;
 use OCP\Server;
 
@@ -246,14 +247,14 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$stream = fopen('php://temp', 'w+');
 		fwrite($stream, 'foobar');
 		rewind($stream);
-		$this->expectException(Files\NotEnoughSpaceException::class);
+		$this->expectException(NotEnoughSpaceException::class);
 		$instance->writeStream('files/test.txt', $stream);
 	}
 
 	public function testNoWriteStreamQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$stream = fopen('php://temp', 'w+');
-		$this->expectException(Files\NotEnoughSpaceException::class);
+		$this->expectException(NotEnoughSpaceException::class);
 		$instance->writeStream('files/test.txt', $stream);
 	}
 }

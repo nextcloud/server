@@ -25,6 +25,7 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IEventSourceFactory;
@@ -34,7 +35,7 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenApi::SCOPE_IGNORE)]
-class UpdateController extends \OCP\AppFramework\OCSController {
+class UpdateController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,

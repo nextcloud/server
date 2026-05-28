@@ -36,6 +36,7 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Settings\IManager as ISettingsManager;
@@ -1240,7 +1241,7 @@ class AppManager implements IAppManager {
 
 		$missing = $this->dependencyAnalyzer->analyze($info, $ignoreMax);
 		if ($missing !== []) {
-			$l = \OCP\Server::get(\OCP\L10N\IFactory::class)->get('core');
+			$l = Server::get(IFactory::class)->get('core');
 			$missingMsg = implode(PHP_EOL, $missing);
 			throw new \Exception(
 				$l->t('App "%1$s" cannot be installed because the following dependencies are not fulfilled: %2$s',
