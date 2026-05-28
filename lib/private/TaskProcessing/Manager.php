@@ -59,13 +59,14 @@ use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
-use OCP\TaskProcessing\ISynchronousProgressiveProvider;
+use OCP\TaskProcessing\ISynchronousOptionsProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ISynchronousWatermarkingProvider;
 use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
+use OCP\TaskProcessing\SynchronousProviderOptions;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\AnalyzeImages;
 use OCP\TaskProcessing\TaskTypes\AudioToAudioChat;
@@ -1139,13 +1140,17 @@ class Manager implements IManager {
 				$this->setTaskStatus($task, Task::STATUS_RUNNING);
 				if ($provider instanceof ISynchronousWatermarkingProvider) {
 					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress), $task->getIncludeWatermark());
-				} elseif ($provider instanceof ISynchronousProgressiveProvider) {
+				} elseif ($provider instanceof ISynchronousOptionsProvider) {
+					$options = new SynchronousProviderOptions(
+						$task->getIncludeWatermark(),
+						$task->getPreferStreaming(),
+						fn (array $output) => $this->setTaskIntermediateOutput($task->getId(), $output),
+					);
 					$output = $provider->process(
 						$task->getUserId(),
 						$input,
 						fn (float $progress) => $this->setTaskProgress($task->getId(), $progress),
-						fn (array $output) => $this->setTaskIntermediateOutput($task->getId(), $output),
-						$task->getPreferStreaming()
+						$options,
 					);
 				} else {
 					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress));

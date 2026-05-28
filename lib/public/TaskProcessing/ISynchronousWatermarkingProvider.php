@@ -16,6 +16,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
  * This is the interface that is implemented by apps that
  * implement a task processing provider that supports watermarking
  * @since 33.0.0
+ * @deprecated 35.0.0 Use ISynchronousOptionsProvider instead
  */
 interface ISynchronousWatermarkingProvider extends ISynchronousProvider {
 
