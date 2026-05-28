@@ -22,6 +22,7 @@ use Attribute;
  * currently defined by the middleware as within the last 30 minutes.
  *
  * In strict mode, confirmation is attempted as part of the current request.
+ * Credentials must be provided via Basic HTTP authentication.
  *
  * @since 27.0.0
  */
