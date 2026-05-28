@@ -23,6 +23,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -106,7 +107,19 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->connection->getQueryBuilder()->delete('share')->executeStatement();
+		// Scope to remote shares only (TYPE_REMOTE = 6) to avoid nuking shares from
+		// concurrently running test processes on MySQL
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('share')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_REMOTE, IQueryBuilder::PARAM_INT)));
+		$qb->executeStatement();
+
+		// Clean up real users created inside testGetSharesInFolder / testGetAccessList
+		// if those tests fail before reaching their own $u->delete() calls
+		$userManager = Server::get(IUserManager::class);
+		foreach (['testFed', 'testFed2'] as $uid) {
+			$userManager->get($uid)?->delete();
+		}
 
 		parent::tearDown();
 	}
