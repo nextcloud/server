@@ -68,7 +68,8 @@ class PasswordConfirmationMiddleware extends Middleware {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
 		} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
-			// States we do not deal with here.
+			// Only valid interactive session tokens participate in password confirmation. Requests without such a
+			// token are left to be rejected or otherwise handled by the normal authentication/session handling.
 			return;
 		}
 
@@ -80,13 +81,23 @@ class PasswordConfirmationMiddleware extends Middleware {
 
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
-			$authHeader = $this->request->getHeader('Authorization');
-			if (!str_starts_with(strtolower($authHeader), 'basic ')) {
+			$authHeader = strtolower($this->request->getHeader('Authorization'));
+
+			if (!str_starts_with($authHeader, 'basic ')) {
 				throw new NotConfirmedException('Required authorization header missing');
 			}
-			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
+
+			$decoded = base64_decode(substr($authHeader, 6), true);
+
+			if ($decoded === false || !str_contains($decoded, ':')) {
+				throw new NotConfirmedException('Malformed authorization header');
+			}
+
+			[$ignoredUser, $password] = explode(':', $decoded, 2);
+
 			$loginName = $this->session->get('loginname');
 			$loginResult = $this->userManager->checkPassword($loginName, $password);
+
 			if ($loginResult === false) {
 				throw new NotConfirmedException();
 			}
