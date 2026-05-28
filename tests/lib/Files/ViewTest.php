@@ -475,11 +475,10 @@ class ViewTest extends \Test\TestCase {
 	}
 
 	public function copyBetweenStorages($storage1, $storage2) {
-		$root = self::getUniqueID('/');
-		Filesystem::mount($storage1, [], $root . '/');
-		Filesystem::mount($storage2, [], $root . '/substorage');
+		Filesystem::mount($storage1, [], '/');
+		Filesystem::mount($storage2, [], '/substorage');
 
-		$rootView = new View($root);
+		$rootView = new View('');
 		$rootView->mkdir('substorage/emptyfolder');
 		$rootView->copy('substorage', 'anotherfolder');
 		$this->assertTrue($rootView->is_dir('/anotherfolder'));
