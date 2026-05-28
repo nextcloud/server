@@ -19,6 +19,7 @@ use OCA\Files_Sharing\Listener\SharesUpdatedListener;
 use OCA\Files_Sharing\MountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\IRootFolder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -120,15 +121,29 @@ abstract class TestCase extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
-		$qb->delete('share');
+		$db = Server::get(IDBConnection::class);
+		$testUsers = [
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			self::TEST_FILES_SHARING_API_USER3,
+			self::TEST_FILES_SHARING_API_USER4,
+		];
+
+		// Scope deletes to test-owned rows to avoid nuking concurrent test runs on MySQL
+		$qb = $db->getQueryBuilder();
+		$qb->delete('share')
+			->where($qb->expr()->orX(
+				$qb->expr()->in('uid_owner', $qb->createNamedParameter($testUsers, IQueryBuilder::PARAM_STR_ARRAY)),
+				$qb->expr()->in('uid_initiator', $qb->createNamedParameter($testUsers, IQueryBuilder::PARAM_STR_ARRAY))
+			));
 		$qb->executeStatement();
 
-		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
-		$qb->delete('mounts');
+		$qb = $db->getQueryBuilder();
+		$qb->delete('mounts')
+			->where($qb->expr()->in('user_id', $qb->createNamedParameter($testUsers, IQueryBuilder::PARAM_STR_ARRAY)));
 		$qb->executeStatement();
 
-		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
+		$qb = $db->getQueryBuilder();
 		$qb->delete('filecache')->runAcrossAllShards();
 		$qb->executeStatement();
 
