@@ -28,7 +28,17 @@ use ReflectionAttribute;
 use ReflectionMethod;
 
 class PasswordConfirmationMiddleware extends Middleware {
-	private array $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
+	/**
+	 * Legacy compatibility allowlist for backends that do not participate in the
+	 * non-strict recent-confirmation flow. New backends should prefer implementing
+	 * IPasswordConfirmationBackend instead of being added here.
+	 *
+	 * @var array<string, true>
+	 */
+	private array $excludedUserBackEnds = [
+		'user_saml' => true,
+		'user_globalsiteselector' => true,
+	];
 
 	public function __construct(
 		private ControllerMethodReflector $reflector,
@@ -52,16 +62,9 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 
 		$user = $this->userSession->getUser();
-		$backendClassName = '';
-		if ($user !== null) {
-			$backend = $user->getBackend();
-			if ($backend instanceof IPasswordConfirmationBackend) {
-				if (!$backend->canConfirmPassword($user->getUID())) {
-					return;
-				}
-			}
 
-			$backendClassName = $user->getBackendClassName();
+		if ($this->isBackendExemptFromPasswordConfirmation($user)) {
+			return;
 		}
 
 		try {
@@ -73,8 +76,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 			return;
 		}
 
-		$scope = $token->getScopeAsArray();
-		if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
+		if ($this->isTokenExemptFromPasswordConfirmation($token)) {
 			// Users logging in from SSO backends cannot confirm their password by design
 			return;
 		}
@@ -103,17 +105,26 @@ class PasswordConfirmationMiddleware extends Middleware {
 			}
 
 			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
-		} else {
-			$lastConfirm = (int)$this->session->get('last-password-confirm');
-			// TODO: confirm excludedUserBackEnds can go away and remove it
-			if (!isset($this->excludedUserBackEnds[$backendClassName]) && $lastConfirm < ($this->timeFactory->getTime() - (30 * 60 + 15))) { // allow 15 seconds delay
-				throw new NotConfirmedException();
-			}
+			return;
+		}
+		
+		$lastConfirm = (int)$this->session->get('last-password-confirm');
+		$minimumRequiredConfirmTime = $this->timeFactory->getTime() - (30 * 60 + 15); // allow 15 seconds delay
+
+		// TODO: confirm excludedUserBackEnds can go away and remove it
+		if (
+			!$this->isLegacyBackendExcludedFromRecentConfirmation($user)
+			&& $lastConfirm < $minimumRequiredConfirmTime
+		) {
+			throw new NotConfirmedException();
 		}
 	}
 
 	private function needsPasswordConfirmation(): bool {
-		return $this->reflector->hasAnnotationOrAttribute('PasswordConfirmationRequired', PasswordConfirmationRequired::class);
+		return $this->reflector->hasAnnotationOrAttribute(
+			'PasswordConfirmationRequired',
+			PasswordConfirmationRequired::class
+		);
 	}
 
 	private function isPasswordConfirmationStrict(ReflectionMethod $reflectionMethod): bool {
@@ -121,4 +132,26 @@ class PasswordConfirmationMiddleware extends Middleware {
 		$attributes = $reflectionMethod->getAttributes(PasswordConfirmationRequired::class);
 		return !empty($attributes) && ($attributes[0]->newInstance()->getStrict());
 	}
+
+	private function isBackendExemptFromPasswordConfirmation(?IUser $user): bool {
+		if ($user === null) {
+			return false;
+		}
+
+		$backend = $user->getBackend();
+		return $backend instanceof IPasswordConfirmationBackend
+			&& !$backend->canConfirmPassword($user->getUID());
+	}
+
+	private function isLegacyBackendExcludedFromRecentConfirmation(?IUser $user): bool {
+		$backendClassName = $user?->getBackendClassName() ?? '';
+		return isset($this->excludedUserBackEnds[$backendClassName]);
+	}
+
+	private function isTokenExemptFromPasswordConfirmation(IToken $token): bool {
+		$scope = $token->getScopeAsArray();
+		return isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION])
+			&& $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true;
+	}
+
 }
