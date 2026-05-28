@@ -25,6 +25,7 @@ class SQLiteSessionInit implements EventSubscriber {
 		$sensitive = $this->caseSensitiveLike ? 'true' : 'false';
 		$args->getConnection()->executeUpdate('PRAGMA case_sensitive_like = ' . $sensitive);
 		$args->getConnection()->executeUpdate('PRAGMA journal_mode = ' . $this->journalMode);
+		$args->getConnection()->executeUpdate('PRAGMA foreign_keys = true');
 		/** @var \Doctrine\DBAL\Driver\PDO\Connection $connection */
 		$connection = $args->getConnection()->getWrappedConnection();
 		$pdo = $connection->getWrappedConnection();
