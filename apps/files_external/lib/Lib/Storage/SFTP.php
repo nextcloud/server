@@ -65,6 +65,13 @@ class SFTP extends Common {
 	}
 
 	public function __construct(array $parameters) {
+		if (!isset($parameters['host'])) {
+			throw new \InvalidArgumentException('Invalid configuration, no host provided');
+		}
+		if (!isset($parameters['user'])) {
+			throw new \InvalidArgumentException('Invalid configuration, no user provided');
+		}
+
 		// Register sftp://
 		Stream::register();
 
@@ -77,7 +84,7 @@ class SFTP extends Common {
 		$this->port = (int)(is_numeric($parsedPort) ? $parsedPort : $parsedHost[1]);
 
 		if (!isset($parameters['user'])) {
-			throw new \UnexpectedValueException('no authentication parameters specified');
+			throw new \InvalidArgumentException('no authentication parameters specified');
 		}
 		$this->user = $parameters['user'];
 
@@ -89,7 +96,7 @@ class SFTP extends Common {
 		}
 
 		if ($this->auth === []) {
-			throw new \UnexpectedValueException('no authentication parameters specified');
+			throw new \InvalidArgumentException('no authentication parameters specified');
 		}
 
 		$this->root
