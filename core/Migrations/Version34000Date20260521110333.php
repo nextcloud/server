@@ -45,6 +45,8 @@ class Version34000Date20260521110333 extends SimpleMigrationStep {
 			$table->addColumn('ram_peak_usage', Types::INTEGER, ['notnull' => true, 'default' => 0]); // Should be MEDIUMINT
 			$table->setPrimaryKey(['run_id']);
 			$table->addIndex(['status'], 'status');
+			// Makes sure there is no auto-increment in Oracle
+			$schema->dropAutoincrementColumn('job_runs', 'run_id');
 
 			return $schema;
 		}

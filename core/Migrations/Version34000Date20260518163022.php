@@ -38,6 +38,8 @@ class Version34000Date20260518163022 extends SimpleMigrationStep {
 			$table->addColumn('class_name', Types::STRING, ['notnull' => true, 'length' => 255]);
 			$table->setPrimaryKey(['class_id']);
 			$table->addUniqueConstraint(['class_name'], 'class_index');
+			// Makes sure there is no auto-increment in Oracle
+			$schema->dropAutoincrementColumn('job_classes_registry', 'class_id');
 
 			return $schema;
 		}
