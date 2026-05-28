@@ -23,6 +23,15 @@ trait Sharing {
 	/** @var SimpleXMLElement[] */
 	private array $storedShareData = [];
 	private ?string $savedShareId = null;
+
+	/**
+	 * @BeforeScenario
+	 */
+	public function resetSharingState(): void {
+		$this->lastShareData = null;
+		$this->storedShareData = [];
+		$this->savedShareId = null;
+	}
 	/** @var ResponseInterface */
 	private $response;
 
