@@ -159,11 +159,6 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 		];
 	}
 
-	/**
-	 * Test various file sizes with SSE-KMS
-	 *
-	 * @dataProvider dataFileSizes
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileSizes')]
 	public function testFileSizesWithKMS(int $size): void {
 		$urn = 'kms-test-size-' . ($size / 1024) . 'kb';
@@ -256,11 +251,6 @@ class S3SSEKMSTest extends ObjectStoreTestCase {
 			'Zero-byte file should still have SSE-KMS encryption');
 	}
 
-	/**
-	 * Test large file sizes with SSE-KMS to verify multipart threshold behavior
-	 *
-	 * @dataProvider dataLargeFileSizes
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataLargeFileSizes')]
 	#[\PHPUnit\Framework\Attributes\Group('SLOWDB')]
 	public function testLargeFileSizesWithKMS(int $size): void {
