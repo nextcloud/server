@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
@@ -33,7 +34,6 @@ class SharedMountTest extends TestCase {
 		$this->folder2 = '/folder_share_storage_test2';
 
 		$this->filename = '/share-api-storage.txt';
-
 
 		$this->view->mkdir($this->folder);
 		$this->view->mkdir($this->folder2);

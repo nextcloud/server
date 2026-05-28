@@ -70,7 +70,6 @@ class FileDisplayResponseTest extends \Test\TestCase {
 		$this->response->callback($output);
 	}
 
-
 	public function testNon304(): void {
 		$resource = fopen('php://memory', 'w+b');
 		fwrite($resource, 'my data');

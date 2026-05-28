@@ -60,7 +60,6 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([$userDummyBackend, $dummyDatabaseBackend], $this->manager->getBackends());
 	}
 
-
 	public function testUserExistsSingleBackendExists(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -312,7 +311,6 @@ class ManagerTest extends TestCase {
 			->with(\OC\User\Backend::CREATE_USER)
 			->willReturn(true);
 
-
 		$this->manager->registerBackend($backend);
 
 		$this->expectException(\InvalidArgumentException::class, $exception);
@@ -342,7 +340,6 @@ class ManagerTest extends TestCase {
 		$user = $this->manager->createUser('foo', 'bar');
 		$this->assertEquals('foo', $user->getUID());
 	}
-
 
 	public function testCreateUserSingleBackendExists(): void {
 		$this->expectException(\Exception::class);
@@ -386,7 +383,6 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->createUser('foo', 'bar'));
 	}
 
-
 	public function testCreateUserFromBackendWithBackendError(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Could not create account');
@@ -401,7 +397,6 @@ class ManagerTest extends TestCase {
 
 		$this->manager->createUserFromBackend('MyUid', 'MyPassword', $backend);
 	}
-
 
 	public function testCreateUserTwoBackendExists(): void {
 		$this->expectException(\Exception::class);

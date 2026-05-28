@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Avatar;
 
 use OCP\Color;
@@ -97,7 +98,6 @@ class GuestAvatar extends Avatar {
 	public function isCustomAvatar(): bool {
 		return false;
 	}
-
 
 	/**
 	 * Different color than for authorized user with the same name

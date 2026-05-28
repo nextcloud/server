@@ -34,7 +34,6 @@ class LoaderTest extends TestCase {
 		parent::tearDown();
 	}
 
-
 	public function testGetMimetype(): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert('mimetypes')

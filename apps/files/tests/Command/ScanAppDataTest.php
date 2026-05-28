@@ -69,7 +69,8 @@ class ScanAppDataTest extends TestCase {
 		$this->scanner->method('getScanner')->willReturn($this->internalScanner);
 
 		$this->scanner->method('initTools')
-			->willReturnCallback(function (): void {});
+			->willReturnCallback(function (): void {
+			});
 		try {
 			$this->rootFolder->get($this->rootFolder->getAppDataDirectoryName() . '/preview')->delete();
 		} catch (NotFoundException) {
@@ -120,7 +121,6 @@ class ScanAppDataTest extends TestCase {
 		$errorCode = $this->invokePrivate($this->scanner, 'execute', [$this->input, $this->output]);
 		$this->assertEquals(ScanAppData::SUCCESS, $errorCode);
 	}
-
 
 	public static function scanPreviewLocalData(): \Generator {
 		yield 'initial migration done' => [true, null];

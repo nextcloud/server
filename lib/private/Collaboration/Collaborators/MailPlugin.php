@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
 use OC\KnownUser\KnownUserService;
@@ -151,7 +152,6 @@ class MailPlugin implements ISearchPlugin {
 										'shareWith' => $cloud->getUser(),
 									],
 									'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
-
 								]];
 								$searchResult->addResultSet($userType, [], $singleResult);
 								$searchResult->markExactIdMatch($emailType);

@@ -164,7 +164,6 @@ class ManagerTest extends TestCase {
 		$manager->notify($notification);
 	}
 
-
 	public function testNotifyInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 

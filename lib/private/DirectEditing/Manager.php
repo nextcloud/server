@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DirectEditing;
 
 use Doctrine\DBAL\FetchMode;
@@ -225,7 +226,6 @@ class Manager implements IManager {
 		$result = $query->executeStatement();
 		return $result !== 0;
 	}
-
 
 	public function invalidateToken(string $token): bool {
 		$query = $this->connection->getQueryBuilder();

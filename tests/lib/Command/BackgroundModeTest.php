@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2015 Christian Kampka <christian@kampka.net>
  * SPDX-License-Identifier: MIT
  */
+
 namespace Test\Command;
 
 use OC\Core\Command\Background\Mode;

@@ -6,6 +6,7 @@
  * SPDX-FileCopyrightText: 2007-2015 fruux GmbH (https://fruux.com/)
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalendarObject;

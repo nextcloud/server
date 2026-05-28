@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;

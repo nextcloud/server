@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Cache\Storage;
@@ -205,7 +206,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$storage->setPriority(100);
 		return $storage;
 	}
-
 
 	protected function ActualNonExistingStorageTest() {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');

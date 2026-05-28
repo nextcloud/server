@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\Controller;
 
 use OC\AppFramework\Http;
@@ -109,7 +110,6 @@ Raw output
 		} else {
 			$formattedTextResponse = 'No errors have been found.';
 		}
-
 
 		return new DataDisplayResponse(
 			$formattedTextResponse,

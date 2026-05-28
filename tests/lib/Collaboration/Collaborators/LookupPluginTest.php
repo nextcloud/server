@@ -65,7 +65,6 @@ class LookupPluginTest extends TestCase {
 				return new CloudId('user@someNextcloud.net', 'user', 'someNextcloud.net');
 			});
 
-
 		$this->plugin = new LookupPlugin(
 			$this->config,
 			$this->clientService,
@@ -180,7 +179,6 @@ class LookupPluginTest extends TestCase {
 		$this->assertFalse($moreResults);
 	}
 
-
 	/**
 	 * @param array $searchParams
 	 * @param bool $GSEnabled
@@ -248,7 +246,6 @@ class LookupPluginTest extends TestCase {
 
 		$this->assertFalse($moreResults);
 	}
-
 
 	public function testSearchGSDisabled(): void {
 		$this->config->expects($this->atLeastOnce())

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\SimpleFS;
 
 use Icewind\Streams\CallbackWrapper;
@@ -140,7 +141,6 @@ class NewSimpleFile implements ISimpleFile {
 			throw new NotFoundException('File does not exist');
 		}
 	}
-
 
 	/**
 	 * Delete the file

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Controller;
 
 use OC\Files\Node\Node;
@@ -393,7 +394,6 @@ class ApiController extends Controller {
 		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfig($view)]);
 	}
 
-
 	/**
 	 * Get the user view config
 	 *
@@ -421,7 +421,6 @@ class ApiController extends Controller {
 
 		return new JSONResponse(['message' => 'ok', 'data' => ['key' => $key, 'value' => $value]]);
 	}
-
 
 	/**
 	 * Get the user config

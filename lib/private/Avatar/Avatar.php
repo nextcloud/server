@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Avatar;
 
 use Imagick;
@@ -227,7 +228,6 @@ abstract class Avatar implements IAvatar {
 
 		return [$x, $y];
 	}
-
 
 	/**
 	 * Convert a string to an integer evenly

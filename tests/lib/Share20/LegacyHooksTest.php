@@ -225,7 +225,6 @@ class LegacyHooksTest extends TestCase {
 			->setPassword('password')
 			->setToken('token');
 
-
 		$hookListner = $this->getMockBuilder(Dummy::class)->onlyMethods(['preShare'])->getMock();
 		Util::connectHook('OCP\Share', 'pre_shared', $hookListner, 'preShare');
 
@@ -272,7 +271,6 @@ class LegacyHooksTest extends TestCase {
 			->setExpirationDate($date)
 			->setPassword('password')
 			->setToken('token');
-
 
 		$hookListner = $this->getMockBuilder(Dummy::class)->onlyMethods(['preShare'])->getMock();
 		Util::connectHook('OCP\Share', 'pre_shared', $hookListner, 'preShare');
@@ -328,7 +326,6 @@ class LegacyHooksTest extends TestCase {
 			->setExpirationDate($date)
 			->setPassword('password')
 			->setToken('token');
-
 
 		$hookListner = $this->getMockBuilder(Dummy::class)->onlyMethods(['postShare'])->getMock();
 		Util::connectHook('OCP\Share', 'post_shared', $hookListner, 'postShare');

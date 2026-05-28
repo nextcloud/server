@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Comments;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -261,7 +262,6 @@ class Manager implements ICommentsManager {
 		if (!$data) {
 			throw new NotFoundException();
 		}
-
 
 		$comment = $this->getCommentFromData($data);
 		$this->cache($comment);

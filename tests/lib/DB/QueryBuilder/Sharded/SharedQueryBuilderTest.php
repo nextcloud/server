@@ -33,7 +33,6 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->autoIncrementHandler = Server::get(AutoIncrementHandler::class);
 	}
 
-
 	private function getQueryBuilder(string $table, string $shardColumn, string $primaryColumn, array $companionTables = []): ShardedQueryBuilder {
 		return new ShardedQueryBuilder(
 			$this->connection->getQueryBuilder(),

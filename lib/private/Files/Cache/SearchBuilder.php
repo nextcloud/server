@@ -286,7 +286,6 @@ class SearchBuilder {
 		}
 	}
 
-
 	private function getExtraOperatorField(ISearchComparison $operator, IMetadataQuery $metadataQuery): array {
 		$field = $operator->getField();
 		$value = $operator->getValue();

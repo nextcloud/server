@@ -49,7 +49,6 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 	private LoggerInterface $logger;
 	private FederatedShareProvider $shareProvider;
 
-
 	protected function setUp(): void {
 		$this->connection = $this->createMock(IDBConnection::class);
 		$this->addressHandler = $this->createMock(AddressHandler::class);
@@ -247,7 +246,6 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb6->method('expr')->willReturn($expr6);
 		$qb6->method('createNamedParameter')->willReturn('');
 		$qb6->method('executeQuery')->willReturn($result6);
-
 
 		$queryBuilderMatcher = $this->exactly(7);
 		$this->connection

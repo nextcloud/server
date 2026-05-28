@@ -13,7 +13,6 @@ use OCP\AppFramework\Http\DownloadResponse;
 class ChildDownloadResponse extends DownloadResponse {
 };
 
-
 class DownloadResponseTest extends \Test\TestCase {
 	#[\Override]
 	protected function setUp(): void {

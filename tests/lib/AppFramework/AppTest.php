@@ -27,7 +27,6 @@ function rrmdir($directory) {
 	return rmdir($directory);
 }
 
-
 class AppTest extends \Test\TestCase {
 	private DIContainer $container;
 	private $io;
@@ -72,7 +71,6 @@ class AppTest extends \Test\TestCase {
 		file_put_contents($infoXmlPath, $xml);
 	}
 
-
 	public function testControllerNameAndMethodAreBeingPassed(): void {
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
@@ -88,31 +86,26 @@ class AppTest extends \Test\TestCase {
 			$this->container);
 	}
 
-
 	public function testBuildAppNamespace(): void {
 		$ns = App::buildAppNamespace('someapp');
 		$this->assertEquals('OCA\Someapp', $ns);
 	}
-
 
 	public function testBuildAppNamespaceCore(): void {
 		$ns = App::buildAppNamespace('someapp', 'OC\\');
 		$this->assertEquals('OC\Someapp', $ns);
 	}
 
-
 	public function testBuildAppNamespaceInfoXml(): void {
 		$ns = App::buildAppNamespace('namespacetestapp', 'OCA\\');
 		$this->assertEquals('OCA\NameSpaceTestApp', $ns);
 	}
-
 
 	#[\Override]
 	protected function tearDown(): void {
 		rrmdir($this->appPath);
 		parent::tearDown();
 	}
-
 
 	public function testOutputIsPrinted(): void {
 		$return = ['HTTP/2.0 200 OK', [], [], $this->output, new Response()];
@@ -149,7 +142,6 @@ class AppTest extends \Test\TestCase {
 			->method('setOutput');
 		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
 	}
-
 
 	public function testCallbackIsCalled(): void {
 		$mock = $this->getMockBuilder('OCP\AppFramework\Http\ICallbackResponse')

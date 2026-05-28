@@ -53,7 +53,6 @@ class Task extends Entity {
 	 */
 	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'identifier', 'completionExpectedAt'];
 
-
 	public function __construct() {
 		// add types in constructor
 		$this->addType('id', 'integer');

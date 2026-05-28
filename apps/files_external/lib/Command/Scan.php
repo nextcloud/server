@@ -154,7 +154,6 @@ class Scan extends StorageAuthBase {
 		$table->render();
 	}
 
-
 	/**
 	 * Formats microtime into a human readable format
 	 *

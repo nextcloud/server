@@ -364,7 +364,6 @@ class UserConfig implements IUserConfig {
 		return $values;
 	}
 
-
 	/**
 	 * @inheritDoc
 	 *
@@ -928,7 +927,6 @@ class UserConfig implements IUserConfig {
 		);
 	}
 
-
 	/**
 	 * @inheritDoc
 	 *
@@ -1469,7 +1467,6 @@ class UserConfig implements IUserConfig {
 		return true;
 	}
 
-
 	/**
 	 * @inheritDoc
 	 *
@@ -1969,7 +1966,6 @@ class UserConfig implements IUserConfig {
 		}
 		return $value;
 	}
-
 
 	/**
 	 * will change referenced $value with the decrypted value in case of encrypted (sensitive value)

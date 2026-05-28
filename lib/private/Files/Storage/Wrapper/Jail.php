@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
@@ -61,7 +62,6 @@ class Jail extends Wrapper {
 
 		return $this->storage;
 	}
-
 
 	public function getJailedPath(string $path): ?string {
 		$root = rtrim($this->rootPath, '/') . '/';

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine;
 
 use NCU\WorkflowEngine\Events\RegisterRuntimeOperationsEvent;
@@ -807,7 +808,6 @@ class Manager implements IManager {
 		]);
 		$insertQuery->executeStatement();
 	}
-
 
 	/**
 	 * @param array{class: class-string<\OCP\WorkflowEngine\IOperation>, entity: class-string<\OCP\WorkflowEngine\IEntity>, checks: string, events: string, id: int, name: string, operation: string} $operation

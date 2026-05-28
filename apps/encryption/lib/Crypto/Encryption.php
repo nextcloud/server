@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -113,7 +114,6 @@ class Encryption implements IEncryptionModule {
 		$this->isWriteOperation = false;
 		$this->writeCache = '';
 		$this->useLegacyBase64Encoding = true;
-
 
 		if (isset($header['encoding'])) {
 			$this->useLegacyBase64Encoding = $header['encoding'] !== Crypt::BINARY_ENCODING_FORMAT;
@@ -242,8 +242,6 @@ class Encryption implements IEncryptionModule {
 		}
 		return $result ?: '';
 	}
-
-
 
 	/**
 	 * encrypt data
@@ -491,7 +489,6 @@ class Encryption implements IEncryptionModule {
 	public function prepareDecryptAll(InputInterface $input, OutputInterface $output, $user = '') {
 		return $this->decryptAll->prepare($input, $output, $user);
 	}
-
 
 	/**
 	 * @param string $path

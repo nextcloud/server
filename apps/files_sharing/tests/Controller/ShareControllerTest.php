@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
@@ -143,7 +144,6 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->publicShareTemplateFactory,
 		);
 
-
 		// Store current user
 		$this->oldUser = \OC_User::getUser();
 
@@ -205,7 +205,6 @@ class ShareControllerTest extends \Test\TestCase {
 		// Test without a not existing token
 		$this->shareController->showShare();
 	}
-
 
 	public function testShowShare(): void {
 		$note = 'personal note';
@@ -645,7 +644,6 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->assertEquals($expectedResponse, $response);
 	}
-
 
 	public function testShowShareInvalid(): void {
 		$this->expectException(NotFoundException::class);

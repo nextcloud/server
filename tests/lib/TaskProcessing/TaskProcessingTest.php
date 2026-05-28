@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\TaskProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -231,8 +232,6 @@ class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 	}
 }
 
-
-
 class FailingSyncProvider implements IProvider, ISynchronousProvider {
 	public const ERROR_MESSAGE = 'Failure';
 	#[\Override]
@@ -304,7 +303,6 @@ class FailingSyncProvider implements IProvider, ISynchronousProvider {
 		return [];
 	}
 }
-
 
 class FailingSyncProviderWithUserFacingError implements IProvider, ISynchronousProvider {
 	public const ERROR_MESSAGE = 'Failure';
@@ -595,7 +593,6 @@ class ExternalProvider implements IProvider {
 		return [];
 	}
 }
-
 
 class ExternalTriggerableProvider implements ITriggerableProvider {
 	public const ID = 'event:external:provider:triggerable';
@@ -892,7 +889,6 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::expectException(PreConditionNotMetException::class);
 		$this->manager->scheduleTask(new Task(TextToText::ID, ['input' => 'Hello'], 'test', null));
 	}
-
 
 	public function testProviderShouldBeRegisteredAndTaskFailValidation(): void {
 		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', '', lazy: true);
@@ -1425,7 +1421,6 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
 		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
 		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
-
 
 		$externalProvider = new ExternalProvider();
 		$this->configureEventDispatcherMock(providersToAdd: [$externalProvider]);

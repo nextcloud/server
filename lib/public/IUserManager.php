@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
 
 /**
@@ -266,7 +267,6 @@ interface IUserManager {
 	 * @since 33.0.0
 	 */
 	public function getExistingUser(string $userId, ?string $displayName = null): IUser;
-
 
 	/**
 	 * @param 64|512 $size

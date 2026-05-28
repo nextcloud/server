@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Controller;
 
 use OCA\Federation\DbHandler;
@@ -63,7 +64,6 @@ class OCSAuthAPIController extends OCSController {
 	public function requestSharedSecretLegacy(string $url, string $token): DataResponse {
 		return $this->requestSharedSecret($url, $token);
 	}
-
 
 	/**
 	 * Create shared secret and return it, for legacy end-points

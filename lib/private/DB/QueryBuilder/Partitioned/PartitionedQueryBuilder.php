@@ -179,7 +179,6 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		$this->selects = [];
 	}
 
-
 	public function addPartition(PartitionSplit $partition): void {
 		$this->partitions[] = $partition;
 	}
@@ -374,7 +373,6 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		}
 		return $this;
 	}
-
 
 	private function getPartitionForPredicate(string $predicate): ?PartitionSplit {
 		foreach ($this->partitions as $partition) {

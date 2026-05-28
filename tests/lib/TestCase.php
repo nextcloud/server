@@ -97,7 +97,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				unset($container[$oldService]);
 			}
 
-
 			unset($this->services[$name]);
 			return true;
 		}

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\SystemTags\Activity;
 
 use OCP\Activity\IManager;
@@ -95,7 +96,6 @@ class Listener {
 				$this->activityManager->publish($activity);
 			}
 		}
-
 
 		if ($actor !== '' && ($event->getEvent() === ManagerEvent::EVENT_CREATE || $event->getEvent() === ManagerEvent::EVENT_UPDATE)) {
 			$this->updateLastUsedTags($actor, $event->getTag());

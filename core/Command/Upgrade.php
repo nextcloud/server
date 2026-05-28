@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
@@ -133,7 +134,6 @@ class Upgrade extends Command {
 			$dispatcher->addListener(RepairInfoEvent::class, $repairListener);
 			$dispatcher->addListener(RepairWarningEvent::class, $repairListener);
 			$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
-
 
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($output): void {
 				$output->writeln('<info>Turned on maintenance mode</info>');

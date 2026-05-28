@@ -13,7 +13,6 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image;
-
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 

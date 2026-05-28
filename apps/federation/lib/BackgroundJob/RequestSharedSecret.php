@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\BackgroundJob;
 
 use GuzzleHttp\Exception\ClientException;
@@ -53,7 +54,6 @@ class RequestSharedSecret extends Job {
 		parent::__construct($timeFactory);
 		$this->httpClient = $httpClientService->newClient();
 	}
-
 
 	/**
 	 * run the job, then remove it from the joblist

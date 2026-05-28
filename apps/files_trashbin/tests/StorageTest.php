@@ -157,7 +157,6 @@ class StorageTest extends \Test\TestCase {
 		$storage2->method('instanceOfStorage')
 			->willReturnCallback(fn (string $class) => ($class !== Local::class) && (new Temporary([]))->instanceOfStorage($class));
 
-
 		Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 		$this->userView->file_put_contents('substorage/test.txt', 'foo');
 

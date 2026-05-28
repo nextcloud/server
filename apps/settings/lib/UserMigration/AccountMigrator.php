@@ -30,7 +30,6 @@ use Throwable;
 
 class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 	use TMigratorBasicVersionHandling;
-
 	use TAccountsHelper;
 
 	private const PATH_ROOT = Application::APP_ID . '/';

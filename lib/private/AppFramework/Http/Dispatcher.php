@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Http;
 
 use OC\AppFramework\Http;
@@ -46,7 +47,6 @@ class Dispatcher {
 		private readonly ContainerInterface $appContainer,
 	) {
 	}
-
 
 	/**
 	 * Handles a request and calls the dispatcher on the controller
@@ -126,7 +126,6 @@ class Dispatcher {
 			$response,
 		];
 	}
-
 
 	/**
 	 * Uses the reflected parameters, types and request parameters to execute

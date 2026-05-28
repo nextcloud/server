@@ -674,7 +674,6 @@ class OC {
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
 		self::$composerAutoloader->setApcuPrefix(null);
 
-
 		try {
 			self::initPaths();
 			// setup 3rdparty autoloader

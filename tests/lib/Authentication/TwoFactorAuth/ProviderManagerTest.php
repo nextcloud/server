@@ -43,7 +43,6 @@ class ProviderManagerTest extends TestCase {
 		);
 	}
 
-
 	public function testTryEnableInvalidProvider(): void {
 		$this->expectException(InvalidProviderException::class);
 
@@ -88,7 +87,6 @@ class ProviderManagerTest extends TestCase {
 
 		$this->assertTrue($res);
 	}
-
 
 	public function testTryDisableInvalidProvider(): void {
 		$this->expectException(InvalidProviderException::class);

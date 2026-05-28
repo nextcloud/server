@@ -93,7 +93,6 @@ class WebhookListener extends Entity implements \JsonSerializable {
 
 	private ICrypto $crypto;
 
-
 	public function __construct(
 		?ICrypto $crypto = null,
 	) {

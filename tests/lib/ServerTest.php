@@ -25,7 +25,6 @@ class ServerTest extends \Test\TestCase {
 	/** @var Server */
 	protected $server;
 
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();

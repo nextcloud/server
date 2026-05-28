@@ -239,7 +239,6 @@ trait Auth {
 		$this->aNewBrowserSessionIsStarted(true);
 	}
 
-
 	/**
 	 * @Given the cookie jar is reset
 	 */

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use Exception;
@@ -142,7 +143,6 @@ class Log implements ILogger, IDataLogger {
 	public function debug(string $message, array $context = []): void {
 		$this->log(ILogger::DEBUG, $message, $context);
 	}
-
 
 	/**
 	 * Logs with an arbitrary level.

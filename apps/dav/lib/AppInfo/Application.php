@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\AppInfo;
 
 use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
@@ -177,7 +178,6 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(SubscriptionCreatedEvent::class, SubscriptionListener::class);
 		$context->registerEventListener(SubscriptionDeletedEvent::class, SubscriptionListener::class);
-
 
 		$context->registerEventListener(AddressBookCreatedEvent::class, AddressbookListener::class);
 		$context->registerEventListener(AddressBookDeletedEvent::class, AddressbookListener::class);

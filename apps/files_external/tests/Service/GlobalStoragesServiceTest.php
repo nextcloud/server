@@ -6,11 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Filesystem;
 use OCA\Files_External\MountConfig;
-
 use OCA\Files_External\Service\GlobalStoragesService;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
@@ -444,7 +444,6 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 			);
 		}
 	}
-
 
 	public function testHooksRenameMountPoint(): void {
 		$storage = $this->makeTestStorageData();

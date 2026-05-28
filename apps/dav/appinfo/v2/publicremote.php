@@ -81,7 +81,6 @@ $serverFactory = new ServerFactory(
 	$l10nFactory->get('dav'),
 );
 
-
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 

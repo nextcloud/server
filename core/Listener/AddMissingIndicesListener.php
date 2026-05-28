@@ -157,7 +157,6 @@ class AddMissingIndicesListener implements IEventListener {
 			['propertyname', 'propertypath', 'userid']
 		);
 
-
 		$event->addMissingIndex(
 			'jobs',
 			'job_lastcheck_reserved',

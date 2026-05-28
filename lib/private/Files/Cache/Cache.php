@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use OC\DatabaseException;
@@ -1019,7 +1020,6 @@ class Cache implements ICache {
 	public function calculateFolderSize($path, $entry = null) {
 		return $this->calculateFolderSizeInner($path, $entry);
 	}
-
 
 	/**
 	 * inner function because we can't add new params to the public function without breaking any child classes

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use OC\ServerNotAvailableException;
@@ -324,7 +325,6 @@ class ShareController extends AuthPublicShareController {
 			$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
 			throw $e;
 		}
-
 
 		$this->emitAccessShareHook($share);
 		$this->emitShareAccessEvent($share, self::SHARE_ACCESS);

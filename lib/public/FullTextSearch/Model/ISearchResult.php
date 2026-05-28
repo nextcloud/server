@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch\Model;
 
 use OCP\FullTextSearch\IFullTextSearchProvider;
@@ -48,7 +49,6 @@ interface ISearchResult {
 	 */
 	public function getProvider(): IFullTextSearchProvider;
 
-
 	/**
 	 * Add an IIndexDocument as one of the result of the search request.
 	 *
@@ -80,7 +80,6 @@ interface ISearchResult {
 	 */
 	public function setDocuments(array $documents): ISearchResult;
 
-
 	/**
 	 * Add an aggregation to the result.
 	 *
@@ -105,7 +104,6 @@ interface ISearchResult {
 	 */
 	public function getAggregations(string $category): array;
 
-
 	/**
 	 * Set the raw result of the request.
 	 *
@@ -116,7 +114,6 @@ interface ISearchResult {
 	 * @return ISearchResult
 	 */
 	public function setRawResult(string $result): ISearchResult;
-
 
 	/**
 	 * Set the total number of results for the search request.
@@ -130,7 +127,6 @@ interface ISearchResult {
 	 */
 	public function setTotal(int $total): ISearchResult;
 
-
 	/**
 	 * Set the top score for the search request.
 	 *
@@ -142,7 +138,6 @@ interface ISearchResult {
 	 */
 	public function setMaxScore(int $score): ISearchResult;
 
-
 	/**
 	 * Set the time spent by the request to perform the search.
 	 *
@@ -153,7 +148,6 @@ interface ISearchResult {
 	 * @return ISearchResult
 	 */
 	public function setTime(int $time): ISearchResult;
-
 
 	/**
 	 * Set to true if the request timed out.

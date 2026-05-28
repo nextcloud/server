@@ -82,7 +82,6 @@ class EncryptAllTest extends TestCase {
 		];
 	}
 
-
 	public function testExecuteException(): void {
 		$this->expectException(\Exception::class);
 

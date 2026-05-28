@@ -40,7 +40,6 @@ class LargeFileHelperTest extends TestCase {
 		);
 	}
 
-
 	public function testFormatUnsignedIntegerStringException(): void {
 		$this->expectException(\UnexpectedValueException::class);
 

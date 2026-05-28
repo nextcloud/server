@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\FailedCache;
@@ -35,7 +36,6 @@ class SharedStorageTest extends TestCase {
 		$this->folder = '/folder_share_storage_test';
 
 		$this->filename = '/share-api-storage.txt';
-
 
 		$this->view->mkdir($this->folder);
 
@@ -69,7 +69,6 @@ class SharedStorageTest extends TestCase {
 			self::TEST_FILES_SHARING_API_USER2,
 			Constants::PERMISSION_ALL
 		);
-
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$user2View = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -118,7 +117,6 @@ class SharedStorageTest extends TestCase {
 			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
 		);
 
-
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// compare file size between user1 and user2, should always be the same
@@ -140,7 +138,6 @@ class SharedStorageTest extends TestCase {
 			Constants::PERMISSION_READ
 		);
 
-
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		$this->assertTrue(Filesystem::is_dir($this->folder));
@@ -155,7 +152,6 @@ class SharedStorageTest extends TestCase {
 		// the read permissions (1)
 		$subfileInfo = Filesystem::getFileInfo($this->folder . $this->filename);
 		$this->assertSame(1, $subfileInfo->getPermissions());
-
 
 		//cleanup
 		$this->shareManager->deleteShare($share);

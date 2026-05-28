@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage;
 
 use Exception;
@@ -666,7 +667,6 @@ class DAV extends Common {
 	public function stat(string $path): array|false {
 		$meta = $this->getMetaData($path);
 		return $meta ?: false;
-
 	}
 
 	#[\Override]

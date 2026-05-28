@@ -308,7 +308,6 @@ class DefaultShareProvider implements
 			$this->propagateNote($share);
 		}
 
-
 		return $share;
 	}
 
@@ -1059,7 +1058,6 @@ class DefaultShareProvider implements
 			throw new BackendError('Invalid backend');
 		}
 
-
 		return $shares;
 	}
 
@@ -1713,7 +1711,6 @@ class DefaultShareProvider implements
 				$l->t('Open %s', [$filename]),
 				$link
 			);
-
 
 			// The "From" contains the sharers name
 			$instanceName = $this->defaults->getName();

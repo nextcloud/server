@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -456,7 +457,6 @@ class KeyManager {
 			$keyId . '.' . $this->shareKeyId,
 			Encryption::ID);
 	}
-
 
 	/**
 	 * @param $path

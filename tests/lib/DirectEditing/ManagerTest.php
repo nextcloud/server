@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\DirectEditing;
 
 use OC\DirectEditing\Manager;
@@ -65,7 +66,6 @@ class Editor implements IEditor {
 		return [ 'text/plain' ];
 	}
 
-
 	#[\Override]
 	public function getMimetypesOptional(): array {
 		return [];
@@ -82,7 +82,6 @@ class Editor implements IEditor {
 	public function isSecure(): bool {
 		return false;
 	}
-
 
 	#[\Override]
 	public function open(IToken $token): Response {
@@ -150,7 +149,6 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->willReturn($this->l10n);
 
-
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
 			->willReturn($this->userFolder);
@@ -173,7 +171,6 @@ class ManagerTest extends TestCase {
 	public function testEditorRegistration(): void {
 		$this->assertEquals($this->manager->getEditors(), ['testeditor' => $this->editor]);
 	}
-
 
 	public function testCreateToken(): void {
 		$expectedToken = 'TOKEN' . time();

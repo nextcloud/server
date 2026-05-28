@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Encryption\Keys;
 
 use OC\Encryption\Util;
@@ -340,7 +341,6 @@ class Storage implements IStorage {
 
 		return false;
 	}
-
 
 	/**
 	 * copy keys if a file was renamed

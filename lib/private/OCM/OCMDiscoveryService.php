@@ -70,7 +70,6 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$this->cache = $cacheFactory->createDistributed('ocm-discovery');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 *
@@ -129,7 +128,6 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 				$remote . '/.well-known/ocm',
 				$remote . '/ocm-provider',
 			];
-
 
 			foreach ($urls as $url) {
 				$exception = null;

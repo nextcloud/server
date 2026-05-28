@@ -37,7 +37,6 @@ class DeleteConfigTest extends TestCase {
 		$this->command = new DeleteConfig($this->appConfig, $this->configManager);
 	}
 
-
 	public static function dataDelete(): array {
 		return [
 			[

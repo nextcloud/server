@@ -52,7 +52,6 @@ class BundleFetcherTest extends TestCase {
 		$this->assertEquals(new GroupwareBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('GroupwareBundle'));
 	}
 
-
 	public function testGetBundleByIdentifierWithException(): void {
 		$this->expectException(\BadMethodCallException::class);
 		$this->expectExceptionMessage('Bundle with specified identifier does not exist');
