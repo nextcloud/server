@@ -82,11 +82,7 @@ class Util {
 		return ($userMasterKey === '1');
 	}
 
-	/**
-	 * @param $enabled
-	 * @return bool
-	 */
-	public function setRecoveryForUser($enabled) {
+	public function setRecoveryForUser(bool $enabled): bool {
 		$value = $enabled ? '1' : '0';
 
 		try {

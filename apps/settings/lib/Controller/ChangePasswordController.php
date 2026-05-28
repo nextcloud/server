@@ -177,20 +177,22 @@ class ChangePasswordController extends Controller {
 						],
 					]);
 				}
-				if (!$result && $recoveryEnabledForUser) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $this->l->t('Backend does not support password change, but the encryption of the account key was updated.'),
-						]
-					]);
-				} elseif (!$result && !$recoveryEnabledForUser) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $this->l->t('Unable to change password'),
-						]
-					]);
+				if (!$result) {
+					if ($recoveryEnabledForUser) {
+						return new JSONResponse([
+							'status' => 'error',
+							'data' => [
+								'message' => $this->l->t('Backend does not support password change, but the encryption of the account key was updated.'),
+							]
+						]);
+					} else {
+						return new JSONResponse([
+							'status' => 'error',
+							'data' => [
+								'message' => $this->l->t('Unable to change password'),
+							]
+						]);
+					}
 				}
 			}
 		} else {
