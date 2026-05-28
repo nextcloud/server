@@ -83,27 +83,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
-			$authHeader = strtolower($this->request->getHeader('Authorization'));
-
-			if (!str_starts_with($authHeader, 'basic ')) {
-				throw new NotConfirmedException('Required authorization header missing');
-			}
-
-			$decoded = base64_decode(substr($authHeader, 6), true);
-
-			if ($decoded === false || !str_contains($decoded, ':')) {
-				throw new NotConfirmedException('Malformed authorization header');
-			}
-
-			[$ignoredUser, $password] = explode(':', $decoded, 2);
-
-			$loginName = $this->session->get('loginname');
-			$loginResult = $this->userManager->checkPassword($loginName, $password);
-
-			if ($loginResult === false) {
-				throw new NotConfirmedException();
-			}
-
+			$this->confirmPasswordFromAuthorizationHeader();
 			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
 			return;
 		}
@@ -154,4 +134,29 @@ class PasswordConfirmationMiddleware extends Middleware {
 			&& $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true;
 	}
 
+	/**
+	 * @throws NotConfirmedException
+	 */
+	private function confirmPasswordFromAuthorizationHeader(): void {
+		$authHeader = strtolower($this->request->getHeader('Authorization'));
+
+		if (!str_starts_with($authHeader, 'basic ')) {
+			throw new NotConfirmedException('Required authorization header missing');
+		}
+
+		$decodedCredentials = base64_decode(substr($authHeader, 6), true);
+
+		if ($decodedCredentials === false || !str_contains($decodedCredentials, ':')) {
+			throw new NotConfirmedException('Malformed authorization header');
+		}
+
+		[$ignoredUser, $password] = explode(':', $decodedCredentials, 2);
+
+		$loginName = $this->session->get('loginname');
+		$loginResult = $this->userManager->checkPassword($loginName, $password);
+
+		if ($loginResult === false) {
+			throw new NotConfirmedException();
+		}
+	}
 }
