@@ -93,7 +93,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 			$this->session->set('last-password-confirm', $now);
 			return;
 		}
-		
+
 		$lastConfirm = (int)$this->session->get('last-password-confirm');
 		$minimumRequiredConfirmTime = $now
 			- (self::PASSWORD_CONFIRMATION_TIMEOUT + self::PASSWORD_CONFIRMATION_GRACE_SECONDS);
@@ -162,7 +162,8 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 
 		[$ignoredUser, $password] = explode(':', $decodedCredentials, 2);
-
+		// Use the session's loginname, not the one from the Authorization header,
+		// to prevent credential stuffing against arbitrary usernames.
 		$loginName = $this->session->get('loginname');
 		$loginResult = $this->userManager->checkPassword($loginName, $password);
 
