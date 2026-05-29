@@ -79,7 +79,12 @@ class FileUtils {
 			}
 			$mount = reset($mounts);
 			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
-			return $userFolder->getFirstNodeById((int)$fileInput);
+			$node = $userFolder->getFirstNodeById((int)$fileInput);
+			if ($node) {
+				return $node;
+			}
+			// the file might live outside of the user files folder, e.g. in the trashbin or versions
+			return $userFolder->getParent()->getFirstNodeById((int)$fileInput);
 		} else {
 			try {
 				return $this->rootFolder->get($fileInput);
