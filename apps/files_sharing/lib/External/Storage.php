@@ -12,11 +12,11 @@ namespace OCA\Files_Sharing\External;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
+use OCP\Share\External\IExternalShare;
 use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
 use OC\Share\Share;
 use OCA\Files_Sharing\External\Manager as ExternalShareManager;
-use OCA\Files_Sharing\ISharedStorage;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Federation\ICloudId;
@@ -26,6 +26,7 @@ use OCP\Files\Cache\IWatcher;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\Files\Storage\IExternalShareStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
@@ -42,7 +43,7 @@ use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 
-class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, IReliableEtagStorage {
+class Storage extends DAV implements IExternalShareStorage, IDisableEncryptionStorage, IReliableEtagStorage {
 	private ICloudId $cloudId;
 	private string $mountPoint;
 	private string $token;
@@ -444,5 +445,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$options['verify'] = false;
 		}
 		return $options;
+	}
+
+	public function getShare(): IExternalShare {
+		return $this->manager->getShareByToken($this->token);
 	}
 }

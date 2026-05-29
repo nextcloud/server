@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\External;
 
+use OCP\Share\External\IExternalShare;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\Db\SnowflakeAwareEntity;
@@ -45,7 +46,7 @@ use OCP\Share\IShare;
  *
  * @psalm-import-type Files_SharingRemoteShare from ResponseDefinitions
  */
-class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
+class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable, IExternalShare {
 	protected string $parent = '-1';
 	protected ?int $shareType = null;
 	protected ?string $remote = null;
