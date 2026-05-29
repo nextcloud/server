@@ -1173,6 +1173,11 @@ export default {
 				}))
 			}
 
+			// clear the password after saving
+			if (this.share.newPassword) {
+				this.$set(this.share, 'newPassword', undefined)
+			}
+
 			this.$emit('close-sharing-details')
 		},
 
