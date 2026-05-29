@@ -25,7 +25,7 @@ final readonly class JobRun {
 	 */
 	public function __construct(
 		/** Run ID (Snowflake ID) */
-		public int $runId,
+		public int|string $runId,
 		/** Class name */
 		public string $className,
 		/** Server ID */
