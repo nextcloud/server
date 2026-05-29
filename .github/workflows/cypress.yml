@@ -73,22 +73,10 @@ jobs:
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
         run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
 
-      - name: Restore npm cache
-        uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
-        with:
-          path: ~/.npm
-          key: node-${{ steps.versions.outputs.nodeVersion }}-npm-${{ steps.versions.outputs.npmVersion }}-${{ hashFiles('**/package-lock.json') }}
-
       - name: Install node dependencies & build app
         run: |
           npm ci
           TESTING=true npm run build --if-present
-
-      - name: Save npm cache
-        uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
-        with:
-          path: ~/.npm
-          key: node-${{ steps.versions.outputs.nodeVersion }}-npm-${{ steps.versions.outputs.npmVersion }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Save context
         uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
@@ -202,7 +190,7 @@ jobs:
         run: ./node_modules/cypress/bin/cypress install
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@dace029018fcdf86e0df89a31bc3cfa5b32570d8 # v7.3.0
+        uses: cypress-io/github-action@c495c3ddffba403ba11be95fffb67e25203b3799 # v7.1.10
         with:
           # We already installed the dependencies in the init job
           install: false
