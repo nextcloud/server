@@ -27,7 +27,7 @@
 				v-model="searchQuery"
 				data-cy-unified-search-input
 				type="text"
-				:label="t('core', 'Search apps, files, tags, messages') + '...'"
+				:label="t('core', 'Search apps, files, tags, messages')"
 				@update:value="debouncedFind" />
 			<div class="unified-search-modal__filters" data-cy-unified-search-filters>
 				<NcActions :open.sync="providerActionMenuIsOpen" :menu-name="t('core', 'Places')" data-cy-unified-search-filter="places">
