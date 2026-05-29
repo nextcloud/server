@@ -5,6 +5,10 @@
 const path = require('path')
 
 module.exports = {
+	user_group_admin: {
+		main:             path.join(__dirname, 'apps/user_group_admin/src', 'main.js'),
+		'files-navigation': path.join(__dirname, 'apps/user_group_admin/src', 'files-navigation.js'),
+	},
 	core: {
 		'ajax-cron': path.join(__dirname, 'core/src', 'ajax-cron.ts'),
 		install: path.join(__dirname, 'core/src', 'install.ts'),

@@ -30,12 +30,17 @@ export function extractFilePaths(path: string): [string, string] {
  */
 export function getSummaryFor(nodes: Node[], hidden = 0): string {
 	const fileCount = nodes.filter((node) => node.type === FileType.File).length
-	const folderCount = nodes.filter((node) => node.type === FileType.Folder).length
+	const tagCount = nodes.filter((node) => node.type === FileType.Folder && node.attributes?.['is-tag']).length
+	const folderCount = nodes.filter((node) => node.type === FileType.Folder && !node.attributes?.['is-tag']).length
 
 	const summary: string[] = []
-	if (fileCount > 0 || folderCount === 0) {
+	if (fileCount > 0 || (folderCount === 0 && tagCount === 0)) {
 		const fileSummary = n('files', '%n file', '%n files', fileCount)
 		summary.push(fileSummary)
+	}
+	if (tagCount > 0) {
+		const tagSummary = n('systemtags', '%n tag', '%n tags', tagCount)
+		summary.push(tagSummary)
 	}
 	if (folderCount > 0) {
 		const folderSummary = n('files', '%n folder', '%n folders', folderCount)
