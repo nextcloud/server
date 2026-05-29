@@ -227,6 +227,7 @@ OC.L10N.register(
     "Pick start date" : "Выберите дату начала",
     "Pick end date" : "Выберите дату окончания",
     "Search in date range" : "Поиск по диапазону дат",
+    "Search apps, files, tags, messages …" : "Поиск приложений, файлов, тегов, сообщений …",
     "Search in current app" : "Поиск в текущем приложении",
     "Clear search" : "Очистить поиск",
     "Search everywhere" : "Искать везде",
