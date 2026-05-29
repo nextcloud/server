@@ -144,7 +144,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	#[\Override]
 	public function dropAutoincrementColumn(string $table, string $column): void {
 		$tableObj = $this->schema->getTable($this->connection->getPrefix() . $table);
-		$tableObj->modifyColumn('id', ['autoincrement' => false]);
+		$tableObj->modifyColumn($column, ['autoincrement' => false]);
 		$platform = $this->getDatabasePlatform();
 		if ($platform instanceof OraclePlatform) {
 			try {
