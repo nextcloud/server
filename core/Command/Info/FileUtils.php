@@ -73,18 +73,23 @@ class FileUtils {
 	 */
 	public function getNode(string $fileInput): ?Node {
 		if (is_numeric($fileInput)) {
-			$mounts = $this->userMountCache->getMountsForFileId((int)$fileInput);
-			if (!$mounts) {
-				return null;
+			$id = (int)$fileInput;
+			$mounts = $this->userMountCache->getMountsForFileId($id);
+			if ($mounts) {
+				$mount = reset($mounts);
+				$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
+				$node = $userFolder->getFirstNodeById($id);
+				if ($node) {
+					return $node;
+				}
+				// the file might live outside of the user files folder, e.g. in the trashbin or versions
+				$node = $userFolder->getParent()->getFirstNodeById($id);
+				if ($node) {
+					return $node;
+				}
 			}
-			$mount = reset($mounts);
-			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
-			$node = $userFolder->getFirstNodeById((int)$fileInput);
-			if ($node) {
-				return $node;
-			}
-			// the file might live outside of the user files folder, e.g. in the trashbin or versions
-			return $userFolder->getParent()->getFirstNodeById((int)$fileInput);
+			// the file might not belong to a user at all, e.g. appdata on the root storage
+			return $this->getNodeFromRootMount($id);
 		} else {
 			try {
 				return $this->rootFolder->get($fileInput);
@@ -92,6 +97,23 @@ class FileUtils {
 				return null;
 			}
 		}
+	}
+
+	/**
+	 * Resolve a file id directly on the root storage, covering files that are
+	 * not part of any user mount such as appdata.
+	 */
+	private function getNodeFromRootMount(int $id): ?Node {
+		$mount = $this->rootFolder->getMount('');
+		$storage = $mount->getStorage();
+		if ($storage === null) {
+			return null;
+		}
+		$cacheEntry = $storage->getCache()->get($id);
+		if ($cacheEntry === false) {
+			return null;
+		}
+		return $this->rootFolder->getNodeFromCacheEntryAndMount($cacheEntry, $mount);
 	}
 
 	public function formatPermissions(string $type, int $permissions): string {
