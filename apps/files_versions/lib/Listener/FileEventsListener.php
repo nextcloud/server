@@ -203,6 +203,9 @@ class FileEventsListener implements IEventListener {
 		}
 
 		$path = $this->getPathForNode($node);
+		if ($path === null) {
+			return;
+		}
 		$result = Storage::store($path);
 
 		// Store the result of the version creation so it can be used in post_write_hook.
@@ -305,6 +308,9 @@ class FileEventsListener implements IEventListener {
 		$node = $this->versionsDeleted[$path];
 		$relativePath = $this->getPathForNode($node);
 		unset($this->versionsDeleted[$path]);
+		if ($relativePath === null) {
+			return;
+		}
 		Storage::delete($relativePath);
 		// If no new version was stored in the FS, no new version should be added in the DB.
 		// So we simply update the associated version.
@@ -318,6 +324,9 @@ class FileEventsListener implements IEventListener {
 	 */
 	public function pre_remove_hook(Node $node): void {
 		$path = $this->getPathForNode($node);
+		if ($path === null) {
+			return;
+		}
 		Storage::markDeletedFile($path);
 		$this->versionsDeleted[$node->getPath()] = $node;
 	}
@@ -338,6 +347,9 @@ class FileEventsListener implements IEventListener {
 
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
+		if ($oldPath === null || $newPath === null) {
+			return;
+		}
 		Storage::renameOrCopy($oldPath, $newPath, 'rename');
 	}
 
@@ -357,6 +369,9 @@ class FileEventsListener implements IEventListener {
 
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
+		if ($oldPath === null || $newPath === null) {
+			return;
+		}
 		Storage::renameOrCopy($oldPath, $newPath, 'copy');
 	}
 
