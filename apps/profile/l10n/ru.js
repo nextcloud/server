@@ -17,6 +17,7 @@ OC.L10N.register(
     "Edit Profile" : "Редактирование профиля",
     "The headline and about sections will show up here" : "Разделы \"Заголовок\" и \"О вас\" будут отображаться здесь",
     "Profile not found" : "Профиль не найден",
+    "The profile does not exist or is unavailable." : "Профиль не существует или недоступен.",
     "Back to %s" : "Вернуться к %s",
     "The profile does not exist." : "Профиль не существует"
 },
