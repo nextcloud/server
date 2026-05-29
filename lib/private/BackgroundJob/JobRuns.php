@@ -72,9 +72,9 @@ final readonly class JobRuns implements IJobRuns {
 				$row['run_id'],
 				$this->classesRegistry->getName($row['class_id']),
 				$snowflakeInfo->getServerId(),
-				$row['pid'],
+				(int)$row['pid'],
 				$snowflakeInfo->getCreatedAt(),
-				JobStatus::from($row['status']),
+				JobStatus::from((int)$row['status']),
 			);
 		}
 	}
